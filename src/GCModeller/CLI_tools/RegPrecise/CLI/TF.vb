@@ -27,7 +27,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -40,10 +39,10 @@ Imports SMRUCC.genomics.Assembly.MetaCyc.File
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.SequenceModel
 
@@ -126,8 +125,9 @@ Partial Module CLI
         Dim inBBH As String = args("/bbh")
         Dim inDIR As String = args.GetValue("/regprecise", GCModeller.FileSystem.RegPrecise.Directories.RegPreciseRegulations)
         Dim out As String = args.GetValue("/out", inBBH.TrimSuffix & ".FamilyHits/")
-        Dim bbh As IEnumerable(Of BBH.BBHIndex) = inBBH.LoadCsv(Of BBH.BBHIndex)
-        Dim hitsHash = (From x As BBH.BBHIndex In bbh
+        Dim bbh As IEnumerable(Of BBHIndex) = inBBH.LoadCsv(Of BBHIndex)
+        Dim hitsHash = (From x As BBHIndex
+                        In bbh
                         Where x.Matched
                         Select uid = x.HitName.Split(":"c).Last,
                             x
@@ -147,7 +147,7 @@ Partial Module CLI
                               regulator.Family).ToArray
         Dim queryRegulators = (From qx In
                                    (From x In regulators
-                                    Select (From hit As BBH.BBHIndex In x.hits
+                                    Select (From hit As BBHIndex In x.hits
                                             Select query = hit, x.sid, x.Family).ToArray).Unlist
                                Select qx
                                Group qx By qx.query.QueryName Into Group).ToArray
@@ -164,7 +164,7 @@ Partial Module CLI
                                                  }
         Call FamilyBriefs.SaveTo(out & "/Regulators.FamilyHits.Csv")
 
-        hitsHash = (From x As BBH.BBHIndex
+        hitsHash = (From x As BBHIndex
                     In bbh
                     Where x.Matched
                     Select uid = x.QueryName,

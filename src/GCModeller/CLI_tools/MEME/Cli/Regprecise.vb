@@ -53,7 +53,6 @@ Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.Data.Xfam
 Imports SMRUCC.genomics.Interops.NBCR
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.FootprintTraceAPI
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
@@ -61,6 +60,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -525,10 +525,10 @@ Partial Module CLI
             .ToDictionary(Function(prot) prot.KEGG)
         Dim regprecise = (RegpreciseRoot & "/MEME/regulators.csv").LoadCsv(Of Model_Repository.Regulator).ToDictionary(Function(regulator) regulator.KEGG)
         Dim direct As Boolean = args.GetBoolean("/direct")
-        Dim bbhs As List(Of BBH.BBHIndex)
+        Dim bbhs As List(Of BBHIndex)
 
         If direct Then
-            bbhs = args("/bbh").LoadCsv(Of BBH.BBHIndex)
+            bbhs = args("/bbh").LoadCsv(Of BBHIndex)
         Else
             If args.GetBoolean("/regulons") Then
                 Dim regulons = (From file As String
@@ -539,17 +539,17 @@ Partial Module CLI
                                     Not regulon.Regulons.Regulators.IsNullOrEmpty
                                 Select regulon.Regulons.Regulators).IteratesALL
                 bbhs = regulons.ToList(
-                    Function(x) New BBH.BBHIndex With {
+                    Function(x) New BBHIndex With {
                         .HitName = x.LocusTag.Key,
                         .QueryName = x.LocusTag.Value})
             Else
                 bbhs = FileIO.FileSystem.GetFiles(
                     args("/bbh"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").ToArray(
-                        Function(csv) csv.LoadCsv(Of BBH.BBHIndex)).Unlist
+                        Function(csv) csv.LoadCsv(Of BBHIndex)).Unlist
             End If
         End If
 
-        Dim bbhsPaired = From pair As BBH.BBHIndex
+        Dim bbhsPaired = From pair As BBHIndex
                          In bbhs.AsParallel
                          Let regEntry As String = __getEntry(pair, direct)
                          Where pair.Matched AndAlso regprecise.ContainsKey(regEntry)
@@ -589,7 +589,7 @@ Partial Module CLI
         Return result.SaveTo(save).CLICode
     End Function
 
-    Private Function __getEntry(bbhPair As BBH.BBHIndex, direct As Boolean) As String
+    Private Function __getEntry(bbhPair As BBHIndex, direct As Boolean) As String
         If direct Then
             Return bbhPair.HitName
         Else

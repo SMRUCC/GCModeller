@@ -27,12 +27,11 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
 Imports ProteinTools.SMART.Common.Extensions
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.Xfam

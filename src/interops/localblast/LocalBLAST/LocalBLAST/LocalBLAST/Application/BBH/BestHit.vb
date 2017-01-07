@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Namespace LocalBLAST.Application.BBH

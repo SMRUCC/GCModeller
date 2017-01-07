@@ -27,7 +27,6 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -36,10 +35,9 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Xfam
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
-Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
 Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Visualize.NCBIBlastResult
 

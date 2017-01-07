@@ -26,7 +26,6 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -41,6 +40,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.BBHLogs
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -257,7 +257,7 @@ Partial Module CLI
         Dim outList = ParallelTask(queryDIR, out, evalue, blastpHandle, [overrides], numThreads)
 
         '  从这里开始导出最佳双向比对的结果
-        Dim entryList = outList.ToList.BuildBBHEntry
+        Dim entryList = New List(Of AlignEntry)(outList).BuildBBHEntry
         Dim isAll As Boolean = args.GetBoolean("/all")
         Dim coverage As Double = args.GetValue("/coverage", 0.8)
         Dim identities As Double = args.GetValue("/identities", 0.3)

@@ -27,7 +27,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
@@ -38,7 +37,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace Analysis.Similarity.TOMQuery
 

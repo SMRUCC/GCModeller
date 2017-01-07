@@ -1,37 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::3f0a45ca7cb98567d83febef01a3a037, ..\GCModeller\analysis\Xfam\Pfam\MPAlignment\MotifParallelAlignment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace ProteinDomainArchitecture.MPAlignment
@@ -107,7 +106,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
             Return AlignmentOutput2Csv(data).SaveTo(Csv, False)
         End Function
 
-        Public Function AlignProteins(Of T As BBH.I_BlastQueryHit)(
+        Public Function AlignProteins(Of T As I_BlastQueryHit)(
                                          Besthit As IEnumerable(Of T),
                                          QueryPfam As IEnumerable(Of PfamString.PfamString),
                                          SubjectPfam As IEnumerable(Of PfamString.PfamString),
@@ -155,7 +154,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
-        Public Function Convert(Of TQueryHit As BBH.I_BlastQueryHit,
+        Public Function Convert(Of TQueryHit As I_BlastQueryHit,
                                    TOutput As BiDirectionalBesthit.IMPAlignmentResult)(
                                    Besthits As IEnumerable(Of TQueryHit),
                                    DomainAlign As IEnumerable(Of AlignmentOutput),
