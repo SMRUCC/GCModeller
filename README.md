@@ -84,9 +84,13 @@ Here listing the scientific paperworks that based on the analysis services of GC
 
 > Bacterial plasmids have a major impact on metabolic function and adaptation of their hosts. An indigenous plasmid was identified in a Chinese isolate (GX01) of the invasive phytopathogen Xanthomonas oryzae pv. oryzicola (Xoc), the causal agent of rice bacterial leaf streak (BLS). To elucidate the biological functions of the plasmid, we have sequenced and comprehensively annotated the plasmid.
 
-### Gallery
-
 ![](./2016-05-17.png)
+
+========================================================================================================
+
+## Gallery
+
+![](./manual/KEGG/Unigenes.blast.m8.filter-KO.Catalogs/kegg-level-A.png)
 ![](./images/FUR-lightbox.png)
 ![](./images/Xanthomonas_oryzae_oryzicola_BLS256_uid16740-lightbox.png)
 ![](./images/pXOCGX01-lightbox.png)

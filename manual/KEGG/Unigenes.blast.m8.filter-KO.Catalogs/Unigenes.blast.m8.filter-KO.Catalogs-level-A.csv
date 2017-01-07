@@ -1,0 +1,42 @@
+﻿A,catalog,counts
+Metabolism,Overview,358
+Metabolism,Carbohydrate metabolism,349
+Metabolism,Energy metabolism,224
+Metabolism,Lipid metabolism,104
+Metabolism,Nucleotide metabolism,184
+Metabolism,Amino acid metabolism,352
+Metabolism,Metabolism of other amino acids,66
+Metabolism,Glycan biosynthesis and metabolism,61
+Metabolism,Metabolism of cofactors and vitamins,205
+Metabolism,Metabolism of terpenoids and polyketides,66
+Metabolism,Biosynthesis of other secondary metabolites,48
+Metabolism,Xenobiotics biodegradation and metabolism,85
+Genetic Information Processing,Transcription,9
+Genetic Information Processing,Translation,180
+Genetic Information Processing,"Folding, sorting and degradation",75
+Genetic Information Processing,Replication and repair,139
+Environmental Information Processing,Membrane transport,115
+Environmental Information Processing,Signal transduction,116
+Cellular Processes,Transport and catabolism,17
+Cellular Processes,Cell motility,4
+Cellular Processes,Cell growth and death,30
+Cellular Processes,Cellular community - eukaryotes,7
+Cellular Processes,Cellular community - prokaryotes,95
+Organismal Systems,Immune system,9
+Organismal Systems,Endocrine system,36
+Organismal Systems,Circulatory system,8
+Organismal Systems,Digestive system,3
+Organismal Systems,Excretory system,3
+Organismal Systems,Nervous system,7
+Organismal Systems,Sensory system,6
+Organismal Systems,Aging,28
+Organismal Systems,Environmental adaptation,6
+Human Diseases,Cancers,29
+Human Diseases,Immune diseases,6
+Human Diseases,Neurodegenerative diseases,29
+Human Diseases,Substance dependence,5
+Human Diseases,Cardiovascular diseases,8
+Human Diseases,Endocrine and metabolic diseases,13
+Human Diseases,Infectious diseases,40
+Human Diseases,Drug resistance,56
+NOT_ASSIGN,NOT_ASSIGN,3353
