@@ -75,9 +75,9 @@ Partial Module CLI
         Dim inMotifs As String = args("/motifs")
         Dim out As String = args.GetValue("/out", inMotifs.TrimSuffix & ".Test.Csv")
         Dim FamilyHits = inFamilyHits.LoadCsv(Of FamilyHit)
-        Dim Motifs = inMotifs.LoadCsv(Of MotifHit)
-        Motifs = HitTest(Motifs, FamilyHits).ToList
-        Return Motifs.SaveTo(out).CLICode
+        Dim Motifs As IEnumerable(Of FamilyHit) = inMotifs.LoadCsv(Of MotifHit)
+        Motifs = HitTest(Motifs, FamilyHits)
+        Return Motifs.ToArray.SaveTo(out).CLICode
     End Function
 
     ''' <summary>

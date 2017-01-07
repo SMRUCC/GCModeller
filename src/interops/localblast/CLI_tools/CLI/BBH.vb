@@ -28,6 +28,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -356,7 +357,7 @@ Partial Module CLI
         Dim bh As String = args("/bh")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-{bh.BaseName}.selects.Csv")
         Dim bbh As IEnumerable(Of BBHIndex) = bh.LoadCsv(Of BBHIndex)
-        Dim locus As List(Of String) = [in].ReadAllLines.ToList
+        Dim locus As New IndexOf(Of String)([in].ReadAllLines)
         Dim LQuery = (From x In bbh.AsParallel Where locus.IndexOf(x.QueryName) > -1 Select x).ToArray
         Return LQuery.SaveTo(out).CLICode
     End Function
