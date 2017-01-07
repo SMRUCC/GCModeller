@@ -167,8 +167,21 @@ Public Module KEGGOrthology
                 Dim maxLenSubKeySize As SizeF = g.MeasureString(maxLenSubKey, catalogFont)
                 Dim maxLenClsKeySize As SizeF = g.MeasureString(maxLenClsKey, classFont)
 
-                Dim totalHeight = KO_class.Length * (maxLenClsKeySize.Height + 5) + profile.Values.IteratesALL.Count * (maxLenSubKeySize.Height + 4) + KO_class.Length * 20
-                Dim left! = 5, y! = 100 + (regiong.PlotRegion.Height - totalHeight) / 2
+                Dim totalHeight = KO_class.Length * (maxLenClsKeySize.Height + 5) +
+                    profile.Values.IteratesALL.Count * (maxLenSubKeySize.Height + 4) +
+                    KO_class.Length * 20
+                Dim left As Single, y! = 100 + (regiong.PlotRegion.Height - totalHeight) / 2
+                Dim barRect As New Rectangle(
+                    New Point(margin.Width + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
+                    New Size(size.Width - margin.Width * 2 - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), totalHeight))
+
+                left = barRect.Left - margin.Width
+                left = (size.Width - margin.Width * 2 - left) / 2 + left + margin.Width
+
+                Call g.DrawString(title, titleFont, Brushes.Black, New PointF(left, (y - g.MeasureString(title, titleFont).Height) / 2.0!))
+                Call g.DrawRectangle(New Pen(Color.Black, 5), barRect)
+
+                left = margin.Width
 
                 For Each [class] As SeqValue(Of String) In KO_class.SeqIterator
                     Dim color As New SolidBrush(colors([class]))
