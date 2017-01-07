@@ -28,6 +28,7 @@
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Public Module Blastn
 

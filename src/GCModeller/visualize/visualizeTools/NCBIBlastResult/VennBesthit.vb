@@ -117,7 +117,7 @@ Namespace NCBIBlastResult
 
             For Each Line In Colors.Values
                 Call Gr.Graphics.FillRectangle(New SolidBrush(Line.Value), New Rectangle(New Point(X, Y), DotSize))
-                Call Gr.Graphics.DrawString(Line.tag, TagFont, Brushes.Black, X + DotSize.Width + 10, Y + 3) : Y += DotSize.Height + 5
+                Call Gr.Graphics.DrawString(Line.Name, TagFont, Brushes.Black, X + DotSize.Width + 10, Y + 3) : Y += DotSize.Height + 5
             Next
 
             Return Gr.ImageResource

@@ -174,17 +174,18 @@ Namespace Procedures
         Private Function __getGenes(ort As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology) As Oracle.LinuxCompatibility.MySQL.SQLTable()
             If ort.Genes.IsNullOrEmpty Then Return Nothing
             Dim genes = (From entry In ort.Genes
+                         Let desc = If(entry.Description Is Nothing, "", entry.Description)
                          Let geneData = New LocalMySQL.gene With {
                              .locus_tag = entry.LocusId,
-                             .definition = MySqlEscaping(entry.Description.Replace("'", "~").lTokens.JoinBy(" ")),
-                             .gene_name = MySqlEscaping(entry.Description.Replace("'", "~").lTokens.JoinBy(" ")),
+                             .definition = MySqlEscaping(desc.Replace("'", "~").lTokens.JoinBy(" ")),
+                             .gene_name = MySqlEscaping(desc.Replace("'", "~").lTokens.JoinBy(" ")),
                              .kegg_sp = entry.SpeciesId,
                              .ec = ort.EC
                          }
                          Let og = New LocalMySQL.orthology_genes With {
                              .gene = entry.LocusId,
                              .ko = ort.Entry,
-                             .name = entry.Description.Replace("'", "~"),
+                             .name = desc.Replace("'", "~"),
                              .sp_code = entry.SpeciesId,
                              .url = ""
                          }

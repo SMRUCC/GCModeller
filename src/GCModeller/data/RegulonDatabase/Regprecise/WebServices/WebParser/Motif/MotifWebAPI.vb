@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.Data.Regtransbase.WebServices
+Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Regprecise
 

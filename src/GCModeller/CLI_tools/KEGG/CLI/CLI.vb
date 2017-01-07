@@ -27,12 +27,12 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Oracle.LinuxCompatibility.MySQL
@@ -248,7 +248,7 @@ Module CLI
         '    Call MatrixBuilder.Last.Add("Class." & cls)
         'Next
 
-        For Each sp As DBGET.bGetObject.Organism.Organism In OrganismList.Eukaryotes.ToList + OrganismList.Prokaryote
+        For Each sp As DBGET.bGetObject.Organism.Organism In OrganismList.Eukaryotes.Join(OrganismList.Prokaryote)
             Call File.Add(New String() {sp.Class, sp.Kingdom, sp.Phylum, sp.KEGGId})
             Call MatrixBuilder.AppendLine({sp.Class, sp.KEGGId})
 
@@ -344,31 +344,72 @@ Module CLI
         ' Dim fggfdg = SMRUCC.genomics.Assembly.KEGG.DBGET.WebParser.QueryURL("E:\GCModeller\BuildTools\K  02992.html")
         ' Call LocalMySQL.Update(fggfdg)
 
-        Dim entries$() = htext.ko00001.Hierarchical.GetEntries.Where(Function(s) Not String.IsNullOrEmpty(s)).ToArray
+        Dim entries$() = htext.ko00001 _
+            .Hierarchical _
+            .GetEntries _
+            .Where(Function(s) Not String.IsNullOrEmpty(s)) _
+            .Distinct _
+            .ToArray
 
-        WebServiceUtils.Proxy = "http://127.0.0.1:8087/"
+        Using progress As New Terminal.ProgressBar("Download KO database...",, True)
+            Dim tick As New Terminal.ProgressProvider(entries.Length)
 
-        For i As Integer = 0 To entries.Length - 1
-            Dim entry As String = entries(i)
-            Dim stateFile As String = $"{App.HOME}/ko00001/{entry}.xml"
+            WebServiceUtils.Proxy = "http://127.0.0.1:8087/"
 
-            Try
-                If Not stateFile.FileExists Then
-                    Dim orthology = bGetObject.SSDB.API.Query(entry)
+            For Each ko$ In entries
+                Dim stateFile As String = $"{App.HOME}/ko00001/{ko}.xml"
 
-                    '  Call LocalMySQL.Update(orthology)
-                    Call orthology.GetXml.SaveTo(stateFile)
-                End If
+                Try
+                    If Not stateFile.FileExists Then
+                        Dim orthology = bGetObject.SSDB.API.Query(ko)
+                        '  Call LocalMySQL.Update(orthology)
+                        Call Threading.Thread.Sleep(1 * 1000)
+                        Call orthology.GetXml.SaveTo(stateFile)
+                    End If
+                Catch ex As Exception
+                    ex = New Exception(ko, ex)
+                    Call ex.PrintException
+                    Call App.LogException(ex)
+                End Try
 
-                Call $"  ({i + 1}/{entries.Count})..........{i / entries.Count * 100}%".__DEBUG_ECHO
-            Catch ex As Exception
-                ex = New Exception(entry, ex)
-                Call FileIO.FileSystem.WriteAllText("./failure.txt", text:=ex.ToString & vbCrLf & vbCrLf, append:=True)
-                Call ex.PrintException
-            End Try
+                Call progress.SetProgress(
+                    tick.StepProgress(),
+                    "ETA " & tick.ETA(progress.ElapsedMilliseconds).FormatTime)
+            Next
+        End Using
 
-            Call Threading.Thread.Sleep(1 * 1000)
-        Next
+        Return 0
+    End Function
+
+    <ExportAPI("/Imports.KO", Usage:="/Imports.KO /in <DIR>")>
+    Public Function ImportsKODatabase(args As CommandLine) As Integer
+        Dim DIR As String = args("/in")
+        Dim mysql As New ConnectionUri With {
+            .Database = "jp_kegg2",
+            .IPAddress = "localhost",
+            .Password = 1234,
+            .User = "root",
+            .ServicesPort = 3306
+        }
+        Dim LocalMySQL As New Procedures.Orthology(mysql)
+        Dim files = FileIO.FileSystem.GetDirectoryInfo(DIR).GetFiles("*.*").Length
+
+        Using progress As New Terminal.ProgressBar("Imports KO database...",, True)
+            Dim tick As New Terminal.ProgressProvider(files)
+
+            For Each xml As String In ls - l - r - "*.xml" <= DIR
+                Try
+                    Dim o = xml.LoadXml(Of bGetObject.SSDB.Orthology)
+                    Call LocalMySQL.Update(o)
+                Catch ex As Exception
+                    Call ex.PrintException
+                End Try
+
+                Call progress.SetProgress(
+                    tick.StepProgress(),
+                    "ETA " & tick.ETA(progress.ElapsedMilliseconds).FormatTime)
+            Next
+        End Using
 
         Return 0
     End Function

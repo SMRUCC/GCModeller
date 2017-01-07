@@ -27,10 +27,9 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports System.Runtime.CompilerServices
-Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 

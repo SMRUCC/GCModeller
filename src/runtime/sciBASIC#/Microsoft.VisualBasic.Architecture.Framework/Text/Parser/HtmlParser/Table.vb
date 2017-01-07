@@ -74,28 +74,5 @@ Namespace Text.HtmlParser
             cols = cols.ToArray(Function(s) s.GetValue)
             Return cols
         End Function
-
-        Public Const PAGE_CONTENT_TITLE As String = "<title>.+</title>"
-
-        <Extension>
-        Public Function HTMLtitle(html As String) As String
-            Dim title As String =
-                Regex.Match(html, PAGE_CONTENT_TITLE, RegexOptions.IgnoreCase).Value
-
-            If String.IsNullOrEmpty(title) Then
-                title = "NULL_TITLE"
-            Else
-                title = title.GetValue
-            End If
-
-            Return title
-        End Function
-
-        <Extension> Public Function StripHTMLTags(s$) As String
-            s = Regex.Replace(s, "<[^>]+>", "")
-            s = Regex.Replace(s, "</[^>]+>", "")
-
-            Return s
-        End Function
     End Module
 End Namespace

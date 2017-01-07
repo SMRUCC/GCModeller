@@ -153,7 +153,7 @@ both of these relationships hold
             Dim Tokens As String() = Strings.Split(Entry, "</td>", Compare:=CompareMethod.Text)
             Dim Name As String = Tokens(1)
             Entry = Regex.Match(Name, GENE_ENTRY, RegexOptions.IgnoreCase).Value
-            Name = Trim(Strings.Split(Name, "</a>", Compare:=CompareMethod.Text).LastOrDefault.TrimHTMLTag)
+            Name = Trim(Strings.Split(Name, "</a>", Compare:=CompareMethod.Text).LastOrDefault.StripHTMLTags)
 
             If Not String.IsNullOrEmpty(Name) AndAlso (Name.First = "("c AndAlso Name.Last = ")"c) Then
                 Name = Mid(Name, 2, Len(Name) - 2)
@@ -192,8 +192,8 @@ both of these relationships hold
             Orthology.Pathway = KEGG.DBGET.bGetObject.Pathway.__parseHTML_ModuleList(WebForm.GetValue("Pathway").FirstOrDefault, DBGET.bGetObject.Pathway.LIST_TYPES.Pathway)
             Orthology.Disease = KEGG.DBGET.bGetObject.Pathway.__parseHTML_ModuleList(WebForm.GetValue("Disease").FirstOrDefault, DBGET.bGetObject.Pathway.LIST_TYPES.Disease)
             Orthology.Genes = __genesParser(WebForm, Orthology.Entry)
-            Orthology.Name = Orthology.Name.TrimHTMLTag.GetTagValue(, True).Value
-            Orthology.Definition = Orthology.Definition.TrimHTMLTag.TrimNewLine.Trim.GetTagValue(, True).Value
+            Orthology.Name = Orthology.Name.StripHTMLTags.GetTagValue(, True).Value
+            Orthology.Definition = Orthology.Definition.StripHTMLTags.TrimNewLine.Trim.GetTagValue(, True).Value
             Orthology.EC = Regex.Match(Orthology.Definition, "\[EC.+?\]", RegexOptions.IgnoreCase).Value
             If Not String.IsNullOrEmpty(Orthology.EC) Then
                 Orthology.EC = Mid(Orthology.EC, 5, Len(Orthology.EC) - 5)

@@ -3,6 +3,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Emit.CodeDOM_VBC
+Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Oracle.Java
 Imports Oracle.Java.IO
 Imports Oracle.Java.Lang

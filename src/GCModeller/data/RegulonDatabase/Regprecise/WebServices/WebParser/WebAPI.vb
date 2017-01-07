@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Regprecise.Regulator
 Imports SMRUCC.genomics.SequenceModel
+Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Regprecise
 

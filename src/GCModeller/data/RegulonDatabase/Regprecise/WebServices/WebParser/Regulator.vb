@@ -28,12 +28,12 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.ComponentModel
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Regprecise
 

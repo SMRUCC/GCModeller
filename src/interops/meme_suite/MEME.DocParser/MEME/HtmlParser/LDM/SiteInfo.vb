@@ -28,7 +28,7 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace DocumentFormat.MEME.HTML
 
