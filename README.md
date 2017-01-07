@@ -86,8 +86,6 @@ Here listing the scientific paperworks that based on the analysis services of GC
 
 ![](./2016-05-17.png)
 
-========================================================================================================
-
 ## Gallery
 
 ![](./manual/KEGG/Unigenes.blast.m8.filter-KO.Catalogs/kegg-level-A.png)
