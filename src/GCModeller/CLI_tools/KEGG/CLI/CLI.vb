@@ -29,6 +29,7 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
@@ -164,9 +165,16 @@ Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/ko.index.sub.match", Usage:="/ko.index.sub.match /index <index.csv> /maps <maps.csv> /key <key> /maps <mapTo> [/out <out.csv>]")>
+    <ExportAPI("/ko.index.sub.match", Usage:="/ko.index.sub.match /index <index.csv> /maps <maps.csv> /key <key> /map <mapTo> [/out <out.csv>]")>
     Public Function IndexSubMatch(args As CommandLine) As Integer
-
+        Dim index As String = args("/index")
+        Dim maps As String = args("/maps")
+        Dim key As String = args("/key")
+        Dim map As String = args("/map")
+        Dim out As String = args.GetValue("/out", maps.TrimSuffix & ".sub_matches.csv")
+        Dim mappings As IEnumerable(Of Map(Of String, String)) = maps.LoadMappings(key, map)
+        Dim result As KO_gene() = KEGGOrthology.IndexSubMatch(mappings, index).ToArray
+        Return result.SaveTo(out).CLICode
     End Function
 
     <ExportAPI("/Imports.SSDB", Usage:="/Imports.SSDB /in <source.DIR> [/out <ssdb.csv>]")>
