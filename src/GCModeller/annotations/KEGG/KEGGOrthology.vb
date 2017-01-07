@@ -154,7 +154,7 @@ Public Module KEGGOrthology
                 Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject
                 Dim catalogFont As Font = CSSFont.TryParse(catalogFontStyle).GDIObject
                 Dim classFont As Font = CSSFont.TryParse(classFontStyle).GDIObject
-                Dim left! = 5, y! = 100
+
                 Dim maxLenSubKey$ = profile _
                     .Values _
                     .Select(Function(o) o.Select(Function(oo) oo.Name)) _
@@ -167,10 +167,24 @@ Public Module KEGGOrthology
                 Dim maxLenSubKeySize As SizeF = g.MeasureString(maxLenSubKey, catalogFont)
                 Dim maxLenClsKeySize As SizeF = g.MeasureString(maxLenClsKey, classFont)
 
-                For Each class$ In KO_class
+                Dim totalHeight = KO_class.Length * (maxLenClsKeySize.Height + 5) + profile.Values.IteratesALL.Count * (maxLenSubKeySize.Height + 4) + KO_class.Length * 20
+                Dim left! = 5, y! = 100 + (regiong.PlotRegion.Height - totalHeight) / 2
 
+                For Each [class] As SeqValue(Of String) In KO_class.SeqIterator
+                    Dim color As New SolidBrush(colors([class]))
+
+                    ' 绘制Class大分类的标签
+                    Call g.DrawString(+[class], classFont, Brushes.Black, New PointF(left, y))
+                    y += maxLenClsKeySize.Height + 5
+
+                    ' 绘制统计的小分类标签以及barplot图形
+                    For Each cata As NamedValue(Of Integer) In profile(+[class])
+                        Call g.DrawString(cata.Name, catalogFont, color, New PointF(left + 50, y))
+                        y += maxLenSubKeySize.Height + 4
+                    Next
+
+                    y += 20
                 Next
-
             End Sub)
     End Function
 End Module

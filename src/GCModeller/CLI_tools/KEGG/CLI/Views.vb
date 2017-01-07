@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -173,6 +174,10 @@ Partial Module CLI
                           .ToArray
 
             Call csv.SaveTo(out & $"/{[in].BaseName}-KO.Catalogs-level-{level}.csv")
+
+            If level = "A" Then
+                Call result.Plot().SaveAs(out & "/kegg-level-A.png")
+            End If
         Next
 
         Return 0
