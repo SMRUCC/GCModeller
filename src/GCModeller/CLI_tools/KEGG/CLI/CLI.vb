@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -42,6 +43,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -381,10 +383,17 @@ Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Build.Ko.repository", Usage:="/Build.Ko.repository /DIR <DIR>")>
+    <ExportAPI("/Build.Ko.repository", Usage:="/Build.Ko.repository /DIR <DIR> /repo <root>")>
     Public Function BuildKORepository(args As CommandLine) As Integer
         Dim DIR As String = args("/DIR")
-        Dim repo As New SMRUCC.genomics.Data.KEGGOrthology(DIR)
+        Dim repoRoot As String = args("/repo")
+
+        Call KEGGOrthology.FileCopy(DIR, repoRoot & "/ko00001/") _
+            .ToArray _
+            .GetJson _
+            .SaveTo(repoRoot & "/ko00001.copy_failures.json")
+
+        Dim repo As New KEGGOrthology(repoRoot)
 
         Call repo.BuildLocusIndex()
 

@@ -33,6 +33,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Module Program
 
     Public Function Main() As Integer
+
+        Call SMRUCC.genomics.Data.KEGGOrthology.FileCopy("C:\Users\xieguigang\OneDrive\1.5\KEGG\ko00001", "x:\sdfsdfsdfsd").ToArray
+
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
 End Module

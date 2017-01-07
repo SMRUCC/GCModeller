@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 Public Class KEGGOrthology
@@ -71,6 +72,46 @@ Public Class KEGGOrthology
 
             Yield genes
         Next
+    End Function
+
+    Public Shared Iterator Function FileCopy(source$, target$) As IEnumerable(Of String)
+        Dim ko00001 As htext = htext.ko00001
+        Dim sourcefiles As Dictionary(Of String, String) =
+            source.LoadSourceEntryList("*.xml")
+
+        For Each A As BriteHText In ko00001.Hierarchical.CategoryItems
+            Dim parent As String = "/"
+
+            For Each failure$ In __copy(sourcefiles, target, parent, A)
+                Yield failure
+            Next
+        Next
+    End Function
+
+    Private Shared Iterator Function __copy(sourcefiles As Dictionary(Of String, String), target$, parents$, htext As BriteHText) As IEnumerable(Of String)
+        If htext.CategoryItems.IsNullOrEmpty Then
+            If htext.EntryId Is Nothing Then  ' 会出现空节点的情况
+                Call htext.ToString.Warning
+                Return
+            End If
+
+            If sourcefiles.ContainsKey(htext.EntryId) Then
+                target &= parents & $"/{htext.EntryId}.xml"
+                If Not sourcefiles(htext.EntryId).FileCopy(target) Then
+                    Yield htext.EntryId
+                End If
+            Else
+                Yield htext.EntryId
+            End If
+        Else
+            parents &= (htext.ClassLabel.Split(":\/*?".ToCharArray).JoinBy("_")) & "/"
+
+            For Each [sub] In htext.CategoryItems
+                For Each failure$ In __copy(sourcefiles, target, parents, [sub])
+                    Yield failure
+                Next
+            Next
+        End If
     End Function
 
     Public Iterator Function EnumerateKO(locus_tag$) As IEnumerable(Of Orthology)
