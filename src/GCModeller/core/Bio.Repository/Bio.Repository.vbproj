@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{58630ED0-9CCB-40A2-BE28-C1190A6BEA77}</ProjectGuid>
+    <ProjectGuid>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SMRUCC.genomics.Data</RootNamespace>
     <AssemblyName>SMRUCC.genomics.Data.Repository</AssemblyName>
