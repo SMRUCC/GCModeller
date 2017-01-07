@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -126,9 +127,10 @@ Public Module KEGGOrthology
                          Optional bg$ = "white",
                          Optional size As Size = Nothing,
                          Optional margin As Size = Nothing,
-                         Optional classFontStyle$ = CSSFont.Win7Normal,
-                         Optional catalogFontStyle$ = CSSFont.Win10Normal,
-                         Optional titleFontStyle$ = CSSFont.Win7Normal) As Bitmap
+                         Optional classFontStyle$ = CSSFont.Win7LargerBold,
+                         Optional catalogFontStyle$ = CSSFont.Win7Normal,
+                         Optional titleFontStyle$ = CSSFont.PlotTitle,
+                         Optional valueFontStyle$ = CSSFont.Win7Bold) As Bitmap
 
         Static KO_class$() = {
             "Cellular Processes",
@@ -139,12 +141,21 @@ Public Module KEGGOrthology
             "Organismal Systems"
         }
 
+        If profile.ContainsKey(NOT_ASSIGN) Then
+            profile = New Dictionary(Of String, NamedValue(Of Integer)())(profile)
+            profile.Remove(NOT_ASSIGN)
+        End If
+
         Dim colors As Color() = Designer.FromSchema(colorSchema, profile.Count - 1)
         Dim mapper As New Scaling(
             profile _
             .Values _
             .Select(Function(c) c.Select(Function(v) CDbl(v.Value))) _
             .IteratesALL, horizontal:=True)
+
+        If size.IsEmpty Then
+            size = New Size(2200, 2000)
+        End If
 
         Return g.GraphicsPlots(
             size, margin,
@@ -166,25 +177,38 @@ Public Module KEGGOrthology
                     .First
                 Dim maxLenSubKeySize As SizeF = g.MeasureString(maxLenSubKey, catalogFont)
                 Dim maxLenClsKeySize As SizeF = g.MeasureString(maxLenClsKey, classFont)
+                Dim valueFont As Font = CSSFont.TryParse(valueFontStyle)
 
                 Dim totalHeight = KO_class.Length * (maxLenClsKeySize.Height + 5) +
                     profile.Values.IteratesALL.Count * (maxLenSubKeySize.Height + 4) +
                     KO_class.Length * 20
                 Dim left As Single, y! = 100 + (regiong.PlotRegion.Height - totalHeight) / 2
                 Dim barRect As New Rectangle(
-                    New Point(margin.Width + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
-                    New Size(size.Width - margin.Width * 2 - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), totalHeight))
+                    New Point(margin.Width * 2 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
+                    New Size(size.Width - margin.Width * 2 - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - margin.Width, totalHeight))
 
                 left = barRect.Left - margin.Width
                 left = (size.Width - margin.Width * 2 - left) / 2 + left + margin.Width
 
-                Call g.DrawString(title, titleFont, Brushes.Black, New PointF(left, (y - g.MeasureString(title, titleFont).Height) / 2.0!))
+                Dim titleSize As SizeF = g.MeasureString(title, titleFont)
+
+                Call g.DrawString(title, titleFont, Brushes.Black, New PointF(barRect.Left + (barRect.Width - titleSize.Width) / 2, (y - titleSize.Height) / 2.0!))
                 Call g.DrawRectangle(New Pen(Color.Black, 5), barRect)
 
                 left = margin.Width
 
+                Dim gap! = 10.0!
+
                 For Each [class] As SeqValue(Of String) In KO_class.SeqIterator
                     Dim color As New SolidBrush(colors([class]))
+                    Dim linePen As New Pen(colors([class]), 3) With {
+                        .DashStyle = DashStyle.Dot
+                    }
+                    Dim yPlot!
+                    Dim barWidth!
+                    Dim barRectPlot As Rectangle
+                    Dim valueSize As SizeF
+                    Dim valueLeft!
 
                     ' 绘制Class大分类的标签
                     Call g.DrawString(+[class], classFont, Brushes.Black, New PointF(left, y))
@@ -192,7 +216,25 @@ Public Module KEGGOrthology
 
                     ' 绘制统计的小分类标签以及barplot图形
                     For Each cata As NamedValue(Of Integer) In profile(+[class])
-                        Call g.DrawString(cata.Name, catalogFont, color, New PointF(left + 50, y))
+                        Call g.DrawString(cata.Name, catalogFont, color, New PointF(left + 25, y))
+
+                        ' 绘制虚线
+                        yPlot = y + maxLenSubKeySize.Height / 2
+                        barWidth = mapper.ScallingWidth(cata.Value, barRect.Width - gap)
+                        barRectPlot = New Rectangle(
+                            New Point(barRect.Left, y),
+                            New Size(barWidth - gap, maxLenSubKeySize.Height))
+                        valueSize = g.MeasureString(cata.Value, valueFont)
+                        valueLeft = barRectPlot.Right - valueSize.Width
+
+                        If valueLeft < barRect.Left Then
+                            valueLeft = barRect.Left + 2
+                        End If
+
+                        Call g.DrawLine(linePen, New Point(barRect.Left, yPlot), New Point(barRect.Right, yPlot))
+                        Call g.FillRectangle(color, barRectPlot)
+                        Call g.DrawString(cata.Value, valueFont, Brushes.Black, New PointF(valueLeft, y - valueSize.Height / 3))
+
                         y += maxLenSubKeySize.Height + 4
                     Next
 
