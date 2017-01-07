@@ -28,10 +28,8 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.FileIO
-Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -40,7 +38,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Public Module ModelAPI
 

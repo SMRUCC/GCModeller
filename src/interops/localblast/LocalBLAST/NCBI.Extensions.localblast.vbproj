@@ -239,7 +239,9 @@
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\Abstract.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\BBHParser.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\BiDirectionalBesthit.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\BBHIndex.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\BestHit.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BlastnMapping.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\VennDataBuilder.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\MapsAPI.vb" />

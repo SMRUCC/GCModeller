@@ -27,7 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.ComponentModel.Map(Of String, String)
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
@@ -37,17 +37,18 @@ Namespace LocalBLAST.Application
     ''' Blastn Mapping for fastaq
     ''' </summary>
     Public Class BlastnMapping : Inherits Contig
+        Implements IMap
 
         ''' <summary>
         ''' The name of the reads query
         ''' </summary>
         ''' <returns></returns>
-        <Column("Reads.Query")> Public Property ReadQuery As String
+        <Column("Reads.Query")> Public Property ReadQuery As String Implements IMap.Key
         ''' <summary>
         ''' The name of the reference genome sequence.
         ''' </summary>
         ''' <returns></returns>
-        Public Property Reference As String
+        Public Property Reference As String Implements IMap.Maps
         ''' <summary>
         ''' Length of <see cref="ReadQuery"/>
         ''' </summary>

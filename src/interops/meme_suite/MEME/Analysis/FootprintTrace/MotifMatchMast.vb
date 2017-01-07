@@ -45,7 +45,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.Text
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace Analysis.FootprintTraceAPI
 

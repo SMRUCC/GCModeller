@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.SmithWaterman
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace Analysis.Similarity.TOMQuery
 

@@ -27,6 +27,7 @@
 #End Region
 
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace Regprecise
 

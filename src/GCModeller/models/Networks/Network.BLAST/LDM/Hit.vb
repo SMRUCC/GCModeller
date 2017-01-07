@@ -28,6 +28,7 @@
 
 Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace LDM
 

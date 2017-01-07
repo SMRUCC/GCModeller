@@ -1,8 +1,13 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
-Public Class KEGGOrthology
+Public Module KEGGOrthology
 
-    Public Function CatalogProfiling() As NamedValue(Of Integer)()
+    <Extension>
+    Public Function CatalogProfiling(mappings As IEnumerable(Of Map(Of String, String).IMap), Optional level$ = "A") As NamedValue(Of Integer)()
+        Dim htext As htext = htext.ko00001
 
     End Function
-End Class
+End Module

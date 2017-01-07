@@ -27,14 +27,12 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics
@@ -45,7 +43,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Data.Regprecise
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels

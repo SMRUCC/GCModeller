@@ -1,32 +1,31 @@
 ﻿#Region "Microsoft.VisualBasic::ebe7171d1cbd4d3834f9e2ce18760540, ..\GCModeller\CLI_tools\MEME\Cli\RegulatorMotifs.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -37,7 +36,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -76,9 +75,9 @@ Partial Module CLI
         Dim inMotifs As String = args("/motifs")
         Dim out As String = args.GetValue("/out", inMotifs.TrimSuffix & ".Test.Csv")
         Dim FamilyHits = inFamilyHits.LoadCsv(Of FamilyHit)
-        Dim Motifs = inMotifs.LoadCsv(Of MotifHit)
-        Motifs = HitTest(Motifs, FamilyHits).ToList
-        Return Motifs.SaveTo(out).CLICode
+        Dim Motifs As IEnumerable(Of FamilyHit) = inMotifs.LoadCsv(Of MotifHit)
+        Motifs = HitTest(Motifs, FamilyHits)
+        Return Motifs.ToArray.SaveTo(out).CLICode
     End Function
 
     ''' <summary>
@@ -91,8 +90,8 @@ Partial Module CLI
         Dim inBBH As String = args("/bbh")
         Dim inDIR As String = args("/regprecise")
         Dim out As String = args.GetValue("/out", inBBH.TrimSuffix & ".Motifs.fa")
-        Dim bbh = inBBH.LoadCsv(Of BBH.BBHIndex)
-        Dim hitsHash = (From x As BBH.BBHIndex
+        Dim bbh = inBBH.LoadCsv(Of BBHIndex)
+        Dim hitsHash = (From x As BBHIndex
                         In bbh
                         Where x.Matched
                         Select uid = x.HitName.Split(":"c).Last,
@@ -106,7 +105,7 @@ Partial Module CLI
         Dim regulators = (From sid As String In all Where hitsHash.ContainsKey(sid) Select sid, hits = hitsHash(sid)).ToArray
         Dim queryRegulators = (From qx In
                                    (From x In regulators
-                                    Select (From hit As BBH.BBHIndex
+                                    Select (From hit As BBHIndex
                                             In x.hits
                                             Select query = hit,
                                                 x.sid)).IteratesALL

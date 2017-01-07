@@ -27,7 +27,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -35,9 +34,9 @@ Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Parallel
-Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
@@ -49,12 +48,11 @@ Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.Text
 
 Partial Module CLI
 

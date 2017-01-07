@@ -27,17 +27,14 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.DOOR
@@ -45,8 +42,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data.Regprecise
-Imports SMRUCC.genomics.Data.Xfam.Rfam.Infernal
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports gene = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
 
 Partial Module CLI
@@ -57,10 +53,12 @@ Partial Module CLI
         Dim [in] As String = args - "/in"
         Dim opr As String = args - "/DOOR"
         Dim out As String = ("/out" <= args) ^ $"{[in].TrimSuffix}-{opr.BaseName}.opr"
-        Dim operons As List(Of RegPreciseOperon) = (From x As RegPreciseOperon
-                                                    In [in].LoadCsv(Of RegPreciseOperon)
-                                                    Select x
-                                                    Order By x.Operon.Length Descending).ToList
+        Dim operons As List(Of RegPreciseOperon) = LinqAPI.MakeList(Of RegPreciseOperon) <=
+            From x As RegPreciseOperon
+            In [in].LoadCsv(Of RegPreciseOperon)
+            Select x
+            Order By x.Operon.Length Descending
+
         Dim DOOR As DOOR = DOOR_API.Load(opr)
 
         ' 求交集
@@ -259,16 +257,20 @@ Partial Module CLI
 
         Dim hits As String() = members.Keys.ToArray
         Dim locus As New List(Of String)(members.Values.IteratesALL.Distinct)
-        Dim forwards = (From x As String
-                        In locus
-                        Where plus.HasElement(x)
-                        Select gg = plus.Current(x)
-                        Order By gg.node.obj.Location.Left Ascending).ToList
-        Dim reversed = (From x As String
-                        In locus
-                        Where minus.HasElement(x)
-                        Select gg = minus.Current(x)
-                        Order By gg.node.obj.Location.Right Descending).ToList
+        Dim forwards = LinqAPI.MakeList(Of LinkNode(Of IHashValue(Of gene))) <=
+            From x As String
+            In locus
+            Where plus.HasElement(x)
+            Select gg = plus.Current(x)
+            Order By gg.node.obj.Location.Left Ascending
+
+        Dim reversed = LinqAPI.MakeList(Of LinkNode(Of IHashValue(Of gene))) <=
+            From x As String
+            In locus
+            Where minus.HasElement(x)
+            Select gg = minus.Current(x)
+            Order By gg.node.obj.Location.Right Descending
+
         Dim n As Integer = (From x
                             In members
                             Where Not x.Value.IsNullOrEmpty
