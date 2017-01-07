@@ -29,12 +29,14 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -42,6 +44,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -160,6 +163,18 @@ Module CLI
         End If
 
         Return 0
+    End Function
+
+    <ExportAPI("/ko.index.sub.match", Usage:="/ko.index.sub.match /index <index.csv> /maps <maps.csv> /key <key> /map <mapTo> [/out <out.csv>]")>
+    Public Function IndexSubMatch(args As CommandLine) As Integer
+        Dim index As String = args("/index")
+        Dim maps As String = args("/maps")
+        Dim key As String = args("/key")
+        Dim map As String = args("/map")
+        Dim out As String = args.GetValue("/out", maps.TrimSuffix & ".sub_matches.csv")
+        Dim mappings As IEnumerable(Of Map(Of String, String)) = maps.LoadMappings(key, map)
+        Dim result As KO_gene() = KEGGOrthology.IndexSubMatch(mappings, index).ToArray
+        Return result.SaveTo(out).CLICode
     End Function
 
     <ExportAPI("/Imports.SSDB", Usage:="/Imports.SSDB /in <source.DIR> [/out <ssdb.csv>]")>
@@ -377,6 +392,23 @@ Module CLI
                     "ETA " & tick.ETA(progress.ElapsedMilliseconds).FormatTime)
             Next
         End Using
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Build.Ko.repository", Usage:="/Build.Ko.repository /DIR <DIR> /repo <root>")>
+    Public Function BuildKORepository(args As CommandLine) As Integer
+        Dim DIR As String = args("/DIR")
+        Dim repoRoot As String = args("/repo")
+
+        Call KEGGOrthology.FileCopy(DIR, repoRoot & "/ko00001/") _
+            .ToArray _
+            .GetJson _
+            .SaveTo(repoRoot & "/ko00001.copy_failures.json")
+
+        Dim repo As New KEGGOrthology(repoRoot)
+
+        Call repo.BuildLocusIndex()
 
         Return 0
     End Function
