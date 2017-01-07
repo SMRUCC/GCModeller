@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -131,16 +132,24 @@ Public Class KEGGOrthology
     Public Shared Iterator Function IndexSubMatch(blasthits As IEnumerable(Of Map(Of String, String)), index$) As IEnumerable(Of KO_gene)
         Using reader As New DataStream(index)
             Dim kegg_locus$() = blasthits _
-                .Select(Function(h) h.Maps) _
+                .Select(Function(h) h.Maps.ToLower) _
                 .Distinct _
                 .ToArray
             Dim maps As New IndexOf(Of String)(kegg_locus)
+            Dim i As Integer
 
             For Each gene As KO_gene In reader.AsLinq(Of KO_gene)
-                If maps($"{gene.sp_code}:{gene.gene}") > -1 Then
+                If maps($"{gene.sp_code}:{gene.gene}".ToLower) > -1 Then
                     Yield gene
+#If DEBUG Then
+                    Call gene.GetJson.__DEBUG_ECHO
+#End If
                 End If
+
+                i += 1
             Next
+
+            Call $"Index file iterates {i} gene lines...".__DEBUG_ECHO
         End Using
     End Function
 End Class
