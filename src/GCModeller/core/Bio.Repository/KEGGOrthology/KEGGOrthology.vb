@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.Data.csv
+﻿Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -124,5 +126,21 @@ Public Class KEGGOrthology
 
             Yield o
         Next
+    End Function
+
+    Public Shared Iterator Function IndexSubMatch(blasthits As IEnumerable(Of Map(Of String, String)), index$) As IEnumerable(Of KO_gene)
+        Using reader As New DataStream(index)
+            Dim kegg_locus$() = blasthits _
+                .Select(Function(h) h.Maps) _
+                .Distinct _
+                .ToArray
+            Dim maps As New IndexOf(Of String)(kegg_locus)
+
+            For Each gene As KO_gene In reader.AsLinq(Of KO_gene)
+                If maps($"{gene.sp_code}:{gene.gene}") > -1 Then
+                    Yield gene
+                End If
+            Next
+        End Using
     End Function
 End Class

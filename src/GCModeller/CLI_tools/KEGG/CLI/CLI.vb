@@ -164,6 +164,11 @@ Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/ko.index.sub.match", Usage:="/ko.index.sub.match /index <index.csv> /maps <maps.csv> /key <key> /maps <mapTo> [/out <out.csv>]")>
+    Public Function IndexSubMatch(args As CommandLine) As Integer
+
+    End Function
+
     <ExportAPI("/Imports.SSDB", Usage:="/Imports.SSDB /in <source.DIR> [/out <ssdb.csv>]")>
     Public Function ImportsDb(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
