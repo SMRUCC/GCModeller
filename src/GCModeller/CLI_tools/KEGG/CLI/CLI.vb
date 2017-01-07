@@ -27,12 +27,12 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Oracle.LinuxCompatibility.MySQL
@@ -248,7 +248,7 @@ Module CLI
         '    Call MatrixBuilder.Last.Add("Class." & cls)
         'Next
 
-        For Each sp As DBGET.bGetObject.Organism.Organism In OrganismList.Eukaryotes.ToList + OrganismList.Prokaryote
+        For Each sp As DBGET.bGetObject.Organism.Organism In OrganismList.Eukaryotes.Join(OrganismList.Prokaryote)
             Call File.Add(New String() {sp.Class, sp.Kingdom, sp.Phylum, sp.KEGGId})
             Call MatrixBuilder.AppendLine({sp.Class, sp.KEGGId})
 
@@ -350,6 +350,7 @@ Module CLI
             .Where(Function(s) Not String.IsNullOrEmpty(s)) _
             .Distinct _
             .ToArray
+
         Using progress As New Terminal.ProgressBar("Download KO database...",, True)
             Dim tick As New Terminal.ProgressProvider(entries.Length)
 
@@ -362,6 +363,7 @@ Module CLI
                     If Not stateFile.FileExists Then
                         Dim orthology = bGetObject.SSDB.API.Query(ko)
                         '  Call LocalMySQL.Update(orthology)
+                        Call Threading.Thread.Sleep(1 * 1000)
                         Call orthology.GetXml.SaveTo(stateFile)
                     End If
                 Catch ex As Exception
@@ -370,7 +372,39 @@ Module CLI
                     Call App.LogException(ex)
                 End Try
 
-                Call Threading.Thread.Sleep(1 * 1000)
+                Call progress.SetProgress(
+                    tick.StepProgress(),
+                    "ETA " & tick.ETA(progress.ElapsedMilliseconds).FormatTime)
+            Next
+        End Using
+
+        Return 0
+    End Function
+
+    <ExportAPI("/Imports.KO", Usage:="/Imports.KO /in <DIR>")>
+    Public Function ImportsKODatabase(args As CommandLine) As Integer
+        Dim DIR As String = args("/in")
+        Dim mysql As New ConnectionUri With {
+            .Database = "jp_kegg2",
+            .IPAddress = "localhost",
+            .Password = 1234,
+            .User = "root",
+            .ServicesPort = 3306
+        }
+        Dim LocalMySQL As New Procedures.Orthology(mysql)
+        Dim files = FileIO.FileSystem.GetDirectoryInfo(DIR).GetFiles("*.*").Length
+
+        Using progress As New Terminal.ProgressBar("Imports KO database...",, True)
+            Dim tick As New Terminal.ProgressProvider(files)
+
+            For Each xml As String In ls - l - r - "*.xml" <= DIR
+                Try
+                    Dim o = xml.LoadXml(Of bGetObject.SSDB.Orthology)
+                    Call LocalMySQL.Update(o)
+                Catch ex As Exception
+                    Call ex.PrintException
+                End Try
+
                 Call progress.SetProgress(
                     tick.StepProgress(),
                     "ETA " & tick.ETA(progress.ElapsedMilliseconds).FormatTime)
