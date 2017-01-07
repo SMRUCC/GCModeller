@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace LocalBLAST.Application.BBH
+Namespace LocalBLAST.Application.BBH.Abstract
 
     ''' <summary>
     ''' 可以使用这个对象来表述<see cref="I_BlastQueryHit"/>的所有派生类
