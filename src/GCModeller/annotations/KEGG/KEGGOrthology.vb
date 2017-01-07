@@ -1,8 +1,13 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data
 
@@ -86,6 +91,7 @@ Public Module KEGGOrthology
                     .Sum(Function(ko) If(
                         KOcounts.ContainsKey(ko.EntryId),
                         KOcounts(ko.EntryId), 0))
+
                 out += New NamedValue(Of Integer) With {
                     .Name = [sub].ClassLabel,
                     .Value = counts
@@ -98,5 +104,73 @@ Public Module KEGGOrthology
         End If
 
         Return out
+    End Function
+
+    ''' <summary>
+    ''' KEGG Orthology Profiling Bar Plot
+    ''' </summary>
+    ''' <param name="profile"></param>
+    ''' <param name="title$"></param>
+    ''' <param name="colorSchema$"></param>
+    ''' <param name="bg$"></param>
+    ''' <param name="size"></param>
+    ''' <param name="margin"></param>
+    ''' <param name="classFontStyle$"></param>
+    ''' <param name="catalogFontStyle$"></param>
+    ''' <param name="titleFontStyle$"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function Plot(profile As Dictionary(Of String, NamedValue(Of Integer)()),
+                         Optional title$ = "KEGG Orthology Profiling",
+                         Optional colorSchema$ = "Paired:c6",
+                         Optional bg$ = "white",
+                         Optional size As Size = Nothing,
+                         Optional margin As Size = Nothing,
+                         Optional classFontStyle$ = CSSFont.Win7Normal,
+                         Optional catalogFontStyle$ = CSSFont.Win10Normal,
+                         Optional titleFontStyle$ = CSSFont.Win7Normal) As Bitmap
+
+        Static KO_class$() = {
+            "Cellular Processes",
+            "Environmental Information Processing",
+            "Genetic Information Processing",
+            "Human Diseases",
+            "Metabolism",
+            "Organismal Systems"
+        }
+
+        Dim colors As Color() = Designer.FromSchema(colorSchema, profile.Count - 1)
+        Dim mapper As New Scaling(
+            profile _
+            .Values _
+            .Select(Function(c) c.Select(Function(v) CDbl(v.Value))) _
+            .IteratesALL, horizontal:=True)
+
+        Return g.GraphicsPlots(
+            size, margin,
+            bg,
+            Sub(ByRef g, regiong)
+
+                Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject
+                Dim catalogFont As Font = CSSFont.TryParse(catalogFontStyle).GDIObject
+                Dim classFont As Font = CSSFont.TryParse(classFontStyle).GDIObject
+                Dim left! = 5, y! = 100
+                Dim maxLenSubKey$ = profile _
+                    .Values _
+                    .Select(Function(o) o.Select(Function(oo) oo.Name)) _
+                    .IteratesALL _
+                    .OrderByDescending(Function(s) s.Length) _
+                    .First
+                Dim maxLenClsKey$ = KO_class _
+                    .OrderByDescending(Function(s) s.Length) _
+                    .First
+                Dim maxLenSubKeySize As SizeF = g.MeasureString(maxLenSubKey, catalogFont)
+                Dim maxLenClsKeySize As SizeF = g.MeasureString(maxLenClsKey, classFont)
+
+                For Each class$ In KO_class
+
+                Next
+
+            End Sub)
     End Function
 End Module
