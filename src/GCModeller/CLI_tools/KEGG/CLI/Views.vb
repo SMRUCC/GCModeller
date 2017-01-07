@@ -149,6 +149,11 @@ Partial Module CLI
         Return result.Values.ToArray.GetJson.SaveTo(out)
     End Function
 
+    ''' <summary>
+    ''' 显示KEGG注释结果的barplot
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/KO.Catalogs", Usage:="/KO.Catalogs /in <blast.mapping.csv> /ko <ko_genes.csv> [/key <Query_id> /mapTo <Subject_id> /out <outDIR>]")>
     Public Function KOCatalogs(args As CommandLine) As Integer
         Dim [in] As String = args("/in")

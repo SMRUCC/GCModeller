@@ -123,7 +123,7 @@ Public Module KEGGOrthology
     <Extension>
     Public Function Plot(profile As Dictionary(Of String, NamedValue(Of Integer)()),
                          Optional title$ = "KEGG Orthology Profiling",
-                         Optional colorSchema$ = "Paired:c6",
+                         Optional colorSchema$ = "Accent:c6",
                          Optional bg$ = "white",
                          Optional size As Size = Nothing,
                          Optional margin As Size = Nothing,
@@ -184,8 +184,8 @@ Public Module KEGGOrthology
                     KO_class.Length * 20
                 Dim left As Single, y! = 100 + (regiong.PlotRegion.Height - totalHeight) / 2
                 Dim barRect As New Rectangle(
-                    New Point(margin.Width * 2 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
-                    New Size(size.Width - margin.Width * 2 - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - margin.Width, totalHeight))
+                    New Point(margin.Width * 1.5 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
+                    New Size(size.Width - margin.Width * 2 - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - margin.Width / 2, totalHeight))
 
                 left = barRect.Left - margin.Width
                 left = (size.Width - margin.Width * 2 - left) / 2 + left + margin.Width

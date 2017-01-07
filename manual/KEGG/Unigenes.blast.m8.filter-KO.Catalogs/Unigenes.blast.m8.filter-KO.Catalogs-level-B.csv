@@ -1,255 +1,255 @@
-﻿A,catalog,counts
-Metabolism,01200 Carbon metabolism [PATH:ko01200],131
-Metabolism,01210 2-Oxocarboxylic acid metabolism [PATH:ko01210],29
-Metabolism,01212 Fatty acid metabolism [PATH:ko01212],33
-Metabolism,01230 Biosynthesis of amino acids [PATH:ko01230],144
-Metabolism,01220 Degradation of aromatic compounds [PATH:ko01220],21
-Metabolism,00010 Glycolysis / Gluconeogenesis [PATH:ko00010],43
-Metabolism,00020 Citrate cycle (TCA cycle) [PATH:ko00020],46
-Metabolism,00030 Pentose phosphate pathway [PATH:ko00030],25
-Metabolism,00040 Pentose and glucuronate interconversions [PATH:ko00040],4
-Metabolism,00051 Fructose and mannose metabolism [PATH:ko00051],20
-Metabolism,00052 Galactose metabolism [PATH:ko00052],7
-Metabolism,00053 Ascorbate and aldarate metabolism [PATH:ko00053],1
-Metabolism,00500 Starch and sucrose metabolism [PATH:ko00500],7
-Metabolism,00520 Amino sugar and nucleotide sugar metabolism [PATH:ko00520],26
-Metabolism,00620 Pyruvate metabolism [PATH:ko00620],53
-Metabolism,00630 Glyoxylate and dicarboxylate metabolism [PATH:ko00630],36
-Metabolism,00640 Propanoate metabolism [PATH:ko00640],34
-Metabolism,00650 Butanoate metabolism [PATH:ko00650],31
-Metabolism,00660 C5-Branched dibasic acid metabolism [PATH:ko00660],10
-Metabolism,00562 Inositol phosphate metabolism [PATH:ko00562],6
-Metabolism,00190 Oxidative phosphorylation [PATH:ko00190],76
-Metabolism,00195 Photosynthesis [PATH:ko00195],17
-Metabolism,00710 Carbon fixation in photosynthetic organisms [PATH:ko00710],23
-Metabolism,00720 Carbon fixation pathways in prokaryotes [PATH:ko00720],41
-Metabolism,00680 Methane metabolism [PATH:ko00680],26
-Metabolism,00910 Nitrogen metabolism [PATH:ko00910],13
-Metabolism,00920 Sulfur metabolism [PATH:ko00920],28
-Metabolism,00061 Fatty acid biosynthesis [PATH:ko00061],24
-Metabolism,00071 Fatty acid degradation [PATH:ko00071],17
-Metabolism,00072 Synthesis and degradation of ketone bodies [PATH:ko00072],6
-Metabolism,00140 Steroid hormone biosynthesis [PATH:ko00140],1
-Metabolism,00561 Glycerolipid metabolism [PATH:ko00561],10
-Metabolism,00564 Glycerophospholipid metabolism [PATH:ko00564],27
-Metabolism,00565 Ether lipid metabolism [PATH:ko00565],2
-Metabolism,00600 Sphingolipid metabolism [PATH:ko00600],1
-Metabolism,00590 Arachidonic acid metabolism [PATH:ko00590],1
-Metabolism,00591 Linoleic acid metabolism [PATH:ko00591],2
-Metabolism,00592 alpha-Linolenic acid metabolism [PATH:ko00592],2
-Metabolism,01040 Biosynthesis of unsaturated fatty acids [PATH:ko01040],11
-Metabolism,00230 Purine metabolism [PATH:ko00230],107
-Metabolism,00240 Pyrimidine metabolism [PATH:ko00240],77
-Metabolism,"00250 Alanine, aspartate and glutamate metabolism [PATH:ko00250]",39
-Metabolism,"00260 Glycine, serine and threonine metabolism [PATH:ko00260]",45
-Metabolism,00270 Cysteine and methionine metabolism [PATH:ko00270],43
-Metabolism,"00280 Valine, leucine and isoleucine degradation [PATH:ko00280]",29
-Metabolism,"00290 Valine, leucine and isoleucine biosynthesis [PATH:ko00290]",13
-Metabolism,00300 Lysine biosynthesis [PATH:ko00300],24
-Metabolism,00310 Lysine degradation [PATH:ko00310],13
-Metabolism,00220 Arginine biosynthesis [PATH:ko00220],19
-Metabolism,00330 Arginine and proline metabolism [PATH:ko00330],25
-Metabolism,00340 Histidine metabolism [PATH:ko00340],16
-Metabolism,00350 Tyrosine metabolism [PATH:ko00350],12
-Metabolism,00360 Phenylalanine metabolism [PATH:ko00360],24
-Metabolism,00380 Tryptophan metabolism [PATH:ko00380],15
-Metabolism,"00400 Phenylalanine, tyrosine and tryptophan biosynthesis [PATH:ko00400]",35
-Metabolism,00410 beta-Alanine metabolism [PATH:ko00410],12
-Metabolism,00430 Taurine and hypotaurine metabolism [PATH:ko00430],6
-Metabolism,00440 Phosphonate and phosphinate metabolism [PATH:ko00440],3
-Metabolism,00450 Selenocompound metabolism [PATH:ko00450],11
-Metabolism,00460 Cyanoamino acid metabolism [PATH:ko00460],4
-Metabolism,00471 D-Glutamine and D-glutamate metabolism [PATH:ko00471],10
-Metabolism,00473 D-Alanine metabolism [PATH:ko00473],5
-Metabolism,00480 Glutathione metabolism [PATH:ko00480],15
-Metabolism,00531 Glycosaminoglycan degradation [PATH:ko00531],1
-Metabolism,00540 Lipopolysaccharide biosynthesis [PATH:ko00540],29
-Metabolism,00550 Peptidoglycan biosynthesis [PATH:ko00550],31
-Metabolism,00730 Thiamine metabolism [PATH:ko00730],21
-Metabolism,00740 Riboflavin metabolism [PATH:ko00740],14
-Metabolism,00750 Vitamin B6 metabolism [PATH:ko00750],11
-Metabolism,00760 Nicotinate and nicotinamide metabolism [PATH:ko00760],26
-Metabolism,00770 Pantothenate and CoA biosynthesis [PATH:ko00770],21
-Metabolism,00780 Biotin metabolism [PATH:ko00780],22
-Metabolism,00785 Lipoic acid metabolism [PATH:ko00785],4
-Metabolism,00790 Folate biosynthesis [PATH:ko00790],26
-Metabolism,00670 One carbon pool by folate [PATH:ko00670],22
-Metabolism,00830 Retinol metabolism [PATH:ko00830],2
-Metabolism,00860 Porphyrin and chlorophyll metabolism [PATH:ko00860],19
-Metabolism,00130 Ubiquinone and other terpenoid-quinone biosynthesis [PATH:ko00130],17
-Metabolism,00900 Terpenoid backbone biosynthesis [PATH:ko00900],18
-Metabolism,00981 Insect hormone biosynthesis [PATH:ko00981],1
-Metabolism,00908 Zeatin biosynthesis [PATH:ko00908],2
-Metabolism,00903 Limonene and pinene degradation [PATH:ko00903],5
-Metabolism,00281 Geraniol degradation [PATH:ko00281],12
-Metabolism,01051 Biosynthesis of ansamycins [PATH:ko01051],3
-Metabolism,00253 Tetracycline biosynthesis [PATH:ko00253],9
-Metabolism,00523 Polyketide sugar unit biosynthesis [PATH:ko00523],8
-Metabolism,01054 Nonribosomal peptide structures [PATH:ko01054],1
-Metabolism,01053 Biosynthesis of siderophore group nonribosomal peptides [PATH:ko01053],5
-Metabolism,01055 Biosynthesis of vancomycin group antibiotics [PATH:ko01055],2
-Metabolism,00940 Phenylpropanoid biosynthesis [PATH:ko00940],1
-Metabolism,00950 Isoquinoline alkaloid biosynthesis [PATH:ko00950],4
-Metabolism,"00960 Tropane, piperidine and pyridine alkaloid biosynthesis [PATH:ko00960]",5
-Metabolism,00965 Betalain biosynthesis [PATH:ko00965],1
-Metabolism,00311 Penicillin and cephalosporin biosynthesis [PATH:ko00311],1
-Metabolism,00332 Carbapenem biosynthesis [PATH:ko00332],2
-Metabolism,00261 Monobactam biosynthesis [PATH:ko00261],12
-Metabolism,00521 Streptomycin biosynthesis [PATH:ko00521],13
-Metabolism,00525 Acarbose and validamycin biosynthesis [PATH:ko00525],4
-Metabolism,00401 Novobiocin biosynthesis [PATH:ko00401],5
-Metabolism,00362 Benzoate degradation [PATH:ko00362],26
-Metabolism,00627 Aminobenzoate degradation [PATH:ko00627],9
-Metabolism,00364 Fluorobenzoate degradation [PATH:ko00364],7
-Metabolism,00625 Chloroalkane and chloroalkene degradation [PATH:ko00625],4
-Metabolism,00361 Chlorocyclohexane and chlorobenzene degradation [PATH:ko00361],3
-Metabolism,00623 Toluene degradation [PATH:ko00623],3
-Metabolism,00622 Xylene degradation [PATH:ko00622],4
-Metabolism,00633 Nitrotoluene degradation [PATH:ko00633],2
-Metabolism,00642 Ethylbenzene degradation [PATH:ko00642],1
-Metabolism,00643 Styrene degradation [PATH:ko00643],4
-Metabolism,00791 Atrazine degradation [PATH:ko00791],3
-Metabolism,00930 Caprolactam degradation [PATH:ko00930],5
-Metabolism,00626 Naphthalene degradation [PATH:ko00626],3
-Metabolism,00624 Polycyclic aromatic hydrocarbon degradation [PATH:ko00624],2
-Metabolism,00980 Metabolism of xenobiotics by cytochrome P450 [PATH:ko00980],2
-Metabolism,00982 Drug metabolism - cytochrome P450 [PATH:ko00982],2
-Metabolism,00983 Drug metabolism - other enzymes [PATH:ko00983],5
-Genetic Information Processing,03020 RNA polymerase [PATH:ko03020],8
-Genetic Information Processing,03040 Spliceosome [PATH:ko03040],1
-Genetic Information Processing,03010 Ribosome [PATH:ko03010],112
-Genetic Information Processing,00970 Aminoacyl-tRNA biosynthesis [PATH:ko00970],58
-Genetic Information Processing,03013 RNA transport [PATH:ko03013],6
-Genetic Information Processing,03008 Ribosome biogenesis in eukaryotes [PATH:ko03008],4
-Genetic Information Processing,03060 Protein export [PATH:ko03060],28
-Genetic Information Processing,04141 Protein processing in endoplasmic reticulum [PATH:ko04141],3
-Genetic Information Processing,04120 Ubiquitin mediated proteolysis [PATH:ko04120],1
-Genetic Information Processing,04122 Sulfur relay system [PATH:ko04122],16
-Genetic Information Processing,03018 RNA degradation [PATH:ko03018],27
-Genetic Information Processing,03030 DNA replication [PATH:ko03030],30
-Genetic Information Processing,03410 Base excision repair [PATH:ko03410],18
-Genetic Information Processing,03420 Nucleotide excision repair [PATH:ko03420],15
-Genetic Information Processing,03430 Mismatch repair [PATH:ko03430],30
-Genetic Information Processing,03440 Homologous recombination [PATH:ko03440],46
-Environmental Information Processing,02010 ABC transporters [PATH:ko02010],65
-Environmental Information Processing,02060 Phosphotransferase system (PTS) [PATH:ko02060],13
-Environmental Information Processing,03070 Bacterial secretion system [PATH:ko03070],37
-Environmental Information Processing,02020 Two-component system [PATH:ko02020],60
-Environmental Information Processing,04014 Ras signaling pathway [PATH:ko04014],1
-Environmental Information Processing,04015 Rap1 signaling pathway [PATH:ko04015],4
-Environmental Information Processing,04013 MAPK signaling pathway - fly [PATH:ko04013],3
-Environmental Information Processing,04016 MAPK signaling pathway - plant [PATH:ko04016],7
-Environmental Information Processing,04011 MAPK signaling pathway - yeast [PATH:ko04011],3
-Environmental Information Processing,04330 Notch signaling pathway [PATH:ko04330],1
-Environmental Information Processing,04390 Hippo signaling pathway [PATH:ko04390],2
-Environmental Information Processing,04391 Hippo signaling pathway -fly [PATH:ko04391],2
-Environmental Information Processing,04066 HIF-1 signaling pathway [PATH:ko04066],9
-Environmental Information Processing,04068 FoxO signaling pathway [PATH:ko04068],6
-Environmental Information Processing,04020 Calcium signaling pathway [PATH:ko04020],1
-Environmental Information Processing,04070 Phosphatidylinositol signaling system [PATH:ko04070],6
-Environmental Information Processing,04072 Phospholipase D signaling pathway [PATH:ko04072],1
-Environmental Information Processing,04024 cAMP signaling pathway [PATH:ko04024],1
-Environmental Information Processing,04022 cGMP - PKG signaling pathway [PATH:ko04022],1
-Environmental Information Processing,04151 PI3K-Akt signaling pathway [PATH:ko04151],2
-Environmental Information Processing,04152 AMPK signaling pathway [PATH:ko04152],6
-Cellular Processes,04144 Endocytosis [PATH:ko04144],1
-Cellular Processes,04145 Phagosome [PATH:ko04145],3
-Cellular Processes,04146 Peroxisome [PATH:ko04146],13
-Cellular Processes,02040 Flagellar assembly [PATH:ko02040],1
-Cellular Processes,04810 Regulation of actin cytoskeleton [PATH:ko04810],3
-Cellular Processes,04112 Cell cycle - Caulobacter [PATH:ko04112],23
-Cellular Processes,04113 Meiosis - yeast [PATH:ko04113],1
-Cellular Processes,04114 Oocyte meiosis [PATH:ko04114],1
-Cellular Processes,04210 Apoptosis [PATH:ko04210],3
-Cellular Processes,04214 Apoptosis - fly [PATH:ko04214],2
-Cellular Processes,04510 Focal adhesion [PATH:ko04510],2
-Cellular Processes,04520 Adherens junction [PATH:ko04520],2
-Cellular Processes,04530 Tight junction [PATH:ko04530],2
-Cellular Processes,04540 Gap junction [PATH:ko04540],1
-Cellular Processes,02024 Quorum sensing [PATH:ko02024],42
-Cellular Processes,05111 Biofilm formation - Vibrio cholerae [PATH:ko05111],22
-Cellular Processes,02025 Biofilm formation - Pseudomonas aeruginosa [PATH:ko02025],15
-Cellular Processes,02026 Biofilm formation - Escherichia coli [PATH:ko02026],16
-Organismal Systems,04611 Platelet activation [PATH:ko04611],2
-Organismal Systems,04621 NOD-like receptor signaling pathway [PATH:ko04621],3
-Organismal Systems,04612 Antigen processing and presentation [PATH:ko04612],1
-Organismal Systems,04659 Th17 cell differentiation [PATH:ko04659],1
-Organismal Systems,04670 Leukocyte transendothelial migration [PATH:ko04670],2
-Organismal Systems,04910 Insulin signaling pathway [PATH:ko04910],3
-Organismal Systems,04922 Glucagon signaling pathway [PATH:ko04922],9
-Organismal Systems,04920 Adipocytokine signaling pathway [PATH:ko04920],2
-Organismal Systems,03320 PPAR signaling pathway [PATH:ko03320],7
-Organismal Systems,04912 GnRH signaling pathway [PATH:ko04912],1
-Organismal Systems,04915 Estrogen signaling pathway [PATH:ko04915],2
-Organismal Systems,04914 Progesterone-mediated oocyte maturation [PATH:ko04914],1
-Organismal Systems,04921 Oxytocin signaling pathway [PATH:ko04921],5
-Organismal Systems,04919 Thyroid hormone signaling pathway [PATH:ko04919],3
-Organismal Systems,04916 Melanogenesis [PATH:ko04916],1
-Organismal Systems,04924 Renin secretion [PATH:ko04924],1
-Organismal Systems,04925 Aldosterone synthesis and secretion [PATH:ko04925],1
-Organismal Systems,04260 Cardiac muscle contraction [PATH:ko04260],6
-Organismal Systems,04261 Adrenergic signaling in cardiomyocytes [PATH:ko04261],1
-Organismal Systems,04270 Vascular smooth muscle contraction [PATH:ko04270],1
-Organismal Systems,04970 Salivary secretion [PATH:ko04970],1
-Organismal Systems,04971 Gastric acid secretion [PATH:ko04971],1
-Organismal Systems,04978 Mineral absorption [PATH:ko04978],1
-Organismal Systems,04964 Proximal tubule bicarbonate reclamation [PATH:ko04964],3
-Organismal Systems,04724 Glutamatergic synapse [PATH:ko04724],2
-Organismal Systems,04727 GABAergic synapse [PATH:ko04727],2
-Organismal Systems,04728 Dopaminergic synapse [PATH:ko04728],1
-Organismal Systems,04720 Long-term potentiation [PATH:ko04720],1
-Organismal Systems,04722 Neurotrophin signaling pathway [PATH:ko04722],1
-Organismal Systems,04744 Phototransduction [PATH:ko04744],1
-Organismal Systems,04745 Phototransduction - fly [PATH:ko04745],3
-Organismal Systems,04740 Olfactory transduction [PATH:ko04740],1
-Organismal Systems,04750 Inflammatory mediator regulation of TRP channels [PATH:ko04750],1
-Organismal Systems,04211 Longevity regulating pathway - mammal [PATH:ko04211],5
-Organismal Systems,04212 Longevity regulating pathway - worm [PATH:ko04212],14
-Organismal Systems,04213 Longevity regulating pathway - multiple species [PATH:ko04213],9
-Organismal Systems,04713 Circadian entrainment [PATH:ko04713],1
-Organismal Systems,04626 Plant-pathogen interaction [PATH:ko04626],5
-Human Diseases,05200 Pathways in cancer [PATH:ko05200],3
-Human Diseases,05230 Central carbon metabolism in cancer [PATH:ko05230],8
-Human Diseases,05231 Choline metabolism in cancer [PATH:ko05231],1
-Human Diseases,05202 Transcriptional misregulation in cancers [PATH:ko05202],1
-Human Diseases,05206 MicroRNAs in cancer [PATH:ko05206],2
-Human Diseases,05205 Proteoglycans in cancer [PATH:ko05205],4
-Human Diseases,05204 Chemical carcinogenesis [PATH:ko05204],2
-Human Diseases,05203 Viral carcinogenesis [PATH:ko05203],4
-Human Diseases,05214 Glioma [PATH:ko05214],1
-Human Diseases,05211 Renal cell carcinoma [PATH:ko05211],2
-Human Diseases,05215 Prostate cancer [PATH:ko05215],1
-Human Diseases,05322 Systemic lupus erythematosus [PATH:ko05322],3
-Human Diseases,05340 Primary immunodeficiency [PATH:ko05340],3
-Human Diseases,05010 Alzheimer's disease [PATH:ko05010],9
-Human Diseases,05012 Parkinson's disease [PATH:ko05012],6
-Human Diseases,05014 Amyotrophic lateral sclerosis (ALS) [PATH:ko05014],4
-Human Diseases,05016 Huntington's disease [PATH:ko05016],9
-Human Diseases,05020 Prion diseases [PATH:ko05020],1
-Human Diseases,05031 Amphetamine addiction [PATH:ko05031],1
-Human Diseases,05034 Alcoholism [PATH:ko05034],4
-Human Diseases,05410 Hypertrophic cardiomyopathy (HCM) [PATH:ko05410],2
-Human Diseases,05412 Arrhythmogenic right ventricular cardiomyopathy (ARVC) [PATH:ko05412],2
-Human Diseases,05414 Dilated cardiomyopathy (DCM) [PATH:ko05414],2
-Human Diseases,05416 Viral myocarditis [PATH:ko05416],2
-Human Diseases,04930 Type II diabetes mellitus [PATH:ko04930],2
-Human Diseases,04940 Type I diabetes mellitus [PATH:ko04940],2
-Human Diseases,04932 Non-alcoholic fatty liver disease (NAFLD) [PATH:ko04932],6
-Human Diseases,04931 Insulin resistance [PATH:ko04931],3
-Human Diseases,05110 Vibrio cholerae infection [PATH:ko05110],2
-Human Diseases,05120 Epithelial cell signaling in Helicobacter pylori infection [PATH:ko05120],2
-Human Diseases,05130 Pathogenic Escherichia coli infection [PATH:ko05130],3
-Human Diseases,05132 Salmonella infection [PATH:ko05132],5
-Human Diseases,05131 Shigellosis [PATH:ko05131],3
-Human Diseases,05133 Pertussis [PATH:ko05133],3
-Human Diseases,05134 Legionellosis [PATH:ko05134],10
-Human Diseases,05152 Tuberculosis [PATH:ko05152],7
-Human Diseases,05100 Bacterial invasion of epithelial cells [PATH:ko05100],2
-Human Diseases,05164 Influenza A [PATH:ko05164],2
-Human Diseases,05169 Epstein-Barr virus infection [PATH:ko05169],1
-Human Diseases,01501 beta-Lactam resistance [PATH:ko01501],21
-Human Diseases,01502 Vancomycin resistance [PATH:ko01502],11
-Human Diseases,01503 Cationic antimicrobial peptide (CAMP) resistance [PATH:ko01503],14
-Human Diseases,01524 Platinum drug resistance [PATH:ko01524],1
-Human Diseases,01523 Antifolate resistance [PATH:ko01523],9
+﻿catalog,A,counts
+01200 Carbon metabolism [PATH:ko01200],Metabolism,131
+01210 2-Oxocarboxylic acid metabolism [PATH:ko01210],Metabolism,29
+01212 Fatty acid metabolism [PATH:ko01212],Metabolism,33
+01230 Biosynthesis of amino acids [PATH:ko01230],Metabolism,144
+01220 Degradation of aromatic compounds [PATH:ko01220],Metabolism,21
+00010 Glycolysis / Gluconeogenesis [PATH:ko00010],Metabolism,43
+00020 Citrate cycle (TCA cycle) [PATH:ko00020],Metabolism,46
+00030 Pentose phosphate pathway [PATH:ko00030],Metabolism,25
+00040 Pentose and glucuronate interconversions [PATH:ko00040],Metabolism,4
+00051 Fructose and mannose metabolism [PATH:ko00051],Metabolism,20
+00052 Galactose metabolism [PATH:ko00052],Metabolism,7
+00053 Ascorbate and aldarate metabolism [PATH:ko00053],Metabolism,1
+00500 Starch and sucrose metabolism [PATH:ko00500],Metabolism,7
+00520 Amino sugar and nucleotide sugar metabolism [PATH:ko00520],Metabolism,26
+00620 Pyruvate metabolism [PATH:ko00620],Metabolism,53
+00630 Glyoxylate and dicarboxylate metabolism [PATH:ko00630],Metabolism,36
+00640 Propanoate metabolism [PATH:ko00640],Metabolism,34
+00650 Butanoate metabolism [PATH:ko00650],Metabolism,31
+00660 C5-Branched dibasic acid metabolism [PATH:ko00660],Metabolism,10
+00562 Inositol phosphate metabolism [PATH:ko00562],Metabolism,6
+00190 Oxidative phosphorylation [PATH:ko00190],Metabolism,76
+00195 Photosynthesis [PATH:ko00195],Metabolism,17
+00710 Carbon fixation in photosynthetic organisms [PATH:ko00710],Metabolism,23
+00720 Carbon fixation pathways in prokaryotes [PATH:ko00720],Metabolism,41
+00680 Methane metabolism [PATH:ko00680],Metabolism,26
+00910 Nitrogen metabolism [PATH:ko00910],Metabolism,13
+00920 Sulfur metabolism [PATH:ko00920],Metabolism,28
+00061 Fatty acid biosynthesis [PATH:ko00061],Metabolism,24
+00071 Fatty acid degradation [PATH:ko00071],Metabolism,17
+00072 Synthesis and degradation of ketone bodies [PATH:ko00072],Metabolism,6
+00140 Steroid hormone biosynthesis [PATH:ko00140],Metabolism,1
+00561 Glycerolipid metabolism [PATH:ko00561],Metabolism,10
+00564 Glycerophospholipid metabolism [PATH:ko00564],Metabolism,27
+00565 Ether lipid metabolism [PATH:ko00565],Metabolism,2
+00600 Sphingolipid metabolism [PATH:ko00600],Metabolism,1
+00590 Arachidonic acid metabolism [PATH:ko00590],Metabolism,1
+00591 Linoleic acid metabolism [PATH:ko00591],Metabolism,2
+00592 alpha-Linolenic acid metabolism [PATH:ko00592],Metabolism,2
+01040 Biosynthesis of unsaturated fatty acids [PATH:ko01040],Metabolism,11
+00230 Purine metabolism [PATH:ko00230],Metabolism,107
+00240 Pyrimidine metabolism [PATH:ko00240],Metabolism,77
+"00250 Alanine, aspartate and glutamate metabolism [PATH:ko00250]",Metabolism,39
+"00260 Glycine, serine and threonine metabolism [PATH:ko00260]",Metabolism,45
+00270 Cysteine and methionine metabolism [PATH:ko00270],Metabolism,43
+"00280 Valine, leucine and isoleucine degradation [PATH:ko00280]",Metabolism,29
+"00290 Valine, leucine and isoleucine biosynthesis [PATH:ko00290]",Metabolism,13
+00300 Lysine biosynthesis [PATH:ko00300],Metabolism,24
+00310 Lysine degradation [PATH:ko00310],Metabolism,13
+00220 Arginine biosynthesis [PATH:ko00220],Metabolism,19
+00330 Arginine and proline metabolism [PATH:ko00330],Metabolism,25
+00340 Histidine metabolism [PATH:ko00340],Metabolism,16
+00350 Tyrosine metabolism [PATH:ko00350],Metabolism,12
+00360 Phenylalanine metabolism [PATH:ko00360],Metabolism,24
+00380 Tryptophan metabolism [PATH:ko00380],Metabolism,15
+"00400 Phenylalanine, tyrosine and tryptophan biosynthesis [PATH:ko00400]",Metabolism,35
+00410 beta-Alanine metabolism [PATH:ko00410],Metabolism,12
+00430 Taurine and hypotaurine metabolism [PATH:ko00430],Metabolism,6
+00440 Phosphonate and phosphinate metabolism [PATH:ko00440],Metabolism,3
+00450 Selenocompound metabolism [PATH:ko00450],Metabolism,11
+00460 Cyanoamino acid metabolism [PATH:ko00460],Metabolism,4
+00471 D-Glutamine and D-glutamate metabolism [PATH:ko00471],Metabolism,10
+00473 D-Alanine metabolism [PATH:ko00473],Metabolism,5
+00480 Glutathione metabolism [PATH:ko00480],Metabolism,15
+00531 Glycosaminoglycan degradation [PATH:ko00531],Metabolism,1
+00540 Lipopolysaccharide biosynthesis [PATH:ko00540],Metabolism,29
+00550 Peptidoglycan biosynthesis [PATH:ko00550],Metabolism,31
+00730 Thiamine metabolism [PATH:ko00730],Metabolism,21
+00740 Riboflavin metabolism [PATH:ko00740],Metabolism,14
+00750 Vitamin B6 metabolism [PATH:ko00750],Metabolism,11
+00760 Nicotinate and nicotinamide metabolism [PATH:ko00760],Metabolism,26
+00770 Pantothenate and CoA biosynthesis [PATH:ko00770],Metabolism,21
+00780 Biotin metabolism [PATH:ko00780],Metabolism,22
+00785 Lipoic acid metabolism [PATH:ko00785],Metabolism,4
+00790 Folate biosynthesis [PATH:ko00790],Metabolism,26
+00670 One carbon pool by folate [PATH:ko00670],Metabolism,22
+00830 Retinol metabolism [PATH:ko00830],Metabolism,2
+00860 Porphyrin and chlorophyll metabolism [PATH:ko00860],Metabolism,19
+00130 Ubiquinone and other terpenoid-quinone biosynthesis [PATH:ko00130],Metabolism,17
+00900 Terpenoid backbone biosynthesis [PATH:ko00900],Metabolism,18
+00981 Insect hormone biosynthesis [PATH:ko00981],Metabolism,1
+00908 Zeatin biosynthesis [PATH:ko00908],Metabolism,2
+00903 Limonene and pinene degradation [PATH:ko00903],Metabolism,5
+00281 Geraniol degradation [PATH:ko00281],Metabolism,12
+01051 Biosynthesis of ansamycins [PATH:ko01051],Metabolism,3
+00253 Tetracycline biosynthesis [PATH:ko00253],Metabolism,9
+00523 Polyketide sugar unit biosynthesis [PATH:ko00523],Metabolism,8
+01054 Nonribosomal peptide structures [PATH:ko01054],Metabolism,1
+01053 Biosynthesis of siderophore group nonribosomal peptides [PATH:ko01053],Metabolism,5
+01055 Biosynthesis of vancomycin group antibiotics [PATH:ko01055],Metabolism,2
+00940 Phenylpropanoid biosynthesis [PATH:ko00940],Metabolism,1
+00950 Isoquinoline alkaloid biosynthesis [PATH:ko00950],Metabolism,4
+"00960 Tropane, piperidine and pyridine alkaloid biosynthesis [PATH:ko00960]",Metabolism,5
+00965 Betalain biosynthesis [PATH:ko00965],Metabolism,1
+00311 Penicillin and cephalosporin biosynthesis [PATH:ko00311],Metabolism,1
+00332 Carbapenem biosynthesis [PATH:ko00332],Metabolism,2
+00261 Monobactam biosynthesis [PATH:ko00261],Metabolism,12
+00521 Streptomycin biosynthesis [PATH:ko00521],Metabolism,13
+00525 Acarbose and validamycin biosynthesis [PATH:ko00525],Metabolism,4
+00401 Novobiocin biosynthesis [PATH:ko00401],Metabolism,5
+00362 Benzoate degradation [PATH:ko00362],Metabolism,26
+00627 Aminobenzoate degradation [PATH:ko00627],Metabolism,9
+00364 Fluorobenzoate degradation [PATH:ko00364],Metabolism,7
+00625 Chloroalkane and chloroalkene degradation [PATH:ko00625],Metabolism,4
+00361 Chlorocyclohexane and chlorobenzene degradation [PATH:ko00361],Metabolism,3
+00623 Toluene degradation [PATH:ko00623],Metabolism,3
+00622 Xylene degradation [PATH:ko00622],Metabolism,4
+00633 Nitrotoluene degradation [PATH:ko00633],Metabolism,2
+00642 Ethylbenzene degradation [PATH:ko00642],Metabolism,1
+00643 Styrene degradation [PATH:ko00643],Metabolism,4
+00791 Atrazine degradation [PATH:ko00791],Metabolism,3
+00930 Caprolactam degradation [PATH:ko00930],Metabolism,5
+00626 Naphthalene degradation [PATH:ko00626],Metabolism,3
+00624 Polycyclic aromatic hydrocarbon degradation [PATH:ko00624],Metabolism,2
+00980 Metabolism of xenobiotics by cytochrome P450 [PATH:ko00980],Metabolism,2
+00982 Drug metabolism - cytochrome P450 [PATH:ko00982],Metabolism,2
+00983 Drug metabolism - other enzymes [PATH:ko00983],Metabolism,5
+03020 RNA polymerase [PATH:ko03020],Genetic Information Processing,8
+03040 Spliceosome [PATH:ko03040],Genetic Information Processing,1
+03010 Ribosome [PATH:ko03010],Genetic Information Processing,112
+00970 Aminoacyl-tRNA biosynthesis [PATH:ko00970],Genetic Information Processing,58
+03013 RNA transport [PATH:ko03013],Genetic Information Processing,6
+03008 Ribosome biogenesis in eukaryotes [PATH:ko03008],Genetic Information Processing,4
+03060 Protein export [PATH:ko03060],Genetic Information Processing,28
+04141 Protein processing in endoplasmic reticulum [PATH:ko04141],Genetic Information Processing,3
+04120 Ubiquitin mediated proteolysis [PATH:ko04120],Genetic Information Processing,1
+04122 Sulfur relay system [PATH:ko04122],Genetic Information Processing,16
+03018 RNA degradation [PATH:ko03018],Genetic Information Processing,27
+03030 DNA replication [PATH:ko03030],Genetic Information Processing,30
+03410 Base excision repair [PATH:ko03410],Genetic Information Processing,18
+03420 Nucleotide excision repair [PATH:ko03420],Genetic Information Processing,15
+03430 Mismatch repair [PATH:ko03430],Genetic Information Processing,30
+03440 Homologous recombination [PATH:ko03440],Genetic Information Processing,46
+02010 ABC transporters [PATH:ko02010],Environmental Information Processing,65
+02060 Phosphotransferase system (PTS) [PATH:ko02060],Environmental Information Processing,13
+03070 Bacterial secretion system [PATH:ko03070],Environmental Information Processing,37
+02020 Two-component system [PATH:ko02020],Environmental Information Processing,60
+04014 Ras signaling pathway [PATH:ko04014],Environmental Information Processing,1
+04015 Rap1 signaling pathway [PATH:ko04015],Environmental Information Processing,4
+04013 MAPK signaling pathway - fly [PATH:ko04013],Environmental Information Processing,3
+04016 MAPK signaling pathway - plant [PATH:ko04016],Environmental Information Processing,7
+04011 MAPK signaling pathway - yeast [PATH:ko04011],Environmental Information Processing,3
+04330 Notch signaling pathway [PATH:ko04330],Environmental Information Processing,1
+04390 Hippo signaling pathway [PATH:ko04390],Environmental Information Processing,2
+04391 Hippo signaling pathway -fly [PATH:ko04391],Environmental Information Processing,2
+04066 HIF-1 signaling pathway [PATH:ko04066],Environmental Information Processing,9
+04068 FoxO signaling pathway [PATH:ko04068],Environmental Information Processing,6
+04020 Calcium signaling pathway [PATH:ko04020],Environmental Information Processing,1
+04070 Phosphatidylinositol signaling system [PATH:ko04070],Environmental Information Processing,6
+04072 Phospholipase D signaling pathway [PATH:ko04072],Environmental Information Processing,1
+04024 cAMP signaling pathway [PATH:ko04024],Environmental Information Processing,1
+04022 cGMP - PKG signaling pathway [PATH:ko04022],Environmental Information Processing,1
+04151 PI3K-Akt signaling pathway [PATH:ko04151],Environmental Information Processing,2
+04152 AMPK signaling pathway [PATH:ko04152],Environmental Information Processing,6
+04144 Endocytosis [PATH:ko04144],Cellular Processes,1
+04145 Phagosome [PATH:ko04145],Cellular Processes,3
+04146 Peroxisome [PATH:ko04146],Cellular Processes,13
+02040 Flagellar assembly [PATH:ko02040],Cellular Processes,1
+04810 Regulation of actin cytoskeleton [PATH:ko04810],Cellular Processes,3
+04112 Cell cycle - Caulobacter [PATH:ko04112],Cellular Processes,23
+04113 Meiosis - yeast [PATH:ko04113],Cellular Processes,1
+04114 Oocyte meiosis [PATH:ko04114],Cellular Processes,1
+04210 Apoptosis [PATH:ko04210],Cellular Processes,3
+04214 Apoptosis - fly [PATH:ko04214],Cellular Processes,2
+04510 Focal adhesion [PATH:ko04510],Cellular Processes,2
+04520 Adherens junction [PATH:ko04520],Cellular Processes,2
+04530 Tight junction [PATH:ko04530],Cellular Processes,2
+04540 Gap junction [PATH:ko04540],Cellular Processes,1
+02024 Quorum sensing [PATH:ko02024],Cellular Processes,42
+05111 Biofilm formation - Vibrio cholerae [PATH:ko05111],Cellular Processes,22
+02025 Biofilm formation - Pseudomonas aeruginosa [PATH:ko02025],Cellular Processes,15
+02026 Biofilm formation - Escherichia coli [PATH:ko02026],Cellular Processes,16
+04611 Platelet activation [PATH:ko04611],Organismal Systems,2
+04621 NOD-like receptor signaling pathway [PATH:ko04621],Organismal Systems,3
+04612 Antigen processing and presentation [PATH:ko04612],Organismal Systems,1
+04659 Th17 cell differentiation [PATH:ko04659],Organismal Systems,1
+04670 Leukocyte transendothelial migration [PATH:ko04670],Organismal Systems,2
+04910 Insulin signaling pathway [PATH:ko04910],Organismal Systems,3
+04922 Glucagon signaling pathway [PATH:ko04922],Organismal Systems,9
+04920 Adipocytokine signaling pathway [PATH:ko04920],Organismal Systems,2
+03320 PPAR signaling pathway [PATH:ko03320],Organismal Systems,7
+04912 GnRH signaling pathway [PATH:ko04912],Organismal Systems,1
+04915 Estrogen signaling pathway [PATH:ko04915],Organismal Systems,2
+04914 Progesterone-mediated oocyte maturation [PATH:ko04914],Organismal Systems,1
+04921 Oxytocin signaling pathway [PATH:ko04921],Organismal Systems,5
+04919 Thyroid hormone signaling pathway [PATH:ko04919],Organismal Systems,3
+04916 Melanogenesis [PATH:ko04916],Organismal Systems,1
+04924 Renin secretion [PATH:ko04924],Organismal Systems,1
+04925 Aldosterone synthesis and secretion [PATH:ko04925],Organismal Systems,1
+04260 Cardiac muscle contraction [PATH:ko04260],Organismal Systems,6
+04261 Adrenergic signaling in cardiomyocytes [PATH:ko04261],Organismal Systems,1
+04270 Vascular smooth muscle contraction [PATH:ko04270],Organismal Systems,1
+04970 Salivary secretion [PATH:ko04970],Organismal Systems,1
+04971 Gastric acid secretion [PATH:ko04971],Organismal Systems,1
+04978 Mineral absorption [PATH:ko04978],Organismal Systems,1
+04964 Proximal tubule bicarbonate reclamation [PATH:ko04964],Organismal Systems,3
+04724 Glutamatergic synapse [PATH:ko04724],Organismal Systems,2
+04727 GABAergic synapse [PATH:ko04727],Organismal Systems,2
+04728 Dopaminergic synapse [PATH:ko04728],Organismal Systems,1
+04720 Long-term potentiation [PATH:ko04720],Organismal Systems,1
+04722 Neurotrophin signaling pathway [PATH:ko04722],Organismal Systems,1
+04744 Phototransduction [PATH:ko04744],Organismal Systems,1
+04745 Phototransduction - fly [PATH:ko04745],Organismal Systems,3
+04740 Olfactory transduction [PATH:ko04740],Organismal Systems,1
+04750 Inflammatory mediator regulation of TRP channels [PATH:ko04750],Organismal Systems,1
+04211 Longevity regulating pathway - mammal [PATH:ko04211],Organismal Systems,5
+04212 Longevity regulating pathway - worm [PATH:ko04212],Organismal Systems,14
+04213 Longevity regulating pathway - multiple species [PATH:ko04213],Organismal Systems,9
+04713 Circadian entrainment [PATH:ko04713],Organismal Systems,1
+04626 Plant-pathogen interaction [PATH:ko04626],Organismal Systems,5
+05200 Pathways in cancer [PATH:ko05200],Human Diseases,3
+05230 Central carbon metabolism in cancer [PATH:ko05230],Human Diseases,8
+05231 Choline metabolism in cancer [PATH:ko05231],Human Diseases,1
+05202 Transcriptional misregulation in cancers [PATH:ko05202],Human Diseases,1
+05206 MicroRNAs in cancer [PATH:ko05206],Human Diseases,2
+05205 Proteoglycans in cancer [PATH:ko05205],Human Diseases,4
+05204 Chemical carcinogenesis [PATH:ko05204],Human Diseases,2
+05203 Viral carcinogenesis [PATH:ko05203],Human Diseases,4
+05214 Glioma [PATH:ko05214],Human Diseases,1
+05211 Renal cell carcinoma [PATH:ko05211],Human Diseases,2
+05215 Prostate cancer [PATH:ko05215],Human Diseases,1
+05322 Systemic lupus erythematosus [PATH:ko05322],Human Diseases,3
+05340 Primary immunodeficiency [PATH:ko05340],Human Diseases,3
+05010 Alzheimer's disease [PATH:ko05010],Human Diseases,9
+05012 Parkinson's disease [PATH:ko05012],Human Diseases,6
+05014 Amyotrophic lateral sclerosis (ALS) [PATH:ko05014],Human Diseases,4
+05016 Huntington's disease [PATH:ko05016],Human Diseases,9
+05020 Prion diseases [PATH:ko05020],Human Diseases,1
+05031 Amphetamine addiction [PATH:ko05031],Human Diseases,1
+05034 Alcoholism [PATH:ko05034],Human Diseases,4
+05410 Hypertrophic cardiomyopathy (HCM) [PATH:ko05410],Human Diseases,2
+05412 Arrhythmogenic right ventricular cardiomyopathy (ARVC) [PATH:ko05412],Human Diseases,2
+05414 Dilated cardiomyopathy (DCM) [PATH:ko05414],Human Diseases,2
+05416 Viral myocarditis [PATH:ko05416],Human Diseases,2
+04930 Type II diabetes mellitus [PATH:ko04930],Human Diseases,2
+04940 Type I diabetes mellitus [PATH:ko04940],Human Diseases,2
+04932 Non-alcoholic fatty liver disease (NAFLD) [PATH:ko04932],Human Diseases,6
+04931 Insulin resistance [PATH:ko04931],Human Diseases,3
+05110 Vibrio cholerae infection [PATH:ko05110],Human Diseases,2
+05120 Epithelial cell signaling in Helicobacter pylori infection [PATH:ko05120],Human Diseases,2
+05130 Pathogenic Escherichia coli infection [PATH:ko05130],Human Diseases,3
+05132 Salmonella infection [PATH:ko05132],Human Diseases,5
+05131 Shigellosis [PATH:ko05131],Human Diseases,3
+05133 Pertussis [PATH:ko05133],Human Diseases,3
+05134 Legionellosis [PATH:ko05134],Human Diseases,10
+05152 Tuberculosis [PATH:ko05152],Human Diseases,7
+05100 Bacterial invasion of epithelial cells [PATH:ko05100],Human Diseases,2
+05164 Influenza A [PATH:ko05164],Human Diseases,2
+05169 Epstein-Barr virus infection [PATH:ko05169],Human Diseases,1
+01501 beta-Lactam resistance [PATH:ko01501],Human Diseases,21
+01502 Vancomycin resistance [PATH:ko01502],Human Diseases,11
+01503 Cationic antimicrobial peptide (CAMP) resistance [PATH:ko01503],Human Diseases,14
+01524 Platinum drug resistance [PATH:ko01524],Human Diseases,1
+01523 Antifolate resistance [PATH:ko01523],Human Diseases,9
 NOT_ASSIGN,NOT_ASSIGN,3353
