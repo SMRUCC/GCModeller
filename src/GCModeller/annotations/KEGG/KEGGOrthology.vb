@@ -123,14 +123,17 @@ Public Module KEGGOrthology
     <Extension>
     Public Function Plot(profile As Dictionary(Of String, NamedValue(Of Integer)()),
                          Optional title$ = "KEGG Orthology Profiling",
-                         Optional colorSchema$ = "Accent:c6",
+                         Optional axisTitle$ = "Number Of Gene",
+                         Optional colorSchema$ = "Set1:c6",
                          Optional bg$ = "white",
                          Optional size As Size = Nothing,
                          Optional margin As Size = Nothing,
                          Optional classFontStyle$ = CSSFont.Win7LargerBold,
-                         Optional catalogFontStyle$ = CSSFont.Win7Normal,
+                         Optional catalogFontStyle$ = CSSFont.Win7Bold,
                          Optional titleFontStyle$ = CSSFont.PlotTitle,
-                         Optional valueFontStyle$ = CSSFont.Win7Bold) As Bitmap
+                         Optional valueFontStyle$ = CSSFont.Win7Bold,
+                         Optional tickFontStyle$ = CSSFont.Win7LargerBold,
+                         Optional tick% = 50) As Bitmap
 
         Static KO_class$() = {
             "Cellular Processes",
@@ -155,6 +158,9 @@ Public Module KEGGOrthology
 
         If size.IsEmpty Then
             size = New Size(2200, 2000)
+        End If
+        If margin.IsEmpty Then
+            margin = New Size(25, 25)
         End If
 
         Return g.GraphicsPlots(
@@ -182,7 +188,7 @@ Public Module KEGGOrthology
                 Dim totalHeight = KO_class.Length * (maxLenClsKeySize.Height + 5) +
                     profile.Values.IteratesALL.Count * (maxLenSubKeySize.Height + 4) +
                     KO_class.Length * 20
-                Dim left As Single, y! = 100 + (regiong.PlotRegion.Height - totalHeight) / 2
+                Dim left As Single, y! = (regiong.PlotRegion.Height - totalHeight) / 2
                 Dim barRect As New Rectangle(
                     New Point(margin.Width * 1.5 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
                     New Size(size.Width - margin.Width * 2 - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - margin.Width / 2, totalHeight))
@@ -201,7 +207,7 @@ Public Module KEGGOrthology
 
                 For Each [class] As SeqValue(Of String) In KO_class.SeqIterator
                     Dim color As New SolidBrush(colors([class]))
-                    Dim linePen As New Pen(colors([class]), 3) With {
+                    Dim linePen As New Pen(colors([class]), 2) With {
                         .DashStyle = DashStyle.Dot
                     }
                     Dim yPlot!
@@ -240,6 +246,29 @@ Public Module KEGGOrthology
 
                     y += 20
                 Next
+
+                Dim axisTicks = AxisScalling.GetAxisByTick(profile.Values.Max(Function(v) v.Max(Function(n) n.Value)), tick)
+                Dim d# = 25
+                Dim tickFont = CSSFont.TryParse(tickFontStyle)
+                Dim tickSize As SizeF
+                Dim tickPen As New Pen(Color.Black, 3)
+
+                For Each tick In axisTicks
+                    Dim tickX = barRect.Left + mapper.ScallingWidth(tick, barRect.Width - gap)
+
+                    tickSize = g.MeasureString(tick, tickFont)
+
+                    Call g.DrawLine(tickPen, New PointF(tickX, y), New PointF(tickX, y + d))
+                    Call g.DrawString(tick, tickFont, Brushes.Black, New PointF(tickX - tickSize.Width / 2, y + d + 10))
+                Next
+
+                y += 100
+
+                titleFont = CSSFont.TryParse(CSSFont.Win7LargerBold)
+                titleSize = g.MeasureString(axisTitle, titleFont)
+
+                Call g.DrawString(axisTitle, titleFont, Brushes.Black, New PointF(barRect.Left + (barRect.Width - titleSize.Width) / 2, y))
+
             End Sub)
     End Function
 End Module
