@@ -28,10 +28,10 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
+Imports Microsoft.VisualBasic.ComponentModel.Map(Of String, String)
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
@@ -127,6 +127,7 @@ Namespace LocalBLAST.Application.BBH
     ''' <remarks></remarks>
     Public MustInherit Class I_BlastQueryHit : Implements IKeyValuePair
         Implements IBlastHit
+        Implements IMap
 
         ''' <summary>
         ''' The query source.
@@ -135,14 +136,19 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Column("query_name")> Public Overridable Property QueryName As String _
-            Implements IKeyValuePairObject(Of String, String).Identifier, IBlastHit.locusId
+            Implements IKeyValuePairObject(Of String, String).Identifier,
+                       IBlastHit.locusId,
+                       IMap.Key
         ''' <summary>
         ''' The subject hit.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Column("hit_name")> Public Overridable Property HitName As String Implements IKeyValuePairObject(Of String, String).Value, IBlastHit.Address
+        <Column("hit_name")> Public Overridable Property HitName As String _
+            Implements IKeyValuePairObject(Of String, String).Value,
+                       IBlastHit.Address,
+                       IMap.Maps
 
         ''' <summary>
         ''' 仅仅是依靠对HitName的判断来使用这个属性了解<see cref="QueryName"></see>是否已经和<see cref="HitName"></see>比对上了
@@ -175,12 +181,14 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         <Ignored> Public ReadOnly Property BBH_ID As String
             Get
-                Dim Order As String() =
-                    LinqAPI.Exec(Of String) <= From s As String
-                                               In {Me.QueryName, Me.HitName}
-                                               Select str = s.ToUpper
-                                               Order By str Ascending
-                Return String.Join(BBH_ID_SEPERATOR, Order)
+                Dim asc As String() = LinqAPI.Exec(Of String) <=
+ _
+                    From s As String
+                    In {Me.QueryName, Me.HitName}
+                    Select str = s.ToUpper
+                    Order By str Ascending
+
+                Return String.Join(BBH_ID_SEPERATOR, asc)
             End Get
         End Property
 
