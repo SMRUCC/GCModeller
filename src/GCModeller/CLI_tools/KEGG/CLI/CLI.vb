@@ -381,6 +381,16 @@ Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/Build.Ko.repository", Usage:="/Build.Ko.repository /DIR <DIR>")>
+    Public Function BuildKORepository(args As CommandLine) As Integer
+        Dim DIR As String = args("/DIR")
+        Dim repo As New SMRUCC.genomics.Data.KEGGOrthology(DIR)
+
+        Call repo.BuildLocusIndex()
+
+        Return 0
+    End Function
+
     <ExportAPI("/Imports.KO", Usage:="/Imports.KO /in <DIR>")>
     Public Function ImportsKODatabase(args As CommandLine) As Integer
         Dim DIR As String = args("/in")

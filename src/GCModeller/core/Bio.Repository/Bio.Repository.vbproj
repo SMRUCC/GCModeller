@@ -175,8 +175,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KEGGOrthology\KEGGOrthology.vb" />
     <Compile Include="Genbank.vb" />
     <Compile Include="KEGGOrganism.vb" />
+    <Compile Include="KEGGOrthology\KO_gene.vb" />
     <Compile Include="Settings.vb" />
     <Compile Include="WebAPI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
