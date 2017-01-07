@@ -28,13 +28,14 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Analysis.KEGG
+Imports SMRUCC.genomics.Analysis.KEGG.KEGGOrthology
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -66,6 +67,7 @@ Partial Module CLI
                 .Where(Function(sid) Array.IndexOf(locusId, sid) > -1) _
                 .ToArray
             Select (x.EntryId, locus_id)
+
         Return LQuery > out
     End Function
 
@@ -153,11 +155,24 @@ Partial Module CLI
         Dim key As String = args.GetValue("/key", "Query_id")
         Dim mapTo As String = args.GetValue("/mapTo", "Subject_id")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-KO.Catalogs/")
-        Dim mappings = [in].LoadMappings(key, mapTo)
+        Dim mappings As Map(Of String, String)() =
+            [in].LoadMappings(key, mapTo).ToArray
         Dim KO_genes As KO_gene() = ko.LoadCsv(Of KO_gene)
 
         For Each level As String In {"A", "B", "C"}
-            Call mappings.CatalogProfiling(KO_genes)
+            Dim result = CatalogProfiling(mappings, KO_genes, level)
+            Dim csv = (From part
+                       In result
+                       Select part.Value _
+                           .Select(Function(c) New With {
+                                .A = part.Key,
+                                .catalog = c.Name,
+                                .counts = c.Value
+                       })).IteratesALL _
+                          .Where(Function(c) c.counts > 0) _
+                          .ToArray
+
+            Call csv.SaveTo(out & $"/{[in].BaseName}-KO.Catalogs-level-{level}.csv")
         Next
 
         Return 0

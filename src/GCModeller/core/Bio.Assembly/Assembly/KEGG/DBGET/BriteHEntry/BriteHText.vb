@@ -30,6 +30,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
@@ -111,6 +112,19 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 Return (From htext As BriteHText
                         In Me.CategoryItems
                         Select s_Data = htext.GetEntries).ToVector
+            End If
+        End Function
+
+        Public Iterator Function EnumerateEntries() As IEnumerable(Of BriteHText)
+            If CategoryItems.IsNullOrEmpty Then
+                Yield Me
+            Else
+                For Each htext As BriteHText In CategoryItems _
+                    .Select(Function(x) x.EnumerateEntries) _
+                    .IteratesALL
+
+                    Yield htext
+                Next
             End If
         End Function
 
