@@ -40,7 +40,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Namespace Assembly.KEGG.DBGET.bGetObject
 
     ''' <summary>
-    ''' The kegg pathway annotation data.
+    ''' The kegg pathway annotation data.(这个代谢途径模型是针对某一个物种而言的)
     ''' </summary>
     ''' <remarks></remarks>
     <XmlRoot("KEGG.PathwayBrief", Namespace:="http://www.genome.jp/kegg/pathway.html")>
@@ -182,39 +182,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return 0
         End Function
 
-        Public Shared Function DownloadAll(EXPORT As String, Optional BriefFile As String = "", Optional DirectoryOrganized As Boolean = True) As Integer
-            Dim BriefEntries As KEGG.DBGET.BriteHEntry.Pathway() =
-                If(String.IsNullOrEmpty(BriefFile),
-                   KEGG.DBGET.BriteHEntry.Pathway.LoadFromResource,
-                   KEGG.DBGET.BriteHEntry.Pathway.LoadData(BriefFile))
-
-            For Each Entry As KEGG.DBGET.BriteHEntry.Pathway In BriefEntries
-                Dim EntryId As String = Entry.Entry.Key
-                Dim SaveToDir As String = If(DirectoryOrganized, BriteHEntry.Pathway.CombineDIR(Entry, EXPORT), EXPORT)
-
-                Dim XmlFile As String = $"{SaveToDir}/map{EntryId}.xml"
-                Dim PngFile As String = $"{SaveToDir}/map{EntryId}.png"
-
-                If FileIO.FileSystem.FileExists(XmlFile) AndAlso FileIO.FileSystem.FileExists(PngFile) Then
-                    If FileIO.FileSystem.GetFileInfo(XmlFile).Length > 0 AndAlso FileIO.FileSystem.GetFileInfo(PngFile).Length > 0 Then
-                        Continue For
-                    End If
-                End If
-
-                Dim Pathway As Pathway = DownloadPage("map", EntryId)
-
-                If Pathway Is Nothing Then
-                    Call $"{Entry.ToString} is not exists in the kegg!".__DEBUG_ECHO
-                    Continue For
-                End If
-
-                Call DownloadPathwayMap("map", EntryId, SaveLocationDir:=SaveToDir)
-                Call Pathway.SaveAsXml(XmlFile)
-            Next
-
-            Return 0
-        End Function
-
         Public Shared Function DownloadPathwayMap(SpeciesCode As String, Entry As String, SaveLocationDir As String) As Boolean
             Dim Url As String = String.Format("http://www.genome.jp/kegg/pathway/{0}/{0}{1}.png", SpeciesCode, Entry)
             Return Url.DownloadFile(String.Format("{0}/{1}{2}.png", SaveLocationDir, SpeciesCode, Entry))
@@ -236,7 +203,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Return Nothing
             End If
 
-            Dim Pathway As Pathway = New Pathway
+            Dim Pathway As New Pathway
             Dim SpeciesCode As String = WebForm.GetValue("Organism").FirstOrDefault
 
             SpeciesCode = Regex.Match(SpeciesCode, "\[GN:<a href="".+?"">.+?</a>]").Value.GetValue
@@ -338,7 +305,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
                 ModuleList += New KeyValuePair With {
                     .Key = ModuleEntry,
-                    .Value = ModuleFunction.StripHTMLTags
+                    .Value = ModuleFunction
                 }
             Next
 
@@ -346,11 +313,16 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             s_Value = Mid(s_Value, p)
             Dim LastEntry As New KeyValuePair With {
                 .Key = Regex.Match(s_Value, SplitRegex).Value,
-                .Value = WebForm.RemoveHrefLink(s_Value.Replace(.Key, "").Trim).StripHTMLTags
+                .Value = WebForm.RemoveHrefLink(s_Value.Replace(.Key, "").Trim)
             }
             LastEntry.Key = LastEntry.Key.GetValue
 
             Call ModuleList.Add(LastEntry)
+
+            For Each x In ModuleList
+                x.Key = x.Key.StripHTMLTags.StripBlank
+                x.Value = x.Value.StripHTMLTags.StripBlank
+            Next
 
             Return ModuleList.ToArray
         End Function

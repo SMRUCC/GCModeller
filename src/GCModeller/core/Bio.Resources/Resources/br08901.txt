@@ -304,6 +304,7 @@ B  Cellular community - prokaryotes
 C    02024  Quorum sensing
 C    05111  Biofilm formation - Vibrio cholerae
 C    02025  Biofilm formation - Pseudomonas aeruginosa
+C    02026  Biofilm formation - Escherichia coli
 #
 A<b>Organismal Systems</b>
 B  Immune system
@@ -582,5 +583,5 @@ C    07117  Benzodiazepine family
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: December 14, 2016
+#Last updated: January 6, 2017
 #<br><br><a href="/kegg-bin/get_htext?jp08901.keg">&raquo; Japanese version</a>
