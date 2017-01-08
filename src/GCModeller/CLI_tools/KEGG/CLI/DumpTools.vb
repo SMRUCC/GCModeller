@@ -194,7 +194,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
                Info:="Download all of the KEGG reference pathway map data.",
                Usage:="/Pathways.Downloads.All [/out <outDIR>]")>
     Public Function DownloadsAllPathways(args As CommandLine) As Integer
-        Dim outDIR As String = args.GetValue("/out", GCModeller.FileSystem.KEGG.GetPathways)
+        Dim outDIR As String = args.GetValue("/out", App.HOME & "/br08901/")
 
         If bGetObject.PathwayMap.DownloadAll(outDIR) <> 0 Then
             Call "Some maps file download failured, please check error logs for detail information...".Warning
