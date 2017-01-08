@@ -26,6 +26,8 @@
 
 #End Region
 
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+
 Module Program
 
     Public Function Main() As Integer

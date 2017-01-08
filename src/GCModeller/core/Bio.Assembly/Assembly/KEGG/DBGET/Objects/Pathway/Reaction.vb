@@ -31,9 +31,11 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.KEGG.DBGET.bGetObject
@@ -44,7 +46,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' <remarks></remarks>
     Public Class Reaction : Implements INamedValue
 
-        <XmlAttribute> Public Property Entry As String Implements INamedValue.Key
+        <XmlAttribute>
+        Public Property Entry As String Implements INamedValue.Key
         Public Property CommonNames As String()
         Public Property Definition As String
         Public Property Equation As String
@@ -60,6 +63,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Pathway As KeyValuePair()
         Public Property [Module] As KeyValuePair()
         Public Property Orthology As TripleKeyValuesPair()
+        Public Property ReactionClass As KeyValuePair()
 
         Const URL As String = "http://www.kegg.jp/dbget-bin/www_bget?rn:{0}"
 
@@ -83,7 +87,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         Public Shared Function DownloadFrom(url As String) As Reaction
-            Dim WebForm = New InternalWebFormParsers.WebForm(url)
+            Dim WebForm As New InternalWebFormParsers.WebForm(url)
 
             If WebForm.Count = 0 Then
                 Return Nothing
@@ -93,28 +97,29 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         Friend Shared Function __webFormParser(Of ReactionType As Reaction)(WebForm As InternalWebFormParsers.WebForm) As ReactionType
-            Dim Reaction As ReactionType = Activator.CreateInstance(Of ReactionType)()
+            Dim rn As ReactionType = Activator.CreateInstance(Of ReactionType)()
 
             On Error Resume Next
 
-            Reaction.Entry = Regex.Match(WebForm.GetValue("Entry").FirstOrDefault, "[a-z]+\d+", RegexOptions.IgnoreCase).Value
-            Reaction.Comments = __trimComments(WebForm.GetValue("Comment").FirstOrDefault)
-            Reaction.Definition = WebForm.GetValue("Definition").FirstOrDefault.Replace("<br>", "").Replace("&lt;", "<").Replace("&gt;", ">")
-            Reaction.Pathway = KEGG.WebServices.InternalWebFormParsers.WebForm.parseList(WebForm.GetValue("Pathway").FirstOrDefault, "<a href="".+?"">.+?</a>")
-            Reaction.Module = KEGG.WebServices.InternalWebFormParsers.WebForm.parseList(WebForm.GetValue("Module").FirstOrDefault, "<a href="".+?"">.+?</a>")
-            Reaction.CommonNames = __getCommonNames(WebForm.GetValue("Name").FirstOrDefault)
-            Reaction.Equation = __parsingEquation(WebForm.GetValue("Equation").FirstOrDefault)
-            Reaction.Orthology = __orthologyParser(WebForm.GetValue("Orthology").FirstOrDefault)
+            rn.Entry = WebForm.StripName(WebForm.GetValue("Entry").FirstOrDefault).StripHTMLTags.StripBlank.Split.First
+            rn.Comments = __trimComments(WebForm.StripName(WebForm.GetValue("Comment").FirstOrDefault)).StripBlank.TrimNewLine
+            rn.Definition = WebForm.StripName(WebForm.GetValue("Definition").FirstOrDefault).StripHTMLTags.StripBlank
+            rn.Pathway = WebForm.parseList(WebForm.GetValue("Pathway").FirstOrDefault, "<a href="".+?"">.+?</a>")
+            rn.Module = WebForm.parseList(WebForm.GetValue("Module").FirstOrDefault, "<a href="".+?"">.+?</a>")
+            rn.CommonNames = __getCommonNames(WebForm.GetValue("Name").FirstOrDefault)
+            rn.Equation = __parsingEquation(WebForm.GetValue("Equation").FirstOrDefault)
+            rn.Orthology = __orthologyParser(WebForm.GetValue("Orthology").FirstOrDefault)
+            rn.ReactionClass = WebForm.parseList(WebForm.GetValue("Reaction class").FirstOrDefault, "<a href="".+?"">.+?</a>")
 
-            Dim ecTmp As String = WebForm.GetValue("Enzyme").FirstOrDefault
-            Reaction.ECNum = Regex.Matches(ecTmp, "\d+(\.\d+)+").ToArray.Distinct.ToArray
+            Dim ecTemp As String = WebForm.GetValue("Enzyme").FirstOrDefault
+            rn.ECNum = Regex.Matches(ecTemp, "\d+(\.\d+)+").ToArray.Distinct.ToArray
 
-            Return Reaction
+            Return rn
         End Function
 
         Private Shared Function __orthologyParser(s As String) As TripleKeyValuesPair()
             Dim ms As String() = Regex.Matches(s, "K\d+<.+?\[EC.+?\]", RegexOptions.IgnoreCase).ToArray
-            Dim result As TripleKeyValuesPair() = ms.ToArray(Function(x) __innerOrthParser(x))
+            Dim result As TripleKeyValuesPair() = ms.ToArray(AddressOf __innerOrthParser)
             Return result
         End Function
 
@@ -124,14 +129,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <param name="s"></param>
         ''' <returns></returns>
         Private Shared Function __innerOrthParser(s As String) As TripleKeyValuesPair
-            Dim Tokens As String() = Regex.Split(s, "<[/]?a>", RegexOptions.IgnoreCase)
-            Dim KO As String = Tokens.Get(Scan0)
-            Dim def As String = Tokens.Get(1).Split("["c).First.Trim
+            Dim t As String() = Regex.Split(s, "<[/]?a>", RegexOptions.IgnoreCase)
+            Dim KO As String = t.Get(Scan0)
+            Dim def As String = t.Get(1).Split("["c).First.Trim
             Dim EC As String = Regex.Match(s, "\d+(\.\d+)+").Value
+
             Return New TripleKeyValuesPair With {
                 .Key = KO,
                 .Value1 = EC,
-                .Value2 = def
+                .Value2 = def.StripHTMLTags
             }
         End Function
 
@@ -149,16 +155,26 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function GetSubstrateCompounds() As String()
-            Dim FluxModel = EquationBuilder.CreateObject(Of DefaultTypes.CompoundSpecieReference, DefaultTypes.Equation)(Regex.Replace(Equation, "(\s*\(.+?\))|(n )", ""))
-            Dim Compounds = (From csr As DefaultTypes.CompoundSpecieReference
-                             In {FluxModel.Reactants, FluxModel.Products}.IteratesALL
-                             Select csr.Identifier
-                             Distinct).ToArray
+            Dim FluxModel = EquationBuilder.CreateObject(Of
+                DefaultTypes.CompoundSpecieReference,
+                DefaultTypes.Equation)(Regex.Replace(Equation, "(\s*\(.+?\))|(n )", ""))
+            Dim Compounds$() = LinqAPI.Exec(Of String) <=
+ _
+                From csr As DefaultTypes.CompoundSpecieReference
+                In {
+                    FluxModel.Reactants,
+                    FluxModel.Products
+                }.IteratesALL
+                Select csr.Identifier
+                Distinct
+
             Return Compounds
         End Function
 
         Public Function IsConnectWith([next] As Reaction) As Boolean
-            Dim a = GetSubstrateCompounds(), b = [next].GetSubstrateCompounds
+            Dim a = GetSubstrateCompounds(),
+                b = [next].GetSubstrateCompounds
+
             For Each s In a
                 If Array.IndexOf(b, s) > -1 Then
                     Return True
@@ -205,31 +221,39 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Next
             Call sBuilder.Replace("<br>", "")
 
-            Return sBuilder.ToString
+            Return sBuilder.ToString.StripHTMLTags
         End Function
 
         Private Shared Function __parsingEquation(strData As String) As String
-            Dim Links As KeyValuePair(Of String, String)() =
-                Regex.Matches(strData, "<a href="".+?"">.+?</a>").ToArray(
-                Function(m) New KeyValuePair(Of String, String)(m, m.GetValue))
-            Dim sBuilder As StringBuilder = New StringBuilder(strData)
-            For Each item In Links
-                Call sBuilder.Replace(item.Key, item.Value)
+            Dim sb As New StringBuilder(strData)
+
+            For Each m As Match In Regex.Matches(strData, "<a href="".+?"">.+?</a>")
+                Dim link As New KeyValuePair(Of String, String)(m.Value, m.Value.GetValue)
+                Call sb.Replace(link.Key, link.Value)
             Next
-            Call sBuilder.Replace("<br>", "")
-            Call sBuilder.Replace("&lt;", "<")
-            Call sBuilder.Replace("&gt;", ">")
 
-            Dim s$ = ""
+            Dim s$ = sb.ToString
 
-            Return sBuilder.ToString
+            s = s.Replace(Regex.Match(s, "<nobr>.+</nobr>").Value, "")
+            s = s.Replace("<=", "&lt;=")
+            s = s.Replace("<-", "&lt;-")
+            s = s.StripHTMLTags
+            s = s.Replace("&lt;", "<")
+            s = s.Replace("&gt;", ">")
+            s = s.StripBlank
+
+            Return s
         End Function
 
-        Private Shared Function __getCommonNames(strData As String) As String()
-            Return (From stritem As String
-                    In Strings.Split(strData, "<br>")
-                    Where Not String.IsNullOrEmpty(stritem)
-                    Select stritem).ToArray
+        Private Shared Function __getCommonNames(str As String) As String()
+            Return LinqAPI.Exec(Of String) <=
+ _
+                From line As String
+                In Strings.Split(WebForm.StripName(str), "<br>")
+                Let s = line.StripHTMLTags.StripBlank
+                Where Not String.IsNullOrEmpty(s)
+                Select s
+
         End Function
     End Class
 End Namespace
