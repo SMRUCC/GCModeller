@@ -3,6 +3,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway
@@ -140,14 +141,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <param name="BriefFile"></param>
         ''' <param name="DirectoryOrganized"></param>
         ''' <returns></returns>
-        Public Shared Function DownloadAll(EXPORT As String, Optional BriefFile As String = "", Optional DirectoryOrganized As Boolean = True) As Integer
+        Public Shared Function DownloadAll(EXPORT As String, Optional BriefFile As String = "", Optional DirectoryOrganized As Boolean = True, Optional [overrides] As Boolean = False) As Integer
             Dim BriefEntries As KEGG.DBGET.BriteHEntry.Pathway() =
                 If(String.IsNullOrEmpty(BriefFile),
                    KEGG.DBGET.BriteHEntry.Pathway.LoadFromResource,
                    KEGG.DBGET.BriteHEntry.Pathway.LoadData(BriefFile))
             Dim rtvl As Integer = Scan0
 
-            Using progress As New ProgressBar("Download KEGG pathway reference map data...")
+            Using progress As New ProgressBar("Download KEGG pathway reference map data...",, True)
                 Dim tick As New ProgressProvider(BriefEntries.Length)
 
                 Call tick.StepProgress()
@@ -160,10 +161,20 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                     Dim PngFile As String = $"{SaveToDir}/map{EntryId}.png"
 
                     If XmlFile.FileLength > 0 AndAlso PngFile.FileLength > 0 Then
-                        GoTo EXIT_LOOP
+                        If Not [overrides] Then
+                            GoTo EXIT_LOOP
+                        End If
                     End If
 
-                    Dim Pathway As PathwayMap = Download(Entry)
+                    Dim Pathway As PathwayMap = Nothing
+
+                    Try
+                        Pathway = Download(Entry)
+                    Catch ex As Exception
+                        ex = New Exception(Entry.GetJson, ex)
+                        Call App.LogException(ex)
+                        Call ex.PrintException
+                    End Try
 
                     If Pathway Is Nothing Then
                         Call App.LogException($"{Entry.ToString} is not exists in the kegg!")
