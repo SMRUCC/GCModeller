@@ -91,15 +91,16 @@ C    00480  Glutathione metabolism
 B  Glycan biosynthesis and metabolism
 C    00510  N-Glycan biosynthesis
 C    00513  Various types of N-glycan biosynthesis
-C    00512  Mucin type O-Glycan biosynthesis
+C    00512  Mucin type O-glycan biosynthesis
+C    00515  Mannose type O-glycan biosynthesis
 C    00514  Other types of O-glycan biosynthesis
 C    00532  Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate
 C    00534  Glycosaminoglycan biosynthesis - heparan sulfate / heparin
 C    00533  Glycosaminoglycan biosynthesis - keratan sulfate
 C    00531  Glycosaminoglycan degradation
-C    00563  Glycosylphosphatidylinositol(GPI)-anchor biosynthesis
+C    00563  Glycosylphosphatidylinositol (GPI)-anchor biosynthesis
 C    00601  Glycosphingolipid biosynthesis - lacto and neolacto series
-C    00603  Glycosphingolipid biosynthesis - globo series
+C    00603  Glycosphingolipid biosynthesis - globo and isoglobo series
 C    00604  Glycosphingolipid biosynthesis - ganglio series
 C    00540  Lipopolysaccharide biosynthesis
 C    00550  Peptidoglycan biosynthesis
@@ -159,7 +160,7 @@ C    00332  Carbapenem biosynthesis
 C    00261  Monobactam biosynthesis
 C    00331  Clavulanic acid biosynthesis
 C    00521  Streptomycin biosynthesis
-C    00524  Butirosin and neomycin biosynthesis
+C    00524  Neomycin, kanamycin and gentamicin biosynthesis
 C    00525  Acarbose and validamycin biosynthesis
 C    00231  Puromycin biosynthesis
 C    00401  Novobiocin biosynthesis
@@ -238,6 +239,7 @@ C    04014  Ras signaling pathway
 C    04015  Rap1 signaling pathway
 C    04010  MAPK signaling pathway
 C    04013  MAPK signaling pathway - fly
+C    04016  MAPK signaling pathway - plant
 C    04011  MAPK signaling pathway - yeast
 C    04012  ErbB signaling pathway
 C    04310  Wnt signaling pathway
@@ -276,8 +278,8 @@ C    04144  Endocytosis
 C    04145  Phagosome
 C    04142  Lysosome
 C    04146  Peroxisome
-C    04140  Regulation of autophagy
-C    04139  Regulation of mitophagy - yeast
+C    04140  Autophagy
+C    04139  Mitophagy - yeast
 B  Cell motility
 C    02030  Bacterial chemotaxis
 C    02040  Flagellar assembly
@@ -292,12 +294,17 @@ C    04210  Apoptosis
 C    04214  Apoptosis - fly
 C    04215  Apoptosis - multiple species
 C    04115  p53 signaling pathway
-B  Cellular community
+B  Cellular community - eukaryotes
 C    04510  Focal adhesion
 C    04520  Adherens junction
 C    04530  Tight junction
 C    04540  Gap junction
 C    04550  Signaling pathways regulating pluripotency of stem cells
+B  Cellular community - prokaryotes
+C    02024  Quorum sensing
+C    05111  Biofilm formation - Vibrio cholerae
+C    02025  Biofilm formation - Pseudomonas aeruginosa
+C    02026  Biofilm formation - Escherichia coli
 #
 A<b>Organismal Systems</b>
 B  Immune system
@@ -305,12 +312,15 @@ C    04640  Hematopoietic cell lineage
 C    04610  Complement and coagulation cascades
 C    04611  Platelet activation
 C    04620  Toll-like receptor signaling pathway
+C    04624  Toll and Imd signaling pathway
 C    04621  NOD-like receptor signaling pathway
 C    04622  RIG-I-like receptor signaling pathway
 C    04623  Cytosolic DNA-sensing pathway
 C    04650  Natural killer cell mediated cytotoxicity
 C    04612  Antigen processing and presentation
 C    04660  T cell receptor signaling pathway
+C    04658  Th1 and Th2 cell differentiation
+C    04659  Th17 cell differentiation
 C    04662  B cell receptor signaling pathway
 C    04664  Fc epsilon RI signaling pathway
 C    04666  Fc gamma R-mediated phagocytosis
@@ -411,6 +421,7 @@ C    05211  Renal cell carcinoma
 C    05219  Bladder cancer
 C    05215  Prostate cancer
 C    05213  Endometrial cancer
+C    05224  Breast cancer
 C    05222  Small cell lung cancer
 C    05223  Non-small cell lung cancer
 B  Immune diseases
@@ -448,7 +459,6 @@ C    04931  Insulin resistance
 C    04933  AGE-RAGE signaling pathway in diabetic complications
 B  Infectious diseases: Bacterial
 C    05110  Vibrio cholerae infection
-C    05111  Vibrio cholerae pathogenic cycle
 C    05120  Epithelial cell signaling in Helicobacter pylori infection
 C    05130  Pathogenic Escherichia coli infection
 C    05132  Salmonella infection
@@ -473,13 +483,15 @@ C    05145  Toxoplasmosis
 C    05140  Leishmaniasis
 C    05142  Chagas disease (American trypanosomiasis)
 C    05143  African trypanosomiasis
-B  Antimicrobial resistance
+B  Drug resistance: Antimicrobial
 C    01501  beta-Lactam resistance
 C    01502  Vancomycin resistance
 C    01503  Cationic antimicrobial peptide (CAMP) resistance
-B  Antineoplastic resistance
+B  Drug resistance: Antineoplastic
 C    01521  EGFR tyrosine kinase inhibitor resistance
 C    01524  Platinum drug resistance
+C    01523  Antifolate resistance
+C    01522  Endocrine resistance
 #
 A<b>Drug Development</b>
 B  Chronology: Antiinfectives
@@ -492,7 +504,7 @@ C    07020  Macrolides and ketolides
 C    07014  Quinolones
 C    07023  Rifamycins
 C    07026  Antifungal agents
-C    07044  Antivirals
+C    07044  Antiviral agents
 C    07053  Anti-HIV agents
 B  Chronology: Antineoplastics
 C    07040  Antineoplastics - alkylating agents
@@ -571,5 +583,5 @@ C    07117  Benzodiazepine family
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: July 11, 2016
+#Last updated: January 6, 2017
 #<br><br><a href="/kegg-bin/get_htext?jp08901.keg">&raquo; Japanese version</a>

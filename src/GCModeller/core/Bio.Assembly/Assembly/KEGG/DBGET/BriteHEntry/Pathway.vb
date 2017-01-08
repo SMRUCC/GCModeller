@@ -74,9 +74,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function LoadFromResource() As Pathway()
-            Dim TempFile As String = App.AppSystemTemp & "/KEGG_PATHWAYS.txt"
-            Call IO.File.WriteAllText(TempFile, My.Resources.br08901, encoding:=System.Text.Encoding.ASCII)
-            Return LoadData(TempFile)
+            Return LoadStream(My.Resources.br08901)
         End Function
 
         Public Shared Function LoadDictionary() As Dictionary(Of String, Pathway)
@@ -101,38 +99,49 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function LoadData(path As String) As Pathway()
-            Dim Chunkbuffer As String() = (From strLine As String In IO.File.ReadAllLines(path)
-                                           Where Not String.IsNullOrEmpty(strLine) AndAlso
-                                               (strLine.First = "A"c OrElse strLine.First = "B"c OrElse strLine.First = "C"c)
-                                           Select strLine).ToArray
-            Dim [Class] As String = "", Category As String = ""
-            Dim ItemList As New List(Of Pathway)
+            Return LoadStream(path.ReadAllText)
+        End Function
 
-            For i As Integer = 0 To Chunkbuffer.Length - 1
-                Dim strLine As String = Chunkbuffer(i)
-                Dim Id As Char = strLine.First
+        Public Shared Function LoadStream(text$) As Pathway()
+            Dim lines$() = LinqAPI.Exec(Of String) <=
+                From line As String
+                In text.lTokens
+                Where Not String.IsNullOrEmpty(line) AndAlso
+                    (line.First = "A"c OrElse
+                     line.First = "B"c OrElse
+                     line.First = "C"c)
+                Select line
 
-                strLine = Mid(strLine, 2).Trim
+            Dim [class] As String = "", category As String = ""
+            Dim out As New List(Of Pathway)
+
+            For Each line As String In lines
+                Dim Id As Char = line.First
+
+                line = Mid(line, 2).Trim
 
                 If Id = "A"c Then
-                    [Class] = BriteHText.NormalizePath(strLine.GetValue)
+                    [class] = BriteHText.NormalizePath(line.GetValue)
+
                 ElseIf Id = "B"c Then
-                    Category = BriteHText.NormalizePath(strLine)
+                    category = BriteHText.NormalizePath(line)
+
                 ElseIf Id = "C"c Then
-                    Dim IdNum As String = Regex.Match(strLine, "\d{5}").Value
-                    strLine = strLine.Replace(IdNum, "").Trim
-                    ItemList += New Pathway With {
-                        .Category = Category,
-                        .Class = [Class],
+                    Dim IdNum As String = Regex.Match(line, "\d{5}").Value
+
+                    line = line.Replace(IdNum, "").Trim
+                    out += New Pathway With {
+                        .Category = category,
+                        .Class = [class],
                         .Entry = New KeyValuePair With {
                             .Key = IdNum,
-                            .Value = strLine
+                            .Value = line
                         }
                     }
                 End If
             Next
 
-            Return ItemList.ToArray
+            Return out.ToArray
         End Function
 
         Public Shared Function CombineDIR(entry As Pathway, ParentDIR As String) As String

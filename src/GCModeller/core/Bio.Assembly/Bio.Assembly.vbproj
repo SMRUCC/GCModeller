@@ -276,8 +276,10 @@
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\htext.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModsBrite.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\LinkDB\GenericParser.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\Defines.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Ortholog.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\SShit.vb" />
