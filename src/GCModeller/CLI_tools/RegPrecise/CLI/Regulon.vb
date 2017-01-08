@@ -96,7 +96,7 @@ Partial Module CLI
                     Group x By x.Regulog.Key Into Group) _
                          .ToDictionary(Function(x) x.Key,
                                        Function(x) x.Group.ToArray)
-        result = result.OrderBy(Function(x) x.ID).ToList
+        result = New List(Of MotifLog)(result.OrderBy(Function(x) x.ID))
 #End If
         Return result.SaveTo(out)
     End Function

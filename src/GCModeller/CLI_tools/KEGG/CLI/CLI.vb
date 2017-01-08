@@ -165,6 +165,13 @@ Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/save <DIR>]")>
+    Public Function DownloadKEGGReaction(args As CommandLine) As Integer
+        Dim save$ = args.GetValue("/save", App.HOME & "/br08201/")
+        Call EnzymaticReaction.DownloadReactions(save).ToArray
+        Return 0
+    End Function
+
     <ExportAPI("/ko.index.sub.match", Usage:="/ko.index.sub.match /index <index.csv> /maps <maps.csv> /key <key> /map <mapTo> [/out <out.csv>]")>
     Public Function IndexSubMatch(args As CommandLine) As Integer
         Dim index As String = args("/index")

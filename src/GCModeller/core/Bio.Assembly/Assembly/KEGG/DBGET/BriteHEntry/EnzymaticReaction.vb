@@ -26,8 +26,10 @@
 
 #End Region
 
+Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Terminal
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
@@ -115,40 +117,46 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         ''' <summary>
-        ''' 
+        ''' 函数返回下载失败的列表
         ''' </summary>
         ''' <param name="EXPORT"></param>
         ''' <returns>返回成功下载的代谢途径的数目</returns>
         ''' <remarks></remarks>
-        Public Shared Function DownloadReactions(EXPORT$, Optional briefFile$ = "", Optional directoryOrganized As Boolean = True, Optional [overrides] As Boolean = False) As Integer
+        Public Shared Iterator Function DownloadReactions(EXPORT$, Optional briefFile$ = "", Optional directoryOrganized As Boolean = True, Optional [overrides] As Boolean = False) As IEnumerable(Of EnzymaticReaction)
             Dim defs As EnzymaticReaction() = If(
                 String.IsNullOrEmpty(briefFile),
                 LoadFromResource(),
                 LoadFile(briefFile))
 
-            For Each rn As EnzymaticReaction In defs
-                Dim rnId As String = rn.Entry.Key
-                Dim saveDIR As String = If(directoryOrganized, __getDIR(EXPORT, rn), EXPORT)
-                Dim xmlFile As String = String.Format("{0}/{1}.xml", saveDIR, rnId)
+            Using progress As New ProgressBar("Download KEGG Reactions...", cls:=True)
+                Dim tick As New ProgressProvider(defs.Length)
 
-                If xmlFile.FileLength > 0 Then
-                    If Not [overrides] Then
-                        Continue For
+                Call tick.StepProgress()
+
+                For Each rn As EnzymaticReaction In defs
+                    Dim rnId As String = rn.Entry.Key
+                    Dim saveDIR As String = If(directoryOrganized, __getDIR(EXPORT, rn), EXPORT)
+                    Dim xmlFile As String = String.Format("{0}/{1}.xml", saveDIR, rnId)
+
+                    If xmlFile.FileLength > 0 Then
+                        If Not [overrides] Then
+                            GoTo EXIT_LOOP
+                        End If
                     End If
-                End If
 
-                Dim rMod As bGetObject.Reaction = bGetObject.Reaction.Download(rnId)
+                    Dim rMod As bGetObject.Reaction = bGetObject.Reaction.Download(rnId)
 
-                If rMod Is Nothing Then
-                    Call $"[{rn.ToString}] is not exists in the kegg!".__DEBUG_ECHO
-                    Call FileIO.FileSystem.WriteAllText(App.HOME & "/DownloadsFailures.log", rn.ToString & vbCrLf, append:=True)
-                    Continue For
-                End If
-
-                Call rMod.GetXml.SaveTo(xmlFile)
-            Next
-
-            Return 0
+                    If rMod Is Nothing Then
+                        Yield rn
+                    Else
+                        Call rMod.GetXml.SaveTo(xmlFile)
+                        Call Thread.Sleep(1000)
+                    End If
+EXIT_LOOP:
+                    Dim ETA$ = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                    Call progress.SetProgress(tick.StepProgress, "ETA " & ETA)
+                Next
+            End Using
         End Function
 
         Private Shared Function __getDIR(outDIR As String, entry As EnzymaticReaction) As String

@@ -31,11 +31,6 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Module Program
 
     Public Function Main() As Integer
-
-        Dim enz = htext.br08201
-
-        Call EnzymaticReaction.DownloadReactions("./test/", [overrides]:=True)
-
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
 End Module
