@@ -80,8 +80,20 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             }
         End Function
 
+        ''' <summary>
+        ''' KEGG Orthology (KO)
+        ''' </summary>
+        ''' <returns></returns>
         Public Shared Function ko00001() As htext
             Return StreamParser(My.Resources.ko00001)
+        End Function
+
+        ''' <summary>
+        ''' Enzymatic Reactions
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared Function br08201() As htext
+            Return StreamParser(My.Resources.br08201)
         End Function
     End Class
 End Namespace
