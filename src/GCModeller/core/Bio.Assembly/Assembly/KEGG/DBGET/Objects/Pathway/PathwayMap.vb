@@ -1,5 +1,6 @@
 ﻿
 Imports System.Drawing
+Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Net.Http
@@ -184,6 +185,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                         Call DownloadPathwayMap("map", EntryId, SaveLocationDir:=SaveToDir)
                         Call Pathway.SetMapImage(LoadImage(PngFile))
                         Call Pathway.SaveAsXml(XmlFile)
+                        Call Thread.Sleep(10000)
                     End If
 EXIT_LOOP:
                     Dim ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
