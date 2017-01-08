@@ -163,8 +163,9 @@ EXIT_LOOP:
             Dim [class] As String = __trimInner(entry.Class)
             Dim cat As String = __trimInner(entry.Category)
             Dim subCat As String = __trimInner(entry.SubCategory)
+            Dim ec As String = __trimInner(entry.EC)
 
-            Return String.Join("/", outDIR, [class], cat, subCat)
+            Return String.Join("/", outDIR, [class], cat, subCat, ec)
         End Function
 
         Private Shared Function __trimInner(s As String) As String
