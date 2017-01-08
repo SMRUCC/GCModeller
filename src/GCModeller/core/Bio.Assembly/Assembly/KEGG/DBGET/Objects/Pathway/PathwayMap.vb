@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.LinkDB
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 
 Namespace Assembly.KEGG.DBGET.bGetObject
@@ -104,6 +105,33 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                                 .Value = cols(1).StripHTMLTags.StripBlank
                             }
                         End Function).ToArray
+
+#Region "All links"
+
+            With pathwayMap
+                .KEGGOrthology = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map" & entry.EntryId).LinkDbEntries.ToArray
+                '          ''' <summary>
+                '          ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map01100
+                '          ''' </summary>
+                '          ''' <returns></returns>
+                '          KEGGCompound As KeyValuePair()
+                '  ''' <summary>
+                '  ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map01100
+                '  ''' </summary>
+                '  ''' <returns></returns>
+                'KEGGGlycan As KeyValuePair()
+                '  ''' <summary>
+                '  ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map01100
+                '  ''' </summary>
+                '  ''' <returns></returns>
+                ' KEGGEnzyme As KeyValuePair()
+                '  ''' <summary>
+                '  ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map01100
+                '  ''' </summary>
+                '  ''' <returns></returns>
+                'KEGGReaction As KeyValuePair()
+            End With
+#End Region
 
             Return pathwayMap
         End Function
