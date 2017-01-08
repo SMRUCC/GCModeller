@@ -195,7 +195,13 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
                Usage:="/Pathways.Downloads.All [/out <outDIR>]")>
     Public Function DownloadsAllPathways(args As CommandLine) As Integer
         Dim outDIR As String = args.GetValue("/out", GCModeller.FileSystem.KEGG.GetPathways)
-        Return bGetObject.PathwayMap.DownloadAll(outDIR)
+
+        If bGetObject.PathwayMap.DownloadAll(outDIR) <> 0 Then
+            Call "Some maps file download failured, please check error logs for detail information...".Warning
+            Return -10
+        Else
+            Return 0
+        End If
     End Function
 
     <ExportAPI("/Dump.sp", Usage:="/Dump.sp [/res sp.html /out <out.csv>]")>
