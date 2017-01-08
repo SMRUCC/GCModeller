@@ -3,6 +3,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.LinkDB
@@ -132,36 +133,54 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return pathwayMap
         End Function
 
+        ''' <summary>
+        ''' 函数会返回失败的个数
+        ''' </summary>
+        ''' <param name="EXPORT"></param>
+        ''' <param name="BriefFile"></param>
+        ''' <param name="DirectoryOrganized"></param>
+        ''' <returns></returns>
         Public Shared Function DownloadAll(EXPORT As String, Optional BriefFile As String = "", Optional DirectoryOrganized As Boolean = True) As Integer
             Dim BriefEntries As KEGG.DBGET.BriteHEntry.Pathway() =
                 If(String.IsNullOrEmpty(BriefFile),
                    KEGG.DBGET.BriteHEntry.Pathway.LoadFromResource,
                    KEGG.DBGET.BriteHEntry.Pathway.LoadData(BriefFile))
+            Dim rtvl As Integer = Scan0
 
-            For Each Entry As KEGG.DBGET.BriteHEntry.Pathway In BriefEntries
-                Dim EntryId As String = Entry.Entry.Key
-                Dim SaveToDir As String = If(DirectoryOrganized, BriteHEntry.Pathway.CombineDIR(Entry, EXPORT), EXPORT)
+            Using progress As New ProgressBar("Download KEGG pathway reference map data...")
+                Dim tick As New ProgressProvider(BriefEntries.Length)
 
-                Dim XmlFile As String = $"{SaveToDir}/map{EntryId}.xml"
-                Dim PngFile As String = $"{SaveToDir}/map{EntryId}.png"
+                Call tick.StepProgress()
 
-                If XmlFile.FileLength > 0 AndAlso PngFile.FileLength > 0 Then
-                    Continue For
-                End If
+                For Each Entry As KEGG.DBGET.BriteHEntry.Pathway In BriefEntries
+                    Dim EntryId As String = Entry.Entry.Key
+                    Dim SaveToDir As String = If(DirectoryOrganized, BriteHEntry.Pathway.CombineDIR(Entry, EXPORT), EXPORT)
 
-                Dim Pathway As PathwayMap = Download(Entry)
+                    Dim XmlFile As String = $"{SaveToDir}/map{EntryId}.xml"
+                    Dim PngFile As String = $"{SaveToDir}/map{EntryId}.png"
 
-                If Pathway Is Nothing Then
-                    Call $"{Entry.ToString} is not exists in the kegg!".__DEBUG_ECHO
-                    Continue For
-                Else
-                    Call DownloadPathwayMap("map", EntryId, SaveLocationDir:=SaveToDir)
-                    Call Pathway.SetMapImage(LoadImage(PngFile))
-                    Call Pathway.SaveAsXml(XmlFile)
-                End If
-            Next
+                    If XmlFile.FileLength > 0 AndAlso PngFile.FileLength > 0 Then
+                        GoTo EXIT_LOOP
+                    End If
 
-            Return 0
+                    Dim Pathway As PathwayMap = Download(Entry)
+
+                    If Pathway Is Nothing Then
+                        Call App.LogException($"{Entry.ToString} is not exists in the kegg!")
+                        rtvl -= 1
+                        GoTo EXIT_LOOP
+                    Else
+                        Call DownloadPathwayMap("map", EntryId, SaveLocationDir:=SaveToDir)
+                        Call Pathway.SetMapImage(LoadImage(PngFile))
+                        Call Pathway.SaveAsXml(XmlFile)
+                    End If
+EXIT_LOOP:
+                    Dim ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                    Call progress.SetProgress(tick.StepProgress, "ETA " & ETA)
+                Next
+            End Using
+
+            Return rtvl
         End Function
     End Class
 End Namespace
