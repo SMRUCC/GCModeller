@@ -68,11 +68,24 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Throw New NotImplementedException()
         End Function
 
+        Public Sub SetMapImage(image As Image)
+            Dim base64$ = Base64Codec.ToBase64String(image)
+            Dim s As New List(Of String)
+
+            For i As Integer = 1 To base64.Length Step 120
+                s.Add(Mid(base64, i, 120))
+            Next
+
+            Map = s.JoinBy(vbCrLf)
+        End Sub
+
         Public Function GetMapImage() As Bitmap
             If String.IsNullOrEmpty(Map) Then
                 Return Nothing
             Else
-                Return Base64Codec.GetImage(Map)
+                Dim lines$() = Map.lTokens
+                Dim base64$ = String.Join("", lines)
+                Return Base64Codec.GetImage(base64)
             End If
         End Function
 
@@ -110,29 +123,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
             With pathwayMap
                 .KEGGOrthology = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+orthology+path:map" & entry.EntryId).LinkDbEntries.ToArray
-                '          ''' <summary>
-                '          ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map01100
-                '          ''' </summary>
-                '          ''' <returns></returns>
-                '          KEGGCompound As KeyValuePair()
-                '  ''' <summary>
-                '  ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map01100
-                '  ''' </summary>
-                '  ''' <returns></returns>
-                'KEGGGlycan As KeyValuePair()
-                '  ''' <summary>
-                '  ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map01100
-                '  ''' </summary>
-                '  ''' <returns></returns>
-                ' KEGGEnzyme As KeyValuePair()
-                '  ''' <summary>
-                '  ''' http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map01100
-                '  ''' </summary>
-                '  ''' <returns></returns>
-                'KEGGReaction As KeyValuePair()
+                .KEGGCompound = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+compound+path:map" & entry.EntryId).LinkDbEntries.ToArray
+                .KEGGGlycan = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+glycan+path:map" & entry.EntryId).LinkDbEntries.ToArray
+                .KEGGEnzyme = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+enzyme+path:map" & entry.EntryId).LinkDbEntries.ToArray
+                .KEGGReaction = ("http://www.genome.jp/dbget-bin/get_linkdb?-t+reaction+path:map" & entry.EntryId).LinkDbEntries.ToArray
             End With
 #End Region
-
             Return pathwayMap
         End Function
 
@@ -160,7 +156,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                     Continue For
                 Else
                     Call DownloadPathwayMap("map", EntryId, SaveLocationDir:=SaveToDir)
-                    Pathway.Map = Base64Codec.ToBase64String(LoadImage(PngFile))
+                    Call Pathway.SetMapImage(LoadImage(PngFile))
                     Call Pathway.SaveAsXml(XmlFile)
                 End If
             Next
