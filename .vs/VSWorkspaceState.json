@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
     "",
+    "\\src\\GCModeller\\annotations",
+    "\\src\\GCModeller\\annotations\\Proteomics",
     "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Architecture.Framework",
     "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Architecture.Framework\\Extensions",
     "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Architecture.Framework\\Extensions\\Math"
