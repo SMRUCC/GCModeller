@@ -196,6 +196,8 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     Public Function DownloadsAllPathways(args As CommandLine) As Integer
         Dim outDIR As String = args.GetValue("/out", App.HOME & "/br08901/")
 
+        WebServiceUtils.Proxy = "http://127.0.0.1:8087/"
+
         If bGetObject.PathwayMap.DownloadAll(outDIR) <> 0 Then
             Call "Some maps file download failured, please check error logs for detail information...".Warning
             Return -10

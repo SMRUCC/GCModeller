@@ -98,24 +98,49 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
             If WebForm.Count = 0 Then
                 Return Nothing
+            Else
+                Return __parserInternal(WebForm, entry)
             End If
+        End Function
 
+        ''' <summary>
+        ''' 测试用的函数
+        ''' </summary>
+        ''' <param name="entryId$"></param>
+        ''' <returns></returns>
+        Public Shared Function Download(entryId$) As PathwayMap
+            Dim url As String = "http://www.genome.jp/dbget-bin/www_bget?pathway:map" & entryId
+            Dim WebForm As New WebForm(url)
+            Dim entry As New BriteHEntry.Pathway With {
+                .Entry = New KeyValuePair With {
+                    .Key = entryId
+                }
+            }
+
+            If WebForm.Count = 0 Then
+                Return Nothing
+            Else
+                Return __parserInternal(WebForm, entry)
+            End If
+        End Function
+
+        Private Shared Function __parserInternal(webForm As WebForm, entry As BriteHEntry.Pathway) As PathwayMap
             Dim pathwayMap As New PathwayMap With {
                 .Brite = entry,
                 .EntryId = entry.EntryId,
-                .Name = WebForm.StripName(WebForm.GetValue("Name").FirstOrDefault).StripHTMLTags.StripBlank,
+                .Name = WebForm.StripName(webForm.GetValue("Name").FirstOrDefault).StripHTMLTags.StripBlank,
                 .Description = .Name
             }
 
-            pathwayMap.Disease = __parseHTML_ModuleList(WebForm.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease)
-            pathwayMap.Modules = Pathway.__parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module)
-            pathwayMap.KOpathway = WebForm.GetValue("KO pathway") _
+            pathwayMap.Disease = __parseHTML_ModuleList(webForm.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease)
+            pathwayMap.Modules = Pathway.__parseHTML_ModuleList(webForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module)
+            pathwayMap.KOpathway = webForm.GetValue("KO pathway") _
                 .FirstOrDefault _
                 .GetTablesHTML _
                 .LastOrDefault _
                 .GetRowsHTML _
                 .Select(Function(row$)
-                            Dim cols = row.GetColumnsHTML
+                            Dim cols As String() = row.GetColumnsHTML
                             Return New KeyValuePair With {
                                 .Key = cols(0).StripHTMLTags.StripBlank,
                                 .Value = cols(1).StripHTMLTags.StripBlank
