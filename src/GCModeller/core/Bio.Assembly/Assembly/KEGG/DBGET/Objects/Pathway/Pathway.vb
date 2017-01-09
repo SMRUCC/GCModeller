@@ -279,7 +279,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                     SplitRegex = PATHWAY_SPLIT
             End Select
 
-            Dim sbuf As String() = Regex.Matches(s_Value, SplitRegex).ToArray
+            Dim sbuf As String() = Regex.Matches(s_Value, SplitRegex).ToArray.Distinct.ToArray
             Dim ModuleList As New List(Of KeyValuePair)
 
             Select Case type
