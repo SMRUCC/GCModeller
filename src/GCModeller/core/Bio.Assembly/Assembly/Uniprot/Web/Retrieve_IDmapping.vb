@@ -6,7 +6,28 @@ Namespace Assembly.Uniprot.Web
 
     Public Module Retrieve_IDmapping
 
-        Public Function Mapping(uploadQuery As IEnumerable(Of String), from As IdTypes, [to] As IdTypes)
+        Const yes$ = NameOf(yes)
+        Const no$ = NameOf(no)
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="uploadQuery"></param>
+        ''' <param name="from"></param>
+        ''' <param name="[to]"></param>
+        ''' <param name="save$"></param>
+        ''' <param name="compress$">
+        ''' 假若这个参数为<see cref="yes"/>的话，下载的是一个``*.gz``格式的压缩文件
+        ''' </param>
+        ''' <param name="format"></param>
+        ''' <returns></returns>
+        Public Function Mapping(uploadQuery As IEnumerable(Of String),
+                                from As IdTypes,
+                                [to] As IdTypes,
+                                save$,
+                                Optional compress$ = yes,
+                                Optional format As Formats = Formats.xml) As Dictionary(Of String, String())
+
             Dim args As New NameValueCollection
 
             Call args.Add(NameOf(from), from.ToString)
@@ -16,6 +37,7 @@ Namespace Assembly.Uniprot.Web
             Dim url$ = "http://www.uniprot.org/uploadlists/"
             Dim html As String = url.PostRequest(args, "http://www.uniprot.org/uploadlists/",)
             Dim query$ = html.HTMLTitle.Split.First
+            Dim uid$ = query.Split(":"c).Last
 
             Call Thread.Sleep(1000)
 
@@ -26,11 +48,37 @@ Namespace Assembly.Uniprot.Web
             url = "http://www.uniprot.org/uniprot/?"
             url &= "query=" & query & "&"
             url &= "sort=" & query & "&"
-            query = query.Split(":"c).Last
-            url &= $"columns=yourlist({query}),isomap({query}),id,entry%20name,reviewed,protein%20names,genes,organism,length"
+            url &= $"columns=yourlist({uid}),isomap({uid}),id,entry%20name,reviewed,protein%20names,genes,organism,length"
             html = url.GET()
+            html = Strings.Split(html, "UniProtKB Results").Last
 
-            Throw New NotImplementedException
+            Dim out As New Dictionary(Of String, List(Of String))
+            Dim table = html.GetTablesHTML.FirstOrDefault
+            Dim rows = table.GetRowsHTML
+
+            For Each row As String In rows.Skip(2)
+                Dim columns$() = row.GetColumnsHTML
+                Dim queryId$ = columns(1)
+                Dim mapId$ = columns(3).GetValue
+
+                If Not out.ContainsKey(queryId) Then
+                    Call out.Add(queryId, New List(Of String))
+                End If
+
+                Call out(queryId).Add(mapId)
+            Next
+
+            url = $"http://www.uniprot.org/uniprot/?sort={query}&desc=&compress={compress}&query={query}&fil=&format={format}&force=yes"
+
+            Try
+                Call url.DownloadFile(save)
+            Catch ex As Exception
+                Call App.LogException(New Exception(url, ex))
+            End Try
+
+            Return out.ToDictionary(
+                Function(k) k.Key,
+                Function(v) v.Value.ToArray)
         End Function
     End Module
 
@@ -65,7 +113,7 @@ Namespace Assembly.Uniprot.Web
         xml
         ''' <summary>
         ''' Mapping Table
-        ''' </summary>
+        ''' </summary>         
         mappingTable
         ''' <summary>
         ''' RDF/XML

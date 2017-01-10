@@ -67,7 +67,9 @@ Module DEBUG_MAIN
         "UniRef90_I3ITW3",
         "UniRef90_A0A0U4TJT5",
         "UniRef90_M4ANX3",
-        "UniRef90_F1RCJ4"}, IdTypes.NF90, IdTypes.ACC)
+        "UniRef90_F1RCJ4"}, IdTypes.NF90, IdTypes.ACC, "x:\sadasdas.gz").GetJson.__DEBUG_ECHO
+
+        Pause()
 
         Dim dddasdad = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.htext.ko00001
 
