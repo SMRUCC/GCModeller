@@ -62,6 +62,8 @@ Module DEBUG_MAIN
 
     Sub Main()
 
+        Dim sdfdsfssdddd = SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML.Load("G:\GCModeller\GCModeller\test\uniprotExample-one_entry.xml")
+
         Call SMRUCC.genomics.Assembly.Uniprot.Web.Retrieve_IDmapping.Mapping({"UniRef90_A0A0F8AYY8",
 "UniRef90_A0A0F8APH3", "UniRef90_A0A1A8AV97",
         "UniRef90_I3ITW3",
