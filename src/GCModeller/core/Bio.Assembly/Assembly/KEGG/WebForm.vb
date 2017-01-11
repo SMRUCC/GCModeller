@@ -67,7 +67,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 Where Not String.IsNullOrEmpty(value)
                 Select value
 
-            Me._WebPageTitle = PageContent.HTMLtitle
+            Me._WebPageTitle = PageContent.HTMLTitle
             Me._url = Url
             Me._strData = New SortedDictionary(Of String, NamedValue(Of String)())
 

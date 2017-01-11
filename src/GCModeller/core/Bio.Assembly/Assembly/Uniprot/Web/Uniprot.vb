@@ -56,7 +56,8 @@ Namespace Assembly.Uniprot.Web
         Const UNIPROT_FASTA_DOWNLOAD_URL As String = "http://www.uniprot.org/uniprot/{0}.fasta"
 
         ''' <summary>
-        ''' Download a protein sequence fasta data from http://www.uniprot.org/ using a specific <paramref name="UniprotId"></paramref>. （从http://www.uniprot.org/网站之上下载一条蛋白质序列）
+        ''' Download a protein sequence fasta data from http://www.uniprot.org/ using a specific <paramref name="UniprotId"></paramref>. 
+        ''' （从http://www.uniprot.org/网站之上下载一条蛋白质序列）
         ''' </summary>
         ''' <param name="UniprotId">The uniprot id of a protein sequence.(蛋白质在Uniprot数据库之中的编号)</param>
         ''' <returns></returns>

@@ -37,6 +37,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -60,6 +61,17 @@ Module DEBUG_MAIN
     End Sub
 
     Sub Main()
+
+        Dim sdfdsfssdddd = SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML.Load("G:\GCModeller\GCModeller\test\uniprotExample-one_entry.xml")
+
+        Call SMRUCC.genomics.Assembly.Uniprot.Web.Retrieve_IDmapping.Mapping({"UniRef90_A0A0F8AYY8",
+"UniRef90_A0A0F8APH3", "UniRef90_A0A1A8AV97",
+        "UniRef90_I3ITW3",
+        "UniRef90_A0A0U4TJT5",
+        "UniRef90_M4ANX3",
+        "UniRef90_F1RCJ4"}, IdTypes.NF90, IdTypes.ACC, "x:\sadasdas.gz").GetJson.__DEBUG_ECHO
+
+        Pause()
 
         Dim dddasdad = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.htext.ko00001
 
