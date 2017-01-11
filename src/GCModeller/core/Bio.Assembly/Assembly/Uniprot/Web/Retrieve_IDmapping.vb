@@ -20,13 +20,12 @@ Namespace Assembly.Uniprot.Web
         ''' 假若这个参数为<see cref="yes"/>的话，下载的是一个``*.gz``格式的压缩文件
         ''' </param>
         ''' <param name="format"></param>
-        ''' <returns></returns>
-        Public Function Mapping(uploadQuery As IEnumerable(Of String),
-                                from As IdTypes,
-                                [to] As IdTypes,
-                                save$,
-                                Optional compress$ = yes,
-                                Optional format As Formats = Formats.xml) As Dictionary(Of String, String())
+        Public Sub Mapping(uploadQuery As IEnumerable(Of String),
+                           from As IdTypes,
+                           [to] As IdTypes,
+                           save$,
+                           Optional compress$ = yes,
+                           Optional format As Formats = Formats.xml)
 
             Dim args As New NameValueCollection
 
@@ -45,28 +44,37 @@ Namespace Assembly.Uniprot.Web
             ' query=yourlist:M20170110ACFE4208EAFA842A78A1B3BA7138A93D9543F8P
             ' sort=yourlist:M20170110ACFE4208EAFA842A78A1B3BA7138A93D9543F8P
             ' columns=yourlist(M20170110ACFE4208EAFA842A78A1B3BA7138A93D9543F8P),isomap(M20170110ACFE4208EAFA842A78A1B3BA7138A93D9543F8P),id,entry%20name,reviewed,protein%20names,genes,organism,length
-            url = "http://www.uniprot.org/uniprot/?"
-            url &= "query=" & query & "&"
-            url &= "sort=" & query & "&"
-            url &= $"columns=yourlist({uid}),isomap({uid}),id,entry%20name,reviewed,protein%20names,genes,organism,length"
-            html = url.GET()
-            html = Strings.Split(html, "UniProtKB Results").Last
+            'url = "http://www.uniprot.org/uniprot/?"
+            'url &= "query=" & query & "&"
+            'url &= "sort=" & query & "&"
+            'url &= $"columns=yourlist({uid}),isomap({uid}),id,entry%20name,reviewed,protein%20names,genes,organism,length"
+            'html = url.GET()
+            'html = Strings.Split(html, "UniProtKB Results").Last
 
-            Dim out As New Dictionary(Of String, List(Of String))
-            Dim table = html.GetTablesHTML.FirstOrDefault
-            Dim rows = table.GetRowsHTML
+            'Dim out As New Dictionary(Of String, List(Of String))
+            'Dim table = html.GetTablesHTML.FirstOrDefault
+            'Dim rows = table.GetRowsHTML
 
-            For Each row As String In rows.Skip(2)
-                Dim columns$() = row.GetColumnsHTML
-                Dim queryId$ = columns(1)
-                Dim mapId$ = columns(3).GetValue
+            'For Each row As String In rows.Skip(2)
+            '    Dim columns$() = row.GetColumnsHTML
+            '    Dim queryId$ = columns(1)
+            '    Dim mapId$ = columns(3).GetValue
 
-                If Not out.ContainsKey(queryId) Then
-                    Call out.Add(queryId, New List(Of String))
-                End If
+            '    If Not out.ContainsKey(queryId) Then
+            '        Call out.Add(queryId, New List(Of String))
+            '    End If
 
-                Call out(queryId).Add(mapId)
-            Next
+            '    Call out(queryId).Add(mapId)
+            'Next
+
+            ' http://www.uniprot.org/uniprot/?sort=yourlist:M20170111AAFB7E4D2F1D05654627429E83DA5CCEA02970F&desc=&compress=yes&query=yourlist:M20170111AAFB7E4D2F1D05654627429E83DA5CCEA02970F&fil=&format=tab&force=yes&columns=yourlist(M20170111AAFB7E4D2F1D05654627429E83DA5CCEA02970F),id
+            url = $"http://www.uniprot.org/uniprot/?sort={query}&desc=&compress=yes&query={query}&fil=&format=tab&force=yes&columns=yourlist({uid}),id"
+
+            Try
+                Call url.DownloadFile(save.TrimSuffix & "-mappingTable.tsv.gz")
+            Catch ex As Exception
+                Call App.LogException(New Exception(url, ex))
+            End Try
 
             url = $"http://www.uniprot.org/uniprot/?sort={query}&desc=&compress={compress}&query={query}&fil=&format={format}&force=yes"
 
@@ -75,11 +83,7 @@ Namespace Assembly.Uniprot.Web
             Catch ex As Exception
                 Call App.LogException(New Exception(url, ex))
             End Try
-
-            Return out.ToDictionary(
-                Function(k) k.Key,
-                Function(v) v.Value.ToArray)
-        End Function
+        End Sub
     End Module
 
     Public Enum Formats
