@@ -1,9 +1,21 @@
-﻿Imports SMRUCC.genomics.Analysis.Microarray.DEGDesigner
+﻿Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Analysis.Microarray.DEGDesigner
 
 Module Test
 
     Sub Main()
+
+        Dim A#() = {175, 168, 168, 190, 156, 181, 182, 175, 174, 179}
+        Dim b#() = {185, 169, 173, 173, 188, 186, 175, 174, 179, 180}
+
+        MsgBox(Microsoft.VisualBasic.Mathematical.Statistics.Ttest.Ttest(A, b).GetJson)
+
+        MsgBox(Microsoft.VisualBasic.Mathematical.Statistics.Ttest.Ttest({0R, 1.0R, 1.0R, 1.0R}, 1).GetJson)
+        MsgBox(Microsoft.VisualBasic.Mathematical.Statistics.Ttest.Ttest({0, 1, 1, 1}, {1, 2, 2, 2}, -1).Valid)
+
         ' Call GetProteinDefs("C:\Users\xieguigang\OneDrive\1.5\samples\proteinGroups_SK.csv")
+        Dim dd = Microsoft.VisualBasic.Mathematical.Statistics.Ttest.Tcdf(1, 1)
+        Call Microsoft.VisualBasic.Mathematical.Statistics.Ttest.Tcdf({-4.0R, -2.0R, 0R, 2.0R, 4.0R}, 5).GetJson.__DEBUG_ECHO
 
 
         Dim designer As Designer() = {
