@@ -29,6 +29,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -369,7 +370,7 @@ Partial Module CLI
         Dim isHit As Boolean = args.GetBoolean("/hit")
         Dim out As String = args.GetValue("/out", [in] & "-" & If(isHit, "hit_name", "query_name") & ".txt")
         Dim source As IEnumerable(Of BBHIndex) =
-            (ls - l - r - wildcards("*.csv") <= [in]).Select(AddressOf LoadCsv(Of BBHIndex)).IteratesALL
+            (ls - l - r - wildcards("*.csv") <= [in]).Select(AddressOf csv.Extensions.LoadCsv(Of BBHIndex)).IteratesALL
         Dim locus As String()
         Dim getName As Func(Of BBHIndex, String)
         Dim test As Func(Of BBHIndex, Boolean)
