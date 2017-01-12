@@ -398,7 +398,7 @@ Public Module WebServiceUtils
 
     <ExportAPI("POST", Info:="POST http request")>
     Public Function PostRequest(url As String, Optional params As IEnumerable(Of KeyValuePair(Of String, String)) = Nothing) As String
-        Return url.PostRequest(params.BuildReqparm)
+        Return url.POST(params.BuildReqparm)
     End Function
 
     <ExportAPI("POST", Info:="POST http request")>
@@ -422,12 +422,15 @@ Public Module WebServiceUtils
     ''' <param name="Referer$"></param>
     ''' <returns></returns>
     <ExportAPI("POST", Info:="POST http request")>
-    <Extension> Public Function PostRequest(url$, params As NameValueCollection, Optional Referer$ = "", Optional proxy$ = Nothing) As String
+    <Extension> Public Function POST(url$, params As NameValueCollection, Optional Referer$ = "", Optional proxy$ = Nothing) As String
         Using request As New WebClient
 
             Call request.Headers.Add("User-Agent", UserAgent.GoogleChrome)
             Call request.Headers.Add(NameOf(Referer), Referer)
 
+            If String.IsNullOrEmpty(proxy) Then
+                proxy = WebServiceUtils.Proxy
+            End If
             If Not String.IsNullOrEmpty(proxy) Then
                 Call request.SetProxy(proxy)
             End If
@@ -666,7 +669,8 @@ RETRY:      Return __get(url, headers, proxy, UA)
                                              <Parameter("Path.Save", "The saved location of the downloaded file data.")>
                                              save As String,
                                              Optional proxy As String = Nothing,
-                                             Optional ua As String = UserAgent.FireFox) As Boolean
+                                             Optional ua As String = UserAgent.FireFox,
+                                             Optional retry As Integer = 10) As Boolean
 #Else
     ''' <summary>
     ''' download the file from <paramref name="strUrl"></paramref> to <paramref name="SavedPath">local file</paramref>.
@@ -677,6 +681,7 @@ RETRY:      Return __get(url, headers, proxy, UA)
     ''' <remarks></remarks>
     <Extension> Public Function DownloadFile(strUrl As String, SavedPath As String) As Boolean
 #End If
+RE0:
         Try
             Using dwl As New WebClient()
                 If Not String.IsNullOrEmpty(proxy) Then
@@ -685,6 +690,7 @@ RETRY:      Return __get(url, headers, proxy, UA)
 
                 Call dwl.Headers.Add(UserAgent.UAheader, ua)
                 Call save.ParentPath.MkDIR
+                Call $"{strUrl} --> {save}".__DEBUG_ECHO
                 Call dwl.DownloadFile(strUrl, save)
             End Using
             Return True
@@ -695,6 +701,13 @@ RETRY:      Return __get(url, headers, proxy, UA)
                 New Exception(strUrl, ex),
                 trace)
             Call ex.PrintException
+
+            If retry > 0 Then
+                retry -= 1
+                GoTo RE0
+            Else
+
+            End If
 
             Return False
         Finally

@@ -107,14 +107,15 @@ Public Module DEGDesigner
                 .Where(Function(gene) Math.Abs(gene.logFC) >= 1) _
                 .ToArray
             Dim sample As String = file.ParentDirName
+            Dim up As Integer = DEGs.Where(Function(gene) gene.logFC >= 1).Count.ToString
+            Dim down As Integer = DEGs.Where(Function(gene) gene.logFC <= -1).Count.ToString
 
             samples += New gene With {
                 .Identifier = sample,
                 .Properties = New Dictionary(Of String, String) From {
-                    {"UP-logFC(1)", DEGs.Where(Function(gene) gene.logFC >= 1).Count.ToString},
-                    {"Down-logFC(-1)", DEGs.Where(Function(gene) gene.logFC <= -1).Count.ToString},
-                    {"UP-logFC(2)", DEGs.Where(Function(gene) gene.logFC >= 2).Count.ToString},
-                    {"Down-logFC(-2)", DEGs.Where(Function(gene) gene.logFC <= -2).Count.ToString}
+                    {"UP", up},
+                    {"Down", down},
+                    {"DEGs", up + down}
                 }
             }
         Next

@@ -35,7 +35,7 @@ Namespace Assembly.Uniprot.Web
             Call args.Add(NameOf(uploadQuery), uploadQuery.JoinBy(vbLf))
 
             Dim url$ = "http://www.uniprot.org/uploadlists/"
-            Dim html As String = url.PostRequest(args, "http://www.uniprot.org/uploadlists/",)
+            Dim html As String = url.POST(args, "http://www.uniprot.org/uploadlists/",)
             Dim query$ = html.HTMLTitle.Split.First
             Dim uid$ = query.Split(":"c).Last
 
@@ -95,6 +95,10 @@ Namespace Assembly.Uniprot.Web
                               Function(x) x.Select(
                               Function(row) row(1)).Distinct.ToArray)
             Return maps
+        End Function
+
+        Public Function GetMappingList(path$) As String()
+            Return MappingReader(path).Values.Unlist.Distinct.ToArray
         End Function
     End Module
 

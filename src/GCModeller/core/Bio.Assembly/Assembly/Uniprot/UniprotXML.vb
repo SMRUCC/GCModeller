@@ -38,6 +38,26 @@ Namespace Assembly.Uniprot.XML
         Public Property protein As protein
         <XmlElement("feature")>
         Public Property features As feature()
+        Public Property gene As gene
+        Public Property proteinExistence As value
+
+        <XmlElement("keyword")> Public Property keywords As value()
+        <XmlElement("comment")> Public Property comments As comment()
+            Get
+                Return CommentList.Values.ToVector
+            End Get
+            Set(value As comment())
+                If value Is Nothing Then
+                    _CommentList = New Dictionary(Of String, comment())
+                Else
+                    _CommentList = value _
+                        .OrderBy(Function(c) c.type) _
+                        .GroupBy(Function(c) c.type) _
+                        .ToDictionary(Function(t) t.Key,
+                                      Function(v) v.ToArray)
+                End If
+            End Set
+        End Property
 
         <XmlElement("dbReference")> Public Property dbReferences As dbReference()
             Get
@@ -58,7 +78,19 @@ Namespace Assembly.Uniprot.XML
         End Property
 
         <XmlIgnore>
+        Public ReadOnly Property CommentList As Dictionary(Of String, comment())
+        <XmlIgnore>
         Public ReadOnly Property Xrefs As Dictionary(Of String, dbReference())
+    End Class
+
+    Public Class comment
+        <XmlAttribute> Public Property type As String
+        <XmlAttribute> Public Property evidence As String
+        Public Property text As value
+    End Class
+
+    Public Class gene
+        Public Property name As value
     End Class
 
     Public Class protein
