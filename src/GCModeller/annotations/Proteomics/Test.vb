@@ -1,5 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Analysis.Microarray.DEGDesigner
+Imports SMRUCC.genomics.Analysis.Microarray
 
 Module Test
 
@@ -20,6 +20,7 @@ Module Test
         }
 
         Call SMRUCC.genomics.Analysis.Microarray.DEGDesigner.log2("C:\Users\xieguigang\OneDrive\1.5\samples\proteinGroups_GL.csv", designer, "LFQ.intensity.GL").Save("C:\Users\xieguigang\OneDrive\1.5\samples\proteinGroups_GL-DEG-log2.csv")
+        Call DEGDesigner.EdgeR_rawDesigner("C:\Users\xieguigang\OneDrive\1.5\samples\proteinGroups_GL.csv", designer, "LFQ.intensity.GL", "C:\Users\xieguigang\OneDrive\1.5\samples\proteinGroups_GL/")
 
         designer = {
             New Designer With {.Experiment = "24.C4", .Control = "24.A4", .GroupLabel = "5.log2(SK24.C/SK24.A)"},
@@ -37,7 +38,7 @@ Module Test
         }
 
         Call SMRUCC.genomics.Analysis.Microarray.DEGDesigner.log2("C:\Users\xieguigang\OneDrive\1.5\samples\proteinGroups_SK.csv", designer, "LFQ.intensity.SK").Save("C:\Users\xieguigang\OneDrive\1.5\samples\proteinGroups_SK-DEG-log2.csv")
-
+        Call DEGDesigner.EdgeR_rawDesigner("C:\Users\xieguigang\OneDrive\1.5\samples\proteinGroups_SK.csv", designer, "LFQ.intensity.SK", "C:\Users\xieguigang\OneDrive\1.5\samples\proteinGroups_SK/")
 
         Pause()
     End Sub
