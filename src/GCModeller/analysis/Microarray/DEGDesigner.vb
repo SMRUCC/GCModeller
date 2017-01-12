@@ -125,14 +125,15 @@ Public Module DEGDesigner
                              End Sub
 
             Call line.Add("ID")
-            Call line.AddRange(experiments)
             Call line.AddRange(controls)
+            Call line.AddRange(experiments)
             Call appendLine()
 
             For Each gene As gene In genes
                 Call line.Add(gene.Identifier)
-                Call line.AddRange(experiments.Select(Function(t) gene(t)))
+                ' EdgeR的实验的计算顺序是这样子的
                 Call line.AddRange(controls.Select(Function(t) gene(t)))
+                Call line.AddRange(experiments.Select(Function(t) gene(t)))
                 Call appendLine()
             Next
 
