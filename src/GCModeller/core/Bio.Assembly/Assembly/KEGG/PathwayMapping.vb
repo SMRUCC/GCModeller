@@ -91,6 +91,7 @@ Namespace Assembly.KEGG.WebServices
 
             Dim args As New NameValueCollection
 
+            Call $"Reconstruct Pathway for {list.lTokens.Length} genes...".__DEBUG_ECHO
             Call args.Add("org", "ko")
             Call args.Add("other_dbs", "")
             Call args.Add("unclassified", list)
@@ -104,7 +105,7 @@ Namespace Assembly.KEGG.WebServices
             Dim html = "http://www.kegg.jp/kegg-bin/color_pathway_object".POST(args, Referer:="http://www.kegg.jp/kegg/tool/map_pathway2.html")
 
             Const mapLinks$ = "href=""/kegg-bin/show_pathway\?.+?/ko\d+\.args"" target=""_map"""
-            Const imgLink$ = "src=""/tmp/mark_pathway.+?/ko\d+\.png"""
+            Const imgLink$ = "src=""/tmp/mark_pathway.+?/ko\d+.*?\.png"""
 
             Dim links$() = Regex.Matches(html, mapLinks, RegexICSng).ToArray(AddressOf href)
             Dim img$
@@ -120,6 +121,8 @@ Namespace Assembly.KEGG.WebServices
 
                 If Not path.FileLength > 5 Then
                     html = link.GET
+
+                    ' src="/tmp/mark_pathway148425218533695/ko01100_0.3533695.png"
                     img = Regex.Match(html, imgLink, RegexICSng).Value
                     img = "http://www.kegg.jp" & img.ImageSource
 

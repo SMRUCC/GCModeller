@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports protein = Microsoft.VisualBasic.Data.csv.DocumentStream.EntityObject
@@ -169,6 +170,53 @@ Public Module ProteinGroups
     End Function
 
     ''' <summary>
+    ''' 不筛选出DEGs，直接导出注释数据
+    ''' </summary>
+    ''' <param name="files"></param>
+    ''' <param name="idMapping$"></param>
+    ''' <param name="uniprotXML$"></param>
+    ''' <param name="idlistField$"></param>
+    ''' <param name="prefix$"></param>
+    ''' <param name="deli"></param>
+    <Extension>
+    Public Sub ApplyAnnotations(files As IEnumerable(Of String), idMapping$, uniprotXML$, idlistField$, Optional prefix$ = "", Optional deli As Char = ";"c)
+        Call files.__apply(False, idMapping, uniprotXML, idlistField, prefix, deli)
+    End Sub
+
+    <Extension>
+    Private Sub __apply(files As IEnumerable(Of String), DEGsMode As Boolean, idMapping$, uniprotXML$, idlistField$, Optional prefix$ = "", Optional deli As Char = ";"c)
+        Dim mappings As Dictionary(Of String, String()) = Retrieve_IDmapping.MappingReader(idMapping)
+        Dim uniprot As Dictionary(Of String, Uniprot.XML.entry) =
+            SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML _
+            .Load(uniprotXML) _
+            .entries _
+            .GroupBy(Function(x) x.accession) _
+            .ToDictionary(Function(x) x.Key,
+                          Function(x) x.First)
+        Dim edgeRfields$() = {"logFC", "logCPM", "F", "PValue"}
+        Dim suffix$ = If(DEGsMode, "-DEGs-annotations.csv", "-proteins-annotations.csv")
+        Dim __where As Func(Of protein, Boolean)
+
+        If DEGsMode Then
+            __where = Function(gene) Math.Abs(gene("logFC").ParseNumeric) >= 1
+        Else
+            __where = Nothing
+        End If
+
+        For Each file As String In files
+            Dim proteins = protein.LoadDataSet(file, uidMap:=idlistField)
+            Dim DEPs = proteins.GenerateAnnotations(
+                mappings, uniprot, edgeRfields,
+                where:=__where,
+                prefix:=prefix,
+                deli:=deli).ToArray
+            Dim out$ = file.ParentPath & "/" & file.ParentDirName & "-" & file.BaseName & suffix
+
+            Call DEPs.SaveDataSet(out,, "geneID")
+        Next
+    End Sub
+
+    ''' <summary>
     ''' 处理蛋白组数据的函数
     ''' </summary>
     ''' <param name="files">edgeR DEGs结果</param>
@@ -179,27 +227,7 @@ Public Module ProteinGroups
     ''' <param name="deli"></param>
     <Extension>
     Public Sub ApplyDEPsAnnotations(files As IEnumerable(Of String), idMapping$, uniprotXML$, idlistField$, Optional prefix$ = "", Optional deli As Char = ";"c)
-        Dim mappings As Dictionary(Of String, String()) = Retrieve_IDmapping.MappingReader(idMapping)
-        Dim uniprot As Dictionary(Of String, Uniprot.XML.entry) =
-            SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML _
-            .Load(uniprotXML) _
-            .entries _
-            .GroupBy(Function(x) x.accession) _
-            .ToDictionary(Function(x) x.Key,
-                          Function(x) x.First)
-        Dim edgeRfields$() = {"logFC", "logCPM", "F", "PValue"}
-
-        For Each file As String In files
-            Dim proteins = protein.LoadDataSet(file, uidMap:=idlistField)
-            Dim DEPs = proteins.GenerateAnnotations(
-                mappings, uniprot, edgeRfields,
-                where:=Function(gene) Math.Abs(gene("logFC").ParseNumeric) >= 1,
-                prefix:=prefix,
-                deli:=deli).ToArray
-            Dim out$ = file.ParentPath & "/" & file.ParentDirName & "-" & file.BaseName & "-annotations.csv"
-
-            Call DEPs.SaveDataSet(out,, "geneID")
-        Next
+        Call files.__apply(True, idMapping, uniprotXML, idlistField, prefix, deli)
     End Sub
 
     <Extension>
@@ -227,6 +255,14 @@ Public Module ProteinGroups
             Call file.LoadSample _
                 .GetKOlist(KO) _
                 .SaveTo(file.TrimSuffix & "-KO.txt")
+        Next
+    End Sub
+
+    Public Sub ExportColorDEGs(DIR$, Optional KO$ = "KO")
+        For Each file As String In ls - l - r - "*.csv" <= DIR
+            Call file.LoadSample _
+                .DEGsPathwayMap() _
+                .SaveTo(file.TrimSuffix & "-DEGs-KO.txt")
         Next
     End Sub
 End Module
