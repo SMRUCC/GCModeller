@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.Specialized
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
@@ -56,7 +57,10 @@ Namespace Assembly.KEGG.WebServices
 
                 Dim path$ = Pathway.CombineDIR(htext(id), work) & $"/map{id}.png"
 
-                Call img.DownloadFile(path)
+                If Not path.FileLength > 5 Then
+                    Call img.DownloadFile(path)
+                    Call Thread.Sleep(1000)
+                End If
             Next
         End Sub
     End Module

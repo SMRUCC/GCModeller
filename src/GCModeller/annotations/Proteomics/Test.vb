@@ -8,17 +8,24 @@ Module Test
 
     Sub Main()
 
-        WebServiceUtils.Proxy = "http://127.0.0.1:8087"
+        ' Call ExportKOList("C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\DEGs")
+
+        ' Pause()
+
+        'WebServiceUtils.Proxy = "http://127.0.0.1:8087"
 
         Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.Reconstruct(
-            "G:\GCModeller\GCModeller\test\KEGGMapper\proteinGroups_GL-KO_KEGG-mapper-Test.txt",, "G:\GCModeller\GCModeller\test\KEGGMapper")
+             "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL-KO.txt",, "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL-KO/")
+
+        Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.Reconstruct(
+            "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK-KO.txt",, "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK-KO/")
 
         Pause()
 
-        Call "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.csv".LoadSample.GetKOlist.SaveTo("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL-KO.txt")
-        Call "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.csv".LoadSample.GetKOlist.SaveTo("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK-KO.txt")
+        'Call "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.csv".LoadSample.GetKOlist.SaveTo("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL-KO.txt")
+        'Call "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.csv".LoadSample.GetKOlist.SaveTo("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK-KO.txt")
 
-        Pause()
+        'Pause()
 
 
         'Call Retrieve_IDmapping.GetMappingList("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml-mappingTable.tsv").SaveTo("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.uniprot_list.txt")

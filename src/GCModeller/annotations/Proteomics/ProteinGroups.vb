@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
@@ -195,7 +196,7 @@ Public Module ProteinGroups
                 where:=Function(gene) Math.Abs(gene("logFC").ParseNumeric) >= 1,
                 prefix:=prefix,
                 deli:=deli).ToArray
-            Dim out$ = file.TrimSuffix & "-annotations.csv"
+            Dim out$ = file.ParentPath & "/" & file.ParentDirName & "-" & file.BaseName & "-annotations.csv"
 
             Call DEPs.SaveDataSet(out,, "geneID")
         Next
@@ -220,4 +221,12 @@ Public Module ProteinGroups
             .ToArray
         Return list
     End Function
+
+    Public Sub ExportKOList(DIR$, Optional KO$ = "KO")
+        For Each file As String In ls - l - r - "*.csv" <= DIR
+            Call file.LoadSample _
+                .GetKOlist(KO) _
+                .SaveTo(file.TrimSuffix & "-KO.txt")
+        Next
+    End Sub
 End Module
