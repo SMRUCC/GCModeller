@@ -29,4 +29,14 @@ Public Module KOBAS
 
         Return tmp
     End Function
+
+    Public Sub SplitData(path$)
+        Dim lines = path.ReadAllLines
+        Dim blocks = lines.Split("[-]+", regex:=True).ToArray
+        Dim KEGG = blocks(1)
+        Dim GO = blocks(7)
+
+        Call KEGG.SaveTo(path.TrimSuffix & "-KEGG.tsv")
+        Call GO.SaveTo(path.TrimSuffix & "-GO.tsv")
+    End Sub
 End Module
