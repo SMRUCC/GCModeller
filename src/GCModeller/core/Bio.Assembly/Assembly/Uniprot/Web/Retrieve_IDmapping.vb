@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.Specialized
 Imports System.Threading
+Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Assembly.Uniprot.Web
@@ -84,6 +85,17 @@ Namespace Assembly.Uniprot.Web
                 Call App.LogException(New Exception(url, ex))
             End Try
         End Sub
+
+        Public Function MappingReader(path$) As Dictionary(Of String, String())
+            Dim lines = path.ReadAllLines.Skip(1)
+            Dim maps As Dictionary(Of String, String()) = lines _
+                .Select(Function(l) l.Split(ASCII.TAB)) _
+                .GroupBy(Function(x) x(0)) _
+                .ToDictionary(Function(x) x.Key,
+                              Function(x) x.Select(
+                              Function(row) row(1)).Distinct.ToArray)
+            Return maps
+        End Function
     End Module
 
     Public Enum Formats

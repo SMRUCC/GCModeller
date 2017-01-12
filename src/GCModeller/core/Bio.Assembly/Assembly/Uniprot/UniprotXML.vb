@@ -1,4 +1,6 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml
 
@@ -24,15 +26,18 @@ Namespace Assembly.Uniprot.XML
         End Function
     End Class
 
-    Public Class entry
+    Public Class entry : Implements INamedValue
 
         <XmlAttribute> Public Property dataset As String
         <XmlAttribute> Public Property created As String
         <XmlAttribute> Public Property modified As String
         <XmlAttribute> Public Property version As String
 
-        Public Property accession As String
+        Public Property accession As String Implements INamedValue.Key
         Public Property name As String
+        Public Property protein As protein
+        <XmlElement("feature")>
+        Public Property features As feature()
 
         <XmlElement("dbReference")> Public Property dbReferences As dbReference()
             Get
@@ -51,9 +56,36 @@ Namespace Assembly.Uniprot.XML
         Public ReadOnly Property Xrefs As Dictionary(Of String, dbReference())
     End Class
 
+    Public Class protein
+        Public Property recommendedName As recommendedName
+    End Class
+
+    Public Class feature
+        <XmlAttribute> Public Property type As String
+        <XmlAttribute> Public Property evidence As String
+        <XmlAttribute> Public Property description As String
+        <XmlText> Public Property value As String
+        Public Property location As location
+    End Class
+
+    Public Class location
+        Public Property begin As position
+        Public Property [end] As position
+    End Class
+
+    Public Class position
+        Public Property position As String
+    End Class
+
+    Public Class recommendedName
+        Public Property fullName As value
+        Public Property ecNumber As value
+    End Class
+
     Public Class value
         <XmlAttribute> Public Property type As String
         <XmlAttribute> Public Property evidence As String
+        <XmlAttribute> Public Property description As String
         <XmlText> Public Property value As String
     End Class
 
