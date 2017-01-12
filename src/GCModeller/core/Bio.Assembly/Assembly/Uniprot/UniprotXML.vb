@@ -44,6 +44,11 @@ Namespace Assembly.Uniprot.XML
                 Return Xrefs.Values.ToVector
             End Get
             Set(value As dbReference())
+                If value Is Nothing Then
+                    _Xrefs = New Dictionary(Of String, dbReference())
+                    Return
+                End If
+
                 _Xrefs = value _
                     .OrderBy(Function(ref) ref.type) _
                     .GroupBy(Function(ref) ref.type) _
