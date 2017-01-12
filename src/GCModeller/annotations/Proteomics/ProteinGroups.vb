@@ -39,38 +39,34 @@ Public Module ProteinGroups
         For Each Idtags As SeqValue(Of String) In ID.SeqIterator
             Dim list$() = (+Idtags).Split(deli)
             Dim mappsId$() = list _
+                .Where(Function(ref) mappings.ContainsKey(ref)) _
                 .Select(Function(ref) mappings(ref)) _
                 .Unlist _
                 .Distinct _
                 .ToArray
             Dim uniprots As Uniprot.XML.entry() = mappsId _
+                .Where(Function(acc) uniprot.ContainsKey(acc)) _
                 .Select(Function(acc) uniprot(acc)) _
                 .ToArray
             Dim annotations As New Dictionary(Of String, String)
             Dim names = uniprots _
                 .Select(Function(prot) prot.protein) _
                 .Where(Function(x) Not x Is Nothing AndAlso Not x.recommendedName Is Nothing) _
-                .Select(Function(x) x.recommendedName.fullName) _
+                .Select(Function(x) x.recommendedName.fullName.value) _
                 .Distinct _
                 .ToArray
-            Dim GO As String() = uniprots _
-                .Select(Function(x) x.Xrefs("GO")) _
-                .Unlist _
-                .Select(Function(x) x.id) _
-                .Distinct _
-                .ToArray
-            Dim EC As String() = uniprots _
-                .Select(Function(x) x.Xrefs("EC")) _
-                .Unlist _
-                .Select(Function(x) x.id) _
-                .Distinct _
-                .ToArray
-            Dim KO As String() = uniprots _
-                .Select(Function(x) x.Xrefs("KO")) _
-                .Unlist _
-                .Select(Function(x) x.id) _
-                .Distinct _
-                .ToArray
+            Dim getKeyValue = Function(key$)
+                                  Return uniprots _
+                                    .Where(Function(x) x.Xrefs.ContainsKey(key)) _
+                                    .Select(Function(x) x.Xrefs(key)) _
+                                    .Unlist _
+                                    .Select(Function(x) x.id) _
+                                    .Distinct _
+                                    .ToArray
+                              End Function
+            Dim GO As String() = getKeyValue("GO")
+            Dim EC As String() = getKeyValue("EC")
+            Dim KO As String() = getKeyValue("KO")
 
             Call annotations.Add("name", names.JoinBy("; "))
             Call annotations.Add("GO", GO.JoinBy("; "))
