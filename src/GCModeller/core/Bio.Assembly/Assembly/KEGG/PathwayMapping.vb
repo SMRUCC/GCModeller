@@ -38,18 +38,17 @@ Namespace Assembly.KEGG.WebServices
             Call args.Add("unclassified", list)
 
             Dim htext = Pathway.LoadFromResource.ToDictionary(Function(x) x.EntryId)
-            Dim html$ '= "http://www.genome.jp/kegg-bin/find_pathway_object".POST(args, "http://www.genome.jp/kegg/tool/map_pathway.html")
+            Dim html$ = "http://www.genome.jp/kegg-bin/find_pathway_object".POST(args, "http://www.genome.jp/kegg/tool/map_pathway.html")
 
-            '   Const mapLink$ = "<a href=""/kegg-bin/show_pathway[^""]+"" target=""_map"">"
+            Const mapLink$ = "<a href=""/kegg-bin/show_pathway[^""]+"" target=""_map"">"
 
-            Dim links$() = {1} ' Regex.Matches(html, mapLink, RegexICSng).ToArray
+            Dim links$() = Regex.Matches(html, mapLink, RegexICSng).ToArray
             Dim img$
             Dim id$
 
             For Each link$ In links
 
-                html = "G:\GCModeller\GCModeller\test\KEGGMapper\getMap.html".GET
-                ' html = ("http://www.genome.jp" & link.href).GET
+                html = ("http://www.genome.jp" & link.href).GET
                 img = Regex.Match(html, "src=""[^""]+map.+?\.png""", RegexICSng).Value
                 img = "http://www.genome.jp" & img.ImageSource
                 id = Regex.Match(img, "map\d+", RegexICSng).Value
