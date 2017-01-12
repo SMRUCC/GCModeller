@@ -36,6 +36,9 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports System.Runtime.CompilerServices
 
 Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
 
@@ -242,6 +245,30 @@ both of these relationships hold
                           Let result As SSDB.OrthologREST = xml.LoadXml(Of SSDB.OrthologREST)
                           Select SSDB.Ortholog.CreateObjects(result)).ToVector
             Return LQuery
+        End Function
+
+        <Extension>
+        Public Function CutSequence(loci As Location, org$, Optional vector$ = "1") As FastaToken
+            With loci.Normalization
+                Dim url$ = $"http://www.genome.jp/dbget-bin/cut_sequence_genes.pl?FROM={ .Left}&TO={ .Right}&VECTOR={vector}&ORG={org}"
+                Dim html$ = url.GET
+                Dim seq$
+
+                seq = Regex.Match(html, "<PRE>.+</PRE>", RegexICSng).Value
+                seq = seq _
+                    .StripHTMLTags _
+                    .StripBlank _
+                    .lTokens _
+                    .Skip(1) _
+                    .JoinBy("")
+
+                Return New FastaToken With {
+                    .Attributes = {
+                        url
+                    },
+                    .SequenceData = seq
+                }
+            End With
         End Function
     End Module
 End Namespace

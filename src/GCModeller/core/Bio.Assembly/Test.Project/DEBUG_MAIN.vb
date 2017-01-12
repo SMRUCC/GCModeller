@@ -62,14 +62,21 @@ Module DEBUG_MAIN
 
     Sub Main()
 
+
+        Dim faaaaa = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.CutSequence(New Location(1434741, 1435203), "xcb")
+
+        Call faaaaa.Save("G:\GCModeller\GCModeller\test\XC_1184 (-100).fasta")
+
+
+        Pause()
         Dim sdfdsfssdddd = SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML.Load("G:\GCModeller\GCModeller\test\uniprotExample-one_entry.xml")
 
-        Call SMRUCC.genomics.Assembly.Uniprot.Web.Retrieve_IDmapping.Mapping({"UniRef90_A0A0F8AYY8",
-"UniRef90_A0A0F8APH3", "UniRef90_A0A1A8AV97",
-        "UniRef90_I3ITW3",
-        "UniRef90_A0A0U4TJT5",
-        "UniRef90_M4ANX3",
-        "UniRef90_F1RCJ4"}, IdTypes.NF90, IdTypes.ACC, "x:\sadasdas.gz").GetJson.__DEBUG_ECHO
+        '        Call SMRUCC.genomics.Assembly.Uniprot.Web.Retrieve_IDmapping.Mapping({"UniRef90_A0A0F8AYY8",
+        '"UniRef90_A0A0F8APH3", "UniRef90_A0A1A8AV97",
+        '        "UniRef90_I3ITW3",
+        '        "UniRef90_A0A0U4TJT5",
+        '        "UniRef90_M4ANX3",
+        '        "UniRef90_F1RCJ4"}, IdTypes.NF90, IdTypes.ACC, "x:\sadasdas.gz").GetJson.__DEBUG_ECHO
 
         Pause()
 
