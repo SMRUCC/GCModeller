@@ -57,7 +57,7 @@ Namespace Assembly.KEGG.WebServices
                 Dim path$ = Pathway.CombineDIR(htext(id), work) & $"/map{id}.png"
 
                 If Not path.FileLength > 5 Then
-                    html = ("http://www.genome.jp" & link.href).GET
+                    html = ("http://www.genome.jp" & link).GET
                     img = Regex.Match(html, "src=""[^""]+map.+?\.png""", RegexICSng).Value
                     img = "http://www.genome.jp" & img.ImageSource
 
