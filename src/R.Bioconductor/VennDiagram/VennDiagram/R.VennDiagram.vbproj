@@ -46,10 +46,11 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\GCModeller\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>venn.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -180,12 +181,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|AnyCPU'">
     <OutputPath>bin\Release2\</OutputPath>
+    <DocumentationFile>venn.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|x64'">
     <OutputPath>bin\x64\Release2\</OutputPath>
+    <DocumentationFile>venn.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|x86'">
     <OutputPath>bin\x86\Release2\</OutputPath>
+    <DocumentationFile>venn.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

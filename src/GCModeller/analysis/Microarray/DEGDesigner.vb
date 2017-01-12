@@ -1,7 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting
@@ -58,6 +61,63 @@ Public Module DEGDesigner
 
             Yield gene
         Next
+    End Function
+
+    Public Function MergeMatrix(DIR$, name$) As gene()
+        Dim samples As New Dictionary(Of String, gene())
+
+        For Each file As String In (ls - l - r - name <= DIR).Distinct
+            Dim DEGs = gene.LoadDataSet(file).ToArray
+            Dim sample As String = file.ParentDirName
+            ' .Where(Function(gene) Math.Abs(gene("logFC").ParseNumeric) >= 1) 
+            Call samples.Add(sample, DEGs)
+        Next
+
+        Dim genes = samples _
+            .Select(Function(x) x.Value.Select(Function(g) New NamedValue(Of gene)(x.Key, g))) _
+            .Unlist _
+            .GroupBy(Function(gene) gene.Value.Identifier) _
+            .ToDictionary(Function(id) id.Key,
+                          Function(g) g.ToArray)
+        Dim out As New List(Of gene)
+
+        For Each gene As KeyValuePair(Of String, NamedValue(Of gene)()) In genes
+            out += New gene With {
+                .Identifier = gene.Key,
+                .Properties = gene.Value _
+                .ToDictionary(Function(sample) sample.Name,
+                              Function(logFC) logFC.Value(NameOf(logFC)))}
+        Next
+
+        Return out.ToArray
+    End Function
+
+    ''' <summary>
+    ''' 返回DEGs数量的矩阵
+    ''' </summary>
+    ''' <param name="DIR$"></param>
+    ''' <param name="name$"></param>
+    ''' <returns></returns>
+    Public Function DEGsStatMatrix(DIR$, name$) As gene()
+        Dim samples As New List(Of gene)
+
+        For Each file As String In (ls - l - r - name <= DIR).Distinct
+            Dim DEGs = gene.LoadDataSet(file) _
+                .Select(Function(gene) (logFC:=gene("logFC").ParseNumeric, gene)) _
+                .Where(Function(gene) Math.Abs(gene.logFC) >= 1) _
+                .ToArray
+            Dim sample As String = file.ParentDirName
+
+            samples += New gene With {
+                .Identifier = sample,
+                .Properties = New Dictionary(Of String, String) From {
+                    {"logFC >= 1", DEGs.Where(Function(gene) gene.logFC >= 1).Count.ToString},
+                    {"logFC <= -1", DEGs.Where(Function(gene) gene.logFC <= -1).Count.ToString}
+                }
+            }
+        Next
+
+        Return samples
     End Function
 
     Public Structure Designer
