@@ -8,17 +8,24 @@ Module Test
 
     Sub Main()
 
+        For Each file In ls - l - r - "*.txt" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\KOBAS"
+            Call KOBAS.SplitData(file)
+        Next
+
+
+        Pause()
+
         '        Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.ColorPathway("K01803 red,blue
         'C00118 pink")
         ' WebServiceUtils.Proxy = "http://127.0.0.1:8087"
 
         '  Call ExportColorDEGs("C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\DEGs")
 
-        For Each file As String In ls - l - r - "*.txt" <= "G:\DEGs"
-            Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.ColorPathway(file, work:=file.TrimSuffix)
-        Next
+        'For Each file As String In ls - l - r - "*.txt" <= "G:\DEGs"
+        '    Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.ColorPathway(file, work:=file.TrimSuffix)
+        'Next
 
-        Pause()
+        'Pause()
 
         'WebServiceUtils.Proxy = "http://127.0.0.1:8087"
 
@@ -44,13 +51,19 @@ Module Test
         '   Call DEGsStatMatrix("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL", "qlfTable.csv").SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL.logFC-overviews.csv",, "geneID")
         '  Call DEGsStatMatrix("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK", "qlfTable.csv").SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK.logFC-overviews.csv",, "geneID")
 
-        'Call (ls - l - r - "qlfTable.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL").ApplyDEPsAnnotations(
-        '    "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml-mappingTable.tsv",
-        '    "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml", "genes", "GL")
+        Dim uniprotDEGs As String() = Nothing
 
-        'Call (ls - l - r - "qlfTable.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK").ApplyDEPsAnnotations(
-        '    "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml-mappingTable.tsv",
-        '    "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml", "genes", "SK")
+        Call (ls - l - r - "qlfTable.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL").ApplyDEPsAnnotations(
+            "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml-mappingTable.tsv",
+            "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml", "genes", "GL", geneList:=uniprotDEGs)
+
+        Call uniprotDEGs.SaveTo("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL-uniprot.txt")
+
+        Call (ls - l - r - "qlfTable.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK").ApplyDEPsAnnotations(
+            "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml-mappingTable.tsv",
+            "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml", "genes", "SK", geneList:=uniprotDEGs)
+
+        Call uniprotDEGs.SaveTo("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK-uniprot.txt")
 
         'Call (ls - l - r - "qlfTable.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL").ApplyAnnotations(
         '    "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml-mappingTable.tsv",
@@ -65,12 +78,12 @@ Module Test
 
         Call "C:\Users\xieguigang\OneDrive\1.5\samples\1. samples\proteinGroups_GL.csv".LoadSample.Select(Function(x) x.Identifier) _
             .GenerateAnnotations("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml-mappingTable.tsv",
-                                 "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml", prefix:="GL").ToArray _
+                                 "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml", prefix:="GL").Select(Function(x) x.Item1).ToArray _
                                  .SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.csv",, "geneID")
 
         Call "C:\Users\xieguigang\OneDrive\1.5\samples\1. samples\proteinGroups_SK.csv".LoadSample.Select(Function(x) x.Identifier) _
             .GenerateAnnotations("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml-mappingTable.tsv",
-                                 "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml", prefix:="SK").ToArray _
+                                 "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml", prefix:="SK").Select(Function(x) x.Item1).ToArray _
                                  .SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.csv",, "geneID")
 
 
