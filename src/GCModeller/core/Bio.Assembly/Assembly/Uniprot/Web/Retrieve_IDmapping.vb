@@ -35,7 +35,7 @@ Namespace Assembly.Uniprot.Web
             Call args.Add(NameOf(uploadQuery), uploadQuery.JoinBy(vbLf))
 
             Dim url$ = "http://www.uniprot.org/uploadlists/"
-            Dim html As String = url.PostRequest(args, "http://www.uniprot.org/uploadlists/",)
+            Dim html As String = url.POST(args, "http://www.uniprot.org/uploadlists/",)
             Dim query$ = html.HTMLTitle.Split.First
             Dim uid$ = query.Split(":"c).Last
 

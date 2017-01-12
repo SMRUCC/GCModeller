@@ -8,7 +8,10 @@ Module Test
 
     Sub Main()
 
-        Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.Reconstruct("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL-KO.txt")
+        WebServiceUtils.Proxy = "http://127.0.0.1:8087"
+
+        Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.Reconstruct(
+            "G:\GCModeller\GCModeller\test\proteinGroups_GL-KO_KEGG-mapper-Test.txt",, "G:\GCModeller\GCModeller\test\KEGGMapper")
 
         Pause()
 
