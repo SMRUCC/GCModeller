@@ -12,7 +12,7 @@ Module Test
 
         ' Pause()
 
-        'WebServiceUtils.Proxy = "http://127.0.0.1:8087"
+        WebServiceUtils.Proxy = "http://127.0.0.1:8087"
 
         Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.Reconstruct(
              "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL-KO.txt",, "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL-KO/")

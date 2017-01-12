@@ -34,6 +34,7 @@ Namespace Assembly.KEGG.WebServices
 
             Dim args As New NameValueCollection
 
+            Call $"Reconstruct Pathway for {list.lTokens.Length} genes...".__DEBUG_ECHO
             Call args.Add(NameOf(globalmap), If(globalmap, yes, no))
             Call args.Add("submit", "Exec")
             Call args.Add("unclassified", list)
@@ -49,15 +50,17 @@ Namespace Assembly.KEGG.WebServices
 
             For Each link$ In links
 
-                html = ("http://www.genome.jp" & link.href).GET
-                img = Regex.Match(html, "src=""[^""]+map.+?\.png""", RegexICSng).Value
-                img = "http://www.genome.jp" & img.ImageSource
-                id = Regex.Match(img, "map\d+", RegexICSng).Value
+                link = link.href
+                id = Regex.Match(link, "map\d+", RegexICSng).Value
                 id = Regex.Match(id, "\d+").Value
 
                 Dim path$ = Pathway.CombineDIR(htext(id), work) & $"/map{id}.png"
 
                 If Not path.FileLength > 5 Then
+                    html = ("http://www.genome.jp" & link.href).GET
+                    img = Regex.Match(html, "src=""[^""]+map.+?\.png""", RegexICSng).Value
+                    img = "http://www.genome.jp" & img.ImageSource
+
                     Call img.DownloadFile(path)
                     Call Thread.Sleep(1000)
                 End If
