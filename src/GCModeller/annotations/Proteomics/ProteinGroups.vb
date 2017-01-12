@@ -39,6 +39,7 @@ Public Module ProteinGroups
         For Each Idtags As SeqValue(Of String) In ID.SeqIterator
             Dim list$() = (+Idtags).Split(deli)
             Dim mappsId$() = list _
+                .Select(Function(s) UCase(s)) _
                 .Where(Function(ref) mappings.ContainsKey(ref)) _
                 .Select(Function(ref) mappings(ref)) _
                 .Unlist _

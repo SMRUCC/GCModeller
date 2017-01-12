@@ -6,11 +6,18 @@ Module Test
 
     Sub Main()
 
-        Call "C:\Users\xieguigang\OneDrive\1.5\samples\1. samples\proteinGroups_GL.txt".LoadSample.Select(Function(x) x.Identifier) _
+        Call "C:\Users\xieguigang\OneDrive\1.5\samples\1. samples\proteinGroups_GL.csv".LoadSample.Select(Function(x) x.Identifier) _
             .GenerateAnnotations("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml-mappingTable.tsv",
                                  "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml").ToArray _
                                  .SaveTo("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.csv")
 
+        Call "C:\Users\xieguigang\OneDrive\1.5\samples\1. samples\proteinGroups_SK.csv".LoadSample.Select(Function(x) x.Identifier) _
+            .GenerateAnnotations("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml-mappingTable.tsv",
+                                 "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml").ToArray _
+                                 .SaveTo("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.csv")
+
+
+        Pause()
 
         Dim designer As Designer() = {
             New Designer With {.Experiment = "24.C4", .Control = "24.A4", .GroupLabel = "1.log2(GL24.C/GL24.A)"},
