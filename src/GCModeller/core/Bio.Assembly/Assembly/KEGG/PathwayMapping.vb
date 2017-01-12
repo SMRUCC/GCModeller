@@ -66,5 +66,67 @@ Namespace Assembly.KEGG.WebServices
                 End If
             Next
         End Sub
+
+        ''' <summary>
+        ''' **Search&amp;Color Pathway** is an advanced version of the KEGG pathway mapping tool, where given objects 
+        ''' (genes, proteins, compounds, glycans, reactions, drugs, etc.) are searched against KEGG pathway 
+        ''' maps and found objects are marked in any background and foreground colors (bgcolor and fgcolor). 
+        ''' The objects in different types of pathway maps are specified by the following KEGG identifiers 
+        ''' and aliases. 
+        ''' 
+        ''' > http://www.kegg.jp/kegg/tool/map_pathway2.html
+        ''' </summary>
+        ''' <param name="list$"></param>
+        ''' <param name="work$"></param>
+        Public Sub ColorPathway(list$,
+                                Optional target As Boolean = False,
+                                Optional reference As Boolean = True,
+                                Optional warning As Boolean = False,
+                                Optional all As Boolean = False,
+                                Optional work$ = "./")
+
+            If list.FileExists(True) Then
+                list = list.ReadAllText
+            End If
+
+            Dim args As New NameValueCollection
+
+            Call args.Add("org", "ko")
+            Call args.Add("other_dbs", "")
+            Call args.Add("unclassified", list)
+            Call args.Add("default", "pink")
+            Call args.Add(NameOf(target), If(target, "alias", ""))
+            Call args.Add(NameOf(reference), If(reference, "white", ""))
+            Call args.Add(NameOf(warning), If(warning, "yes", ""))
+            Call args.Add(NameOf(all), If(all, 1, ""))
+            Call args.Add("submit", "Exec")
+
+            Dim html = "http://www.kegg.jp/kegg-bin/color_pathway_object".POST(args, Referer:="http://www.kegg.jp/kegg/tool/map_pathway2.html")
+
+            Const mapLinks$ = "href=""/kegg-bin/show_pathway\?.+?/ko\d+\.args"" target=""_map"""
+            Const imgLink$ = "src=""/tmp/mark_pathway.+?/ko\d+\.png"""
+
+            Dim links$() = Regex.Matches(html, mapLinks, RegexICSng).ToArray(AddressOf href)
+            Dim img$
+            Dim Ko As Dictionary(Of String, Pathway) = Pathway.LoadFromResource.ToDictionary(Function(x) x.EntryId)
+            Dim id$
+
+            For Each link As String In links.Select(Function(url) "http://www.kegg.jp" & url)
+
+                id = Regex.Match(link, "ko\d+\.args", RegexICSng).Value
+                id = Regex.Match(id, "\d+").Value
+
+                Dim path$ = Pathway.CombineDIR(Ko(id), work) & $"/ko{id}.png"
+
+                If Not path.FileLength > 5 Then
+                    html = link.GET
+                    img = Regex.Match(html, imgLink, RegexICSng).Value
+                    img = "http://www.kegg.jp" & img.ImageSource
+
+                    Call img.DownloadFile(path)
+                    Call Thread.Sleep(1000)
+                End If
+            Next
+        End Sub
     End Module
 End Namespace

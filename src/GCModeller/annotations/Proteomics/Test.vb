@@ -8,6 +8,9 @@ Module Test
 
     Sub Main()
 
+        Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.ColorPathway("K01803 red,blue
+C00118 pink")
+
         ' Call ExportKOList("C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\DEGs")
 
         ' Pause()
