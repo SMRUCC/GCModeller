@@ -72,7 +72,7 @@ Module CLI
         Dim script As String = hmap.RScript
 
         Call r.WriteLine(script)
-        Call script.SaveTo(outDIR & "/heatmap.r")
+        Call script.SaveTo(outDIR & $"/{inSet.BaseName}-heatmap.r")
         Call heatmap2OUT.RParser(hmap.output, hmap.locusId, hmap.samples).GetJson.SaveTo(outDIR & "/heatmap.output.json")
 
         Return 0
