@@ -117,7 +117,14 @@ Namespace Assembly.KEGG.WebServices
                 id = Regex.Match(link, "ko\d+\.args", RegexICSng).Value
                 id = Regex.Match(id, "\d+").Value
 
-                Dim path$ = Pathway.CombineDIR(Ko(id), work) & $"/ko{id}.png"
+                Dim path$
+
+                If Ko.ContainsKey(id) Then
+                    path = Pathway.CombineDIR(Ko(id), work) & $"/ko{id}.png"
+                Else
+                    path = work & $"/unknown/ko{id}.png"
+                    Call path.Warning
+                End If
 
                 If Not path.FileLength > 5 Then
                     html = link.GET

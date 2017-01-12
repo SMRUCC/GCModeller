@@ -12,9 +12,9 @@ Module Test
         'C00118 pink")
         ' WebServiceUtils.Proxy = "http://127.0.0.1:8087"
 
-        Call ExportColorDEGs("C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\DEGs")
+        '  Call ExportColorDEGs("C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\DEGs")
 
-        For Each file As String In ls - l - r - "*.txt" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\DEGs"
+        For Each file As String In ls - l - r - "*.txt" <= "G:\DEGs"
             Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.ColorPathway(file, work:=file.TrimSuffix)
         Next
 
@@ -22,13 +22,13 @@ Module Test
 
         'WebServiceUtils.Proxy = "http://127.0.0.1:8087"
 
-        '  Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.Reconstruct(
+        'Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.Reconstruct(
         '     "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL-KO.txt",, "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL-KO/")
 
-        '  Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.Reconstruct(
+        'Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.Reconstruct(
         '     "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK-KO.txt",, "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK-KO/")
 
-        ' Pause()
+        'Pause()
 
         'Call "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.csv".LoadSample.GetKOlist.SaveTo("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL-KO.txt")
         'Call "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.csv".LoadSample.GetKOlist.SaveTo("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK-KO.txt")
