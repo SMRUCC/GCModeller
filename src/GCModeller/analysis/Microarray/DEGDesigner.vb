@@ -1,10 +1,12 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting
 Imports csv = Microsoft.VisualBasic.Data.csv.DocumentStream.File
+Imports gene = Microsoft.VisualBasic.Data.csv.DocumentStream.EntityObject
 
 Public Module DEGDesigner
 
@@ -94,4 +96,48 @@ Public Module DEGDesigner
             Return out
         End Function
     End Structure
+
+    ''' <summary>
+    ''' 从矩阵之中导出edgeR分析所需要的文本数据
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <param name="designers"></param>
+    ''' <param name="label$"></param>
+    ''' <param name="workDIR$"></param>
+    Public Sub EdgeR_rawDesigner(path$, designers As Designer(), Optional label$ = Nothing, Optional workDIR$ = "./")
+        Dim genes As gene() = gene.LoadDataSet(path).ToArray
+        Dim groups As Dictionary(Of String, Designer()) = designers _
+            .GroupBy(Function(x) x.GroupLabel) _
+            .ToDictionary(Function(k) k.Key,
+                          Function(repeats) repeats.ToArray)
+        ' Dim idmaps As New Dictionary(Of String, String)
+        Dim name$ = path.BaseName
+
+        For Each group In groups
+            Dim labels = group.Value.ToArray(Function(l) l.GetLabel(label))
+            Dim file As New StringBuilder
+            Dim experiments = labels.ToArray(Function(l) l.exp)
+            Dim controls = labels.ToArray(Function(l) l.control)
+            Dim line As New List(Of String)
+            Dim appendLine = Sub()
+                                 Call file.AppendLine(line.JoinBy(vbTab))
+                                 Call line.Clear()
+                             End Sub
+
+            Call line.Add("ID")
+            Call line.AddRange(experiments)
+            Call line.AddRange(controls)
+            Call appendLine()
+
+            For Each gene As gene In genes
+                Call line.Add(gene.Identifier)
+                Call line.AddRange(experiments.Select(Function(t) gene(t)))
+                Call line.AddRange(controls.Select(Function(t) gene(t)))
+                Call appendLine()
+            Next
+
+            path = workDIR & "/" & name & "-" & group.Key.NormalizePathString(False) & ".txt"
+            file.SaveTo(path, Encoding.ASCII)
+        Next
+    End Sub
 End Module
