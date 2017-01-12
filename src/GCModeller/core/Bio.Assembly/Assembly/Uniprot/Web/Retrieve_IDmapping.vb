@@ -96,6 +96,10 @@ Namespace Assembly.Uniprot.Web
                               Function(row) row(1)).Distinct.ToArray)
             Return maps
         End Function
+
+        Public Function GetMappingList(path$) As String()
+            Return MappingReader(path).Values.Unlist.Distinct.ToArray
+        End Function
     End Module
 
     Public Enum Formats
