@@ -40,7 +40,7 @@ Public Module ProteinGroups
     ''' <param name="deli"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function GenerateAnnotations(ID As IEnumerable(Of String), idMapping$, uniprotXML$, Optional prefix$ = "", Optional deli As Char = ";"c) As IEnumerable(Of protein)
+    Public Iterator Function GenerateAnnotations(ID As IEnumerable(Of String), idMapping$, uniprotXML$, Optional prefix$ = "", Optional deli As Char = ";"c) As IEnumerable(Of (protein, String()))
         Dim mappings As Dictionary(Of String, String()) = Retrieve_IDmapping.MappingReader(idMapping)
         Dim uniprot As Dictionary(Of String, Uniprot.XML.entry) =
             SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML _
@@ -64,7 +64,7 @@ Public Module ProteinGroups
                                      annotations As Dictionary(Of String, String),
                                      mappings As Dictionary(Of String, String()),
                                      uniprot As Dictionary(Of String, Uniprot.XML.entry),
-                                     prefix$, i%) As protein
+                                     prefix$, i%) As (protein As protein, mapsId As String())
 
         Dim mappsId$() = source _
             .Select(Function(s) UCase(s)) _
@@ -132,10 +132,10 @@ Public Module ProteinGroups
             geneID = prefix & "_" & geneID.FormatZero("0000")
         End If
 
-        Return New protein With {
+        Return (New protein With {
             .Identifier = geneID,
             .Properties = annotations
-        }
+        }, mappsId)
     End Function
 
     <Extension>
@@ -145,7 +145,8 @@ Public Module ProteinGroups
                                                  fields$(),
                                                  Optional [where] As Func(Of protein, Boolean) = Nothing,
                                                  Optional prefix$ = "",
-                                                 Optional deli As Char = ";"c) As IEnumerable(Of protein)
+                                                 Optional deli As Char = ";"c,
+                                                 Optional geneList As List(Of String) = Nothing) As IEnumerable(Of protein)
         If where Is Nothing Then
             where = Function(prot) True
         End If
@@ -164,8 +165,15 @@ Public Module ProteinGroups
                 Next
             End If
 
-            Yield list.__applyInternal(
+            With list.__applyInternal(
                 annotations, mappings, uniprot, prefix, i)
+
+                If Not geneList Is Nothing Then
+                    Call geneList.AddRange(.mapsId)
+                End If
+
+                Yield .protein
+            End With
         Next
     End Function
 
@@ -179,12 +187,24 @@ Public Module ProteinGroups
     ''' <param name="prefix$"></param>
     ''' <param name="deli"></param>
     <Extension>
-    Public Sub ApplyAnnotations(files As IEnumerable(Of String), idMapping$, uniprotXML$, idlistField$, Optional prefix$ = "", Optional deli As Char = ";"c)
-        Call files.__apply(False, idMapping, uniprotXML, idlistField, prefix, deli)
+    Public Sub ApplyAnnotations(files As IEnumerable(Of String),
+                                idMapping$, uniprotXML$, idlistField$,
+                                Optional prefix$ = "",
+                                Optional deli As Char = ";"c,
+                                Optional ByRef geneList$() = Nothing)
+        Call files.__apply(False, idMapping, uniprotXML, idlistField, prefix, deli, geneList)
     End Sub
 
     <Extension>
-    Private Sub __apply(files As IEnumerable(Of String), DEGsMode As Boolean, idMapping$, uniprotXML$, idlistField$, Optional prefix$ = "", Optional deli As Char = ";"c)
+    Private Sub __apply(files As IEnumerable(Of String),
+                        DEGsMode As Boolean,
+                        idMapping$,
+                        uniprotXML$,
+                        idlistField$,
+                        prefix$,
+                        deli As Char,
+                        ByRef geneList$())
+
         Dim mappings As Dictionary(Of String, String()) = Retrieve_IDmapping.MappingReader(idMapping)
         Dim uniprot As Dictionary(Of String, Uniprot.XML.entry) =
             SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML _
@@ -203,17 +223,26 @@ Public Module ProteinGroups
             __where = Nothing
         End If
 
+        Dim list As New List(Of String)
+        Dim outList As New List(Of String)
+
         For Each file As String In files
             Dim proteins = protein.LoadDataSet(file, uidMap:=idlistField)
             Dim DEPs = proteins.GenerateAnnotations(
                 mappings, uniprot, edgeRfields,
                 where:=__where,
                 prefix:=prefix,
-                deli:=deli).ToArray
+                deli:=deli,
+                geneList:=list).ToArray
             Dim out$ = file.ParentPath & "/" & file.ParentDirName & "-" & file.BaseName & suffix
 
             Call DEPs.SaveDataSet(out,, "geneID")
+            Call list.SaveTo(out.TrimSuffix & "-uniprot.txt")
+            Call outList.AddRange(list)
+            Call list.Clear()
         Next
+
+        geneList = list.Distinct.ToArray
     End Sub
 
     ''' <summary>
@@ -226,8 +255,13 @@ Public Module ProteinGroups
     ''' <param name="prefix$"></param>
     ''' <param name="deli"></param>
     <Extension>
-    Public Sub ApplyDEPsAnnotations(files As IEnumerable(Of String), idMapping$, uniprotXML$, idlistField$, Optional prefix$ = "", Optional deli As Char = ";"c)
-        Call files.__apply(True, idMapping, uniprotXML, idlistField, prefix, deli)
+    Public Sub ApplyDEPsAnnotations(files As IEnumerable(Of String),
+                                    idMapping$, uniprotXML$, idlistField$,
+                                    Optional prefix$ = "",
+                                    Optional deli As Char = ";"c,
+                                    Optional ByRef geneList$() = Nothing)
+
+        Call files.__apply(True, idMapping, uniprotXML, idlistField, prefix, deli, geneList)
     End Sub
 
     <Extension>
