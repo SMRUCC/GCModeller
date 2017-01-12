@@ -3,7 +3,6 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
-Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports protein = Microsoft.VisualBasic.Data.csv.DocumentStream.EntityObject
 
 Public Module ProteinGroups

@@ -111,8 +111,10 @@ Public Module DEGDesigner
             samples += New gene With {
                 .Identifier = sample,
                 .Properties = New Dictionary(Of String, String) From {
-                    {"logFC >= 1", DEGs.Where(Function(gene) gene.logFC >= 1).Count.ToString},
-                    {"logFC <= -1", DEGs.Where(Function(gene) gene.logFC <= -1).Count.ToString}
+                    {"UP-logFC(1)", DEGs.Where(Function(gene) gene.logFC >= 1).Count.ToString},
+                    {"Down-logFC(-1)", DEGs.Where(Function(gene) gene.logFC <= -1).Count.ToString},
+                    {"UP-logFC(2)", DEGs.Where(Function(gene) gene.logFC >= 2).Count.ToString},
+                    {"Down-logFC(-2)", DEGs.Where(Function(gene) gene.logFC <= -2).Count.ToString}
                 }
             }
         Next
