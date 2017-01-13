@@ -44,6 +44,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         <XmlElement> Public Property CategoryItems As BriteHText()
         <XmlAttribute> Public Property Level As Integer
         <XmlAttribute> Public Property Degree As Char
+        <XmlIgnore> Public Property Parent As BriteHText
 
         Dim _EntryId As String
 
@@ -143,17 +144,17 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Shared Function Load(lines$(), Optional depth$ = "Z"c) As BriteHText
             Dim classes As New List(Of BriteHText)
             Dim p As Integer = 0
-
-            Do While p < lines.Length - 1
-                Call classes.Add(LoadData(lines, p, level:=0))
-            Loop
-
             Dim root As New BriteHText With {
                 .ClassLabel = "/",
                 .Level = -1,
-                .Degree = depth,
-                .CategoryItems = classes.ToArray
+                .Degree = depth
             }
+
+            Do While p < lines.Length - 1
+                Call classes.Add(LoadData(lines, p, level:=0, parent:=root))
+            Loop
+
+            root.CategoryItems = classes
 
             Return root
         End Function
@@ -185,10 +186,11 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <param name="p"></param>
         ''' <param name="level"></param>
         ''' <returns></returns>
-        Private Shared Function LoadData(strLines As String(), ByRef p As Integer, level As Integer) As BriteHText
+        Private Shared Function LoadData(strLines As String(), ByRef p As Integer, level As Integer, parent As BriteHText) As BriteHText
             Dim Category As New BriteHText With {
                 .Level = level,
-                .ClassLabel = Mid(strLines(p), 2).Trim
+                .ClassLabel = Mid(strLines(p), 2).Trim,
+                .Parent = parent
             }
 
             Call p.MoveNext()
@@ -202,7 +204,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
                 Do While strLines(p).First > Category.CategoryLevel
                     Call subCategory.Add(
-                        LoadData(strLines, p, level + 1))
+                        LoadData(strLines, p, level + 1, parent:=Category))
 
                     If p > strLines.Length - 1 Then
                         Exit Do

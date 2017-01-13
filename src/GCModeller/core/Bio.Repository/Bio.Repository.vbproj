@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</ProjectGuid>
+    <ProjectGuid>{5A3E8EA2-7CF8-4056-89DE-7ACFEDB2D049}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SMRUCC.genomics.Data</RootNamespace>
     <AssemblyName>SMRUCC.genomics.Data.Repository</AssemblyName>
@@ -219,7 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
-      <Project>{1d8910c2-ada2-4306-96dc-a61b494522ed}</Project>
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">

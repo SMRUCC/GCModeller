@@ -148,21 +148,30 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return String.Join("/", ParentDIR, [Module].TrimPath(entry.Class), [Module].TrimPath(entry.Category))
         End Function
 
+        ''' <summary>
+        ''' <see cref="Entry"/>::<see cref="KeyValuePair.Key"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property EntryId As String Implements IReadOnlyId.Identity
             Get
                 Return Entry.Key
             End Get
         End Property
 
-        Public Shared Function GetClass(EntryID As String, data As Pathway()) As Pathway
-            Dim MatchID As String = (From m As Match
-                                     In Regex.Matches(EntryID, "\d{5}")
-                                     Select m.Value).Last
-            Dim LQuery As Pathway = (From pwy As Pathway
-                                     In data
-                                     Where String.Equals(MatchID, pwy.Entry.Key)
-                                     Select pwy).FirstOrDefault
-            Return LQuery
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="KO"></param>
+        ''' <param name="data">``<see cref="Pathway.EntryId"/> -> <see cref="Pathway"/>``</param>
+        ''' <returns></returns>
+        Public Shared Function GetClass(KO As String, data As Dictionary(Of String, Pathway)) As Pathway
+            Dim MatchID As String = Regex.Matches(KO, "\d{5}").ToArray.Last
+
+            If data.ContainsKey(MatchID) Then
+                Return data(MatchID)
+            Else
+                Return Nothing
+            End If
         End Function
     End Class
 End Namespace

@@ -200,8 +200,11 @@ Namespace Analysis.MotifScans
             Return pwmFasta
         End Function
 
-        Public Shared Function Compile(mast As DocumentFormat.XmlOutput.MAST.MAST) As MastSites()
+        Public Shared Function Compile(mast As DocumentFormat.XmlOutput.MAST.MAST, path$) As MastSites()
             Dim FamilyName As String = mast.Motifs.Directory
+            If FamilyName Is Nothing Then
+                FamilyName = path.BaseName
+            End If
             If mast.Sequences Is Nothing OrElse
                 mast.Sequences.SequenceList.IsNullOrEmpty Then
                 Return New MastSites() {}
@@ -211,7 +214,7 @@ Namespace Analysis.MotifScans
                 NameOf(Analysis.MotifScans.MastSites.Family)
             Dim result As MastSites() =
                 LinqAPI.Exec(Of MastSites) <= From site As MastSites
-                                              In mastSites.IteratesALL.ToVector
+                                              In mastSites.IteratesALL.IteratesALL
                                               Select setValue(site, FamilyName)
             Return result
         End Function
@@ -260,7 +263,7 @@ Namespace Analysis.MotifScans
                                                sequence As String,
                                                OffSet As Integer,
                                                trace As String) As MastSites
-            Dim id As String = hit.motif.Split("_"c).Last
+            Dim id As String = hit.GetId.Split("_"c).Last
             Dim length As Integer = Len(hit.match) + 2 * OffSet  '为了保证在进行分子生物学实验的时候能够得到完整的片段，在这里将位点的范围扩大了10个bp
             start = hit.pos - start
             start -= OffSet
@@ -270,7 +273,7 @@ Namespace Analysis.MotifScans
             End If
 
             Dim site As String = Mid(sequence, start, length)
-            Dim strand As String = hit.strand.GetBriefStrandCode
+            Dim strand As String = hit.GetStrand
 
             '需不需要将反向的序列互补为正向的？？？
 

@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::a119734f79399a2b2796fabd12b3754b, ..\GCModeller\CLI_tools\MEME\Cli\Regprecise.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports MEME.Analysis
 Imports MEME.GCModeller.FileSystem.FileSystem
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
@@ -233,7 +234,7 @@ Partial Module CLI
         Dim atgDist As Integer = args.GetValue("/atg-dist", 250)
 
         If args.GetBoolean("/no-meme") Then
-            sites = __mastNoMEME(mast)
+            sites = __mastNoMEME(mast, args("/mast"))
         Else
             Dim pwmFa As String = RegpreciseRoot & "/MEME/pwm"
             Dim mastLDM As String = args.GetValue("/mast-ldm", MotifLDM)
@@ -250,7 +251,8 @@ Partial Module CLI
 
         sites = (From site In sites Where site.pValue <= pvalue Select site).ToArray
 
-        Dim table = (From site In sites.AsParallel
+        Dim table = (From site As MastSites
+                     In sites
                      Where Not site Is Nothing
                      Select site,
                          genes = site.GetRelatedUpstream(PTT, atgDist))
@@ -275,12 +277,12 @@ Partial Module CLI
         Call $"Start loading mast documents from source {args("/source")}".__DEBUG_ECHO
 
         Dim masts = FileIO.FileSystem.GetFiles(args("/source"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
-            .ToArray(Function(xml) xml.LoadXml(Of XmlOutput.MAST.MAST)(ThrowEx:=False))
-        masts = (From obj In masts Where Not obj.__isNothing Select obj).ToArray
+            .ToArray(Function(xml) New NamedValue(Of XmlOutput.MAST.MAST)(xml, xml.LoadXml(Of XmlOutput.MAST.MAST)(ThrowEx:=False)))
+        masts = (From obj In masts Where Not obj.Value.__isNothing Select obj).ToArray
         Call $"Start compile {masts.Length} mast documents...".__DEBUG_ECHO
         Dim sites As MastSites()  ' 导出扫描得到的位点
         If args.GetBoolean("/no-meme") Then
-            sites = masts.ToArray(Function(mast) MastSites.Compile(mast), Parallel:=True).ToVector
+            sites = masts.ToArray(Function(mast) MastSites.Compile(mast.Value, mast.Name), parallel:=True).ToVector
         Else
             Dim pwmFa As String = RegpreciseRoot & "/MEME/pwm"
             Dim mastLDM As String = args.GetValue("/mast-ldm", MotifLDM)
@@ -291,10 +293,10 @@ Partial Module CLI
 
             sites = masts.ToArray(
                 Function(mast) MastSites.Compile(
-                mast,
+                mast.Value,
                 mastLDM,
                 faDIR:=pwmFa),
-                Parallel:=True).ToVector
+                parallel:=True).ToVector
         End If
 
         Dim pvalue As Double = args.GetValue("/p-value", 0.001)  ' 过滤掉不需要的位点
@@ -366,8 +368,8 @@ Partial Module CLI
         Return LQuery.ToArray
     End Function
 
-    Private Function __mastNoMEME(mastXml As XmlOutput.MAST.MAST) As MastSites()
-        Return MastSites.Compile(mastXml)
+    Private Function __mastNoMEME(mastXml As XmlOutput.MAST.MAST, path$) As MastSites()
+        Return MastSites.Compile(mastXml, path)
     End Function
 
     ''' <summary>
