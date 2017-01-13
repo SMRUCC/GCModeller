@@ -26,11 +26,13 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Extensions
@@ -38,6 +40,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.KEGG.KEGGOrthology
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
@@ -53,7 +56,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
-    <ExportAPI("/Cut_sequence.upstream", Usage:="/Cut_sequence.upstream /in <list.txt> /PTT <genome.ptt> /org <kegg_sp> [/len <100bp> /out <outDIR>]")>
+    <ExportAPI("/Cut_sequence.upstream", Usage:="/Cut_sequence.upstream /in <list.txt> /PTT <genome.ptt> /org <kegg_sp> [/len <100bp> /overrides /out <outDIR>]")>
     Public Function CutSequence_Upstream(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim PTT = args("/PTT")
@@ -61,34 +64,54 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-{len}bp.fasta")
         Dim genome As PTT = SMRUCC.genomics.Assembly.NCBI.GenBank.LoadPTT(PTT)
         Dim genes = genome.ToDictionary
-        Dim cuts As New FastaFile
+        Dim cuts As New FastaFile(out, throwEx:=False)
         Dim code$ = args("/org")
+        Dim titles As New IndexOf(Of String)(cuts.Select(Function(f) f.Title))
+        Dim [overrides] As Boolean = args.GetBoolean("/overrides")
 
-        For Each id$ In [in].ReadAllLines
-            If Not genes.ContainsKey(id) Then
-                Continue For
-            End If
+        Using write As StreamWriter = out.OpenWriter(Encodings.ASCII)
 
-            Dim loci = genes(id).Location
-            Dim region As Location
+            For Each fa In cuts
+                Call write.WriteLine(fa.GenerateDocument(60))
+            Next
 
-            With loci.Normalization
-                If loci.Strand = Strands.Reverse Then
-                    region = New Location(.Right, .Right + len) ' ATG 向右平移
-                Else
-                    region = New Location(.Left - len, .Left)
+            For Each id$ In [in].ReadAllLines
+
+                If Not genes.ContainsKey(id) Then
+                    Continue For
                 End If
-            End With
 
-            Dim seq As FastaToken = SSDB.API.CutSequence(region, org:=code, vector:=loci.Strand)
+                Dim loci = genes(id).Location
+                Dim region As Location
 
-            seq.Attributes = {id & " " & loci.ToString}
+                With loci.Normalization
+                    If loci.Strand = Strands.Reverse Then
+                        region = New Location(.Right, .Right + len) ' ATG 向右平移
+                    Else
+                        region = New Location(.Left - len, .Left)
+                    End If
+                End With
 
-            Call cuts.Add(seq)
-            Call Thread.Sleep(1500)
-        Next
+                Dim title$ = id & " " & loci.ToString
 
-        Return cuts.Save(out, Encoding.ASCII)
+                If titles(title) > -1 AndAlso Not [overrides] Then
+                    Call $"Skip existed {title}...".__DEBUG_ECHO
+                    Continue For
+                End If
+
+                Dim seq As FastaToken = SSDB.API.CutSequence(
+                    region,
+                    org:=code,
+                    vector:=loci.Strand)
+
+                seq.Attributes = {title}
+
+                Call cuts.Add(seq)
+                Call Thread.Sleep(1500)
+            Next
+        End Using
+
+        Return 0
     End Function
 
     <ExportAPI("/Views.mod_stat", Usage:="/Views.mod_stat /in <KEGG_Modules/Pathways_DIR> /locus <in.csv> [/locus_map Gene /pathway /out <out.csv>]")>
