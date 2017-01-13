@@ -1,19 +1,17 @@
 ﻿Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Analysis.Microarray
-Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports SMRUCC.genomics.Analysis.Microarray
 
 Module Test
 
     Sub Main()
 
-        For Each file In ls - l - r - "*.txt" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\KOBAS"
-            Call KOBAS.SplitData(file)
-        Next
+        'For Each file In ls - l - r - "*.txt" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\KOBAS"
+        '    Call KOBAS.SplitData(file)
+        'Next
 
 
-        Pause()
+        'Pause()
 
         '        Call SMRUCC.genomics.Assembly.KEGG.WebServices.PathwayMapping.ColorPathway("K01803 red,blue
         'C00118 pink")

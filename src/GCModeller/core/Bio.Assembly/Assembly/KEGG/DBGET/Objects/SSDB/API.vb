@@ -247,8 +247,15 @@ both of these relationships hold
             Return LQuery
         End Function
 
+        ''' <summary>
+        ''' <paramref name="vector"/>参数表示核酸链的方向，1表示正义链，-1表示互补链
+        ''' </summary>
+        ''' <param name="loci"></param>
+        ''' <param name="org$"></param>
+        ''' <param name="vector$"></param>
+        ''' <returns></returns>
         <Extension>
-        Public Function CutSequence(loci As Location, org$, Optional vector$ = "1") As FastaToken
+        Public Function CutSequence(loci As Location, org$, Optional vector% = 1) As FastaToken
             With loci.Normalization
                 Dim url$ = $"http://www.genome.jp/dbget-bin/cut_sequence_genes.pl?FROM={ .Left}&TO={ .Right}&VECTOR={vector}&ORG={org}"
                 Dim html$ = url.GET

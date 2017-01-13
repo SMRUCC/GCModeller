@@ -68,7 +68,10 @@ Namespace ComponentModel.Loci
     End Enum
 
     ''' <summary>
-    ''' The direction of this segment on the nucleotide sequence.(片段在DNA链上面的方向或者是否为互补链)
+    ''' The direction of this segment on the nucleotide sequence.
+    ''' (片段在DNA链上面的方向或者是否为互补链, KEGG网站上面的``cutsequence``
+    ''' 函数之中的``VECTOR``参数也和本枚举值所表述的含义一致，
+    ''' 正义链为1，互补链为-1值)
     ''' </summary>
     ''' <remarks></remarks>
     Public Enum Strands As Integer

@@ -26,6 +26,8 @@
 
 #End Region
 
+Imports System.Text
+Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
@@ -37,16 +39,57 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.KEGG.KEGGOrthology
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.ProteinModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
+
+    <ExportAPI("/Cut_sequence.upstream", Usage:="/Cut_sequence.upstream /in <list.txt> /PTT <genome.ptt> /org <kegg_sp> [/len <100bp> /out <outDIR>]")>
+    Public Function CutSequence_Upstream(args As CommandLine) As Integer
+        Dim [in] = args("/in")
+        Dim PTT = args("/PTT")
+        Dim len = args.GetValue("/len", 100)
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-{len}bp.fasta")
+        Dim genome As PTT = SMRUCC.genomics.Assembly.NCBI.GenBank.LoadPTT(PTT)
+        Dim genes = genome.ToDictionary
+        Dim cuts As New FastaFile
+        Dim code$ = args("/org")
+
+        For Each id$ In [in].ReadAllLines
+            If Not genes.ContainsKey(id) Then
+                Continue For
+            End If
+
+            Dim loci = genes(id).Location
+            Dim region As Location
+
+            With loci.Normalization
+                If loci.Strand = Strands.Reverse Then
+                    region = New Location(.Right, .Right + len) ' ATG 向右平移
+                Else
+                    region = New Location(.Left - len, .Left)
+                End If
+            End With
+
+            Dim seq As FastaToken = SSDB.API.CutSequence(region, org:=code, vector:=loci.Strand)
+
+            seq.Attributes = {id & " " & loci.ToString}
+
+            Call cuts.Add(seq)
+            Call Thread.Sleep(1500)
+        Next
+
+        Return cuts.Save(out, Encoding.ASCII)
+    End Function
 
     <ExportAPI("/Views.mod_stat", Usage:="/Views.mod_stat /in <KEGG_Modules/Pathways_DIR> /locus <in.csv> [/locus_map Gene /pathway /out <out.csv>]")>
     Public Function Stats(args As CommandLine) As Integer

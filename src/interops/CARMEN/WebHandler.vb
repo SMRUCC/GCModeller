@@ -94,7 +94,7 @@ Public Module WebHandler
                 {OP_pathways, pathway}
         }.BuildReqparm
 
-        Dim result As String = EXEC_Reconstruct.PostRequest(reqparm)
+        Dim result As String = EXEC_Reconstruct.POST(reqparm)
 
         result = Regex.Match(result, "<meta http-equiv=""refresh"".+?>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).Value
 
