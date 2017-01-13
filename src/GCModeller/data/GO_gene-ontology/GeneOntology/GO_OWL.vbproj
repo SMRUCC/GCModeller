@@ -175,6 +175,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GoStat.vb" />
     <Compile Include="DAG\Builder.vb" />
     <Compile Include="DAG\Graph.vb" />
     <Compile Include="DAG\Relationship.vb" />
