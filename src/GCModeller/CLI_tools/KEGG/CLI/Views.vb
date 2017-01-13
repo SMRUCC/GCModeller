@@ -63,53 +63,15 @@ Partial Module CLI
         Dim len = args.GetValue("/len", 100)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-{len}bp.fasta")
         Dim genome As PTT = SMRUCC.genomics.Assembly.NCBI.GenBank.LoadPTT(PTT)
-        Dim genes = genome.ToDictionary
-        Dim cuts As New FastaFile(out, throwEx:=False)
         Dim code$ = args("/org")
-        Dim titles As New IndexOf(Of String)(cuts.Select(Function(f) f.Title))
         Dim [overrides] As Boolean = args.GetBoolean("/overrides")
 
-        Using write As StreamWriter = out.OpenWriter(Encodings.ASCII)
-
-            For Each fa In cuts
-                Call write.WriteLine(fa.GenerateDocument(60))
-            Next
-
-            For Each id$ In [in].ReadAllLines
-
-                If Not genes.ContainsKey(id) Then
-                    Continue For
-                End If
-
-                Dim loci = genes(id).Location
-                Dim region As Location
-
-                With loci.Normalization
-                    If loci.Strand = Strands.Reverse Then
-                        region = New Location(.Right, .Right + len) ' ATG 向右平移
-                    Else
-                        region = New Location(.Left - len, .Left)
-                    End If
-                End With
-
-                Dim title$ = id & " " & loci.ToString
-
-                If titles(title) > -1 AndAlso Not [overrides] Then
-                    Call $"Skip existed {title}...".__DEBUG_ECHO
-                    Continue For
-                End If
-
-                Dim seq As FastaToken = SSDB.API.CutSequence(
-                    region,
-                    org:=code,
-                    vector:=loci.Strand)
-
-                seq.Attributes = {title}
-
-                Call cuts.Add(seq)
-                Call Thread.Sleep(1500)
-            Next
-        End Using
+        Call genome.CutSequence_Upstream(
+            geneIDs:=[in].ReadAllLines,
+            len:=len,
+            save:=out,
+            code:=code,
+            [overrides]:=[overrides])
 
         Return 0
     End Function
