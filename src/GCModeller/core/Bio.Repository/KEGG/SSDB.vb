@@ -35,17 +35,19 @@ Public Module SSDB
                 End If
 
                 Dim loci = genes(id).Location
-                Dim region As Location
+                Dim region As NucleotideLocation
 
                 With loci.Normalization
+
+                    ' 必须要偏移一个碱基，否则ATG之中的A就会被添加进来了，做motif的时候这个总是会出现的A会导致会产生不存在的motif
                     If loci.Strand = Strands.Reverse Then
-                        region = New Location(.Right, .Right + len) ' ATG 向右平移
+                        region = New NucleotideLocation(.Right + 1, .Right + len, .Strand) ' ATG 向右平移
                     Else
-                        region = New Location(.Left - len, .Left)
+                        region = New NucleotideLocation(.Left - len, .Left - 1, .Strand)
                     End If
                 End With
 
-                Dim title$ = id & " " & loci.ToString
+                Dim title$ = id & " " & region.ToString
 
                 If titles(title) > -1 AndAlso Not [overrides] Then
                     Call $"Skip existed {title}...".__DEBUG_ECHO
