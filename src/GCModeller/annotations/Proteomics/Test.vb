@@ -8,15 +8,15 @@ Module Test
 
     Sub Main()
 
-        Call Plots.GOEnrichmentPlot(
-            "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\GO\proteinGroups_GL-2.log2(GL72.C_GL72.A)-qlfTable-DEGs-annotations-uniprot-KOBAS-GO.tsv".LoadTsv(Of EnrichmentTerm),
-            "K:\GO_DB\go.obo").SaveAs("x:\test.png")
+        'Call Plots.GOEnrichmentPlot(
+        '    "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\GO\proteinGroups_GL-2.log2(GL72.C_GL72.A)-qlfTable-DEGs-annotations-uniprot-KOBAS-GO.tsv".LoadTsv(Of EnrichmentTerm),
+        '    "K:\GO_DB\go.obo").SaveAs("x:\test.png")
 
-        Pause()
+        'Pause()
 
-        For Each file In ls - l - r - "*.txt" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\KOBAS"
-            Call KOBAS.SplitData(file)
-        Next
+        'For Each file In ls - l - r - "*.txt" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\KOBAS"
+        '    Call KOBAS.SplitData(file)
+        'Next
 
         'Pause()
 
@@ -53,8 +53,10 @@ Module Test
         'Pause()
 
         'Call MergeMatrix("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK", "qlfTable.csv").SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK.logFC.csv",, "geneID")
-        '   Call DEGsStatMatrix("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL", "qlfTable.csv").SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL.logFC-overviews.csv",, "geneID")
-        '  Call DEGsStatMatrix("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK", "qlfTable.csv").SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK.logFC-overviews.csv",, "geneID")
+        'Call DEGsStatMatrix("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL", "qlfTable.csv", DEP:=True).SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL.logFC-overviews.csv",, "geneID")
+        'Call DEGsStatMatrix("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK", "qlfTable.csv", DEP:=True).SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK.logFC-overviews.csv",, "geneID")
+
+        'Pause()
 
         Dim uniprotDEGs As String() = Nothing
 
@@ -70,13 +72,13 @@ Module Test
 
         Call uniprotDEGs.SaveTo("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK-uniprot.txt")
 
-        'Call (ls - l - r - "qlfTable.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL").ApplyAnnotations(
-        '    "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml-mappingTable.tsv",
-        '    "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml", "genes", "GL")
+        Call (ls - l - r - "qlfTable.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL").ApplyAnnotations(
+            "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml-mappingTable.tsv",
+            "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml", "genes", "GL")
 
-        'Call (ls - l - r - "qlfTable.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK").ApplyAnnotations(
-        '    "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml-mappingTable.tsv",
-        '    "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml", "genes", "SK")
+        Call (ls - l - r - "qlfTable.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK").ApplyAnnotations(
+            "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml-mappingTable.tsv",
+            "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml", "genes", "SK")
 
         Pause()
 

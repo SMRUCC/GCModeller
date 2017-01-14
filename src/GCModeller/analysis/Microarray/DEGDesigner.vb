@@ -98,17 +98,19 @@ Public Module DEGDesigner
     ''' <param name="DIR$"></param>
     ''' <param name="name$"></param>
     ''' <returns></returns>
-    Public Function DEGsStatMatrix(DIR$, name$) As gene()
+    Public Function DEGsStatMatrix(DIR$, name$, Optional DEP As Boolean = False) As gene()
         Dim samples As New List(Of gene)
+        Dim diffUP = If(DEP, Math.Log(1.5, 2), 1)
+        Dim diffDown = If(DEP, -Math.Log(1.5, 2), -1)
 
         For Each file As String In (ls - l - r - name <= DIR).Distinct
             Dim DEGs = gene.LoadDataSet(file) _
                 .Select(Function(gene) (logFC:=gene("logFC").ParseNumeric, gene)) _
-                .Where(Function(gene) Math.Abs(gene.logFC) >= 1) _
+                .Where(Function(gene) Math.Abs(gene.logFC) >= diffUP) _
                 .ToArray
             Dim sample As String = file.ParentDirName
-            Dim up As Integer = DEGs.Where(Function(gene) gene.logFC >= 1).Count.ToString
-            Dim down As Integer = DEGs.Where(Function(gene) gene.logFC <= -1).Count.ToString
+            Dim up As Integer = DEGs.Where(Function(gene) gene.logFC >= diffUP).Count.ToString
+            Dim down As Integer = DEGs.Where(Function(gene) gene.logFC <= diffDown).Count.ToString
 
             samples += New gene With {
                 .Identifier = sample,

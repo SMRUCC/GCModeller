@@ -216,9 +216,10 @@ Public Module ProteinGroups
         Dim edgeRfields$() = {"logFC", "logCPM", "F", "PValue"}
         Dim suffix$ = If(DEGsMode, "-DEGs-annotations.csv", "-proteins-annotations.csv")
         Dim __where As Func(Of protein, Boolean)
+        Dim diffCut = Math.Log(1.5, 2)  ' 蛋白质只需要1.5倍，mRNA才需要2倍
 
         If DEGsMode Then
-            __where = Function(gene) Math.Abs(gene("logFC").ParseNumeric) >= 1
+            __where = Function(gene) Math.Abs(gene("logFC").ParseNumeric) >= diffCut
         Else
             __where = Nothing
         End If

@@ -37,6 +37,7 @@ Public Class ExtendedEngine : Inherits REngine
 
     ''' <summary>
     ''' Evaluates a R statement in the given string.
+    ''' (由于这个函数并不返回数据，所以只推荐无返回值的方法调用或者变量初始化的时候是用本只写属性)
     ''' </summary>
     Public WriteOnly Property [call] As String
         Set(value As String)
