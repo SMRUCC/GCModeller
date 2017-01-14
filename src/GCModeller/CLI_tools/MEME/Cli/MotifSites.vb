@@ -57,7 +57,8 @@ Partial Module CLI
                 .Attributes = {
                     $"{site.Gene}:{site.ATGDist} {site.Trace}"
                 }
-            })
+            }).GroupBy(Function(x) x.Attributes(0).Split.First) _
+            .Select(Function(x) x.First)
         Return New FastaFile(fasta).Save(out, Encodings.ASCII).CLICode
     End Function
 
