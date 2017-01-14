@@ -118,6 +118,7 @@ Public Module CatalogProfiling
                     Dim barRectPlot As Rectangle
                     Dim valueSize As SizeF
                     Dim valueLeft!
+                    Dim valueLabel$
 
                     ' 绘制Class大分类的标签
                     Call g.DrawString(+[class], classFont, Brushes.Black, New PointF(left, y))
@@ -133,7 +134,9 @@ Public Module CatalogProfiling
                         barRectPlot = New Rectangle(
                             New Point(barRect.Left, y),
                             New Size(barWidth - gap, maxLenSubKeySize.Height))
-                        valueSize = g.MeasureString(cata.Value, valueFont)
+
+                        valueLabel = cata.Value.FormatNumeric(2)
+                        valueSize = g.MeasureString(valueLabel, valueFont)
                         valueLeft = barRectPlot.Right - valueSize.Width
 
                         If valueLeft < barRect.Left Then
@@ -142,7 +145,7 @@ Public Module CatalogProfiling
 
                         Call g.DrawLine(linePen, New Point(barRect.Left, yPlot), New Point(barRect.Right, yPlot))
                         Call g.FillRectangle(color, barRectPlot)
-                        Call g.DrawString(cata.Value, valueFont, Brushes.Black, New PointF(valueLeft, y - valueSize.Height / 3))
+                        Call g.DrawString(valueLabel, valueFont, Brushes.Black, New PointF(valueLeft, y - valueSize.Height / 3))
 
                         y += maxLenSubKeySize.Height + 4
                     Next

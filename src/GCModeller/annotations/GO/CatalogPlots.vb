@@ -1,8 +1,11 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports SMRUCC.genomics.Analysis.Microarray.DAVID
+Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.GoStat
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
@@ -94,5 +97,38 @@ Public Module CatalogPlots
             bg, size, margin,
             classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
             tickFontStyle, tick)
+    End Function
+
+    <Extension>
+    Public Function EnrichmentPlot(data As IEnumerable(Of FunctionCluster)) As Bitmap
+        Dim profile As New Dictionary(Of String, NamedValue(Of Double)())
+        Dim g = From x As FunctionCluster
+                In data
+                Select x
+                Group x By x.Category Into Group
+
+        For Each cata In g
+            Dim key$
+
+            Select Case cata.Category
+                Case "GOTERM_BP_DIRECT"
+                    key = Ontologies.BiologicalProcess.Description
+                Case "GOTERM_CC_DIRECT"
+                    key = Ontologies.CellularComponent.Description
+                Case "GOTERM_MF_DIRECT"
+                    key = Ontologies.MolecularFunction.Description
+                Case Else
+                    Throw New Exception(cata.Category & " is an invalid catalog label!")
+            End Select
+
+            profile(key) = cata _
+                .Group _
+                .ToArray(Function(x) New NamedValue(Of Double) With {
+                    .Name = x.Term,
+                    .Value = -Math.Log10(x.PValue)
+                })
+        Next
+
+        Return profile.ProfilesPlot("GO enrichment", axisTitle:="-Log10(p-value)", tick:=1)
     End Function
 End Module

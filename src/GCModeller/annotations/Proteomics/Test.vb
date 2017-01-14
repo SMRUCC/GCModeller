@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.Microarray
+Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -132,8 +133,13 @@ Module Test
             Dim table = DAVID.Load(file)
             Dim name As String = file.BaseName
 
-            Call table.SelectGoTerms().SaveTo($"{file.ParentPath}/GO/{name}.csv")
-            Call table.SelectKEGGPathway.SaveTo($"{file.ParentPath}/KEGG_PATH/{name}.csv")
+            Dim GO = table.SelectGoTerms()
+            Dim KEGG = table.SelectKEGGPathway
+
+            Call GO.SaveTo($"{file.ParentPath}/GO/{name}.csv")
+            Call KEGG.SaveTo($"{file.ParentPath}/KEGG_PATH/{name}.csv")
+
+            Call GO.EnrichmentPlot.SaveAs($"{file.ParentPath}/GO/{name}-enrichment.png")
         Next
 
         Pause()
