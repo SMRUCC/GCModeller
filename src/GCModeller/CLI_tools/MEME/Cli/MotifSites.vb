@@ -1,49 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::00badcae94c75e8d1794b4966417804f, ..\GCModeller\CLI_tools\MEME\Cli\MotifSites.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Data.Linq.Mapping
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.Text
-Imports SMRUCC.genomics.SequenceModel
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Language
-Imports System.Data.Linq.Mapping
-Imports Microsoft.VisualBasic.CommandLine
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.Text
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
+
+    <ExportAPI("/MotifSites.Fasta", Usage:="/MotifSites.Fasta /in <mast_motifsites.csv> [/out <out.fasta>]")>
+    Public Function MotifSites2Fasta(args As CommandLine) As Integer
+        Dim [in] = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".fasta")
+        Dim sites = [in].LoadCsv(Of MastSites)
+        Dim fasta = sites.Select(
+            Function(site) New FastaToken With {
+                .SequenceData = site.SequenceData,
+                .Attributes = {
+                    $"{site.Gene}:{site.ATGDist} {site.Trace}"
+                }
+            })
+        Return New FastaFile(fasta).Save(out, Encodings.ASCII).CLICode
+    End Function
 
     <ExportAPI("/Export.MotifSites",
                Info:="Motif iteration step 1",
