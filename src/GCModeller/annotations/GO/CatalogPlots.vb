@@ -47,18 +47,18 @@ Public Module CatalogPlots
                                   Optional tick% = 50) As Bitmap
 
         Dim data = annotations.CountStat(getGO, GO_terms) ' 返回来的是 Go_ID, label, count
-        Dim profile As New Dictionary(Of String, NamedValue(Of Integer)())
+        Dim profile As New Dictionary(Of String, NamedValue(Of Double)())
 
         For Each [class] In data.Keys
             Dim counts = data([class])
-            Dim stat As New List(Of NamedValue(Of Integer))
+            Dim stat As New List(Of NamedValue(Of Double))
 
             For Each catalog In counts
                 If catalog.Description.IsBlank Then
                     Continue For
                 End If
 
-                stat += New NamedValue(Of Integer) With {
+                stat += New NamedValue(Of Double) With {
                     .Name = catalog.Description,
                     .Value = catalog.Value
                 }
@@ -75,7 +75,7 @@ Public Module CatalogPlots
     End Function
 
     <Extension>
-    Public Function Plot(profile As Dictionary(Of String, NamedValue(Of Integer)()),
+    Public Function Plot(profile As Dictionary(Of String, NamedValue(Of Double)()),
                          Optional title$ = "Gene Ontology Profiling",
                          Optional axisTitle$ = "Number Of Gene",
                          Optional colorSchema$ = "Set1:c6",

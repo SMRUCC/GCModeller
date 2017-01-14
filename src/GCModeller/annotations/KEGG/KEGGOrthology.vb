@@ -116,7 +116,7 @@ Public Module KEGGOrthology
     ''' <param name="titleFontStyle$"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function Plot(profile As Dictionary(Of String, NamedValue(Of Integer)()),
+    Public Function Plot(profile As Dictionary(Of String, NamedValue(Of Double)()),
                          Optional title$ = "KEGG Orthology Profiling",
                          Optional axisTitle$ = "Number Of Gene",
                          Optional colorSchema$ = "Set1:c6",

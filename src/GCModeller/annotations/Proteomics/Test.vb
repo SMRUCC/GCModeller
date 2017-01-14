@@ -127,7 +127,14 @@ Module Test
 
 
         ' 处理DAVID数据
-        Dim table = DAVID.Load("C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\1.txt").SelectGoTerms
+
+        For Each file In ls - l - r - "*.txt" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\"
+            Dim table = DAVID.Load(file)
+            Dim name As String = file.BaseName
+
+            Call table.SelectGoTerms().SaveTo($"{file.ParentPath}/GO/{name}.csv")
+            Call table.SelectKEGGPathway.SaveTo($"{file.ParentPath}/KEGG_PATH/{name}.csv")
+        Next
 
         Pause()
 

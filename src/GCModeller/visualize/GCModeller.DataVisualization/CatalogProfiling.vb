@@ -32,7 +32,7 @@ Public Module CatalogProfiling
     ''' <param name="titleFontStyle$"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function ProfilesPlot(profile As Dictionary(Of String, NamedValue(Of Integer)()),
+    Public Function ProfilesPlot(profile As Dictionary(Of String, NamedValue(Of Double)()),
                                  Optional title$ = "Profiling Plot",
                                  Optional axisTitle$ = "Number Of Gene",
                                  Optional colorSchema$ = "Set1:c6",
@@ -44,10 +44,10 @@ Public Module CatalogProfiling
                                  Optional titleFontStyle$ = CSSFont.PlotTitle,
                                  Optional valueFontStyle$ = CSSFont.Win7Bold,
                                  Optional tickFontStyle$ = CSSFont.Win7LargerBold,
-                                 Optional tick% = 50) As Bitmap
+                                 Optional tick# = 50) As Bitmap
 
         If profile.ContainsKey(NOT_ASSIGN) Then
-            profile = New Dictionary(Of String, NamedValue(Of Integer)())(profile)
+            profile = New Dictionary(Of String, NamedValue(Of Double)())(profile)
             profile.Remove(NOT_ASSIGN)
         End If
 
@@ -124,7 +124,7 @@ Public Module CatalogProfiling
                     y += maxLenClsKeySize.Height + 5
 
                     ' 绘制统计的小分类标签以及barplot图形
-                    For Each cata As NamedValue(Of Integer) In profile(+[class])
+                    For Each cata As NamedValue(Of Double) In profile(+[class])
                         Call g.DrawString(cata.Name, catalogFont, color, New PointF(left + 25, y))
 
                         ' 绘制虚线

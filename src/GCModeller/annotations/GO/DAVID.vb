@@ -30,6 +30,14 @@ Public Module DAVID
                                                    Where x.Category.StartsWith("GOTERM_")
                                                    Select x
     End Function
+
+    <Extension>
+    Public Function SelectKEGGPathway(data As IEnumerable(Of FunctionCluster)) As FunctionCluster()
+        Return LinqAPI.Exec(Of FunctionCluster) <= From x As FunctionCluster
+                                                   In data
+                                                   Where x.Category = "KEGG_PATHWAY"
+                                                   Select x
+    End Function
 End Module
 
 Public Class FunctionCluster
@@ -39,7 +47,7 @@ Public Class FunctionCluster
     Public Property Count As Integer
     <Column("%")> Public Property Percent As Double
     Public Property PValue As Double
-    <Collection("Genes", ", ")> Public Property Genes As String()
+    <Ignored> Public Property Genes As String()
     <Column("List Total")> Public Property ListTotal As Integer
     <Column("Pop Hits")> Public Property PopHits As Integer
     <Column("Pop Total")> Public Property PopTotal As Integer
