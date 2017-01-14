@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Analysis.GO
+Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
@@ -140,6 +141,9 @@ Module Test
             Call KEGG.SaveTo($"{file.ParentPath}/KEGG_PATH/{name}.csv")
 
             Call GO.EnrichmentPlot.SaveAs($"{file.ParentPath}/GO/{name}-enrichment.png")
+            Call KEGG.KEGGEnrichmentPlot.SaveAs($"{file.ParentPath}/KEGG_PATH/{name}-enrichment.png")
+
+
         Next
 
         Pause()
