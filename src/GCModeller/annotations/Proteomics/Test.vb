@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
@@ -125,7 +126,10 @@ Module Test
         'Next
 
 
-        'Pause()
+        ' 处理DAVID数据
+        Dim table = DAVID.Load("C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\1.txt").SelectGoTerms
+
+        Pause()
 
 
 
