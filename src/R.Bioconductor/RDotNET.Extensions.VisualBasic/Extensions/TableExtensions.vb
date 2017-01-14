@@ -151,25 +151,25 @@ Public Module TableExtensions
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
     ''' <param name="var"></param>
-    Public Sub PushAsDataFrame(Of T)(source As IEnumerable(Of T), var As String)
+    Public Sub PushAsDataFrame(Of T)(source As IEnumerable(Of T), var As String, Optional maps As Dictionary(Of String, String) = Nothing)
         Dim schema As Dictionary(Of String, Type) = Nothing
 
         ' 初始化schema对象会在save函数之中完成，然后被pushasdataframe调用
         Call Reflector _
-            .Save(source, schemaOut:=schema) _
+            .Save(source, schemaOut:=schema, maps:=maps) _
             .PushAsDataFrame(var, types:=schema, typeParsing:=False)
     End Sub
 
     ''' <summary>
-    ''' Push this object collection into the R memory as dataframe object.
+    ''' Push this object collection into the R memory as dataframe object.(函数返回的是一个用于对象引用的临时编号)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
     ''' <returns>Returns the temp variable name that reference to the dataframe object in R memory.</returns>
     <Extension>
-    Public Function dataframe(Of T)(source As IEnumerable(Of T)) As String
+    Public Function dataframe(Of T)(source As IEnumerable(Of T), Optional maps As Dictionary(Of String, String) = Nothing) As String
         Dim tmp As String = App.NextTempName
-        Call PushAsDataFrame(source, var:=tmp)
+        Call PushAsDataFrame(source, var:=tmp, maps:=maps)
         Return tmp
     End Function
 End Module

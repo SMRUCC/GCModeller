@@ -41,9 +41,12 @@ Namespace ComponentModel.Loci
 
         ''' <summary>
         ''' 这个位点在哪一条DNA核酸链
-        ''' Forward = 1; 
+        ''' 
+        ''' ```
+        ''' Forward =  1; 
         ''' Reverse = -1; 
-        ''' Unknown = 0
+        ''' Unknown =  0
+        ''' ```
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>

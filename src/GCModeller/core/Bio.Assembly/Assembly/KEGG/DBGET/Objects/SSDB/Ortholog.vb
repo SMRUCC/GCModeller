@@ -35,7 +35,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
 
     ''' <summary>
-    ''' http://www.kegg.jp/ssdb-bin/ssdb_best?org_gene=sp:locus_tag
+    ''' ``*.csv``
+    ''' 
+    ''' > http://www.kegg.jp/ssdb-bin/ssdb_best?org_gene=sp:locus_tag
     ''' </summary>
     Public Class Ortholog
 

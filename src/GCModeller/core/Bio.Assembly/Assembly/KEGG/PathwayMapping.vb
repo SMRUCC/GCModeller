@@ -1,7 +1,12 @@
 ﻿Imports System.Collections.Specialized
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Threading
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 Namespace Assembly.KEGG.WebServices
@@ -13,6 +18,24 @@ Namespace Assembly.KEGG.WebServices
 
         Const yes$ = NameOf(yes)
         Const no$ = NameOf(no)
+
+        ''' <summary>
+        ''' ###### KEGG Mapper – Reconstruct Pathway
+        ''' 
+        ''' > http://www.genome.jp/kegg/tool/map_pathway.html
+        ''' 
+        ''' **Reconstruct Pathway** is a KEGG PATHWAY mapping tool that assists genome and metagenome annotations. 
+        ''' The input data is a single gene list (for a single organism) or multiple gene lists (for multiple 
+        ''' organisms) annotated with KEGG Orthology (KO) identifiers or K numbers. Each line of the gene list 
+        ''' contains the user-defined gene identifier followed by, if any, the assigned K number. The mapping is 
+        ''' performed through the K numbers against the KEGG reference pathways. 
+        ''' </summary>
+        ''' <param name="list$">Enter gene list with KO annotation(line format:  ``geneID\tKO``)</param>
+        ''' <param name="globalmap">Include global/overview maps</param>
+        <Extension>
+        Public Sub Reconstruct(list As IEnumerable(Of NamedValue(Of String)), Optional globalmap As Boolean = True, Optional work$ = "./")
+            Call Reconstruct(list.Select(Function(x) $"{x.Name}{ASCII.TAB}{x.Value}").JoinBy(ASCII.LF), globalmap, work)
+        End Sub
 
         ''' <summary>
         ''' ###### KEGG Mapper – Reconstruct Pathway
@@ -138,5 +161,70 @@ Namespace Assembly.KEGG.WebServices
                 End If
             Next
         End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="geneIDs"></param>
+        ''' <param name="DIR$">
+        ''' 文件夹之中存放着以基因号为文件名的<see cref="KEGG.DBGET.bGetObject.SSDB.OrthologREST"/>Xml
+        ''' </param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function GetKOlist(geneIDs As IEnumerable(Of String), DIR$) As NamedValue(Of String)()
+            Dim out As New List(Of NamedValue(Of String))
+
+            For Each id As String In geneIDs
+                Dim path$ = DIR & $"/{id}.xml"
+                Dim ko As OrthologREST = path.LoadXml(Of OrthologREST)
+
+                For Each hit As SShit In ko.Orthologs
+                    If Not hit.KO.Value.IsBlank Then
+                        out += New NamedValue(Of String) With {
+                            .Name = id,
+                            .Value = hit.KO.Value
+                        }
+                        Call $"[{hit.KO.Value}] {id}".__DEBUG_ECHO
+                        Exit For
+                    End If
+                Next
+            Next
+
+            Return out
+        End Function
+
+        <Extension>
+        Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String))) As NamedValue(Of Dictionary(Of String, String))()
+            Dim KO_htext As Dictionary(Of String, BriteHText) = BriteHText _
+                .Load_ko00001 _
+                .EnumerateEntries _
+                .Where(Function(x) Not x.EntryId Is Nothing) _
+                .GroupBy(Function(x) x.EntryId) _
+                .ToDictionary(Function(x) x.Key,
+                              Function(x) x.First)
+            Dim pathways = LinqAPI.Exec(Of NamedValue(Of Dictionary(Of String, String))) <=
+ _
+                From x As NamedValue(Of String)
+                In KO_maps
+                Where KO_htext.ContainsKey(x.Value)
+                Let path = KO_htext(x.Value)
+                Let subcate = path.Parent
+                Let cate = subcate.Parent
+                Let cls = cate.Parent
+                Let catalog As Dictionary(Of String, String) =
+                    New Dictionary(Of String, String) From {
+                        {"KO", x.Value},
+                        {"Category", cate.Description},
+                        {"Class", cls.Description},
+                        {"SubCatalog", subcate.Description},
+                        {"Function", path.Description}
+                }
+                Select New NamedValue(Of Dictionary(Of String, String)) With {
+                    .Name = x.Name,
+                    .Value = catalog
+                }
+
+            Return pathways
+        End Function
     End Module
 End Namespace

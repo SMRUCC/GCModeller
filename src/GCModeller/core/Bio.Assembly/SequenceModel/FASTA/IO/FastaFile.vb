@@ -98,10 +98,10 @@ Namespace SequenceModel.FASTA
             Call Me.New(fa.ToArray(Function(x) New FastaToken(x)))
         End Sub
 
-        Sub New(path As String, Optional deli As Char() = Nothing)
+        Sub New(path As String, Optional deli As Char() = Nothing, Optional throwEx As Boolean = True)
             FilePath = path.FixPath
             _innerList = DocParser(
-                FileIO.FileSystem.ReadAllText(path),
+                path.ReadAllText(throwEx:=throwEx, suppress:=True),
                 If(deli.IsNullOrEmpty, {"|"c}, deli))
         End Sub
 
@@ -233,32 +233,41 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
             Return Data
         End Function
 
-        Public Shared Function DocParser(TokenLines As String(), Optional deli As Char() = Nothing) As List(Of FastaToken)
+        ''' <summary>
+        ''' 当<paramref name="lines"/>参数为空的时候，会返回一个空集合而非返回空值
+        ''' </summary>
+        ''' <param name="lines"></param>
+        ''' <param name="deli"></param>
+        ''' <returns></returns>
+        Public Shared Function DocParser(lines As String(), Optional deli As Char() = Nothing) As List(Of FastaToken)
             Dim faToken As New List(Of String)
-            Dim faList As New List(Of FastaToken)
+            Dim FASTA As New List(Of FastaToken)
 
+            If lines.IsNullOrEmpty Then
+                Return FASTA
+            End If
             If deli.IsNullOrEmpty Then
                 deli = {"|"c}
             End If
 
-            For Each Line As String In TokenLines
+            For Each Line As String In lines
                 If String.IsNullOrEmpty(Line) Then
                     Continue For
                 ElseIf Line.Chars(Scan0) = ">"c Then  'New FASTA Object
-                    Call faList.Add(FastaToken.ParseFromStream(faToken, deli))
+                    Call FASTA.Add(FastaToken.ParseFromStream(faToken, deli))
                     Call faToken.Clear()
                 End If
 
                 Call faToken.Add(Line)
             Next
 
-            If faList.Count > 0 Then
-                Call faList.RemoveAt(Scan0)
+            If FASTA.Count > 0 Then
+                Call FASTA.RemoveAt(Scan0)
             End If
 
-            Call faList.Add(FastaToken.ParseFromStream(faToken, deli))
+            Call FASTA.Add(FastaToken.ParseFromStream(faToken, deli))
 
-            Return faList
+            Return FASTA
         End Function
 
         Public Shared Function DocParser(doc As String, deli As Char()) As List(Of FastaToken)

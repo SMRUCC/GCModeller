@@ -76,14 +76,14 @@ Public Module DEGDesigner
         Dim genes = samples _
             .Select(Function(x) x.Value.Select(Function(g) New NamedValue(Of gene)(x.Key, g))) _
             .Unlist _
-            .GroupBy(Function(gene) gene.Value.Identifier) _
+            .GroupBy(Function(gene) gene.Value.ID) _
             .ToDictionary(Function(id) id.Key,
                           Function(g) g.ToArray)
         Dim out As New List(Of gene)
 
         For Each gene As KeyValuePair(Of String, NamedValue(Of gene)()) In genes
             out += New gene With {
-                .Identifier = gene.Key,
+                .ID = gene.Key,
                 .Properties = gene.Value _
                 .ToDictionary(Function(sample) sample.Name,
                               Function(logFC) logFC.Value(NameOf(logFC)))}
@@ -98,20 +98,22 @@ Public Module DEGDesigner
     ''' <param name="DIR$"></param>
     ''' <param name="name$"></param>
     ''' <returns></returns>
-    Public Function DEGsStatMatrix(DIR$, name$) As gene()
+    Public Function DEGsStatMatrix(DIR$, name$, Optional DEP As Boolean = False) As gene()
         Dim samples As New List(Of gene)
+        Dim diffUP = If(DEP, Math.Log(1.5, 2), 1)
+        Dim diffDown = If(DEP, -Math.Log(1.5, 2), -1)
 
         For Each file As String In (ls - l - r - name <= DIR).Distinct
             Dim DEGs = gene.LoadDataSet(file) _
                 .Select(Function(gene) (logFC:=gene("logFC").ParseNumeric, gene)) _
-                .Where(Function(gene) Math.Abs(gene.logFC) >= 1) _
+                .Where(Function(gene) Math.Abs(gene.logFC) >= diffUP) _
                 .ToArray
             Dim sample As String = file.ParentDirName
-            Dim up As Integer = DEGs.Where(Function(gene) gene.logFC >= 1).Count.ToString
-            Dim down As Integer = DEGs.Where(Function(gene) gene.logFC <= -1).Count.ToString
+            Dim up As Integer = DEGs.Where(Function(gene) gene.logFC >= diffUP).Count.ToString
+            Dim down As Integer = DEGs.Where(Function(gene) gene.logFC <= diffDown).Count.ToString
 
             samples += New gene With {
-                .Identifier = sample,
+                .ID = sample,
                 .Properties = New Dictionary(Of String, String) From {
                     {"UP", up},
                     {"Down", down},
@@ -193,7 +195,7 @@ Public Module DEGDesigner
             Call appendLine()
 
             For Each gene As gene In genes
-                Call line.Add(gene.Identifier)
+                Call line.Add(gene.ID)
                 ' EdgeR的实验的计算顺序是这样子的
                 Call line.AddRange(controls.Select(Function(t) gene(t)))
                 Call line.AddRange(experiments.Select(Function(t) gene(t)))

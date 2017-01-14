@@ -92,6 +92,9 @@ Namespace DocumentFormat.XmlOutput.MAST
 
         Public ReadOnly Property Directory As String
             Get
+                If source Is Nothing Then
+                    Return Nothing
+                End If
                 Dim DIR As String = FileIO.FileSystem.GetFileInfo(source).Directory.Name
                 Dim Name As String = IO.Path.GetFileNameWithoutExtension(DIR)
                 Return Name
@@ -264,6 +267,7 @@ Namespace DocumentFormat.XmlOutput.MAST
     ''' gap, while superfluous, makes creating motif diagrams for the text version much easier when using XSLT
     ''' </summary>
     <XmlType("hit")> Public Class HitResult
+
         <XmlAttribute("pos")> Public Property pos As Integer
         ''' <summary>
         ''' gap, while superfluous, makes creating motif diagrams for the text version much easier when using XSLT
@@ -274,6 +278,28 @@ Namespace DocumentFormat.XmlOutput.MAST
         <XmlAttribute("pvalue")> Public Property pvalue As String
         <XmlAttribute("strand")> Public Property strand As String
         <XmlAttribute("match")> Public Property match As String
+        <XmlAttribute> Public Property idx As Integer
+        <XmlAttribute> Public Property rc As String
+
+        Public Function GetStrand() As String
+            If strand Is Nothing Then
+                If rc Is Nothing Then
+                    Return "?"
+                Else
+                    Return If(rc = "n", "+", "-")
+                End If
+            Else
+                Return strand.GetBriefStrandCode
+            End If
+        End Function
+
+        Public Function GetId() As String
+            If motif Is Nothing Then
+                Return idx + 1
+            Else
+                Return motif
+            End If
+        End Function
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

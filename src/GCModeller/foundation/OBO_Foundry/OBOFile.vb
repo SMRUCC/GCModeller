@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
-''' 
+''' OBO file reader
 ''' </summary>
 ''' <remarks>
 ''' ### OBO文件格式1.2

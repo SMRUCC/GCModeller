@@ -26,12 +26,15 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -62,6 +65,28 @@ Module DEBUG_MAIN
 
     Sub Main()
 
+        WebServiceUtils.Proxy = "http://127.0.0.1:8087"
+
+        Dim key = "D3068"
+        Dim list = $"C:\Users\xieguigang\OneDrive\1.13-xcc\KEGG\{key}-meme.txt".ReadAllLines.GetKOlist("K:\Xanthomonas_campestris_8004_uid15\Ortholog")
+
+        Call list.ToDictionary(Function(x) x.Name, Function(x) x.Value).GetJson(True).SaveTo($"C:\Users\xieguigang\OneDrive\1.13-xcc\KEGG\{key}-meme-KO.json")
+
+        Dim htex = BriteHText.Load_ko00001.EnumerateEntries.Where(Function(x) Not x.EntryId Is Nothing).GroupBy(Function(x) x.EntryId).ToDictionary(Function(x) x.Key, Function(x) x.First)
+        Dim pathways = From x In list
+                       Where htex.ContainsKey(x.Value)
+                       Let path = htex(x.Value)
+                       Let subcate = path.Parent
+                       Let cate = subcate.Parent
+                       Let cls = cate.Parent
+                       Select geneID = x.Name, KO = x.Value, Category = cate.Description, [class] = cls.Description, subCatalog = subcate.Description, [function] = path.Description
+
+        Call pathways.ToArray.SaveTo($"C:\Users\xieguigang\OneDrive\1.13-xcc\KEGG\{key}-meme-KO.csv")
+
+        Call list.Reconstruct(work:=$"C:\Users\xieguigang\OneDrive\1.13-xcc\KEGG\{key}-meme/")
+
+
+        Pause()
 
         Dim faaaaa = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.CutSequence(New Location(1434741, 1435203), "xcb")
 

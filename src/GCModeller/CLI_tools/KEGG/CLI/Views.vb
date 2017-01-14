@@ -26,9 +26,13 @@
 
 #End Region
 
+Imports System.IO
+Imports System.Text
+Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Extensions
@@ -36,17 +40,41 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.KEGG.KEGGOrthology
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.ProteinModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
+
+    <ExportAPI("/Cut_sequence.upstream", Usage:="/Cut_sequence.upstream /in <list.txt> /PTT <genome.ptt> /org <kegg_sp> [/len <100bp> /overrides /out <outDIR>]")>
+    Public Function CutSequence_Upstream(args As CommandLine) As Integer
+        Dim [in] = args("/in")
+        Dim PTT = args("/PTT")
+        Dim len = args.GetValue("/len", 100)
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-{len}bp.fasta")
+        Dim genome As PTT = SMRUCC.genomics.Assembly.NCBI.GenBank.LoadPTT(PTT)
+        Dim code$ = args("/org")
+        Dim [overrides] As Boolean = args.GetBoolean("/overrides")
+
+        Call genome.CutSequence_Upstream(
+            geneIDs:=[in].ReadAllLines,
+            len:=len,
+            save:=out,
+            code:=code,
+            [overrides]:=[overrides])
+
+        Return 0
+    End Function
 
     <ExportAPI("/Views.mod_stat", Usage:="/Views.mod_stat /in <KEGG_Modules/Pathways_DIR> /locus <in.csv> [/locus_map Gene /pathway /out <out.csv>]")>
     Public Function Stats(args As CommandLine) As Integer
