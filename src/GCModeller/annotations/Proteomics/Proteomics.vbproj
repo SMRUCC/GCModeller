@@ -146,6 +146,10 @@
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>Microsoft.VisualBasic.Mathematical</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematical\Plots\Plots.Extensions\Plots.Extensions.vbproj">
+      <Project>{a7819bb0-ea16-4526-a7d8-e6533f30e914}</Project>
+      <Name>Plots.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematical\Plots\Plots.vbproj">
       <Project>{17f8e821-0a01-4975-9caa-ac95251226d5}</Project>
       <Name>Plots</Name>

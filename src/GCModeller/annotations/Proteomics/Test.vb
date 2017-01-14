@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.Data.csv
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Analysis.GO
@@ -105,7 +107,21 @@ Module Test
         'Call DEGsStatMatrix("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\SK", "qlfTable.csv", DEP:=True) _
         '    .SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK.logFC-overviews.csv",, "design")
 
-        'Pause()
+        Call Heatmap _
+            .LoadDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL.logFC-overviews.csv") _
+            .Plot(mapLevels:=10,
+                  margin:=New Size(200, 50),
+                  mapName:="Spectral:c6",
+                  kmeans:=Function(x) KmeansReorder(x, 2),
+                  legendHasUnmapped:=False,
+                  min:=0,
+                  mainTitle:="Samples' DEP",
+                  legendTitle:="Numbers of DEPs",
+                  legendWidth:=30, legendLayout:=New Rectangle(New Point, New Size(400, 600))) _
+            .SaveAs("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL.logFC-overviews.png")
+
+
+        Pause()
 
 
         '6. 导出KEGG颜色代码,并构建代谢网络图
