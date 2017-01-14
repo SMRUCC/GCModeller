@@ -9,6 +9,26 @@ Imports SMRUCC.genomics.Visualize.CatalogProfiling
 
 Public Module CatalogPlots
 
+    ''' <summary>
+    ''' 这个函数适合绘制KOBAS的输出
+    ''' </summary>
+    ''' <typeparam name="gene"></typeparam>
+    ''' <param name="annotations"></param>
+    ''' <param name="getGO"></param>
+    ''' <param name="GO_terms"><see cref="GO_OBO.Open(String)"/> for the dictionary data.</param>
+    ''' <param name="title$"></param>
+    ''' <param name="axisTitle$"></param>
+    ''' <param name="colorSchema$"></param>
+    ''' <param name="bg$"></param>
+    ''' <param name="size"></param>
+    ''' <param name="margin"></param>
+    ''' <param name="classFontStyle$"></param>
+    ''' <param name="catalogFontStyle$"></param>
+    ''' <param name="titleFontStyle$"></param>
+    ''' <param name="valueFontStyle$"></param>
+    ''' <param name="tickFontStyle$"></param>
+    ''' <param name="tick%"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function Plot(Of gene)(annotations As IEnumerable(Of gene),
                                   getGO As Func(Of gene, (goID$, num As Integer)),

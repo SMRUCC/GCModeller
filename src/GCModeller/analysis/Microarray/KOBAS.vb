@@ -1,5 +1,7 @@
 ﻿Imports System.Collections.Specialized
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' 做富集分析使用的
@@ -40,3 +42,47 @@ Public Module KOBAS
         Call GO.SaveTo(path.TrimSuffix & "-GO.tsv")
     End Sub
 End Module
+
+Public Class EnrichmentTerm
+
+    <Column("#Term")>
+    Public Property Term As String
+    Public Property ID As String
+
+    ''' <summary>
+    ''' Input number
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Input number")> Public Property number As Integer
+
+    ''' <summary>
+    ''' Background number
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Background number")> Public Property Backgrounds As Integer
+
+    ''' <summary>
+    ''' P-Value
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("P-Value")> Public Property Pvalue As Double
+
+    ''' <summary>
+    ''' Corrected P-Value
+    ''' </summary>
+    ''' <returns></returns>
+    <Column("Corrected P-Value")> Public Property CorrectedPvalue As Double
+
+    ''' <summary>
+    ''' The group of this input gene id list
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Input As String
+
+    <Column("Hyperlink")>
+    Public Property link As String
+
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
+End Class

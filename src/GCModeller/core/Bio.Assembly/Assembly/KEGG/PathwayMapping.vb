@@ -193,6 +193,38 @@ Namespace Assembly.KEGG.WebServices
             Return out
         End Function
 
+        <Extension>
+        Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String))) As NamedValue(Of Dictionary(Of String, String))()
+            Dim KO_htext As Dictionary(Of String, BriteHText) = BriteHText _
+                .Load_ko00001 _
+                .EnumerateEntries _
+                .Where(Function(x) Not x.EntryId Is Nothing) _
+                .GroupBy(Function(x) x.EntryId) _
+                .ToDictionary(Function(x) x.Key,
+                              Function(x) x.First)
+            Dim pathways = LinqAPI.Exec(Of NamedValue(Of Dictionary(Of String, String))) <=
+ _
+                From x As NamedValue(Of String)
+                In KO_maps
+                Where KO_htext.ContainsKey(x.Value)
+                Let path = KO_htext(x.Value)
+                Let subcate = path.Parent
+                Let cate = subcate.Parent
+                Let cls = cate.Parent
+                Let catalog As Dictionary(Of String, String) =
+                    New Dictionary(Of String, String) From {
+                        {"KO", x.Value},
+                        {"Category", cate.Description},
+                        {"Class", cls.Description},
+                        {"SubCatalog", subcate.Description},
+                        {"Function", path.Description}
+                }
+                Select New NamedValue(Of Dictionary(Of String, String)) With {
+                    .Name = x.Name,
+                    .Value = catalog
+                }
 
+            Return pathways
+        End Function
     End Module
 End Namespace

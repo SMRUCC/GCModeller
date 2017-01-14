@@ -6,10 +6,9 @@ Module Test
 
     Sub Main()
 
-        'For Each file In ls - l - r - "*.txt" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\KOBAS"
-        '    Call KOBAS.SplitData(file)
-        'Next
-
+        For Each file In ls - l - r - "*.txt" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\KOBAS"
+            Call KOBAS.SplitData(file)
+        Next
 
         'Pause()
 
