@@ -40,6 +40,7 @@ Namespace Assembly.Uniprot.XML
         Public Property features As feature()
         Public Property gene As gene
         Public Property proteinExistence As value
+        Public Property organism As organism
 
         <XmlElement("keyword")> Public Property keywords As value()
         <XmlElement("comment")> Public Property comments As comment()
@@ -81,6 +82,8 @@ Namespace Assembly.Uniprot.XML
         Public ReadOnly Property CommentList As Dictionary(Of String, comment())
         <XmlIgnore>
         Public ReadOnly Property Xrefs As Dictionary(Of String, dbReference())
+
+
     End Class
 
     Public Class comment
@@ -91,6 +94,52 @@ Namespace Assembly.Uniprot.XML
 
     Public Class gene
         Public Property name As value
+    End Class
+
+    Public Class organism
+
+        <XmlAttribute> Public Property evidence As String
+        <XmlElement("name")> Public Property names As value()
+            Get
+                Return namesData.Values.ToArray
+            End Get
+            Set(value As value())
+                If value Is Nothing Then
+                    _namesData = New Dictionary(Of String, value)
+                Else
+                    _namesData = value.ToDictionary(Function(x) x.type)
+                End If
+            End Set
+        End Property
+
+        Public Property dbReference As value
+        Public Property lineage As lineage
+
+        Public ReadOnly Property namesData As Dictionary(Of String, value)
+
+        Public ReadOnly Property scientificName As String
+            Get
+                If namesData.ContainsKey("scientific") Then
+                    Return namesData("scientific").value
+                Else
+                    Return ""
+                End If
+            End Get
+        End Property
+
+        Public ReadOnly Property commonName As String
+            Get
+                If namesData.ContainsKey("common") Then
+                    Return namesData("common").value
+                Else
+                    Return ""
+                End If
+            End Get
+        End Property
+    End Class
+
+    Public Class lineage
+        <XmlElement("taxon")> Public Property taxonlist As String()
     End Class
 
     Public Class protein
@@ -120,10 +169,16 @@ Namespace Assembly.Uniprot.XML
     End Class
 
     Public Class value
+
         <XmlAttribute> Public Property type As String
         <XmlAttribute> Public Property evidence As String
         <XmlAttribute> Public Property description As String
+        <XmlAttribute> Public Property id As String
         <XmlText> Public Property value As String
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
     End Class
 
     Public Class dbReference

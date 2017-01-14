@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
@@ -40,7 +42,13 @@ Public Module ProteinGroups
     ''' <param name="deli"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function GenerateAnnotations(ID As IEnumerable(Of String), idMapping$, uniprotXML$, Optional prefix$ = "", Optional deli As Char = ";"c) As IEnumerable(Of (protein, String()))
+    Public Iterator Function GenerateAnnotations(ID As IEnumerable(Of String),
+                                                 idMapping$,
+                                                 uniprotXML$,
+                                                 Optional prefix$ = "",
+                                                 Optional deli As Char = ";"c,
+                                                 Optional scientifcName$ = Nothing) As IEnumerable(Of (protein, String()))
+
         Dim mappings As Dictionary(Of String, String()) = Retrieve_IDmapping.MappingReader(idMapping)
         Dim uniprot As Dictionary(Of String, Uniprot.XML.entry) =
             SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML _
@@ -55,16 +63,28 @@ Public Module ProteinGroups
             Dim i As Integer = Idtags.i + 1
 
             Yield list.__applyInternal(
-                New Dictionary(Of String, String), mappings, uniprot, prefix, i)
+                New Dictionary(Of String, String), mappings, uniprot, prefix, i, scientifcName)
         Next
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="source">这个列表其实都是指代的一个基因</param>
+    ''' <param name="annotations"></param>
+    ''' <param name="mappings"></param>
+    ''' <param name="uniprot"></param>
+    ''' <param name="prefix$"></param>
+    ''' <param name="i%"></param>
+    ''' <param name="scientifcName">假若这个参数不为空，则会优先考虑该物种的基因注释信息，假若找不到，才会找其他的基因的信息</param>
+    ''' <returns></returns>
     <Extension>
     Private Function __applyInternal(source As String(),
                                      annotations As Dictionary(Of String, String),
                                      mappings As Dictionary(Of String, String()),
                                      uniprot As Dictionary(Of String, Uniprot.XML.entry),
-                                     prefix$, i%) As (protein As protein, mapsId As String())
+                                     prefix$, i%,
+                                     scientifcName$) As (protein As protein, mapsId As String())
 
         Dim mappsId$() = source _
             .Select(Function(s) UCase(s)) _
@@ -72,11 +92,24 @@ Public Module ProteinGroups
             .Select(Function(ref) mappings(ref)) _
             .Unlist _
             .Distinct _
-            .ToArray
+            .ToArray  ' 从uniprot ref90 转换为标准基因号
         Dim uniprots As Uniprot.XML.entry() = mappsId _
             .Where(Function(acc) uniprot.ContainsKey(acc)) _
             .Select(Function(acc) uniprot(acc)) _
             .ToArray
+
+        If Not scientifcName Is Nothing Then
+            ' 会进行优先查找筛选
+            For j As Integer = 0 To uniprots.Length - 1
+                Dim protein As Uniprot.XML.entry = uniprots(j)
+
+                If Not protein.organism Is Nothing AndAlso protein.organism.scientificName = scientifcName Then
+                    uniprots = {protein}  ' 已经找到了目标物种的蛋白注释了，则会抛弃掉其他物种的蛋白注释
+                    Exit For
+                End If
+            Next   ' 假若找不到，才会使用其他的物种的注释
+        End If
+
         Dim names = uniprots _
             .Select(Function(prot) prot.protein) _
             .Where(Function(x) Not x Is Nothing AndAlso Not x.recommendedName Is Nothing) _
@@ -133,7 +166,7 @@ Public Module ProteinGroups
         End If
 
         Return (New protein With {
-            .Identifier = geneID,
+            .ID = geneID,
             .Properties = annotations
         }, mappsId)
     End Function
@@ -146,13 +179,14 @@ Public Module ProteinGroups
                                                  Optional [where] As Func(Of protein, Boolean) = Nothing,
                                                  Optional prefix$ = "",
                                                  Optional deli As Char = ";"c,
-                                                 Optional geneList As List(Of String) = Nothing) As IEnumerable(Of protein)
+                                                 Optional geneList As List(Of String) = Nothing,
+                                                 Optional scientifcName$ = Nothing) As IEnumerable(Of protein)
         If where Is Nothing Then
             where = Function(prot) True
         End If
 
         For Each gene As SeqValue(Of protein) In genes.SeqIterator
-            Dim list$() = (+gene).Identifier.Split(deli)
+            Dim list$() = (+gene).ID.Split(deli)
             Dim i As Integer = gene.i + 1
             Dim annotations As New Dictionary(Of String, String)
             Dim g As protein = (+gene)
@@ -166,7 +200,9 @@ Public Module ProteinGroups
             End If
 
             With list.__applyInternal(
-                annotations, mappings, uniprot, prefix, i)
+                annotations, mappings, uniprot,
+                prefix, i,
+                scientifcName)
 
                 If Not geneList Is Nothing Then
                     Call geneList.AddRange(.mapsId)
@@ -265,6 +301,11 @@ Public Module ProteinGroups
         Call files.__apply(True, idMapping, uniprotXML, idlistField, prefix, deli, geneList)
     End Sub
 
+    ''' <summary>
+    ''' <see cref="protein.LoadDataSet(String, String)"/>的快捷方式
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function LoadSample(path$) As protein()
         Return protein.LoadDataSet(path).ToArray
@@ -300,4 +341,34 @@ Public Module ProteinGroups
                 .SaveTo(file.TrimSuffix & "-DEGs-KO.txt")
         Next
     End Sub
+
+    <Extension>
+    Public Function Term2Locus(proteins As IEnumerable(Of protein), field$, Optional deli$ = Nothing, Optional oneTag As Boolean = False) As NamedValue(Of String)()
+        proteins = proteins.Where(Function(x) Not x(field).IsBlank)
+
+        If deli Is Nothing Then
+            Return proteins.ToArray(Function(x) New NamedValue(Of String)(x(field), x.ID))
+        Else
+            Dim out As New List(Of NamedValue(Of String))
+
+            For Each prot As protein In proteins
+                Dim tags$() = Strings.Split(prot(field), deli) _
+                    .Select(AddressOf Trim) _
+                    .ToArray
+
+                For Each tag$ In tags
+                    out += New NamedValue(Of String) With {
+                        .Name = tag,
+                        .Value = prot.ID
+                    }
+
+                    If oneTag Then
+                        Exit For
+                    End If
+                Next
+            Next
+
+            Return out
+        End If
+    End Function
 End Module

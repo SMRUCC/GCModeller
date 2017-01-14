@@ -76,14 +76,14 @@ Public Module DEGDesigner
         Dim genes = samples _
             .Select(Function(x) x.Value.Select(Function(g) New NamedValue(Of gene)(x.Key, g))) _
             .Unlist _
-            .GroupBy(Function(gene) gene.Value.Identifier) _
+            .GroupBy(Function(gene) gene.Value.ID) _
             .ToDictionary(Function(id) id.Key,
                           Function(g) g.ToArray)
         Dim out As New List(Of gene)
 
         For Each gene As KeyValuePair(Of String, NamedValue(Of gene)()) In genes
             out += New gene With {
-                .Identifier = gene.Key,
+                .ID = gene.Key,
                 .Properties = gene.Value _
                 .ToDictionary(Function(sample) sample.Name,
                               Function(logFC) logFC.Value(NameOf(logFC)))}
@@ -113,7 +113,7 @@ Public Module DEGDesigner
             Dim down As Integer = DEGs.Where(Function(gene) gene.logFC <= diffDown).Count.ToString
 
             samples += New gene With {
-                .Identifier = sample,
+                .ID = sample,
                 .Properties = New Dictionary(Of String, String) From {
                     {"UP", up},
                     {"Down", down},
@@ -195,7 +195,7 @@ Public Module DEGDesigner
             Call appendLine()
 
             For Each gene As gene In genes
-                Call line.Add(gene.Identifier)
+                Call line.Add(gene.ID)
                 ' EdgeR的实验的计算顺序是这样子的
                 Call line.AddRange(controls.Select(Function(t) gene(t)))
                 Call line.AddRange(experiments.Select(Function(t) gene(t)))

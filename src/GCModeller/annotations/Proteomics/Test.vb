@@ -3,10 +3,23 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
+Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Module Test
 
     Sub Main()
+
+
+        'Call GO_OBO.LoadDocument("K:\GO_DB\go.obo").SaveTable("K:\GO_DB\go_brief.csv")
+
+        'Pause()
+
+
+        Call "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_GL\proteinGroups_GL-3.log2(GL72.A_GL24.A)\proteinGroups_GL-3.log2(GL72.A_GL24.A)-qlfTable-DEGs-annotations.csv" _
+            .LoadSample.Term2Locus("GO", ";", True).SaveAsTabularMapping("G:\GCModeller\GCModeller\R\enrich\t2g.txt")
+
+
+        Pause()
 
         'Call Plots.GOEnrichmentPlot(
         '    "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\GO\proteinGroups_GL-2.log2(GL72.C_GL72.A)-qlfTable-DEGs-annotations-uniprot-KOBAS-GO.tsv".LoadTsv(Of EnrichmentTerm),
@@ -83,12 +96,12 @@ Module Test
         Pause()
 
 
-        Call "C:\Users\xieguigang\OneDrive\1.5\samples\1. samples\proteinGroups_GL.csv".LoadSample.Select(Function(x) x.Identifier) _
+        Call "C:\Users\xieguigang\OneDrive\1.5\samples\1. samples\proteinGroups_GL.csv".LoadSample.Select(Function(x) x.ID) _
             .GenerateAnnotations("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml-mappingTable.tsv",
                                  "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.xml", prefix:="GL").Select(Function(x) x.Item1).ToArray _
                                  .SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.csv",, "geneID")
 
-        Call "C:\Users\xieguigang\OneDrive\1.5\samples\1. samples\proteinGroups_SK.csv".LoadSample.Select(Function(x) x.Identifier) _
+        Call "C:\Users\xieguigang\OneDrive\1.5\samples\1. samples\proteinGroups_SK.csv".LoadSample.Select(Function(x) x.ID) _
             .GenerateAnnotations("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml-mappingTable.tsv",
                                  "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.xml", prefix:="SK").Select(Function(x) x.Item1).ToArray _
                                  .SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.csv",, "geneID")
