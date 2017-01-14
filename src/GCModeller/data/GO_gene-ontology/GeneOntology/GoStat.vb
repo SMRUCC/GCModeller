@@ -41,7 +41,7 @@ Public Module GoStat
                 Call count.Add(
                     New NamedValue(Of int) With {
                         .Name = goID,
-                        .Description = term.def,
+                        .Description = term.name,
                         .Value = 0
                     })
             End If

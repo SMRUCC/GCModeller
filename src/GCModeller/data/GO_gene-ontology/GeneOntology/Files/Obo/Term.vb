@@ -122,6 +122,9 @@ Namespace OBO
         <Field("intersection_of")> Public Property intersection_of As String()
         <Field("property_value")> Public Property property_value As String()
         <Field("consider")> Public Property consider As String()
+        <Field("disjoint_from")> Public Property disjoint_from As String()
+        <Field("created_by")> Public Property created_by As String
+        <Field("creation_date")> Public Property creation_date As String
 
         Public Const Term As String = "[Term]"
         Public Const Typedef As String = "[Typedef]"
