@@ -1,18 +1,25 @@
 library("limma")
 library("edgeR")
 library(tools) 
+library(Cairo)
 
 # file - file.txt:  id...sample1...sample2...
-#                   前面的一半是实验，后面的一半是对照，也可以反过来，顺序无所谓
+#                   前面的一半是实验，后面的一半是对照，也可以反过来，顺序无所谓，计算出来的结果如果方向反了，只需要将logFC的符号变一下就行了
 # repeatsNum - sample repeats number, total sample number is repeatsNum*2
-DEG <- function(file, repeatsNum=3) {
+DEG <- function(file, repeatsNum=3, DEP = 0, csv = 0) {
 
 	DIR <- dirname(file)
 	DIR <- paste(DIR, file_path_sans_ext(basename(file)), sep="/")
 	DIR  # 结果数据输出的文件夹
 	dir.create(DIR)	
 	
-	rawdata<-read.delim(file,header=T)
+	sep = "\t"
+	
+	if (csv != 0) {
+		sep=","
+	}
+	
+	rawdata <- read.delim(file, header=T, sep=sep)
 	total = repeatsNum * 2
 	head(rawdata) #检查读入是否正确
 	# 第一列是编号，剩下的列都是表达量
@@ -26,7 +33,7 @@ DEG <- function(file, repeatsNum=3) {
 	y<-calcNormFactors(y)#默认为TMM标准化
 	##检查样本的outlier and relationship
 	
-	tiff(paste(DIR, "plotMDS.tiff", sep="/"), width=1200, height=900)
+	Cairo(paste(DIR, "plotMDS.png", sep="/"), type="png", units = "in", width=5*2, height=4*2, pointsize=18, dpi=500)
 		y<-plotMDS(y)
 	dev.off()
 	
@@ -59,9 +66,18 @@ DEG <- function(file, repeatsNum=3) {
 	summary(de<-decideTestsDGE(qlf))##qlf或可改为lrt
 	detags<-rownames(y)[as.logical(de)]
 	
-	tiff(paste(DIR, "plotSmear.tiff", sep="/"), width=1600, height=1000)		
+	downline = -1
+	upline=1
+	
+	if(DEP != 0) {
+	
+		upline = log(1.5, 2)
+		downline = -1*upline
+	}
+	
+	Cairo(paste(DIR, "plotSmear.png", sep="/"), type="png", units="in", width=5*2, height=4*2, pointsize=24, dpi=500)		
 		plotSmear(qlf, de.tags=detags)
-		abline(h=c(-1,1),col='blue') #蓝线为2倍差异表达基因，差异表达的数据在qlf中
+		abline(h=c(downline,upline),col='blue') #蓝线为 (DEG=2, DEP=1.5) 倍差异表达基因，差异表达的数据在qlf中
 	dev.off()
 
 	qlf;
