@@ -150,7 +150,9 @@ Public Module CatalogProfiling
                     y += 20
                 Next
 
-                Dim axisTicks = AxisScalling.GetAxisByTick(profile.Values.Max(Function(v) v.Max(Function(n) n.Value)), tick)
+                Dim axisTicks#() = AxisScalling.GetAxisByTick(
+                    profile.Values.Max(Function(v) If(v.Length = 0, 0, v.Max(Function(n) n.Value))),
+                    tick)
                 Dim d# = 25
                 Dim tickFont = CSSFont.TryParse(tickFontStyle)
                 Dim tickSize As SizeF
