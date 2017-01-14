@@ -54,6 +54,10 @@ Public Module CatalogPlots
             Dim stat As New List(Of NamedValue(Of Integer))
 
             For Each catalog In counts
+                If catalog.Description.IsBlank Then
+                    Continue For
+                End If
+
                 stat += New NamedValue(Of Integer) With {
                     .Name = catalog.Description,
                     .Value = catalog.Value

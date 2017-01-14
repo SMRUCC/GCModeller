@@ -1,4 +1,5 @@
 ﻿Imports System.Collections.Specialized
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -43,6 +44,15 @@ Namespace KOBAS
             Call KEGG.SaveTo(path.TrimSuffix & "-KEGG.tsv")
             Call GO.SaveTo(path.TrimSuffix & "-GO.tsv")
         End Sub
+
+        ''' <summary>
+        ''' ``-<see cref="Math.Log10(Double)"/>(<see cref="EnrichmentTerm.Pvalue"/>)``
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        <Extension> Public Function P(x As EnrichmentTerm) As Double
+            Return -Math.Log10(x.Pvalue)
+        End Function
     End Module
 
     Public Class EnrichmentTerm

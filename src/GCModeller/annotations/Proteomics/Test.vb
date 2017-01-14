@@ -12,6 +12,7 @@ Module Test
             "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\GO\proteinGroups_GL-2.log2(GL72.C_GL72.A)-qlfTable-DEGs-annotations-uniprot-KOBAS-GO.tsv".LoadTsv(Of EnrichmentTerm),
             "K:\GO_DB\go.obo").SaveAs("x:\test.png")
 
+        Pause()
 
         For Each file In ls - l - r - "*.txt" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\KOBAS"
             Call KOBAS.SplitData(file)
