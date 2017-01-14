@@ -120,12 +120,12 @@ Module Test
 
         ' 7. 为每一个DEP结果导出相应的uniprot编号，进行富集分析 
 
-        For Each file In ls - l - r - "*.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\KOBAS"
-            Call file.LoadSample("uniprot").Select(Function(g) g.ID).Distinct.SaveTo(file.TrimSuffix & "-uniprot.txt")
-        Next
+        'For Each file In ls - l - r - "*.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\KOBAS"
+        '    Call file.LoadSample("uniprot").Select(Function(g) g.ID).Distinct.SaveTo(file.TrimSuffix & "-uniprot.txt")
+        'Next
 
 
-        Pause()
+        'Pause()
 
 
 

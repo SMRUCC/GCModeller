@@ -157,7 +157,7 @@ Public Module DiffVariation
                 .Properties = hash
             }
             raw += New EntityObject With {
-                .Identifier = tag,
+                .ID = tag,
                 .Properties = rawRow
             }
 

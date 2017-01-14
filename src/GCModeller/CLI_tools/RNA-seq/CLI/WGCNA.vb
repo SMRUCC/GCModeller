@@ -105,7 +105,7 @@ Partial Module CLI
         Dim locusMap As String = args.GetValue("/locus_map", "locus")
         Dim out As Int = args.OpenHandle("/out", inFile.TrimSuffix & "-Groups.n.csv")
         Dim ds = DocumentStream.EntityObject.LoadDataSet(inFile, locusMap)
-        Dim st = (From x In ds Select x Group x By x.Identifier Into Count).ToArray
+        Dim st = (From x In ds Select x Group x By x.ID Into Count).ToArray
         Return st > out
     End Function
 End Module

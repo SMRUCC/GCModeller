@@ -83,7 +83,7 @@ Public Module API
                                Function(o) o.x))
 
         For Each x As EntityObject In source
-            Dim key As String = x.Identifier
+            Dim key As String = x.ID
             Dim a = False, b = False
 
             If FromHash.ContainsKey(key) Then

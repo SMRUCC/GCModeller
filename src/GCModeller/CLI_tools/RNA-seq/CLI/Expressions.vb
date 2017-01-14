@@ -73,8 +73,8 @@ Partial Module CLI
         Dim dataSets = (From x As DocumentStream.EntityObject
                         In DocumentStream.EntityObject.LoadDataSet(data, locus_map)
                         Select x
-                        Group x By x.Identifier Into Group) _
-                             .ToDictionary(Function(x) x.Identifier,
+                        Group x By x.ID Into Group) _
+                             .ToDictionary(Function(x) x.ID,
                                            Function(x) x.Group.ToArray)
         Dim LQuery = (From x In log2
                       Where dataSets.ContainsKey(x.Identifier) AndAlso
