@@ -86,6 +86,11 @@ Namespace Assembly.Uniprot.Web
             End Try
         End Sub
 
+        ''' <summary>
+        ''' 读取从uniprot上面所下载下来的id mapping表
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <returns></returns>
         Public Function MappingReader(path$) As Dictionary(Of String, String())
             Dim lines = path.ReadAllLines.Skip(1)
             Dim maps As Dictionary(Of String, String()) = lines _
@@ -97,6 +102,11 @@ Namespace Assembly.Uniprot.Web
             Return maps
         End Function
 
+        ''' <summary>
+        ''' 得到mapping的所有的基因编号
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <returns></returns>
         Public Function GetMappingList(path$) As String()
             Return MappingReader(path).Values.Unlist.Distinct.ToArray
         End Function

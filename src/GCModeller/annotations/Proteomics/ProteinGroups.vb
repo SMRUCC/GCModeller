@@ -99,15 +99,34 @@ Public Module ProteinGroups
             .ToArray
 
         If Not scientifcName Is Nothing Then
+            Dim found As Boolean = False
+
             ' 会进行优先查找筛选
             For j As Integer = 0 To uniprots.Length - 1
                 Dim protein As Uniprot.XML.entry = uniprots(j)
 
                 If Not protein.organism Is Nothing AndAlso protein.organism.scientificName = scientifcName Then
                     uniprots = {protein}  ' 已经找到了目标物种的蛋白注释了，则会抛弃掉其他物种的蛋白注释
+                    mappsId = {protein.accession}
+                    found = True
+#If DEBUG Then
+                    Call $"[{protein.organism.scientificName}] {protein.name}".__DEBUG_ECHO
+#End If
                     Exit For
                 End If
             Next   ' 假若找不到，才会使用其他的物种的注释
+
+            If Not found Then
+                For j As Integer = 0 To uniprots.Length - 1
+                    If uniprots(j).Xrefs.ContainsKey("KO") Then
+                        uniprots = {uniprots(j)}  ' 假若使用指定的物种的话，对于其他的找不到的基因，也只用一个基因，否则做富集的时候会出问题
+                        Exit For
+                    End If
+                Next
+
+                uniprots = {uniprots(Scan0)}
+                mappsId = {uniprots(Scan0).accession}
+            End If
         End If
 
         Dim names = uniprots _
@@ -139,6 +158,7 @@ Public Module ProteinGroups
 
         Call annotations.Add("geneName", geneNames)
         Call annotations.Add("fullName", names.JoinBy("; "))
+        Call annotations.Add("uniprot", mappsId.JoinBy("; "))
         Call annotations.Add("GO", GO.JoinBy("; "))
         Call annotations.Add("EC", EC.JoinBy("; "))
         Call annotations.Add("KO", KO.JoinBy("; "))
@@ -307,8 +327,8 @@ Public Module ProteinGroups
     ''' <param name="path$"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function LoadSample(path$) As protein()
-        Return protein.LoadDataSet(path).ToArray
+    Public Function LoadSample(path$, Optional geneIDField$ = Nothing) As protein()
+        Return protein.LoadDataSet(path, uidMap:=geneIDField).ToArray
     End Function
 
     <Extension>
@@ -371,4 +391,47 @@ Public Module ProteinGroups
             Return out
         End If
     End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="files"></param>
+    ''' <param name="geneID$">基因ID所在的列名</param>
+    ''' <param name="annotation"></param>
+    ''' 
+    <Extension>
+    Public Sub ApplyAnnotations(files As IEnumerable(Of String), geneID$, fields$(), getAnnotations$(), annotation As Dictionary(Of protein))
+        For Each file As String In files
+            Dim genes = file.LoadSample(geneID)
+            Dim ALL As New List(Of protein)
+            Dim DEPs As New List(Of protein)
+
+            For Each gene As protein In genes
+                Dim annotations As New Dictionary(Of String, String)
+
+                For Each field In fields
+                    annotations.Add(field, gene(field))
+                Next
+
+                With annotation(gene.ID)
+                    For Each k As String In getAnnotations
+                        Call annotations.Add(k, .Value(k))
+                    Next
+                End With
+
+                ALL += New protein With {
+                    .ID = gene.ID,
+                    .Properties = annotations
+                }
+
+                Dim logFC = Math.Abs(gene("logFC").ParseNumeric)
+                If logFC >= Math.Log(1.5, 2) Then
+                    DEPs += ALL.Last
+                End If
+            Next
+
+            Call ALL.SaveDataSet(file.ParentPath & "/" & file.ParentDirName & "-" & file.BaseName & "-proteins-annotations.csv",, "geneID")
+            Call DEPs.SaveDataSet(file.ParentPath & "/" & file.ParentDirName & "-" & file.BaseName & "-DEPs-annotations.csv",, "geneID")
+        Next
+    End Sub
 End Module

@@ -29,7 +29,7 @@ Public Module PathwayMapVisualize
     End Function
 
     ''' <summary>
-    ''' KEGG Mapper – Search&Color Pathway
+    ''' KEGG Mapper – Search&amp;Color Pathway
     ''' </summary>
     ''' <param name="genes"></param>
     ''' <param name="logFC$"></param>
@@ -46,9 +46,17 @@ Public Module PathwayMapVisualize
                                    Optional colorUP$ = "red",
                                    Optional colorDown$ = "blue",
                                    Optional colorNormal$ = "green",
-                                   Optional KO$ = "KO") As String
+                                   Optional KO$ = "KO",
+                                   Optional DEP As Boolean = False) As String
 
         Dim out As New List(Of String)
+        Dim up = 1
+        Dim down = -1
+
+        If DEP Then
+            up = Math.Log(1.5, 2)
+            down = -up
+        End If
 
         For Each gene As gene In genes
             Dim logValue = gene(logFC).ParseNumeric
@@ -59,9 +67,9 @@ Public Module PathwayMapVisualize
                 Continue For
             End If
 
-            If logValue >= 1 Then
+            If logValue >= up Then
                 bgColor = colorUP
-            ElseIf logValue <= -1 Then
+            ElseIf logValue <= down Then
                 bgColor = colorDown
             Else
                 bgColor = colorNormal

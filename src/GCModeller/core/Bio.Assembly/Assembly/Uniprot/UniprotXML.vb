@@ -33,6 +33,10 @@ Namespace Assembly.Uniprot.XML
         <XmlAttribute> Public Property modified As String
         <XmlAttribute> Public Property version As String
 
+        ''' <summary>
+        ''' 蛋白质的唯一标识符，可以用作为字典的键名
+        ''' </summary>
+        ''' <returns></returns>
         Public Property accession As String Implements INamedValue.Key
         Public Property name As String
         Public Property protein As protein
@@ -115,8 +119,10 @@ Namespace Assembly.Uniprot.XML
         Public Property dbReference As value
         Public Property lineage As lineage
 
+        <XmlIgnore>
         Public ReadOnly Property namesData As Dictionary(Of String, value)
 
+        <XmlIgnore>
         Public ReadOnly Property scientificName As String
             Get
                 If namesData.ContainsKey("scientific") Then
@@ -127,6 +133,7 @@ Namespace Assembly.Uniprot.XML
             End Get
         End Property
 
+        <XmlIgnore>
         Public ReadOnly Property commonName As String
             Get
                 If namesData.ContainsKey("common") Then
