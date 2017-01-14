@@ -3,9 +3,15 @@ library("edgeR")
 library(tools) 
 library(Cairo)
 
+DEP <- function(file, repeatsNum=3, csv = 0) {
+
+    DEG(file, repeatsNum=repeatsNum, DEP = 1, csv = csv)
+}
+
 # file - file.txt:  id...sample1...sample2...
 #                   前面的一半是实验，后面的一半是对照，也可以反过来，顺序无所谓，计算出来的结果如果方向反了，只需要将logFC的符号变一下就行了
-# repeatsNum - sample repeats number, total sample number is repeatsNum*2
+# repeatsNum - sample repeats number, total sample number is repeatsNum*2   
+#              默认所输入的数据是3次生物学重复
 DEG <- function(file, repeatsNum=3, DEP = 0, csv = 0) {
 
 	DIR <- dirname(file)
@@ -88,5 +94,5 @@ DEG <- function(file, repeatsNum=3, DEP = 0, csv = 0) {
 	columns <- c("logFC","logCPM","F","PValue")
 	output[columns] <- qlf$table[columns]
 	write.csv(qlf$samples, paste(DIR, "samples.csv", sep="/"))	
-	write.csv(output, paste(DIR, "qlfTable.csv", sep="/"))	
+	write.csv(output, paste(DIR, "qlfTable.csv", sep="/"), row.names= FALSE)	
 }
