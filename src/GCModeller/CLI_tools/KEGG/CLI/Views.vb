@@ -32,7 +32,7 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Extensions
@@ -87,7 +87,7 @@ Partial Module CLI
             If(ispathway,
             ModuleClassAPI.FromPathway(inDIR),
             ModuleClassAPI.FromModules(inDIR))
-        Dim locusId As String() = EntityObject.LoadDataSet(locus, locus_map).ToArray(Function(x) x.Identifier)
+        Dim locusId As String() = EntityObject.LoadDataSet(locus, locus_map).ToArray(Function(x) x.ID)
         Dim LQuery = LinqAPI.MakeList(Of (entryId$, locus_id As String())) <=
             From x As PathwayBrief
             In modsCls.Modules
@@ -209,7 +209,7 @@ Partial Module CLI
             Call csv.SaveTo(out & $"/{[in].BaseName}-KO.Catalogs-level-{level}.csv")
 
             If level = "A" Then
-                Call result.Plot().SaveAs(out & "/kegg-level-A.png")
+                Call result.ToDictionary(Function(x) x.Key, Function(v) v.Value.ToArray(Function(x) New NamedValue(Of Double)(x.Name, x.Value))).Plot().SaveAs(out & "/kegg-level-A.png")
             End If
         Next
 

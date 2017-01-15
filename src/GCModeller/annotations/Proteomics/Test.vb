@@ -1,11 +1,18 @@
-﻿Imports Microsoft.VisualBasic.Data.csv
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports SMRUCC.genomics.Analysis.GO
+Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
+Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.Data.GeneOntology.GoStat
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 
 Module Test
 
@@ -32,6 +39,20 @@ Module Test
         '    .GenerateAnnotations(mappings, uniprot, fields, prefix:="SK", scientifcName:="Danio rerio").ToArray _
         '    .SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.csv",, "geneID")
 
+
+        ' 绘制GO图
+        'Dim goTerms = GO_OBO.Open("K:\GO_DB\go.obo").ToDictionary(Function(x) x.id)
+        'Dim sample = "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_GL.csv".LoadSample
+
+        'Dim data = sample.CountStat(Function(x As EntityObject) x("GO").Split(";"c).Select(AddressOf Trim).ToArray, goTerms)
+        'Call CatalogPlots.Plot(data, orderTakes:=20).SaveAs("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\GO\GL.png")
+        ''.SaveCountValue("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\GO\GL.csv")
+
+        'sample = "C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\proteinGroups_SK.csv".LoadSample
+
+        'data = sample.CountStat(Function(x As EntityObject) x("GO").Split(";"c).Select(AddressOf Trim).ToArray, goTerms)
+        'Call CatalogPlots.Plot(data, orderTakes:=20).SaveAs("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\GO\SK.png")
+        ''.SaveCountValue("C:\Users\xieguigang\OneDrive\1.5\samples\2. annotations\GO\SK.csv")
 
         'Pause()
 
@@ -102,6 +123,11 @@ Module Test
         'Call DEGsStatMatrix("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\SK", "qlfTable.csv", DEP:=True) _
         '    .SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK.logFC-overviews.csv",, "design")
 
+        ' 样品之间的DEPs的文世图
+
+        'Call (ls - l - r - "*qlfTable-DEPs-annotations.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\GL").VennData.Save("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\venn\GL.csv")
+        'Call (ls - l - r - "*qlfTable-DEPs-annotations.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\SK").VennData.Save("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\venn\SK.csv")
+
         'Pause()
 
 
@@ -120,10 +146,28 @@ Module Test
 
         ' 7. 为每一个DEP结果导出相应的uniprot编号，进行富集分析 
 
-        For Each file In ls - l - r - "*.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\KOBAS"
-            Call file.LoadSample("uniprot").Select(Function(g) g.ID).Distinct.SaveTo(file.TrimSuffix & "-uniprot.txt")
-        Next
+        'For Each file In ls - l - r - "*.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\KOBAS"
+        '    Call file.LoadSample("uniprot").Select(Function(g) g.ID).Distinct.SaveTo(file.TrimSuffix & "-uniprot.txt")
+        'Next
 
+
+        ' 处理DAVID数据
+
+        For Each file In ls - l - r - "*.txt" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\"
+            Dim table = DAVID.Load(file)
+            Dim name As String = file.BaseName
+
+            Dim GO = table.SelectGoTerms()
+            Dim KEGG = table.SelectKEGGPathway
+
+            Call GO.SaveTo($"{file.ParentPath}/GO/{name}.csv")
+            Call KEGG.SaveTo($"{file.ParentPath}/KEGG_PATH/{name}.csv")
+
+            Call GO.EnrichmentPlot().SaveAs($"{file.ParentPath}/GO/{name}-enrichment.png")
+            Call KEGG.KEGGEnrichmentPlot(size:=New Size(1000, 750)).SaveAs($"{file.ParentPath}/KEGG_PATH/{name}-enrichment.png")
+
+
+        Next
 
         Pause()
 

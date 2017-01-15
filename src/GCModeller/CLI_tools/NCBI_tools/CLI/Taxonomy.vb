@@ -421,14 +421,14 @@ Partial Module CLI
         Dim data As EntityObject() =
             dataFile _
             .LoadCsv(Of EntityObject)(maps:=New Dictionary(Of String, String) From {
-                {giFieldName, NameOf(EntityObject.Identifier)}
+                {giFieldName, NameOf(EntityObject.ID)}
             })
         Dim giMapTaxid As BucketDictionary(Of Integer, Integer) =
             Taxonomy.AcquireAuto(gi2taxid)
         Dim taxTree As New NcbiTaxonomyTree(tax)
 
         For Each x As EntityObject In data
-            Dim gi% = CInt(x.Identifier)
+            Dim gi% = CInt(x.ID)
 
             If giMapTaxid.ContainsKey(gi%) Then
                 Dim taxid% = giMapTaxid(gi%)

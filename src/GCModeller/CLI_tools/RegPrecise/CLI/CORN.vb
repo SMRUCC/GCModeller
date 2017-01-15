@@ -464,7 +464,7 @@ Partial Module CLI
                                                     Function(x) x.BaseName,
                                                     Function(x) x.Group.Sum(Function(o) Val(o.support)).ToString)
                                              Select New EntityObject With {
-                                                 .Identifier = id,
+                                                 .ID = id,
                                                  .Properties = df
                                              }
         If args.GetBoolean("/T") Then

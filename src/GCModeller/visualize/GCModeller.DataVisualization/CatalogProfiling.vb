@@ -32,7 +32,7 @@ Public Module CatalogProfiling
     ''' <param name="titleFontStyle$"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function ProfilesPlot(profile As Dictionary(Of String, NamedValue(Of Integer)()),
+    Public Function ProfilesPlot(profile As Dictionary(Of String, NamedValue(Of Double)()),
                                  Optional title$ = "Profiling Plot",
                                  Optional axisTitle$ = "Number Of Gene",
                                  Optional colorSchema$ = "Set1:c6",
@@ -44,10 +44,10 @@ Public Module CatalogProfiling
                                  Optional titleFontStyle$ = CSSFont.PlotTitle,
                                  Optional valueFontStyle$ = CSSFont.Win7Bold,
                                  Optional tickFontStyle$ = CSSFont.Win7LargerBold,
-                                 Optional tick% = 50) As Bitmap
+                                 Optional tick# = 50) As Bitmap
 
         If profile.ContainsKey(NOT_ASSIGN) Then
-            profile = New Dictionary(Of String, NamedValue(Of Integer)())(profile)
+            profile = New Dictionary(Of String, NamedValue(Of Double)())(profile)
             profile.Remove(NOT_ASSIGN)
         End If
 
@@ -118,13 +118,14 @@ Public Module CatalogProfiling
                     Dim barRectPlot As Rectangle
                     Dim valueSize As SizeF
                     Dim valueLeft!
+                    Dim valueLabel$
 
                     ' 绘制Class大分类的标签
                     Call g.DrawString(+[class], classFont, Brushes.Black, New PointF(left, y))
                     y += maxLenClsKeySize.Height + 5
 
                     ' 绘制统计的小分类标签以及barplot图形
-                    For Each cata As NamedValue(Of Integer) In profile(+[class])
+                    For Each cata As NamedValue(Of Double) In profile(+[class])
                         Call g.DrawString(cata.Name, catalogFont, color, New PointF(left + 25, y))
 
                         ' 绘制虚线
@@ -133,7 +134,9 @@ Public Module CatalogProfiling
                         barRectPlot = New Rectangle(
                             New Point(barRect.Left, y),
                             New Size(barWidth - gap, maxLenSubKeySize.Height))
-                        valueSize = g.MeasureString(cata.Value, valueFont)
+
+                        valueLabel = cata.Value.FormatNumeric(2)
+                        valueSize = g.MeasureString(valueLabel, valueFont)
                         valueLeft = barRectPlot.Right - valueSize.Width
 
                         If valueLeft < barRect.Left Then
@@ -142,7 +145,7 @@ Public Module CatalogProfiling
 
                         Call g.DrawLine(linePen, New Point(barRect.Left, yPlot), New Point(barRect.Right, yPlot))
                         Call g.FillRectangle(color, barRectPlot)
-                        Call g.DrawString(cata.Value, valueFont, Brushes.Black, New PointF(valueLeft, y - valueSize.Height / 3))
+                        Call g.DrawString(valueLabel, valueFont, Brushes.Black, New PointF(valueLeft, y - valueSize.Height / 3))
 
                         y += maxLenSubKeySize.Height + 4
                     Next

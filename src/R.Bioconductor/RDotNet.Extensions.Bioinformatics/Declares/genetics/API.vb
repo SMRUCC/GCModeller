@@ -110,7 +110,7 @@ Namespace genetics
             Dim locis As New List(Of String)
             Dim tmp As String = App.NextTempName
 
-            For Each col In df.Columns.Where(Function(x) x(Scan0) <> NameOf(EntityObject.Identifier))
+            For Each col In df.Columns.Where(Function(x) x(Scan0) <> NameOf(EntityObject.ID))
                 Dim loci As String = col(Scan0)
                 Dim vec As String = RScripts.c(col.Skip(1).ToArray)
 

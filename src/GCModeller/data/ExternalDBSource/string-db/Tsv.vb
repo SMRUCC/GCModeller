@@ -135,13 +135,13 @@ Namespace StringDB.Tsv
                 maps.ToDictionary(Function(x) x.Value, Function(x) x.Key)
 
             For Each x As EntityObject In source
-                Dim key As String = x.Identifier
+                Dim key As String = x.ID
                 Dim STRINGmap As String
 
-                If maps.ContainsKey(x.Identifier) Then
-                    STRINGmap = maps(x.Identifier)
+                If maps.ContainsKey(x.ID) Then
+                    STRINGmap = maps(x.ID)
                 Else
-                    STRINGmap = x.Identifier
+                    STRINGmap = x.ID
                 End If
 
                 If FromHash.ContainsKey(STRINGmap) Then

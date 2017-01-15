@@ -100,7 +100,7 @@ Public Module CLI
         Dim maps As String = args("/maps")
         Dim key As String = args.GetValue("/key", "GeneId")
         Dim mapsKey As New Dictionary(Of String, String) From {
-            {key, NameOf(EntityObject.Identifier)}
+            {key, NameOf(EntityObject.ID)}
         }
         Dim mapNames As Dictionary(Of String, String) =
             entrez_gene_id_vs_string.BuildMapsFromFile(maps)
@@ -136,7 +136,7 @@ Public Module CLI
         Dim links As String = args("/links")
         Dim key As String = args.GetValue("/key", "GeneId")
         Dim mapsKey As New Dictionary(Of String, String) From {
-            {key, NameOf(EntityObject.Identifier)}
+            {key, NameOf(EntityObject.ID)}
         }
 
         If [in].FileExists Then

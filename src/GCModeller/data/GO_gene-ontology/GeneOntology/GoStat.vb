@@ -1,7 +1,11 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Mathematical.Quantile
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 ''' <summary>
@@ -15,8 +19,8 @@ Public Module GoStat
     ''' <returns></returns>
     ''' 
     <Extension>
-    Public Function CountStat(Of gene)(genes As IEnumerable(Of gene), getGO As Func(Of gene, String), GO_terms As Dictionary(Of String, Term)) As Dictionary(Of String, NamedValue(Of Integer)())
-        Return genes.CountStat(Function(g) (getGO(g), 1), GO_terms)
+    Public Function CountStat(Of gene)(genes As IEnumerable(Of gene), getGO As Func(Of gene, String()), GO_terms As Dictionary(Of String, Term)) As Dictionary(Of String, NamedValue(Of Integer)())
+        Return genes.CountStat(Function(g) getGO(g).ToArray(Function(id) (id, 1)), GO_terms)
     End Function
 
     ''' <summary>
@@ -25,47 +29,89 @@ Public Module GoStat
     ''' <returns></returns>
     ''' 
     <Extension>
-    Public Function CountStat(Of gene)(genes As IEnumerable(Of gene), getGO As Func(Of gene, (goID$, number%)), GO_terms As Dictionary(Of String, Term)) As Dictionary(Of String, NamedValue(Of Integer)())
+    Public Function CountStat(Of gene)(genes As IEnumerable(Of gene), getGO As Func(Of gene, (goID$, number%)()), GO_terms As Dictionary(Of String, Term)) As Dictionary(Of String, NamedValue(Of Integer)())
         Dim out As Dictionary(Of String, Dictionary(Of NamedValue(Of int))) =
             Enums(Of Ontologies) _
             .ToDictionary(Function(o) o.Description,
                           Function(null) New Dictionary(Of NamedValue(Of int)))
 
         For Each g As gene In genes
-            Dim value As (goID$, Number As Integer) = getGO(g)
-            Dim goID As String = value.goID
-            Dim term As Term = GO_terms(goID)
-            Dim count = out(term.namespace)
+            For Each value As (goID$, Number As Integer) In getGO(g).Where(Function(x) Not x.goID.IsBlank)
+                Dim goID As String = value.goID
+                Dim term As Term = GO_terms(goID)
+                Dim count = out(term.namespace)
 
-            If Not count.ContainsKey(goID) Then
-                Call count.Add(
-                    New NamedValue(Of int) With {
-                        .Name = goID,
-                        .Description = term.name,
-                        .Value = 0
-                    })
-            End If
+                If Not count.ContainsKey(goID) Then
+                    Call count.Add(
+                        New NamedValue(Of int) With {
+                            .Name = goID,
+                            .Description = term.name,
+                            .Value = 0
+                        })
+                End If
 
-            count(goID).Value.value += value.Number
+                count(goID).Value.value += value.Number
+            Next
         Next
 
         Return out.ToDictionary(
             Function(x) x.Key,
             Function(value) As NamedValue(Of Integer)()
-                Dim array As NamedValue(Of Integer)() =
-                    New NamedValue(Of Integer)(value.Value.Count) {}
-
-                For Each i As SeqValue(Of NamedValue(Of int)) In value.Value.Values.SeqIterator
-                    Dim x As NamedValue(Of int) = +i
-
-                    array(i.i) = New NamedValue(Of Integer) With {
-                        .Name = x.Name,
-                        .Value = x.Value,
-                        .Description = x.Description
-                    }
-                Next
-
-                Return array
+                Return __t(value.Value.Values)
             End Function)
+    End Function
+
+    <Extension>
+    Public Function SaveCountValue(data As Dictionary(Of String, NamedValue(Of Integer)()), path$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
+        Using write As StreamWriter = path.OpenWriter(encoding)
+            Call write.WriteLine(New RowObject({"namespace", "id", "name", "counts"}).AsLine)
+
+            For Each k In data
+                For Each x As NamedValue(Of Integer) In k.Value
+                    Call write.WriteLine(New RowObject({k.Key, x.Name, x.Description, x.Value}).AsLine)
+                Next
+            Next
+        End Using
+
+        Return True
+    End Function
+
+    Private Function __t(value As IEnumerable(Of NamedValue(Of int))) As NamedValue(Of Integer)()
+        Dim array As New List(Of NamedValue(Of Integer))
+
+        For Each x In value.Where(Function(c) c.Value.value > 1).ToArray
+            array += New NamedValue(Of Integer) With {
+                .Name = x.Name,
+                .Value = x.Value,
+                .Description = x.Description
+            }
+        Next
+
+        Return array.ToArray
+    End Function
+
+    ''' <summary>
+    ''' 画图的时候假若太分散了，则可以用quantile删除一些含量很少的，让图更加清晰
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="quantile"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function QuantileCuts(data As Dictionary(Of String, NamedValue(Of Integer)()), quantile#) As Dictionary(Of String, NamedValue(Of Double)())
+        Dim out As New Dictionary(Of String, NamedValue(Of Double)())
+
+        For Each k In data
+            Dim x#() = k.Value.Select(Function(o) CDbl(o.Value)).ToArray
+            Dim q As QuantileEstimationGK = GKQuantile(x)
+            Dim cutoff# = q.Query(quantile)
+            Dim cuts As NamedValue(Of Double)() = k.Value _
+                .Where(Function(o) o.Value >= cutoff) _
+                .Select(Function(o) New NamedValue(Of Double)(o.Name, o.Value)) _
+                .ToArray
+
+            Call out.Add(k.Key, cuts)
+        Next
+
+        Return out
     End Function
 End Module
