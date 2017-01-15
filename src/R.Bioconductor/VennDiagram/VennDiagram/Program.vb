@@ -33,6 +33,7 @@ Module Program
 
     Sub New()
         Dim template As String = App.HOME & "/Templates/venn.csv"
+
         If Not template.FileExists Then
             Dim example As New DocumentStream.File
 

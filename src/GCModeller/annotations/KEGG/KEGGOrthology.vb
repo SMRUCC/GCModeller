@@ -149,7 +149,7 @@ Public Module KEGGOrthology
     End Function
 
     <Extension>
-    Public Function KEGGEnrichmentPlot(result As IEnumerable(Of FunctionCluster)) As Bitmap
+    Public Function KEGGEnrichmentPlot(result As IEnumerable(Of FunctionCluster), Optional size As Size = Nothing) As Bitmap
         Dim data As NamedValue(Of Double)() = result _
             .Select(Function(x) New NamedValue(Of Double) With {
                 .Name = x.Term.GetTagValue(":", trim:=True).Value,
@@ -159,6 +159,7 @@ Public Module KEGGOrthology
         Return New Dictionary(Of String, NamedValue(Of Double)()) From {
             {"KEGG Pathways", data}
         }.ProfilesPlot(title:="KEGG Pathway enrichment",
+                       size:=size,
                        axisTitle:="-Log10(p-value)",
                        tick:=1)
     End Function

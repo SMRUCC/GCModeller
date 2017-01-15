@@ -3,16 +3,17 @@ R language bioinformatics analysis package wrapper for VisualBasic.
 
 This project is aim at provides a high performance distribution and parallel computing environment for bioinformatics data analysis of VisualBasic hybrid programming with R.
 
-
 ##### Runtime
 
-Require of VisualBasic server CLI runtime
+Require of ``sciBASIC#`` computing runtime
 
-> PM> Install-Package VB_AppFramework
+> PM> Install-Package sciBASIC
 
 Or reference to source code project:
 
-> https://github.com/xieguigang/VisualBasic_AppFramework
+> https://github.com/xieguigang/sciBASIC#
+
+## Introduction
 
 Folks from project:
 R.NET   [https://rdotnet.codeplex.com/](https://rdotnet.codeplex.com/)
