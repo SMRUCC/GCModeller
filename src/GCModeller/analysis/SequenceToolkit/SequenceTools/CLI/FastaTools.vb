@@ -165,7 +165,8 @@ Partial Module Utilities
         If String.IsNullOrEmpty(field) Then
             locus_tag = [in].ReadAllLines
         Else
-            Dim genes As EntityObject() = EntityObject.LoadDataSet([in], uidMap:=field)
+            Dim genes As IEnumerable(Of EntityObject) =
+                EntityObject.LoadDataSet([in], uidMap:=field)
 
             locus_tag$ = genes _
                 .Select(Function(x) x.ID) _
