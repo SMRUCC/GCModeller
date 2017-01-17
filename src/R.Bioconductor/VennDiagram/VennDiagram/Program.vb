@@ -31,18 +31,35 @@ Imports Microsoft.VisualBasic.Text
 
 Module Program
 
+    Public Const PlotTools As String = "R plot API"
+
     Sub New()
         Dim template As String = App.HOME & "/Templates/venn.csv"
 
         If Not template.FileExists Then
             Dim example As New DocumentStream.File
 
-            example += {"objA", "objB", "objC", "objD", "objE"}
+            example += {"Xcc8004", "ecoli", "pa14", "ftn", "aciad"}
             example += {"1", "1", "1", "1", "1"}
             example += {"1", "", "", "", "1"}
             example += {"", "", "1", "", "1"}
             example += {"", "1", "", "", "1"}
             example += {"1", "", "", "1", ""}
+
+            Call example.Save(template, Encodings.ASCII)
+        End If
+
+        template = App.HOME & "/Templates/venn.partitions.csv"
+
+        If Not template.FileExists Then
+            Dim example As New DocumentStream.File
+
+            example += {"serial", "color", "Title"}
+            example += {"Xcc8004", "blue", "Xanthomonas campestris pv. campestris str. 8004"}
+            example += {"ecoli", "green", "Ecoli. K12"}
+            example += {"pa14", "yellow", "PA14"}
+            example += {"ftn", "black", "FTN"}
+            example += {"aciad", "red", "ACIAD"}
 
             Call example.Save(template, Encodings.ASCII)
         End If

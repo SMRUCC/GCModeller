@@ -1,35 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::28e0157841f2ffc24c2d64eeb1457ba3, ..\R.Bioconductor\VennDiagram\VennDiagram\CLI\VennDiagram.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Text
@@ -41,12 +41,13 @@ Imports RDotNET.Extensions.VisualBasic.RSystem
                   Description:="Tools for creating venn diagram model for the R program and venn diagram visualize drawing.",
                   Publisher:="xie.guigang@gmail.com",
                   Url:="http://gcmodeller.org")>
+<GroupingDefine(Program.PlotTools, Description:="The R language API tools for invoke the venn diagram plot.")>
 Public Module CLI
 
     <ExportAPI(".Draw",
                Info:="Draw the venn diagram from a csv data file, you can specific the diagram drawing options from this command switch value. " &
                      "The generated venn dragram will be saved as tiff file format.",
-        Usage:=".Draw -i <csv_file> [-t <diagram_title> -o <_diagram_saved_path> -s <partitions_option_pairs> -rbin <r_bin_directory>]",
+        Usage:=".Draw -i <csv_file> [-t <diagram_title> -o <_diagram_saved_path> -s <partitions_option_pairs/*.csv> -rbin <r_bin_directory>]",
         Example:=".Draw -i /home/xieguigang/Desktop/genomes.csv -t genome-compared -o ~/Desktop/xcc8004.tiff -s ""Xcc8004,blue,Xcc 8004;ecoli,green,Ecoli. K12;pa14,yellow,PA14;ftn,black,FTN;aciad,red,ACIAD""")>
     <Argument("-i",
         Description:="The csv data source file for drawing the venn diagram graph.",
@@ -58,7 +59,7 @@ Public Module CLI
         Description:="Optional, the saved file location for the venn diagram, if this switch value is not specific by the user then \n" &
                      "the program will save the generated venn diagram to user desktop folder and using the file name of the input csv file as default.",
         Example:="~/Desktop/xcc8004.tiff")>
-    <Argument("-s", True,
+    <Argument("-s", True, CLITypes.File,
         Description:="Optional, the profile settings for the partitions in the venn diagram, each partition profile data is\n " &
                      "in a key value paired like: name,color, and each partition profile pair is seperated by a ';' character.\n" &
                      "If this switch value is not specific by the user then the program will trying to parse the partition name\n" &
@@ -73,6 +74,7 @@ Public Module CLI
                      "system, you can ignore this switch value, but you should install the R program in your linux/MAC first if you wish to\n " &
                      "get the venn diagram directly from this program.",
         Example:="C:\\R\\bin\\")>
+    <Group(Program.PlotTools)>
     Public Function VennDiagramA(args As CommandLine) As Integer
         Dim inds As String = args("-i")
         Dim title As String = args.GetValue("-t", inds.BaseName)
@@ -90,6 +92,15 @@ Public Module CLI
         Return __run(inds, title, partitionsOption, out, RBin)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="inData"></param>
+    ''' <param name="title"></param>
+    ''' <param name="options">分区的颜色和标题的配置数据</param>
+    ''' <param name="out"></param>
+    ''' <param name="R_HOME"></param>
+    ''' <returns></returns>
     Private Function __run(inData As String, title As String, options As String, out As String, R_HOME As String) As Integer
         Dim dataset As DocumentStream.File = New DocumentStream.File(inData)
         Dim VennDiagram As VennDiagram = RModelAPI.Generate(source:=dataset)
@@ -97,7 +108,15 @@ Public Module CLI
         If String.IsNullOrEmpty(options) Then '从原始数据中进行推测
             VennDiagram += From col As String In dataset.First Select {col, GetRandomColor()} '
         Else '从用户输入之中进行解析
-            VennDiagram += From s As String In options.Split(CChar(";")) Select s.Split(CChar(",")) '
+            If options.FileExists(True) Then
+                VennDiagram += From row As RowObject
+                               In File.Load(options).Skip(1)
+                               Select row.ToArray
+            Else
+                VennDiagram += From s As String
+                               In options.Split(CChar(";"))
+                               Select s.Split(CChar(",")) '
+            End If
         End If
 
         VennDiagram.Title = title

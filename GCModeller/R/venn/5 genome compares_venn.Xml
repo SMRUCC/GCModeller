@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-16"?>
+<VennDiagram xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <plot>
+    <x>input_data</x>
+    <filename>G:/GCModeller/GCModeller/R/venn/diagram.tiff</filename>
+    <height>4000</height>
+    <width>7000</width>
+    <resolution>600</resolution>
+    <imagetype>tiff</imagetype>
+    <units>px</units>
+    <compression>lzw</compression>
+    <na>stop</na>
+    <main>"5 genome compares"</main>
+    <sub>NULL</sub>
+    <mainPos>c(0.5,1.05)</mainPos>
+    <mainFontface>plain</mainFontface>
+    <mainFontfamily>serif</mainFontfamily>
+    <mainCol>black</mainCol>
+    <mainCex>1</mainCex>
+    <mainJust>c(0.5,1)</mainJust>
+    <subPos>c(0.5,1.05)</subPos>
+    <subFontface>plain</subFontface>
+    <subFontfamily>serif</subFontfamily>
+    <subCol>black</subCol>
+    <subCex>1</subCex>
+    <subJust>c(0.5,1)</subJust>
+    <categoryNames>c("ACIAD", "Ecoli. K12", "FTN", "PA14", "Xanthomonas campestris pv. campestris str. 8004")</categoryNames>
+    <forceUnique>true</forceUnique>
+    <printMode>raw</printMode>
+    <sigdigs>3</sigdigs>
+    <directArea>false</directArea>
+    <areaVector>0</areaVector>
+    <hyperTest>false</hyperTest>
+    <totalPopulation>NULL</totalPopulation>
+    <fill>fill_color</fill>
+  </plot>
+  <partitions Name="aciad" Color="red">
+    <Title>ACIAD</Title>1, 2, 3, 4</partitions>
+  <partitions Name="ecoli" Color="green">
+    <Title>Ecoli. K12</Title>1, 4</partitions>
+  <partitions Name="ftn" Color="black">
+    <Title>FTN</Title>1, 5</partitions>
+  <partitions Name="pa14" Color="yellow">
+    <Title>PA14</Title>1, 3</partitions>
+  <partitions Name="Xcc8004" Color="blue">
+    <Title>Xanthomonas campestris pv. campestris str. 8004</Title>1, 2, 5</partitions>
+</VennDiagram>
