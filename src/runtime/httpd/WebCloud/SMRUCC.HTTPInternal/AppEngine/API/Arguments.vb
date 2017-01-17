@@ -138,6 +138,18 @@ Namespace AppEngine.APIMethods.Arguments
             Return True
         End Function
 
+        Public Sub WriteHeader(content_type$, Length&)
+            ' this is the successful HTTP response line
+            response.WriteLine("HTTP/1.0 200 OK")
+            ' these are the HTTP headers...      
+            response.WriteLine("Accept-Ranges: bytes")
+            response.WriteLine("Content-Length: " & Length)
+            response.WriteLine("Content-Type: " & content_type)
+
+            response.WriteLine("") ' this terminates the HTTP headers.. everything after this is HTTP body..
+            response.Flush()
+        End Sub
+
         Private Sub __writeSuccess(content_type As String, content As Content)
             ' this is the successful HTTP response line
             response.WriteLine("HTTP/1.0 200 OK")
