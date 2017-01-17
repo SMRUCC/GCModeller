@@ -32,6 +32,7 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Data.csv.Extensions
@@ -142,40 +143,73 @@ Partial Module Utilities
 
     <ExportAPI("/Select.By_Locus",
                Info:="Select fasta sequence by local_tag.",
-               Usage:="/Select.By_Locus /in <locus.txt> /fa <fasta/.inDIR> [/reverse /out <out.fasta>]")>
+               Usage:="/Select.By_Locus /in <locus.txt/csv> /fa <fasta/.inDIR> [/field <columnName> /reverse /out <out.fasta>]")>
     <Argument("/reverse",
               AcceptTypes:={GetType(Boolean)},
               Description:="If this option is enable, then all of the sequence that not appeared in the list will be output.")>
+    <Argument("/field", True,
+              AcceptTypes:={GetType(String)},
+              Description:="If this parameter was specified, then the input locus_tag data will comes from a csv file, 
+              this parameter indicates that which column will be used for gets the locus_tag data.")>
+    <Argument("/fa", False, Description:="Both a fasta file or a directory that contains the fasta files are valid value.")>
     <Group(CLIGrouping.FastaTools)>
     Public Function SelectByLocus(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim fa As String = args("/fa")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & fa.BaseName & ".fasta")
-        Dim fasta As FastaToken() =
-            StreamIterator.SeqSource(fa, {"*.faa", "*.fasta", "*.fsa", "*.fa"}).ToArray
-        Dim locus As String() = [in].ReadAllLines
+        Dim reversed As Boolean = args.GetBoolean("/reverse")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & fa.BaseName & $"{If(reversed, "-reversed-selected", "")}.fasta")
+        Dim fasta As FastaToken() = StreamIterator.SeqSource(fa, {"*.faa", "*.fasta", "*.fsa", "*.fa"}).ToArray
+        Dim field As String = args("/field")
+        Dim locus_tag As String()
+
+        If String.IsNullOrEmpty(field) Then
+            locus_tag = [in].ReadAllLines
+        Else
+            Dim genes As EntityObject() = EntityObject.LoadDataSet([in], uidMap:=field)
+
+            locus_tag$ = genes _
+                .Select(Function(x) x.ID) _
+                .Distinct _
+                .ToArray
+        End If
 
         Call $"Found {fasta.Length} fasta files in source DIR  {fa}".__DEBUG_ECHO
 
-        Dim seqHash As Dictionary(Of String, FastaToken()) =
-            (From x As FastaToken
-             In fasta
-             Let uid As String = x.Attributes.First.Split.First.Trim
-             Select x,
-                 uid
-             Group x By uid Into Group) _
-                .ToDictionary(Function(x) x.uid,
-                              Function(x) x.Group.ToArray)
-        Call $"Files loads {seqHash.Count} sequence...".__DEBUG_ECHO
+        Dim LQuery As List(Of FastaToken)
 
-        Dim LQuery As IEnumerable(Of FastaToken()) =
-            From sId As String
-            In locus
-            Where seqHash.ContainsKey(sId)
-            Select seqHash(sId)
-        Dim outFa As New FastaFile(LQuery.IteratesALL)
+        If Not reversed Then
+            Dim seqHash As Dictionary(Of String, FastaToken()) =
+                (From x As FastaToken
+                 In fasta
+                 Let uid As String = x.GetLocusTag
+                 Select x,
+                     uid
+                 Group x By uid Into Group) _
+                    .ToDictionary(Function(x) x.uid,
+                                  Function(x) x.Group.ToArray)
 
-        Return outFa.Save(out, Encodings.ASCII)
+            Call $"Files loads {seqHash.Count} sequence...".__DEBUG_ECHO
+
+            LQuery = LinqAPI.MakeList(Of FastaToken) <=
+ _
+                From sId As String
+                In locus_tag
+                Where seqHash.ContainsKey(sId)
+                Select seqHash(sId)
+        Else
+            Dim index As New IndexOf(Of String)(locus_tag)
+
+            LQuery = New List(Of FastaToken)
+
+            For Each seq In fasta.GroupBy(Function(x) x.GetLocusTag)
+                If index.IndexOf(seq.Key) = -1 Then  ' 不在列表之中的
+                    ' 反选就是将不在列表之中的添加进去
+                    LQuery += seq
+                End If
+            Next
+        End If
+
+        Return New FastaFile(LQuery).Save(out, Encodings.ASCII)
     End Function
 
     <ExportAPI("/To_Fasta",
