@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 
-Namespace StringDB.SimpleCsv
+Namespace SimpleCsv
 
     Public Class PitrNode : Inherits NetworkEdge
 
@@ -65,7 +65,7 @@ Namespace StringDB.SimpleCsv
     <XmlRoot("Interaction_Network", Namespace:="http://code.google.com/p/genome-in-code/interaction_network/")>
     Public Class Network
 
-        <XmlElement("Node")> Public Property Nodes As StringDB.SimpleCsv.PitrNode()
+        <XmlElement("Node")> Public Property Nodes As SimpleCsv.PitrNode()
 
         Public Function GetConfidence(Node1 As String, Node2 As String) As Double
             Dim LQuery As PitrNode = LinqAPI.DefaultFirst(Of PitrNode) <=

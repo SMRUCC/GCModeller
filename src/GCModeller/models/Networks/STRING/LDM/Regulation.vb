@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bbb1eedc5a22c6a574e92da75a6f7646, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\EffectorMap.vb"
+﻿#Region "Microsoft.VisualBasic::f424b810d40ef2b92cf0e5a33e3ac597, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\LDM\Regulation.vb"
 
     ' Author:
     ' 
@@ -30,22 +30,31 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 
-Namespace StringDB.StrPNet
+''' <summary>
+''' 本类型可以通过CSV模块兼容CSV表格类型的计算模型
+''' </summary>
+''' <remarks></remarks>
+Public Class TFRegulation : Implements INamedValue
 
     ''' <summary>
-    ''' Regprecise Effector与MetaCyc Compounds Mapping
+    ''' 通常为属性<see cref="SMRUCC.genomics.Assembly.Door.GeneBrief.OperonID"></see>的这个编号值
     ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Class EffectorMap : Implements INamedValue
+    <Column("Operon-Id")> Public Property OperonId As String
+    <Column("Regulator")> Public Property Regulator As String Implements INamedValue.Key
+    <CollectionAttribute("Operon-Genes")> Public Property OperonGenes As String()
+    Public Property PromoterGene As String
+    ''' <summary>
+    ''' Regulator对第一个基因的Pcc值
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property TFPcc As Double
 
-        <Column("regprecise-effector")>
-        Public Property Effector As String Implements INamedValue.Key
-        Public Property MetaCycId As String
-        <Collection("Effector-Alias")>
-        Public Property EffectorAlias As String()
-
-        Public Overrides Function ToString() As String
-            Return String.Format("{0} --> {1}", Effector, MetaCycId)
-        End Function
-    End Class
-End Namespace
+    Public Overrides Function ToString() As String
+        Return String.Format("{0} --> {1}", Regulator, OperonId)
+    End Function
+End Class

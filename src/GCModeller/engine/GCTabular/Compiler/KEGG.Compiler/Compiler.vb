@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::1c79cb2185f7d0b3bc497c55b6d1c9d9, ..\GCModeller\engine\GCTabular\Compiler\KEGG.Compiler\Compiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -38,10 +38,12 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.Model.SBML
+Imports SMRUCC.genomics.Model.Network.STRING
 
 Namespace KEGG.Compiler
 
@@ -161,9 +163,9 @@ Namespace KEGG.Compiler
             Me._RegpreciseRegulatorBh = argvs("-regulator_bh").LoadCsv(Of RegpreciseMPBBH)(False).ToArray
             'Me._ModelIO.EffectorMapping = MappingKEGGCompoundsRegprecise(KEGGCompounds:=_ModelIO.MetabolitesModel.Values.ToArray, Regprecise:=_RegpreciseRegulatorBh)
 
-            Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of StringDB.SimpleCsv.Network)()
+            Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of SimpleCsv.Network)()
             Me._CrossTalks = DocumentStream.File.Load(argvs("-cross_talks"))
-            Me._ModelIO.STrPModel = argvs("-mist2_strp").LoadXml(Of StringDB.StrPNet.Network)()
+            Me._ModelIO.STrPModel = argvs("-mist2_strp").LoadXml(Of Network)()
             Me._MetabolismNetwork = Level2.XmlFile.Load(Me._MetaCyc.SBMLMetabolismModel)
             Me._ModelIO.ProteinAssembly = _createProteinAssembly(Me._ModelIO.Regulators, Me._ModelIO.MetabolitesModel)
 

@@ -28,9 +28,9 @@
 
 Imports System.IO
 Imports System.Net.Sockets
-Imports Microsoft.VisualBasic.RQL.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports sciBASIC.ComputingServices.Linq.Framework.Provider
+Imports sciBASIC.ComputingServices.RQL.Linq
 Imports SMRUCC.WebCloud.HTTPInternal.Core
 
 ''' <summary>
@@ -100,7 +100,7 @@ Public Class RESTProvider : Inherits HttpServer
             url = Mid(url, 1, pos - 1).ToLower
         End If
 
-        Call p.writeSuccess()
+        Call p.writeSuccess(1024)
 
         Select Case url
             Case "/move_next.vb"

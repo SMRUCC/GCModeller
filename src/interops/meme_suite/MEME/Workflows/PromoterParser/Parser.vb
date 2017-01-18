@@ -1,33 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::30c1cfc9985d5622a086322dfae678fd, ..\interops\meme_suite\MEME\Workflows\PromoterParser\Parser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Threading.Tasks.Parallel
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Language
@@ -35,15 +34,13 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
-Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.PathwayBrief
-Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.Data.StringDB
-Imports SMRUCC.genomics.Data.StringDB.SimpleCsv
+Imports SMRUCC.genomics.Data.STRING
+Imports SMRUCC.genomics.Data.STRING.SimpleCsv
 Imports SMRUCC.genomics.foundation.psidev.XML
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -208,7 +205,7 @@ Namespace Workflows.PromoterParser
                     Return
                 End If
 
-                Dim Interactions As StringDB.SimpleCsv.PitrNode() = entry.ExtractNetwork
+                Dim Interactions As PitrNode() = entry.ExtractNetwork
                 Dim GeneId As String = Strings.Split(stringEntry.Replace("\", "/"), "/").Last.Split(CChar(".")).First
                 Dim Door = Parser.PromoterParser.DoorOperonView.Select(GeneId)
                 Dim InteractingGeneIds As String() = LinqAPI.Exec(Of String) <=
@@ -275,7 +272,7 @@ Namespace Workflows.PromoterParser
                                                                                                End If
                                                                                            End Function Where condition() = True Select PairedOperon).ToArray
 
-                                                             Dim DoorIDList = (From item In LQuery Select item.Key Distinct).ToList
+                                                             Dim DoorIDList As New List(Of String)(From item In LQuery Select item.Key Distinct)
                                                              Call BriefInfo.Add(New String() {Operon.Key, DoorIDList.Count, String.Join(";", DoorIDList)})
                                                              Call DoorIDList.Add(Operon.Key)
 
@@ -322,7 +319,7 @@ Namespace Workflows.PromoterParser
                                                       End If
                                                   End Function Where condition() = True Select PairedOperon).ToArray
 
-                    Dim DoorIDList = (From item In LQuery Select item.Key Distinct).ToList
+                    Dim DoorIDList As New List(Of String)(From item In LQuery Select item.Key Distinct)
 
                     Call BriefInfo.Add(New String() {Operon.Key, DoorIDList.Count, String.Join(";", DoorIDList)})
                     Call DoorIDList.Add(Operon.Key)

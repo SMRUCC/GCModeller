@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 
-Namespace StringDB.StrPNet.TCS
+Namespace TCS
 
     Public Class SensorInducers : Implements INamedValue
 

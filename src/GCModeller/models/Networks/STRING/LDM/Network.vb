@@ -28,23 +28,18 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Data.StringDB.StrPNet.TCS
 
-Namespace StringDB.StrPNet
+<XmlRoot("StrP_Network", Namespace:="http://code.google.com/p/genome-in-code/interaction_network/signal_transduction_network/")>
+Public Class Network : Implements ISaveHandle
 
-    <XmlRoot("StrP_Network", Namespace:="http://code.google.com/p/genome-in-code/interaction_network/signal_transduction_network/")>
-    Public Class Network : Implements ISaveHandle
+    <XmlElement> Public Property Pathway As Pathway()
 
-        <XmlElement> Public Property Pathway As Pathway()
+    Public Function Save(Optional Path As String = "", Optional encoding As Text.Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Return Me.GetXml.SaveTo(Path, encoding)
+    End Function
 
-        Public Function Save(Optional Path As String = "", Optional encoding As Text.Encoding = Nothing) As Boolean Implements ISaveHandle.Save
-            Return Me.GetXml.SaveTo(Path, encoding)
-        End Function
-
-        Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
-            Return Save(Path, encoding.GetEncodings)
-        End Function
-    End Class
-End Namespace
+    Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
+        Return Save(Path, encoding.GetEncodings)
+    End Function
+End Class

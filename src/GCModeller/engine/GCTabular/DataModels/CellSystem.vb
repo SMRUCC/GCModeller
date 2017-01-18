@@ -39,6 +39,7 @@ Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.XmlFormat
+Imports SMRUCC.genomics.Model.Network.STRING
 
 Namespace DataModel
 
@@ -354,7 +355,7 @@ Namespace DataModel
             Dim ChemotaxisSensing As List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction) = New List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.TransportationReaction)
             Dim HKAutoPhosphorus As List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) = New List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction)
 
-            For Each Item As StringDB.StrPNet.TCS.SensorInducers In Inducers
+            For Each Item As TCS.SensorInducers In Inducers
 
                 If Item.Inducers.IsNullOrEmpty Then
                     Call _Logging.WriteLine(String.Format("Chemotaxis sensing profile for MCP ""{0}"" is null!", Item.SensorId), "CreateSignalTransductionNetwork", Type:=Logging.MSG_TYPES.WRN)
@@ -472,7 +473,7 @@ Namespace DataModel
 
                 If Not Tf.NotAcceptStrPSignal Then '如果不接受任何信号，则可以跳过
 
-                    If Tf.TF_MiST2Type = StringDB.StrPNet.Pathway.TFSignalTypes.TwoComponentType Then  '连接双组分信号系统值调控模型  将磷酸化的TF和调控关系进行对接
+                    If Tf.TF_MiST2Type = Pathway.TFSignalTypes.TwoComponentType Then  '连接双组分信号系统值调控模型  将磷酸化的TF和调控关系进行对接
 
                         Dim Regulator = (From item In TranscriptionModel.get_Regulators Where String.Equals(item.Identifier, Tf.TF) Select item).First.Clone
                         Regulator.Identifier = String.Format("[{0}][PI]", Tf.TF)  '在这里讲信号转导网络与调控模型之间建立连接

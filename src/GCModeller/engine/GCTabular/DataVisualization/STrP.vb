@@ -30,7 +30,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Model.Network.STRING
 
 Namespace DataVisualization
 
@@ -40,9 +40,9 @@ Namespace DataVisualization
     ''' <remarks></remarks>
     Public Class STrP
 
-        Dim STrPNetwork As StringDB.StrPNet.Network, TFRegulations As FileStream.TranscriptUnit()
+        Dim STrPNetwork As Network, TFRegulations As FileStream.TranscriptUnit()
 
-        Sub New(STrPNetwork As StringDB.StrPNet.Network, TFRegulations As FileStream.TranscriptUnit())
+        Sub New(STrPNetwork As Network, TFRegulations As FileStream.TranscriptUnit())
             Me.STrPNetwork = STrPNetwork
             Me.TFRegulations = TFRegulations
         End Sub
@@ -108,7 +108,7 @@ Namespace DataVisualization
             Return (From Item In OCS Select New NodeAttributes With {.Identifier = Item.Key, .NodeType = "OCS"}).ToArray
         End Function
 
-        Private Shared Function CreateNodeAttributes(TCSSystem As StringDB.StrPNet.TCS.TCS()) As NodeAttributes()
+        Private Shared Function CreateNodeAttributes(TCSSystem As TCS.TCS()) As NodeAttributes()
             Dim LQuery = (From TCS In TCSSystem Select New NodeAttributes() {New NodeAttributes With {.Identifier = TCS.Chemotaxis, .NodeType = "Chemotaxis"},
                                New NodeAttributes With {.Identifier = TCS.HK, .NodeType = "HK"},
                                New NodeAttributes With {.Identifier = TCS.RR, .NodeType = "RR"}}).ToArray
@@ -119,7 +119,7 @@ Namespace DataVisualization
             Return ChunkList.ToArray
         End Function
 
-        Private Shared Function CreateNodeAttributes(STrP As StringDB.StrPNet.Pathway) As NodeAttributes()
+        Private Shared Function CreateNodeAttributes(STrP As Pathway) As NodeAttributes()
             Dim List As List(Of NodeAttributes) = New List(Of NodeAttributes)
             Call List.AddRange(CreateNodeAttributes(STrP.OCS))
             Call List.AddRange(CreateNodeAttributes(STrP.TCSSystem))
@@ -133,12 +133,12 @@ Namespace DataVisualization
             Return LQuery
         End Function
 
-        Private Shared Function GenerateNetwork(objStrP As StringDB.StrPNet.Pathway) As Interactions()
+        Private Shared Function GenerateNetwork(objStrP As Pathway) As Interactions()
             Dim List As List(Of Interactions) = New List(Of Interactions)
             Dim CreateOCSNetwork = Sub(ocs)
                                        Call List.Add(New Interactions With {.FromNode = ocs.Key, .ToNode = objStrP.TF, .InteractionType = "Signal Transduct"})
                                    End Sub
-            Dim CreateTCSNetwork = Sub(tcs As StringDB.StrPNet.TCS.TCS)
+            Dim CreateTCSNetwork = Sub(tcs As TCS.TCS)
                                        Call List.Add(New Interactions With {.FromNode = tcs.Chemotaxis, .ToNode = tcs.HK, .InteractionType = "Phosphorylate Sensing"})
                                        Call List.Add(New Interactions With {.FromNode = tcs.HK, .ToNode = tcs.RR, .InteractionType = "Cross Talk"})
                                        Call List.Add(New Interactions With {.FromNode = tcs.RR, .ToNode = objStrP.TF, .InteractionType = "Signal Transduct"})
@@ -157,7 +157,7 @@ Namespace DataVisualization
             Return List.ToArray
         End Function
 
-        Public Shared Function Exists(Id As String, objSTrp As StringDB.StrPNet.Pathway) As Boolean
+        Public Shared Function Exists(Id As String, objSTrp As Pathway) As Boolean
             If String.Equals(Id, objSTrp.TF) Then
                 Return True
             Else

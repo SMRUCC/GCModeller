@@ -27,7 +27,7 @@ Public Module ProteinGroups
         Dim idData$() = GetProteinIds(path, column)
         Dim gz$ = If(save.IsBlank, path.TrimSuffix & ".xml.gz", save)
 
-        Call Retrieve_IDmapping.Mapping(idData, IdTypes.NF90, IdTypes.ACC, gz)
+        Call Retrieve_IDmapping.Mapping(idData, ID_types.NF90, ID_types.ACC_ID, gz)
         Call idData.SaveTo(gz.TrimSuffix.TrimSuffix & "-proteins.txt")
     End Sub
 

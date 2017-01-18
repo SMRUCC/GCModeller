@@ -22,8 +22,8 @@ Namespace Assembly.Uniprot.Web
         ''' </param>
         ''' <param name="format"></param>
         Public Sub Mapping(uploadQuery As IEnumerable(Of String),
-                           from As IdTypes,
-                           [to] As IdTypes,
+                           from As ID_types,
+                           [to] As ID_types,
                            save$,
                            Optional compress$ = yes,
                            Optional format As Formats = Formats.xml)
@@ -153,16 +153,5 @@ Namespace Assembly.Uniprot.Web
         ''' Target List
         ''' </summary>
         list
-    End Enum
-
-    Public Enum IdTypes
-        ''' <summary>
-        ''' UniProtKB
-        ''' </summary>
-        ACC
-        ''' <summary>
-        ''' UniRef90
-        ''' </summary>
-        NF90
     End Enum
 End Namespace

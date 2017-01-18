@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.sciBASIC.ComputingServices.RQL.My.MySettings
+        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.Model.Network.[STRING].My.MySettings
             Get
-                Return Global.sciBASIC.ComputingServices.RQL.My.MySettings.Default
+                Return Global.SMRUCC.genomics.Model.Network.[STRING].My.MySettings.Default
             End Get
         End Property
     End Module

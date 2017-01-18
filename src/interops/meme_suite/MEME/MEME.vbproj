@@ -333,6 +333,10 @@
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\GCModeller\data\STRING\STRING-db.vbproj">
+      <Project>{03565bd9-54dc-4e8f-a0e7-7d3ef10ee8d7}</Project>
+      <Name>STRING-db</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\GCModeller\data\Xfam\Pfam\Pfam.vbproj">
       <Project>{f5fad2bd-2274-4bd9-91a6-95a0c6a93c95}</Project>
       <Name>Pfam</Name>
