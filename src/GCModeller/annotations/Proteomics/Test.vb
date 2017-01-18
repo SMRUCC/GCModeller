@@ -123,6 +123,16 @@ Module Test
         'Call DEGsStatMatrix("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\SK", "qlfTable.csv", DEP:=True) _
         '    .SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\proteinGroups_SK.logFC-overviews.csv",, "design")
 
+        ' 绘制蛋白质的热图
+
+        Call DEGDesigner.MergeDEPMatrix("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\GL", "*-qlfTable-DEPs-annotations.csv") _
+            .SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\DEPs_heatmap\GL.csv",, "geneID", 0)
+
+        Call DEGDesigner.MergeDEPMatrix("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\SK", "*-qlfTable-DEPs-annotations.csv") _
+            .SaveDataSet("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\DEPs_heatmap\SK.csv",, "geneID", 0)
+
+        Pause()
+
         ' 样品之间的DEPs的文世图
 
         'Call (ls - l - r - "*qlfTable-DEPs-annotations.csv" <= "C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\GL").VennData.Save("C:\Users\xieguigang\OneDrive\1.5\samples\3. DEGs\venn\GL.csv")

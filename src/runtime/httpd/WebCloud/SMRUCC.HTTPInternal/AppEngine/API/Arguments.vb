@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::51c205bfb875dd2ab2efc74817d33284, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\API\Arguments.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Threading
+Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.STDIO__
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
@@ -163,6 +164,8 @@ Namespace AppEngine.APIMethods.Arguments
             response.WriteLine("X-Powered-By: Microsoft VisualBasic")
             response.WriteLine("")
             ' this terminates the HTTP headers.. everything after this is HTTP body..
+
+            response.Flush()
         End Sub
 
         ''' <summary>
@@ -175,7 +178,14 @@ Namespace AppEngine.APIMethods.Arguments
         End Sub
 
         Public Sub WriteJSON(Of T)(obj As T)
-            __writeData = True
+            Dim json As String = obj.GetJson
+            Dim bytes As Byte() = Encoding.UTF8.GetBytes(json)
+
+            If Not __writeData Then
+                __writeData = True
+                Call WriteHeader(MIME.Json, bytes.Length)
+            End If
+
             Call response.WriteLine(obj.GetJson)
         End Sub
 

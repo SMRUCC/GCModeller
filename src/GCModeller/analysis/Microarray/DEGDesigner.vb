@@ -63,13 +63,32 @@ Public Module DEGDesigner
         Next
     End Function
 
-    Public Function MergeMatrix(DIR$, name$) As gene()
+    Public Function MergeDEPMatrix(DIR$, name$) As gene()
+        Return MergeMatrix(DIR, name, DEG:=Math.Log(1.5, 2), Pvalue:=0.05)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="DIR$"></param>
+    ''' <param name="name$"></param>
+    ''' <param name="DEG#">
+    ''' + DEG = <see cref="Math.Log"/>(2, 2)
+    ''' + DEP = <see cref="Math.Log"/>(1.5, 2)
+    ''' 
+    ''' 假若是使用默认值0的话，由于任何实数都大于0，所以就不会进行差异基因的筛选，即函数会返回所有的基因列表
+    ''' </param>
+    ''' <returns></returns>
+    Public Function MergeMatrix(DIR$, name$, Optional DEG# = 0, Optional Pvalue# = Integer.MaxValue) As gene()
         Dim samples As New Dictionary(Of String, gene())
 
         For Each file As String In (ls - l - r - name <= DIR).Distinct
-            Dim DEGs = gene.LoadDataSet(file).ToArray
+            Dim DEGs As gene() = gene _
+                .LoadDataSet(file) _
+                .Where(Function(gene) Math.Abs(gene("logFC").ParseNumeric) >= DEG AndAlso gene("PValue").ParseNumeric <= Pvalue) _
+                .ToArray
             Dim sample As String = file.ParentDirName
-            ' .Where(Function(gene) Math.Abs(gene("logFC").ParseNumeric) >= 1) 
+
             Call samples.Add(sample, DEGs)
         Next
 
@@ -89,7 +108,9 @@ Public Module DEGDesigner
                               Function(logFC) logFC.Value(NameOf(logFC)))}
         Next
 
-        Return out.ToArray
+        Return out _
+            .OrderBy(Function(gene) gene.ID) _
+            .ToArray
     End Function
 
     ''' <summary>
