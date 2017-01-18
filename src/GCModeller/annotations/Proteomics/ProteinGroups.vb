@@ -425,7 +425,9 @@ Public Module ProteinGroups
                 }
 
                 Dim logFC = Math.Abs(gene("logFC").ParseNumeric)
-                If logFC >= Math.Log(1.5, 2) Then
+                ' Dim Pvalue As Double = gene("PValue").ParseNumeric
+
+                If logFC >= Math.Log(1.5, 2) Then 'AndAlso Pvalue <= 0.05 Then
                     DEPs += ALL.Last
                 End If
             Next

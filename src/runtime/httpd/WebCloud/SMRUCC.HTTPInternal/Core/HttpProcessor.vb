@@ -292,9 +292,12 @@ Namespace Core
             Call srv.handlePOSTRequest(Me, ms)
         End Sub
 
-        Public Sub writeSuccess(Optional content_type As String = "text/html")
+        Public Sub writeSuccess(len&, Optional content_type As String = "text/html")
             Try
-                Call __writeSuccess(content_type, Nothing)
+                Call __writeSuccess(
+                    content_type, New Content With {
+                        .Length = len
+                    })
             Catch ex As Exception
                 Call App.LogException(ex)
             End Try
@@ -304,15 +307,17 @@ Namespace Core
             ' this is the successful HTTP response line
             outputStream.WriteLine("HTTP/1.0 200 OK")
             ' these are the HTTP headers...          
+            outputStream.WriteLine("Content-Length: " & content.Length)
             outputStream.WriteLine("Content-Type: " & content_type)
             outputStream.WriteLine("Connection: close")
             ' ..add your own headers here if you like
 
-            Call content.WriteHeader(outputStream)
+            ' Call content.WriteHeader(outputStream)
 
             outputStream.WriteLine("X-Powered-By: Microsoft VisualBasic")
             outputStream.WriteLine("")
             ' this terminates the HTTP headers.. everything after this is HTTP body..
+            outputStream.Flush()
         End Sub
 
         Public Sub writeSuccess(content As Content)

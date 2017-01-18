@@ -173,7 +173,14 @@ Namespace Core
         ''' <param name="res"></param>
         ''' <returns></returns>
         Public Function GetResource(ByRef res As String) As Byte()
-            Dim file As String = MapPath(res)
+            Dim file$
+
+            Try
+                file = MapPath(res)
+            Catch ex As Exception
+                ex = New Exception(res, ex)
+                Throw ex
+            End Try
 
             If _cacheMode AndAlso _cache.ContainsKey(file) Then
                 Return _cache(file).bufs
@@ -250,7 +257,7 @@ Namespace Core
         End Sub
 
         ''' <summary>
-        ''' 为什么不需要添加<see cref="HttpProcessor.writeSuccess(String)"/>方法？？？
+        ''' 为什么不需要添加<see cref="HttpProcessor.writeSuccess(Long, String)"/>方法？？？
         ''' </summary>
         ''' <param name="p"></param>
         Public Overrides Sub handleGETRequest(p As HttpProcessor)
@@ -285,15 +292,14 @@ Namespace Core
             If String.Equals(ext, ".html", StringComparison.OrdinalIgnoreCase) OrElse
                 String.Equals(ext, ".htm", StringComparison.OrdinalIgnoreCase) Then ' Transfer HTML document.
 
-                Dim html As String = Encoding.UTF8.GetString(buf)
-
-                If String.IsNullOrEmpty(html) Then
-                    html = __request404()
+                If String.IsNullOrEmpty(buf.Length = 0) Then
+                    Dim html$ = __request404()
                     html = html.Replace("%EXCEPTION%", res)
+                    buf = Encoding.UTF8.GetBytes(html)
                 End If
 
-                Call p.writeSuccess()
-                Call p.outputStream.WriteLine(html)
+                Call p.writeSuccess(buf.Length,)
+                Call p.outputStream.BaseStream.Write(buf, Scan0, buf.Length)
             Else
                 Call __transferData(p, ext, buf, res.BaseName)
             End If
@@ -322,7 +328,7 @@ Namespace Core
             Dim result = LevenshteinDistance.ComputeDistance(query, subject)
 
             ' write API compute result to the browser
-            Call p.writeSuccess()
+            Call p.writeSuccess(0)
             Call p.outputStream.WriteLine(result.Visualize)
         End Sub
 
@@ -333,12 +339,12 @@ Namespace Core
         ''' <param name="ext"></param>
         ''' <param name="buf"></param>
         Private Sub __transferData(p As HttpProcessor, ext As String, buf As Byte(), name As String)
-            Dim contentType As ContentType
+            Dim type As ContentType
 
             If Not ContentTypes.ExtDict.ContainsKey(ext) Then
-                contentType = ContentTypes.ExtDict(".bin")
+                type = ContentTypes.ExtDict(".bin")
             Else
-                contentType = ContentTypes.ExtDict(ext)
+                type = ContentTypes.ExtDict(ext)
             End If
 
             'Dim chead As New Content With {
@@ -347,9 +353,9 @@ Namespace Core
             '    .Type = contentType.MIMEType
             '}
 
-            ' Call p.writeSuccess(chead)
+            Call p.writeSuccess(buf.Length, type.MIMEType)
             Call p.outputStream.BaseStream.Write(buf, Scan0, buf.Length)
-            Call $"Transfer data:  {contentType.ToString} ==> [{buf.Length} Bytes]!".__DEBUG_ECHO
+            Call $"Transfer data:  {type.ToString} ==> [{buf.Length} Bytes]!".__DEBUG_ECHO
         End Sub
 
         Public Overrides Sub handlePOSTRequest(p As HttpProcessor, inputData As MemoryStream)
