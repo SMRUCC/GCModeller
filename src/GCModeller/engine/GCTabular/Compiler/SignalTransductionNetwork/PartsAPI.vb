@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::421a3b7fde7595736cc2f670740fb2da, ..\GCModeller\engine\GCTabular\Compiler\SignalTransductionNetwork\PartsAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.GCModeller.Assembly
+Imports SMRUCC.genomics.Model.Network.STRING.TCS
 
 Namespace Compiler.Components
 
@@ -69,7 +70,7 @@ Namespace Compiler.Components
             Return DataModel
         End Function
 
-        Public Function CreateFluxObject(STrpProfile As StringDB.StrPNet.Network, Inducers As StringDB.StrPNet.TCS.SensorInducers(), Optional Pi As String = "PI") _
+        Public Function CreateFluxObject(STrpProfile As SMRUCC.genomics.Model.Network.[STRING].Network, Inducers As SMRUCC.genomics.Model.Network.[STRING].TCS.SensorInducers(), Optional Pi As String = "PI") _
       As GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly()
 
             Dim ChunkList As List(Of GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly) =
@@ -103,7 +104,7 @@ Namespace Compiler.Components
         End Function
 
         Private Function CreateFluxObject(TF As String,
-                                                 TCS As StringDB.StrPNet.TCS.TCS,
+                                                 TCS As TCS,
                                                  Inducers As String(),
                                                  Pi As String) _
             As GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly()

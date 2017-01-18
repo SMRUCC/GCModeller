@@ -42,6 +42,7 @@ Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
+Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
@@ -50,6 +51,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.Level2
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.Model.Network.STRING
 
 Namespace Compiler
 
@@ -108,12 +110,12 @@ Namespace Compiler
             Me._ModelIO.MisT2 = argvs("-mist2").LoadXml(Of SMRUCC.genomics.Assembly.MiST2.MiST2)()
             Me._RegpreciseRegulators = Regprecise.TranscriptionFactors.Load(argvs("-regprecise_regulator"))
             Me._ModelIO.SetExportDirectory(argvs("-export"))
-            Me._ModelIO.STrPModel = argvs("-mist2_strp").LoadXml(Of StringDB.StrPNet.Network)()
+            Me._ModelIO.STrPModel = argvs("-mist2_strp").LoadXml(Of Network)()
 #If Not DEBUG Then
         Try
 #End If
             Me._TranscriptRegulations = argvs("-transcript_regulation").LoadCsv(Of TranscriptRegulation)(False).ToArray
-            Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of StringDB.SimpleCsv.Network)()
+            Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of SimpleCsv.Network)()
 
             Using MappingCreator = New Mapping(_MetaCyc, Me._ModelIO.MetabolitesModel.Values.ToArray)
                 Call _Logging.WriteLine("Start to create the effector mapping between the regprecise database and metacyc database...")

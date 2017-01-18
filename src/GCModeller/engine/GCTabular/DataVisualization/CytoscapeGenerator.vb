@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::1843b4a1bba21e14fafc3d5fe49de917, ..\GCModeller\engine\GCTabular\DataVisualization\CytoscapeGenerator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,7 +31,8 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.Data.StringDB
+Imports SMRUCC.genomics.Data.STRING
+Imports SMRUCC.genomics.Data.STRING.SimpleCsv
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.XmlFormat
 
@@ -102,7 +103,7 @@ Namespace DataVisualization
 
 #Region "CreateNodeAttributes() As DataVisualization.NodeAttributes()"
 
-        Private Shared Function CreateNodeAttributes(stringNodes As StringDB.SimpleCsv.PitrNode()) As DataVisualization.NodeAttributes()
+        Private Shared Function CreateNodeAttributes(stringNodes As PitrNode()) As DataVisualization.NodeAttributes()
             Dim LQuery = (From item In stringNodes Select New NodeAttributes() {New NodeAttributes With {.Identifier = item.FromNode, .NodeType = "Protein"}, New NodeAttributes With {.Identifier = item.ToNode, .NodeType = "Protein"}}).ToArray
             Dim List As List(Of NodeAttributes) = New List(Of NodeAttributes)
             For Each item In LQuery
@@ -151,7 +152,7 @@ Namespace DataVisualization
 
 #Region "CreateNodeInteractions() As DataVisualization.Interactions()"
 
-        Private Shared Function CreateNodeInteractions(stringNodes As StringDB.SimpleCsv.PitrNode()) As DataVisualization.Interactions()
+        Private Shared Function CreateNodeInteractions(stringNodes As PitrNode()) As DataVisualization.Interactions()
             Dim LQuery = (From item In stringNodes Select New Interactions With {.FromNode = item.FromNode, .ToNode = item.ToNode, .InteractionType = "Protein Interactions"}).ToList
             Call LQuery.AddRange((From item In stringNodes Select New Interactions With {.FromNode = item.ToNode, .ToNode = item.FromNode, .InteractionType = "Protein Interactions"}).ToArray)
             Return LQuery.ToArray

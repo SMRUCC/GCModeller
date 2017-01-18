@@ -35,8 +35,9 @@ Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.MiST2
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
-Imports SMRUCC.genomics.Data.StringDB
-Imports SMRUCC.genomics.Data.StringDB.StrPNet.TCS
+Imports SMRUCC.genomics.Data.STRING
+Imports SMRUCC.genomics.Model.Network.STRING.TCS
+Imports SMRUCC.genomics.Model.Network.STRING
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components
@@ -69,7 +70,7 @@ Namespace FileStream.IO
         Public Property Proteins As List(Of FileStream.Protein)
         Public Property Enzymes As List(Of EnzymeCatalystKineticLaw)
         Public Property SystemVariables As List(Of KeyValuePair)
-        Public Property STrPModel As StringDB.StrPNet.Network
+        Public Property STrPModel As Network
         Public Property ConstraintMetabolites As List(Of ConstraintMetaboliteMap)
         Public Property ProteinAssembly As Dictionary(Of String, FileStream.ProteinAssembly)
         Public Property RibosomeAssembly As List(Of FileStream.ProteinAssembly)

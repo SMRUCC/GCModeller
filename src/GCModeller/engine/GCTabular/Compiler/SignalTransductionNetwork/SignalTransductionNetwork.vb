@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::9a0b3a8da61deb5cc3855799250a0315, ..\GCModeller\engine\GCTabular\Compiler\SignalTransductionNetwork\SignalTransductionNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,9 +32,12 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Logging
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.Data.StringDB.StrPNet.Pathway
+Imports SMRUCC.genomics.Model.Network.STRING.Pathway
+Imports SMRUCC.genomics.Data.STRING.SimpleCsv
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
+Imports SMRUCC.genomics.Model.Network.STRING
+Imports SMRUCC.genomics.Data.STRING
 
 Namespace Compiler.Components
 
@@ -63,7 +66,7 @@ Namespace Compiler.Components
         Const PFAM_CHER = "CheR"
         Const PFAM_CHEW = "CheW"
 
-        Dim StringNetwork As StringDB.SimpleCsv.Network
+        Dim StringNetwork As SimpleCsv.Network
         Dim _Logging As LogFile
         ''' <summary>
         ''' 以KEGG编号为主键的代谢物字典
@@ -71,7 +74,7 @@ Namespace Compiler.Components
         ''' <remarks></remarks>
         Dim KEGG_Compounds As Dictionary(Of String, FileStream.Metabolite)
 
-        Sub New(ModelIo As FileStream.IO.XmlresxLoader, StringNetwork As StringDB.SimpleCsv.Network, Logging As LogFile)
+        Sub New(ModelIo As FileStream.IO.XmlresxLoader, StringNetwork As SimpleCsv.Network, Logging As LogFile)
             Me.StringNetwork = StringNetwork
             Me.ModelIO = ModelIo
             Dim MisT2 As SMRUCC.genomics.Assembly.MiST2.MiST2 = ModelIo.MisT2
@@ -216,7 +219,7 @@ Namespace Compiler.Components
             Return ChunkTemp
         End Function
 
-        Private Function _compile_HkAutoPhosphorus() As List(Of StringDB.StrPNet.TCS.SensorInducers)
+        Private Function _compile_HkAutoPhosphorus() As List(Of TCS.SensorInducers)
             Dim HK As List(Of String) = New List(Of String)
 
             For Each STrP In ModelIO.STrPModel.Pathway
@@ -225,7 +228,7 @@ Namespace Compiler.Components
 
             HK = (From strValue As String In HK Select strValue Distinct Order By strValue Ascending).ToList
 
-            Dim TempChunk As List(Of StringDB.StrPNet.TCS.SensorInducers) = New List(Of StringDB.StrPNet.TCS.SensorInducers)
+            Dim TempChunk As New List(Of TCS.SensorInducers)
             For Each HKId As String In HK
                 Dim LQuery = (From Mcp In Me.MCPs Let Confidence As Double = StringNetwork.GetConfidence(HKId, Mcp) + 0.05
                               Select String.Format("{0}={1}", Mcp, Confidence)).ToArray
@@ -233,17 +236,17 @@ Namespace Compiler.Components
                     Continue For
                 End If
 
-                Call TempChunk.Add(New StringDB.StrPNet.TCS.SensorInducers With {.SensorId = HKId, .Inducers = LQuery})
+                Call TempChunk.Add(New TCS.SensorInducers With {.SensorId = HKId, .Inducers = LQuery})
             Next
 
             Return TempChunk
         End Function
 
-        Private Function _compile_ChemotaxisSensing() As List(Of StringDB.StrPNet.TCS.SensorInducers)
+        Private Function _compile_ChemotaxisSensing() As List(Of TCS.SensorInducers)
             Dim LQuery = (From Item As SMRUCC.genomics.Assembly.MiST2.Transducin
                                  In ModelIO.MisT2.MajorModules.First.Chemotaxis
                           Where String.Equals(Item.Class, "MCP")
-                          Select New StringDB.StrPNet.TCS.SensorInducers With {
+                          Select New TCS.SensorInducers With {
                                      .SensorId = String.Format("[{0}][CH3]", Item.Identifier),
                                      .Inducers = New String() {}}).ToList
             Return LQuery

@@ -100,7 +100,7 @@ Public Class RESTProvider : Inherits HttpServer
             url = Mid(url, 1, pos - 1).ToLower
         End If
 
-        Call p.writeSuccess()
+        Call p.writeSuccess(1024)
 
         Select Case url
             Case "/move_next.vb"
