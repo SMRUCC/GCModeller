@@ -30,7 +30,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
-Namespace StringDB.StrPNet.TCS
+Namespace TCS
 
     <XmlType("TCS", Namespace:="http://code.google.com/p/genome-in-code/interaction_network/tcs")> Public Class TCS
         <XmlAttribute> Public Property Chemotaxis As String

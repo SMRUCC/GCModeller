@@ -30,16 +30,12 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace StringDB.StrPNet
+Public Structure Interaction
+    Dim Enzyme As String
+    Dim MCP As String
+    Dim Confidence As Double
 
-    Public Structure Interaction
-        Dim Enzyme As String
-        Dim MCP As String
-        Dim Confidence As Double
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Structure
-
-End Namespace
+    Public Overrides Function ToString() As String
+        Return Me.GetJson
+    End Function
+End Structure
