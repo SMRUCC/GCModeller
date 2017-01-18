@@ -351,6 +351,7 @@
     <Compile Include="Assembly\Uniprot\UniprotXML.vb" />
     <Compile Include="Assembly\Uniprot\UniprotFasta.vb" />
     <Compile Include="Assembly\Uniprot\IdMapping.vb" />
+    <Compile Include="Assembly\Uniprot\Web\ID_types.vb" />
     <Compile Include="Assembly\Uniprot\Web\Retrieve_IDmapping.vb" />
     <Compile Include="Assembly\Uniprot\Web\Entry.vb" />
     <Compile Include="ComponentModel\Loci.Models\LociSites\Extensions.vb" />
