@@ -141,7 +141,7 @@ Public Module CLI
         Dim links$ = args("/links")
         Dim alllinks As String = args("/all_links")
         Dim out = args.GetValue("/out", idTsv.TrimSuffix & "-" & links.BaseName & "/")
-        Dim maps = Uniprot.Web.SingleMappings(idTsv)
+        Dim maps = Uniprot.Web.SingleMappings(idTsv).ReverseMaps(True)
         Dim net As FileStream.Network = If(
             alllinks.FileExists(True),
             maps.MatchNetwork(actions:=links, links:=alllinks),
