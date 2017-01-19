@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -41,6 +42,7 @@ Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SwissTCS
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.MiST2
+Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.Data.STRING.SimpleCsv
 Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv
 
@@ -128,6 +130,18 @@ Public Module CLI
         End If
 
         Return 0
+    End Function
+
+    <ExportAPI("/STRING.Network",
+               Usage:="/STRING.Network /id <uniprot_idMappings.tsv> /links <protein.actions-links.tsv> [/out <outDIR>]")>
+    Public Function StringNetwork(args As CommandLine) As Integer
+        Dim idTsv = args("/id")
+        Dim links$ = args("/links")
+        Dim out = args.GetValue("/out", idTsv.TrimSuffix & "-" * links.BaseName & "/")
+        Dim net As FileStream.Network = Uniprot.Web _
+            .SingleMappings(idTsv) _
+            .MatchNetwork(actions:=links)
+        Return net.Save(out).CLICode
     End Function
 
     <ExportAPI("/BioGRID.selects",

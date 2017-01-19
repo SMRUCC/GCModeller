@@ -6,17 +6,8 @@ Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv
 
 Public Module Extensions
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="IDlist"><see cref="NamedValue(Of String).Name"/>为STRING之中的蛋白质的编号</param>
-    ''' <param name="actions$"><see cref="LinkAction"/></param>
-    ''' <returns></returns>
     <Extension>
-    Public Function MatchNetwork(IDlist As IEnumerable(Of NamedValue(Of String)), actions$) As Network
-        Dim idData As Dictionary(Of String, String) = IDlist _
-            .ToDictionary(Function(x) x.Name,
-                          Function(x) x.Value)
+    Public Function MatchNetwork(idData As Dictionary(Of String, String), actions$) As Network
         Dim edges As New List(Of NetworkEdge)
         Dim nodes As New Dictionary(Of Node)
         Dim testAdd As Action(Of String) =
@@ -58,5 +49,19 @@ Public Module Extensions
             .Edges = edges,
             .Nodes = nodes.Values.ToArray
         }
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="IDlist"><see cref="NamedValue(Of String).Name"/>为STRING之中的蛋白质的编号</param>
+    ''' <param name="actions$"><see cref="LinkAction"/></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function MatchNetwork(IDlist As IEnumerable(Of NamedValue(Of String)), actions$) As Network
+        Dim idData As Dictionary(Of String, String) = IDlist _
+            .ToDictionary(Function(x) x.Name,
+                          Function(x) x.Value)
+        Return idData.MatchNetwork(actions)
     End Function
 End Module
