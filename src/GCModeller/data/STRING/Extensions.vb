@@ -41,6 +41,16 @@ Public Module Extensions
                 Call testAdd(link.item_id_a)
                 Call testAdd(link.item_id_b)
 
+                edges += New NetworkEdge With {
+                    .FromNode = link.item_id_a,
+                    .ToNode = link.item_id_b,
+                    .InteractionType = link.mode,
+                    .Confidence = link.score,
+                    .Properties = New Dictionary(Of String, String) From {
+                        {"action", link.action},
+                        {"a_is_acting", link.a_is_acting}
+                    }
+                }
             End If
         Next
 
