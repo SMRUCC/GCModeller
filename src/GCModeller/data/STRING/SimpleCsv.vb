@@ -33,6 +33,9 @@ Imports Microsoft.VisualBasic.Language
 
 Namespace SimpleCsv
 
+    ''' <summary>
+    ''' STRING网络的Csv数据文件存储
+    ''' </summary>
     Public Class PitrNode : Inherits NetworkEdge
 
         <XmlAttribute("Node_a")> <Column("fromNode")>

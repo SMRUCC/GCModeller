@@ -36,9 +36,10 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace StringDB.Tsv
 
     ''' <summary>
-    ''' interaction types for protein links
+    ''' interaction types for protein links.
+    ''' (从String-DB之中下载的蛋白质互作网络数据，例如：``9606.protein.actions.v10.txt``)
     ''' </summary>
-    Public Class Actions
+    Public Class LinkAction
 
         Public Property item_id_a As String
         Public Property item_id_b As String
@@ -47,11 +48,11 @@ Namespace StringDB.Tsv
         Public Property a_is_acting As String
         Public Property score As String
 
-        Public Shared Iterator Function LoadText(path As String) As IEnumerable(Of Actions)
+        Public Shared Iterator Function LoadText(path As String) As IEnumerable(Of LinkAction)
             For Each line As String In path.IterateAllLines.Skip(1)
                 Dim tokens As String() = line.Split(Text.ASCII.TAB)
 
-                Yield New Actions With {
+                Yield New LinkAction With {
                     .item_id_a = tokens(0),
                     .item_id_b = tokens(1),
                     .mode = tokens(2),

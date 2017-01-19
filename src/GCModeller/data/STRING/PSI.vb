@@ -32,6 +32,9 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Data.STRING.SimpleCsv
 Imports SMRUCC.genomics.foundation.psidev.XML
 
+''' <summary>
+''' PSI network file extensions API.
+''' </summary>
 Public Module PSI
 
     <Extension>
