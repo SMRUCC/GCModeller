@@ -167,8 +167,8 @@ Public Module PhenotypeRegulations
 
     Private Function __exportTCS_CrossTalks(TAG As String, Data As Dictionary(Of String, Double), Network As CrossTalks()) As Graph
         Dim Edges = (From item In Network Select New CrossTalk With {.FromNode = item.Kinase, .ToNode = item.Regulator, .Confidence = Math.Min(Data(item.Kinase), Data(item.Regulator)) * item.Probability}).ToArray
-        Dim Nodes = (From item In Network Select {New CrossTalk.TCS_GeneObject With {.Identifier = item.Kinase, .Quantity = Data(item.Kinase), .NodeType = "Kinase"},
-                                                  New CrossTalk.TCS_GeneObject With {.Identifier = item.Regulator, .NodeType = "RR", .Quantity = Data(item.Regulator)}}).ToArray.ToVector
+        Dim Nodes = (From item In Network Select {New CrossTalk.TCS_GeneObject With {.ID = item.Kinase, .Quantity = Data(item.Kinase), .NodeType = "Kinase"},
+                                                  New CrossTalk.TCS_GeneObject With {.ID = item.Regulator, .NodeType = "RR", .Quantity = Data(item.Regulator)}}).ToArray.ToVector
 
         Return ExportToFile.Export(Nodes, Edges, "TCS_CrossTalks_Network =" & TAG)
     End Function
@@ -714,8 +714,8 @@ Public Module PhenotypeRegulations
                           Select Phenotype = strPhenotype, PhenotypeRelateGene, RegulatorCounts = PhenoTypeRegulators.Count, PhenoTypeRegulators).ToArray
         Dim LQuery = (From phenotype In Phenotypes
                       Select (From RegulatorId As String In phenotype.PhenoTypeRegulators Select New NetworkEdge With {.FromNode = RegulatorId, .InteractionType = "PhenotypeRegulation", .ToNode = phenotype.Phenotype}).ToArray).ToArray.ToVector
-        Dim RegulatorNodes = (From RegulatorId As String In Regulators Select New FileStream.Node With {.Identifier = RegulatorId, .NodeType = "Regulator"}).ToArray
-        Dim PhenotypeNodes = (From phenotype In Phenotypes Select New FileStream.Node With {.Identifier = phenotype.Phenotype, .NodeType = "Cell.Phenotype"}).ToArray
+        Dim RegulatorNodes = (From RegulatorId As String In Regulators Select New FileStream.Node With {.ID = RegulatorId, .NodeType = "Regulator"}).ToArray
+        Dim PhenotypeNodes = (From phenotype In Phenotypes Select New FileStream.Node With {.ID = phenotype.Phenotype, .NodeType = "Cell.Phenotype"}).ToArray
 
         Call LQuery.SaveTo(EXPORT & "/Edges.csv", False)
         Call {RegulatorNodes, PhenotypeNodes}.ToVector.SaveTo(EXPORT & "/Nodes.csv", False)
@@ -768,13 +768,13 @@ Public Module PhenotypeRegulations
         Dim PhenotypeNodes = (From Phenotype
                               In EvaluateRanks
                               Select New FileStream.Node With {
-                                  .Identifier = Phenotype.Phenotype, .NodeType = "Cell.Phenotype"}).ToArray
+                                  .ID = Phenotype.Phenotype, .NodeType = "Cell.Phenotype"}).ToArray
         Dim PhenotypeRegulatorNodes = (From Phenotype
                                        In EvaluateRanks
                                        Select (From Regulator
                                                In Phenotype.Regulators
                                                Select New FileStream.Node With {
-                                                   .Identifier = Regulator.Regulator,
+                                                   .ID = Regulator.Regulator,
                                                    .NodeType = "Regulator"}).ToArray).ToArray.ToVector
 
         Call PhenotypeRegulations.SaveTo(Export & "/Edges.csv", False)
@@ -850,8 +850,8 @@ Public Module PhenotypeRegulations
     <ExportAPI("Export.Net.Cytoscape")>
     Public Function ExportCytoscapeNetwork(SignificantPhenotypeRegulations As File, ExportDIR As String) As Boolean
         Dim PhenotypeRegulations = (From Line In SignificantPhenotypeRegulations.Skip(1).AsParallel Where Not String.IsNullOrEmpty(Line.Last) Select Phenotype = Line.First, Regulators = (From item In Strings.Split(Line.Last, "; ") Select Regulator = item.Split(CChar("(")).First, Score = Val(Regex.Match(item, "\d+\.\d+").Value)).ToArray).ToArray
-        Dim Phenotypes = (From item In PhenotypeRegulations.AsParallel Select New FileStream.Node With {.Identifier = item.Phenotype, .NodeType = "PhenotypePathway"}).ToArray
-        Dim PhenotypeSignificantRegulators = (From RegulatorId As String In (From item In PhenotypeRegulations Select (From Regulator In item.Regulators Select Regulator.Regulator).ToArray).ToArray.ToVector.Distinct.ToArray.AsParallel Select New FileStream.Node With {.Identifier = RegulatorId, .NodeType = "Regulator"}).ToArray
+        Dim Phenotypes = (From item In PhenotypeRegulations.AsParallel Select New FileStream.Node With {.ID = item.Phenotype, .NodeType = "PhenotypePathway"}).ToArray
+        Dim PhenotypeSignificantRegulators = (From RegulatorId As String In (From item In PhenotypeRegulations Select (From Regulator In item.Regulators Select Regulator.Regulator).ToArray).ToArray.ToVector.Distinct.ToArray.AsParallel Select New FileStream.Node With {.ID = RegulatorId, .NodeType = "Regulator"}).ToArray
         Dim PhenotypeRegulationsEdges = (From Phenotype In PhenotypeRegulations.AsParallel
                                          Select (From Regulator In Phenotype.Regulators
                                                  Select New NetworkEdge With {

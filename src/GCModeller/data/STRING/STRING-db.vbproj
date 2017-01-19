@@ -86,6 +86,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -103,7 +104,8 @@
     </Compile>
     <Compile Include="PSI.vb" />
     <Compile Include="SimpleCsv.vb" />
-    <Compile Include="StringAPI.vb" />
+    <Compile Include="WebAPI\APIModels.vb" />
+    <Compile Include="WebAPI\StringAPI.vb" />
     <Compile Include="Tsv.vb" />
   </ItemGroup>
   <ItemGroup>

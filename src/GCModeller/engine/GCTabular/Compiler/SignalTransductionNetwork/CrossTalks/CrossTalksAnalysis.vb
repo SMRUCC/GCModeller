@@ -48,8 +48,8 @@ Namespace Compiler.Components
         <ExportAPI("TCS.CrossTalks.Net")>
         Public Function CreateNetwork(data As IEnumerable(Of CrossTalks)) As Network
             Dim Nodes = (From item In data Select New Node With {
-                                               .Identifier = item.Kinase,
-                                               .NodeType = "Kinase"}).Join((From item In data Select New Node With {.Identifier = item.Regulator, .NodeType = "Response Regulator"}).ToArray)
+                                               .ID = item.Kinase,
+                                               .NodeType = "Kinase"}).Join((From item In data Select New Node With {.ID = item.Regulator, .NodeType = "Response Regulator"}).ToArray)
             Dim Edges = (From item In data Select New NetworkEdge With {
                                                .FromNode = item.Kinase,
                                                .ToNode = item.Regulator,

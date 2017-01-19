@@ -105,13 +105,13 @@ Namespace DataVisualization
         End Function
 
         Private Shared Function CreateNodeAttributes(OCS As KeyValuePair()) As NodeAttributes()
-            Return (From Item In OCS Select New NodeAttributes With {.Identifier = Item.Key, .NodeType = "OCS"}).ToArray
+            Return (From Item In OCS Select New NodeAttributes With {.ID = Item.Key, .NodeType = "OCS"}).ToArray
         End Function
 
         Private Shared Function CreateNodeAttributes(TCSSystem As TCS.TCS()) As NodeAttributes()
-            Dim LQuery = (From TCS In TCSSystem Select New NodeAttributes() {New NodeAttributes With {.Identifier = TCS.Chemotaxis, .NodeType = "Chemotaxis"},
-                               New NodeAttributes With {.Identifier = TCS.HK, .NodeType = "HK"},
-                               New NodeAttributes With {.Identifier = TCS.RR, .NodeType = "RR"}}).ToArray
+            Dim LQuery = (From TCS In TCSSystem Select New NodeAttributes() {New NodeAttributes With {.ID = TCS.Chemotaxis, .NodeType = "Chemotaxis"},
+                               New NodeAttributes With {.ID = TCS.HK, .NodeType = "HK"},
+                               New NodeAttributes With {.ID = TCS.RR, .NodeType = "RR"}}).ToArray
             Dim ChunkList As List(Of NodeAttributes) = New List(Of NodeAttributes)
             For Each item In LQuery
                 Call ChunkList.AddRange(item)
@@ -123,7 +123,7 @@ Namespace DataVisualization
             Dim List As List(Of NodeAttributes) = New List(Of NodeAttributes)
             Call List.AddRange(CreateNodeAttributes(STrP.OCS))
             Call List.AddRange(CreateNodeAttributes(STrP.TCSSystem))
-            Call List.Add(New NodeAttributes With {.Identifier = STrP.TF, .NodeType = "TF"})
+            Call List.Add(New NodeAttributes With {.ID = STrP.TF, .NodeType = "TF"})
 
             Return List.ToArray
         End Function

@@ -74,9 +74,9 @@ Partial Module CLI
             Call TFs.Remove(sId)
         Next
 
-        Dim Nodes = ORF.ToArray(Function(sId) New FileStream.Node With {.Identifier = sId, .NodeType = "ORF"}).ToList
-        Nodes += TFs.ToArray(Function(sId) New FileStream.Node With {.Identifier = sId, .NodeType = "Regulator"})
-        Nodes += Hybrids.ToArray(Function(sId) New FileStream.Node With {.Identifier = sId, .NodeType = "ORF+TF"})
+        Dim Nodes = ORF.ToArray(Function(sId) New FileStream.Node With {.ID = sId, .NodeType = "ORF"}).ToList
+        Nodes += TFs.ToArray(Function(sId) New FileStream.Node With {.ID = sId, .NodeType = "Regulator"})
+        Nodes += Hybrids.ToArray(Function(sId) New FileStream.Node With {.ID = sId, .NodeType = "ORF+TF"})
         Return Nodes
     End Function
 

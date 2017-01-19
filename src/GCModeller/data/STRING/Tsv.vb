@@ -36,9 +36,12 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace StringDB.Tsv
 
     ''' <summary>
-    ''' interaction types for protein links
+    ''' interaction types for protein links.
+    ''' (从String-DB之中下载的蛋白质互作网络数据，例如：``9606.protein.actions.v10.txt``，
+    ''' 这个对象只是存在注释数据的互作关系，只是所有的互作关系之中研究比较明白的网络部分，
+    ''' 假若查看所有的网络数据在``9606.protein.links.v10.txt``文件之中)
     ''' </summary>
-    Public Class Actions
+    Public Class LinkAction
 
         Public Property item_id_a As String
         Public Property item_id_b As String
@@ -47,11 +50,11 @@ Namespace StringDB.Tsv
         Public Property a_is_acting As String
         Public Property score As String
 
-        Public Shared Iterator Function LoadText(path As String) As IEnumerable(Of Actions)
+        Public Shared Iterator Function LoadText(path As String) As IEnumerable(Of LinkAction)
             For Each line As String In path.IterateAllLines.Skip(1)
                 Dim tokens As String() = line.Split(Text.ASCII.TAB)
 
-                Yield New Actions With {
+                Yield New LinkAction With {
                     .item_id_a = tokens(0),
                     .item_id_b = tokens(1),
                     .mode = tokens(2),
@@ -98,6 +101,23 @@ Namespace StringDB.Tsv
                     .database = tokens(7),
                     .textmining = tokens(8),
                     .combined_score = tokens(9)
+                }
+            Next
+        End Function
+
+        ''' <summary>
+        ''' ``9606.protein.links.v10.txt``，这个文件之中只有3个值：a, b以及分数
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <returns></returns>
+        Public Shared Iterator Function IteratesLinks(path$) As IEnumerable(Of linksDetail)
+            For Each line As String In path.IterateAllLines.Skip(1)
+                Dim t$() = line.Split(" "c)
+
+                Yield New linksDetail With {
+                    .protein1 = t(0),
+                    .protein2 = t(1),
+                    .combined_score = t(2)
                 }
             Next
         End Function

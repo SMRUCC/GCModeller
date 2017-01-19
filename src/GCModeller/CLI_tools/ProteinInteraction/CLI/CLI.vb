@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -41,6 +42,7 @@ Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions.SwissTCS
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.MiST2
+Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.Data.STRING.SimpleCsv
 Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv
 
@@ -95,6 +97,7 @@ Public Module CLI
 
     <ExportAPI("/STRING.selects",
                Usage:="/STRING.selects /in <in.DIR/*.Csv> /key <GeneId> /links <links.txt> /maps <maps_id.tsv> [/out <out.DIR/*.Csv>]")>
+    <Group(CLIGroupping.STRING_tools)>
     Public Function STRINGSelects(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim links As String = args("/links")
@@ -128,6 +131,22 @@ Public Module CLI
         End If
 
         Return 0
+    End Function
+
+    <ExportAPI("/STRING.Network",
+               Usage:="/STRING.Network /id <uniprot_idMappings.tsv> /links <protein.actions-links.tsv> [/all_links <protein.links.txt> /out <outDIR>]")>
+    <Group(CLIGroupping.STRING_tools)>
+    Public Function StringNetwork(args As CommandLine) As Integer
+        Dim idTsv = args("/id")
+        Dim links$ = args("/links")
+        Dim alllinks As String = args("/all_links")
+        Dim out = args.GetValue("/out", idTsv.TrimSuffix & "-" & links.BaseName & "/")
+        Dim maps = Uniprot.Web.SingleMappings(idTsv).ReverseMaps(True)
+        Dim net As FileStream.Network = If(
+            alllinks.FileExists(True),
+            maps.MatchNetwork(actions:=links, links:=alllinks),
+            maps.MatchNetwork(actions:=links))
+        Return net.Save(out).CLICode
     End Function
 
     <ExportAPI("/BioGRID.selects",

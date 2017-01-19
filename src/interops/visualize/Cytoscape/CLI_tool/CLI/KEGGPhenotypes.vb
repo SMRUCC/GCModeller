@@ -156,7 +156,7 @@ Partial Module CLI
                     {"C", mods.GetC(x.x)}
                }
                Select New FileStream.Node With {
-                    .Identifier = x.EntryId,
+                    .ID = x.EntryId,
                     .NodeType = "Module",
                     .Properties = props
                }

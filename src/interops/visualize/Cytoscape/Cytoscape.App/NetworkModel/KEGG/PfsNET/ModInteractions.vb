@@ -77,7 +77,7 @@ Namespace NetworkModel.KEGG
             net += (From x As T
                     In mods
                     Select New Node With {
-                        .Identifier = x.EntryId,
+                        .ID = x.EntryId,
                         .NodeType = modType,
                         .Properties = modHash.__modProperty(x)}).ToArray
             net += (From x In netEdges
@@ -113,10 +113,10 @@ Namespace NetworkModel.KEGG
                               Not mX.Properties Is Nothing
                           Let props = New Dictionary(Of String, String)(mX.Properties)
                           Select New Node With {
-                              .Identifier = x.ToNode,
+                              .ID = x.ToNode,
                               .NodeType = "Enzyme",
                               .Properties = props})
-            Dim Groups = (From x In LQuery Select x Group x By x.Identifier Into Group)
+            Dim Groups = (From x In LQuery Select x Group x By x.ID Into Group)
             Return (From x In Groups Select x.Group.First)
         End Function
 
@@ -173,7 +173,7 @@ Namespace NetworkModel.KEGG
 
         Private Function __tfNode(TF As String) As Node
             Return New Node With {
-                .Identifier = TF,
+                .ID = TF,
                 .NodeType = "TF"
             }
         End Function

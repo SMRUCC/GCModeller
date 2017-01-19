@@ -102,6 +102,17 @@ Namespace Assembly.Uniprot.Web
             Return maps
         End Function
 
+        Public Function SingleMappings(path$) As Dictionary(Of String, String)
+            Dim out As New Dictionary(Of String, String)
+
+            For Each line As String In path.ReadAllLines.Skip(1)
+                Dim t$() = line.Split(ASCII.TAB)
+                out.Add(t(0), t(1))
+            Next
+
+            Return out
+        End Function
+
         ''' <summary>
         ''' 得到mapping的所有的基因编号
         ''' </summary>
