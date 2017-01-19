@@ -87,7 +87,11 @@ Public Module Extensions
                 Call testAdd(link.item_id_a)
                 Call testAdd(link.item_id_b)
 
-                Call linkActions.Add($"{link.item_id_a}+{link.item_id_b}", link)
+                Dim link_id = $"{link.item_id_a}+{link.item_id_b}"
+
+                If Not linkActions.ContainsKey(link_id) Then
+                    Call linkActions.Add(link_id, link)
+                End If
             End If
         Next
 
