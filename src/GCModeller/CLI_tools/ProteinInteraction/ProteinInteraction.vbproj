@@ -200,6 +200,7 @@
     <Compile Include="CLI\LDM\LDM.vb" />
     <Compile Include="CLI\SwissTCS.vb" />
     <Compile Include="CLI\CLI.vb" />
+    <Compile Include="CLIGroupping.vb" />
     <Compile Include="_DEBUG_MAIN.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

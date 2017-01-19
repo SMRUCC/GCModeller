@@ -97,6 +97,7 @@ Public Module CLI
 
     <ExportAPI("/STRING.selects",
                Usage:="/STRING.selects /in <in.DIR/*.Csv> /key <GeneId> /links <links.txt> /maps <maps_id.tsv> [/out <out.DIR/*.Csv>]")>
+    <Group(CLIGroupping.STRING_tools)>
     Public Function STRINGSelects(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim links As String = args("/links")
@@ -134,6 +135,7 @@ Public Module CLI
 
     <ExportAPI("/STRING.Network",
                Usage:="/STRING.Network /id <uniprot_idMappings.tsv> /links <protein.actions-links.tsv> [/out <outDIR>]")>
+    <Group(CLIGroupping.STRING_tools)>
     Public Function StringNetwork(args As CommandLine) As Integer
         Dim idTsv = args("/id")
         Dim links$ = args("/links")
