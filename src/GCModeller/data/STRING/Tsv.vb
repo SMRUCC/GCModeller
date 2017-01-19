@@ -37,7 +37,9 @@ Namespace StringDB.Tsv
 
     ''' <summary>
     ''' interaction types for protein links.
-    ''' (从String-DB之中下载的蛋白质互作网络数据，例如：``9606.protein.actions.v10.txt``)
+    ''' (从String-DB之中下载的蛋白质互作网络数据，例如：``9606.protein.actions.v10.txt``，
+    ''' 这个对象只是存在注释数据的互作关系，只是所有的互作关系之中研究比较明白的网络部分，
+    ''' 假若查看所有的网络数据在``9606.protein.links.v10.txt``文件之中)
     ''' </summary>
     Public Class LinkAction
 
@@ -99,6 +101,23 @@ Namespace StringDB.Tsv
                     .database = tokens(7),
                     .textmining = tokens(8),
                     .combined_score = tokens(9)
+                }
+            Next
+        End Function
+
+        ''' <summary>
+        ''' ``9606.protein.links.v10.txt``，这个文件之中只有3个值：a, b以及分数
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <returns></returns>
+        Public Shared Iterator Function IteratesLinks(path$) As IEnumerable(Of linksDetail)
+            For Each line As String In path.IterateAllLines.Skip(1)
+                Dim t$() = line.Split(" "c)
+
+                Yield New linksDetail With {
+                    .protein1 = t(0),
+                    .protein2 = t(1),
+                    .combined_score = t(2)
                 }
             Next
         End Function

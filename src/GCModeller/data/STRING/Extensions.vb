@@ -52,6 +52,85 @@ Public Module Extensions
     End Function
 
     ''' <summary>
+    ''' 这个函数是获取得到所有的网络数据的指定的子集
+    ''' </summary>
+    ''' <param name="idData"></param>
+    ''' <param name="links$"></param>
+    ''' <param name="actions$"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function MatchNetwork(idData As Dictionary(Of String, String), links$, actions$) As Network
+        Dim edges As New List(Of NetworkEdge)
+        Dim nodes As New Dictionary(Of Node)
+        Dim testAdd As Action(Of String) =
+            Sub(id$)
+                If Not nodes.ContainsKey(id) Then
+                    nodes += New Node With {
+                        .ID = id,
+                        .NodeType = "protein",
+                        .Properties = New Dictionary(Of String, String) From {
+                            {"geneID", idData(.ID)}
+                        }
+                    }
+                End If
+            End Sub
+
+        Dim linkActions As New Dictionary(Of String, LinkAction)
+
+        ' 先取出actions的子集
+        For Each link As LinkAction In LinkAction.LoadText(actions)
+            If Not idData.ContainsKey(link.item_id_a) OrElse
+                Not idData.ContainsKey(link.item_id_b) Then
+                ' DO NOTHING
+            Else
+
+                Call testAdd(link.item_id_a)
+                Call testAdd(link.item_id_b)
+
+                Call linkActions.Add($"{link.item_id_a}+{link.item_id_b}", link)
+            End If
+        Next
+
+        For Each link As linksDetail In linksDetail.IteratesLinks(links)
+            If Not idData.ContainsKey(link.protein1) OrElse
+               Not idData.ContainsKey(link.protein2) Then
+                ' DO NOTHING
+            Else
+
+                Call testAdd(link.protein1)
+                Call testAdd(link.protein2)
+
+                Dim actionID = $"{link.protein1}+{link.protein2}"
+                Dim properties As New Dictionary(Of String, String)
+                Dim type$ = "link"
+
+                If linkActions.ContainsKey(actionID) Then
+                    With linkActions(actionID)
+                        type = .mode
+
+                        Call properties.Add("action", .action)
+                        Call properties.Add("a_is_acting", .a_is_acting)
+                        Call properties.Add("score", .score)
+                    End With
+                End If
+
+                edges += New NetworkEdge With {
+                    .FromNode = link.protein1,
+                    .ToNode = link.protein2,
+                    .Confidence = link.combined_score,
+                    .InteractionType = type,
+                    .Properties = properties
+                }
+            End If
+        Next
+
+        Return New Network With {
+            .Edges = edges,
+            .Nodes = nodes.Values.ToArray
+        }
+    End Function
+
+    ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="IDlist"><see cref="NamedValue(Of String).Name"/>为STRING之中的蛋白质的编号</param>
