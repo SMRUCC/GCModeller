@@ -67,7 +67,7 @@ Partial Module CLI
         Dim Networks = GeneInteractions.ExportPathwayGraph(Model)
         Dim regulators = Footprints.ToArray(Function(x) x.Regulator).Distinct.ToArray(
             Function(x) New FileStream.Node With {
-                .Identifier = x,
+                .ID = x,
                 .NodeType = "TF"
             })
         Dim regulations = (From x In Footprints
@@ -96,7 +96,7 @@ Partial Module CLI
         For Each kMod In Networks
             Dim edges = kMod.Value _
                 .Nodes _
-                .ToArray(Function(x) regulations.TryGetValue(x.Identifier)) _
+                .ToArray(Function(x) regulations.TryGetValue(x.ID)) _
                 .Unlist
             Dim Path As String = $"{outDIR}/{kMod.Key}/"
 
@@ -166,9 +166,9 @@ Partial Module CLI
             In (From node As FileStream.Node
                 In Nods
                 Select node
-                Group node By node.Identifier Into Group)
+                Group node By node.ID Into Group)
             Select New FileStream.Node With {
-                .Identifier = node.Identifier,
+                .ID = node.ID,
                 .NodeType = node.Group _
                     .ToArray(Function(x) x.NodeType) _
                     .Distinct _

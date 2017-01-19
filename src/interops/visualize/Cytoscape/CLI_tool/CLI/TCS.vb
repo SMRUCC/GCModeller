@@ -65,10 +65,10 @@ Partial Module CLI
                                        Order By name Ascending
         Dim Hybirds As String() = StringHelpers.Intersection(HK, RR)
         Dim Nodes As New List(Of Entity)
-        Call Nodes.Add((From name As String In HK Where Array.IndexOf(Hybirds, name) = -1 Select New Entity With {.Identifier = name, .NodeType = "HK"}).ToArray)
-        Call Nodes.Add((From name As String In RR Where Array.IndexOf(Hybirds, name) = -1 Select New Entity With {.Identifier = name, .NodeType = "RR"}).ToArray)
-        Call Nodes.Add((From name As String In Hybirds Select New Entity With {.Identifier = name, .NodeType = "Hybrids"}).ToArray)
-        Call Nodes.Add((From name As String In Regulators Where Array.IndexOf(HK, name) = -1 AndAlso Array.IndexOf(RR, name) = -1 Select New Entity With {.Identifier = name, .NodeType = "TF"}).ToArray)
+        Call Nodes.Add((From name As String In HK Where Array.IndexOf(Hybirds, name) = -1 Select New Entity With {.ID = name, .NodeType = "HK"}).ToArray)
+        Call Nodes.Add((From name As String In RR Where Array.IndexOf(Hybirds, name) = -1 Select New Entity With {.ID = name, .NodeType = "RR"}).ToArray)
+        Call Nodes.Add((From name As String In Hybirds Select New Entity With {.ID = name, .NodeType = "Hybrids"}).ToArray)
+        Call Nodes.Add((From name As String In Regulators Where Array.IndexOf(HK, name) = -1 AndAlso Array.IndexOf(RR, name) = -1 Select New Entity With {.ID = name, .NodeType = "TF"}).ToArray)
 
         Dim Edges As New List(Of Interaction)
         Dim FillZERO As Boolean = args.GetBoolean("/Fill-pcc")

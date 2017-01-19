@@ -57,7 +57,7 @@ Public Class RegPreciseRegulon
         For Each x As RegPreciseRegulon In source
             If Not Nodes.ContainsKey(x.Regulator) Then
                 Dim TF As New FileStream.Node With {
-                    .Identifier = x.Regulator,
+                    .ID = x.Regulator,
                     .NodeType = "TF"
                 }
                 Call Nodes.Add(x.Regulator, TF)
@@ -65,7 +65,7 @@ Public Class RegPreciseRegulon
             For Each member In x.Members
                 If Not Nodes.ContainsKey(member) Then
                     Dim Target As New FileStream.Node With {
-                        .Identifier = member,
+                        .ID = member,
                         .NodeType = "Member"
                     }
                     Call Nodes.Add(member, Target)

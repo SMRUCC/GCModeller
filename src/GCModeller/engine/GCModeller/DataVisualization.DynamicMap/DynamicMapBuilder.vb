@@ -105,7 +105,7 @@ Namespace DataVisualization.DynamicMap
                 End If
             Next
 
-            Dim ComponentsId As String() = (From cp In Components Select cp.Identifier Distinct).ToArray
+            Dim ComponentsId As String() = (From cp In Components Select cp.ID Distinct).ToArray
             Dim NewComponentsList As List(Of Component) = New List(Of Component)
 
             For Each Id As String In ComponentsId
@@ -118,22 +118,22 @@ Namespace DataVisualization.DynamicMap
 
                 Dim Type As String = String.Join("; ", (From item In Items Select item.NodeType Distinct).ToArray)
 
-                Call NewComponentsList.Add(New Component With {.Identifier = Id, .NodeType = Type, .Quantity = Items.First.Quantity})
+                Call NewComponentsList.Add(New Component With {.ID = Id, .NodeType = Type, .Quantity = Items.First.Quantity})
             Next
 
             Return New KeyValuePairObject(Of Component(), ComponentInteraction()) With {.Key = NewComponentsList.ToArray, .Value = (From item In Network Where item.Confidence > 0 Select item).ToArray}
         End Function
 
         Private Function BuildCentralDogmaRegulations(CentrolDogma As CentralDogma) As KeyValuePairObject(Of Component(), ComponentInteraction())
-            Dim Transcripts = (From Transcript In CentrolDogma.Transcripts Select New Component With {.Identifier = Transcript._TranscriptModelBase.Template, .NodeType = "Protein", .Quantity = Transcript.Quantity}).ToArray
-            Dim Regulators = (From Regulator In CentrolDogma.get_Regulators Select New Component With {.Identifier = Regulator.Identifier, .NodeType = "TranscriptRegulator", .Quantity = Regulator.Quantity}).ToArray
+            Dim Transcripts = (From Transcript In CentrolDogma.Transcripts Select New Component With {.ID = Transcript._TranscriptModelBase.Template, .NodeType = "Protein", .Quantity = Transcript.Quantity}).ToArray
+            Dim Regulators = (From Regulator In CentrolDogma.get_Regulators Select New Component With {.ID = Regulator.Identifier, .NodeType = "TranscriptRegulator", .Quantity = Regulator.Quantity}).ToArray
             Dim Regulations = (From Regulator In CentrolDogma.get_Regulators Select New ComponentInteraction With {.Confidence = CentrolDogma.ExpressionActivity, .FromNode = Regulator.Identifier, .InteractionType = InteractionTypes.TranscriptionRegulation, .ToNode = CentrolDogma.Identifier}).ToArray
             Dim TranscriptUnit = (From Transcript In CentrolDogma.Transcripts Select New ComponentInteraction With {.Confidence = CentrolDogma.FluxValue, .FromNode = CentrolDogma.Identifier, .ToNode = Transcript.Identifier, .InteractionType = InteractionTypes.OperonConsists}).ToArray
 
             Dim Components As List(Of Component) = New List(Of Component)
             Call Components.AddRange(Transcripts)
             Call Components.AddRange(Regulators)
-            Call Components.Add(New Component With {.Identifier = CentrolDogma.Identifier, .NodeType = "TranscriptUnit", .Quantity = CentrolDogma.FluxValue})
+            Call Components.Add(New Component With {.ID = CentrolDogma.Identifier, .NodeType = "TranscriptUnit", .Quantity = CentrolDogma.FluxValue})
             Dim Interactions As List(Of ComponentInteraction) = New List(Of ComponentInteraction)
             Call Interactions.AddRange(Regulations)
             Call Interactions.AddRange(TranscriptUnit)
@@ -165,7 +165,7 @@ Namespace DataVisualization.DynamicMap
                                       Where Enzyme.Quantity > 1
                                       Select New Component With
                                              {
-                                                 .Identifier = Enzyme.Identifier, .Quantity = Enzyme.Quantity, .NodeType = "MetabolismEnzyme"}))
+                                                 .ID = Enzyme.Identifier, .Quantity = Enzyme.Quantity, .NodeType = "MetabolismEnzyme"}))
 
             Dim GetRegulators = (From Enzyme In Model.Enzymes
                                  Let Regulators = Me.GetRegulators(GeneId:=Enzyme.Identifier)
@@ -180,7 +180,7 @@ Namespace DataVisualization.DynamicMap
                                           In Line.Regulators
                                           Select New Component With
                                                  {
-                                                     .Identifier = Regulator.Identifier,
+                                                     .ID = Regulator.Identifier,
                                                      .Quantity = Regulator.Quantity,
                                                      .NodeType = "TranscriptionRegulator"}).ToArray)
                 Call Network.AddRange((From Regulator
@@ -236,9 +236,9 @@ Namespace DataVisualization.DynamicMap
                                                     .Confidence = System.Math.Abs(Model.FluxValue) * Product.Stoichiometry}).ToArray)
             End If
 
-            Call NodeList.AddRange((From item In Model._Reactants Select New Component With {.Identifier = item.Identifier, .Quantity = item.EntityCompound.DataSource.Value, .NodeType = "Metabolite"}).ToArray)
-            Call NodeList.AddRange((From item In Model._Products Select New Component With {.Identifier = item.Identifier, .Quantity = item.EntityCompound.DataSource.Value, .NodeType = "Metabolite"}).ToArray)
-            Call NodeList.Add(New Component With {.Identifier = Model.Identifier, .Quantity = Model.FluxValue, .NodeType = "MetabolismFlux"})
+            Call NodeList.AddRange((From item In Model._Reactants Select New Component With {.ID = item.Identifier, .Quantity = item.EntityCompound.DataSource.value, .NodeType = "Metabolite"}).ToArray)
+            Call NodeList.AddRange((From item In Model._Products Select New Component With {.ID = item.Identifier, .Quantity = item.EntityCompound.DataSource.value, .NodeType = "Metabolite"}).ToArray)
+            Call NodeList.Add(New Component With {.ID = Model.Identifier, .Quantity = Model.FluxValue, .NodeType = "MetabolismFlux"})
 
             Return New KeyValuePairObject(Of Component(), ComponentInteraction()) With {.Key = NodeList.ToArray, .Value = ChunkList.ToArray}
         End Function

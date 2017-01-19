@@ -274,7 +274,7 @@ Namespace Metagenome
             End If
 
             Dim node As New Node With {
-                .Identifier = ssu.Identifier,
+                .ID = ssu.Identifier,
                 .NodeType = taxonomy.taxid,
                 .Properties = New Dictionary(Of String, String)
             }
@@ -352,7 +352,7 @@ Namespace Metagenome
             Next
 
             For Each node As Node In nodes
-                node.Properties("display") = $"({node.Identifier}) {node.Properties("taxonomyName")}"
+                node.Properties("display") = $"({node.ID}) {node.Properties("taxonomyName")}"
                 node.Properties("color") = colors(node.NodeType)
             Next
         End Sub

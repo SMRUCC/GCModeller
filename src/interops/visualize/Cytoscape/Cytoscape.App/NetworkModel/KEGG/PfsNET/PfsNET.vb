@@ -93,10 +93,10 @@ Namespace NetworkModel.PfsNET
                                In SubNET.SignificantGeneObjects
                                Select New FileStream.Node With {
                                    .NodeType = "Significant Gene",
-                                   .Identifier = strId
+                                   .ID = strId
                                }
                 nodesBuffer += New FileStream.Node With {
-                    .Identifier = SubNET.UniqueId,
+                    .ID = SubNET.UniqueId,
                     .NodeType = "Significant Pathway"
                 }
             Next
@@ -164,14 +164,14 @@ Namespace NetworkModel.PfsNET
 
             For i As Integer = 0 To Reactions.Count - 1
                 Dim Reaction = Reactions(i)
-                Dim Pathways = (From pathway In PathwayList Where pathway.ReactionList.IndexOf(Reaction.Identifier) > -1 Select pathway.Identifier).ToArray
+                Dim Pathways = (From pathway In PathwayList Where pathway.ReactionList.IndexOf(Reaction.ID) > -1 Select pathway.Identifier).ToArray
                 Reaction.InPathways = Pathways
             Next
 
             Dim Genes = (From item In Nodes Where String.Equals(item.NodeType, "GeneObject") Select item).ToArray
             For i As Integer = 0 To Genes.Count - 1
                 Dim Gene = Genes(i)
-                Dim Pathways = (From item In pfsNET Where Array.IndexOf(item.SignificantGeneObjects, Gene.Identifier) > -1 Select item.UniqueId Distinct).ToArray
+                Dim Pathways = (From item In pfsNET Where Array.IndexOf(item.SignificantGeneObjects, Gene.ID) > -1 Select item.UniqueId Distinct).ToArray
                 Gene.InPathways = Pathways
             Next
 
@@ -187,7 +187,7 @@ Namespace NetworkModel.PfsNET
             Next
             GeneList = (From strId As String In GeneList Select strId Distinct).ToList
 
-            Call NodeList.AddRange((From GeneId As String In GeneList Select New NetworkModel.Node With {.NodeType = "GeneObject", .Identifier = GeneId}).ToArray)
+            Call NodeList.AddRange((From GeneId As String In GeneList Select New NetworkModel.Node With {.NodeType = "GeneObject", .ID = GeneId}).ToArray)
 
             Dim CatalystsList As Dictionary(Of String, String())
             Using op = New SMRUCC.genomics.Assembly.MetaCyc.Schema.PathwayBrief.AssignGene(MetaCyc)
@@ -215,7 +215,7 @@ Namespace NetworkModel.PfsNET
                 From r As Slots.Reaction
                 In ReactionList
                 Select New NetworkModel.Node With {
-                    .Identifier = r.Identifier,
+                    .ID = r.Identifier,
                     .NodeType = "Reaction"
                 }
 
@@ -239,7 +239,7 @@ Namespace NetworkModel.PfsNET
                             If coefficient > 0 Then
                                 Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = reaction.Identifier, .ToNode = Substrate, .InteractionType = "Confluence"})
                                 Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = connected.Reaction, .ToNode = Substrate, .InteractionType = "Confluence"})
-                                Call NodeList.Add(New NetworkModel.Node With {.Identifier = Substrate, .NodeType = "Metabolite"})
+                                Call NodeList.Add(New NetworkModel.Node With {.ID = Substrate, .NodeType = "Metabolite"})
                             Else
                                 Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = connected.Reaction, .ToNode = reaction.Identifier, .InteractionType = "Metabolite_Flux_Flow"})
                             End If
@@ -249,7 +249,7 @@ Namespace NetworkModel.PfsNET
                             Else
                                 Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Substrate, .ToNode = connected.Reaction, .InteractionType = "Diffluence"})
                                 Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Substrate, .ToNode = reaction.Identifier, .InteractionType = "Diffluence"})
-                                Call NodeList.Add(New NetworkModel.Node With {.Identifier = Substrate, .NodeType = "Metabolite"})
+                                Call NodeList.Add(New NetworkModel.Node With {.ID = Substrate, .NodeType = "Metabolite"})
                             End If
                         End If
                     Next

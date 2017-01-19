@@ -69,7 +69,7 @@ Namespace NetworkModel
                                     Function(xx) xx.species)).IteratesALL.Distinct.ToArray
             Dim nodes = allCompounds.ToArray(
                 Function(x) New Node With {
-                    .Identifier = x,
+                    .ID = x,
                     .NodeType = "Metabolite"})
             Dim fluxNodes As Node() = nZ.ToArray(Function(x) __flux2Node(x, fluxValue))
             Dim edges As NetworkEdge() = nZ.Select(AddressOf __flux2Edges).ToVector
@@ -105,7 +105,7 @@ Namespace NetworkModel
             Next
 
             Dim node As New Node With {
-                .Identifier = flux.id,
+                .ID = flux.id,
                 .NodeType = "Flux",
                 .Properties = meta
             }

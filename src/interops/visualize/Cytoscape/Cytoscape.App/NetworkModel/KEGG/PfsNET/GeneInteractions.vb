@@ -90,14 +90,14 @@ Namespace NetworkModel.PfsNET
             Dim nodes As FileStream.Node() = (From gene As NetworkEdge
                                               In rxnGeneRels
                                               Let gNode = New FileStream.Node With {
-                                                  .Identifier = gene.FromNode,
+                                                  .ID = gene.FromNode,
                                                   .NodeType = "Gene"
                                               }
                                               Select gNode).ToArray
             Dim rxnNodes = (From gene As NetworkEdge
                             In rxnGeneRels
                             Let rNode = New FileStream.Node With {
-                                .Identifier = gene.ToNode,
+                                .ID = gene.ToNode,
                                 .NodeType = "MetabolismFlux"
                             }
                             Select rNode).ToArray
@@ -187,9 +187,9 @@ Namespace NetworkModel.PfsNET
 
             For Each Line As KeyValuePair(Of String, ______NETWORK__) In ChunkBuffer
                 Call Nodes.AddRange((From item In Line.Value.Nodes Select New Enzyme With {
-                                                                       .Identifier = item.Identifier,
+                                                                       .ID = item.ID,
                                                                        .NodeType = item.NodeType,
-                                                                       .EC = If(ECMappings.ContainsKey(item.Identifier), ECMappings(item.Identifier).ECMaps.ToArray(Function(x) x.EC), Nothing)}))
+                                                                       .EC = If(ECMappings.ContainsKey(item.ID), ECMappings(item.ID).ECMaps.ToArray(Function(x) x.EC), Nothing)}))
                 Call Edges.AddRange((From item In Line.Value.Edges Select New Interaction With {
                                                                        .FromNode = item.FromNode,
                                                                        .ToNode = item.ToNode,
@@ -198,13 +198,13 @@ Namespace NetworkModel.PfsNET
             Next
 
             '重新整理节点和互作
-            Nodes = (From item In (From item In Nodes Select item Group item By item.Identifier Into Group).ToArray.AsParallel
+            Nodes = (From item In (From item In Nodes Select item Group item By item.ID Into Group).ToArray.AsParallel
                      Let node_collection = item.Group.ToArray
                      Let ec = (From node In node_collection Select node.EC).ToArray.ToVector.Distinct.ToArray
                      Let type = (From node In node_collection Select node.NodeType Distinct).ToArray
-                     Let nodeEnzyme = New Enzyme With {.Identifier = item.Identifier, .EC = ec, .NodeType = String.Join("; ", type)}
+                     Let nodeEnzyme = New Enzyme With {.ID = item.ID, .EC = ec, .NodeType = String.Join("; ", type)}
                      Select nodeEnzyme
-                     Order By nodeEnzyme.Identifier Ascending).ToList
+                     Order By nodeEnzyme.ID Ascending).ToList
             Edges = (From item In (From item In Edges Select Guid = item.GetNullDirectedGuid, item Group By Guid Into Group).AsParallel
                      Let edge_collection = item.Group.ToArray
                      Let instance = edge_collection.First
@@ -309,7 +309,7 @@ Namespace NetworkModel.PfsNET
             Dim Nodes = (From id As String
                          In GeneIdList
                          Select New FileStream.Node With {
-                             .Identifier = id,
+                             .ID = id,
                              .NodeType = "Gene"}).ToArray '创建酶分子的节点
 
             Dim bufSource = (From item In rxnRels
@@ -395,7 +395,7 @@ Namespace NetworkModel.PfsNET
             For Each item In PfsNet
                 Dim [mod] = net(item.UniqueId)
                 Dim nodes = (From n In item.SignificantGeneObjects Select New PfsNETNode With {
-                                                                       .Identifier = n,
+                                                                       .ID = n,
                                                                        .NodeType = "Gene",
                                                                        .Important = {"True"}
                                                                        }).ToArray
@@ -457,7 +457,7 @@ Namespace NetworkModel.PfsNET
                     For Each Node In NodeTable
                         Node.Important = (From item As SubNetTable
                                           In pfsnetList.AsParallel
-                                          Where Array.IndexOf(item.SignificantGeneObjects, Node.Identifier) > -1
+                                          Where Array.IndexOf(item.SignificantGeneObjects, Node.ID) > -1
                                           Select item.PhenotypePair
                                           Distinct
                                           Order By PhenotypePair Ascending).ToArray
@@ -473,7 +473,7 @@ Namespace NetworkModel.PfsNET
         Public Class PfsNETNode : Inherits FileStream.Node
 
             ''' <summary>
-            ''' 当前的<see cref="PfsNETNode.Identifier">基因节点</see>受这个列表之中的调控因子的影响比较大
+            ''' 当前的<see cref="PfsNETNode.ID">基因节点</see>受这个列表之中的调控因子的影响比较大
             ''' </summary>
             ''' <value></value>
             ''' <returns></returns>

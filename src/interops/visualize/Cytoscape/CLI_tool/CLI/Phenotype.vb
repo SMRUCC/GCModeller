@@ -86,8 +86,8 @@ Partial Module CLI
                 Continue For
             End If
 
-            If COGs.ContainsKey(node.Identifier) Then
-                Dim gene As COGFunc = COGs(node.Identifier)
+            If COGs.ContainsKey(node.ID) Then
+                Dim gene As COGFunc = COGs(node.ID)
                 Call node.Add("COG", gene.COG)
                 Call node.Add("Func", gene.Func)
                 Call node.Add("Category", gene.Category.Description)
@@ -412,8 +412,8 @@ Partial Module CLI
                 Continue For
             End If
 
-            If DEGs.ContainsKey(node.Identifier) Then
-                Call node.Add("DEG", DEGs(node.Identifier))
+            If DEGs.ContainsKey(node.ID) Then
+                Call node.Add("DEG", DEGs(node.ID))
             End If
         Next
 
@@ -552,7 +552,7 @@ Partial Module CLI
                 Continue For
             End If
 
-            Dim mName As String = node.Identifier.Split("."c).First
+            Dim mName As String = node.ID.Split("."c).First
 
             Call node.Properties.Add(NameOf(mName), mName)
 
@@ -634,9 +634,9 @@ Partial Module CLI
             Dim mName As String
 
             If trim Then
-                mName = Regex.Match(node.Identifier, "[a-z]{1,3}\d+").Value
+                mName = Regex.Match(node.ID, "[a-z]{1,3}\d+").Value
             Else
-                mName = node.Identifier.Split("."c).First
+                mName = node.ID.Split("."c).First
             End If
 
             Call node.Properties.Add(NameOf(mName), mName)
@@ -693,9 +693,9 @@ Partial Module CLI
             Dim mName As String
 
             If trim Then
-                mName = Regex.Match(node.Identifier, "[a-z]+_M\d+", RegexOptions.IgnoreCase).Value
+                mName = Regex.Match(node.ID, "[a-z]+_M\d+", RegexOptions.IgnoreCase).Value
             Else
-                mName = node.Identifier.Split("."c).First
+                mName = node.ID.Split("."c).First
             End If
 
             Call node.Properties.Add(NameOf(mName), mName)
@@ -758,7 +758,7 @@ Partial Module CLI
                 Continue For
             End If
 
-            Dim mName As String = Regex.Replace(node.Identifier, "\.\d+", "")
+            Dim mName As String = Regex.Replace(node.ID, "\.\d+", "")
             Dim pair = mName.Split("."c)
             Dim locus As String = pair(Scan0)
 
@@ -843,7 +843,7 @@ Partial Module CLI
                 Continue For
             End If
 
-            Dim bbh As String = Regex.Replace(node.Identifier, "\.\d+", "")
+            Dim bbh As String = Regex.Replace(node.ID, "\.\d+", "")
             Dim hit As String() = bbh.Split("."c)
 
             If hit.Length = 1 Then

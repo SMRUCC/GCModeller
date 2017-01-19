@@ -90,14 +90,14 @@ Namespace RegulatesGraph
         Private Function __node(Id As String, modX As bGetObject.Module) As Entity
             Return New Entity With {
                 .NodeType = "Module",
-                .Identifier = Id,
+                .ID = Id,
                 .Size = modX.GetPathwayGenes.Length
             }
         End Function
 
         Private Function __node(Id As String, hash As Dictionary(Of String, String())) As Entity
             Return New Entity With {
-                .Identifier = Id,
+                .ID = Id,
                 .NodeType = "Motif Family",
                 .Size = hash.Count
             }

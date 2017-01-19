@@ -112,7 +112,7 @@ Module Program
 
             If Not nodes.ContainsKey(key) Then
                 nodes += New Node With {
-                    .Identifier = key,
+                    .ID = key,
                     .NodeType = types(0),
                     .Properties = New Dictionary(Of String, String) From {{"display", row(0)}}
                 }
@@ -122,7 +122,7 @@ Module Program
 
             If Not nodes.ContainsKey(key2) Then
                 nodes += New Node With {
-                    .Identifier = key2,
+                    .ID = key2,
                     .NodeType = types(1),
                     .Properties = New Dictionary(Of String, String) From {{"display", row(1)}}
                 }
@@ -137,13 +137,13 @@ Module Program
             Dim key As String = $"{types(0)}-{row(0)}".Replace(" ", "_")
 
             If Not nodes.ContainsKey(key) Then
-                nodes += New Node With {.Identifier = key, .NodeType = types(0), .Properties = New Dictionary(Of String, String) From {{"display", row(0)}}}
+                nodes += New Node With {.ID = key, .NodeType = types(0), .Properties = New Dictionary(Of String, String) From {{"display", row(0)}}}
             End If
 
             Dim key2 = $"{types(1)}-{row(1)}".Replace(" ", "_")
 
             If Not nodes.ContainsKey(key2) Then
-                nodes += New Node With {.Identifier = key2, .NodeType = types(1), .Properties = New Dictionary(Of String, String) From {{"display", row(1)}}}
+                nodes += New Node With {.ID = key2, .NodeType = types(1), .Properties = New Dictionary(Of String, String) From {{"display", row(1)}}}
             End If
 
             net += New NetworkEdge With {.ToNode = key, .FromNode = key2, .InteractionType = "Viral - HumanProtein"}

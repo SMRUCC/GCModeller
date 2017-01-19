@@ -86,16 +86,16 @@ Namespace DataVisualization
         End Sub
 
         Public Shared Function TrimNodeAttributes(Nodes As List(Of DataVisualization.NodeAttributes)) As DataVisualization.NodeAttributes()
-            Dim IdList As String() = (From item In Nodes Select item.Identifier Distinct).ToArray
+            Dim IdList As String() = (From item In Nodes Select item.ID Distinct).ToArray
             Dim List As List(Of DataVisualization.NodeAttributes) = New List(Of NodeAttributes)
             For Each Id As String In IdList
-                Dim LQuery = (From item In Nodes Where String.Equals(item.Identifier, Id) Select item.NodeType Distinct).ToArray
+                Dim LQuery = (From item In Nodes Where String.Equals(item.ID, Id) Select item.NodeType Distinct).ToArray
                 Dim sBuilder As StringBuilder = New StringBuilder(1024)
                 For Each strType In LQuery
                     Call sBuilder.Append(strType & "|")
                 Next
                 Call sBuilder.Remove(sBuilder.Length - 1, 1)
-                Call List.Add(New DataVisualization.NodeAttributes With {.Identifier = Id, .NodeType = sBuilder.ToString})
+                Call List.Add(New DataVisualization.NodeAttributes With {.ID = Id, .NodeType = sBuilder.ToString})
             Next
 
             Return List.ToArray
@@ -104,7 +104,7 @@ Namespace DataVisualization
 #Region "CreateNodeAttributes() As DataVisualization.NodeAttributes()"
 
         Private Shared Function CreateNodeAttributes(stringNodes As PitrNode()) As DataVisualization.NodeAttributes()
-            Dim LQuery = (From item In stringNodes Select New NodeAttributes() {New NodeAttributes With {.Identifier = item.FromNode, .NodeType = "Protein"}, New NodeAttributes With {.Identifier = item.ToNode, .NodeType = "Protein"}}).ToArray
+            Dim LQuery = (From item In stringNodes Select New NodeAttributes() {New NodeAttributes With {.ID = item.FromNode, .NodeType = "Protein"}, New NodeAttributes With {.ID = item.ToNode, .NodeType = "Protein"}}).ToArray
             Dim List As List(Of NodeAttributes) = New List(Of NodeAttributes)
             For Each item In LQuery
                 Call List.AddRange(item)
@@ -124,14 +124,14 @@ Namespace DataVisualization
             Dim UniqueId As String = Metabolite.Identifier
             Dim NodeType = Metabolite.MetaboliteType
             Dim CommonNames As String = Metabolite.CommonNames.FirstOrDefault
-            Return New DataVisualization.NodeAttributes With {.Identifier = UniqueId, .NodeType = NodeType.ToString, .CommonNames = CommonNames}
+            Return New DataVisualization.NodeAttributes With {.ID = UniqueId, .NodeType = NodeType.ToString, .CommonNames = CommonNames}
         End Function
 
         Private Shared Function CreateNodeAttributes(MetabolismModel As FileStream.MetabolismFlux()) As DataVisualization.NodeAttributes()
-            Dim LQuery = (From item In MetabolismModel Select New DataVisualization.NodeAttributes With {.Identifier = item.Identifier, .NodeType = "ReactionFlux", .CommonNames = item.CommonName}).ToList
+            Dim LQuery = (From item In MetabolismModel Select New DataVisualization.NodeAttributes With {.ID = item.Identifier, .NodeType = "ReactionFlux", .CommonNames = item.CommonName}).ToList
             For Each Flux In MetabolismModel
                 If Not Flux.Enzymes.IsNullOrEmpty Then
-                    Call LQuery.AddRange((From strId As String In Flux.Enzymes Select New NodeAttributes With {.Identifier = strId, .NodeType = "Metabolism Enzyme"}))
+                    Call LQuery.AddRange((From strId As String In Flux.Enzymes Select New NodeAttributes With {.ID = strId, .NodeType = "Metabolism Enzyme"}))
                 End If
             Next
             Return LQuery.ToArray
@@ -144,8 +144,8 @@ Namespace DataVisualization
         End Function
 
         Private Shared Function CreateNodeAttributes(ProteinAssembly As FileStream.ProteinAssembly, List As List(Of NodeAttributes)) As Integer
-            Call List.Add(New NodeAttributes With {.Identifier = ProteinAssembly.ProteinComplexes, .NodeType = "ProteinComplexes"})
-            Call List.AddRange((From id As String In ProteinAssembly.ProteinComponents Select New NodeAttributes With {.Identifier = id, .NodeType = "ProteinComponents"}))
+            Call List.Add(New NodeAttributes With {.ID = ProteinAssembly.ProteinComplexes, .NodeType = "ProteinComplexes"})
+            Call List.AddRange((From id As String In ProteinAssembly.ProteinComponents Select New NodeAttributes With {.ID = id, .NodeType = "ProteinComponents"}))
             Return 0
         End Function
 #End Region

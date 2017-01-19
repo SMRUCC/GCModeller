@@ -75,7 +75,7 @@ Namespace NetworkModel
 
                 If Not Regulations.IsNullOrEmpty Then
                     Call Network.AddRange(Regulations)
-                    Call NodeList.Add(New PathwayRegulator With {.Identifier = Line.TF})
+                    Call NodeList.Add(New PathwayRegulator With {.ID = Line.TF})
 
                     Dim ChunkTemp As New List(Of NetworkEdge)
                     For Each Node In Regulations
@@ -86,14 +86,14 @@ Namespace NetworkModel
                     Dim RegulationNodes As New List(Of FileStream.Node)
                     For Each Item In ChunkTemp
                         If RegulationNodes.GetItem(Item.ToNode) Is Nothing Then
-                            Call RegulationNodes.Add(New FileStream.Node With {.Identifier = Item.ToNode, .NodeType = "Pathway"})
+                            Call RegulationNodes.Add(New FileStream.Node With {.ID = Item.ToNode, .NodeType = "Pathway"})
                         End If
                     Next
-                    Dim PathwaysIds = (From item In RegulationNodes Select item.Identifier Distinct).ToArray
+                    Dim PathwaysIds = (From item In RegulationNodes Select item.ID Distinct).ToArray
                     Dim Interactions = (From item In Edges.AsParallel Where Array.IndexOf(PathwaysIds, item.FromNode) > -1 AndAlso Array.IndexOf(PathwaysIds, item.ToNode) > -1 Select item).ToArray
 
                     Call ChunkTemp.AddRange(Interactions)
-                    Call RegulationNodes.Add(New FileStream.Node With {.NodeType = "Regulator", .Identifier = Line.TF})
+                    Call RegulationNodes.Add(New FileStream.Node With {.NodeType = "Regulator", .ID = Line.TF})
 
                     Call RegulationNodes.SaveTo(String.Format("{0}/{1}/Nodes.csv", ExportDir, Line.TF), False)
                     Call ChunkTemp.SaveTo(String.Format("{0}/{1}/PathwayRegulations.csv", ExportDir, Line.TF), True)

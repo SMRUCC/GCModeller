@@ -103,10 +103,10 @@ Namespace NetworkModel.KEGG
         Public Function BuildNET(source As IEnumerable(Of bGetObject.Reaction)) As FileStream.Network
             Dim cpHash = BuildCompoundHash(source)
             Dim nodes As New List(Of FileStream.Node)
-            Dim nodeTmp As FileStream.Node() = source.ToArray(Function(x) New FileStream.Node With {.Identifier = x.Entry, .NodeType = "Flux"})
+            Dim nodeTmp As FileStream.Node() = source.ToArray(Function(x) New FileStream.Node With {.ID = x.Entry, .NodeType = "Flux"})
             Call nodes.AddRange(nodeTmp)
             nodeTmp = cpHash.ToArray(Function(x) New FileStream.Node With {
-                                         .Identifier = x.Key,
+                                         .ID = x.Key,
                                          .NodeType = "Metabolite",
                                          .Properties = New Dictionary(Of String, String) From {{"associate", x.Value.Length}}})
             Call nodes.AddRange(nodeTmp)

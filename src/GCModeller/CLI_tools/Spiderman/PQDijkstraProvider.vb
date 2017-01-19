@@ -51,7 +51,7 @@ Namespace PathRoutes
             Call MyBase.New(Nodes.Count)
 
             Me._nodes = Nodes.SeqIterator.ToArray
-            Me._nodeHash = _nodes.ToDictionary(Function(x) x.value.Identifier)
+            Me._nodeHash = _nodes.ToDictionary(Function(x) x.value.ID)
             Me.OriginalNodes = Nodes
             Me.NetworkInteractions = Network
         End Sub
@@ -80,7 +80,7 @@ Namespace PathRoutes
             Dim Path As New List(Of Interactions)
             For i As Integer = 0 To routes.Count - 2
                 Dim NodeA = routes(i), NodeB = routes(i + 1)
-                Dim Interaction = (From itr In provider.NetworkInteractions Where itr.Equals(NodeA.Identifier, NodeB.Identifier) Select itr).First
+                Dim Interaction = (From itr In provider.NetworkInteractions Where itr.Equals(NodeA.ID, NodeB.ID) Select itr).First
                 Call Path.Add(Interaction)
             Next
 
@@ -136,8 +136,8 @@ Namespace PathRoutes
         ''' <returns></returns>
         ''' <remarks></remarks>
         Protected Overrides Function getInternodeTraversalCost(start As Integer, finish As Integer) As Single
-            Dim NodeA As String = _nodes(start).value.Identifier
-            Dim NodeB As String = _nodes(finish).value.Identifier
+            Dim NodeA As String = _nodes(start).value.ID
+            Dim NodeB As String = _nodes(finish).value.ID
 
             Dim LQuery = (From itr In NetworkInteractions.AsParallel Where itr.Equals(NodeA, NodeB) Select itr).ToArray
             If LQuery.IsNullOrEmpty Then
@@ -148,7 +148,7 @@ Namespace PathRoutes
         End Function
 
         Protected Overrides Function GetNearbyNodes(startingNode As Integer) As IEnumerable(Of Integer)
-            Dim Node As String = _nodes(startingNode).value.Identifier
+            Dim Node As String = _nodes(startingNode).value.ID
             Dim LQuery = (From Interaction As Interactions
                           In NetworkInteractions
                           Let strId As String = __getNearbyNodeId(Node, Interaction)
