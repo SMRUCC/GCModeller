@@ -56,8 +56,12 @@ Namespace KOBAS
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        <Extension> Public Function P(x As EnrichmentTerm) As Double
-            Return -Math.Log10(x.Pvalue)
+        <Extension> Public Function P(x As EnrichmentTerm, Optional correctedPvalue As Boolean = True) As Double
+            If correctedPvalue Then
+                Return -Math.Log10(x.CorrectedPvalue)
+            Else
+                Return -Math.Log10(x.Pvalue)
+            End If
         End Function
     End Module
 
