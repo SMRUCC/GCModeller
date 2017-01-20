@@ -140,9 +140,11 @@ Public Module CLI
         Dim idTsv = args("/id")
         Dim links$ = args("/links")
         Dim alllinks As String = args("/all_links")
-        Dim out = args.GetValue("/out", idTsv.TrimSuffix & "-" & links.BaseName & "/")
-        Dim maps = Uniprot.Web.SingleMappings(idTsv)
         Dim sublist As String = args("/sub")
+        Dim out = args.GetValue(
+            "/out",
+            idTsv.TrimSuffix & "-" & links.BaseName & $"{If(sublist.FileExists, "-" & sublist.BaseName, "")}/")
+        Dim maps = Uniprot.Web.SingleMappings(idTsv)
 
         If sublist.FileExists Then
             Dim list = sublist.ReadAllLines
