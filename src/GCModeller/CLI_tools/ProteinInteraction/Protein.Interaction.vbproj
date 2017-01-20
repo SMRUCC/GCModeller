@@ -198,6 +198,7 @@
     <Compile Include="CLI\Interactions.vb" />
     <Compile Include="CLI\LDM\API.vb" />
     <Compile Include="CLI\LDM\LDM.vb" />
+    <Compile Include="CLI\STRING.vb" />
     <Compile Include="CLI\SwissTCS.vb" />
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLIGroupping.vb" />

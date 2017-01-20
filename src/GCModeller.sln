@@ -119,7 +119,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MPAlignment", "GCModeller\C
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PhenoTree", "GCModeller\CLI_tools\PhenoTree\PhenoTree.vbproj", "{ECB7F87A-3690-4369-A191-2358EE940561}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ProteinInteraction", "GCModeller\CLI_tools\ProteinInteraction\ProteinInteraction.vbproj", "{9BA6B2AE-97E0-4933-A89D-00D3AB36D247}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Protein.Interaction", "GCModeller\CLI_tools\ProteinInteraction\Protein.Interaction.vbproj", "{9BA6B2AE-97E0-4933-A89D-00D3AB36D247}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RegPrecise", "GCModeller\CLI_tools\RegPrecise\RegPrecise.vbproj", "{57B9A47C-D07C-40F1-B4B4-C3B673DD8C87}"
 EndProject
