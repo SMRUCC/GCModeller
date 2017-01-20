@@ -134,14 +134,26 @@ Public Module CLI
     End Function
 
     <ExportAPI("/STRING.Network",
-               Usage:="/STRING.Network /id <uniprot_idMappings.tsv> /links <protein.actions-links.tsv> [/all_links <protein.links.txt> /out <outDIR>]")>
+               Usage:="/STRING.Network /id <uniprot_idMappings.tsv> /links <protein.actions-links.tsv> [/sub <idlist.txt> /all_links <protein.links.txt> /out <outDIR>]")>
     <Group(CLIGroupping.STRING_tools)>
     Public Function StringNetwork(args As CommandLine) As Integer
         Dim idTsv = args("/id")
         Dim links$ = args("/links")
         Dim alllinks As String = args("/all_links")
         Dim out = args.GetValue("/out", idTsv.TrimSuffix & "-" & links.BaseName & "/")
-        Dim maps = Uniprot.Web.SingleMappings(idTsv).ReverseMaps(True)
+        Dim maps = Uniprot.Web.SingleMappings(idTsv)
+        Dim sublist As String = args("/sub")
+
+        If sublist.FileExists Then
+            Dim list = sublist.ReadAllLines
+            maps = list _
+                .Where(Function(id) maps.ContainsKey(id)) _
+                .ToDictionary(Function(k) k,
+                              Function(s) maps(s))
+        End If
+
+        maps = maps.ReverseMaps(True)
+
         Dim net As FileStream.Network = If(
             alllinks.FileExists(True),
             maps.MatchNetwork(actions:=links, links:=alllinks),
