@@ -32,6 +32,22 @@ Public Module ProteinGroups
     End Sub
 
     ''' <summary>
+    ''' 不需要进行mapping
+    ''' </summary>
+    ''' <param name="ID">直接是uniprot编号</param>
+    ''' <param name="uniprotXML$"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function GenerateAnnotations(ID As IEnumerable(Of String), uniprotXML$) As IEnumerable(Of (protein, String()))
+        Dim list$() = ID.ToArray
+        Dim mappings As Dictionary(Of String, String()) =
+            list.ToDictionary(
+            Function(x) x,
+            Function(x) {x})
+        Return list.GenerateAnnotations(mappings, uniprotXML, "uniprot",,)
+    End Function
+
+    ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="ID">
@@ -42,14 +58,24 @@ Public Module ProteinGroups
     ''' <param name="deli"></param>
     ''' <returns></returns>
     <Extension>
+    Public Function GenerateAnnotations(ID As IEnumerable(Of String),
+                                        idMapping$,
+                                        uniprotXML$,
+                                        Optional prefix$ = "",
+                                        Optional deli As Char = ";"c,
+                                        Optional scientifcName$ = Nothing) As IEnumerable(Of (protein, String()))
+
+        Dim mappings As Dictionary(Of String, String()) = Retrieve_IDmapping.MappingReader(idMapping)
+        Return ID.GenerateAnnotations(mappings, uniprotXML, prefix, deli, scientifcName)
+    End Function
+
+    <Extension>
     Public Iterator Function GenerateAnnotations(ID As IEnumerable(Of String),
-                                                 idMapping$,
+                                                 mappings As Dictionary(Of String, String()),
                                                  uniprotXML$,
                                                  Optional prefix$ = "",
                                                  Optional deli As Char = ";"c,
                                                  Optional scientifcName$ = Nothing) As IEnumerable(Of (protein, String()))
-
-        Dim mappings As Dictionary(Of String, String()) = Retrieve_IDmapping.MappingReader(idMapping)
         Dim uniprot As Dictionary(Of String, Uniprot.XML.entry) =
             SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML _
             .Load(uniprotXML) _

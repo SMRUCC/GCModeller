@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
+Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
@@ -154,6 +155,23 @@ Public Module KEGGOrthology
             .Select(Function(x) New NamedValue(Of Double) With {
                 .Name = x.Term.GetTagValue(":", trim:=True).Value,
                 .Value = -Math.Log10(x.PValue)
+            }).OrderByDescending(Function(x) x.Value) _
+              .ToArray
+        Return New Dictionary(Of String, NamedValue(Of Double)()) From {
+            {"KEGG Pathways", data}
+        }.ProfilesPlot(title:="KEGG Pathway enrichment",
+                       size:=size,
+                       axisTitle:="-Log10(p-value)",
+                       tick:=1)
+    End Function
+
+    <Extension>
+    Public Function KEGGEnrichmentPlot(result As IEnumerable(Of EnrichmentTerm), Optional size As Size = Nothing) As Bitmap
+        Dim data As NamedValue(Of Double)() = result _
+            .Where(Function(x) x.Pvalue <= 0.05) _
+            .Select(Function(x) New NamedValue(Of Double) With {
+                .Name = x.Term,
+                .Value = -Math.Log10(x.Pvalue)
             }).OrderByDescending(Function(x) x.Value) _
               .ToArray
         Return New Dictionary(Of String, NamedValue(Of Double)()) From {

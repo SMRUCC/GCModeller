@@ -4,7 +4,9 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
+Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology
 Imports SMRUCC.genomics.Data.GeneOntology.GoStat
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -237,5 +239,36 @@ Public Module CatalogPlots
             size:=size,
             axisTitle:="-Log10(p-value)",
             tick:=1)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="data">输出的结果都应该是不重复的</param>
+    ''' <param name="GO_terms"></param>
+    ''' <param name="size"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function EnrichmentPlot(data As IEnumerable(Of EnrichmentTerm), GO_terms As Dictionary(Of String, Term), Optional pvalue# = 0.05, Optional size As Size = Nothing) As Bitmap
+        Dim profile As New Dictionary(Of String, List(Of NamedValue(Of Double)))
+
+        For Each term As EnrichmentTerm In data.Where(Function(x) GO_terms.ContainsKey(x.ID) AndAlso x.CorrectedPvalue <= pvalue#)
+            Dim namespace$ = GO_terms(term.ID).namespace
+
+            If Not profile.ContainsKey([namespace]) Then
+                Call profile.Add([namespace], New List(Of NamedValue(Of Double)))
+            End If
+
+            Call profile([namespace]).Add(New NamedValue(Of Double)(term.Term, term.P(False)))
+        Next
+
+        Return profile.ToDictionary(
+            Function(x) x.Key,
+            Function(x) x.Value.ToArray) _
+            .ProfilesPlot(
+                "GO enrichment",
+                size:=size,
+                axisTitle:="-Log10(p-value)",
+                tick:=1)
     End Function
 End Module

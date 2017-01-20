@@ -1,6 +1,8 @@
 ﻿Imports System.Collections.Specialized
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Data
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -36,13 +38,17 @@ Namespace KOBAS
         End Function
 
         Public Sub SplitData(path$)
-            Dim lines = path.ReadAllLines
-            Dim blocks = lines.Split("[-]+", regex:=True).ToArray
-            Dim KEGG = blocks(1)
-            Dim GO = blocks(7)
+            Dim lines$() = path _
+                .ReadAllLines _
+                .Where(Function(s) Not s.IsBlank AndAlso Not Regex.Match(s, "[-]+").Value = s) _
+                .Skip(3) _
+                .ToArray
+            Dim terms = csv.ImportsTsv(Of EnrichmentTerm)(lines).GroupBy(Function(t) t.Database)
 
-            Call KEGG.SaveTo(path.TrimSuffix & "-KEGG.tsv")
-            Call GO.SaveTo(path.TrimSuffix & "-GO.tsv")
+            For Each d In terms
+                Dim file$ = path.TrimSuffix & "-" & d.Key.NormalizePathString(False) & ".csv"
+                Call d.ToArray.SaveTo(file)
+            Next
         End Sub
 
         ''' <summary>
@@ -50,8 +56,12 @@ Namespace KOBAS
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        <Extension> Public Function P(x As EnrichmentTerm) As Double
-            Return -Math.Log10(x.Pvalue)
+        <Extension> Public Function P(x As EnrichmentTerm, Optional correctedPvalue As Boolean = True) As Double
+            If correctedPvalue Then
+                Return -Math.Log10(x.CorrectedPvalue)
+            Else
+                Return -Math.Log10(x.Pvalue)
+            End If
         End Function
     End Module
 
@@ -59,6 +69,7 @@ Namespace KOBAS
 
         <Column("#Term")>
         Public Property Term As String
+        Public Property Database As String
         Public Property ID As String
 
         ''' <summary>

@@ -17,7 +17,9 @@ Public Module Plots
     ''' <returns></returns>
     <Extension>
     Public Function GOEnrichmentPlot(input As IEnumerable(Of EnrichmentTerm), obo$, Optional p# = 0.05) As Bitmap
-        Dim GO_terms = GO_OBO.Open(obo).ToDictionary(Function(x) x.id)
+        Dim GO_terms As Dictionary(Of String, Term) = GO_OBO _
+            .Open(obo) _
+            .ToDictionary(Function(x) x.id)
         Dim getData = Function(gene As EnrichmentTerm) (gene.ID, gene.number)
         Return input.Where(Function(x) x.P <= p#).Plot(getData, GO_terms)
     End Function

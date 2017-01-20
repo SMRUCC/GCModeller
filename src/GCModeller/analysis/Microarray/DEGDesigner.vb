@@ -71,7 +71,7 @@ Public Module DEGDesigner
     ''' 
     ''' </summary>
     ''' <param name="DIR$"></param>
-    ''' <param name="name$"></param>
+    ''' <param name="name$">进行文件搜索的通配符</param>
     ''' <param name="DEG#">
     ''' + DEG = <see cref="Math.Log"/>(2, 2)
     ''' + DEP = <see cref="Math.Log"/>(1.5, 2)
@@ -79,15 +79,25 @@ Public Module DEGDesigner
     ''' 假若是使用默认值0的话，由于任何实数都大于0，所以就不会进行差异基因的筛选，即函数会返回所有的基因列表
     ''' </param>
     ''' <returns></returns>
-    Public Function MergeMatrix(DIR$, name$, Optional DEG# = 0, Optional Pvalue# = Integer.MaxValue) As gene()
+    Public Function MergeMatrix(DIR$, name$, Optional DEG# = 0, Optional Pvalue# = Integer.MaxValue, Optional fieldFC$ = "logFC", Optional FCdown# = Integer.MinValue, Optional fieldPvalue$ = "PValue") As gene()
         Dim samples As New Dictionary(Of String, gene())
+        Dim test As Func(Of gene, Boolean)
+
+        If FCdown <> Integer.MinValue Then
+            test = Function(gene)
+                       Dim FC# = gene(fieldFC).ParseNumeric
+                       Return (FC >= DEG OrElse FC <= FCdown) AndAlso gene(fieldPvalue).ParseNumeric <= Pvalue
+                   End Function
+        Else
+            test = Function(gene) Math.Abs(gene(fieldFC).ParseNumeric) >= DEG AndAlso gene(fieldPvalue).ParseNumeric <= Pvalue
+        End If
 
         For Each file As String In (ls - l - r - name <= DIR).Distinct
             Dim DEGs As gene() = gene _
                 .LoadDataSet(file) _
-                .Where(Function(gene) Math.Abs(gene("logFC").ParseNumeric) >= DEG AndAlso gene("PValue").ParseNumeric <= Pvalue) _
+                .Where(test) _
                 .ToArray
-            Dim sample As String = file.ParentDirName
+            Dim sample As String = file.ParentDirName & "-" & file.BaseName
 
             Call samples.Add(sample, DEGs)
         Next
@@ -105,7 +115,7 @@ Public Module DEGDesigner
                 .ID = gene.Key,
                 .Properties = gene.Value _
                 .ToDictionary(Function(sample) sample.Name,
-                              Function(logFC) logFC.Value(NameOf(logFC)))}
+                              Function(logFC) logFC.Value(fieldFC))}
         Next
 
         Return out _
