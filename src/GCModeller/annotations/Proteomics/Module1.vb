@@ -37,5 +37,8 @@ Module Module1
         '    .MergeMatrix("C:\Users\xieguigang\OneDrive\1.17\3. DEP\heatmap", "*.csv", 1.25, 0.05, "FC.avg", 1 / 1.25, "p.value") _
         '    .SaveDataSet("C:\Users\xieguigang\OneDrive\1.17\3. DEP\DEP.heatmap.csv", blank:=0)
 
+        ' 4。 导出KOBAS结果
+        Call KOBAS.SplitData("C:\Users\xieguigang\OneDrive\1.17\4. analysis\enrichment\KOBAS\C-T.txt")
+        Call KOBAS.SplitData("C:\Users\xieguigang\OneDrive\1.17\4. analysis\enrichment\KOBAS\WT-KO.txt")
     End Sub
 End Module
