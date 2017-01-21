@@ -77,6 +77,8 @@ Public Module Volcano
                 displayLabel, labelFontStyle)
     End Function
 
+    ReadOnly black As Brush = Brushes.Black
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -93,7 +95,8 @@ Public Module Volcano
                          Optional ptSize! = 5,
                          Optional translate As Func(Of Double, Double) = Nothing,
                          Optional displayLabel As LabelTypes = LabelTypes.None,
-                         Optional labelFontStyle$ = CSSFont.Win10Normal) As Bitmap
+                         Optional labelFontStyle$ = CSSFont.PlotSubTitle,
+                         Optional legendFont$ = CSSFont.Win7LargerBold) As Bitmap
 
         If translate Is Nothing Then
             translate = Function(pvalue) -Math.Log10(pvalue)
@@ -127,7 +130,7 @@ Public Module Volcano
                 Dim gdi As Graphics = g
                 Dim __drawLabel = Sub(label$, point As PointF)
                                       lbSize = gdi.MeasureString(label, labelFont)
-                                      Call gdi.DrawString(label, labelFont, Drawing.Brushes.Black, New PointF(point.X - lbSize.Width / 2, point.Y + ptSize))
+                                      Call gdi.DrawString(label, labelFont, black, New PointF(point.X - lbSize.Width / 2, point.Y + ptSize))
                                   End Sub
 
                 Call Axis.DrawAxis(g, region, scaler, True,, xlab, ylab)
@@ -153,7 +156,41 @@ Public Module Volcano
                             End If
                     End Select
                 Next
+
+                With region
+                    Dim legends = colors.GetLegends(legendFont)
+                    Dim lsize As SizeF = legends.MaxLegendSize(g)
+                    Dim topleft As New Point(
+                        .Size.Width - .Margin.Width - (lsize.Width + 50),
+                        .Margin.Height)
+
+                    Call g.DrawLegends(topleft, legends)
+                End With
             End Sub
+    End Function
+
+    <Extension>
+    Private Function GetLegends(colors As Dictionary(Of Integer, Color), font$) As Legend()
+        Dim up As New Legend With {
+            .color = colors(1).RGBExpression,
+            .fontstyle = font,
+            .style = LegendStyles.Circle,
+            .title = "log2FC > UP"
+        }
+        Dim down As New Legend With {
+            .color = colors(-1).RGBExpression,
+            .fontstyle = font,
+            .style = LegendStyles.Circle,
+            .title = "log2FC < DOWN"
+        }
+        Dim normal As New Legend With {
+            .color = colors(0).RGBExpression,
+            .fontstyle = font,
+            .style = LegendStyles.Circle,
+            .title = "Normal"
+        }
+
+        Return {normal, up, down}
     End Function
 
     Public Structure DEGModel
