@@ -1,9 +1,11 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.csv.DocumentStream
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting
 
 Public Module Volcano
 
@@ -11,6 +13,21 @@ Public Module Volcano
 
     Const UP$ = "Up"
     Const DOWN$ = "Down"
+
+    <Extension>
+    Public Function PlotDEGs(genes As IEnumerable(Of EntityObject),
+                             Optional size As Size = Nothing,
+                             Optional margin As Size = Nothing,
+                             Optional bg$ = "white",
+                             Optional logFC$ = "logFC",
+                             Optional pvalue$ = "P.value") As Bitmap
+        Return genes.PlotDEGs(
+            x:=Function(gene) gene(logFC).ParseNumeric,
+            y:=Function(gene) gene(pvalue).ParseNumeric,
+            size:=size,
+            margin:=margin,
+            bg:=bg)
+    End Function
 
     <Extension>
     Public Function PlotDEGs(Of T)(genes As IEnumerable(Of T),
