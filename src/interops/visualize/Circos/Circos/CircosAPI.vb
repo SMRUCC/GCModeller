@@ -256,12 +256,15 @@ different with the ideogram configuration document was not included in the circo
     Public Function SetRadius(circos As Configurations.Circos, r As IEnumerable(Of Double())) As Configurations.Circos
         Dim idx As Integer
 
-        For Each plot In circos.Plots
+        For Each plot As ITrackPlot In circos.Plots
             Dim rD As Double() = r(idx)
             Dim r1 = rD(0)
             Dim r2 = rD(1)
-            plot.r1 = CStr(r1) & "r"
-            plot.r0 = CStr(r2) & "r"
+
+            With plot
+                .r1 = CStr(r1) & "r"
+                .r0 = CStr(r2) & "r"
+            End With
 
             idx += 1
         Next
@@ -276,7 +279,7 @@ different with the ideogram configuration document was not included in the circo
         Dim dd = d * 0.2
         Dim r As Double = rMax - dd
 
-        For Each plot In circos.Plots
+        For Each plot As ITrackPlot In circos.Plots
             Dim r1 = r
             Dim r2 = r1 - d
 
