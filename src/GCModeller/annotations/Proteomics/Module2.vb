@@ -7,6 +7,6 @@ Module Module2
     Sub Main()
 
         Dim sample = EntityObject.LoadDataSet("G:\GCModeller\GCModeller\R\vocano\qlfTable.csv")
-        Call Volcano.PlotDEGs(sample, pvalue:="PValue").SaveAs("x:\test.png")
+        Call Volcano.PlotDEGs(sample, pvalue:="PValue", displayLabel:=LabelTypes.DEG).SaveAs("x:\test.png")
     End Sub
 End Module
