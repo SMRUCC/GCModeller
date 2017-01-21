@@ -172,6 +172,12 @@ Namespace Drawing2D
                 Return g.InvokePlot
             End Operator
 
+            ''' <summary>
+            ''' canvas invoke this plot.
+            ''' </summary>
+            ''' <param name="g"></param>
+            ''' <param name="plot"></param>
+            ''' <returns></returns>
             Public Shared Operator <=(g As InternalCanvas, plot As IPlot) As Bitmap
                 Dim size As Size = g.size
                 Dim margin = g.margin

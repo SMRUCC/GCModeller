@@ -69,7 +69,7 @@ Public Module CatalogProfiling
         Return g.GraphicsPlots(
             size, margin,
             bg,
-            Sub(ByRef g, regiong)
+            Sub(ByRef g, region)
 
                 Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject
                 Dim catalogFont As Font = CSSFont.TryParse(catalogFontStyle).GDIObject
@@ -91,7 +91,7 @@ Public Module CatalogProfiling
                 Dim totalHeight = classes.Length * (maxLenClsKeySize.Height + 5) +
                     profile.Values.IteratesALL.Count * (maxLenSubKeySize.Height + 4) +
                     classes.Length * 20
-                Dim left As Single, y! = (regiong.PlotRegion.Height - totalHeight) / 2
+                Dim left As Single, y! = (region.PlotRegion.Height - totalHeight) / 2
                 Dim barRect As New Rectangle(
                     New Point(margin.Width * 1.5 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
                     New Size(size.Width - margin.Width * 2 - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - margin.Width / 2, totalHeight))

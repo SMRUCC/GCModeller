@@ -1,6 +1,9 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Public Module Volcano
 
@@ -49,13 +52,20 @@ Public Module Volcano
                                colors As Dictionary(Of String, Color),
                                Optional size As Size = Nothing,
                                Optional margin As Size = Nothing,
-                               Optional bg$ = "white") As Bitmap
+                               Optional bg$ = "white",
+                               Optional xlab$ = "log2 Fold Change",
+                               Optional ylab$ = "-log10(p.value)") As Bitmap
 
-        Return g.GraphicsPlots(
-          size, margin,
-          bg,
-          Sub(ByRef g, regiong)
+        Dim array As T() = genes.ToArray
+        Dim DEG_matrix As (logFC#, pvalue#)() = array.ToArray(Function(g As T) (x(g), y(g)))
+        Dim scaler As New Scaling(DEG_matrix)
 
-          End Sub)
+        Return g.Allocate(size, margin, bg) <=
+ _
+            Sub(ByRef g As Graphics, region As GraphicsRegion)
+
+                Call Axis.DrawAxis(g, region, scaler, True,, xlab, ylab)
+
+            End Sub
     End Function
 End Module
