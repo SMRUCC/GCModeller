@@ -95,76 +95,9 @@ Public Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/STRING.selects",
-               Usage:="/STRING.selects /in <in.DIR/*.Csv> /key <GeneId> /links <links.txt> /maps <maps_id.tsv> [/out <out.DIR/*.Csv>]")>
-    <Group(CLIGroupping.STRING_tools)>
-    Public Function STRINGSelects(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim links As String = args("/links")
-        Dim maps As String = args("/maps")
-        Dim key As String = args.GetValue("/key", "GeneId")
-        Dim mapsKey As New Dictionary(Of String, String) From {
-            {key, NameOf(EntityObject.ID)}
-        }
-        Dim mapNames As Dictionary(Of String, String) =
-            entrez_gene_id_vs_string.BuildMapsFromFile(maps)
-
-        If [in].FileExists Then
-            Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".STRING.Csv")
-            Dim result As EntityObject() = linksDetail.Selects(
-                [in].LoadCsv(Of EntityObject)(maps:=mapsKey),
-                linksDetail.LoadFile(links),
-                mapNames).ToArray
-
-            Return result.SaveTo(out).CLICode
-        Else
-            Dim net As linksDetail() = linksDetail.LoadFile(links).ToArray
-            Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".STRING_selects/")
-
-            For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
-                Dim result As EntityObject() = file.LoadCsv(Of EntityObject)(maps:=mapsKey)
-                Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
-
-                result = linksDetail.Selects(result, net, mapNames).ToArray
-                result.SaveTo(out)
-            Next
-        End If
-
-        Return 0
-    End Function
-
-    <ExportAPI("/STRING.Network",
-               Usage:="/STRING.Network /id <uniprot_idMappings.tsv> /links <protein.actions-links.tsv> [/sub <idlist.txt> /all_links <protein.links.txt> /out <outDIR>]")>
-    <Group(CLIGroupping.STRING_tools)>
-    Public Function StringNetwork(args As CommandLine) As Integer
-        Dim idTsv = args("/id")
-        Dim links$ = args("/links")
-        Dim alllinks As String = args("/all_links")
-        Dim sublist As String = args("/sub")
-        Dim out = args.GetValue(
-            "/out",
-            idTsv.TrimSuffix & "-" & links.BaseName & $"{If(sublist.FileExists, "-" & sublist.BaseName, "")}/")
-        Dim maps = Uniprot.Web.SingleMappings(idTsv)
-
-        If sublist.FileExists Then
-            Dim list = sublist.ReadAllLines
-            maps = list _
-                .Where(Function(id) maps.ContainsKey(id)) _
-                .ToDictionary(Function(k) k,
-                              Function(s) maps(s))
-        End If
-
-        maps = maps.ReverseMaps(True)
-
-        Dim net As FileStream.Network = If(
-            alllinks.FileExists(True),
-            maps.MatchNetwork(actions:=links, links:=alllinks),
-            maps.MatchNetwork(actions:=links))
-        Return net.Save(out).CLICode
-    End Function
-
     <ExportAPI("/BioGRID.selects",
                Usage:="/BioGRID.selects /in <in.DIR/*.Csv> /key <GeneId> /links <BioGRID-links.mitab.txt> [/out <out.DIR/*.Csv>]")>
+    <Group(CLIGroupping.BioGridTools)>
     Public Function BioGRIDSelects(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim links As String = args("/links")
@@ -197,6 +130,7 @@ Public Module CLI
     End Function
 
     <ExportAPI("/BioGRID.Id.types", Usage:="/BioGRID.Id.types /in <BIOGRID-IDENTIFIERS.tsv> [/out <out.txt>]")>
+    <Group(CLIGroupping.BioGridTools)>
     Public Function BioGridIdTypes(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Types.txt")

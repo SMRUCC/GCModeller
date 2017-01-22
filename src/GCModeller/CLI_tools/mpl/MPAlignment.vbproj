@@ -278,9 +278,9 @@
       <Project>{81f446e3-b9e5-47bc-b58c-c7f1abbfb17a}</Project>
       <Name>ProteinTools.Interactions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ProteinInteraction\ProteinInteraction.vbproj">
+    <ProjectReference Include="..\ProteinInteraction\Protein.Interaction.vbproj">
       <Project>{9ba6b2ae-97e0-4933-a89d-00d3ab36d247}</Project>
-      <Name>ProteinInteraction</Name>
+      <Name>Protein.Interaction</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
