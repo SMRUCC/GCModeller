@@ -65,7 +65,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Proteomics.Module2</StartupObject>
+    <StartupObject>Proteomics.Module1</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

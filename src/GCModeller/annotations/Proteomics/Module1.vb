@@ -27,14 +27,14 @@ Module Module1
         '    .SaveDataSet("C:\Users\xieguigang\OneDrive\1.17\2. annotations\sample-annotation.csv")
 
         ' 绘制GO图
-        Dim goTerms = GO_OBO.Open("K:\GO_DB\go.obo").ToDictionary(Function(x) x.id)
-        Dim sample = "C:\Users\xieguigang\OneDrive\1.17\2. annotations\sample-annotation.csv".LoadSample
+        'Dim goTerms = GO_OBO.Open("K:\GO_DB\go.obo").ToDictionary(Function(x) x.id)
+        'Dim sample = "C:\Users\xieguigang\OneDrive\1.17\2. annotations\sample-annotation.csv".LoadSample
 
-        Dim data = sample.CountStat(Function(x As EntityObject) x("GO").Split(";"c).Select(AddressOf Trim).ToArray, goTerms)
-        Call CatalogPlots.Plot(data, orderTakes:=20).SaveAs("C:\Users\xieguigang\OneDrive\1.17\2. annotations\GO\plot.png")
-        Call data.SaveCountValue("C:\Users\xieguigang\OneDrive\1.17\2. annotations\GO\plot.csv")
+        'Dim data = sample.CountStat(Function(x As EntityObject) x("GO").Split(";"c).Select(AddressOf Trim).ToArray, goTerms)
+        'Call CatalogPlots.Plot(data, orderTakes:=20).SaveAs("C:\Users\xieguigang\OneDrive\1.17\2. annotations\GO\plot.png")
+        'Call data.SaveCountValue("C:\Users\xieguigang\OneDrive\1.17\2. annotations\GO\plot.csv")
 
-        Pause()
+        'Pause()
 
         ' 2. DEP注释
         'Call "C:\Users\xieguigang\OneDrive\1.17\4. analysis\C-T.txt" _
@@ -59,9 +59,11 @@ Module Module1
         '    .SaveDataSet("C:\Users\xieguigang\OneDrive\1.17\3. DEP\DEP.heatmap.csv", blank:=1)
 
         ' 文氏图
-        'Call DEGDesigner _
-        '    .MergeMatrix("C:\Users\xieguigang\OneDrive\1.17\3. DEP\heatmap", "*.csv", 1.25, 0.05, "FC.avg", 1 / 1.25, "p.value") _
-        '    .SaveDataSet("C:\Users\xieguigang\OneDrive\1.17\3. DEP\DEP.venn.csv")
+        Call DEGDesigner _
+            .MergeMatrix("C:\Users\xieguigang\OneDrive\1.17\3. DEP\heatmap", "*.csv", 1.25, 0.05, "FC.avg", 1 / 1.25, "p.value") _
+            .SaveDataSet("C:\Users\xieguigang\OneDrive\1.17\3. DEP\DEP.venn.csv")
+
+        Pause()
 
         ' 4。 导出KOBAS结果
         'Call KOBAS.SplitData("C:\Users\xieguigang\OneDrive\1.17\4. analysis\enrichment\KOBAS\C-T.txt")
