@@ -280,7 +280,7 @@ Partial Module CLI
                 objective.Info = mods.Description
             Case Else
                 Call $"Unable to determine objective type:  {type}, using list default".__DEBUG_ECHO
-PLANT:          objective.Associates = IO.File.ReadAllLines(file)
+PLANT:          objective.Associates = file.ReadAllLines
                 objective.Comments = "Plant Assigned"
                 objective.Name = basename(file)
                 objective.Info = file

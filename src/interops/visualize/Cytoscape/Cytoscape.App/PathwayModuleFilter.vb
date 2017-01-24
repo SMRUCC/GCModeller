@@ -39,7 +39,7 @@ Namespace NetworkModel
     Public Class PathwayModuleFilter
 
         Public Shared Function ImportsModules(path As String) As KeyValuePair()
-            Dim strLines = IO.File.ReadAllLines(path).Skip(1)
+            Dim strLines = path.ReadAllLines.Skip(1)
             Dim LQuery = (From strLine As String In strLines
                           Let Tokens As String() = Strings.Split(strLine, " ")
                           Select KeyValuePair.CreateObject(Tokens(0), Tokens(2))).ToArray

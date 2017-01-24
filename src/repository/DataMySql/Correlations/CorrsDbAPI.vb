@@ -98,7 +98,7 @@ Public Module CorrsDbAPI
 
     <ExportAPI("Write.Database")>
     Public Function WriteDatabase(raw As String, WGCNA As String, Optional uri As ConnectionUri = Nothing) As Boolean
-        Return WriteDatabase(DocumentStream.File.Load(raw), WGCNA, uri)
+        Return WriteDatabase(IO.File.Load(raw), WGCNA, uri)
     End Function
 
     ''' <summary>

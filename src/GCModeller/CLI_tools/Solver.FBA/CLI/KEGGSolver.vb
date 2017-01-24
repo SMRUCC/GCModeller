@@ -43,7 +43,7 @@ Partial Module CLI
         Dim objs As String = args("/objs")
         Dim out As String = args.GetValue("/out", inModel.TrimSuffix & ", " & basename(objs) & "/")
         Dim model As XmlModel = inModel.LoadXml(Of XmlModel)
-        Dim locus As String() = IO.File.ReadAllLines(objs)
+        Dim locus As String() = objs.ReadAllLines
         Dim FBAModel As New Models.KEGGXml(model)
         Call FBAModel.SetGeneObjectives(locus)
         Dim solver As New FBAlpRSolver(GCModeller.FileSystem.GetR_HOME)

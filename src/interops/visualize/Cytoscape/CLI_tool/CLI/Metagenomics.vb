@@ -55,8 +55,8 @@ Partial Module CLI
         Dim identities As Double = args.GetValue("/identities", 0.3)
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $".identities.{identities}.csv")
 
-        Using IO As New DocumentStream.Linq.WriteStream(Of BBH)(out)
-            Dim reader As New DocumentStream.Linq.DataStream(inFile)
+        Using IO As New IO.Linq.WriteStream(Of BBH)(out)
+            Dim reader As New IO.Linq.DataStream(inFile)
             Call reader.ForEachBlock(Of BBH)(Sub(data0)
                                                  data0 = (From x In data0.AsParallel Where x.Identities >= identities Select x).ToArray
                                                  Call IO.Flush(data0)
@@ -73,14 +73,14 @@ Partial Module CLI
         Dim evalue As Double = args.GetValue("/evalue", 0.00001)
         Dim lstSBH As New List(Of LocalBLAST.Application.BBH.BestHit)
 
-        Using read As New DocumentStream.Linq.DataStream(inFile)
+        Using read As New IO.Linq.DataStream(inFile)
             Call read.ForEachBlock(Of LocalBLAST.Application.BBH.BestHit)(
                 invoke:=Sub(block As LocalBLAST.Application.BBH.BestHit()) Call lstSBH.AddRange((From x In block.AsParallel Where x.evalue <= evalue Select x).ToArray),
                 blockSize:=51200 * 2)
         End Using
 
         Dim simpleBBHArray = BBHHits(lstSBH)
-        Using IO As New DocumentStream.Linq.WriteStream(Of BBH)(out)
+        Using IO As New IO.Linq.WriteStream(Of BBH)(out)
             Dim buffer = simpleBBHArray.Split(102400)
 
             For Each block In buffer
