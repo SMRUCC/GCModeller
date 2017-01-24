@@ -60,11 +60,11 @@ Module Module3
         '    .SaveDataSet("C:\Users\xieguigang\OneDrive\1.23\3. DEP\DEP.heatmap.csv", blank:=1)
 
         '' 文氏图
-        'Call DEGDesigner _
-        '    .MergeMatrix("C:\Users\xieguigang\OneDrive\1.23\3. DEP\heatmap", "*.csv", 1.5, 0.05, "FC.avg", 1 / 1.5, "p.value") _
-        '    .SaveDataSet("C:\Users\xieguigang\OneDrive\1.23\3. DEP\DEP.venn.csv")
+        Call DEGDesigner _
+            .MergeMatrix("C:\Users\xieguigang\OneDrive\1.23\3. DEP\heatmap", "*.csv", 1.5, 0.05, "FC.avg", 1 / 1.5, "p.value") _
+            .SaveDataSet("C:\Users\xieguigang\OneDrive\1.23\3. DEP\DEP.venn.csv")
 
-        ' Pause()
+        Pause()
 
         ' 4。 导出KOBAS结果
         ' Call KOBAS.SplitData("C:\Users\xieguigang\OneDrive\1.23\4. analysis\enrichment\KOBAS\CD.txt")
