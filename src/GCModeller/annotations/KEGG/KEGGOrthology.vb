@@ -166,9 +166,9 @@ Public Module KEGGOrthology
     End Function
 
     <Extension>
-    Public Function KEGGEnrichmentPlot(result As IEnumerable(Of EnrichmentTerm), Optional size As Size = Nothing) As Bitmap
+    Public Function KEGGEnrichmentPlot(result As IEnumerable(Of EnrichmentTerm), Optional size As Size = Nothing, Optional pvalue# = 0.05, Optional tick# = 1) As Bitmap
         Dim data As NamedValue(Of Double)() = result _
-            .Where(Function(x) x.Pvalue <= 0.05) _
+            .Where(Function(x) x.Pvalue <= pvalue) _
             .Select(Function(x) New NamedValue(Of Double) With {
                 .Name = x.Term,
                 .Value = -Math.Log10(x.Pvalue)
@@ -179,6 +179,6 @@ Public Module KEGGOrthology
         }.ProfilesPlot(title:="KEGG Pathway enrichment",
                        size:=size,
                        axisTitle:="-Log10(p-value)",
-                       tick:=1)
+                       tick:=tick)
     End Function
 End Module

@@ -317,7 +317,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+VB_DataFrame.Extensions", 
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SearchEngine", "runtime\sciBASIC#\Data\SearchEngine\SearchEngine\SearchEngine.vbproj", "{8AFBC715-5EB6-4EAF-A967-D29A5667709F}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "markups", "runtime\sciBASIC#\mime\markups\markups.vbproj", "{2DD4BE80-DDC3-4767-94A7-10F1C3395716}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "mime_markups", "runtime\sciBASIC#\mime\mime_markups\mime_markups.vbproj", "{2DD4BE80-DDC3-4767-94A7-10F1C3395716}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RDF", "runtime\sciBASIC#\mime\RDF\RDF.vbproj", "{20912FF3-CE68-497C-854D-21E372F11D7C}"
 EndProject
@@ -3691,6 +3691,7 @@ Global
 		{AE8D7346-7F3E-4C84-9A59-BBA3CAC5DF41}.Release2|x86.Build.0 = Release2|x86
 		{99D9B8FD-620F-4BF7-B2EA-0416754D8178}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{99D9B8FD-620F-4BF7-B2EA-0416754D8178}.Debug|x64.ActiveCfg = Debug|x64
+		{99D9B8FD-620F-4BF7-B2EA-0416754D8178}.Debug|x64.Build.0 = Debug|x64
 		{99D9B8FD-620F-4BF7-B2EA-0416754D8178}.Debug|x86.ActiveCfg = Debug|x86
 		{99D9B8FD-620F-4BF7-B2EA-0416754D8178}.Debug|x86.Build.0 = Debug|x86
 		{99D9B8FD-620F-4BF7-B2EA-0416754D8178}.docs|Any CPU.ActiveCfg = Release|x86
