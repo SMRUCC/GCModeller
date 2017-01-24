@@ -77,12 +77,12 @@ Partial Module CLI
                              .ToDictionary(Function(x) x.ID,
                                            Function(x) x.Group.ToArray)
         Dim LQuery = (From x In log2
-                      Where dataSets.ContainsKey(x.Identifier) AndAlso
+                      Where dataSets.ContainsKey(x.ID) AndAlso
                           (From p As Double
                            In x.Properties.Values
                            Where Math.Abs(p) >= factor
                            Select p).FirstOrDefault > 0
-                      Select dataSets(x.Identifier)).IteratesALL
+                      Select dataSets(x.ID)).IteratesALL
         Return LQuery > out
     End Function
 

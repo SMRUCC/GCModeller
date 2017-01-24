@@ -248,7 +248,7 @@ Namespace Plot3D
             For Each row In f.__2DIterates(x, y, xsteps, ysteps, parallel)
                 If Not matrix Is Nothing Then
                     matrix += New DataSet With {
-                        .Identifier = row(Scan0).x,
+                        .ID = row(Scan0).x,
                         .Properties = row _
                         .ToDictionary(
                             Function(pt) CStr(pt.y),

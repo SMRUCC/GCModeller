@@ -237,7 +237,7 @@ Partial Module CLI
             From x
             In Groups
             Select New DataSet With {
-                .Identifier = x.Name,
+                .ID = x.Name,
                 .Properties = x.Group.ToDictionary(
                     Function(xx) xx.label,
                     Function(xx) xx.value)

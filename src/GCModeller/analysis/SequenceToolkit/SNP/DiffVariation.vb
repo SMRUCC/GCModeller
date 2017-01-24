@@ -153,7 +153,7 @@ Public Module DiffVariation
             Next
 
             out += New DataSet With {
-                .Identifier = tag,
+                .ID = tag,
                 .Properties = hash
             }
             raw += New EntityObject With {

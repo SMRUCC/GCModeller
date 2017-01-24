@@ -157,9 +157,9 @@ Public Module NetworkAPI
  _
             From v As DataSet
             In array
-            Let type As String = nodeTypes.TryGetValue(v.Identifier, [default]:="variable")
+            Let type As String = nodeTypes.TryGetValue(v.ID, [default]:="variable")
             Select New FileStream.Node With {
-                .ID = v.Identifier,
+                .ID = v.ID,
                 .NodeType = type,
                 .Properties = v.Properties _
                     .ToDictionary(Function(k) k.Key,
@@ -178,10 +178,10 @@ Public Module NetworkAPI
                 End If
 
                 interact = interacts.TryGetValue(
-                    $"{var.Identifier} --> {k}",
+                    $"{var.ID} --> {k}",
                     [default]:="correlates")
                 edges += New FileStream.NetworkEdge With {
-                    .FromNode = var.Identifier,
+                    .FromNode = var.ID,
                     .ToNode = k,
                     .Confidence = c,
                     .InteractionType = interact,

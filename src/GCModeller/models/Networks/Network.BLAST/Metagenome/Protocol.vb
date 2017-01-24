@@ -138,7 +138,7 @@ Namespace Metagenome
                                           Function(x) x.Score.Identities.Value) _
                                                   .Last.Score.Identities.Value)
                 Yield New DataSet With {
-                    .Identifier = query.QueryName,
+                    .ID = query.QueryName,
                     .Properties = similarity
                 }
             Next
@@ -170,7 +170,7 @@ Namespace Metagenome
                                           Function(h) h.Group.OrderBy(
                                           Function(x) x.Identities).Last.Identities)
                 Yield New DataSet With {
-                    .Identifier = query.ReadQuery,
+                    .ID = query.ReadQuery,
                     .Properties = similarity
                 }
             Next
@@ -267,14 +267,14 @@ Namespace Metagenome
             Dim taxonomy As (taxid%, taxonomyName$, taxonomy As String)
             Dim edges As New List(Of NetworkEdge)
 
-            If taxonomyTypes.ContainsKey(ssu.Identifier) Then
-                taxonomy = taxonomyTypes(ssu.Identifier)
+            If taxonomyTypes.ContainsKey(ssu.ID) Then
+                taxonomy = taxonomyTypes(ssu.ID)
             Else
                 taxonomy = unknown
             End If
 
             Dim node As New Node With {
-                .ID = ssu.Identifier,
+                .ID = ssu.ID,
                 .NodeType = taxonomy.taxid,
                 .Properties = New Dictionary(Of String, String)
             }
@@ -300,7 +300,7 @@ Namespace Metagenome
                     .JoinBy("-")
 
                 edges += New NetworkEdge With {
-                    .FromNode = ssu.Identifier,
+                    .FromNode = ssu.ID,
                     .ToNode = hit.Key,
                     .Confidence = hit.Value,
                     .Properties = New Dictionary(Of String, String),

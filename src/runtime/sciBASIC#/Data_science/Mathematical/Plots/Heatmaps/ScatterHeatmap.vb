@@ -237,7 +237,7 @@ Public Module ScatterHeatmap
                 Return LinqAPI.Exec(Of (x#,y#,z#)) <= 
                     From line As DataSet 
                     In matrix
-                    Let xi = Val(line.Identifier)
+                    Let xi = Val(line.ID)
                     Let data = line.Properties.Select(Function(o) (x:=xi, y:=val(o.Key), z:=o.Value))
                     Select data 
             Else

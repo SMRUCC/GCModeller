@@ -88,7 +88,7 @@ Public Module RunModel
             Dim p As Double = args.GetValue("/precise", 0.1)
             Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(Model, p)
             Dim maps As New Dictionary(Of String, String) From {
-                {NameOf(DataSet.Identifier), "#Time"}
+                {NameOf(DataSet.ID), "#Time"}
             }
             Return ds.SaveTo(path:=out, nonParallel:=True, maps:=maps).CLICode
         End If
