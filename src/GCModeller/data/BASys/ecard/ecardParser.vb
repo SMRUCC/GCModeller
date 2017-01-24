@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fab31a548c6f5284e47dc97f1ae5bbd, ..\GCModeller\analysis\annoTools\BASys\ecard\ecardParser.vb"
+﻿#Region "Microsoft.VisualBasic::30515471dd42a8604352b49a7370cfa8, ..\GCModeller\data\BASys\ecard\ecardParser.vb"
 
     ' Author:
     ' 
@@ -144,4 +144,3 @@ Public Module ecardParser
         Next
     End Function
 End Module
-

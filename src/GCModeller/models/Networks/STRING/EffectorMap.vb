@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bbb1eedc5a22c6a574e92da75a6f7646, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\EffectorMap.vb"
+﻿#Region "Microsoft.VisualBasic::fdf66bf531cd773a8ed30bfed9dd10c2, ..\GCModeller\models\Networks\STRING\EffectorMap.vb"
 
     ' Author:
     ' 

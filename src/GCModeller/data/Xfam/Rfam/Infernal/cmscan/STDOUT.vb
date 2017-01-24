@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd5ed5656506cc20b241f522803c030b, ..\GCModeller\analysis\Xfam\Rfam\Infernal\cmscan\STDOUT.vb"
+﻿#Region "Microsoft.VisualBasic::cd5ed5656506cc20b241f522803c030b, ..\GCModeller\data\Xfam\Rfam\Infernal\cmscan\STDOUT.vb"
 
     ' Author:
     ' 

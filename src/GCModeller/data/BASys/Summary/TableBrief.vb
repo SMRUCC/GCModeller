@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2742cf14667e7886ebc4f5a3e0364c58, ..\GCModeller\analysis\annoTools\BASys\Summary\TableBrief.vb"
+﻿#Region "Microsoft.VisualBasic::cda742f530406b6f8954c318fc50fcd5, ..\GCModeller\data\BASys\Summary\TableBrief.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
@@ -83,4 +82,3 @@ Public Class TableBrief
         Return out.ToArray
     End Function
 End Class
-

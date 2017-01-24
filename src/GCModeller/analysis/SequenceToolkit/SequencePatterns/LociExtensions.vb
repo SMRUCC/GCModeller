@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11160b162e2109ff1d458b7d50ae71b9, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\LociExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::93882e6cc87e16fb747ce9a13fbdef51, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\LociExtensions.vb"
 
     ' Author:
     ' 

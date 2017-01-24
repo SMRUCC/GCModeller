@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44671ef4b5520e35cf385b1ad5fc423f, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Palindrome.vb"
+﻿#Region "Microsoft.VisualBasic::8e9ba5312a6bffc0b4c88d6e7f637e2f, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Palindrome.vb"
 
     ' Author:
     ' 

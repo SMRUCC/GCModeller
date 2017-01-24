@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d67b2187fe760f48b9f1ed803bdb6e0e, ..\GCModeller\visualize\visualizeTools\GeneticClockDiagram\RegulationSerials.vb"
+﻿#Region "Microsoft.VisualBasic::71463244aa44624763ce8de0eb49fb4d, ..\GCModeller\visualize\visualizeTools\GeneticClockDiagram\RegulationSerials.vb"
 
     ' Author:
     ' 

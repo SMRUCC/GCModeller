@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b1f99258fe189d983842d0567480e65, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\EnzymeClass.vb"
+﻿#Region "Microsoft.VisualBasic::c5bc1b086ad640a99b483157ebc522ab, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\EnzymeClass.vb"
 
     ' Author:
     ' 

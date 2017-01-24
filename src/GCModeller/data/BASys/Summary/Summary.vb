@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::804a894472e13559edb970d9fcc1e0c4, ..\GCModeller\analysis\annoTools\BASys\Summary\Summary.vb"
+﻿#Region "Microsoft.VisualBasic::887a3de7c47a2ae1105e94311d78e34e, ..\GCModeller\data\BASys\Summary\Summary.vb"
 
     ' Author:
     ' 
@@ -94,4 +94,3 @@ Public Class Summary : Inherits ClassObject
         Return summary
     End Function
 End Class
-

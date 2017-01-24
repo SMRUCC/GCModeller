@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::055d5e67b1ae9f074672ea67e9a9e4e1, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\Transducin.vb"
+﻿#Region "Microsoft.VisualBasic::e765b8bf117b55bebf800e49ebc8dea6, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\Models\Transducin.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83738340e3b3053d46eaf1aaf413b3b3, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\ObjectHandle.vb"
+﻿#Region "Microsoft.VisualBasic::6c7112db2fb0957d8e9549f3b237dcbb, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\ObjectHandle.vb"
 
     ' Author:
     ' 

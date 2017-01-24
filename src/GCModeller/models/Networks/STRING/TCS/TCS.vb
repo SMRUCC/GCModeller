@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::607a8c4cd6fe55fb0f500717f3ba252d, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\TCS\TCS.vb"
+﻿#Region "Microsoft.VisualBasic::d5ad3152235f0f884b42e32bf647bc69, ..\GCModeller\models\Networks\STRING\TCS\TCS.vb"
 
     ' Author:
     ' 

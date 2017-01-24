@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7cebd5df1f967b30476f7db76b912df, ..\GCModeller\analysis\annoTools\BASys\Export.vb"
+﻿#Region "Microsoft.VisualBasic::c3f5c7901f1ae74d6907ab1b7dc828c7, ..\GCModeller\data\BASys\Export.vb"
 
     ' Author:
     ' 
@@ -116,4 +116,3 @@ Public Module Export
             }
     End Function
 End Module
-

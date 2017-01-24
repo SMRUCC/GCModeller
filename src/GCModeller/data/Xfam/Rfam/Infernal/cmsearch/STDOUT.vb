@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cab88b988ecb391b2e0757541feccb9, ..\GCModeller\analysis\Xfam\Rfam\Infernal\cmsearch\STDOUT.vb"
+﻿#Region "Microsoft.VisualBasic::2cab88b988ecb391b2e0757541feccb9, ..\GCModeller\data\Xfam\Rfam\Infernal\cmsearch\STDOUT.vb"
 
     ' Author:
     ' 

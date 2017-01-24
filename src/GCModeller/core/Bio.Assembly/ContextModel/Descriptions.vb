@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8b849d3824fa270b4d76193fd6361c4, ..\GCModeller\core\Bio.Assembly\ContextModel\Descriptions.vb"
+﻿#Region "Microsoft.VisualBasic::f5f0094a08cc9d8c6245095573088e32, ..\GCModeller\core\Bio.Assembly\ContextModel\Descriptions.vb"
 
     ' Author:
     ' 

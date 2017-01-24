@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fd145ca037b7a1dbee7d729135f72a9, ..\GCModeller\analysis\ProteinTools\ProteinTools.Family\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::895b2a5db6fff87317fa38a4ff4b2e6a, ..\GCModeller\analysis\ProteinTools\ProteinTools.Family\KEGG.vb"
 
     ' Author:
     ' 

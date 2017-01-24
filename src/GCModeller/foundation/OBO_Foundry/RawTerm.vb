@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8418e0662d270da2f5815bc50d64e2f6, ..\GCModeller\foundation\OBO_Foundry\RawTerm.vb"
+﻿#Region "Microsoft.VisualBasic::f7a61c24bdfb33ca8eda7af3815db022, ..\GCModeller\foundation\OBO_Foundry\RawTerm.vb"
 
     ' Author:
     ' 
@@ -46,4 +46,3 @@ Public Structure RawTerm
         Return Me.GetJson
     End Function
 End Structure
-

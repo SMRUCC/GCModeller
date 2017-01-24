@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ee75d8d1a8614000bdac8ef8a57f7c3, ..\GCModeller\data\ExternalDBSource\string-db\StringAPI.vb"
+﻿#Region "Microsoft.VisualBasic::8be1a31fc308062cd2134801af3b2f01, ..\GCModeller\data\STRING\WebAPI\StringAPI.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2872b18dcbcc823f6e21e47f2222f5c7, ..\GCModeller\analysis\bacgFingerprints\Sites\GCWindows.vb"
+﻿#Region "Microsoft.VisualBasic::0535f3e898dc917395af1a90c6436fe1, ..\GCModeller\analysis\bacgFingerprints\Sites\GCWindows.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
@@ -76,4 +75,3 @@ Public Module GCWindows
         Next
     End Function
 End Module
-

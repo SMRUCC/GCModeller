@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8d59d225618d039898c5fe1045a0a5a, ..\GCModeller\data\RCSB PDB\CifDictionary.vb"
+﻿#Region "Microsoft.VisualBasic::9b653cfb7bac24502966493abf293b11, ..\GCModeller\data\RCSB PDB\CifDictionary.vb"
 
     ' Author:
     ' 

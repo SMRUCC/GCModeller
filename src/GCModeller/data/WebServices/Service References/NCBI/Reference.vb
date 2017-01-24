@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b44221d85f1c881bd54fec5e33ca814e, ..\GCModeller\data\WebServices\Service References\NCBI\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::d34a07afe6f03b2103520c73bb4ad101, ..\GCModeller\data\WebServices\Service References\NCBI\Reference.vb"
 
     ' Author:
     ' 
@@ -2854,4 +2854,3 @@ Namespace NCBI
         End Function
     End Class
 End Namespace
-

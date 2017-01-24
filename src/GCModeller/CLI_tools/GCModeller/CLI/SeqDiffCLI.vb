@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dda4659da0048c5f7a98f00673d4def5, ..\GCModeller\CLI_tools\GCModeller\CLI\SeqDiffCLI.vb"
+﻿#Region "Microsoft.VisualBasic::2d6862e02fb79e221a76497e89fe8ccc, ..\GCModeller\CLI_tools\GCModeller\CLI\SeqDiffCLI.vb"
 
     ' Author:
     ' 
@@ -65,4 +65,3 @@ Partial Module CLI
         Return result.SaveTo(out).CLICode
     End Function
 End Module
-

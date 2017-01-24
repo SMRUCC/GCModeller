@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::597c4d7bfd84a4fdd453fe38df1cf06e, ..\GCModeller\models\SBML\SBML\Components\Specie.vb"
+﻿#Region "Microsoft.VisualBasic::0720acb21f033f096b82fe559d0546e4, ..\GCModeller\models\SBML\SBML\Components\Specie.vb"
 
     ' Author:
     ' 

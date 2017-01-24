@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61ba52bd23c0de989f0c00422acbfe65, ..\GCModeller\analysis\Xfam\Pfam\MPAlignment\Components\Components.vb"
+﻿#Region "Microsoft.VisualBasic::61ba52bd23c0de989f0c00422acbfe65, ..\GCModeller\data\Xfam\Pfam\MPAlignment\Components\Components.vb"
 
     ' Author:
     ' 
