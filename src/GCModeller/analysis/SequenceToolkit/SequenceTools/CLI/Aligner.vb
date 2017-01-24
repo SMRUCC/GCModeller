@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
@@ -68,7 +68,7 @@ Partial Module Utilities
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim blosum As String = args("/blosum")
-        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & IO.Path.GetFileNameWithoutExtension(subject) & ".xml")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & basename(subject) & ".xml")
         Dim queryFa As New FASTA.FastaToken(query)
         Dim subjectFa As New FASTA.FastaToken(subject)
         Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, SequenceTools.Blosum.LoadMatrix(blosum))

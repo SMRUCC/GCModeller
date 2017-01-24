@@ -29,7 +29,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -167,8 +167,8 @@ Namespace Output
         End Function
 
         <ExportAPI("export.csv")>
-        Public Function Export(dat As IEnumerable(Of SearchingModel.CRISPR)) As DocumentStream.File
-            Dim out As New DocumentStream.File
+        Public Function Export(dat As IEnumerable(Of SearchingModel.CRISPR)) As IO.File
+            Dim out As New IO.File
 
             out += {"Position", "Repeats", "Spacer Sequence", "Repeat Length", "Spacer Length"}
             out += {""}

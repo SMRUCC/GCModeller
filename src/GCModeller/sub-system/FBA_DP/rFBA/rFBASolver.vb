@@ -34,8 +34,8 @@
 
 '    Public Property LpSolver As FBA.FBAlpRSolver
 '    Public Property ObjectModel As rFBARModel
-'    Public Property MetabolismData As DocumentStream.File = New DocumentStream.File
-'    Public Property Transcriptome As DocumentStream.File = New DocumentStream.File
+'    Public Property MetabolismData As IO.File = New IO.File
+'    Public Property Transcriptome As IO.File = New IO.File
 
 '    Dim _resultTemp As KeyValuePair(Of String, String())
 

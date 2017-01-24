@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Extensions
@@ -183,7 +183,7 @@ Namespace Compiler
             Me._ModelIO.GenomeAnnotiation = FileStream.GeneObject.CreateObject(Me._MetaCyc.GetGenes, MyvaCog)
             Me._ModelIO.TranscriptionModel = FileStream.TranscriptUnit.CreateObject(Me._TranscriptRegulations, Door.DOOROperonView)
             Me._ModelIO.CultivationMediums = New List(Of I_SubstrateRefx)(CultivationMediums.MetaCycDefault.Uptake_Substrates)
-            Me._CrossTalks = DocumentStream.File.Load(ModelProperty("-cross_talks"))
+            Me._CrossTalks = IO.File.Load(ModelProperty("-cross_talks"))
 
             'Sub New(Compiler As Compiler, KEGGReactionsCsv As String, KEGGCompoundsCsv As String, CARMENCsv As String)
             Dim KEGGReactions As String = ModelProperty("-kegg_reactions")
@@ -463,7 +463,7 @@ Namespace Compiler
         ''' </summary>
         ''' <param name="CrossTalks"></param>
         ''' <remarks></remarks>
-        Protected Sub LinkEffectors(CrossTalks As DocumentStream.File)
+        Protected Sub LinkEffectors(CrossTalks As IO.File)
             Dim FilteredList As New List(Of FileStream.Regulator)
             Dim EffectorMapping = Me._ModelIO.EffectorMapping
 

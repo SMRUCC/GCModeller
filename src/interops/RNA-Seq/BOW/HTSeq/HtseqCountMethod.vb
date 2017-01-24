@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -144,17 +144,17 @@ Public Module HtseqCountMethod
     <ExportAPI("Data.Frame", Info:="Generates the data input for the DESeq2 R package.")>
     Public Function DataFrame(<Parameter("List.Files")> FileList As IEnumerable(Of String),
                                   PTT As PTT,
-                                  <Parameter("RNA.Statics?")> Optional StaticsRNA As Boolean = False) As DocumentStream.File
+                                  <Parameter("RNA.Statics?")> Optional StaticsRNA As Boolean = False) As IO.File
         Dim LQuery = (From File As String In FileList.AsParallel
-                      Let ID As String = IO.Path.GetFileNameWithoutExtension(File)
+                      Let ID As String = Path.GetFileNameWithoutExtension(File)
                       Select ID, data = CountResult.Load(File)).ToArray
         Dim AllFeatures = (From Experiment In LQuery
                            Select (From obj In Experiment.data
                                    Select FeatureGeneName = obj.Feature).ToArray).Unlist.Distinct.ToArray.OrderBy(Of String)(Function(str) str).ToArray
-        Dim ChunkBuffer As New DocumentStream.File
+        Dim ChunkBuffer As New IO.File
 
         '生成表头
-        Dim Head As New DocumentStream.RowObject From {""}
+        Dim Head As New IO.RowObject From {""}
         Call Head.AddRange((From Experiment In LQuery Select Experiment.ID).ToArray) '为了保持一一对应关系，从这里开始不可以再使用并行拓展
         Call ChunkBuffer.Add(Head)
 
@@ -298,7 +298,7 @@ Anders, S., Pyl, P. T., & Huber, W. (2015). HTSeq--a Python framework to work wi
         End Function
 
         Public Shared Function Load(path As String) As CountResult()
-            Dim lines As String() = IO.File.ReadAllLines(path)
+            Dim lines As String() = path.ReadAllLines
             Dim array As CountResult() = LinqAPI.Exec(Of CountResult) <=
  _
                 From line As String

@@ -149,7 +149,7 @@ Module CLI
         Dim GeneList As String()
         Dim ExportedDir As String = args("-export")
         If Not GBK Then
-            GeneList = IO.File.ReadAllLines(args("-i"))
+            GeneList = args("-i").ReadAllLines()
         Else
             Dim gb = GBFF.File.Load(args("-i"))
             GeneList = gb.GeneList.ToArray(Function(g) g.Key)
@@ -246,15 +246,15 @@ Module CLI
         Dim Inputs As String() = FileIO.FileSystem.GetFiles(argvs("-i"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").ToArray
         Dim GeneData = (From path As String
                         In Inputs.AsParallel
-                        Select ID = IO.Path.GetFileNameWithoutExtension(path),
+                        Select ID = path.BaseName,
                             DataRow = (From entry As QueryEntry
                                        In path.LoadCsv(Of QueryEntry)(False)
                                        Select entry
                                        Group By entry.SpeciesId Into Group) _
                                                .ToDictionary(Function(obj) obj.SpeciesId,
                                                              Function(obj) obj.Group.First)).ToArray
-        Dim File As New DocumentStream.File
-        Dim MatrixBuilder As New DocumentStream.File
+        Dim File As New IO.File
+        Dim MatrixBuilder As New IO.File
 
         Call File.AppendLine({"sp.Class", "sp.Kingdom", "sp.Phylum", "sp.KEGGId"})
         Call MatrixBuilder.AppendLine({"Class", "sp"})
@@ -480,7 +480,7 @@ Module CLI
 
     <ExportAPI("-function.association.analysis", Usage:="-function.association.analysis -i <matrix_csv>")>
     Public Function FunctionAnalysis(argvs As CommandLine) As Integer
-        Dim MAT = DocumentStream.File.FastLoad(argvs("-i"))
+        Dim MAT = IO.File.FastLoad(argvs("-i"))
         Call PathwayAssociationAnalysis.Analysis(MAT)
         Return 0
     End Function

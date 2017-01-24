@@ -43,7 +43,7 @@ Namespace Topologically
         ''' 片段按照长度的数量上的分布情况
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property CountStatics As New DocumentStream.File
+        Public ReadOnly Property CountStatics As New IO.File
         Public ReadOnly Property ResultSet As New List(Of Repeats)
 
         Sub New(Sequence As I_PolymerSequenceModel,

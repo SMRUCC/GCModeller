@@ -141,12 +141,12 @@ Public Class MetaCycPathways
         End Function
     End Class
 
-    Public Shared Function GenerateReport(Pathways As Pathway(), Genes As Genes) As DocumentStream.File
-        Dim File As DocumentStream.File = New DocumentStream.File
+    Public Shared Function GenerateReport(Pathways As Pathway(), Genes As Genes) As IO.File
+        Dim File As IO.File = New IO.File
         Dim sBuilder As StringBuilder = New StringBuilder(1024)
         File.AppendLine(New String() {"UniqueId", "Description", "Is_Super_Pathway?", "Associated_gene_counts", "Associated_gene_list"})
         For Each pwy In Pathways
-            Dim row As DocumentStream.RowObject = New DocumentStream.RowObject
+            Dim row As IO.RowObject = New IO.RowObject
             Call row.AddRange(New String() {pwy.Identifier, pwy.MetaCycBaseType.CommonName, pwy.SuperPathway})
             Dim GeneCollection = (From gene In Genes.Takes(pwy.AssociatedGenes) Select gene.Accession1).ToArray  '
             Call row.Add(GeneCollection.Count)
@@ -161,7 +161,7 @@ Public Class MetaCycPathways
         Return File
     End Function
 
-    Public Shared Function CreateGeneCollection(Pathways As Pathway(), Genes As Genes, ProteinDomains As DocumentStream.File) As DocumentStream.File
+    Public Shared Function CreateGeneCollection(Pathways As Pathway(), Genes As Genes, ProteinDomains As IO.File) As IO.File
         Dim List As List(Of String) = New List(Of String)
 
         For Each pwy In Pathways
@@ -170,7 +170,7 @@ Public Class MetaCycPathways
                     Select gene.Accession1
         Next
 
-        Dim File As New DocumentStream.File
+        Dim File As New IO.File
         Call File.AppendLine(New String() {"AccessionId", "Common_name", "Description", "Pfam_domains", "Sequence"})
         For Each Id As String In List.Distinct
             Call File.AppendLine(ProteinDomains.FindAtColumn(KeyWord:=Id, Column:=0).First)

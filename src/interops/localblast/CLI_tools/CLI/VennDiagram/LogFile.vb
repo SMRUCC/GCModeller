@@ -59,7 +59,7 @@ Partial Module CLI
         Dim LogsDir As String = args("-d")
 
         Dim ListFile = LogsPair.GetXmlFileName(LogsDir).LoadXml(Of LogsPair)()
-        Dim ListCsv = New List(Of DocumentStream.File())  '每一个文件对中的File1位主要的文件
+        Dim ListCsv = New List(Of IO.File())  '每一个文件对中的File1位主要的文件
         For Each List In ListFile.Logs
             Dim Query = From Pair In List
                         Select LogAnalysis.TakeBestHits(Legacy.BLASTOutput.Load(Pair.File1),
@@ -67,7 +67,7 @@ Partial Module CLI
             Call ListCsv.Add(Query.ToArray)
         Next
         Dim LastFile = Legacy.BLASTOutput.Load(ListFile.Logs.Last.Last.File2)
-        Call ListCsv.Add(New DocumentStream.File() {(From Query In LastFile.Queries.AsParallel Select Query.QueryName).ToArray})
+        Call ListCsv.Add(New IO.File() {(From Query In LastFile.Queries.AsParallel Select Query.QueryName).ToArray})
 
         Dim MergeResult = (From List In ListCsv Select LogAnalysis.Merge(dataset:=List)).ToList
         Dim Csv = CLI.__mergeFile(MergeResult)  '合并文件，获取最终绘制文氏图所需要的数据文件

@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -186,7 +186,7 @@ Partial Module CLI
             Dim out As String
 
             If Not isThread Then
-                out = outDIR & "/" & IO.Path.GetFileNameWithoutExtension(subject) & ".txt"
+                out = outDIR & "/" & basename(subject) & ".txt"
                 Call localblast.FormatDb(subject, localblast.MolTypeNucleotide).Start(True)
             Else
                 out = outDIR & "/" & query.BaseName & "-" & subject.BaseName & ".txt"

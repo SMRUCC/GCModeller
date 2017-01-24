@@ -57,8 +57,8 @@ Partial Module CLI
         Dim inRPKM As String = args("/in")
         Dim out As String = args.GetValue("/out", inRPKM.TrimSuffix & ".log2.csv")
         Dim samples As Experiment() = Experiment.GetSamples(args("/cond"))
-        Dim MAT As MatrixFrame = MatrixFrame.Load(DocumentStream.File.Load(inRPKM))
-        Dim log2s As DocumentStream.File = MAT.Log2(samples)
+        Dim MAT As MatrixFrame = MatrixFrame.Load(IO.File.Load(inRPKM))
+        Dim log2s As IO.File = MAT.Log2(samples)
         Return log2s.Save(out, Encodings.ASCII).CLICode
     End Function
 
@@ -68,10 +68,10 @@ Partial Module CLI
         Dim data As String = args("/data")
         Dim locus_map As String = args.GetValue("/locus_map", "locus")
         Dim out As int = args.OpenHandle("/out", inFile.TrimSuffix & $".selects-{data.BaseName}.out.csv")
-        Dim log2 = DocumentStream.DataSet.LoadDataSet(inFile, "LocusId")
+        Dim log2 = IO.DataSet.LoadDataSet(inFile, "LocusId")
         Dim factor As Double = args.GetValue("/factor", 1.0R)
-        Dim dataSets = (From x As DocumentStream.EntityObject
-                        In DocumentStream.EntityObject.LoadDataSet(data, locus_map)
+        Dim dataSets = (From x As IO.EntityObject
+                        In IO.EntityObject.LoadDataSet(data, locus_map)
                         Select x
                         Group x By x.ID Into Group) _
                              .ToDictionary(Function(x) x.ID,
@@ -92,7 +92,7 @@ Partial Module CLI
         Dim [in] As String = args - "/in"
         Dim trim As Boolean = args.GetBoolean("/trim")
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/" & [in].BaseName & $".RPKMs{If(trim, "-TRIM", "")}.Csv")
-        Dim dataExpr0 As DocumentStream.File = MergeDataMatrix([in], trim)
+        Dim dataExpr0 As IO.File = MergeDataMatrix([in], trim)
         Return dataExpr0.Save(out, Encodings.ASCII)
     End Function
 End Module

@@ -39,7 +39,7 @@ Partial Module CLI
                Example:="")>
     Public Function ExportBestHit(args As CommandLine) As Integer
         Dim Input As String = args("-i"), Output As String = args("-o")
-        Dim File As DocumentStream.File = DocumentStream.File.Load(Input)
+        Dim File As IO.File = IO.File.Load(Input)
         File = GetDiReBh(File)
         Return File.Save(Output, False).CLICode
     End Function
@@ -65,14 +65,14 @@ Partial Module CLI
         Dim OriginalIdSequence As String = args("-os")
         Dim SkipFirst As Boolean = String.Equals(args("-os_skip_first"), "T")
 
-        Dim File As DocumentStream.File = New DocumentStream.File
+        Dim File As IO.File = New IO.File
         File += New String() {"query_id"}
 
-        Dim IdSequence = DocumentStream.File.Load(OriginalIdSequence).Skip(If(SkipFirst, 1, 0)).ToArray
-        Dim FileList = (From path In FilePathList Select DocumentStream.File.Load(path)).ToArray
+        Dim IdSequence = IO.File.Load(OriginalIdSequence).Skip(If(SkipFirst, 1, 0)).ToArray
+        Dim FileList = (From path In FilePathList Select IO.File.Load(path)).ToArray
 
         For i As Integer = 0 To IdSequence.Length - 1
-            Dim row As DocumentStream.RowObject = New String() {IdSequence(i)(Idx)}
+            Dim row As IO.RowObject = New String() {IdSequence(i)(Idx)}
             For Each CsvFile In FileList
                 Dim rowBesthit = CsvFile.GetByLine(line:=i)
                 row += New String() {" ", rowBesthit.Column(0), rowBesthit.Column(1)}
@@ -91,11 +91,11 @@ Partial Module CLI
         Dim OriginalIdSequence As String = args("-i")
         Dim SkipFirst As Boolean = String.Equals(args("-os_skip_first"), "T")
 
-        Dim File As DocumentStream.File = New DocumentStream.File
-        Dim IdSequence = DocumentStream.File.Load(OriginalIdSequence).Skip(If(SkipFirst, 1, 0)).ToArray
+        Dim File As IO.File = New IO.File
+        Dim IdSequence = IO.File.Load(OriginalIdSequence).Skip(If(SkipFirst, 1, 0)).ToArray
 
         File += {"query_id"}
-        File += (From row In IdSequence Select New DocumentStream.RowObject(New String() {row(Idx)}))
+        File += (From row In IdSequence Select New IO.RowObject(New String() {row(Idx)}))
 
         Return File.Save(Output, False).CLICode
     End Function
@@ -105,13 +105,13 @@ Partial Module CLI
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function GetDiReBh(DataFile As DocumentStream.File) As DocumentStream.File
-        Dim File As DocumentStream.File = New DocumentStream.File + {"query_id"}
+    Private Function GetDiReBh(DataFile As IO.File) As IO.File
+        Dim File As IO.File = New IO.File + {"query_id"}
 
-        For Each row As DocumentStream.RowObject In DataFile
+        For Each row As IO.RowObject In DataFile
             Dim FindTarget As String = row(1)
             Dim QueryTarget As String = row(0)
-            Dim row2 As DocumentStream.RowObject() =
+            Dim row2 As IO.RowObject() =
                 DataFile.FindAtColumn(FindTarget, Column:=3)
 
             If row2.IsNullOrEmpty Then Continue For

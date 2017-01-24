@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.HTMLWriter
+Imports Microsoft.VisualBasic.Data.csv.IO.HTMLWriter
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -53,7 +53,7 @@ Partial Module CLI
         Dim threshold As Double = args.GetValue("/threshold", 0.3)
         Dim motifs As AnnotationModel() = AnnotationModel.LoadDocument(queryFile)
         Dim subjectLDM = subjectFile.LoadXml(Of AnnotationModel)
-        Dim out As String = args.GetValue("/out", queryFile.TrimSuffix & "-" & IO.Path.GetFileNameWithoutExtension(subjectFile))
+        Dim out As String = args.GetValue("/out", queryFile.TrimSuffix & "-" & basename(subjectFile))
 
         For Each motif As AnnotationModel In motifs
             Call __LDMTom(motif, subjectLDM, method, cost, threshold, out, $"{motif.ToString}-{subjectLDM.ToString}")
@@ -87,7 +87,7 @@ Partial Module CLI
         Dim method As String = args.GetValue("/method", "sw")
         Dim cost As Double = args.GetValue("/cost", 0.7)
         Dim threshold As Double = args.GetValue("/threshold", 0.65)
-        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & IO.Path.GetFileNameWithoutExtension(subject) & "." & method)
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & basename(subject) & "." & method)
 
         Call __LDMTom(queryLDM, subjectLDM, method, cost, threshold, out, "TOMQuery")
 
@@ -106,7 +106,7 @@ Partial Module CLI
         Dim resultSet As New List(Of Similarity.TOMQuery.CompareResult)
 
         For Each query As String In memeText
-            Dim outDIR As String = out & "/" & IO.Path.GetFileNameWithoutExtension(query)
+            Dim outDIR As String = out & "/" & basename(query)
             Call resultSet.Add(__memeTOMQuery(query, outDIR, threshold, cost, method))
         Next
 
@@ -145,8 +145,8 @@ Partial Module CLI
             Call html.AppendLine("</p>")
         Next
 
-        Dim title As String = $"Motif tom query for {IO.Path.GetFileNameWithoutExtension(query)}:"
-        Call html.SaveAsHTML($"{out}/TomQuery.html", IO.Path.GetFileNameWithoutExtension(query), title)
+        Dim title As String = $"Motif tom query for {basename(query)}:"
+        Call html.SaveAsHTML($"{out}/TomQuery.html", basename(query), title)
 
         Return LQuery
     End Function

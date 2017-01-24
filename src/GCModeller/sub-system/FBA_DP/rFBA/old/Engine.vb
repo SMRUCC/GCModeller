@@ -34,7 +34,7 @@ Imports SMRUCC.genomics.Analysis.FBA_DP
 Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
 Imports SMRUCC.genomics.Analysis.FBA_DP.Models
 Imports SMRUCC.genomics.Model.SBML
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv
 
 Namespace rFBA
@@ -107,8 +107,8 @@ Namespace rFBA
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function GetFBADataPackage() As DocumentStream.File
-            Dim CsvData As New DocumentStream.File
+        Public Function GetFBADataPackage() As IO.File
+            Dim CsvData As New IO.File
             Call CsvData.Add(New String() {"RTime", "ObjectiveFunction"})
             Call CsvData.First.AddRange(rFBAlpModel.GetFluxColumnIds)
             Dim LQuery = (From dataLine In Me.FBADataPackages.AsParallel

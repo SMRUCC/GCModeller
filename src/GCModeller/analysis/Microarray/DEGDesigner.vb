@@ -2,14 +2,14 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting
-Imports csv = Microsoft.VisualBasic.Data.csv.DocumentStream.File
-Imports gene = Microsoft.VisualBasic.Data.csv.DocumentStream.EntityObject
+Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 
 Public Module DEGDesigner
 

@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 
 Namespace Compiler.Components
 
@@ -71,7 +71,7 @@ Namespace Compiler.Components
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Analysis")>
-        Public Function Analysis(Model As FileStream.IO.XmlresxLoader, CrossTalks As DocumentStream.File) As CrossTalks()
+        Public Function Analysis(Model As FileStream.IO.XmlresxLoader, CrossTalks As IO.File) As CrossTalks()
             Dim RR = CrossTalks.First.Skip(1).ToArray
             Dim p_cache = RR.Sequence
             Dim LQuery = (From line As RowObject

@@ -27,7 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 
 ''' <summary>
 ''' 泛型仅能够包含有有限的几种基本的值类型
@@ -48,8 +48,8 @@ Public Class MsCsvChunkBuffer(Of T) : Inherits DataStorage(Of T, DataStorage.Fil
         Return File.Save(url, False)
     End Function
 
-    Public Shared Function Generate_CsvRow(Line As DataStorage.FileModel.DataSerials(Of T)) As DocumentStream.RowObject
-        Dim Row As DocumentStream.RowObject = New DocumentStream.RowObject From {Line.UniqueId}
+    Public Shared Function Generate_CsvRow(Line As DataStorage.FileModel.DataSerials(Of T)) As IO.RowObject
+        Dim Row As IO.RowObject = New IO.RowObject From {Line.UniqueId}
         Dim array As String() = (From n As T In Line.Samples Let strValue As String = n.ToString Select strValue).ToArray
         Call Row.AddRange(array)
         Return Row
@@ -57,9 +57,9 @@ Public Class MsCsvChunkBuffer(Of T) : Inherits DataStorage(Of T, DataStorage.Fil
 
     Public Const TIMETicksTAG As String = "#Time/Ticks"
 
-    Public Function get_Result(ChunkBuffer As IEnumerable(Of DataStorage.FileModel.DataSerials(Of T))) As DocumentStream.File
+    Public Function get_Result(ChunkBuffer As IEnumerable(Of DataStorage.FileModel.DataSerials(Of T))) As IO.File
         Dim LQuery = (From item In ChunkBuffer.AsParallel Select Generate_CsvRow(item)).ToArray
-        Dim File As New DocumentStream.File
+        Dim File As New IO.File
         Call File.AppendLine(New String() {TIMETicksTAG})
         Call File.Last.AddRange((From i In ChunkBuffer.First.Samples.Sequence Select CStr(i)).ToArray)
         Call File.AppendRange(LQuery)

@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::9e57e58fe924391e029894548cd07548, ..\interops\RNA-Seq\BOW\BOW\BWA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.CommandLine
 
 ''' <summary>
 ''' Program: bwa (alignment via Burrows-Wheeler transformation)
@@ -164,7 +165,7 @@ Public Module BWA
 
         Dim argv As String = $"index -a {Algorithm} ""{Reference}"""
         Dim BWA_EXE As String = CliResCommon.TryRelease(NameOf(My.Resources.BWA))
-        Dim i As Integer = New CommandLine.IORedirectFile(BWA_EXE, argv).Run()
+        Dim i As Integer = New IORedirectFile(BWA_EXE, argv).Run()
 
         Return i
     End Function
@@ -178,7 +179,7 @@ Public Module BWA
         As <FunctionReturns("The file path of the sai index file.")> String
 
         If String.IsNullOrEmpty(SAI) Then
-            SAI = FileIO.FileSystem.GetParentPath(Fastaq) & "/" & System.IO.Path.GetFileNameWithoutExtension(Fastaq) & ".sai"
+            SAI = FileIO.FileSystem.GetParentPath(Fastaq) & "/" & BaseName(Fastaq) & ".sai"
         End If
 
         Dim argvs As String = String.Format(ALN_SA_COORDINATES, SAI.CLIPath, Reference.CLIPath, Fastaq.CLIPath)
@@ -213,14 +214,14 @@ Public Module BWA
         Call Console.WriteLine($"[DEBUG {Now.ToString}] BWA:  {BWA_EXE.ToFileURL.CLIPath }")
 
         '对左右数据生成SA坐标
-        Dim LeftSAI As String = FileIO.FileSystem.GetParentPath(Left) & "/" & IO.Path.GetFileNameWithoutExtension(Left) & ".sai"
-        Dim RightSAI As String = FileIO.FileSystem.GetParentPath(Right) & "/" & IO.Path.GetFileNameWithoutExtension(Right) & ".sai"
+        Dim LeftSAI As String = FileIO.FileSystem.GetParentPath(Left) & "/" & BaseName(Left) & ".sai"
+        Dim RightSAI As String = FileIO.FileSystem.GetParentPath(Right) & "/" & BaseName(Right) & ".sai"
 
-        Dim LeftBWA = New CommandLine.IORedirectFile(BWA_EXE, String.Format(ALN_SA_COORDINATES, Reference, Left, LeftSAI))
+        Dim LeftBWA As New IORedirectFile(BWA_EXE, String.Format(ALN_SA_COORDINATES, Reference, Left, LeftSAI))
 
         Dim InvokeHandle As Func(Of Integer) = AddressOf LeftBWA.Run
         Dim AyResult = InvokeHandle.BeginInvoke(Nothing, Nothing)
-        Call New CommandLine.IORedirectFile(BWA_EXE, String.Format(ALN_SA_COORDINATES, Reference, Right, RightSAI)).Run()
+        Call New IORedirectFile(BWA_EXE, String.Format(ALN_SA_COORDINATES, Reference, Right, RightSAI)).Run()
         Call InvokeHandle.EndInvoke(AyResult)
 
         Call Console.WriteLine($"[DEBUG {Now.ToString }] Paired-End Indexing job done! Start to mapping reads onto the reference genome!")
@@ -231,8 +232,8 @@ Public Module BWA
             Export = FileIO.FileSystem.GetDirectoryInfo(Export).FullName
         End If
 
-        Dim SAM As String = $"{Export}/{IO.Path.GetFileNameWithoutExtension(Left)}__{IO.Path.GetFileNameWithoutExtension(Right)}.sam"
-        Call New CommandLine.IORedirectFile(BWA_EXE, $"sampe -f ""{SAM}"" ""{Reference}"" ""{LeftSAI}"" ""{RightSAI}"" ""{Left}"" ""{Right}""").Run()
+        Dim SAM As String = $"{Export}/{BaseName(Left)}__{BaseName(Right)}.sam"
+        Call New IORedirectFile(BWA_EXE, $"sampe -f ""{SAM}"" ""{Reference}"" ""{LeftSAI}"" ""{RightSAI}"" ""{Left}"" ""{Right}""").Run()
         Return SAM
     End Function
 
@@ -247,7 +248,7 @@ Public Module BWA
                                      <Parameter("sam", "If this parameter is not specific, then the file name of the *.fq reads file will be used as default.")> Optional SAM As String = "") As String
 
         If String.IsNullOrEmpty(SAM) Then
-            SAM = FileIO.FileSystem.GetParentPath(Fastaq) & "/" & IO.Path.GetFileNameWithoutExtension(Fastaq) & ".sam"
+            SAM = FileIO.FileSystem.GetParentPath(Fastaq) & "/" & BaseName(Fastaq) & ".sam"
         End If
 
         Dim sai As String = ""
@@ -311,11 +312,11 @@ Public Module BWA
                           <Parameter("sam", "If this parameter is not specific, then the file name of the *.fq reads file will be used as default.")> Optional SAM As String = "") As Integer
 
         If String.IsNullOrEmpty(SAM) Then
-            SAM = FileIO.FileSystem.GetParentPath(Fastaq) & "/" & System.IO.Path.GetFileNameWithoutExtension(Fastaq) & ".sam"
+            SAM = FileIO.FileSystem.GetParentPath(Fastaq) & "/" & BaseName(Fastaq) & ".sam"
         End If
 
         Dim argvs As String = $"samse -f {SAM.CLIPath} { Reference.CLIPath} {SAI.CLIPath} {Fastaq.CLIPath}"
-        Dim Invoke As New Microsoft.VisualBasic.CommandLine.IORedirectFile(CliResCommon.TryRelease(NameOf(My.Resources.BWA)), argvs)
+        Dim Invoke As New IORedirectFile(CliResCommon.TryRelease(NameOf(My.Resources.BWA)), argvs)
         Dim i As Integer = Invoke.Run
 
         Return i
@@ -336,7 +337,7 @@ Public Module BWA
                           <Parameter("sam", "If this parameter is not specific, then the file name of the *.fasta genome reference fasta sequence file will be used as default.")> Optional SAM As String = "") As Integer
 
         If String.IsNullOrEmpty(SAM) Then
-            SAM = FileIO.FileSystem.GetParentPath(Reference) & "/" & IO.Path.GetFileNameWithoutExtension(Reference) & ".sam"
+            SAM = FileIO.FileSystem.GetParentPath(Reference) & "/" & BaseName(Reference) & ".sam"
         End If
 
         Dim argvs As String = $"sampe -f {SAM.CLIPath} {Reference.CLIPath} {LeftSAI.CLIPath} {RightSAI.CLIPath} {LeftFQ.CLIPath} {RightFQ.CLIPath}"

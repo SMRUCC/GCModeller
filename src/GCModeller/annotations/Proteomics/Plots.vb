@@ -25,9 +25,9 @@ Public Module Plots
     End Function
 
     <Extension>
-    Public Function VennData(files As IEnumerable(Of String)) As DocumentStream.File
+    Public Function VennData(files As IEnumerable(Of String)) As IO.File
         Dim datas = files.ToDictionary(Function(f) f.BaseName, Function(f) f.LoadSample.ToDictionary)
-        Dim out As New DocumentStream.File
+        Dim out As New IO.File
         Dim keys$() = datas.Keys.ToArray
         Dim ALL_locus$() = datas _
             .Select(Function(x) x.Value.Select(Function(o) o.Value.ID)) _

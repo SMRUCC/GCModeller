@@ -225,7 +225,7 @@ Namespace Workflows.PromoterParser
                    .ToArray(Function(xml) xml.LoadXml(Of bGetObject.Pathway))
             Dim DoorOperon = DOOR_API.Load(DOOR)
             Dim GetDOORUni As IGetLocusTag = ParserLocus.CreateMethod(DoorOperon, method)
-            Dim prefix As String = IO.Path.GetFileNameWithoutExtension(EXPORT)
+            Dim prefix As String = basename(EXPORT)
 
             For Each [mod] As bGetObject.Pathway In Modules
                 Dim Genes As String() = (From gene As String In [mod].GetPathwayGenes Select GetDOORUni(gene)).IteratesALL.Distinct.ToArray

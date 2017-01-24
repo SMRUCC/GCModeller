@@ -103,7 +103,7 @@ Namespace Regprecise
         ''' <remarks></remarks>
         '''
         <ExportAPI("Family.distributions")>
-        Public Function FamilyStatics(data As Generic.IEnumerable(Of RegpreciseMPBBH)) As DocumentStream.File
+        Public Function FamilyStatics(data As Generic.IEnumerable(Of RegpreciseMPBBH)) As IO.File
             Dim ProteinFamilies = (From Protein As String
                                    In (From item In data Select item.QueryName Distinct).ToArray
                                    Let Families = (From item In data Where String.Equals(Protein, item.QueryName) Select item.Family Distinct).ToArray
@@ -112,9 +112,9 @@ Namespace Regprecise
                                        In (From item In data Select item.Family Distinct).ToArray
                                        Let FamilyProteins = (From Protein In ProteinFamilies Where Array.IndexOf(Protein.Families, Family) > -1 Select Protein.Protein).ToArray
                                        Select Family, FamilyProteins).ToArray
-            Dim DataFile As DocumentStream.File = New DocumentStream.File From {New String() {"Family", "Counts", "ProteinId"}}
+            Dim DataFile As IO.File = New IO.File From {New String() {"Family", "Counts", "ProteinId"}}
             Call DataFile.AppendRange((From item In FamilyDistributions
-                                       Select New DocumentStream.RowObject From {
+                                       Select New IO.RowObject From {
                                            item.Family,
                                            item.FamilyProteins.Count,
                                            String.Join("; ", item.FamilyProteins)}).ToArray)

@@ -87,7 +87,7 @@ Namespace Compiler.Components
             KEGG_Compounds = (From item In ModelIo.MetabolitesModel.AsParallel Where Not String.IsNullOrEmpty(item.Value.KEGGCompound) Select item.Value).ToArray.ToDictionary(Function(item) item.KEGGCompound)
         End Sub
 
-        Public Sub Invoke(TranscriptRegulation As IEnumerable(Of FileStream.TranscriptUnit), Door As DOOR.DOOR, CrossTalks As DocumentStream.File)
+        Public Sub Invoke(TranscriptRegulation As IEnumerable(Of FileStream.TranscriptUnit), Door As DOOR.DOOR, CrossTalks As IO.File)
             Call _Logging.WriteLine("Start to compile the signal transduction network...")
 
             Call _Logging.WriteLine("Compiling CheBMethylesterase reactions...")
@@ -204,7 +204,7 @@ Namespace Compiler.Components
             Return ChunkList.ToArray
         End Function
 
-        Private Function _compile_CrossTalks(Door As DOOR.DOOR, CrossTalksProfile As DocumentStream.File) As FileStream.MetabolismFlux()
+        Private Function _compile_CrossTalks(Door As DOOR.DOOR, CrossTalksProfile As IO.File) As FileStream.MetabolismFlux()
 
             Const PI = "PI"
 

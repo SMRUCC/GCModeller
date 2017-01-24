@@ -56,10 +56,10 @@ Partial Module CLI
     Private Sub __downloads(inDIR As String)
         Dim Hisk As String() = FileIO.FileSystem.GetFiles(inDIR & "/HisK/",
                                                         FileIO.SearchOption.SearchTopLevelOnly,
-                                                        "*.csv").ToArray(Function(x) IO.Path.GetFileNameWithoutExtension(x))
+                                                        "*.csv").ToArray(Function(x) basename(x))
         Dim RR As String() = FileIO.FileSystem.GetFiles(inDIR & "/RR/",
                                                         FileIO.SearchOption.SearchTopLevelOnly,
-                                                        "*.csv").ToArray(Function(x) IO.Path.GetFileNameWithoutExtension(x))
+                                                        "*.csv").ToArray(Function(x) basename(x))
         Dim fa = SMRUCC.genomics.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, Hisk)
         If Not fa Is Nothing Then Call fa.Save(inDIR & "/HisK.fasta")
         fa = SMRUCC.genomics.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, RR)

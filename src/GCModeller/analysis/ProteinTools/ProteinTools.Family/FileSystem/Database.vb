@@ -48,7 +48,7 @@ Namespace FileSystem
         Private Function __init() As Dictionary(Of String, String)
             Dim Pfam As String = GCModeller.FileSystem.Xfam.Pfam.PfamFamily
             Dim Files = FileIO.FileSystem.GetFiles(Pfam, FileIO.SearchOption.SearchAllSubDirectories, "*.xml")
-            Return Files.ToDictionary(Function(x) IO.Path.GetFileNameWithoutExtension(x))
+            Return Files.ToDictionary(Function(x) basename(x))
         End Function
 
         ''' <summary>

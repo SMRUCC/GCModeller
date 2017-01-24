@@ -49,7 +49,7 @@ Public MustInherit Class AnnotationTool
         BBH_Handle = New BidirectionalBesthit_BLAST(BLASTHandle, Settings.DataCache)
         FastaPaths = (From path As String
                       In FileIO.FileSystem.GetFiles(DB, FileIO.SearchOption.SearchAllSubDirectories, "*.fasta", "*.fsa")
-                      Select KEY = IO.Path.GetFileNameWithoutExtension(path), path).ToArray.ToDictionary(Function(item) item.KEY, elementSelector:=Function(item) item.path)
+                      Select KEY = basename(path), path).ToArray.ToDictionary(Function(item) item.KEY, elementSelector:=Function(item) item.path)
     End Sub
 
     ''' <summary>

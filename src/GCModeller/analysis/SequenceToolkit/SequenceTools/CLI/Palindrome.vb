@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -491,7 +491,7 @@ Partial Module Utilities
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/Perfects/")
 
         For Each file In Filter
-            Dim name As String = IO.Path.GetFileNameWithoutExtension(file.file)
+            Dim name As String = basename(file.file)
             Dim path As String = $"{out}/{name}.csv"
             Call file.perfects.SaveTo(path)
         Next

@@ -41,7 +41,7 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".calcFst.Csv")
         Dim pop = [in].LoadCsv(Of GenotypeDetails)
-        Dim df As DocumentStream.File = pop.ExpandLocis
+        Dim df As IO.File = pop.ExpandLocis
         Dim name As String = "myFreq"
         Dim types As New Dictionary(Of String, Type) From {
             {polysat.Genomes, GetType(Integer)}

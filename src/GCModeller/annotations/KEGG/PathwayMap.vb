@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
-Imports gene = Microsoft.VisualBasic.Data.csv.DocumentStream.EntityObject
+Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 
 ''' <summary>
 ''' 这个仅支持代谢反应过程，即<see cref="PathwayMap.KEGGReaction"/>集合不能够为空

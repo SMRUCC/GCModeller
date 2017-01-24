@@ -68,7 +68,7 @@ Module CLI
             Return -100
         End If
 
-        Dim out As String = args.GetValue("/out", $"{query.TrimSuffix}.vs__.{IO.Path.GetFileNameWithoutExtension(alignDb)}.txt")
+        Dim out As String = args.GetValue("/out", $"{query.TrimSuffix}.vs__.{basename(alignDb)}.txt")
         Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalblast)
         Call localblast.FormatDb(alignDb, localblast.MolTypeProtein).Start(WaitForExit:=True)
         Call localblast.Blastp(query, alignDb, out, Settings.SettingsFile.GetMplParam.Evalue).Start(WaitForExit:=True)

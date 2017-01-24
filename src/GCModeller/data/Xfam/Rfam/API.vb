@@ -197,7 +197,7 @@ Public Module API
                                  PTT As PTT,
                                  reader As I_PolymerSequenceModel,
                                  <Parameter("Source.Directed?")> Optional sourceDirect As Boolean = True) As Rfamily()
-        Dim sId As String = IO.Path.GetFileNameWithoutExtension(blastn)
+        Dim sId As String = basename(blastn)
         Dim RfamAnno As Stockholm = Rfam(sId)
         Dim blastnHits = blastn.LoadCsv(Of BlastnMapping)
         Return RfamAnalysis(RfamAnno, blastnHits, PTT, reader, sourceDirect)

@@ -39,7 +39,7 @@ Namespace polysat
         ''' <param name="list"></param>
         ''' <param name="pops"></param>
         ''' <returns></returns>
-        Public Function BuilMatrix(list As Double(), pops As String()) As DocumentStream.File
+        Public Function BuilMatrix(list As Double(), pops As String()) As IO.File
 
         End Function
 

@@ -282,7 +282,7 @@ Partial Module CLI
                 Call $"Unable to determine objective type:  {type}, using list default".__DEBUG_ECHO
 PLANT:          objective.Associates = IO.File.ReadAllLines(file)
                 objective.Comments = "Plant Assigned"
-                objective.Name = IO.Path.GetFileNameWithoutExtension(file)
+                objective.Name = basename(file)
                 objective.Info = file
         End Select
 

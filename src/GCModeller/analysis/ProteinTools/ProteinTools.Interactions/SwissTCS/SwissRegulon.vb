@@ -31,7 +31,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Data.visualize
@@ -187,7 +187,7 @@ Namespace SwissTCS
         End Sub
 
         <ExportAPI("Matrix.CrossTalks")>
-        Public Function CreateCrossTalks(dirHisK As String, dirRR As String) As DocumentStream.File
+        Public Function CreateCrossTalks(dirHisK As String, dirRR As String) As IO.File
             Dim HisKList = (From Path As String In FileIO.FileSystem.GetFiles(dirHisK) Select Path.LoadCsv(Of CrossTalks)(False).ToArray).ToArray.ToVector
             Dim RRList = (From Path As String In FileIO.FileSystem.GetFiles(dirRR) Select Path.LoadCsv(Of CrossTalks)(False).ToArray).ToArray.ToVector
             Dim ChunkBuffer As CrossTalks() = {HisKList, RRList}.ToVector

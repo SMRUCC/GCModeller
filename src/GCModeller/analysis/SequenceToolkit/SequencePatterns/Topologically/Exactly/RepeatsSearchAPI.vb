@@ -202,7 +202,7 @@ RETURN_VALUE:
         Public Function Density(Of TView As RepeatsView)(DIR As String, size As Integer, ref As String, cutoff As Double) As Double()
             Dim files = FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.csv") _
                 .ToArray(Function(file) New With {
-                    .ID = IO.Path.GetFileNameWithoutExtension(file),
+                    .ID = basename(file),
                     .context = file.LoadCsv(Of TView)})
 
             VBDebugger.Mute = True

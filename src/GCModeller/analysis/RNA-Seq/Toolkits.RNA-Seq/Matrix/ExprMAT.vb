@@ -60,7 +60,7 @@ Namespace dataExprMAT
         ''' <param name="path"></param>
         ''' <returns></returns>
         Public Function LoadMatrix(path As String) As ExprMAT()
-            Dim File As DocumentStream.File = DocumentStream.File.Load(path)
+            Dim File As IO.File = IO.File.Load(path)
             File(Scan0, Scan0) = NameOf(LocusId)
             Dim MAT As ExprMAT() = File.AsDataSource(Of ExprMAT)(False)
             Return MAT

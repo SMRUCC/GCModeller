@@ -85,7 +85,7 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("Result2Csv")>
-    Public Function Convert(<Parameter("Db.SMART")> Db As SMARTDB) As DocumentStream.File
+    Public Function Convert(<Parameter("Db.SMART")> Db As SMARTDB) As IO.File
         Return Db.Export
     End Function
 

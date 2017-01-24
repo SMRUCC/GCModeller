@@ -46,7 +46,7 @@ Public Module TableExtensions
     ''' If the first column is the rows name, and you don't want these names, then you should set this as TRUE to skips this data.
     ''' </param>
     <Extension>
-    Public Sub PushAsTable(table As DocumentStream.File, tableName As String, Optional skipFirst As Boolean = True)
+    Public Sub PushAsTable(table As IO.File, tableName As String, Optional skipFirst As Boolean = True)
         Dim MAT As New vbList ' 因为Language命名空间下面的C命名空间和c函数有冲突，所以在这里导入类型别名
         Dim ncol As Integer
 
@@ -95,7 +95,7 @@ Public Module TableExtensions
     ''' <param name="df"></param>
     ''' <param name="var"></param>
     <Extension>
-    Public Sub PushAsDataFrame(df As DocumentStream.File,
+    Public Sub PushAsDataFrame(df As IO.File,
                                var As String,
                                Optional types As Dictionary(Of String, Type) = Nothing,
                                Optional typeParsing As Boolean = True,
@@ -103,7 +103,7 @@ Public Module TableExtensions
 
         Dim names As String() = df.First.ToArray
 
-        df = New DocumentStream.File(df.Skip(1))
+        df = New IO.File(df.Skip(1))
         If types Is Nothing Then
             types = New Dictionary(Of String, Type)
         End If

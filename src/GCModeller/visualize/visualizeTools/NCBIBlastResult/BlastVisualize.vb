@@ -172,7 +172,7 @@ Namespace NCBIBlastResult
 
             Call TableDistinct.SaveTo(EXPORT, explicit:=False)
 
-            EXPORT = FileIO.FileSystem.GetParentPath(EXPORT) & "/" & IO.Path.GetFileNameWithoutExtension(EXPORT) & "/"
+            EXPORT = FileIO.FileSystem.GetParentPath(EXPORT) & "/" & basename(EXPORT) & "/"
 
             For Each fa In LQuery
                 Call fa.Fasta.SaveTo(EXPORT & fa.ShortID_s & ".fasta")
@@ -418,13 +418,13 @@ CONTINUTE:
         <ExportAPI("Cog.Class.Assign")>
         Public Sub AssignCogClass(PTT As PTTDbLoader,
                                   <Parameter("Class.Cog.Mappings",
-                                             "The excel table object which contains the gene cog value.")> Mapping As DocumentStream.File,
+                                             "The excel table object which contains the gene cog value.")> Mapping As IO.File,
                                   <Parameter("Mapping.Gene.ID",
                                              "The column name of the gene id in the execel table.")> Optional GeneID As String = "GeneID",
                                   <Parameter("Mapping.COG",
                                              "The column name of the cog class value in the excel table.")> Optional COG As String = "COG")
 
-            Dim DF As DocumentStream.DataFrame = DocumentStream.DataFrame.CreateObject(Mapping)
+            Dim DF As IO.DataFrame = IO.DataFrame.CreateObject(Mapping)
             Dim CogValue As Dictionary(Of String, String) =
                 DF.CreateDataSource.ToDictionary(Function(x) x.Attribute(GeneID), Function(x) x(COG))
 

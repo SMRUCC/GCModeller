@@ -76,7 +76,7 @@ Namespace ExpressionMatrix
         ''' <param name="MAT"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function NormalMatrix(MAT As DocumentStream.File) As Image
+        Public Function NormalMatrix(MAT As IO.File) As Image
             Dim Tags As String() = {(From row In MAT.Skip(1) Select row.First).ToArray, MAT.First.Skip(1).ToArray}.Unlist.Distinct.ToArray
             Dim TagDict = CreateAlphabetTagSerials(Tags)
             Dim DrawingFont As Font = New Font(FontFace.Ubuntu, 12)
@@ -131,7 +131,7 @@ Namespace ExpressionMatrix
         ''' <param name="MAT"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function NormalMatrixTriangular(MAT As DocumentStream.File) As Image
+        Public Function NormalMatrixTriangular(MAT As IO.File) As Image
             Dim Tags As String() = {(From row In MAT.Skip(1) Select row.First).ToArray, MAT.First.Skip(1).ToArray}.Unlist.Distinct.ToArray
             Dim TagDict As Dictionary(Of String, String) = CreateAlphabetTagSerials(Tags)
             Dim DrawingFont As Font = New Font(FontFace.Ubuntu, 12)

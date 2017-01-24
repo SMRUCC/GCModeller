@@ -30,7 +30,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
@@ -82,7 +82,7 @@ Partial Module Utilities
         Dim result As DataSet() = source _
             .GetSeqs(args("/ref")) _
             .GroupByDate(isCumulative, raw)
-        Dim T As DocumentStream.File = result.ToCsvDoc.Transpose
+        Dim T As IO.File = result.ToCsvDoc.Transpose
         Dim rawData As File = raw.ToCsvDoc.Transpose
         Call rawData.Save(out.TrimSuffix & "-raw.csv", Encodings.ASCII)
         Return T.Save(out, Encoding.ASCII)

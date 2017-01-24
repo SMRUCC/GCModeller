@@ -174,7 +174,7 @@ Namespace LocalBLAST.Application.BBH
         ''' </remarks>
         '''
         <ExportAPI("BBH.All")>
-        Public Function GetDirreBhAll2(SvQ As DocumentStream.File, QvS As DocumentStream.File) As BBH.BiDirectionalBesthit()
+        Public Function GetDirreBhAll2(SvQ As IO.File, QvS As IO.File) As BBH.BiDirectionalBesthit()
             Dim bhSvQ As LocalBLAST.Application.BBH.BestHit() = SvQ.AsDataSource(Of LocalBLAST.Application.BBH.BestHit)(False).ToArray
             Dim bhQvS As LocalBLAST.Application.BBH.BestHit() = QvS.AsDataSource(Of LocalBLAST.Application.BBH.BestHit)(False).ToArray
             Return GetDirreBhAll2(bhSvQ, bhQvS)
@@ -189,7 +189,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <remarks></remarks>
         '''
         <ExportAPI("BBH")>
-        Public Function BBHTop(SvQ As DocumentStream.File, QvS As DocumentStream.File) As BBH.BiDirectionalBesthit()
+        Public Function BBHTop(SvQ As IO.File, QvS As IO.File) As BBH.BiDirectionalBesthit()
             Dim bhSvQ As LocalBLAST.Application.BBH.BestHit() = SvQ.AsDataSource(Of LocalBLAST.Application.BBH.BestHit)(False).ToArray
             Dim bhQvS As LocalBLAST.Application.BBH.BestHit() = QvS.AsDataSource(Of LocalBLAST.Application.BBH.BestHit)(False).ToArray
             Dim besthits = GetBBHTop(bhQvS, bhSvQ)
@@ -208,7 +208,7 @@ Namespace LocalBLAST.Application.BBH
         ''' </remarks>
         '''
         <ExportAPI("BBH.All")>
-        Public Function GetDirreBhAll(SvQ As DocumentStream.File, QvS As DocumentStream.File) As DocumentStream.File
+        Public Function GetDirreBhAll(SvQ As IO.File, QvS As IO.File) As IO.File
             Dim bbh = BBHParser.GetDirreBhAll2(SvQ, QvS)
             Return bbh.ToCsvDoc(False)
         End Function
@@ -222,7 +222,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <remarks></remarks>
         '''
         <ExportAPI("BBH")>
-        Public Function get_DiReBh(SvQ As DocumentStream.File, QvS As DocumentStream.File) As DocumentStream.File
+        Public Function get_DiReBh(SvQ As IO.File, QvS As IO.File) As IO.File
             Dim besthits = BBHTop(SvQ, QvS)
             Return besthits.ToCsvDoc(False)
         End Function

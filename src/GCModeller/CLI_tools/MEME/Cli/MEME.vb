@@ -133,7 +133,7 @@ Partial Module CLI
                       Select MotifSites.Mast(NtSequence)).Unlist
         Dim Out As String = args("/out")
         If String.IsNullOrEmpty(Out) Then
-            Out = $"{Nt}.{IO.Path.GetFileNameWithoutExtension(Motif)}.csv"
+            Out = $"{Nt}.{basename(Motif)}.csv"
         End If
         Return LQuery.SaveTo(Out, False).CLICode
     End Function
@@ -255,7 +255,7 @@ Partial Module CLI
                                FastaDIR,
                                FileIO.SearchOption.SearchAllSubDirectories,
                                "*.fasta", "*.fa", "*.fsa")
-                           Let id As String = FileIO.FileSystem.GetParentPath(file).Replace(FastaDIR, "") & "\" & IO.Path.GetFileNameWithoutExtension(file) & ".txt"
+                           Let id As String = FileIO.FileSystem.GetParentPath(file).Replace(FastaDIR, "") & "\" & basename(file) & ".txt"
                            Select id, file) _
                                 .ToDictionary(Function(file) file.id,
                                               Function(file) file.file)

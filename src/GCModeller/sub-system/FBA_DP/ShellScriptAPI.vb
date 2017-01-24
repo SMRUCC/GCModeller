@@ -110,8 +110,8 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("Write.FBA_Result")>
-    Public Function SaveData(result As KeyValuePair(Of Double, KeyValuePairObject(Of String, Double)()), saveto As String) As DocumentStream.File
-        Dim ResultFile As DocumentStream.File = New DocumentStream.File + {"ObjectiveFunction", CStr(result.Key)} + From item In result.Value Select New DocumentStream.RowObject({item.Key, item.Value})
+    Public Function SaveData(result As KeyValuePair(Of Double, KeyValuePairObject(Of String, Double)()), saveto As String) As IO.File
+        Dim ResultFile As IO.File = New IO.File + {"ObjectiveFunction", CStr(result.Key)} + From item In result.Value Select New IO.RowObject({item.Key, item.Value})
         Call ResultFile.Save(saveto, False)
         Return ResultFile
     End Function
@@ -122,11 +122,11 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("SolverOutput2Csv")>
-    Public Function ExportResult(<Parameter("Solver.Out")> SolverOut As KeyValuePair(Of Double, KeyValuePairObject(Of String, Double)())) As DocumentStream.File
-        Dim Output As DocumentStream.File =
-            New DocumentStream.File + {"ObjectiveFunction", CStr(SolverOut.Key)} + From item
+    Public Function ExportResult(<Parameter("Solver.Out")> SolverOut As KeyValuePair(Of Double, KeyValuePairObject(Of String, Double)())) As IO.File
+        Dim Output As IO.File =
+            New IO.File + {"ObjectiveFunction", CStr(SolverOut.Key)} + From item
                                                                                    In SolverOut.Value
-                                                                                   Select New DocumentStream.RowObject From {item.Key, item.Value.ToString}
+                                                                                   Select New IO.RowObject From {item.Key, item.Value.ToString}
         Return Output
     End Function
 

@@ -103,7 +103,7 @@ Partial Module CLI
     Public Function MotifCluster(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim name As String = args("/LDM")
-        Dim out As String = args.GetValue("/out", query.TrimSuffix & "." & IO.Path.GetFileNameWithoutExtension(name) & ".Csv")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "." & basename(name) & ".Csv")
         Dim source As AnnotationModel()
 
         If query.FileExists Then
@@ -187,7 +187,7 @@ Partial Module CLI
             End If
 
             Dim resultSet As List(Of EntityLDM) = __clusteringCommon(nClusters, Maps, Nothing)
-            Dim sId As String = IO.Path.GetFileNameWithoutExtension(xml)
+            Dim sId As String = basename(xml)
             Dim outFile As String = out & "/" & sId & ".Csv"
 
             Call resultSet.SaveTo(outFile)

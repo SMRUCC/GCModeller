@@ -117,9 +117,9 @@ Namespace MatrixFile
         ''' 请注意，第一行为标题行，第一列为基因组的编号列
         ''' </summary>
         ''' <remarks></remarks>
-        Protected _innerMATRaw As DocumentStream.File
+        Protected _innerMATRaw As IO.File
 
-        Public ReadOnly Property MATRaw As DocumentStream.File
+        Public ReadOnly Property MATRaw As IO.File
             Get
                 Return _innerMATRaw
             End Get
@@ -195,7 +195,7 @@ Namespace MatrixFile
         ''' <param name="dat"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Protected Shared Function CreateObject(Of MAT As MatrixFile)(dat As DocumentStream.File) As MAT
+        Protected Shared Function CreateObject(Of MAT As MatrixFile)(dat As IO.File) As MAT
             Dim MATModel As MAT = Activator.CreateInstance(Of MAT)()
             MATModel._innerMATRaw = dat
             Return MATModel

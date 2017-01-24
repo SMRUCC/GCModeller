@@ -95,7 +95,7 @@ Namespace EngineSystem.Engine
         <XmlElement>
         Public Property KernelProfile As EngineSystem.Engine.Configuration.ConfigReader
 
-        Dim SystemActivityRecordList As DocumentStream.File
+        Dim SystemActivityRecordList As IO.File
         Dim _InternalDictSystemVariables As Dictionary(Of String, String)
 
         Public ReadOnly Property SystemLogging As LogFile Implements IContainerSystemRuntimeEnvironment.SystemLogging
@@ -157,7 +157,7 @@ Namespace EngineSystem.Engine
             My.Computer.FileSystem.CurrentDirectory = My.Application.Info.DirectoryPath
             Me.ExperimentSystem = New ObjectModels.ExperimentSystem.ExperimentManageSystem(KernelModule)
 
-            Me.SystemActivityRecordList = New DocumentStream.File
+            Me.SystemActivityRecordList = New IO.File
             Me.ShellScriptDevie = New ShellScript(Me)
 
             Call Me.SystemActivityRecordList.Add(New String() {"#TIME", "Transcription", "Translation", "Metabolism", "SUM()", "pH", "SignalTransductionNetwork"})

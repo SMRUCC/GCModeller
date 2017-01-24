@@ -135,9 +135,9 @@ Public Class STAMP
     ''' <param name="Matches">从STAMP服务器获取的匹配数据</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function ParseMatches(OriginalFile As String, Matches As String) As DocumentStream.File
+    Public Shared Function ParseMatches(OriginalFile As String, Matches As String) As IO.File
         Dim MatcheCollection = Regex.Matches(FileIO.FileSystem.ReadAllText(OriginalFile), "[#]\d+[#]\S+", RegexOptions.Singleline)
-        Dim Tokens As String() = IO.File.ReadAllLines(Matches)
+        Dim Tokens As String() = Matches.ReadAllLines
         Dim MatchList As List(Of String()) = New List(Of String())
         Dim ChunkBuffer As String()
 
@@ -154,14 +154,14 @@ Public Class STAMP
                           Select pair
                           Order By pair.Key Ascending).ToArray
 
-        Dim File As DocumentStream.File = New DocumentStream.File
+        Dim File As IO.File = New IO.File
         Call File.AppendLine(New String() {"Id", "PWY_Id", "Motif", "E_val"})
         For Each Match As Match In MatcheCollection
             Dim Value As String = Match.Value
             Dim Handle_TEMP As String = Regex.Match(Value, "[#]\d+[#]").Value
             Dim Handle As Integer = Val(Regex.Match(Handle_TEMP, "\d+").Value)
             Dim IdName As String = Mid(Value, Len(Handle_TEMP) + 1)
-            Dim Row As DocumentStream.RowObject = New DocumentStream.RowObject From {Handle, IdName}
+            Dim Row As IO.RowObject = New IO.RowObject From {Handle, IdName}
             Dim Pair = MatchPairs(Handle - 1)
             Call Row.AddRange(New String() {Pair.Value.First, Pair.Value.Last})
 

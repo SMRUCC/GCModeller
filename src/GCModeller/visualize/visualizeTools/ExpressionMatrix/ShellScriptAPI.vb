@@ -41,17 +41,17 @@ Namespace ExpressionMatrix
         End Function
 
         <ExportAPI("mat.load")>
-        Public Function LoadData(data As DocumentStream.File) As SerialsData()
+        Public Function LoadData(data As IO.File) As SerialsData()
             Return DataServicesExtension.LoadCsv(data)
         End Function
 
         <ExportAPI("mat.invoke_drawing")>
-        Public Function DrawingMatrix(MAT As DocumentStream.File) As Image
+        Public Function DrawingMatrix(MAT As IO.File) As Image
             Return MatrixDrawing.NormalMatrix(MAT)
         End Function
 
         <ExportAPI("mat.Triangular_drawing")>
-        Public Function DrawingMatrixTr(MAT As DocumentStream.File) As Image
+        Public Function DrawingMatrixTr(MAT As IO.File) As Image
             Return MatrixDrawing.NormalMatrixTriangular(MAT)
         End Function
     End Module

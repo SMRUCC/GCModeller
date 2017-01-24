@@ -164,7 +164,7 @@ Namespace KEGG.Compiler
             'Me._ModelIO.EffectorMapping = MappingKEGGCompoundsRegprecise(KEGGCompounds:=_ModelIO.MetabolitesModel.Values.ToArray, Regprecise:=_RegpreciseRegulatorBh)
 
             Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of SimpleCsv.Network)()
-            Me._CrossTalks = DocumentStream.File.Load(argvs("-cross_talks"))
+            Me._CrossTalks = IO.File.Load(argvs("-cross_talks"))
             Me._ModelIO.STrPModel = argvs("-mist2_strp").LoadXml(Of Network)()
             Me._MetabolismNetwork = Level2.XmlFile.Load(Me._MetaCyc.SBMLMetabolismModel)
             Me._ModelIO.ProteinAssembly = _createProteinAssembly(Me._ModelIO.Regulators, Me._ModelIO.MetabolitesModel)

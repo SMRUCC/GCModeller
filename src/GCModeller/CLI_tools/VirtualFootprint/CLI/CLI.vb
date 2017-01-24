@@ -124,8 +124,8 @@ Module CLI
         Dim out As String = args.GetValue("/out",
             mal.TrimSuffix & $".win_size={win},steps={steps},slides={slides},m={method};quantiles={q.Select(Function(n) n.ToString).JoinBy(",")}.csv")
         Dim result = GCOutlier.OutlierAnalysis(New FastaFile(mal), q, win, steps, slides, GCOutlier.GetMethod(method)).ToArray
-        Return New DocumentStream.File(
-            DocumentStream.File.Distinct(result.ToCsvDoc)) _
+        Return New IO.File(
+            IO.File.Distinct(result.ToCsvDoc)) _
             .Save(out, Encodings.ASCII).CLICode
     End Function
 End Module

@@ -110,7 +110,7 @@ Public Module SequenceLogoAPI
     Public Function BatchDrawing(<Parameter("MEME_Text.Path")> MEME_Text As String,
                                  <Parameter("Out.DIR")> Optional outDIR As String = "") As Boolean
 
-        Dim ID As String = IO.Path.GetFileNameWithoutExtension(MEME_Text)
+        Dim ID As String = basename(MEME_Text)
         Dim Motifs As Motif() = DocumentFormat.MEME.Text.Load(MEME_Text)
 
         If String.IsNullOrEmpty(outDIR) Then

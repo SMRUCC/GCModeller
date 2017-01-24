@@ -174,8 +174,8 @@ Partial Module CLI
     End Function
 
     Private Sub vennSaveCommon(saveCsv As String, modRegulators As Dictionary(Of String, List(Of String)))
-        Dim modsRegulatorsView As DocumentStream.File =
-            New DocumentStream.File + {"locusId"}.Join(modRegulators.Keys)
+        Dim modsRegulatorsView As IO.File =
+            New IO.File + {"locusId"}.Join(modRegulators.Keys)
         Dim union As String() = modRegulators _
             .Select(Function(x) x.Value) _
             .IteratesALL _

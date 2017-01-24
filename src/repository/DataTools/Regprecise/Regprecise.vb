@@ -149,8 +149,8 @@ Namespace RegpreciseRegulations
         ''' <remarks></remarks>
         Public Overrides Function InvokeAnnotation(Fasta As String, Export As String, Optional Parallel As Boolean = True, Optional evalue As String = "1e-5") As Reports.GenomeAnnotations
             Dim Paralogs = BBH_Handle.Paralogs(Fasta, Nothing)
-            Dim Qvs As String = Me.BBH_Handle.WorkDir & "/" & IO.Path.GetFileNameWithoutExtension(Fasta) & "__vs_regprecise.orthologous_bh.txt"
-            Dim Svq As String = Me.BBH_Handle.WorkDir & "/regprecise__vs_" & IO.Path.GetFileNameWithoutExtension(Fasta) & ".orthologous_bh.txt"
+            Dim Qvs As String = Me.BBH_Handle.WorkDir & "/" & basename(Fasta) & "__vs_regprecise.orthologous_bh.txt"
+            Dim Svq As String = Me.BBH_Handle.WorkDir & "/regprecise__vs_" & basename(Fasta) & ".orthologous_bh.txt"
 
             Call Me.BBH_Handle.LocalBLASTServices.FormatDb(Me.FastaPaths.First.Value, Me.BBH_Handle.LocalBLASTServices.MolTypeProtein).Start(WaitForExit:=True)
             Call Me.BBH_Handle.LocalBLASTServices.FormatDb(Fasta, Me.BBH_Handle.LocalBLASTServices.MolTypeProtein).Start(WaitForExit:=True)

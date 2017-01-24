@@ -304,8 +304,8 @@ Imports RDotNET.SymbolicExpressionExtension
     End Function
 
     <ExportAPI("gene.expression.regulation.analysis")>
-    Public Function AnalysisSignals(data As DocumentStream.File, Optional Sampling As Integer = 80, Optional filter As String = "haar") As DocumentStream.File
-        Dim LoadData = (From row As DocumentStream.RowObject
+    Public Function AnalysisSignals(data As IO.File, Optional Sampling As Integer = 80, Optional filter As String = "haar") As IO.File
+        Dim LoadData = (From row As IO.RowObject
                         In data.Skip(1).AsParallel
                         Let ID As String = row.First
                         Let ExpressionData As Double() = (From s As String In row.Skip(1) Select Val(s)).ToArray
@@ -322,13 +322,13 @@ Imports RDotNET.SymbolicExpressionExtension
                          Let IDCol As String() = New String() {signal.ID}
                          Let expr As String() = (From n In signal.dwt.W.Last Select s = n.ToString).ToArray
                          Let row = New String()() {IDCol, expr}
-                         Select CType(Microsoft.VisualBasic.Unlist(row), DocumentStream.RowObject)).ToArray   '重新生成数据文件
-        Dim MAT = CType(MATLQuery, DocumentStream.File)
+                         Select CType(Microsoft.VisualBasic.Unlist(row), IO.RowObject)).ToArray   '重新生成数据文件
+        Dim MAT = CType(MATLQuery, IO.File)
         Return MAT
     End Function
 
     <ExportAPI("f.diff")>
-    Public Function Shift(data1 As DocumentStream.File, data2 As DocumentStream.File) As DocumentStream.File
+    Public Function Shift(data1 As IO.File, data2 As IO.File) As IO.File
         Dim L1 = (From row In data1.AsParallel Let ID As String = row.First Let dat = (From s As String In row.Skip(1) Select Val(s)).ToArray Select ID, dat).ToArray
         Dim L2 = (From row In data2.AsParallel Let ID As String = row.First Let dat = (From s As String In row.Skip(1) Select Val(s)).ToArray Select ID, dat).ToArray.ToDictionary(Function(obj) obj.ID, Function(obj) obj.dat)
         Dim Diff = (From row In L1.AsParallel Let row2 = L2(row.ID) Let InternalDiff = Function() As Double()
@@ -339,8 +339,8 @@ Imports RDotNET.SymbolicExpressionExtension
 
                                                                                            Return Chunkbuffer
                                                                                        End Function() Select row.ID, InternalDiff).ToArray
-        Dim MAT = (From row In Diff Let colID = New String() {row.ID} Let data As String() = (From n In row.InternalDiff Select s = n.ToString).ToArray Let datRow As String()() = {colID, data} Select CType(datRow.Unlist, DocumentStream.RowObject)).ToArray
-        Dim CSV = CType(MAT, DocumentStream.File)
+        Dim MAT = (From row In Diff Let colID = New String() {row.ID} Let data As String() = (From n In row.InternalDiff Select s = n.ToString).ToArray Let datRow As String()() = {colID, data} Select CType(datRow.Unlist, IO.RowObject)).ToArray
+        Dim CSV = CType(MAT, IO.File)
         Return CSV
     End Function
 

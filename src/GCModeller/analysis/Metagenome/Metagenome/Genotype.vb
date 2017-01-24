@@ -31,7 +31,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -46,8 +46,8 @@ Public Module Genotype
                      .ToArray
 
     <Extension>
-    Public Function ExpandLocis(source As IEnumerable(Of GenotypeDetails)) As DocumentStream.File
-        Dim file As New DocumentStream.File
+    Public Function ExpandLocis(source As IEnumerable(Of GenotypeDetails)) As IO.File
+        Dim file As New IO.File
         Dim head As New RowObject From {"", "Genomes"}
 
         For Each pp As KeyValuePair(Of Char, Char) In __all
@@ -101,8 +101,8 @@ Public Module Genotype
     End Function
 
     <Extension>
-    Public Function Statics(source As DocumentStream.File) As DocumentStream.File
-        Dim out As New DocumentStream.File
+    Public Function Statics(source As IO.File) As IO.File
+        Dim out As New IO.File
         out.AppendRange(source.Select(Function(x) New RowObject(x.ToArray)))
         out.AppendLine()
 
@@ -166,8 +166,8 @@ Public Module Genotype
     ''' <param name="source"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function TransViews(source As IEnumerable(Of GenotypeDetails)) As DocumentStream.File
-        Dim out As New DocumentStream.File
+    Public Function TransViews(source As IEnumerable(Of GenotypeDetails)) As IO.File
+        Dim out As New IO.File
         Dim array As GenotypeDetails() = source.ToArray()
         Dim allTag As String() = array.ToArray(Function(x) x.Population.Split(":"c).Last)
         Dim all = Comb(Of Char).CreateCompleteObjectPairs({"A"c, "T"c, "G"c, "C"c}).IteratesALL

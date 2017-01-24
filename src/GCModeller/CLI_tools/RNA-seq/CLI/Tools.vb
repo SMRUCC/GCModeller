@@ -35,8 +35,8 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -114,14 +114,14 @@ Partial Module CLI
         Dim min As Double = args.GetValue("/min", 0.01)
         Dim max As Double = args.GetValue("/max", 0.05)
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & $"/{[in].BaseName}.EXPORT.PR.Csv")
-        Dim out As New DocumentStream.File
+        Dim out As New IO.File
 
         out += {"X", "P", "R"}
 
         For Each file As String In ls - l - r - wildcards("*P*.Csv") <= [in]
             Dim rp As String = file.ParentPath & "/" & file.BaseName.Replace("P", "R") & ".Csv"
-            Dim R As DocumentStream.File = DocumentStream.File.Load(rp)
-            Dim P As DocumentStream.File = DocumentStream.File.Load(file)
+            Dim R As IO.File = IO.File.Load(rp)
+            Dim P As IO.File = IO.File.Load(file)
             Dim Rs = R.Skip(1).ToDictionary(Function(x) x.First, Function(x) x(1))
 
             Call file.__DEBUG_ECHO
@@ -148,7 +148,7 @@ Partial Module CLI
     End Function
 
     <Extension>
-    Private Function __writeFile(file As DocumentStream.File, out As String, min As Double, max As Double) As Boolean
+    Private Function __writeFile(file As IO.File, out As String, min As Double, max As Double) As Boolean
         Dim rows As New List(Of String)
 
         For Each row In file.Skip(1)
@@ -450,7 +450,7 @@ Partial Module CLI
         Dim EXOIRT As String = args.GetValue("/out", [in].TrimDIR & ".Statics.EXPORT/")
 
         For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
-            Dim data As DocumentStream.File = DocumentStream.File.Load(file)
+            Dim data As IO.File = IO.File.Load(file)
             Dim out As String = EXOIRT & "/" & file.BaseName & ".Csv"
             Dim result = data.Statics
             Call result.Save(out, Encodings.ASCII)
@@ -467,7 +467,7 @@ Partial Module CLI
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".SubSets/")
 
         For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
-            Dim data As DocumentStream.File = DocumentStream.File.Load(file)
+            Dim data As IO.File = IO.File.Load(file)
             Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
             Dim columns As New List(Of String())
             Dim rev As New List(Of String())
@@ -482,8 +482,8 @@ Partial Module CLI
                 End If
             Next
 
-            Dim selects As DocumentStream.File = columns.JoinColumns
-            Dim noSelects As DocumentStream.File = rev.JoinColumns
+            Dim selects As IO.File = columns.JoinColumns
+            Dim noSelects As IO.File = rev.JoinColumns
 
             Call selects.Save(out, Encodings.ASCII)
             Call noSelects.Save(out.TrimSuffix & "-NonSelected.Csv", Encodings.ASCII)
@@ -501,7 +501,7 @@ Partial Module CLI
 
         For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
             Dim out As String = EXPORT & file.BaseName & ".Csv"
-            Dim data As DocumentStream.File = DocumentStream.File.Load(file)
+            Dim data As IO.File = IO.File.Load(file)
 
             For Each row In data.Skip(1)
                 Call row.Apply(Function(s) CInt(Val(s)), skip:=1)
@@ -530,7 +530,7 @@ Partial Module CLI
             Dim pvalues As New RowObject From {"p-value", "null"}
 
             For i As Integer = 0 To nonZEROs.Count - 1
-                Dim jdt As DocumentStream.File = {first, nonZEROs(i)}.JoinColumns
+                Dim jdt As IO.File = {first, nonZEROs(i)}.JoinColumns
                 Call jdt.PushAsTable(tbl)
                 Dim reuslt = stats.chisqTest(tbl)
                 pvalues.Add(reuslt.pvalue)

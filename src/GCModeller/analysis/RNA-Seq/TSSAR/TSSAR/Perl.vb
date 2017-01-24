@@ -444,9 +444,9 @@ Public Module Perl
         ' 通过blastn方法进行搜索定位的旧方法
 
         'Dim Fasta = (From Tss In data Let ID = Tss.Length & Tss.MappingPosition Select fsa = New SMRUCC.genomics.SequenceModel.FASTA.FastaObject With {.Attributes = {ID}, .SequenceData = Tss.SequenceData}, ID, Tss).ToArray
-        'Dim Temp As String = Program.Settings.DataCache & "/" & IO.Path.GetFileNameWithoutExtension(FileIO.FileSystem.GetTempFileName) & ".fasta"
+        'Dim Temp As String = Program.Settings.DataCache & "/" & basename(FileIO.FileSystem.GetTempFileName) & ".fasta"
         'Call CType((From obj In Fasta Select obj.fsa).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile).Save(Temp)
-        'Dim Log = Program.Settings.DataCache & "/" & IO.Path.GetFileNameWithoutExtension(FileIO.FileSystem.GetTempFileName) & ".txt"
+        'Dim Log = Program.Settings.DataCache & "/" & basename(FileIO.FileSystem.GetTempFileName) & ".txt"
         'Call SMRUCC.genomics.NCBI.Extensions.Blastn(SMRUCC.genomics.NCBI.Extensions.CreateSession, Temp, refGenes, Log, "1000")
 
         '   Dim LQWuery = (From site In data Select site, genes = SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GetRelatedGenes(Ptt, site.MappingPosition, site.MappingPosition + 50)).ToArray

@@ -69,7 +69,7 @@ Public Module DataVisualization
 
     <ExportAPI("Read.Csv.SimulationResult")>
     Public Function LoadResult(path As String) As ExprSamples()
-        Dim Csv As DocumentStream.File = DocumentStream.File.Load(path)
+        Dim Csv As IO.File = IO.File.Load(path)
         Return MatrixAPI.ToSamples(Csv, True)
     End Function
 

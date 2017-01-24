@@ -27,7 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.STDIO
 
@@ -37,7 +37,7 @@ Namespace Builder
 
         Dim Data As RowObject()
 
-        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel, DataPackage As DocumentStream.File, Optional FirstLineTitle As Boolean = True)
+        Sub New(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel, DataPackage As IO.File, Optional FirstLineTitle As Boolean = True)
             MyBase.New(MetaCyc, Model)
             If FirstLineTitle Then
                 Data = DataPackage.Skip(1)

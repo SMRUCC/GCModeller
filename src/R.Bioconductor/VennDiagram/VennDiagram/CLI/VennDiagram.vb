@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Text
@@ -102,7 +102,7 @@ Public Module CLI
     ''' <param name="R_HOME"></param>
     ''' <returns></returns>
     Private Function __run(inData As String, title As String, options As String, out As String, R_HOME As String) As Integer
-        Dim dataset As DocumentStream.File = New DocumentStream.File(inData)
+        Dim dataset As IO.File = New IO.File(inData)
         Dim VennDiagram As VennDiagram = RModelAPI.Generate(source:=dataset)
 
         If String.IsNullOrEmpty(options) Then '从原始数据中进行推测

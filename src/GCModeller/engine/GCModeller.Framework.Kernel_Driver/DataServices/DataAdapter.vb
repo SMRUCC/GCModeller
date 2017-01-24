@@ -70,8 +70,8 @@ Namespace Kernel
             Return DeltaData
         End Function
 
-        Public Overridable Function CreateDataPackage() As DocumentStream.File
-            Dim CsvData As New DocumentStream.File
+        Public Overridable Function CreateDataPackage() As IO.File
+            Dim CsvData As New IO.File
             Call CsvData.Add(New String() {"RTimeTicks"})
             Call CsvData.First.AddRange(__getHeaders)
             Dim LQuery = (From item In Me._innerBuffer.AsParallel
@@ -82,8 +82,8 @@ Namespace Kernel
             Return CsvData
         End Function
 
-        Private Shared Function __createRow(x As KeyValuePair(Of Integer, KeyValuePair(Of Long, Double)())) As DocumentStream.RowObject
-            Dim Row As DocumentStream.RowObject = New String() {}
+        Private Shared Function __createRow(x As KeyValuePair(Of Integer, KeyValuePair(Of Long, Double)())) As IO.RowObject
+            Dim Row As IO.RowObject = New String() {}
             Call Row.Add(x.Key)
             Call Row.AddRange((From it In x.Value Select CStr(it.Value)).ToArray)
             Return Row

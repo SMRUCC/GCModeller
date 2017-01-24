@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Extensions
@@ -407,7 +407,7 @@ Namespace Analysis.GenomeMotifFootPrints
                                                      pathway.Description).ToArray).ToArray
 
             If Not String.IsNullOrEmpty(EXPORT) Then
-                Dim Csv As New DocumentStream.File
+                Dim Csv As New IO.File
                 Call Csv.Add({"Gene.ID", "Gene.Tag", "KEGG.Pathways", "PathwaysTagData"})
                 Call Csv.AppendRange((From line In AssociationLQuery
                                       Select CType(

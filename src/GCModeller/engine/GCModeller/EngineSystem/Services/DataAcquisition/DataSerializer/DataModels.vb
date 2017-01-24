@@ -30,7 +30,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcq
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 
 Namespace EngineSystem.Services.DataAcquisition.DataSerializer
 

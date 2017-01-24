@@ -77,7 +77,7 @@ Public Module ModelWriter
     ''' <param name="EffectorMappings">从Regprecise到MetaCyc数据库对象的关系映射</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function CreateObject(Pcc As DocumentStream.File,
+    Public Function CreateObject(Pcc As IO.File,
                                  RPKMColumn As Integer,
                                  Regulations As Regulation(),
                                  EffectorMappings As Mapping.EffectorMap()) As ModelReader.GeneExpression()
@@ -101,7 +101,7 @@ Public Module ModelWriter
 
     <Extension>
     Private Function __creates(strId As String,
-                               PCC As DocumentStream.File,
+                               PCC As IO.File,
                                RPKMColumn As Integer,
                                Regulations As Regulation(),
                                AvgRPKM As Double,

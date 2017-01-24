@@ -65,7 +65,7 @@ Public Module NCBILocalBlast
 
         Dim Queries As String() =
             LinqAPI.Exec(Of String) <= From strLine As String
-                                       In IO.File.ReadAllLines(BlastOUTPUT)
+                                       In BlastOUTPUT.ReadAllLines()
                                        Let Entry As String =
                                            Regex.Match(strLine, "Query\s*=\s*.+").Value
                                        Where Not String.IsNullOrEmpty(Entry)
@@ -209,7 +209,7 @@ Public Module NCBILocalBlast
     End Function
 
     Private Function __blastn(outputDIR As String, nt As String, subject As String, evalue As String, reversed As Boolean, handle As LocalBLAST.InteropService.InteropService) As Boolean
-        Dim OutLog As String = outputDIR & "/" & IO.Path.GetFileNameWithoutExtension(subject) & ".txt"
+        Dim OutLog As String = outputDIR & "/" & subject.BaseName & ".txt"
 
         If reversed Then
             Call handle.Blastn(subject, nt, OutLog, evalue).Start(WaitForExit:=True)
@@ -260,7 +260,7 @@ Public Module NCBILocalBlast
     End Function
 
     Private Function __blastX(output As String, subject As String, handle As LocalBLAST.InteropService.InteropService, nt As String, evalue As String) As Boolean
-        Dim OutLog As String = output & "/" & IO.Path.GetFileNameWithoutExtension(subject) & ".txt"
+        Dim OutLog As String = output & "/" & subject.BaseName & ".txt"
 
         Call handle.FormatDb(subject, handle.MolTypeProtein).Start(WaitForExit:=True)
         Call handle.TryInvoke("blastx", nt, subject, evalue, OutLog).Start(WaitForExit:=True)
@@ -361,8 +361,8 @@ Public Module NCBILocalBlast
     End Function
 
     <ExportAPI("Export.Besthit", Info:="Exports all of the besthit from the blastp output")>
-    Public Function ExportBesthit(blast_output As BlastPlus.v228, Optional saveto As String = "", Optional identities As Double = 0.15) As DocumentStream.File
-        Dim bh As DocumentStream.File = blast_output.ExportAllBestHist(identities).ToCsvDoc
+    Public Function ExportBesthit(blast_output As BlastPlus.v228, Optional saveto As String = "", Optional identities As Double = 0.15) As IO.File
+        Dim bh As IO.File = blast_output.ExportAllBestHist(identities).ToCsvDoc
         If Not String.IsNullOrEmpty(saveto) Then Call bh.Save(saveto, False)
         Return bh
     End Function
@@ -384,14 +384,14 @@ Public Module NCBILocalBlast
     End Function
 
     <ExportAPI("Export.bbh")>
-    Public Function Export_BidirBesthit(Qvs As IEnumerable(Of BestHit), Svq As IEnumerable(Of BestHit), Optional saveCsv As String = "") As DocumentStream.File
+    Public Function Export_BidirBesthit(Qvs As IEnumerable(Of BestHit), Svq As IEnumerable(Of BestHit), Optional saveCsv As String = "") As IO.File
         Dim bibh = BBHParser.GetDirreBhAll2(Svq.ToArray, Qvs.ToArray)
         If Not String.IsNullOrEmpty(saveCsv) Then Call bibh.SaveTo(saveCsv, False)
         Return bibh.ToCsvDoc(False)
     End Function
 
     <ExportAPI("Export.bbh.Csv")>
-    Public Function Export_BidirBesthit(qvs As DocumentStream.File, svq As DocumentStream.File, <Parameter("Save.Csv")> Optional saveCsv As String = "") As DocumentStream.File
+    Public Function Export_BidirBesthit(qvs As IO.File, svq As IO.File, <Parameter("Save.Csv")> Optional saveCsv As String = "") As IO.File
         Dim bibh = BBHParser.GetDirreBhAll(svq, qvs)
         If Not String.IsNullOrEmpty(saveCsv) Then Call bibh.Save(saveCsv, False)
         Return bibh

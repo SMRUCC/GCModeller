@@ -30,7 +30,7 @@ Imports Microsoft.VisualBasic.Data.csv
 
 Public Class ExpressionRegulationNetworkOptimization
 
-    Public Sub New(ChipData As DocumentStream.File)
+    Public Sub New(ChipData As IO.File)
 
     End Sub
 

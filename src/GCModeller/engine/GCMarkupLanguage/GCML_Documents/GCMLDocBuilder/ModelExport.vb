@@ -34,8 +34,8 @@ Namespace Builder
 
     Public Module ModelExport
 
-        <Extension> Public Function ExportModel(Model As BacterialModel) As DocumentStream.File
-            Dim Csv As New DocumentStream.File
+        <Extension> Public Function ExportModel(Model As BacterialModel) As IO.File
+            Dim Csv As New IO.File
             Csv.AppendLine({"Id", "Name", "Equation", "Associate-Genes"})
             For i As Integer = 0 To Model.Metabolism.MetabolismNetwork.Count - 1
                 Dim Reaction = Model.Metabolism.MetabolismNetwork(i)

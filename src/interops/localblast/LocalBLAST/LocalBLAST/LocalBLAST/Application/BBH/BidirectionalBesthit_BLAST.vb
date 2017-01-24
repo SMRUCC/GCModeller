@@ -27,7 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Extensions
@@ -85,7 +85,7 @@ Namespace LocalBLAST.Application.BBH
             Call _LocalBLASTService.FormatDb(Query, _LocalBLASTService.MolTypeProtein).Start(WaitForExit:=True)
             Call _LocalBLASTService.FormatDb(Subject, _LocalBLASTService.MolTypeProtein).Start(WaitForExit:=True)
 
-            Dim WorkDir As String = Me._WorkDir & "/" & IO.Path.GetFileNameWithoutExtension(Subject) & "/"
+            Dim WorkDir As String = Me._WorkDir & "/" & Subject.BaseName & "/"
 
             Call FileIO.FileSystem.CreateDirectory(WorkDir)
 
@@ -100,7 +100,7 @@ Namespace LocalBLAST.Application.BBH
             Dim Log_QvS As File = If(ExportAll, Log.ExportAllBestHist, Log.ExportBestHit).ToCsvDoc
 
             Call Trim(SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(Subject), Log_QvS, HitsGrepMethod)
-            Call Log_QvS.Save(String.Format("{0}\{1}_vs_{2}.csv", WorkDir, IO.Path.GetFileNameWithoutExtension(Query), IO.Path.GetFileNameWithoutExtension(Subject)), False)
+            Call Log_QvS.Save(String.Format("{0}\{1}_vs_{2}.csv", WorkDir, Query.BaseName, Subject.BaseName), False)
 
 #If DEBUG Then
             Call LocalBLASTServices.Blastp(Subject, Query, String.Format("{0}\BLASTP_SUBJECT_TO_QUERY.dat", WorkDir))
@@ -112,7 +112,7 @@ Namespace LocalBLAST.Application.BBH
             Call Log.Grep(HitsGrepMethod, Nothing)
             Dim Log_SvQ = If(ExportAll, Log.ExportAllBestHist, Log.ExportBestHit)
             Call Trim(SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(Query), Log_SvQ.ToCsvDoc, QueryGrepMethod)
-            Call Log_SvQ.SaveTo(String.Format("{0}\{1}_vs_{2}.csv", WorkDir, IO.Path.GetFileNameWithoutExtension(Subject), IO.Path.GetFileNameWithoutExtension(Query)), False)
+            Call Log_SvQ.SaveTo(String.Format("{0}\{1}_vs_{2}.csv", WorkDir, Subject.BaseName, Query.BaseName), False)
 
             Call printf("END_OF_BIDIRECTION_BLAST():: start to build up the best mathced protein pair.")
 
@@ -120,7 +120,7 @@ Namespace LocalBLAST.Application.BBH
             Return result
         End Function
 
-        Protected Friend Shared Sub Trim(FsaDatabase As FastaFile, Data As DocumentStream.File, GrepMethod As TextGrepMethod)
+        Protected Friend Shared Sub Trim(FsaDatabase As FastaFile, Data As IO.File, GrepMethod As TextGrepMethod)
             If GrepMethod Is Nothing Then
                 Return
             End If
@@ -140,7 +140,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function Paralogs(Fasta As String, GrepMethod As TextGrepMethod) As BBH.BestHit()
-            Dim Output As String = Me._WorkDir & "/" & IO.Path.GetFileNameWithoutExtension(Fasta) & "_paralogs.txt"
+            Dim Output As String = Me._WorkDir & "/" & Fasta.BaseName & "_paralogs.txt"
 
             Call Me._LocalBLASTService.FormatDb(Fasta, dbType:=_LocalBLASTService.MolTypeProtein).Start(WaitForExit:=True)
             Call Me._LocalBLASTService.Blastp(Fasta, Fasta, Output).Start(WaitForExit:=True)

@@ -507,7 +507,7 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         <Extension> Public Function TryParseGBKID(path As String) As String
-            Dim Name As String = IO.Path.GetFileNameWithoutExtension(path)
+            Dim Name As String = basename(path)
             Name = Regex.Replace(Name, "\.\d+", "")
             Return Name.ToUpper
         End Function

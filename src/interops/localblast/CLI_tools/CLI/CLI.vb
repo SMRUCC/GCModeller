@@ -84,7 +84,7 @@ Module CLI
         Dim MergeList As New List(Of BestHit)
 
         For Each inXml As String In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-            Dim outCsv As String = out & "/" & IO.Path.GetFileNameWithoutExtension(inXml) & ".Csv"
+            Dim outCsv As String = out & "/" & basename(inXml) & ".Csv"
             Dim blastOut = inXml.LoadXml(Of XmlFile.BlastOutput)
             Dim hits = blastOut.ExportOverview.GetExcelData
             Call hits.SaveTo(outCsv)

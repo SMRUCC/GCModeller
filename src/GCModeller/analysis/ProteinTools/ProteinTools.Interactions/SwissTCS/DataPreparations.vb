@@ -77,7 +77,7 @@ Public Class DataPreparations
         Call Console.WriteLine("===============================Initialization job done!======================================" & vbCrLf & vbCrLf)
     End Sub
 
-    Public Function InferInteraction(GeneId As String) As DocumentStream.File
+    Public Function InferInteraction(GeneId As String) As IO.File
         Dim workDir As String = String.Format("{0}/{1}/", Me.WorkDir, GeneId)
         Dim TempFile As String = workDir & GeneId
 
@@ -142,16 +142,16 @@ Public Class DataPreparations
 
         Console.WriteLine("Write dip interaction pairs data...")
 
-        Dim pairsFile As DocumentStream.File = New DocumentStream.File
+        Dim pairsFile As IO.File = New IO.File
         Call pairsFile.Add(New String() {"proteinId", "partnerId"})
         '生成具备实验事实的互作关系
-        Call pairsFile.AppendRange((From item In InteractionPairs Select New DocumentStream.RowObject From {item.Key, item.Value}).ToArray)
+        Call pairsFile.AppendRange((From item In InteractionPairs Select New IO.RowObject From {item.Key, item.Value}).ToArray)
         Call pairsFile.Save(String.Format("{0}/interaction_pairs_partners_for_{1}.csv", workDir, GeneId), False)
 
-        Dim pairsFilePretend As New DocumentStream.File
+        Dim pairsFilePretend As New IO.File
         Call pairsFilePretend.Add(New String() {"proteinId", "partnerId"})
         '生成假定具备互作关系的互作蛋白质对
-        Call pairsFilePretend.AppendRange((From item In MatchedIdCollection Select New DocumentStream.RowObject From {GeneId, item}).ToArray)
+        Call pairsFilePretend.AppendRange((From item In MatchedIdCollection Select New IO.RowObject From {GeneId, item}).ToArray)
         Call pairsFilePretend.Save(String.Format("{0}/interaction_pairs_partners_for_{1}_pretended.csv", workDir, GeneId), False)
 
         Call Console.WriteLine("Start multiple sequence alignment calling clustal...")
@@ -167,7 +167,7 @@ Public Class DataPreparations
         Call Console.WriteLine("Start to modelling the protein interaction Bayesian network...")
 
         '利用所建立的模型求解具体的蛋白质互作问题
-        Dim ResultInteractions As New DocumentStream.File
+        Dim ResultInteractions As New IO.File
 
         SyncLock R
             With R
@@ -233,7 +233,7 @@ Public Class DataPreparations
     ''' <param name="InteractionPairs"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Shared Function SequenceAssemble(InteractorA As FASTA.FastaFile, InteractorB As FASTA.FastaFile, InteractionPairs As DocumentStream.File) As String()
+    Private Shared Function SequenceAssemble(InteractorA As FASTA.FastaFile, InteractorB As FASTA.FastaFile, InteractionPairs As IO.File) As String()
         Dim List As List(Of String) = New List(Of String)
         For Each pair In InteractionPairs.Skip(1)
             Dim itA = pair(0), itB = pair(1)

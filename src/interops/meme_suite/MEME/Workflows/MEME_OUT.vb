@@ -27,7 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 
 Namespace Workflows

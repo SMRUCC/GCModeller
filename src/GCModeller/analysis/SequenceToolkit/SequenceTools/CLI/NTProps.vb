@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -69,7 +69,7 @@ Partial Module Utilities
     Public Function ConvertsAuto(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Locis.Csv")
-        Dim df As DocumentStream.File = DocumentStream.File.Load([in])
+        Dim df As IO.File = IO.File.Load([in])
         Dim result As SimpleSegment() = df.ConvertsAuto
         Return result.SaveTo(out).CLICode
     End Function

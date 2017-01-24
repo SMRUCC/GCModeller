@@ -410,7 +410,7 @@ Partial Module CLI
         Dim clustal = ClustalOrg.Clustal.CreateSession
         Dim align = clustal.MultipleAlignment(input)
         Dim SRChain As SRChain() = SR.FromAlign(align, 0.85)
-        Dim Name As String = IO.Path.GetFileNameWithoutExtension(args("/in"))
+        Dim Name As String = basename(args("/in"))
         Dim file As String = args("/in").TrimSuffix & ".Pfam-String.csv"
         ' Call SRChain.SaveTo(args("/in").TrimFileExt & ".Blocks.csv")
         Call SRChain.ToArray(Function(x) x.ToPfamString()).SaveTo(file)

@@ -9,7 +9,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
-Imports protein = Microsoft.VisualBasic.Data.csv.DocumentStream.EntityObject
+Imports protein = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 
 Public Module ProteinGroups
 

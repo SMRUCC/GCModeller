@@ -129,7 +129,7 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("MotifDist.Create")>
-    Public Function CreateMotifDist(dat As DocumentStream.File) As Gendist
+    Public Function CreateMotifDist(dat As IO.File) As Gendist
         Return MatrixFile.Gendist.CreateMotifDistrMAT(dat)
     End Function
 
@@ -156,7 +156,7 @@ Public Module ShellScriptAPI
 
     <ExportAPI("Gendist.Create")>
     Public Function CreateGeneDist(path As String) As Gendist
-        Dim Csv = DocumentStream.File.Load(path)
+        Dim Csv = IO.File.Load(path)
         Return MatrixFile.Gendist.CreateMotifDistrMAT(Csv)
     End Function
 
@@ -164,7 +164,7 @@ Public Module ShellScriptAPI
     Public Function CreateNeighborMatrixFromVennMatrix(path As String, Optional fastLoad As Boolean = True) As MatrixFile.NeighborMatrix
         Call $"Start to load venn matrix data from file: {path.ToFileURL}".__DEBUG_ECHO
 
-        Dim Csv As DocumentStream.File = If(fastLoad, DocumentStream.File.FastLoad(path), DocumentStream.File.Load(path))
+        Dim Csv As IO.File = If(fastLoad, IO.File.FastLoad(path), IO.File.Load(path))
 
         Call $"Venn matrix data load Job done!".__DEBUG_ECHO
 
@@ -219,8 +219,8 @@ Public Module ShellScriptAPI
     ''' <param name="besthit"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function __exportMatrix(besthit As BestHit) As DocumentStream.File
-        Dim MAT As DocumentStream.File = New DocumentStream.File
+    Private Function __exportMatrix(besthit As BestHit) As IO.File
+        Dim MAT As IO.File = New IO.File
         Dim hits = besthit.InternalSort(False).ToArray
 
         hits = (From hit As HitCollection
@@ -230,11 +230,11 @@ Public Module ShellScriptAPI
 
         On Error Resume Next
 
-        Dim head As New DocumentStream.RowObject("QueryProtein" + hits.First.Hits.ToList(Function(x) x.tag))  '生成表头
+        Dim head As New IO.RowObject("QueryProtein" + hits.First.Hits.ToList(Function(x) x.tag))  '生成表头
         MAT += head
 
         For Each hit As HitCollection In hits
-            Dim Row As New DocumentStream.RowObject(hit.QueryName + hit.Hits.ToList(Function(x) CStr(x.Identities)))
+            Dim Row As New IO.RowObject(hit.QueryName + hit.Hits.ToList(Function(x) CStr(x.Identities)))
             MAT += Row
         Next
 
@@ -280,7 +280,7 @@ Public Module ShellScriptAPI
             MainData = MainData.Take(DataDict.Keys.ToArray)
         End If
 
-        Dim MAT As DocumentStream.File = __exportMatrix(MainData)
+        Dim MAT As IO.File = __exportMatrix(MainData)
         Dim species As String() = (From hitData As Hit In MainData.hits.First.Hits Select hitData.tag).ToArray
 
         For deltaInd As Integer = 0 To DataDict.Count - 1
@@ -303,7 +303,7 @@ Public Module ShellScriptAPI
                                   speciesProfile = hit.Hits.ToDictionary(Function(prot) prot.tag))
 
             For Each SubMainNotHitGene In notmatched  '竖直方向遍历第n列的基因号
-                Dim row As New DocumentStream.RowObject From {SubMainNotHitGene.QueryName}
+                Dim row As New IO.RowObject From {SubMainNotHitGene.QueryName}
 
                 Call row.AddRange((From nnn In (deltaInd).Sequence Select "0").ToArray)
 
@@ -316,13 +316,13 @@ Public Module ShellScriptAPI
         Next
 
         Dim IDChunkBuffer = (From data In DataDict.Values Select data.sp).ToList + MainData.sp
-        Call IO.File.WriteAllLines("./MAT_ID.txt", IDChunkBuffer.ToArray()) '会同时输出矩阵之中的基因组的NCBI编号以方便后面的分析
+        Call IDChunkBuffer.ToArray().SaveTo("./MAT_ID.txt") '会同时输出矩阵之中的基因组的NCBI编号以方便后面的分析
         Call MAT.Save("./VennMatrix.csv", False)
         Call Console.WriteLine("Export data job done! start to create matrix!")
 
         Dim StringCollection = (From row In MAT Select row.ToArray).ToArray
         StringCollection = StringCollection.MatrixTranspose
-        MAT = New DocumentStream.File(From row In StringCollection Select CType(row, DocumentStream.RowObject))
+        MAT = New IO.File(From row In StringCollection Select CType(row, IO.RowObject))
 
         Return MatrixFile.Gendist.CreateMotifDistrMAT(MAT)
     End Function
@@ -354,7 +354,7 @@ Public Module ShellScriptAPI
     ''' <returns></returns>
     '''
     <ExportAPI("Neighbor.From.VennMatrix")>
-    Public Function NeighborMatrixFromVennMatrix(VennMatrix As DocumentStream.File) As MatrixFile.NeighborMatrix
+    Public Function NeighborMatrixFromVennMatrix(VennMatrix As IO.File) As MatrixFile.NeighborMatrix
 
         Call Console.WriteLine("Start to preparing data matrix...")
 
@@ -366,13 +366,13 @@ Public Module ShellScriptAPI
                         genElements).ToArray
         '默认使用欧几里得距离
         '为了防止数据混乱，这里不再使用并行拓展，以保持两两对应的顺序
-        Dim Head As New DocumentStream.RowObject("" + (From sp In Data Select sp.ID).ToList)
-        Dim MatBuilder As DocumentStream.File = New DocumentStream.File + Head
+        Dim Head As New IO.RowObject("" + (From sp In Data Select sp.ID).ToList)
+        Dim MatBuilder As IO.File = New IO.File + Head
 
         Call Console.WriteLine("Start to generate matrix file")
 
         For Each sp In Data
-            Dim row As New DocumentStream.RowObject
+            Dim row As New IO.RowObject
             Call row.Add(sp.ID)
 
             For Each paired In Data '对角线是自己对自己，距离总是为零
@@ -432,10 +432,10 @@ Public Module ShellScriptAPI
     ''' <param name="overview"></param>
     ''' <returns></returns>
     <ExportAPI("MAT.From.Self.Overviews")>
-    Public Function SelfOverviewsMAT(overview As Overview) As DocumentStream.File
+    Public Function SelfOverviewsMAT(overview As Overview) As IO.File
         Dim lstId As String() = overview.Queries.ToArray(Function(x) x.Id)
-        Dim MAT As DocumentStream.File =
-            New DocumentStream.File + "".Join(lstId)
+        Dim MAT As IO.File =
+            New IO.File + "".Join(lstId)
 
         For Each query In overview.Queries
             Dim row As New List(Of Object)
@@ -447,7 +447,7 @@ Public Module ShellScriptAPI
                 Call row.Add(If(hist.ContainsKey(id), hist(id).identities, 0))
             Next
 
-            Call MAT.Add(New DocumentStream.RowObject(row))
+            Call MAT.Add(New IO.RowObject(row))
         Next
 
         Return MAT

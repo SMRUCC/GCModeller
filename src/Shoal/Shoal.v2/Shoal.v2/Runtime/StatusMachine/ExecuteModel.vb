@@ -606,7 +606,7 @@ Namespace Runtime
                 Call sbr.AppendLine($"There are {ScriptEngine.Interpreter.EPMDevice.AnonymousDelegate.TempDelegate.Count} script command is current directory:  {Microsoft.VisualBasic.FileIO.FileSystem.CurrentDirectory}")
                 Call sbr.AppendLine(String.Join(vbCrLf, (From obj
                                                          In ScriptEngine.Interpreter.EPMDevice.AnonymousDelegate.TempDelegate
-                                                         Let name As String = IO.Path.GetFileNameWithoutExtension(obj.Value.FilePath)
+                                                         Let name As String = basename(obj.Value.FilePath)
                                                          Select $" {name}  {New String(" "c, NameMaxLen - Len(name))}{GetFileInfo(obj.Value.FilePath).Name }  // {obj.Value.Expressions.Length} Expressions").ToArray))
                 Call sbr.ToString.__DEBUG_ECHO
             End If

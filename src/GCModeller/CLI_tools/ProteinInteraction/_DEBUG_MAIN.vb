@@ -29,13 +29,13 @@
 Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports SMRUCC.genomics.Analysis.ProteinTools.Interactions
 
 Module _DEBUG_MAIN
     Private Sub ffff()
-        Dim vsdip = DocumentStream.File.Load("E:\Desktop\xc8004_vs_dip_bestpair.csv")
+        Dim vsdip = IO.File.Load("E:\Desktop\xc8004_vs_dip_bestpair.csv")
         Dim id As String() = (From row In vsdip.Skip(1).AsParallel Let _id = row(0) Where Not String.IsNullOrEmpty(_id) Select _id Distinct Order By _id Ascending).ToArray
 
 
@@ -69,7 +69,7 @@ Module _DEBUG_MAIN
             End If
         Next
 
-        Dim csvData As New DocumentStream.File
+        Dim csvData As New IO.File
 
         For Each item In matchedfile
             Dim row = New RowObject

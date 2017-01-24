@@ -1,6 +1,6 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.KEGG

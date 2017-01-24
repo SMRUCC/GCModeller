@@ -69,11 +69,11 @@ Namespace SequenceModel.FASTA
                 Dim chunkBuffer As Byte() = New Byte(chunkSize - 1) {}
 
                 If encoding Is Nothing Then
-                    encoding = System.Text.Encoding.Default
+                    encoding = Encoding.Default
                 End If
 
                 Dim index As Integer = 0
-                Dim name As String = System.IO.Path.GetFileNameWithoutExtension(path)
+                Dim name As String = BaseName(path)
                 Dim preBlock As Byte() = Nothing
 
                 Do While ReadBuffer(IO, chunkBuffer)
@@ -101,7 +101,7 @@ Namespace SequenceModel.FASTA
         '        End If
 
         '        Dim index As Integer = 0
-        '        Dim name As String = System.IO.Path.GetFileNameWithoutExtension(path)
+        '        Dim name As String = System.basename(path)
         '        Dim preBlock As Byte() = Nothing
 
         '        Do While ReadBuffer(IO, chunkBuffer)

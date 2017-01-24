@@ -47,7 +47,7 @@ Module ProteinDomain
     ''' <param name="TargetFile">目标蛋白质序列数据库</param>
     ''' <param name="ExportSaved">保存的结果数据CSV文件的文件路径</param>
     ''' <remarks></remarks>
-    Public Function SMART(TargetFile As String, GrepText As String, ExportSaved As String) As DocumentStream.File
+    Public Function SMART(TargetFile As String, GrepText As String, ExportSaved As String) As IO.File
         If String.IsNullOrEmpty(GrepText) Then
             GrepText = "tokens | 2"
         End If
@@ -58,14 +58,14 @@ Module ProteinDomain
         Call Process.Start(WaitForExit:=True)
         Call printf("END_OF_SMART_ANALYSIS")
 
-        Return DocumentStream.File.Load(ExportSaved)
+        Return IO.File.Load(ExportSaved)
     End Function
 
     Public Function AddingRules(MetaCyc As DatabaseLoadder,
-                                RuleFile As DocumentStream.File,
+                                RuleFile As IO.File,
                                 Model As BacterialModel,
                                 GrepScript As String) As Integer
-        Dim Domains As DocumentStream.File = SMART(MetaCyc.Database.FASTAFiles.ProteinSourceFile, GrepScript, Model.FilePath & ".csv") '获取所有的蛋白质结构域
+        Dim Domains As IO.File = SMART(MetaCyc.Database.FASTAFiles.ProteinSourceFile, GrepScript, Model.FilePath & ".csv") '获取所有的蛋白质结构域
         Dim Rules = (From row In RuleFile Select New Rule(row.First)).ToArray
         Dim DomainDistributed = GetList(Rules, Domains)
         Dim InvokesResult = (From rule In Rules Select Extend.Invoke(rule, DomainDistributed)).ToArray
@@ -134,7 +134,7 @@ Module ProteinDomain
     ''' </summary>
     ''' <returns>{DomainId, Protein-UniqueId()}</returns>
     ''' <remarks></remarks>
-    Private Function GetList(Rules As Rule(), DomainDistributionList As DocumentStream.File) As Dictionary(Of String, String())
+    Private Function GetList(Rules As Rule(), DomainDistributionList As IO.File) As Dictionary(Of String, String())
         Dim AllDomains As List(Of String) = New List(Of String)
         For Each Rule In Rules
             Call AllDomains.AddRange(Rule.GetDomains)

@@ -90,7 +90,7 @@ Partial Module CLI
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".venn.Csv")
         Dim besthit As BestHit = [in].LoadXml(Of BestHit)
-        Dim df As DocumentStream.File = VennDataModel.DeltaMove({besthit})
+        Dim df As IO.File = VennDataModel.DeltaMove({besthit})
         Return df.Save(out, Encodings.ASCII).CLICode
     End Function
 End Module

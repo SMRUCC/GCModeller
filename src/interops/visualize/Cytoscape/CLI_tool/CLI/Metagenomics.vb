@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -139,12 +139,12 @@ Partial Module CLI
     Public Function MatrixToNetwork(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".network.Csv")
-        Dim Csv = DocumentStream.File.Load(Path:=inFile)
+        Dim Csv = IO.File.Load(Path:=inFile)
         Dim ids As String() = Csv.First.Skip(1).ToArray
         Dim net As New List(Of NetworkEdge)
         Dim cutoff As Double = args.GetDouble("/cutoff")
 
-        For Each row As DocumentStream.RowObject In Csv.Skip(1)
+        For Each row As IO.RowObject In Csv.Skip(1)
             Dim from As String = row.First
             Dim values As Double() = row.Skip(1).ToArray(Function(x) Val(x))
 

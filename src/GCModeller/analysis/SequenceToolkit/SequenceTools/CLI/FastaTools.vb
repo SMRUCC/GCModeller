@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
@@ -228,7 +228,7 @@ Partial Module Utilities
             },
             attrs.Split(";"c))
         Dim seq As String = args.GetValue("/seq", "sequence")
-        Dim csv As DataFrame = DocumentStream.DataFrame.CreateObject(DocumentStream.DataFrame.Load(inFile))
+        Dim csv As DataFrame = IO.DataFrame.CreateObject(IO.DataFrame.Load(inFile))
         Dim readers As DynamicObjectLoader() = csv.CreateDataSource
         Dim attrSchema = (From x In csv.GetOrdinalSchema(lstAttrs) Where x > -1 Select x).ToArray
         Dim seqOrd As Integer = csv.GetOrdinal(seq)
@@ -399,7 +399,7 @@ Partial Module Utilities
                                                .Attributes = dumpMethod(segment)
                                            }
         Dim PTT As PTT = Segments.CreatePTTObject
-        PTT.Title = IO.Path.GetFileNameWithoutExtension(args("/fasta"))
+        PTT.Title = basename(args("/fasta"))
         PTT.Size = Fasta.Length
 
         Call PTT.Save(input & ".ptt")
@@ -496,7 +496,7 @@ Partial Module Utilities
     <ExportAPI("/subset", Usage:="/subset /lstID <lstID.txt> /fa <source.fasta>")>
     <Group(CLIGrouping.FastaTools)>
     Public Function SubSet(args As CommandLine) As Integer
-        Dim lstID As String() = IO.File.ReadAllLines(args("/lstID"))
+        Dim lstID As String() = args("/lstID").ReadAllLines
         Dim fa As New FASTA.FastaFile(args("/fa"))
         Dim LQuery As FASTA.FastaToken() = (From id As String
                                             In lstID

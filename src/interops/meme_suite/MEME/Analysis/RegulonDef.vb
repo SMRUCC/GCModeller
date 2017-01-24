@@ -76,7 +76,7 @@ Namespace Analysis
                 .ToArray(Function(x) x.LoadCsv(Of Analysis.Similarity.TOMQuery.CompareResult)).ToVector
             Dim tomHash = (From x As Similarity.TOMQuery.CompareResult
                            In tomOUTs
-                           Select uid = IO.Path.GetFileNameWithoutExtension(x.QueryName),
+                           Select uid = basename(x.QueryName),
                                x
                            Group By uid Into Group) _
                                 .ToDictionary(Function(x) x.uid,

@@ -162,7 +162,7 @@ Public Module Utilities
             FASTA = GbkFile.ExportProteins
         End If
 
-        Dim File As String = IO.Path.GetFileNameWithoutExtension(Input)
+        Dim File As String = basename(Input)
         Dim Csv = SequencePatterns.Pattern.PatternSearch.Match(Seq:=FASTA, pattern:=pattern)
         Dim Complement = SequencePatterns.Pattern.PatternSearch.Match(Seq:=FASTA.Complement, pattern:=pattern)
         Dim Reverse = SequencePatterns.Pattern.PatternSearch.Match(Seq:=FASTA.Reverse, pattern:=pattern)

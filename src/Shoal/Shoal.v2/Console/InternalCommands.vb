@@ -190,7 +190,7 @@ Public Module InternalCommands
         Call FileIO.FileSystem.CreateDirectory(CopyTo)
 
         For Each ID As String In IDList
-            Dim Files = (From path As String In FileList.AsParallel Let Name As String = IO.Path.GetFileNameWithoutExtension(path) Where String.Equals(ID, Name, StringComparison.OrdinalIgnoreCase) Select path).ToArray
+            Dim Files = (From path As String In FileList.AsParallel Let Name As String = basename(path) Where String.Equals(ID, Name, StringComparison.OrdinalIgnoreCase) Select path).ToArray
             If Files.IsNullOrEmpty Then
                 Call FailuredList.Add(ID)
             End If

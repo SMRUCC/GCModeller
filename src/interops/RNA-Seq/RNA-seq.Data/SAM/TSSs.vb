@@ -110,7 +110,7 @@ Module SAM_TSSs
         End If
 
         If Not String.IsNullOrEmpty(NameToken) Then
-            NameToken = IO.Path.GetFileNameWithoutExtension(NameToken)
+            NameToken = basename(NameToken)
         End If
 
         Dim fnForward As String = $"{Export}/{NameToken}_Forward.sam", fnReversed As String = $"{Export}/{NameToken}_Reversed.sam"

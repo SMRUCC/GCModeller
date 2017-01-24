@@ -61,14 +61,14 @@ Partial Module CLI
 
         Dim CsvFiles = From File As String
                        In ls - l - wildcards("*.Csv") <= Directory
-                       Let Csv As DocumentStream.File = Sort(DocumentStream.File.Load(File))
+                       Let Csv As IO.File = Sort(IO.File.Load(File))
                        Select Csv
                        Order By Csv.Width Descending   '
 
-        Dim CsvFile As DocumentStream.File =
+        Dim CsvFile As IO.File =
             __mergeFile(CsvFiles.ToList)
-        CsvFile = DocumentStream.File.Distinct(CsvFile, Scan0, True)
-        CsvFile = DocumentStream.File.RemoveSubRow(CsvFile)
+        CsvFile = IO.File.Distinct(CsvFile, Scan0, True)
+        CsvFile = IO.File.RemoveSubRow(CsvFile)
 
         For Each Column As String() In CsvFile.Columns
             Dim Query = From s As String In Column.AsParallel Where Len(Trim(s)) > 0 Select 1 '
@@ -84,7 +84,7 @@ Partial Module CLI
     ''' <param name="CsvList"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function __mergeFile(CsvList As List(Of DocumentStream.File)) As DocumentStream.File
+    Private Function __mergeFile(CsvList As List(Of IO.File)) As IO.File
         For i As Integer = 0 To CsvList.Count - 1
             For c As Integer = 0 To i - 1
                 Call CsvList(i).InsertEmptyColumnBefore(0)
@@ -94,7 +94,7 @@ Partial Module CLI
 #End If
         Next
 
-        Dim File As DocumentStream.File = CsvList.First
+        Dim File As IO.File = CsvList.First
         For i As Integer = 1 To CsvList.Count - 1
             Call File.Append(CsvList(i))
         Next
@@ -108,11 +108,11 @@ Partial Module CLI
     ''' <param name="Csv"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function Sort(Csv As DocumentStream.File) As DocumentStream.File
+    Private Function Sort(Csv As IO.File) As IO.File
         Call Csv.RemoveAt(index:=Scan0)
 
         Dim IdList As String() = (From Id As String In Csv.Column(Scan0) Select Id Order By Id Ascending).ToArray
-        Dim File As DocumentStream.File = New DocumentStream.File
+        Dim File As IO.File = New IO.File
         Dim n As Integer = (Csv.Width - 1) / 3
         Dim Temp() As List(Of KeyValuePair(Of String, String)) = (From i As Integer In n.Sequence Select New List(Of KeyValuePair(Of String, String))).ToArray
 
@@ -131,7 +131,7 @@ Partial Module CLI
 
         For i As Integer = 0 To IdList.Count - 1
             Dim Id As String = IdList(i)
-            Dim row As DocumentStream.RowObject = New DocumentStream.RowObject
+            Dim row As IO.RowObject = New IO.RowObject
 
             row += Id
 

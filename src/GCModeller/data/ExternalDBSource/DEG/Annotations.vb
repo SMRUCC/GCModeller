@@ -28,7 +28,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
@@ -43,7 +43,7 @@ Namespace DEG
     Public Module Workflows
 
         <ExportAPI("Reports")>
-        Public Function CreateReportView(LogFile As IBlastOutput, Annotations As DEG.Annotations()) As DocumentStream.File
+        Public Function CreateReportView(LogFile As IBlastOutput, Annotations As DEG.Annotations()) As IO.File
             Call LogFile.Grep(Nothing, TextGrepScriptEngine.Compile("match DEG\d+").Method)
             Dim BestHit = LogFile.ExportAllBestHist '.AsDataSource(Of SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)(False)
             Dim csv As New File
@@ -71,7 +71,7 @@ Namespace DEG
             For Each Id As String In QueriesId
                 Dim RowCollection = BBH.BestHit.FindByQueryName(Id, BestHit)
                 Dim LQuery = (From item In RowCollection Let obj = item.HitName.GetItem(Annotations) Where Not obj Is Nothing Select New With {.BestHit = item, .Annotiation = obj}).ToArray
-                Dim Row As New DocumentStream.RowObject From {Id, RowCollection.First.query_length}
+                Dim Row As New IO.RowObject From {Id, RowCollection.First.query_length}
 
                 If Not LQuery.IsNullOrEmpty Then
                     For Each SpeciesId As String In SpeciesIdCollection

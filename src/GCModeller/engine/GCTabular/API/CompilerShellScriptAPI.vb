@@ -38,7 +38,7 @@ Imports SMRUCC.genomics.Model.Network.STRING
 Public Module CompilerShellScriptAPI
 
     <ExportAPI("model.optimization")>
-    Public Function OptimizationModel(Model As FileStream.IO.XmlresxLoader) As DocumentStream.File
+    Public Function OptimizationModel(Model As FileStream.IO.XmlresxLoader) As IO.File
         Dim Optimization = New Compiler.Components.MetabolismOptimization()
         Dim result = Optimization.Optimization(Model)
         Return result

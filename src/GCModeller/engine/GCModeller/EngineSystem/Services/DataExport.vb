@@ -28,7 +28,7 @@
 
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 
 Namespace EngineSystem.Services
 
@@ -91,16 +91,16 @@ Namespace EngineSystem.Services
             Return (From row As System.Data.DataRow In Table.Tables(0).Rows Select CType(row.Item(columnName:="storage_table"), String)).ToArray
         End Function
 
-        Public Function Export() As DocumentStream.File
+        Public Function Export() As IO.File
             If Me.FetchedData.IsNullOrEmpty Then
-                Return New DocumentStream.File
+                Return New IO.File
             Else
                 Return Export(Data:=Me.FetchedData, [Handles]:=Me.Handles)
             End If
         End Function
 
-        Private Shared Function Export(Data As IEnumerable(Of DataFlowF), [Handles] As IEnumerable(Of HandleF)) As DocumentStream.File
-            Dim CsvData As New DocumentStream.File
+        Private Shared Function Export(Data As IEnumerable(Of DataFlowF), [Handles] As IEnumerable(Of HandleF)) As IO.File
+            Dim CsvData As New IO.File
             Dim Time As Integer() = (From row In Data.AsParallel Let i = row.Time Select i Distinct Order By i Ascending).ToArray
 
             Dim HeadRow As RowObject = New RowObject From {"#TIME"}

@@ -74,7 +74,7 @@ Partial Module CLI
             Call dict.Add(p, n)
         Next
 
-        Dim doc As New DocumentStream.File
+        Dim doc As New IO.File
 
         Call doc.Add("Total", CStr(Total))
         Call doc.Add("Regulates", CStr(Regulates))

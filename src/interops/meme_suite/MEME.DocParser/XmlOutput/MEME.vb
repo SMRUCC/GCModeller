@@ -225,7 +225,7 @@ Namespace DocumentFormat.XmlOutput.MEME
 
         Public Function ToMEMEHtml() As HTML.MEMEHtml
             Dim Html As HTML.MEMEHtml = New HTML.MEMEHtml With {
-                .ObjectId = IO.Path.GetFileNameWithoutExtension(Me.TrainingSet.DataFile)
+                .ObjectId = basename(Me.TrainingSet.DataFile)
             }
             Html.Motifs = (From MotifObject As Motif
                            In Me.Motifs

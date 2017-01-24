@@ -65,8 +65,8 @@ Namespace NetworkModel
             Return LQuery
         End Function
 
-        Public Shared Function ImportsPathways(pathwayOverview As DocumentStream.File) As Key_strArrayValuePair()
-            Dim LQuery = (From row As DocumentStream.RowObject In pathwayOverview.Skip(1)
+        Public Shared Function ImportsPathways(pathwayOverview As IO.File) As Key_strArrayValuePair()
+            Dim LQuery = (From row As IO.RowObject In pathwayOverview.Skip(1)
                           Where Not String.Equals(row(2), "True")
                           Let item = Key_strArrayValuePair.CreateObject(row.First,
                      (
@@ -79,7 +79,7 @@ Namespace NetworkModel
             Return LQuery
         End Function
 
-        Public Shared Function Match(pathwayOverview As DocumentStream.File, Modules As String, COGProfile As DocumentStream.File) As DocumentStream.File
+        Public Shared Function Match(pathwayOverview As IO.File, Modules As String, COGProfile As IO.File) As IO.File
             Dim pathwayGenes = ImportsPathways(pathwayOverview)
             Dim ImportedModule = ImportsModules(Modules)
             Dim modulesGenes = BuildModules(ImportedModule)
@@ -92,7 +92,7 @@ Namespace NetworkModel
                             Select Key_strArrayValuePair.CreateObject([module].Key, lstName)).ToArray
             Dim rows = (From i As Integer In itemList.Count.Sequence
                         Let [module] = itemList(i)
-                        Select New DocumentStream.RowObject From {
+                        Select New IO.RowObject From {
                         [module].Key,
                         CInt(modulesGenes(i).Value.Count / ImportedModule.Count * 100),
                         CInt([module].Value.Count / pathwayGenes.Count * 100)}).ToArray
@@ -106,14 +106,14 @@ Namespace NetworkModel
                 Call row.AddRange((From n In COGFunction.Statistics(LQuery) Select CInt(n / ImportedModule.Count * 100)).ToArray.ToStringArray)
             Next
 
-            Dim newFile As DocumentStream.File = New DocumentStream.File
+            Dim newFile As IO.File = New IO.File
             Call newFile.AppendLine(New String() {"module", "gene_counts", "associated_pathways", "INFORMATION STORAGE AND PROCESSING", "CELLULAR PROCESSES AND SIGNALING", "METABOLISM", "POORLY CHARACTERIZED"})
             Call newFile.AppendRange(rows)
 
             Return newFile
         End Function
 
-        Public Shared Function ModuleMatchCOG(importedModules As KeyValuePair(), COGProfile As DocumentStream.File) As KeyValuePair()
+        Public Shared Function ModuleMatchCOG(importedModules As KeyValuePair(), COGProfile As IO.File) As KeyValuePair()
             Dim LQuery = (From item In importedModules
                           Let cog = COGProfile.FindAtColumn(item.Key, 0)
                           Where Not cog.IsNullOrEmpty

@@ -30,7 +30,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Data.IO.SearchEngine
 Imports Microsoft.VisualBasic.Language
@@ -98,11 +98,11 @@ Module CLI
         Dim DOOR = DOOR_API.Load(doorFile)
         Dim corrects As Operon() = CorrectDoorOperon(PCC, DOOR, pccCut)
 
-        Dim MAT As New DocumentStream.File
+        Dim MAT As New IO.File
         Call MAT.Add({"DOOR", "locus_id", "Strand"})
 
         For Each operon As Operon In corrects
-            Dim row As New DocumentStream.RowObject
+            Dim row As New IO.RowObject
             Dim initX = operon.InitialX
             Call row.AddRange({operon.OperonID, initX.Synonym, initX.Location.Strand.GetBriefCode})
             Call MAT.Add(row)
@@ -134,7 +134,7 @@ Module CLI
     Public Function PCC(args As CommandLine) As Integer
         Dim expr As String = args("/expr")
         Dim out As String = args.GetValue("/out", expr.TrimSuffix & ".PCC.dat")
-        Dim MAT As PccMatrix = MatrixAPI.CreatePccMAT(DocumentStream.File.Load(expr))
+        Dim MAT As PccMatrix = MatrixAPI.CreatePccMAT(IO.File.Load(expr))
         Return MatrixSerialization.SaveBin(MAT, out).CLICode
     End Function
 
@@ -142,7 +142,7 @@ Module CLI
     Public Function SPCC(args As CommandLine) As Integer
         Dim expr As String = args("/expr")
         Dim out As String = args.GetValue("/out", expr.TrimSuffix & ".SPCC.dat")
-        Dim MAT As PccMatrix = MatrixAPI.CreateSPccMAT(DocumentStream.File.Load(expr))
+        Dim MAT As PccMatrix = MatrixAPI.CreateSPccMAT(IO.File.Load(expr))
         Return MatrixSerialization.SaveBin(MAT, out).CLICode
     End Function
 
@@ -222,7 +222,7 @@ Module CLI
         Dim PTT As String = args("/ptt")
         Dim design As String = args.GetValue("/design", "~condition")
         Dim dtPTT As PTT = NCBI.GenBank.TabularFormat.PTT.Load(PTT)
-        Dim sampleTable As DocumentStream.File = DocumentStream.File.Load(args("/sample.table"))
+        Dim sampleTable As IO.File = IO.File.Load(args("/sample.table"))
         Return RTools.DESeq2.DESeq2(sampleTable, rawDIR, design, dtPTT).CLICode
     End Function
 

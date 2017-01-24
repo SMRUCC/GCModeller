@@ -166,7 +166,7 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim titles As String = args("/titles")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & titles.BaseName & ".csv")
-        Dim file As DocumentStream.File = DocumentStream.File.Load([in])
+        Dim file As IO.File = IO.File.Load([in])
         Dim list As New List(Of String)
 
         If titles.FileExists Then

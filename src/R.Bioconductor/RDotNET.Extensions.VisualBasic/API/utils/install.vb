@@ -47,7 +47,7 @@ Namespace API.utils
                                  Optional priority As String = NULL,
                                  Optional noCache As Boolean = False,
                                  Optional fields As String = NULL,
-                                 Optional subarch As String = ".Platform$r_arch") As DocumentStream.DataFrame
+                                 Optional subarch As String = ".Platform$r_arch") As IO.DataFrame
             Dim out As SymbolicExpression =
                 $"installed.packages(lib.loc = {libloc}, priority = {priority},
                                      noCache = {noCache.λ}, fields = {fields},

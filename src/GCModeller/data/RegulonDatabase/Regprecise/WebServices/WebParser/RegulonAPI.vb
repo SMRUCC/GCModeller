@@ -106,7 +106,7 @@ Namespace Regprecise
             Dim regulators = bbh.Reconstruct(genomeRef, DOOR)
             Dim genomeGET As New BacteriaGenome With {
                 .BacteriaGenome = New WebServices.JSONLDM.genome With {
-                    .name = IO.Path.GetFileNameWithoutExtension(mappings)
+                    .name = basename(mappings)
                 },
                 .Regulons = New Regulon With {
                     .Regulators = regulators

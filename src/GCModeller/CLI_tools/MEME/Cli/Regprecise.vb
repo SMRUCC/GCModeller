@@ -698,7 +698,7 @@ Partial Module CLI
                       Where Not String.IsNullOrEmpty(regu.Regulator) AndAlso
                           Array.IndexOf(TCS, regu.Regulator) > -1
                       Select regu).ToArray
-        Dim Csv As New DocumentStream.File
+        Dim Csv As New IO.File
         Dim pwyBrits = BriteHEntry.Pathway.LoadFromResource.ToDictionary(Function(x) x.EntryId)
         Dim pwyGroup = (From gr In (From pwy In Pathways
                                     Let brite = pwyBrits(pwy.BriteId)

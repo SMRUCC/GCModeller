@@ -28,7 +28,7 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 
 Namespace Workflows
@@ -69,12 +69,12 @@ Namespace Workflows
             Return list.ToArray
         End Function
 
-        Public Function Prcedure(Dir As String) As DocumentStream.File
+        Public Function Prcedure(Dir As String) As IO.File
             Dim LQuery = (From subDir As String In FileIO.FileSystem.GetDirectories(Dir)
                           Let data = Parse(subDir)
                           Where Not data.IsNullOrEmpty
                           Select data).ToArray
-            Dim File As New DocumentStream.File
+            Dim File As New IO.File
             Call File.AppendLine(New String() {"ObjectId", "MotifId", "p-value", "tbfsId", "E-value"})
             For Each DataRows In LQuery
                 Call File.AppendRange(DataRows)
@@ -94,7 +94,7 @@ Namespace Workflows
                 Dim File = Prcedure(subdir)
                 Dim LQuery = (From row In File Let s = row.AsLine Select s Distinct).ToArray
 
-                Call IO.File.WriteAllLines(path, LQuery)
+                Call LQuery.SaveTo(path)
 #If DEBUG Then
             Next
 #Else

@@ -28,7 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
@@ -149,7 +149,7 @@ Public Module LociExtensions
     ''' <param name="df"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function ConvertsAuto(df As DocumentStream.File) As SimpleSegment()
+    Public Function ConvertsAuto(df As IO.File) As SimpleSegment()
         Dim types As Type() = {
             GetType(ImperfectPalindrome),
             GetType(RevRepeatsView),
@@ -159,29 +159,29 @@ Public Module LociExtensions
             GetType(PalindromeLoci)
         }
         Dim type As Type = df.GetType(types)
-        Dim handler As Func(Of DocumentStream.File, SimpleSegment()) = __types(type)
+        Dim handler As Func(Of IO.File, SimpleSegment()) = __types(type)
         Dim result As SimpleSegment() = handler(df)
 
         Return result
     End Function
 
-    Private Function __ip(df As DocumentStream.File) As SimpleSegment()
+    Private Function __ip(df As IO.File) As SimpleSegment()
         Return df.AsDataSource(Of ImperfectPalindrome).ToLocis
     End Function
 
-    Private Function __revp(df As DocumentStream.File) As SimpleSegment()
+    Private Function __revp(df As IO.File) As SimpleSegment()
         Return df.AsDataSource(Of RevRepeats).ToLocis
     End Function
 
-    Private Function __rps(df As DocumentStream.File) As SimpleSegment()
+    Private Function __rps(df As IO.File) As SimpleSegment()
         Return df.AsDataSource(Of Repeats).ToLocis
     End Function
 
-    Private Function __revpcsv(df As DocumentStream.File) As SimpleSegment()
+    Private Function __revpcsv(df As IO.File) As SimpleSegment()
         Return df.AsDataSource(Of RevRepeatsView).ToLocis
     End Function
 
-    Private Function __rpscsv(df As DocumentStream.File) As SimpleSegment()
+    Private Function __rpscsv(df As IO.File) As SimpleSegment()
         Return df.AsDataSource(Of RepeatsView).ToLocis
     End Function
 
@@ -195,14 +195,14 @@ Public Module LociExtensions
         Return locis.Select(Function(l) l.ToLoci).ToArray
     End Function
 
-    Private Function __pl(df As DocumentStream.File) As SimpleSegment()
+    Private Function __pl(df As IO.File) As SimpleSegment()
         Return df.AsDataSource(Of PalindromeLoci).ToLocis
     End Function
 
-    ReadOnly __types As IReadOnlyDictionary(Of Type, Func(Of DocumentStream.File, SimpleSegment()))
+    ReadOnly __types As IReadOnlyDictionary(Of Type, Func(Of IO.File, SimpleSegment()))
 
     Sub New()
-        Dim hash As New Dictionary(Of Type, Func(Of DocumentStream.File, SimpleSegment()))
+        Dim hash As New Dictionary(Of Type, Func(Of IO.File, SimpleSegment()))
 
         Call hash.Add(GetType(ImperfectPalindrome), AddressOf __ip)
         Call hash.Add(GetType(RevRepeats), AddressOf __revp)

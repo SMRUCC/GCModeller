@@ -163,7 +163,7 @@ and the shared number of the start site just lets you have a simple glimp on you
     <ExportAPI("Htseq.Merge")>
     Public Function MergeHtseq(Files As Generic.IEnumerable(Of String)) As Dictionary(Of String, Integer)
         Dim LQuery = (From file As String In Files.AsParallel
-                      Let Lines = IO.File.ReadAllLines(file)
+                      Let Lines = file.ReadAllLines
                       Select (From line As String In Lines
                               Let Tokens As String() = Strings.Split(line, vbTab)
                               Select ID = Tokens(Scan0), Expr = CInt(Val(Tokens(1)))).ToArray).ToArray.Unlist

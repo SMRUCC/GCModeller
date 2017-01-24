@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
@@ -81,7 +81,7 @@ Public Module PlasmidComparative
 
     <ExportAPI("Plasmid.DeltaMatrix")>
     Public Function CreateDeltaMatrix(partitions As IEnumerable(Of PartitioningData)) As File
-        Dim df As New DocumentStream.File
+        Dim df As New IO.File
         Dim cache = (From part As PartitioningData In partitions Select CacheData = New NucleicAcid(part.SequenceData), part).ToArray ' 因为要保持一一对应关系，所以这里不可以使用并行化拓展了
         Dim y As NucleicAcid() = cache.ToArray(Function(x) x.CacheData)
 

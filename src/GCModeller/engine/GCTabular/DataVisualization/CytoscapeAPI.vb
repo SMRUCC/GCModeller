@@ -81,7 +81,7 @@ Namespace DataVisualization
 
         <ExportAPI("save.paths")>
         Public Function SaveResult(path As KeyValuePair(Of Integer, Interactions())(), saveto As String) As Boolean
-            Dim CsvData As DocumentStream.File = New DocumentStream.File
+            Dim CsvData As IO.File = New IO.File
 
             For Each line In path
                 CsvData += New String() {String.Format("Path contains {0} nodes", line.Key)}

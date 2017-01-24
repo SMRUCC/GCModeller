@@ -97,7 +97,7 @@ READ_CDD_DIR:
         Dim regprecise = FastaReaders.Regulator.LoadDocument(inFile).ToDictionary(Function(x) x.KEGG)
         Dim pfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim FamilyDb = SMRUCC.genomics.Analysis.ProteinTools.Family.API.FamilyDomains(regprecise, pfam)
-        Dim Name As String = IO.Path.GetFileNameWithoutExtension(inFile)
+        Dim Name As String = basename(inFile)
         Return SMRUCC.genomics.Analysis.ProteinTools.Family.SaveRepository(FamilyDb, Name).CLICode
     End Function
 

@@ -53,7 +53,7 @@ Namespace EngineSystem.Engine
                 Next
 
                 Modeller._RTime = 0
-                Modeller.SystemActivityRecordList = New DocumentStream.File From {New String() {"#TIME", "Transcription", "Translation", "Metabolism", "SUM()"}}
+                Modeller.SystemActivityRecordList = New IO.File From {New String() {"#TIME", "Transcription", "Translation", "Metabolism", "SUM()"}}
 
                 '重新设置基因突变参数
                 Dim ExpressionRegulationNetwork = Modeller.KernelModule.ExpressionRegulationNetwork

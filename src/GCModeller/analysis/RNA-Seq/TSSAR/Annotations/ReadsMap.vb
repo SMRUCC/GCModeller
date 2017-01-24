@@ -196,7 +196,7 @@ Public Module ReadsMap
     End Function
 
     <ExportAPI("TSS.rdDepth")>
-    Public Function TSSStatics(SAM As SAM, PTT As PTT, Optional Debug As Boolean = False, Optional DOOR As DOOR = Nothing) As DocumentStream.File
+    Public Function TSSStatics(SAM As SAM, PTT As PTT, Optional Debug As Boolean = False, Optional DOOR As DOOR = Nothing) As IO.File
         Dim TSSPossibleLocation = (From Gene As ComponentModels.GeneBrief
                                        In PTT.GeneObjects
                                    Let Loci = GetLocation(Gene)
@@ -228,7 +228,7 @@ Public Module ReadsMap
         '将位点还原为标签
         Dim DipartsHistone = (From Loc In TSSPossibleLocation Select Loc.strand, Loc.Loci.UserTag, ID = Loc.ID, HisData = Reads(Loc.LociSequence, HistoneGram)).ToArray
         '生成CSV文档
-        Dim Df As New DocumentStream.File
+        Dim Df As New IO.File
         Dim OperonPromoterGene As String() = Nothing
 
         If Not DOOR Is Nothing Then

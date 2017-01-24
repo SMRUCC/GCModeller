@@ -128,7 +128,7 @@ Namespace Analysis.MotifScans
         ''' <param name="memeText">meme_out.txt的文件路径</param>
         ''' <returns></returns>
         Public Shared Function LoadDocument(memeText As String, Optional uidPrefix As String = "") As AnnotationModel()
-            Dim uid As String = System.IO.Path.GetFileNameWithoutExtension(memeText)
+            Dim uid As String = BaseName(memeText)
             If Not String.IsNullOrEmpty(uidPrefix) Then
                 uid = uidPrefix & "::" & uid
             End If

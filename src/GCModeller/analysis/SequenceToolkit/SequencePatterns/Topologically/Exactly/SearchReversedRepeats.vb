@@ -46,7 +46,7 @@ Namespace Topologically
         ''' 片段按照长度的数量上的分布情况
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property CountStatics As New DocumentStream.File
+        Public ReadOnly Property CountStatics As New IO.File
 
         Sub New(Sequence As I_PolymerSequenceModel,
                 <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> Min As Integer,

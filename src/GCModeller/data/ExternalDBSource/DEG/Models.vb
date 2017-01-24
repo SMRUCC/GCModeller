@@ -51,7 +51,7 @@ Namespace DEG
             Return String.Format("[{0}]  {1}", DEG_AC, Gene_Ref)
         End Function
 
-        Public Shared Function Load(CsvData As DocumentStream.File) As DEG.Annotations()
+        Public Shared Function Load(CsvData As IO.File) As DEG.Annotations()
             Dim ChunkBuffer As DEG.Annotations() = Reflector.Convert(Of DEG.Annotations)(CsvData.DataFrame(), False).ToArray
             Return ChunkBuffer
         End Function

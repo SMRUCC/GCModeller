@@ -47,7 +47,7 @@ Partial Module CLI
         Dim source As New FastaFile(args("/source"))
         Dim pfam = args("/pfam").LoadCsv(Of PfamString)
         Dim FamilyDb = Family.KEGG.FamilyDomains(KEGG:=source, Pfam:=pfam)
-        Dim Name As String = IO.Path.GetFileNameWithoutExtension(args("/source"))
+        Dim Name As String = basename(args("/source"))
         Return Family.SaveRepository(FamilyDb, Name).CLICode
     End Function
 
@@ -80,7 +80,7 @@ Partial Module CLI
         Dim level As Integer = args.GetValue("/level", 5)
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Signature.Xml")
         Dim ppiCategory = Category.FromAlign(aln, level:=level, cutoff:=1,
-                                                       name:=IO.Path.GetFileNameWithoutExtension(inFile))
+                                                       name:=basename(inFile))
         Call ppiCategory.GetXml.SaveTo(out)
         Call ppiCategory.GetSignatureFasta.Save(out.TrimSuffix & ".fasta")
         Return 0

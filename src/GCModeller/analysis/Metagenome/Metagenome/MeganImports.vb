@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
@@ -83,8 +83,8 @@ Public Class MeganImports
         Next
     End Function
 
-    Public Shared Function Out(source As IEnumerable(Of Names)) As DocumentStream.File
-        Dim file As New DocumentStream.File
+    Public Shared Function Out(source As IEnumerable(Of Names)) As IO.File
+        Dim file As New IO.File
 
         file += {NameOf(READ_NAME), NameOf(CLASS_NAME), NameOf(COUNT)}
 

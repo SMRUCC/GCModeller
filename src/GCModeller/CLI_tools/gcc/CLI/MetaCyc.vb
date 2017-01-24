@@ -118,7 +118,7 @@ Public Module CLI
         Dim MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder =
             SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder.CreateInstance(CommandLine("-db"))
         Dim Model As GCMarkupLanguage.BacterialModel = GCMarkupLanguage.BacterialModel.Load(CommandLine("-model"))
-        Dim RuleFile As DocumentStream.File = DocumentStream.File.Load(CommandLine("-rulefile"))
+        Dim RuleFile As IO.File = IO.File.Load(CommandLine("-rulefile"))
 
         Return ProteinDomain.AddingRules(MetaCyc:=MetaCyc, Model:=Model, RuleFile:=RuleFile, GrepScript:=CommandLine("-grep"))
     End Function

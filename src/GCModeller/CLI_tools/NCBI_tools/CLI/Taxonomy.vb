@@ -10,7 +10,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Data.IO.SearchEngine
 Imports Microsoft.VisualBasic.Language
@@ -242,7 +242,7 @@ Partial Module CLI
 
         If raw.FileExists Then
             rawMaps =
-                DocumentStream.DataFrame _
+                IO.DataFrame _
                 .Load(raw, Encoding.ASCII) _
                 .EnumerateData _
                 .Select(Function(row) New NamedValue(Of Dictionary(Of String, String)) With {

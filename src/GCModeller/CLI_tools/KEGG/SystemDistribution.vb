@@ -39,7 +39,7 @@ Public Module SystemDistribution
     <DataFrameColumn("Margin")> Dim Margin As Integer
 
     <ExportAPI("Invoke.Drawing")>
-    Public Function InvokeDrawing(MAT As DocumentStream.File) As Image
+    Public Function InvokeDrawing(MAT As IO.File) As Image
         Dim Organism = bGetObject.Organism.GetOrganismListFromResource
         Dim LQuery = (From row In MAT.Skip(1).AsParallel
                       Let sp As String = row.First
