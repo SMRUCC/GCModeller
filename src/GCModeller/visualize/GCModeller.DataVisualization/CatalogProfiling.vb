@@ -195,7 +195,7 @@ Public Module CatalogProfiling
             Call g.DrawString(tick, tickFont, Brushes.Black, New PointF(tickX - tickSize.Width / 2, y + d + 10))
         Next
 
-        y += 100
+        y += 75
 
         titleFont = CSSFont.TryParse(CSSFont.Win7LargerBold)
         titleSize = g.MeasureString(title, titleFont)
