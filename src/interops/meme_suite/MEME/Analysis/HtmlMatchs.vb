@@ -320,7 +320,7 @@ Namespace Analysis
             Dim GBKSource = (From path As KeyValuePair(Of String, String)
                              In LoadSourceEntryList(source:=FileIO.FileSystem.GetFiles(
                                  GbkSourceDir, FileIO.SearchOption.SearchTopLevelOnly, "*.gbk", "*.gb")).AsParallel
-                             Select ID = path.Key, gbk = GBFF.File.Read(path.Value)).ToDictionary(
+                             Select ID = path.Key, gbk = GBFF.File.Load(path.Value)).ToDictionary(
                                 Function(key) key.ID, elementSelector:=Function(obj) obj.gbk)
             Dim mast = (From path As String
                         In FileIO.FileSystem.GetDirectories(MastSourceDir, FileIO.SearchOption.SearchTopLevelOnly)

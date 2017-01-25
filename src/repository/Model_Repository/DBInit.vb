@@ -69,7 +69,7 @@ Public Module DBInit
     Private Function UpdateGenbankEntryInfo(dir As String, Cnn As SQLEngines.SQLiteIndex) As Boolean
         Dim FileList = FileIO.FileSystem.GetFiles(dir, FileIO.SearchOption.SearchAllSubDirectories, "*.gb", "*.gbk")
         Dim EntryList = (From Path As String In FileList
-                         Let Genbank As GBFF.File = GBFF.File.Read(Path)
+                         Let Genbank As GBFF.File = GBFF.File.Load(Path)
                          Let Entry As Tables.GenbankEntryInfo =
                              New Tables.GenbankEntryInfo With {
                                 .MD5Hash = SecurityString.GetFileHashString(Path),

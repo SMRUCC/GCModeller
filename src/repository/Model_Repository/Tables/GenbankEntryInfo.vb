@@ -62,7 +62,7 @@ Namespace Tables
                 Return Nothing  '数据入口点已经失效了
             End If
 
-            Dim Genbank As GBFF.File = GBFF.File.Read(Path:=File)
+            Dim Genbank As GBFF.File = GBFF.File.Load(Path:=File)
 
             Me.LocusID = Genbank.Locus.AccessionID
             Me.GI = Genbank.Version.GI
