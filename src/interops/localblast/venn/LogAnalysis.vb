@@ -46,10 +46,10 @@ Namespace BlastAPI
         ''' <param name="dataset"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Merge(dataset As IEnumerable(Of DocumentStream.File)) As DocumentStream.File
-            Dim result As DocumentStream.File = New DocumentStream.File
+        Public Function Merge(dataset As IEnumerable(Of IO.File)) As IO.File
+            Dim result As IO.File = New IO.File
             Dim MainIdList As String() = GetMainidList(dataset)
-            Dim LQuery = From Csv As DocumentStream.File
+            Dim LQuery = From Csv As IO.File
                          In dataset
                          Select (From row In Csv.AsParallel
                                  Let Pair = New KeyValuePair(Of String, String)(row(0), row(1))
@@ -59,7 +59,7 @@ Namespace BlastAPI
 
             For i As Integer = 0 To MainIdList.Count - 1
                 Dim Id As String = MainIdList(i)
-                Dim row As New DocumentStream.RowObject(Id)
+                Dim row As New IO.RowObject(Id)
 
                 For idx As Integer = 0 To dataset.Count - 1
                     Dim Query = (From k In LQuery(idx) Where String.Equals(k.Key, Id) Select k).ToArray
@@ -72,9 +72,9 @@ Namespace BlastAPI
             Return result
         End Function
 
-        Private Function GetMainidList(datasets As IEnumerable(Of DocumentStream.File)) As String()
+        Private Function GetMainidList(datasets As IEnumerable(Of IO.File)) As String()
             Dim List As List(Of String) =
-                New List(Of String)(IteratesALL(From doc As DocumentStream.File
+                New List(Of String)(IteratesALL(From doc As IO.File
                                                      In datasets
                                                      Select doc.Column(Scan0)))
             List = (From Id As String
@@ -92,25 +92,25 @@ Namespace BlastAPI
         ''' <param name="subject"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function TakeBestHits(query As IBlastOutput, subject As IBlastOutput) As DocumentStream.File
-            Dim tblQuery As DocumentStream.File = query.ExportBestHit.ToCsvDoc
-            Dim tblHits As DocumentStream.File = subject.ExportBestHit.ToCsvDoc
+        Public Function TakeBestHits(query As IBlastOutput, subject As IBlastOutput) As IO.File
+            Dim tblQuery As IO.File = query.ExportBestHit.ToCsvDoc
+            Dim tblHits As IO.File = subject.ExportBestHit.ToCsvDoc
 
             Call tblQuery.RemoveAt(index:=0)
             Call tblHits.RemoveAt(index:=0)
 
-            Dim LQuery As IEnumerable(Of DocumentStream.RowObject) =
-                From row As DocumentStream.RowObject
+            Dim LQuery As IEnumerable(Of IO.RowObject) =
+                From row As IO.RowObject
                 In tblQuery.AsParallel
-                Let QueryHitPair As DocumentStream.RowObject = __getBestHitPaired(Query:=row, Table:=tblHits)
+                Let QueryHitPair As IO.RowObject = __getBestHitPaired(Query:=row, Table:=tblHits)
                 Select QueryHitPair
                 Order By QueryHitPair.First Ascending '
-            Return New DocumentStream.File(LQuery)
+            Return New IO.File(LQuery)
         End Function
 
-        Private Function __getBestHitPaired(Query As DocumentStream.RowObject, Table As IEnumerable(Of DocumentStream.RowObject)) As DocumentStream.RowObject
-            Dim LQuery As DocumentStream.RowObject() =
-                (From row As DocumentStream.RowObject
+        Private Function __getBestHitPaired(Query As IO.RowObject, Table As IEnumerable(Of IO.RowObject)) As IO.RowObject
+            Dim LQuery As IO.RowObject() =
+                (From row As IO.RowObject
                  In Table.AsParallel
                  Where String.Equals(row.Column(1), Query.First)
                  Select row).ToArray  '在表二中查找出目标匹配项

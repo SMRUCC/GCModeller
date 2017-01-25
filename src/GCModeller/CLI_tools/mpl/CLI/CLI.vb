@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::45278d2da13c657025a1aca6a15904c4, ..\GCModeller\CLI_tools\mpl\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::e253eb296911eea5acd05752138d9ad7, ..\GCModeller\CLI_tools\mpl\CLI\CLI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -68,7 +68,7 @@ Module CLI
             Return -100
         End If
 
-        Dim out As String = args.GetValue("/out", $"{query.TrimSuffix}.vs__.{IO.Path.GetFileNameWithoutExtension(alignDb)}.txt")
+        Dim out As String = args.GetValue("/out", $"{query.TrimSuffix}.vs__.{basename(alignDb)}.txt")
         Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalblast)
         Call localblast.FormatDb(alignDb, localblast.MolTypeProtein).Start(WaitForExit:=True)
         Call localblast.Blastp(query, alignDb, out, Settings.SettingsFile.GetMplParam.Evalue).Start(WaitForExit:=True)

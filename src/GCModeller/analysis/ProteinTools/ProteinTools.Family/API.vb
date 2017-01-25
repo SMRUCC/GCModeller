@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34aa74f73903f85c33d410bae30719e0, ..\GCModeller\analysis\ProteinTools\ProteinTools.Family\API.vb"
+﻿#Region "Microsoft.VisualBasic::33cdf0fcbb74366384a9fa8af776909e, ..\GCModeller\analysis\ProteinTools\ProteinTools.Family\API.vb"
 
     ' Author:
     ' 
@@ -30,7 +30,7 @@ Imports System.Reflection
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData

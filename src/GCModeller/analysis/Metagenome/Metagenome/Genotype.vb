@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::8c1b9454e952c7607fc62f7c5ae86514, ..\GCModeller\analysis\Metagenome\Metagenome\Genotype.vb"
+﻿#Region "Microsoft.VisualBasic::78d7119c354bff652c344787a5ac07e1, ..\GCModeller\analysis\Metagenome\Metagenome\Genotype.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,7 +31,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -46,8 +46,8 @@ Public Module Genotype
                      .ToArray
 
     <Extension>
-    Public Function ExpandLocis(source As IEnumerable(Of GenotypeDetails)) As DocumentStream.File
-        Dim file As New DocumentStream.File
+    Public Function ExpandLocis(source As IEnumerable(Of GenotypeDetails)) As IO.File
+        Dim file As New IO.File
         Dim head As New RowObject From {"", "Genomes"}
 
         For Each pp As KeyValuePair(Of Char, Char) In __all
@@ -101,8 +101,8 @@ Public Module Genotype
     End Function
 
     <Extension>
-    Public Function Statics(source As DocumentStream.File) As DocumentStream.File
-        Dim out As New DocumentStream.File
+    Public Function Statics(source As IO.File) As IO.File
+        Dim out As New IO.File
         out.AppendRange(source.Select(Function(x) New RowObject(x.ToArray)))
         out.AppendLine()
 
@@ -166,8 +166,8 @@ Public Module Genotype
     ''' <param name="source"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function TransViews(source As IEnumerable(Of GenotypeDetails)) As DocumentStream.File
-        Dim out As New DocumentStream.File
+    Public Function TransViews(source As IEnumerable(Of GenotypeDetails)) As IO.File
+        Dim out As New IO.File
         Dim array As GenotypeDetails() = source.ToArray()
         Dim allTag As String() = array.ToArray(Function(x) x.Population.Split(":"c).Last)
         Dim all = Comb(Of Char).CreateCompleteObjectPairs({"A"c, "T"c, "G"c, "C"c}).IteratesALL

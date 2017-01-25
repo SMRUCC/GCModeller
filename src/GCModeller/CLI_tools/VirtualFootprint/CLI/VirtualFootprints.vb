@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a159c7426f70fb49d13ca30393da44e, ..\GCModeller\CLI_tools\VirtualFootprint\CLI\VirtualFootprints.vb"
+﻿#Region "Microsoft.VisualBasic::5a10834cb266700d2c1b5037cb6f9637, ..\GCModeller\CLI_tools\VirtualFootprint\CLI\VirtualFootprints.vb"
 
     ' Author:
     ' 
@@ -30,7 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::422ef188683bf9e9e78003ef87411945, ..\GCModeller\sub-system\FBA_DP\rFBA\ModelWriter.vb"
+﻿#Region "Microsoft.VisualBasic::39fea8a7bd84711d311a899e3cde4fa3, ..\GCModeller\sub-system\FBA_DP\rFBA\ModelWriter.vb"
 
     ' Author:
     ' 
@@ -77,7 +77,7 @@ Public Module ModelWriter
     ''' <param name="EffectorMappings">从Regprecise到MetaCyc数据库对象的关系映射</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function CreateObject(Pcc As DocumentStream.File,
+    Public Function CreateObject(Pcc As IO.File,
                                  RPKMColumn As Integer,
                                  Regulations As Regulation(),
                                  EffectorMappings As Mapping.EffectorMap()) As ModelReader.GeneExpression()
@@ -101,7 +101,7 @@ Public Module ModelWriter
 
     <Extension>
     Private Function __creates(strId As String,
-                               PCC As DocumentStream.File,
+                               PCC As IO.File,
                                RPKMColumn As Integer,
                                Regulations As Regulation(),
                                AvgRPKM As Double,

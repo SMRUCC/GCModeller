@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47e77a2ac23bc23e0dbb211accddad45, ..\GCModeller\CLI_tools\RNA-seq\CLI\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::935d7c995a2597f1ee17ef7b55b27e68, ..\GCModeller\CLI_tools\RNA-seq\CLI\WGCNA.vb"
 
     ' Author:
     ' 
@@ -29,6 +29,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -103,8 +104,8 @@ Partial Module CLI
     Public Function GroupN(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim locusMap As String = args.GetValue("/locus_map", "locus")
-        Dim out As Int = args.OpenHandle("/out", inFile.TrimSuffix & "-Groups.n.csv")
-        Dim ds = DocumentStream.EntityObject.LoadDataSet(inFile, locusMap)
+        Dim out As int = args.OpenHandle("/out", inFile.TrimSuffix & "-Groups.n.csv")
+        Dim ds = EntityObject.LoadDataSet(inFile, locusMap)
         Dim st = (From x In ds Select x Group x By x.ID Into Count).ToArray
         Return st > out
     End Function

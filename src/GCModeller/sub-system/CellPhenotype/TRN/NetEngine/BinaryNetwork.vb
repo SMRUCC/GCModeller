@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc81a37f2a60bba627d93c8e973cdada, ..\GCModeller\sub-system\CellPhenotype\TRN\NetEngine\BinaryNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::5ccc2c0e102c5e59c98648f17f45e9cc, ..\GCModeller\sub-system\CellPhenotype\TRN\NetEngine\BinaryNetwork.vb"
 
     ' Author:
     ' 
@@ -27,7 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel

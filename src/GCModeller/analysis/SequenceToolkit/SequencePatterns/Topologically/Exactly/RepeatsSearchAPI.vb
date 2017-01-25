@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e6aa8de1588b6801d877a4952f12a6a, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchAPI.vb"
+﻿#Region "Microsoft.VisualBasic::63d04383d28186b5756ac47e02302783, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchAPI.vb"
 
     ' Author:
     ' 
@@ -202,7 +202,7 @@ RETURN_VALUE:
         Public Function Density(Of TView As RepeatsView)(DIR As String, size As Integer, ref As String, cutoff As Double) As Double()
             Dim files = FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.csv") _
                 .ToArray(Function(file) New With {
-                    .ID = IO.Path.GetFileNameWithoutExtension(file),
+                    .ID = basename(file),
                     .context = file.LoadCsv(Of TView)})
 
             VBDebugger.Mute = True

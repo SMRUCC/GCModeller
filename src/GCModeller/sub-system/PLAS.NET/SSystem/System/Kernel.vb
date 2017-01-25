@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a470137ebcd438a58a3e7a48265fef3, ..\GCModeller\sub-system\PLAS.NET\SSystem\System\Kernel.vb"
+﻿#Region "Microsoft.VisualBasic::c81003e0dec90e9af2e884053c7fe25d, ..\GCModeller\sub-system\PLAS.NET\SSystem\System\Kernel.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,7 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal

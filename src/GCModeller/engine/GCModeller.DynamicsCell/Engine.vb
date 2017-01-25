@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0bfec34cba97882f9f21851bdded630b, ..\GCModeller\engine\GCModeller.DynamicsCell\Engine.vb"
+﻿#Region "Microsoft.VisualBasic::9a261e908552826e7062d96a15d89561, ..\GCModeller\engine\GCModeller.DynamicsCell\Engine.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Canvas
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
@@ -158,4 +158,3 @@ Public Class Engine : Implements IDisposable
     End Sub
 #End Region
 End Class
-

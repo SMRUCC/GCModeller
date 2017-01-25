@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::087fb3652913143275d9de7b4c076963, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
+﻿#Region "Microsoft.VisualBasic::3f0742655c4f9dc8237129d8ce592d44, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -68,10 +68,10 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 Dim jLoci = Location.JoinLocation
 
                 If jLoci Is Nothing Then
-                    Return Me.gbRaw.Origin.GetFeatureSegment(Me)
+                    Return Me.gb.Origin.GetFeatureSegment(Me)
                 Else
-                    Dim part1 As String = gbRaw.Origin.GetFeatureSegment(Me)
-                    Dim part2 As String = gbRaw.Origin.CutSequenceBylength(
+                    Dim part1 As String = gb.Origin.GetFeatureSegment(Me)
+                    Dim part2 As String = gb.Origin.CutSequenceBylength(
                         jLoci.Left,
                         jLoci.RegionLength).SequenceData
 
@@ -121,7 +121,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Dim gff As New TabularFormat.Feature
 
             gff.Strand = Me.Location.ContiguousRegion.Strand
-            gff.seqname = gbRaw.Accession.AccessionId
+            gff.seqname = gb.Accession.AccessionId
             gff.Right = Me.Location.Location.Right
             gff.Left = Me.Location.Location.Left
             gff.Feature = Me.KeyName

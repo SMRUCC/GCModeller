@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbe9e56e155e7dc464a81d654fc1e409, ..\GCModeller\data\RegulonDatabase\Regprecise\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::460fa5bd1b71aa0c61546fcd1a4f40e3, ..\GCModeller\data\RegulonDatabase\Regprecise\Compiler.vb"
 
     ' Author:
     ' 
@@ -128,11 +128,11 @@ Namespace Regprecise
         Public Function CompileRegulations(genome As Regprecise.WebServices.JSONLDM.genome, repository As String) As Regprecise.WebServices.Regulation()
             Dim regulators = (From file As String
                               In FileIO.FileSystem.GetFiles($"{repository}/regulators/{genome.name.NormalizePathString}/", FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-                              Select id = IO.Path.GetFileNameWithoutExtension(file),
+                              Select id = basename(file),
                                   regulator = file.LoadXml(Of Regprecise.WebServices.JSONLDM.regulator())).ToDictionary(Function(obj) obj.id, elementSelector:=Function(obj) obj.regulator)
             Dim sites = (From file As String
                          In FileIO.FileSystem.GetFiles($"{repository}/sites/{genome.name.NormalizePathString}/", FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-                         Select id = IO.Path.GetFileNameWithoutExtension(file),
+                         Select id = basename(file),
                              site = file.LoadXml(Of Regprecise.WebServices.JSONLDM.site())).ToDictionary(Function(obj) obj.id, elementSelector:=Function(obj) obj.site)
             Dim regulons = $"{repository}/regulons/{genome.genomeId}.{genome.name.NormalizePathString}.xml".LoadXml(Of Regprecise.WebServices.JSONLDM.regulon()).ToDictionary(Function(obj) obj.regulonId)
             Dim regulations = (From regulator In regulators

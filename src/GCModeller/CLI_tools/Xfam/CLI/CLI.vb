@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66b267cfe9c3a6f05d76e6215e46f3c7, ..\GCModeller\CLI_tools\Xfam\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::ee71aa1b0fee36bec50a2db49e0dc301, ..\GCModeller\CLI_tools\Xfam\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -30,7 +30,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Threads

@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::beaca91d1e0dfc56c090dc6523cc3992, ..\GCModeller\CLI_tools\GCModeller\CLI\Repository.vb"
+﻿#Region "Microsoft.VisualBasic::b1d3dc0e07ee1c1608d2e7391e21420c, ..\GCModeller\CLI_tools\GCModeller\CLI\Repository.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -166,7 +166,7 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim titles As String = args("/titles")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & titles.BaseName & ".csv")
-        Dim file As DocumentStream.File = DocumentStream.File.Load([in])
+        Dim file As IO.File = IO.File.Load([in])
         Dim list As New List(Of String)
 
         If titles.FileExists Then

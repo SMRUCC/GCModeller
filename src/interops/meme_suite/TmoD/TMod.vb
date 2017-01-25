@@ -223,7 +223,7 @@ Public Module TMod
         Dim LQuery = (From i As Integer In Counts.Sequence.AsParallel
                       Select i,
                           fasta = source.__subSample(n)).ToArray
-        Dim ID As String = IO.Path.GetFileNameWithoutExtension(source.FilePath)
+        Dim ID As String = basename(source.FilePath)
         Dim ASCII As System.Text.Encoding = System.Text.Encoding.ASCII
 
         If String.IsNullOrEmpty(EXPORT) Then

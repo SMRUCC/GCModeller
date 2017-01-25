@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b78b4f993ec5aa36a7a85a5b1257f61, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
+﻿#Region "Microsoft.VisualBasic::87b23e424215b8abc600c7ae6d03cbc5, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Call gbBuilder.AppendLine(ToString(gb.Definition))
             Call gbBuilder.AppendLine(ToString(gb.Accession))
             Call gbBuilder.AppendLine(ToString(gb.Version))
-            Call gbBuilder.AppendLine(ToString(gb.DbLink))
+            Call gbBuilder.AppendLine(ToString(gb.DbLinks))
             Call gbBuilder.AppendLine(ToString(gb.Keywords))
             Call gbBuilder.AppendLine(ToString(gb.Source))
             Call gbBuilder.Append(ToString(gb.Reference))

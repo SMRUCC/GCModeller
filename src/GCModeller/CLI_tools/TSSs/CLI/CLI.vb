@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d8e9acad1e154bffaabf31b86b90482, ..\GCModeller\CLI_tools\TSSs\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::85558c1402ba4ddd9489aa51bf3939c8, ..\GCModeller\CLI_tools\TSSs\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -62,7 +62,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
         Dim Reads = args("-reads")
         Dim Unstrand As Boolean = args.GetBoolean("/unstrand")
         Dim minExpr As Double = args.GetValue("/activity", 0.65)
-        Dim prefix As String = args.GetValue("/prefix", IO.Path.GetFileNameWithoutExtension(Reads).Split("."c).First & ".TSSs_")
+        Dim prefix As String = args.GetValue("/prefix", basename(Reads).Split("."c).First & ".TSSs_")
         Dim Transcripts = Transcriptome.UTRs.IdentifyUTRs.identifyUTRs(
             SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(PTT),
             Unstrand,

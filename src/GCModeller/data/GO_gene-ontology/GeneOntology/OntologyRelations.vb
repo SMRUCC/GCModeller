@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b7405cd4426b065120953121701c615, ..\GCModeller\data\GO_gene-ontology\GeneOntology\OntologyRelations.vb"
+﻿#Region "Microsoft.VisualBasic::9510dde318078cc9374047aaaf51d9fc, ..\GCModeller\data\GO_gene-ontology\GeneOntology\OntologyRelations.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' The ontologies of GO are structured as a graph, with terms as nodes in the graph and the relations (also know as properties) 
@@ -101,4 +100,3 @@ Public Enum OntologyRelations
     positively_regulates
     negatively_regulates
 End Enum
-

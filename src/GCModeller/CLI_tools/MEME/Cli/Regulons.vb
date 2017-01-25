@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff7413cb02e5b14a27d8ef3f9afeda11, ..\GCModeller\CLI_tools\MEME\Cli\Regulons.vb"
+﻿#Region "Microsoft.VisualBasic::5e01cc1afec2df01e4d4f74f560ed209, ..\GCModeller\CLI_tools\MEME\Cli\Regulons.vb"
 
     ' Author:
     ' 
@@ -46,7 +46,7 @@ Partial Module CLI
     Public Function RegulonTest(args As CommandLine) As Integer
         Dim inMEME As String = args("/in")
         Dim inRegulon As String = args("/reg")
-        Dim inId As String = IO.Path.GetFileNameWithoutExtension(inMEME)
+        Dim inId As String = basename(inMEME)
         Dim queryList = AnnotationModel.LoadDocument(inMEME)
         Dim source = inRegulon.LoadXml(Of BacteriaGenome)
         Dim sourceHash = (From x As Regulator
@@ -104,7 +104,7 @@ Partial Module CLI
         Dim bbh As String = args("/bbh")
         Dim genome As String = args("/genome")
         Dim door As String = args("/door")
-        Dim out As String = args.GetValue("/out", $"{bbh.TrimSuffix}.{IO.Path.GetFileNameWithoutExtension(genome)}.Regulons.Xml")
+        Dim out As String = args.GetValue("/out", $"{bbh.TrimSuffix}.{basename(genome)}.Regulons.Xml")
         Dim genomeGET = RegulonAPI.Reconstruct(bbh, genome, door)
         Return genomeGET.GetXml.SaveTo(out)
     End Function
@@ -133,7 +133,7 @@ Partial Module CLI
         Dim LQuery = (From x As String In genomes
                       Let regulators = RegulonAPI.Reconstruct(mapHash, x.LoadXml(Of BacteriaGenome), doorOperon)
                       Where Not regulators.IsNullOrEmpty
-                      Let id As String = IO.Path.GetFileNameWithoutExtension(x)
+                      Let id As String = basename(x)
                       Select id, _genome = New BacteriaGenome With {
                           .Regulons = New Data.Regprecise.Regulon With {
                                 .Regulators = regulators

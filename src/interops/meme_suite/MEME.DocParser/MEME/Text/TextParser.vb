@@ -159,7 +159,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
 
             If Motifs.IsNullOrEmpty Then Return New Motif() {}
 
-            path = FileIO.FileSystem.GetParentPath(path) & "/" & IO.Path.GetFileNameWithoutExtension(path)
+            path = FileIO.FileSystem.GetParentPath(path) & "/" & path.BaseName
 
             Dim Guid As String
 
@@ -394,7 +394,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
         ''' genome3
         ''' </remarks>
         <ExportAPI("Motif.Statics")>
-        Public Function Statics(Motifs As IEnumerable(Of Motif), Optional getsId As Func(Of String, String) = Nothing) As DocumentStream.File
+        Public Function Statics(Motifs As IEnumerable(Of Motif), Optional getsId As Func(Of String, String) = Nothing) As IO.File
             If getsId Is Nothing Then
                 getsId = AddressOf GetSubsampleID
             End If
@@ -411,8 +411,8 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
                                                   Motif = motifX.Signature).ToArray).ToArray.Unlist
                           Select nn
                           Group nn By nn.gid Into Group).ToArray
-            Dim File As DocumentStream.File = New DocumentStream.File
-            Dim Head As New DocumentStream.RowObject From {"GenomeID"}
+            Dim File As IO.File = New IO.File
+            Dim Head As New IO.RowObject From {"GenomeID"}
 
             For Each Motif In Motifs
                 Call Head.Add(Motif.Signature)
@@ -422,7 +422,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
             Call File.AppendLine(Head)
 
             For Each Genome In LQuery
-                Dim Row As New DocumentStream.RowObject From {Genome.gid}
+                Dim Row As New IO.RowObject From {Genome.gid}
 
                 Call Console.WriteLine(" {0}   => {1} items", Genome.gid, Genome.Group.Count)
 
@@ -461,8 +461,8 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
         ''' </remarks>
         <ExportAPI("distr.normalization",
              Info:="if the maximum density value is too small(This is mainly caused by the long genome sequence length but fewer number of the motifs, so the density maybe two small.), then you can using the scale(>0) parameter to adjust.")>
-        Public Function Normalization(csv As DocumentStream.File, faDIR As String, Optional scale As Integer = -1) As DocumentStream.File
-            Dim File As New DocumentStream.File
+        Public Function Normalization(csv As IO.File, faDIR As String, Optional scale As Integer = -1) As IO.File
+            Dim File As New IO.File
             Dim fasta = (From path As KeyValuePair(Of String, String)
                          In faDIR.LoadSourceEntryList({})
                          Select path.Key,
@@ -472,8 +472,8 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
 
             Call File.Add(csv.First)
 
-            For Each row As DocumentStream.RowObject In csv.Skip(1)
-                Dim newrow = New DocumentStream.RowObject From {row.First}
+            For Each row As IO.RowObject In csv.Skip(1)
+                Dim newrow = New IO.RowObject From {row.First}
                 Dim l As Integer
                 If fasta.ContainsKey(row.First) Then
                     l = fasta(row.First)
@@ -511,8 +511,8 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Distant.Normalization")>
-        Public Function DistanceNormalization(csv As DocumentStream.File, faDIR As String, queryref As String) As DocumentStream.File
-            Dim File As New DocumentStream.File
+        Public Function DistanceNormalization(csv As IO.File, faDIR As String, queryref As String) As IO.File
+            Dim File As New IO.File
             Dim fasta = (From path As KeyValuePair(Of String, String)
                          In faDIR.LoadSourceEntryList({})
                          Select path.Key,
@@ -533,7 +533,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
             Dim QueryValue = (From n In Reference.Skip(1) Select Val(n) / QueryLength).ToArray  'motif出现的次数的向量
 
             For Each row In csv.Skip(1)
-                Dim newrow As New DocumentStream.RowObject From {row.First}
+                Dim newrow As New IO.RowObject From {row.First}
                 Dim l As Integer
                 If fasta.ContainsKey(row.First) Then
                     l = fasta(row.First)

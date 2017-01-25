@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3e56852c06c165554dfc344d7c4e262, ..\GCModeller\CLI_tools\Xfam\CLI\Pfam.vb"
+﻿#Region "Microsoft.VisualBasic::5c4b7322fc7cb4b468d77b07d1e03202, ..\GCModeller\CLI_tools\Xfam\CLI\Pfam.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceTools.Sanger.PfamHMMScan

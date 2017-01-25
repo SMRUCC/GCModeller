@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::837f693de48c9188270369a44a42fddf, ..\GCModeller\analysis\RNA-Seq\TSSsTools\API.vb"
+﻿#Region "Microsoft.VisualBasic::f328de37c82f2e43d1341f47a490217c, ..\GCModeller\analysis\RNA-Seq\TSSsTools\API.vb"
 
     ' Author:
     ' 
@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module API
 
@@ -47,8 +48,8 @@ Public Module API
     Public Function Count(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".ReadsCount.Csv")
-        Dim ref As New SMRUCC.genomics.SequenceModel.FASTA.FastaToken(args("/ref"))
-        Dim mappings As New DocumentStream.Linq.DataStream(inFile)  ' 读取测序数据的mapping结果
+        Dim ref As New FastaToken(args("/ref"))
+        Dim mappings As New IO.Linq.DataStream(inFile)  ' 读取测序数据的mapping结果
         Dim readsCount As ___readsCount = New ___readsCount(ref)
 
         Call $"Start write dictionary data....".__DEBUG_ECHO

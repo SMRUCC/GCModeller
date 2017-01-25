@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0171b88ed1cdc922163f9cb3b4e7a5b, ..\GCModeller\visualize\GCModeller.DataVisualization\RenderingColor.vb"
+﻿#Region "Microsoft.VisualBasic::6f89a8b731c3c86f7d984b45aa07e5ac, ..\GCModeller\visualize\GCModeller.DataVisualization\RenderingColor.vb"
 
     ' Author:
     ' 

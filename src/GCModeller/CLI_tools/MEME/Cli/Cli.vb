@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed0762ca7faa4d8ff9ebd7b8f2b4a6b8, ..\GCModeller\CLI_tools\MEME\Cli\Cli.vb"
+﻿#Region "Microsoft.VisualBasic::6daf7a85374ac4d88d40378e4284e98a, ..\GCModeller\CLI_tools\MEME\Cli\Cli.vb"
 
     ' Author:
     ' 
@@ -90,10 +90,10 @@ Module CLI
         Dim query = (From x In args("/query").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
         Dim subject = (From x In args("/subject").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
         Dim LQuery = (From x In query Where subject.ContainsKey(x.Key) Select __diff(x.Value, subject(x.Key))).ToArray.Unlist
-        Dim path As String = args("/query").TrimSuffix & $".diff__{IO.Path.GetFileNameWithoutExtension(args("/subject"))}.csv"
+        Dim path As String = args("/query").TrimSuffix & $".diff__{basename(args("/subject"))}.csv"
         Dim exclude = (From x In query Where Not subject.ContainsKey(x.Key) Select x.Value).ToArray.Unlist
         Call LQuery.SaveTo(path)
-        path = args("/query").TrimSuffix & $".excludes__{IO.Path.GetFileNameWithoutExtension(args("/subject"))}.csv"
+        path = args("/query").TrimSuffix & $".excludes__{basename(args("/subject"))}.csv"
         Return exclude.SaveTo(path).CLICode
     End Function
 
@@ -114,7 +114,7 @@ Module CLI
                       Let intr = Interacts(x.Value, subject(x.Key))
                       Select intr
                       Order By intr.Length Descending).ToArray
-        Dim path As String = args("/query").TrimSuffix & $".Intersect.Max.{IO.Path.GetFileNameWithoutExtension(args("/subject"))}.csv"
+        Dim path As String = args("/query").TrimSuffix & $".Intersect.Max.{basename(args("/subject"))}.csv"
         Return LQuery.First.SaveTo(path).CLICode
     End Function
 

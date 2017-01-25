@@ -37,7 +37,7 @@ Module Program
         Dim template As String = App.HOME & "/Templates/venn.csv"
 
         If Not template.FileExists Then
-            Dim example As New DocumentStream.File
+            Dim example As New IO.File
 
             example += {"Xcc8004", "ecoli", "pa14", "ftn", "aciad"}
             example += {"1", "1", "1", "1", "1"}
@@ -52,7 +52,7 @@ Module Program
         template = App.HOME & "/Templates/venn.partitions.csv"
 
         If Not template.FileExists Then
-            Dim example As New DocumentStream.File
+            Dim example As New IO.File
 
             example += {"serial", "color", "Title"}
             example += {"Xcc8004", "blue", "Xanthomonas campestris pv. campestris str. 8004"}

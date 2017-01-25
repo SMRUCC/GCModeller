@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::98f31e739f9ddf4e9913312c654997e0, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ModelExport.vb"
+﻿#Region "Microsoft.VisualBasic::229a3346fd6549271c795f2184842d67, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\GCMLDocBuilder\ModelExport.vb"
 
     ' Author:
     ' 
@@ -34,8 +34,8 @@ Namespace Builder
 
     Public Module ModelExport
 
-        <Extension> Public Function ExportModel(Model As BacterialModel) As DocumentStream.File
-            Dim Csv As New DocumentStream.File
+        <Extension> Public Function ExportModel(Model As BacterialModel) As IO.File
+            Dim Csv As New IO.File
             Csv.AppendLine({"Id", "Name", "Equation", "Associate-Genes"})
             For i As Integer = 0 To Model.Metabolism.MetabolismNetwork.Count - 1
                 Dim Reaction = Model.Metabolism.MetabolismNetwork(i)

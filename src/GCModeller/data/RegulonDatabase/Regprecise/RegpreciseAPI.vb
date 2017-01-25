@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f693a64e4758b35fb358e83e7448a8ba, ..\GCModeller\data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
+﻿#Region "Microsoft.VisualBasic::13d11cc609bae3fd1ef6483ac7b2a0bd, ..\GCModeller\data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
 
     ' Author:
     ' 
@@ -223,14 +223,14 @@ Rodionov, D. A.", Volume:=14)>
         End Function
 
         <ExportAPI("Family.Statics")>
-        Public Function FamilyStatics(Matches As IEnumerable(Of IRegulatorMatched)) As DocumentStream.File
+        Public Function FamilyStatics(Matches As IEnumerable(Of IRegulatorMatched)) As IO.File
             Dim LQuery = (From item As KeyValuePair(Of String, String()) In FamilyStatics2(Matches)
                           Let Family As String = item.Key
                           Let Counts As String = item.Value.Count
                           Let Regulators As String = String.Join("; ", item.Value)
-                          Select New DocumentStream.RowObject From {Family, Counts, Regulators}).ToArray
-            Dim array = New DocumentStream.RowObject From {"Family", "Regulator Counts"}.Join(LQuery)
-            Return New DocumentStream.File(array)
+                          Select New IO.RowObject From {Family, Counts, Regulators}).ToArray
+            Dim array = New IO.RowObject From {"Family", "Regulator Counts"}.Join(LQuery)
+            Return New IO.File(array)
         End Function
 
         Public Function FamilyStatics2(Matches As Generic.IEnumerable(Of IRegulatorMatched)) As KeyValuePair(Of String, String())()

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::083993c4ab39f7a6b354fbc7b0319e9f, ..\GCModeller\sub-system\CellPhenotype\TRN\DataVisualization.vb"
+﻿#Region "Microsoft.VisualBasic::8722fb38cfe468efe380948605d06a56, ..\GCModeller\sub-system\CellPhenotype\TRN\DataVisualization.vb"
 
     ' Author:
     ' 
@@ -69,7 +69,7 @@ Public Module DataVisualization
 
     <ExportAPI("Read.Csv.SimulationResult")>
     Public Function LoadResult(path As String) As ExprSamples()
-        Dim Csv As DocumentStream.File = DocumentStream.File.Load(path)
+        Dim Csv As IO.File = IO.File.Load(path)
         Return MatrixAPI.ToSamples(Csv, True)
     End Function
 

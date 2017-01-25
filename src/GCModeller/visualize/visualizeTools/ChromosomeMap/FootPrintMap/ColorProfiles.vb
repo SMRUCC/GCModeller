@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73341c3f4ad78c9e6be38950520b0d4d, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\FootPrintMap\ColorProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::c555e64b433fca0f5aae311898b888c6, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\FootPrintMap\ColorProfiles.vb"
 
     ' Author:
     ' 

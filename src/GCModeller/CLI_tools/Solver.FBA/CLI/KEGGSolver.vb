@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5bba62994017410e4f0cdda9432c2000, ..\GCModeller\CLI_tools\Solver.FBA\CLI\KEGGSolver.vb"
+﻿#Region "Microsoft.VisualBasic::38536795797ce3b2c5122ef66c2ef8a5, ..\GCModeller\CLI_tools\Solver.FBA\CLI\KEGGSolver.vb"
 
     ' Author:
     ' 
@@ -41,9 +41,9 @@ Partial Module CLI
     Public Function KEGGSolver(args As CommandLine) As Integer
         Dim inModel As String = args("/in")
         Dim objs As String = args("/objs")
-        Dim out As String = args.GetValue("/out", inModel.TrimSuffix & ", " & IO.Path.GetFileNameWithoutExtension(objs) & "/")
+        Dim out As String = args.GetValue("/out", inModel.TrimSuffix & ", " & basename(objs) & "/")
         Dim model As XmlModel = inModel.LoadXml(Of XmlModel)
-        Dim locus As String() = IO.File.ReadAllLines(objs)
+        Dim locus As String() = objs.ReadAllLines
         Dim FBAModel As New Models.KEGGXml(model)
         Call FBAModel.SetGeneObjectives(locus)
         Dim solver As New FBAlpRSolver(GCModeller.FileSystem.GetR_HOME)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b58be54e137c15ce3e8d0dab1d7bdd7, ..\GCModeller\CLI_tools\KEGG\SystemDistribution.vb"
+﻿#Region "Microsoft.VisualBasic::a1b190b9a7f7096f3f1662a4d23432fd, ..\GCModeller\CLI_tools\KEGG\SystemDistribution.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@ Public Module SystemDistribution
     <DataFrameColumn("Margin")> Dim Margin As Integer
 
     <ExportAPI("Invoke.Drawing")>
-    Public Function InvokeDrawing(MAT As DocumentStream.File) As Image
+    Public Function InvokeDrawing(MAT As IO.File) As Image
         Dim Organism = bGetObject.Organism.GetOrganismListFromResource
         Dim LQuery = (From row In MAT.Skip(1).AsParallel
                       Let sp As String = row.First

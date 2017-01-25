@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93433bda815a093504e8983c3fb5f81a, ..\GCModeller\sub-system\FBA_DP\FBA\lpSolveRModel.vb"
+﻿#Region "Microsoft.VisualBasic::373f85d6676fc5e49ec06489515a9bdf, ..\GCModeller\sub-system\FBA_DP\FBA\lpSolveRModel.vb"
 
     ' Author:
     ' 
@@ -149,8 +149,8 @@ Public MustInherit Class lpSolveRModel : Inherits IRScript
     ''' <param name="resultData">{ObjectiveFunctionValue, FluxDistributions}</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Overridable Function CreateResultFile(resultData As KeyValuePair(Of String, String())) As DocumentStream.File
-        Dim tabBuf As DocumentStream.File = New DocumentStream.File
+    Public Overridable Function CreateResultFile(resultData As KeyValuePair(Of String, String())) As IO.File
+        Dim tabBuf As IO.File = New IO.File
         Call tabBuf.Add(New String() {"Objective Function Value"})
         Call tabBuf.Last.AddRange(fluxColumns)
         Call tabBuf.Add(New String() {resultData.Key})

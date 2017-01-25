@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88effe0bd72b0f5c05585e845dc22a16, ..\GCModeller\sub-system\FBA_DP\FBA\Models\GeneExpressions.vb"
+﻿#Region "Microsoft.VisualBasic::d863c44fde95545031942cadda74659d, ..\GCModeller\sub-system\FBA_DP\FBA\Models\GeneExpressions.vb"
 
     ' Author:
     ' 
@@ -53,7 +53,7 @@
 '        ''' <param name="ExperimentId">芯片数据里面的实验名称或者列的标号</param>
 '        ''' <param name="ObjectiveFunction">假若本编号列表为空的话，则默认将目标方程设置为整个基因组</param>
 '        ''' <remarks></remarks>
-'        Sub New(ChipData As DocumentStream.File,
+'        Sub New(ChipData As IO.File,
 '                SystemStableStatus As Boolean,
 '                ExperimentId As String,
 '                Optional PccCutoff As Double = 0.65,

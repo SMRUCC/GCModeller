@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91031688270c175a251d2e8d5b80f8f9, ..\GCModeller\data\ExternalDBSource\string-db\StrPNet\LDM\Network.vb"
+﻿#Region "Microsoft.VisualBasic::6163d67cd40ed3595ec473181df0cf5a, ..\GCModeller\models\Networks\STRING\LDM\Network.vb"
 
     ' Author:
     ' 

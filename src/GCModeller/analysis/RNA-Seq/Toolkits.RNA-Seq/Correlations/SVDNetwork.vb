@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c95c5870481a519d1617a134df2883b2, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\SVDNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::bbd77d31320b747ec97c7f729ada4359, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Correlations\SVDNetwork.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@ Public Module SVDNetwork
 
     <ExportAPI("Matrix.Create.From.Chipdata")>
     Public Function CreateMatrix(ChipData As MatrixFrame) As GeneralMatrix
-        Dim MAT As Double()() = (From csvLine As DocumentStream.RowObject
+        Dim MAT As Double()() = (From csvLine As IO.RowObject
                                  In ChipData.GetOriginalMatrix
                                  Select (From col As String
                                          In csvLine.Skip(1)
@@ -73,8 +73,8 @@ Public Module SVDNetwork
     <ExportAPI("Write.Matrix")>
     Public Function SaveMatrix(MAT As GeneralMatrix, saveto As String) As Boolean
         Dim LQuery = (From line As Double() In MAT.Array
-                      Select CType((From col In line Select CStr(col)).ToArray, DocumentStream.RowObject)).ToArray
-        Call CType(LQuery, DocumentStream.File).Save(saveto, False)
+                      Select CType((From col In line Select CStr(col)).ToArray, IO.RowObject)).ToArray
+        Call CType(LQuery, IO.File).Save(saveto, False)
         Return True
     End Function
 End Module

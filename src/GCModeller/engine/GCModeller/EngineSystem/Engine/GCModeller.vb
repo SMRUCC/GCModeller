@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4e646917ed74199ead7f74a4d62670e, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\GCModeller.vb"
+﻿#Region "Microsoft.VisualBasic::a2bc77592a6eb28a479c4c699428f94c, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\GCModeller.vb"
 
     ' Author:
     ' 
@@ -95,7 +95,7 @@ Namespace EngineSystem.Engine
         <XmlElement>
         Public Property KernelProfile As EngineSystem.Engine.Configuration.ConfigReader
 
-        Dim SystemActivityRecordList As DocumentStream.File
+        Dim SystemActivityRecordList As IO.File
         Dim _InternalDictSystemVariables As Dictionary(Of String, String)
 
         Public ReadOnly Property SystemLogging As LogFile Implements IContainerSystemRuntimeEnvironment.SystemLogging
@@ -157,7 +157,7 @@ Namespace EngineSystem.Engine
             My.Computer.FileSystem.CurrentDirectory = My.Application.Info.DirectoryPath
             Me.ExperimentSystem = New ObjectModels.ExperimentSystem.ExperimentManageSystem(KernelModule)
 
-            Me.SystemActivityRecordList = New DocumentStream.File
+            Me.SystemActivityRecordList = New IO.File
             Me.ShellScriptDevie = New ShellScript(Me)
 
             Call Me.SystemActivityRecordList.Add(New String() {"#TIME", "Transcription", "Translation", "Metabolism", "SUM()", "pH", "SignalTransductionNetwork"})

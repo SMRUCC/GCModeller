@@ -29,7 +29,7 @@
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Tokenizer
+Imports Microsoft.VisualBasic.Data.csv.IO.Tokenizer
 Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder

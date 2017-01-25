@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebcea71f319f4600d7fcf6329a14d294, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchs.vb"
+﻿#Region "Microsoft.VisualBasic::0e61f9fb6b5a167cf51d0ed62452923c, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchs.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@ Namespace Topologically
         ''' 片段按照长度的数量上的分布情况
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property CountStatics As New DocumentStream.File
+        Public ReadOnly Property CountStatics As New IO.File
         Public ReadOnly Property ResultSet As New List(Of Repeats)
 
         Sub New(Sequence As I_PolymerSequenceModel,

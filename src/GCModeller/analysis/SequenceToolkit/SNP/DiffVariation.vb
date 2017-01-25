@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::008e15a683967da3727684b98660c782, ..\GCModeller\analysis\SequenceToolkit\SNP\DiffVariation.vb"
+﻿#Region "Microsoft.VisualBasic::dd2a3c46ecfca2330b6ac380c7076ab8, ..\GCModeller\analysis\SequenceToolkit\SNP\DiffVariation.vb"
 
     ' Author:
     ' 
@@ -30,7 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -153,7 +153,7 @@ Public Module DiffVariation
             Next
 
             out += New DataSet With {
-                .Identifier = tag,
+                .ID = tag,
                 .Properties = hash
             }
             raw += New EntityObject With {

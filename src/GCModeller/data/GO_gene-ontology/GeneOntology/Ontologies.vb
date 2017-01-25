@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f67878c4e4c5f0bdaddd3b53d7c49c5a, ..\GCModeller\data\GO_gene-ontology\GeneOntology\Ontologies.vb"
+﻿#Region "Microsoft.VisualBasic::30c92726f388769249a2a6fa8e97b214, ..\GCModeller\data\GO_gene-ontology\GeneOntology\Ontologies.vb"
 
     ' Author:
     ' 
@@ -73,4 +73,3 @@ Public Enum Ontologies
     ''' </summary>
     <Description("molecular_function")> MolecularFunction
 End Enum
-

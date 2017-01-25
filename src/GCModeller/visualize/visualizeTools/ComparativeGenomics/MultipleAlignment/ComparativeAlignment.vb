@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0781a8e34827ef106d172afb3f2ce448, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::2a9f279c92d24d981df72aa29006dcdb, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
 
     ' Author:
     ' 
@@ -285,7 +285,7 @@ Namespace ComparativeAlignment
                                BBH = path.Value.LoadCsv(Of BestHit)(False)).ToArray
                             Select item).ToArray
             If FileIO.FileSystem.FileExists(Query) Then
-                Query = IO.Path.GetFileNameWithoutExtension(Query)
+                Query = basename(Query)
             End If
             Dim hitsID = (From path As String In FileIO.FileSystem.GetFiles(Subject_Fasta, FileIO.SearchOption.SearchTopLevelOnly, "*.txt", "*.fasta", "*.fsa")
                           Select (From fsa In FASTA.FastaFile.Read(path) Select fsa.Attributes.First).ToArray).ToVector
@@ -533,7 +533,7 @@ POSITIONNING:
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Model.Build", Info:="Build the comparative drawing model from the ncbi ptt source.")>
-        Public Function BuildModel(DF As DocumentStream.DataFrame,
+        Public Function BuildModel(DF As IO.DataFrame,
                                <Parameter("List.Paths.Ptt", "The source file list of the ptt data of the target drawing genomes.")> PttSource As IEnumerable(Of String),
                                <Parameter("List.ID", "The column id headers in the data frame csv data file.")> Optional ColumnList As IEnumerable(Of String) = Nothing,
                                <Parameter("Query.ID", "The column query id in the data frame.")> Optional Query As String = "",

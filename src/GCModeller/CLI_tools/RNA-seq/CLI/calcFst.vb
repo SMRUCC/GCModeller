@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1726b1effe5cf3e81475b7a6b60da1b7, ..\GCModeller\CLI_tools\RNA-seq\CLI\calcFst.vb"
+﻿#Region "Microsoft.VisualBasic::b0156a54f04758985c5cc7e4fa5be1b1, ..\GCModeller\CLI_tools\RNA-seq\CLI\calcFst.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".calcFst.Csv")
         Dim pop = [in].LoadCsv(Of GenotypeDetails)
-        Dim df As DocumentStream.File = pop.ExpandLocis
+        Dim df As IO.File = pop.ExpandLocis
         Dim name As String = "myFreq"
         Dim types As New Dictionary(Of String, Type) From {
             {polysat.Genomes, GetType(Integer)}
@@ -62,5 +62,3 @@ Partial Module CLI
 
     End Function
 End Module
-
-

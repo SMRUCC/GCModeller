@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60e5f1d68098f1e8d5d9654f183cf7af, ..\GCModeller\sub-system\FBA_DP\rFBA\DataModel.vb"
+﻿#Region "Microsoft.VisualBasic::2e882eb0775119f2b20d1f9df416d7aa, ..\GCModeller\sub-system\FBA_DP\rFBA\DataModel.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 

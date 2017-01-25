@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a985dec44d2a91828abe05ba7506523, ..\GCModeller\CLI_tools\Solver.FBA\CLI\gcFBA\Phenotype.vb"
+﻿#Region "Microsoft.VisualBasic::14cc267a6a2dbb7f3ce6c54ca82a06b2, ..\GCModeller\CLI_tools\Solver.FBA\CLI\gcFBA\Phenotype.vb"
 
     ' Author:
     ' 
@@ -280,9 +280,9 @@ Partial Module CLI
                 objective.Info = mods.Description
             Case Else
                 Call $"Unable to determine objective type:  {type}, using list default".__DEBUG_ECHO
-PLANT:          objective.Associates = IO.File.ReadAllLines(file)
+PLANT:          objective.Associates = file.ReadAllLines
                 objective.Comments = "Plant Assigned"
-                objective.Name = IO.Path.GetFileNameWithoutExtension(file)
+                objective.Name = basename(file)
                 objective.Info = file
         End Select
 

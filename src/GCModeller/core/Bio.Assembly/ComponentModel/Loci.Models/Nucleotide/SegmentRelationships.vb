@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39cc67dc5c7ff5ef4ed7f8d1be7edf17, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\Nucleotide\SegmentRelationships.vb"
+﻿#Region "Microsoft.VisualBasic::9a1f6944388210b72266297710343dac, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\Nucleotide\SegmentRelationships.vb"
 
     ' Author:
     ' 

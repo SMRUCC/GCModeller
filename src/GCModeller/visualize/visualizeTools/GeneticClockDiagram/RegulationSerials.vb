@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d67b2187fe760f48b9f1ed803bdb6e0e, ..\GCModeller\visualize\visualizeTools\GeneticClockDiagram\RegulationSerials.vb"
+﻿#Region "Microsoft.VisualBasic::71463244aa44624763ce8de0eb49fb4d, ..\GCModeller\visualize\visualizeTools\GeneticClockDiagram\RegulationSerials.vb"
 
     ' Author:
     ' 
@@ -89,13 +89,13 @@ Imports SMRUCC.genomics.InteractionModel
     End Function
 
     <ExportAPI("level.distribution")>
-    Public Function Distributions(source As String, IDList As IEnumerable(Of String)) As DocumentStream.File
+    Public Function Distributions(source As String, IDList As IEnumerable(Of String)) As IO.File
         Dim IDc = IDList.ToArray
         Dim Data = (From path In source.LoadSourceEntryList({"*.csv"}).AsParallel Select ID = path.Key, dat = (From row In DataServicesExtension.LoadData(path.Value) Where Array.IndexOf(IDc, row.Tag) > -1 Select row).ToArray).ToArray
         Data = (From row In Data.AsParallel Select ID = row.ID, dat = (From obj In row.dat Select sd = CalculateOffset(obj) Order By sd.Tag Ascending).ToArray).ToArray '数据视图转换
         Dim GroupData = (From item In (From row In Data Select (From obj In row.dat Select row.ID, obj.ChunkBuffer, obj.Tag).ToArray).ToArray.Unlist Select item Group By item.Tag Into Group).ToArray
         Dim ReGen = (From gr In GroupData Select GeneID = gr.Tag, Expr = (From item In gr.Group.ToArray Select sd = New SerialsData With {.Tag = item.ID, .ChunkBuffer = item.ChunkBuffer} Order By sd.Tag Ascending).ToArray).ToArray
-        Dim CSV As New DocumentStream.File
+        Dim CSV As New IO.File
 
         For Each Gene In ReGen
             Dim Chunk = (From Experiment In Gene.Expr Select Experiment.ChunkBuffer).Unlist

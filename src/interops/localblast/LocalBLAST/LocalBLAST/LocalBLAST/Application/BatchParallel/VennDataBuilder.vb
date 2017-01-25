@@ -193,8 +193,8 @@ Namespace LocalBLAST.Application.BatchParallel
         '''
         <ExportAPI("Build.Entry")>
         Public Function BuildFileName(Query As String, Subject As String, EXPORT As String) As String
-            Query = IO.Path.GetFileNameWithoutExtension(Query)
-            Subject = IO.Path.GetFileNameWithoutExtension(Subject)
+            Query = basename(Query)
+            Subject = basename(Subject)
             Return $"{EXPORT}/{Query}{QUERY_LINKS_SUBJECT}{Subject}.txt"
         End Function
 

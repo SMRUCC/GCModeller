@@ -67,7 +67,7 @@ Public Module CorrsDbAPI
     ''' <returns></returns>
     ''' 
     <ExportAPI("Write.Database")>
-    Public Function WriteDatabase(raw As DocumentStream.File, Optional uri As ConnectionUri = Nothing) As Boolean
+    Public Function WriteDatabase(raw As IO.File, Optional uri As ConnectionUri = Nothing) As Boolean
         Dim WGCNA As String = RTools.WGCNA.CallInvoke(raw.FilePath, raw.FilePath.ParentPath & "/annotations.csv")
         Return WriteDatabase(raw, WGCNA, uri)
     End Function
@@ -80,7 +80,7 @@ Public Module CorrsDbAPI
     ''' <returns></returns>
     ''' <param name="WGCNA">WGCNA脚本所计算出来的Cytoscape的边文件</param>
     <ExportAPI("Write.Database")>
-    Public Function WriteDatabase(raw As DocumentStream.File, WGCNA As String, Optional uri As ConnectionUri = Nothing) As Boolean
+    Public Function WriteDatabase(raw As IO.File, WGCNA As String, Optional uri As ConnectionUri = Nothing) As Boolean
         Dim WGCNA_MAT = FastImports(WGCNA)
         Dim Samples = MatrixAPI.ToSamples(raw, True)
         Dim PccMatrix = CreatePccMAT(Samples)
@@ -98,7 +98,7 @@ Public Module CorrsDbAPI
 
     <ExportAPI("Write.Database")>
     Public Function WriteDatabase(raw As String, WGCNA As String, Optional uri As ConnectionUri = Nothing) As Boolean
-        Return WriteDatabase(DocumentStream.File.Load(raw), WGCNA, uri)
+        Return WriteDatabase(IO.File.Load(raw), WGCNA, uri)
     End Function
 
     ''' <summary>

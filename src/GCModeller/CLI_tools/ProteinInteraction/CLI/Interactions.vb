@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc8daa69800f8f730df3d0afffdc65b4, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\Interactions.vb"
+﻿#Region "Microsoft.VisualBasic::ff25bc2f223971d2e46c74099436e2a9, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\Interactions.vb"
 
     ' Author:
     ' 
@@ -410,7 +410,7 @@ Partial Module CLI
         Dim clustal = ClustalOrg.Clustal.CreateSession
         Dim align = clustal.MultipleAlignment(input)
         Dim SRChain As SRChain() = SR.FromAlign(align, 0.85)
-        Dim Name As String = IO.Path.GetFileNameWithoutExtension(args("/in"))
+        Dim Name As String = basename(args("/in"))
         Dim file As String = args("/in").TrimSuffix & ".Pfam-String.csv"
         ' Call SRChain.SaveTo(args("/in").TrimFileExt & ".Blocks.csv")
         Call SRChain.ToArray(Function(x) x.ToPfamString()).SaveTo(file)

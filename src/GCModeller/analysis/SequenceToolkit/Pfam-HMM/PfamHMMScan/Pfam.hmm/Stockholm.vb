@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e072ea565f8806e80ec9408513a1914, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\Stockholm.vb"
+﻿#Region "Microsoft.VisualBasic::0bb8305fc56045b176a89bbdae7b4476, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\Stockholm.vb"
 
     ' Author:
     ' 

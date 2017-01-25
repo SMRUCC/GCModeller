@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2e375eac9813a4565d363473fb1d601, ..\GCModeller\sub-system\CellPhenotype\PhenotypeRegulations.vb"
+﻿#Region "Microsoft.VisualBasic::d0e6b44394a5c60c89a62836ac55f139, ..\GCModeller\sub-system\CellPhenotype\PhenotypeRegulations.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Mathematical
@@ -124,7 +124,7 @@ Public Module PhenotypeRegulations
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("export.tcs_crosstalks")>
-    Public Function ExportTCSCrossTalksCytoscape(Model As XmlresxLoader, MAT As DocumentStream.File, Export_to As String) As Boolean
+    Public Function ExportTCSCrossTalksCytoscape(Model As XmlresxLoader, MAT As IO.File, Export_to As String) As Boolean
         Dim Data = LoadData_Integer(MAT)
         Dim TCS_HK As String() = (From item In Model.CrossTalksAnnotation Select item.Kinase).ToArray.Distinct.ToArray,
             TCS_RR = (From item In Model.CrossTalksAnnotation Select item.Regulator).ToArray.Distinct.ToArray
@@ -224,7 +224,7 @@ Public Module PhenotypeRegulations
     Public Function Simulation(<Parameter("Cellular.Network.Model", "The virtual cellular network model object.")>
                                NetworkModel As BinaryNetwork,
                                <Parameter("Kel.Cycles", "The total kernel cycle ticks of the kernel model object will running.")>
-                               KernelLoop As Integer) As DocumentStream.File
+                               KernelLoop As Integer) As IO.File
 
         Using NetworkKernelDriver As KernelDriver = New KernelDriver
 
@@ -292,10 +292,10 @@ Public Module PhenotypeRegulations
                                            dir As String,
                                            <Parameter("Ranking.Mapping.Level", "The rankning mapping level counts for gene real-time " &
                                                                                     "expression level matrix ranking mapping.")>
-                                           Optional Level As Double = 0.7) As DocumentStream.File
+                                           Optional Level As Double = 0.7) As IO.File
         Dim Cache = (From path As String
                      In FileIO.FileSystem.GetFiles(dir, FileIO.SearchOption.SearchTopLevelOnly, "*.csv").AsParallel
-                     Let Csv = DocumentStream.File.FastLoad(path, Parallel:=False)
+                     Let Csv = IO.File.FastLoad(path, Parallel:=False)
                      Select Csv).ToArray '获取同一批次的蒙特卡洛计算实验之中所得到的所有的计算样本
         Dim RankMapping = (From obj In (From Csv In Cache.AsParallel Select (From row In Csv Let ID As String = row.First Where ID.First <> "#"c Let data As Double() = (From s As String In row.Skip(1) Select Val(s)).ToArray Select New SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.CHUNK_BUFFER_EntityQuantities With {.UniqueId = ID, .Samples = data}).ToArray).ToArray.Unlist Select obj Group By obj.UniqueId Into Group).ToArray
         Dim GetModalLevel = (From GeneObject In RankMapping.AsParallel Select __levelMapping(GeneObject.Group.ToArray, p:=Level)).ToArray
@@ -343,7 +343,7 @@ Public Module PhenotypeRegulations
     ''' <param name="Level">映射的等级数目</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function __ranking(Matrix As DocumentStream.File, Level As Integer) As DataSerials(Of Integer)()
+    Private Function __ranking(Matrix As IO.File, Level As Integer) As DataSerials(Of Integer)()
         '首先生成每一个基因的表达曲线
         Dim DataChunk = (From row As RowObject
                          In Matrix
@@ -780,7 +780,7 @@ Public Module PhenotypeRegulations
         Call PhenotypeRegulations.SaveTo(Export & "/Edges.csv", False)
         Call {PhenotypeNodes, PhenotypeRegulatorNodes}.ToVector.SaveTo(Export & "/Nodes.csv", False)
 
-        Dim DetailsCsv As DocumentStream.File = New DocumentStream.File
+        Dim DetailsCsv As IO.File = New IO.File
         Call DetailsCsv.Add(New String() {"Phenotype", "Rank Scores"})
         Call DetailsCsv.AppendRange((From Phenotype In EvaluateRanks
                                      Let Regulators = (From item In Phenotype.Regulators Select String.Format("{0} ({1})", item.Regulator, item.RankedScore)).ToArray
@@ -793,7 +793,7 @@ Public Module PhenotypeRegulations
     End Function
 
     <ExportAPI("family.statics")>
-    Public Function FamilyStatics(ranks As IEnumerable(Of KeyValuePair(Of String, KeyValuePair(Of Integer, String)())), bh As IEnumerable(Of RegpreciseMPBBH)) As DocumentStream.File
+    Public Function FamilyStatics(ranks As IEnumerable(Of KeyValuePair(Of String, KeyValuePair(Of Integer, String)())), bh As IEnumerable(Of RegpreciseMPBBH)) As IO.File
         Dim RegulatorFamilies = (From RegulatorId As String
                                  In (From item In bh
                                      Where Not String.IsNullOrEmpty(item.HitName)
@@ -814,7 +814,7 @@ Public Module PhenotypeRegulations
                                                                         Let ScoredData = (From item In Families Where String.Equals(Family, item.Family, StringComparison.OrdinalIgnoreCase) Select item).ToArray
                                                                         Where Not ScoredData.IsNullOrEmpty
                                                                         Select ScoredData(0).Family, Scores = (From item In ScoredData Select item.Key).ToArray.Sum Order By Scores Descending).ToArray).ToArray
-        Dim Result As DocumentStream.File = New DocumentStream.File
+        Dim Result As IO.File = New IO.File
         Call Result.Add(New String() {"Phenotype", "Regulator-Family-Scores"})
         Call Result.AppendRange((From Phenotype In LQuery
                                  Let Scores = (From item In Phenotype.FamilyScores Select String.Format("{0} ({1})", item.Family, item.Scores)).ToArray

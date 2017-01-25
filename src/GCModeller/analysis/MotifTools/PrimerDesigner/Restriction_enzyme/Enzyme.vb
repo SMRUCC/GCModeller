@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d3342be571f58fdc3c8b9a60070ebc24, ..\GCModeller\analysis\PrimerDesigner\Restriction_enzyme\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::d3342be571f58fdc3c8b9a60070ebc24, ..\GCModeller\analysis\MotifTools\PrimerDesigner\Restriction_enzyme\Enzyme.vb"
 
     ' Author:
     ' 

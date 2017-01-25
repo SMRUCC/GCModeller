@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24bc984bccaa2feb8bfc4e13668a9e12, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\GenomeSignatures.vb"
+﻿#Region "Microsoft.VisualBasic::e4ac61d7160d08fbdc7265b2b5e011ea, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\GenomeSignatures.vb"
 
     ' Author:
     ' 

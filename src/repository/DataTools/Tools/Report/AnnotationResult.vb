@@ -75,7 +75,7 @@ Namespace Reports
                                                                                 Where Not InternalCreateRecord Is Nothing
                                                                                 Select InternalCreateRecord).ToArray}).ToArray
 
-            Return New GenomeAnnotations With {.Proteins = LQuery, .GenomeTitle = IO.Path.GetFileNameWithoutExtension(Fasta)}
+            Return New GenomeAnnotations With {.Proteins = LQuery, .GenomeTitle = basename(Fasta)}
         End Function
 
         Private Shared Function __createRecord(Orthologs As KeyValuePair(Of String, BiDirectionalBesthit()), EntryID As String) As Orthologs

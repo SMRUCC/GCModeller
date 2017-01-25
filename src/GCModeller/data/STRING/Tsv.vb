@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2bb09a8bc930b9d892bcce3460fd862d, ..\GCModeller\data\ExternalDBSource\string-db\Tsv.vb"
+﻿#Region "Microsoft.VisualBasic::a360d21ed7dadfa783e127c5af2a7504, ..\GCModeller\data\STRING\Tsv.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -235,4 +235,3 @@ Namespace StringDB.Tsv
         End Function
     End Class
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01a6631a91f9c53880b5c252befe8aa6, ..\GCModeller\core\Bio.InteractionModel\DataServicesExtension.vb"
+﻿#Region "Microsoft.VisualBasic::5fc68740c2c93fb4cbcf8e4f00cd1d2b, ..\GCModeller\core\Bio.InteractionModel\DataServicesExtension.vb"
 
     ' Author:
     ' 
@@ -88,17 +88,17 @@ Imports Microsoft.VisualBasic.Data.csv
 
     <ExportAPI("Read.Csv.Serials")>
     Public Function LoadData(path As String) As SerialsData()
-        Dim Csv As DocumentStream.File = DocumentStream.File.FastLoad(path)
+        Dim Csv As IO.File = IO.File.FastLoad(path)
         Return LoadCsv(Csv)
     End Function
 
     <ExportAPI("Load.Csv.Serials")>
-    Public Function LoadCsv(Csv As DocumentStream.File) As SerialsData()
+    Public Function LoadCsv(Csv As IO.File) As SerialsData()
         Return LoadCsv(CsvDatas:=Csv.ToArray)
     End Function
 
-    Public Function LoadCsv(CsvDatas As IEnumerable(Of DocumentStream.RowObject)) As SerialsData()
-        Dim LQuery = (From Line As DocumentStream.RowObject
+    Public Function LoadCsv(CsvDatas As IEnumerable(Of IO.RowObject)) As SerialsData()
+        Dim LQuery = (From Line As IO.RowObject
                       In CsvDatas.AsParallel
                       Let TagValue As String = Line.First
                       Let Value As Double() = (From col As String In Line.Skip(1) Select Val(col)).ToArray
@@ -109,13 +109,13 @@ Imports Microsoft.VisualBasic.Data.csv
     End Function
 
     <ExportAPI("Export.Csv")>
-    Public Function SaveCsv(data As Generic.IEnumerable(Of SerialsData)) As DocumentStream.File
+    Public Function SaveCsv(data As Generic.IEnumerable(Of SerialsData)) As IO.File
         Dim RowGenerateLQuery = (From row As SerialsData In data.AsParallel
                                  Let IDCol As String() = New String() {row.Tag}
                                  Let DataCol As String() = (From n In row Select s = n.ToString).ToArray
                                  Let RowData As String()() = New String()() {IDCol, DataCol}
-                                 Select CType(RowData.Unlist, DocumentStream.RowObject)).ToArray
-        Dim Csv = CType(RowGenerateLQuery, DocumentStream.File)
+                                 Select CType(RowData.Unlist, IO.RowObject)).ToArray
+        Dim Csv = CType(RowGenerateLQuery, IO.File)
         Return Csv
     End Function
 

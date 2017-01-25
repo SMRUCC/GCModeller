@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9afebb25082e8807424584e1e99d1a73, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\ORF.vb"
+﻿#Region "Microsoft.VisualBasic::a343869e0a77fd833e8db1c4dc9e2148, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\ORF.vb"
 
     ' Author:
     ' 

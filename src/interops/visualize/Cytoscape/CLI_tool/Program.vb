@@ -100,8 +100,8 @@ Module Program
     End Class
 
     Public Sub ExportNetwork()
-        Dim snp_human As DocumentStream.File = DocumentStream.File.Load("C:\Users\xieguigang\Desktop\New folder\8.3\SNP_Viral_Network\SNP-Human.csv")
-        Dim viral_human As DocumentStream.File = DocumentStream.File.Load("C:\Users\xieguigang\Desktop\New folder\8.3\SNP_Viral_Network\Viral-Human.csv")
+        Dim snp_human As IO.File = IO.File.Load("C:\Users\xieguigang\Desktop\New folder\8.3\SNP_Viral_Network\SNP-Human.csv")
+        Dim viral_human As IO.File = IO.File.Load("C:\Users\xieguigang\Desktop\New folder\8.3\SNP_Viral_Network\Viral-Human.csv")
         Dim commons As String() = "C:\Users\xieguigang\Desktop\New folder\8.3\SNP_Viral_Network\commons.csv".ReadAllLines
         Dim nodes As New Dictionary(Of Node)
         Dim types As String() = snp_human.First.ToArray

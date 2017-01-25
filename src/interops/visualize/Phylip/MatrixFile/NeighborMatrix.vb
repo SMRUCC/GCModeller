@@ -76,7 +76,7 @@ Namespace MatrixFile
             Return str.ToString
         End Function
 
-        Public Overloads Shared Function CreateObject(raw As DocumentStream.File) As NeighborMatrix
+        Public Overloads Shared Function CreateObject(raw As IO.File) As NeighborMatrix
             Return CreateObject(Of NeighborMatrix)(raw)
         End Function
     End Class

@@ -379,8 +379,8 @@ Namespace Analysis
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks>请注意，为了保持数据之间的一一对应关系，这里不能够再使用并行化了</remarks>
-        Public Function ExportCsv(TrimNull As Boolean) As DocumentStream.File
-            Dim Head As New DocumentStream.RowObject From {"Description", "QueryProtein"}  ' 生成表头
+        Public Function ExportCsv(TrimNull As Boolean) As IO.File
+            Dim Head As New IO.RowObject From {"Description", "QueryProtein"}  ' 生成表头
             Dim index As List(Of String) =
                 LinqAPI.MakeList(Of String) <=
                     From x As HitCollection
@@ -400,10 +400,10 @@ Namespace Analysis
                 Call Head.Add("Positive")
             Next
 
-            Dim File As DocumentStream.File = New DocumentStream.File + Head
+            Dim File As IO.File = New IO.File + Head
 
             For Each Hit As HitCollection In hits
-                Dim Row As New DocumentStream.RowObject From {Hit.Description, Hit.QueryName}
+                Dim Row As New IO.RowObject From {Hit.Description, Hit.QueryName}
 
                 For Each prot As Hit In Hit.Hits
                     Dim i As Integer = index.IndexOf(prot.tag)

@@ -35,7 +35,7 @@ Public Module InternalExtension
         If FileIO.FileSystem.DirectoryExists(path) Then
             Return FileIO.FileSystem.GetDirectoryInfo(path).Name
         Else
-            Return IO.Path.GetFileNameWithoutExtension(path)
+            Return basename(path)
         End If
     End Function
 

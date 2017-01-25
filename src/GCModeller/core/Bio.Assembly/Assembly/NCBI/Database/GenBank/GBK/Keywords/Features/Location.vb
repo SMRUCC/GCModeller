@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::2fa0d0fdd5438daf1e8788c406c6a28d, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Location.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,10 +30,12 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
-    Public Class Location : Implements ComponentModel.Loci.Abstract.ILocationSegment
+    Public Class Location : Implements ILocationSegment
 
         ''' <summary>
         ''' 对于环状的DNA分子，当某一个特性位点跨越了终点的时候，会有一个这个属性，本属性此时不会为空值
@@ -50,23 +52,19 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         <XmlAttribute> Public Property Complement As Boolean
         <XmlAttribute> Public Property Locations As RegionSegment()
             Get
-                Return lstLocis
+                Return _locis
             End Get
             Set(value As RegionSegment())
-                lstLocis = value
+                _locis = value
 
                 If Not value.IsNullOrEmpty Then
-                    _left = (From loc As RegionSegment
-                             In value
-                             Select loc.Left).ToArray.Min
-                    _right = (From loc As RegionSegment
-                              In value
-                              Select loc.Right).ToArray.Max
+                    _left = value.Select(Function(l) l.Left).Min
+                    _right = value.Select(Function(l) l.Right).Max
                 End If
             End Set
         End Property
 
-        Dim lstLocis As RegionSegment()
+        Dim _locis As RegionSegment()
         Dim _left, _right As Long
 
         ''' <summary>
@@ -75,9 +73,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property ContiguousRegion As ComponentModel.Loci.NucleotideLocation
+        Public ReadOnly Property ContiguousRegion As NucleotideLocation
             Get
-                Return New ComponentModel.Loci.NucleotideLocation(_left, _right, Complement)
+                Return New NucleotideLocation(_left, _right, Complement)
             End Get
         End Property
 
@@ -112,7 +110,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 Call $"Join location at {JoinLocation.ToString}".__DEBUG_ECHO
             End If
 
-            Dim Location As Location = New Location With {
+            Dim Location As New Location With {
                 .Locations = LQuery.ToArray,
                 .Complement = LocationComplement,
                 .JoinLocation = JoinLocation
@@ -144,13 +142,13 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Return sBuilder
         End Function
 
-        Public ReadOnly Property Location As ComponentModel.Loci.Location Implements ComponentModel.Loci.Abstract.ILocationSegment.Location
+        Public ReadOnly Property Location As ComponentModel.Loci.Location Implements ILocationSegment.Location
             Get
                 Return ContiguousRegion
             End Get
         End Property
 
-        Public ReadOnly Property UniqueId As String Implements ComponentModel.Loci.Abstract.ILocationSegment.UniqueId
+        Public ReadOnly Property UniqueId As String Implements ILocationSegment.UniqueId
             Get
                 Return ToString()
             End Get

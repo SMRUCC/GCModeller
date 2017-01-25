@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1edf085acf4f334b823fc2c164d80db3, ..\GCModeller\sub-system\PLAS.NET\SSystem\RunModel.vb"
+﻿#Region "Microsoft.VisualBasic::a44e5b27c63d1b4eec7d8ef193be72f9, ..\GCModeller\sub-system\PLAS.NET\SSystem\RunModel.vb"
 
     ' Author:
     ' 
@@ -30,7 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Mathematical.Calculus
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SSystem.Script
@@ -88,7 +88,7 @@ Public Module RunModel
             Dim p As Double = args.GetValue("/precise", 0.1)
             Dim ds As IEnumerable(Of DataSet) = Kernel.Kernel.Run(Model, p)
             Dim maps As New Dictionary(Of String, String) From {
-                {NameOf(DataSet.Identifier), "#Time"}
+                {NameOf(DataSet.ID), "#Time"}
             }
             Return ds.SaveTo(path:=out, nonParallel:=True, maps:=maps).CLICode
         End If

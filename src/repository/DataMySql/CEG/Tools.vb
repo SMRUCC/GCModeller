@@ -83,7 +83,7 @@ Namespace CEG
                                                   Function(gene) gene.Group.First)
             Dim Proteins = (From strLine As String
                             In Strings.Split(FileIO.FileSystem.ReadAllText(ProtAA), vbCrLf)
-                            Let CsvParsingRow = DocumentStream.RowObject.TryParse(strLine.Replace(vbLf, ""))
+                            Let CsvParsingRow = IO.RowObject.TryParse(strLine.Replace(vbLf, ""))
                             Let Gid As String = CsvParsingRow(0)
                             Where Annotations.ContainsKey(Gid)
                             Let AnnotationData = Annotations(Gid)
@@ -180,7 +180,7 @@ Namespace CEG
         Public Function DeltaHomogeneity(<Parameter("CEG.Cluster", "The essential gene cluster nt data which was batch calculated from the function  " &
                                          "Export.Essential.Gene.Cluster")> CEGCluster As IEnumerable(Of EssentialGeneCluster),
                                          <Parameter("Test.Genome.Partitioning", "The genome nt partitioning sequence data base on its functional annotation.")>
-                                         TestGenomePartitions As IEnumerable(Of PartitioningData)) As DocumentStream.File
+                                         TestGenomePartitions As IEnumerable(Of PartitioningData)) As IO.File
             Dim Bacteria = (From ClusterNt As EssentialGeneCluster
                             In CEGCluster
                             Select ClusterNt
@@ -195,7 +195,7 @@ Namespace CEG
                                                           Select Idx = i,
                                                               Delta = 1000 * Sigma(f, g), ClusterRegion).ToArray).ToArray).ToVector
             Dim GroupData = (From Region In (From Data In LQuery Select Data.DeltaValue).IteratesALL Select Region Group Region By Region.ClusterRegion.Species Into Group).ToArray '按照标尺基因组进行分组
-            Dim CsvObject As New DocumentStream.File
+            Dim CsvObject As New IO.File
             Call CsvObject.AppendLine({"#Tag", "Cluster.ID"})
             Call CsvObject.First.AddRange((From Region In TestGenomePartitions Select Region.PartitioningTag).ToArray)
             Call CsvObject.AppendLine({"GC %", ""})
@@ -210,7 +210,7 @@ Namespace CEG
 
                 For Each cregion In ClusterData
                     Dim bufs = (From Segment In cregion.Group Select Segment Order By Segment.Idx Ascending).ToArray
-                    Dim CsvRow As New DocumentStream.RowObject
+                    Dim CsvRow As New IO.RowObject
                     Call CsvRow.AddRange({Genome.Species, cregion.ClusterID})
                     Call CsvRow.AddRange((From Segment In bufs Select strValue = Segment.Delta).ToArray)
                     Call CsvObject.AppendLine(CsvRow)

@@ -28,7 +28,7 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -96,14 +96,14 @@ Namespace DocumentFormat.XmlOutput.MAST
                     Return Nothing
                 End If
                 Dim DIR As String = FileIO.FileSystem.GetFileInfo(source).Directory.Name
-                Dim Name As String = IO.Path.GetFileNameWithoutExtension(DIR)
+                Dim Name As String = basename(DIR)
                 Return Name
             End Get
         End Property
 
         Public ReadOnly Property memePWM As String
             Get
-                Dim Name As String = IO.Path.GetFileNameWithoutExtension(source)
+                Dim Name As String = basename(source)
                 If String.Equals(Name, "meme", StringComparison.OrdinalIgnoreCase) Then
                     Return Me.Directory
                 Else

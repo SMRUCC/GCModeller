@@ -31,7 +31,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -84,7 +84,7 @@ Namespace Analysis
             Return TempChunk.ToArray
         End Function
 
-        Public Function MatchedTargetRegulator(ExportFile As DocumentStream.File, BestMatches As RegpreciseMPBBH()) As MatchedResult()
+        Public Function MatchedTargetRegulator(ExportFile As IO.File, BestMatches As RegpreciseMPBBH()) As MatchedResult()
             Dim ChunkBuffer As MatchedResult() = ExportFile.AsDataSource(Of MatchedResult)(False)
             Dim MatchLQuery = (From Match As MatchedResult In ChunkBuffer.AsParallel Select Process(Match, BestMatches)).ToArray.ToVector
             Return MatchLQuery
@@ -442,7 +442,7 @@ Namespace Analysis
         End Function
 
         <ExportAPI("Statics.Regulations.CellPhenotype")>
-        Public Function PhenotypeRegulations(MatchedRegulations As IEnumerable(Of MatchedResult), Pathways As IEnumerable(Of bGetObject.Pathway)) As DocumentStream.File
+        Public Function PhenotypeRegulations(MatchedRegulations As IEnumerable(Of MatchedResult), Pathways As IEnumerable(Of bGetObject.Pathway)) As IO.File
             Dim Regulations = (From Regulator As String
                                In (From item In MatchedRegulations Select item.TF Distinct).ToArray
                                Let RegulatedGenes = (From item As MatchedResult In MatchedRegulations
@@ -459,8 +459,8 @@ Namespace Analysis
                                                                        Let [Class] As BriteHEntry.Pathway = PathwayFunctions(Regex.Match(Pathway.EntryId, "\d{5}").Value)
                                                                        Select Pathway.EntryId, [Class].Category).ToArray).ToArray.ToVector
                                       Select Regulator.Regulator, RegulatePhenotypes = RegulatedPathways).ToArray
-            Dim CsvFile As DocumentStream.File = New DocumentStream.File
-            Dim Head As DocumentStream.RowObject = New DocumentStream.RowObject From {"Regulator", "Family"}
+            Dim CsvFile As IO.File = New IO.File
+            Dim Head As IO.RowObject = New IO.RowObject From {"Regulator", "Family"}
             Dim Phenotypes As String() = (From item In PathwayFunctions Select item.Value.Category Distinct).ToArray
             Dim LQuery = (From Regulator In PathwayRegulations.AsParallel
                           Let RegulatorId As String = Regulator.Regulator

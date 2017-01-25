@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::643c424fb766c5acf693b4ad636f863f, ..\GCModeller\analysis\RNA-Seq\TSSsTools\Transcriptome.UTRs\Views.vb"
+﻿#Region "Microsoft.VisualBasic::7be9c8fe7df7044cdd06eefb08726820, ..\GCModeller\analysis\RNA-Seq\TSSsTools\Transcriptome.UTRs\Views.vb"
 
     ' Author:
     ' 
@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -104,7 +104,7 @@ Public Module Views
     Public Function TSSsNumberDistributes(data As IEnumerable(Of DocumentFormat.Transcript),
                                           <Parameter("PTT", "The ptt file should contains the COG information.")>
                                           PTT As GenBank.TabularFormat.PTT,
-                                          Optional Max As Integer = 15) As DocumentStream.File
+                                          Optional Max As Integer = 15) As IO.File
 
         Dim LQuery = (From obj In data.AsParallel
                       Where Not String.IsNullOrEmpty(obj.Synonym)
@@ -211,13 +211,13 @@ Public Module Views
                                     NT As FASTA.FastaToken,
                                     Optional offset As Integer = 3,
                                     <Parameter("Just.ORF", "Only the TSSs site of ORF will be export.")>
-                                    Optional ORF As Boolean = True) As DocumentStream.File
+                                    Optional ORF As Boolean = True) As IO.File
         Dim Fasta = ExportTSSs(data, NT, offset, ORF)
         Dim pStart = -offset
         Dim FrequencyData As Patterns.PatternModel = Patterns.Frequency(Fasta)
-        Dim df As DocumentStream.File = New DocumentStream.File + {"prob", "A", "T", "G", "C"}
-        df += LinqAPI.Exec(Of Patterns.SimpleSite, DocumentStream.RowObject)(FrequencyData.Residues) _
-           <= Function(rsd As Patterns.SimpleSite) New DocumentStream.RowObject({CStr(pStart + rsd.Address)}.Join(ATGC.ToArray(Function(c) rsd.Probability(c).ToString)))
+        Dim df As IO.File = New IO.File + {"prob", "A", "T", "G", "C"}
+        df += LinqAPI.Exec(Of Patterns.SimpleSite, IO.RowObject)(FrequencyData.Residues) _
+           <= Function(rsd As Patterns.SimpleSite) New IO.RowObject({CStr(pStart + rsd.Address)}.Join(ATGC.ToArray(Function(c) rsd.Probability(c).ToString)))
 
         Return df
     End Function

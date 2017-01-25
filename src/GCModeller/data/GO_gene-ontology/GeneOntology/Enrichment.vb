@@ -1,4 +1,32 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::572863c29644ed65006837b6ee3c597a, ..\GCModeller\data\GO_gene-ontology\GeneOntology\Enrichment.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+
 
 ''' <summary>
 ''' Gene Ontology可分为分子功能(``Molecular Function``)，生物过程(``biological process``)和细胞组成(``cellular component``)三个部分.
@@ -26,3 +54,4 @@
 Public Module Enrichment
 
 End Module
+

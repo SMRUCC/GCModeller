@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::ec80e7beb8a21edcfee475e82fbd92a6, ..\GCModeller\CLI_tools\RNA-seq\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::885aaafecc73f5ff1691730b28f04a4d, ..\GCModeller\CLI_tools\RNA-seq\CLI\CLI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,7 +30,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Data.IO.SearchEngine
 Imports Microsoft.VisualBasic.Language
@@ -98,11 +98,11 @@ Module CLI
         Dim DOOR = DOOR_API.Load(doorFile)
         Dim corrects As Operon() = CorrectDoorOperon(PCC, DOOR, pccCut)
 
-        Dim MAT As New DocumentStream.File
+        Dim MAT As New IO.File
         Call MAT.Add({"DOOR", "locus_id", "Strand"})
 
         For Each operon As Operon In corrects
-            Dim row As New DocumentStream.RowObject
+            Dim row As New IO.RowObject
             Dim initX = operon.InitialX
             Call row.AddRange({operon.OperonID, initX.Synonym, initX.Location.Strand.GetBriefCode})
             Call MAT.Add(row)
@@ -134,7 +134,7 @@ Module CLI
     Public Function PCC(args As CommandLine) As Integer
         Dim expr As String = args("/expr")
         Dim out As String = args.GetValue("/out", expr.TrimSuffix & ".PCC.dat")
-        Dim MAT As PccMatrix = MatrixAPI.CreatePccMAT(DocumentStream.File.Load(expr))
+        Dim MAT As PccMatrix = MatrixAPI.CreatePccMAT(IO.File.Load(expr))
         Return MatrixSerialization.SaveBin(MAT, out).CLICode
     End Function
 
@@ -142,7 +142,7 @@ Module CLI
     Public Function SPCC(args As CommandLine) As Integer
         Dim expr As String = args("/expr")
         Dim out As String = args.GetValue("/out", expr.TrimSuffix & ".SPCC.dat")
-        Dim MAT As PccMatrix = MatrixAPI.CreateSPccMAT(DocumentStream.File.Load(expr))
+        Dim MAT As PccMatrix = MatrixAPI.CreateSPccMAT(IO.File.Load(expr))
         Return MatrixSerialization.SaveBin(MAT, out).CLICode
     End Function
 
@@ -222,7 +222,7 @@ Module CLI
         Dim PTT As String = args("/ptt")
         Dim design As String = args.GetValue("/design", "~condition")
         Dim dtPTT As PTT = NCBI.GenBank.TabularFormat.PTT.Load(PTT)
-        Dim sampleTable As DocumentStream.File = DocumentStream.File.Load(args("/sample.table"))
+        Dim sampleTable As IO.File = IO.File.Load(args("/sample.table"))
         Return RTools.DESeq2.DESeq2(sampleTable, rawDIR, design, dtPTT).CLICode
     End Function
 

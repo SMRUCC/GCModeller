@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dbea6b2841da4da5aaeae53f1af78458, ..\GCModeller\shared\RNA-Seq.Doc\ExprStats.vb"
+﻿#Region "Microsoft.VisualBasic::2fcfbdf05582723cceb321584186ca2f, ..\GCModeller\shared\RNA-Seq.Doc\ExprStats.vb"
 
     ' Author:
     ' 

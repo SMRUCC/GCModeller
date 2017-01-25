@@ -209,7 +209,7 @@ Call MEME.Invoke_Batch {Source}, {Export}, 0.001, 100, zoops, -dna"
             Dim LQuery As AnnotationModel() =
                 LinqAPI.Exec(Of AnnotationModel) <= From file As String
                                                     In (ls - l - r - wildcards("*.txt") <= sourceDIR).AsParallel
-                                                    Let Name As String = IO.Path.GetFileNameWithoutExtension(FileIO.FileSystem.GetFileInfo(file).Directory.Name)
+                                                    Let Name As String = basename(FileIO.FileSystem.GetFileInfo(file).Directory.Name)
                                                     Let models = AnnotationModel.LoadDocument(file)
                                                     Let assigned = (From x As AnnotationModel
                                                                     In models

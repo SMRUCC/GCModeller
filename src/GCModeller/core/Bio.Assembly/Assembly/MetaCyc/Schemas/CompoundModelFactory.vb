@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dbe08ebd05ffaaf6a8b382aa0d01a94, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\CompoundModelFactory.vb"
+﻿#Region "Microsoft.VisualBasic::863307bcea6aa4fb9c9b3b5c167d7a53, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\CompoundModelFactory.vb"
 
     ' Author:
     ' 

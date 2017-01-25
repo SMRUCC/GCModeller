@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01f8c8df89ced6bd0438cf23f142b1a3, ..\GCModeller\CLI_tools\MEME\TomReport.vb"
+﻿#Region "Microsoft.VisualBasic::4c3e61b23bc006363e95cad0ec1d6bc8, ..\GCModeller\CLI_tools\MEME\TomReport.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
 Imports SMRUCC.genomics.GCModeller.Workbench
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Imaging

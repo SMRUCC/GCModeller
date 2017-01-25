@@ -82,7 +82,7 @@ Namespace adegenet
         ''' genind2df(obj, sep="/")
         ''' ```
         ''' </remarks>
-        Public Function df2genind(X As DocumentStream.File,
+        Public Function df2genind(X As IO.File,
                                   Optional sep As String = NULL,
                                   Optional ncode As String = NULL,
                                   Optional indNames As String() = Nothing,

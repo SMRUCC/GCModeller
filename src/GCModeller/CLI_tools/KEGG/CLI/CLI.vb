@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::c36c8da3b402d2d4ef786ba6aac880dd, ..\GCModeller\CLI_tools\KEGG\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::c8847432b7b7da75f2723138b2261724, ..\GCModeller\CLI_tools\KEGG\CLI\CLI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -149,7 +149,7 @@ Module CLI
         Dim GeneList As String()
         Dim ExportedDir As String = args("-export")
         If Not GBK Then
-            GeneList = IO.File.ReadAllLines(args("-i"))
+            GeneList = args("-i").ReadAllLines()
         Else
             Dim gb = GBFF.File.Load(args("-i"))
             GeneList = gb.GeneList.ToArray(Function(g) g.Key)
@@ -246,15 +246,15 @@ Module CLI
         Dim Inputs As String() = FileIO.FileSystem.GetFiles(argvs("-i"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").ToArray
         Dim GeneData = (From path As String
                         In Inputs.AsParallel
-                        Select ID = IO.Path.GetFileNameWithoutExtension(path),
+                        Select ID = path.BaseName,
                             DataRow = (From entry As QueryEntry
                                        In path.LoadCsv(Of QueryEntry)(False)
                                        Select entry
                                        Group By entry.SpeciesId Into Group) _
                                                .ToDictionary(Function(obj) obj.SpeciesId,
                                                              Function(obj) obj.Group.First)).ToArray
-        Dim File As New DocumentStream.File
-        Dim MatrixBuilder As New DocumentStream.File
+        Dim File As New IO.File
+        Dim MatrixBuilder As New IO.File
 
         Call File.AppendLine({"sp.Class", "sp.Kingdom", "sp.Phylum", "sp.KEGGId"})
         Call MatrixBuilder.AppendLine({"Class", "sp"})
@@ -480,7 +480,7 @@ Module CLI
 
     <ExportAPI("-function.association.analysis", Usage:="-function.association.analysis -i <matrix_csv>")>
     Public Function FunctionAnalysis(argvs As CommandLine) As Integer
-        Dim MAT = DocumentStream.File.FastLoad(argvs("-i"))
+        Dim MAT = IO.File.FastLoad(argvs("-i"))
         Call PathwayAssociationAnalysis.Analysis(MAT)
         Return 0
     End Function

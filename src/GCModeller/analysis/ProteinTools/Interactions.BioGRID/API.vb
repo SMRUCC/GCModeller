@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b299e8366174edda8c9e64da4b6a4597, ..\GCModeller\analysis\ProteinTools\Interactions.BioGRID\API.vb"
+﻿#Region "Microsoft.VisualBasic::c7085e5780ba9321735a9ef03f6ad687, ..\GCModeller\analysis\ProteinTools\Interactions.BioGRID\API.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 

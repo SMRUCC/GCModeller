@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d468a8e751c388b7d72e4ec2281ffce, ..\GCModeller\visualize\PDB_canvas\Canvas.vb"
+﻿#Region "Microsoft.VisualBasic::2295f27ea2a8855f03ac32e0d8192eb8, ..\GCModeller\visualize\PDB_canvas\Canvas.vb"
 
     ' Author:
     ' 
@@ -144,4 +144,3 @@ Public Class Canvas
         Call __driver.Dispose()
     End Sub
 End Class
-

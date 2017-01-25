@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::337d01e73940246616b14742b086836a, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::df2209217adbfd738c7596300375dfc5, ..\GCModeller\engine\GCMarkupLanguage\GCML_Documents\XmlElements\Bacterial_GENOME\Regulon.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,7 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 

@@ -32,7 +32,7 @@ Imports System.Threading.Tasks.Parallel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.SequenceModel
@@ -63,7 +63,7 @@ Namespace Workflows
         Public Sub FinalRegulationMatch(predictedRegulation As String,
                                         regpreciseRegulator As FASTA.FastaFile,
                                         regprecisetfbs As FASTA.FastaFile,
-                                        reg_vs_query_bh As DocumentStream.File)
+                                        reg_vs_query_bh As IO.File)
 
             Console.WriteLine("function FinalRegulationMatch()")
             Dim dir = predictedRegulation & "/matched/"
@@ -84,7 +84,7 @@ Namespace Workflows
             Console.WriteLine("matching data file")
             Call ForEach((From path
                           In FileIO.FileSystem.GetFiles(predictedRegulation, FileIO.SearchOption.SearchTopLevelOnly, "*.csv")
-                          Select DocumentStream.File.Load(path)).ToArray,
+                          Select IO.File.Load(path)).ToArray,
                                   AddressOf New __Parallelinvoker With {.regulators = regulators, .reg_vs_query_bh = reg_vs_query_bh, .tfbsInfo = tfbsInfo}.Invoke)
             Console.WriteLine("/* FinalRegulationMatch */")
         End Sub
@@ -93,10 +93,10 @@ Namespace Workflows
 
             Public tfbsInfo As KeyValuePair(Of String, String)()
             Public regulators As KeyValuePair(Of String, String())()
-            Public reg_vs_query_bh As DocumentStream.File
+            Public reg_vs_query_bh As IO.File
 
-            Public Sub Invoke(File As DocumentStream.File)
-                Dim matchedFile As New DocumentStream.File
+            Public Sub Invoke(File As IO.File)
+                Dim matchedFile As New IO.File
 
                 Console.WriteLine("procede file {0}", File.FilePath)
 
@@ -160,9 +160,9 @@ Namespace Workflows
             Dim File As String = File_MAST_OUT.Key
             Dim MAST_OUT As String = File_MAST_OUT.Value
             Dim name As String = FileIO.FileSystem.GetName(File)
-            Dim mast As DocumentStream.File = String.Format("{0}/{1}", MAST_OUT, name)
-            Dim motifFile As New DocumentStream.File
-            Dim meme As DocumentStream.File = DocumentStream.File.Load(File)
+            Dim mast As IO.File = String.Format("{0}/{1}", MAST_OUT, name)
+            Dim motifFile As New IO.File
+            Dim meme As IO.File = IO.File.Load(File)
 
             Call motifFile.Add(New String() {"ObjectId", "Operon", "tfbsId", "meme_pvalue", "mast_pvalue", "mast_evalue"})
 
@@ -192,10 +192,10 @@ Namespace Workflows
         End Sub
 
         Public Sub match(MEME_OUT As String, FsaDir As String)
-            Dim list = From path In ls - l - wildcards("*.csv") <= MEME_OUT Select DocumentStream.File.Load(path)
+            Dim list = From path In ls - l - wildcards("*.csv") <= MEME_OUT Select IO.File.Load(path)
             Dim DirList = FileIO.FileSystem.GetDirectories(FsaDir, FileIO.SearchOption.SearchTopLevelOnly)
 
-            ForEach(list, Sub(csvFile As DocumentStream.File)
+            ForEach(list, Sub(csvFile As IO.File)
                               Dim Dirname As String = FileIO.FileSystem.GetName(csvFile.FilePath)
                               Dim Dir = (From strDir As String In DirList Where InStr(Dirname, FileIO.FileSystem.GetName(strDir)) Select strDir).First
 

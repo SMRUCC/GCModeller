@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::357e36dcce4832a12d0688a84c6618fa, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Matrix\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::948491fea02f1aeddb31b9da819c7730, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Matrix\Matrix.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,7 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel
@@ -43,7 +43,7 @@ Namespace dataExprMAT
         ''' <summary>
         ''' 原始数据
         ''' </summary>
-        Dim __reader As DocumentStream.DataFrame
+        Dim __reader As IO.DataFrame
         Protected Friend __pCol As Integer = -1
 
         Public Function CalculatePccMatrix() As PccMatrix
@@ -77,7 +77,7 @@ Namespace dataExprMAT
         ''' <returns></returns>
         ''' <remarks>请勿再随意修改本函数之中的并行定义，以免照成混乱</remarks>
         ''' 
-        Public Function Log2(samples As IEnumerable(Of Experiment)) As DocumentStream.File
+        Public Function Log2(samples As IEnumerable(Of Experiment)) As IO.File
             Dim LQuery = (From sample As Experiment
                           In samples
                           Let vector As Double() = __caculation(Me, sample)
@@ -87,22 +87,22 @@ Namespace dataExprMAT
                                            Select i).AsParallel
                              Let GeneId As String = item.value
                              Let i = item.i
-                             Let createdRow As DocumentStream.RowObject = __createRow(LQuery, GeneId, i)
+                             Let createdRow As IO.RowObject = __createRow(LQuery, GeneId, i)
                              Select createdRow
                              Order By createdRow.First Ascending).ToList
-            Dim Head As New DocumentStream.RowObject("LocusId" + (From item In LQuery Select item.locusId).ToList)
-            Dim data As DocumentStream.File = New DocumentStream.File(Head + RowsQuery)
+            Dim Head As New IO.RowObject("LocusId" + (From item In LQuery Select item.locusId).ToList)
+            Dim data As IO.File = New IO.File(Head + RowsQuery)
 
             Return data
         End Function
 
-        Private Shared Function __createRow(LQuery As ExprSamples(), GeneId As String, i As Integer) As DocumentStream.RowObject
-            Dim row As DocumentStream.RowObject =
-                New DocumentStream.RowObject(GeneId + LQuery.ToList(Function(x) x.Values(i).ToString))
+        Private Shared Function __createRow(LQuery As ExprSamples(), GeneId As String, i As Integer) As IO.RowObject
+            Dim row As IO.RowObject =
+                New IO.RowObject(GeneId + LQuery.ToList(Function(x) x.Values(i).ToString))
             Return row
         End Function
 
-        Public Function GetOriginalMatrix() As DocumentStream.File
+        Public Function GetOriginalMatrix() As IO.File
             Return __reader
         End Function
 
@@ -204,7 +204,7 @@ Namespace dataExprMAT
 
         Public ReadOnly Property Name As String
             Get
-                Return IO.Path.GetFileNameWithoutExtension(__reader.FilePath)
+                Return basename(__reader.FilePath)
             End Get
         End Property
 
@@ -213,13 +213,13 @@ Namespace dataExprMAT
         ''' </summary>
         ''' <param name="chipDataCsv">首行是标题行，第一列是基因的编号</param>
         ''' <returns></returns>
-        Public Shared Function Load(chipDataCsv As DocumentStream.File) As MatrixFrame
+        Public Shared Function Load(chipDataCsv As IO.File) As MatrixFrame
             Dim locusId As String() =
-                LinqAPI.Exec(Of String) <= From row As DocumentStream.RowObject
+                LinqAPI.Exec(Of String) <= From row As IO.RowObject
                                            In chipDataCsv.Skip(1)  ' 首行是标题
                                            Select row.First
             Dim ChipData As MatrixFrame = New MatrixFrame With {
-                .__reader = DocumentStream.DataFrame.CreateObject(chipDataCsv),
+                .__reader = IO.DataFrame.CreateObject(chipDataCsv),
                 ._LstLocusId = locusId
             }
 

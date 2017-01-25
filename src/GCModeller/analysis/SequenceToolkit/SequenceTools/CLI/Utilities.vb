@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::586889bbbbbad92c78217c8c9348137f, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
+﻿#Region "Microsoft.VisualBasic::ce364ad5b9c42e1511174f353e216e8b, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
 
     ' Author:
     ' 
@@ -162,7 +162,7 @@ Public Module Utilities
             FASTA = GbkFile.ExportProteins
         End If
 
-        Dim File As String = IO.Path.GetFileNameWithoutExtension(Input)
+        Dim File As String = basename(Input)
         Dim Csv = SequencePatterns.Pattern.PatternSearch.Match(Seq:=FASTA, pattern:=pattern)
         Dim Complement = SequencePatterns.Pattern.PatternSearch.Match(Seq:=FASTA.Complement, pattern:=pattern)
         Dim Reverse = SequencePatterns.Pattern.PatternSearch.Match(Seq:=FASTA.Reverse, pattern:=pattern)

@@ -32,7 +32,7 @@ Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports RDotNET.Extensions.VisualBasic
@@ -47,7 +47,7 @@ Namespace VennDiagram.ModelAPI
         ''' <param name="source"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Generate(source As DocumentStream.File) As VennDiagram
+        Public Function Generate(source As IO.File) As VennDiagram
             Dim LQuery = From vec
                          In __vector(source:=source)
                          Select New Partition With {

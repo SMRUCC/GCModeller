@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a121e79b0c710e536e22f0ef09f37480, ..\GCModeller\CLI_tools\KEGG\PathwayAssociationAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::12d829d0783625c9d4eea42102a0f856, ..\GCModeller\CLI_tools\KEGG\PathwayAssociationAnalysis.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@ Imports Microsoft.VisualBasic.Linq
 ''' <remarks></remarks>
 Module PathwayAssociationAnalysis
 
-    Private Function __tr(row As DocumentStream.RowObject, items As Char()) As String
+    Private Function __tr(row As IO.RowObject, items As Char()) As String
         Dim values = (From col In row.Skip(2) Select CInt(Val(col))).ToArray
         Dim chars = (From i As Integer In values.Sequence Where values(i) = 1 Select items(i)).ToArray
         Return New String(chars)
@@ -50,7 +50,7 @@ Module PathwayAssociationAnalysis
     ''' <param name="Df"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function Analysis(Df As DocumentStream.File) As Entities.Output()
+    Public Function Analysis(Df As IO.File) As Entities.Output()
         Dim Genes = (From col As String In Df.First.Skip(2) Select col).ToArray
         Dim ChrW As Char() = EncodingServices.GenerateCodes(Genes.Length)
         Dim items = (From i As Integer In Genes.Sequence Select ChrW(i + 1)).ToArray      '创建映射
@@ -90,7 +90,7 @@ Module PathwayAssociationAnalysis
                             ClsGeneIDs = String.Join(" + ", obj.GeneIDs)).ToArray
         Call GeneIDls.SaveTo(FileIO.FileSystem.GetParentPath(Df.FilePath) & "./Apriori/Class.GeneIDs.csv", False)
 
-        Dim MAT = New DocumentStream.File
+        Dim MAT = New IO.File
         Call MAT.Add({"Class"})
         Call MAT.Last.AddRange(Genes)
 

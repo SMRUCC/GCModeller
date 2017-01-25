@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfc5412c2f29e055bdaed008973bd998, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Matrix\ExprMAT.vb"
+﻿#Region "Microsoft.VisualBasic::80d4522dfa8f37dd607db166b6b3cc34, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Matrix\ExprMAT.vb"
 
     ' Author:
     ' 
@@ -60,7 +60,7 @@ Namespace dataExprMAT
         ''' <param name="path"></param>
         ''' <returns></returns>
         Public Function LoadMatrix(path As String) As ExprMAT()
-            Dim File As DocumentStream.File = DocumentStream.File.Load(path)
+            Dim File As IO.File = IO.File.Load(path)
             File(Scan0, Scan0) = NameOf(LocusId)
             Dim MAT As ExprMAT() = File.AsDataSource(Of ExprMAT)(False)
             Return MAT

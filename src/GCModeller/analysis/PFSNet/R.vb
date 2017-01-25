@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41b9f8b10d0592240e88632c377a387b, ..\GCModeller\analysis\PFSNet\R.vb"
+﻿#Region "Microsoft.VisualBasic::eeb1395b110cdb69d08dc4c0f3585071, ..\GCModeller\analysis\PFSNet\R.vb"
 
     ' Author:
     ' 
@@ -27,7 +27,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure

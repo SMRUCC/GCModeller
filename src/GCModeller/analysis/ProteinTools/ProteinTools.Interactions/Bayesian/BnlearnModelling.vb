@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93384915193e478ed337b50cdd65986b, ..\GCModeller\analysis\ProteinTools\ProteinTools.Interactions\Bayesian\BnlearnModelling.vb"
+﻿#Region "Microsoft.VisualBasic::b7b931374b51fbcfc8afbbfb9a570e66, ..\GCModeller\analysis\ProteinTools\ProteinTools.Interactions\Bayesian\BnlearnModelling.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Abstract
@@ -39,7 +39,7 @@ Public Class BnlearnModelling : Inherits IRScript
     Dim TempData As String
 
     Sub New(ExperimentalInteractionAssemblies As String())
-        Dim csvData As New DocumentStream.File
+        Dim csvData As New IO.File
         Dim rowQuery = (From item In ExperimentalInteractionAssemblies Select RowObject.CreateObject((From n In item Select CStr(n)).ToArray)).ToArray
         For i As Long = 0 To rowQuery.First.Count - 1
             Dim p = i

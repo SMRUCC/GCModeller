@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a22ecda66ea531aa28c1b6b2239405fa, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\Csv.vb"
+﻿#Region "Microsoft.VisualBasic::abac1dac7f6cc35125d8b3c8dec51a2e, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\Csv.vb"
 
     ' Author:
     ' 
@@ -27,7 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
 
 Namespace EngineSystem.Services.DataAcquisition.DataSerializer

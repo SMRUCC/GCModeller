@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b8992da5d127897ac498d25d5dfb794, ..\GCModeller\CLI_tools\S.M.A.R.T\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5c3b3791375f79e1fb2e4022d94b4e97, ..\GCModeller\CLI_tools\S.M.A.R.T\ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -85,7 +85,7 @@ Public Module ShellScriptAPI
     End Function
 
     <ExportAPI("Result2Csv")>
-    Public Function Convert(<Parameter("Db.SMART")> Db As SMARTDB) As DocumentStream.File
+    Public Function Convert(<Parameter("Db.SMART")> Db As SMARTDB) As IO.File
         Return Db.Export
     End Function
 

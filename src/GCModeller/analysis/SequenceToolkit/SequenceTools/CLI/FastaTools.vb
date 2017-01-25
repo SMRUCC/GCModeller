@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::d146a548795ca0f4023c4b4a5a7c443e, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::5be76cdb150b013d27156321aa4dfc38, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
@@ -228,7 +228,7 @@ Partial Module Utilities
             },
             attrs.Split(";"c))
         Dim seq As String = args.GetValue("/seq", "sequence")
-        Dim csv As DataFrame = DocumentStream.DataFrame.CreateObject(DocumentStream.DataFrame.Load(inFile))
+        Dim csv As DataFrame = IO.DataFrame.CreateObject(IO.DataFrame.Load(inFile))
         Dim readers As DynamicObjectLoader() = csv.CreateDataSource
         Dim attrSchema = (From x In csv.GetOrdinalSchema(lstAttrs) Where x > -1 Select x).ToArray
         Dim seqOrd As Integer = csv.GetOrdinal(seq)
@@ -399,7 +399,7 @@ Partial Module Utilities
                                                .Attributes = dumpMethod(segment)
                                            }
         Dim PTT As PTT = Segments.CreatePTTObject
-        PTT.Title = IO.Path.GetFileNameWithoutExtension(args("/fasta"))
+        PTT.Title = basename(args("/fasta"))
         PTT.Size = Fasta.Length
 
         Call PTT.Save(input & ".ptt")
@@ -496,7 +496,7 @@ Partial Module Utilities
     <ExportAPI("/subset", Usage:="/subset /lstID <lstID.txt> /fa <source.fasta>")>
     <Group(CLIGrouping.FastaTools)>
     Public Function SubSet(args As CommandLine) As Integer
-        Dim lstID As String() = IO.File.ReadAllLines(args("/lstID"))
+        Dim lstID As String() = args("/lstID").ReadAllLines
         Dim fa As New FASTA.FastaFile(args("/fa"))
         Dim LQuery As FASTA.FastaToken() = (From id As String
                                             In lstID

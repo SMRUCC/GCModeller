@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75271e271cfc3e61fa401da6bf6fa405, ..\GCModeller\sub-system\FBA_DP\Visual\FluxVisual.vb"
+﻿#Region "Microsoft.VisualBasic::0b1e1e449664dfbb7f1b4280b359aff5, ..\GCModeller\sub-system\FBA_DP\Visual\FluxVisual.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@
 '    ''' <returns></returns>
 '    ''' <param name="mods">KEGG Modules DIR</param>
 '    Public Function DrawingModule(coefficient As String, model As XmlFile, mods As String) As Image
-'        Dim MAT As DocumentStream.File = DocumentStream.File.FastLoad(coefficient) ' 由于文件可能比较大，直接使用反射加载可能比较慢，由于id号之中没有逗号，所以直接使用fastLoad加载数据
+'        Dim MAT As IO.File = IO.File.FastLoad(coefficient) ' 由于文件可能比较大，直接使用反射加载可能比较慢，由于id号之中没有逗号，所以直接使用fastLoad加载数据
 '        Dim source As RPKMStat() = MAT.AsDataSource(Of RPKMStat)(False)
 '        Dim modules = (From file As String
 '                       In FileIO.FileSystem.GetFiles(mods, FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel

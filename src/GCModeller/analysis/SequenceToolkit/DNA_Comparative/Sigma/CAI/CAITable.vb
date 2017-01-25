@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef16bc9d1210e5f6216eafd29e173251, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\CAI\CAITable.vb"
+﻿#Region "Microsoft.VisualBasic::8d506a6173ccf97feefabaa003cc3863, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\CAI\CAITable.vb"
 
     ' Author:
     ' 

@@ -30,8 +30,8 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -60,7 +60,7 @@ Partial Module CLI
                                  hashHits As Dictionary(Of String, BestHit()),
                                  flip As Boolean) As RowObject
 
-        Dim row As New DocumentStream.RowObject From {queryName}
+        Dim row As New IO.RowObject From {queryName}
 
         For Each hit As String In hitsTags
 
@@ -97,7 +97,7 @@ Partial Module CLI
                                queryName As String,
                                hashHits As Dictionary(Of String, BestHit())) As RowObject
 
-        Dim row As New DocumentStream.RowObject From {queryName}
+        Dim row As New IO.RowObject From {queryName}
 
         For Each hit As String In hitsTags
             If hashHits.ContainsKey(hit) Then

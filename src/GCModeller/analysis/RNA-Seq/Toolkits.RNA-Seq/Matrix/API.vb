@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6cc9465520e300994f57720f104c463c, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Matrix\API.vb"
+﻿#Region "Microsoft.VisualBasic::423afc2fa56defb09720cf826af6e0ad, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Matrix\API.vb"
 
     ' Author:
     ' 
@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -82,7 +82,7 @@ Namespace dataExprMAT
         <ExportAPI("Read.Chipdata")>
         Public Function LoadChipData(path As String) As MatrixFrame
             Call $"Start to load chipdata from csv file {path.ToFileURL}".__DEBUG_ECHO
-            Dim CsvDoc As DocumentStream.File = DocumentStream.File.Load(path)
+            Dim CsvDoc As IO.File = IO.File.Load(path)
             Dim MAT As MatrixFrame = MatrixFrame.Load(CsvDoc)
             Return MAT
         End Function
@@ -94,7 +94,7 @@ Namespace dataExprMAT
 
         <ExportAPI("Load.Log2_Profiles")>
         Public Function Log2Profiles(path As String) As String()()
-            Dim Lines As String() = IO.File.ReadAllLines(path)
+            Dim Lines As String() = path.ReadAllLines
             Return (From strLine As String In Lines Select Strings.Split(strLine, vbTab)).ToArray
         End Function
 
@@ -149,7 +149,7 @@ Namespace dataExprMAT
                                         <Parameter("Gaps.Removes?",
                                                    "If the gene is not found the source part of the data, then should this function removes this incomplete data? 
                                                     Otherwise this function will using ZERO value to fill the gaps, default action is not removes.")>
-                                        Optional RemoveGaps As Boolean = False) As DocumentStream.File
+                                        Optional RemoveGaps As Boolean = False) As IO.File
             Dim dataExprMATs As MatrixFrame() = (From Path As String
                                                  In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.csv")
                                                  Select dataExprMAT.API.LoadChipData(Path)).ToArray
@@ -170,10 +170,10 @@ Namespace dataExprMAT
                 Call $"{IdList.Length} genes in the data set!".__DEBUG_ECHO
             End If
 
-            Dim HeadTitle As New DocumentStream.RowObject From {"GeneId"}
+            Dim HeadTitle As New IO.RowObject From {"GeneId"}
             Dim GeneRows = (From strId As String
                             In IdList
-                            Select New DocumentStream.RowObject From {strId}).ToArray
+                            Select New IO.RowObject From {strId}).ToArray
 
             For Each dataMAT0 As MatrixFrame In dataExprMATs
                 Dim ExperimentIdlist As String() = dataMAT0.LstExperiments
@@ -191,15 +191,15 @@ Namespace dataExprMAT
                 HeadTitle += From strId As String In ExperimentIdlist Select String.Join(".", dataMAT0.Name, strId)
             Next
 
-            Dim DataFrame As DocumentStream.File = New DocumentStream.File + HeadTitle + GeneRows
+            Dim DataFrame As IO.File = New IO.File + HeadTitle + GeneRows
             Return DataFrame
         End Function
 
         <ExportAPI("Associate.PathwayInfo",
                Info:="Assign the pathway information in to the genes to study which pathway was affect by the gene mutation from the chipdata log2 value.")>
-        Public Function AssociatesPathwaysInfo(ChipData As DocumentStream.File,
+        Public Function AssociatesPathwaysInfo(ChipData As IO.File,
                                                Pathways As IEnumerable(Of PathwayBrief),
-                                               head As String) As DocumentStream.File
+                                               head As String) As IO.File
 
             Dim DictPathwayBrief = __getBirefDicts(Pathways)
             'Dim PathwayGenes As String() = DictPathwayBrief.Keys.ToArray

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fafd1b46f75d1daea2894945b6032a6c, ..\GCModeller\analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::0ac99f809e9026e0abf9551ba2b05bfb, ..\GCModeller\analysis\ProteinTools\ProteinTools.Interactions\SwissTCS\Matrix.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@ Public Class Matrix
 
     Const BLOCK_WIDTH As Integer = 120
 
-    Public Function Generate(Matrix As DocumentStream.File, titl As String) As System.Drawing.Image
+    Public Function Generate(Matrix As IO.File, titl As String) As System.Drawing.Image
         Dim Colors As System.Drawing.Color() = (From [property] In GetType(Drawing.Color).GetProperties() Where [property].PropertyType Is GetType(System.Drawing.Color) Select CType([property].GetValue(Nothing), System.Drawing.Color)).ToArray
         Colors = (From cl In Colors Select cl Order By (System.Convert.ToInt32(cl.R) * 128 + System.Convert.ToInt32(cl.G) * 32 + System.Convert.ToInt32(cl.B)) Descending).Skip(20).ToArray
 

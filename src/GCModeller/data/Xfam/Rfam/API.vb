@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::357dbf2e0824b852a4e6ef1da7e6fefb, ..\GCModeller\analysis\Xfam\Rfam\API.vb"
+﻿#Region "Microsoft.VisualBasic::4c8b1e169179ed1a9726f8d33cc923c9, ..\GCModeller\data\Xfam\Rfam\API.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -197,7 +197,7 @@ Public Module API
                                  PTT As PTT,
                                  reader As I_PolymerSequenceModel,
                                  <Parameter("Source.Directed?")> Optional sourceDirect As Boolean = True) As Rfamily()
-        Dim sId As String = IO.Path.GetFileNameWithoutExtension(blastn)
+        Dim sId As String = basename(blastn)
         Dim RfamAnno As Stockholm = Rfam(sId)
         Dim blastnHits = blastn.LoadCsv(Of BlastnMapping)
         Return RfamAnalysis(RfamAnno, blastnHits, PTT, reader, sourceDirect)

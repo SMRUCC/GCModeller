@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9d7f27957c1f7ad4a641d39d985c63f, ..\GCModeller\analysis\PrimerDesigner\Profiles\DeletionMutations.vb"
+﻿#Region "Microsoft.VisualBasic::d9d7f27957c1f7ad4a641d39d985c63f, ..\GCModeller\analysis\MotifTools\PrimerDesigner\Profiles\DeletionMutations.vb"
 
     ' Author:
     ' 

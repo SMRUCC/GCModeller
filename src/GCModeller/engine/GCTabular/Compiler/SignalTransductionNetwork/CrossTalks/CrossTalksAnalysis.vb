@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1ed4506063ab6d3b728862dba4060c7, ..\GCModeller\engine\GCTabular\Compiler\SignalTransductionNetwork\CrossTalks\CrossTalksAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::32dae320730eae2d8579ea971addbea7, ..\GCModeller\engine\GCTabular\Compiler\SignalTransductionNetwork\CrossTalks\CrossTalksAnalysis.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 
 Namespace Compiler.Components
 
@@ -71,7 +71,7 @@ Namespace Compiler.Components
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Analysis")>
-        Public Function Analysis(Model As FileStream.IO.XmlresxLoader, CrossTalks As DocumentStream.File) As CrossTalks()
+        Public Function Analysis(Model As FileStream.IO.XmlresxLoader, CrossTalks As IO.File) As CrossTalks()
             Dim RR = CrossTalks.First.Skip(1).ToArray
             Dim p_cache = RR.Sequence
             Dim LQuery = (From line As RowObject

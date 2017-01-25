@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3d34795ff007e6efc42cbe9739e1bd0, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\WGCNA\API.vb"
+﻿#Region "Microsoft.VisualBasic::3b88251c990bf931842d2944f594e644, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\WGCNA\API.vb"
 
     ' Author:
     ' 
@@ -157,12 +157,12 @@ Principal Component Analysis",
             Call WGCNA.Replace("[dataExpr]", dataExpr.GetFullPath)
             Call WGCNA.Replace("[WORK]", outDIR)
             Call WGCNA.Replace("[GeneId_LABEL]", GeneIdLabel)
-            Call WGCNA.Replace("[TOMsave]", IO.Path.GetFileNameWithoutExtension(dataExpr) & ".TOMsave")
+            Call WGCNA.Replace("[TOMsave]", basename(dataExpr) & ".TOMsave")
             Call WGCNA.Replace("[Annotations.csv]", annotations.GetFullPath)
 
             Dim mods As String() = modules.ToLower.Trim.Split("|"c).ToArray(Function(sCl) $"""{sCl}""")
             Call WGCNA.Replace("[list.MODs]", String.Join(", ", mods))
-            Call WGCNA.SaveTo($"{outDIR}/{IO.Path.GetFileNameWithoutExtension(dataExpr)}.WGCNACallInvoke.R", System.Text.Encoding.ASCII)
+            Call WGCNA.SaveTo($"{outDIR}/{basename(dataExpr)}.WGCNACallInvoke.R", System.Text.Encoding.ASCII)
 
             Call dataExpr.TransEncoding(Encodings.ASCII)
             Call annotations.TransEncoding(Encodings.ASCII)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1026e9d122bbbe377b9a90d6f7a47db, ..\GCModeller\visualize\PDB_molViews\Form_molView.vb"
+﻿#Region "Microsoft.VisualBasic::58a4f62b52077425ba32a25499962b88, ..\GCModeller\visualize\PDB_molViews\Form_molView.vb"
 
     ' Author:
     ' 
@@ -62,4 +62,3 @@ Public Class Form_molView
         End If
     End Sub
 End Class
-

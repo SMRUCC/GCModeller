@@ -26,11 +26,12 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -61,7 +62,7 @@ Partial Module CLI
         End If
 
         If locus.FileExists Then
-            Dim ext As String = IO.Path.GetExtension(locus)
+            Dim ext As String = Path.GetExtension(locus)
             Dim locusTag As String()
 
             If String.Equals(ext, ".csv", StringComparison.OrdinalIgnoreCase) Then

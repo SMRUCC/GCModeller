@@ -163,58 +163,58 @@ Public Module CLI
         Return tbl.Save(out).CLICode
     End Function
 
-    Public Function bg() As Integer
-        Dim doc = CircosAPI.CreateDataModel
-        doc.chromosomes_units = "10000"
-        Dim fa = New FastaToken("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.fna")
-        Call CircosAPI.SetBasicProperty(doc, fa)
+    'Public Function bg() As Integer
+    '    Dim doc = CircosAPI.CreateDataModel
+    '    doc.chromosomes_units = "10000"
+    '    Dim fa = New FastaToken("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.fna")
+    '    Call CircosAPI.SetBasicProperty(doc, fa)
 
-        Dim ptt = LoadPTT("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.ptt")
+    '    Dim ptt = LoadPTT("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.ptt")
 
-        Dim regulons = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\Regulators.csv".LoadCsv(Of Name).ToArray(Function(x) x.ToMeta)
-        Dim resistss = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\resistance.csv".LoadCsv(Of Name)
-        regulons.Add(resistss.ToArray(Function(x) x.ToMeta))
-        regulons = TrackDatas.Distinct(regulons)
+    '    Dim regulons = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\Regulators.csv".LoadCsv(Of Name).ToArray(Function(x) x.ToMeta)
+    '    Dim resistss = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\resistance.csv".LoadCsv(Of Name)
+    '    regulons.Add(resistss.ToArray(Function(x) x.ToMeta))
+    '    regulons = TrackDatas.Distinct(regulons)
 
-        '   Dim labels = New HighlightLabel(regulons)
+    '    '   Dim labels = New HighlightLabel(regulons)
 
-        ' Call Circos.CircosAPI.AddPlotElement(doc, New Plots.TextLabel(labels))
+    '    ' Call Circos.CircosAPI.AddPlotElement(doc, New Plots.TextLabel(labels))
 
-        Dim regulations = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\MAST\Regulations.csv".LoadCsv(Of SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)
-        Dim connector = FromVirtualFootprint(regulations, ptt, resistss)
+    '    Dim regulations = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\MAST\Regulations.csv".LoadCsv(Of SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints.PredictedRegulationFootprint)
+    '    Dim connector = FromVirtualFootprint(regulations, ptt, resistss)
 
-        Call Circos.CircosAPI.AddPlotTrack(doc, New Connector(connector))
+    '    Call Circos.CircosAPI.AddPlotTrack(doc, New Connector(connector))
 
 
 
-        Dim cog = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\output.MyvaCOG.csv".LoadCsv(Of MyvaCOG)
-        Dim gb = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File.Load("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.gb")
-        doc = Circos.CircosAPI.AddGeneInfoTrack(doc, gb, cog, splitOverlaps:=False)
-        Dim tbl = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.ED.Blastn.Xml".LoadXml(Of AlignmentTable)
-        Dim iddd = (From x In tbl.Hits Select x.Identity).ToArray
-        Dim tblColor = CircosAPI.IdentityColors(iddd.Min, iddd.Max, 512)
-        doc = CircosAPI.GenerateBlastnAlignment(doc, tbl, 1, 0.2, tblColor)
+    '    Dim cog = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\output.MyvaCOG.csv".LoadCsv(Of MyvaCOG)
+    '    Dim gb = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.File.Load("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.gb")
+    '    doc = Circos.CircosAPI.AddGeneInfoTrack(doc, gb, cog, splitOverlaps:=False)
+    '    Dim tbl = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.ED.Blastn.Xml".LoadXml(Of AlignmentTable)
+    '    Dim iddd = (From x In tbl.Hits Select x.Identity).ToArray
+    '    Dim tblColor = CircosAPI.IdentityColors(iddd.Min, iddd.Max, 512)
+    '    doc = CircosAPI.GenerateBlastnAlignment(doc, tbl, 1, 0.2, tblColor)
 
-        Dim at = IO.File.ReadAllLines("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.2.ATPercent.txt").ToArray(Function(x) Val(x))
-        Dim gc = IO.File.ReadAllLines("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.2.GCSkew.txt").ToArray(Function(x) Val(x))
+    '    Dim at = IO.File.ReadAllLines("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.2.ATPercent.txt").ToArray(Function(x) Val(x))
+    '    Dim gc = IO.File.ReadAllLines("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.2.GCSkew.txt").ToArray(Function(x) Val(x))
 
-        Dim repeats = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\repeat.csv".LoadCsv(Of Circos.TrackDatas.NtProps.Repeat)
+    '    Dim repeats = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\repeat.csv".LoadCsv(Of Circos.TrackDatas.NtProps.Repeat)
 
-        Dim nnnt = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.ED.Full_AT.txt".LoadDblArray
+    '    Dim nnnt = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.ED.Full_AT.txt".LoadDblArray
 
-        Dim rMaps = New Circos.TrackDatas.Highlights.Repeat(repeats, nnnt)
+    '    Dim rMaps = New Circos.TrackDatas.Highlights.Repeat(repeats, nnnt)
 
-        Call Circos.CircosAPI.AddPlotTrack(doc, New Plots.HighLight(rMaps))
-        Call Circos.CircosAPI.AddPlotTrack(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
-        Call Circos.CircosAPI.AddPlotTrack(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
+    '    Call Circos.CircosAPI.AddPlotTrack(doc, New Plots.HighLight(rMaps))
+    '    Call Circos.CircosAPI.AddPlotTrack(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
+    '    Call Circos.CircosAPI.AddPlotTrack(doc, New Plots.Histogram(New TrackDatas.NtProps.GCSkew(fa, 25, 250, True)))
 
-        Dim ideo = doc.GetIdeogram
+    '    Dim ideo = doc.GetIdeogram
 
-        Call Circos.CircosAPI.SetIdeogramWidth(ideo, 1)
-        Call Circos.CircosAPI.SetIdeogramRadius(ideo, 0.25)
+    '    Call Circos.CircosAPI.SetIdeogramWidth(ideo, 1)
+    '    Call Circos.CircosAPI.SetIdeogramRadius(ideo, 0.25)
 
-        Call CircosAPI.WriteData(doc, "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos", False)
-    End Function
+    '    Call CircosAPI.WriteData(doc, "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos", False)
+    'End Function
 
     Public Class tRNA
         <Column("#seq-name")> Public Property seqName As String

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5dde54b8c44fbad80d90d39cf25912d3, ..\GCModeller\CLI_tools\S.M.A.R.T\CLI\MPAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::8b3e7a290cade335add47929f51f4d04, ..\GCModeller\CLI_tools\S.M.A.R.T\CLI\MPAlignment.vb"
 
     ' Author:
     ' 
@@ -72,7 +72,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", App.CurrentDirectory)
         Dim resultSet As New List(Of LevAlign)
 
-        out = $"{out}/{IO.Path.GetFileNameWithoutExtension(args("/query"))}_vs.{IO.Path.GetFileNameWithoutExtension(args("/subject"))}"
+        out = $"{out}/{basename(args("/query"))}_vs.{basename(args("/subject"))}"
 
         Dim outHTML As String = out & "/HTML/"
 
@@ -136,8 +136,8 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", input.ParentDirName & "/MPAlignment/")
         Dim inBBH = input.LoadCsv(Of BiDirectionalBesthit)
         Dim align = MotifParallelAlignment.AlignProteins(inBBH, query.LoadCsv(Of Pfam.PfamString.PfamString), subject.LoadCsv(Of Pfam.PfamString.PfamString))
-        Call align.ToArray.GetXml.SaveTo($"{out}/{IO.Path.GetFileNameWithoutExtension(input)}.xml")
-        Call align.ToArray(Function(x) x.ToRow).SaveTo($"{out}/{IO.Path.GetFileNameWithoutExtension(input)}.csv")
+        Call align.ToArray.GetXml.SaveTo($"{out}/{basename(input)}.xml")
+        Call align.ToArray(Function(x) x.ToRow).SaveTo($"{out}/{basename(input)}.csv")
 
         Dim Regprecise = GCModeller.FileSystem.KEGGFamilies.LoadCsv(Of FastaReaders.Regulator) _
                 .ToDictionary(Function(prot) prot.LocusTag) '.LoadXml(Of SMRUCC.genomics.DatabaseServices.Regprecise.WebServices.Regulations)
@@ -160,7 +160,7 @@ Partial Module CLI
                               Array.IndexOf(havMatches(match.QueryName), match.HitName) > -1
                           Select match).ToArray
 
-        Call matchesBBH.SaveTo($"{out}/{IO.Path.GetFileNameWithoutExtension(input)}.bbh_matches.csv")
+        Call matchesBBH.SaveTo($"{out}/{basename(input)}.bbh_matches.csv")
 
         Return 0
     End Function

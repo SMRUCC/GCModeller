@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44671ef4b5520e35cf385b1ad5fc423f, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Palindrome.vb"
+﻿#Region "Microsoft.VisualBasic::8e9ba5312a6bffc0b4c88d6e7f637e2f, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Palindrome.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream.Linq
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -491,7 +491,7 @@ Partial Module Utilities
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/Perfects/")
 
         For Each file In Filter
-            Dim name As String = IO.Path.GetFileNameWithoutExtension(file.file)
+            Dim name As String = basename(file.file)
             Dim path As String = $"{out}/{name}.csv"
             Call file.perfects.SaveTo(path)
         Next

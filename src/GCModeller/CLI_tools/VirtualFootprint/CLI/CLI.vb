@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bdc9b5f3ee8f944405c817c0755be4a5, ..\GCModeller\CLI_tools\VirtualFootprint\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::5f0508872dd04fff667a77041aaa986e, ..\GCModeller\CLI_tools\VirtualFootprint\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -124,8 +124,8 @@ Module CLI
         Dim out As String = args.GetValue("/out",
             mal.TrimSuffix & $".win_size={win},steps={steps},slides={slides},m={method};quantiles={q.Select(Function(n) n.ToString).JoinBy(",")}.csv")
         Dim result = GCOutlier.OutlierAnalysis(New FastaFile(mal), q, win, steps, slides, GCOutlier.GetMethod(method)).ToArray
-        Return New DocumentStream.File(
-            DocumentStream.File.Distinct(result.ToCsvDoc)) _
+        Return New IO.File(
+            IO.File.Distinct(result.ToCsvDoc)) _
             .Save(out, Encodings.ASCII).CLICode
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9b22a5ae92462959b9f3717181cfa4e, ..\GCModeller\sub-system\PLAS.NET\SSystem\System\DataAcquisition.vb"
+﻿#Region "Microsoft.VisualBasic::eb63d5519ae24f2f4847e3580b0566c1, ..\GCModeller\sub-system\PLAS.NET\SSystem\System\DataAcquisition.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,7 @@
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 
@@ -54,7 +54,7 @@ Namespace Kernel
 
         Public Sub Tick()
             Dim t As New DataSet With {
-                .Identifier = kernel.RuntimeTicks * kernel.Precision,
+                .ID = kernel.RuntimeTicks * kernel.Precision,
                 .Properties = kernel.Vars _
                     .ToDictionary(AddressOf __tag, Function(x) x.Value)
             }

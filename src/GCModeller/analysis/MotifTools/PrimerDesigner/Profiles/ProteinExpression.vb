@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c35d0824df391d413e1575dd42d6251, ..\GCModeller\analysis\PrimerDesigner\Profiles\ProteinExpression.vb"
+﻿#Region "Microsoft.VisualBasic::5c35d0824df391d413e1575dd42d6251, ..\GCModeller\analysis\MotifTools\PrimerDesigner\Profiles\ProteinExpression.vb"
 
     ' Author:
     ' 

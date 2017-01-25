@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::281607cdd4970245a5c49f1b0ac26879, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb"
+﻿#Region "Microsoft.VisualBasic::e9f6f91d16765280d56de023314837cb, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb"
 
     ' Author:
     ' 
@@ -142,7 +142,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
             GBKEntryBrief.Locus = gbk.Locus.AccessionID
             GBKEntryBrief.Organism = gbk.Source.SpeciesName
             GBKEntryBrief.Submit = gbk.Locus.UpdateTime
-            GBKEntryBrief.Strain = gbk.Features.SourceFeature.Query("strain")
+            GBKEntryBrief.Strain = gbk.Features.source.Query("strain")
             GBKEntryBrief.Taxon = gbk.Taxon
             GBKEntryBrief.NumberOfGenes = (From item In gbk.Features._innerList.AsParallel Where String.Equals("gene", item.KeyName, StringComparison.OrdinalIgnoreCase) Select 1).ToArray.Length
             GBKEntryBrief.PSEUDOProteins = (From Feature In gbk.Features._innerList.AsParallel
@@ -208,10 +208,10 @@ Namespace Assembly.NCBI.GenBank.CsvExports
 
         Public Overloads Shared Function Build(gbk As NCBI.GenBank.GBFF.File) As Plasmid
             Dim Plasmid As Plasmid = ConvertObject(Of Plasmid)(gbk)
-            Plasmid.PlasmidID = gbk.Features.SourceFeature.Query("plasmid")
-            Plasmid.Host = gbk.Features.SourceFeature.Query("host")
-            Plasmid.Country = gbk.Features.SourceFeature.Query("country")
-            Plasmid.isolation_source = gbk.Features.SourceFeature.Query("isolation_source")
+            Plasmid.PlasmidID = gbk.Features.source.Query("plasmid")
+            Plasmid.Host = gbk.Features.source.Query("host")
+            Plasmid.Country = gbk.Features.source.Query("country")
+            Plasmid.isolation_source = gbk.Features.source.Query("isolation_source")
 
             Return Plasmid
         End Function

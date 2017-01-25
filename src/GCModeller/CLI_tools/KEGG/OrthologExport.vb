@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48d4a84c2e7c383d7c45128810c6c89a, ..\GCModeller\CLI_tools\KEGG\OrthologExport.vb"
+﻿#Region "Microsoft.VisualBasic::d88c06e8d3727ff26aacef6748aaf5a1, ..\GCModeller\CLI_tools\KEGG\OrthologExport.vb"
 
     ' Author:
     ' 
@@ -40,15 +40,15 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Public Module OrthologExport
 
     <ExportAPI("Export")>
-    Public Function Export(ortholog As SSDB.OrthologREST) As DocumentStream.File
-        Dim CsvData As DocumentStream.File =
-            New DocumentStream.File +
+    Public Function Export(ortholog As SSDB.OrthologREST) As IO.File
+        Dim CsvData As IO.File =
+            New IO.File +
             {"KEGG_Entry", "Definition", "KO", "Length", "Sw-Score", "Margin", "bits", "identity", "overlap", "best(all)"} +
             From resultRow As SSDB.SShit In ortholog.Orthologs Select __createRowObject(resultRow)
         Return CsvData
     End Function
 
-    Private Function __createRowObject(resultRow As SSDB.SShit) As DocumentStream.RowObject
+    Private Function __createRowObject(resultRow As SSDB.SShit) As IO.RowObject
         Dim ArrayData As String() = New String() {
             resultRow.Entry.ToString,
             resultRow.Entry.Description,
@@ -61,7 +61,7 @@ Public Module OrthologExport
             resultRow.Overlap,
             String.Format("{0} {1}", resultRow.Best.Key, resultRow.Best.Value)
         }
-        Return New DocumentStream.RowObject(ArrayData)
+        Return New IO.RowObject(ArrayData)
     End Function
 
     <ExportAPI("HandleQuery")>

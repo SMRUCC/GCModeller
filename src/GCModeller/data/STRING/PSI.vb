@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d685db6eeae07fb73824e1aa37b57e5, ..\GCModeller\data\ExternalDBSource\string-db\PSI.vb"
+﻿#Region "Microsoft.VisualBasic::4c873d321e142f1f43e2ba5b007e0a18, ..\GCModeller\data\STRING\PSI.vb"
 
     ' Author:
     ' 

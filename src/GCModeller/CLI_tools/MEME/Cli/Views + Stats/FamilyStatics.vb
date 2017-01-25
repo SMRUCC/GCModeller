@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::680c7d33aa4062bb87c2bfa9c985f7a2, ..\GCModeller\CLI_tools\MEME\Cli\Views + Stats\FamilyStatics.vb"
+﻿#Region "Microsoft.VisualBasic::3c88fc86d7134865a9d27f8b9f9754b3, ..\GCModeller\CLI_tools\MEME\Cli\Views + Stats\FamilyStatics.vb"
 
     ' Author:
     ' 
@@ -73,7 +73,7 @@ Partial Module CLI
                                               Function(mm) mm.Group.ToArray(Function(dd) dd.Family).ToArray)
         Dim modBrites = BriteHEntry.Module.LoadFromResource.ToDictionary(Function([mod]) [mod].Entry.Key)
 
-        Dim doc As New DocumentStream.File
+        Dim doc As New IO.File
 
         doc += {"Type", "Class", "Category", "Modules", "Families", "sites", "genes"}
         doc += modFamilies.ToArray(
@@ -91,7 +91,7 @@ Partial Module CLI
         Dim AllFamilies As String() = (From site In LQuery Select site.Family Distinct).ToArray
         Dim AllTypes As String() = (From entry In modBrites Select entry.Value.Class Distinct).ToArray
 
-        doc = New DocumentStream.File + "Type".Join(AllFamilies)
+        doc = New IO.File + "Type".Join(AllFamilies)
 
         Dim modTypeGroup = (From mm As KeyValuePair(Of String, String())
                             In modFamilies
@@ -125,7 +125,7 @@ Partial Module CLI
                           Group site By site.Family Into Group) _
                                .ToDictionary(Function(ss) ss.Family,
                                              Function(ss) ss.Group.ToArray(Function(obj) obj.mod))
-        doc = New DocumentStream.File + {"Family", "Modules"} +
+        doc = New IO.File + {"Family", "Modules"} +
             FamilyMods.ToArray(
                 Function(fm) New String() {fm.Key, fm.Value.Distinct.JoinBy("; ")}.ToCsvRow)
         Call doc.Save(input.TrimSuffix & ".FamilyMods.csv")

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72f7dfb14999da4c338492454ec7d0bc, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb"
+﻿#Region "Microsoft.VisualBasic::f28a371c59b59a7192b348d340fbe6ba, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb"
 
     ' Author:
     ' 
@@ -106,7 +106,7 @@ Namespace Regprecise
             Dim regulators = bbh.Reconstruct(genomeRef, DOOR)
             Dim genomeGET As New BacteriaGenome With {
                 .BacteriaGenome = New WebServices.JSONLDM.genome With {
-                    .name = IO.Path.GetFileNameWithoutExtension(mappings)
+                    .name = basename(mappings)
                 },
                 .Regulons = New Regulon With {
                     .Regulators = regulators

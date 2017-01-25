@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a11cc22ec82eae029e91becd133ee74, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\GCOutlier.vb"
+﻿#Region "Microsoft.VisualBasic::4732f73532ebedb59d656203b04c0c67, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\GCOutlier.vb"
 
     ' Author:
     ' 
@@ -130,4 +130,3 @@ Public Module GCOutlier
         End Function
     End Class
 End Module
-

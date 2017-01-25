@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ed71f93a4ec4be1ab5313e82d2edab1, ..\GCModeller\CLI_tools\ProteinInteraction\Program.vb"
+﻿#Region "Microsoft.VisualBasic::18589d75bb434732cd5827b9265d74c6, ..\GCModeller\CLI_tools\ProteinInteraction\Program.vb"
 
     ' Author:
     ' 
@@ -52,7 +52,7 @@ Module Program
         'Console.ReadLine()
     End Function
 
-    Public Sub ExtractCognateTCS(GenomeData As DocumentStream.File)
+    Public Sub ExtractCognateTCS(GenomeData As IO.File)
         Dim SKPath As String = FileIO.FileSystem.GetParentPath(GenomeData.FilePath) & "/Sk.fsa"
         Dim RRPath As String = FileIO.FileSystem.GetParentPath(GenomeData.FilePath) & "/RR.fsa"
 

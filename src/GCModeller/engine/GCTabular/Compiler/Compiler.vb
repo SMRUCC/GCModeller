@@ -1,35 +1,35 @@
-﻿#Region "Microsoft.VisualBasic::87515d72ed9f3088f338b86e529bae90, ..\GCModeller\engine\GCTabular\Compiler\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::c99a75938d42c2d01857c7a4ccd6e539, ..\GCModeller\engine\GCTabular\Compiler\Compiler.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Extensions
@@ -183,7 +183,7 @@ Namespace Compiler
             Me._ModelIO.GenomeAnnotiation = FileStream.GeneObject.CreateObject(Me._MetaCyc.GetGenes, MyvaCog)
             Me._ModelIO.TranscriptionModel = FileStream.TranscriptUnit.CreateObject(Me._TranscriptRegulations, Door.DOOROperonView)
             Me._ModelIO.CultivationMediums = New List(Of I_SubstrateRefx)(CultivationMediums.MetaCycDefault.Uptake_Substrates)
-            Me._CrossTalks = DocumentStream.File.Load(ModelProperty("-cross_talks"))
+            Me._CrossTalks = IO.File.Load(ModelProperty("-cross_talks"))
 
             'Sub New(Compiler As Compiler, KEGGReactionsCsv As String, KEGGCompoundsCsv As String, CARMENCsv As String)
             Dim KEGGReactions As String = ModelProperty("-kegg_reactions")
@@ -463,7 +463,7 @@ Namespace Compiler
         ''' </summary>
         ''' <param name="CrossTalks"></param>
         ''' <remarks></remarks>
-        Protected Sub LinkEffectors(CrossTalks As DocumentStream.File)
+        Protected Sub LinkEffectors(CrossTalks As IO.File)
             Dim FilteredList As New List(Of FileStream.Regulator)
             Dim EffectorMapping = Me._ModelIO.EffectorMapping
 

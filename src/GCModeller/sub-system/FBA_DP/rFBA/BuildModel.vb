@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::545e70a3037f932c3f0a0346e1a371e3, ..\GCModeller\sub-system\FBA_DP\rFBA\BuildModel.vb"
+﻿#Region "Microsoft.VisualBasic::9618c5354aaf37f0f46b5119f2e0b619, ..\GCModeller\sub-system\FBA_DP\rFBA\BuildModel.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@ Namespace rFBA
 
     Public Module BuildModel
 
-        Public Sub CreateObject(MetaCyc As DatabaseLoadder, ChipData As DocumentStream.File, Regulation As DocumentStream.File, Regprecise As TranscriptionFactors, EXPORT As String)
+        Public Sub CreateObject(MetaCyc As DatabaseLoadder, ChipData As IO.File, Regulation As IO.File, Regprecise As TranscriptionFactors, EXPORT As String)
             Dim Mapping As New Mapping(MetaCyc)
             Dim MetabolismFile As String = String.Format("{0}/MetabolismSystem-FBA.csv", EXPORT).Replace("\", "/")
             Dim TranscriptionFile As String = String.Format("{0}/TranscriptionRegulation-rFBA.csv", EXPORT).Replace("\", "/")

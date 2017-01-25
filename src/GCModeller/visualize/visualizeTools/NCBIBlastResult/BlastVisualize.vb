@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::b1a3f56939a517483cc62caffb0a68fa, ..\GCModeller\visualize\visualizeTools\NCBIBlastResult\BlastVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::e61e3e4950fd273c60fdb9ca6cd09fd2, ..\GCModeller\visualize\visualizeTools\NCBIBlastResult\BlastVisualize.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -172,7 +172,7 @@ Namespace NCBIBlastResult
 
             Call TableDistinct.SaveTo(EXPORT, explicit:=False)
 
-            EXPORT = FileIO.FileSystem.GetParentPath(EXPORT) & "/" & IO.Path.GetFileNameWithoutExtension(EXPORT) & "/"
+            EXPORT = FileIO.FileSystem.GetParentPath(EXPORT) & "/" & basename(EXPORT) & "/"
 
             For Each fa In LQuery
                 Call fa.Fasta.SaveTo(EXPORT & fa.ShortID_s & ".fasta")
@@ -418,13 +418,13 @@ CONTINUTE:
         <ExportAPI("Cog.Class.Assign")>
         Public Sub AssignCogClass(PTT As PTTDbLoader,
                                   <Parameter("Class.Cog.Mappings",
-                                             "The excel table object which contains the gene cog value.")> Mapping As DocumentStream.File,
+                                             "The excel table object which contains the gene cog value.")> Mapping As IO.File,
                                   <Parameter("Mapping.Gene.ID",
                                              "The column name of the gene id in the execel table.")> Optional GeneID As String = "GeneID",
                                   <Parameter("Mapping.COG",
                                              "The column name of the cog class value in the excel table.")> Optional COG As String = "COG")
 
-            Dim DF As DocumentStream.DataFrame = DocumentStream.DataFrame.CreateObject(Mapping)
+            Dim DF As IO.DataFrame = IO.DataFrame.CreateObject(Mapping)
             Dim CogValue As Dictionary(Of String, String) =
                 DF.CreateDataSource.ToDictionary(Function(x) x.Attribute(GeneID), Function(x) x(COG))
 

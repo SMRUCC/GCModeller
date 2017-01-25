@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::468da2384a6c16971ad5077330296fc4, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\DataModels.vb"
+﻿#Region "Microsoft.VisualBasic::94651f79916c8de7f76a5e04496b6938, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataSerializer\DataModels.vb"
 
     ' Author:
     ' 
@@ -30,7 +30,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcq
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 
 Namespace EngineSystem.Services.DataAcquisition.DataSerializer
 

@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::9a0b3a8da61deb5cc3855799250a0315, ..\GCModeller\engine\GCTabular\Compiler\SignalTransductionNetwork\SignalTransductionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::12f792c189834d17430134acc304a13c, ..\GCModeller\engine\GCTabular\Compiler\SignalTransductionNetwork\SignalTransductionNetwork.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -87,7 +87,7 @@ Namespace Compiler.Components
             KEGG_Compounds = (From item In ModelIo.MetabolitesModel.AsParallel Where Not String.IsNullOrEmpty(item.Value.KEGGCompound) Select item.Value).ToArray.ToDictionary(Function(item) item.KEGGCompound)
         End Sub
 
-        Public Sub Invoke(TranscriptRegulation As IEnumerable(Of FileStream.TranscriptUnit), Door As DOOR.DOOR, CrossTalks As DocumentStream.File)
+        Public Sub Invoke(TranscriptRegulation As IEnumerable(Of FileStream.TranscriptUnit), Door As DOOR.DOOR, CrossTalks As IO.File)
             Call _Logging.WriteLine("Start to compile the signal transduction network...")
 
             Call _Logging.WriteLine("Compiling CheBMethylesterase reactions...")
@@ -204,7 +204,7 @@ Namespace Compiler.Components
             Return ChunkList.ToArray
         End Function
 
-        Private Function _compile_CrossTalks(Door As DOOR.DOOR, CrossTalksProfile As DocumentStream.File) As FileStream.MetabolismFlux()
+        Private Function _compile_CrossTalks(Door As DOOR.DOOR, CrossTalksProfile As IO.File) As FileStream.MetabolismFlux()
 
             Const PI = "PI"
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84075b9bf0343cf385bc5cd4da02af1a, ..\GCModeller\sub-system\CellPhenotype\PfsNET_FootprintMappingPathway_API.vb"
+﻿#Region "Microsoft.VisualBasic::56709fac17a024c27b0eb19e0a87042e, ..\GCModeller\sub-system\CellPhenotype\PfsNET_FootprintMappingPathway_API.vb"
 
     ' Author:
     ' 
@@ -292,7 +292,7 @@ Module PfsNET_FootprintMappingPathway_API
     ''' <remarks></remarks>
     <ExportAPI("Data.Serials.Create.SlideWindows", Info:="The offset parameter should be a integer and bigger than the number ZERO.")>
     Public Function CreateExpressionWindows(<Parameter("Expression.Matrix.ChipData", "This data is comes from the GCModeller calculation result or the Monte Carlo created matrix data.")>
-                                            ChipData As DocumentStream.File,
+                                            ChipData As IO.File,
                                             <Parameter("Window.Size")> WindowSize As Integer,
                                             <Parameter("Index.OffSets", "The offset parameter should be a integer and bigger than the number ZERO.")>
                                             Optional OffSet As Integer = 1) As ExprSamples()()

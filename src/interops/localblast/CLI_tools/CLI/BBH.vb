@@ -190,11 +190,11 @@ Partial Module CLI
         Dim inFile As String = args("/in")
         Dim evalue As Double = args.GetDouble("/evalue")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & "." & args("/evalue") & ".Csv")
-        Dim readStream As New DocumentStream.Linq.DataStream(inFile)
+        Dim readStream As New IO.Linq.DataStream(inFile)
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim identities As Double = args.GetValue("/identities", 0.15)
 
-        Using writeStream As New DocumentStream.Linq.WriteStream(Of BestHit)(out)
+        Using writeStream As New IO.Linq.WriteStream(Of BestHit)(out)
 
             Call $"Cutoffs ==>".__DEBUG_ECHO
             Call $"   {NameOf(coverage)}   := {coverage}".__DEBUG_ECHO
@@ -283,7 +283,7 @@ Partial Module CLI
         Dim sbhEntries As AlignEntry() = If(Not skipLoads, ExportLogData(importsDIR.LoadEntries, out & "/sbh/"), importsDIR.LoadEntries("*.csv"))
         Dim vennModel = ExportBidirectionalBesthit(sbhEntries, out & "/venn/")  ' 导出的是Top数据,  all的不好做
         Dim query As String = args.GetValue("/query", "")
-        Dim VennTable As DocumentStream.File = DeltaMove(vennModel, query)
+        Dim VennTable As IO.File = DeltaMove(vennModel, query)
         Return VennTable > (out & "/Venn.Csv")
     End Function
 

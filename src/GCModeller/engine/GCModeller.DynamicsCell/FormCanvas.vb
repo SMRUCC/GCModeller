@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e95b77a88d5df10401dbe2b6bdf8b19a, ..\GCModeller\engine\GCModeller.DynamicsCell\FormCanvas.vb"
+﻿#Region "Microsoft.VisualBasic::93536f8d39d328f0413687beacc5dae2, ..\GCModeller\engine\GCModeller.DynamicsCell\FormCanvas.vb"
 
     ' Author:
     ' 
@@ -71,4 +71,3 @@ Public Class FormCanvas
         canvas.ViewDistance = TrackBar1.Value
     End Sub
 End Class
-

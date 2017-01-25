@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1994262c8357866cae2d47532f4dbb05, ..\GCModeller\core\Bio.Assembly\Test.Project\DEBUG_MAIN.vb"
+﻿#Region "Microsoft.VisualBasic::a0282a47f27575010d94133798c8ad23, ..\GCModeller\core\Bio.Assembly\Test.Project\DEBUG_MAIN.vb"
 
 ' Author:
 ' 
@@ -36,6 +36,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
@@ -65,6 +66,11 @@ Module DEBUG_MAIN
 
     Sub Main()
 
+        Dim gbbb As GenBank.GBFF.File = GBFF.File.Load("G:\Xanthomonas_campestris_8004_uid15\genbank\CP000050.1.txt")
+
+
+        Pause()
+
         WebServiceUtils.Proxy = "http://127.0.0.1:8087"
 
         Dim key = "D3068"
@@ -81,7 +87,7 @@ Module DEBUG_MAIN
                        Let cls = cate.Parent
                        Select geneID = x.Name, KO = x.Value, Category = cate.Description, [class] = cls.Description, subCatalog = subcate.Description, [function] = path.Description
 
-        Call pathways.ToArray.SaveTo($"C:\Users\xieguigang\OneDrive\1.13-xcc\KEGG\{key}-meme-KO.csv")
+        '  Call pathways.ToArray.SaveTo($"C:\Users\xieguigang\OneDrive\1.13-xcc\KEGG\{key}-meme-KO.csv")
 
         Call list.Reconstruct(work:=$"C:\Users\xieguigang\OneDrive\1.13-xcc\KEGG\{key}-meme/")
 

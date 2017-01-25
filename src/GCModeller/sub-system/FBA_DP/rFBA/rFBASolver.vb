@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22032f9baecec8f26d28aaca5d157758, ..\GCModeller\sub-system\FBA_DP\rFBA\rFBASolver.vb"
+﻿#Region "Microsoft.VisualBasic::17f0f34425dfab7f7c8b270fc54e3176, ..\GCModeller\sub-system\FBA_DP\rFBA\rFBASolver.vb"
 
     ' Author:
     ' 
@@ -34,8 +34,8 @@
 
 '    Public Property LpSolver As FBA.FBAlpRSolver
 '    Public Property ObjectModel As rFBARModel
-'    Public Property MetabolismData As DocumentStream.File = New DocumentStream.File
-'    Public Property Transcriptome As DocumentStream.File = New DocumentStream.File
+'    Public Property MetabolismData As IO.File = New IO.File
+'    Public Property Transcriptome As IO.File = New IO.File
 
 '    Dim _resultTemp As KeyValuePair(Of String, String())
 

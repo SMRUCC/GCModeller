@@ -334,7 +334,7 @@ Namespace Analysis.FootprintTraceAPI
         <ExportAPI("Compile.Single")>
         Public Function CompileSingle(MEME As String, MAST_OUT As String) As MatchResult
             Dim DIRs = FileIO.FileSystem.GetDirectories(MAST_OUT, FileIO.SearchOption.SearchTopLevelOnly)  ' 获取某个模块的顶层的文件夹列表，下面是Motif家族的文件夹列表
-            Dim source As String = IO.Path.GetFileNameWithoutExtension(MEME)
+            Dim source As String = basename(MEME)
             Dim masts As MotifSiteHit() = (From DIR As String In DIRs
                                            Let mast As MAST = (DIR & "/mast.xml").LoadXml(Of MAST)(ThrowEx:=False)
                                            Where Not mast Is Nothing
@@ -384,7 +384,7 @@ Namespace Analysis.FootprintTraceAPI
 
             Dim list As New List(Of MotifSiteHit)
             Dim Family As String =
-                IO.Path.GetFileNameWithoutExtension(MAST.Sequences.Databases.First.name)
+                basename(MAST.Sequences.Databases.First.name)
 
             For Each x As SequenceDescript In MAST.Sequences.SequenceList
                 If x.Segments.IsNullOrEmpty Then

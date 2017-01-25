@@ -36,9 +36,12 @@ Imports Microsoft.VisualBasic.Language
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
     Public Class FEATURES : Inherits KeyWord
-        Implements Generic.IEnumerable(Of Feature)
+        Implements IEnumerable(Of Feature)
 
-        Protected Friend _innerList As List(Of Feature) = New List(Of Feature)
+        ''' <summary>
+        ''' 默认第一个元素就是``source``元素
+        ''' </summary>
+        Protected Friend _innerList As New List(Of Feature)
 
         ''' <summary>
         ''' 匹配每一个特性位点的头部标签的格式
@@ -46,17 +49,37 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <remarks></remarks>
         Protected Friend Const FEATURE_HEADER As String = " {6}[a-zA-Z_0-9]+.+\d+"
 
-        Public Property SourceFeature As Feature
+        ''' <summary>
+        ''' The ``source`` feature definition.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property source As Feature
+            Get
+                Return _innerList(Scan0)
+            End Get
+            Friend Set(value As Feature)
+                If _innerList.IsNullOrEmpty Then
+                    _innerList = New List(Of Feature)(value)
+                Else
+                    _innerList(Scan0) = value
+                End If
+            End Set
+        End Property
 
         ''' <summary>
-        '''
+        '''Get feature site data by nucleotide location.
         ''' </summary>
         ''' <param name="left"></param>
         ''' <param name="right"></param>
         ''' <returns></returns>
         Public Function GetByLocation(left As Integer, right As Integer) As Feature()
             Dim loci As New NucleotideLocation(left, right)
-            Dim LQuery = (From x In _innerList Where loci.Equals(x.Location.ContiguousRegion, 3) Select x).ToArray
+            Dim LQuery = LinqAPI.Exec(Of Feature) <=
+                From x As Feature
+                In _innerList
+                Where loci.Equals(x.Location.ContiguousRegion, 3)
+                Select x
+
             Return LQuery
         End Function
 
@@ -68,17 +91,19 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <param name="Key">Feature type that to search, default is search all type of the feature.</param>
         ''' <returns>The feature list that match the query conditions.</returns>
         ''' <remarks></remarks>
-        Public Function Query(KeyValue As String,
+        Public Function Query(KeyValue$,
                               Optional qKey As FeatureQualifiers = FeatureQualifiers.product,
-                              Optional Key As String = "") As Feature()
+                              Optional Key$ = "") As Feature()
 
             If String.IsNullOrEmpty(Key) Then
-                Dim LQuery = From e As Feature In Me._innerList.AsParallel
+                Dim LQuery = From e As Feature
+                             In Me._innerList
                              Where InStr(e.Query(qKey), KeyValue)
                              Select e '
                 Return LQuery.ToArray
             Else
-                Dim LQuery = From e As Feature In Me._innerList.AsParallel
+                Dim LQuery = From e As Feature
+                             In Me._innerList
                              Where String.Equals(Key, e.KeyName) AndAlso InStr(e.Query(qKey), KeyValue)
                              Select e '
                 Return LQuery.ToArray
@@ -104,71 +129,6 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         End Function
 
         ''' <summary>
-        ''' 读取从某一个行号开始的文本块
-        ''' </summary>
-        ''' <param name="Start">The start index of the reading.(读取的起始位置)</param>
-        ''' <param name="data">The text data source to read.(所读取的数据源)</param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Private Shared Function readBlock(Start As Long, data As String()) As String()
-            Dim Index As Long = Start + 1
-
-            Do While data(Index).Chars(Scan0) = "/"
-                Index += 1
-                If Index = data.Length Then Exit Do
-            Loop
-
-            Index -= 1
-            Dim ChunkBuffer(Index - Start) As String
-
-            Call Array.ConstrainedCopy(data, Start, ChunkBuffer, Scan0, ChunkBuffer.Count)
-
-            Return ChunkBuffer
-        End Function
-
-        Public Shared Widening Operator CType(strData As String()) As FEATURES
-            Dim Features As FEATURES = New FEATURES
-            Dim Index As Long = 0
-            Dim TempData As String()
-
-            strData = __formatString(strData)
-
-            Do While Index < strData.Length - 1
-                TempData = readBlock(Index, strData)
-                Index += TempData.Length
-
-                Features._innerList.Add(item:=TempData)
-            Loop
-
-            Try
-                Features.SourceFeature = (From FtureSite As Feature
-                                          In Features._innerList.AsParallel
-                                          Where String.Equals("source", FtureSite.KeyName)
-                                          Select FtureSite).First
-            Catch ex As Exception
-                Call App.LogException(New Exception(strData.JoinBy(vbCrLf)))
-                Features.SourceFeature = __nullFeature()
-            End Try
-
-            Return Features
-        End Operator
-
-        Private Shared Function __nullFeature() As Feature
-            Return New Feature With {
-                .KeyName = "source",
-                .Location = New GBFF.Keywords.FEATURES.Location With {
-                    .Complement = False,
-                    .Locations = New RegionSegment() {
-                        New RegionSegment With {
-                            .Left = 0,
-                            .Right = 0
-                        }
-                    }
-                }
-            }
-        End Function
-
-        ''' <summary>
         ''' 在CDS之前添加基因
         ''' </summary>
         Public Sub AddGenes()
@@ -186,43 +146,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Next
         End Sub
 
-        Private Shared Sub __append(str As String, ByRef new_strData As List(Of String), ByRef sBuilder As StringBuilder)
-            Call new_strData.Add(sBuilder.ToString)
-            Call sBuilder.Clear()
-            Call sBuilder.Append(str.Trim)
-        End Sub
-
-        ''' <summary>
-        ''' 去除数据中的断行
-        ''' </summary>
-        ''' <param name="strData"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Private Shared Function __formatString(strData As String()) As String()
-            Dim sBuilder As StringBuilder = New StringBuilder(4096)
-            Dim new_strData As New List(Of String)
-
-            For Each Line As String In strData
-                If String.IsNullOrEmpty(Line) Then
-                    Continue For  '  忽略掉空白行
-                End If
-                If Line.Length < 21 Then
-                    Throw New Exception(Line & "  is not enough data! Check your GenBank file's format!")
-                End If
-                If Line(21) = "/"c OrElse Line(6) <> " "c Then 'this means read a new qualifier or a new feature
-                    Call __append(Line, new_strData, sBuilder)
-                Else
-                    Call sBuilder.Append(" " & Line.Trim)
-                End If
-            Next
-            Call new_strData.Add(sBuilder.ToString) '添加最后一行的数据
-
-            Return new_strData.Skip(1).ToArray
-        End Function
-
-        Protected Friend Sub LinkEntry()
+        Friend Sub LinkEntry()
             For Each Feature In Me._innerList
-                Feature.gbRaw = Me.gbRaw
+                Feature.gb = Me.gb
             Next
         End Sub
 

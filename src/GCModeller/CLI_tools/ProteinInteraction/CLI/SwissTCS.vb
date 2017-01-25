@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a207c2867fa8532841faab23d2125e44, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\SwissTCS.vb"
+﻿#Region "Microsoft.VisualBasic::ef20e166ab1ebb46f9a012aaf935a834, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\SwissTCS.vb"
 
     ' Author:
     ' 
@@ -56,10 +56,10 @@ Partial Module CLI
     Private Sub __downloads(inDIR As String)
         Dim Hisk As String() = FileIO.FileSystem.GetFiles(inDIR & "/HisK/",
                                                         FileIO.SearchOption.SearchTopLevelOnly,
-                                                        "*.csv").ToArray(Function(x) IO.Path.GetFileNameWithoutExtension(x))
+                                                        "*.csv").ToArray(Function(x) basename(x))
         Dim RR As String() = FileIO.FileSystem.GetFiles(inDIR & "/RR/",
                                                         FileIO.SearchOption.SearchTopLevelOnly,
-                                                        "*.csv").ToArray(Function(x) IO.Path.GetFileNameWithoutExtension(x))
+                                                        "*.csv").ToArray(Function(x) basename(x))
         Dim fa = SMRUCC.genomics.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, Hisk)
         If Not fa Is Nothing Then Call fa.Save(inDIR & "/HisK.fasta")
         fa = SMRUCC.genomics.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, RR)

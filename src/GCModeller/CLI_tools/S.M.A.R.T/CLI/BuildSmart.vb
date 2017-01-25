@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e96eee9c6c69e66a0bc72977888ae118, ..\GCModeller\CLI_tools\S.M.A.R.T\CLI\BuildSmart.vb"
+﻿#Region "Microsoft.VisualBasic::bd5eae0c0a0545dfd2507b4fb8f0f691, ..\GCModeller\CLI_tools\S.M.A.R.T\CLI\BuildSmart.vb"
 
     ' Author:
     ' 
@@ -97,7 +97,7 @@ READ_CDD_DIR:
         Dim regprecise = FastaReaders.Regulator.LoadDocument(inFile).ToDictionary(Function(x) x.KEGG)
         Dim pfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim FamilyDb = SMRUCC.genomics.Analysis.ProteinTools.Family.API.FamilyDomains(regprecise, pfam)
-        Dim Name As String = IO.Path.GetFileNameWithoutExtension(inFile)
+        Dim Name As String = basename(inFile)
         Return SMRUCC.genomics.Analysis.ProteinTools.Family.SaveRepository(FamilyDb, Name).CLICode
     End Function
 

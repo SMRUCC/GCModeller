@@ -216,7 +216,7 @@ Nucleic Acids Res. 2005 Jul 1;33(Web Server issue):W438-41.",
             Call $"Load motifs @{MotifDIR.ToDIR_URL}...".__DEBUG_ECHO
 
             TomTOm.Motifs = (From xmlFile As String In Motifs.AsParallel
-                             Let Id As String = IO.Path.GetFileNameWithoutExtension(xmlFile)
+                             Let Id As String = basename(xmlFile)
                              Select Id,
                                  motif = xmlFile.LoadXml(Of MotifScans.AnnotationModel)) _
                                 .ToDictionary(Function(x) x.Id, Function(x) x.motif)

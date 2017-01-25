@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2b7ebcd8aebc06fda97b105960fc1f3, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\QueryHandler.vb"
+﻿#Region "Microsoft.VisualBasic::fb0cc9ca4fe6878de32e824178b48412, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\QueryHandler.vb"
 
 ' Author:
 ' 
@@ -30,6 +30,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF
 
 Namespace Assembly.NCBI.Entrez
 
@@ -92,10 +93,10 @@ Namespace Assembly.NCBI.Entrez
                 Dim SavedGBK As String = DownloadGBK(work, Me.AccessionId)
                 Dim GBK As GBFF.File = Nothing
 
-                If FileIO.FileSystem.FileExists(SavedGBK) AndAlso FileIO.FileSystem.GetFileInfo(SavedGBK).Length > 0 Then
-                    GBK = GBFF.File.Read(SavedGBK)
+                If SavedGBK.FileExists(True) Then
+                    GBK = GbkParser.Read(SavedGBK)
                 Else
-                    Call Console.WriteLine("[DEBUG] Genbank database file download for ""{0}""; ACC:={1}  is not successful.", Me.ToString, AccessionId)
+                    Call $"Genbank database file download for ""{Me.ToString}""; ACC:={AccessionId} is not successful.".Warning
                 End If
 
                 Return GBK
@@ -111,18 +112,17 @@ Namespace Assembly.NCBI.Entrez
             ''' <param name="TempScript">Temp Script save location.</param>
             ''' <returns></returns>
             Private Shared Function __buildQuery(AccessionID As String, Work As String, ByRef savedGBK As String, ByRef TempScript As String) As Process
-
                 TempScript = $"{Work}/{Process.GetCurrentProcess.Id}_{Rnd()}_{AccessionID}.pl"
 
-                Dim p As System.Diagnostics.ProcessStartInfo = New Diagnostics.ProcessStartInfo("perl", TempScript)
-                Dim Script As StringBuilder = New StringBuilder(My.Resources.GenBankQuery) 'Perl script template
+                Dim p As New ProcessStartInfo("perl", TempScript)
+                Dim Script As New StringBuilder(My.Resources.GenBankQuery) 'Perl script template
 
                 savedGBK = $"{Work}/{AccessionID}.gbk"
                 savedGBK = FileIO.FileSystem.GetFileInfo(savedGBK).FullName.Replace("\", "/")
 
                 Call Script.Replace(ACCESSION_ID, AccessionID)
                 Call Script.Replace(SAVED_FILE, savedGBK)
-                Call Script.ToString.SaveTo(TempScript, System.Text.Encoding.ASCII)
+                Call Script.ToString.SaveTo(TempScript, Encoding.ASCII)
 
                 p.WindowStyle = ProcessWindowStyle.Hidden
 

@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::cf0a55725d566628b37300e52ab91b30, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::06f0a389c88210c9a54026f7c62d0f1c, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DocumentStream
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
@@ -145,8 +145,8 @@ Public Module ToolsAPI
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("Partition.Similarity.Calculates")>
-    Public Function PartitionSimilarity(<Parameter("Partitioning.Data")> data As IEnumerable(Of PartitioningData)) As <FunctionReturns("")> DocumentStream.File
-        Dim DF As DataFrame = DocumentStream.DataFrame.CreateObject(data.ToCsvDoc(False))
+    Public Function PartitionSimilarity(<Parameter("Partitioning.Data")> data As IEnumerable(Of PartitioningData)) As <FunctionReturns("")> IO.File
+        Dim DF As DataFrame = IO.DataFrame.CreateObject(data.ToCsvDoc(False))
         Dim DataSource = DF.CreateDataSource
         Dim DeltaLQuery = (From i As Integer
                            In data.Sequence
@@ -168,7 +168,7 @@ Public Module ToolsAPI
     End Function
 
     <ExportAPI("Partitions.Creates")>
-    Public Function PartionDataCreates(<Parameter("Raw.Partitions")> PartitionRaw As DocumentStream.DataFrame,
+    Public Function PartionDataCreates(<Parameter("Raw.Partitions")> PartitionRaw As IO.DataFrame,
                                        <Parameter("Column.Tag")> TagCol As String,
                                        <Parameter("Column.Start")> StartTag As String,
                                        <Parameter("Column.Stop")> StopTag As String,
@@ -222,13 +222,13 @@ Public Module ToolsAPI
     Public Function MeasureHomogeneity(PartitionData As IEnumerable(Of PartitioningData),
                                        <Parameter("With.Rule")> Rule As FastaToken,
                                        St As Integer,
-                                       Sp As Integer) As DocumentStream.DataFrame
+                                       Sp As Integer) As IO.DataFrame
         Dim Reader As I_PolymerSequenceModel = Rule
         Dim fa As New FastaToken With {
             .SequenceData = Reader.CutSequenceLinear(St, Sp - St).SequenceData
         }
         Dim RuleSegment As New NucleotideModels.NucleicAcid(fa)
-        Dim Df = DocumentStream.DataFrame.CreateObject(PartitionData.ToCsvDoc(False))
+        Dim Df = IO.DataFrame.CreateObject(PartitionData.ToCsvDoc(False))
         Dim i As Integer
 
         For Each Partition As DynamicObjectLoader In Df.CreateDataSource
@@ -327,9 +327,9 @@ Public Module ToolsAPI
                                                   "The original GenBank dowunload data directory which should contains the *.ptt " &
                                                   "file for parsing the rule sequence between dnaA and gyrB gene and the *.fna file for parsing the " &
                                                   "genome nt fasta sequence.")>
-                                       RuleSource As String) As DocumentStream.DataFrame
+                                       RuleSource As String) As IO.DataFrame
 
-        Dim Df = DocumentStream.DataFrame.CreateObject(PartitionData.ToCsvDoc(False))
+        Dim Df = IO.DataFrame.CreateObject(PartitionData.ToCsvDoc(False))
         Call Df.AppendLine({"GC%"})
         Dim Ddf = Df.CreateDataSource
 
@@ -620,12 +620,12 @@ Public Module ToolsAPI
     ''' ......
     ''' </remarks>
     <ExportAPI("compile.cai")>
-    Public Function CompileCABIAS(genes As String, Optional workTEMP As String = "./CAI_Xml") As DocumentStream.File
+    Public Function CompileCABIAS(genes As String, Optional workTEMP As String = "./CAI_Xml") As IO.File
         Dim LQueryLoadFasta = (From path As String
                                In FileIO.FileSystem.GetFiles(genes, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel
                                Let FASTA = FastaFile.LoadNucleotideData(path, True)
                                Where Not FASTA.IsNullOrEmpty
-                               Select ID = IO.Path.GetFileNameWithoutExtension(path),
+                               Select ID = BaseName(path),
                                    FASTA)
         Dim CAILQuery = (From item In LQueryLoadFasta.AsParallel
                          Let InternalId As String = item.ID
@@ -652,7 +652,7 @@ Public Module ToolsAPI
     <ExportAPI("diff.create_report", Info:="The source parameter is the source directory of the Delta query export dirtectory.")>
     Public Function GenerateDeltaDiffReport(source As String,
                                             partitions As IEnumerable(Of ChromosomePartitioningEntry),
-                                            CDSInfo As IEnumerable(Of GeneDumpInfo)) As DocumentStream.File
+                                            CDSInfo As IEnumerable(Of GeneDumpInfo)) As IO.File
 
         Dim p = (From item In partitions Select item Group By item.PartitioningTag Into Group).ToArray  '分组，选择蛋白质
         Dim DeltaQuery = (From path As NamedValue(Of String)
@@ -717,14 +717,14 @@ Public Module ToolsAPI
     End Function
 
     <ExportAPI("Compile.CAI")>
-    Public Function CompileCAIBIASCalculationThread(genes As FastaFile, Optional WorkTemp As String = "./CAI_Xml") As DocumentStream.File
-        Dim CompiledData = CompileCAIBIASCalculationThread_p(genes, WorkTemp, InternalID:=IO.Path.GetFileNameWithoutExtension(genes.FilePath))
+    Public Function CompileCAIBIASCalculationThread(genes As FastaFile, Optional WorkTemp As String = "./CAI_Xml") As IO.File
+        Dim CompiledData = CompileCAIBIASCalculationThread_p(genes, WorkTemp, InternalID:=BaseName(genes.FilePath))
         Return __compileCAI(CompiledData)
     End Function
 
-    Private Function __compileCAI(data As Generic.IEnumerable(Of KeyValuePair(Of String, CAITable))) As DocumentStream.File
-        Dim CSV As DocumentStream.File = New DocumentStream.File
-        Dim Head = New DocumentStream.RowObject From {"SpeciesID", "CAI"}
+    Private Function __compileCAI(data As Generic.IEnumerable(Of KeyValuePair(Of String, CAITable))) As IO.File
+        Dim CSV As IO.File = New IO.File
+        Dim Head = New IO.RowObject From {"SpeciesID", "CAI"}
 
         Call CSV.Add(Head)
 
@@ -733,7 +733,7 @@ Public Module ToolsAPI
         Next
 
         For Each item In data
-            Dim row As New DocumentStream.RowObject From {item.Key, item.Value.CAI}
+            Dim row As New IO.RowObject From {item.Key, item.Value.CAI}
 
             For i As Integer = 0 To item.Value.BiasList.Count - 1
                 Call row.Add(item.Value.BiasList(i).Value.Value)
@@ -817,7 +817,7 @@ Public Module ToolsAPI
     Public Function MergeDelta(source As String, query As IEnumerable(Of IGeneBrief), render_source As String, saveto As String, Optional samples As Integer = 1) As Boolean
         Dim LoadData = (From path As String
                         In FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.csv").AsParallel
-                        Select New KeyValuePair(Of String, SiteSigma())(IO.Path.GetFileNameWithoutExtension(path).Split(CChar("_")).Last,
+                        Select New KeyValuePair(Of String, SiteSigma())(BaseName(path).Split(CChar("_")).Last,
                              value:=path.LoadCsv(Of SiteSigma)(False).ToArray)).ToArray
 
         Return __mergeDelta(LoadData, query, render_source, saveto, samples)
@@ -850,14 +850,14 @@ Public Module ToolsAPI
                          Select New KeyValuePair(Of Integer, String())(site.Site, lstName)).ToArray
         '加载基因组双向BLAST同源片段染色数据
         Dim LoadCRendering = render_source.LoadXml(Of BestHit)() ' (From path As String In FileIO.FileSystem.GetFiles(render_source, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
-        '                      Select id = IO.Path.GetFileNameWithoutExtension(path),
+        '                      Select id = basename(path),
         '                      data = path.LoadXml(Of SMRUCC.genomics.AnalysisTools.DataVisualization.VennDiagram.ShellScriptAPI.BestHit)()).ToArray
         '基因按照正向进行标识 ，当比对上去的时候，会进行delta染色，即基因号为相应的比对上的基因号，当没有比对上去的时候，基因号为空
         '   Dim LQuery = (From item In LoadData Let ptt = LoadPTT(item.Key) Let render = LoadCRendering(item.Key) Select ID = item.Key, renderData = InternalColorRender(item.Key, item.Value.ToArray, ptt, render.data, sitesData)).ToArray
         '合并数据，得到染色矩阵，并写入文件
 
-        Dim CsvData As New DocumentStream.File
-        Dim Head As New DocumentStream.RowObject From {"Site", "QUERY_ID"}
+        Dim CsvData As New IO.File
+        Dim Head As New IO.RowObject From {"Site", "QUERY_ID"}
         For Each item In LoadData
             Call Head.Add("")
             Call Head.Add(item.Key)
@@ -867,7 +867,7 @@ Public Module ToolsAPI
         Call CsvData.Add(Head)
 
         For i As Integer = 0 To LoadData.First.Value.Count - 1 '都是使用同一个基因组进行比对，所以长度都是一样的
-            Dim row As New DocumentStream.RowObject From {sitesData(i).Key}
+            Dim row As New IO.RowObject From {sitesData(i).Key}
             Call row.Add(String.Join("; ", sitesData(i).Value))
 
             For Each item In LoadData
@@ -939,7 +939,7 @@ Public Module ToolsAPI
         Call Console.WriteLine("[INFO] query for the Sigma difference calculation in length of {0}KB...", QueryFasta.Length / 1000)
 
         Dim LQuery = (From SubjectFasta In FastaObjects.AsParallel Select __process(SubjectFasta, QueryFasta, EXPORT, InternalCache)).ToArray
-        Dim FileName As String = String.Format("{0}/Compiled/{1}.csv", EXPORT, IO.Path.GetFileNameWithoutExtension(query))
+        Dim FileName As String = String.Format("{0}/Compiled/{1}.csv", EXPORT, BaseName(query))
         Dim File = __compile(LQuery)
 
         Call Console.WriteLine("[JOB DONE]")
@@ -958,9 +958,9 @@ Public Module ToolsAPI
         Return New KeyValuePair(Of String, SiteSigma())(g, sigma)
     End Function
 
-    Private Function __compile(LQuery As KeyValuePair(Of String, SiteSigma())()) As DocumentStream.File
-        Dim File As DocumentStream.File = New DocumentStream.File
-        Dim Head As New DocumentStream.RowObject     '为了保持一一对应关系，这里不能够再使用并行化
+    Private Function __compile(LQuery As KeyValuePair(Of String, SiteSigma())()) As IO.File
+        Dim File As IO.File = New IO.File
+        Dim Head As New IO.RowObject     '为了保持一一对应关系，这里不能够再使用并行化
 
         Call Console.WriteLine("Compiling data....")
         Call Head.Add("Site")
@@ -974,7 +974,7 @@ Public Module ToolsAPI
         Call File.Add(Head)
 
         For i As Integer = 0 To LQuery.First.Value.Count - 1
-            Dim Row As New DocumentStream.RowObject
+            Dim Row As New IO.RowObject
             Call Row.Add(i)
 
             For Each item In LQuery
@@ -1114,9 +1114,9 @@ Public Module ToolsAPI
     ''' <remarks></remarks>
     Private Function __compileSigma(dat As KeyValuePair(Of String, String)(), export As String) As Boolean
         Dim FileName As String = String.Format("{0}/Compiled/{1}.csv", export, dat.First.Key)
-        Dim File As DocumentStream.File = New DocumentStream.File
+        Dim File As IO.File = New IO.File
         Dim Data = (From path In dat Select String.Format("{0}/{1}-{2}.csv", export, path.Key, path.Value).LoadCsv(Of SiteSigma)(False)).ToArray ' 为了保持一一对应关系，这里不能够再使用并行化
-        Dim Head As New DocumentStream.RowObject
+        Dim Head As New IO.RowObject
 
         Call Head.Add("Site")
 
@@ -1129,7 +1129,7 @@ Public Module ToolsAPI
         Call File.Add(Head)
 
         For i As Integer = 0 To Data.First.Count - 1
-            Dim Row As New DocumentStream.RowObject
+            Dim Row As New IO.RowObject
             Call Row.Add(i)
 
             For Each item In Data
