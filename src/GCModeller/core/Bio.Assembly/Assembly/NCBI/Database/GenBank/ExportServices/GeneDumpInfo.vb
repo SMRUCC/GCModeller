@@ -133,16 +133,16 @@ Namespace Assembly.NCBI.GenBank.CsvExports
             GeneObject.UniprotTrEMBL = obj.db_xref_UniprotKBTrEMBL
             GeneObject.InterPro = obj.db_xref_InterPro
             GeneObject.GO = obj.db_xref_GO
-            GeneObject.Species = obj.gbRaw.Definition.Value
+            GeneObject.Species = obj.gb.Definition.Value
             GeneObject.EC_Number = obj.Query(FeatureQualifiers.EC_number)
-            GeneObject.SpeciesAccessionID = obj.gbRaw.Locus.AccessionID
+            GeneObject.SpeciesAccessionID = obj.gb.Locus.AccessionID
 
             Try
                 GeneObject.Left = obj.Location.ContiguousRegion.Left
                 GeneObject.Right = obj.Location.ContiguousRegion.Right
                 GeneObject.Strand = If(obj.Location.Complement, "-", "+")
             Catch ex As Exception
-                Dim msg As String = $"{obj.gbRaw.Accession.AccessionId} location data is null!"
+                Dim msg As String = $"{obj.gb.Accession.AccessionId} location data is null!"
                 ex = New Exception(msg)
                 Call VBDebugger.Warning(msg)
                 Call App.LogException(ex)

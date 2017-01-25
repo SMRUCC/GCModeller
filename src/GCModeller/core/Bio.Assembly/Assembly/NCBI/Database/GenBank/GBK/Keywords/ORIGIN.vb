@@ -147,7 +147,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
             Get
-                Return MyBase.gbRaw.Definition.Value
+                Return MyBase.gb.Definition.Value
             End Get
         End Property
 

@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::fb0cc9ca4fe6878de32e824178b48412, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\QueryHandler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF
 
 Namespace Assembly.NCBI.Entrez
 
@@ -92,10 +93,10 @@ Namespace Assembly.NCBI.Entrez
                 Dim SavedGBK As String = DownloadGBK(work, Me.AccessionId)
                 Dim GBK As GBFF.File = Nothing
 
-                If FileIO.FileSystem.FileExists(SavedGBK) AndAlso FileIO.FileSystem.GetFileInfo(SavedGBK).Length > 0 Then
-                    GBK = GBFF.File.Read(SavedGBK)
+                If SavedGBK.FileExists(True) Then
+                    GBK = GbkParser.Read(SavedGBK)
                 Else
-                    Call Console.WriteLine("[DEBUG] Genbank database file download for ""{0}""; ACC:={1}  is not successful.", Me.ToString, AccessionId)
+                    Call $"Genbank database file download for ""{Me.ToString}""; ACC:={AccessionId} is not successful.".Warning
                 End If
 
                 Return GBK
@@ -111,18 +112,17 @@ Namespace Assembly.NCBI.Entrez
             ''' <param name="TempScript">Temp Script save location.</param>
             ''' <returns></returns>
             Private Shared Function __buildQuery(AccessionID As String, Work As String, ByRef savedGBK As String, ByRef TempScript As String) As Process
-
                 TempScript = $"{Work}/{Process.GetCurrentProcess.Id}_{Rnd()}_{AccessionID}.pl"
 
-                Dim p As System.Diagnostics.ProcessStartInfo = New Diagnostics.ProcessStartInfo("perl", TempScript)
-                Dim Script As StringBuilder = New StringBuilder(My.Resources.GenBankQuery) 'Perl script template
+                Dim p As New ProcessStartInfo("perl", TempScript)
+                Dim Script As New StringBuilder(My.Resources.GenBankQuery) 'Perl script template
 
                 savedGBK = $"{Work}/{AccessionID}.gbk"
                 savedGBK = FileIO.FileSystem.GetFileInfo(savedGBK).FullName.Replace("\", "/")
 
                 Call Script.Replace(ACCESSION_ID, AccessionID)
                 Call Script.Replace(SAVED_FILE, savedGBK)
-                Call Script.ToString.SaveTo(TempScript, System.Text.Encoding.ASCII)
+                Call Script.ToString.SaveTo(TempScript, Encoding.ASCII)
 
                 p.WindowStyle = ProcessWindowStyle.Hidden
 

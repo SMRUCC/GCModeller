@@ -68,10 +68,10 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 Dim jLoci = Location.JoinLocation
 
                 If jLoci Is Nothing Then
-                    Return Me.gbRaw.Origin.GetFeatureSegment(Me)
+                    Return Me.gb.Origin.GetFeatureSegment(Me)
                 Else
-                    Dim part1 As String = gbRaw.Origin.GetFeatureSegment(Me)
-                    Dim part2 As String = gbRaw.Origin.CutSequenceBylength(
+                    Dim part1 As String = gb.Origin.GetFeatureSegment(Me)
+                    Dim part2 As String = gb.Origin.CutSequenceBylength(
                         jLoci.Left,
                         jLoci.RegionLength).SequenceData
 
@@ -121,7 +121,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Dim gff As New TabularFormat.Feature
 
             gff.Strand = Me.Location.ContiguousRegion.Strand
-            gff.seqname = gbRaw.Accession.AccessionId
+            gff.seqname = gb.Accession.AccessionId
             gff.Right = Me.Location.Location.Right
             gff.Left = Me.Location.Location.Left
             gff.Feature = Me.KeyName

@@ -48,7 +48,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Call gbBuilder.AppendLine(ToString(gb.Definition))
             Call gbBuilder.AppendLine(ToString(gb.Accession))
             Call gbBuilder.AppendLine(ToString(gb.Version))
-            Call gbBuilder.AppendLine(ToString(gb.DbLink))
+            Call gbBuilder.AppendLine(ToString(gb.DbLinks))
             Call gbBuilder.AppendLine(ToString(gb.Keywords))
             Call gbBuilder.AppendLine(ToString(gb.Source))
             Call gbBuilder.Append(ToString(gb.Reference))
