@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b41282d2a47cc9aee9d12be6defe465, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\System.Collections.Generic\Dictionary(Of T, V).vb"
+﻿#Region "Microsoft.VisualBasic::05667d44dd1cf6e8925c45410f15b8a4, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\System.Collections.Generic\Dictionary(Of T, V).vb"
 
     ' Author:
     ' 
@@ -185,6 +185,20 @@ Public Class Dictionary(Of V As INamedValue) : Inherits SortedDictionary(Of Stri
 
     Public Shared Operator -(hash As Dictionary(Of V), id As String) As Dictionary(Of V)
         Call hash.Remove(id)
+        Return hash
+    End Operator
+
+    ''' <summary>
+    ''' 批量移除字典之中的键值对
+    ''' </summary>
+    ''' <param name="hash"></param>
+    ''' <param name="keys">需要移除的键名的列表</param>
+    ''' <returns></returns>
+    Public Shared Operator -(hash As Dictionary(Of V), keys As IEnumerable(Of String)) As Dictionary(Of V)
+        For Each k As String In keys
+            Call hash.Remove(k)
+        Next
+
         Return hash
     End Operator
 

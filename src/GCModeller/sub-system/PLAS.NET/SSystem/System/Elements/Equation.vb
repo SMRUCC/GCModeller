@@ -1,37 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::6ffa4a2564a6512702c7c76f8752357e, ..\GCModeller\sub-system\PLAS.NET\SSystem\System\Elements\Equation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical
-Imports Microsoft.VisualBasic.Mathematical.Types
+Imports Microsoft.VisualBasic.Mathematical.Scripting
+Imports Microsoft.VisualBasic.Mathematical.Scripting.Types
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 Imports SMRUCC.genomics.GCModeller.Framework
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
@@ -58,7 +56,7 @@ Namespace Kernel.ObjectModels
 
         Dim dynamics As SimpleExpression
 
-        Sub New(s As SEquation, engine As Mathematical.Expression)
+        Sub New(s As SEquation, engine As Mathematical.Scripting.Expression)
             Me.Model = s
             Me.Expression = s.Expression
             Me.Identifier = s.x
@@ -68,7 +66,7 @@ Namespace Kernel.ObjectModels
             Me.dynamics = ExpressionParser.TryParse(Expression, engine)
         End Sub
 
-        Sub New(id As String, expr As String, engine As Mathematical.Expression)
+        Sub New(id As String, expr As String, engine As Mathematical.Scripting.Expression)
             Call Me.New(New SEquation(id, expr), engine)
         End Sub
 
@@ -100,7 +98,7 @@ Namespace Kernel.ObjectModels
         ''' </summary>
         ''' <param name="engine"></param>
         ''' <returns></returns>
-        Public Function Elapsed(engine As Mathematical.Expression) As Boolean
+        Public Function Elapsed(engine As Mathematical.Scripting.Expression) As Boolean
             Var.Value += (Me.Evaluate * Kernel.Precision)
             engine(Var.UniqueId) = Var.Value
 

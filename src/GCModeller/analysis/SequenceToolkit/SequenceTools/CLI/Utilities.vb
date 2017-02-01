@@ -158,7 +158,7 @@ Public Module Utilities
         If String.IsNullOrEmpty(Format) OrElse String.Equals("fsa", Format, StringComparison.OrdinalIgnoreCase) Then 'fasta sequence
             FASTA = FastaFile.Read(File:=Input)
         Else 'gbk format
-            Dim GbkFile As GBFF.File = GBFF.File.Read(Path:=Input)
+            Dim GbkFile As GBFF.File = GBFF.File.Load(Path:=Input)
             FASTA = GbkFile.ExportProteins
         End If
 

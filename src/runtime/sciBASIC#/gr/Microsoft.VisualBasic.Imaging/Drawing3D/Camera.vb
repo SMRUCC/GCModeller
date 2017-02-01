@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5016e67c59fa6050f51cba47f3d45479, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing3D\Camera.vb"
+﻿#Region "Microsoft.VisualBasic::0f74cfc0985efcf3898983483fc6adae, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing3D\Camera.vb"
 
     ' Author:
     ' 
@@ -28,6 +28,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Language
 
 Namespace Drawing3D
 
@@ -100,6 +101,21 @@ Namespace Drawing3D
         End Function
 
 #End Region
+
+        Public Sub Draw(ByRef canvas As Graphics, surface As IEnumerable(Of Surface), Optional drawPath As Boolean = False)
+            Dim faces As New List(Of Surface)
+
+            With Me
+                For Each f As Surface In surface
+                    faces += New Surface With {
+                        .brush = f.brush,
+                        .vertices = Rotate(f.vertices).ToArray
+                    }
+                Next
+            End With
+
+            Call canvas.SurfacePainter(Me, faces, drawPath)
+        End Sub
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

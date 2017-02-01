@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d3eb5725cb8e1843667861ec37b2a6b, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\DataStructures\Enumerable\IEnumerable.vb"
+﻿#Region "Microsoft.VisualBasic::af724995adf68f395e8091ab6c07d50e, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\DataStructures\Enumerable\IEnumerable.vb"
 
     ' Author:
     ' 
@@ -55,6 +55,9 @@ Namespace ComponentModel.Collection.Generic
     Public Interface INamedValue : Inherits IKeyedEntity(Of String)
     End Interface
 
+    ''' <summary>
+    ''' 与<see cref="iNamedValue"/>所不同的是，这个对象的标识属性是只读的.
+    ''' </summary>
     Public Interface IReadOnlyId
 
         ''' <summary>

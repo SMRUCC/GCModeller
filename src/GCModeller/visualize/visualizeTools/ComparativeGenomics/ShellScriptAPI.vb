@@ -60,12 +60,12 @@ Namespace ComparativeGenomics
                     If Not FileIO.FileSystem.FileExists(File1) Then
                         File1 = String.Format("{0}/{1}.1.gbk", gbDIR, FileTokens.First)
                     End If
-                    Dim G1 = GBFF.File.Read(File1)
+                    Dim G1 = GBFF.File.Load(File1)
                     Dim File2 As String = String.Format("{0}/{1}.gbk", gbDIR, FileTokens.Last)
                     If Not FileIO.FileSystem.FileExists(File2) Then
                         File2 = String.Format("{0}/{1}.1.gbk", gbDIR, FileTokens.Last)
                     End If
-                    Dim G2 = GBFF.File.Read(File2)
+                    Dim G2 = GBFF.File.Load(File2)
                     Dim Model = ModelFromGBK(G1, G2)
                     Call LinkFromBesthit(Besthits, Model)
                     Dim res As Image = New DrawingDevice().InvokeDrawing(Model)
@@ -82,7 +82,7 @@ Namespace ComparativeGenomics
 
         <ExportAPI("read.gbk")>
         Public Function ReadGBK(path As String) As GBFF.File
-            Return GBFF.File.Read(path)
+            Return GBFF.File.Load(path)
         End Function
 
         <ExportAPI("invoke.drawing")>
