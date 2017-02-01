@@ -84,7 +84,7 @@ Namespace Kernel
         ''' <summary>
         ''' 模拟器的数学计算引擎
         ''' </summary>
-        ReadOnly __engine As New Mathematical.Expression
+        ReadOnly __engine As New Mathematical.Scripting.Expression
 
         Sub New(Model As Script.Model, Optional dataTick As Action(Of DataSet) = Nothing)
             Call MyBase.New(Model)
