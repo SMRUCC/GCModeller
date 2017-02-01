@@ -1,47 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::87635e8df39662d389355e7b607d474f, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing3D\GDIDevice.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Imaging.Drawing3D.Device.Worker
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Drawing3D
+Namespace Drawing3D.Device
 
     ''' <summary>
-    ''' GDI+图形设备的简易抽象
+    ''' GDI+三维图形显示设备的简易抽象
     ''' </summary>
+    ''' <remarks>
+    ''' 在这个控件之中存在两条工作线程用来加速三维图形的绘制:
+    ''' 
+    ''' + 空间计算线程，用来对数据进行预处理，包括投影和排序，生成可以直接被使用的多边形缓存
+    ''' + 图形渲染线程，用于进行三维图形的绘图操作，进行图像显示
+    ''' </remarks>
     Public Class GDIDevice : Inherits UserControl
 
         Protected WithEvents _animationLoop As Timer
-        Protected _camera As New Camera With {
+        Protected Friend _camera As New Camera With {
             .angleX = 0,
             .angleY = 0,
             .angleZ = 0,
@@ -49,9 +54,35 @@ Namespace Drawing3D
             .screen = Size,
             .ViewDistance = -40
         }
-        Protected models As New List(Of I3DModel)
 
         Dim _rotationThread As New UpdateThread(15, AddressOf RunRotate)
+        Dim worker As New Worker(Me)
+        Dim mouse As New Mouse(Me)
+
+        Public Property drawPath As Boolean
+            Get
+                Return worker.drawPath
+            End Get
+            Set(value As Boolean)
+                worker.drawPath = value
+            End Set
+        End Property
+        Public Property LightIllumination As Boolean
+            Get
+                Return worker.LightIllumination
+            End Get
+            Set(value As Boolean)
+                worker.LightIllumination = value
+            End Set
+        End Property
+        Public Property ViewDistance As Single
+            Get
+                Return _camera.ViewDistance
+            End Get
+            Set
+                _camera.ViewDistance = Value
+            End Set
+        End Property
 
         Private Sub RunRotate()
             SyncLock _camera
@@ -69,6 +100,7 @@ Namespace Drawing3D
 
         Protected Overrides Sub Dispose(disposing As Boolean)
             Call _rotationThread.Dispose()
+            Call worker.Dispose()
             Call Pause()
 
             MyBase.Dispose(disposing)
@@ -109,11 +141,13 @@ Namespace Drawing3D
         Public Sub Run()
             _animationLoop.Enabled = True
             _animationLoop.Start()
+            worker.Run()
         End Sub
 
         Public Sub Pause()
             _animationLoop.Enabled = False
             _animationLoop.Stop()
+            worker.Pause()
         End Sub
 
         Public Property RefreshInterval As Integer
@@ -125,6 +159,13 @@ Namespace Drawing3D
                 _animationLoop.Start()
             End Set
         End Property
+
+        ''' <summary>
+        ''' 这个属性用来提供模型数据，例如位移之后的模型数据
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Model As ModelData
+        Public Property bg As Color
 
         Protected Overridable Sub __init()
             Try
@@ -144,27 +185,12 @@ Namespace Drawing3D
             Call Me.___animationLoop()
         End Sub
 
-        Protected Overridable Sub ___animationLoop()
-            Try
-                Throw New Exception("Please Implements the control code at here.")
-            Catch ex As Exception
-                Call ex.__DEBUG_ECHO
-            End Try
-        End Sub
+        Public Property Animation As CameraControl
 
-        Protected Overridable Sub __updateGraphics(sender As Object, ByRef g As Graphics, region As Rectangle)
-            Call g.Clear(Color.LightBlue)
-
-            For Each model As I3DModel In models
-                Call model.Copy(_camera.Rotate(model)).Draw(g, _camera)
-            Next
-        End Sub
-
-        Private Sub GDIDevice_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
-            e.Graphics.CompositingQuality = CompositingQuality.HighQuality
-            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear
-
-            Call __updateGraphics(sender, g:=e.Graphics, region:=e.ClipRectangle)
+        Private Sub ___animationLoop()
+            If Not _Animation Is Nothing Then
+                Call _Animation(_camera)
+            End If
         End Sub
 
         Private Sub InitializeComponent()
@@ -172,29 +198,15 @@ Namespace Drawing3D
             '
             'GDIDevice
             '
+            Me.BackColor = System.Drawing.Color.LightBlue
+            Me.Cursor = System.Windows.Forms.Cursors.Cross
             Me.Name = "GDIDevice"
-            Me.Size = New Size(438, 355)
+            Me.Size = New System.Drawing.Size(438, 355)
             Me.ResumeLayout(False)
 
         End Sub
 
-        Dim _rotate As Boolean
-
         Public Event RotateCamera(angleX!, angleY!, angleZ!)
-
-        Private Sub GDIDevice_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
-            _rotate = True
-        End Sub
-
-        Private Sub GDIDevice_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
-            If _rotate Then
-                _camera.angleX += 1
-                _camera.angleY += 1
-                _camera.angleZ += 1
-            End If
-
-            RaiseEvent RotateCamera(_camera.angleX, _camera.angleY, _camera.angleZ)
-        End Sub
 
         Public Sub RotateX(angle!)
             _camera.angleX = angle
@@ -212,10 +224,6 @@ Namespace Drawing3D
             _camera.angleX = angle.X
             _camera.angleY = angle.Y
             _camera.angleZ = angle.Z
-        End Sub
-
-        Private Sub GDIDevice_MouseUp(sender As Object, e As MouseEventArgs) Handles Me.MouseUp
-            _rotate = False
         End Sub
 
         Public Property DisableScreenResize As Boolean = False
@@ -249,13 +257,13 @@ Namespace Drawing3D
         Private Sub GDIDevice_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
             Select Case e.KeyCode
                 Case System.Windows.Forms.Keys.Up
-                    keyRotate = New Point3D(0, 1, 0)
+                    keyRotate = New Point3D(0, 2, 0)
                 Case System.Windows.Forms.Keys.Down
-                    keyRotate = New Point3D(0, -1, 0)
+                    keyRotate = New Point3D(0, -2, 0)
                 Case System.Windows.Forms.Keys.Left
-                    keyRotate = New Point3D(1, 0, 0)
+                    keyRotate = New Point3D(2, 0, 0)
                 Case System.Windows.Forms.Keys.Right
-                    keyRotate = New Point3D(-1, 0, 0)
+                    keyRotate = New Point3D(-2, 0, 0)
                 Case Else
                     ' Do Nothing
             End Select

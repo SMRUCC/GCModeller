@@ -32,6 +32,9 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace Drawing3D
 
+    ''' <summary>
+    ''' 进行实际3D绘图操作的对象模型
+    ''' </summary>
     Public Structure Surface
         Implements IEnumerable(Of Point3D)
         Implements I3DModel
@@ -41,6 +44,11 @@ Namespace Drawing3D
         ''' </summary>
         Public vertices() As Point3D
         Public brush As Brush
+
+        Sub New(v As Point3D(), b As Brush)
+            brush = b
+            vertices = v
+        End Sub
 
         Public Sub Draw(ByRef canvas As Graphics, camera As Camera) Implements I3DModel.Draw
             Dim path = New Point(vertices.Length - 1) {}
