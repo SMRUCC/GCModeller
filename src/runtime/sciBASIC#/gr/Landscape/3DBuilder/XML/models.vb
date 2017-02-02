@@ -31,46 +31,82 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Public Class mesh
+Namespace Vendor_3mf.XML
 
-    Public Property vertices As Point3D()
-    Public Property triangles As triangle()
+    Public Class mesh
 
-    Public Function GetSurfaces(base As base) As Drawing3D.Surface()
-        Dim out As New List(Of Drawing3D.Surface)
-        Dim color As Color = base.displaycolor.TranslateColor
-        Dim b As New SolidBrush(color)
+        Public Property vertices As Point3D()
+        Public Property triangles As triangle()
 
-        For Each t As triangle In triangles
-            out += New Drawing3D.Surface With {
-                .vertices = {
-                    vertices(t.v1), vertices(t.v2), vertices(t.v3)
-                },
-                .brush = b
-            }
-        Next
+        Public Function GetSurfaces(base As base) As Surface()
+            Dim out As New List(Of Surface)
+            Dim color As Color = base.displaycolor.TranslateColor
+            Dim b As New SolidBrush(color)
 
-        Return out
-    End Function
+            For Each t As triangle In triangles
+                out += New Surface With {
+                    .vertices = {
+                        vertices(t.v1), vertices(t.v2), vertices(t.v3)
+                    },
+                    .brush = b
+                }
+            Next
 
-    Public Overrides Function ToString() As String
-        Return Me.GetJson
-    End Function
-End Class
+            Return out
+        End Function
 
-Public Class triangle
+        ''' <summary>
+        ''' <see cref="triangle.p1"/>
+        ''' </summary>
+        ''' <param name="materials"></param>
+        ''' <returns></returns>
+        Public Function GetSurfaces(materials As Brush()) As Surface()
+            Dim out As New List(Of Surface)
 
-    <XmlAttribute> Public Property v1 As Integer
-    <XmlAttribute> Public Property v2 As Integer
-    <XmlAttribute> Public Property v3 As Integer
+            For Each t As triangle In triangles
+                Dim i As Integer = CInt(t.p1)
 
-    Public Overrides Function ToString() As String
-        Return Me.GetJson
-    End Function
-End Class
+                out += New Surface With {
+                    .vertices = {
+                        vertices(t.v1), vertices(t.v2), vertices(t.v3)
+                    },
+                    .brush = materials(i)
+                }
+            Next
 
-Public Class component
+            Return out
+        End Function
 
-    <XmlAttribute>
-    Public Property objectid As Integer
-End Class
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
+
+    Public Class triangle
+
+        <XmlAttribute> Public Property v1 As Integer
+        <XmlAttribute> Public Property v2 As Integer
+        <XmlAttribute> Public Property v3 As Integer
+
+        ''' <summary>
+        ''' 当前的这个三角形面的所属组件的编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property pid As String
+        ''' <summary>
+        ''' 颜色索引值
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property p1 As String
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
+
+    Public Class component
+
+        <XmlAttribute>
+        Public Property objectid As Integer
+    End Class
+End Namespace

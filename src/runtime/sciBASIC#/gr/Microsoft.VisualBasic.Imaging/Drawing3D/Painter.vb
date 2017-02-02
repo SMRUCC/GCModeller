@@ -40,7 +40,7 @@ Namespace Drawing3D
     Public Module PainterAlgorithm
 
         ''' <summary>
-        ''' 请注意，这个并没有rotate，只会利用camera进行project
+        ''' 这个函数主要是应用于函数绘图的。请注意，这个并没有rotate，只会利用camera进行project
         ''' </summary>
         ''' <param name="canvas"></param>
         ''' <param name="camera"></param>
@@ -114,10 +114,17 @@ Namespace Drawing3D
         End Function
 
         ''' <summary>
-        ''' 经过投影和排序操作之后的多边形图形缓存单元
+        ''' The polygon buffer unit after the 3D to 2D projection and the z-order sorts.
+        ''' (经过投影和排序操作之后的多边形图形缓存单元)
         ''' </summary>
         Public Structure Polygon
+            ''' <summary>
+            ''' The 3D projection result buffer
+            ''' </summary>
             Dim points As Point()
+            ''' <summary>
+            ''' Surface fill
+            ''' </summary>
             Dim brush As Brush
         End Structure
 

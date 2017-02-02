@@ -38,7 +38,7 @@ Namespace Drawing3D.Device
     ''' <summary>
     ''' 三维图形设备的工作线程管理器
     ''' </summary>
-    Public Class Worker
+    Public Class Worker : Inherits IDevice
         Implements IDisposable
         Implements IObjectModel_Driver
 
@@ -46,17 +46,14 @@ Namespace Drawing3D.Device
         Public Delegate Sub CameraControl(ByRef camera As Camera)
 
         Dim buffer As IEnumerable(Of Polygon)
-        Dim WithEvents display As GDIDevice
         Dim spaceThread As New UpdateThread(20, AddressOf CreateBuffer)
+        Dim debugger As Debugger
 
         Public ReadOnly Property model As ModelData
             Get
-                Return display.Model
+                Return device.Model
             End Get
         End Property
-        Public Property drawPath As Boolean
-        Public Property LightIllumination As Boolean
-        Public Property HorizontalPanel As Boolean = False
 
         Dim __horizontalPanel As New Surface With {
             .brush = New SolidBrush(Color.FromArgb(128, Color.Gray)),
@@ -68,36 +65,71 @@ Namespace Drawing3D.Device
             }
         }
 
-        Sub New(dev As GDIDevice)
-            Me.display = dev
+        Public Sub New(dev As GDIDevice)
+            MyBase.New(dev)
+            debugger = New Debugger(device)
         End Sub
 
-        Sub CreateBuffer()
-            With display._camera
+        Private Sub CreateBuffer()
+            Dim now& = App.NanoTime
+
+            With device._camera
                 Dim surfaces As New List(Of Surface)
 
                 For Each s As Surface In model()()
                     surfaces += New Surface(.Rotate(s.vertices).ToArray, s.brush)
                 Next
 
-                If HorizontalPanel Then
+                If device.ShowHorizontalPanel Then
                     surfaces += New Surface(
                         .Rotate(__horizontalPanel.vertices).ToArray,
                         __horizontalPanel.brush)
                 End If
 
                 buffer = .PainterBuffer(surfaces)
+
+                If .angleX > 360 Then
+                    .angleX = 0
+                End If
+                If .angleY > 360 Then
+                    .angleY = 0
+                End If
+                If .angleZ > 360 Then
+                    .angleZ = 0
+                End If
+
+                Call device.RotationThread.Tick()
             End With
+
+            debugger.BufferWorker = App.NanoTime - now
         End Sub
 
-        Private Sub display_Paint(sender As Object, e As PaintEventArgs) Handles display.Paint
-            e.Graphics.CompositingQuality = CompositingQuality.HighQuality
-            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear
+        ''' <summary>
+        ''' 1 frame
+        ''' </summary>
+        ''' <param name="sender"></param>
+        ''' <param name="e"></param>
+        Private Sub RenderingThread(sender As Object, e As PaintEventArgs) Handles device.Paint
+            Dim canvas As Graphics = e.Graphics
+            Dim now& = App.NanoTime
 
-            If Not buffer Is Nothing Then
-                Call e.Graphics.Clear(display.bg)
-                Call e.Graphics.BufferPainting(buffer, drawPath, LightIllumination)
-            End If
+            canvas.CompositingQuality = CompositingQuality.HighQuality
+            canvas.InterpolationMode = InterpolationMode.HighQualityBilinear
+
+            With device
+                If Not buffer Is Nothing Then
+                    Call canvas.Clear(device.bg)
+                    Call canvas.BufferPainting(buffer, .drawPath, .LightIllumination)
+                End If
+                If Not .Plot Is Nothing Then
+                    Call .Plot()(canvas, ._camera)
+                End If
+                If device.ShowDebugger Then
+                    Call debugger.DrawInformation(canvas)
+                End If
+            End With
+
+            debugger.RenderingWorker = App.NanoTime - now
         End Sub
 
         Public Function Run() As Integer Implements IObjectModel_Driver.Run
@@ -117,6 +149,7 @@ Namespace Drawing3D.Device
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).
                     Call spaceThread.Dispose()
+                    Call debugger.Dispose()
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
