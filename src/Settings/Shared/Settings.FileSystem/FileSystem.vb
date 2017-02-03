@@ -156,6 +156,12 @@ Namespace GCModeller.FileSystem
             End Get
         End Property
 
+        Public ReadOnly Property GO As String
+            Get
+                Return RepositoryRoot & "/GO/"
+            End Get
+        End Property
+
 #Region "API Functions"
 
         ''' <summary>
