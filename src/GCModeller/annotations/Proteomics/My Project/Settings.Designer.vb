@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.Proteomics.My.MySettings
+        Friend ReadOnly Property Settings() As Global.CLI_Proteomics.My.MySettings
             Get
-                Return Global.Proteomics.My.MySettings.Default
+                Return Global.CLI_Proteomics.My.MySettings.Default
             End Get
         End Property
     End Module

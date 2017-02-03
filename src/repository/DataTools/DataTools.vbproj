@@ -233,7 +233,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\runtime\sciBASIC#\mime\mime_markups\mime_markups.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>markups</Name>
+      <Name>mime_markups</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\runtime\sciBASIC#\mime\RTF\RTF.vbproj">
       <Project>{062afa7d-1e0d-48f8-b07d-fb74aeefa5d6}</Project>

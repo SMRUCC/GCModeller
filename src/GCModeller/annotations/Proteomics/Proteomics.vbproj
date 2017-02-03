@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{61FE6226-7B01-4181-AE04-2EEF599DE96E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Proteomics</RootNamespace>
-    <AssemblyName>Proteomics</AssemblyName>
+    <RootNamespace>CLI_Proteomics</RootNamespace>
+    <AssemblyName>proteomics</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -19,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Proteomics.xml</DocumentationFile>
+    <DocumentationFile>proteomics.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Proteomics.xml</DocumentationFile>
+    <DocumentationFile>proteomics.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -48,7 +48,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\..\tmp\</OutputPath>
-    <DocumentationFile>Proteomics.xml</DocumentationFile>
+    <DocumentationFile>proteomics.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -57,7 +57,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DocumentationFile>Proteomics.xml</DocumentationFile>
+    <DocumentationFile>proteomics.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -65,7 +65,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Proteomics.Module3</StartupObject>
+    <StartupObject>CLI_Proteomics.Module3</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -94,11 +94,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Module1.vb" />
-    <Compile Include="Module2.vb" />
-    <Compile Include="Module3.vb" />
+    <Compile Include="CLI.vb" />
+    <Compile Include="Program.vb" />
+    <Compile Include="Test\Module1.vb" />
+    <Compile Include="Test\Module2.vb" />
+    <Compile Include="Test\Module3.vb" />
     <Compile Include="Plots.vb" />
-    <Compile Include="Test.vb" />
+    <Compile Include="Test\Test.vb" />
     <Compile Include="ProteinGroups.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
