@@ -103,8 +103,8 @@ Namespace Settings.Programs
                         .Height = 600
                     },
                     .Location = New PointF With {
-                        .Left = My.Computer.Screen.Bounds.Width * 0.3,
-                        .Top = My.Computer.Screen.Bounds.Height * 0.4
+                        .Left = 0,'My.Computer.Screen.Bounds.Width * 0.3,
+                        .Top = 0'My.Computer.Screen.Bounds.Height * 0.4
                     },
                     .Language = Languages.System
                 }

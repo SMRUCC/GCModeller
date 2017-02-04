@@ -151,7 +151,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\mime_markups\mime_markups.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>markups</Name>
+      <Name>mime_markups</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\analysis\Microarray\Microarray.vbproj">
       <Project>{64384e97-d1c6-410c-bff7-43392d994050}</Project>

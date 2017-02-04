@@ -161,7 +161,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\sciBASIC#\mime\mime_markups\mime_markups.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>markups</Name>
+      <Name>mime_markups</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

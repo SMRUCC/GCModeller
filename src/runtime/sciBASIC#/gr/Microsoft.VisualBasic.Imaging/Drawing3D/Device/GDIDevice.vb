@@ -31,6 +31,7 @@ Imports System.Windows.Forms
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Device.Worker
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Keyboard = System.Windows.Forms.Keys
 
 Namespace Drawing3D.Device
 
@@ -55,26 +56,12 @@ Namespace Drawing3D.Device
             .ViewDistance = -40
         }
 
-        Dim _rotationThread As New UpdateThread(15, AddressOf RunRotate)
+        Dim rotationWorker As New AutoRotation(Me)
         Dim worker As New Worker(Me)
         Dim mouse As New Mouse(Me)
 
         Public Property drawPath As Boolean
-            Get
-                Return worker.drawPath
-            End Get
-            Set(value As Boolean)
-                worker.drawPath = value
-            End Set
-        End Property
         Public Property LightIllumination As Boolean
-            Get
-                Return worker.LightIllumination
-            End Get
-            Set(value As Boolean)
-                worker.LightIllumination = value
-            End Set
-        End Property
         Public Property ViewDistance As Single
             Get
                 Return _camera.ViewDistance
@@ -83,23 +70,9 @@ Namespace Drawing3D.Device
                 _camera.ViewDistance = Value
             End Set
         End Property
-
-        Private Sub RunRotate()
-            SyncLock _camera
-                If keyRotate.X <> 0R OrElse keyRotate.Y <> 0R OrElse keyRotate.Z <> 0R Then
-                    _camera.angleX += keyRotate.X
-                    _camera.angleY += keyRotate.Y
-                    _camera.angleZ += keyRotate.Z
-                Else
-                    _camera.angleX += 0.1
-                    _camera.angleY += 0.1
-                    _camera.angleZ += 0.1
-                End If
-            End SyncLock
-        End Sub
+        Public Property ShowDebugger As Boolean
 
         Protected Overrides Sub Dispose(disposing As Boolean)
-            Call _rotationThread.Dispose()
             Call worker.Dispose()
             Call Pause()
 
@@ -107,16 +80,10 @@ Namespace Drawing3D.Device
         End Sub
 
         Public Property AutoRotation As Boolean
+        Public ReadOnly Property RotationThread As AutoRotation
             Get
-                Return _rotationThread.Running
+                Return rotationWorker
             End Get
-            Set(value As Boolean)
-                If value Then
-                    _rotationThread.Start()
-                Else
-                    _rotationThread.Stop()
-                End If
-            End Set
         End Property
 
         ''' <summary>
@@ -165,7 +132,16 @@ Namespace Drawing3D.Device
         ''' </summary>
         ''' <returns></returns>
         Public Property Model As ModelData
+        ''' <summary>
+        ''' ```vbnet
+        ''' Public Delegate Sub IGraphics(g As <see cref="Graphics"/>, camera As <see cref="Camera"/>)
+        ''' ```
+        ''' 这个接口提供一些额外的信息的显示，例如调试信息
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Plot As DrawGraphics
         Public Property bg As Color
+        Public Property ShowHorizontalPanel As Boolean = False
 
         Protected Overridable Sub __init()
             Try
@@ -247,32 +223,21 @@ Namespace Drawing3D.Device
 #End If
         End Sub
 
-        Dim keyRotate As Point3D
-
-        'Public Sub SetAutoRotate(angle As Point3D)
-        '    keyRotate = angle
-        '    ' AutoRotation = True
-        'End Sub
-
         Private Sub GDIDevice_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
             Select Case e.KeyCode
-                Case System.Windows.Forms.Keys.Up
-                    keyRotate = New Point3D(0, 2, 0)
-                Case System.Windows.Forms.Keys.Down
-                    keyRotate = New Point3D(0, -2, 0)
-                Case System.Windows.Forms.Keys.Left
-                    keyRotate = New Point3D(2, 0, 0)
-                Case System.Windows.Forms.Keys.Right
-                    keyRotate = New Point3D(-2, 0, 0)
+                Case Keyboard.Up
+                    rotationWorker.Y += 5
+                Case Keyboard.Down
+                    rotationWorker.Y -= 5
+                Case Keyboard.Left
+                    rotationWorker.X += 5
+                Case Keyboard.Right
+                    rotationWorker.X -= 5
                 Case Else
                     ' Do Nothing
             End Select
 
-            Call RunRotate()
-        End Sub
-
-        Private Sub GDIDevice_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
-            keyRotate = Nothing
+            Call rotationWorker.RunRotate()
         End Sub
     End Class
 End Namespace
