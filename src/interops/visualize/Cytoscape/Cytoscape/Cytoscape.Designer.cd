@@ -6,12 +6,13 @@
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.Visualize.Cytoscape.API.ImportantNodes.Regulations" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Visualize.Cytoscape.API.ImportantNodes.Regulations" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="18.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>API\ImportantNodes\LDM.vb</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.API.ImportantNodes.RankRegulations" Collapsed="true">
     <Position X="17" Y="4.5" Width="1.5" />
@@ -186,7 +187,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Visualization.visualProperty.continuousMappingPoint" Collapsed="true">
-    <Position X="18.75" Y="0.5" Width="1.75" />
+    <Position X="18.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAASAAA=</HashCode>
       <FileName>Graph\VizMap\visualStyle\visualProperty.vb</FileName>
@@ -276,17 +277,16 @@
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Tables.Edge" Collapsed="true">
     <Position X="20.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEBAAAAAAAAJAEBAAAAAAQAAAAAAA=</HashCode>
-      <FileName>Tabular\EdgeTable.vb</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>csv\csv.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Visualize.Cytoscape.Tables.Node" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="24" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgCQIiAAAEAAACQEAAEgACAQgBIMAQAAQAAAAAAAAAA=</HashCode>
-      <FileName>Tabular\NodeTable.vb</FileName>
+      <HashCode>AgCAAiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>csv\csv.vb</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Interface Name="SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Cyjs.IDynamicsProperty" Collapsed="true">
     <Position X="17" Y="8" Width="1.5" />

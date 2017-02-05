@@ -26,8 +26,8 @@
 
 #End Region
 
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection.Reflector
 Imports Microsoft.VisualBasic.Data.visualize.Network
@@ -35,10 +35,9 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.NameOf
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
-Imports System.Reflection
 
 Namespace CytoscapeGraphView.Serialization
 

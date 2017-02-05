@@ -197,50 +197,6 @@
     <Compile Include="Files\GAF.vb" />
     <Compile Include="OntologyRelations.vb" />
     <Compile Include="Ontologies.vb" />
-    <Compile Include="MySQL\Tables\association.vb" />
-    <Compile Include="MySQL\Tables\association_isoform.vb" />
-    <Compile Include="MySQL\Tables\association_property.vb" />
-    <Compile Include="MySQL\Tables\association_qualifier.vb" />
-    <Compile Include="MySQL\Tables\association_species_qualifier.vb" />
-    <Compile Include="MySQL\Tables\assoc_rel.vb" />
-    <Compile Include="MySQL\Tables\db.vb" />
-    <Compile Include="MySQL\Tables\dbxref.vb" />
-    <Compile Include="MySQL\Tables\evidence.vb" />
-    <Compile Include="MySQL\Tables\evidence_dbxref.vb" />
-    <Compile Include="MySQL\Tables\gene_product.vb" />
-    <Compile Include="MySQL\Tables\gene_product_ancestor.vb" />
-    <Compile Include="MySQL\Tables\gene_product_count.vb" />
-    <Compile Include="MySQL\Tables\gene_product_dbxref.vb" />
-    <Compile Include="MySQL\Tables\gene_product_homology.vb" />
-    <Compile Include="MySQL\Tables\gene_product_homolset.vb" />
-    <Compile Include="MySQL\Tables\gene_product_phylotree.vb" />
-    <Compile Include="MySQL\Tables\gene_product_property.vb" />
-    <Compile Include="MySQL\Tables\gene_product_seq.vb" />
-    <Compile Include="MySQL\Tables\gene_product_subset.vb" />
-    <Compile Include="MySQL\Tables\gene_product_synonym.vb" />
-    <Compile Include="MySQL\Tables\graph_path.vb" />
-    <Compile Include="MySQL\Tables\graph_path2term.vb" />
-    <Compile Include="MySQL\Tables\homolset.vb" />
-    <Compile Include="MySQL\Tables\instance_data.vb" />
-    <Compile Include="MySQL\Tables\intersection_of.vb" />
-    <Compile Include="MySQL\Tables\phylotree.vb" />
-    <Compile Include="MySQL\Tables\phylotree_property.vb" />
-    <Compile Include="MySQL\Tables\relation_composition.vb" />
-    <Compile Include="MySQL\Tables\relation_properties.vb" />
-    <Compile Include="MySQL\Tables\seq.vb" />
-    <Compile Include="MySQL\Tables\seq_dbxref.vb" />
-    <Compile Include="MySQL\Tables\seq_property.vb" />
-    <Compile Include="MySQL\Tables\source_audit.vb" />
-    <Compile Include="MySQL\Tables\species.vb" />
-    <Compile Include="MySQL\Tables\term.vb" />
-    <Compile Include="MySQL\Tables\term2term.vb" />
-    <Compile Include="MySQL\Tables\term2term_metadata.vb" />
-    <Compile Include="MySQL\Tables\term_audit.vb" />
-    <Compile Include="MySQL\Tables\term_dbxref.vb" />
-    <Compile Include="MySQL\Tables\term_definition.vb" />
-    <Compile Include="MySQL\Tables\term_property.vb" />
-    <Compile Include="MySQL\Tables\term_subset.vb" />
-    <Compile Include="MySQL\Tables\term_synonym.vb" />
     <Compile Include="OWL\Ontology.vb" />
     <Compile Include="Files\Obo\Term.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -296,10 +252,6 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\RDF\RDF.vbproj">
       <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
       <Name>RDF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
-      <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
-      <Name>LibMySQL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>

@@ -192,7 +192,10 @@
     <Compile Include="API\ImportantNodes\ImportantNodes.vb" />
     <Compile Include="API\GraphExtensions.vb" />
     <Compile Include="csv\csv.vb" />
-    <Compile Include="Graph\Cyjs.vb" />
+    <Compile Include="Graph\cytoscape.js\Styles\Selector.vb" />
+    <Compile Include="Graph\cytoscape.js\Styles\Translator.vb" />
+    <Compile Include="Graph\cytoscape.js\Styles\style.vb" />
+    <Compile Include="Graph\cytoscape.js\Cyjs.vb" />
     <Compile Include="Graph\Visualization\CytoscapeColor.vb" />
     <Compile Include="Graph\Visualization\Node.vb" />
     <Compile Include="Graph\Serialization\GraphicsMapper.vb" />

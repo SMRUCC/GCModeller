@@ -31,6 +31,9 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.Visualization
 
 Namespace Visualization
 
+    ''' <summary>
+    ''' visual styles xml
+    ''' </summary>
     Public Class VizMap
 
         <XmlAttribute("documentVersion")> Public Property documentVersion As String = "3.0"
