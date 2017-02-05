@@ -125,7 +125,57 @@ Namespace Assembly.Uniprot.XML
     End Class
 
     Public Class gene
-        Public Property name As value
+
+        <XmlElement("name")> Public Property names As value()
+            Get
+                Return table.Values.ToArray
+            End Get
+            Set(value As value())
+                If value.IsNullOrEmpty Then
+                    table = New Dictionary(Of String, value)
+                Else
+                    table = value.ToDictionary(Function(n) n.type)
+                End If
+            End Set
+        End Property
+
+        Dim table As Dictionary(Of String, value)
+
+        Public Function HaveKey(type$) As Boolean
+            Return table.ContainsKey(type)
+        End Function
+
+        ''' <summary>
+        ''' 基因名称
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Primary As String
+            Get
+                If table.ContainsKey("primary") Then
+                    Return table("primary").value
+                Else
+                    Return Nothing
+                End If
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 基因编号
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property ORF As String
+            Get
+                If table.ContainsKey("ORF") Then
+                    Return table("ORF").value
+                Else
+                    Return Nothing
+                End If
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
     End Class
 
     Public Class organism

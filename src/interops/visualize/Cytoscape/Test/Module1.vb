@@ -52,6 +52,14 @@ Module Module1
 
     Function Main() As Integer
 
+        Dim styles = Cyjs.style.JSON.Load("G:\GCModeller\src\interops\visualize\Cytoscape\data\metabolome-network.json")
+        Dim asss = styles.Values.First
+
+        Dim seleeee = asss.style.First.GetStyle
+        Dim ssssss = asss.style(3).MySelector
+
+        Pause()
+
         Dim ddd As New vTable With {.AA = 234234234}
 
         ddd.Add("123", "ffff")
