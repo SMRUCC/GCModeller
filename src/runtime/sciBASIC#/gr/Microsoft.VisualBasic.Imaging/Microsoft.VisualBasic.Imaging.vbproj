@@ -228,8 +228,8 @@
     </Compile>
     <Compile Include="Drawing3D\Point3D.vb" />
     <Compile Include="Drawing3D\Transformation.vb" />
-    <Compile Include="Drawing3D\Vector\Matrix.vb" />
-    <Compile Include="Drawing3D\Vector\Vector3D.vb" />
+    <Compile Include="Drawing3D\Math3D\Matrix.vb" />
+    <Compile Include="Drawing3D\Math3D\Vector3D.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -286,9 +286,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\mime\mime_markups\mime_markups.vbproj">
+    <ProjectReference Include="..\..\mime\MIME_markups\MIME_Markups.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>mime_markups</Name>
+      <Name>MIME_Markups</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
