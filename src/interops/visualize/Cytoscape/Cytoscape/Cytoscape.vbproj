@@ -192,7 +192,10 @@
     <Compile Include="API\ImportantNodes\ImportantNodes.vb" />
     <Compile Include="API\GraphExtensions.vb" />
     <Compile Include="csv\csv.vb" />
-    <Compile Include="Graph\Cyjs.vb" />
+    <Compile Include="Graph\cytoscape.js\Styles\Selector.vb" />
+    <Compile Include="Graph\cytoscape.js\Styles\Translator.vb" />
+    <Compile Include="Graph\cytoscape.js\Styles\style.vb" />
+    <Compile Include="Graph\cytoscape.js\Cyjs.vb" />
     <Compile Include="Graph\Visualization\CytoscapeColor.vb" />
     <Compile Include="Graph\Visualization\Node.vb" />
     <Compile Include="Graph\Serialization\GraphicsMapper.vb" />
@@ -301,9 +304,9 @@
       <Project>{32228818-26f1-44df-8d40-347136c743cd}</Project>
       <Name>JSON</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\MIME_markups\MIME_Markups.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\mime_markups\mime_markups.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>MIME_Markups</Name>
+      <Name>mime_markups</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\RDF\RDF.vbproj">
       <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
