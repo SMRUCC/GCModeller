@@ -68,9 +68,11 @@ Module CLI
         Dim [in] As String = args <= "/in"
         Dim sp As String = args <= "/sp"
         Dim exclude As Boolean = args.GetBoolean("/exclude")
-        Dim out As String = args.GetValue(
-            "/out",
-            [in].TrimSuffix & $"{If(sp.IsBlank, "", If(exclude, "-exclude", "") & "-" & sp.NormalizePathString)}.fasta")
+        Dim suffix$ = If(
+            sp.IsBlank,
+            "",
+            If(exclude, "-exclude", "") & "-" & sp.NormalizePathString.Replace(" ", "_"))
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{suffix}.fasta")
         Dim uniprotXML As UniprotXML = UniprotXML.Load([in])
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
@@ -88,15 +90,28 @@ Module CLI
                 End If
             End If
 
-            For Each prot As Uniprot.XML.entry In uniprotXML.entries
+            For Each prot As Uniprot.XML.entry In source _
+                .Where(Function(g) Not g.sequence Is Nothing)
+
+                Dim orf$ = If(prot.gene Is Nothing, "", prot.gene.ORF.JoinBy(","))
                 Dim fa As New FastaToken With {
                     .SequenceData = prot.sequence.sequence.lTokens.JoinBy(""),
-                    .Attributes = {prot.gene.ORF}
+                    .Attributes = {prot.accession, orf$}
                 }
                 Call writer.WriteLine(fa.GenerateDocument(-1))
             Next
         End Using
 
         Return 0
+    End Function
+
+    ''' <summary>
+    ''' 假若蛋白质组的原始检测结果之中含有多个物种的蛋白，则可以使用这个方法利用bbh将其他的物种的蛋白映射回某一个指定的物种的蛋白
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Species.Normalization", Usage:="")>
+    Public Function NormalizeSpecies(args As CommandLine) As Integer
+
     End Function
 End Module

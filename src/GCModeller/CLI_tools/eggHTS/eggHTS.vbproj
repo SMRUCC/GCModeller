@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8443C152-5BFC-44E3-BB6B-28675D5F282A}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>eggHTS.Module1</StartupObject>
+    <StartupObject>eggHTS.Program</StartupObject>
     <RootNamespace>eggHTS</RootNamespace>
     <AssemblyName>eggHTS</AssemblyName>
     <FileAlignment>512</FileAlignment>

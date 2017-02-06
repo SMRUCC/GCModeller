@@ -30,6 +30,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml
 
 Namespace Assembly.Uniprot.XML
@@ -142,18 +143,24 @@ Namespace Assembly.Uniprot.XML
 
         <XmlElement("name")> Public Property names As value()
             Get
-                Return table.Values.ToArray
+                Return table.Values _
+                    .IteratesALL _
+                    .ToArray
             End Get
             Set(value As value())
                 If value.IsNullOrEmpty Then
-                    table = New Dictionary(Of String, value)
+                    table = New Dictionary(Of String, value())
                 Else
-                    table = value.ToDictionary(Function(n) n.type)
+                    ' 会有多种重复的类型
+                    table = value _
+                        .GroupBy(Function(name) name.type) _
+                        .ToDictionary(Function(n) n.Key,
+                                      Function(g) g.ToArray)
                 End If
             End Set
         End Property
 
-        Dim table As Dictionary(Of String, value)
+        Dim table As Dictionary(Of String, value())
 
         Public Function HaveKey(type$) As Boolean
             Return table.ContainsKey(type)
@@ -163,10 +170,10 @@ Namespace Assembly.Uniprot.XML
         ''' (primary) 基因名称
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Primary As String
+        Public ReadOnly Property Primary As String()
             Get
                 If table.ContainsKey("primary") Then
-                    Return table("primary").value
+                    Return table("primary").ToArray(Function(o) o.value)
                 Else
                     Return Nothing
                 End If
@@ -177,10 +184,10 @@ Namespace Assembly.Uniprot.XML
         ''' (ORF) 基因编号
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property ORF As String
+        Public ReadOnly Property ORF As String()
             Get
                 If table.ContainsKey("ORF") Then
-                    Return table("ORF").value
+                    Return table("ORF").ToArray(Function(o) o.value)
                 Else
                     Return Nothing
                 End If

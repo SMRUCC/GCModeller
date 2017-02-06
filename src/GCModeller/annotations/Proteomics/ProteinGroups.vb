@@ -213,7 +213,8 @@ Public Module ProteinGroups
             .Select(Function(prot) prot.gene) _
             .Where(Function(x) Not x Is Nothing AndAlso x.HaveKey("ORF")) _
             .Select(Function(gene) gene.ORF) _
-            .Where(Function(s) Not s.IsBlank) _
+            .Where(Function(s) Not s.IsNullOrEmpty) _
+            .IteratesALL _
             .Distinct _
             .FirstOrDefault
 
