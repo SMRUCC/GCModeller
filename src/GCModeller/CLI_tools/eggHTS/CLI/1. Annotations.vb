@@ -1,71 +1,44 @@
-﻿Imports System.Drawing
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Imaging
-Imports SMRUCC.genomics.Analysis.GO
-Imports SMRUCC.genomics.Analysis.KEGG
-Imports SMRUCC.genomics.Analysis.Microarray
-Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
-Imports SMRUCC.genomics.Data.GeneOntology.OBO
-Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.UnixBash
-Imports SMRUCC.genomics.Analysis.Microarray.DAVID
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Analysis.HTS.Proteomics
+Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports SMRUCC.genomics.Data.GeneOntology.GoStat
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.CommandLine
-Imports SMRUCC.genomics.Analysis.HTS.Proteomics
-Imports Microsoft.VisualBasic.Scripting
-Imports System.IO
-Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Module CLI
+Partial Module CLI
 
     ''' <summary>
-    ''' go enrichment 绘图
+    ''' 1. 总蛋白注释
     ''' </summary>
-    ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Go.enrichment.plot", Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/pvalue <0.05> /size <2000,1600> /go <go.obo> /out <out.png>]")>
-    Public Function GO_enrichment(args As CommandLine) As Integer
-        Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
-        Dim terms = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
-        Dim [in] As String = args("/in")
-        Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
-        Dim pvalue As Double = args.GetValue("/pvalue", 0.05)
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".GO_enrichment.pvalue={pvalue}.png")
-        Dim size As String = args.GetValue("/size", "2000,1600")
-        Dim plot As Bitmap = enrichments.EnrichmentPlot(terms, pvalue, size.SizeParser)
+    <ExportAPI("/protein.annotations",
+               Info:="Total proteins functional annotation by using uniprot database.",
+               Usage:="/protein.annotations /list <uniprot.id.list.txt> /uniprot <uniprot.XML> [/out <out.csv>]")>
+    <Group(CLIGroups.Annotation_CLI)>
+    Public Function SampleAnnotations(args As CommandLine) As Integer
+        Dim list As String = args("/list")
+        Dim uniprot As String = args("/uniprot")
+        Dim out As String = args.GetValue("/out", list.TrimSuffix & "-proteins-uniprot-annotations.csv")
 
-        Return plot.SaveAs(out, ImageFormats.Png).CLICode
-    End Function
-
-    <ExportAPI("/KEGG.enrichment.plot", Usage:="/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/pvalue <0.05> /size <2000,1600> /out <out.png>]")>
-    Public Function KEGG_enrichment(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
-        Dim pvalue As Double = args.GetValue("/pvalue", 0.05)
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".GO_enrichment.pvalue={pvalue}.png")
-        Dim size As String = args.GetValue("/size", "2000,1600")
-        Dim plot As Bitmap = enrichments.KEGGEnrichmentPlot(size.SizeParser, pvalue)
-
-        Return plot.SaveAs(out, ImageFormats.Png).CLICode
-    End Function
-
-    Public Function KOBASSplit() As Integer
-
+        Return list.ReadAllLines _
+            .GenerateAnnotations(uniprot) _
+            .Select(Function(x) x.Item1) _
+            .ToArray _
+            .SaveDataSet(out).CLICode
     End Function
 
     <ExportAPI("/protein.EXPORT",
-               Usage:="/protein.EXPORT /in <uniprot.xml> [/sp <name> /exclude /out <out.fasta>]")>
+             Usage:="/protein.EXPORT /in <uniprot.xml> [/sp <name> /exclude /out <out.fasta>]")>
     <Argument("/sp", True, CLITypes.String,
-              AcceptTypes:={GetType(String)},
-              Description:="The organism scientific name.")>
+            AcceptTypes:={GetType(String)},
+            Description:="The organism scientific name.")>
+    <Group(CLIGroups.Annotation_CLI)>
     Public Function proteinEXPORT(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
         Dim sp As String = args <= "/sp"
@@ -116,6 +89,7 @@ Module CLI
                Usage:="/Species.Normalization /bbh <bbh.csv> /uniprot <uniprot.XML> /idMapping <refSeq2uniprotKB_mappings.tsv> /annotations <annotations.csv> [/out <out.csv>]")>
     <Argument("/bbh", False, CLITypes.File,
               Description:="The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.")>
+    <Group(CLIGroups.Annotation_CLI)>
     Public Function NormalizeSpecies(args As CommandLine) As Integer
         Dim bbh As String = args <= "/bbh"
         Dim uniprot As String = args <= "/uniprot"
@@ -145,6 +119,7 @@ Module CLI
 
                     protein.uniprot = uniprotData.accession
                     protein.geneName = uniprotData.gene.names.First.value
+                    protein.ORF = uniprotData.gene.ORF.First
                     protein.fullName = uniprotData.proteinFullName
                     protein.Data.Add("bbh", bbhHit)
                 Else
