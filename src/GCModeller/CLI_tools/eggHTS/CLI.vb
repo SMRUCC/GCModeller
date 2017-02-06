@@ -8,6 +8,7 @@ Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
@@ -21,6 +22,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Module CLI
 
@@ -110,8 +112,26 @@ Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Species.Normalization", Usage:="")>
+    <ExportAPI("/Species.Normalization",
+               Usage:="/Species.Normalization /bbh <bbh.csv> /uniprot <uniprot.XML> /idMapping <refSeq2uniprotKB_mappings.tsv> /annotations <annotations.csv> [/out <out.csv>]")>
+    <Argument("/bbh", False, CLITypes.File,
+              Description:="The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.")>
     Public Function NormalizeSpecies(args As CommandLine) As Integer
+        Dim bbh As String = args <= "/bbh"
+        Dim uniprot As String = args <= "/uniprot"
+        Dim mappings As String = args <= "/idMapping"
+        Dim annotations As String = args <= "/annotations"
+        Dim out As String = args.GetValue("/out", annotations.TrimSuffix & "-species.normalization.csv")
+        Dim annotationData As IEnumerable(Of UniprotAnnotations) = annotations.LoadCsv(Of UniprotAnnotations)
+        Dim bbhData As IEnumerable(Of BBHIndex) = bbh.LoadCsv(Of BBHIndex)
+        Dim uniprotXML As UniprotXML = UniprotXML.Load(uniprot)
+        Dim mappingsID = Retrieve_IDmapping.MappingReader(mappings)
+        Dim output As New List(Of UniprotAnnotations)
 
+        For Each protein As UniprotAnnotations In annotationData
+
+        Next
+
+        Return output.SaveTo(out).CLICode
     End Function
 End Module

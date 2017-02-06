@@ -95,6 +95,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UniprotAnnotations.vb" />
     <Compile Include="Plots.vb" />
     <Compile Include="ProteinGroups.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
