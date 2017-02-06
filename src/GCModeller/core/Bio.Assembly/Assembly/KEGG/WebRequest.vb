@@ -40,6 +40,11 @@ Namespace Assembly.KEGG.WebServices
 
     ''' <summary>
     ''' KEGG web query request handler.(KEGG数据库web查询处理模块)
+    ''' 
+    ''' ``KEGG``是一个代谢图，收录基因和基因组的数据库，数据库可以分为 3 大部分，基因数据库，化学分子物质数据库，以及基于基因和化学分子物质相互关系而建立起来的代谢路径数据库，
+    ''' 在KEGG数据库中，有一个“专有名词”KO（KEGG Orthology），它是蛋白质（酶）的一个分类体系，序列高度相似，并且在同一条通路上有相似功能的蛋白质被归为一组，然后打上KO
+    ''' （或K标签，KEGG orthology (ko)代表的是某个代谢途径，k代表的是某个酶，c代表的是某个化合物，M代表的是某个模块，后面都会跟着编号。图中的正方形代表酶，圆形代表代谢物，
+    ''' ``5.4.4.4``代表的是EC编号。
     ''' </summary>
     ''' <remarks></remarks>
     ''' 

@@ -237,7 +237,8 @@
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\AlignEntry.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\BashShell.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\Abstract.vb" />
-    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\BBHParser.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BHR.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\BiDirectionalBesthit.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\BestHit.vb" />
