@@ -100,20 +100,32 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/sbh2bbh",
-               Usage:="/sbh2bbh /qvs <qvs.sbh.csv> /svq <svq.sbh.csv> [/identities <-1> /coverage <-1> /all /out <bbh.csv>]")>
-    <Argument("/identities", True,
-                   Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
-    <Argument("/coverage", True,
-                   Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
+               Info:="Export bbh result from the sbh pairs.",
+               Usage:="/sbh2bbh /qvs <qvs.sbh.csv> /svq <svq.sbh.csv> [/trim /identities <-1> /coverage <-1> /all /out <bbh.csv>]")>
+    <Argument("/identities", True, CLITypes.Double,
+              Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
+    <Argument("/coverage", True, CLITypes.Double,
+              Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
+    <Argument("/trim", True, CLITypes.Boolean,
+              Description:="If this option was enabled, then the queryName and hitname will be trimed by using space and the first token was taken as the name ID.")>
     <Group(CLIGrouping.BBHTools)>
     Public Function BBHExport2(args As CommandLine) As Integer
         Dim qvs As String = args("/qvs")
         Dim svq As String = args("/svq")
         Dim identities As Double = args.GetValue("/identities", -1.0R)
         Dim coverage As Double = args.GetValue("/coverage", -1.0R)
-        Dim qsbh = qvs.LoadCsv(Of BestHit)
-        Dim ssbh = svq.LoadCsv(Of BestHit)
+        Dim trim As Boolean = args.GetBoolean("/trim")  ' 使用空格分隔query/hit名称，取第一个token
+        Dim qsbh As IEnumerable(Of BestHit) = qvs.LoadCsv(Of BestHit)
+        Dim ssbh As IEnumerable(Of BestHit) = svq.LoadCsv(Of BestHit)
         Dim all As Boolean = args.GetBoolean("/all")
+
+        If trim Then
+            For Each x As BestHit In qsbh.JoinIterates(ssbh)
+                x.QueryName = x.QueryName.Split.First
+                x.HitName = x.HitName.Split.First
+            Next
+        End If
+
         Dim bbh As BiDirectionalBesthit() = If(all,
             BBHParser.GetDirreBhAll2(qsbh.ToArray, ssbh.ToArray, identities, coverage),
             BBHParser.GetBBHTop(qsbh.ToArray, ssbh.ToArray, identities, coverage))
@@ -147,20 +159,26 @@ Partial Module CLI
         Return App.SelfFolks(CLI, numT)
     End Function
 
-    <ExportAPI("/bbh.Export",
-               Usage:="/bbh.Export /query <query.blastp_out> /subject <subject.blast_out> [/trim /out <bbh.csv> /evalue 1e-3 /coverage 0.85 /identities 0.3]")>
+    ''' <summary>
+    ''' 数出来的bbh结果之中的queryName为query参数之中的queryName
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/bbh.EXPORT",
+               Info:="Export bbh mapping result from the blastp raw output.",
+               Usage:="/bbh.EXPORT /query <query.blastp_out> /subject <subject.blast_out> [/trim /out <bbh.csv> /evalue 1e-3 /coverage 0.85 /identities 0.3]")>
     <Group(CLIGrouping.BBHTools)>
     Public Function BBHExportFile(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
-        Dim out As String = args.GetValue("/out", query.TrimSuffix & "_bbh.csv")
+        Dim out As String = args.GetValue("/out", $"{query.TrimSuffix}__vs_{subject.BaseName}-bbh.csv")
         Dim evalue As Double = args.GetValue("/evalue", 0.001)
         Dim coverage As Double = args.GetValue("/coverage", 0.85)
         Dim identities As Double = args.GetValue("/identities", 0.3)
         Dim trim As Boolean = args.GetBoolean("/trim")
         Dim sbhq = __sbhHelper(query, coverage, identities:=identities, trim:=trim)
         Dim sbhs = __sbhHelper(subject, coverage, identities, trim)
-        Dim bbh = BBHParser.GetDirreBhAll2(sbhq, sbhs)
+        Dim bbh = BBHParser.GetDirreBhAll2(sbhs, sbhq)
         Return bbh.SaveTo(out).CLICode
     End Function
 
