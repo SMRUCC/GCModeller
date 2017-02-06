@@ -199,7 +199,23 @@ Namespace Assembly.Uniprot.XML
     End Class
 
     Public Class protein
+
         Public Property recommendedName As recommendedName
+        Public Property submittedName As recommendedName
+
+        Public ReadOnly Property FullName As String
+            Get
+                If recommendedName Is Nothing OrElse recommendedName.fullName Is Nothing Then
+                    If submittedName Is Nothing OrElse submittedName.fullName Is Nothing Then
+                        Return Nothing
+                    Else
+                        Return submittedName.fullName.value
+                    End If
+                Else
+                    Return recommendedName.fullName.value
+                End If
+            End Get
+        End Property
     End Class
 
     Public Class feature

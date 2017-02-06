@@ -37,6 +37,10 @@ Partial Module CLI
         Dim describKey As String = args("/Description")
         Dim ORF$
 
+        If Not describKey.IsBlank Then
+            Call $"Substitute description in field: '{describKey}'.".Warning
+        End If
+
         For Each protein As EntityObject In sampleData
 
             ' 如果uniprot能够在bbh数据之中查找到，则说明为其他物种的数据，需要进行映射
