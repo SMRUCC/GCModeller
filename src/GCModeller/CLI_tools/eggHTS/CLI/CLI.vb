@@ -3,6 +3,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting
@@ -53,8 +54,45 @@ Module CLI
         Return plot.SaveAs(out, ImageFormats.Png).CLICode
     End Function
 
+    ''' <summary>
+    ''' 4. 导出KOBAS结果
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/KOBAS.split", Usage:="/KOBAS.split /in <kobas.out_run.txt> [/out <DIR>]")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KOBASSplit(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix)
 
+        Call KOBAS.SplitData([in], out)
+
+        Return 0
+    End Function
+
+    ''' <summary>
+    ''' Sample文件之中必须有一列ORF列，有一列为uniprot编号为主键
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/KOBAS.add.ORF", Usage:="/KOBAS.add.ORF /in <table.csv> /sample <sample.csv> [/out <out.csv>]")>
+    Public Function KOBASaddORFsource(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim sample As String = args("/sample")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-ORF.csv")
+        Dim table As List(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
+        Dim sampleData As Dictionary(Of String, String) = EntityObject _
+            .LoadDataSet(sample) _
+            .ToDictionary(Function(u) u.ID,
+                          Function(u) u("ORF"))
+
+        For Each term As EnrichmentTerm In table
+            Dim uniprotIDs = term.Input.Split("|"c)
+            Dim ORFs = sampleData.Selects(uniprotIDs, True)
+
+            term.ORF = ORFs
+        Next
+
+        Return table.SaveTo(out).CLICode
     End Function
 End Module
