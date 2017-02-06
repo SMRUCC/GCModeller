@@ -123,13 +123,37 @@ Module CLI
         Dim annotations As String = args <= "/annotations"
         Dim out As String = args.GetValue("/out", annotations.TrimSuffix & "-species.normalization.csv")
         Dim annotationData As IEnumerable(Of UniprotAnnotations) = annotations.LoadCsv(Of UniprotAnnotations)
-        Dim bbhData As IEnumerable(Of BBHIndex) = bbh.LoadCsv(Of BBHIndex)
         Dim uniprotXML As UniprotXML = UniprotXML.Load(uniprot)
         Dim mappingsID = Retrieve_IDmapping.MappingReader(mappings)
         Dim output As New List(Of UniprotAnnotations)
+        Dim bbhData As Dictionary(Of String, BBHIndex) = bbh _
+            .LoadCsv(Of BBHIndex) _
+            .Where(Function(bh) bh.Matched) _
+            .ToDictionary(Function(bh) bh.QueryName.Split("|"c).First)
+        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = uniprotXML.entries.ToDictionary
 
         For Each protein As UniprotAnnotations In annotationData
 
+            ' 如果uniprot能够在bbh数据之中查找到，则说明为其他物种的数据，需要进行映射
+            If bbhData.ContainsKey(protein.uniprot) Then
+                Dim bbhHit As String = bbhData(protein.uniprot).HitName
+
+                ' 然后在id_mapping表之中进行查找
+                If Not bbhHit.IsBlank AndAlso mappingsID.ContainsKey(bbhHit) Then
+                    ' 存在则更新数据
+                    Dim uniprotData As Uniprot.XML.entry = uniprotTable(mappingsID(bbhHit).First)
+
+                    protein.uniprot = uniprotData.accession
+                    protein.geneName = uniprotData.gene.names.First.value
+                    protein.fullName = uniprotData.proteinFullName
+                    protein.Data.Add("bbh", bbhHit)
+                Else
+                    ' 可能有些编号在uniprot之中还不存在，则记录下来这个id
+                    protein.Data.Add("bbh", bbhHit)
+                End If
+            End If
+
+            output += protein
         Next
 
         Return output.SaveTo(out).CLICode

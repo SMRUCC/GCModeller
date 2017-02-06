@@ -13,6 +13,7 @@ Public Class UniprotAnnotations
     Public Property organism As String
     Public Property functions As String
     Public Property pathways As String
+    Public Property Data As Dictionary(Of String, String)
 
     Public Overrides Function ToString() As String
         Return Me.GetJson

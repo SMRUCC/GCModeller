@@ -39,6 +39,10 @@ Namespace Assembly.Uniprot.XML
 
         Const ns$ = "xmlns=""http://uniprot.org/uniprot"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniprot http://www.uniprot.org/support/docs/uniprot.xsd"""
 
+        ''' <summary>
+        ''' <see cref="entry.accession"/>可以用作为字典的键名
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement("entry")>
         Public Property entries As entry()
         <XmlElement>
