@@ -17,6 +17,10 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.CommandLine
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports Microsoft.VisualBasic.Scripting
+Imports System.IO
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module CLI
 
@@ -53,5 +57,46 @@ Module CLI
 
     Public Function KOBASSplit() As Integer
 
+    End Function
+
+    <ExportAPI("/protein.EXPORT",
+               Usage:="/protein.EXPORT /in <uniprot.xml> [/sp <name> /exclude /out <out.fasta>]")>
+    <Argument("/sp", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The organism scientific name.")>
+    Public Function proteinEXPORT(args As CommandLine) As Integer
+        Dim [in] As String = args <= "/in"
+        Dim sp As String = args <= "/sp"
+        Dim exclude As Boolean = args.GetBoolean("/exclude")
+        Dim out As String = args.GetValue(
+            "/out",
+            [in].TrimSuffix & $"{If(sp.IsBlank, "", If(exclude, "-exclude", "") & "-" & sp.NormalizePathString)}.fasta")
+        Dim uniprotXML As UniprotXML = UniprotXML.Load([in])
+
+        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+            Dim source As IEnumerable(Of Uniprot.XML.entry) = uniprotXML.entries
+
+            If Not String.IsNullOrEmpty(sp) Then
+                If exclude Then
+                    source = source _
+                        .Where(Function(gene) Not gene.organism.scientificName = sp) _
+                        .ToArray
+                Else
+                    source = source _
+                        .Where(Function(gene) gene.organism.scientificName = sp) _
+                        .ToArray
+                End If
+            End If
+
+            For Each prot As Uniprot.XML.entry In uniprotXML.entries
+                Dim fa As New FastaToken With {
+                    .SequenceData = prot.sequence.sequence.lTokens.JoinBy(""),
+                    .Attributes = {prot.gene.ORF}
+                }
+                Call writer.WriteLine(fa.GenerateDocument(-1))
+            Next
+        End Using
+
+        Return 0
     End Function
 End Module

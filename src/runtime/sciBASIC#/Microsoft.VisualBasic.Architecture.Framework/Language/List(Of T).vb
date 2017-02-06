@@ -26,9 +26,11 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.Expressions
 
 Namespace Language
 
@@ -42,6 +44,76 @@ Namespace Language
         ' Implements IEnumerable(Of Value(Of T))
 
         Dim __index As Pointer
+
+#Region "Improvements Index"
+
+        Default Public Overloads Property Item(index%) As T
+            Get
+                If index < 0 Then
+                    index = Count + index  ' -1 -> count -1
+                End If
+                Return MyBase.Item(index)
+            End Get
+            Set(value As T)
+                If index < 0 Then
+                    index = Count + index  ' -1 -> count -1
+                End If
+                MyBase.Item(index) = value
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="exp$">
+        ''' + ``1``, index=1
+        ''' + ``1:8``, index=1, count=8
+        ''' + ``1->8``, index from 1 to 8
+        ''' + ``8->1``, index from 8 to 1
+        ''' + ``1,2,3,4``, index=1 or  2 or 3 or 4
+        ''' </param>
+        ''' <returns></returns>
+        Default Public Overloads Property Item(exp$) As List(Of T)
+            Get
+                Dim list As New List(Of T)
+
+                For Each i% In exp.TranslateIndex
+                    list += Item(index:=i)
+                Next
+
+                Return list
+            End Get
+            Set(value As List(Of T))
+                For Each i As SeqValue(Of Integer) In exp.TranslateIndex.SeqIterator
+                    Item(index:=+i) = value(i.i)
+                Next
+            End Set
+        End Property
+
+        Default Public Overloads Property Item(range As IntRange) As List(Of T)
+            Get
+                Return New List(Of T)(Me.Skip(range.Min).Take(range.Length))
+            End Get
+            Set(value As List(Of T))
+                Dim indices As Integer() = range.ToArray
+
+                For i As Integer = 0 To indices.Length - 1
+                    Item(index:=indices(i)) = value(i)
+                Next
+            End Set
+        End Property
+
+        Default Public Overloads Property Item(indices As IEnumerable(Of Integer)) As List(Of T)
+            Get
+                Return New List(Of T)(indices.Select(Function(i) Item(index:=i)))
+            End Get
+            Set(value As List(Of T))
+                For Each i As SeqValue(Of Integer) In indices.SeqIterator
+                    Item(index:=+i) = value(i.i)
+                Next
+            End Set
+        End Property
+#End Region
 
         ''' <summary>
         ''' Initializes a new instance of the <see cref="List"/>`1 class that

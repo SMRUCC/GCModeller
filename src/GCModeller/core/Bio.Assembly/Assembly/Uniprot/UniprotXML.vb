@@ -73,6 +73,7 @@ Namespace Assembly.Uniprot.XML
         Public Property gene As gene
         Public Property proteinExistence As value
         Public Property organism As organism
+        Public Property sequence As sequence
 
         <XmlElement("keyword")> Public Property keywords As value()
         <XmlElement("comment")> Public Property comments As comment()
@@ -115,7 +116,20 @@ Namespace Assembly.Uniprot.XML
         <XmlIgnore>
         Public ReadOnly Property Xrefs As Dictionary(Of String, dbReference())
 
+    End Class
 
+    Public Class sequence
+        <XmlAttribute> Public Property length As Integer
+        <XmlAttribute> Public Property mass As String
+        <XmlAttribute> Public Property checksum As String
+        <XmlAttribute> Public Property modified As String
+        <XmlAttribute> Public Property version As String
+
+        <XmlText> Public Property sequence As String
+
+        Public Overrides Function ToString() As String
+            Return sequence
+        End Function
     End Class
 
     Public Class comment
