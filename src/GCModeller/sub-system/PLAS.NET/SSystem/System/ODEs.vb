@@ -70,9 +70,9 @@ Namespace Kernel
                               Call engine.Variables.Set(var.Name, var.value)
                           Next
 
-                          For Each var In vars  ' 然后分别计算常微分方程
+                          For Each var As var In vars  ' 然后分别计算常微分方程
                               For Each eq In dynamics(var.Name)
-                                  dy(var) = eq.Evaluate
+                                  dy(index:=var) = eq.Evaluate
                               Next
                           Next
 

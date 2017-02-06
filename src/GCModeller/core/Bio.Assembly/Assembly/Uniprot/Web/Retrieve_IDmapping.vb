@@ -130,6 +130,11 @@ Namespace Assembly.Uniprot.Web
             Return maps
         End Function
 
+        ''' <summary>
+        ''' 假若在mapping表之中不存在重复的基因编号的话，可以使用这个函数
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <returns></returns>
         Public Function SingleMappings(path$) As Dictionary(Of String, String)
             Dim out As New Dictionary(Of String, String)
 

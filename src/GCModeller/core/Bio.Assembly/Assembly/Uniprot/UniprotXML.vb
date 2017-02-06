@@ -30,6 +30,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml
 
 Namespace Assembly.Uniprot.XML
@@ -38,6 +39,10 @@ Namespace Assembly.Uniprot.XML
 
         Const ns$ = "xmlns=""http://uniprot.org/uniprot"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniprot http://www.uniprot.org/support/docs/uniprot.xsd"""
 
+        ''' <summary>
+        ''' <see cref="entry.accession"/>可以用作为字典的键名
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement("entry")>
         Public Property entries As entry()
         <XmlElement>
@@ -73,6 +78,7 @@ Namespace Assembly.Uniprot.XML
         Public Property gene As gene
         Public Property proteinExistence As value
         Public Property organism As organism
+        Public Property sequence As sequence
 
         <XmlElement("keyword")> Public Property keywords As value()
         <XmlElement("comment")> Public Property comments As comment()
@@ -115,7 +121,20 @@ Namespace Assembly.Uniprot.XML
         <XmlIgnore>
         Public ReadOnly Property Xrefs As Dictionary(Of String, dbReference())
 
+    End Class
 
+    Public Class sequence
+        <XmlAttribute> Public Property length As Integer
+        <XmlAttribute> Public Property mass As String
+        <XmlAttribute> Public Property checksum As String
+        <XmlAttribute> Public Property modified As String
+        <XmlAttribute> Public Property version As String
+
+        <XmlText> Public Property sequence As String
+
+        Public Overrides Function ToString() As String
+            Return sequence
+        End Function
     End Class
 
     Public Class comment
@@ -128,31 +147,37 @@ Namespace Assembly.Uniprot.XML
 
         <XmlElement("name")> Public Property names As value()
             Get
-                Return table.Values.ToArray
+                Return table.Values _
+                    .IteratesALL _
+                    .ToArray
             End Get
             Set(value As value())
                 If value.IsNullOrEmpty Then
-                    table = New Dictionary(Of String, value)
+                    table = New Dictionary(Of String, value())
                 Else
-                    table = value.ToDictionary(Function(n) n.type)
+                    ' 会有多种重复的类型
+                    table = value _
+                        .GroupBy(Function(name) name.type) _
+                        .ToDictionary(Function(n) n.Key,
+                                      Function(g) g.ToArray)
                 End If
             End Set
         End Property
 
-        Dim table As Dictionary(Of String, value)
+        Dim table As Dictionary(Of String, value())
 
         Public Function HaveKey(type$) As Boolean
             Return table.ContainsKey(type)
         End Function
 
         ''' <summary>
-        ''' 基因名称
+        ''' (primary) 基因名称
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Primary As String
+        Public ReadOnly Property Primary As String()
             Get
                 If table.ContainsKey("primary") Then
-                    Return table("primary").value
+                    Return table("primary").ToArray(Function(o) o.value)
                 Else
                     Return Nothing
                 End If
@@ -160,13 +185,13 @@ Namespace Assembly.Uniprot.XML
         End Property
 
         ''' <summary>
-        ''' 基因编号
+        ''' (ORF) 基因编号
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property ORF As String
+        Public ReadOnly Property ORF As String()
             Get
                 If table.ContainsKey("ORF") Then
-                    Return table("ORF").value
+                    Return table("ORF").ToArray(Function(o) o.value)
                 Else
                     Return Nothing
                 End If
