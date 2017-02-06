@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLI\1. Annotations.vb" />
+    <Compile Include="CLI\2. DEP.vb" />
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLIGroups.vb" />
     <Compile Include="CLI\0. Samples.vb" />
