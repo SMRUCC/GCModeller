@@ -26,6 +26,7 @@ Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Go.enrichment.plot", Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/pvalue <0.05> /size <2000,1600> /go <go.obo> /out <out.png>]")>
+    <Group(CLIGroups.Enrichment_CLI)>
     Public Function GO_enrichment(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
         Dim terms = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
@@ -40,6 +41,7 @@ Module CLI
     End Function
 
     <ExportAPI("/KEGG.enrichment.plot", Usage:="/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/pvalue <0.05> /size <2000,1600> /out <out.png>]")>
+    <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGG_enrichment(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
@@ -51,7 +53,8 @@ Module CLI
         Return plot.SaveAs(out, ImageFormats.Png).CLICode
     End Function
 
-    Public Function KOBASSplit() As Integer
+    <Group(CLIGroups.Enrichment_CLI)>
+    Public Function KOBASSplit(args As CommandLine) As Integer
 
     End Function
 End Module

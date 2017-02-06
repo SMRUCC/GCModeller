@@ -9,6 +9,7 @@ Partial Module CLI
 
     <ExportAPI("/DEP.uniprot.list",
                Usage:="/DEP.uniprot.list /DEP <log2-test.DEP.csv> /sample <sample.csv> [/out <out.txt>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function DEPUniprotIDlist(args As CommandLine) As Integer
         Dim DEP As String = args("/DEP")
         Dim sample As String = args("/sample")
