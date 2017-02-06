@@ -99,8 +99,7 @@ Partial Module CLI
         Dim data = EntityObject.LoadDataSet([in], uidMap:=ID)
         Dim bbhData As IEnumerable(Of BBHIndex) = bbh.LoadCsv(Of BBHIndex)
         Dim IDMappingsTable = Retrieve_IDmapping.MappingReader(IDMappings)
-        Dim uniprotXML As UniprotXML = UniprotXML.Load(uniprot)
-        Dim result As EntityObject() = data.AddReMapping(bbhData, IDMappingsTable, uniprotXML)
+        Dim result As EntityObject() = data.AddReMapping(bbhData, IDMappingsTable, uniprot)
 
         Return result.SaveTo(out).CLICode
     End Function
@@ -111,12 +110,12 @@ Partial Module CLI
     ''' <param name="proteins"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function AddReMapping(proteins As IEnumerable(Of EntityObject), bbh As IEnumerable(Of BBHIndex), mappingsID As Dictionary(Of String, String()), uniprot As UniprotXML) As EntityObject()
+    Public Function AddReMapping(proteins As IEnumerable(Of EntityObject), bbh As IEnumerable(Of BBHIndex), mappingsID As Dictionary(Of String, String()), uniprot As String) As EntityObject()
         Dim output As New List(Of EntityObject)
         Dim bbhData As Dictionary(Of String, BBHIndex) = bbh _
             .Where(Function(bh) bh.Matched) _
             .ToDictionary(Function(bh) bh.QueryName.Split("|"c).First)
-        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = uniprot.entries.ToDictionary
+        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniprotXML.LoadDictionary(uniprot)
         Dim ORF$
 
         ' 由于只是为了添加重新mapping的信息，所以在这里不需要进行ID替换
