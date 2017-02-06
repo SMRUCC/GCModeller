@@ -13,7 +13,7 @@ Namespace CytoscapeGraphView.Cyjs.style
         Public Property Key As String
         Public Property value As String
 
-        Const regexp$ = "^[a-z]+\[.+?='.+'\]$"
+        Const regexp$ = "^[a-z]+\[.+?\s*=\s*'.+'\s*\]$"
 
         ''' <summary>
         ''' 
@@ -34,7 +34,7 @@ Namespace CytoscapeGraphView.Cyjs.style
                 Type = t.Name
                 t = ctor.GetTagValue("=", trim:=True)
                 Key = t.Name
-                value = t.Value
+                value = t.Value.Trim.GetStackValue("'", "'")
             Else
                 ' 所有的对象都符合
                 Type = ctor

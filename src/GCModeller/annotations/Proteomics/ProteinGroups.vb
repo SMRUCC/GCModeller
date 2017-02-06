@@ -191,12 +191,12 @@ Public Module ProteinGroups
             .ToArray
         Dim geneNames = uniprots _
             .Select(Function(prot) prot.gene) _
-            .Where(Function(x) Not x Is Nothing AndAlso Not x.name Is Nothing) _
-            .Select(Function(x) x.name.value) _
+            .Where(Function(x) Not x Is Nothing AndAlso Not x.names.IsNullOrEmpty) _
+            .Select(Function(x) x.names.First.value) _
             .Where(Function(s) Not String.IsNullOrEmpty(s)) _
             .Distinct _
             .OrderBy(Function(s) Len(s)) _
-            .FirstOrDefault
+            .FirstOrDefault ' 会首先使用基因名，当没有基因名才会使用基因号
         Dim getKeyValue = Function(key$)
                               Return uniprots _
                                 .Where(Function(x) x.Xrefs.ContainsKey(key)) _
