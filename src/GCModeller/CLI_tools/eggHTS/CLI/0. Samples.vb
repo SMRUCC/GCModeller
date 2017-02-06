@@ -16,7 +16,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Sample.Species.Normalization",
-               Usage:="/Sample.Species.Normalization /bbh <bbh.csv> /uniprot <uniprot.XML/DIR> /idMapping <refSeq2uniprotKB_mappings.tsv> /sample <sample.csv> [/ID <columnName> /out <out.csv>]")>
+               Usage:="/Sample.Species.Normalization /bbh <bbh.csv> /uniprot <uniprot.XML/DIR> /idMapping <refSeq2uniprotKB_mappings.tsv> /sample <sample.csv> [/Description <Description.FileName> /ID <columnName> /out <out.csv>]")>
     <Argument("/bbh", False, CLITypes.File,
               Description:="The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.")>
     <Group(CLIGroups.Samples_CLI)>
@@ -34,6 +34,7 @@ Partial Module CLI
             .Where(Function(bh) bh.Matched) _
             .ToDictionary(Function(bh) bh.QueryName.Split("|"c).First)
         Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniprotXML.LoadDictionary(uniprot)
+        Dim describKey As String = args("/Description")
         Dim ORF$
 
         For Each protein As EntityObject In sampleData
@@ -53,6 +54,9 @@ Partial Module CLI
                         ORF = protein.ID
                     End If
                     protein.Properties.Add("ORF", ORF)
+                    If Not describKey.IsBlank Then
+                        protein(describKey) = uniprotData.proteinFullName
+                    End If
                 Else
                     ORF = bbhHit
                     protein.Properties.Add("ORF", ORF)
