@@ -34,6 +34,7 @@ Partial Module CLI
             .Where(Function(bh) bh.Matched) _
             .ToDictionary(Function(bh) bh.QueryName.Split("|"c).First)
         Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniprotXML.LoadDictionary(uniprot)
+        Dim ORF$
 
         For Each protein As EntityObject In sampleData
 
@@ -47,16 +48,26 @@ Partial Module CLI
                     Dim uniprotData As Uniprot.XML.entry = uniprotTable(mappingsID(bbhHit).First)
 
                     protein.ID = uniprotData.accession
-                    protein.Properties.Add("ORF", uniprotData.gene.ORF.First)
-                    protein.Properties.Add("bbh", bbhHit)
+                    ORF = uniprotData.ORF
+                    If ORF.IsBlank Then
+                        ORF = protein.ID
+                    End If
+                    protein.Properties.Add("ORF", ORF)
                 Else
-                    ' 可能有些编号在uniprot之中还不存在，则记录下来这个id
-                    protein.Properties.Add("bbh", bbhHit)
+                    ORF = bbhHit
+                    protein.Properties.Add("ORF", ORF)
                 End If
+
+                ' 可能有些编号在uniprot之中还不存在，则记录下来这个id
+                protein.Properties.Add("bbh", bbhHit)
             Else
                 ' 直接查找
                 Dim uniprotData As Uniprot.XML.entry = uniprotTable(protein.ID)
-                protein.Properties.Add("ORF", uniprotData.gene.ORF.First)
+                ORF = uniprotData.ORF
+                If ORF.IsBlank Then
+                    ORF = uniprotData.accession
+                End If
+                protein.Properties.Add("ORF", ORF)
             End If
 
             output += protein
