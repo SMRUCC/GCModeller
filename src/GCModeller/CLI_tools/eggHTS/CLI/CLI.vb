@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
@@ -76,19 +77,24 @@ Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/KOBAS.add.ORF", Usage:="/KOBAS.add.ORF /in <table.csv> /sample <sample.csv> [/out <out.csv>]")>
+    <Group(CLIGroups.Enrichment_CLI)>
     Public Function KOBASaddORFsource(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim sample As String = args("/sample")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-ORF.csv")
         Dim table As List(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
-        Dim sampleData As Dictionary(Of String, String) = EntityObject _
-            .LoadDataSet(sample) _
-            .ToDictionary(Function(u) u.ID,
-                          Function(u) u("ORF"))
+        Dim sampleData As Dictionary(Of String, String()) =
+            EntityObject _
+            .LoadDataSet(sample).GroupBy(Function(p) p.ID) _
+            .ToDictionary(Function(u) u.Key,
+                          Function(g) g.Select(Function(u) u("ORF")).Distinct.ToArray)
 
         For Each term As EnrichmentTerm In table
             Dim uniprotIDs = term.Input.Split("|"c)
-            Dim ORFs = sampleData.Selects(uniprotIDs, True)
+            Dim ORFs As String() = sampleData _
+                .Selects(uniprotIDs, True) _
+                .IteratesALL _
+                .ToArray
 
             term.ORF = ORFs
         Next
