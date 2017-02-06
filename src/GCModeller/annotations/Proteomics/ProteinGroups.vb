@@ -209,8 +209,16 @@ Public Module ProteinGroups
         Dim GO As String() = getKeyValue("GO")
         Dim EC As String() = getKeyValue("EC")
         Dim KO As String() = getKeyValue("KO")
+        Dim ORF$ = uniprots _
+            .Select(Function(prot) prot.gene) _
+            .Where(Function(x) Not x Is Nothing AndAlso x.HaveKey("ORF")) _
+            .Select(Function(gene) gene.ORF) _
+            .Where(Function(s) Not s.IsBlank) _
+            .Distinct _
+            .FirstOrDefault
 
         Call annotations.Add("geneName", geneNames)
+        Call annotations.Add("ORF", ORF)
         Call annotations.Add("fullName", names.JoinBy("; "))
         Call annotations.Add("uniprot", mappsId.JoinBy("; "))
         Call annotations.Add("GO", GO.JoinBy("; "))

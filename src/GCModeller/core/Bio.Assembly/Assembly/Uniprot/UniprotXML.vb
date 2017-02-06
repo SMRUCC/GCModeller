@@ -146,7 +146,7 @@ Namespace Assembly.Uniprot.XML
         End Function
 
         ''' <summary>
-        ''' 基因名称
+        ''' (primary) 基因名称
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Primary As String
@@ -160,7 +160,7 @@ Namespace Assembly.Uniprot.XML
         End Property
 
         ''' <summary>
-        ''' 基因编号
+        ''' (ORF) 基因编号
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property ORF As String
