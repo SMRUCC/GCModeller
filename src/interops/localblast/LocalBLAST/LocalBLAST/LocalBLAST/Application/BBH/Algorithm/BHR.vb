@@ -1,7 +1,7 @@
 ﻿Namespace LocalBLAST.Application.BBH
 
     ''' <summary>
-    ''' BHR(Bi-directional hit rate) 
+    ''' **BHR(Bi-directional hit rate)** 
     ''' 
     ''' 把要注释的genome作为``query``，和KEGG数据库中的``reference``进行blast比对，输出的结果（E>10）称为 homolog。
     ''' 同时把 reference作为query，把genome作为refernce，进行blast比对。按照下面的条件对每个 homolog 进行过滤：
@@ -12,6 +12,19 @@
     ''' Blast Bits Score 是在``Blast raw score``换算过来的。
     ''' 
     ''' ``BHR``是KEGG在``Bi-directioanl Best Hit``的基础上进行修改的一个选项，``BHR = Rf * Rr``。
+    ''' 
+    ''' + Rf和Rr分别为forward sbh以及reverse sbh的``R``值
+    ''' 
+    ''' Given a genome to be annotated, it is compared against each genome in the reference set of the KEGG GENES database 
+    ''' by the homology searches in both forward and reverse directions, taking each gene in genome A as a query compared 
+    ''' against all genes in genome B, and vice versa. Those hits with bit scores less than 60 are removed. Because the bit 
+    ''' scores of a gene pair a and b from two genomes A and B, respectively, can be different in forward and reverse 
+    ''' directions, and because the top scores do not necessarily reflect the order of the rigorous Smith-Waterman scores
+    ''' 
+    ''' Here, ``R = S'/Sb`` where S' is the bit score of a against b, and Sb is the score of a against the best-hit gene in 
+    ''' genome B (which may not necessarily be b). Rf refers to the score from the forward hit (A against B), and Rr refers 
+    ''' to the score from the reverse hit (B against A). We select those genes whose BHR is greater than 0.95 in BBH method, 
+    ''' and Rf is greater than 0.95 in SBH method.
     ''' 
     ''' KEGG 在做注释的时候， 并不是把所有的基因都作为 refernce，而是按照是否来自同一个基因组分成一个一个的小的 
     ''' reference，分别进行 blast，假设有两个基因组 A 和B，含有的基因分别为 a1,a2,a3…an；b1,b2,b3…bn 先用A
@@ -29,6 +42,9 @@
     ''' 是``BBH``，则``BHR``一定等于1。当然，容许修改BHR参数``&lt;1``。计算``KO assignment score``后, 
     ''' 选择得分最高的``KO``作为这个``gene``的``KO``。
     ''' </summary>
+    ''' <remarks>
+    ''' + Moriya, Y., Itoh, M., Okuda, S., Yoshizawa, A., and Kanehisa, M.; KAAS: an automatic genome annotation and pathway reconstruction server. Nucleic Acids Res. 35, W182-W185 (2007). 
+    ''' </remarks>
     Public Module BHR
 
     End Module

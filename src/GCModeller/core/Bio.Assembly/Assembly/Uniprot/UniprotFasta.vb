@@ -27,11 +27,9 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.SequenceModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace Assembly.Uniprot
 
