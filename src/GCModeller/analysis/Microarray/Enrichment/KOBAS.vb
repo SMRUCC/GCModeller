@@ -65,7 +65,7 @@ Namespace KOBAS
             Return tmp
         End Function
 
-        Public Sub SplitData(path$)
+        Public Sub SplitData(path$, Optional EXPORT$ = Nothing)
             Dim lines$() = path _
                 .ReadAllLines _
                 .Where(Function(s) Not s.IsBlank AndAlso Not Regex.Match(s, "[-]+").Value = s) _
@@ -73,8 +73,12 @@ Namespace KOBAS
                 .ToArray
             Dim terms = csv.ImportsTsv(Of EnrichmentTerm)(lines).GroupBy(Function(t) t.Database)
 
+            If EXPORT.IsBlank Then
+                EXPORT = path.TrimSuffix
+            End If
+
             For Each d In terms
-                Dim file$ = path.TrimSuffix & "-" & d.Key.NormalizePathString(False) & ".csv"
+                Dim file$ = EXPORT & "/" & path.BaseName & "-" & d.Key.NormalizePathString(False) & ".csv"
                 Call d.ToArray.SaveTo(file)
             Next
         End Sub
@@ -129,6 +133,7 @@ Namespace KOBAS
         ''' </summary>
         ''' <returns></returns>
         Public Property Input As String
+        Public Property ORF As String()
 
         <Column("Hyperlink")>
         Public Property link As String

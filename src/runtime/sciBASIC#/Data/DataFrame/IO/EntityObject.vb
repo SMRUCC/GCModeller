@@ -57,14 +57,18 @@ Namespace IO
         End Function
 
         Public Shared Function LoadDataSet(path As String, Optional uidMap As String = Nothing) As IEnumerable(Of EntityObject)
-            If uidMap Is Nothing Then
+            Return LoadDataSet(Of EntityObject)(path, uidMap)
+        End Function
+
+        Public Shared Function LoadDataSet(Of T As EntityObject)(path As String, Optional uidMap As String = Nothing) As IEnumerable(Of T)
+            If uidMap.IsBlank Then
                 Dim first As New RowObject(path.ReadFirstLine)
                 uidMap = first.First
             End If
             Dim map As New Dictionary(Of String, String) From {
                 {uidMap, NameOf(EntityObject.ID)}
             }
-            Return path.LoadCsv(Of EntityObject)(explicit:=False, maps:=map)
+            Return path.LoadCsv(Of T)(explicit:=False, maps:=map)
         End Function
     End Class
 
