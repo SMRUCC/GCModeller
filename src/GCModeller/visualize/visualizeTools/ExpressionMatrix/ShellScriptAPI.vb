@@ -37,7 +37,7 @@ Namespace ExpressionMatrix
 
         <ExportAPI("mat.invoke_drawing")>
         Public Function DrawingImage(data As SerialsData()) As Image
-            Return MatrixDrawing.InvokeDrawing(data, Nothing)
+            Return MatrixDrawing.InvokeDrawing(data)
         End Function
 
         <ExportAPI("mat.load")>

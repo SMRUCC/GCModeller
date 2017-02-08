@@ -192,7 +192,6 @@
     <Compile Include="ComparativeGenomics\DrawingModel.vb" />
     <Compile Include="ComparativeGenomics\DrawingDevice.vb" />
     <Compile Include="ComparativeGenomics\GeneObject.vb" />
-    <Compile Include="ExpressionMatrix\Configuration.vb" />
     <Compile Include="ExpressionMatrix\Matrix.vb" />
     <Compile Include="ExpressionMatrix\ShellScriptAPI.vb" />
     <Compile Include="GeneticClockDiagram\DopplerEffect.vb" />
