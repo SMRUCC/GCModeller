@@ -96,15 +96,22 @@ Namespace ContextModel
             Return DictData
         End Function
 
+        ''' <summary>
+        ''' 在这个函数之中，位点的计算的时候会有一个碱基的偏移量是因为为了不将起始密码子ATG之中的A包含在结果序列之中
+        ''' </summary>
+        ''' <param name="gene"></param>
+        ''' <param name="nt"></param>
+        ''' <param name="len%"></param>
+        ''' <returns></returns>
         Private Shared Function GetFASTA(gene As ComponentModels.GeneBrief, nt As I_PolymerSequenceModel, len%) As FastaToken
             Dim loci As NucleotideLocation = gene.Location
 
             Call loci.Normalization()
 
             If loci.Strand = Strands.Forward Then
-                loci = New NucleotideLocation(loci.Left - len, loci.Left)  ' 正向序列是上游，无需额外处理
+                loci = New NucleotideLocation(loci.Left - len, loci.Left - 1)  ' 正向序列是上游，无需额外处理
             Else
-                loci = New NucleotideLocation(loci.Right, loci.Right + len, ComplementStrand:=True)  '反向序列是下游，需要额外小心
+                loci = New NucleotideLocation(loci.Right + 1, loci.Right + len, ComplementStrand:=True)  '反向序列是下游，需要额外小心
             End If
 
             Dim site As SimpleSegment = nt.CutSequenceCircular(loci)
