@@ -162,7 +162,6 @@
   <ItemGroup>
     <Compile Include="CatalogProfiling.vb" />
     <Compile Include="ColorProfiles.vb" />
-    <Compile Include="ValueParser.vb" />
     <Compile Include="ColorMgr.vb" />
     <Compile Include="CurvesChart\CurvesModel.vb" />
     <Compile Include="CurvesChart\Histogram.vb" />
