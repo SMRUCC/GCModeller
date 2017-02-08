@@ -30,7 +30,7 @@ Imports System.Drawing
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.FootprintMap
 Imports SMRUCC.genomics.ComponentModel.Loci
 
-Namespace ChromosomeMap.DrawingModels
+Namespace DrawingModels
 
     Public Class TSSs : Inherits Site
 

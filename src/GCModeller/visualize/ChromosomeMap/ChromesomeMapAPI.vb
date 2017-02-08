@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -47,12 +48,10 @@ Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
-Namespace ChromosomeMap
-
-    ''' <summary>
-    ''' This module contains the required API function for create the chromosomes map of a specific bacteria genome.
-    ''' </summary>
-    <[PackageNamespace]("Data.Visualization.Chromosome_Map",
+''' <summary>
+''' This module contains the required API function for create the chromosomes map of a specific bacteria genome.
+''' </summary>
+<[PackageNamespace]("Data.Visualization.Chromosome_Map",
                         Description:="You can using this tool to create the map of the whole bacteria genome.",
                         Publisher:="xie.guigang@gcmodeller.org",
                         Url:="http://gcmodeller.org")>
@@ -538,5 +537,4 @@ Namespace ChromosomeMap
                 }
             }
         End Function
-    End Module
-End Namespace
+End Module

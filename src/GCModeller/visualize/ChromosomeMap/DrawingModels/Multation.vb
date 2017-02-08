@@ -29,7 +29,7 @@
 Imports System.Drawing
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.FootprintMap
 
-Namespace ChromosomeMap.DrawingModels
+Namespace DrawingModels
 
     ''' <summary>
     ''' 基因组之中的一个位点

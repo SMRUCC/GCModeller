@@ -189,12 +189,9 @@
     <Compile Include="ComparativeGenomics\MultipleAlignment\LargeGenomeComparing.vb" />
     <Compile Include="GeneticClockDiagram\RegulationSerials.vb" />
     <Compile Include="ComparativeGenomics\ShellScriptAPI.vb" />
-    <Compile Include="MapModelCommon.vb" />
     <Compile Include="ComparativeGenomics\DrawingModel.vb" />
     <Compile Include="ComparativeGenomics\DrawingDevice.vb" />
     <Compile Include="ComparativeGenomics\GeneObject.vb" />
-    <Compile Include="ConfigCommon.vb" />
-    <Compile Include="ConfigurationCommon.vb" />
     <Compile Include="ExpressionMatrix\Configuration.vb" />
     <Compile Include="ExpressionMatrix\Matrix.vb" />
     <Compile Include="ExpressionMatrix\ShellScriptAPI.vb" />

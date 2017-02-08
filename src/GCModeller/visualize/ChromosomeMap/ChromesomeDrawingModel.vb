@@ -40,7 +40,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
-Namespace ChromosomeMap.DrawingModels
+Namespace DrawingModels
 
     ''' <summary>
     ''' Data model for described a chromosome drawing action invoked.(用于描述如何绘制一个基因组的图形数据的数据模型)

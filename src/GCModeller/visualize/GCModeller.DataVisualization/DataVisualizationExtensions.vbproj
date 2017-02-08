@@ -160,6 +160,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\MapModelCommon.vb" />
     <Compile Include="CatalogProfiling.vb" />
     <Compile Include="ColorProfiles.vb" />
     <Compile Include="ColorMgr.vb" />

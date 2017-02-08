@@ -33,7 +33,7 @@ Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
-Namespace ChromosomeMap.DrawingModels
+Namespace DrawingModels
 
     ''' <summary>
     ''' 染色体上面的一个基因的绘图模型
