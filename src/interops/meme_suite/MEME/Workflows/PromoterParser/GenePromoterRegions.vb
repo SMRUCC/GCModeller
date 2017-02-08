@@ -12,15 +12,15 @@ Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ContextModel
-Imports SMRUCC.genomics.ContextModel.GenePromoterParser
+Imports SMRUCC.genomics.ContextModel.PromoterRegionParser
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace Workflows.PromoterParser
 
     Public Module GenePromoterRegions
         <ExportAPI("Promoter.New", Info:="Create a new promoter sequence parser.")>
-        Public Function CreateObject(Fasta As FASTA.FastaToken, PTT As PTT) As GenePromoterParser
-            Return New GenePromoterParser(Fasta, PTT)
+        Public Function CreateObject(Fasta As FASTA.FastaToken, PTT As PTT) As PromoterRegionParser
+            Return New PromoterRegionParser(Fasta, PTT)
         End Function
 
         ''' <summary>
@@ -29,7 +29,7 @@ Namespace Workflows.PromoterParser
         ''' <param name="locus">需要进行解析的基因的编号的列表</param>
         ''' 
         <ExportAPI("Locus.Promoters")>
-        Public Sub ParsingList(Parser As GenePromoterParser, DOOR As String, locus As IEnumerable(Of String), EXPORT As String)
+        Public Sub ParsingList(Parser As PromoterRegionParser, DOOR As String, locus As IEnumerable(Of String), EXPORT As String)
             Call ParsingList(Parser, DOOR_API.Load(DOOR), locus, EXPORT)
         End Sub
 
@@ -39,7 +39,7 @@ Namespace Workflows.PromoterParser
         ''' <param name="locus">需要进行解析的基因的编号的列表</param>
         ''' 
         <ExportAPI("Locus.Promoters")>
-        Public Sub ParsingList(Parser As GenePromoterParser,
+        Public Sub ParsingList(Parser As PromoterRegionParser,
                                       DOOR As DOOR,
                                       locus As IEnumerable(Of String),
                                       EXPORT As String,
@@ -61,7 +61,7 @@ Namespace Workflows.PromoterParser
                                     .Save(-1, Path, Encodings.ASCII)
                             End Sub
 
-            For Each l% In GenePromoterParser.PrefixLength
+            For Each l% In PromoterRegionParser.PrefixLength
                 Call SaveFasta(Parser.GetRegionCollectionByLength(l), l)
             Next
         End Sub
@@ -72,7 +72,7 @@ Namespace Workflows.PromoterParser
         ''' <param name="modsDIR">包含有KEGG Modules的文件夹</param>
         ''' 
         <ExportAPI("KEGG_Modules.Promoters")>
-        Public Sub ParsingKEGGModules(Parser As GenePromoterParser,
+        Public Sub ParsingKEGGModules(Parser As PromoterRegionParser,
                                              DOOR As String,
                                              modsDIR As String,
                                              EXPORT As String,
@@ -92,7 +92,7 @@ Namespace Workflows.PromoterParser
                                         .Save(-1, Path, System.Text.Encoding.ASCII)
                                 End Sub
 
-                For Each l% In GenePromoterParser.PrefixLength
+                For Each l% In PromoterRegionParser.PrefixLength
                     Call SaveFasta(Parser.GetRegionCollectionByLength(l), l)
                 Next
 
@@ -108,7 +108,7 @@ Namespace Workflows.PromoterParser
         ''' <param name="PathwaysDIR"></param>
         ''' <param name="EXPORT"></param>
         <ExportAPI("KEGG_Pathways.Promoters")>
-        Public Sub ParsingKEGGPathways(Parser As GenePromoterParser,
+        Public Sub ParsingKEGGPathways(Parser As PromoterRegionParser,
                                               DOOR As String,
                                               PathwaysDIR As String,
                                               EXPORT As String,
@@ -129,7 +129,7 @@ Namespace Workflows.PromoterParser
                                     Call New FASTA.FastaFile(From id As String In Genes Where src.ContainsKey(id) Select src(id)).Save(-1, Path, Encoding.ASCII)
                                 End Sub
 
-                For Each l% In GenePromoterParser.PrefixLength
+                For Each l% In PromoterRegionParser.PrefixLength
                     Call SaveFasta(Parser.GetRegionCollectionByLength(l), l)
                 Next
 
@@ -150,7 +150,7 @@ Namespace Workflows.PromoterParser
         ''' <param name="EXPORT"></param>
         ''' <returns></returns>
         <ExportAPI("DESeq.Promoters")>
-        Public Function DiffExpressionPromoters(Promoter As GenePromoterParser, DESeq As IEnumerable(Of DESeq2.ResultData),
+        Public Function DiffExpressionPromoters(Promoter As PromoterRegionParser, DESeq As IEnumerable(Of DESeq2.ResultData),
                                                        <Parameter("Dir.Export")> Optional EXPORT As String = "./") As Boolean
             Dim Diff = (From GeneObject In DESeq.AsParallel Where Math.Abs(GeneObject.log2FoldChange) >= 2 Select GeneObject).ToArray
 

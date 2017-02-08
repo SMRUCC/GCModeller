@@ -46,7 +46,7 @@ Namespace ContextModel
     ''' <remarks></remarks>
     ''' 
     <[PackageNamespace]("Parser.Gene.Promoter", Publisher:="xie.guigang@gmail.com")>
-    Public Class GenePromoterParser
+    Public Class PromoterRegionParser
 
         Public Shared ReadOnly Property PrefixLength As IReadOnlyList(Of Integer) = {100, 150, 200, 250, 300, 400, 500}
 
@@ -84,7 +84,7 @@ Namespace ContextModel
                           In PTT.GeneObjects.AsParallel
                           Select gene.Synonym,
                               Promoter = GetFASTA(gene, GenomeSeq, Length)).ToArray
-            Dim DictData As Dictionary(Of String, FASTA.FastaToken) =
+            Dim DictData As Dictionary(Of String, FastaToken) =
                 LQuery.ToDictionary(Function(obj) obj.Synonym,
                                     Function(obj) obj.Promoter)
             Return DictData
@@ -101,12 +101,12 @@ Namespace ContextModel
                 Location = New NucleotideLocation(Location.Right, Location.Right + SegmentLength, ComplementStrand:=True)  '反向序列是下游，需要额外小心
             End If
 
-            Dim PromoterFsa As FASTA.FastaToken = New FASTA.FastaToken With {
+            Dim promoterRegion As New FastaToken With {
                 .Attributes = New String() {Gene.Synonym},
                 .SequenceData = GenomeSeq.CutSequenceLinear(Location).SequenceData
             }
 
-            Return PromoterFsa
+            Return promoterRegion
         End Function
 
         Public Function GetRegionCollectionByLength(l%) As Dictionary(Of String, FastaToken)
@@ -127,7 +127,7 @@ Namespace ContextModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Get.Sequence.By.Id")>
-        Public Shared Function GetSequenceById(Promoter As GenePromoterParser,
+        Public Shared Function GetSequenceById(Promoter As PromoterRegionParser,
                                                <Parameter("id.list", "The gene id list.")> idList As IEnumerable(Of String),
                                                <Parameter("Len")> Optional Length As Integer = 150) As FASTA.FastaFile
             If Not ContainsLength(Length) Then
@@ -136,29 +136,9 @@ Namespace ContextModel
             End If
 
             Dim ListData As New List(Of String)(idList)
+            Dim out As New FastaFile(From Fasta In Promoter.GetRegionCollectionByLength(Length).AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value)
 
-            Select Case Length
-                Case 100
-                    Return CType((From Fasta In Promoter.Promoter_150.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
-                Case 150
-                    Return CType((From Fasta In Promoter.Promoter_150.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
-                Case 200
-                    Return CType((From Fasta In Promoter.Promoter_200.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
-                Case 250
-                    Return CType((From Fasta In Promoter.Promoter_250.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
-                Case 300
-                    Return CType((From Fasta In Promoter.Promoter_300.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
-                Case 350
-                    Return CType((From Fasta In Promoter.Promoter_350.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
-                Case 400
-                    Return CType((From Fasta In Promoter.Promoter_400.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
-                Case 450
-                    Return CType((From Fasta In Promoter.Promoter_450.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
-                Case 500
-                    Return CType((From Fasta In Promoter.Promoter_500.AsParallel Where ListData.IndexOf(Fasta.Key) > -1 Select Fasta.Value).ToArray, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
-                Case Else
-                    Throw New Exception
-            End Select
+            Return out
         End Function
 
         Private Shared Function ContainsLength(l As Integer) As Boolean
