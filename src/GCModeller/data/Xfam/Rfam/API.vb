@@ -288,7 +288,7 @@ Public Module API
 
     <ExportAPI("Rfam2Feature")>
     <Extension>
-    Public Function Rfam2Feature(rfam As Rfamily) As GenBank.TabularFormat.Feature
+    Public Function Rfam2Feature(rfam As Rfamily) As GFF.Feature
 
     End Function
 End Module

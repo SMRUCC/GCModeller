@@ -1,32 +1,31 @@
 ﻿#Region "Microsoft.VisualBasic::885aaafecc73f5ff1691730b28f04a4d, ..\GCModeller\CLI_tools\RNA-seq\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -37,6 +36,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
@@ -48,7 +48,8 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.FeatureKeys
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF.FeatureKeys
 Imports SMRUCC.genomics.Interops.RNA_Seq.BOW
 
 <PackageNamespace("RNA-seq.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gcmodeller.org")>
@@ -175,7 +176,7 @@ Module CLI
         Dim raw As String = args("/raw")
         Dim out As String = args.GetValue("/out", raw.TrimSuffix & ".locus_tag.txt")
         Dim counts = CountResult.Load(raw)
-        Dim gff As GFF = GFF.LoadDocument(gffFile)
+        Dim gff As GFFTable = GFFTable.LoadDocument(gffFile)
         Dim mappings = gff.ProtId2Locus
         Dim setValue = New SetValue(Of CountResult) <= NameOf(CountResult.Feature)
 
@@ -197,7 +198,7 @@ Module CLI
         Dim gffFile As String = args("/gff")
         Dim out As String = args.GetValue("/out", inRaw.TrimSuffix & ".RPKM.csv")
         Dim dataExpr0 = CountResult.Load(inRaw)
-        Dim gff As GFF = GFF.LoadDocument(gffFile)
+        Dim gff As GFFTable = GFFTable.LoadDocument(gffFile)
         dataExpr0 = dataExpr0.RPKM(gff)
         Return dataExpr0.SaveTo(out).CLICode
     End Function
