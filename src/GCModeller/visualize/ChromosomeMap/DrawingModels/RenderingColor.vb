@@ -28,30 +28,28 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Imaging
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
-Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace DrawingModels
 
     Public Module ModelColorExtensions
 
         <Extension>
-        Public Function ApplyingCOGCategoryColor(MyvaCog As MyvaCOG(), Chromesome As ChromesomeDrawingModel) As ChromesomeDrawingModel
-            Dim ColorProfiles = RenderingColor.InitCOGColors(Nothing).ToDictionary(Function(obj) obj.Key,
+        Public Function ApplyingCOGCategoryColor(Of MyvaCOG As ICOGDigest)(genes As MyvaCOG(), chromesome As ChromesomeDrawingModel) As ChromesomeDrawingModel
+            Dim colorProfiles = RenderingColor.InitCOGColors(Nothing).ToDictionary(Function(obj) obj.Key,
                                                                                    Function(obj) CType(New SolidBrush(obj.Value), Brush))
-            Dim DefaultCogColor As New SolidBrush(Chromesome.DrawingConfigurations.NoneCogColor)
+            Dim DefaultCogColor As New SolidBrush(chromesome.DrawingConfigurations.NoneCogColor)
+            Dim geneTable As Dictionary(Of MyvaCOG) = genes.ToDictionary
 
-            For Each gene As SegmentObject In Chromesome.GeneObjects
-                Dim Cog = MyvaCog.GetItem(gene.LocusTag)
+            For Each gene As SegmentObject In chromesome.GeneObjects
+                Dim Cog As MyvaCOG = geneTable.TryGetValue(gene.LocusTag)
                 If Not Cog Is Nothing Then
-                    If Not String.IsNullOrEmpty(Cog.Category) Then
-                        If Cog.Category.Count > 1 Then
-                            gene.Color = New SolidBrush(NeutralizeColor((From c As Char In Cog.Category Select DirectCast(ColorProfiles(c.ToString), SolidBrush).Color).ToArray))
+                    If Not String.IsNullOrEmpty(Cog.COG) Then
+                        If Cog.COG.Length > 1 Then
+                            gene.Color = New SolidBrush(NeutralizeColor((From c As Char In Cog.COG Select DirectCast(colorProfiles(c.ToString), SolidBrush).Color).ToArray))
                         Else
-                            gene.Color = ColorProfiles(Cog.Category)
+                            gene.Color = colorProfiles(Cog.COG)
                         End If
                     Else
                         gene.Color = DefaultCogColor
@@ -61,21 +59,23 @@ Namespace DrawingModels
                 End If
             Next
 
-            Call Chromesome.MyvaCogColorProfile.InvokeSet(ColorProfiles)
+            Call chromesome.MyvaCogColorProfile.InvokeSet(colorProfiles)
 
-            Return Chromesome
+            Return chromesome
         End Function
 
         <Extension>
-        Public Function ApplyingCOGNumberColors(MyvaCog As MyvaCOG(), Chromesome As ChromesomeDrawingModel) As ChromesomeDrawingModel
-            Dim ColorProfiles = RenderingColor.InitCOGColors((From cogAlign In MyvaCog
+        Public Function ApplyingCOGNumberColors(Of MyvaCOG As ICOGDigest)(genes As MyvaCOG(), Chromesome As ChromesomeDrawingModel) As ChromesomeDrawingModel
+            Dim ColorProfiles = RenderingColor.InitCOGColors((From cogAlign In genes
                                                               Select cogAlign.COG
                                                               Distinct).ToArray).ToDictionary(Function(obj) obj.Key,
                                                                                               Function(obj) DirectCast(New SolidBrush(obj.Value), Brush))
             Dim DefaultCogColor As New SolidBrush(Chromesome.DrawingConfigurations.NoneCogColor)
+            Dim geneTable As Dictionary(Of MyvaCOG) = genes.ToDictionary
 
             For Each gene As SegmentObject In Chromesome.GeneObjects
-                Dim Cog = MyvaCog.GetItem(gene.LocusTag)
+                Dim Cog As MyvaCOG = geneTable.TryGetValue(gene.LocusTag)
+
                 If Not Cog Is Nothing Then
                     If Not String.IsNullOrEmpty(Cog.COG) Then
                         gene.Color = ColorProfiles(Cog.COG)
