@@ -169,6 +169,16 @@ Namespace ComponentModel.Loci
             Return nuclLoci
         End Function
 
+        <Extension> Public Function NCBIstyle(loci As NucleotideLocation) As String
+            Dim tag$ = $"{loci.Left}..{loci.Right}"
+
+            If loci.Strand = Strands.Reverse Then
+                tag = $"complement({tag})"
+            End If
+
+            Return tag
+        End Function
+
         ''' <summary>
         ''' ```
         ''' 388739 ==> 389772 #Forward

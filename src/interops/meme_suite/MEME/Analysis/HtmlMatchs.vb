@@ -333,7 +333,7 @@ Namespace Analysis
                               meme,
                               mast_data.mast_html,
                               ptt.Origin.ToFasta,
-                              cdsInfo:=gbExportService.ExportGeneAnno(ptt)),
+                              cdsInfo:=gbExportService.ExportGeneFeatures(ptt)),
                               ID = mast_data.ID).ToArray
 
             For Each item In LQuery
