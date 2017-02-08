@@ -239,13 +239,13 @@
     <Compile Include="Programs\TomTOM\MotifMatch.vb" />
     <Compile Include="SequenceLogo.vb" />
     <Compile Include="Programs\TomTOM\TomTOM.vb" />
+    <Compile Include="Workflows\PromoterParser\GenePromoterRegions.vb" />
     <Compile Include="Workflows\PromoterParser\ParserLocus.vb" />
     <Compile Include="Workflows\PromoterParser\RegulonParser.vb" />
     <Compile Include="Workflows\PromoterParser\IntergenicSigma70.vb" />
     <Compile Include="Workflows\PromoterParser\OperonPromoterParser.vb" />
     <Compile Include="Workflows\PromoterParser\Parser.vb" />
     <Compile Include="Workflows\PromoterParser\PromoterParser.vb" />
-    <Compile Include="Workflows\PromoterParser\GenePromoterParser.vb" />
     <Compile Include="Workflows\MEME_Analysis_Actions.vb" />
     <Compile Include="Workflows\MEME_OUT.vb" />
     <Compile Include="Workflows\MAST_OUT.vb" />
