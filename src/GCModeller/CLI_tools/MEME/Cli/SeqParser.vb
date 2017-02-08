@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::920c0ec2cfba4f97836670274d0e1e7f, ..\GCModeller\CLI_tools\MEME\Cli\SeqParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -42,6 +42,7 @@ Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
@@ -74,7 +75,7 @@ Partial Module CLI
         Dim PTT As PTT = PTTDb.ORF_PTT
         Dim fa As FastaToken = PTTDb.GenomeFasta
         Dim opr As String = args("/door")
-        Dim Parser As New GenePromoterParser(fa, PTTDb.ORF_PTT)
+        Dim Parser As New PromoterRegionParser(fa, PTTDb.ORF_PTT)
 
         If args.GetBoolean("/corn") Then
             Return __cornParser(operons, Parser, PTT, out)
@@ -84,7 +85,7 @@ Partial Module CLI
     End Function
 
     Private Function __TFoperonsParser(operons As IEnumerable(Of RegPreciseOperon),
-                                       Parser As GenePromoterParser,
+                                       Parser As PromoterRegionParser,
                                        id As String,
                                        type As String,
                                        opr As String,
@@ -114,11 +115,11 @@ Partial Module CLI
 
         If Not String.IsNullOrEmpty(id) Then
             Dim locus As String() = Groups(id)
-            Call GenePromoterParser.ParsingList(Parser, DOOR, locus, EXPORT:=out, tag:="", method:=method)
+            Call GenePromoterRegions.ParsingList(Parser, DOOR, locus, EXPORT:=out, tag:="", method:=method)
         Else
             For Each Group In Groups
                 Dim locus As String() = Group.Value
-                Call GenePromoterParser.ParsingList(Parser, DOOR, locus, EXPORT:=out, tag:=Group.Key, method:=method)
+                Call GenePromoterRegions.ParsingList(Parser, DOOR, locus, EXPORT:=out, tag:=Group.Key, method:=method)
             Next
         End If
 
@@ -126,7 +127,7 @@ Partial Module CLI
     End Function
 
     Private Function __cornParser(operons As IEnumerable(Of RegPreciseOperon),
-                                  Parser As GenePromoterParser,
+                                  Parser As PromoterRegionParser,
                                   PTT As PTT,
                                   EXPORT As String) As Integer
         Dim fasta As New FastaFile
@@ -134,7 +135,7 @@ Partial Module CLI
         For Each operon As RegPreciseOperon In operons
             Dim locus As String = operon.Operon.__firstLocus(PTT)  ' 得到当前的这个operon的第一个基因
             Dim uid As String = $"{locus}|{operon.TF_trace}|{operon.source}"
-            Dim fa As New FastaToken({uid}, Parser.Promoter_500(locus).SequenceData)
+            Dim fa As New FastaToken({uid}, Parser.GetRegionCollectionByLength(500)(locus).SequenceData)
             Call fasta.Add(fa)
         Next
 
@@ -249,11 +250,11 @@ Partial Module CLI
                       Select x
                       Group x By x.Trace Into Group)
         Dim PTTDb As New PTTDbLoader(PTT)
-        Dim Parser As New GenePromoterParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
+        Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
 
         For Each Group In LQuery
             Dim locus As String() = Group.Group.ToArray(Function(x) x.Gene).Distinct.ToArray
-            Call GenePromoterParser.ParsingList(Parser, door, locus, out & "/" & Group.Trace.NormalizePathString)
+            Call GenePromoterRegions.ParsingList(Parser, door, locus, out & "/" & Group.Trace.NormalizePathString)
         Next
 
         Return 0
@@ -271,8 +272,8 @@ Partial Module CLI
         DEGs = (From x In DEGs Where Math.Abs(x.log2FoldChange) >= logFold Select x).ToList
         Dim locus As String() = DEGs.ToArray(Function(x) x.locus_tag)
         Dim PTTDb As New GenBank.TabularFormat.PTTDbLoader(PTT)
-        Dim Parser As New GenePromoterParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
-        Call GenePromoterParser.ParsingList(Parser, door, locus, out)
+        Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
+        Call GenePromoterRegions.ParsingList(Parser, door, locus, out)
         Return 0
     End Function
 
@@ -293,8 +294,8 @@ Partial Module CLI
                                                                 Select exp.Key).FirstOrDefault)
                                 Select x.locus_tag).ToArray
         Dim PTTDb As New PTTDbLoader(PTT)
-        Dim Parser As New GenePromoterParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
-        Call GenePromoterParser.ParsingList(Parser, DOOR, DEGs, out)
+        Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
+        Call GenePromoterRegions.ParsingList(Parser, DOOR, DEGs, out)
         Return 0
     End Function
 
@@ -306,8 +307,8 @@ Partial Module CLI
         Dim door As String = args("/door")
         Dim out As String = args.GetValue("/out", locus.TrimSuffix & ".fa")
         Dim PTTDb As New GenBank.TabularFormat.PTTDbLoader(PTT)
-        Dim Parser As New GenePromoterParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
-        Call GenePromoterParser.ParsingList(Parser, door, locus.ReadAllLines, out)
+        Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
+        Call GenePromoterRegions.ParsingList(Parser, door, locus.ReadAllLines, out)
         Return 0
     End Function
 
@@ -345,9 +346,9 @@ Partial Module CLI
         Else
             opr = DOOR_API.PTT2DOOR(PTTDb.ORF_PTT)
         End If
-        Dim Parser As New GenePromoterParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
+        Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
         For Each regulon As VirtualFootprint.RegPreciseRegulon In inCsv.LoadCsv(Of VirtualFootprint.RegPreciseRegulon)
-            Call GenePromoterParser.ParsingList(Parser, opr, regulon.Members, out & "/" & regulon.uid)
+            Call GenePromoterRegions.ParsingList(Parser, opr, regulon.Members, out & "/" & regulon.uid)
         Next
         Return 0
     End Function
@@ -380,9 +381,9 @@ Partial Module CLI
         Dim locusParser As String = args.GetValue("/locus", "union")
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & $"/Pathways.{locusParser}.fa")
         Dim PTTDb As New PTTDbLoader(PTT_DIR)
-        Dim Parser As New GenePromoterParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
+        Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
         Dim method As GetLocusTags = Workflows.PromoterParser.ParserLocus.GetType(locusParser)
-        Call GenePromoterParser.ParsingKEGGPathways(Parser, DOOR, pathwayDIR, out, method)
+        Call GenePromoterRegions.ParsingKEGGPathways(Parser, DOOR, pathwayDIR, out, method)
         Return 0
     End Function
 
@@ -397,8 +398,8 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & $"/Modules.{locusParser}.fa/")
         Dim PTTDb As New PTTDbLoader(PTT_DIR)
         Dim method As GetLocusTags = Workflows.PromoterParser.ParserLocus.GetType(locusParser)
-        Dim Parser As New GenePromoterParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
-        Call GenePromoterParser.ParsingKEGGModules(Parser, DOOR, pathwayDIR, out, method)
+        Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
+        Call GenePromoterRegions.ParsingKEGGModules(Parser, DOOR, pathwayDIR, out, method)
         Return 0
     End Function
 End Module

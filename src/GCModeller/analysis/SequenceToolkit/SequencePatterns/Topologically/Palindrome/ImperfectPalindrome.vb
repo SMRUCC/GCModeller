@@ -29,7 +29,6 @@
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.SequenceModel
-Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Topologically
 

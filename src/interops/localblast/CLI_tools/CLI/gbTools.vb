@@ -44,6 +44,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -82,8 +83,8 @@ Partial Module CLI
         VBDebugger.Mute = True
 
         Dim gpff As IEnumerable(Of GBFF.File) = GBFF.File.LoadDatabase([in])
-        Dim gff As GFF = TabularFormat.GFF.LoadDocument(gffFile)
-        Dim CDSHash = (From x As TabularFormat.Feature
+        Dim gff As GFFTable = GFFTable.LoadDocument(gffFile)
+        Dim CDSHash = (From x As GFF.Feature
                        In gff.GetsAllFeatures(FeatureKeys.Features.CDS)
                        Select x
                        Group x By x.ProteinId Into Group) _
@@ -212,7 +213,7 @@ Partial Module CLI
         Dim PTT As TabularFormat.PTT = gb.GbffToORF_PTT
         Dim Faa As New FastaFile(If(simple, gb.ExportProteins_Short, gb.ExportProteins))
         Dim Fna As FastaToken = gb.Origin.ToFasta
-        Dim GFF As TabularFormat.GFF = gb.ToGff
+        Dim GFF As GFFTable = gb.ToGff
         Dim name As String = gb.Source.SpeciesName  ' 
         Dim ffn As FastaFile = gb.ExportGeneNtFasta
 

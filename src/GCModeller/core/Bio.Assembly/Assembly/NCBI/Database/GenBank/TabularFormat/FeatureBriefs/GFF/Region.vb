@@ -28,7 +28,7 @@
 
 Imports System.Xml.Serialization
 
-Namespace Assembly.NCBI.GenBank.TabularFormat
+Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
     ''' <summary>
     ''' sequence-region  (##sequence-region &lt;seqname> &lt;start> &lt;end>)
@@ -37,6 +37,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
     ''' [##sequence-region CP000050.1 1 5148708]
     ''' </summary>
     Public Class SeqRegion
+
         <XmlAttribute> Public Property AccessId As String
         <XmlAttribute> Public Property Start As Integer
         <XmlAttribute> Public Property Ends As Integer

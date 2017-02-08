@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::5be76cdb150b013d27156321aa4dfc38, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -51,6 +51,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 
 Partial Module Utilities
 
@@ -399,7 +400,7 @@ Partial Module Utilities
                                                .Attributes = dumpMethod(segment)
                                            }
         Dim PTT As PTT = Segments.CreatePTTObject
-        PTT.Title = basename(args("/fasta"))
+        PTT.Title = BaseName(args("/fasta"))
         PTT.Size = Fasta.Length
 
         Call PTT.Save(input & ".ptt")
@@ -595,9 +596,9 @@ Partial Module Utilities
         Dim out As String =
             args.GetValue("/out", [in].TrimSuffix & "-" & sites.BaseName & ".fasta")
         Dim fna = FastaToken.LoadNucleotideData([in])
-        Dim gff As GFF = TabularFormat.GFF.LoadDocument(sites)
+        Dim gff As GFFTable = GFFTable.LoadDocument(sites)
         Dim nt As I_PolymerSequenceModel = fna
-        Dim result = From loci As Feature
+        Dim result = From loci As GFF.Feature
                      In gff.Features
                      Where (Not loci.attributes.ContainsKey("gbkey")) OrElse
                          (Not String.Equals(loci.attributes("gbkey"), "Src", StringComparison.OrdinalIgnoreCase))
