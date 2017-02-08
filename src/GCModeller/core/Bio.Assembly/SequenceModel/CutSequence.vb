@@ -107,7 +107,10 @@ Namespace SequenceModel
             Dim site As SimpleSegment = seq.CutSequenceLinear(site:=loci)
 
             site.Strand = If(loci.Strand = Strands.Forward, "+", "-")
-            site.ID = loci.UserTag
+            site.ID = If(
+                loci.UserTag.IsBlank,
+                loci.NCBIstyle,
+                loci.UserTag)
 
             If loci.Strand = Strands.Forward Then
                 Return site
@@ -124,7 +127,35 @@ Namespace SequenceModel
         End Function
 
         ''' <summary>
+        ''' 这个函数会自动计算出上半部分的位置
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <param name="site"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function CutSequenceCircular(seq As I_PolymerSequenceModel, site As NucleotideLocation) As SimpleSegment
+            Dim [join] As NucleotideLocation
+            Dim ntLen% = seq.SequenceData.Length
+
+            If site.Left < 0 Then
+                join = New NucleotideLocation(ntLen + site.Left, ntLen, site.Strand)
+                site = New NucleotideLocation(1, site.Right)
+
+                Return seq.CutSequenceCircular(join, site)
+            ElseIf site.Right > ntLen Then
+                join = New NucleotideLocation(1, site.Right - ntLen, site.Strand)
+                site = New NucleotideLocation(site.Left, ntLen)
+
+                Return seq.CutSequenceCircular(site, join)
+            Else
+                ' 没有超出范围，则直接切割序列
+                Return seq.CutSequenceLinear(site)
+            End If
+        End Function
+
+        ''' <summary>
         ''' <paramref name="site"/> at the end of nt sequence join with <paramref name="join"/> location to consist a completed gene. 
+        ''' (请注意，在这里两个位点是直接进行序列拼接的，所以在这里两个参数是有顺序之分的)
         ''' </summary>
         ''' <param name="seq"></param>
         ''' <param name="site">环状的分子只能够是DNA分子，所以这里是核酸序列的位置</param>
@@ -137,9 +168,10 @@ Namespace SequenceModel
 
             Dim a As SimpleSegment = seq.CutSequenceLinear(site:=site)
             Dim b As SimpleSegment = seq.CutSequenceLinear(site:=join)
+            Dim tag$ = $"{site.Left}..{site.Right} join {join.Left}..{join.Right}"
             Dim out As New SimpleSegment With {
                 .Strand = If(site.Strand = Strands.Forward, "+", "-"),
-                .ID = site.UserTag,
+                .ID = If(site.Strand = Strands.Forward, tag, $"complement({tag})"),
                 .Start = site.Start,
                 .SequenceData = a.SequenceData & b.SequenceData,
                 .Ends = site.Start + .SequenceData.Length

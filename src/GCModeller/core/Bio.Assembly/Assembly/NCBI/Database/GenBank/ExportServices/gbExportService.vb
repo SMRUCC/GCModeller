@@ -350,7 +350,7 @@ Namespace Assembly.NCBI.GenBank
         ''' </summary>
         ''' <param name="gbk"></param>
         ''' <returns></returns>
-        <Extension> Public Function ExportGeneAnno(gbk As GBFF.File) As GeneDumpInfo()
+        <Extension> Public Function ExportGeneFeatures(gbk As GBFF.File) As GeneDumpInfo()
             Dim dumps As GeneDumpInfo() = LinqAPI.Exec(Of GeneDumpInfo) <=
  _
                 From feature As Feature
@@ -426,7 +426,7 @@ Namespace Assembly.NCBI.GenBank
             Call $"There is ""{Source.Length}"" plasmid source will be export...".__DEBUG_ECHO
 
             For Each gb As GBFF.File In Source
-                Dim cds As GeneDumpInfo() = gb.ExportGeneAnno
+                Dim cds As GeneDumpInfo() = gb.ExportGeneFeatures
                 Dim Entry = NCBI.GenBank.CsvExports.Plasmid.Build(gb)
 
                 Call ExportList.Add(Entry, gb.Origin.SequenceData)
@@ -525,7 +525,7 @@ Namespace Assembly.NCBI.GenBank
             Dim loc As NucleotideLocation = Nothing
             Dim attrs As String() = Nothing
             Dim Sequence As String
-            Dim products As Dictionary(Of GeneDumpInfo) = gb.ExportGeneAnno.ToDictionary
+            Dim products As Dictionary(Of GeneDumpInfo) = gb.ExportGeneFeatures.ToDictionary
 
             Try
                 For Each gene As Feature In (From x As Feature

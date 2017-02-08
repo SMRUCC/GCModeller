@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::ce364ad5b9c42e1511174f353e216e8b, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,12 +31,16 @@ Imports System.IO
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.Extensions
+Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
@@ -162,7 +166,7 @@ Public Module Utilities
             FASTA = GbkFile.ExportProteins
         End If
 
-        Dim File As String = basename(Input)
+        Dim File As String = BaseName(Input)
         Dim Csv = SequencePatterns.Pattern.PatternSearch.Match(Seq:=FASTA, pattern:=pattern)
         Dim Complement = SequencePatterns.Pattern.PatternSearch.Match(Seq:=FASTA.Complement, pattern:=pattern)
         Dim Reverse = SequencePatterns.Pattern.PatternSearch.Match(Seq:=FASTA.Reverse, pattern:=pattern)
@@ -211,5 +215,25 @@ Public Module Utilities
         Call ClustalVisual.SetDotSize(args.GetValue("/dot.size", 10))
         Dim res As Image = ClustalVisual.InvokeDrawing(aln)
         Return res.SaveAs(out, ImageFormats.Png)
+    End Function
+
+    <ExportAPI("/Promoter.Regions.Parser.gb",
+               Usage:="/Promoter.Regions.Parser.gb /gb <genbank.gb> [/out <out.DIR>]")>
+    Public Function PromoterRegionParser_gb(args As CommandLine) As Integer
+        Dim gb As String = args <= "/gb"
+        Dim gbff As GBFF.File = NCBI.GenBank.GBFF.File.Load(gb)
+        Dim nt As FastaToken = gbff.Origin.ToFasta
+        Dim genes = gbff.ExportGeneFeatures
+        Dim out As String = args.GetValue("/out", gb.TrimSuffix)
+        Dim PTT = gbff.GbkffExportToPTT
+        Dim parser As New PromoterRegionParser(nt, PTT)
+
+        Call genes.SaveTo(out & "-genes.csv")
+
+        For Each l In parser.PromoterRegions
+            Dim save$ = $"{out}-promoter-regions/-{l.Tag}bp.fasta"
+            Call New FastaFile(l.value.Values).Save(120, save, Encodings.ASCII)
+        Next
+
     End Function
 End Module
