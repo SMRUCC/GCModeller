@@ -18,6 +18,7 @@ Imports SMRUCC.genomics.SequenceModel
 Namespace Workflows.PromoterParser
 
     Public Module GenePromoterRegions
+
         <ExportAPI("Promoter.New", Info:="Create a new promoter sequence parser.")>
         Public Function CreateObject(Fasta As FASTA.FastaToken, PTT As PTT) As PromoterRegionParser
             Return New PromoterRegionParser(Fasta, PTT)
