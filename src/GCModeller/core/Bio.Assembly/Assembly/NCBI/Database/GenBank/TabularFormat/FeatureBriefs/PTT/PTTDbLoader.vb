@@ -27,14 +27,13 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports System.Text
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.ContextModel
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Assembly.NCBI.GenBank.TabularFormat
 

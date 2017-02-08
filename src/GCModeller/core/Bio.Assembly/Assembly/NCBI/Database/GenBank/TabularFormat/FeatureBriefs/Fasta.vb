@@ -33,13 +33,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.FastaObjects
 
     Public Class Fasta : Inherits FastaToken
 
-        Dim _UniqueId As String
-
         Public ReadOnly Property UniqueId As String
-            Get
-                Return _UniqueId
-            End Get
-        End Property
 
         Protected Sub New()
         End Sub

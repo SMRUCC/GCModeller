@@ -27,13 +27,10 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports System.Text
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.ComponentModel.Loci
 
-Namespace Assembly.NCBI.GenBank.TabularFormat
+Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
     Public Module FeatureParser
 

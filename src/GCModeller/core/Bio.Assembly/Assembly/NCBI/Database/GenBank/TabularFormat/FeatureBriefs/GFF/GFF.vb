@@ -1,53 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::2ea3c67cbf35a1453ee5b23e4fa020e2, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GFF\GFF.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports System.Text
 Imports System.Data.Linq.Mapping
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Linq
 Imports System.Reflection
-Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports Microsoft.VisualBasic.Serialization
-Imports SMRUCC.genomics.ContextModel
+Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ContextModel
 
-Namespace Assembly.NCBI.GenBank.TabularFormat
+Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
     'http://www.sanger.ac.uk/resources/software/gff/spec.html
 
     ''' <summary>
     ''' GFF (General Feature Format) specifications document
     ''' </summary>
-    Public Class GFF : Inherits ITextFile
+    Public Class GFFTable : Inherits ITextFile
         Implements IGenomicsContextProvider(Of Feature)
 
 #Region "Meta Data"
@@ -191,7 +187,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' </summary>
         ''' <param name="gff"></param>
         ''' <param name="type"></param>
-        Sub New(gff As GFF, type As Features)
+        Sub New(gff As GFFTable, type As Features)
             Me.Date = gff.Date
             Me.DNA = gff.DNA
             Me.Features = gff.GetsAllFeatures(type)
@@ -222,9 +218,9 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         End Function
 
         Public Function GenerateDocument() As String
-            Dim sb As StringBuilder = New StringBuilder("track name=Genes color=255,0,255" & vbCrLf)
+            Dim sb As New StringBuilder("track name=Genes color=255,0,255" & vbCrLf)
             Dim MetaProperty = (From p As PropertyInfo
-                                In GetType(GFF).GetProperties(BindingFlags.Public Or BindingFlags.Instance)
+                                In GetType(GFFTable).GetProperties(BindingFlags.Public Or BindingFlags.Instance)
                                 Let attrs As Object() = p.GetCustomAttributes(attributeType:=GetType(ColumnAttribute), inherit:=True)
                                 Where Not attrs.IsNullOrEmpty
                                 Select p,
@@ -254,20 +250,20 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' </summary>
         ''' <param name="Path"></param>
         ''' <returns></returns>
-        Public Shared Function LoadDocument(Path As String) As GFF
+        Public Shared Function LoadDocument(Path As String) As GFFTable
             Dim Text As String() = IO.File.ReadAllLines(Path)
-            Dim GFF As GFF = New GFF With {
+            Dim GFF As New GFFTable With {
                 .FilePath = Path
             }
 
             Call TrySetMetaData(Text, GFF)
-            Call SetValue(Of GFF).InvokeSet(GFF, NameOf(GFF.Features), TryGetFreaturesData(Text, GFF.GffVersion))
+            Call SetValue(Of GFFTable).InvokeSet(GFF, NameOf(GFF.Features), TryGetFreaturesData(Text, GFF.GffVersion))
             Call $"There are {GFF.Features.Length} genome features exists in the gff file: {GFF.FilePath.ToFileURL}".__DEBUG_ECHO
 
             Return GFF
         End Function
 
-        Private Shared Sub TrySetMetaData(s_Data As String(), ByRef Gff As GFF)
+        Private Shared Sub TrySetMetaData(s_Data As String(), ByRef Gff As GFFTable)
             s_Data = TryGetMetaData(s_Data)
 
             Dim LQuery = From Token As String

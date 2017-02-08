@@ -339,6 +339,7 @@
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\FEATURES\ParserHelper.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\KEYWORDS\SOURCE\ORGANISM.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\GBK\GbkParser.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\ProteinTable\ProteinDescription.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\FeatureParser.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\FeatureKeys.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\DbAPI.vb" />
@@ -376,7 +377,7 @@
     <Compile Include="ComponentModel\Equations\Equivalence.vb" />
     <Compile Include="ComponentModel\GeneBrief.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\Region.vb" />
-    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\ProteinTable.vb" />
+    <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\ProteinTable\ProteinTable.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\Feature.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GFF\GFF.vb" />
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\GeneBrief.vb" />
