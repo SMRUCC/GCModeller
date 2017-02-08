@@ -28,7 +28,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports System.Drawing
 Imports SMRUCC.genomics.Visualize.ChromosomeMap
 
 Public Module ConfigurationCommon

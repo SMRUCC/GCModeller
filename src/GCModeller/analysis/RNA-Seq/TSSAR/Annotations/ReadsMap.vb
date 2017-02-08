@@ -151,7 +151,7 @@ Public Module ReadsMap
 
                 GeneObject.Height = Config.GeneObjectHeight
 
-                Dim drawingSize = GeneObject.Draw(Gr:=Gr.Graphics,
+                Dim drawingSize = GeneObject.Draw(g:=Gr.Graphics,
                                             Location:=New Point(x, bottom + Config.GeneObjectHeight + Level * 110),
                                             ConvertFactor:=1,
                                             RightLimited:=GeneObject.Right + 2, conf:=ConfData)

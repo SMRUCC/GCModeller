@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::6d1f8e6a818f8ee03dd45605a0aaff38, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\DrawingDevice.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Imaging
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Imaging
@@ -114,6 +115,9 @@ Namespace ChromosomeMap
             Call __initialization()
         End Sub
 
+        ''' <summary>
+        ''' 进行一些系数的换算
+        ''' </summary>
         Private Sub __initialization()
             Me._TextAlignmentMethod = Configurations.TypeOfAlignment(_Conf.FunctionAlignment)
             RuleFont = _Conf.SecondaryRuleFont
@@ -133,8 +137,7 @@ Namespace ChromosomeMap
             End If
         End Sub
 
-        Public Function InvokeDrawing(ObjectModel As DrawingModels.ChromesomeDrawingModel) _
-            As KeyValuePair(Of Imaging.ImageFormat, System.Drawing.Bitmap())
+        Public Function InvokeDrawing(ObjectModel As DrawingModels.ChromesomeDrawingModel) As KeyValuePair(Of ImageFormat, Bitmap())
 
             Call ObjectModel.ToString.__DEBUG_ECHO
 
@@ -150,17 +153,17 @@ Namespace ChromosomeMap
             Call ObjectModel.MyvaCogColorProfile.Add("COG_NOT_ASSIGNED", New SolidBrush(_Conf.NoneCogColor))
 
             Try
-                Return New KeyValuePair(Of System.Drawing.Imaging.ImageFormat, Bitmap())(
+                Return New KeyValuePair(Of ImageFormat, Bitmap())(
                     _Conf.SavedFormat,
                     __invokeDrawing(ObjectModel))
             Catch ex As Exception
-                Call GDI_PLUS_UNHANDLE_EXCEPTION.__DEBUG_ECHO
-                Throw
+                Call GDI_PLUS_UNHANDLE_EXCEPTION.Warning
+                Throw ex
             End Try
         End Function
 
         Private Function __invokeDrawing(ObjectModel As DrawingModels.ChromesomeDrawingModel) As Bitmap()
-            Dim ImageList As List(Of Bitmap) = New List(Of Bitmap)
+            Dim ImageList As New List(Of Bitmap)
             Dim StartLength As Integer = 0, GeneId As Integer = 0
             Dim First As Boolean = True
 
@@ -302,7 +305,7 @@ Namespace ChromosomeMap
                 Gene.Height = _Conf.GeneObjectHeight
 
                 Dim drawingLociLeft As Integer = (Gene.Left - _Start_Length) * _ScaleFactor + MARGIN
-                Dim drawingSize = Gene.Draw(Gr:=Gr.Graphics,
+                Dim drawingSize = Gene.Draw(g:=Gr.Graphics,
                                             Location:=New Point(drawingLociLeft, Height + 100 + Level * 110),
                                             ConvertFactor:=_ScaleFactor,
                                             RightLimited:=RightEnd,

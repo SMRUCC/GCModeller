@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::e01bc8f07e6f0c0ad17f5d0ba5c02be8, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\DrawingModels\SegmentObject.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -131,18 +132,18 @@ Namespace ChromosomeMap.DrawingModels
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="Gr"></param>
+        ''' <param name="g"></param>
         ''' <param name="Location">图形的左上角的坐标</param>
         ''' <returns>返回绘制的图形的大小</returns>
         ''' <remarks></remarks>
-        Public Function Draw(Gr As System.Drawing.Graphics,
-                             Location As System.Drawing.Point,
+        Public Function Draw(g As Graphics,
+                             Location As Point,
                              ConvertFactor As Double,
                              RightLimited As Integer, conf As Conf) As Size
 
-            Dim GraphicPath As System.Drawing.Drawing2D.GraphicsPath
+            Dim GraphicPath As GraphicsPath
             Dim LocusTagLocation As Integer = Location.X
-            Dim Font As System.Drawing.Font, size As System.Drawing.SizeF
+            Dim Font As Font, size As SizeF
 
             Font = conf.LocusTagFont
 
@@ -156,34 +157,34 @@ Namespace ChromosomeMap.DrawingModels
                 GraphicPath = CreateNoneDirectionModel(Location, RightLimited)
             End If
 
-            Call Gr.DrawPath(New System.Drawing.Pen(System.Drawing.Brushes.Black, 5), GraphicPath)
-            Call Gr.FillPath(Me.Color, GraphicPath)
+            Call g.DrawPath(New Pen(Brushes.Black, 5), GraphicPath)
+            Call g.FillPath(Me.Color, GraphicPath)
 
-            size = Gr.MeasureString(LocusTag, Font)
+            size = g.MeasureString(LocusTag, Font)
 
             Dim MaxLength = System.Math.Max(size.Width, Length)
 
             If size.Width > Length Then
-                LocusTagLocation -= 0.5 * Global.System.Math.Abs(Length - size.Width)
+                LocusTagLocation -= 0.5 * Math.Abs(Length - size.Width)
             Else
-                LocusTagLocation += 0.5 * Global.System.Math.Abs(Length - size.Width)
+                LocusTagLocation += 0.5 * Math.Abs(Length - size.Width)
             End If
 
-            Dim pLocusTagLocation = InternalCheckRightEndTrimmed(New System.Drawing.Point(LocusTagLocation, Location.Y - size.Height - LocusTagOffset), MaxLength, RightLimited)
-            Call Gr.DrawString(LocusTag, Font, System.Drawing.Brushes.Black, pLocusTagLocation)
+            Dim pLocusTagLocation = InternalCheckRightEndTrimmed(New Point(LocusTagLocation, Location.Y - size.Height - LocusTagOffset), MaxLength, RightLimited)
+            Call g.DrawString(LocusTag, Font, Brushes.Black, pLocusTagLocation)
 
-            size = Gr.MeasureString(CommonName, Font)
-            MaxLength = System.Math.Max(size.Width, Length)
+            size = g.MeasureString(CommonName, Font)
+            MaxLength = Math.Max(size.Width, Length)
             LocusTagLocation = Location.X
             If size.Width > Length Then
                 LocusTagLocation -= 0.5 * Global.System.Math.Abs(Length - size.Width)
             Else
                 LocusTagLocation += 0.5 * Global.System.Math.Abs(Length - size.Width)
             End If
-            pLocusTagLocation = New System.Drawing.Point(LocusTagLocation, pLocusTagLocation.Y + Height + 10 + size.Height + LocusTagOffset)
-            Call Gr.DrawString(Me.CommonName, conf.LocusTagFont, Brushes.Black, pLocusTagLocation)
+            pLocusTagLocation = New Point(LocusTagLocation, pLocusTagLocation.Y + Height + 10 + size.Height + LocusTagOffset)
+            Call g.DrawString(Me.CommonName, conf.LocusTagFont, Brushes.Black, pLocusTagLocation)
 
-            Font = New System.Drawing.Font("Microsoft YaHei", 6)
+            Font = New Font("Microsoft YaHei", 6)
 
             LocusTagLocation = Location.X
 
@@ -191,7 +192,7 @@ Namespace ChromosomeMap.DrawingModels
                 LocusTagLocation += (10 + HeadLength)
             End If
 
-            Call Gr.DrawString(Product, Font, System.Drawing.Brushes.DarkOliveGreen, New System.Drawing.Point(LocusTagLocation, Location.Y + 5 + Height))
+            Call g.DrawString(Product, Font, Brushes.DarkOliveGreen, New Point(LocusTagLocation, Location.Y + 5 + Height))
 
 #If DEBUG Then
             Call Gr.DrawString(String.Format("{0} .. {1} KBp", Left / 1000, Right / 1000), Font, System.Drawing.Brushes.White, New Point(LocusTagLocation, Location.Y + 0.2 * Height))
