@@ -3,6 +3,8 @@
     ''' <summary>
     ''' **BHR(Bi-directional hit rate)** 
     ''' 
+    ''' http://www.genome.jp/tools/kaas/help.html
+    ''' 
     ''' 把要注释的genome作为``query``，和KEGG数据库中的``reference``进行blast比对，输出的结果（E>10）称为 homolog。
     ''' 同时把 reference作为query，把genome作为refernce，进行blast比对。按照下面的条件对每个 homolog 进行过滤：
     ''' 
@@ -46,6 +48,8 @@
     ''' + Moriya, Y., Itoh, M., Okuda, S., Yoshizawa, A., and Kanehisa, M.; KAAS: an automatic genome annotation and pathway reconstruction server. Nucleic Acids Res. 35, W182-W185 (2007). 
     ''' </remarks>
     Public Module BHR
+
+
 
     End Module
 End Namespace

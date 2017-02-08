@@ -30,7 +30,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.FootprintMap
 
-Namespace ChromosomeMap.DrawingModels
+Namespace DrawingModels
 
     ''' <summary>
     ''' Motif位点

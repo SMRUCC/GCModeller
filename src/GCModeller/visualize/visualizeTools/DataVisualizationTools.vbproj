@@ -182,11 +182,6 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChromosomeMap\DrawingModels\RenderingColor.vb" />
-    <Compile Include="ChromosomeMap\FootPrintMap\TSSs.vb" />
-    <Compile Include="ChromosomeMap\FootPrintMap\ColorProfiles.vb" />
-    <Compile Include="ChromosomeMap\FootPrintMap\RegulationMotifSite.vb" />
-    <Compile Include="ChromosomeMap\ChromesomeMapAPI.vb" />
     <Compile Include="ComparativeGenomics\ModelAPI.vb" />
     <Compile Include="ComparativeGenomics\MultipleAlignment\MetaAPI.vb" />
     <Compile Include="ComparativeGenomics\MultipleAlignment\DrawingModel.vb" />
@@ -194,16 +189,9 @@
     <Compile Include="ComparativeGenomics\MultipleAlignment\LargeGenomeComparing.vb" />
     <Compile Include="GeneticClockDiagram\RegulationSerials.vb" />
     <Compile Include="ComparativeGenomics\ShellScriptAPI.vb" />
-    <Compile Include="MapModelCommon.vb" />
     <Compile Include="ComparativeGenomics\DrawingModel.vb" />
     <Compile Include="ComparativeGenomics\DrawingDevice.vb" />
     <Compile Include="ComparativeGenomics\GeneObject.vb" />
-    <Compile Include="ConfigCommon.vb" />
-    <Compile Include="ConfigurationCommon.vb" />
-    <Compile Include="ChromosomeMap\Configurations.vb" />
-    <Compile Include="ChromosomeMap\DrawingModels\Multation.vb" />
-    <Compile Include="ChromosomeMap\FootPrintMap\MotifSite.vb" />
-    <Compile Include="ExpressionMatrix\Configuration.vb" />
     <Compile Include="ExpressionMatrix\Matrix.vb" />
     <Compile Include="ExpressionMatrix\ShellScriptAPI.vb" />
     <Compile Include="GeneticClockDiagram\DopplerEffect.vb" />
@@ -218,9 +206,6 @@
     <Compile Include="PlasmidMap\DrawingDevice.vb" />
     <Compile Include="PlasmidMap\SegmentObject.vb" />
     <Compile Include="PlasmidMap\ShellScriptAPI.vb" />
-    <Compile Include="ChromosomeMap\DrawingDevice.vb" />
-    <Compile Include="ChromosomeMap\ChromesomeDrawingModel.vb" />
-    <Compile Include="ChromosomeMap\DrawingModels\SegmentObject.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

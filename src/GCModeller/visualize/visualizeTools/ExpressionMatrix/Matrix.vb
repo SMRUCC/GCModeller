@@ -38,7 +38,7 @@ Namespace ExpressionMatrix
 
         Dim Margin As Integer = 50
 
-        Public Function InvokeDrawing(Data As SerialsData(), Conf As Configuration) As Image
+        Public Function InvokeDrawing(Data As SerialsData()) As Image
             Data = Data.Skip(1).ToArray   '第一个元素为时间
             Dim RenderingColor = New GeneticClock.ColorRender(Data).GetColorRenderingProfiles
             Dim TagFont As Font = New Font("Ubuntu", 4)
