@@ -356,7 +356,8 @@ Namespace Assembly.NCBI.GenBank
                 From feature As Feature
                 In gbk.Features._innerList.AsParallel
                 Where String.Equals(feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
-                Select GeneDumpInfo.DumpEXPORT(New CDS(feature))
+                Select gene = GeneDumpInfo.DumpEXPORT(New CDS(feature))
+                Order By gene.LocusID Ascending
 
             Return dumps
         End Function

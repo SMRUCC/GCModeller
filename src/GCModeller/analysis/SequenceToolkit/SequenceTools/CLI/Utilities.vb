@@ -228,7 +228,7 @@ Public Module Utilities
         Dim PTT = gbff.GbkffExportToPTT
         Dim parser As New PromoterRegionParser(nt, PTT)
 
-        Call genes.SaveTo(out & "-genes.csv")
+        Call genes.SaveTo(out & "-genes.csv", nonParallel:=True)
 
         For Each l In parser.PromoterRegions
             Dim save$ = $"{out}-promoter-regions/-{l.Tag}bp.fasta"
