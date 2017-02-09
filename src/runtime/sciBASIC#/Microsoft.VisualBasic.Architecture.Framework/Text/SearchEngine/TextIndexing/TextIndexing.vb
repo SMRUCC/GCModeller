@@ -1,35 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::0ef67ef9a3bae1648490af531f31a347, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Text\TextIndexing.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Text.Search
 
@@ -99,7 +100,7 @@ Namespace Text.Search
         ''' <param name="cutoff"></param>
         ''' <param name="numPartition">每一个分区之中的元素的数量，负数表示不进行分区</param>
         ''' <returns></returns>
-        Public Function Found(keyword$, Optional cutoff# = 0.6, Optional numPartition% = 1024) As Dictionary(Of TextSegment, DistResult)
+        Public Function Found(keyword$, Optional cutoff# = 0.6, Optional numPartition% = 1024) As Map(Of TextSegment, DistResult)()
             If numPartition <= 0 Then
                 Dim out = __indexing(cache, keyword, cutoff, True)
                 Return out
@@ -108,8 +109,8 @@ Namespace Text.Search
             End If
         End Function
 
-        Private Function __workParts(keyword$, cutoff#, numPartitions%) As Dictionary(Of TextSegment, DistResult)
-            Dim resultSet As New Dictionary(Of TextSegment, DistResult)
+        Private Function __workParts(keyword$, cutoff#, numPartitions%) As Map(Of TextSegment, DistResult)()
+            Dim resultSet As New List(Of Map(Of TextSegment, DistResult))
             Dim partitions = cache.Split(numPartitions)
 
             Call $"{partitions.Length} partitions...".__DEBUG_ECHO
@@ -120,8 +121,8 @@ Namespace Text.Search
                              part, keyword, cutoff,
                              parallel:=False)
 
-            For Each part In LQuery.IteratesALL
-                Call resultSet.Add(part.Key, part.Value)
+            For Each part As Map(Of TextSegment, DistResult)() In LQuery
+                Call resultSet.Add(part)
             Next
 
             Return resultSet
@@ -133,22 +134,21 @@ Namespace Text.Search
         ''' <param name="keyword"></param>
         ''' <param name="cutoff">表示出现连续的m匹配的片段的长度,-1表示所搜索的关键词片段的长度一半</param>
         ''' <returns></returns>
-        Public Function Found(keyword As String, Optional cutoff As Integer = -1) As Dictionary(Of TextSegment, DistResult)
+        Public Function Found(keyword As String, Optional cutoff As Integer = -1) As Map(Of TextSegment, DistResult)()
             If cutoff = -1 Then
                 cutoff = Len(keyword) / 2
             End If
 
-            Dim LQuery = (From piece As TextSegment
-                          In cache
-                          Let levl As DistResult =
-                              LevenshteinDistance.ComputeDistance(piece.Array, keyword)
-                          Where Not levl Is Nothing AndAlso
-                              IsMatch(levl.DistEdits, cutoff)
-                          Select piece,
-                              levl) _
-                             .ToDictionary(Function(x) x.piece,
-                                           Function(x) x.levl)
-            Call Console.Write(".")
+            Dim LQuery = LinqAPI.Exec(Of Map(Of TextSegment, DistResult)) <=
+                From piece As TextSegment
+                In cache
+                Let levl As DistResult = LevenshteinDistance.ComputeDistance(piece.Array, keyword)
+                Where Not levl Is Nothing AndAlso
+                    IsMatch(levl.DistEdits, cutoff)
+                Select New Map(Of TextSegment, DistResult) With {
+                    .Key = piece,
+                    .Maps = levl
+                }
             Return LQuery
         End Function
 
@@ -176,20 +176,18 @@ Namespace Text.Search
             Return -1
         End Function
 
-        Private Shared Function __indexing(part As TextSegment(), keyword$, cutoff#, parallel As Boolean) As Dictionary(Of TextSegment, DistResult)
-            Dim out As New Dictionary(Of TextSegment, DistResult)
+        Private Shared Function __indexing(part As TextSegment(), keyword$, cutoff#, parallel As Boolean) As Map(Of TextSegment, DistResult)()
             Dim source As IEnumerable(Of TextSegment) = If(parallel, part.AsParallel, part)
             Dim LQuery = From piece As TextSegment
                          In source
                          Let lev As DistResult = LevenshteinDistance.ComputeDistance(piece.Array, keyword)
                          Where Not lev Is Nothing AndAlso
                              lev.Score >= cutoff
-                         Select piece, lev
-
-            For Each x In LQuery
-                Call out.Add(x.piece, x.lev)
-            Next
-
+                         Select New Map(Of TextSegment, DistResult) With {
+                             .Key = piece,
+                             .Maps = lev
+                         }
+            Dim out As Map(Of TextSegment, DistResult)() = LQuery.ToArray
             Return out
         End Function
 
@@ -197,7 +195,7 @@ Namespace Text.Search
         Public Shared Function FuzzyIndex(text As String, keyword As String,
                                           Optional cutoff As Double = 0.6,
                                           Optional min As Integer = 3,
-                                          Optional max As Integer = 20) As Dictionary(Of TextSegment, DistResult)
+                                          Optional max As Integer = 20) As Map(Of TextSegment, DistResult)()
             Dim indexr As New TextIndexing(text, min, max)
             Dim searchs = indexr.Found(keyword, cutoff)
             Return searchs
@@ -219,7 +217,7 @@ Namespace Text.Search
                                           <Parameter("Cutoff", "The continues length of the matches, if this value is ZERO or negative value, then the function will using the expression len(keyword)/2 as the default value.")>
                                           Optional matches% = -1,
                                           Optional min% = 3,
-                                          Optional max% = 20) As Dictionary(Of TextSegment, DistResult)
+                                          Optional max% = 20) As Map(Of TextSegment, DistResult)()
 
             Dim indexr As New TextIndexing(text, min, max)
             Dim searchs = indexr.Found(keyword, matches)
