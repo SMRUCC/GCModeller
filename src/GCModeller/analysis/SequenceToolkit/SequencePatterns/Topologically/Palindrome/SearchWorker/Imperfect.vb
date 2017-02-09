@@ -90,31 +90,29 @@ Namespace Topologically
             Dim palLoci As String = PalindromeLoci.GetPalindrome(seed.Sequence)
             Dim pali As Map(Of TextSegment, DistResult)() =
                 _index.Found(seed.Sequence, _cutoff, _partitions)
+            Dim segment As String = seed.Sequence
+            Dim locis%() = FindLocation(seq.SequenceData, segment)
+            Dim imperfects = LinqAPI.Exec(Of ImperfectPalindrome) <=
+                From loci As Map(Of TextSegment, DistResult)
+                In pali.AsParallel
+                Let palLeft As Integer = loci.Key.Index
+                Let lev As DistResult = loci.Maps
+                Select From left As Integer
+                       In locis
+                       Let d As Integer = palLeft - left
+                       Where d > 0 AndAlso d <= _maxDist
+                       Select New ImperfectPalindrome With {
+                           .Site = segment,
+                           .Left = left,
+                           .Palindrome = loci.Key.Segment,
+                           .Paloci = loci.Key.Index,
+                           .Distance = lev.Distance,
+                           .Evolr = lev.DistEdits,
+                           .Matches = lev.Matches,
+                           .Score = lev.Score
+                       }
 
-            For Each segment As Map(Of TextSegment, DistResult) In pali
-                Dim seg As String = segment.Key.Segment
-                Dim locis%() = FindLocation(seq.SequenceData, segment.Key.Segment)
-                Dim imperfects = LinqAPI.Exec(Of ImperfectPalindrome) <=
-                    From loci As Map(Of TextSegment, DistResult)
-                    In pali.AsParallel
-                    Let palLeft As Integer = loci.Key.Index
-                    Select From left As Integer
-                           In locis
-                           Let d As Integer = palLeft - left
-                           Where d > 0 AndAlso d <= _maxDist
-                           Select New ImperfectPalindrome With {
-                               .Site = segment.seg,
-                               .Left = left,
-                               .Palindrome = loci.Key.Segment,
-                               .Paloci = loci.Key.Index,
-                               .Distance = loci.Value.Distance,
-                               .Evolr = loci.Value.DistEdits,
-                               .Matches = loci.Value.Matches,
-                               .Score = loci.Value.Score
-                          }
-
-                Call _resultSet.AddRange(imperfects)
-            Next
+            Call _resultSet.AddRange(imperfects)
         End Sub
     End Class
 End Namespace
