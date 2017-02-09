@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::8e9ba5312a6bffc0b4c88d6e7f637e2f, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Palindrome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -44,6 +44,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
 Imports SMRUCC.genomics.Assembly.NCBI
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
@@ -491,7 +492,7 @@ Partial Module Utilities
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/Perfects/")
 
         For Each file In Filter
-            Dim name As String = basename(file.file)
+            Dim name As String = BaseName(file.file)
             Dim path As String = $"{out}/{name}.csv"
             Call file.perfects.SaveTo(path)
         Next
@@ -544,5 +545,26 @@ Partial Module Utilities
                                        Function(x) x.data)
         Dim result As Double() = Topologically.Palindrome.Density(Loads.Values, size)
         Return result.FlushAllLines(out)
+    End Function
+
+    <ExportAPI("/Promoter.Regions.Palindrome",
+               Usage:="/Promoter.Regions.Palindrome /in <genbank.gb> [/min <3> /max <20> /len <100,150,200,250,300,400,500, default:=250> /out <out.csv>]")>
+    Public Function PromoterRegionPalindrome(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim min = args.GetValue("/min", 3)
+        Dim max = args.GetValue("/max", 20)
+        Dim len = args.GetValue("/len", 250)
+        Dim out = args.GetValue("/out", [in].TrimSuffix & $"_min={min},max={max},upstream=-{len}bp.palindrome.csv")
+        Dim gb As GBFF.File = GBFF.File.Load([in])
+        Dim parser As New PromoterRegionParser(gb.Origin.ToFasta, gb.GbkffExportToPTT)
+        Dim source As New FastaFile(parser.GetRegionCollectionByLength(len).Values)
+        Dim output As New List(Of PalindromeLoci)
+
+        For Each promoter As FastaToken In source
+            Call promoter.Title.__DEBUG_ECHO
+            output += promoter.SearchPalindrome(min, max)
+        Next
+
+        Return output.SaveTo(out, Encodings.ASCII).CLICode
     End Function
 End Module
