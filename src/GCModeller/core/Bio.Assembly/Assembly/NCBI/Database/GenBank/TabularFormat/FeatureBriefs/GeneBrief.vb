@@ -158,17 +158,17 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.ComponentModels
                 If(Tokens(1)(0) = "+"c, Strands.Forward, Strands.Reverse))
             Call Gene.Location.Normalization()
 
-            Dim p As Integer = 2
-            Gene.Length = Tokens(p.MoveNext)
-            Gene.PID = Tokens(p.MoveNext)
-            Gene.Gene = Tokens(p.MoveNext)
-            Gene.Synonym = Tokens(p.MoveNext)
+            Dim p As int = 2
+            Gene.Length = Tokens(++p)
+            Gene.PID = Tokens(++p)
+            Gene.Gene = Tokens(++p)
+            Gene.Synonym = Tokens(++p)
             If (String.Equals(Gene.Gene, "-") OrElse String.IsNullOrEmpty(Gene.Gene)) AndAlso FillBlankGeneName Then
                 Gene.Gene = Gene.Synonym  '假若基因名称为空值的话，假设填充则使用基因号进行填充
             End If
-            Gene.Code = Tokens(p.MoveNext)
-            Gene.COG = Tokens(p.MoveNext)
-            Gene.Product = Tokens(p.MoveNext)
+            Gene.Code = Tokens(++p)
+            Gene.COG = Tokens(++p)
+            Gene.Product = Tokens(++p)
 
             Return Gene
         End Function

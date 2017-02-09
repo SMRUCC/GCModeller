@@ -1,38 +1,38 @@
 ﻿#Region "Microsoft.VisualBasic::5d158328771102dee12e37b61f06367f, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\MirrorPalindrome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace Topologically.SimilarityMatches
@@ -111,7 +111,7 @@ Namespace Topologically.SimilarityMatches
         End Function
     End Module
 
-    Public Class FuzzyMirrors : Inherits MirrorSearchs
+    Public Class FuzzyMirrors : Inherits Topologically.MirrorPalindrome
 
         ReadOnly _maxDist As Integer, cut As Double
 
@@ -132,15 +132,9 @@ Namespace Topologically.SimilarityMatches
             Me._maxDist = maxDist
         End Sub
 
-        Protected Overrides Sub __postResult(currentRemoves() As String, currentStat As List(Of String), currLen As Integer)
-            Dim Sites As PalindromeLoci() =
-                currentStat.ToArray(
-                    Function(loci) CreateMirrors(loci,
-                                                 SequenceData,
-                                                 _maxDist,
-                                                 cut),
-                                   parallel:=True).IteratesALL.TrimNull
-            Call _ResultSet.Add(Sites)
+        Protected Overrides Sub DoSearch(seed As Seed)
+            Dim sites = CreateMirrors(seed.Sequence, seq.SequenceData, _maxDist, cut)
+            Call _resultSet.Add(sites)
         End Sub
     End Class
 End Namespace

@@ -1,5 +1,6 @@
 ﻿#Disable Warning
 
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Configuration
 
 Module Debugger
@@ -36,13 +37,13 @@ return rand
 
         Dim lines As String() = Strings.Split(mslScript, vbCrLf)
         Dim parser As New Interpreter.Parser.TextTokenliser.MSLTokens
-        Dim pppp As Integer
+        Dim pppp As int
 
-        Call parser.Parsing(lines(pppp.MoveNext))
+        Call parser.Parsing(lines(++pppp))
 
         Do While Not parser.FinishYet
 
-            Call parser.Parsing(lines(pppp.MoveNext))
+            Call parser.Parsing(lines(++pppp))
 
         Loop
 

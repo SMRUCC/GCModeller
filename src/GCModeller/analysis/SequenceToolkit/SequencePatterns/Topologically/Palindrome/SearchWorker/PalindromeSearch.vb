@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e61f9fb6b5a167cf51d0ed62452923c, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchs.vb"
+﻿#Region "Microsoft.VisualBasic::632e3eaa201cfac69a09b225e898bda3, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker.vb"
 
 ' Author:
 ' 
@@ -26,43 +26,38 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace Topologically
 
-    Public Class RepeatsSearcher : Inherits SearchWorker
+    ''' <summary>
+    ''' 片段在反向链找得到自己的反向片段
+    ''' </summary>
+    Public Class PalindromeSearch : Inherits MirrorPalindrome
 
-        Public ReadOnly Property MinAppeared As Integer
         ''' <summary>
-        ''' 片段按照长度的数量上的分布情况
+        ''' 
         ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property CountStatics As New IO.File
-        Public ReadOnly Property ResultSet As New List(Of Repeats)
-
+        ''' <param name="Sequence"></param>
+        ''' <param name="Min"></param>
+        ''' <param name="Max"></param>
         Sub New(Sequence As I_PolymerSequenceModel,
                 <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> Min As Integer,
-                <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer,
-                MinAppeared As Integer)
+                <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer)
             Call MyBase.New(Sequence, Min, Max)
-            Call CountStatics.AppendLine(New String() {"Length", "Matches", "Export"})
-
-            Me.MinAppeared = MinAppeared
         End Sub
 
+        ''' <summary>
+        ''' 片段在反向链找得到自己的反向片段
+        ''' </summary>
+        ''' <param name="seed"></param>
         Protected Overrides Sub DoSearch(seed As Seed)
-            If Pattern.FindLocation(seq.SequenceData, seed.Sequence).Length < MinAppeared Then
-                Return
-            End If
-
-            Dim repeats As Repeats = GenerateRepeats(seq.SequenceData, seed.Sequence, MinAppeared)
-            If Not repeats Is Nothing Then
-                Call ResultSet.AddRange(repeats)
-            End If
+            Dim Sites As PalindromeLoci() = Palindrome.CreatePalindrome(seed.Sequence, seq.SequenceData).TrimNull
+            Call _resultSet.Add(Sites)
         End Sub
     End Class
 End Namespace

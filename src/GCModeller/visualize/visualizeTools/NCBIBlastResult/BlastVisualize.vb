@@ -718,7 +718,8 @@ CONTINUTE:
                 If AltIDAnnotation Then '在hit的开始位置的前面使用数字进行标识，然后在最下面写上编号
                     Call Device.Graphics.DrawString(p_ID, DrawingFont, Brushes.Black, x:=10, y:=Y - MaxIDLength.Height / 2)
                     Call IDannos.Add(p_ID, hit.SubjectIDs)
-                    Call p_ID.MoveNext()
+
+                    p_ID += 1
                 Else
                     Call Device.Graphics.DrawString(hit.SubjectIDs,
                                                      DrawingFont,

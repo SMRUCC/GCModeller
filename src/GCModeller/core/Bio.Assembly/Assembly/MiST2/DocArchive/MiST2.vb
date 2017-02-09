@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::a17f254a8a8a671088990bd3ca448c1e, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports System.Xml.Serialization
 Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.MiST2
 
@@ -121,18 +122,18 @@ Namespace Assembly.MiST2
                 End If
             Next
 
-            Dim p As Integer
+            Dim p As int = Scan0
 
-            RepliconMajorModule.OneComponent = WebServices.Download(url(p.MoveNext))
+            RepliconMajorModule.OneComponent = WebServices.Download(url(++p))
             RepliconMajorModule.TwoComponent = New TwoComponent With {
-                    .HisK = WebServices.Download(url(p.MoveNext)),
-                    .HHK = WebServices.Download(url(p.MoveNext)),
-                    .RR = WebServices.Download(url(p.MoveNext)),
-                    .HRR = WebServices.Download(url(p.MoveNext)),
-                    .Other = WebServices.Download(url(p.MoveNext))}
-            RepliconMajorModule.Chemotaxis = WebServices.Download(url(p.MoveNext))
-            RepliconMajorModule.ECF = WebServices.Download(url(p.MoveNext))
-            RepliconMajorModule.Other = WebServices.Download(url(p.MoveNext))
+                    .HisK = WebServices.Download(url(++p)),
+                    .HHK = WebServices.Download(url(++p)),
+                    .RR = WebServices.Download(url(++p)),
+                    .HRR = WebServices.Download(url(++p)),
+                    .Other = WebServices.Download(url(++p))}
+            RepliconMajorModule.Chemotaxis = WebServices.Download(url(++p))
+            RepliconMajorModule.ECF = WebServices.Download(url(++p))
+            RepliconMajorModule.Other = WebServices.Download(url(++p))
 
             Return RepliconMajorModule
         End Function

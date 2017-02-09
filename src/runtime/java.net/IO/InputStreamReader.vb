@@ -1,5 +1,6 @@
 ﻿Imports Oracle.Java.util.zip
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 
 Namespace IO
 
@@ -9,7 +10,7 @@ Namespace IO
 
         Dim IORedirect As Microsoft.VisualBasic.CommandLine.IORedirect
         Dim chunkBuffer As List(Of String) = New Global.System.Collections.Generic.List(Of String)
-        Dim idx As Integer, _p As Integer
+        Dim idx As Integer, _p As int
         Dim _currentLine As Char()
         Dim _avaliable As Boolean
         Dim _exitCode As Integer
@@ -59,11 +60,12 @@ Namespace IO
 
         Public Overloads Overrides Function read() As Integer
             If idx = _currentLine.Count Then
-                _currentLine = chunkBuffer(_p.MoveNext)
+                _currentLine = chunkBuffer(++_p)
                 idx = 0
             End If
 
-            Dim ch = _currentLine(idx.MoveNext)
+            Dim ch = _currentLine(idx)
+            idx += 1
             Return AscW(ch)
         End Function
 
@@ -106,7 +108,7 @@ Namespace IO
         End Function
 
         Public Function readLine() As String
-            Dim p = _p.MoveNext
+            Dim p% = ++_p
 
             If p >= chunkBuffer.Count - 1 Then
                 Return ""

@@ -115,7 +115,7 @@ Partial Module Utilities
         Dim maxDist As Integer = args.GetValue("/max-dist", 1000)
         Dim parts As Integer = args.GetValue("/partitions", -1)
         Dim imPalSearch As New Topologically.Imperfect(nt, min, max, cutoff, maxDist, parts)
-        Call imPalSearch.InvokeSearch()
+        Call imPalSearch.DoSearch()
         Dim imperfectPalindrome As Topologically.ImperfectPalindrome() = imPalSearch.ResultSet   ' 非完全回文
 
         Dim MirrorLocis = mirrorPalindrome.ToLocis

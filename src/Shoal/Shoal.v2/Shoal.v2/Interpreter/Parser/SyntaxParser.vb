@@ -869,7 +869,7 @@ Namespace Interpreter
             End If
 
             Try
-                Expr.Parameters = __createParameters(Tokens, Index:=idx)
+                Expr.Parameters = __createParameters(Tokens, index:=idx)
             Catch ex As Exception
                 '当可用的参数的数目不是偶数的时候，说明语法错了
                 Return Nothing
@@ -882,16 +882,16 @@ Namespace Interpreter
         ''' 
         ''' </summary>
         ''' <param name="Tokens"></param>
-        ''' <param name="Index">
+        ''' <param name="index">
         ''' 3:  没有进行拓展方法的调用的
         ''' 5:  进行了拓展方法的调用的
         ''' </param>
         ''' <returns></returns>
-        Private Function __createParameters(Tokens As Parser.Tokens.Token(), Index As Integer) As Dictionary(Of Parser.Tokens.ParameterName, Parser.Tokens.InternalExpression)
+        Private Function __createParameters(Tokens As Parser.Tokens.Token(), index As Integer) As Dictionary(Of Parser.Tokens.ParameterName, Parser.Tokens.InternalExpression)
             Dim hash = New Dictionary(Of ParameterName, InternalExpression)
 
-            If Index = Tokens.Length - 1 Then '函数可能只有一个参数，则参数名被省略了
-                Dim Type = If(Index = 3,
+            If index = Tokens.Length - 1 Then '函数可能只有一个参数，则参数名被省略了
+                Dim Type = If(index = 3,
                     ParameterName.ParameterType.SingleParameter,
                     ParameterName.ParameterType.EXtensionSingleParameter)
                 Call hash.Add(New ParameterName(Type, ""), New InternalExpression(Tokens.Last))
@@ -900,15 +900,16 @@ Namespace Interpreter
 
             Dim LQuery = (From obj In Tokens Where obj.GetTokenValue.Last = ","c Select 1).ToArray
 
-            If LQuery.Length = Tokens.Length - Index - 1 Then
+            If LQuery.Length = Tokens.Length - index - 1 Then
 
                 ' 使用逗号来分隔，参数是按照函数的定义顺序来排列的
-                Do While Index < Tokens.Length - 1
+                Do While index < Tokens.Length - 1
 
                     Dim pName = New Parser.Tokens.ParameterName(ParameterName.ParameterType.OrderReference, "")
-                    Dim valueExpr As String = Tokens(Index.MoveNext).GetTokenValue
+                    Dim valueExpr As String = Tokens(index).GetTokenValue
 
                     valueExpr = Mid(valueExpr, 1, Len(valueExpr) - 1)
+                    index += 1
 
                     Dim pValue As Parser.Tokens.InternalExpression = New InternalExpression(valueExpr)
 
@@ -920,7 +921,7 @@ Namespace Interpreter
                               New Parser.Tokens.InternalExpression(Tokens.Last))
             Else
 
-                Dim valueTokens As String() = (From Token In Tokens.Skip(Index) Select Token.GetTokenValue).ToArray
+                Dim valueTokens As String() = (From Token In Tokens.Skip(index) Select Token.GetTokenValue).ToArray
                 Dim CommandLine = CreateParameterValues(valueTokens, True)
 
                 For Each obj In CommandLine

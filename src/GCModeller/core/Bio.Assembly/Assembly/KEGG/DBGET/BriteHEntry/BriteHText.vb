@@ -193,7 +193,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .Parent = parent
             }
 
-            Call p.MoveNext()
+            p += 1
 
             If p > strLines.Length - 1 Then
                 Return Category

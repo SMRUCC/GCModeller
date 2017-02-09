@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::85c4e8f3c376f8dc64da2d6478bec90d, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\Translation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.GCModeller.Assembly
 
 Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
@@ -88,7 +89,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
             Dim ConstraintModel As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction = New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With {
               .Name = MyBase.Identifier, .Identifier = MyBase.Identifier, .Reversible = False, .UPPER_BOUND = New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With {.Value = 50}}
             Dim ConstraintMapping = MetabolismSystem.ConstraintMetabolite
-            Dim p As Integer = 0
+            Dim p As int = 0
 
             Me.CompositionDelayEffect = Global.System.Math.Log(Me.CompositionVector.Sum + Global.System.Math.E)
 
@@ -96,50 +97,50 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
             ConstraintModel.Enzymes = New String() {MetabolismSystem._CellSystem.ExpressionRegulationNetwork.RibosomeAssemblyCompound.Identifier}
 
             ConstraintModel.Reactants = {
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ALA_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ARG_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ASN_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ASP_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CYS_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLN_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLT_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLY_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_HIS_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ILE_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_LEU_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_LYS_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_MET_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_PHE_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_PRO_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_SER_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_THR_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_TRP_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_TYR_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_VAL_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ALA_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ARG_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ASN_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ASP_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CYS_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLN_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLT_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLY_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_HIS_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ILE_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_LEU_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_LYS_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_MET_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_PHE_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_PRO_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_SER_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_THR_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_TRP_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_TYR_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_VAL_TRNA_CHARGED.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
                 New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ATP.Identifier, .StoiChiometry = 1}}
             p = 0
 
             ConstraintModel.Products = {
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ALA_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ARG_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ASN_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ASP_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CYS_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLN_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLT_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLY_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_HIS_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ILE_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_LEU_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_LYS_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_MET_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_PHE_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_PRO_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_SER_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_THR_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_TRP_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_TYR_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
-              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_VAL_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(p.MoveNext) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ALA_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ARG_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ASN_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ASP_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CYS_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLN_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLT_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GLY_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_HIS_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ILE_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_LEU_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_LYS_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_MET_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_PHE_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_PRO_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_SER_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_THR_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_TRP_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_TYR_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
+              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_VAL_TRNA.Identifier, .StoiChiometry = Global.System.Math.Log(MyBase.CompositionVector(++p) + 2, 2)},
               New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ADP.Identifier, .StoiChiometry = 1}}
 
             ConstraintFlux = MetabolismFlux.CreateObject(Of ExpressionConstraintFlux)(ConstraintModel, MetabolismSystem.Metabolites)

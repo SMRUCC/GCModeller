@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::31de9751c197ce27f05f5a081ffc1899, ..\GCModeller\shared\docs\ExtProperty.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
 
 Namespace DocumentFormat
@@ -69,14 +70,14 @@ Namespace DocumentFormat
 
         <Extension> Public Function AssignTSSsId(source As Generic.IEnumerable(Of Transcript), Optional prefix As String = "TSS_") As Transcript()
             Dim array As Transcript() = source.ToArray
-            Dim i As Integer = 1
+            Dim i As int = 1
 
             For Each transcript As Transcript In array
                 If transcript._5UTR <> 0 Then
-                    transcript.TSS_ID = prefix & STDIO.ZeroFill(i.MoveNext, 4)
+                    transcript.TSS_ID = prefix & STDIO.ZeroFill(++i, 4)
                 Else
                     If transcript.TSSsShared >= 30 Then
-                        transcript.TSS_ID = prefix & STDIO.ZeroFill(i.MoveNext, 4)
+                        transcript.TSS_ID = prefix & STDIO.ZeroFill(++i, 4)
                     End If
                 End If
             Next

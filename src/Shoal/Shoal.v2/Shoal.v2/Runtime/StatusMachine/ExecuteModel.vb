@@ -477,7 +477,8 @@ Namespace Runtime
                 Dim value = Exec(Expression.Expression)
                 Call ScriptEngine.MMUDevice.Update(Expr.LoopVariable, value)
                 Call New FSMMachine(ScriptEngine, Expr.Invoke).Execute()
-                Call i.MoveNext
+
+                i += 1
             Next
 
             Return i
@@ -492,7 +493,8 @@ Namespace Runtime
             For i As Double = InitStart To LoopStop Step MoveStep
                 Call ScriptEngine.MMUDevice.Update(Expr.LoopVariable, i)
                 Call New FSMMachine(ScriptEngine, Expr.Invoke).Execute()
-                Call n.MoveNext
+
+                n += 1
             Next
 
             Return n
@@ -553,7 +555,7 @@ Namespace Runtime
 
             Do While __getBoolean(Expr.BooleanIf)
                 Call New Runtime.FSMMachine(ScriptEngine, Expr.Invoke).Execute()
-                Call i.MoveNext
+                i += 1
             Loop
 
             Return i
@@ -565,7 +567,7 @@ Namespace Runtime
 
             Do Until __getBoolean(Expr.BooleanIf)
                 Call New Runtime.FSMMachine(ScriptEngine, Expr.Invoke).Execute()
-                Call i.MoveNext
+                i += 1
             Loop
 
             Return i

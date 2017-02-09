@@ -162,7 +162,7 @@ Namespace SequenceModel.Patterns.Clustal
 
                     If lst(p).Value / width >= pp Then      ' 至少要达到下限
                         Call block.Add(lst(p))
-                        Call p.MoveNext
+                        p += 1
                     Else ' 使用上一个残基来替代
                         If p = 0 Then
                             Call block.Add(New KeyValuePair(Of Char, Integer)("-"c, CInt(pp * levels)))

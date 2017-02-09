@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::ae574e241efcf62a96bd59168fc066ad, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\Module\CentralDogma\Transcription.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Language
 
 Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
 
@@ -106,13 +107,13 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
             ConstraintModel.p_Dynamics_K_1 = K1
 
             Dim ConstraintMapping = MetabolismSystem.ConstraintMetabolite
-            Dim p As Integer = 0
+            Dim p As int = 0
 
             ConstraintModel.Reactants = {
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ATP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)},
-                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_UTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(p.MoveNext) + 2, 2)}}
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_ATP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_GTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_CTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(++p) + 2, 2)},
+                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = ConstraintMapping.CONSTRAINT_UTP.Identifier, .StoiChiometry = Global.System.Math.Log(CompositionVector(++p) + 2, 2)}}
 
             ConstraintModel.Products = {
                     New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With
@@ -122,10 +123,11 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
             Dim ConstraintFlux As ExpressionConstraintFlux = New ExpressionConstraintFlux With {._BaseType = ConstraintModel}
             Dim Reactants = (From item In ConstraintModel.Reactants Select [Module].EquationModel.CompoundSpecieReference.CreateObject(ConstraintMapping(item.Identifier), item.StoiChiometry)).ToList
             UniqueId = String.Format("{0}.transcription_regulation_constraints", UniqueId)
-            Dim RegulationConstraint As [Module].EquationModel.CompoundSpecieReference = New EquationModel.CompoundSpecieReference With
-                                                                                         {
-                                                                                             .Stoichiometry = 1, .Identifier = UniqueId,
-                                                                                             .EntityCompound = Entity.Compound.CreateObject(UniqueId, 0, 1)}
+            Dim RegulationConstraint As New EquationModel.CompoundSpecieReference With {
+                .Stoichiometry = 1,
+                .Identifier = UniqueId,
+                .EntityCompound = Entity.Compound.CreateObject(UniqueId, 0, 1)
+            }
             Call Reactants.Add(RegulationConstraint)
             ConstraintFlux._Reactants = Reactants.ToArray
             ConstraintFlux._Products = (From item In ConstraintModel.Products Select [Module].EquationModel.CompoundSpecieReference.CreateObject(ConstraintMapping(item.Identifier), item.StoiChiometry)).ToArray

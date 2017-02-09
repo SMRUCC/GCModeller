@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::4c8b1e169179ed1a9726f8d33cc923c9, ..\GCModeller\data\Xfam\Rfam\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal
@@ -197,7 +198,7 @@ Public Module API
                                  PTT As PTT,
                                  reader As I_PolymerSequenceModel,
                                  <Parameter("Source.Directed?")> Optional sourceDirect As Boolean = True) As Rfamily()
-        Dim sId As String = basename(blastn)
+        Dim sId As String = BaseName(blastn)
         Dim RfamAnno As Stockholm = Rfam(sId)
         Dim blastnHits = blastn.LoadCsv(Of BlastnMapping)
         Return RfamAnalysis(RfamAnno, blastnHits, PTT, reader, sourceDirect)
@@ -248,12 +249,12 @@ Public Module API
 
         Dim groups = data.Group(offset)
         Dim LQuery = (From gr In groups Select gr Order By gr.Value.First.Left Ascending).ToArray
-        Dim idx As Integer = 1
+        Dim idx As int = 1
 
         Call $"Assigning locusId....".__DEBUG_ECHO
 
         For Each gr In LQuery
-            Dim locusId As String = $"{prefix}{STDIO.ZeroFill(idx.MoveNext, 4)}"
+            Dim locusId As String = $"{prefix}{STDIO.ZeroFill(++idx, 4)}"
             For Each RNA In gr.Value  ' 同一个位点比对上了数据库之中的不同记录，都分配相同的id编号
                 RNA.LocusId = locusId
             Next

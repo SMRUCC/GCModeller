@@ -217,6 +217,14 @@ Public Module Utilities
         Return res.SaveAs(out, ImageFormats.Png)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 2017-2-9 经过KEGG测试，sequence cut功能没有问题
+    ''' </remarks>
     <ExportAPI("/Promoter.Regions.Parser.gb",
                Usage:="/Promoter.Regions.Parser.gb /gb <genbank.gb> [/out <out.DIR>]")>
     Public Function PromoterRegionParser_gb(args As CommandLine) As Integer
@@ -235,5 +243,6 @@ Public Module Utilities
             Call New FastaFile(l.value.Values).Save(120, save, Encodings.ASCII)
         Next
 
+        Return 0
     End Function
 End Module

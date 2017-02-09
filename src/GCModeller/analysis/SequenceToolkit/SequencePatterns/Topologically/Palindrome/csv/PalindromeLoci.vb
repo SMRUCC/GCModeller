@@ -82,12 +82,12 @@ Namespace Topologically
         End Property
 
         Public Shared Function SelectSite(sites As IEnumerable(Of PalindromeLoci)) As PalindromeLoci
-            Dim LQuery As PalindromeLoci =
-                LinqAPI.DefaultFirst(Of PalindromeLoci) <=
-                    From site As PalindromeLoci
-                    In sites
-                    Select site
-                    Order By site.Length Descending
+            Dim LQuery As PalindromeLoci = LinqAPI.DefaultFirst(Of PalindromeLoci) <=
+                From site As PalindromeLoci
+                In sites
+                Select site
+                Order By site.Length Descending
+
             Return LQuery
         End Function
 

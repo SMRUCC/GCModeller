@@ -68,8 +68,8 @@ Namespace Topologically
                                       <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer,
                                       Optional MinAppeared As Integer = 2) As Repeats()
 
-            Dim Search As New RepeatsSearchs(SequenceData, Min, Max, MinAppeared)
-            Call Search.InvokeSearch()
+            Dim Search As New RepeatsSearcher(SequenceData, Min, Max, MinAppeared)
+            Call Search.DoSearch()
             Call Search.CountStatics.Save("./Random.Sequence.Matches.Counts.csv", False)
 
             Return Search.ResultSet.ToArray
@@ -137,9 +137,8 @@ RETURN_VALUE:
                                               Min As Integer,
                                               Max As Integer,
                                               Optional MinAppeared As Integer = 2) As RevRepeats()
-            Dim revSearchs As New SearchReversedRepeats(SequenceData, Min, Max, MinAppeared)
-            Call revSearchs.InvokeSearch()
-            Call revSearchs.CountStatics.Save("./Reversed.Random.Sequence.Matches.Counts.csv", False)
+            Dim revSearchs As New ReversedRepeatSeacher(SequenceData, Min, Max, MinAppeared)
+            Call revSearchs.DoSearch()
             Return revSearchs.ResultSet.ToArray
         End Function
 

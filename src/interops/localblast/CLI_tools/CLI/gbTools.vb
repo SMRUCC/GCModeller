@@ -246,11 +246,11 @@ Partial Module CLI
                           x
                       Group By uid Into Group).ToArray
 
-        Dim idx As Integer = 1
+        Dim idx As int = 1
 
         For Each geneX In LQuery
             Dim locusId As String =
-                $"{prefix}_{STDIO.ZeroFill(idx.MoveNext, 4)}"
+                $"{prefix}_{STDIO.ZeroFill(++idx, 4)}"
 
             For Each feature In geneX.Group
                 feature.x.SetValue(FeatureQualifiers.locus_tag, locusId)

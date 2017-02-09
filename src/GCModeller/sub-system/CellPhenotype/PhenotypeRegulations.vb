@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::d0e6b44394a5c60c89a62836ac55f139, ..\GCModeller\sub-system\CellPhenotype\PhenotypeRegulations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -59,6 +59,7 @@ Imports KernelDriver = SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.Kernel
                        SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression,
                        SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork)
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
 ''' 将MEME所分析出来的调控信息附加到代谢途径的网络图之中
@@ -355,15 +356,14 @@ Public Module PhenotypeRegulations
         Dim Ranking As Integer() = GenerateMapping(Vector, Level)
         Dim ChunkBuffer As Integer() = New Integer(DataChunk.First.Samples.Length - 1) {}
         Dim ChunkList As New List(Of DataSerials(Of Integer))
-        Dim p As Integer = 0
+        Dim p As int = 0
 
         For i As Integer = 0 To Ranking.Count - 1 Step ChunkBuffer.Length
             Call Array.ConstrainedCopy(Ranking, i, ChunkBuffer, 0, ChunkBuffer.Length)
 
             i += ChunkBuffer.Length
 
-            Call ChunkList.Add(New DataSerials(Of Integer) With {.UniqueId = DataChunk(p).UniqueId, .Samples = ChunkBuffer})
-            Call p.MoveNext()
+            Call ChunkList.Add(New DataSerials(Of Integer) With {.UniqueId = DataChunk(++p).UniqueId, .Samples = ChunkBuffer})
         Next
 
         Return ChunkList.ToArray

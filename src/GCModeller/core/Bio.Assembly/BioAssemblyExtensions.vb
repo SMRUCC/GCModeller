@@ -180,7 +180,7 @@ Public Module BioAssemblyExtensions
                                          Optional offsets As Integer = 5) As Dictionary(Of Integer, Contig())
 
         Dim Groups As New Dictionary(Of Integer, List(Of Contig))
-        Dim idx As Integer = 1
+        Dim idx As int = 1
 
         For Each loci As NucleotideModels.Contig In contigs
             Dim equalContig As Func(Of IEnumerable(Of Contig), Contig) =
@@ -197,7 +197,7 @@ Public Module BioAssemblyExtensions
                                                     Where Not equal Is Nothing
                                                     Select x.Key
             If hash < 1 Then
-                Call Groups.Add(idx.MoveNext, New List(Of Contig) From {loci})      ' 新的分组
+                Call Groups.Add(++idx, New List(Of Contig) From {loci})      ' 新的分组
             Else
                 Dim lst As List(Of Contig) = Groups(hash)
                 Call lst.Add(loci)

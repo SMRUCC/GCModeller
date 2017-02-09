@@ -1,40 +1,40 @@
 ﻿#Region "Microsoft.VisualBasic::41bfea014ccb71ab307671f2d1a71bab, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\Palindrome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Search
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
 Imports SMRUCC.genomics.SequenceModel
@@ -131,7 +131,7 @@ Namespace Topologically
             Return LinqAPI.Exec(Of ImperfectPalindrome) <=
  _
                 From segment As TextSegment
-                In search.PreCache.AsParallel
+                In search.cache.AsParallel
                 Let result As ImperfectPalindrome =
                     Found(fa, segment, cutoff, search, maxDist, max)
                 Where Not result Is Nothing AndAlso
@@ -195,13 +195,13 @@ Namespace Topologically
             Call $"Data load done! Start to filter data...".__DEBUG_ECHO
             files = (From genome
                      In files.AsParallel
-                     Select (From site As ImperfectPalindrome
+                     Select From site As ImperfectPalindrome
                              In genome
-                             Where site.MaxMatch >= min AndAlso
+                            Where site.MaxMatch >= min AndAlso
                                  site.MaxMatch <= max AndAlso
                                  site.Palindrome.Count("-"c) <> site.Palindrome.Length AndAlso
                                  site.Site.Count("-"c) <> site.Site.Length
-                             Select site).ToList).ToArray
+                            Select site).ToArray
             Call $"Generates density vector....".__DEBUG_ECHO
             Return Density(Of ImperfectPalindrome)(files, size:=length)
         End Function
@@ -265,10 +265,11 @@ Namespace Topologically
             Return Not Result.IsNullOrEmpty
         End Function
 
-        Private Function __haveMirror(l As Integer, Loci As Integer, Mirror As String, Sequence As String) As Integer
+        Private Function __haveMirror(l As Integer, Loci As Integer, mirror As String, Sequence As String) As Integer
             Dim mrStart As Integer = Loci + l
             Dim mMirr As String = Mid(Sequence, mrStart, l)
-            If String.Equals(mMirr, Mirror) Then
+
+            If String.Equals(mMirr, mirror) Then
                 Return mrStart + l
             Else
                 Return -1
@@ -278,30 +279,33 @@ Namespace Topologically
         ''' <summary>
         ''' 这个函数求解的是绝对相等的
         ''' </summary>
-        ''' <param name="Segment"></param>
+        ''' <param name="seed"></param>
         ''' <param name="Sequence"></param>
         ''' <returns></returns>
         <ExportAPI("Mirrors.Locis.Get")>
-        Public Function CreateMirrors(Segment As String, Sequence As String) As PalindromeLoci()
-            Dim Locations As Integer() = FindLocation(Sequence, Segment)
+        Public Function FindMirrorPalindromes(seed As String, Sequence As String) As PalindromeLoci()
+            Dim locis As Integer() = FindLocation(Sequence, seed)
 
-            If Locations.IsNullOrEmpty Then
+            If locis.IsNullOrEmpty Then
                 Return Nothing
             End If
 
-            Dim Mirror As String = New String(Segment.Reverse.ToArray)
-            Dim l As Integer = Len(Segment)
-            Dim Result = (From loci As Integer
-                          In Locations
-                          Let ml As Integer = __haveMirror(l, loci, Mirror, Sequence)
-                          Where ml > -1
-                          Select loci, ml).ToArray
-            Return Result.ToArray(Function(site) New PalindromeLoci With {
-                                      .Loci = Segment,
-                                      .Start = site.loci,
-                                      .PalEnd = site.ml,
-                                      .Palindrome = Mirror,
-                                      .MirrorSite = Mirror})
+            Dim mirror As String = New String(seed.Reverse.ToArray)
+            Dim l As Integer = Len(seed)
+            Dim out As PalindromeLoci() = LinqAPI.Exec(Of PalindromeLoci) <=
+                From loci As Integer
+                In locis
+                Let ml As Integer = __haveMirror(l, loci, mirror, Sequence)
+                Where ml > -1
+                Select New PalindromeLoci With {
+                    .Loci = seed,
+                    .Start = loci,
+                    .PalEnd = ml,
+                    .Palindrome = mirror,
+                    .MirrorSite = mirror
+                }
+
+            Return out
         End Function
 
         <ExportAPI("Palindrome.Locis.Get")>
@@ -337,22 +341,23 @@ Namespace Topologically
         Public Function SearchMirror(Sequence As I_PolymerSequenceModel,
                                      Optional Min As Integer = 3,
                                      Optional Max As Integer = 20) As PalindromeLoci()
-            Dim search As New Topologically.MirrorSearchs(Sequence, Min, Max)
-            Call search.InvokeSearch()
+            Dim search As New Topologically.MirrorPalindrome(Sequence, Min, Max)
+            Call search.DoSearch()
             Return search.ResultSet.ToArray
         End Function
 
         <ExportAPI("Search.Palindrome")>
+        <Extension>
         Public Function SearchPalindrome(Sequence As I_PolymerSequenceModel,
                                          Optional Min As Integer = 3,
                                          Optional Max As Integer = 20) As PalindromeLoci()
-            Dim search As New Topologically.PalindromeSearchs(Sequence, Min, Max)
-            Call search.InvokeSearch()
+            Dim search As New Topologically.PalindromeSearch(Sequence, Min, Max)
+            Call search.DoSearch()
             Return search.ResultSet.ToArray
         End Function
 
         <ExportAPI("Write.Csv.PalindromeLocis")>
-        Public Function SaveResultSet(rs As Generic.IEnumerable(Of PalindromeSearchs), SaveTo As String) As Boolean
+        Public Function SaveResultSet(rs As Generic.IEnumerable(Of PalindromeSearch), SaveTo As String) As Boolean
             Return rs.SaveTo(SaveTo)
         End Function
 
