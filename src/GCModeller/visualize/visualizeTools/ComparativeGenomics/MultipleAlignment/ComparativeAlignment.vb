@@ -27,7 +27,6 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
@@ -37,17 +36,17 @@ Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ComparativeGenomics
-Imports SMRUCC.genomics.Visualize.ComponentModel
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 
 Namespace ComparativeAlignment
 

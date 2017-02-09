@@ -129,7 +129,7 @@ Namespace Regprecise
         Public Shared Function CreateObject(strData As String) As Regulator
             Dim Items As String() = Regex.Matches(strData, "<td.+?</td>").ToArray
             Dim Regulator As New Regulator
-            Dim p As int
+            Dim p As int = Scan0
 
             Regulator.Type = If(InStr(Items(++p), " RNA "), Regulator.Types.RNA, Regulator.Types.TF)
             Dim EntryData As String = Regex.Match(Items(++p), "href="".+?"">.+?</a>").Value

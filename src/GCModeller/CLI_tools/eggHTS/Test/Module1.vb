@@ -35,7 +35,6 @@ Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
-Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
