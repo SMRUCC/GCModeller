@@ -214,6 +214,7 @@
     <Compile Include="SequenceLogo\DrawingDevice.vb" />
     <Compile Include="SequenceLogo\DrawingModel.vb" />
     <Compile Include="SequenceLogo\Residue.vb" />
+    <Compile Include="Topologically\Palindrome\SearchWorker\MirrorPalindrome.vb" />
     <Compile Include="Topologically\Seeds\Seed.vb" />
     <Compile Include="Topologically\Seeds\SeedBox.vb" />
     <Compile Include="Topologically\Exactly\LociFilter.vb" />
@@ -223,11 +224,11 @@
     <Compile Include="Topologically\Exactly\RepeatsSearchAPI.vb" />
     <Compile Include="Topologically\Exactly\RepeatsSearchs.vb" />
     <Compile Include="Topologically\Exactly\SearchReversedRepeats.vb" />
-    <Compile Include="Topologically\Palindrome\Imperfect.vb" />
-    <Compile Include="Topologically\Palindrome\ImperfectPalindrome.vb" />
-    <Compile Include="Topologically\Palindrome\Palindrome.vb" />
-    <Compile Include="Topologically\Palindrome\PalindromeLoci.vb" />
-    <Compile Include="Topologically\Palindrome\SearchWorker.vb" />
+    <Compile Include="Topologically\Palindrome\SearchWorker\Imperfect.vb" />
+    <Compile Include="Topologically\Palindrome\csv\ImperfectPalindrome.vb" />
+    <Compile Include="Topologically\Palindrome\PalindromeAPI.vb" />
+    <Compile Include="Topologically\Palindrome\csv\PalindromeLoci.vb" />
+    <Compile Include="Topologically\Palindrome\SearchWorker\PalindromeSearch.vb" />
     <Compile Include="Topologically\SearchWorker.vb" />
     <Compile Include="Topologically\Seeds\Seeds.vb" />
     <Compile Include="Topologically\Similarity\MirrorPalindrome.vb" />

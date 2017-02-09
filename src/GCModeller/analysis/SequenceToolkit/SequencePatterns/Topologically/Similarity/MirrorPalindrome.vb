@@ -111,7 +111,7 @@ Namespace Topologically.SimilarityMatches
         End Function
     End Module
 
-    Public Class FuzzyMirrors : Inherits MirrorSearchs
+    Public Class FuzzyMirrors : Inherits Topologically.MirrorPalindrome
 
         ReadOnly _maxDist As Integer, cut As Double
 
@@ -140,7 +140,7 @@ Namespace Topologically.SimilarityMatches
                                                  _maxDist,
                                                  cut),
                                    parallel:=True).IteratesALL.TrimNull
-            Call _ResultSet.Add(Sites)
+            Call _resultSet.Add(Sites)
         End Sub
     End Class
 End Namespace

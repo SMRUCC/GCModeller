@@ -84,7 +84,7 @@ Partial Module Utilities
         Dim Out As String = args("/out")
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
-        Dim Search As New Topologically.PalindromeSearchs(NT, Min, Max)
+        Dim Search As New Topologically.PalindromeSearch(NT, Min, Max)
         Call Search.DoSearch()
         Call Search.ResultSet.SaveTo(Out)
         Return 0
@@ -102,7 +102,7 @@ Partial Module Utilities
         Dim Out As String = args.GetValue("/out", args("/nt").TrimSuffix & ".csv")
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
-        Dim Search As New Topologically.PalindromeSearchs(nt, Min, Max)
+        Dim Search As New Topologically.PalindromeSearch(nt, Min, Max)
         Call Search.DoSearch()
         Call Search.ResultSet.SaveTo(Out)
         Return 0
@@ -126,7 +126,7 @@ Partial Module Utilities
         Dim Out As String = args("/out")
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
-        Dim Search As New Topologically.MirrorSearchs(NT, Min, Max)
+        Dim Search As New Topologically.MirrorPalindrome(NT, Min, Max)
         Call Search.DoSearch()
         Call Search.ResultSet.SaveTo(Out)
         Return 0
@@ -230,7 +230,7 @@ Partial Module Utilities
             Call App.SelfFolks(CLI, n)
         Else
             For Each seq As FastaToken In NT
-                Dim Search As New Topologically.MirrorSearchs(seq, Min, Max)
+                Dim Search As New Topologically.MirrorPalindrome(seq, Min, Max)
                 Dim path As String = out & $"/{seq.Title.NormalizePathString.Replace(" ", "_")}.csv"
                 Call Search.DoSearch()
                 Call Search.ResultSet.SaveTo(path)
@@ -257,7 +257,7 @@ Partial Module Utilities
         Dim Out As String = args.GetValue("/out", args("/nt").TrimSuffix & ".csv")
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
-        Dim Search As New Topologically.MirrorSearchs(Nt, Min, Max)
+        Dim Search As New Topologically.MirrorPalindrome(Nt, Min, Max)
         Call Search.DoSearch()
         Return Search.ResultSet.SaveTo(Out).CLICode
     End Function

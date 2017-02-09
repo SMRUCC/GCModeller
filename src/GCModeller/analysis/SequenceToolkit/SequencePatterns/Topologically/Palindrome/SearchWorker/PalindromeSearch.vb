@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac0a62baa1756b2fb944b819c95c1d88, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\SearchWorker.vb"
+﻿#Region "Microsoft.VisualBasic::632e3eaa201cfac69a09b225e898bda3, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker.vb"
 
 ' Author:
 ' 
@@ -27,17 +27,17 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace Topologically
 
-    Public MustInherit Class SearchWorker
-
-        Protected ReadOnly seedBox As SeedBox
-        Protected ReadOnly seq As I_PolymerSequenceModel
-        Protected min, max As Integer
+    ''' <summary>
+    ''' 片段在反向链找得到自己的反向片段
+    ''' </summary>
+    Public Class PalindromeSearch : Inherits MirrorPalindrome
 
         ''' <summary>
         ''' 
@@ -48,24 +48,16 @@ Namespace Topologically
         Sub New(Sequence As I_PolymerSequenceModel,
                 <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> Min As Integer,
                 <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer)
-
-            Me.seedBox = New SeedBox(Sequence)
-            Me.min = Min
-            Me.max = Max
-            Me.seq = Sequence
+            Call MyBase.New(Sequence, Min, Max)
         End Sub
 
         ''' <summary>
-        ''' 使用种子进行序列位点的搜索
+        ''' 片段在反向链找得到自己的反向片段
         ''' </summary>
-        Public Sub DoSearch()
-            For Each seeds As Seed() In seedBox.PopulateSeeds(min, max)
-                For Each seed As Seed In seeds
-                    Call DoSearch(seed)
-                Next
-            Next
+        ''' <param name="seed"></param>
+        Protected Overrides Sub DoSearch(seed As Seed)
+            Dim Sites As PalindromeLoci() = Palindrome.CreatePalindrome(seed.Sequence, seq.SequenceData).TrimNull
+            Call _resultSet.Add(Sites)
         End Sub
-
-        Protected MustOverride Sub DoSearch(seed As Seed)
     End Class
 End Namespace
