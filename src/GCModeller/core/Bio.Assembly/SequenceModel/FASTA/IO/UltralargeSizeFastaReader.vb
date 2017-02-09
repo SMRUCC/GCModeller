@@ -130,7 +130,8 @@ Namespace SequenceModel.FASTA
                 If Not last_overrides Then
                     Return False
                 Else
-                    Dim path As String = $"{outDIR}/{name}.{index.MoveNext}.fasta"
+                    Dim path As String = $"{outDIR}/{name}.{index}.fasta"
+                    index += 1
                     Return str.SaveTo(path)
                 End If
             End If
@@ -141,7 +142,8 @@ Namespace SequenceModel.FASTA
                 str = (From line As String In block Select ">" & line).ToArray.JoinBy(vbCrLf)
 
                 If block.Length = n Then
-                    Dim path As String = $"{outDIR}/{name}.{index.MoveNext}.fasta"
+                    Dim path As String = $"{outDIR}/{name}.{index}.fasta"
+                    index += 1
                     Call str.SaveTo(path)
                 Else             ' 这个是最后一个元素了
                     preBlock = encoding.GetBytes(str)

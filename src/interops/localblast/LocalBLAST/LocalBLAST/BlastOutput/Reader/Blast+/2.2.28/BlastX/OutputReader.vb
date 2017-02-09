@@ -123,11 +123,11 @@ ENTRY_INFO_PARSER:
                 Where Not String.IsNullOrEmpty(s)
                 Select s
 
-            Dim p As Integer
+            Dim p As int = Scan0
             Dim QueryName As String = __parser(p, "Length=", Tokens).Trim
-            Dim QueryLength As String = Tokens(p.MoveNext).Trim
+            Dim QueryLength As String = Tokens(++p).Trim
             Dim SubjectName As String = __parser(p, "Length=", Tokens).Trim
-            Dim SubjectLength As String = Tokens(p.MoveNext).Trim
+            Dim SubjectLength As String = Tokens(++p).Trim
 
             QueryName = Mid(QueryName, 7).Trim
             SubjectName = Mid(SubjectName, 9).Trim

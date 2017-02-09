@@ -73,7 +73,8 @@
                 _currentLine = readLine() '当前行已经读取完毕，进行换行
             End If
 
-            Dim ch = _currentLine(idx.MoveNext)
+            Dim ch = _currentLine(idx)
+            idx += 1
             Return AscW(ch)
         End Function
 

@@ -143,8 +143,9 @@ Partial Module CLI
             Else
                 array = cluster.ToArray(Function(x) setValue(x.ToLDM(mapNames), CStr(i)))
             End If
+
+            i += 1
             Call result.Add(array)
-            Call i.MoveNext
         Next
 
         Return result

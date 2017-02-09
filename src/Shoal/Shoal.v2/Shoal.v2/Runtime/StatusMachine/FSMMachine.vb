@@ -60,7 +60,7 @@ Namespace Runtime
                 If __executeReturn Then
                     Exit Do
                 Else
-                    Call p.MoveNext  '移动到下一行代码执行
+                    p += 1  '移动到下一行代码执行
                 End If
             Loop
 

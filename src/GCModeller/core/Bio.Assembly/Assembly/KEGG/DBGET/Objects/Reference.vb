@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::e6139d24c94fe5089a4e697f4e6d837a, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Reference.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Assembly.KEGG.DBGET.bGetObject
@@ -53,11 +54,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim Tokens As String() = (From m As Match In Regex.Matches(str, REF_ITEM) Select m.Value).ToArray
             Tokens = (From s As String In Tokens Select Regex.Match(s, "<div .+?>.+?</div>").Value).ToArray
 
-            Dim p As Integer
-            Dim PMID As String = Tokens.Get(p.MoveNext).GetValue
-            Dim Authors As String = Tokens.Get(p.MoveNext).GetValue
-            Dim Title As String = Tokens.Get(p.MoveNext).GetValue
-            Dim Journal As String = Tokens.Get(p.MoveNext).GetValue
+            Dim p As int = Scan0
+            Dim PMID As String = Tokens.Get(++p).GetValue
+            Dim Authors As String = Tokens.Get(++p).GetValue
+            Dim Title As String = Tokens.Get(++p).GetValue
+            Dim Journal As String = Tokens.Get(++p).GetValue
 
             If Regex.Match(PMID, "PMID[:]<a").Success Then
                 PMID = PMID.GetValue

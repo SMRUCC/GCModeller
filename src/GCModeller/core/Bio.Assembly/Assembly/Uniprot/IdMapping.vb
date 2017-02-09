@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::b5c003734ad92cf7dc1aa768123f2bca, ..\GCModeller\core\Bio.Assembly\Assembly\Uniprot\IdMapping.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 
@@ -102,32 +103,32 @@ Namespace Assembly.Uniprot
 
         Private Shared Function __createObject(line As String) As IdMapping
             Dim Tokens As String() = Strings.Split(line, vbTab)
-            Dim p As Integer = 0
+            Dim p As int = 0
             Dim Maps As New IdMapping
 
             With Maps
-                .UniProtKB_AC = Tokens.Get(p.MoveNext)
-                .UniProtKB_ID = Tokens.Get(p.MoveNext)
-                .GeneID_EntrezGene = Tokens.Get(p.MoveNext)
-                .RefSeq = Tokens.Get(p.MoveNext)
-                .GI = Tokens.Get(p.MoveNext)
-                .PDB = Tokens.Get(p.MoveNext)
-                .GO = Tokens.Get(p.MoveNext)
-                .UniRef100 = Tokens.Get(p.MoveNext)
-                .UniRef90 = Tokens.Get(p.MoveNext)
-                .UniRef50 = Tokens.Get(p.MoveNext)
-                .UniParc = Tokens.Get(p.MoveNext)
-                .PIR = Tokens.Get(p.MoveNext)
-                .NCBI_Taxon = Tokens.Get(p.MoveNext)
-                .MIM = Tokens.Get(p.MoveNext)
-                .UniGene = Tokens.Get(p.MoveNext)
-                .PubMed = Tokens.Get(p.MoveNext)
-                .EMBL = Tokens.Get(p.MoveNext)
-                .EMBL_CDS = Tokens.Get(p.MoveNext)
-                .Ensembl = Tokens.Get(p.MoveNext)
-                .Ensembl_TRS = Tokens.Get(p.MoveNext)
-                .Ensembl_PRO = Tokens.Get(p.MoveNext)
-                .Additional_PubMed = Tokens.Get(p.MoveNext)
+                .UniProtKB_AC = Tokens.Get(++p)
+                .UniProtKB_ID = Tokens.Get(++p)
+                .GeneID_EntrezGene = Tokens.Get(++p)
+                .RefSeq = Tokens.Get(++p)
+                .GI = Tokens.Get(++p)
+                .PDB = Tokens.Get(++p)
+                .GO = Tokens.Get(++p)
+                .UniRef100 = Tokens.Get(++p)
+                .UniRef90 = Tokens.Get(++p)
+                .UniRef50 = Tokens.Get(++p)
+                .UniParc = Tokens.Get(++p)
+                .PIR = Tokens.Get(++p)
+                .NCBI_Taxon = Tokens.Get(++p)
+                .MIM = Tokens.Get(++p)
+                .UniGene = Tokens.Get(++p)
+                .PubMed = Tokens.Get(++p)
+                .EMBL = Tokens.Get(++p)
+                .EMBL_CDS = Tokens.Get(++p)
+                .Ensembl = Tokens.Get(++p)
+                .Ensembl_TRS = Tokens.Get(++p)
+                .Ensembl_PRO = Tokens.Get(++p)
+                .Additional_PubMed = Tokens.Get(++p)
             End With
 
             Return Maps

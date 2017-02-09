@@ -123,7 +123,7 @@ Namespace PfamString
                 End If
 
                 previous = current
-                Call i.MoveNext()
+                i += 1
             Loop
 
             Return ChunkList.ToArray

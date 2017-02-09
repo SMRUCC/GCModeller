@@ -73,7 +73,7 @@ Public Class SQLProcedure : Implements System.IDisposable
         Dim SQL As String = SchemaCache.CreateTableSQL(TableSchema.DatabaseFields, TableSchema.TableName)
         Call Me.Execute(SQL)
 
-        Dim p As Integer = Me.Load(Of TableDump).Count + 1
+        Dim p As int = Me.Load(Of TableDump).Count + 1
         Dim dumpInfo As TableDump() =
             LinqAPI.Exec(Of TableDump) <=
  _
@@ -81,7 +81,7 @@ Public Class SQLProcedure : Implements System.IDisposable
             In TableSchema
             Let ipk As Integer = If(Field.FieldEntryPoint.IsPrimaryKey, 1, 0)
             Select New TableDump With {
-                .Guid = p.MoveNext,
+                .Guid = ++p,
                 .DbType = Field.DbType,
                 .FieldName = Field.DbFieldName,
                 .IsPrimaryKey = ipk,

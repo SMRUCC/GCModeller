@@ -129,14 +129,14 @@ Namespace Regprecise
         Public Shared Function CreateObject(strData As String) As Regulator
             Dim Items As String() = Regex.Matches(strData, "<td.+?</td>").ToArray
             Dim Regulator As New Regulator
-            Dim p As Integer
+            Dim p As int
 
-            Regulator.Type = If(InStr(Items(p.MoveNext), " RNA "), Regulator.Types.RNA, Regulator.Types.TF)
-            Dim EntryData As String = Regex.Match(Items(p.MoveNext), "href="".+?"">.+?</a>").Value
+            Regulator.Type = If(InStr(Items(++p), " RNA "), Regulator.Types.RNA, Regulator.Types.TF)
+            Dim EntryData As String = Regex.Match(Items(++p), "href="".+?"">.+?</a>").Value
             Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & EntryData.href
             Regulator.Regulator = KeyValuePair.CreateObject(WebAPI.GetsId(EntryData), url)
-            Regulator.Effector = __getTagValue(Items(p.MoveNext))
-            Regulator.Pathway = __getTagValue(Items(p.MoveNext))
+            Regulator.Effector = __getTagValue(Items(++p))
+            Regulator.Pathway = __getTagValue(Items(++p))
 
             Return More(Regulator)
         End Function
@@ -145,17 +145,17 @@ Namespace Regprecise
             Dim html As String = Regulator.Regulator.Value.GET
             html = Regex.Match(html, "<table class=""proptbl"">.+?</table>", RegexOptions.Singleline).Value
             Dim Properties As String() = Regex.Matches(html, "<tr>.+?</tr>", RegexICSng).ToArray
-            Dim p As Integer = 1
+            Dim p As int = 1
 
             Regulator.SiteMore = Regex.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
             Regulator.SiteMore = "http://regprecise.lbl.gov/RegPrecise/" & Regulator.SiteMore.href
 
             If Regulator.Type = Types.TF Then
-                Dim LocusTag As String = Regex.Match(Properties(p.MoveNext), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
+                Dim LocusTag As String = Regex.Match(Properties(++p), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
                 Regulator.LocusTag = KeyValuePair.CreateObject(WebAPI.GetsId(LocusTag), LocusTag.href)
-                Regulator.Family = __getTagValue_td(Properties(p.MoveNext).Replace("<td>Regulator family:</td>", ""))
+                Regulator.Family = __getTagValue_td(Properties(++p).Replace("<td>Regulator family:</td>", ""))
             Else
-                Dim Name As String = Regex.Matches(Properties(p.MoveNext), "<td>.+?</td>", RegexICSng).ToArray.Last
+                Dim Name As String = Regex.Matches(Properties(++p), "<td>.+?</td>", RegexICSng).ToArray.Last
                 Name = Mid(Name, 5)
                 Name = Mid(Name, 1, Len(Name) - 5)
                 Regulator.LocusTag = KeyValuePair.CreateObject(Name, "")
@@ -163,8 +163,8 @@ Namespace Regprecise
                 Regulator.Family = __getTagValue_td(Regulator.Family)
             End If
 
-            Regulator.RegulationMode = __getTagValue_td(Properties(p.MoveNext))
-            Regulator.BiologicalProcess = __getTagValue_td(Properties(p.MoveNext))
+            Regulator.RegulationMode = __getTagValue_td(Properties(++p))
+            Regulator.BiologicalProcess = __getTagValue_td(Properties(++p))
 
             Dim RegulogEntry As String = Regex.Match(Properties(p + 1), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
             Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & RegulogEntry.href

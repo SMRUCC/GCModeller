@@ -2,6 +2,7 @@
 Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.LDM.Expressions
 
 Namespace Interpreter.LDM
@@ -73,11 +74,11 @@ Namespace Interpreter.LDM
         Public Overloads Shared Function CreateObject(Expressions As List(Of LDM.Expressions.PrimaryExpression)) As SyntaxModel
             Dim GotoTags As Dictionary(Of String, Integer) =  ' GotoTag的下一行就是目标起始点
                 New Dictionary(Of String, Integer)
-            Dim p As Integer = -1
+            Dim p As int = -1
 
-            Do While p.MoveNext < Expressions.Count - 1
+            Do While ++p < Expressions.Count - 1
 
-                Dim Line = Expressions(p)
+                Dim Line = Expressions(index:=p)
 
                 If Line.ExprTypeID = LDM.Expressions.ExpressionTypes.LineLable Then
 

@@ -293,7 +293,7 @@ Public Module DomainAnalysis
             Dim nextDomain_p = Domains(p + 1).Position.Left
 
             If currentDomain_p >= nextDomain_p Then
-                Call p.MoveNext()
+                p += 1
                 Continue Do
             End If
 
@@ -307,7 +307,7 @@ Public Module DomainAnalysis
             }
 
             Call ChunkBuffer.Add(doData)
-            Call p.MoveNext()
+            p += 1
         Loop
 
         Call ChunkBuffer.AddRange(Domains)

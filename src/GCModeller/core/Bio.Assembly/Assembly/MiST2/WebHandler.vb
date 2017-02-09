@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::1f2545c4949e164c3916b28ed954eec8, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\WebHandler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.MiST2
 
@@ -73,31 +74,31 @@ Namespace Assembly.MiST2
         Private Sub ParseGenomeSummary(Profile As MiST2, pageContent As String)
             Dim summary As String = Mid(pageContent, InStr(pageContent, "<!-- Genome summary -->") + 25)
             Dim items = (From m As Match In Regex.Matches(summary, SUMMARY_ITEM, RegexOptions.Singleline + RegexOptions.IgnoreCase) Select m.Value).ToArray
-            Dim p As Integer
+            Dim p As int = Scan0
 
             Const VALUE_SECTION As String = ">[^<]+</td>"
 
             Static Dim GetValue As Func(Of String, String) = Function(str As String) Mid(str, 2, Len(str) - 6)
 
-            Profile.Organism = Regex.Match(items(p.MoveNext), VALUE_SECTION).Value
+            Profile.Organism = Regex.Match(items(++p), VALUE_SECTION).Value
             Profile.Organism = GetValue(Profile.Organism)
 
-            Profile.Taxonomy = Regex.Match(items(p.MoveNext), VALUE_SECTION).Value
+            Profile.Taxonomy = Regex.Match(items(++p), VALUE_SECTION).Value
             Profile.Taxonomy = GetValue(Profile.Taxonomy)
 
-            Profile.Size = Regex.Match(items(p.MoveNext), VALUE_SECTION).Value
+            Profile.Size = Regex.Match(items(++p), VALUE_SECTION).Value
             Profile.Size = GetValue(Profile.Size)
 
-            Profile.Status = Regex.Match(items(p.MoveNext), VALUE_SECTION).Value
+            Profile.Status = Regex.Match(items(++p), VALUE_SECTION).Value
             Profile.Status = GetValue(Profile.Status)
 
-            Profile.Replicons = Regex.Match(items(p.MoveNext), VALUE_SECTION).Value
+            Profile.Replicons = Regex.Match(items(++p), VALUE_SECTION).Value
             Profile.Replicons = GetValue(Profile.Replicons)
 
-            Profile.Genes = Regex.Match(items(p.MoveNext), VALUE_SECTION).Value
+            Profile.Genes = Regex.Match(items(++p), VALUE_SECTION).Value
             Profile.Genes = GetValue(Profile.Genes)
 
-            Profile.Proteins = Regex.Match(items(p.MoveNext), VALUE_SECTION).Value
+            Profile.Proteins = Regex.Match(items(++p), VALUE_SECTION).Value
             Profile.Proteins = GetValue(Profile.Proteins)
 
             Profile.GC = Regex.Match(summary, GCCONTENT, RegexOptions.IgnoreCase).Value
@@ -143,23 +144,23 @@ Namespace Assembly.MiST2
         Public Function Match(strText As String) As Transducin
             Dim Protein As Transducin = New Transducin
             Dim Tokens = Strings.Split(strText, "</td>").Skip(3).ToArray
-            Dim p As Integer
+            Dim p As int = Scan0
 
-            Protein.Identifier = Regex.Match(Tokens(p.MoveNext), ">[^>]+?</").Value
+            Protein.Identifier = Regex.Match(Tokens(++p), ">[^>]+?</").Value
             Protein.Identifier = GetValue(Protein.Identifier)
 
-            Protein.GeneName = Regex.Match(Tokens(p.MoveNext), ">[^>]+?</").Value
+            Protein.GeneName = Regex.Match(Tokens(++p), ">[^>]+?</").Value
             Protein.GeneName = GetValue(Protein.GeneName)
 
-            Protein.Class = Regex.Match(Tokens(p.MoveNext), ">[^>]+?</").Value
+            Protein.Class = Regex.Match(Tokens(++p), ">[^>]+?</").Value
             Protein.Class = GetValue(Protein.Class)
 
-            Protein.Inputs = Strings.Split(Mid(Tokens(p.MoveNext), InStr(Tokens(p - 1), ">") + 1), ", ")
-            Protein.Outputs = Strings.Split(Mid(Tokens(p.MoveNext), InStr(Tokens(p - 1), ">") + 1), ", ")
+            Protein.Inputs = Strings.Split(Mid(Tokens(++p), InStr(Tokens(p - 1), ">") + 1), ", ")
+            Protein.Outputs = Strings.Split(Mid(Tokens(++p), InStr(Tokens(p - 1), ">") + 1), ", ")
 
             Const IMAGE_SOURCE As String = "<div class=""arch_img_cont""><img src="".+?"""
 
-            Protein.ImageUrl = Regex.Match(Tokens(p.MoveNext), IMAGE_SOURCE, RegexOptions.IgnoreCase).Value
+            Protein.ImageUrl = Regex.Match(Tokens(++p), IMAGE_SOURCE, RegexOptions.IgnoreCase).Value
             Protein.ImageUrl = Regex.Match(Protein.ImageUrl, "src="".+?""").Value
             Protein.ImageUrl = "http://mistdb.com" & Mid(Protein.ImageUrl, 6, Len(Protein.ImageUrl) - 6)
 

@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -218,7 +219,7 @@ Public Module ChromesomeMapAPI
                               <Parameter("DIR.EXPORT")> EXPORT$,
                               <Parameter("Image.Format", "Value variant in jpg,bmp,emf,exif,gif,png,wmf,tiff")>
                               Optional Format As String = "") As Integer
-        Dim i As Integer = 0
+        Dim i As int = 0
         Dim imageFormat As Imaging.ImageFormat =
             If(String.IsNullOrEmpty(Format), Nothing, GetSaveImageFormat(Format))
 
@@ -229,7 +230,7 @@ Public Module ChromesomeMapAPI
         End If
 
         For Each Bitmap As Bitmap In res.Value
-            Call Bitmap.Save($"{EXPORT}/ChromosomeMap_Drawing_data.resources__{i.MoveNext}.bmp", imageFormat)
+            Call Bitmap.Save($"{EXPORT}/ChromosomeMap_Drawing_data.resources__{++i}.bmp", imageFormat)
         Next
         Return i
     End Function

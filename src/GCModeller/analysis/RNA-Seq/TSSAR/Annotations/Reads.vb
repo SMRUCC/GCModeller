@@ -195,11 +195,10 @@ Public Module Reads
     Public Function MergeContigs(data As Generic.IEnumerable(Of ReadsGroupView), Optional offset As Integer = 3) As ReadsGroupView()
         '首先按照从小到大进行排序操作
         Dim Order = (From item In data Select item Order By item.POS Ascending).ToList
-        Dim p As Integer
+        Dim p As int = Scan0
 
         Do While p < Order.Count - 1
-            Dim current = Order(p)
-            Call p.MoveNext
+            Dim current = Order(index:=++p)
 
             Dim Next_P As Integer = p
 

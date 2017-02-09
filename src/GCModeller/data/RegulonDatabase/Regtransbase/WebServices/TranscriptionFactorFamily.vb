@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::f8a0b8da7494938c34638cc58190f5e8, ..\GCModeller\data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -34,6 +34,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
 
 Namespace Regtransbase.WebServices
 
@@ -114,12 +115,12 @@ Namespace Regtransbase.WebServices
         Protected Friend Shared Function Parse(strText As String) As TranscriptionFactorFamily
             Dim Items = (From m As Match In Regex.Matches(strText, COLUMN_ITEM, RegexOptions.Singleline + RegexOptions.IgnoreCase) Select m.Value).ToArray
             Dim TFF As TranscriptionFactorFamily = New TranscriptionFactorFamily With {.Regulogs = New Regulogs}
-            Dim p As Integer
-            Dim Head As String = Items(p.MoveNext)
-            TFF.Regulogs.Counts = Regex.Match(Items(p.MoveNext), "[^>]+</").Value
-            TFF.TFRegulons = Regex.Match(Items(p.MoveNext), "[^>]+</").Value
-            TFF.TFBindingSites = Regex.Match(Items(p.MoveNext), "[^>]+</").Value
-            TFF.Genomes = Regex.Match(Items(p.MoveNext), "[^>]+</").Value
+            Dim p As int = Scan0
+            Dim Head As String = Items(++p)
+            TFF.Regulogs.Counts = Regex.Match(Items(++p), "[^>]+</").Value
+            TFF.TFRegulons = Regex.Match(Items(++p), "[^>]+</").Value
+            TFF.TFBindingSites = Regex.Match(Items(++p), "[^>]+</").Value
+            TFF.Genomes = Regex.Match(Items(++p), "[^>]+</").Value
             TFF.Url = Regex.Match(Head, HREF, RegexOptions.IgnoreCase).Value
             TFF.Family = Regex.Match(Mid(Head, InStr(Head, "href", CompareMethod.Text)), "[^>]+<a", RegexOptions.Singleline).Value
 
@@ -173,17 +174,17 @@ Namespace Regtransbase.WebServices
 
             Protected Friend Shared Function Parse(strText As String) As Item
                 Dim Columns = (From m As Match In Regex.Matches(strText, Regulogs.Item.COLUMNS, RegexOptions.Singleline + RegexOptions.IgnoreCase) Select m.Value).ToArray.Skip(1).ToArray
-                Dim p As Integer
+                Dim p As int = Scan0
                 Dim item As Item = New Item
 
-                item.Phylum = Regex.Match(Columns(p.MoveNext), ">[^>]+?</").Value
-                item.Regulog = ParseLog(Columns(p.MoveNext))
-                item.TFRegulons = Regex.Match(Columns(p.MoveNext), ">[^>]+?</").Value
+                item.Phylum = Regex.Match(Columns(++p), ">[^>]+?</").Value
+                item.Regulog = ParseLog(Columns(++p))
+                item.TFRegulons = Regex.Match(Columns(++p), ">[^>]+?</").Value
 
                 item.Phylum = TrimText(Mid(item.Phylum, 2, Len(item.Phylum) - 3))
                 item.TFRegulons = Mid(item.TFRegulons, 2, Len(item.TFRegulons) - 3)
 
-                Dim TFBSsUrl As String = Columns(p.MoveNext)
+                Dim TFBSsUrl As String = Columns(++p)
                 TFBSsUrl = Mid(Regex.Match(TFBSsUrl, "href="".+?""").Value, 7)
                 TFBSsUrl = "http://regprecise.lbl.gov/RegPrecise/" & Mid(TFBSsUrl, 1, Len(TFBSsUrl) - 1)
 
@@ -309,12 +310,12 @@ Namespace Regtransbase.WebServices
             pageContent = Mid(pageContent, InStr(pageContent, "<caption class=""tbl_caption"">Properties</caption>", CompareMethod.Text) + 50)
             pageContent = Regex.Matches(pageContent, "<tbody>.+?</tbody>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(0).Value
             Dim Tokens = (From m As Match In Regex.Matches(pageContent, "<tr>.+?</tr>", RegexOptions.Singleline + RegexOptions.IgnoreCase) Select m.Value).ToArray.Skip(1).ToArray
-            Dim p As Integer
-            Regulator.Family = Regex.Matches(Tokens(p.MoveNext), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value
-            Regulator.RegulationMode = Regex.Matches(Tokens(p.MoveNext), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value
-            Regulator.BiologicalProcess = Regex.Matches(Tokens(p.MoveNext), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value
-            Regulator.Effector = Regex.Matches(Tokens(p.MoveNext), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value
-            Regulator.Regulog = ParseLog(Regex.Matches(Tokens(p.MoveNext), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value)
+            Dim p As int = Scan0
+            Regulator.Family = Regex.Matches(Tokens(++p), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value
+            Regulator.RegulationMode = Regex.Matches(Tokens(++p), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value
+            Regulator.BiologicalProcess = Regex.Matches(Tokens(++p), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value
+            Regulator.Effector = Regex.Matches(Tokens(++p), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value
+            Regulator.Regulog = ParseLog(Regex.Matches(Tokens(++p), "<td.+?</td>", RegexOptions.Singleline + RegexOptions.IgnoreCase).Item(1).Value)
 
             Regulator.Family = GetValue(Regulator.Family)
             Regulator.RegulationMode = GetValue(Regulator.RegulationMode)
