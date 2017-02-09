@@ -29,7 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 
-Namespace Topologically
+Namespace Topologically.Seeding
 
     Public Module Seeds
 

@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 
-Namespace Topologically
+Namespace Topologically.Seeding
 
     <Serializable> Public Structure SeedData
 

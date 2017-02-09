@@ -71,7 +71,7 @@ Namespace Topologically
                                          Where ch <> "-"c AndAlso ch <> "*"c ' 这些缺口的符号是需要被过滤掉的
                                          Select ch
                                          Distinct ' 获取所有的残基的符号
-            _segmentLocis = Seeds.InitializeSeeds(ResidueBase, Min)
+            _segmentLocis = Seeding.InitializeSeeds(ResidueBase, Min)
             _min = Min
             _max = Max
 
@@ -92,7 +92,7 @@ Namespace Topologically
                                  Where Array.IndexOf(removes, Segment) = -1
                                  Select Segment).ToList ' 将没有出现的序列进行删除，或者重复的次数较少的片段
                 Call __postResult(removes, _segmentLocis, currLen:=i)
-                _segmentLocis = Topologically.Seeds.ExtendSequence(_segmentLocis, ResidueBase)
+                _segmentLocis = Seeding.Seeds.ExtendSequence(_segmentLocis, ResidueBase)
 
                 Call $"{i} ({_segmentLocis.Count})  ===> {Mid((100 * (i - Min) / (Max - Min)), 1, 7)}%".__DEBUG_ECHO
             Next
