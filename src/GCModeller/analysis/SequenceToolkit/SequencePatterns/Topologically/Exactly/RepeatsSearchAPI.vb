@@ -68,7 +68,7 @@ Namespace Topologically
                                       <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer,
                                       Optional MinAppeared As Integer = 2) As Repeats()
 
-            Dim Search As New RepeatsSearchs(SequenceData, Min, Max, MinAppeared)
+            Dim Search As New RepeatsSearcher(SequenceData, Min, Max, MinAppeared)
             Call Search.DoSearch()
             Call Search.CountStatics.Save("./Random.Sequence.Matches.Counts.csv", False)
 
