@@ -28,16 +28,15 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Search
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Pattern
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
-Imports SMRUCC.genomics.Interops.NCBI
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -132,7 +131,7 @@ Namespace Topologically
             Return LinqAPI.Exec(Of ImperfectPalindrome) <=
  _
                 From segment As TextSegment
-                In search.PreCache.AsParallel
+                In search.cache.AsParallel
                 Let result As ImperfectPalindrome =
                     Found(fa, segment, cutoff, search, maxDist, max)
                 Where Not result Is Nothing AndAlso
@@ -196,13 +195,13 @@ Namespace Topologically
             Call $"Data load done! Start to filter data...".__DEBUG_ECHO
             files = (From genome
                      In files.AsParallel
-                     Select (From site As ImperfectPalindrome
+                     Select From site As ImperfectPalindrome
                              In genome
-                             Where site.MaxMatch >= min AndAlso
+                            Where site.MaxMatch >= min AndAlso
                                  site.MaxMatch <= max AndAlso
                                  site.Palindrome.Count("-"c) <> site.Palindrome.Length AndAlso
                                  site.Site.Count("-"c) <> site.Site.Length
-                             Select site).ToList).ToArray
+                            Select site).ToArray
             Call $"Generates density vector....".__DEBUG_ECHO
             Return Density(Of ImperfectPalindrome)(files, size:=length)
         End Function

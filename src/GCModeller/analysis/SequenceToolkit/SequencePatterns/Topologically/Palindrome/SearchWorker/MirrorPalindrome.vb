@@ -13,14 +13,15 @@ Namespace Topologically
 
         Public ReadOnly Property ResultSet As IEnumerable(Of PalindromeLoci)
             Get
-                Dim LQuery = (From site As PalindromeLoci
-                              In _resultSet
-                              Select site
-                              Group site By site.Mirror Into Group).ToArray
+                Dim LQuery = From site As PalindromeLoci
+                             In _resultSet
+                             Select site
+                             Group site By site.Mirror Into Group
 
-                Dim rs As PalindromeLoci() = LQuery _
-                    .ToArray(Function(site) PalindromeLoci.SelectSite(site.Group.ToArray))
-                Return rs
+                Dim palindromes As PalindromeLoci() = LQuery _
+                    .Select(Function(site) PalindromeLoci.SelectSite(site.Group.ToArray)) _
+                    .ToArray
+                Return palindromes
             End Get
         End Property
 
