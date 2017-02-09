@@ -318,7 +318,8 @@ Namespace Topologically
             Dim rev As String = New String(Segment.Reverse.ToArray)
             Dim Mirror As String = NucleicAcid.Complement(rev)
             Dim l As Integer = Len(Segment)
-            Dim Result = (From loci As Integer In Locations
+            Dim Result = (From loci As Integer
+                          In Locations
                           Let ml As Integer = __haveMirror(l, loci, Mirror, Sequence)
                           Where ml > -1
                           Select loci, ml).ToArray
