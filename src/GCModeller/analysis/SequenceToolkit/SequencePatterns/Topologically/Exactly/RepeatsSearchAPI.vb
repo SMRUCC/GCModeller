@@ -139,7 +139,6 @@ RETURN_VALUE:
                                               Optional MinAppeared As Integer = 2) As RevRepeats()
             Dim revSearchs As New ReversedRepeatSeacher(SequenceData, Min, Max, MinAppeared)
             Call revSearchs.DoSearch()
-            Call revSearchs.CountStatics.Save("./Reversed.Random.Sequence.Matches.Counts.csv", False)
             Return revSearchs.ResultSet.ToArray
         End Function
 
