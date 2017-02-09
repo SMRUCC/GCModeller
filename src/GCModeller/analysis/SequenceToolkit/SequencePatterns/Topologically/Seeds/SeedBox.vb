@@ -12,12 +12,18 @@ Namespace Topologically.Seeding
         ReadOnly __seq As I_PolymerSequenceModel
         ReadOnly __chars As Char()
 
+        ''' <summary>
+        ''' 会将``*``和``-``这些缺口的符号是需要被过滤掉的
+        ''' </summary>
+        ''' <param name="seq"></param>
         Sub New(seq As I_PolymerSequenceModel)
-            __seq = seq
+            ' 获取所有的残基的符号
             __chars = seq.SequenceData _
                 .ToArray _
                 .Distinct _
+                .Where(Function(c) c <> "*" AndAlso c <> "-") _
                 .ToArray
+            __seq = seq
         End Sub
 
         Public Iterator Function PopulateSeeds(min%, max%) As IEnumerable(Of Seed())

@@ -69,7 +69,7 @@ Namespace Topologically
                                       Optional MinAppeared As Integer = 2) As Repeats()
 
             Dim Search As New RepeatsSearchs(SequenceData, Min, Max, MinAppeared)
-            Call Search.InvokeSearch()
+            Call Search.DoSearch()
             Call Search.CountStatics.Save("./Random.Sequence.Matches.Counts.csv", False)
 
             Return Search.ResultSet.ToArray
@@ -138,7 +138,7 @@ RETURN_VALUE:
                                               Max As Integer,
                                               Optional MinAppeared As Integer = 2) As RevRepeats()
             Dim revSearchs As New SearchReversedRepeats(SequenceData, Min, Max, MinAppeared)
-            Call revSearchs.InvokeSearch()
+            Call revSearchs.DoSearch()
             Call revSearchs.CountStatics.Save("./Reversed.Random.Sequence.Matches.Counts.csv", False)
             Return revSearchs.ResultSet.ToArray
         End Function

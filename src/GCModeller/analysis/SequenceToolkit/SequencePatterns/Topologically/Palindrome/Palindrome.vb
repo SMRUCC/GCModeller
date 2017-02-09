@@ -339,7 +339,7 @@ Namespace Topologically
                                      Optional Min As Integer = 3,
                                      Optional Max As Integer = 20) As PalindromeLoci()
             Dim search As New Topologically.MirrorSearchs(Sequence, Min, Max)
-            Call search.InvokeSearch()
+            Call search.DoSearch()
             Return search.ResultSet.ToArray
         End Function
 
@@ -349,7 +349,7 @@ Namespace Topologically
                                          Optional Min As Integer = 3,
                                          Optional Max As Integer = 20) As PalindromeLoci()
             Dim search As New Topologically.PalindromeSearchs(Sequence, Min, Max)
-            Call search.InvokeSearch()
+            Call search.DoSearch()
             Return search.ResultSet.ToArray
         End Function
 

@@ -85,7 +85,7 @@ Partial Module Utilities
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim Search As New Topologically.PalindromeSearchs(NT, Min, Max)
-        Call Search.InvokeSearch()
+        Call Search.DoSearch()
         Call Search.ResultSet.SaveTo(Out)
         Return 0
     End Function
@@ -103,7 +103,7 @@ Partial Module Utilities
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim Search As New Topologically.PalindromeSearchs(nt, Min, Max)
-        Call Search.InvokeSearch()
+        Call Search.DoSearch()
         Call Search.ResultSet.SaveTo(Out)
         Return 0
     End Function
@@ -127,7 +127,7 @@ Partial Module Utilities
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim Search As New Topologically.MirrorSearchs(NT, Min, Max)
-        Call Search.InvokeSearch()
+        Call Search.DoSearch()
         Call Search.ResultSet.SaveTo(Out)
         Return 0
     End Function
@@ -165,7 +165,7 @@ Partial Module Utilities
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".cut,{cut}-dist,{maxDist}-min,max={min},{max}.Csv")
         Dim nt As New FastaToken([in])
         Dim search As New FuzzyMirrors(nt, min, max, maxDist, cut)
-        Call search.InvokeSearch()
+        Call search.DoSearch()
         Call search.ResultSet.SaveTo(out)
 
         Return 0
@@ -232,7 +232,7 @@ Partial Module Utilities
             For Each seq As FastaToken In NT
                 Dim Search As New Topologically.MirrorSearchs(seq, Min, Max)
                 Dim path As String = out & $"/{seq.Title.NormalizePathString.Replace(" ", "_")}.csv"
-                Call Search.InvokeSearch()
+                Call Search.DoSearch()
                 Call Search.ResultSet.SaveTo(path)
             Next
         End If
@@ -258,7 +258,7 @@ Partial Module Utilities
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim Search As New Topologically.MirrorSearchs(Nt, Min, Max)
-        Call Search.InvokeSearch()
+        Call Search.DoSearch()
         Return Search.ResultSet.SaveTo(Out).CLICode
     End Function
 
@@ -375,7 +375,7 @@ Partial Module Utilities
         End If
 
         Dim search As New Topologically.Imperfect(inFasta, min, max, cutoff, maxDist, partitions)
-        Call search.InvokeSearch()
+        Call search.DoSearch()
         Return search.ResultSet.SaveTo(out)
     End Function
 
