@@ -59,6 +59,14 @@ Namespace Topologically.Seeding
             Next
         End Function
 
+        Public Shared Iterator Function PopulateSeedsFromSequence(seq As I_PolymerSequenceModel, min%, max%) As IEnumerable(Of Seed())
+            Dim box As New SeedBox(seq)
+
+            For Each pack In box.PopulateSeeds(min, max)
+                Yield pack
+            Next
+        End Function
+
         Private Function __trimAvaliable(seeds As IEnumerable(Of String)) As List(Of String)
             Dim out As New List(Of String)(seeds.Where(Function(s) __seq.SequenceData.IndexOf(s) > -1))
             Return out
