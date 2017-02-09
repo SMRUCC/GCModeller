@@ -214,8 +214,9 @@
     <Compile Include="SequenceLogo\DrawingDevice.vb" />
     <Compile Include="SequenceLogo\DrawingModel.vb" />
     <Compile Include="SequenceLogo\Residue.vb" />
+    <Compile Include="Topologically\Seeds\SeedBox.vb" />
     <Compile Include="Topologically\Exactly\LociFilter.vb" />
-    <Compile Include="Topologically\SeedData.vb" />
+    <Compile Include="Topologically\Seeds\SeedData.vb" />
     <Compile Include="Topologically\Exactly\RepeatPlant.vb" />
     <Compile Include="Topologically\Exactly\RepeatsLoci.vb" />
     <Compile Include="Topologically\Exactly\RepeatsSearchAPI.vb" />
@@ -226,8 +227,8 @@
     <Compile Include="Topologically\Palindrome\Palindrome.vb" />
     <Compile Include="Topologically\Palindrome\PalindromeLoci.vb" />
     <Compile Include="Topologically\Palindrome\SearchWorker.vb" />
-    <Compile Include="Topologically\SearchWorker.vb" />
-    <Compile Include="Topologically\Seeds.vb" />
+    <Compile Include="Topologically\Seeds\SearchWorker.vb" />
+    <Compile Include="Topologically\Seeds\Seeds.vb" />
     <Compile Include="Topologically\Similarity\MirrorPalindrome.vb" />
     <Compile Include="Topologically\Similarity\Loci.vb" />
     <Compile Include="Topologically\Similarity\Repeats.vb" />

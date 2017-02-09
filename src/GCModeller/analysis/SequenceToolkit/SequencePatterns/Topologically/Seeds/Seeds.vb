@@ -27,9 +27,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Parallel.Linq
 
 Namespace Topologically
 
