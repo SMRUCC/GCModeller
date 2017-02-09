@@ -31,53 +31,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Language
 
-Namespace Text
-
-    ''' <summary>
-    ''' 文本之中的一个片段
-    ''' </summary>
-    Public Class TextSegment
-
-        Dim _text As String
-
-        ''' <summary>
-        ''' 当前的这个文本片段的字符串值
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property Segment As String
-            Get
-                Return _text
-            End Get
-            Set(value As String)
-                Dim ascii As Integer() = value.ToArray(Function(c) AscW(c))
-                _Array = ascii
-                _text = value
-            End Set
-        End Property
-
-        ''' <summary>
-        ''' ASCII值
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property Array As Integer()
-        ''' <summary>
-        ''' 在原始文本之中的左端起始位置
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property Index As Integer
-
-        Sub New(Optional value As String = "")
-            Segment = value
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Return Segment
-        End Function
-
-        Public Overloads Shared Narrowing Operator CType(segment As TextSegment) As String
-            Return segment.Segment
-        End Operator
-    End Class
+Namespace Text.Search
 
     <PackageNamespace("Text.Indexing", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.UtilityTools)>
     Public Class TextIndexing
@@ -86,13 +40,8 @@ Namespace Text
         ''' 为了用于加速批量匹配计算的效率而生成的一个缓存对象
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property PreCache As TextSegment()
-            Get
-                Return _preCaches
-            End Get
-        End Property
+        Public ReadOnly Property cache As TextSegment()
 
-        ReadOnly _preCaches As TextSegment()
         ReadOnly _text As String
         ReadOnly _mMatches As Dictionary(Of Integer, String)
         ReadOnly _max As Integer
@@ -104,44 +53,43 @@ Namespace Text
         ''' <param name="min"></param>
         ''' <param name="max"></param>
         Sub New(text As String, min As Integer, max As Integer)
-            Dim LQuery As TextSegment() =
-                LinqAPI.Exec(Of TextSegment) <= From d As Integer
-                                                In (max - min).Sequence.AsParallel
-                                                Let len As Integer = min + d
-                                                Select __cache(text, len)
             If min = max Then
-                _preCaches = __cache(text, max)
+                cache = __cache(text, max)
             Else
-                _preCaches = LQuery
+                cache = LinqAPI.Exec(Of TextSegment) <=
+                    From d As Integer
+                    In (max - min).Sequence.AsParallel
+                    Let len As Integer = min + d
+                    Select __cache(text, len)
             End If
 
             _text = text
             _max = max
-            _mMatches = (From d As Integer
-                         In max.Sequence
-                         Select len = d,
-                             m = New String("m"c, d)) _
-                            .ToDictionary(Function(x) x.len,
-                                          Function(x) x.m)
+            _mMatches = max _
+                .Sequence _
+                .ToDictionary(Function(l) l,
+                              Function(d) New String("m"c, d))
 
-            Call $"{_preCaches.Length} cache data from length range from {min} to {max}...".__DEBUG_ECHO
+            Call $"{cache.Length} cache data from length range from {min} to {max}...".__DEBUG_ECHO
         End Sub
 
         Public Overrides Function ToString() As String
-            Return _text
+            Return Mid(_text, 1, 120) & "..."
         End Function
 
         Private Shared Function __cache(text As String, len As Integer) As TextSegment()
-            Dim lstCache As New List(Of TextSegment)
+            Dim out As New List(Of TextSegment)
 
             For i As Integer = 1 To text.Length - len
-                Dim piece As String = Mid(text, i, len)
-                lstCache += New TextSegment(piece) With {
+                Dim s As String = Mid(text, i, len)
+
+                ' 通过划窗操作构建当前长度的片段的缓存
+                out += New TextSegment(s) With {
                     .Index = i
                 }
             Next
 
-            Return lstCache.ToArray
+            Return out
         End Function
 
         ''' <summary>
@@ -149,32 +97,31 @@ Namespace Text
         ''' </summary>
         ''' <param name="keyword"></param>
         ''' <param name="cutoff"></param>
-        ''' <param name="NumPartitions">负数表示不进行分区</param>
+        ''' <param name="numPartition">每一个分区之中的元素的数量，负数表示不进行分区</param>
         ''' <returns></returns>
-        Public Function Found(keyword As String,
-               Optional cutoff As Double = 0.6,
-               Optional NumPartitions As Integer = 1024) _
-                                      As Dictionary(Of TextSegment, DistResult)
-
-            If NumPartitions <= 0 Then
-                Dim resultSet As New Dictionary(Of TextSegment, DistResult)
-                Call __indexing(Me._preCaches, resultSet, keyword, cutoff)
-                Return resultSet
+        Public Function Found(keyword$, Optional cutoff# = 0.6, Optional numPartition% = 1024) As Dictionary(Of TextSegment, DistResult)
+            If numPartition <= 0 Then
+                Dim out = __indexing(cache, keyword, cutoff, True)
+                Return out
             Else
-                Return __workParts(keyword, cutoff, NumPartitions)
+                Return __workParts(keyword, cutoff, numPartition)
             End If
         End Function
 
-        Private Function __workParts(keyword As String,
-                                 cutoff As Double,
-                                 NumPartitions As Integer) As Dictionary(Of TextSegment, DistResult)
+        Private Function __workParts(keyword$, cutoff#, numPartitions%) As Dictionary(Of TextSegment, DistResult)
             Dim resultSet As New Dictionary(Of TextSegment, DistResult)
-            Dim partitions = Me._preCaches.Split(1024)
+            Dim partitions = cache.Split(numPartitions)
 
             Call $"{partitions.Length} partitions...".__DEBUG_ECHO
 
-            For Each part In partitions
-                Call __indexing(part, resultSet, keyword, cutoff)
+            Dim LQuery = From part As TextSegment()
+                         In partitions.AsParallel
+                         Select __indexing(
+                             part, keyword, cutoff,
+                             parallel:=False)
+
+            For Each part In LQuery.IteratesALL
+                Call resultSet.Add(part.Key, part.Value)
             Next
 
             Return resultSet
@@ -192,7 +139,7 @@ Namespace Text
             End If
 
             Dim LQuery = (From piece As TextSegment
-                          In Me._preCaches
+                          In cache
                           Let levl As DistResult =
                               LevenshteinDistance.ComputeDistance(piece.Array, keyword)
                           Where Not levl Is Nothing AndAlso
@@ -211,13 +158,16 @@ Namespace Text
         ''' <param name="m"></param>
         ''' <param name="cutoff"></param>
         ''' <returns></returns>
-        Public Function IsMatch(m As String, cutoff As Integer) As Integer
+        Private Function IsMatch(m As String, cutoff As Integer) As Integer
             For i As Integer = _max To cutoff Step -1
                 If Not _mMatches.ContainsKey(i) Then
                     Continue For
                 End If
 
+                ' 由于i是倒序的，所以lev的匹配结果m字符串的长度是从长到短的
+                ' 故而第一个匹配上目标输入的结果参数的为最长的匹配结果
                 Dim cache As String = _mMatches(i)
+
                 If InStr(m, cache) > 0 Then
                     Return i
                 End If
@@ -226,25 +176,22 @@ Namespace Text
             Return -1
         End Function
 
-        Private Shared Sub __indexing(part As TextSegment(),
-                                  ByRef resultSet As Dictionary(Of TextSegment, DistResult),
-                                  keyword As String,
-                                  cutoff As Double)
-            Call Console.Write(".")
-
+        Private Shared Function __indexing(part As TextSegment(), keyword$, cutoff#, parallel As Boolean) As Dictionary(Of TextSegment, DistResult)
+            Dim out As New Dictionary(Of TextSegment, DistResult)
+            Dim source As IEnumerable(Of TextSegment) = If(parallel, part.AsParallel, part)
             Dim LQuery = From piece As TextSegment
-                         In part'.AsParallel
-                         Let lev As DistResult =
-                             LevenshteinDistance.ComputeDistance(piece.Array, keyword)
+                         In source
+                         Let lev As DistResult = LevenshteinDistance.ComputeDistance(piece.Array, keyword)
                          Where Not lev Is Nothing AndAlso
                              lev.Score >= cutoff
                          Select piece, lev
 
             For Each x In LQuery
-                Call resultSet.Add(x.piece, x.lev)
+                Call out.Add(x.piece, x.lev)
             Next
-            ' Call FlushMemory()
-        End Sub
+
+            Return out
+        End Function
 
         <ExportAPI("Index.Fuzzy")>
         Public Shared Function FuzzyIndex(text As String, keyword As String,
@@ -256,15 +203,26 @@ Namespace Text
             Return searchs
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="text"></param>
+        ''' <param name="keyword"></param>
+        ''' <param name="Matches">
+        ''' The continues length of the matches, if this value is ZERO or negative value, then the function will using the expression len(keyword)/2 as the default value.
+        ''' </param>
+        ''' <param name="min"></param>
+        ''' <param name="max"></param>
+        ''' <returns></returns>
         <ExportAPI("Index.Fuzzy")>
-        Public Shared Function FuzzyIndex(text As String, keyword As String,
-                                      <Parameter("Cutoff",
-                                                 "The continues length of the matches, if this value is ZERO or negative value, then the function will using the expression len(keyword)/2 as the default value.")>
-                                      Optional Matches As Integer = -1,
-                                      Optional min As Integer = 3,
-                                      Optional max As Integer = 20) As Dictionary(Of TextSegment, DistResult)
+        Public Shared Function FuzzyIndex(text$, keyword$,
+                                          <Parameter("Cutoff", "The continues length of the matches, if this value is ZERO or negative value, then the function will using the expression len(keyword)/2 as the default value.")>
+                                          Optional matches% = -1,
+                                          Optional min% = 3,
+                                          Optional max% = 20) As Dictionary(Of TextSegment, DistResult)
+
             Dim indexr As New TextIndexing(text, min, max)
-            Dim searchs = indexr.Found(keyword, Matches)
+            Dim searchs = indexr.Found(keyword, matches)
             Return searchs
         End Function
     End Class
