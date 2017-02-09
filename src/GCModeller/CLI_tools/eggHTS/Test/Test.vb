@@ -27,20 +27,14 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
-Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
-Imports SMRUCC.genomics.Assembly.Uniprot.Web
-Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports SMRUCC.genomics.Data.GeneOntology.OBO
-Imports SMRUCC.genomics.Data.GeneOntology.GoStat
-Imports Microsoft.VisualBasic.Data.csv.IO
 
 Module Test
 
