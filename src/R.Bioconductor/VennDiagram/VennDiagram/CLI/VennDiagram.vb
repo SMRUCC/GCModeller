@@ -47,7 +47,7 @@ Public Module CLI
     <ExportAPI(".Draw",
                Info:="Draw the venn diagram from a csv data file, you can specific the diagram drawing options from this command switch value. " &
                      "The generated venn dragram will be saved as tiff file format.",
-        Usage:=".Draw -i <csv_file> [-t <diagram_title> -o <_diagram_saved_path> -s <partitions_option_pairs/*.csv> -rbin <r_bin_directory>]",
+        Usage:=".Draw -i <csv_file> [-t <diagram_title> -o <_diagram_saved_path> -s <partitions_option_pairs/*.csv> /First.ID.Skip -rbin <r_bin_directory>]",
         Example:=".Draw -i /home/xieguigang/Desktop/genomes.csv -t genome-compared -o ~/Desktop/xcc8004.tiff -s ""Xcc8004,blue,Xcc 8004;ecoli,green,Ecoli. K12;pa14,yellow,PA14;ftn,black,FTN;aciad,red,ACIAD""")>
     <Argument("-i",
         Description:="The csv data source file for drawing the venn diagram graph.",
@@ -81,6 +81,7 @@ Public Module CLI
         Dim partitionsOption As String = args("-s")
         Dim out As String = args.GetValue("-o", App.Desktop & $"/{title.NormalizePathString(True)}_venn.tiff")
         Dim RBin As String = args("-rbin")
+        Dim skipFirst As Boolean = args.GetBoolean("/First.ID.Skip")
 
         If Not inds.FileExists Then '-i开关参数无效
             printf("Could not found the source file!")
@@ -89,7 +90,7 @@ Public Module CLI
             out = UnixPath(out)
         End If
 
-        Return __run(inds, title, partitionsOption, out, RBin)
+        Return __run(inds, title, partitionsOption, out, RBin, skipFirst)
     End Function
 
     ''' <summary>
@@ -101,8 +102,14 @@ Public Module CLI
     ''' <param name="out"></param>
     ''' <param name="R_HOME"></param>
     ''' <returns></returns>
-    Private Function __run(inData As String, title As String, options As String, out As String, R_HOME As String) As Integer
-        Dim dataset As IO.File = New IO.File(inData)
+    Private Function __run(inData As String, title As String, options As String, out As String, R_HOME As String, skipFirstID As Boolean) As Integer
+        Dim dataset As New IO.File(inData)
+
+        If skipFirstID Then
+            dataset = dataset.Columns.Skip(1).JoinColumns
+            Call "Skip first column as it was specific for using as the accession.id, not the venn diagram data.".Warning
+        End If
+
         Dim VennDiagram As VennDiagram = RModelAPI.Generate(source:=dataset)
 
         If String.IsNullOrEmpty(options) Then '从原始数据中进行推测

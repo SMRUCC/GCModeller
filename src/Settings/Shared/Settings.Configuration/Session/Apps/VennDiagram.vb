@@ -16,8 +16,13 @@ Namespace GCModellerApps
         ''' <param name="title$"></param>
         ''' <param name="out$"></param>
         ''' <returns></returns>
-        Public Function Draw(data$, Optional title$ = "VennDiagram title", Optional out$ = "./vennDiagram.tiff") As Integer
+        Public Function Draw(data$, Optional title$ = "VennDiagram title", Optional skipFirstID As Boolean = True, Optional out$ = "./vennDiagram.tiff") As Integer
             Dim CLI$ = $".Draw -i {data.CLIPath} -t {title.CLIToken} -o {out.CLIPath}"
+
+            If skipFirstID Then
+                CLI &= " /First.ID.Skip"
+            End If
+
             Return RunDotNetApp(args:=CLI).Run
         End Function
     End Class

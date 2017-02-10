@@ -35,17 +35,20 @@ Partial Module CLI
         Return list.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/DEP.venn", Usage:="/DEP.venn /data <Directory> [/FC.tag <FC.avg> /pvalue <p.value> /out <out.DIR>]")>
+    <ExportAPI("/DEP.venn",
+               Usage:="/DEP.venn /data <Directory> [/FC.tag <FC.avg> /title <VennDiagram title> /pvalue <p.value> /out <out.DIR>]")>
     Public Function VennData(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
         Dim FCtag$ = args.GetValue("/FC.tag", "FC.avg")
         Dim pvalue$ = args.GetValue("/pvalue", "p.value")
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".venn/")
+        Dim dataOUT = out & "/DEP.venn.csv"
+        Dim title$ = args.GetValue("/title", "VennDiagram title")
 
         Call DEGDesigner _
             .MergeMatrix(DIR, "*.csv", 1.5, 0.05, FCtag, 1 / 1.5, pvalue) _
-            .SaveDataSet(out & "/DEP.venn.csv")
-
+            .SaveDataSet(dataOUT)
+        Call Apps.VennDiagram.Draw(dataOUT, title, out:=out & "/venn.tiff")
 
         Return 0
     End Function
