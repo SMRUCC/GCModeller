@@ -351,10 +351,25 @@ Namespace Topologically
         <Extension>
         Public Function SearchPalindrome(Sequence As I_PolymerSequenceModel,
                                          Optional Min As Integer = 3,
-                                         Optional Max As Integer = 20) As PalindromeLoci()
-            Dim search As New Topologically.PalindromeSearch(Sequence, Min, Max)
-            Call search.DoSearch()
-            Return search.ResultSet.ToArray
+                                         Optional Max As Integer = 20,
+                                         Optional tag$ = Nothing) As PalindromeLoci()
+
+            Dim out As PalindromeLoci()
+
+            With New PalindromeSearch(Sequence, Min, Max)
+                .DoSearch()
+                out = .ResultSet.ToArray
+            End With
+
+            If Not tag.IsBlank Then
+                For Each loci As PalindromeLoci In out
+                    loci.Data = New Dictionary(Of String, String) From {
+                        {NameOf(tag), tag}
+                    }
+                Next
+            End If
+
+            Return out
         End Function
 
         <ExportAPI("Write.Csv.PalindromeLocis")>

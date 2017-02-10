@@ -45,7 +45,7 @@ Namespace Topologically
         ''' 特殊的位点序列
         ''' </summary>
         ''' <returns></returns>
-        Public Property Loci As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property Loci As String
         ''' <summary>
         ''' <see cref="NucleotideLocation.Left"/>
         ''' </summary>
@@ -80,6 +80,12 @@ Namespace Topologically
                 Return Len(Loci)
             End Get
         End Property
+
+        ''' <summary>
+        ''' sequence data for loci value <see cref="PalindromeLoci.MappingLocation(Boolean)"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
 
         Public Shared Function SelectSite(sites As IEnumerable(Of PalindromeLoci)) As PalindromeLoci
             Dim LQuery As PalindromeLoci = LinqAPI.DefaultFirst(Of PalindromeLoci) <=

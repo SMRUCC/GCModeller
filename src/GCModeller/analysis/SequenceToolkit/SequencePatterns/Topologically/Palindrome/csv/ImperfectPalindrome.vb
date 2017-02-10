@@ -37,6 +37,7 @@ Namespace Topologically
     ''' </summary>
     Public Class ImperfectPalindrome : Inherits NucleotideModels.Contig
         Implements ILoci
+        Implements I_PolymerSequenceModel
 
         ''' <summary>
         ''' 种子生成的序列
@@ -81,6 +82,12 @@ Namespace Topologically
         Public Property MaxMatch As Integer
 
         Public Property Data As Dictionary(Of String, String)
+
+        ''' <summary>
+        ''' sequence data for loci value <see cref="ImperfectPalindrome.MappingLocation(Boolean)"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
 
         Public Overrides Function ToString() As String
             Return $"{Site} <==> {Palindrome}, {Matches}"
