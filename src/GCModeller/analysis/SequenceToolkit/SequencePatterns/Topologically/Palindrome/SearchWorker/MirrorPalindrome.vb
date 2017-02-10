@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel
@@ -13,17 +14,37 @@ Namespace Topologically
 
         Public ReadOnly Property ResultSet As IEnumerable(Of PalindromeLoci)
             Get
-                Dim LQuery = From site As PalindromeLoci
-                             In _resultSet
-                             Select site
-                             Group site By site.Mirror Into Group
-
-                Dim palindromes As PalindromeLoci() = LQuery _
-                    .Select(Function(site) PalindromeLoci.SelectSite(site.Group.ToArray)) _
-                    .ToArray
-                Return palindromes
+                If _resultSet.Count = 0 Then
+                    Return {}
+                Else
+                    Return __return()
+                End If
             End Get
         End Property
+
+        Private Function __return() As PalindromeLoci()
+            Dim LQuery = From site As PalindromeLoci
+                         In _resultSet
+                         Select site
+                         Group site By site.Mirror Into Group
+
+            Dim palindromes As New List(Of PalindromeLoci)
+
+            For Each matchGroup In LQuery
+                Dim siteGroup = NumberGroups.Groups(matchGroup.Group, offset:=min)
+                Dim site As PalindromeLoci
+
+                For Each g As GroupResult(Of PalindromeLoci, Integer) In siteGroup
+                    site = PalindromeLoci.SelectMaxLengthSite(g.Group)
+                    site.SequenceData = MyBase.seq _
+                        .CutSequenceLinear(site.MappingLocation) _
+                        .SequenceData
+                    palindromes += site
+                Next
+            Next
+
+            Return palindromes
+        End Function
 
         Protected _resultSet As New List(Of PalindromeLoci)
 

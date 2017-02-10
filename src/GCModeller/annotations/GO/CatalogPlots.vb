@@ -206,7 +206,9 @@ Public Module CatalogPlots
                          Optional titleFontStyle$ = CSSFont.PlotTitle,
                          Optional valueFontStyle$ = CSSFont.Win7Bold,
                          Optional tickFontStyle$ = CSSFont.Win7LargerBold,
-                         Optional tick% = 50) As Bitmap
+                         Optional tick% = 50,
+                         Optional maxTermLength% = 72) As Bitmap
+
         Dim data As New Dictionary(Of String, NamedValue(Of Double)())
 
         For Each k In profile
@@ -223,6 +225,22 @@ Public Module CatalogPlots
                     k.Key,
                     x.ToArray(Function(o) New NamedValue(Of Double)(o.Description, o.Value)))
             End If
+        Next
+
+        Dim strip = Function(s$) If(
+            Len(s) > maxTermLength,
+            Mid(s, 1, maxTermLength) & "...",
+            s)
+
+        For Each k In data
+            For i As Integer = 0 To k.Value.Length - 1
+                Dim c As NamedValue(Of Double) = k.Value(i)
+                k.Value(i) = New NamedValue(Of Double) With {
+                    .Name = strip(c.Name),
+                    .Value = c.Value,
+                    .Description = strip(c.Description)
+                }
+            Next
         Next
 
         Return data.ProfilesPlot(

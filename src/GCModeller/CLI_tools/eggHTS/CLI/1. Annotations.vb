@@ -1,15 +1,22 @@
-﻿Imports System.IO
+﻿Imports System.Drawing
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Data.GeneOntology.GoStat
+Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.SequenceModel.FASTA
+
 
 Partial Module CLI
 
@@ -31,6 +38,33 @@ Partial Module CLI
             .Select(Function(x) x.Item1) _
             .ToArray _
             .SaveDataSet(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' 总蛋白注释绘制GO分布图
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/proteins.Go.plot",
+               Usage:="/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /top 25 /size <2000,4000> /out <out.DIR>]")>
+    Public Function ProteinsGoPlot(args As CommandLine) As Integer
+        Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
+        Dim in$ = args("/in")
+        Dim size As Size = args.GetValue("/size", New Size(2000, 4000))
+        Dim out As String = args.GetValue("/out", [in].ParentPath & "/GO/")
+        Dim top% = args.GetValue("/top", 25)
+
+        ' 绘制GO图
+        Dim goTerms As Dictionary(Of String, Term) = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
+        Dim sample = [in].LoadSample
+        Dim selector = Function(x As IO.EntityObject) x("GO").Split(";"c).Select(AddressOf Trim).ToArray
+        Dim data As Dictionary(Of String, NamedValue(Of Integer)()) =
+            sample.CountStat(selector, goTerms)
+
+        Call data.SaveCountValue(out & "/plot.csv")
+        Call CatalogPlots.Plot(data, orderTakes:=top).SaveAs(out & "/plot.png")
+
+        Return 0
     End Function
 
     <ExportAPI("/protein.EXPORT",

@@ -153,4 +153,35 @@ Partial Module CLI
 
         Return output
     End Function
+
+    ''' <summary>
+    ''' 可能uniprot的标识符的识别度会比较低，在这里添加上比较熟悉的ORF编号
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Data.Add.ORF", Usage:="/Data.Add.ORF /in <data.csv> /uniprot <uniprot.XML> [/ID <fieldName> /out <out.csv>]")>
+    Public Function DataAddORF(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim uniprot As String = args("/uniprot")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".ORF_ID.csv")
+        Dim ID As String = args("/ID")
+        Dim data = EntityObject.LoadDataSet([in], uidMap:=ID).ToArray
+        Dim uniprotTable = UniprotXML.LoadDictionary(uniprot)
+
+        For Each protein As EntityObject In data
+            uniprot = protein.ID
+
+            If uniprotTable.ContainsKey(uniprot) Then
+                Dim gene As String = uniprotTable(uniprot).ORF
+
+                If Not gene.IsBlank Then
+                    Call protein.Properties.Add("ORF", gene)
+                Else
+                    Call protein.Properties.Add("ORF", "*")
+                End If
+            End If
+        Next
+
+        Return data.SaveTo(out).CLICode
+    End Function
 End Module

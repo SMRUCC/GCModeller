@@ -17,7 +17,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\MPAlignment.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\SMART.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\STAMP.vb" />
-    <Compile Include="$(MSBuildThisFileDirectory)Session\Apps.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\Apps.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\VennDiagram.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Session\Session.vb" />
   </ItemGroup>
 </Project>

@@ -78,6 +78,12 @@ Module CLI
     ''' <returns></returns>
     <ExportAPI("/KOBAS.add.ORF", Usage:="/KOBAS.add.ORF /in <table.csv> /sample <sample.csv> [/out <out.csv>]")>
     <Group(CLIGroups.Enrichment_CLI)>
+    <Argument("/in",
+              AcceptTypes:={GetType(EnrichmentTerm)},
+              Description:="The KOBAS enrichment result.")>
+    <Argument("/sample",
+              AcceptTypes:={GetType(EntityObject)},
+              Description:="The uniprotID -> ORF annotation data. this table file should have a field named ""ORF"".")>
     Public Function KOBASaddORFsource(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim sample As String = args("/sample")

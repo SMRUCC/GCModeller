@@ -64,6 +64,8 @@ Namespace ContextModel
             Dim regions(PrefixLength.GetLength - 1) As IntegerTagged(Of Dictionary(Of String, FastaToken))
             Dim i As int = 0
 
+            genome.SequenceData = genome.SequenceData.ToUpper
+
             For Each l% In PrefixLength
                 regions(++i) = New IntegerTagged(Of Dictionary(Of String, FastaToken)) With {
                     .Tag = l,
@@ -83,13 +85,13 @@ Namespace ContextModel
         ''' </summary>
         ''' <param name="Length"></param>
         ''' <param name="PTT"></param>
-        ''' <param name="GenomeSeq"></param>
+        ''' <param name="nt"></param>
         ''' <returns></returns>
-        Private Shared Function CreateObject(Length As Integer, PTT As PTT, GenomeSeq As I_PolymerSequenceModel) As Dictionary(Of String, FASTA.FastaToken)
+        Private Shared Function CreateObject(Length As Integer, PTT As PTT, nt As I_PolymerSequenceModel) As Dictionary(Of String, FASTA.FastaToken)
             Dim LQuery = (From gene As ComponentModels.GeneBrief
                           In PTT.GeneObjects.AsParallel
                           Select gene.Synonym,
-                              Promoter = GetFASTA(gene, GenomeSeq, Length)).ToArray
+                              Promoter = GetFASTA(gene, nt, Length)).ToArray
             Dim DictData As Dictionary(Of String, FastaToken) =
                 LQuery.ToDictionary(Function(obj) obj.Synonym,
                                     Function(obj) obj.Promoter)
@@ -115,8 +117,12 @@ Namespace ContextModel
             End If
 
             Dim site As SimpleSegment = nt.CutSequenceCircular(loci)
+            Dim attrs$() = If(
+                gene.Product.IsBlank,
+                {gene.Synonym & " " & site.ID},
+                {gene.Synonym & " " & site.ID, gene.Product})
             Dim promoterRegion As New FastaToken With {
-                .Attributes = New String() {gene.Synonym & " " & site.ID},
+                .Attributes = attrs,
                 .SequenceData = site.SequenceData
             }
 

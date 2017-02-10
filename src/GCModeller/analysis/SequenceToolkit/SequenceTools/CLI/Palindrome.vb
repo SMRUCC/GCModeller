@@ -562,7 +562,7 @@ Partial Module Utilities
 
         For Each promoter As FastaToken In source
             Call promoter.Title.__DEBUG_ECHO
-            output += promoter.SearchPalindrome(min, max)
+            output += promoter.SearchPalindrome(min, max, promoter.Title)
         Next
 
         Return output.SaveTo(out, Encodings.ASCII).CLICode

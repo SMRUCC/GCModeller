@@ -165,7 +165,7 @@ Namespace Assembly.NCBI.GenBank
         ''' <summary>
         ''' 将GBK文件之中的基因的位置数据导出为PTT格式的数据
         ''' </summary>
-        ''' <param name="genbank">导出gene和RNA部分的数据</param>
+        ''' <param name="genbank">导出CDS gene和RNA部分的数据</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Extension> Public Function GbkffExportToPTT(genbank As GBFF.File) As TabularFormat.PTT
@@ -173,7 +173,7 @@ Namespace Assembly.NCBI.GenBank
  _
                 From feature As Feature
                 In genbank.Features._innerList
-                Where String.Equals(feature.KeyName, "gene", StringComparison.OrdinalIgnoreCase) OrElse
+                Where String.Equals(feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase) OrElse  ' 蛋白质编码基因以及RNA基因
                     InStr(feature.KeyName, "RNA", CompareMethod.Text) > 0
                 Select feature
 
@@ -183,13 +183,13 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         <Extension> Private Function __toGenes(genes As Feature(), size As Integer, def As String) As TabularFormat.PTT
-            Dim PTTGenes = From g As Feature
-                           In genes
-                           Select gene = __featureToPTT(g)
-                           Group gene By gene.Synonym Into Group
-            Dim array = (From g In PTTGenes
-                         Select g.Synonym,
-                             ggenes = g.Group.ToArray).ToArray
+            Dim PTT_genes = From g As Feature
+                            In genes
+                            Select gene = g.__featureToPTT
+                            Group gene By gene.Synonym Into Group
+            Dim array = (From g
+                         In PTT_genes
+                         Select g.Synonym, ggenes = g.Group.ToArray).ToArray
 
             For Each duplicated In From ggene
                                    In array

@@ -262,9 +262,20 @@ Namespace Topologically
                           Let ml As Integer = __haveMirror(l, loci, Mirror, Sequence)
                           Where ml > -1
                           Select ml).ToArray
+
             Return Not Result.IsNullOrEmpty
         End Function
 
+        ''' <summary>
+        ''' 因为是mirror的关系，所以左边和右边的长度是一样的，所以返回的右边的位置为
+        ''' <paramref name="Loci"/>+2*<paramref name="l"/>，
+        ''' 即 ``mirror_start + <paramref name="l"/>``
+        ''' </summary>
+        ''' <param name="l"></param>
+        ''' <param name="Loci"></param>
+        ''' <param name="mirror"></param>
+        ''' <param name="Sequence"></param>
+        ''' <returns></returns>
         Private Function __haveMirror(l As Integer, Loci As Integer, mirror As String, Sequence As String) As Integer
             Dim mrStart As Integer = Loci + l
             Dim mMirr As String = Mid(Sequence, mrStart, l)
@@ -290,7 +301,7 @@ Namespace Topologically
                 Return Nothing
             End If
 
-            Dim mirror As String = New String(seed.Reverse.ToArray)
+            Dim mirror As New String(seed.Reverse.ToArray)
             Dim l As Integer = Len(seed)
             Dim out As PalindromeLoci() = LinqAPI.Exec(Of PalindromeLoci) <=
                 From loci As Integer
@@ -308,26 +319,38 @@ Namespace Topologically
             Return out
         End Function
 
+        ''' <summary>
+        ''' 回文序列，即在互补链上面找到了自己的反向序列，这个函数找不到位点的话会返回空集合
+        ''' </summary>
+        ''' <param name="seed">The seed segment</param>
+        ''' <param name="Sequence"></param>
+        ''' <returns></returns>
         <ExportAPI("Palindrome.Locis.Get")>
-        Public Function CreatePalindrome(Segment As String, Sequence As String) As PalindromeLoci()
-            Dim Locations = FindLocation(Sequence, Segment)
-            If Locations.IsNullOrEmpty Then
+        <Extension>
+        Public Function CreatePalindrome(seed$, Sequence As String) As PalindromeLoci()
+            Dim locis%() = FindLocation(Sequence, seed)
+
+            If locis.IsNullOrEmpty Then
                 Return Nothing
             End If
 
-            Dim rev As String = New String(Segment.Reverse.ToArray)
-            Dim Mirror As String = NucleicAcid.Complement(rev)
-            Dim l As Integer = Len(Segment)
-            Dim Result = (From loci As Integer In Locations
-                          Let ml As Integer = __haveMirror(l, loci, Mirror, Sequence)
+            Dim reversed As New String(seed.Reverse.ToArray)         ' 对种子序列进行反向，这个是在互补链需要进行查找的序列，
+            Dim mirror As String = NucleicAcid.Complement(reversed)  ' 但是为了提高性能，所以在这里对这个互补链上面的序列的互补列进行查找
+            Dim l As Integer = Len(seed)
+            Dim result = (From loci As Integer
+                          In locis
+                          Let ml As Integer = __haveMirror(l, loci, mirror, Sequence) ' 只需要判断当前的链相对应的位置上面是否含有目标反向互补位点的序列即可
                           Where ml > -1
                           Select loci, ml).ToArray
-            Return Result.ToArray(Function(site) New PalindromeLoci With {
-                                      .Loci = Segment,
-                                      .Start = site.loci,
-                                      .PalEnd = site.ml,
-                                      .Palindrome = Mirror,
-                                      .MirrorSite = rev})
+
+            Return result.ToArray(
+                Function(site) New PalindromeLoci With {
+                    .Loci = seed,
+                    .Start = site.loci,
+                    .PalEnd = site.ml,
+                    .Palindrome = mirror,
+                    .MirrorSite = reversed
+                })
         End Function
 
         ''' <summary>
@@ -350,10 +373,25 @@ Namespace Topologically
         <Extension>
         Public Function SearchPalindrome(Sequence As I_PolymerSequenceModel,
                                          Optional Min As Integer = 3,
-                                         Optional Max As Integer = 20) As PalindromeLoci()
-            Dim search As New Topologically.PalindromeSearch(Sequence, Min, Max)
-            Call search.DoSearch()
-            Return search.ResultSet.ToArray
+                                         Optional Max As Integer = 20,
+                                         Optional tag$ = Nothing) As PalindromeLoci()
+
+            Dim out As PalindromeLoci()
+
+            With New PalindromeSearch(Sequence, Min, Max)
+                .DoSearch()
+                out = .ResultSet.ToArray
+            End With
+
+            If Not tag.IsBlank Then
+                For Each loci As PalindromeLoci In out
+                    loci.Data = New Dictionary(Of String, String) From {
+                        {NameOf(tag), tag}
+                    }
+                Next
+            End If
+
+            Return out
         End Function
 
         <ExportAPI("Write.Csv.PalindromeLocis")>
