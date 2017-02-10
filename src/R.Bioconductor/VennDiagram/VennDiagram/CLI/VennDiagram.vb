@@ -163,8 +163,13 @@ Public Module CLI
     ''' <returns></returns>
     Public Function DrawFile(path As String, args As CommandLine) As Integer
         Dim ext As String = path.Split("."c).Last
+
         If String.Equals(ext, "csv", StringComparison.OrdinalIgnoreCase) Then
-            Return __run(path, path.BaseName, Nothing, $"{App.Desktop}/{path.BaseName}_venn.tiff", Nothing)
+            Return __run(path, path.BaseName,
+                         Nothing,
+                         $"{App.Desktop}/{path.BaseName}_venn.tiff",
+                         Nothing,
+                         args.GetBoolean("/First.ID.Skip"))
         Else
             Dim venn As VennDiagram = path.LoadXml(Of VennDiagram)
             Dim EXPORT As String = venn.saveTiff.TrimSuffix & ".r"
