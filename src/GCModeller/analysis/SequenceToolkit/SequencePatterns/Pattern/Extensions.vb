@@ -35,8 +35,7 @@ Namespace Pattern
 
     Public Module Extensions
 
-        <ExportAPI("Loci.Find.Location",
-                   Info:="Found out all of the loci site on the target sequence.")>
+        <ExportAPI("Loci.Find.Location", Info:="Found out all of the loci site on the target sequence.")>
         <Extension>
         Public Function FindLocation(Sequence As I_PolymerSequenceModel, Loci As String) As Integer()
             Return FindLocation(Sequence.SequenceData, Loci)
@@ -44,29 +43,31 @@ Namespace Pattern
 
         ''' <summary>
         ''' Found out all of the loci site on the target sequence.
+        ''' (使用字符串查找得到目标位点在序列之上的所有的位置集合)
         ''' </summary>
         ''' <param name="Sequence"></param>
         ''' <param name="Loci"></param>
         ''' <returns></returns>
         ''' <remarks>这个位置查找函数是OK的</remarks>
-        <ExportAPI("Loci.Find.Location",
-                   Info:="Found out all of the loci site on the target sequence.")>
+        <ExportAPI("Loci.Find.Location", Info:="Found out all of the loci site on the target sequence.")>
         <Extension>
         Public Function FindLocation(Sequence As String, Loci As String) As Integer()
-            Dim Locis = New List(Of Integer)
-            Dim p As Integer = 1
+            Dim locis As New List(Of Integer)
+            Dim p As Integer = 1  ' vb6之中下标是从1开始的
 
             Do While True
+                ' 这里需要进行迭代查找，即在上一个位置之后查找，否则会出现无限的重复查找
                 p = InStr(Start:=p, String1:=Sequence, String2:=Loci)
+
                 If p > 0 Then
-                    Call Locis.Add(p)
+                    Call locis.Add(p)
                     p += 1
                 Else
                     Exit Do
                 End If
             Loop
 
-            Return Locis.ToArray
+            Return locis.ToArray
         End Function
     End Module
 End Namespace
