@@ -207,7 +207,7 @@ Public Module CatalogPlots
                          Optional valueFontStyle$ = CSSFont.Win7Bold,
                          Optional tickFontStyle$ = CSSFont.Win7LargerBold,
                          Optional tick% = 50,
-                         Optional maxTermLength% = 32) As Bitmap
+                         Optional maxTermLength% = 72) As Bitmap
 
         Dim data As New Dictionary(Of String, NamedValue(Of Double)())
 
