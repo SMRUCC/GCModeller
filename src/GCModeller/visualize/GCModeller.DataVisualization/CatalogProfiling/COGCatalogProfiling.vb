@@ -9,10 +9,11 @@ Imports SMRUCC.genomics.ComponentModel
 Public Module COGCatalogProfiling
 
     <Extension>
-    Public Function Plot(Of T As ICOGCatalog)(genes As IEnumerable(Of T),
-                                              Optional size As Size = Nothing,
-                                              Optional bg$ = "white",
-                                              Optional title$ = "COG catalog profiling") As Bitmap
+    Public Function COGCatalogProfilingPlot(Of T As ICOGCatalog)(
+                                           genes As IEnumerable(Of T),
+                                   Optional size As Size = Nothing,
+                                   Optional bg$ = "white",
+                                   Optional title$ = "COG catalog profiling") As Bitmap
 
         Dim COGs As COG.Function = COG.Function.Default
         Dim array As T() = genes.ToArray
