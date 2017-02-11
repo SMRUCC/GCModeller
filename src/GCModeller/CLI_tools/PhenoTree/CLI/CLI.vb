@@ -120,7 +120,7 @@ Public Module CLI
                             Where Array.IndexOf(part.uids, x.QueryName) > -1
                             Select x).ToList
             Dim func As COG.Function = COG.Function.Default
-            Dim stst = COGFunc.GetClass(myvaCogs, func)
+            Dim stst = COGFunction.GetClass(myvaCogs, func)
             Dim out As String = EXPORT & $"/COGs-{part.Tag}.Csv"
 
             Call stst.SaveTo(out)

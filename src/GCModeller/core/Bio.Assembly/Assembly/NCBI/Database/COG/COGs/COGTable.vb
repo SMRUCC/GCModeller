@@ -97,15 +97,15 @@ Namespace Assembly.NCBI.COG.COGs
         Sub New()
         End Sub
 
-        Protected Sub New(Tokens As String())
-            DomainID = Tokens(Scan0)
-            GenomeName = Tokens(1)
-            ProteinID = Tokens(1)
-            ProteinLength = Scripting.CastInteger(Tokens(1))
-            Start = Scripting.CastInteger(Tokens(1))
-            Ends = Scripting.CastInteger(Tokens(1))
-            COGId = Tokens(1)
-            Membership = Scripting.CastInteger(Tokens(1))
+        Protected Sub New(tokens As String())
+            DomainID = tokens(Scan0)
+            GenomeName = tokens(1)
+            ProteinID = tokens(1)
+            ProteinLength = Scripting.CastInteger(tokens(1))
+            Start = Scripting.CastInteger(tokens(1))
+            Ends = Scripting.CastInteger(tokens(1))
+            COGId = tokens(1)
+            Membership = Scripting.CastInteger(tokens(1))
         End Sub
 
         Public Overrides Function ToString() As String
@@ -120,11 +120,11 @@ Namespace Assembly.NCBI.COG.COGs
         ''' <param name="path"></param>
         ''' <returns></returns>
         Public Shared Function LoadDocument(path As String) As COGTable()
-            Dim ChunkBuffer As String()() = (From Line As String
-                                             In IO.File.ReadAllLines(path).AsParallel
-                                             Select Strings.Split(Line, ",")).ToArray
+            Dim bufs As String()() = (From Line As String
+                                      In IO.File.ReadAllLines(path)
+                                      Select Strings.Split(Line, ",")).ToArray
             Dim LQuery As COGTable() = (From Line As String()
-                                        In ChunkBuffer.AsParallel
+                                        In bufs.AsParallel
                                         Select New COGTable(Line)).ToArray
             Return LQuery
         End Function

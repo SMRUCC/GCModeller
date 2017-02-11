@@ -45,9 +45,9 @@ Namespace Assembly.NCBI.COG
             Return Description
         End Function
 
-        Public Function ToArray() As COGFunc()
+        Public Function ToArray() As COGFunction()
             Return SubClasses.ToArray(
-                Function(x) New COGFunc With {
+                Function(x) New COGFunction With {
                     .Category = [Class],
                     .COG = x.Key,
                     .Func = x.Value

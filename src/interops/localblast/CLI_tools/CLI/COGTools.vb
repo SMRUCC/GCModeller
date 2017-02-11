@@ -37,6 +37,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
+Imports SMRUCC.genomics.Assembly.NCBI.COG.COGs
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
@@ -79,7 +80,7 @@ Partial Module CLI
         End If
 
         Dim func As COG.Function = COG.Function.Default
-        Dim stst As COGFunc() = COGFunc.GetClass(myvaCogs, func)
+        Dim stst As COGFunction() = COGFunction.GetClass(myvaCogs, func)
 
         Return stst.SaveTo(out).CLICode
     End Function
@@ -189,5 +190,18 @@ Partial Module CLI
 
         ' 从bbh结果之中匹配得到COG信息
 
+    End Function
+
+    <ExportAPI("/COG2014.result",
+               Usage:="/COG2014.result /sbh <query-vs-COG2003-2014.fasta> /cog <cog2003-2014.csv> [/out <out.myva_cog.csv>]")>
+    Public Function COG2014_result(args As CommandLine) As Integer
+        Dim [in] As String = args("/sbh")
+        Dim cog As String = args("/cog")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".myva.csv")
+        Dim sbh As IEnumerable(Of BestHit) = [in].LoadCsv(Of BestHit)
+        Dim cogs As COGTable() = COGTable.LoadDocument(cog)
+        Dim result As MyvaCOG() = sbh.COG2014_result(cogs)
+
+        Return result.SaveTo(out).CLICode
     End Function
 End Module

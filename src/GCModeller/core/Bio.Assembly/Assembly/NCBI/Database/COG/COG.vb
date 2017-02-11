@@ -34,28 +34,32 @@ Imports Microsoft.VisualBasic
 
 Namespace Assembly.NCBI.COG
 
-    Public Class COGFunc : Inherits ClassObject
+    ''' <summary>
+    ''' COG function description data.
+    ''' </summary>
+    Public Class COGFunction : Inherits ClassObject
         Implements INamedValue
 
         Public Property Category As COGCategories
         Public Property COG As String Implements INamedValue.Key
         Public Property Func As String
         Public Property locus As String()
+
         Public ReadOnly Property NumOfLocus As Integer
             Get
                 Return locus.Length
             End Get
         End Property
 
-        Private Shared Function __notAssigned() As COGFunc
-            Return New COGFunc With {
+        Private Shared Function __notAssigned() As COGFunction
+            Return New COGFunction With {
                 .Category = COGCategories.NotAssigned,
                 .COG = "-",
                 .Func = ""
             }
         End Function
 
-        Public Shared Function GetClass(Of T As ICOGDigest)(source As IEnumerable(Of T), func As [Function]) As COGFunc()
+        Public Shared Function GetClass(Of T As ICOGDigest)(source As IEnumerable(Of T), func As [Function]) As COGFunction()
             Dim hash = func.Catalogs.ToArray(
                 Function(x) x.ToArray).IteratesALL _
                         .ToDictionary(Function(x) x.COG.First,
@@ -75,7 +79,7 @@ Namespace Assembly.NCBI.COG
                 Next
             Next
 
-            Dim setValue = New SetValue(Of COGFunc)().GetSet(NameOf(COGFunc.locus))
+            Dim setValue = New SetValue(Of COGFunction)().GetSet(NameOf(COGFunction.locus))
             Return hash.Values.ToArray(Function(x) setValue(x.fun, x.count.ToArray))
         End Function
     End Class

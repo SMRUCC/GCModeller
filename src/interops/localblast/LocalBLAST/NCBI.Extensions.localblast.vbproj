@@ -245,6 +245,7 @@
     <Compile Include="LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BlastnMapping.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\VennDataBuilder.vb" />
+    <Compile Include="LocalBLAST\LocalBLAST\Application\COG\COG2014.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\MapsAPI.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\Paralog.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\COG\COG.vb" />

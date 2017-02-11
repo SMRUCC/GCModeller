@@ -69,8 +69,8 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $"-{cog.BaseName}.bTree/")
         Dim clusters = inFile.LoadCsv(Of EntityLDM)
         Dim bTree As Network = clusters.bTreeNET
-        Dim state = COGFunc.GetClass(cog.LoadCsv(Of MyvaCOG), func)
-        Dim COGs = (From x As COGFunc
+        Dim state = COGFunction.GetClass(cog.LoadCsv(Of MyvaCOG), func)
+        Dim COGs = (From x As COGFunction
                     In state
                     Select (From g As String   ' 有些基因是有多个COG值的，这个情况还不清楚如何处理
                             In x.locus
@@ -87,7 +87,7 @@ Partial Module CLI
             End If
 
             If COGs.ContainsKey(node.ID) Then
-                Dim gene As COGFunc = COGs(node.ID)
+                Dim gene As COGFunction = COGs(node.ID)
                 Call node.Add("COG", gene.COG)
                 Call node.Add("Func", gene.Func)
                 Call node.Add("Category", gene.Category.Description)
