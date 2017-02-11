@@ -198,10 +198,10 @@ Partial Module CLI
         Dim [in] As String = args("/sbh")
         Dim cog As String = args("/cog")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".myva.csv")
+        Dim names$ = args.GetValue("/cog.name", GCModeller.FileSystem.FileSystem.COGs & "/cognames2003-2014.tab")
         Dim cogs As COGTable() = COGTable.LoadCsv(cog)
         Dim sbh As IEnumerable(Of BestHit) = [in].LoadCsv(Of BestHit)
         Dim result As MyvaCOG() = sbh.COG2014_result(COGs)
-        Dim names$ = args.GetValue("/cog.name", GCModeller.FileSystem.FileSystem.COGs & "/cognames2003-2014.tab")
 
         If names.FileExists(True) Then
             Dim cogNames As COGName() = COGName.LoadTable(names)

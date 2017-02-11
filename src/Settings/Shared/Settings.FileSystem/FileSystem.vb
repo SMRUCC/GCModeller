@@ -62,13 +62,24 @@ Namespace GCModeller.FileSystem
             End If
         End Sub
 
+        Const RepositoryNotInitialized$ = "The repository root directory path variable in the settings file is not initialized yet, using command ""Settings set RepositoryRoot <DIR>"" for initialize the repository location."
+        Const RepositoryHandleInvalid$ = "The configured repository path ""{0}"" is not exists on your file system!"
+
         ''' <summary>
         ''' The root directory for stores the GCModeller database such as fasta sequence for annotation.
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property RepositoryRoot As String
             Get
-                Return Settings.Session.SettingsFile.RepositoryRoot
+                Dim DIR$ = Settings.Session.SettingsFile.RepositoryRoot
+
+                If DIR.IsBlank Then
+                    Call RepositoryNotInitialized.Warning
+                ElseIf Not DIR.DirectoryExists Then
+                    Call String.Format(RepositoryHandleInvalid, DIR).Warning
+                End If
+
+                Return DIR$
             End Get
         End Property
 
