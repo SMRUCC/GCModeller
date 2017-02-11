@@ -198,9 +198,9 @@ Partial Module CLI
         Dim [in] As String = args("/sbh")
         Dim cog As String = args("/cog")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".myva.csv")
+        Dim cogs As COGTable() = COGTable.LoadCsv(cog)
         Dim sbh As IEnumerable(Of BestHit) = [in].LoadCsv(Of BestHit)
-        Dim cogs As COGTable() = COGTable.LoadDocument(cog)
-        Dim result As MyvaCOG() = sbh.COG2014_result(cogs)
+        Dim result As MyvaCOG() = sbh.COG2014_result(COGs)
 
         Return result.SaveTo(out).CLICode
     End Function

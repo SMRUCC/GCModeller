@@ -119,7 +119,7 @@ Namespace Assembly.NCBI.COG.COGs
         ''' </summary>
         ''' <param name="path"></param>
         ''' <returns></returns>
-        Public Shared Function LoadDocument(path As String) As COGTable()
+        Public Shared Function LoadCsv(path As String) As COGTable()
             Dim bufs As String()() = (From Line As String
                                       In IO.File.ReadAllLines(path)
                                       Select Strings.Split(Line, ",")).ToArray
