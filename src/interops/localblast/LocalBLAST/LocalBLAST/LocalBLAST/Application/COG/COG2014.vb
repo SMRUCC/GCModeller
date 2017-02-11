@@ -23,7 +23,21 @@ Namespace LocalBLAST.Application.RpsBLAST
                 Dim best As BestHit = protein.TopHit
                 Dim header As NTheader = NTheader.ParseNTheader(best.HitName.Split("|"c)).FirstOrDefault
                 Dim gi$ = header.gi
-                Dim COG$() = gi2cogs(gi)
+
+                out += New MyvaCOG With {
+                    .QueryName = protein.Key,
+                    .QueryLength = best.query_length,
+                    .LengthQuery = best.length_query,
+                    .Identities = best.identities,
+                    .Description = best.HitName,
+                    .Evalue = best.evalue,
+                    .Length = best.hit_length
+                }
+
+                If Not gi Is Nothing Then
+                    Dim COG$() = gi2cogs(gi)
+                    out.Last.COG = COG.JoinBy("; ")
+                End If
             Next
 
             Return out
