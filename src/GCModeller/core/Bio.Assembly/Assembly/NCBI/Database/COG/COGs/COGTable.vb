@@ -54,7 +54,7 @@ Namespace Assembly.NCBI.COG.COGs
         ''' <returns></returns>
         <XmlAttribute("genome-name")> Public Property GenomeName As String
         ''' <summary>
-        ''' &lt;protein-id>
+        ''' &lt;protein-id>: GI
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("protein-id")> Public Property ProteinID As String
@@ -131,6 +131,19 @@ Namespace Assembly.NCBI.COG.COGs
                 Select New COGTable(tokens)
 
             Return LQuery
+        End Function
+
+        ''' <summary>
+        ''' 一个蛋白可能会因为比对上多个结构域而出现多个COG编号的情况
+        ''' </summary>
+        ''' <param name="cogTable"></param>
+        ''' <returns></returns>
+        Public Shared Function GI2COGs(cogTable As IEnumerable(Of COGTable)) As Dictionary(Of String, String())
+            Dim proteins = cogTable.GroupBy(Function(prot) prot.ProteinID)
+            Dim out = proteins.ToDictionary(Function(prot) prot.Key,
+                                            Function(prot) prot.Select(
+                                            Function(x) x.COGId).Distinct.ToArray)
+            Return out
         End Function
     End Class
 End Namespace
