@@ -67,4 +67,20 @@ Namespace ComponentModel
         Property Length As Integer
 
     End Interface
+
+    ''' <summary>
+    ''' 这个基因的注释结果之中除了COG编号之外，还有这个编号所属的COG分类
+    ''' </summary>
+    Public Interface ICOGCatalog : Inherits INamedValue
+
+        ''' <summary>
+        ''' The gene object COG classification.(COG功能分类)
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Property COG As String
+        Property Catalog As String
+
+    End Interface
 End Namespace

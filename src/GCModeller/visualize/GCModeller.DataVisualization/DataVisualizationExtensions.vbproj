@@ -161,7 +161,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\MapModelCommon.vb" />
-    <Compile Include="CatalogProfiling.vb" />
+    <Compile Include="CatalogProfiling\CatalogProfiling.vb" />
+    <Compile Include="CatalogProfiling\COGCatalogProfiling.vb" />
     <Compile Include="ColorProfiles.vb" />
     <Compile Include="ColorMgr.vb" />
     <Compile Include="CurvesChart\CurvesModel.vb" />
