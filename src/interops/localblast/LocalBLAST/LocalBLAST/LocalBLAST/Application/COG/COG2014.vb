@@ -79,7 +79,9 @@ Namespace LocalBLAST.Application.RpsBLAST
                         .Where(AddressOf table.ContainsKey) _
                         .ToArray(Function(c) table(c))
                     Dim catalog$ = catalogs _
-                        .Select(Function(c) c.Func) _
+                        .Select(Function(c) c.Func.ToCharArray) _
+                        .IteratesALL _
+                        .Distinct _
                         .JoinBy("")
 
                     protein.Category = catalog
