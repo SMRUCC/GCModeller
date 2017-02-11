@@ -162,6 +162,12 @@ Namespace GCModeller.FileSystem
             End Get
         End Property
 
+        Public ReadOnly Property COGs As String
+            Get
+                Return RepositoryRoot & "/COGs/"
+            End Get
+        End Property
+
 #Region "API Functions"
 
         ''' <summary>

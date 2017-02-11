@@ -28,6 +28,7 @@
 
 Imports System.Data.Linq.Mapping
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 
@@ -43,13 +44,14 @@ Namespace Assembly.NCBI.COG.COGs
     ''' </summary>
     ''' <remarks></remarks>
     Public Class COGName
+        Implements INamedValue
 
         ''' <summary>
         ''' COG-id
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("COG-id")>
-        <Column(Name:="COG")> Public Property COG As String
+        <Column(Name:="COG")> Public Property COG As String Implements INamedValue.Key
 
         ''' <summary>
         ''' functional-class

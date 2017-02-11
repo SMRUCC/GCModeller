@@ -193,7 +193,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/COG2014.result",
-               Usage:="/COG2014.result /sbh <query-vs-COG2003-2014.fasta> /cog <cog2003-2014.csv> [/out <out.myva_cog.csv>]")>
+               Usage:="/COG2014.result /sbh <query-vs-COG2003-2014.fasta> /cog <cog2003-2014.csv> [/cog.names <cognames2003-2014.tab> /out <out.myva_cog.csv>]")>
     Public Function COG2014_result(args As CommandLine) As Integer
         Dim [in] As String = args("/sbh")
         Dim cog As String = args("/cog")
@@ -201,6 +201,12 @@ Partial Module CLI
         Dim cogs As COGTable() = COGTable.LoadCsv(cog)
         Dim sbh As IEnumerable(Of BestHit) = [in].LoadCsv(Of BestHit)
         Dim result As MyvaCOG() = sbh.COG2014_result(COGs)
+        Dim names$ = args.GetValue("/cog.name", GCModeller.FileSystem.FileSystem.COGs & "/cognames2003-2014.tab")
+
+        If names.FileExists(True) Then
+            Dim cogNames As COGName() = COGName.LoadTable(names)
+            result = result.COGCatalog(cogNames)
+        End If
 
         Return result.SaveTo(out).CLICode
     End Function
