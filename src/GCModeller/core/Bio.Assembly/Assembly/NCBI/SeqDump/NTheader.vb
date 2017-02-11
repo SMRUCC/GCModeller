@@ -55,14 +55,12 @@ Namespace Assembly.NCBI.SequenceDump
             Return id
         End Function
 
-        Public Shared Function ParseNTheader(fa As FastaToken, Optional throwEx As Boolean = True) As IEnumerable(Of NTheader)
+        Public Shared Function ParseNTheader(attrs$(), Optional throwEx As Boolean = True) As IEnumerable(Of NTheader)
+            Dim splits$()() = attrs.Skip(1).Split(4%)
             Dim out As New List(Of NTheader)
+            Dim trimGI As Boolean = splits.Length > 1
 
             Try
-                Dim attrs$() = fa.Attributes
-                Dim splits$()() = attrs.Skip(1).Split(4%)
-                Dim trimGI As Boolean = splits.Length > 1
-
                 For Each b As String() In splits
                     If b.Length = 1 Then
                         Dim x As NTheader = out.Last
@@ -86,20 +84,22 @@ Namespace Assembly.NCBI.SequenceDump
                         .description = If(trimGI, Trim(descr), descr)
                     }
                 Next
-
-                Return out
             Catch ex As Exception
-                ex = New Exception(fa.Title, ex)
+                ex = New Exception(attrs.JoinBy("|"), ex)
 
                 If throwEx Then
                     Throw ex
                 Else
                     Call App.LogException(ex)
                     Call ex.PrintException
-
-                    Return out
                 End If
             End Try
+
+            Return out
+        End Function
+
+        Public Shared Function ParseNTheader(fa As FastaToken, Optional throwEx As Boolean = True) As IEnumerable(Of NTheader)
+            Return ParseNTheader(fa.Attributes, throwEx)
         End Function
 
         Private Shared Function Trim(s As String) As String

@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.COG.COGs
+Imports SMRUCC.genomics.Assembly.NCBI.SequenceDump
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace LocalBLAST.Application.RpsBLAST
@@ -20,7 +21,9 @@ Namespace LocalBLAST.Application.RpsBLAST
             For Each protein As IGrouping(Of String, BestHit) In query
                 ' 取最好的
                 Dim best As BestHit = protein.TopHit
-
+                Dim header As NTheader = NTheader.ParseNTheader(best.HitName.Split("|"c)).FirstOrDefault
+                Dim gi$ = header.gi
+                Dim COG$() = gi2cogs(gi)
             Next
 
             Return out
