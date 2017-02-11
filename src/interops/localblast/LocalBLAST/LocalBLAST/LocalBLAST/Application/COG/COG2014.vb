@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.COG.COGs
@@ -15,7 +16,7 @@ Namespace LocalBLAST.Application.RpsBLAST
         End Function
 
         <Extension>
-        Public Function COG2014_result(sbh As IEnumerable(Of BestHit), gi2cogs As Dictionary(Of String, String())) As MyvaCOG()
+        Public Function COG2014_result(sbh As IEnumerable(Of BestHit), gi2cogs As Dictionary(Of String, NamedValue(Of String()))) As MyvaCOG()
             Dim query = sbh.GroupBy(Function(prot) prot.QueryName)
             Dim out As New List(Of MyvaCOG)
 
@@ -36,8 +37,14 @@ Namespace LocalBLAST.Application.RpsBLAST
                 }
 
                 If Not gi Is Nothing Then
-                    Dim COG$() = gi2cogs(gi)
-                    out.Last.COG = COG.JoinBy("; ")
+                    Dim COG$() = gi2cogs(gi).Value
+
+                    With out.Last
+                        .COG = COG.JoinBy("; ")
+                        .Data = New Dictionary(Of String, String) From {
+                            {"genome", gi2cogs(gi).Name}
+                        }
+                    End With
                 End If
             Next
 
@@ -56,14 +63,29 @@ Namespace LocalBLAST.Application.RpsBLAST
             Dim out As New List(Of MyvaCOG)
 
             For Each protein As MyvaCOG In genes
+
+                ' 直接使用字符串的split方法可能会因为空字符串的出现而出错，所以在这里使用vb6的split方法 
                 Dim cogs$() = Strings _
                     .Split(protein.COG, ";") _
-                    .ToArray(AddressOf Trim) ' 直接使用字符串的split方法可能会因为空字符串的出现而出错，所以在这里使用vb6的split方法 
-                Dim catalogs = cogs.ToArray(Function(c) table(c))
-                Dim catalog$ = catalogs.Select(Function(c) c.Func).JoinBy("")
+                    .Select(AddressOf Trim) _
+                    .Where(Function(s) Not s.IsBlank) _
+                    .ToArray
+
+                If cogs.IsNullOrEmpty OrElse (cogs.Length = 1 AndAlso cogs(Scan0) = "") Then
+                    ' 空数据直接略过
+                Else
+                    ' 居然有些COG编号还是没有分类的
+                    Dim catalogs = cogs _
+                        .Where(AddressOf table.ContainsKey) _
+                        .ToArray(Function(c) table(c))
+                    Dim catalog$ = catalogs _
+                        .Select(Function(c) c.Func) _
+                        .JoinBy("")
+
+                    protein.Category = catalog
+                End If
 
                 out += protein
-                protein.Category = catalog
             Next
 
             Return out

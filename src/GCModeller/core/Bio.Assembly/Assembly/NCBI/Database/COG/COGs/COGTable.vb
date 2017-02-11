@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.NCBI.COG.COGs
@@ -137,12 +138,19 @@ Namespace Assembly.NCBI.COG.COGs
         ''' 一个蛋白可能会因为比对上多个结构域而出现多个COG编号的情况
         ''' </summary>
         ''' <param name="cogTable"></param>
-        ''' <returns></returns>
-        Public Shared Function GI2COGs(cogTable As IEnumerable(Of COGTable)) As Dictionary(Of String, String())
+        ''' <returns>``gi, (genome_name, cogs())``</returns>
+        Public Shared Function GI2COGs(cogTable As IEnumerable(Of COGTable)) As Dictionary(Of String, NamedValue(Of String()))
             Dim proteins = cogTable.GroupBy(Function(prot) prot.ProteinID)
-            Dim out = proteins.ToDictionary(Function(prot) prot.Key,
-                                            Function(prot) prot.Select(
-                                            Function(x) x.COGId).Distinct.ToArray)
+            Dim out = proteins.ToDictionary(
+                Function(prot) prot.Key,
+                Function(prot) New NamedValue(Of String()) With {
+                    .Name = prot.First.GenomeName,
+                    .Value = prot _
+                        .Select(Function(x) x.COGId) _
+                        .Distinct _
+                        .ToArray
+                })
+
             Return out
         End Function
     End Class
