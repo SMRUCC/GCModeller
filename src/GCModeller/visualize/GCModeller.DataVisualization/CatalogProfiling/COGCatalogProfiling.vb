@@ -28,7 +28,7 @@ Public Module COGCatalogProfiling
         Dim data As New Dictionary(Of String, List(Of NamedValue(Of Double)))
         Dim null% = array.Where(Function(g) g.Catalog.IsBlank).Count ' 空的分类的基因数目
         Dim profileData = profiling.ToArray
-        Dim total% = array.Length
+        Dim total% = array.Length / 100
 
         For Each catalog In profileData
             Dim [class] = COGs.GetCatalog(CStr(catalog.c))
@@ -44,13 +44,22 @@ Public Module COGCatalogProfiling
                 })
         Next
 
+        Call data(COG.Function.NotAssigned).Add(
+            New NamedValue(Of Double) With {
+                .Name = "Unknown",
+                .Value = null / total
+            })
+
         For Each catalog In data
             Call profiles.Add(catalog.Key, catalog.Value)
         Next
 
         Return profiles.ProfilesPlot(
+            axisTitle:="Percentage of catalog genes",
             title:=title,
             bg:=bg,
-            size:=size)
+            size:=size,
+            tick:=5,
+            removeNotAssign:=False)
     End Function
 End Module

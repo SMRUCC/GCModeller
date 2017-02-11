@@ -170,10 +170,10 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/COG.profiling.plot",
-               Usage:="/COG.profiling.plot /in <myvacog.csv> [/size <2000,3500> /out <out.png>]")>
+               Usage:="/COG.profiling.plot /in <myvacog.csv> [/size <1800,1200> /out <out.png>]")>
     Public Function COGCatalogProfilingPlot(args As CommandLine) As Integer
         Dim [in] = args("/in")
-        Dim size As Size = args.GetValue("/size", New Size(2000, 3500))
+        Dim size As Size = args.GetValue("/size", New Size(1800, 1200))
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".COG.profiling.png")
         Dim COGs As IEnumerable(Of MyvaCOG) = [in].LoadCsv(Of MyvaCOG)
 

@@ -137,7 +137,7 @@ Namespace Assembly.NCBI.COG
             Return 0
         End Function
 
-        Shared ReadOnly NotAssigned$ = COGCategories.NotAssigned.Description
+        Public Shared ReadOnly Property NotAssigned$ = COGCategories.NotAssigned.Description
 
         Public Function GetCatalog(COG As Char) As NamedValue(Of String)
             Dim func$ = Nothing
