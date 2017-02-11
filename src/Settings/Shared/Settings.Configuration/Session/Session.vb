@@ -172,7 +172,9 @@ Namespace Settings
             Dim settings As String = Session.SettingsDIR & "/Settings.xml"
             Dim saveHwnd As Action(Of Settings.File, String) =
                 Sub(profile, path) profile.GetXml.SaveTo(path)
-
+#If DEBUG Then
+            Call $"Load GCModeller settings data from xml file: {settings.ToFileURL}".__DEBUG_ECHO
+#End If
             Session._ProfileData = Microsoft.VisualBasic.ComponentModel.Settings _
                 .Settings(Of Settings.File) _
                 .LoadFile(settings, saveHwnd)

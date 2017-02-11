@@ -1,32 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::59104b5e8a3200f079550f7d096c96bf, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.NCBI.COG.COGs
 
@@ -53,7 +55,7 @@ Namespace Assembly.NCBI.COG.COGs
         ''' <returns></returns>
         <XmlAttribute("genome-name")> Public Property GenomeName As String
         ''' <summary>
-        ''' &lt;protein-id>
+        ''' &lt;protein-id>: GI
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("protein-id")> Public Property ProteinID As String
@@ -97,15 +99,17 @@ Namespace Assembly.NCBI.COG.COGs
         Sub New()
         End Sub
 
-        Protected Sub New(Tokens As String())
-            DomainID = Tokens(Scan0)
-            GenomeName = Tokens(1)
-            ProteinID = Tokens(1)
-            ProteinLength = Scripting.CastInteger(Tokens(1))
-            Start = Scripting.CastInteger(Tokens(1))
-            Ends = Scripting.CastInteger(Tokens(1))
-            COGId = Tokens(1)
-            Membership = Scripting.CastInteger(Tokens(1))
+        Protected Sub New(tokens As String())
+            Dim i As int = 0
+
+            DomainID = tokens(++i)
+            GenomeName = tokens(++i)
+            ProteinID = tokens(++i)
+            ProteinLength = Scripting.CastInteger(tokens(++i))
+            Start = Scripting.CastInteger(tokens(++i))
+            Ends = Scripting.CastInteger(tokens(++i))
+            COGId = tokens(++i)
+            Membership = Scripting.CastInteger(tokens(++i))
         End Sub
 
         Public Overrides Function ToString() As String
@@ -119,14 +123,35 @@ Namespace Assembly.NCBI.COG.COGs
         ''' </summary>
         ''' <param name="path"></param>
         ''' <returns></returns>
-        Public Shared Function LoadDocument(path As String) As COGTable()
-            Dim ChunkBuffer As String()() = (From Line As String
-                                             In IO.File.ReadAllLines(path).AsParallel
-                                             Select Strings.Split(Line, ",")).ToArray
-            Dim LQuery As COGTable() = (From Line As String()
-                                        In ChunkBuffer.AsParallel
-                                        Select New COGTable(Line)).ToArray
+        Public Shared Function LoadCsv(path As String) As COGTable()
+            Dim LQuery As COGTable() = LinqAPI.Exec(Of COGTable) <=
+ _
+                From line As String
+                In path.ReadAllLines.AsParallel
+                Let tokens As String() = line.Split(","c)
+                Select New COGTable(tokens)
+
             Return LQuery
+        End Function
+
+        ''' <summary>
+        ''' 一个蛋白可能会因为比对上多个结构域而出现多个COG编号的情况
+        ''' </summary>
+        ''' <param name="cogTable"></param>
+        ''' <returns>``gi, (genome_name, cogs())``</returns>
+        Public Shared Function GI2COGs(cogTable As IEnumerable(Of COGTable)) As Dictionary(Of String, NamedValue(Of String()))
+            Dim proteins = cogTable.GroupBy(Function(prot) prot.ProteinID)
+            Dim out = proteins.ToDictionary(
+                Function(prot) prot.Key,
+                Function(prot) New NamedValue(Of String()) With {
+                    .Name = prot.First.GenomeName,
+                    .Value = prot _
+                        .Select(Function(x) x.COGId) _
+                        .Distinct _
+                        .ToArray
+                })
+
+            Return out
         End Function
     End Class
 End Namespace

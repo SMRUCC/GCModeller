@@ -1,61 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::6f80ee5da804285d00dd4725d4e5bfc5, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGNames.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Data.Linq.Mapping
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text
 
 Namespace Assembly.NCBI.COG.COGs
 
     ''' <summary>
-    ''' cognames2003-2014.tab
-    ''' Contains list of COG annotations. Tab-delimited
-    ''' Functional classes (categories) are described in the file
-    ''' fun2003-2014.tab (see 2.3). Some COGs belong to more than one
-    ''' functional Class; in these cases the class listed first Is considered
-    ''' to be primary.
+    ''' ###### cognames2003-2014.tab
+    ''' 
+    ''' Contains list of COG annotations. Tab-delimited Functional classes 
+    ''' (categories) are described in the file ``fun2003-2014.tab`` (see 2.3). 
+    ''' Some COGs belong to more than one functional Class; in these cases 
+    ''' the class listed first Is considered to be primary.
     ''' </summary>
     ''' <remarks></remarks>
     Public Class COGName
+        Implements INamedValue
 
         ''' <summary>
         ''' COG-id
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("COG-id")>
-        <Column(Name:="COG")> Public Property COG As String
+        <Column(Name:="COG")> Public Property COG As String Implements INamedValue.Key
+
         ''' <summary>
         ''' functional-class
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("functional-class")>
         <Column(Name:="func")> Public Property Func As String
+
         ''' <summary>
         ''' COG-annotation
         ''' </summary>
@@ -63,24 +67,24 @@ Namespace Assembly.NCBI.COG.COGs
         <XmlAttribute("COG-annotation")>
         <Column(Name:="name")> Public Property Name As String
 
-        Public Shared Function LoadDocument(path As String) As COGName()
+        ''' <summary>
+        ''' Load table data from file.
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
+        Public Shared Function LoadTable(path As String) As COGName()
             Dim buf As IEnumerable(Of String()) =
  _
                 From s As String
                 In IO.File.ReadAllLines(path).Skip(1)
-                Select Strings.Split(s, vbTab)
+                Select s.Split(ASCII.TAB)
 
-            Dim LQuery = LinqAPI.Exec(Of COGName) <=
- _
-                From line As String()
-                In buf.AsParallel
-                Let COG As COGName = New COGName With {
-                    .COG = line(0),
-                    .Func = line(1),
-                    .Name = line(2)
-                }
-                Select COG
-                Order By COG.COG Ascending
+            Dim LQuery As COGName() = buf.Select(
+                Function(t) New COGName With {
+                    .COG = t(0),
+                    .Func = t(1),
+                    .Name = t(2)
+                }).ToArray
 
             Return LQuery
         End Function

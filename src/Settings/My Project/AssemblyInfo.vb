@@ -11,7 +11,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("SMRUCC genomics GCModeller Programs Profiles Manager")>
 <Assembly: AssemblyDescription("SMRUCC genomics GCModeller Programs Profiles Manager")>
 <Assembly: AssemblyCompany("GCModeller")>
-<Assembly: AssemblyProduct("Settings")>
+<Assembly: AssemblyProduct("GCModeller")>
 <Assembly: AssemblyCopyright("Copyright © SMRUCC genomics. 2014")>
 <Assembly: AssemblyTrademark("GCModeller")> 
 

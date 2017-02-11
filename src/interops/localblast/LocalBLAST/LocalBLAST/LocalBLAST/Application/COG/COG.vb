@@ -110,6 +110,8 @@ Namespace LocalBLAST.Application.RpsBLAST
         Public Property QueryLength As Integer
         Public Property LengthQuery As Integer
 
+        Public Property Data As Dictionary(Of String, String)
+
         Public Overrides Function ToString() As String
             Return String.Format("[{0}] {1}", COG, QueryName)
         End Function

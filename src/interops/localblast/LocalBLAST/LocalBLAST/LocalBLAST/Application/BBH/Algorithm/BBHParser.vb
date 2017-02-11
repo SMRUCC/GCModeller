@@ -131,7 +131,7 @@ Namespace LocalBLAST.Application.BBH
         End Function
 
         ''' <summary>
-        '''
+        ''' 通过排序得到最好的比对结果，在这里假设evalue都已经满足条件了
         ''' </summary>
         ''' <param name="hits">假设这里面的hits都是通过了cutoff了的数据</param>
         ''' <returns></returns>
