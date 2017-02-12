@@ -89,9 +89,9 @@
   <ItemGroup>
     <Compile Include="ChromesomeDrawingModel.vb" />
     <Compile Include="ChromesomeMapAPI.vb" />
-    <Compile Include="Configuration\Configurations.vb" />
-    <Compile Include="Configuration\ConfigCommon.vb" />
-    <Compile Include="Configuration\ConfigurationCommon.vb" />
+    <Compile Include="Configuration\DataReader.vb" />
+    <Compile Include="Configuration\Config.vb" />
+    <Compile Include="Configuration\Extensions.vb" />
     <Compile Include="DrawingDevice.vb" />
     <Compile Include="DrawingModels\Multation.vb" />
     <Compile Include="DrawingModels\RenderingColor.vb" />

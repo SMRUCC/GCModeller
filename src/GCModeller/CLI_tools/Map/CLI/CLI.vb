@@ -7,6 +7,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ChromosomeMap
+Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
 Public Module CLI
@@ -28,7 +29,7 @@ Public Module CLI
 
     <Extension>
     Private Function Draw(PTT As PTT, COG$, conf$, out$) As Integer
-        Dim config As ChromosomeMap.Configurations
+        Dim config As Config
 
         If Not conf.FileExists(True) Then
 Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)

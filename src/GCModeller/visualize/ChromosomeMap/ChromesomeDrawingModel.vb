@@ -1,34 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::3f47aeea50d5d283d70d87f664293a2d, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\ChromesomeDrawingModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
 Imports System.Text
-Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.Extensions
@@ -36,6 +35,7 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Oracle.Java.IO.Properties.Reflector
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -46,7 +46,7 @@ Namespace DrawingModels
     ''' Data model for described a chromosome drawing action invoked.(用于描述如何绘制一个基因组的图形数据的数据模型)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class ChromesomeDrawingModel : Inherits SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.Rpt
+    Public Class ChromesomeDrawingModel : Inherits TabularFormat.Rpt
 
         ''' <summary>
         ''' 所需要进行绘制的基因组之中的基因对象，整个基因组之中的基本框架
@@ -64,7 +64,7 @@ Namespace DrawingModels
         ''' 绘图设备的配置数据
         ''' </summary>
         ''' <returns></returns>
-        Public Property DrawingConfigurations As Conf
+        Public Property DrawingConfigurations As Configuration.DataReader
         ''' <summary>
         ''' 转录调控位点
         ''' </summary>

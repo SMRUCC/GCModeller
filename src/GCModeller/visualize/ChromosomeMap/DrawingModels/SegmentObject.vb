@@ -139,7 +139,8 @@ Namespace DrawingModels
         Public Function Draw(g As Graphics,
                              Location As Point,
                              ConvertFactor As Double,
-                             RightLimited As Integer, conf As Conf) As Size
+                             RightLimited As Integer,
+                             conf As Configuration.DataReader) As Size
 
             Dim GraphicPath As GraphicsPath
             Dim LocusTagLocation As Integer = Location.X
