@@ -11,11 +11,23 @@ Namespace Locis
 
         Const d# = 3
 
+        ''' <summary>
+        ''' 这个函数可以同时绘制镜像回文以及互补回文位点，只需要设置一下<paramref name="complementPalindrom"/>参数即可
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="palindrome"></param>
+        ''' <param name="location"></param>
+        ''' <param name="fontStyle$"></param>
+        ''' <param name="complementPalindrom">
+        ''' 这个函数是否为绘制互补回文片段？默认为False，即绘制镜像回文片段
+        ''' </param>
+        ''' <returns></returns>
         <Extension>
         Public Function DrawMirrorPalindrome(g As Graphics,
                                              palindrome As PalindromeLoci,
                                              location As PointF,
-                                             Optional fontStyle$ = CSSFont.Win10Normal) As SizeF
+                                             Optional fontStyle$ = CSSFont.Win10Normal,
+                                             Optional complementPalindrom As Boolean = False) As SizeF
 
             Dim font As Font = CSSFont.TryParse(fontStyle)
             Dim size As SizeF = g.MeasureString("A", font)  ' 计算出单个碱基的绘制大小，因为在这个函数之中是一个碱基一个碱基进行绘图的
@@ -53,23 +65,23 @@ Namespace Locis
             location = New PointF(left + d, location.Y)  ' 画另一半序列
             top = location.Y
 
-            Call drawSite(DNA:=B)
+            If complementPalindrom Then
+                Call drawGray(DNA:=B)
+            Else
+                Call drawSite(DNA:=B)
+            End If
 
             left = location.X
             top += size.Height + d
 
-            Call drawGray(DNA:=B)
+            If complementPalindrom Then
+                Call drawSite(DNA:=B)
+            Else
+                Call drawGray(DNA:=B)
+            End If
 
             size = New Size(size.Width * (A.Length + B.Length), size.Height * 2 + d#)
             Return size
-        End Function
-
-        <Extension>
-        Public Function DrawPalindrome(g As Graphics,
-                                       palindrome As PalindromeLoci,
-                                       location As PointF,
-                                       Optional fontStyle$ = CSSFont.Win10Normal) As SizeF
-
         End Function
     End Module
 End Namespace
