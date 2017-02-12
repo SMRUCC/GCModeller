@@ -195,7 +195,7 @@ Namespace DrawingModels
             Call g.DrawString(Product, Font, Brushes.DarkOliveGreen, New Point(LocusTagLocation, Location.Y + 5 + Height))
 
 #If DEBUG Then
-            Call Gr.DrawString(String.Format("{0} .. {1} KBp", Left / 1000, Right / 1000), Font, System.Drawing.Brushes.White, New Point(LocusTagLocation, Location.Y + 0.2 * Height))
+            Call g.DrawString(String.Format("{0} .. {1} KBp", Left / 1000, Right / 1000), Font, Brushes.White, New Point(LocusTagLocation, Location.Y + 0.2 * Height))
 #End If
             Return New Size(MaxLength, Height)
         End Function

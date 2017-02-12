@@ -56,6 +56,13 @@ Namespace SequenceLogo
             End Get
         End Property
 
+        Public ReadOnly Property DNAcolors As New Dictionary(Of Char, SolidBrush) From {
+            {"A"c, Brushes.Green},
+            {"T"c, Brushes.Red},
+            {"G"c, Brushes.Yellow},
+            {"C"c, Brushes.Blue}
+        }
+
         ''' <summary>
         ''' Enumeration for nucleotide residues
         ''' </summary>
