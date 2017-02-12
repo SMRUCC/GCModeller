@@ -114,6 +114,11 @@ PM>  Install-Package GCModeller.Core
 PM>  Install-Package NCBI_localblast
 ```
 
+## For User
+
+The GCModeller demo script and data for user tutorials can be download from these public data repository: 
++ [[Xanthomonas campestris pv. campestris 8004] GCModeller genomics Modelling Project](https://github.com/SMRUCC/Xanthomonas_campestris_8004_uid15).
+
 ----------------------------------------------------------------------------------------------------
 <img src="./images/links/osi-certified.png" width="40px"/> ![](./images/links/github.ico)
 
