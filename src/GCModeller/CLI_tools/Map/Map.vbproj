@@ -175,6 +175,10 @@
       <Project>{ccdcdbf3-d5ea-453f-9d88-5db41d453be6}</Project>
       <Name>Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\visualize\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
+      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
+      <Name>DataVisualizationExtensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Map.ico" />

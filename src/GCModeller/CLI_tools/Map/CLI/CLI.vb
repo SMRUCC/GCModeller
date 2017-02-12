@@ -1,4 +1,5 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
@@ -10,6 +11,7 @@ Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ChromosomeMap
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
+Imports SMRUCC.genomics.Visualize.Extensions
 
 Public Module CLI
 
@@ -52,16 +54,29 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         End If
 
         Dim model As ChromesomeDrawingModel = ChromosomeMap.FromPTT(PTT, config)
+        Dim COGProfiles As MyvaCOG() = Nothing
 
         If COG.FileExists(True) Then
-            Dim COGProfiles As MyvaCOG() = COG.LoadCsv(Of MyvaCOG).ToArray
+            COGProfiles = COG.LoadCsv(Of MyvaCOG).ToArray
             model = ChromosomeMap.ApplyCogColorProfile(model, COGProfiles)
         End If
 
         With config
-            Return .CreateDevice _
-                .InvokeDrawing(model) _
-                .SaveImage(out, .SavedFormat)
+
+            Dim output As Bitmap() =
+                .CreateDevice _
+                .InvokeDrawing(model)
+
+            If Not COGProfiles.IsNullOrEmpty Then
+                output(output.Length - 1) = output _
+                    .Last _
+                    .DrawCatalogProfiling(
+                        COGProfiles,
+                        .Margin,
+                        New Size(2000, 1600))
+            End If
+
+            Return output.SaveImage(out, .SavedFormat)
         End With
     End Function
 

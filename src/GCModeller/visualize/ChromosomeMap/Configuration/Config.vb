@@ -51,7 +51,7 @@ Namespace Configuration
         "If you have any question about the drawing script and this configuration file, " & vbCrLf &
         "please contact the author via: " & vbCrLf &
         "     Gmail:    xie.guigang@gcmodeller.org" & vbCrLf &
-        "     Work:     genomics@smrucc.org" &
+        "     Work:     genomics@smrucc.org" & vbCrLf &
         "     Twitter:  @xieguigang(https://twitter.com/xieguigang)", 1)>
     Public Class Config : Inherits ITextFile
         Implements ISaveHandle

@@ -303,11 +303,15 @@ Public Class DrawingDevice
         Next
 
         startLen = _Start_Length
-        If _Conf.AddLegend Then Call g.Graphics.DrawingCOGColors(LDM.MyvaCogColorProfile,
-                                                          ref:=New Point(MARGIN, _Height),
-                                                          legendFont:=_Conf.LegendFont,
-                                                          width:=_Width,
-                                                          margin:=MARGIN)
+
+        If _Conf.AddLegend Then
+            Call g.Graphics.DrawingCOGColors(
+                LDM.MyvaCogColorProfile,
+                ref:=New Point(MARGIN, _Height),
+                legendFont:=_Conf.LegendFont,
+                width:=_Width,
+                margin:=MARGIN)
+        End If
         Return g.ImageResource
     End Function
 
