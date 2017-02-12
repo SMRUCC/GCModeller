@@ -164,8 +164,8 @@ Public Module ChromesomeMapAPI
     <ExportAPI("ColorProfiles.Apply.From.COGs")>
     Public Function ApplyCogColorProfile(Model As ChromesomeDrawingModel,
                                          <Parameter("COG.Myva")>
-                                         MyvaCOG As IEnumerable(Of ICOGDigest)) As ChromesomeDrawingModel
-        Return ApplyingCOGCategoryColor(MyvaCOG.ToArray, Model)
+                                         MyvaCOG As IEnumerable(Of ICOGCatalog)) As ChromesomeDrawingModel
+        Return MyvaCOG.ToArray.ApplyingCOGCategoryColor(Model)
     End Function
 
     ''' <summary>

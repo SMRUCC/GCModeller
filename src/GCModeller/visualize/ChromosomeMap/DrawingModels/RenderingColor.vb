@@ -58,13 +58,18 @@ Namespace DrawingModels
 
                     If Not COG_gene Is Nothing AndAlso Not COG_gene.Catalog.IsBlank Then
 
-                        If COG_gene.COG.Length > 1 Then
+                        If COG_gene.Catalog.Length > 1 Then
                             Dim neuColor As Color = COG_gene.Catalog _
-                                .ToArray(Function(c) DirectCast(colorProfiles(CStr(c)), SolidBrush).Color) _
+                                .ToArray(Function(c) DirectCast(
+                                    colorProfiles.TryGetValue(
+                                        CStr(c),
+                                        [default]:=defaultCOG_color), SolidBrush).Color) _
                                 .NeutralizeColor
                             gene.Color = New SolidBrush(neuColor)
                         Else
-                            gene.Color = colorProfiles.TryGetValue(COG_gene.Catalog, defaultCOG_color)
+                            gene.Color = colorProfiles.TryGetValue(
+                                COG_gene.Catalog,
+                                [default]:=defaultCOG_color)
                         End If
 
                     Else
