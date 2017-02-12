@@ -81,7 +81,7 @@ Public Class DrawingDevice
     Public Const MB_UNIT As Long = 1000 * 1000
 
     Sub New(ConfigData As DataReader)
-        Dim size = ConfigData.Resolution
+        Dim size As Size = ConfigData.Resolution
         _Conf = ConfigData
         _Width = size.Width
         _Height = size.Height

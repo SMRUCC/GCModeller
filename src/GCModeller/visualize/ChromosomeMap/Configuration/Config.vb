@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.Java.IO.Properties
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration.DataReader
+Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
 Namespace Configuration
 
@@ -49,13 +50,13 @@ Namespace Configuration
     <Comment(
         "If you have any question about the drawing script and this configuration file, " & vbCrLf &
         "please contact the author via: " & vbCrLf &
-        "     Gmail:    xie.guigang@gmail.com" & vbCrLf &
+        "     Gmail:    xie.guigang@gcmodeller.org" & vbCrLf &
+        "     Work:     genomics@smrucc.org" &
         "     Twitter:  @xieguigang(https://twitter.com/xieguigang)", 1)>
     Public Class Config : Inherits ITextFile
         Implements ISaveHandle
 
         ''' <summary>
-        ''' 
         ''' Due to the GDI+ limitations in the .NET Framework, the image size is limited by your computer memory size, if you want to
         ''' drawing a very large size image, please running this script on a 64bit platform operating system, or you will get a 
         ''' exception about the GDI+ error: parameter is not valid and then you should try a smaller resolution of the drawing output image.
@@ -67,37 +68,47 @@ Namespace Configuration
         ''' </summary>
         ''' <returns></returns>
         <Comment(
-        "--------------------------------------------------------------------------------------------------" & vbCrLf &
-        "                    This section will configure the drawing size options" & vbCrLf &
-        "--------------------------------------------------------------------------------------------------", -1)>
-        <Comment("Due To the GDI+ limitations In the .NET Framework, the image size Is limited by your computer memory size, If you want to " & vbCrLf &
+            "--------------------------------------------------------------------------------------------------" & vbCrLf &
+            "                    This section will configure the drawing size options" & vbCrLf &
+            "--------------------------------------------------------------------------------------------------", -1)>
+        <Comment(
+        "Due To the GDI+ limitations In the .NET Framework, the image size Is limited by your computer memory size, If you want to " & vbCrLf &
         "drawing a very large size image, please running this script On a 64bit platform operating system, Or you will get a " & vbCrLf &
         "exception about the GDI+ error parameter Is Not valid And then you should try a smaller resolution of the drawing output image.", 0)>
-        <Comment("Value format: <Width(Integer)>[,<Height(Integer)>]" & vbCrLf &
+        <Comment(
+        "Value format: <Width(Integer)>[,<Height(Integer)>]" & vbCrLf &
         "Example:" & vbCrLf &
-        "Both specific the size property: 12000,8000" & vbCrLf &
-        "Which means the drawing script will generate a image file in resolution of width is value " & vbCrLf & "12000 pixels and image height is 8000 pixels.", 1)>
+        "Specific the size property width and height: 12000,8000" & vbCrLf &
+        "Which means the drawing script will generate a image file in resolution of width is value " & vbCrLf &
+        "12000 pixels and image height is 8000 pixels.", 1)>
         Public Property Resolution As String = "12000,4500"
-        <Comment("This property is associated with the Resolution property: if you are not specific the " & vbCrLf &
-        "Height property in the resolution property, then configuration will trying to calculate the " & vbCrLf &
-        "Height property value automatically from this property value.", 0)>
-        <Comment("Value format: <Width(Integer)>:<Height(Integer)>" & vbCrLf &
+
+        <Comment(
+            "This property is associated with the Resolution property: if you are not specific the " & vbCrLf &
+            "Height property in the resolution property, then configuration will trying to calculate the " & vbCrLf &
+            "Height property value automatically from this property value.", 0)>
+        <Comment(
+        "Value format: <Width(Integer)>:<Height(Integer)>" & vbCrLf &
         "Here is a property value example: 16:9" & vbCrLf &
         "The example means Width/Height=16/9, so that when the Resolution property is specific as 19200 " & vbCrLf &
         "and the Height value is leave empty, then configuration will calculate the empty height " & vbCrLf &
         "value as 19200*9/16 = 10800; So that the Resolution value can be set to 19200,10800", 1)>
-        <MappingsIgnored> Public Property AspectRatio As String = "16:9"
+        Public Property AspectRatio As String = "16:9"
 
-        <Comment("This property specific the height value of the arrow shape which is stand for a gene object on the chromesome.", 0)>
+        <Comment(
+            "This property specific the height value of the arrow shape which is stand for a gene object on the chromesome.", 0)>
         Public Property GeneObjectHeight As Integer
 
-        <Comment("This property specific the drawing segment length of a line, value unit is Mbp; defualt value is 0.1MBp, " & vbCrLf &
-        "which means the script will draw the line stands 100KBp", 0)>
+        <Comment(
+            "This property specific the drawing segment length of a line, value unit is Mbp; defualt value is 0.1MBp, " & vbCrLf &
+            "which means the script will draw the line stands 100KBp", 0)>
         Public Property LineLength As Double
 
-        <Comment("This property specific the drawing height of a line, it can be in the format of a integer value or a expression " & vbCrLf &
-        "associated with GeneObjectHeight property.", 0)>
-        <Comment("Value example:   600, the property value is specific as an integer which means the drawing height will be 600 pixels;" & vbCrLf &
+        <Comment(
+            "This property specific the drawing height of a line, it can be in the format of a integer value or a expression " & vbCrLf &
+            "associated with GeneObjectHeight property.", 0)>
+        <Comment(
+        "Value example:   600, the property value is specific as an integer which means the drawing height will be 600 pixels;" & vbCrLf &
         "6x , this property value is assign by a expression which means the drawing height value " & vbCrLf &
         "is the 6 times of the GeneObjectHeight value.", 1)>
         Public Property LineHeight As String
@@ -105,24 +116,23 @@ Namespace Configuration
         Public Property Margin As Integer
 
         Public Property FlagLength As Integer
-        <Comment("This property value can be both Integer value or an expression associated with FlagLength property", 0)>
+
+        <Comment(
+            "This property value can be both Integer value or an expression associated with FlagLength property", 0)>
         <MappingsIgnored> Public Property FLAG_HEIGHT As String
 
-        <Comment("This property shows how to aligned the function description string in the drawing image.", 0)>
-        <Comment("Available value is: left, middle, right", 1)>
+        <Comment(
+            "This property shows how to aligned the function description string in the drawing image.", 0)>
+        <Comment(
+        "Available value is: left, middle, right", 1)>
         Public Property FunctionAlignment As String = "middle"
 
         <Comment(
-        "---------------------------------------------------------------------------------------------------" & vbCrLf &
-        "                  This section will configure the drawing fonts style opetions" & vbCrLf &
-        "---------------------------------------------------------------------------------------------------", -1)>
-        <Comment("""FontName"",size[,bold/italic/regular/strikeout/underline]", 0)>
-        <Comment("""FontName"",size[,StyleCombination]" & vbCrLf &
-    "Drawing.FontStyle.Bold = 1" & vbCrLf &
-               "Drawing.FontStyle.Italic = 2" & vbCrLf &
-               "Drawing.FontStyle.Regular = 0" & vbCrLf &
-             "Drawing.FontStyle.Strikeout = 8" & vbCrLf &
-               "Drawing.FontStyle.Underline = 4", 1)>
+            "---------------------------------------------------------------------------------------------------" & vbCrLf &
+            "                  This section will configure the drawing fonts style opetions" & vbCrLf &
+            "---------------------------------------------------------------------------------------------------", -1)>
+        <Comment("Text font value in html css style format:", 0)>
+        <Comment("Example as: ""font-style: normal; font-size: 20; font-family: Ubuntu;""", 1)>
         Public Property LocusTagFont As String = CSSFont.UbuntuLarge
         Public Property FunctionAnnotationFont As String = CSSFont.UbuntuNormal
         Public Property SecondaryRuleFont As String = CSSFont.UbuntuNormal
@@ -130,17 +140,18 @@ Namespace Configuration
 
 #Region "Color Configurations"
 
-        <Comment("--------------------------------------------------------------------------------------------" & vbCrLf &
-             "    The sections below will configure the colors profile of the script drawing objects." & vbCrLf &
-             "--------------------------------------------------------------------------------------------", 0
-        )>
+        <Comment(
+            "--------------------------------------------------------------------------------------------" & vbCrLf &
+            "    The sections below will configure the colors profile of the script drawing objects." & vbCrLf &
+            "--------------------------------------------------------------------------------------------", 0)>
         <Comment(
         "Value format: " & vbCrLf &
         "<Alpha(Integer)>,<Red(Integer)>,<Green(Integer)>,<Blue(Integer)> " & vbCrLf &
         "<Red(Integer)>,<Green(Integer)>,<Blue(Integer)> " & vbCrLf &
         "<ARGB(Integer)> " & vbCrLf &
         "<ColorName(String)>", 1)>
-        <Comment("Please notice that the A, R, G, B value for the color is limit at 0-255", 2)>
+        <Comment(
+        "Please notice that the A, R, G, B value for the color is limit at 0-255", 2)>
         Public Property DeletionMutation As String
         Public Property IntegrationMutant As String
 
@@ -154,9 +165,9 @@ Namespace Configuration
 #End Region
 
         <Comment(
-        "--------------------------------------------------------------------------------------------------" & vbCrLf &
-        "                The section below will configure the drawing data save opetions" & vbCrLf &
-        "--------------------------------------------------------------------------------------------------", 0)>
+            "--------------------------------------------------------------------------------------------------" & vbCrLf &
+            "                The section below will configure the drawing data save opetions" & vbCrLf &
+            "--------------------------------------------------------------------------------------------------", 0)>
         <Comment("Valid value is jpg, bmp, png, gif, wmf, emf", 1)>
         Public Property SavedFormat As String
 
@@ -164,24 +175,24 @@ Namespace Configuration
 
         Public Shared Function [DefaultValue]() As Config
             Return New Config With {
-            .Resolution = "10000,4000",
-            .AspectRatio = "16:9",
-            .DeletionMutation = "DarkBlue",
-            .IntegrationMutant = "Red",
-            .GeneObjectHeight = 85,
-            .SavedFormat = "wmf",
-            .tRNAColor = "Yellow",
-            .LineLength = 0.1,
-            .Margin = 400,
-            .LineHeight = "5x",
-            .FlagLength = 60,
-            .FLAG_HEIGHT = "3x",
-            .DefaultRNAColor = 155,
-            .ribosomalRNAColor = "DarkGreen",
-            .LocusTagFont = CSSFont.UbuntuLarge,
-            .LegendFont = CSSFont.UbuntuNormal,
-            .AddLegend = "TRUE"
-        }
+                .Resolution = "18000,10000",
+                .AspectRatio = "16:9",
+                .DeletionMutation = "DarkBlue",
+                .IntegrationMutant = "Red",
+                .GeneObjectHeight = 85,
+                .SavedFormat = "png",
+                .tRNAColor = "Yellow",
+                .LineLength = 0.1,
+                .Margin = 400,
+                .LineHeight = "5x",
+                .FlagLength = 60,
+                .FLAG_HEIGHT = "3x",
+                .DefaultRNAColor = 155,
+                .ribosomalRNAColor = "DarkGreen",
+                .LocusTagFont = CSSFont.UbuntuLarge,
+                .LegendFont = CSSFont.UbuntuNormal,
+                .AddLegend = "TRUE"
+            }
         End Function
 
 #Region "Map Parser"
@@ -192,67 +203,35 @@ Namespace Configuration
             Return CSSFont.TryParse(css)
         End Function
 
-        Public Shared Function TypeOfAlignment(p As String) As DrawingModels.SegmentObject.__TextAlignment
+        Public Shared Function TypeOfAlignment(p As String) As SegmentObject.__TextAlignment
             p = p.Trim.ToLower
 
-            If Not DrawingModels.SegmentObject.TextAlignments.ContainsKey(p) Then
-                Return DrawingModels.SegmentObject.TextAlignments("middle")
+            If Not SegmentObject.TextAlignments.ContainsKey(p) Then
+                Return SegmentObject.TextAlignments("middle")
             Else
-                Return DrawingModels.SegmentObject.TextAlignments(p.ToLower)
+                Return SegmentObject.TextAlignments(p.ToLower)
             End If
         End Function
 
-        Public Function GetDrawingSize(config As String) As System.Drawing.Size
-            Dim Tokens As String() = config.Trim.Split(CChar(","))
+        Public Function GetDrawingSize(config As String) As Size
+            Dim tokens$() = config.Trim.Split(CChar(","))
 
-            If Tokens.Count = 1 Then
+            If tokens.Length = 1 Then
                 Dim arTokens = AspectRatio.Split(CChar(":"))
-                Dim Width As Integer = Val(Tokens.First)
+                Dim Width As Integer = Val(tokens.First)
                 Dim Height As Integer = Width * Val(arTokens.Last) / Val(arTokens.First)
-                Return New System.Drawing.Size(Width, Height)
+                Return New Size(Width, Height)
             Else
-                Return New System.Drawing.Size(Val(Tokens.First), Val(Tokens.Last))
+                Return New Size(Val(tokens.First), Val(tokens.Last))
             End If
         End Function
 
-        Public Shared Function GetDrawingColor(strValue As String) As System.Drawing.Color
-            If String.IsNullOrEmpty(strValue) Then
-                Return System.Drawing.Color.Black
-            End If
-
-            Dim Tokens As String() = strValue.Split(CChar(","))
-
-            If Tokens.IsNullOrEmpty Then '值是空的，返回默认的黑色
-                Return System.Drawing.Color.Black
-            ElseIf Tokens.Count = 4 Then
-                Dim A = Val(Tokens(0)), R = Val(Tokens(1)), G = Val(Tokens(2)), B = Val(Tokens(3))
-                Return System.Drawing.Color.FromArgb(A, R, G, B)
-            ElseIf Tokens.Count = 3 Then
-                Dim A = Val(Tokens(0)), R = Val(Tokens(1)), G = Val(Tokens(2)), B = Val(Tokens(3))
-                Return System.Drawing.Color.FromArgb(R, G, B)
-            ElseIf Tokens.Count = 1 Then
-                Dim argb_value As Integer = Val(Tokens.First)
-                If argb_value = 0 Then '可能是一个颜色的名称
-                    Return System.Drawing.Color.FromName(Tokens.First.Trim)
-                Else
-                    Return System.Drawing.Color.FromArgb(argb_value)
-                End If
-            End If
+        Public Shared Function GetDrawingColor(strValue As String) As Color
+            Return strValue.TranslateColor
         End Function
 
-        Public Function GetSavedImageFormat(config As String) As ImageFormat
+        Public Shared Function GetSavedImageFormat(config As String) As ImageFormat
             Return GetSaveImageFormat(config)
-        End Function
-
-        Public Function ToConfigurationModel() As DataReader
-            Dim data As DataReader = ConfigurationMappings.LoadMapping(Of DataReader, Config)(Me)
-
-            With data
-                .LineHeight = GetLineHeight
-                .FLAG_HEIGHT = GetFlagHeight
-
-                Return data
-            End With
         End Function
 
         Public Function GetTextAlignment(s As String) As TextAlignment
@@ -264,6 +243,17 @@ Namespace Configuration
             End Select
         End Function
 #End Region
+
+        Public Function ToConfigurationModel() As DataReader
+            Dim data As DataReader = ConfigurationMappings.LoadMapping(Of DataReader, Config)(Me)
+
+            With data
+                .LineHeight = GetLineHeight
+                .FLAG_HEIGHT = GetFlagHeight
+
+                Return data
+            End With
+        End Function
 
         Public Overrides Function Save(Optional Path As String = "", Optional encoding As System.Text.Encoding = Nothing) As Boolean Implements ISaveHandle.Save
             Dim Text As String = Me.ToConfigDoc

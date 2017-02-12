@@ -38,7 +38,6 @@ Namespace Configuration
         <Extension>
         Public Function FromConfig(config As Config) As ChromosomeMap.DrawingDevice
             Dim Data As DataReader = config.ToConfigurationModel
-            Dim size As Size = Data.Resolution
             Dim Device As New ChromosomeMap.DrawingDevice(Data)
             Return Device
         End Function

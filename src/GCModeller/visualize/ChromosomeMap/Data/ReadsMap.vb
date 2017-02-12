@@ -39,6 +39,8 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.SAM
+Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
+Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
 ''' <summary>
 ''' 统计一个rna-seq文库之中的每一个碱基的频数
@@ -83,7 +85,7 @@ Public Module ReadsMap
                                <Parameter("Range.Start")> RangeStart As Long,
                                <Parameter("Range.Ends")> RangeEnds As Long,
                                PTT As PTT,
-                               Config As ChromosomeMap.Configurations) As Image
+                               Config As Config) As Image
 
         '筛选出符合范围限制内的所有的Reads
         Dim Ranges As New NucleotideLocation(RangeStart, RangeEnds, False)
@@ -116,22 +118,27 @@ Public Module ReadsMap
         'Dim Device = SMRUCC.genomics.AnalysisTools.DataVisualization.ChromosomeMap.CreateDevice(Config)
         'Dim res = Device.InvokeDrawing(Model).Value.First
 
-        Dim Gr = New Size(Ranges.FragmentSize + Config.Margin * 4, Config.Margin * 2 * 4 + 2 * Config.Margin).CreateGDIDevice
+        Dim canvas = New Size(Ranges.FragmentSize + Config.Margin * 4, Config.Margin * 2 * 4 + 2 * Config.Margin).CreateGDIDevice
 
         'Call Gr.Gr_Device.DrawImage(res, 0, CSng(Gr.Height - res.Height))
 
-        Dim Max = (From point In HistoneGram.Values Select point.value).ToArray.Max
-        Dim d As Integer = Gr.Height - 2 * Config.Margin
+        Dim Max = (From point In HistoneGram.Values Select point.value).Max
+        Dim d As Integer = canvas.Height - 2 * Config.Margin
         Dim LinePen As New Pen(Color.Black)
         Dim x As Integer = Config.Margin
-        Dim bottom = Gr.Height - Config.Margin * 2 * 4
+        Dim bottom = canvas.Height - Config.Margin * 2 * 4
         Dim ConfData = Config.ToConfigurationModel
-        Dim ModelHash = (From Gene In Model.GeneObjects Select Gene Order By Gene.Left Ascending).ToDictionary(Function(Gene) CLng(Gene.Left))
+        Dim ModelHash = (From gene As SegmentObject
+                         In Model.GeneObjects
+                         Select gene
+                         Order By gene.Left Ascending) _
+                            .ToDictionary(Function(gene) CLng(gene.Left))
+
         Dim PreRight As Integer = ModelHash.First.Value.Left + 5
         Dim Level As Integer
 
         For Each Point In HistoneGram
-            Call Gr.Graphics.DrawLine(LinePen, New Point(x, bottom), New Point(x, bottom - bottom * (Point.Value.value / d)))
+            Call canvas.Graphics.DrawLine(LinePen, New Point(x, bottom), New Point(x, bottom - bottom * (Point.Value.value / d)))
             x += 1
 
             If ModelHash.ContainsKey(Point.Key) Then
@@ -149,7 +156,7 @@ Public Module ReadsMap
 
                 GeneObject.Height = Config.GeneObjectHeight
 
-                Dim drawingSize = GeneObject.Draw(g:=Gr.Graphics,
+                Dim drawingSize = GeneObject.Draw(g:=canvas.Graphics,
                                             Location:=New Point(x, bottom + Config.GeneObjectHeight + Level * 110),
                                             ConvertFactor:=1,
                                             RightLimited:=GeneObject.Right + 2, conf:=ConfData)
@@ -157,22 +164,22 @@ Public Module ReadsMap
                 'TSS的位置大概在ATG上有的54bp的位置
                 Dim x1 = x + GeneObject.Direction * 60
 
-                Call Gr.Graphics.FillRectangle(Brushes.Black, New Rectangle(x, bottom, 20, 20))
-                Call Gr.Graphics.DrawString("TSS-" & GeneObject.LocusTag,
+                Call canvas.Graphics.FillRectangle(Brushes.Black, New Rectangle(x, bottom, 20, 20))
+                Call canvas.Graphics.DrawString("TSS-" & GeneObject.LocusTag,
                                              New Font(FontFace.MicrosoftYaHei, 10),
                                              Brushes.Black,
                                              New Point(x1, bottom + 40))
 
-                Call Gr.Graphics.DrawLine(LinePen, New Point(x, bottom), New Point(x, bottom + 20))
-                Call Gr.Graphics.DrawLine(LinePen, New Point(GeneObject.Right, bottom), New Point(GeneObject.Right, bottom + 20))
-                Call Gr.Graphics.DrawString(GeneObject.LocusTag, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(x, bottom + 20))
+                Call canvas.Graphics.DrawLine(LinePen, New Point(x, bottom), New Point(x, bottom + 20))
+                Call canvas.Graphics.DrawLine(LinePen, New Point(GeneObject.Right, bottom), New Point(GeneObject.Right, bottom + 20))
+                Call canvas.Graphics.DrawString(GeneObject.LocusTag, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(x, bottom + 20))
             End If
         Next
 
-        Call Gr.Graphics.DrawString(HistoneGram.First.Key, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(Config.Margin, bottom))
-        Call Gr.Graphics.DrawString(HistoneGram.Last.Key, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(x, bottom))
+        Call canvas.Graphics.DrawString(HistoneGram.First.Key, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(Config.Margin, bottom))
+        Call canvas.Graphics.DrawString(HistoneGram.Last.Key, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(x, bottom))
 
-        Return Gr.ImageResource
+        Return canvas.ImageResource
     End Function
 
     ''' <summary>
@@ -181,11 +188,11 @@ Public Module ReadsMap
     ''' <param name="file"></param>  
     ''' <returns></returns>
     <ExportAPI("Read.TXT.Drawing_Config")>
-    Public Function LoadConfig(File As String) As Configurations
+    Public Function LoadConfig(File As String) As Config
         If Not File.FileExists Then
             Return ChromesomeMapAPI.GetDefaultConfiguration(File)
         Else
-            Return File.LoadConfiguration(Of Configurations)()
+            Return File.LoadConfiguration(Of Config)()
         End If
     End Function
 
