@@ -28,11 +28,9 @@
 
 Imports System.Drawing
 Imports System.Drawing.Imaging
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Visualize
-
+Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 
 Public Class DrawingDevice
 
@@ -70,7 +68,7 @@ Public Class DrawingDevice
     ''' <remarks></remarks>
     Dim rlMain As Single  ', rlSecnd As Integer
 
-    ReadOnly _Conf As Conf
+    ReadOnly _Conf As DataReader
     ReadOnly _RuleFactor As Double
     Dim _TextAlignmentMethod As DrawingModels.SegmentObject.__TextAlignment
     Dim UnitText As String
@@ -82,8 +80,8 @@ Public Class DrawingDevice
     ''' </summary>
     Public Const MB_UNIT As Long = 1000 * 1000
 
-    Sub New(ConfigData As Conf)
-        Dim size = ConfigData.Resolution
+    Sub New(ConfigData As DataReader)
+        Dim size As Size = ConfigData.Resolution
         _Conf = ConfigData
         _Width = size.Width
         _Height = size.Height
@@ -96,7 +94,7 @@ Public Class DrawingDevice
     End Sub
 
     Sub New(width As Integer, height As Integer)
-        _Conf = Configurations.DefaultValue.ToConfigurationModel
+        _Conf = Config.DefaultValue.ToConfigurationModel
         _Width = width
         _Height = height
         SPLIT_HEIGHT = height / 11
@@ -109,7 +107,7 @@ Public Class DrawingDevice
         _Width = Width
         _Height = (6 / 19) * Width
         SPLIT_HEIGHT = _Height / 11
-        _Conf = Configurations.DefaultValue.ToConfigurationModel
+        _Conf = Config.DefaultValue.ToConfigurationModel
         _ScaleFactor = (Width - 4 * MARGIN) / _UnitLength
         Call __initialization()
     End Sub
@@ -118,7 +116,7 @@ Public Class DrawingDevice
     ''' 进行一些系数的换算
     ''' </summary>
     Private Sub __initialization()
-        Me._TextAlignmentMethod = Configurations.TypeOfAlignment(_Conf.FunctionAlignment)
+        Me._TextAlignmentMethod = Config.TypeOfAlignment(_Conf.FunctionAlignment)
         RuleFont = _Conf.SecondaryRuleFont
 
         Me._UnitConvert = Me._UnitLength / ONE_TENTH_MBP_UNIT
@@ -136,7 +134,7 @@ Public Class DrawingDevice
         End If
     End Sub
 
-    Public Function InvokeDrawing(ObjectModel As DrawingModels.ChromesomeDrawingModel) As KeyValuePair(Of ImageFormat, Bitmap())
+    Public Function InvokeDrawing(ObjectModel As DrawingModels.ChromesomeDrawingModel) As Bitmap()
 
         Call ObjectModel.ToString.__DEBUG_ECHO
 
@@ -152,9 +150,7 @@ Public Class DrawingDevice
         Call ObjectModel.MyvaCogColorProfile.Add("COG_NOT_ASSIGNED", New SolidBrush(_Conf.NoneCogColor))
 
         Try
-            Return New KeyValuePair(Of ImageFormat, Bitmap())(
-                    _Conf.SavedFormat,
-                    __invokeDrawing(ObjectModel))
+            Return __invokeDrawing(ObjectModel)
         Catch ex As Exception
             Call GDI_PLUS_UNHANDLE_EXCEPTION.Warning
             Throw ex
@@ -184,28 +180,23 @@ Public Class DrawingDevice
     Const GDI_PLUS_MEMORY_EXCEPTION As String = "It seems the image resolution can not be hold on this computer because the free memory is not reach the requirements of the GDI+ to drawing such a big image file."
 
     Private Function __chrMapDrawerProcessor(LDM As DrawingModels.ChromesomeDrawingModel,
-                                                 ByRef startLen As Integer,
-                                                 ByRef locus As Integer,
-                                                 IsFirst As Boolean) As Bitmap
+                                             ByRef startLen%,
+                                             ByRef locus%,
+                                             isFirst As Boolean) As Bitmap
 
         Dim FlagLength As Integer = _Conf.FlagLength, FlagHeight As Integer = _Conf.FLAG_HEIGHT
-        Dim Gr As GDIPlusDeviceHandle
+        Dim g As GDIPlusDeviceHandle
+
+        Call $"Resolution is {_Width}, {_Height}".__DEBUG_ECHO
 
         Try
-            Call $"Resolution is {_Width}, {_Height}".__DEBUG_ECHO
-            Call FlushMemory()
-
-            Gr = New Size(_Width, _Height).CreateGDIDevice
+            g = New Size(_Width, _Height).CreateGDIDevice
         Catch ex As Exception
             ex = New Exception($"Resolution is {_Width}, {_Height}", ex)
             ex = New Exception(GDI_PLUS_MEMORY_EXCEPTION, ex)
 
             Throw ex
         End Try
-
-        Gr.CompositingMode = Drawing2D.CompositingMode.SourceOver
-        Gr.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
-        Gr.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBilinear
 
         Dim Height As Integer
         Dim Line As Integer = 0
@@ -218,7 +209,7 @@ Public Class DrawingDevice
         Dim _Start_Length = startLen
         Dim FF As Boolean = False
         Dim ChangeLine = Function() As Boolean
-                             If IsFirst Then
+                             If isFirst Then
                                  Height = Line * SPLIT_HEIGHT + MARGIN
                              Else
                                  If FF Then
@@ -237,8 +228,8 @@ Public Class DrawingDevice
         Dim RightEnd As Integer = _Width - 2 * MARGIN
 
         Call ChangeLine()
-        If IsFirst Then
-            Call __drawRuleLine(gdi:=Gr.Graphics,
+        If isFirst Then
+            Call __drawRuleLine(gdi:=g.Graphics,
                                   Height:=Height,
                                   Line:=Line,
                                   LinePen:=LinePen,
@@ -249,7 +240,7 @@ Public Class DrawingDevice
                                            _start_Length:=_Start_Length,
                                            FlagHeight:=FlagHeight,
                                            FlagLength:=FlagLength,
-                                           GrDevice:=Gr.Graphics,
+                                           GrDevice:=g.Graphics,
                                            Height:=Height,
                                            NextLength:=NextLength, scale:=_ScaleFactor)
         End If
@@ -272,7 +263,7 @@ Public Class DrawingDevice
                     RightEnd = _Width - (NextLength - LDM.Size) * _ScaleFactor - 2 * MARGIN
                 End If
 
-                Call __drawRuleLine(gdi:=Gr.Graphics,
+                Call __drawRuleLine(gdi:=g.Graphics,
                                       Height:=Height,
                                       Line:=Line,
                                       LinePen:=LinePen,
@@ -287,7 +278,7 @@ Public Class DrawingDevice
                                                _start_Length:=_Start_Length,
                                                FlagHeight:=FlagHeight,
                                                FlagLength:=FlagLength,
-                                               GrDevice:=Gr.Graphics,
+                                               GrDevice:=g.Graphics,
                                                Height:=Height,
                                                NextLength:=NextLength,
                                                scale:=_ScaleFactor)       '每换一行则首先绘制突变数据
@@ -304,7 +295,7 @@ Public Class DrawingDevice
             Gene.Height = _Conf.GeneObjectHeight
 
             Dim drawingLociLeft As Integer = (Gene.Left - _Start_Length) * _ScaleFactor + MARGIN
-            Dim drawingSize = Gene.Draw(g:=Gr.Graphics,
+            Dim drawingSize = Gene.Draw(g:=g.Graphics,
                                             Location:=New Point(drawingLociLeft, Height + 100 + Level * 110),
                                             ConvertFactor:=_ScaleFactor,
                                             RightLimited:=RightEnd,
@@ -312,12 +303,16 @@ Public Class DrawingDevice
         Next
 
         startLen = _Start_Length
-        If _Conf.AddLegend Then Call Gr.Graphics.DrawingCOGColors(LDM.MyvaCogColorProfile,
-                                                          ref:=New Point(MARGIN, _Height),
-                                                          legendFont:=_Conf.LegendFont,
-                                                          width:=_Width,
-                                                          margin:=MARGIN)
-        Return Gr.ImageResource
+
+        If _Conf.AddLegend Then
+            Call g.Graphics.DrawingCOGColors(
+                LDM.MyvaCogColorProfile,
+                ref:=New Point(MARGIN, _Height),
+                legendFont:=_Conf.LegendFont,
+                width:=_Width,
+                margin:=MARGIN)
+        End If
+        Return g.ImageResource
     End Function
 
     Private Sub __drawRuleLine(gdi As Graphics,

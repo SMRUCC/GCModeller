@@ -15,8 +15,9 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.GoStat
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.SequenceModel.FASTA
-
+Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
 
@@ -166,5 +167,18 @@ Partial Module CLI
         Next
 
         Return output.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/COG.profiling.plot",
+               Usage:="/COG.profiling.plot /in <myvacog.csv> [/size <1800,1200> /out <out.png>]")>
+    Public Function COGCatalogProfilingPlot(args As CommandLine) As Integer
+        Dim [in] = args("/in")
+        Dim size As Size = args.GetValue("/size", New Size(1800, 1200))
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".COG.profiling.png")
+        Dim COGs As IEnumerable(Of MyvaCOG) = [in].LoadCsv(Of MyvaCOG)
+
+        Return COGs.COGCatalogProfilingPlot(size) _
+            .SaveAs(out) _
+            .CLICode
     End Function
 End Module

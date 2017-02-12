@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::a96722725ab5786abf5c1409e5cc7748, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\Function.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel
 
@@ -134,6 +135,26 @@ Namespace Assembly.NCBI.COG
             Next
 
             Return 0
+        End Function
+
+        Public Shared ReadOnly Property NotAssigned$ = COGCategories.NotAssigned.Description
+
+        Public Function GetCatalog(COG As Char) As NamedValue(Of String)
+            Dim func$ = Nothing
+
+            For Each [class] As COG.Catalog In Me._Catalogs  '' ??? 有BUG？？？
+                If [class].GetDescription(COG, func) Then
+                    Return New NamedValue(Of String) With {
+                        .Name = [class].Description,
+                        .Value = func
+                    }
+                End If
+            Next
+
+            Return New NamedValue(Of String) With {
+                .Name = [Function].NotAssigned,
+                .Value = "-"
+            }
         End Function
 
         ''' <summary>

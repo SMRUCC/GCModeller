@@ -89,7 +89,7 @@ Namespace LocalBLAST.Application.RpsBLAST
     ''' </summary>
     ''' <remarks></remarks>
     Public Class MyvaCOG
-        Implements INamedValue, ICOGDigest, IQueryHits
+        Implements INamedValue, ICOGDigest, IQueryHits, ICOGCatalog
 
         <Column("query_name")> Public Property QueryName As String Implements INamedValue.Key, IBlastHit.locusId
         Public Property Length As Integer Implements ICOGDigest.Length
@@ -101,8 +101,8 @@ Namespace LocalBLAST.Application.RpsBLAST
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Column("COG_category")> Public Property Category As String
-        <Column("COG")> Public Property COG As String Implements ICOGDigest.COG, IBlastHit.Address
+        <Column("COG_category")> Public Property Category As String Implements ICOGCatalog.Catalog
+        <Column("COG")> Public Property COG As String Implements ICOGDigest.COG, IBlastHit.Address, ICOGCatalog.COG
         <Column("description")> Public Property Description As String Implements ICOGDigest.Product
 
         Public Property Evalue As Double

@@ -75,40 +75,6 @@ Partial Module CLI
         Return res.SaveAs(out, ImageFormats.Png)
     End Function
 
-    <ExportAPI("--Drawing.ChromosomeMap",
-               Info:="Drawing the chromosomes map from the PTT object as the basically genome information source.",
-               Usage:="--Drawing.ChromosomeMap /ptt <genome.ptt> [/conf <config.inf> /out <dir.export> /COG <cog.csv>]")>
-    <Group(CLIGrouping.DataVisualizeTools)>
-    Public Function DrawingChrMap(args As CommandLine) As Integer
-        Dim PTT = args.GetObject("/ptt", AddressOf TabularFormat.PTT.Load)
-        Dim confInf As String = args("/conf")
-        Dim out As String = args.GetValue("/out", App.CurrentDirectory)
-        Dim config As ChromosomeMap.Configurations
-
-        If String.IsNullOrEmpty(confInf) Then
-            confInf = out & "/config.inf"
-        End If
-
-        If Not confInf.FileExists Then
-Create:     config = ChromosomeMap.GetDefaultConfiguration(confInf)
-        Else
-            Try
-                config = ChromosomeMap.LoadConfig(confInf)
-            Catch ex As Exception
-                GoTo Create
-            End Try
-        End If
-
-        Dim COG As String = args("/COG")
-        Dim COGProfiles As MyvaCOG() = COG.LoadCsv(Of MyvaCOG).ToArray
-        Dim Device = ChromosomeMap.CreateDevice(config)
-        Dim Model = ChromosomeMap.FromPTT(PTT, config)
-        Model = ChromosomeMap.ApplyCogColorProfile(Model, COGProfiles)
-        Dim res = Device.InvokeDrawing(Model)
-
-        Return ChromosomeMap.SaveImage(res, out, "tiff")
-    End Function
-
     <ExportAPI("--Gendist.From.Self.Overviews", Usage:="--Gendist.From.Self.Overviews /blast_out <blast_out.txt>")>
     Public Function SelfOverviewAsMAT(args As CommandLine) As Integer
         Dim blastOut As String = args("/blast_out")

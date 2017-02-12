@@ -36,7 +36,7 @@ Imports Microsoft.VisualBasic.Mathematical
 Namespace Topologically
 
     ''' <summary>
-    ''' Mirror 或者 Palindrome
+    ''' Mirror 或者 Palindrome 位点的搜索结果的csv文件存储模型
     ''' </summary>
     Public Class PalindromeLoci : Inherits Contig
         Implements I_PolymerSequenceModel

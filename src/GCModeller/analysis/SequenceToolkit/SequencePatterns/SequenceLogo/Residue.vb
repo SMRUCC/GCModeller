@@ -186,8 +186,10 @@ Namespace SequenceLogo
 
         ''' <summary>
         ''' The height of letter a in column i Is given by
-        '''    height = f(a,i) x R(i)
         ''' 
+        ''' ```
+        '''    height = f(a,i) x R(i)
+        ''' ```
         ''' (该残基之中本类型的字母的绘制的高度)
         ''' </summary>
         ''' <returns></returns>

@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Imaging
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -41,7 +42,9 @@ Imports Oracle.Java.IO.Properties.Reflector
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
 ''' <summary>
@@ -54,7 +57,7 @@ Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 Public Module ChromesomeMapAPI
 
     <ExportAPI("DescribTest")>
-    Public Function DescribTest(genome As PTT, config As Configurations, Optional sites As Integer = 500) As ChromesomeDrawingModel
+    Public Function DescribTest(genome As PTT, config As Config, Optional sites As Integer = 500) As ChromesomeDrawingModel
         Dim rand As New Random(5 * (Now.ToBinary Mod 23))
         Dim nSites = (From i As Integer In sites.Sequence.AsParallel
                       Let lociLeft As Integer = genome.Size * rand.NextDouble
@@ -148,7 +151,7 @@ Public Module ChromesomeMapAPI
     <ExportAPI("Device.Invoke_Drawing")>
     Public Function InvokeDrawing(<Parameter("Gr.Device")> Device As DrawingDevice,
                                   <Parameter("Chr.Gr.Model", "The drawing object which was represents the bacteria genome chromosomes.")>
-                                  Model As ChromesomeDrawingModel) As KeyValuePair(Of Imaging.ImageFormat, Bitmap())
+                                  Model As ChromesomeDrawingModel) As Bitmap()
         Return Device.InvokeDrawing(Model)
     End Function
 
@@ -161,9 +164,9 @@ Public Module ChromesomeMapAPI
     ''' <remarks></remarks>
     <ExportAPI("ColorProfiles.Apply.From.COGs")>
     Public Function ApplyCogColorProfile(Model As ChromesomeDrawingModel,
-                                             <Parameter("COG.Myva")>
-                                             MyvaCOG As IEnumerable(Of ICOGDigest)) As ChromesomeDrawingModel
-        Return ApplyingCOGCategoryColor(MyvaCOG.ToArray, Model)
+                                         <Parameter("COG.Myva")>
+                                         MyvaCOG As IEnumerable(Of ICOGCatalog)) As ChromesomeDrawingModel
+        Return MyvaCOG.ToArray.ApplyingCOGCategoryColor(Model)
     End Function
 
     ''' <summary>
@@ -173,13 +176,13 @@ Public Module ChromesomeMapAPI
     ''' <returns></returns>
     ''' 
     <ExportAPI("Read.TXT.Drawing_Config")>
-    Public Function LoadConfig(File As String) As Configurations
-        Return File.LoadConfiguration(Of Configurations)(AddressOf GetDefaultConfiguration)
+    Public Function LoadConfig(File As String) As Config
+        Return File.LoadConfiguration(Of Config)(AddressOf GetDefaultConfiguration)
     End Function
 
     <ExportAPI("Device.DefaultConfiguration")>
-    Public Function GetDefaultConfiguration(<Parameter("Path.Save")> SaveFile As String) As Configurations
-        Dim df = Configurations.DefaultValue
+    Public Function GetDefaultConfiguration(<Parameter("Path.Save")> SaveFile As String) As Config
+        Dim df = Config.DefaultValue
         Call df.ToConfigDoc.SaveTo(SaveFile)
         Return df
     End Function
@@ -190,8 +193,9 @@ Public Module ChromesomeMapAPI
     ''' <param name="Config"></param>
     ''' <returns></returns>
     <ExportAPI("Device.From.Configuration")>
-    Public Function CreateDevice(Config As Configurations) As DrawingDevice
-        Return ConfigurationCommon.FromConfig(Config)
+    <Extension>
+    Public Function CreateDevice(Config As Config) As DrawingDevice
+        Return Config.FromConfig()
     End Function
 
     <ExportAPI("Device.Open")>
@@ -215,23 +219,24 @@ Public Module ChromesomeMapAPI
     ''' <returns></returns>
     <ExportAPI("Resource.Save")>
     <Extension>
-    Public Function SaveImage(<Parameter("Resource")> res As KeyValuePair(Of Imaging.ImageFormat, Bitmap()),
+    Public Function SaveImage(<Parameter("Resource")> res As Bitmap(),
                               <Parameter("DIR.EXPORT")> EXPORT$,
                               <Parameter("Image.Format", "Value variant in jpg,bmp,emf,exif,gif,png,wmf,tiff")>
-                              Optional Format As String = "") As Integer
+                              Optional format$ = "png") As Integer
+
+        Dim imageFormat As ImageFormats = format.ParseImageFormat  ' 空值是默认返回png的
         Dim i As int = 0
-        Dim imageFormat As Imaging.ImageFormat =
-            If(String.IsNullOrEmpty(Format), Nothing, GetSaveImageFormat(Format))
 
-        Call FileIO.FileSystem.CreateDirectory(EXPORT)
+        Call EXPORT.MkDIR
 
-        If imageFormat Is Nothing Then
-            imageFormat = res.Key  ' 默认使用配置文件之中所设定的格式
+        If format.IsBlank Then
+            format = "png"
         End If
 
-        For Each Bitmap As Bitmap In res.Value
-            Call Bitmap.Save($"{EXPORT}/ChromosomeMap_Drawing_data.resources__{++i}.bmp", imageFormat)
+        For Each Bitmap As Bitmap In res
+            Call Bitmap.SaveAs($"{EXPORT}/ChromosomeMap [{++i}].{format}", imageFormat)
         Next
+
         Return i
     End Function
 
@@ -241,7 +246,7 @@ Public Module ChromesomeMapAPI
     End Function
 
     <ExportAPI("DrawingModel.From.PTT")>
-    Public Function FromPttDir(<Parameter("DIR.PTT")> PTT_DIR As String, conf As Configurations) As ChromesomeDrawingModel
+    Public Function FromPttDir(<Parameter("DIR.PTT")> PTT_DIR As String, conf As Config) As ChromesomeDrawingModel
         Dim PTTFile As String = FileIO.FileSystem.GetFiles(PTT_DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.ptt").First
 #Region ""
         Dim GeneObjects = (From Gene As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
@@ -257,8 +262,8 @@ Public Module ChromesomeMapAPI
 #End Region
         PTTFile = FileIO.FileSystem.GetFiles(PTT_DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.rnt").First
 
-        Dim configurations As Conf = conf.ToConfigurationModel
-        Dim SetRNAColor As New __setRNAColorInvoke(configurations)
+        Dim configs As Configuration.DataReader = conf.ToConfigurationModel
+        Dim SetRNAColor As New __setRNAColorInvoke(configs)
         Dim Rna = (From GeneObject In PTT.Load(PTTFile).GeneObjects
                    Select New SegmentObject With {
                        .Color = SetRNAColor.__setColorBrush(GeneObject.Product),
@@ -276,15 +281,15 @@ Public Module ChromesomeMapAPI
         Model.GeneObjects = (From Gene In GeneObjects
                              Select Gene
                              Order By Gene.Left Ascending).ToArray
-        Model.DrawingConfigurations = configurations
+        Model.DrawingConfigurations = configs
         Model.MutationDatas = New MultationPointData() {}
 
         Return Model
     End Function
 
     <ExportAPI("DrawingModel.From.PTT", Info:="Creates a basically simple drawing model object from the PTT file data.")>
-    Public Function FromPTT(PTT As PTT, conf As Configurations) As ChromesomeDrawingModel
-        Dim Model As ChromesomeDrawingModel = FromPttElements(PTT, conf, PTT.Size)
+    Public Function FromPTT(PTT As PTT, conf As Config) As ChromesomeDrawingModel
+        Dim Model As ChromesomeDrawingModel = FromGenes(PTT, conf, PTT.Size)
         Model.CDSCount = PTT.NumOfProducts
         Return Model
     End Function
@@ -292,45 +297,48 @@ Public Module ChromesomeMapAPI
     ''' <summary>
     ''' 通常使用这个方法从PTT构件之中生成部分基因组的绘制模型数据
     ''' </summary>
-    ''' <param name="PTTGeneObjects"></param>
+    ''' <param name="genes"></param>
     ''' <param name="conf"></param>
     ''' <returns></returns>
-    ''' 
+    ''' <remarks>
+    ''' 在这个函数之中所生成的绘图模型的基因模型之中还没有颜色画刷值
+    ''' </remarks>
     <ExportAPI("DrawingModel.From.PTT.Elements")>
-    Public Function FromPttElements(<Parameter("PTT.Genes")>
-                                    PTTGeneObjects As IEnumerable(Of GeneBrief),
-                                    conf As Configurations,
-                                    <Parameter("Ranges", "The nt length of the gene objects contains in the region.")>
-                                    RangeLength As Integer) As ChromesomeDrawingModel
-#Region ""
-        Dim GeneObjects = (From GeneObject As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
-                           In PTTGeneObjects
-                           Select New SegmentObject With {
-                               .Color = New SolidBrush(Color.Black),
-                               .Product = GeneObject.Product,
-                               .LocusTag = GeneObject.Synonym,
-                               .CommonName = GeneObject.Gene,
-                               .Left = Global.System.Math.Min(GeneObject.Location.Left, GeneObject.Location.Right),
-                               .Right = Global.System.Math.Max(GeneObject.Location.Right, GeneObject.Location.Left),
-                               .Direction = GeneObject.Location.Strand}).ToList
+    Public Function FromGenes(<Parameter("PTT.Genes")>
+                              genes As IEnumerable(Of GeneBrief),
+                              conf As Config,
+                              <Parameter("Ranges", "The nt length of the gene objects contains in the region.")>
+                              rangeLen As Integer) As ChromesomeDrawingModel
+#Region "Create gene models"
+        Dim geneModels = LinqAPI.Exec(Of SegmentObject) <=
+ _
+            From gene As GeneBrief
+            In genes
+            Let position As Location = gene.Location.Normalization
+            Select gm = New SegmentObject With {
+                .Color = New SolidBrush(Color.Black),
+                .Product = gene.Product,
+                .LocusTag = gene.Synonym,
+                .CommonName = gene.Gene,
+                .Left = position.Left,
+                .Right = position.Right,
+                .Direction = gene.Location.Strand
+            } Order By gm.Left Ascending
 #End Region
-        Dim Model = New ChromesomeDrawingModel With {
-            .CDSCount = GeneObjects.Count,
-            .Size = RangeLength,
-            .NumberOfGenes = GeneObjects.Count,
-            .ProteinCount = GeneObjects.Count,
+        Dim model As New ChromesomeDrawingModel With {
+            .CDSCount = geneModels.Count,
+            .Size = rangeLen,
+            .NumberOfGenes = geneModels.Count,
+            .ProteinCount = geneModels.Count,
             .PseudoCDSCount = 0,
             .PseudoGeneCount = 0,
-            .RNACount = 0
+            .RNACount = 0,
+            .GeneObjects = geneModels,
+            .DrawingConfigurations = conf.ToConfigurationModel,
+            .MutationDatas = New MultationPointData() {}
         }
-        Model.GeneObjects = (From Gene As SegmentObject
-                             In GeneObjects
-                             Select Gene
-                             Order By Gene.Left Ascending).ToArray
-        Model.DrawingConfigurations = conf.ToConfigurationModel
-        Model.MutationDatas = New MultationPointData() {}
 
-        Return Model
+        Return model
     End Function
 
     Private Class __setRNAColorInvoke
@@ -338,7 +346,7 @@ Public Module ChromesomeMapAPI
         Dim tRnaColor, DefaultRNAColor, rRNAColor As Color
         Dim _tRnaColor, _DefaultRNAColor, _rRNAColor As Brush
 
-        Sub New(configurations As Conf)
+        Sub New(configurations As Configuration.DataReader)
             Me.tRnaColor = configurations.tRNAColor
             Me.DefaultRNAColor = configurations.DefaultRNAColor
             Me.rRNAColor = configurations.ribosomalRNAColor
@@ -378,9 +386,9 @@ Public Module ChromesomeMapAPI
 
     <ExportAPI("DrawingModel.From.PTT")>
     Public Function FromPttObject(<Parameter("Bacterial.Genome", "Using the gene object model data that define in the database to construct the basically bacterial genome skeleton.")>
-                                  BacterialGenomics As PTTDbLoader, conf As Configurations) As ChromesomeDrawingModel
+                                  genome As PTTDbLoader, conf As Config) As ChromesomeDrawingModel
         Dim GeneObjects = (From GeneObject As GeneBrief
-                           In BacterialGenomics.Values.AsParallel
+                           In genome.Values.AsParallel
                            Select New SegmentObject With {
                                .Color = New SolidBrush(Color.Black),
                                .Product = GeneObject.Product,
@@ -392,7 +400,7 @@ Public Module ChromesomeMapAPI
                                }).ToList
 
         Dim configurations = conf.ToConfigurationModel
-        Dim Model As ChromesomeDrawingModel = BacterialGenomics.RptGenomeBrief.CopyTo(Of ChromesomeDrawingModel)()
+        Dim Model As ChromesomeDrawingModel = genome.RptGenomeBrief.CopyTo(Of ChromesomeDrawingModel)()
         Model.GeneObjects = (From GeneObject As SegmentObject
                                  In GeneObjects
                              Select GeneObject

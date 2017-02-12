@@ -73,9 +73,10 @@ Public Module CatalogProfiling
                                  Optional titleFontStyle$ = CSSFont.PlotTitle,
                                  Optional valueFontStyle$ = CSSFont.Win7Bold,
                                  Optional tickFontStyle$ = CSSFont.Win7LargerBold,
-                                 Optional tick# = 50) As Bitmap
+                                 Optional tick# = 50,
+                                 Optional removeNotAssign As Boolean = True) As Bitmap
 
-        If profile.ContainsKey(NOT_ASSIGN) Then
+        If removeNotAssign AndAlso profile.ContainsKey(NOT_ASSIGN) Then
             profile = New Dictionary(Of String, NamedValue(Of Double)())(profile)
             profile.Remove(NOT_ASSIGN)
         End If
