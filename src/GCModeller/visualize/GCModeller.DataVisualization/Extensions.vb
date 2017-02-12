@@ -97,7 +97,7 @@ Public Module Extensions
 
         Using g As Graphics = Graphics.FromImage(res)
 
-            Dim cogLegendTop = res.Height - 150
+            Dim cogLegendTop = res.Height - 130
             Dim top = cogLegendTop - legend.Height
 
             Call g.DrawImageUnscaled(legend, New Point(left, top))

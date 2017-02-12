@@ -73,7 +73,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
                     .DrawCatalogProfiling(
                         COGProfiles,
                         .Margin,
-                        New Size(2000, 1600))
+                        New Size(2000, 1200))
             End If
 
             Return output.SaveImage(out, .SavedFormat)

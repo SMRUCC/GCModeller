@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Map")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("Map")>
-<Assembly: AssemblyCopyright("Copyright ©  2017")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTitle("GCModeller chromosome map plot tool")>
+<Assembly: AssemblyDescription("GCModeller chromosome map plot tool")>
+<Assembly: AssemblyCompany("SMRUCC genomics institute")>
+<Assembly: AssemblyProduct("GCModeller")>
+<Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2017")>
+<Assembly: AssemblyTrademark("MapPlot")>
 
 <Assembly: ComVisible(False)>
 
