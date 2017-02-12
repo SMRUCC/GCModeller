@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Oracle.Java.IO.Properties
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
@@ -25,6 +26,15 @@ Public Module CLI
         Dim COG As String = args("/COG")
 
         Return PTT.Draw(COG, confInf, out)
+    End Function
+
+    <ExportAPI("/Config.Template", Usage:="/Config.Template [/out <./config.inf>]")>
+    Public Function WriteConfigTemplate(args As CommandLine) As Integer
+        Dim conf As String = args.GetValue("/out", "./config.inf")
+
+        With GetDefaultConfiguration(conf)
+            Return .ToConfigDoc.SaveTo(conf)
+        End With
     End Function
 
     <Extension>
