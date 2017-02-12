@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Imaging
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -150,7 +151,7 @@ Public Module ChromesomeMapAPI
     <ExportAPI("Device.Invoke_Drawing")>
     Public Function InvokeDrawing(<Parameter("Gr.Device")> Device As DrawingDevice,
                                   <Parameter("Chr.Gr.Model", "The drawing object which was represents the bacteria genome chromosomes.")>
-                                  Model As ChromesomeDrawingModel) As KeyValuePair(Of Imaging.ImageFormat, Bitmap())
+                                  Model As ChromesomeDrawingModel) As Bitmap()
         Return Device.InvokeDrawing(Model)
     End Function
 
@@ -192,6 +193,7 @@ Public Module ChromesomeMapAPI
     ''' <param name="Config"></param>
     ''' <returns></returns>
     <ExportAPI("Device.From.Configuration")>
+    <Extension>
     Public Function CreateDevice(Config As Config) As DrawingDevice
         Return Config.FromConfig()
     End Function
@@ -217,23 +219,24 @@ Public Module ChromesomeMapAPI
     ''' <returns></returns>
     <ExportAPI("Resource.Save")>
     <Extension>
-    Public Function SaveImage(<Parameter("Resource")> res As KeyValuePair(Of Imaging.ImageFormat, Bitmap()),
+    Public Function SaveImage(<Parameter("Resource")> res As Bitmap(),
                               <Parameter("DIR.EXPORT")> EXPORT$,
                               <Parameter("Image.Format", "Value variant in jpg,bmp,emf,exif,gif,png,wmf,tiff")>
-                              Optional Format As String = "") As Integer
+                              Optional format$ = "png") As Integer
+
+        Dim imageFormat As ImageFormats = format.ParseImageFormat  ' 空值是默认返回png的
         Dim i As int = 0
-        Dim imageFormat As Imaging.ImageFormat =
-            If(String.IsNullOrEmpty(Format), Nothing, GetSaveImageFormat(Format))
 
-        Call FileIO.FileSystem.CreateDirectory(EXPORT)
+        Call EXPORT.MkDIR
 
-        If imageFormat Is Nothing Then
-            imageFormat = res.Key  ' 默认使用配置文件之中所设定的格式
+        If format.IsBlank Then
+            format = "png"
         End If
 
-        For Each Bitmap As Bitmap In res.Value
-            Call Bitmap.Save($"{EXPORT}/ChromosomeMap_Drawing_data.resources__{++i}.bmp", imageFormat)
+        For Each Bitmap As Bitmap In res
+            Call Bitmap.SaveAs($"{EXPORT}/ChromosomeMap [{++i}].{format}", imageFormat)
         Next
+
         Return i
     End Function
 

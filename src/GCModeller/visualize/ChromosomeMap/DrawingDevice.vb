@@ -134,7 +134,7 @@ Public Class DrawingDevice
         End If
     End Sub
 
-    Public Function InvokeDrawing(ObjectModel As DrawingModels.ChromesomeDrawingModel) As KeyValuePair(Of ImageFormat, Bitmap())
+    Public Function InvokeDrawing(ObjectModel As DrawingModels.ChromesomeDrawingModel) As Bitmap()
 
         Call ObjectModel.ToString.__DEBUG_ECHO
 
@@ -150,9 +150,7 @@ Public Class DrawingDevice
         Call ObjectModel.MyvaCogColorProfile.Add("COG_NOT_ASSIGNED", New SolidBrush(_Conf.NoneCogColor))
 
         Try
-            Return New KeyValuePair(Of ImageFormat, Bitmap())(
-                    _Conf.SavedFormat,
-                    __invokeDrawing(ObjectModel))
+            Return __invokeDrawing(ObjectModel)
         Catch ex As Exception
             Call GDI_PLUS_UNHANDLE_EXCEPTION.Warning
             Throw ex

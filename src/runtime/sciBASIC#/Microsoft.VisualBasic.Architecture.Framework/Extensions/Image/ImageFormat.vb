@@ -115,6 +115,20 @@ Namespace Imaging
             Return __formats(format)
         End Function
 
+        Dim enumFormats As Dictionary(Of String, ImageFormats) =
+            [Enums](Of ImageFormats)() _
+            .ToDictionary(Function(t) t.ToString.ToLower)
+
+        ''' <summary>
+        ''' 不存在的名称会返回<see cref="ImageFormats.Png"/>类型
+        ''' </summary>
+        ''' <param name="format$">大小写不敏感</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function ParseImageFormat(format$) As ImageFormats
+            Return enumFormats.TryGetValue(LCase(format), [default]:=ImageFormats.Png)
+        End Function
+
         ReadOnly __formats As SortedDictionary(Of ImageFormats, ImageFormat) =
             New SortedDictionary(Of ImageFormats, ImageFormat) From {
  _

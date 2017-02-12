@@ -168,7 +168,7 @@ Namespace Configuration
             "--------------------------------------------------------------------------------------------------" & vbCrLf &
             "                The section below will configure the drawing data save opetions" & vbCrLf &
             "--------------------------------------------------------------------------------------------------", 0)>
-        <Comment("Valid value is jpg, bmp, png, gif, wmf, emf", 1)>
+        <Comment("Valid value is jpg, bmp, png, tiff", 1)>
         Public Property SavedFormat As String
 
         Public Property AddLegend As String

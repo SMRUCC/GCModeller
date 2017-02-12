@@ -41,7 +41,6 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
             End Try
         End If
 
-        Dim device As DrawingDevice = ChromosomeMap.CreateDevice(config)
         Dim model As ChromesomeDrawingModel = ChromosomeMap.FromPTT(PTT, config)
 
         If COG.FileExists(True) Then
@@ -49,9 +48,11 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
             model = ChromosomeMap.ApplyCogColorProfile(model, COGProfiles)
         End If
 
-        Return device _
-            .InvokeDrawing(model) _
-            .SaveImage(out, "tiff")
+        With config
+            Return .CreateDevice _
+                .InvokeDrawing(model) _
+                .SaveImage(out, .SavedFormat)
+        End With
     End Function
 
     <ExportAPI("--Draw.ChromosomeMap.genbank",
