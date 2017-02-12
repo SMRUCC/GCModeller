@@ -114,7 +114,7 @@ Public Module ReadsMap
         Call Console.WriteLine("{0} genes was selected from ranges {1}", ScreeningGenes.Count, Ranges.ToString)
 
         '首先在这里生成基因组片段的绘图模型
-        Dim Model = ChromesomeMapAPI.FromPttElements(ScreeningGenes, Config, Ranges.FragmentSize)
+        Dim Model = ChromesomeMapAPI.FromGenes(ScreeningGenes, Config, Ranges.FragmentSize)
         'Dim Device = SMRUCC.genomics.AnalysisTools.DataVisualization.ChromosomeMap.CreateDevice(Config)
         'Dim res = Device.InvokeDrawing(Model).Value.First
 

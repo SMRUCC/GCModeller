@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.Assembly.NCBI
 
 Public Module RenderingColor
 
-    Public Function NeutralizeColor(data As Color()) As Color
+    <Extension> Public Function NeutralizeColor(data As Color()) As Color
         Dim _r As Integer = CInt((From x As Color In data Select x.R).Average(Function(n) CInt(n)))
         Dim _g As Integer = CInt((From x As Color In data Select x.G).Average(Function(n) CInt(n)))
         Dim _b As Integer = CInt((From x As Color In data Select x.B).Average(Function(n) CInt(n)))

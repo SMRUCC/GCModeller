@@ -41,6 +41,7 @@ Imports Oracle.Java.IO.Properties.Reflector
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
@@ -285,7 +286,7 @@ Public Module ChromesomeMapAPI
 
     <ExportAPI("DrawingModel.From.PTT", Info:="Creates a basically simple drawing model object from the PTT file data.")>
     Public Function FromPTT(PTT As PTT, conf As Config) As ChromesomeDrawingModel
-        Dim Model As ChromesomeDrawingModel = FromPttElements(PTT, conf, PTT.Size)
+        Dim Model As ChromesomeDrawingModel = FromGenes(PTT, conf, PTT.Size)
         Model.CDSCount = PTT.NumOfProducts
         Return Model
     End Function
@@ -293,45 +294,48 @@ Public Module ChromesomeMapAPI
     ''' <summary>
     ''' 通常使用这个方法从PTT构件之中生成部分基因组的绘制模型数据
     ''' </summary>
-    ''' <param name="PTTGeneObjects"></param>
+    ''' <param name="genes"></param>
     ''' <param name="conf"></param>
     ''' <returns></returns>
-    ''' 
+    ''' <remarks>
+    ''' 在这个函数之中所生成的绘图模型的基因模型之中还没有颜色画刷值
+    ''' </remarks>
     <ExportAPI("DrawingModel.From.PTT.Elements")>
-    Public Function FromPttElements(<Parameter("PTT.Genes")>
-                                    PTTGeneObjects As IEnumerable(Of GeneBrief),
-                                    conf As Config,
-                                    <Parameter("Ranges", "The nt length of the gene objects contains in the region.")>
-                                    RangeLength As Integer) As ChromesomeDrawingModel
-#Region ""
-        Dim GeneObjects = (From GeneObject As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
-                           In PTTGeneObjects
-                           Select New SegmentObject With {
-                               .Color = New SolidBrush(Color.Black),
-                               .Product = GeneObject.Product,
-                               .LocusTag = GeneObject.Synonym,
-                               .CommonName = GeneObject.Gene,
-                               .Left = Global.System.Math.Min(GeneObject.Location.Left, GeneObject.Location.Right),
-                               .Right = Global.System.Math.Max(GeneObject.Location.Right, GeneObject.Location.Left),
-                               .Direction = GeneObject.Location.Strand}).ToList
+    Public Function FromGenes(<Parameter("PTT.Genes")>
+                              genes As IEnumerable(Of GeneBrief),
+                              conf As Config,
+                              <Parameter("Ranges", "The nt length of the gene objects contains in the region.")>
+                              rangeLen As Integer) As ChromesomeDrawingModel
+#Region "Create gene models"
+        Dim geneModels = LinqAPI.Exec(Of SegmentObject) <=
+ _
+            From gene As GeneBrief
+            In genes
+            Let position As Location = gene.Location.Normalization
+            Select gm = New SegmentObject With {
+                .Color = New SolidBrush(Color.Black),
+                .Product = gene.Product,
+                .LocusTag = gene.Synonym,
+                .CommonName = gene.Gene,
+                .Left = position.Left,
+                .Right = position.Right,
+                .Direction = gene.Location.Strand
+            } Order By gm.Left Ascending
 #End Region
-        Dim Model = New ChromesomeDrawingModel With {
-            .CDSCount = GeneObjects.Count,
-            .Size = RangeLength,
-            .NumberOfGenes = GeneObjects.Count,
-            .ProteinCount = GeneObjects.Count,
+        Dim model As New ChromesomeDrawingModel With {
+            .CDSCount = geneModels.Count,
+            .Size = rangeLen,
+            .NumberOfGenes = geneModels.Count,
+            .ProteinCount = geneModels.Count,
             .PseudoCDSCount = 0,
             .PseudoGeneCount = 0,
-            .RNACount = 0
+            .RNACount = 0,
+            .GeneObjects = geneModels,
+            .DrawingConfigurations = conf.ToConfigurationModel,
+            .MutationDatas = New MultationPointData() {}
         }
-        Model.GeneObjects = (From Gene As SegmentObject
-                             In GeneObjects
-                             Select Gene
-                             Order By Gene.Left Ascending).ToArray
-        Model.DrawingConfigurations = conf.ToConfigurationModel
-        Model.MutationDatas = New MultationPointData() {}
 
-        Return Model
+        Return model
     End Function
 
     Private Class __setRNAColorInvoke
