@@ -121,8 +121,8 @@ The GCModeller demo script and data for user tutorials can be download from thes
 
 ###### genome map plot of Xanthomonas campestris pv. campestris 8004
 
-[![](https://raw.githubusercontent.com/SMRUCC/Xanthomonas_campestris_8004_uid15/master/thumbnails/map-part-A.png)](https://github.com/SMRUCC/Xanthomonas_campestris_8004_uid15/blob/master/genome/chromsome-map/ChromosomeMap%20%5B0%5D.png)
-[![](https://raw.githubusercontent.com/SMRUCC/Xanthomonas_campestris_8004_uid15/master/thumbnails/map-part-B.png)](https://github.com/SMRUCC/Xanthomonas_campestris_8004_uid15/blob/master/genome/chromsome-map/ChromosomeMap%20%5B1%5D.png)
+[![](https://raw.githubusercontent.com/SMRUCC/Xanthomonas_campestris_8004_uid15/master/thumbnails/map-part-A.png)](https://github.com/SMRUCC/Xanthomonas_campestris_8004_uid15/tree/master/genome/chromsome-map)
+[![](https://raw.githubusercontent.com/SMRUCC/Xanthomonas_campestris_8004_uid15/master/thumbnails/map-part-B.png)](https://github.com/SMRUCC/Xanthomonas_campestris_8004_uid15/tree/master/genome/chromsome-map)
 
 ----------------------------------------------------------------------------------------------------
 <img src="./images/links/osi-certified.png" width="40px"/> ![](./images/links/github.ico)
