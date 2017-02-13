@@ -2,16 +2,22 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
+Imports SMRUCC.genomics.Analysis.KEGG
+Imports SMRUCC.genomics.Analysis.KEGG.KEGGOrthology
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.GeneOntology.GoStat
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
@@ -192,5 +198,53 @@ Partial Module CLI
         Return COGs.COGCatalogProfilingPlot(size) _
             .SaveAs(out) _
             .CLICode
+    End Function
+
+    ''' <summary>
+    ''' 显示KEGG注释结果的barplot
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/KO.Catalogs",
+               Info:="Display the barplot of the KEGG orthology match.",
+               Usage:="/KO.Catalogs /in <blast.mapping.csv> /ko <ko_genes.csv> [/key <Query_id> /mapTo <Subject_id> /out <outDIR>]")>
+    Public Function KOCatalogs(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim ko As String = args("/ko")
+        Dim key As String = args.GetValue("/key", "Query_id")
+        Dim mapTo As String = args.GetValue("/mapTo", "Subject_id")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-KO.Catalogs/")
+        Dim mappings As Map(Of String, String)() =
+            [in].LoadMappings(key, mapTo).ToArray
+        Dim KO_genes As KO_gene() = ko.LoadCsv(Of KO_gene)
+
+        For Each level As String In {"A", "B", "C"}
+            Dim result = SMRUCC.genomics.Analysis.KEGG _
+                .KEGGOrthology _
+                .CatalogProfiling(mappings, KO_genes, level)
+            Dim csv = (From part
+                       In result
+                       Select part.Value _
+                           .Select(Function(c) New With {
+                                .A = part.Key,
+                                .catalog = c.Name,
+                                .counts = c.Value
+                       })).IteratesALL _
+                          .Where(Function(c) c.counts > 0) _
+                          .ToArray
+
+            Call csv.SaveTo(out & $"/{[in].BaseName}-KO.Catalogs-level-{level}.csv")
+
+            If level = "A" Then
+                Call result.ToDictionary(
+                    Function(x) x.Key,
+                    Function(v) v.Value.ToArray(
+                    Function(x) New NamedValue(Of Double)(x.Name, x.Value))) _
+                        .Plot() _
+                        .SaveAs(out & "/kegg-level-A.png")
+            End If
+        Next
+
+        Return 0
     End Function
 End Module

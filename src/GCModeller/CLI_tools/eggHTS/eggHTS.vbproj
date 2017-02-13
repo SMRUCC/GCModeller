@@ -199,6 +199,10 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Repository\Bio.Repository.vbproj">
+      <Project>{216ACC2D-C7A5-4C27-9DC9-BDFA4DBB6A37}</Project>
+      <Name>Bio.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\data\GO_gene-ontology\GeneOntology\GO_OWL.vbproj">
       <Project>{755078C9-F421-4ED0-A64B-161A69E86BCB}</Project>
       <Name>GO_OWL</Name>
