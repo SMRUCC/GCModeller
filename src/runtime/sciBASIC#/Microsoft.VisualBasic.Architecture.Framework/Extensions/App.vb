@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::6593dd6f84cc3cb84a05df5c81dc0885, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\App.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.InteropServices
 Imports System.Security
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
@@ -80,6 +81,11 @@ Imports Microsoft.VisualBasic.Windows.Forms.VistaSecurity
                   Publisher:="amethyst.asuka@gcmodeller.org",
                   Url:="http://SourceForge.net/projects/shoal")>
 Public Module App
+
+    Public ReadOnly Property RunTimeDirectory As String = FileIO.FileSystem _
+        .GetDirectoryInfo(RuntimeEnvironment.GetRuntimeDirectory) _
+        .FullName _
+        .Replace("/", "\")
 
     ''' <summary>
     ''' Gets the number of ticks that represent the date and time of this instance.
@@ -165,6 +171,8 @@ Public Module App
         Return Microsoft.VisualBasic.CommandLine.TryParse(CLI)
     End Function
 
+    Public ReadOnly Property Github As String = "https://github.com/xieguigang/sciBASIC"
+
     ''' <summary>
     ''' Returns the argument portion of the <see cref="Microsoft.VisualBasic.CommandLine.CommandLine"/> used to start Visual Basic or
     ''' an executable program developed with Visual Basic. The My feature provides greater
@@ -189,7 +197,7 @@ Public Module App
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property AssemblyName As String =
-        basename(App.ExecutablePath)
+        BaseName(App.ExecutablePath)
 
     Public ReadOnly Property ProductName As String =
         If(String.IsNullOrEmpty(Application.ProductName.Trim), AssemblyName, Application.ProductName.Trim)
@@ -350,7 +358,7 @@ Public Module App
         Dim assm As Assembly = type.Assembly
         Dim productName As String = ApplicationDetails.GetProductName(assm)
         If String.IsNullOrEmpty(productName) Then
-            productName = basename(assm.Location)
+            productName = BaseName(assm.Location)
         End If
         Return $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/{productName}"
     End Function
