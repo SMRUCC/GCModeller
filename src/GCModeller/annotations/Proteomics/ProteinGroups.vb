@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::087bd29ddf2f7fe43cf7fbca8d57c754, ..\GCModeller\annotations\Proteomics\ProteinGroups.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -37,6 +37,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
+Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports protein = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 
 Public Module ProteinGroups
@@ -122,6 +123,42 @@ Public Module ProteinGroups
     End Function
 
     ''' <summary>
+    ''' 导出指定的uniprot.xml文件之中的所有蛋白质的注释
+    ''' </summary>
+    ''' <param name="uniprotXML$"></param>
+    ''' <param name="prefix$"></param>
+    ''' <param name="deli"></param>
+    ''' <param name="scientifcName$"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function ExportAnnotations(uniprotXML$,
+                                               Optional prefix$ = "",
+                                               Optional deli As Char = ";"c,
+                                               Optional scientifcName$ = Nothing) As IEnumerable(Of (protein, String()))
+
+        Dim uniprot As Dictionary(Of String, Uniprot.XML.entry) =
+            SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML _
+            .Load(uniprotXML) _
+            .entries _
+            .GroupBy(Function(x) x.accession) _
+            .ToDictionary(Function(x) x.Key,
+                          Function(x) x.First)
+        Dim ID As IEnumerable(Of String) = uniprot.Keys
+        Dim mappings As Dictionary(Of String, String()) =
+            ID.ToDictionary(
+            Function(s) s,
+            Function(s) {s})
+
+        For Each Idtags As SeqValue(Of String) In ID.SeqIterator
+            Dim list$() = (+Idtags).Split(deli)
+            Dim i As Integer = Idtags.i + 1
+
+            Yield list.__applyInternal(
+                New Dictionary(Of String, String), mappings, uniprot, prefix, i, scientifcName)
+        Next
+    End Function
+
+    ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="source">这个列表其实都是指代的一个基因</param>
@@ -184,9 +221,8 @@ Public Module ProteinGroups
         End If
 
         Dim names = uniprots _
-            .Select(Function(prot) prot.protein) _
-            .Where(Function(x) Not x Is Nothing AndAlso Not x.recommendedName Is Nothing) _
-            .Select(Function(x) x.recommendedName.fullName.value) _
+            .Select(Function(prot) prot.proteinFullName) _
+            .Where(Function(x) Not x.IsBlank) _
             .Distinct _
             .ToArray
         Dim geneNames = uniprots _
@@ -211,7 +247,7 @@ Public Module ProteinGroups
         Dim KO As String() = getKeyValue("KO")
         Dim ORF$ = uniprots _
             .Select(Function(prot) prot.gene) _
-            .Where(Function(x) Not x Is Nothing AndAlso x.HaveKey("ORF")) _
+            .Where(Function(x) Not x Is Nothing) _
             .Select(Function(gene) gene.ORF) _
             .Where(Function(s) Not s.IsNullOrEmpty) _
             .IteratesALL _
@@ -225,22 +261,23 @@ Public Module ProteinGroups
         Call annotations.Add("GO", GO.JoinBy("; "))
         Call annotations.Add("EC", EC.JoinBy("; "))
         Call annotations.Add("KO", KO.JoinBy("; "))
+        Call annotations.Add("organism", uniprots.Select(Function(prot) prot.organism.scientificName).JoinBy("; "))
 
-        getKeyValue = Function(key)
-                          Return uniprots _
-                            .Where(Function(x) x.CommentList.ContainsKey(key)) _
-                            .Select(Function(x) x.CommentList(key)) _
-                            .Unlist _
-                            .Select(Function(x) x.text.value) _
-                            .Distinct _
-                            .ToArray
-                      End Function
+        'getKeyValue = Function(key)
+        '                  Return uniprots _
+        '                    .Where(Function(x) x.CommentList.ContainsKey(key)) _
+        '                    .Select(Function(x) x.CommentList(key)) _
+        '                    .Unlist _
+        '                    .Select(Function(x) x.text.value) _
+        '                    .Distinct _
+        '                    .ToArray
+        '              End Function
 
-        Dim functions = getKeyValue("function")
-        Dim pathways = getKeyValue("pathway")
+        'Dim functions = getKeyValue("function")
+        'Dim pathways = getKeyValue("pathway")
 
-        Call annotations.Add("functions", functions.JoinBy("; "))
-        Call annotations.Add("pathways", pathways.JoinBy("; "))
+        'Call annotations.Add("functions", functions.JoinBy("; "))
+        'Call annotations.Add("pathways", pathways.JoinBy("; "))
 
         Dim geneID As String = i
 

@@ -564,7 +564,6 @@ Module CLI
     Public Function DownloadPathwayMaps(args As CommandLine) As Integer
         Dim sp As String = args("/sp")
         Dim EXPORT As String = args.GetValue("/out", App.CurrentDirectory & "/" & sp)
-        Dim all = LinkDB.Pathways.AllEntries(sp).ToArray
 
         Call LinkDB.Pathways.Downloads(sp, EXPORT).ToArray
 

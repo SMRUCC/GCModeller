@@ -57,17 +57,17 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         Public Property AllLinksWidget As AllLinksWidget
 
         Sub New(Url As String)
-            Dim PageContent As String = Url.GET.Replace("&nbsp;", " ").Replace("&gt;", ">").Replace("&lt;", "<")
-            Dim Tokens As String() = Regex.Split(PageContent, "<th class="".+?"" align="".+?""").Skip(1).ToArray
+            Dim html As String = Url.GET.Replace("&nbsp;", " ").Replace("&gt;", ">").Replace("&lt;", "<")
+            Dim tokens As String() = Regex.Split(html, "<th class="".+?"" align="".+?""").Skip(1).ToArray
             Dim tmp As String() = LinqAPI.Exec(Of String) <=
  _
                 From strValue As String
-                In Tokens
+                In tokens
                 Let value As String = Regex.Match(strValue, "<nobr>.+?</nobr>.+", RegexOptions.Singleline).Value.Trim
                 Where Not String.IsNullOrEmpty(value)
                 Select value
 
-            Me._WebPageTitle = PageContent.HTMLTitle
+            Me._WebPageTitle = html.HTMLTitle
             Me._url = Url
             Me._strData = New SortedDictionary(Of String, NamedValue(Of String)())
 
@@ -100,13 +100,13 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 Call _strData.Add(Key, vals)
             Next
 
-            AllLinksWidget = InternalWebFormParsers.AllLinksWidget.InternalParser(PageContent)
-            Call ParseRefList(PageContent)
+            AllLinksWidget = InternalWebFormParsers.AllLinksWidget.InternalParser(html)
+            Call ParseRefList(html)
         End Sub
 
         Private Sub ParseRefList(Page As String)
-            Dim Tokens As String() = Strings.Split(Page, "<nobr>Reference</nobr></th>").Skip(1).ToArray
-            Me.References = bGetObject.Reference.References(Tokens)
+            Dim list As String() = Strings.Split(Page, "<nobr>Reference</nobr></th>").Skip(1).ToArray
+            Me.References = bGetObject.Reference.References(list)
         End Sub
 
         ''' <summary>
@@ -115,7 +115,12 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <returns></returns>
         Public Property References As bGetObject.Reference()
 
-        Private Shared ReadOnly HtmlFormatControl As String() = New String() {"<td .+?>", "<div .+?>", "</th>|</div>|</td>|</tr>|<tr>|<tbody>|<div>|</tbody>|</table>|<nobr>|</nobr>", "<table .+?>"}
+        Private Shared ReadOnly HtmlFormatControl As String() = {
+            "<td .+?>",
+            "<div .+?>",
+            "</th>|</div>|</td>|</tr>|<tr>|<tbody>|<div>|</tbody>|</table>|<nobr>|</nobr>",
+            "<table .+?>"
+        }
 
         Protected Friend Shared Function parseList(strValue As String, SplitRegx As String) As KeyValuePair()
             If String.IsNullOrEmpty(strValue) Then

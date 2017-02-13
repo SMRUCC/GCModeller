@@ -161,7 +161,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             }
 
             pathwayMap.Disease = __parseHTML_ModuleList(webForm.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease)
-            pathwayMap.Modules = Pathway.__parseHTML_ModuleList(webForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module)
+            pathwayMap.Modules = PathwayWebParser.__parseHTML_ModuleList(webForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module)
             pathwayMap.KOpathway = webForm.GetValue("KO pathway") _
                 .FirstOrDefault _
                 .GetTablesHTML _
