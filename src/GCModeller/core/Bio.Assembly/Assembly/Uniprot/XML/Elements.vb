@@ -1,5 +1,6 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -123,7 +124,7 @@ Namespace Assembly.Uniprot.XML
         Public ReadOnly Property Primary As String()
             Get
                 If table.ContainsKey("primary") Then
-                    Return table("primary").ToArray(Function(o) o.value)
+                    Return table("primary").ValueArray
                 Else
                     Return Nothing
                 End If
@@ -136,8 +137,12 @@ Namespace Assembly.Uniprot.XML
         ''' <returns></returns>
         Public ReadOnly Property ORF As String()
             Get
+                ' ORF 和 locus编号的含义是一样的
+
                 If table.ContainsKey("ORF") Then
-                    Return table("ORF").ToArray(Function(o) o.value)
+                    Return table("ORF").ValueArray
+                ElseIf table.ContainsKey("ordered locus") Then
+                    Return table("ordered locus").ValueArray
                 Else
                     Return Nothing
                 End If
@@ -241,12 +246,13 @@ Namespace Assembly.Uniprot.XML
     End Class
 
     Public Class value
+        Implements Value(Of String).IValueOf
 
         <XmlAttribute> Public Property type As String
         <XmlAttribute> Public Property evidence As String
         <XmlAttribute> Public Property description As String
         <XmlAttribute> Public Property id As String
-        <XmlText> Public Property value As String
+        <XmlText> Public Property value As String Implements Value(Of String).IValueOf.value
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

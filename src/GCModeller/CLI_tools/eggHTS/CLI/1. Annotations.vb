@@ -27,18 +27,30 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/protein.annotations",
                Info:="Total proteins functional annotation by using uniprot database.",
-               Usage:="/protein.annotations /list <uniprot.id.list.txt> /uniprot <uniprot.XML> [/out <out.csv>]")>
+               Usage:="/protein.annotations /uniprot <uniprot.XML> [/list <uniprot.id.list.txt> /out <out.csv>]")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function SampleAnnotations(args As CommandLine) As Integer
         Dim list As String = args("/list")
         Dim uniprot As String = args("/uniprot")
-        Dim out As String = args.GetValue("/out", list.TrimSuffix & "-proteins-uniprot-annotations.csv")
+        Dim out As String
 
-        Return list.ReadAllLines _
-            .GenerateAnnotations(uniprot) _
-            .Select(Function(x) x.Item1) _
-            .ToArray _
-            .SaveDataSet(out).CLICode
+        If list.FileExists(True) Then
+            out = args.GetValue("/out", list.TrimSuffix & "-proteins-uniprot-annotations.csv")
+
+            Return list.ReadAllLines _
+                .GenerateAnnotations(uniprot) _
+                .Select(Function(x) x.Item1) _
+                .ToArray _
+                .SaveDataSet(out).CLICode
+        Else
+            out = args.GetValue("/out", uniprot.ParentPath & "/proteins-uniprot-annotations.csv")
+
+            Return uniprot _
+                .ExportAnnotations _
+                .Select(Function(x) x.Item1) _
+                .ToArray _
+                .SaveDataSet(out).CLICode
+        End If
     End Function
 
     ''' <summary>
