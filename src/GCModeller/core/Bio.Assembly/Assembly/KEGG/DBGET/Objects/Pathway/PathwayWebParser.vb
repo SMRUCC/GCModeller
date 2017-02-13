@@ -27,20 +27,70 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Return Nothing
             End If
 
-            Dim Pathway As New Pathway
-            Dim SpeciesCode As String = WebForm.GetValue("Organism").FirstOrDefault
-
-            SpeciesCode = Regex.Match(SpeciesCode, "\[GN:<a href="".+?"">.+?</a>]").Value.GetValue
-            Pathway.EntryId = Regex.Match(WebForm.GetValue("Entry").FirstOrDefault, "[a-z]+\d+", RegexOptions.IgnoreCase).Value
-            Pathway.Name = WebForm.GetValue("Name").FirstOrDefault
-            Pathway.Disease = __parseHTML_ModuleList(WebForm.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease)
-            Pathway.PathwayMap = __parseHTML_ModuleList(WebForm.GetValue("Pathway map").FirstOrDefault, LIST_TYPES.Pathway).FirstOrDefault
-            Pathway.Description = WebForm.RemoveHrefLink(WebForm.GetValue("Description").FirstOrDefault)
-            Pathway.Modules = __parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module)
-            Pathway.Genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, SpeciesCode))
-            Pathway.Compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT)
+            Dim Pathway As New Pathway With {
+                .Organism = WebForm.__organism,
+                .EntryId = WebForm.__entryID,
+                .KOpathway = WebForm.__koPathways,
+                .Name = WebForm.__name,
+                .Disease = __parseHTML_ModuleList(WebForm.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease),
+                .PathwayMap = __parseHTML_ModuleList(WebForm.GetValue("Pathway map").FirstOrDefault, LIST_TYPES.Pathway).FirstOrDefault,
+                .Description = WebForm.__description,
+                .Modules = __parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module),
+                .Genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .Organism.Key)),
+                .Compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT),
+                .References = WebForm.References
+            }
 
             Return Pathway
+        End Function
+
+        <Extension>
+        Private Function __koPathways(webForm As WebForm) As KeyValuePair()
+            Dim KOpathway = webForm.GetValue("KO pathway") _
+                .FirstOrDefault _
+                .GetTablesHTML _
+                .LastOrDefault _
+                .GetRowsHTML _
+                .Select(Function(row$)
+                            Dim cols As String() = row.GetColumnsHTML
+                            Return New KeyValuePair With {
+                                .Key = cols(0).StripHTMLTags.StripBlank,
+                                .Value = cols(1).StripHTMLTags.StripBlank
+                            }
+                        End Function).ToArray
+            Return KOpathway
+        End Function
+
+        <Extension> Private Function __organism(webForm As WebForm) As KeyValuePair
+            Dim html As String = webForm.GetValue("Organism").FirstOrDefault
+            Dim speciesCode = Regex.Match(html, "\[GN:<a href="".+?"">.+?</a>]").Value.GetValue
+
+            html = html.StripHTMLTags(True)
+            html = html.GetTagValue(vbLf).Value
+
+            Return New KeyValuePair With {
+                .Key = speciesCode,
+                .Value = html
+            }
+        End Function
+
+        <Extension> Private Function __description(webForm As WebForm) As String
+            Dim html$ = webForm.GetValue("Description").FirstOrDefault
+            html = html.StripHTMLTags(True)
+            html = html.GetTagValue(vbLf).Value
+            Return html
+        End Function
+
+        <Extension> Private Function __name(webForm As WebForm) As String
+            Dim html$ = webForm.GetValue("Name").FirstOrDefault
+            html = html.StripHTMLTags(True).GetTagValue(vbLf, True).Value
+            Return html
+        End Function
+
+        <Extension> Private Function __entryID(webForm As WebForm) As String
+            Dim html$ = webForm.GetValue("Entry").FirstOrDefault
+            html = html.StripHTMLTags.StripBlank
+            Return Regex.Match(html, "[a-z]+\d+", RegexOptions.IgnoreCase).Value
         End Function
 
         ''' <summary>

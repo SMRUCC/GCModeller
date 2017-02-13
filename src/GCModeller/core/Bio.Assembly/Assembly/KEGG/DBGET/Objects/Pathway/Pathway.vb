@@ -99,6 +99,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Property
 
         Public Property Disease As KeyValuePair()
+        Public Property Organism As KeyValuePair
+        Public Property KOpathway As KeyValuePair()
+
+        ''' <summary>
+        ''' Reference list of this biological pathway
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property References As Reference()
 
         Dim _genes As KeyValuePair()
         Dim _geneTable As New Dictionary(Of String, KeyValuePair)

@@ -29,6 +29,7 @@
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Assembly.KEGG.DBGET.bGetObject
@@ -44,21 +45,20 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <XmlAttribute> Public Property PMID As String
 
         Public Shared Function References(data As String()) As Reference()
-            Dim LQuery = (From str As String In data Select Reference(str)).ToArray
-            Return LQuery
+            Return data.ToArray(AddressOf Reference)
         End Function
 
         Const REF_ITEM As String = "<td .+?</div></td></tr>"
 
         Public Shared Function Reference(str As String) As Reference
-            Dim Tokens As String() = (From m As Match In Regex.Matches(str, REF_ITEM) Select m.Value).ToArray
-            Tokens = (From s As String In Tokens Select Regex.Match(s, "<div .+?>.+?</div>").Value).ToArray
+            Dim tokens As String() = (From m As Match In Regex.Matches(str, REF_ITEM) Select m.Value).ToArray
+            tokens = (From s As String In tokens Select Regex.Match(s, "<div .+?>.+?</div>").Value).ToArray
 
             Dim p As int = Scan0
-            Dim PMID As String = Tokens.Get(++p).GetValue
-            Dim Authors As String = Tokens.Get(++p).GetValue
-            Dim Title As String = Tokens.Get(++p).GetValue
-            Dim Journal As String = Tokens.Get(++p).GetValue
+            Dim PMID As String = tokens.Get(++p).GetValue
+            Dim Authors As String = tokens.Get(++p).GetValue
+            Dim Title As String = tokens.Get(++p).GetValue
+            Dim Journal As String = tokens.Get(++p).GetValue
 
             If Regex.Match(PMID, "PMID[:]<a").Success Then
                 PMID = PMID.GetValue
