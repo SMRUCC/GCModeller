@@ -180,6 +180,10 @@ Namespace Settings
                 .LoadFile(settings, saveHwnd)
             Session._initFlag = True
 
+            Call App.JoinVariable("Settings", settings)
+            Call App.JoinVariable("Workspace", _Worksapce)
+            Call App.JoinVariable("Cache", _Cache)
+
             Return SettingsFile
         End Function
 
