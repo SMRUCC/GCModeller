@@ -564,7 +564,9 @@ Module CLI
     Public Function DownloadPathwayMaps(args As CommandLine) As Integer
         Dim sp As String = args("/sp")
         Dim EXPORT As String = args.GetValue("/out", App.CurrentDirectory & "/" & sp)
-        Dim all = LinkDB.Pathways.AllEntries(sp).ToArray
+        '   Dim all = LinkDB.Pathways.AllEntries(sp).ToArray
+
+        Call SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway.DownloadPage("G:\Xanthomonas_campestris_8004_uid15\pathways\KEGG\webpages\xcb00010.html")
 
         Call LinkDB.Pathways.Downloads(sp, EXPORT).ToArray
 
