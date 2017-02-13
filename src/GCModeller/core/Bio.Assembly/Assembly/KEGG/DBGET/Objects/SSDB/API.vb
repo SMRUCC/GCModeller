@@ -189,15 +189,16 @@ both of these relationships hold
 
             Orthology.xRefEntry = xRefParser(WebForm.GetRaw("Other DBs"))
             Orthology.References = WebForm.References
-            Orthology.Module = KEGG.DBGET.bGetObject.Pathway.__parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, DBGET.bGetObject.Pathway.LIST_TYPES.Module)
+            Orthology.Module = PathwayWebParser.__parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module)
             Orthology.Definition = WebForm.GetValue("Definition").FirstOrDefault.StripHTMLTags
             Orthology.Name = WebForm.GetValue("Name").FirstOrDefault.TrimNewLine.Trim
-            Orthology.Pathway = KEGG.DBGET.bGetObject.Pathway.__parseHTML_ModuleList(WebForm.GetValue("Pathway").FirstOrDefault, DBGET.bGetObject.Pathway.LIST_TYPES.Pathway)
-            Orthology.Disease = KEGG.DBGET.bGetObject.Pathway.__parseHTML_ModuleList(WebForm.GetValue("Disease").FirstOrDefault, DBGET.bGetObject.Pathway.LIST_TYPES.Disease)
+            Orthology.Pathway = PathwayWebParser.__parseHTML_ModuleList(WebForm.GetValue("Pathway").FirstOrDefault, LIST_TYPES.Pathway)
+            Orthology.Disease = PathwayWebParser.__parseHTML_ModuleList(WebForm.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease)
             Orthology.Genes = __genesParser(WebForm, Orthology.Entry)
             Orthology.Name = Orthology.Name.StripHTMLTags.GetTagValue(, True).Value
             Orthology.Definition = Orthology.Definition.StripHTMLTags.TrimNewLine.Trim.GetTagValue(, True).Value
             Orthology.EC = Regex.Match(Orthology.Definition, "\[EC.+?\]", RegexOptions.IgnoreCase).Value
+
             If Not String.IsNullOrEmpty(Orthology.EC) Then
                 Orthology.EC = Mid(Orthology.EC, 5, Len(Orthology.EC) - 5)
             End If
