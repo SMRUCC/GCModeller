@@ -94,8 +94,6 @@ Here listing the scientific paperworks that based on the analysis services of GC
 ![](./images/pXOCGX01-lightbox.png)
 ![](./images/phenotypic-bTree-lightbox.png)
 ![](./images/pxocgx01_blastx-lightbox.png)
-[![](https://raw.githubusercontent.com/SMRUCC/Xanthomonas_campestris_8004_uid15/master/thumbnails/map-part-A.png)](https://github.com/SMRUCC/Xanthomonas_campestris_8004_uid15/blob/master/genome/chromsome-map/ChromosomeMap%20%5B0%5D.png)
-[![](https://raw.githubusercontent.com/SMRUCC/Xanthomonas_campestris_8004_uid15/master/thumbnails/map-part-B.png)](https://github.com/SMRUCC/Xanthomonas_campestris_8004_uid15/blob/master/genome/chromsome-map/ChromosomeMap%20%5B1%5D.png)
 
 Visit our project home: http://gcmodeller.org
 
@@ -120,6 +118,11 @@ PM>  Install-Package NCBI_localblast
 
 The GCModeller demo script and data for user tutorials can be download from these public data repository: 
 + [[Xanthomonas campestris pv. campestris 8004] GCModeller genomics Modelling Project](https://github.com/SMRUCC/Xanthomonas_campestris_8004_uid15).
+
+###### genome map plot of Xanthomonas campestris pv. campestris 8004
+
+[![](https://raw.githubusercontent.com/SMRUCC/Xanthomonas_campestris_8004_uid15/master/thumbnails/map-part-A.png)](https://github.com/SMRUCC/Xanthomonas_campestris_8004_uid15/blob/master/genome/chromsome-map/ChromosomeMap%20%5B0%5D.png)
+[![](https://raw.githubusercontent.com/SMRUCC/Xanthomonas_campestris_8004_uid15/master/thumbnails/map-part-B.png)](https://github.com/SMRUCC/Xanthomonas_campestris_8004_uid15/blob/master/genome/chromsome-map/ChromosomeMap%20%5B1%5D.png)
 
 ----------------------------------------------------------------------------------------------------
 <img src="./images/links/osi-certified.png" width="40px"/> ![](./images/links/github.ico)
