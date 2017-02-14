@@ -238,7 +238,7 @@ Namespace BarPlot.Histogram
         Public Function HistogramPlot(data As IEnumerable(Of Double),
                                       Optional step! = 1,
                                       Optional serialsTitle$ = "histogram plot",
-                                      Optional color$ = "blue",
+                                      Optional color$ = "lightblue",
                                       Optional bg$ = "white",
                                       Optional size As Size = Nothing,
                                       Optional margin As Size = Nothing,
@@ -249,7 +249,7 @@ Namespace BarPlot.Histogram
             Dim s As New HistProfile(hist, [step]) With {
                 .legend = New Legend With {
                     .color = color,
-                    .fontstyle = CSSFont.Win10Normal,
+                    .fontstyle = CSSFont.Win7LargerBold,
                     .style = LegendStyles.Rectangle,
                     .title = serialsTitle
                 }

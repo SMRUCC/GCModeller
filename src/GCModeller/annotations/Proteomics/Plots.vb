@@ -101,7 +101,8 @@ Public Module Plots
     Public Function logFCHistogram(data As IEnumerable(Of EntityObject),
                                    Optional tag$ = "logFC",
                                    Optional serialTitle$ = "Frequency(logFC)",
-                                   Optional step! = 1) As Bitmap
+                                   Optional step! = 1,
+                                   Optional size As Size = Nothing) As Bitmap
         Dim logFC#() = data _
             .Select(Function(prot) prot(tag).ParseNumeric) _
             .ToArray
@@ -111,7 +112,8 @@ Public Module Plots
             Return logFC.HistogramPlot(
                 [step],
                 serialsTitle:=serialTitle,
-                histData:=histData)
+                histData:=histData,
+                size:=size)
         Catch ex As Exception
             ' 有时候标签没有设置正确会导致得到的向量全部为0，则绘图会出错，这个时候显示一下调试信息
             Dim msg$ = $"tag={tag}, vector={Mid(logFC.GetJson, 1, 256)}..., hist={Mid(histData.GetJson, 1, 300)}..."

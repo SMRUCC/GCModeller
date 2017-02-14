@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -106,7 +107,7 @@ Partial Module CLI
             .SaveDataSet(dataOUT, blank:=1)
     End Function
 
-    <ExportAPI("/DEP.logFC.hist", Usage:="/DEP.logFC.hist /in <log2test.csv> /tag <logFC> [/out <out.png>]")>
+    <ExportAPI("/DEP.logFC.hist", Usage:="/DEP.logFC.hist /in <log2test.csv> [/tag <logFC> /size <1600,1200> /out <out.png>]")>
     Public Function logFCHistogram(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim tag As String = args.GetValue("/tag", "logFC")
@@ -114,7 +115,9 @@ Partial Module CLI
         Dim data = EntityObject.LoadDataSet([in])
 
         Return data _
-            .logFCHistogram(tag) _
+            .logFCHistogram(tag,
+                            size:=args.GetValue("/size", New Size(1600, 1200)),
+                            [step]:=0.5) _
             .SaveAs(out) _
             .CLICode
     End Function
