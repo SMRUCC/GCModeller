@@ -63,6 +63,15 @@ Namespace BarPlot.Histogram
         Public legend As Legend
         Public data As HistogramData()
 
+        Public ReadOnly Property SerialData As NamedValue(Of Color)
+            Get
+                Return New NamedValue(Of Color) With {
+                    .Name = legend.title,
+                    .Value = legend.color.TranslateColor
+                }
+            End Get
+        End Property
+
         ''' <summary>
         ''' 仅仅在这里初始化了<see cref="data"/>
         ''' </summary>

@@ -207,8 +207,30 @@ Namespace BarPlot.Histogram
         End Function
 
         <Extension>
-        Public Function HistogramPlot(data As IEnumerable(Of Double), Optional step! = 1) As Bitmap
+        Public Function HistogramPlot(data As IEnumerable(Of Double),
+                                      Optional step! = 1,
+                                      Optional serialsTitle$ = "histogram plot",
+                                      Optional color$ = "blue",
+                                      Optional bg$ = "white",
+                                      Optional size As Size = Nothing,
+                                      Optional margin As Size = Nothing,
+                                      Optional showGrid As Boolean = True) As Bitmap
+
             Dim hist As Dictionary(Of Double, IntegerTagged(Of Double)) = data.ToArray.Hist([step])
+            Dim s As New HistProfile(hist, [step]) With {
+                .legend = New Legend With {
+                    .color = color,
+                    .fontstyle = CSSFont.Win10Normal,
+                    .style = LegendStyles.Rectangle,
+                    .title = serialsTitle
+                }
+            }
+            Dim group As New HistogramGroup With {
+                .Samples = {s},
+                .Serials = {s.SerialData}
+            }
+
+            Return group.Plot(bg:=bg, margin:=margin, size:=size, showGrid:=showGrid)
         End Function
     End Module
 End Namespace
