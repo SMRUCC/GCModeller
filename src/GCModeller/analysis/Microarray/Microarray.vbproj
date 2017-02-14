@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="DEGDesigner.vb" />
     <Compile Include="Enrichment\DAVID.vb" />
+    <Compile Include="Enrichment\IGO_term.vb" />
     <Compile Include="Enrichment\KOBAS.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

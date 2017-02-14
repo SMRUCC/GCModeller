@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Namespace PlantRegMap
@@ -7,8 +8,8 @@ Namespace PlantRegMap
     Public Module EnrichmentPlots
 
         <Extension>
-        Public Function PlantEnrichmentPlot(data As IEnumerable(Of PlantRegMap), GO_terms As Dictionary(Of String, Term)) As Bitmap
-
+        Public Function EnrichmentPlot(data As IEnumerable(Of PlantRegMap), GO_terms As Dictionary(Of String, Term), Optional pvalue# = 0.05, Optional size As Size = Nothing) As Bitmap
+            Return data.EnrichmentPlot(GO_terms, pvalue, size)
         End Function
     End Module
 End Namespace

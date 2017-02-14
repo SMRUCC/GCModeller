@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::8ba4b9eaa9384de5c7d779e00be78be3, ..\GCModeller\annotations\GO\CatalogPlots.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology
@@ -294,17 +295,19 @@ Public Module CatalogPlots
     ''' <param name="size"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function EnrichmentPlot(data As IEnumerable(Of EnrichmentTerm), GO_terms As Dictionary(Of String, Term), Optional pvalue# = 0.05, Optional size As Size = Nothing) As Bitmap
+    Public Function EnrichmentPlot(Of EnrichmentTerm As IGoTermEnrichment)(data As IEnumerable(Of EnrichmentTerm), GO_terms As Dictionary(Of String, Term), Optional pvalue# = 0.05, Optional size As Size = Nothing) As Bitmap
         Dim profile As New Dictionary(Of String, List(Of NamedValue(Of Double)))
 
-        For Each term As EnrichmentTerm In data.Where(Function(x) GO_terms.ContainsKey(x.ID) AndAlso x.CorrectedPvalue <= pvalue#)
-            Dim namespace$ = GO_terms(term.ID).namespace
+        For Each term As EnrichmentTerm In data.Where(Function(x) GO_terms.ContainsKey(x.Go_ID) AndAlso x.Pvalue <= pvalue#)
+            With GO_terms(term.Go_ID)
+                Dim namespace$ = .namespace
 
-            If Not profile.ContainsKey([namespace]) Then
-                Call profile.Add([namespace], New List(Of NamedValue(Of Double)))
-            End If
+                If Not profile.ContainsKey([namespace]) Then
+                    Call profile.Add([namespace], New List(Of NamedValue(Of Double)))
+                End If
 
-            Call profile([namespace]).Add(New NamedValue(Of Double)(term.Term, term.P(False)))
+                Call profile([namespace]).Add(New NamedValue(Of Double)(.name, term.P))
+            End With
         Next
 
         Return profile.ToDictionary(
