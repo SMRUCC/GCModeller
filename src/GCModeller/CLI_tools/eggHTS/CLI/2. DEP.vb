@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray
@@ -103,5 +104,18 @@ Partial Module CLI
         Return DEGDesigner _
             .MergeMatrix(DIR, "*.csv", 1.5, 0.05, FCtag, 1 / 1.5, pvalue) _
             .SaveDataSet(dataOUT, blank:=1)
+    End Function
+
+    <ExportAPI("/DEP.logFC.hist", Usage:="/DEP.logFC.hist /in <log2test.csv> /tag <logFC> [/out <out.png>]")>
+    Public Function logFCHistogram(args As CommandLine) As Integer
+        Dim [in] = args("/in")
+        Dim tag As String = args.GetValue("/tag", "logFC")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".logFCHistogram.png")
+        Dim data = EntityObject.LoadDataSet([in])
+
+        Return data _
+            .logFCHistogram(tag) _
+            .SaveAs(out) _
+            .CLICode
     End Function
 End Module

@@ -240,7 +240,8 @@ Namespace BarPlot.Histogram
                                       Optional bg$ = "white",
                                       Optional size As Size = Nothing,
                                       Optional margin As Size = Nothing,
-                                      Optional showGrid As Boolean = True) As Bitmap
+                                      Optional showGrid As Boolean = True,
+                                      Optional ByRef histData As IntegerTagged(Of Double)() = Nothing) As Bitmap
 
             Dim hist As Dictionary(Of Double, IntegerTagged(Of Double)) = data.ToArray.Hist([step])
             Dim s As New HistProfile(hist, [step]) With {
@@ -255,6 +256,8 @@ Namespace BarPlot.Histogram
                 .Samples = {s},
                 .Serials = {s.SerialData}
             }
+
+            histData = hist.Values.ToArray
 
             Return group.Plot(bg:=bg, margin:=margin, size:=size, showGrid:=showGrid)
         End Function
