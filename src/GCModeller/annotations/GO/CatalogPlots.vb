@@ -295,7 +295,12 @@ Public Module CatalogPlots
     ''' <param name="size"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function EnrichmentPlot(Of EnrichmentTerm As IGoTermEnrichment)(data As IEnumerable(Of EnrichmentTerm), GO_terms As Dictionary(Of String, Term), Optional pvalue# = 0.05, Optional size As Size = Nothing) As Bitmap
+    Public Function EnrichmentPlot(Of EnrichmentTerm As IGoTermEnrichment)(data As IEnumerable(Of EnrichmentTerm),
+                                                                           GO_terms As Dictionary(Of String, Term),
+                                                                           Optional pvalue# = 0.05,
+                                                                           Optional size As Size = Nothing,
+                                                                           Optional tick# = 1) As Bitmap
+
         Dim profile As New Dictionary(Of String, List(Of NamedValue(Of Double)))
 
         For Each term As EnrichmentTerm In data.Where(Function(x) GO_terms.ContainsKey(x.Go_ID) AndAlso x.Pvalue <= pvalue#)
@@ -317,7 +322,7 @@ Public Module CatalogPlots
                 "GO enrichment",
                 size:=size,
                 axisTitle:="-Log10(p-value)",
-                tick:=1)
+                tick:=tick)
     End Function
 End Module
 

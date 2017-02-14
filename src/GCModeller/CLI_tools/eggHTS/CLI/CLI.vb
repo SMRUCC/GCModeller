@@ -28,7 +28,7 @@ Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Go.enrichment.plot", Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/PlantRegMap /pvalue <0.05> /size <2000,1600> /go <go.obo> /out <out.png>]")>
+    <ExportAPI("/Go.enrichment.plot", Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/PlantRegMap /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function GO_enrichment(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
@@ -39,15 +39,16 @@ Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".GO_enrichment.pvalue={pvalue}.png")
         Dim size As String = args.GetValue("/size", "2000,1600")
         Dim plot As Bitmap
+        Dim tick# = args.GetValue("/tick", 1.0R)
 
         If PlantRegMap Then
             Dim enrichments As IEnumerable(Of PlantRegMap_GoTermEnrichment) =
                 [in].LoadTsv(Of PlantRegMap_GoTermEnrichment)
-            plot = enrichments.PlantEnrichmentPlot(terms, pvalue, size.SizeParser)
+            plot = enrichments.PlantEnrichmentPlot(terms, pvalue, size.SizeParser, tick)
             enrichments.ToArray.SaveTo([in].TrimSuffix & ".csv")
         Else
             Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
-            plot = enrichments.EnrichmentPlot(terms, pvalue, size.SizeParser)
+            plot = enrichments.EnrichmentPlot(terms, pvalue, size.SizeParser, tick)
         End If
 
         Return plot.SaveAs(out, ImageFormats.Png).CLICode
