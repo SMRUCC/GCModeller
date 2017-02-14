@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -94,6 +95,19 @@ Namespace BarPlot.Histogram
                     .x2 = x2,
                     .y = n
                 }
+        End Sub
+
+        ''' <summary>
+        ''' Tag值为直方图的高，value值为直方图的平均值连线
+        ''' </summary>
+        ''' <param name="hist"></param>
+        Sub New(hist As Dictionary(Of Double, IntegerTagged(Of Double)), step!)
+            data = hist.ToArray(
+                Function(range) New HistogramData With {
+                    .x1 = range.Key,
+                    .x2 = .x1 + step!,
+                    .y = range.Value.Tag
+                })
         End Sub
     End Structure
 End Namespace

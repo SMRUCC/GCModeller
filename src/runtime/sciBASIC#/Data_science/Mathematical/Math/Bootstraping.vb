@@ -307,14 +307,14 @@ Public Module Bootstraping
 
     ''' <summary>
     ''' ###### 频数分布表与直方图
-    ''' 这个函数返回来的是频数
+    ''' 这个函数返回来的是频数以及区间内的所有的数的平均值
     ''' </summary>
     ''' <param name="data"></param>
     ''' <param name="step!"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function Hist(data As Double(), Optional step! = 1) As Dictionary(Of Double, Integer)
-        Dim out As New Dictionary(Of Double, Integer)
+    Public Function Hist(data As Double(), Optional step! = 1) As Dictionary(Of Double, IntegerTagged(Of Double))
+        Dim out As New Dictionary(Of Double, IntegerTagged(Of Double))
         Dim i As int = 0
         Dim x As New Value(Of Double)
 
@@ -325,13 +325,20 @@ Public Module Bootstraping
         For min As Double = Fix(data.Min) To Fix(data.Max) + 1 Step [step]
             Dim upbound# = min + [step]
             Dim n As Integer
+            Dim list As New List(Of Double)
 
             ' 因为数据已经是经过排序了的，所以在这里可以直接进行区间计数
             Do While (x = data(++i)) >= min AndAlso x < upbound
                 n += 1
+                list += x.value
             Loop
 
-            Call out.Add(min, n)
+            Call out.Add(
+                min, New IntegerTagged(Of Double) With {
+                    .Tag = n,
+                    .value = If(list.Count = 0, 0R, list.Average),
+                    .TagStr = $"[{min}, {upbound}]"
+                })
         Next
 
         Return out
