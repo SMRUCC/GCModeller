@@ -8,7 +8,7 @@ Namespace PlantRegMap
     ''' <summary>
     ''' PlantRegMap. go enrichment result output
     ''' </summary>
-    Public Class PlantRegMap
+    Public Class PlantRegMap_GoTermEnrichment
         Implements IGoTerm
         Implements IGoTermEnrichment
 
