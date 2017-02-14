@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray
+Imports SMRUCC.genomics.Assembly.Uniprot.XML
 
 Partial Module CLI
 
@@ -36,7 +37,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/DEP.uniprot.list2",
-               Usage:="/DEP.uniprot.list2 /in <log2.test.csv> [/DEP.flag <is.DEP?> /uniprot <uniprot> /out <out.txt>]")>
+               Usage:="/DEP.uniprot.list2 /in <log2.test.csv> [/DEP.flag <is.DEP?> /uniprot <uniprot> /species <scientifcName> /uniprot <uniprotXML> /out <out.txt>]")>
     Public Function DEPUniprotIDs2(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim DEPFlag As String = args.GetValue("/DEP.flag", "is.DEP?")
@@ -49,9 +50,21 @@ Partial Module CLI
             .Distinct _
             .Select(AddressOf Trim) _
             .ToArray
+        Dim sciName$ = args("/species")
         Dim out As String = args.GetValue(
             "/out",
             [in].TrimSuffix & $"DEPs={DEPs.Length}.uniprotIDs.txt")
+
+        uniprot$ = args("/uniprot")
+
+        If Not sciName.StringEmpty AndAlso uniprot.FileExists(True) Then
+            ' 将结果过滤为指定的物种的编号
+            Dim table As Dictionary(Of entry) = UniprotXML.LoadDictionary(uniprot)
+            uniprotIDs = uniprotIDs _
+                .Where(Function(ID) table.ContainsKey(ID) AndAlso
+                                    table(ID).organism.scientificName = sciName) _
+                .ToArray
+        End If
 
         Return uniprotIDs.SaveTo(out).CLICode
     End Function

@@ -65,14 +65,15 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Perseus.Table.annotations",
-               Usage:="/Perseus.Table.annotations /in <proteinGroups.csv> /uniprot <uniprot.XML> [/out <out.csv>]")>
+               Usage:="/Perseus.Table.annotations /in <proteinGroups.csv> /uniprot <uniprot.XML> [/scientifcName <""""> /out <out.csv>]")>
     Public Function PerseusTableAnnotations(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim uniprot As String = args("/uniprot")
         Dim out = args.GetValue("/out", [in].TrimSuffix & ".proteins.annotation.csv")
         Dim table As Perseus() = [in].LoadCsv(Of Perseus)
         Dim uniprotTable = UniprotXML.LoadDictionary(uniprot)
-        Dim output = table.GenerateAnnotations(uniprotTable, "uniprot").ToArray
+        Dim scientifcName As String = args("/scientifcName")
+        Dim output = table.GenerateAnnotations(uniprotTable, "uniprot", scientifcName).ToArray
         Dim annotations = output.Select(Function(prot) prot.Item1).ToArray
 
         For i As Integer = 0 To table.Length - 1
