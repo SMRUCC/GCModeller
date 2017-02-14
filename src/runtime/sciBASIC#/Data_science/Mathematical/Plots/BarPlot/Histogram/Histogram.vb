@@ -87,12 +87,26 @@ Namespace BarPlot.Histogram
         }.Plot(bg, size, margin, showGrid)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="data">
+        ''' 向量之中的每一个数值表示某个指定的区间内的数据，即直方图的高度
+        ''' </param>
+        ''' <param name="xrange"></param>
+        ''' <param name="color$"></param>
+        ''' <param name="bg$"></param>
+        ''' <param name="size"></param>
+        ''' <param name="margin"></param>
+        ''' <param name="showGrid"></param>
+        ''' <returns></returns>
         Public Function Plot(data As IEnumerable(Of Double), xrange As DoubleRange,
-                         Optional color$ = "darkblue",
-                         Optional bg$ = "white",
-                         Optional size As Size = Nothing,
-                         Optional margin As Size = Nothing,
-                         Optional showGrid As Boolean = True) As Bitmap
+                             Optional color$ = "darkblue",
+                             Optional bg$ = "white",
+                             Optional size As Size = Nothing,
+                             Optional margin As Size = Nothing,
+                             Optional showGrid As Boolean = True) As Bitmap
+
             Dim hist As New HistProfile(data, xrange)
             Return Plot(hist.data, color, bg, size, margin, showGrid)
         End Function
@@ -206,6 +220,18 @@ Namespace BarPlot.Histogram
            End Sub)
         End Function
 
+        ''' <summary>
+        ''' 绘制频数
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="step!"></param>
+        ''' <param name="serialsTitle$"></param>
+        ''' <param name="color$"></param>
+        ''' <param name="bg$"></param>
+        ''' <param name="size"></param>
+        ''' <param name="margin"></param>
+        ''' <param name="showGrid"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function HistogramPlot(data As IEnumerable(Of Double),
                                       Optional step! = 1,

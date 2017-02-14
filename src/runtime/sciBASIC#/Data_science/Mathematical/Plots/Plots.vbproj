@@ -178,7 +178,7 @@
     <Compile Include="3D\ScatterHeatmap.vb" />
     <Compile Include="3D\Scatter.vb" />
     <Compile Include="3D\Data.vb" />
-    <Compile Include="Axis.vb" />
+    <Compile Include="g\Axis\Axis.vb" />
     <Compile Include="BarPlot\BarPlot2.vb" />
     <Compile Include="BarPlot\Histogram\DataModel.vb" />
     <Compile Include="Bubble.vb" />
@@ -188,7 +188,8 @@
     <Compile Include="Fractions\TreeMap.vb" />
     <Compile Include="Fractions\Fractions.vb" />
     <Compile Include="Fractions\Pyramid.vb" />
-    <Compile Include="g\AxisScalling.vb" />
+    <Compile Include="g\Axis\AxisScalling.vb" />
+    <Compile Include="g\Axis\AxisData.vb" />
     <Compile Include="g\ProfileGroup.vb" />
     <Compile Include="g\Legends\LegendPlot.vb" />
     <Compile Include="g\Legends\Legend.vb" />
