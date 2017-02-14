@@ -260,6 +260,7 @@ Public Module Bootstraping
     End Function
 
     ''' <summary>
+    ''' ###### 频数分布表与直方图
     ''' 返回来的标签数据之中的标签是在某个区间范围内的数值集合的平均值
     ''' </summary>
     ''' <param name="data"></param>
@@ -300,6 +301,38 @@ Public Module Bootstraping
         If out(max - 1).value = 0 Then
             Call out.Remove(max)
         End If
+
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' ###### 频数分布表与直方图
+    ''' 这个函数返回来的是频数
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="step!"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function Hist(data As Double(), Optional step! = 1) As Dictionary(Of Double, Integer)
+        Dim out As New Dictionary(Of Double, Integer)
+        Dim i As int = 0
+        Dim x As New Value(Of Double)
+
+        data = data _
+            .OrderBy(Function(n) n) _
+            .ToArray  ' 升序排序方便进行快速计算
+
+        For min As Double = Fix(data.Min) To Fix(data.Max) + 1 Step [step]
+            Dim upbound# = min + [step]
+            Dim n As Integer
+
+            ' 因为数据已经是经过排序了的，所以在这里可以直接进行区间计数
+            Do While (x = data(++i)) >= min AndAlso x < upbound
+                n += 1
+            Loop
+
+            Call out.Add(min, n)
+        Next
 
         Return out
     End Function
