@@ -23,8 +23,13 @@ Public Class Perseus
     <Column("Score")> Public Property Score As String
     <Column("Intensity")> Public Property Intensity As String
     <Column("MS/MS Count")> Public Property MSMSCount As String
-    <Column("Protein IDs")> Public Property ProteinIDs As String
-    <Column("Majority protein IDs")> Public Property Majority_proteinIDs As String
+
+    ''' <summary>
+    ''' 蛋白质搜库的结果
+    ''' </summary>
+    ''' <returns></returns>
+    <Collection("Protein IDs", ";")> Public Property ProteinIDs As String()
+    <Collection("Majority protein IDs", ";")> Public Property Majority_proteinIDs As String()
 
     Public Property Data As Dictionary(Of String, String)
 
