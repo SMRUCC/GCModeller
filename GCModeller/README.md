@@ -4,13 +4,14 @@ If you are running GCModeller on a Linux/macOS platform, please install the late
 
 ## Using GCModeller CLI tools
 
-For start using GCModeller tools, typing 
+For start using GCModeller tools, typing:
+
 ```bash
 GCModeller --ls
 
 # All of the available GCModeller commands were listed below.
 #
-# For getting the available function in the GCModeller program, 
+# For getting the available function in the GCModeller program,
 # try typing:    <command> ?
 # For getting the manual document in the GCModeller program,
 # try typing:    <command> man
@@ -73,3 +74,30 @@ $ NCBI_tools ??
 ```
 
 ![](./images/ToolsHelp-Example.png)
+
+## Tools Catalog
+
+##### GRN DNA Sites
+
+Tools for analysis the gene expression regulation network
+
++ seqtools: sequence analysis tools, which can search for the palindrome and repeats sites on DNA, which these sites is usually a possible TF motif site.
++ RegPrecise: bacterial gene expression regulation network reconstruct tool, base on the RegPrecise database.
++ MEME: TF motif analysis toolkit, base on the meme suite.
++ VirtualFootprint: TF motif site analysis tool
+
+##### Function annotation Tools
+
++ NCBI_tools: including the metagenome tool for 16S/18S RNA-seq taxonomy annotations
++ localblast: NCBI localblast toolkit, includes the sbh/bbh analysis protocol and the batch task protocol
++ KEGG_tools: KEGG API in CLI
+
+##### Data visualize Tools
+
++ Circos
++ Cytoscape
+
+##### Pathway Analysis tools
+
++ CARMEN
++ PhenoTree
