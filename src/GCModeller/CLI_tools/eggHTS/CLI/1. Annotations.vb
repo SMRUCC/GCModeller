@@ -60,6 +60,42 @@ Partial Module CLI
     End Function
 
     ''' <summary>
+    ''' 这个函数除了会生成注释表格之外，还会将原表格添加新的编号，以及导出蛋白表达的数据表
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Perseus.Table.annotations",
+               Usage:="/Perseus.Table.annotations /in <proteinGroups.csv> /uniprot <uniprot.XML> [/out <out.csv>]")>
+    Public Function PerseusTableAnnotations(args As CommandLine) As Integer
+        Dim [in] = args("/in")
+        Dim uniprot As String = args("/uniprot")
+        Dim out = args.GetValue("/out", [in].TrimSuffix & ".proteins.annotation.csv")
+        Dim table As Perseus() = [in].LoadCsv(Of Perseus)
+        Dim uniprotTable = UniprotXML.LoadDictionary(uniprot)
+        Dim output = table.GenerateAnnotations(uniprotTable, "uniprot").ToArray
+        Dim annotations = output.Select(Function(prot) prot.Item1).ToArray
+
+        For i As Integer = 0 To table.Length - 1
+            table(i).geneID = annotations(i).ID
+        Next
+
+        Call table.SaveTo(out.TrimSuffix & ".sample.csv")
+
+        Dim samples As IO.DataSet() = table _
+            .Select(Function(prot) New IO.DataSet With {
+                .ID = prot.geneID,
+                .Properties = prot.ExpressionValues _
+                .ToDictionary(Function(x) x.Name,
+                              Function(x) x.Value)
+            }) _
+            .ToArray
+
+        Call samples.SaveTo(out.TrimSuffix & ".values.csv")
+
+        Return annotations.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
     ''' 总蛋白注释绘制GO分布图
     ''' </summary>
     ''' <param name="args"></param>

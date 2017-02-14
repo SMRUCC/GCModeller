@@ -29,8 +29,13 @@ Partial Module CLI
             .IteratesALL _
             .Distinct _
             .ToArray
+        Dim uniprotIDs$() = idlist _
+            .Select(Function(s) s.Split("|"c, ":"c)(1)) _
+            .Distinct _
+            .ToArray
 
         Call idlist.SaveTo(out.TrimSuffix & ".proteinIDs.txt")
+        Call uniprotIDs.SaveTo(out.TrimSuffix & ".uniprotIDs.txt")
 
         Return data.SaveTo(out).CLICode
     End Function

@@ -1,5 +1,6 @@
 ﻿
 Imports System.Web.Script.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -7,7 +8,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 ''' <summary>
 ''' perseus output data csv
 ''' </summary>
-Public Class Perseus
+Public Class Perseus : Implements INamedValue
+
+    Public Property geneID As String Implements INamedValue.Key
 
     <Column("Only identified by site")> Public Property OnlyIdentifiedBySite As String
     <Column("Reverse")> Public Property Reverse As String
