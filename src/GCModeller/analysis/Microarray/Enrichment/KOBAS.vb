@@ -68,12 +68,12 @@ Namespace KOBAS
         Public Sub SplitData(path$, Optional EXPORT$ = Nothing)
             Dim lines$() = path _
                 .ReadAllLines _
-                .Where(Function(s) Not s.IsBlank AndAlso Not Regex.Match(s, "[-]+").Value = s) _
+                .Where(Function(s) Not s.StringEmpty AndAlso Not Regex.Match(s, "[-]+").Value = s) _
                 .Skip(3) _
                 .ToArray
             Dim terms = csv.ImportsTsv(Of EnrichmentTerm)(lines).GroupBy(Function(t) t.Database)
 
-            If EXPORT.IsBlank Then
+            If EXPORT.StringEmpty Then
                 EXPORT = path.TrimSuffix
             End If
 
@@ -95,14 +95,25 @@ Namespace KOBAS
                 Return -Math.Log10(x.Pvalue)
             End If
         End Function
+
+        ''' <summary>
+        ''' ``-<see cref="Math.Log10(Double)"/>(<see cref="EnrichmentTerm.Pvalue"/>)``
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        <Extension> Public Function P(x As IGoTermEnrichment) As Double
+            Return -Math.Log10(x.Pvalue)
+        End Function
     End Module
 
     Public Class EnrichmentTerm
+        Implements IGoTerm
+        Implements IGoTermEnrichment
 
         <Column("#Term")>
         Public Property Term As String
         Public Property Database As String
-        Public Property ID As String
+        Public Property ID As String Implements IGoTerm.Go_ID
 
         ''' <summary>
         ''' Input number
@@ -126,7 +137,7 @@ Namespace KOBAS
         ''' Corrected P-Value
         ''' </summary>
         ''' <returns></returns>
-        <Column("Corrected P-Value")> Public Property CorrectedPvalue As Double
+        <Column("Corrected P-Value")> Public Property CorrectedPvalue As Double Implements IGoTermEnrichment.Pvalue
 
         ''' <summary>
         ''' The group of this input gene id list

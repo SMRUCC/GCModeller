@@ -229,7 +229,7 @@ Public Module ChromesomeMapAPI
 
         Call EXPORT.MkDIR
 
-        If format.IsBlank Then
+        If format.StringEmpty Then
             format = "png"
         End If
 

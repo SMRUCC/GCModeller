@@ -185,12 +185,12 @@ Namespace gast
                 Throw New Exception($"Unable to locate reference fasta file: {ref_filename}.")
             End If
 
-            If ((Not udb_filename.IsBlank) AndAlso (Not udb_filename.FileExists)) Then
+            If ((Not udb_filename.StringEmpty) AndAlso (Not udb_filename.FileExists)) Then
                 Throw New Exception($"Unable to locate reference udb file: {udb_filename}.")
             End If
 
             ' If no outfilename, Then writing To database, create tmp file To store the data
-            If (out_filename.IsBlank) Then
+            If (out_filename.StringEmpty) Then
                 out_filename = gast_table & (Rnd() * 9999) & ".txt"
             End If
 
@@ -252,7 +252,7 @@ Namespace gast
                 '# Load the file into the database
                 '#
                 '#######################################
-                If (Not gast_table.IsBlank) Then
+                If (Not gast_table.StringEmpty) Then
                     mysqlimport_cmd &= $"{out_filename} >> {mysqlimport_log}"
                     Call LOG.run_command(mysqlimport_cmd)
                     Call LOG.run_command($"rm {out_filename}")
@@ -284,7 +284,7 @@ Namespace gast
             Dim ref_taxa = ref_taxa_ref
 
             ' print the field header lines, but Not If loading table To the database
-            If (gast_table.IsBlank) Then
+            If (gast_table.StringEmpty) Then
                 If (terse) Then
                     OUT.WriteLine(String.Join(vbTab, "read_id", "taxonomy", "distance", "rank"))
                 Else
@@ -433,7 +433,7 @@ Namespace gast
             ' read In the data
             For Each line As String In uc_file.ReadAllLines
 
-                If (Not line.Match("^H").IsBlank) Then
+                If (Not line.Match("^H").StringEmpty) Then
 
                     ' It has a valid hie
                     ' chomp $line; 
@@ -498,12 +498,12 @@ Namespace gast
                         ' has internal gaps
                         If ((use_full_length) OrElse (Not ignore_all_gaps)) Then
 
-                            Do While Not align.Match("[DI]").IsBlank
+                            Do While Not align.Match("[DI]").StringEmpty
 
                                 align = Regex.Replace(align, "^[0-9]*[M]", "", RegexICMul)  ' leading remove matches 
                                 align = Regex.Replace(align, "^[ID]", "", RegexICMul) ' remove singleton indels
 
-                                If Not align.Match("^[0-9]*[ID]").IsBlank Then
+                                If Not align.Match("^[0-9]*[ID]").StringEmpty Then
 
                                     Dim gap = align
                                     align = Regex.Replace(align, "^[0-9]*[ID]", "", RegexICMul)  ' remove gap from aligment

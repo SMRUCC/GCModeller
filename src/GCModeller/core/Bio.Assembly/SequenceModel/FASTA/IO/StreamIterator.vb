@@ -75,7 +75,7 @@ Namespace SequenceModel.FASTA
         ''' <returns></returns>
         Private Iterator Function __loops(stream As List(Of String)) As IEnumerable(Of FastaToken)
             For Each line As String In MyBase.BufferProvider   ' 读取一个数据块
-                If line.IsBlank Then  ' 跳过空白的行
+                If line.StringEmpty Then  ' 跳过空白的行
                     Continue For
                 End If
 

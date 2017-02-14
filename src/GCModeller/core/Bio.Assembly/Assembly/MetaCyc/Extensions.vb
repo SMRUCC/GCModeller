@@ -46,7 +46,7 @@ Namespace Assembly.MetaCyc
         <Extension> Public Function GetAttributeList(Of T As Slots.Object)(data As DataFile(Of T)) As String()
             Return (From s As String
                     In data.AttributeList
-                    Where Not s.IsBlank
+                    Where Not s.StringEmpty
                     Select s
                     Distinct
                     Order By s.Length Descending).ToArray

@@ -40,7 +40,7 @@ Public Module ecardParser
     Public Function ParseFile(path As String, Optional ByRef tag As NamedValue(Of String) = Nothing) As IEnumerable(Of Dictionary(Of String, String()))
         Dim tokens = path.ReadAllText.Parsing
         Dim tagLines As String() = path.IterateAllLines.Take(4).Where(
-            Function(s) Not s.IsBlank).ToArray
+            Function(s) Not s.StringEmpty).ToArray
 
         tag = New NamedValue(Of String) With {
             .Name = Strings.Split(tagLines(Scan0), vbTab).Last,

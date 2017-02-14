@@ -20,13 +20,13 @@ Public Module COGCatalogProfiling
         Dim profiling = From c As Char
                         In array _
                             .Select(Function(g) g.Catalog) _
-                            .Where(Function(s) Not s.IsBlank) _
+                            .Where(Function(s) Not s.StringEmpty) _
                             .IteratesALL
                         Select c
                         Group c By c Into Count  ' 所有的元素经过分组操作之后都是唯一的
         Dim profiles As New Dictionary(Of String, NamedValue(Of Double)())
         Dim data As New Dictionary(Of String, List(Of NamedValue(Of Double)))
-        Dim null% = array.Where(Function(g) g.Catalog.IsBlank).Count ' 空的分类的基因数目
+        Dim null% = array.Where(Function(g) g.Catalog.StringEmpty).Count ' 空的分类的基因数目
         Dim profileData = profiling.ToArray
         Dim total% = array.Length / 100
 

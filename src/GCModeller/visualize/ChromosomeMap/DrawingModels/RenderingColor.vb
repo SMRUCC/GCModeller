@@ -56,7 +56,7 @@ Namespace DrawingModels
                 For Each gene As SegmentObject In .GeneObjects
                     Dim COG_gene As MyvaCOG = geneTable.TryGetValue(gene.LocusTag)
 
-                    If Not COG_gene Is Nothing AndAlso Not COG_gene.Catalog.IsBlank Then
+                    If Not COG_gene Is Nothing AndAlso Not COG_gene.Catalog.StringEmpty Then
 
                         If COG_gene.Catalog.Length > 1 Then
                             Dim neuColor As Color = COG_gene.Catalog _

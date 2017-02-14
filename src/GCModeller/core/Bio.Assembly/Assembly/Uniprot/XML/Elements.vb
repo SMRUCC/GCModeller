@@ -6,6 +6,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.Uniprot.XML
 
+    ''' <summary>
+    ''' <see cref="accession"/>属性为主键
+    ''' </summary>
     Public Class entry : Implements INamedValue
 
         <XmlAttribute> Public Property dataset As String

@@ -73,7 +73,7 @@ Namespace GCModeller.FileSystem
             Get
                 Dim DIR$ = Settings.Session.SettingsFile.RepositoryRoot
 
-                If DIR.IsBlank Then
+                If DIR.StringEmpty Then
                     Call RepositoryNotInitialized.Warning
                 ElseIf Not DIR.DirectoryExists Then
                     Call String.Format(RepositoryHandleInvalid, DIR).Warning

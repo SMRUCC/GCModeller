@@ -10,9 +10,7 @@ Public Class UniprotAnnotations
     Public Property GO As String()
     Public Property EC As String()
     Public Property KO As String
-    ' Public Property organism As String
-    Public Property functions As String
-    Public Property pathways As String
+    Public Property organism As String
     Public Property Data As Dictionary(Of String, String)
 
     Public Overrides Function ToString() As String

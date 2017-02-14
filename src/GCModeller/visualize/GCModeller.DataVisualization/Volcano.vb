@@ -179,7 +179,7 @@ Public Module Volcano
                         Case LabelTypes.ALL
                             Call __drawLabel(gene.label, point)
                         Case Else  ' 自定义
-                            If Not gene.label.IsBlank Then
+                            If Not gene.label.StringEmpty Then
                                 Call __drawLabel(gene.label, point)
                             End If
                     End Select

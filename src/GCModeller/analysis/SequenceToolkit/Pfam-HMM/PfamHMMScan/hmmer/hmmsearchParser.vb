@@ -81,14 +81,14 @@ Public Module hmmsearchParser
 
         offset += 1
 
-        Do While Not (s = buf.Read(offset)).IsBlank AndAlso
+        Do While Not (s = buf.Read(offset)).StringEmpty AndAlso
             InStr(s, hmmscan.inclusion) = 0
             hits += s.value.HitParser(fields)
         Loop
 
         Dim uhits As New List(Of Score)
 
-        Do While Not (s = buf.Read(offset)).IsBlank
+        Do While Not (s = buf.Read(offset)).StringEmpty
             uhits += s.value.HitParser(fields)
         Loop
 
@@ -130,7 +130,7 @@ Public Module hmmsearchParser
         Dim aligns As New List(Of hmmscan.Align)
         Dim p As Integer = 3
 
-        Do While Not (s = buf.Read(p)).IsBlank
+        Do While Not (s = buf.Read(p)).StringEmpty
             aligns += New hmmscan.Align(s.value.FieldParser(fields))
         Loop
 

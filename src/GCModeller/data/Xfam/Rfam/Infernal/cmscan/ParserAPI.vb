@@ -66,13 +66,13 @@ Namespace Infernal.cmscan
 
             offset += 1
 
-            Do While Not (s = buf.Read(offset)).IsBlank AndAlso InStr(s, uncertain) <= 0
+            Do While Not (s = buf.Read(offset)).StringEmpty AndAlso InStr(s, uncertain) <= 0
                 list += s.value.__hitParser(fields)
             Loop
 
             Dim ulist As New List(Of Hit)
 
-            Do While Not (s = buf.Read(offset)).IsBlank
+            Do While Not (s = buf.Read(offset)).StringEmpty
                 ulist += s.value.__hitParser(fields)
             Loop
 

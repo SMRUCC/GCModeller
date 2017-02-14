@@ -77,14 +77,14 @@ Namespace hmmscan
             Dim offset As Integer = 5
             Dim s As New Value(Of String)
 
-            Do While Not (s = buf.Read(offset)).IsBlank AndAlso
+            Do While Not (s = buf.Read(offset)).StringEmpty AndAlso
                 InStr(s, inclusion) = 0
                 hits += s.value.HitParser(fields)
             Loop
 
             Dim uhits As New List(Of Hit)
 
-            Do While Not (s = buf.Read(offset)).IsBlank
+            Do While Not (s = buf.Read(offset)).StringEmpty
                 uhits += s.value.HitParser(fields)
             Loop
 
@@ -124,7 +124,7 @@ Namespace hmmscan
 
             p = 3
 
-            Do While Not (s = buf.Read(p)).IsBlank
+            Do While Not (s = buf.Read(p)).StringEmpty
                 aligns += New Align(FormattedParser.FieldParser(s, fields))
             Loop
 

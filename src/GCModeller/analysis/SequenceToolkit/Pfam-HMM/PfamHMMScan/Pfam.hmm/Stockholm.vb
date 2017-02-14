@@ -81,7 +81,7 @@ Public Class Stockholm : Implements INamedValue
 
             Dim tmp As String = hash.TryGetValue(NameOf(x.GA)).DefaultFirst
             If Not String.IsNullOrEmpty(tmp) Then
-                x.GA = Strings.Split(tmp, ";").ToArray(Function(s) Val(s), where:=Function(s) Not s.IsBlank)
+                x.GA = Strings.Split(tmp, ";").ToArray(Function(s) Val(s), where:=Function(s) Not s.StringEmpty)
             End If
 
             x.ID = hash.TryGetValue(NameOf(x.ID)).DefaultFirst

@@ -4,12 +4,41 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Partial Module CLI
+
+    ''' <summary>
+    ''' 将perseus软件的输出转换为csv文档并且导出uniprot编号以方便进行注释
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Perseus.Table",
+               Usage:="/Perseus.Table /in <proteinGroups.txt> [/out <out.csv>]")>
+    Public Function PerseusTable(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".csv")
+        Dim data As Perseus() = [in].LoadTsv(Of Perseus)
+        Dim idlist As String() = data _
+            .Select(Function(prot) prot.ProteinIDs) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+        Dim uniprotIDs$() = idlist _
+            .Select(Function(s) s.Split("|"c, ":"c)(1)) _
+            .Distinct _
+            .ToArray
+
+        Call idlist.SaveTo(out.TrimSuffix & ".proteinIDs.txt")
+        Call uniprotIDs.SaveTo(out.TrimSuffix & ".uniprotIDs.txt")
+
+        Return data.SaveTo(out).CLICode
+    End Function
 
     ''' <summary>
     ''' 假若蛋白质组的原始检测结果之中含有多个物种的蛋白，则可以使用这个方法利用bbh将其他的物种的蛋白映射回某一个指定的物种的蛋白
@@ -38,7 +67,7 @@ Partial Module CLI
         Dim describKey As String = args("/Description")
         Dim ORF$
 
-        If Not describKey.IsBlank Then
+        If Not describKey.StringEmpty Then
             Call $"Substitute description in field: '{describKey}'.".Warning
         End If
 
@@ -50,17 +79,17 @@ Partial Module CLI
                 Dim bbhHit As String = bbhData(protein.ID).HitName
 
                 ' 然后在id_mapping表之中进行查找
-                If Not bbhHit.IsBlank AndAlso mappingsID.ContainsKey(bbhHit) Then
+                If Not bbhHit.StringEmpty AndAlso mappingsID.ContainsKey(bbhHit) Then
                     ' 存在则更新数据
                     Dim uniprotData As Uniprot.XML.entry = uniprotTable(mappingsID(bbhHit).First)
 
                     protein.ID = uniprotData.accession
                     ORF = uniprotData.ORF
-                    If ORF.IsBlank Then
+                    If ORF.StringEmpty Then
                         ORF = protein.ID
                     End If
                     protein.Properties.Add("ORF", ORF)
-                    If Not describKey.IsBlank Then
+                    If Not describKey.StringEmpty Then
                         protein(describKey) = uniprotData.proteinFullName
                     End If
                 Else
@@ -74,7 +103,7 @@ Partial Module CLI
                 ' 直接查找
                 Dim uniprotData As Uniprot.XML.entry = uniprotTable(protein.ID)
                 ORF = uniprotData.ORF
-                If ORF.IsBlank Then
+                If ORF.StringEmpty Then
                     ORF = uniprotData.accession
                 End If
                 protein.Properties.Add("ORF", ORF)
@@ -126,11 +155,11 @@ Partial Module CLI
                 Dim bbhHit As String = bbhData(protein.ID).HitName
 
                 ' 然后在id_mapping表之中进行查找
-                If Not bbhHit.IsBlank AndAlso mappingsID.ContainsKey(bbhHit) Then
+                If Not bbhHit.StringEmpty AndAlso mappingsID.ContainsKey(bbhHit) Then
                     ' 存在则更新数据
                     Dim uniprotData As Uniprot.XML.entry = uniprotTable(mappingsID(bbhHit).First)
                     ORF = uniprotData.ORF
-                    If ORF.IsBlank Then
+                    If ORF.StringEmpty Then
                         ORF = uniprotData.accession
                     End If
                     protein.Properties.Add("ORF", ORF)
@@ -142,7 +171,7 @@ Partial Module CLI
                 ' 直接查找
                 Dim uniprotData As Uniprot.XML.entry = uniprotTable(protein.ID)
                 ORF = uniprotData.ORF
-                If ORF.IsBlank Then
+                If ORF.StringEmpty Then
                     ORF = uniprotData.accession
                 End If
                 protein.Properties.Add("ORF", ORF)
@@ -174,7 +203,7 @@ Partial Module CLI
             If uniprotTable.ContainsKey(uniprot) Then
                 Dim gene As String = uniprotTable(uniprot).ORF
 
-                If Not gene.IsBlank Then
+                If Not gene.StringEmpty Then
                     Call protein.Properties.Add("ORF", gene)
                 Else
                     Call protein.Properties.Add("ORF", "*")
@@ -183,5 +212,21 @@ Partial Module CLI
         Next
 
         Return data.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/Data.Add.uniprotIDs",
+               Usage:="/Data.Add.uniprotIDs /in <annotations.csv> /data <data.csv> [/out <out.csv>]")>
+    Public Function DataAddUniprotIDs(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim data As String = args("/data")
+        Dim out As String = args.GetValue("/out", data.TrimSuffix & ".uniprotIDs.csv")
+        Dim annotations = EntityObject.LoadDataSet([in]).ToDictionary
+        Dim dataTable = EntityObject.LoadDataSet(data)
+
+        For Each protein As EntityObject In dataTable
+            Call protein.Properties.Add("uniprot", annotations(protein.ID)("uniprot"))
+        Next
+
+        Return dataTable.SaveTo(out).CLICode
     End Function
 End Module

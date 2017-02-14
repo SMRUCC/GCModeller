@@ -54,7 +54,7 @@ Partial Module CLI
         Dim terms As String() =
             list _
             .ReadAllLines _
-            .Where(Function(s) Not s.IsBlank) _
+            .Where(Function(s) Not s.StringEmpty) _
             .ToArray(Function(s) s.Trim.ToLower)
         Dim words As Dictionary(Of String, String()) =
             (From term In (From line As String

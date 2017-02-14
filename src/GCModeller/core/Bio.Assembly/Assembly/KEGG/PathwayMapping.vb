@@ -207,7 +207,7 @@ Namespace Assembly.KEGG.WebServices
                 Dim ko As OrthologREST = path.LoadXml(Of OrthologREST)
 
                 For Each hit As SShit In ko.Orthologs
-                    If Not hit.KO.Value.IsBlank Then
+                    If Not hit.KO.Value.StringEmpty Then
                         out += New NamedValue(Of String) With {
                             .Name = id,
                             .Value = hit.KO.Value

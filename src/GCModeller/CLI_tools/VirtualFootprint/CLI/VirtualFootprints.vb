@@ -524,7 +524,7 @@ Partial Module CLI
                            Let bp As String() = Strings.Split(x.BiologicalProcess, ";")
                            Select From proc As String
                                   In bp
-                                  Where Not proc.IsBlank
+                                  Where Not proc.StringEmpty
                                   Select bioProc = proc.Trim,
                                       site = x).IteratesALL
             For Each gr In (From x In Familys Select x Group x By x.bioProc Into Group)

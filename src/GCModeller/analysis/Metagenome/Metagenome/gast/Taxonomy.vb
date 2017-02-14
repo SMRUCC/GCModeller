@@ -104,7 +104,7 @@ Namespace gast
 
             ' Remove trailing NAs And replace internal blanks With "Unassigned"
             For i As Integer = 0 To data.Length - 1
-                If data(i).IsBlank OrElse data(i) = "NA" Then
+                If data(i).StringEmpty OrElse data(i) = "NA" Then
                     data(i) = "Unassigned"
                 End If
             Next
@@ -255,7 +255,7 @@ Namespace gast
             For i As Integer = 0 To self.Length - 1
                 Dim lv As String = self(i)
 
-                If (Not lv.IsBlank) AndAlso lv <> "NA" AndAlso lv <> "Unassigned" Then
+                If (Not lv.StringEmpty) AndAlso lv <> "NA" AndAlso lv <> "Unassigned" Then
                     depth = ranks(i)
                     d = i
                 End If

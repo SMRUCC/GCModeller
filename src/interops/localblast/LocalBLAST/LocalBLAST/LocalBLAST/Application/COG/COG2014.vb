@@ -68,7 +68,7 @@ Namespace LocalBLAST.Application.RpsBLAST
                 Dim cogs$() = Strings _
                     .Split(protein.COG, ";") _
                     .Select(AddressOf Trim) _
-                    .Where(Function(s) Not s.IsBlank) _
+                    .Where(Function(s) Not s.StringEmpty) _
                     .ToArray
 
                 If cogs.IsNullOrEmpty OrElse (cogs.Length = 1 AndAlso cogs(Scan0) = "") Then
