@@ -51,7 +51,7 @@ Public Module BIOM
         Dim rows As row() = LinqAPI.Exec(Of row) <=
             From x As Names
             In array
-            Where Not x.taxonomy.IsBlank AndAlso x.Composition IsNot Nothing
+            Where Not x.taxonomy.StringEmpty AndAlso x.Composition IsNot Nothing
             Select New row With {
                 .id = x.Unique,
                 .metadata = New meta With {

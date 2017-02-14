@@ -108,7 +108,7 @@ Namespace SequenceModel
 
             site.Strand = If(loci.Strand = Strands.Forward, "+", "-")
             site.ID = If(
-                loci.UserTag.IsBlank,
+                loci.UserTag.StringEmpty,
                 loci.NCBIstyle,
                 loci.UserTag)
 

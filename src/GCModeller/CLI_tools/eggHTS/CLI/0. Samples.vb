@@ -67,7 +67,7 @@ Partial Module CLI
         Dim describKey As String = args("/Description")
         Dim ORF$
 
-        If Not describKey.IsBlank Then
+        If Not describKey.StringEmpty Then
             Call $"Substitute description in field: '{describKey}'.".Warning
         End If
 
@@ -79,17 +79,17 @@ Partial Module CLI
                 Dim bbhHit As String = bbhData(protein.ID).HitName
 
                 ' 然后在id_mapping表之中进行查找
-                If Not bbhHit.IsBlank AndAlso mappingsID.ContainsKey(bbhHit) Then
+                If Not bbhHit.StringEmpty AndAlso mappingsID.ContainsKey(bbhHit) Then
                     ' 存在则更新数据
                     Dim uniprotData As Uniprot.XML.entry = uniprotTable(mappingsID(bbhHit).First)
 
                     protein.ID = uniprotData.accession
                     ORF = uniprotData.ORF
-                    If ORF.IsBlank Then
+                    If ORF.StringEmpty Then
                         ORF = protein.ID
                     End If
                     protein.Properties.Add("ORF", ORF)
-                    If Not describKey.IsBlank Then
+                    If Not describKey.StringEmpty Then
                         protein(describKey) = uniprotData.proteinFullName
                     End If
                 Else
@@ -103,7 +103,7 @@ Partial Module CLI
                 ' 直接查找
                 Dim uniprotData As Uniprot.XML.entry = uniprotTable(protein.ID)
                 ORF = uniprotData.ORF
-                If ORF.IsBlank Then
+                If ORF.StringEmpty Then
                     ORF = uniprotData.accession
                 End If
                 protein.Properties.Add("ORF", ORF)
@@ -155,11 +155,11 @@ Partial Module CLI
                 Dim bbhHit As String = bbhData(protein.ID).HitName
 
                 ' 然后在id_mapping表之中进行查找
-                If Not bbhHit.IsBlank AndAlso mappingsID.ContainsKey(bbhHit) Then
+                If Not bbhHit.StringEmpty AndAlso mappingsID.ContainsKey(bbhHit) Then
                     ' 存在则更新数据
                     Dim uniprotData As Uniprot.XML.entry = uniprotTable(mappingsID(bbhHit).First)
                     ORF = uniprotData.ORF
-                    If ORF.IsBlank Then
+                    If ORF.StringEmpty Then
                         ORF = uniprotData.accession
                     End If
                     protein.Properties.Add("ORF", ORF)
@@ -171,7 +171,7 @@ Partial Module CLI
                 ' 直接查找
                 Dim uniprotData As Uniprot.XML.entry = uniprotTable(protein.ID)
                 ORF = uniprotData.ORF
-                If ORF.IsBlank Then
+                If ORF.StringEmpty Then
                     ORF = uniprotData.accession
                 End If
                 protein.Properties.Add("ORF", ORF)
@@ -203,7 +203,7 @@ Partial Module CLI
             If uniprotTable.ContainsKey(uniprot) Then
                 Dim gene As String = uniprotTable(uniprot).ORF
 
-                If Not gene.IsBlank Then
+                If Not gene.StringEmpty Then
                     Call protein.Properties.Add("ORF", gene)
                 Else
                     Call protein.Properties.Add("ORF", "*")

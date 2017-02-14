@@ -68,7 +68,7 @@ Public Module CatalogPlots
             Dim stat As New List(Of NamedValue(Of Double))
 
             For Each catalog In counts
-                If catalog.Description.IsBlank Then
+                If catalog.Description.StringEmpty Then
                     Continue For
                 End If
 
@@ -133,7 +133,7 @@ Public Module CatalogPlots
             Dim stat As New List(Of NamedValue(Of Double))
 
             For Each catalog In counts
-                If catalog.Description.IsBlank Then
+                If catalog.Description.StringEmpty Then
                     Continue For
                 End If
 

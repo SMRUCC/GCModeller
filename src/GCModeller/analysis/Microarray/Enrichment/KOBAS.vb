@@ -68,12 +68,12 @@ Namespace KOBAS
         Public Sub SplitData(path$, Optional EXPORT$ = Nothing)
             Dim lines$() = path _
                 .ReadAllLines _
-                .Where(Function(s) Not s.IsBlank AndAlso Not Regex.Match(s, "[-]+").Value = s) _
+                .Where(Function(s) Not s.StringEmpty AndAlso Not Regex.Match(s, "[-]+").Value = s) _
                 .Skip(3) _
                 .ToArray
             Dim terms = csv.ImportsTsv(Of EnrichmentTerm)(lines).GroupBy(Function(t) t.Database)
 
-            If EXPORT.IsBlank Then
+            If EXPORT.StringEmpty Then
                 EXPORT = path.TrimSuffix
             End If
 

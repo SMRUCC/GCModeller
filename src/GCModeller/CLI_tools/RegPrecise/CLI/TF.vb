@@ -198,7 +198,7 @@ Partial Module CLI
             list += From x As Regulator
                     In genome.Regulons.Regulators
                     Where x.Type = Regulator.Types.TF
-                    Where Not x.Effector.IsBlank
+                    Where Not x.Effector.StringEmpty
                     Let tokens As String() = x.Effector.Split(";"c)
                     Select From name As String
                            In tokens

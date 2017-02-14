@@ -383,7 +383,7 @@ Namespace Topologically
                 out = .ResultSet.ToArray
             End With
 
-            If Not tag.IsBlank Then
+            If Not tag.StringEmpty Then
                 For Each loci As PalindromeLoci In out
                     loci.Data = New Dictionary(Of String, String) From {
                         {NameOf(tag), tag}

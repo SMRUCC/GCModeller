@@ -54,7 +54,7 @@ Public Module ProteinGroups
 
     Public Sub GetProteinDefs(path$, Optional save$ = Nothing, Optional column$ = "Protein IDs")
         Dim idData$() = GetProteinIds(path, column)
-        Dim gz$ = If(save.IsBlank, path.TrimSuffix & ".xml.gz", save)
+        Dim gz$ = If(save.StringEmpty, path.TrimSuffix & ".xml.gz", save)
 
         Call Retrieve_IDmapping.Mapping(idData, ID_types.NF90, ID_types.ACC_ID, gz)
         Call idData.SaveTo(gz.TrimSuffix.TrimSuffix & "-proteins.txt")
@@ -241,7 +241,7 @@ Public Module ProteinGroups
 
         Dim names = uniprots _
             .Select(Function(prot) prot.proteinFullName) _
-            .Where(Function(x) Not x.IsBlank) _
+            .Where(Function(x) Not x.StringEmpty) _
             .Distinct _
             .ToArray
         Dim geneNames = uniprots _
@@ -483,7 +483,7 @@ Public Module ProteinGroups
 
     <Extension>
     Public Function Term2Locus(proteins As IEnumerable(Of protein), field$, Optional deli$ = Nothing, Optional oneTag As Boolean = False) As NamedValue(Of String)()
-        proteins = proteins.Where(Function(x) Not x(field).IsBlank)
+        proteins = proteins.Where(Function(x) Not x(field).StringEmpty)
 
         If deli Is Nothing Then
             Return proteins.ToArray(Function(x) New NamedValue(Of String)(x(field), x.ID))

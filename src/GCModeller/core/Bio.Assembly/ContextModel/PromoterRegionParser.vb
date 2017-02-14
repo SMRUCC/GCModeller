@@ -118,7 +118,7 @@ Namespace ContextModel
 
             Dim site As SimpleSegment = nt.CutSequenceCircular(loci)
             Dim attrs$() = If(
-                gene.Product.IsBlank,
+                gene.Product.StringEmpty,
                 {gene.Synonym & " " & site.ID},
                 {gene.Synonym & " " & site.ID, gene.Product})
             Dim promoterRegion As New FastaToken With {

@@ -133,7 +133,7 @@ Partial Module CLI
         Dim sp As String = args <= "/sp"
         Dim exclude As Boolean = args.GetBoolean("/exclude")
         Dim suffix$ = If(
-            sp.IsBlank,
+            sp.StringEmpty,
             "",
             If(exclude, "-exclude", "") & "-" & sp.NormalizePathString.Replace(" ", "_"))
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{suffix}.fasta")
@@ -202,7 +202,7 @@ Partial Module CLI
                 Dim bbhHit As String = bbhData(protein.uniprot).HitName
 
                 ' 然后在id_mapping表之中进行查找
-                If Not bbhHit.IsBlank AndAlso mappingsID.ContainsKey(bbhHit) Then
+                If Not bbhHit.StringEmpty AndAlso mappingsID.ContainsKey(bbhHit) Then
                     ' 存在则更新数据
                     Dim uniprotData As Uniprot.XML.entry = uniprotTable(mappingsID(bbhHit).First)
 

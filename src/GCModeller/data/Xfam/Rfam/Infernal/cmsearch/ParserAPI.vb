@@ -80,13 +80,13 @@ Namespace Infernal.cmsearch
             Dim list As New List(Of Hit)
             Dim fields As Integer() = buf(offset - 1).CrossFields
 
-            Do While Not (s = buf.Read(offset)).IsBlank AndAlso InStr(s, cmscan.uncertain) <= 0
+            Do While Not (s = buf.Read(offset)).StringEmpty AndAlso InStr(s, cmscan.uncertain) <= 0
                 list += s.value.__hitParser(fields)
             Loop
 
             Dim ulist As New List(Of Hit)
 
-            Do While Not (s = buf.Read(offset)).IsBlank
+            Do While Not (s = buf.Read(offset)).StringEmpty
                 If InStr(s, "[No hits detected that satisfy reporting thresholds]") > 0 Then
                     Exit Do
                 Else
