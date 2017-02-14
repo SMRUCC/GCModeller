@@ -1,5 +1,4 @@
 ﻿Imports System.Drawing
-Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -8,18 +7,11 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.GO.PlantRegMap
-Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
-Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.Assembly.Uniprot.Web
-Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module CLI
 
