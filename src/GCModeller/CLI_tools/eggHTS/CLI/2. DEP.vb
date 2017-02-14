@@ -37,11 +37,11 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/DEP.uniprot.list2",
-               Usage:="/DEP.uniprot.list2 /in <log2.test.csv> [/DEP.flag <is.DEP?> /uniprot <uniprot> /species <scientifcName> /uniprot <uniprotXML> /out <out.txt>]")>
+               Usage:="/DEP.uniprot.list2 /in <log2.test.csv> [/DEP.Flag <is.DEP?> /uniprot.Flag <uniprot> /species <scientifcName> /uniprot <uniprotXML> /out <out.txt>]")>
     Public Function DEPUniprotIDs2(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim DEPFlag As String = args.GetValue("/DEP.flag", "is.DEP?")
-        Dim uniprot As String = args.GetValue("/uniprot", "uniprot")
+        Dim uniprot As String = args.GetValue("/uniprot.Flag", "uniprot")
         Dim data = EntityObject.LoadDataSet([in])
         Dim DEPs = data.Where(Function(prot) prot(DEPFlag).getBoolean).ToArray
         Dim uniprotIDs$() = DEPs _
