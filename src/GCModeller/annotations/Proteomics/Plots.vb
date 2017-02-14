@@ -28,11 +28,13 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Histogram
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -103,10 +105,18 @@ Public Module Plots
         Dim logFC#() = data _
             .Select(Function(prot) prot(tag).ParseNumeric) _
             .ToArray
+        Dim histData As IntegerTagged(Of Double)() = Nothing
 
-        Return logFC.HistogramPlot(
-            [step],
-            serialsTitle:=serialTitle)
+        Try
+            Return logFC.HistogramPlot(
+                [step],
+                serialsTitle:=serialTitle,
+                histData:=histData)
+        Catch ex As Exception
+            ' 有时候标签没有设置正确会导致得到的向量全部为0，则绘图会出错，这个时候显示一下调试信息
+            Dim msg$ = $"tag={tag}, vector={Mid(logFC.GetJson, 1, 256)}..., hist={Mid(histData.GetJson, 1, 300)}..."
+            Throw New Exception(msg, ex)
+        End Try
     End Function
 End Module
 
