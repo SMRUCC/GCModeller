@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::23082be15e4b78d91746ce7bca4f25c6, ..\GCModeller\CLI_tools\VirtualFootprint\CLI\Cluster.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -39,8 +39,15 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
+    ''' <summary>
+    ''' 自己和自己进行比对，然后进行聚类
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Binary.KMeans.SW",
-               Usage:="/Binary.KMeans.SW /in <dataset.fasta> [/cut 0.65 /minw 6 /out <out.DIR>]")>
+               Usage:="/Binary.KMeans.SW /in <dataset.fasta> [/cut 0.65 /minw 6 /first.ID /out <out.DIR>]")>
+    <Argument("/first.ID",
+              Description:="Using the first token in the fasta header as the output entity ID? Default is using the full title.")>
     Public Function BinaryKmeansSW(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim cut# = args.GetValue("/cut", 0.65)
@@ -48,8 +55,17 @@ Partial Module CLI
         Dim out As String =
             args.GetValue("/out", [in].TrimSuffix & $"-cut={cut},minw={minw}/")
         Dim fa As New FastaFile([in])
-        Dim clusters = BinaryKmeans(fa, cut, minw)
-        Dim net = clusters.bTreeNET
+
+        If args.GetBoolean("/first.ID") Then
+            For Each f As FastaToken In fa
+                f.Attributes = {
+                    f.Attributes(Scan0)
+                }
+            Next
+        End If
+
+        Dim clusters As EntityLDM() = BinaryKmeans(fa, cut, minw)
+        Dim net As Network = clusters.bTreeNET
 
         Call clusters.SaveTo(out & $"/{[in].BaseName}-kmeans.csv")
         Call net.Save(out & "/binary-net/")
@@ -103,7 +119,7 @@ Partial Module CLI
                      Let sw As SmithWaterman = SmithWaterman.Align(query, b, matrix)
                      Let out As HSP = sw.GetOutput(cutoff, minW).Best
                      Select b.Title,
-                         score = If(out Is Nothing, -10.0R, out.Score)
+                         score = If(out Is Nothing, -100.0R, out.Score)
 
         Dim output As Dictionary(Of String, Double) =
             LQuery.ToDictionary(Function(x) x.Title,

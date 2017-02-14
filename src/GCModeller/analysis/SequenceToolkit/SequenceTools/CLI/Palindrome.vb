@@ -567,4 +567,27 @@ Partial Module Utilities
 
         Return output.SaveTo(out, Encodings.ASCII).CLICode
     End Function
+
+    <ExportAPI("/Promoter.Palindrome.Fasta",
+               Usage:="/Promoter.Palindrome.Fasta /in <palindrome.csv> [/out <out.fasta>]")>
+    Public Function PromoterPalindrome2Fasta(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".fasta")
+        Dim palindromes = [in].LoadCsv(Of PalindromeLoci)
+        Dim output As New List(Of FastaToken)
+        Dim tag$
+
+        For Each site As PalindromeLoci In palindromes
+            tag = site.Data("tag")
+            output += New FastaToken With {
+                .Attributes = {
+                    tag.Split.First & $" {site.Start}..{site.PalEnd}",
+                    tag
+                },
+                .SequenceData = site.SequenceData
+            }
+        Next
+
+        Return New FastaFile(output).Save(out, Encodings.ASCII).CLICode
+    End Function
 End Module
