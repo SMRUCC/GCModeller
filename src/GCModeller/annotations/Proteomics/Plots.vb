@@ -1,35 +1,40 @@
 ﻿#Region "Microsoft.VisualBasic::fb36be3c828daeab26236f39b8a6a47b, ..\GCModeller\annotations\Proteomics\Plots.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.TagData
+Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Histogram
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -81,6 +86,39 @@ Public Module Plots
         Next
 
         Return out
+    End Function
+
+    ''' <summary>
+    ''' 假若没有生物学重复，则可以用这个函数进行logFC的分布情况的绘制，
+    ''' 但是假若数据是有生物学重复，即可以计算出pvalue的时候，通常是绘制火山图
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="tag$"></param>
+    ''' <param name="serialTitle$"></param>
+    ''' <param name="step!"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function logFCHistogram(data As IEnumerable(Of EntityObject),
+                                   Optional tag$ = "logFC",
+                                   Optional serialTitle$ = "Frequency(logFC)",
+                                   Optional step! = 1,
+                                   Optional size As Size = Nothing) As Bitmap
+        Dim logFC#() = data _
+            .Select(Function(prot) prot(tag).ParseNumeric) _
+            .ToArray
+        Dim histData As IntegerTagged(Of Double)() = Nothing
+
+        Try
+            Return logFC.HistogramPlot(
+                [step],
+                serialsTitle:=serialTitle,
+                histData:=histData,
+                size:=size)
+        Catch ex As Exception
+            ' 有时候标签没有设置正确会导致得到的向量全部为0，则绘图会出错，这个时候显示一下调试信息
+            Dim msg$ = $"tag={tag}, vector={Mid(logFC.GetJson, 1, 256)}..., hist={Mid(histData.GetJson, 1, 300)}..."
+            Throw New Exception(msg, ex)
+        End Try
     End Function
 End Module
 
