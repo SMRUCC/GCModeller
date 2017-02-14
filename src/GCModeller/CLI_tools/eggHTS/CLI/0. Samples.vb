@@ -213,4 +213,20 @@ Partial Module CLI
 
         Return data.SaveTo(out).CLICode
     End Function
+
+    <ExportAPI("/Data.Add.uniprotIDs",
+               Usage:="/Data.Add.uniprotIDs /in <annotations.csv> /data <data.csv> [/out <out.csv>]")>
+    Public Function DataAddUniprotIDs(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim data As String = args("/data")
+        Dim out As String = args.GetValue("/out", data.TrimSuffix & ".uniprotIDs.csv")
+        Dim annotations = EntityObject.LoadDataSet([in]).ToDictionary
+        Dim dataTable = EntityObject.LoadDataSet(data)
+
+        For Each protein As EntityObject In dataTable
+            Call protein.Properties.Add("uniprot", annotations(protein.ID)("uniprot"))
+        Next
+
+        Return dataTable.SaveTo(out).CLICode
+    End Function
 End Module
