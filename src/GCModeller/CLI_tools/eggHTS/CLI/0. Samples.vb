@@ -50,6 +50,7 @@ Partial Module CLI
 
         Call csv.AppendLine({"MS/MS", CStr(Perseus.TotalMSDivideMS(data))})
         Call csv.AppendLine({"Peptides", CStr(Perseus.TotalPeptides(data))})
+        Call csv.AppendLine({"ProteinGroups", CStr(data.Length)})
 
         Return csv.Save(out, Encodings.ASCII).CLICode
     End Function
