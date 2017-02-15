@@ -103,6 +103,22 @@ Public Module CLI
         Return result > out
     End Function
 
+    <ExportAPI("/Tree.Partitions", Usage:="/Tree.Partitions /in <btree.clusters.csv> [/depth <-1> /out <out.DIR>]")>
+    Public Function TreePartitions(args As CommandLine) As Integer
+        Dim in$ = args("/in")
+        Dim depth% = args.GetValue("/depth", -1)
+        Dim out = args.GetValue("/out", [in].TrimSuffix & ".partitions/")
+        Dim data As EntityLDM() = DataMining.Extensions.ClusterResultFastLoad([in]).ToArray
+        Dim parts = data.Partitioning(depth)
+
+        For Each part As Partition In parts
+            Dim path$ = $"{out}/{part.Tag}.csv"
+            Call part.members.SaveTo(path)
+        Next
+
+        Return 0
+    End Function
+
     <ExportAPI("/Parts.COGs",
                Usage:="/Parts.COGs /cluster <btree.clusters.csv> /myva <COGs.csv> [/depth <-1> /out <EXPORT_DIR>]")>
     Public Function PartitioningCOGs(args As CommandLine) As Integer
