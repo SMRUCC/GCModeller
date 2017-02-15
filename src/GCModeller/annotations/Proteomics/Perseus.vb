@@ -15,7 +15,7 @@ Public Class Perseus : Implements INamedValue
     <Column("Only identified by site")> Public Property OnlyIdentifiedBySite As String
     <Column("Reverse")> Public Property Reverse As String
     <Column("Potential contaminant")> Public Property Potential_contaminant As String
-    <Column("Peptides")> Public Property Peptides As String
+    <Column("Peptides")> Public Property Peptides As Double
     <Column("Razor + unique peptides")> Public Property Razor_unique_peptides As String
     <Column("Unique peptides")> Public Property Unique_peptides As String
     <Column("Sequence coverage [%]")> Public Property Sequence_coverage As String
@@ -53,5 +53,18 @@ Public Class Perseus : Implements INamedValue
 
     Public Overrides Function ToString() As String
         Return Me.GetJson
+    End Function
+
+    Public Shared Function TotalPeptides(data As IEnumerable(Of Perseus)) As Double
+        Return data.Sum(Function(prot) prot.Peptides)
+    End Function
+
+    ''' <summary>
+    ''' Total MS/MS count
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <returns></returns>
+    Public Shared Function TotalMSDivideMS(data As IEnumerable(Of Perseus)) As Double
+        Return data.Sum(Function(prot) prot.MSMSCount)
     End Function
 End Class

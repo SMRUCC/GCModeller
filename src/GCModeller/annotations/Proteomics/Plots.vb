@@ -113,7 +113,9 @@ Public Module Plots
                 [step],
                 serialsTitle:=serialTitle,
                 histData:=histData,
-                size:=size)
+                size:=size,
+                margin:=New Size(180, 100),
+                xlabel:=tag)
         Catch ex As Exception
             ' 有时候标签没有设置正确会导致得到的向量全部为0，则绘图会出错，这个时候显示一下调试信息
             Dim msg$ = $"tag={tag}, vector={Mid(logFC.GetJson, 1, 256)}..., hist={Mid(histData.GetJson, 1, 300)}..."
