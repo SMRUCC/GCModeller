@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
@@ -38,6 +39,19 @@ Partial Module CLI
         Call uniprotIDs.SaveTo(out.TrimSuffix & ".uniprotIDs.txt")
 
         Return data.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/Perseus.Stat", Usage:="/Perseus.Stat /in <proteinGroups.txt> [/out <out.csv>]")>
+    Public Function PerseusStatics(args As CommandLine) As Integer
+        Dim [in] = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "perseus.Stat.csv")
+        Dim data As Perseus() = [in].LoadTsv(Of Perseus)
+        Dim csv As New IO.File
+
+        Call csv.AppendLine({"MS/MS", CStr(Perseus.TotalMSDivideMS(data))})
+        Call csv.AppendLine({"Peptides", CStr(Perseus.TotalPeptides(data))})
+
+        Return csv.Save(out, Encodings.ASCII).CLICode
     End Function
 
     ''' <summary>
