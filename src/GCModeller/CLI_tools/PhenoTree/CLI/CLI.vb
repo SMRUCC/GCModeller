@@ -31,7 +31,6 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.KMeans
@@ -46,6 +45,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.Bioinformatics.clusterProfiler
 Imports RDotNET.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
@@ -161,6 +161,13 @@ Public Module CLI
         Dim GO_anno As IO.File = IO.File.LoadTsv(anno)
         Dim term2gene$ = GO_anno.PushAsTable(False)
         Dim go2name$ = clusterProfiler.LoadGoBriefTable(IO.File.Load(goBrief))
+        Dim clusters = [in].ReadAllText.LoadObject(Of Dictionary(Of String, EntityLDM()))
+
+        For Each cluster In clusters.Values
+            Dim genes$() = cluster.Select(Function(g) g.Name.Split.First).Distinct.ToArray
+            Dim list$ = base.c(genes, stringVector:=True)
+            Dim enrichment = clusterProfiler.enricher(list, "NULL", term2gene, TERM2NAME:=go2name)
+        Next
     End Function
 
     <ExportAPI("/Parts.COGs",
