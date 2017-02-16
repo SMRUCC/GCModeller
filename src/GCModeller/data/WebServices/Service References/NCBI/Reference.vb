@@ -48,221 +48,221 @@ Namespace NCBI
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/AssayDownload", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function AssayDownload(ByVal AssayKey As String, ByVal AssayFormat As NCBI.AssayFormatType, ByVal eCompress As NCBI.CompressType) As <System.ServiceModel.MessageParameterAttribute(Name:="DownloadKey")> String
+        Function AssayDownload( AssayKey As String,  AssayFormat As NCBI.AssayFormatType,  eCompress As NCBI.CompressType) As <System.ServiceModel.MessageParameterAttribute(Name:="DownloadKey")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/AssayDownload", ReplyAction:="*")>  _
-        Function AssayDownloadAsync(ByVal AssayKey As String, ByVal AssayFormat As NCBI.AssayFormatType, ByVal eCompress As NCBI.CompressType) As <System.ServiceModel.MessageParameterAttribute(Name:="DownloadKey")> System.Threading.Tasks.Task(Of String)
+        Function AssayDownloadAsync( AssayKey As String,  AssayFormat As NCBI.AssayFormatType,  eCompress As NCBI.CompressType) As <System.ServiceModel.MessageParameterAttribute(Name:="DownloadKey")> System.Threading.Tasks.Task(Of String)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/Download", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function Download(ByVal request As NCBI.DownloadRequest) As NCBI.DownloadResponse
+        Function Download( request As NCBI.DownloadRequest) As NCBI.DownloadResponse
         
         'CODEGEN: Generating message contract since the operation has multiple return values.
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/Download", ReplyAction:="*")>  _
-        Function DownloadAsync(ByVal request As NCBI.DownloadRequest) As System.Threading.Tasks.Task(Of NCBI.DownloadResponse)
+        Function DownloadAsync( request As NCBI.DownloadRequest) As System.Threading.Tasks.Task(Of NCBI.DownloadResponse)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetAssayColumnDescription", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetAssayColumnDescription(ByVal AID As Integer, ByVal Heading As NCBI.HeadingType, ByVal TID As Integer) As <System.ServiceModel.MessageParameterAttribute(Name:="ColumnDescription")> NCBI.ColumnDescriptionType
+        Function GetAssayColumnDescription( AID As Integer,  Heading As NCBI.HeadingType,  TID As Integer) As <System.ServiceModel.MessageParameterAttribute(Name:="ColumnDescription")> NCBI.ColumnDescriptionType
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetAssayColumnDescription", ReplyAction:="*")>  _
-        Function GetAssayColumnDescriptionAsync(ByVal AID As Integer, ByVal Heading As NCBI.HeadingType, ByVal TID As Integer) As <System.ServiceModel.MessageParameterAttribute(Name:="ColumnDescription")> System.Threading.Tasks.Task(Of NCBI.ColumnDescriptionType)
+        Function GetAssayColumnDescriptionAsync( AID As Integer,  Heading As NCBI.HeadingType,  TID As Integer) As <System.ServiceModel.MessageParameterAttribute(Name:="ColumnDescription")> System.Threading.Tasks.Task(Of NCBI.ColumnDescriptionType)
         
         'CODEGEN: Parameter 'ColumnDescription' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetAssayColumnDescriptions", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetAssayColumnDescriptions(ByVal request As NCBI.GetAssayColumnDescriptionsRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="ColumnDescription")> NCBI.GetAssayColumnDescriptionsResponse
+        Function GetAssayColumnDescriptions( request As NCBI.GetAssayColumnDescriptionsRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="ColumnDescription")> NCBI.GetAssayColumnDescriptionsResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetAssayColumnDescriptions", ReplyAction:="*")>  _
-        Function GetAssayColumnDescriptionsAsync(ByVal request As NCBI.GetAssayColumnDescriptionsRequest) As System.Threading.Tasks.Task(Of NCBI.GetAssayColumnDescriptionsResponse)
+        Function GetAssayColumnDescriptionsAsync( request As NCBI.GetAssayColumnDescriptionsRequest) As System.Threading.Tasks.Task(Of NCBI.GetAssayColumnDescriptionsResponse)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetAssayDescription", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetAssayDescription(ByVal request As NCBI.GetAssayDescriptionRequest) As NCBI.GetAssayDescriptionResponse
+        Function GetAssayDescription( request As NCBI.GetAssayDescriptionRequest) As NCBI.GetAssayDescriptionResponse
         
         'CODEGEN: Generating message contract since the operation has multiple return values.
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetAssayDescription", ReplyAction:="*")>  _
-        Function GetAssayDescriptionAsync(ByVal request As NCBI.GetAssayDescriptionRequest) As System.Threading.Tasks.Task(Of NCBI.GetAssayDescriptionResponse)
+        Function GetAssayDescriptionAsync( request As NCBI.GetAssayDescriptionRequest) As System.Threading.Tasks.Task(Of NCBI.GetAssayDescriptionResponse)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetDownloadUrl", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetDownloadUrl(ByVal DownloadKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="url")> String
+        Function GetDownloadUrl( DownloadKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="url")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetDownloadUrl", ReplyAction:="*")>  _
-        Function GetDownloadUrlAsync(ByVal DownloadKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="url")> System.Threading.Tasks.Task(Of String)
+        Function GetDownloadUrlAsync( DownloadKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="url")> System.Threading.Tasks.Task(Of String)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetEntrezKey", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetEntrezKey(ByVal ListKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="EntrezKey")> NCBI.EntrezKey
+        Function GetEntrezKey( ListKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="EntrezKey")> NCBI.EntrezKey
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetEntrezKey", ReplyAction:="*")>  _
-        Function GetEntrezKeyAsync(ByVal ListKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="EntrezKey")> System.Threading.Tasks.Task(Of NCBI.EntrezKey)
+        Function GetEntrezKeyAsync( ListKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="EntrezKey")> System.Threading.Tasks.Task(Of NCBI.EntrezKey)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetEntrezUrl", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetEntrezUrl(ByVal EntrezKey As NCBI.EntrezKey) As <System.ServiceModel.MessageParameterAttribute(Name:="url")> String
+        Function GetEntrezUrl( EntrezKey As NCBI.EntrezKey) As <System.ServiceModel.MessageParameterAttribute(Name:="url")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetEntrezUrl", ReplyAction:="*")>  _
-        Function GetEntrezUrlAsync(ByVal EntrezKey As NCBI.EntrezKey) As <System.ServiceModel.MessageParameterAttribute(Name:="url")> System.Threading.Tasks.Task(Of String)
+        Function GetEntrezUrlAsync( EntrezKey As NCBI.EntrezKey) As <System.ServiceModel.MessageParameterAttribute(Name:="url")> System.Threading.Tasks.Task(Of String)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetIDList", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetIDList(ByVal ListKey As String, ByVal Start As Integer, ByVal Count As Integer) As <System.ServiceModel.MessageParameterAttribute(Name:="IDList")> Integer()
+        Function GetIDList( ListKey As String,  Start As Integer,  Count As Integer) As <System.ServiceModel.MessageParameterAttribute(Name:="IDList")> Integer()
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetIDList", ReplyAction:="*")>  _
-        Function GetIDListAsync(ByVal ListKey As String, ByVal Start As Integer, ByVal Count As Integer) As <System.ServiceModel.MessageParameterAttribute(Name:="IDList")> System.Threading.Tasks.Task(Of Integer())
+        Function GetIDListAsync( ListKey As String,  Start As Integer,  Count As Integer) As <System.ServiceModel.MessageParameterAttribute(Name:="IDList")> System.Threading.Tasks.Task(Of Integer())
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetListItemsCount", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetListItemsCount(ByVal ListKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="count")> Integer
+        Function GetListItemsCount( ListKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="count")> Integer
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetListItemsCount", ReplyAction:="*")>  _
-        Function GetListItemsCountAsync(ByVal ListKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="count")> System.Threading.Tasks.Task(Of Integer)
+        Function GetListItemsCountAsync( ListKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="count")> System.Threading.Tasks.Task(Of Integer)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetOperationStatus", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetOperationStatus(ByVal AnyKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="status")> NCBI.StatusType
+        Function GetOperationStatus( AnyKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="status")> NCBI.StatusType
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetOperationStatus", ReplyAction:="*")>  _
-        Function GetOperationStatusAsync(ByVal AnyKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="status")> System.Threading.Tasks.Task(Of NCBI.StatusType)
+        Function GetOperationStatusAsync( AnyKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="status")> System.Threading.Tasks.Task(Of NCBI.StatusType)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetStandardizedCID", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetStandardizedCID(ByVal StrKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="CID")> Integer
+        Function GetStandardizedCID( StrKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="CID")> Integer
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetStandardizedCID", ReplyAction:="*")>  _
-        Function GetStandardizedCIDAsync(ByVal StrKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="CID")> System.Threading.Tasks.Task(Of Integer)
+        Function GetStandardizedCIDAsync( StrKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="CID")> System.Threading.Tasks.Task(Of Integer)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetStandardizedStructure", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetStandardizedStructure(ByVal StrKey As String, ByVal format As NCBI.FormatType) As <System.ServiceModel.MessageParameterAttribute(Name:="structure")> String
+        Function GetStandardizedStructure( StrKey As String,  format As NCBI.FormatType) As <System.ServiceModel.MessageParameterAttribute(Name:="structure")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetStandardizedStructure", ReplyAction:="*")>  _
-        Function GetStandardizedStructureAsync(ByVal StrKey As String, ByVal format As NCBI.FormatType) As <System.ServiceModel.MessageParameterAttribute(Name:="structure")> System.Threading.Tasks.Task(Of String)
+        Function GetStandardizedStructureAsync( StrKey As String,  format As NCBI.FormatType) As <System.ServiceModel.MessageParameterAttribute(Name:="structure")> System.Threading.Tasks.Task(Of String)
         
         'CODEGEN: Parameter 'structure' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetStandardizedStructureBase64", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetStandardizedStructureBase64(ByVal request As NCBI.GetStandardizedStructureBase64Request) As <System.ServiceModel.MessageParameterAttribute(Name:="structure")> NCBI.GetStandardizedStructureBase64Response
+        Function GetStandardizedStructureBase64( request As NCBI.GetStandardizedStructureBase64Request) As <System.ServiceModel.MessageParameterAttribute(Name:="structure")> NCBI.GetStandardizedStructureBase64Response
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetStandardizedStructureBase64", ReplyAction:="*")>  _
-        Function GetStandardizedStructureBase64Async(ByVal request As NCBI.GetStandardizedStructureBase64Request) As System.Threading.Tasks.Task(Of NCBI.GetStandardizedStructureBase64Response)
+        Function GetStandardizedStructureBase64Async( request As NCBI.GetStandardizedStructureBase64Request) As System.Threading.Tasks.Task(Of NCBI.GetStandardizedStructureBase64Response)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetStatusMessage", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function GetStatusMessage(ByVal AnyKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="message")> String
+        Function GetStatusMessage( AnyKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="message")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/GetStatusMessage", ReplyAction:="*")>  _
-        Function GetStatusMessageAsync(ByVal AnyKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="message")> System.Threading.Tasks.Task(Of String)
+        Function GetStatusMessageAsync( AnyKey As String) As <System.ServiceModel.MessageParameterAttribute(Name:="message")> System.Threading.Tasks.Task(Of String)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/IdentitySearch", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function IdentitySearch(ByVal StrKey As String, ByVal idOptions As NCBI.IdentitySearchOptions, ByVal limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
+        Function IdentitySearch( StrKey As String,  idOptions As NCBI.IdentitySearchOptions,  limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/IdentitySearch", ReplyAction:="*")>  _
-        Function IdentitySearchAsync(ByVal StrKey As String, ByVal idOptions As NCBI.IdentitySearchOptions, ByVal limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
+        Function IdentitySearchAsync( StrKey As String,  idOptions As NCBI.IdentitySearchOptions,  limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/IDExchange", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function IDExchange(ByVal request As NCBI.IDExchangeRequest) As NCBI.IDExchangeResponse
+        Function IDExchange( request As NCBI.IDExchangeRequest) As NCBI.IDExchangeResponse
         
         'CODEGEN: Generating message contract since the operation has multiple return values.
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/IDExchange", ReplyAction:="*")>  _
-        Function IDExchangeAsync(ByVal request As NCBI.IDExchangeRequest) As System.Threading.Tasks.Task(Of NCBI.IDExchangeResponse)
+        Function IDExchangeAsync( request As NCBI.IDExchangeRequest) As System.Threading.Tasks.Task(Of NCBI.IDExchangeResponse)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputAssay", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function InputAssay(ByVal AID As Integer, ByVal Columns As NCBI.AssayColumnsType, ByVal ListKeyTIDs As String, ByVal ListKeySCIDs As String, ByVal OutcomeFilter As NCBI.AssayOutcomeFilterType) As <System.ServiceModel.MessageParameterAttribute(Name:="AssayKey")> String
+        Function InputAssay( AID As Integer,  Columns As NCBI.AssayColumnsType,  ListKeyTIDs As String,  ListKeySCIDs As String,  OutcomeFilter As NCBI.AssayOutcomeFilterType) As <System.ServiceModel.MessageParameterAttribute(Name:="AssayKey")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputAssay", ReplyAction:="*")>  _
-        Function InputAssayAsync(ByVal AID As Integer, ByVal Columns As NCBI.AssayColumnsType, ByVal ListKeyTIDs As String, ByVal ListKeySCIDs As String, ByVal OutcomeFilter As NCBI.AssayOutcomeFilterType) As <System.ServiceModel.MessageParameterAttribute(Name:="AssayKey")> System.Threading.Tasks.Task(Of String)
+        Function InputAssayAsync( AID As Integer,  Columns As NCBI.AssayColumnsType,  ListKeyTIDs As String,  ListKeySCIDs As String,  OutcomeFilter As NCBI.AssayOutcomeFilterType) As <System.ServiceModel.MessageParameterAttribute(Name:="AssayKey")> System.Threading.Tasks.Task(Of String)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputEntrez", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function InputEntrez(ByVal EntrezKey As NCBI.EntrezKey) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
+        Function InputEntrez( EntrezKey As NCBI.EntrezKey) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputEntrez", ReplyAction:="*")>  _
-        Function InputEntrezAsync(ByVal EntrezKey As NCBI.EntrezKey) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
+        Function InputEntrezAsync( EntrezKey As NCBI.EntrezKey) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputList", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function InputList(ByVal ids() As Integer, ByVal idType As NCBI.PCIDType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
+        Function InputList( ids() As Integer,  idType As NCBI.PCIDType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputList", ReplyAction:="*")>  _
-        Function InputListAsync(ByVal ids() As Integer, ByVal idType As NCBI.PCIDType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
+        Function InputListAsync( ids() As Integer,  idType As NCBI.PCIDType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
         
         'CODEGEN: Parameter 'strids' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlArrayItemAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputListString", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function InputListString(ByVal request As NCBI.InputListStringRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> NCBI.InputListStringResponse
+        Function InputListString( request As NCBI.InputListStringRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> NCBI.InputListStringResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputListString", ReplyAction:="*")>  _
-        Function InputListStringAsync(ByVal request As NCBI.InputListStringRequest) As System.Threading.Tasks.Task(Of NCBI.InputListStringResponse)
+        Function InputListStringAsync( request As NCBI.InputListStringRequest) As System.Threading.Tasks.Task(Of NCBI.InputListStringResponse)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputListText", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function InputListText(ByVal ids As String, ByVal idType As NCBI.PCIDType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
+        Function InputListText( ids As String,  idType As NCBI.PCIDType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputListText", ReplyAction:="*")>  _
-        Function InputListTextAsync(ByVal ids As String, ByVal idType As NCBI.PCIDType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
+        Function InputListTextAsync( ids As String,  idType As NCBI.PCIDType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputStructure", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function InputStructure(ByVal [structure] As String, ByVal format As NCBI.FormatType) As <System.ServiceModel.MessageParameterAttribute(Name:="StrKey")> String
+        Function InputStructure( [structure] As String,  format As NCBI.FormatType) As <System.ServiceModel.MessageParameterAttribute(Name:="StrKey")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputStructure", ReplyAction:="*")>  _
-        Function InputStructureAsync(ByVal [structure] As String, ByVal format As NCBI.FormatType) As <System.ServiceModel.MessageParameterAttribute(Name:="StrKey")> System.Threading.Tasks.Task(Of String)
+        Function InputStructureAsync( [structure] As String,  format As NCBI.FormatType) As <System.ServiceModel.MessageParameterAttribute(Name:="StrKey")> System.Threading.Tasks.Task(Of String)
         
         'CODEGEN: Parameter 'structure' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputStructureBase64", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function InputStructureBase64(ByVal request As NCBI.InputStructureBase64Request) As <System.ServiceModel.MessageParameterAttribute(Name:="StrKey")> NCBI.InputStructureBase64Response
+        Function InputStructureBase64( request As NCBI.InputStructureBase64Request) As <System.ServiceModel.MessageParameterAttribute(Name:="StrKey")> NCBI.InputStructureBase64Response
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/InputStructureBase64", ReplyAction:="*")>  _
-        Function InputStructureBase64Async(ByVal request As NCBI.InputStructureBase64Request) As System.Threading.Tasks.Task(Of NCBI.InputStructureBase64Response)
+        Function InputStructureBase64Async( request As NCBI.InputStructureBase64Request) As System.Threading.Tasks.Task(Of NCBI.InputStructureBase64Response)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/MFSearch", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function MFSearch(ByVal MF As String, ByVal mfOptions As NCBI.MFSearchOptions, ByVal limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
+        Function MFSearch( MF As String,  mfOptions As NCBI.MFSearchOptions,  limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/MFSearch", ReplyAction:="*")>  _
-        Function MFSearchAsync(ByVal MF As String, ByVal mfOptions As NCBI.MFSearchOptions, ByVal limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
+        Function MFSearchAsync( MF As String,  mfOptions As NCBI.MFSearchOptions,  limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/ScoreMatrix", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function ScoreMatrix(ByVal ListKey As String, ByVal SecondaryListKey As String, ByVal ScoreType As NCBI.ScoreTypeType, ByVal MatrixFormat As NCBI.MatrixFormatType, ByVal eCompress As NCBI.CompressType, ByVal N3DConformers As Integer, ByVal No3DParent As Boolean) As <System.ServiceModel.MessageParameterAttribute(Name:="DownloadKey")> String
+        Function ScoreMatrix( ListKey As String,  SecondaryListKey As String,  ScoreType As NCBI.ScoreTypeType,  MatrixFormat As NCBI.MatrixFormatType,  eCompress As NCBI.CompressType,  N3DConformers As Integer,  No3DParent As Boolean) As <System.ServiceModel.MessageParameterAttribute(Name:="DownloadKey")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/ScoreMatrix", ReplyAction:="*")>  _
-        Function ScoreMatrixAsync(ByVal ListKey As String, ByVal SecondaryListKey As String, ByVal ScoreType As NCBI.ScoreTypeType, ByVal MatrixFormat As NCBI.MatrixFormatType, ByVal eCompress As NCBI.CompressType, ByVal N3DConformers As Integer, ByVal No3DParent As Boolean) As <System.ServiceModel.MessageParameterAttribute(Name:="DownloadKey")> System.Threading.Tasks.Task(Of String)
+        Function ScoreMatrixAsync( ListKey As String,  SecondaryListKey As String,  ScoreType As NCBI.ScoreTypeType,  MatrixFormat As NCBI.MatrixFormatType,  eCompress As NCBI.CompressType,  N3DConformers As Integer,  No3DParent As Boolean) As <System.ServiceModel.MessageParameterAttribute(Name:="DownloadKey")> System.Threading.Tasks.Task(Of String)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/SimilaritySearch2D", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function SimilaritySearch2D(ByVal StrKey As String, ByVal simOptions As NCBI.SimilaritySearchOptions, ByVal limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
+        Function SimilaritySearch2D( StrKey As String,  simOptions As NCBI.SimilaritySearchOptions,  limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/SimilaritySearch2D", ReplyAction:="*")>  _
-        Function SimilaritySearch2DAsync(ByVal StrKey As String, ByVal simOptions As NCBI.SimilaritySearchOptions, ByVal limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
+        Function SimilaritySearch2DAsync( StrKey As String,  simOptions As NCBI.SimilaritySearchOptions,  limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/Standardize", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function Standardize(ByVal request As NCBI.StandardizeRequest) As NCBI.StandardizeResponse
+        Function Standardize( request As NCBI.StandardizeRequest) As NCBI.StandardizeResponse
         
         'CODEGEN: Generating message contract since the operation has multiple return values.
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/Standardize", ReplyAction:="*")>  _
-        Function StandardizeAsync(ByVal request As NCBI.StandardizeRequest) As System.Threading.Tasks.Task(Of NCBI.StandardizeResponse)
+        Function StandardizeAsync( request As NCBI.StandardizeRequest) As System.Threading.Tasks.Task(Of NCBI.StandardizeResponse)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/SubstructureSearch", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function SubstructureSearch(ByVal StrKey As String, ByVal ssOptions As NCBI.StructureSearchOptions, ByVal limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
+        Function SubstructureSearch( StrKey As String,  ssOptions As NCBI.StructureSearchOptions,  limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/SubstructureSearch", ReplyAction:="*")>  _
-        Function SubstructureSearchAsync(ByVal StrKey As String, ByVal ssOptions As NCBI.StructureSearchOptions, ByVal limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
+        Function SubstructureSearchAsync( StrKey As String,  ssOptions As NCBI.StructureSearchOptions,  limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/SuperstructureSearch", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function SuperstructureSearch(ByVal StrKey As String, ByVal ssOptions As NCBI.StructureSearchOptions, ByVal limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
+        Function SuperstructureSearch( StrKey As String,  ssOptions As NCBI.StructureSearchOptions,  limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://pubchem.ncbi.nlm.nih.gov/SuperstructureSearch", ReplyAction:="*")>  _
-        Function SuperstructureSearchAsync(ByVal StrKey As String, ByVal ssOptions As NCBI.StructureSearchOptions, ByVal limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
+        Function SuperstructureSearchAsync( StrKey As String,  ssOptions As NCBI.StructureSearchOptions,  limits As NCBI.LimitsType) As <System.ServiceModel.MessageParameterAttribute(Name:="ListKey")> System.Threading.Tasks.Task(Of String)
     End Interface
     
     '''<remarks/>
@@ -413,7 +413,7 @@ Namespace NCBI
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -708,7 +708,7 @@ Namespace NCBI
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -775,7 +775,7 @@ Namespace NCBI
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -823,7 +823,7 @@ Namespace NCBI
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -913,7 +913,7 @@ Namespace NCBI
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -961,7 +961,7 @@ Namespace NCBI
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1051,7 +1051,7 @@ Namespace NCBI
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1099,7 +1099,7 @@ Namespace NCBI
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1655,7 +1655,7 @@ Namespace NCBI
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1703,7 +1703,7 @@ Namespace NCBI
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1864,7 +1864,7 @@ Namespace NCBI
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1915,7 +1915,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal ListKey As String, ByVal eFormat As NCBI.FormatType, ByVal eCompress As NCBI.CompressType, ByVal Use3D As Boolean, ByVal N3DConformers As Integer, ByVal SynchronousSingleRecord As Boolean)
+        Public Sub New( ListKey As String,  eFormat As NCBI.FormatType,  eCompress As NCBI.CompressType,  Use3D As Boolean,  N3DConformers As Integer,  SynchronousSingleRecord As Boolean)
             MyBase.New
             Me.ListKey = ListKey
             Me.eFormat = eFormat
@@ -1941,7 +1941,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal DownloadKey As String, ByVal DataBlob As NCBI.DataBlobType)
+        Public Sub New( DownloadKey As String,  DataBlob As NCBI.DataBlobType)
             MyBase.New
             Me.DownloadKey = DownloadKey
             Me.DataBlob = DataBlob
@@ -1961,7 +1961,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal AID As Integer)
+        Public Sub New( AID As Integer)
             MyBase.New
             Me.AID = AID
         End Sub
@@ -1981,7 +1981,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal ColumnDescription() As NCBI.ColumnDescriptionType)
+        Public Sub New( ColumnDescription() As NCBI.ColumnDescriptionType)
             MyBase.New
             Me.ColumnDescription = ColumnDescription
         End Sub
@@ -2011,7 +2011,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal AID As Integer, ByVal GetVersion As Boolean, ByVal GetCounts As Boolean, ByVal GetFullDataBlob As Boolean, ByVal eFormat As NCBI.FormatType)
+        Public Sub New( AID As Integer,  GetVersion As Boolean,  GetCounts As Boolean,  GetFullDataBlob As Boolean,  eFormat As NCBI.FormatType)
             MyBase.New
             Me.AID = AID
             Me.GetVersion = GetVersion
@@ -2036,7 +2036,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal AssayDescription As NCBI.AssayDescriptionType, ByVal DataBlob As NCBI.DataBlobType)
+        Public Sub New( AssayDescription As NCBI.AssayDescriptionType,  DataBlob As NCBI.DataBlobType)
             MyBase.New
             Me.AssayDescription = AssayDescription
             Me.DataBlob = DataBlob
@@ -2096,7 +2096,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal StrKey As String, ByVal format As NCBI.FormatType)
+        Public Sub New( StrKey As String,  format As NCBI.FormatType)
             MyBase.New
             Me.StrKey = StrKey
             Me.format = format
@@ -2117,7 +2117,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal [structure]() As Byte)
+        Public Sub New( [structure]() As Byte)
             MyBase.New
             Me.[structure] = [structure]
         End Sub
@@ -2237,7 +2237,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal InputListKey As String, ByVal Operation As NCBI.IDOperationType, ByVal OutputType As NCBI.PCIDType, ByVal OutputSourceName As String, ByVal OutputFormat As NCBI.IDOutputFormatType, ByVal ToWebEnv As String, ByVal eCompress As NCBI.CompressType)
+        Public Sub New( InputListKey As String,  Operation As NCBI.IDOperationType,  OutputType As NCBI.PCIDType,  OutputSourceName As String,  OutputFormat As NCBI.IDOutputFormatType,  ToWebEnv As String,  eCompress As NCBI.CompressType)
             MyBase.New
             Me.InputListKey = InputListKey
             Me.Operation = Operation
@@ -2264,7 +2264,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal ListKey As String, ByVal DownloadKey As String)
+        Public Sub New( ListKey As String,  DownloadKey As String)
             MyBase.New
             Me.ListKey = ListKey
             Me.DownloadKey = DownloadKey
@@ -2329,7 +2329,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal strids() As String, ByVal idType As NCBI.PCIDType, ByVal SourceName As String)
+        Public Sub New( strids() As String,  idType As NCBI.PCIDType,  SourceName As String)
             MyBase.New
             Me.strids = strids
             Me.idType = idType
@@ -2350,7 +2350,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal ListKey As String)
+        Public Sub New( ListKey As String)
             MyBase.New
             Me.ListKey = ListKey
         End Sub
@@ -2373,7 +2373,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal [structure]() As Byte, ByVal format As NCBI.FormatType)
+        Public Sub New( [structure]() As Byte,  format As NCBI.FormatType)
             MyBase.New
             Me.[structure] = [structure]
             Me.format = format
@@ -2393,7 +2393,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal StrKey As String)
+        Public Sub New( StrKey As String)
             MyBase.New
             Me.StrKey = StrKey
         End Sub
@@ -2440,7 +2440,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal StrKey As String)
+        Public Sub New( StrKey As String)
             MyBase.New
             Me.StrKey = StrKey
         End Sub
@@ -2458,7 +2458,7 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal StrKey As String)
+        Public Sub New( StrKey As String)
             MyBase.New
             Me.StrKey = StrKey
         End Sub
@@ -2479,36 +2479,36 @@ Namespace NCBI
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal endpointConfigurationName As String)
+        Public Sub New( endpointConfigurationName As String)
             MyBase.New(endpointConfigurationName)
         End Sub
         
-        Public Sub New(ByVal endpointConfigurationName As String, ByVal remoteAddress As String)
+        Public Sub New( endpointConfigurationName As String,  remoteAddress As String)
             MyBase.New(endpointConfigurationName, remoteAddress)
         End Sub
         
-        Public Sub New(ByVal endpointConfigurationName As String, ByVal remoteAddress As System.ServiceModel.EndpointAddress)
+        Public Sub New( endpointConfigurationName As String,  remoteAddress As System.ServiceModel.EndpointAddress)
             MyBase.New(endpointConfigurationName, remoteAddress)
         End Sub
         
-        Public Sub New(ByVal binding As System.ServiceModel.Channels.Binding, ByVal remoteAddress As System.ServiceModel.EndpointAddress)
+        Public Sub New( binding As System.ServiceModel.Channels.Binding,  remoteAddress As System.ServiceModel.EndpointAddress)
             MyBase.New(binding, remoteAddress)
         End Sub
         
-        Public Function AssayDownload(ByVal AssayKey As String, ByVal AssayFormat As NCBI.AssayFormatType, ByVal eCompress As NCBI.CompressType) As String Implements NCBI.PUGSoap.AssayDownload
+        Public Function AssayDownload( AssayKey As String,  AssayFormat As NCBI.AssayFormatType,  eCompress As NCBI.CompressType) As String Implements NCBI.PUGSoap.AssayDownload
             Return MyBase.Channel.AssayDownload(AssayKey, AssayFormat, eCompress)
         End Function
         
-        Public Function AssayDownloadAsync(ByVal AssayKey As String, ByVal AssayFormat As NCBI.AssayFormatType, ByVal eCompress As NCBI.CompressType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.AssayDownloadAsync
+        Public Function AssayDownloadAsync( AssayKey As String,  AssayFormat As NCBI.AssayFormatType,  eCompress As NCBI.CompressType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.AssayDownloadAsync
             Return MyBase.Channel.AssayDownloadAsync(AssayKey, AssayFormat, eCompress)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_PUGSoap_Download(ByVal request As NCBI.DownloadRequest) As NCBI.DownloadResponse Implements NCBI.PUGSoap.Download
+        Function NCBI_PUGSoap_Download( request As NCBI.DownloadRequest) As NCBI.DownloadResponse Implements NCBI.PUGSoap.Download
             Return MyBase.Channel.Download(request)
         End Function
         
-        Public Function Download(ByVal ListKey As String, ByVal eFormat As NCBI.FormatType, ByVal eCompress As NCBI.CompressType, ByVal Use3D As Boolean, ByVal N3DConformers As Integer, ByVal SynchronousSingleRecord As Boolean, <System.Runtime.InteropServices.OutAttribute()> ByRef DataBlob As NCBI.DataBlobType) As String
+        Public Function Download( ListKey As String,  eFormat As NCBI.FormatType,  eCompress As NCBI.CompressType,  Use3D As Boolean,  N3DConformers As Integer,  SynchronousSingleRecord As Boolean, <System.Runtime.InteropServices.OutAttribute()> ByRef DataBlob As NCBI.DataBlobType) As String
             Dim inValue As NCBI.DownloadRequest = New NCBI.DownloadRequest()
             inValue.ListKey = ListKey
             inValue.eFormat = eFormat
@@ -2521,24 +2521,24 @@ Namespace NCBI
             Return retVal.DownloadKey
         End Function
         
-        Public Function DownloadAsync(ByVal request As NCBI.DownloadRequest) As System.Threading.Tasks.Task(Of NCBI.DownloadResponse) Implements NCBI.PUGSoap.DownloadAsync
+        Public Function DownloadAsync( request As NCBI.DownloadRequest) As System.Threading.Tasks.Task(Of NCBI.DownloadResponse) Implements NCBI.PUGSoap.DownloadAsync
             Return MyBase.Channel.DownloadAsync(request)
         End Function
         
-        Public Function GetAssayColumnDescription(ByVal AID As Integer, ByVal Heading As NCBI.HeadingType, ByVal TID As Integer) As NCBI.ColumnDescriptionType Implements NCBI.PUGSoap.GetAssayColumnDescription
+        Public Function GetAssayColumnDescription( AID As Integer,  Heading As NCBI.HeadingType,  TID As Integer) As NCBI.ColumnDescriptionType Implements NCBI.PUGSoap.GetAssayColumnDescription
             Return MyBase.Channel.GetAssayColumnDescription(AID, Heading, TID)
         End Function
         
-        Public Function GetAssayColumnDescriptionAsync(ByVal AID As Integer, ByVal Heading As NCBI.HeadingType, ByVal TID As Integer) As System.Threading.Tasks.Task(Of NCBI.ColumnDescriptionType) Implements NCBI.PUGSoap.GetAssayColumnDescriptionAsync
+        Public Function GetAssayColumnDescriptionAsync( AID As Integer,  Heading As NCBI.HeadingType,  TID As Integer) As System.Threading.Tasks.Task(Of NCBI.ColumnDescriptionType) Implements NCBI.PUGSoap.GetAssayColumnDescriptionAsync
             Return MyBase.Channel.GetAssayColumnDescriptionAsync(AID, Heading, TID)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_PUGSoap_GetAssayColumnDescriptions(ByVal request As NCBI.GetAssayColumnDescriptionsRequest) As NCBI.GetAssayColumnDescriptionsResponse Implements NCBI.PUGSoap.GetAssayColumnDescriptions
+        Function NCBI_PUGSoap_GetAssayColumnDescriptions( request As NCBI.GetAssayColumnDescriptionsRequest) As NCBI.GetAssayColumnDescriptionsResponse Implements NCBI.PUGSoap.GetAssayColumnDescriptions
             Return MyBase.Channel.GetAssayColumnDescriptions(request)
         End Function
         
-        Public Function GetAssayColumnDescriptions(ByVal AID As Integer) As NCBI.ColumnDescriptionType()
+        Public Function GetAssayColumnDescriptions( AID As Integer) As NCBI.ColumnDescriptionType()
             Dim inValue As NCBI.GetAssayColumnDescriptionsRequest = New NCBI.GetAssayColumnDescriptionsRequest()
             inValue.AID = AID
             Dim retVal As NCBI.GetAssayColumnDescriptionsResponse = CType(Me,NCBI.PUGSoap).GetAssayColumnDescriptions(inValue)
@@ -2546,22 +2546,22 @@ Namespace NCBI
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_PUGSoap_GetAssayColumnDescriptionsAsync(ByVal request As NCBI.GetAssayColumnDescriptionsRequest) As System.Threading.Tasks.Task(Of NCBI.GetAssayColumnDescriptionsResponse) Implements NCBI.PUGSoap.GetAssayColumnDescriptionsAsync
+        Function NCBI_PUGSoap_GetAssayColumnDescriptionsAsync( request As NCBI.GetAssayColumnDescriptionsRequest) As System.Threading.Tasks.Task(Of NCBI.GetAssayColumnDescriptionsResponse) Implements NCBI.PUGSoap.GetAssayColumnDescriptionsAsync
             Return MyBase.Channel.GetAssayColumnDescriptionsAsync(request)
         End Function
         
-        Public Function GetAssayColumnDescriptionsAsync(ByVal AID As Integer) As System.Threading.Tasks.Task(Of NCBI.GetAssayColumnDescriptionsResponse)
+        Public Function GetAssayColumnDescriptionsAsync( AID As Integer) As System.Threading.Tasks.Task(Of NCBI.GetAssayColumnDescriptionsResponse)
             Dim inValue As NCBI.GetAssayColumnDescriptionsRequest = New NCBI.GetAssayColumnDescriptionsRequest()
             inValue.AID = AID
             Return CType(Me,NCBI.PUGSoap).GetAssayColumnDescriptionsAsync(inValue)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_PUGSoap_GetAssayDescription(ByVal request As NCBI.GetAssayDescriptionRequest) As NCBI.GetAssayDescriptionResponse Implements NCBI.PUGSoap.GetAssayDescription
+        Function NCBI_PUGSoap_GetAssayDescription( request As NCBI.GetAssayDescriptionRequest) As NCBI.GetAssayDescriptionResponse Implements NCBI.PUGSoap.GetAssayDescription
             Return MyBase.Channel.GetAssayDescription(request)
         End Function
         
-        Public Function GetAssayDescription(ByVal AID As Integer, ByVal GetVersion As Boolean, ByVal GetCounts As Boolean, ByVal GetFullDataBlob As Boolean, ByVal eFormat As NCBI.FormatType, <System.Runtime.InteropServices.OutAttribute()> ByRef DataBlob As NCBI.DataBlobType) As NCBI.AssayDescriptionType
+        Public Function GetAssayDescription( AID As Integer,  GetVersion As Boolean,  GetCounts As Boolean,  GetFullDataBlob As Boolean,  eFormat As NCBI.FormatType, <System.Runtime.InteropServices.OutAttribute()> ByRef DataBlob As NCBI.DataBlobType) As NCBI.AssayDescriptionType
             Dim inValue As NCBI.GetAssayDescriptionRequest = New NCBI.GetAssayDescriptionRequest()
             inValue.AID = AID
             inValue.GetVersion = GetVersion
@@ -2573,80 +2573,80 @@ Namespace NCBI
             Return retVal.AssayDescription
         End Function
         
-        Public Function GetAssayDescriptionAsync(ByVal request As NCBI.GetAssayDescriptionRequest) As System.Threading.Tasks.Task(Of NCBI.GetAssayDescriptionResponse) Implements NCBI.PUGSoap.GetAssayDescriptionAsync
+        Public Function GetAssayDescriptionAsync( request As NCBI.GetAssayDescriptionRequest) As System.Threading.Tasks.Task(Of NCBI.GetAssayDescriptionResponse) Implements NCBI.PUGSoap.GetAssayDescriptionAsync
             Return MyBase.Channel.GetAssayDescriptionAsync(request)
         End Function
         
-        Public Function GetDownloadUrl(ByVal DownloadKey As String) As String Implements NCBI.PUGSoap.GetDownloadUrl
+        Public Function GetDownloadUrl( DownloadKey As String) As String Implements NCBI.PUGSoap.GetDownloadUrl
             Return MyBase.Channel.GetDownloadUrl(DownloadKey)
         End Function
         
-        Public Function GetDownloadUrlAsync(ByVal DownloadKey As String) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.GetDownloadUrlAsync
+        Public Function GetDownloadUrlAsync( DownloadKey As String) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.GetDownloadUrlAsync
             Return MyBase.Channel.GetDownloadUrlAsync(DownloadKey)
         End Function
         
-        Public Function GetEntrezKey(ByVal ListKey As String) As NCBI.EntrezKey Implements NCBI.PUGSoap.GetEntrezKey
+        Public Function GetEntrezKey( ListKey As String) As NCBI.EntrezKey Implements NCBI.PUGSoap.GetEntrezKey
             Return MyBase.Channel.GetEntrezKey(ListKey)
         End Function
         
-        Public Function GetEntrezKeyAsync(ByVal ListKey As String) As System.Threading.Tasks.Task(Of NCBI.EntrezKey) Implements NCBI.PUGSoap.GetEntrezKeyAsync
+        Public Function GetEntrezKeyAsync( ListKey As String) As System.Threading.Tasks.Task(Of NCBI.EntrezKey) Implements NCBI.PUGSoap.GetEntrezKeyAsync
             Return MyBase.Channel.GetEntrezKeyAsync(ListKey)
         End Function
         
-        Public Function GetEntrezUrl(ByVal EntrezKey As NCBI.EntrezKey) As String Implements NCBI.PUGSoap.GetEntrezUrl
+        Public Function GetEntrezUrl( EntrezKey As NCBI.EntrezKey) As String Implements NCBI.PUGSoap.GetEntrezUrl
             Return MyBase.Channel.GetEntrezUrl(EntrezKey)
         End Function
         
-        Public Function GetEntrezUrlAsync(ByVal EntrezKey As NCBI.EntrezKey) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.GetEntrezUrlAsync
+        Public Function GetEntrezUrlAsync( EntrezKey As NCBI.EntrezKey) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.GetEntrezUrlAsync
             Return MyBase.Channel.GetEntrezUrlAsync(EntrezKey)
         End Function
         
-        Public Function GetIDList(ByVal ListKey As String, ByVal Start As Integer, ByVal Count As Integer) As Integer() Implements NCBI.PUGSoap.GetIDList
+        Public Function GetIDList( ListKey As String,  Start As Integer,  Count As Integer) As Integer() Implements NCBI.PUGSoap.GetIDList
             Return MyBase.Channel.GetIDList(ListKey, Start, Count)
         End Function
         
-        Public Function GetIDListAsync(ByVal ListKey As String, ByVal Start As Integer, ByVal Count As Integer) As System.Threading.Tasks.Task(Of Integer()) Implements NCBI.PUGSoap.GetIDListAsync
+        Public Function GetIDListAsync( ListKey As String,  Start As Integer,  Count As Integer) As System.Threading.Tasks.Task(Of Integer()) Implements NCBI.PUGSoap.GetIDListAsync
             Return MyBase.Channel.GetIDListAsync(ListKey, Start, Count)
         End Function
         
-        Public Function GetListItemsCount(ByVal ListKey As String) As Integer Implements NCBI.PUGSoap.GetListItemsCount
+        Public Function GetListItemsCount( ListKey As String) As Integer Implements NCBI.PUGSoap.GetListItemsCount
             Return MyBase.Channel.GetListItemsCount(ListKey)
         End Function
         
-        Public Function GetListItemsCountAsync(ByVal ListKey As String) As System.Threading.Tasks.Task(Of Integer) Implements NCBI.PUGSoap.GetListItemsCountAsync
+        Public Function GetListItemsCountAsync( ListKey As String) As System.Threading.Tasks.Task(Of Integer) Implements NCBI.PUGSoap.GetListItemsCountAsync
             Return MyBase.Channel.GetListItemsCountAsync(ListKey)
         End Function
         
-        Public Function GetOperationStatus(ByVal AnyKey As String) As NCBI.StatusType Implements NCBI.PUGSoap.GetOperationStatus
+        Public Function GetOperationStatus( AnyKey As String) As NCBI.StatusType Implements NCBI.PUGSoap.GetOperationStatus
             Return MyBase.Channel.GetOperationStatus(AnyKey)
         End Function
         
-        Public Function GetOperationStatusAsync(ByVal AnyKey As String) As System.Threading.Tasks.Task(Of NCBI.StatusType) Implements NCBI.PUGSoap.GetOperationStatusAsync
+        Public Function GetOperationStatusAsync( AnyKey As String) As System.Threading.Tasks.Task(Of NCBI.StatusType) Implements NCBI.PUGSoap.GetOperationStatusAsync
             Return MyBase.Channel.GetOperationStatusAsync(AnyKey)
         End Function
         
-        Public Function GetStandardizedCID(ByVal StrKey As String) As Integer Implements NCBI.PUGSoap.GetStandardizedCID
+        Public Function GetStandardizedCID( StrKey As String) As Integer Implements NCBI.PUGSoap.GetStandardizedCID
             Return MyBase.Channel.GetStandardizedCID(StrKey)
         End Function
         
-        Public Function GetStandardizedCIDAsync(ByVal StrKey As String) As System.Threading.Tasks.Task(Of Integer) Implements NCBI.PUGSoap.GetStandardizedCIDAsync
+        Public Function GetStandardizedCIDAsync( StrKey As String) As System.Threading.Tasks.Task(Of Integer) Implements NCBI.PUGSoap.GetStandardizedCIDAsync
             Return MyBase.Channel.GetStandardizedCIDAsync(StrKey)
         End Function
         
-        Public Function GetStandardizedStructure(ByVal StrKey As String, ByVal format As NCBI.FormatType) As String Implements NCBI.PUGSoap.GetStandardizedStructure
+        Public Function GetStandardizedStructure( StrKey As String,  format As NCBI.FormatType) As String Implements NCBI.PUGSoap.GetStandardizedStructure
             Return MyBase.Channel.GetStandardizedStructure(StrKey, format)
         End Function
         
-        Public Function GetStandardizedStructureAsync(ByVal StrKey As String, ByVal format As NCBI.FormatType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.GetStandardizedStructureAsync
+        Public Function GetStandardizedStructureAsync( StrKey As String,  format As NCBI.FormatType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.GetStandardizedStructureAsync
             Return MyBase.Channel.GetStandardizedStructureAsync(StrKey, format)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_PUGSoap_GetStandardizedStructureBase64(ByVal request As NCBI.GetStandardizedStructureBase64Request) As NCBI.GetStandardizedStructureBase64Response Implements NCBI.PUGSoap.GetStandardizedStructureBase64
+        Function NCBI_PUGSoap_GetStandardizedStructureBase64( request As NCBI.GetStandardizedStructureBase64Request) As NCBI.GetStandardizedStructureBase64Response Implements NCBI.PUGSoap.GetStandardizedStructureBase64
             Return MyBase.Channel.GetStandardizedStructureBase64(request)
         End Function
         
-        Public Function GetStandardizedStructureBase64(ByVal StrKey As String, ByVal format As NCBI.FormatType) As Byte()
+        Public Function GetStandardizedStructureBase64( StrKey As String,  format As NCBI.FormatType) As Byte()
             Dim inValue As NCBI.GetStandardizedStructureBase64Request = New NCBI.GetStandardizedStructureBase64Request()
             inValue.StrKey = StrKey
             inValue.format = format
@@ -2655,39 +2655,39 @@ Namespace NCBI
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_PUGSoap_GetStandardizedStructureBase64Async(ByVal request As NCBI.GetStandardizedStructureBase64Request) As System.Threading.Tasks.Task(Of NCBI.GetStandardizedStructureBase64Response) Implements NCBI.PUGSoap.GetStandardizedStructureBase64Async
+        Function NCBI_PUGSoap_GetStandardizedStructureBase64Async( request As NCBI.GetStandardizedStructureBase64Request) As System.Threading.Tasks.Task(Of NCBI.GetStandardizedStructureBase64Response) Implements NCBI.PUGSoap.GetStandardizedStructureBase64Async
             Return MyBase.Channel.GetStandardizedStructureBase64Async(request)
         End Function
         
-        Public Function GetStandardizedStructureBase64Async(ByVal StrKey As String, ByVal format As NCBI.FormatType) As System.Threading.Tasks.Task(Of NCBI.GetStandardizedStructureBase64Response)
+        Public Function GetStandardizedStructureBase64Async( StrKey As String,  format As NCBI.FormatType) As System.Threading.Tasks.Task(Of NCBI.GetStandardizedStructureBase64Response)
             Dim inValue As NCBI.GetStandardizedStructureBase64Request = New NCBI.GetStandardizedStructureBase64Request()
             inValue.StrKey = StrKey
             inValue.format = format
             Return CType(Me,NCBI.PUGSoap).GetStandardizedStructureBase64Async(inValue)
         End Function
         
-        Public Function GetStatusMessage(ByVal AnyKey As String) As String Implements NCBI.PUGSoap.GetStatusMessage
+        Public Function GetStatusMessage( AnyKey As String) As String Implements NCBI.PUGSoap.GetStatusMessage
             Return MyBase.Channel.GetStatusMessage(AnyKey)
         End Function
         
-        Public Function GetStatusMessageAsync(ByVal AnyKey As String) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.GetStatusMessageAsync
+        Public Function GetStatusMessageAsync( AnyKey As String) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.GetStatusMessageAsync
             Return MyBase.Channel.GetStatusMessageAsync(AnyKey)
         End Function
         
-        Public Function IdentitySearch(ByVal StrKey As String, ByVal idOptions As NCBI.IdentitySearchOptions, ByVal limits As NCBI.LimitsType) As String Implements NCBI.PUGSoap.IdentitySearch
+        Public Function IdentitySearch( StrKey As String,  idOptions As NCBI.IdentitySearchOptions,  limits As NCBI.LimitsType) As String Implements NCBI.PUGSoap.IdentitySearch
             Return MyBase.Channel.IdentitySearch(StrKey, idOptions, limits)
         End Function
         
-        Public Function IdentitySearchAsync(ByVal StrKey As String, ByVal idOptions As NCBI.IdentitySearchOptions, ByVal limits As NCBI.LimitsType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.IdentitySearchAsync
+        Public Function IdentitySearchAsync( StrKey As String,  idOptions As NCBI.IdentitySearchOptions,  limits As NCBI.LimitsType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.IdentitySearchAsync
             Return MyBase.Channel.IdentitySearchAsync(StrKey, idOptions, limits)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_PUGSoap_IDExchange(ByVal request As NCBI.IDExchangeRequest) As NCBI.IDExchangeResponse Implements NCBI.PUGSoap.IDExchange
+        Function NCBI_PUGSoap_IDExchange( request As NCBI.IDExchangeRequest) As NCBI.IDExchangeResponse Implements NCBI.PUGSoap.IDExchange
             Return MyBase.Channel.IDExchange(request)
         End Function
         
-        Public Function IDExchange(ByVal InputListKey As String, ByVal Operation As NCBI.IDOperationType, ByVal OutputType As NCBI.PCIDType, ByVal OutputSourceName As String, ByVal OutputFormat As NCBI.IDOutputFormatType, ByVal ToWebEnv As String, ByVal eCompress As NCBI.CompressType, <System.Runtime.InteropServices.OutAttribute()> ByRef DownloadKey As String) As String
+        Public Function IDExchange( InputListKey As String,  Operation As NCBI.IDOperationType,  OutputType As NCBI.PCIDType,  OutputSourceName As String,  OutputFormat As NCBI.IDOutputFormatType,  ToWebEnv As String,  eCompress As NCBI.CompressType, <System.Runtime.InteropServices.OutAttribute()> ByRef DownloadKey As String) As String
             Dim inValue As NCBI.IDExchangeRequest = New NCBI.IDExchangeRequest()
             inValue.InputListKey = InputListKey
             inValue.Operation = Operation
@@ -2701,40 +2701,40 @@ Namespace NCBI
             Return retVal.ListKey
         End Function
         
-        Public Function IDExchangeAsync(ByVal request As NCBI.IDExchangeRequest) As System.Threading.Tasks.Task(Of NCBI.IDExchangeResponse) Implements NCBI.PUGSoap.IDExchangeAsync
+        Public Function IDExchangeAsync( request As NCBI.IDExchangeRequest) As System.Threading.Tasks.Task(Of NCBI.IDExchangeResponse) Implements NCBI.PUGSoap.IDExchangeAsync
             Return MyBase.Channel.IDExchangeAsync(request)
         End Function
         
-        Public Function InputAssay(ByVal AID As Integer, ByVal Columns As NCBI.AssayColumnsType, ByVal ListKeyTIDs As String, ByVal ListKeySCIDs As String, ByVal OutcomeFilter As NCBI.AssayOutcomeFilterType) As String Implements NCBI.PUGSoap.InputAssay
+        Public Function InputAssay( AID As Integer,  Columns As NCBI.AssayColumnsType,  ListKeyTIDs As String,  ListKeySCIDs As String,  OutcomeFilter As NCBI.AssayOutcomeFilterType) As String Implements NCBI.PUGSoap.InputAssay
             Return MyBase.Channel.InputAssay(AID, Columns, ListKeyTIDs, ListKeySCIDs, OutcomeFilter)
         End Function
         
-        Public Function InputAssayAsync(ByVal AID As Integer, ByVal Columns As NCBI.AssayColumnsType, ByVal ListKeyTIDs As String, ByVal ListKeySCIDs As String, ByVal OutcomeFilter As NCBI.AssayOutcomeFilterType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.InputAssayAsync
+        Public Function InputAssayAsync( AID As Integer,  Columns As NCBI.AssayColumnsType,  ListKeyTIDs As String,  ListKeySCIDs As String,  OutcomeFilter As NCBI.AssayOutcomeFilterType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.InputAssayAsync
             Return MyBase.Channel.InputAssayAsync(AID, Columns, ListKeyTIDs, ListKeySCIDs, OutcomeFilter)
         End Function
         
-        Public Function InputEntrez(ByVal EntrezKey As NCBI.EntrezKey) As String Implements NCBI.PUGSoap.InputEntrez
+        Public Function InputEntrez( EntrezKey As NCBI.EntrezKey) As String Implements NCBI.PUGSoap.InputEntrez
             Return MyBase.Channel.InputEntrez(EntrezKey)
         End Function
         
-        Public Function InputEntrezAsync(ByVal EntrezKey As NCBI.EntrezKey) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.InputEntrezAsync
+        Public Function InputEntrezAsync( EntrezKey As NCBI.EntrezKey) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.InputEntrezAsync
             Return MyBase.Channel.InputEntrezAsync(EntrezKey)
         End Function
         
-        Public Function InputList(ByVal ids() As Integer, ByVal idType As NCBI.PCIDType) As String Implements NCBI.PUGSoap.InputList
+        Public Function InputList( ids() As Integer,  idType As NCBI.PCIDType) As String Implements NCBI.PUGSoap.InputList
             Return MyBase.Channel.InputList(ids, idType)
         End Function
         
-        Public Function InputListAsync(ByVal ids() As Integer, ByVal idType As NCBI.PCIDType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.InputListAsync
+        Public Function InputListAsync( ids() As Integer,  idType As NCBI.PCIDType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.InputListAsync
             Return MyBase.Channel.InputListAsync(ids, idType)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_PUGSoap_InputListString(ByVal request As NCBI.InputListStringRequest) As NCBI.InputListStringResponse Implements NCBI.PUGSoap.InputListString
+        Function NCBI_PUGSoap_InputListString( request As NCBI.InputListStringRequest) As NCBI.InputListStringResponse Implements NCBI.PUGSoap.InputListString
             Return MyBase.Channel.InputListString(request)
         End Function
         
-        Public Function InputListString(ByVal strids() As String, ByVal idType As NCBI.PCIDType, ByVal SourceName As String) As String
+        Public Function InputListString( strids() As String,  idType As NCBI.PCIDType,  SourceName As String) As String
             Dim inValue As NCBI.InputListStringRequest = New NCBI.InputListStringRequest()
             inValue.strids = strids
             inValue.idType = idType
@@ -2744,11 +2744,11 @@ Namespace NCBI
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_PUGSoap_InputListStringAsync(ByVal request As NCBI.InputListStringRequest) As System.Threading.Tasks.Task(Of NCBI.InputListStringResponse) Implements NCBI.PUGSoap.InputListStringAsync
+        Function NCBI_PUGSoap_InputListStringAsync( request As NCBI.InputListStringRequest) As System.Threading.Tasks.Task(Of NCBI.InputListStringResponse) Implements NCBI.PUGSoap.InputListStringAsync
             Return MyBase.Channel.InputListStringAsync(request)
         End Function
         
-        Public Function InputListStringAsync(ByVal strids() As String, ByVal idType As NCBI.PCIDType, ByVal SourceName As String) As System.Threading.Tasks.Task(Of NCBI.InputListStringResponse)
+        Public Function InputListStringAsync( strids() As String,  idType As NCBI.PCIDType,  SourceName As String) As System.Threading.Tasks.Task(Of NCBI.InputListStringResponse)
             Dim inValue As NCBI.InputListStringRequest = New NCBI.InputListStringRequest()
             inValue.strids = strids
             inValue.idType = idType
@@ -2756,28 +2756,28 @@ Namespace NCBI
             Return CType(Me,NCBI.PUGSoap).InputListStringAsync(inValue)
         End Function
         
-        Public Function InputListText(ByVal ids As String, ByVal idType As NCBI.PCIDType) As String Implements NCBI.PUGSoap.InputListText
+        Public Function InputListText( ids As String,  idType As NCBI.PCIDType) As String Implements NCBI.PUGSoap.InputListText
             Return MyBase.Channel.InputListText(ids, idType)
         End Function
         
-        Public Function InputListTextAsync(ByVal ids As String, ByVal idType As NCBI.PCIDType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.InputListTextAsync
+        Public Function InputListTextAsync( ids As String,  idType As NCBI.PCIDType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.InputListTextAsync
             Return MyBase.Channel.InputListTextAsync(ids, idType)
         End Function
         
-        Public Function InputStructure(ByVal [structure] As String, ByVal format As NCBI.FormatType) As String Implements NCBI.PUGSoap.InputStructure
+        Public Function InputStructure( [structure] As String,  format As NCBI.FormatType) As String Implements NCBI.PUGSoap.InputStructure
             Return MyBase.Channel.InputStructure([structure], format)
         End Function
         
-        Public Function InputStructureAsync(ByVal [structure] As String, ByVal format As NCBI.FormatType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.InputStructureAsync
+        Public Function InputStructureAsync( [structure] As String,  format As NCBI.FormatType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.InputStructureAsync
             Return MyBase.Channel.InputStructureAsync([structure], format)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_PUGSoap_InputStructureBase64(ByVal request As NCBI.InputStructureBase64Request) As NCBI.InputStructureBase64Response Implements NCBI.PUGSoap.InputStructureBase64
+        Function NCBI_PUGSoap_InputStructureBase64( request As NCBI.InputStructureBase64Request) As NCBI.InputStructureBase64Response Implements NCBI.PUGSoap.InputStructureBase64
             Return MyBase.Channel.InputStructureBase64(request)
         End Function
         
-        Public Function InputStructureBase64(ByVal [structure]() As Byte, ByVal format As NCBI.FormatType) As String
+        Public Function InputStructureBase64( [structure]() As Byte,  format As NCBI.FormatType) As String
             Dim inValue As NCBI.InputStructureBase64Request = New NCBI.InputStructureBase64Request()
             inValue.[structure] = [structure]
             inValue.format = format
@@ -2786,43 +2786,43 @@ Namespace NCBI
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_PUGSoap_InputStructureBase64Async(ByVal request As NCBI.InputStructureBase64Request) As System.Threading.Tasks.Task(Of NCBI.InputStructureBase64Response) Implements NCBI.PUGSoap.InputStructureBase64Async
+        Function NCBI_PUGSoap_InputStructureBase64Async( request As NCBI.InputStructureBase64Request) As System.Threading.Tasks.Task(Of NCBI.InputStructureBase64Response) Implements NCBI.PUGSoap.InputStructureBase64Async
             Return MyBase.Channel.InputStructureBase64Async(request)
         End Function
         
-        Public Function InputStructureBase64Async(ByVal [structure]() As Byte, ByVal format As NCBI.FormatType) As System.Threading.Tasks.Task(Of NCBI.InputStructureBase64Response)
+        Public Function InputStructureBase64Async( [structure]() As Byte,  format As NCBI.FormatType) As System.Threading.Tasks.Task(Of NCBI.InputStructureBase64Response)
             Dim inValue As NCBI.InputStructureBase64Request = New NCBI.InputStructureBase64Request()
             inValue.[structure] = [structure]
             inValue.format = format
             Return CType(Me,NCBI.PUGSoap).InputStructureBase64Async(inValue)
         End Function
         
-        Public Function MFSearch(ByVal MF As String, ByVal mfOptions As NCBI.MFSearchOptions, ByVal limits As NCBI.LimitsType) As String Implements NCBI.PUGSoap.MFSearch
+        Public Function MFSearch( MF As String,  mfOptions As NCBI.MFSearchOptions,  limits As NCBI.LimitsType) As String Implements NCBI.PUGSoap.MFSearch
             Return MyBase.Channel.MFSearch(MF, mfOptions, limits)
         End Function
         
-        Public Function MFSearchAsync(ByVal MF As String, ByVal mfOptions As NCBI.MFSearchOptions, ByVal limits As NCBI.LimitsType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.MFSearchAsync
+        Public Function MFSearchAsync( MF As String,  mfOptions As NCBI.MFSearchOptions,  limits As NCBI.LimitsType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.MFSearchAsync
             Return MyBase.Channel.MFSearchAsync(MF, mfOptions, limits)
         End Function
         
-        Public Function ScoreMatrix(ByVal ListKey As String, ByVal SecondaryListKey As String, ByVal ScoreType As NCBI.ScoreTypeType, ByVal MatrixFormat As NCBI.MatrixFormatType, ByVal eCompress As NCBI.CompressType, ByVal N3DConformers As Integer, ByVal No3DParent As Boolean) As String Implements NCBI.PUGSoap.ScoreMatrix
+        Public Function ScoreMatrix( ListKey As String,  SecondaryListKey As String,  ScoreType As NCBI.ScoreTypeType,  MatrixFormat As NCBI.MatrixFormatType,  eCompress As NCBI.CompressType,  N3DConformers As Integer,  No3DParent As Boolean) As String Implements NCBI.PUGSoap.ScoreMatrix
             Return MyBase.Channel.ScoreMatrix(ListKey, SecondaryListKey, ScoreType, MatrixFormat, eCompress, N3DConformers, No3DParent)
         End Function
         
-        Public Function ScoreMatrixAsync(ByVal ListKey As String, ByVal SecondaryListKey As String, ByVal ScoreType As NCBI.ScoreTypeType, ByVal MatrixFormat As NCBI.MatrixFormatType, ByVal eCompress As NCBI.CompressType, ByVal N3DConformers As Integer, ByVal No3DParent As Boolean) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.ScoreMatrixAsync
+        Public Function ScoreMatrixAsync( ListKey As String,  SecondaryListKey As String,  ScoreType As NCBI.ScoreTypeType,  MatrixFormat As NCBI.MatrixFormatType,  eCompress As NCBI.CompressType,  N3DConformers As Integer,  No3DParent As Boolean) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.ScoreMatrixAsync
             Return MyBase.Channel.ScoreMatrixAsync(ListKey, SecondaryListKey, ScoreType, MatrixFormat, eCompress, N3DConformers, No3DParent)
         End Function
         
-        Public Function SimilaritySearch2D(ByVal StrKey As String, ByVal simOptions As NCBI.SimilaritySearchOptions, ByVal limits As NCBI.LimitsType) As String Implements NCBI.PUGSoap.SimilaritySearch2D
+        Public Function SimilaritySearch2D( StrKey As String,  simOptions As NCBI.SimilaritySearchOptions,  limits As NCBI.LimitsType) As String Implements NCBI.PUGSoap.SimilaritySearch2D
             Return MyBase.Channel.SimilaritySearch2D(StrKey, simOptions, limits)
         End Function
         
-        Public Function SimilaritySearch2DAsync(ByVal StrKey As String, ByVal simOptions As NCBI.SimilaritySearchOptions, ByVal limits As NCBI.LimitsType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.SimilaritySearch2DAsync
+        Public Function SimilaritySearch2DAsync( StrKey As String,  simOptions As NCBI.SimilaritySearchOptions,  limits As NCBI.LimitsType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.SimilaritySearch2DAsync
             Return MyBase.Channel.SimilaritySearch2DAsync(StrKey, simOptions, limits)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_PUGSoap_Standardize(ByVal request As NCBI.StandardizeRequest) As NCBI.StandardizeResponse Implements NCBI.PUGSoap.Standardize
+        Function NCBI_PUGSoap_Standardize( request As NCBI.StandardizeRequest) As NCBI.StandardizeResponse Implements NCBI.PUGSoap.Standardize
             Return MyBase.Channel.Standardize(request)
         End Function
         
@@ -2833,23 +2833,23 @@ Namespace NCBI
             StrKey = retVal.StrKey
         End Sub
         
-        Public Function StandardizeAsync(ByVal request As NCBI.StandardizeRequest) As System.Threading.Tasks.Task(Of NCBI.StandardizeResponse) Implements NCBI.PUGSoap.StandardizeAsync
+        Public Function StandardizeAsync( request As NCBI.StandardizeRequest) As System.Threading.Tasks.Task(Of NCBI.StandardizeResponse) Implements NCBI.PUGSoap.StandardizeAsync
             Return MyBase.Channel.StandardizeAsync(request)
         End Function
         
-        Public Function SubstructureSearch(ByVal StrKey As String, ByVal ssOptions As NCBI.StructureSearchOptions, ByVal limits As NCBI.LimitsType) As String Implements NCBI.PUGSoap.SubstructureSearch
+        Public Function SubstructureSearch( StrKey As String,  ssOptions As NCBI.StructureSearchOptions,  limits As NCBI.LimitsType) As String Implements NCBI.PUGSoap.SubstructureSearch
             Return MyBase.Channel.SubstructureSearch(StrKey, ssOptions, limits)
         End Function
         
-        Public Function SubstructureSearchAsync(ByVal StrKey As String, ByVal ssOptions As NCBI.StructureSearchOptions, ByVal limits As NCBI.LimitsType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.SubstructureSearchAsync
+        Public Function SubstructureSearchAsync( StrKey As String,  ssOptions As NCBI.StructureSearchOptions,  limits As NCBI.LimitsType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.SubstructureSearchAsync
             Return MyBase.Channel.SubstructureSearchAsync(StrKey, ssOptions, limits)
         End Function
         
-        Public Function SuperstructureSearch(ByVal StrKey As String, ByVal ssOptions As NCBI.StructureSearchOptions, ByVal limits As NCBI.LimitsType) As String Implements NCBI.PUGSoap.SuperstructureSearch
+        Public Function SuperstructureSearch( StrKey As String,  ssOptions As NCBI.StructureSearchOptions,  limits As NCBI.LimitsType) As String Implements NCBI.PUGSoap.SuperstructureSearch
             Return MyBase.Channel.SuperstructureSearch(StrKey, ssOptions, limits)
         End Function
         
-        Public Function SuperstructureSearchAsync(ByVal StrKey As String, ByVal ssOptions As NCBI.StructureSearchOptions, ByVal limits As NCBI.LimitsType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.SuperstructureSearchAsync
+        Public Function SuperstructureSearchAsync( StrKey As String,  ssOptions As NCBI.StructureSearchOptions,  limits As NCBI.LimitsType) As System.Threading.Tasks.Task(Of String) Implements NCBI.PUGSoap.SuperstructureSearchAsync
             Return MyBase.Channel.SuperstructureSearchAsync(StrKey, ssOptions, limits)
         End Function
     End Class

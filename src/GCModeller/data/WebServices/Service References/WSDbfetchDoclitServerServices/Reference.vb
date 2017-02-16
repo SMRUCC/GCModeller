@@ -67,7 +67,7 @@ Namespace WSDbfetchDoclitServerServices
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -115,7 +115,7 @@ Namespace WSDbfetchDoclitServerServices
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -209,7 +209,7 @@ Namespace WSDbfetchDoclitServerServices
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -304,7 +304,7 @@ Namespace WSDbfetchDoclitServerServices
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -352,7 +352,7 @@ Namespace WSDbfetchDoclitServerServices
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -516,7 +516,7 @@ Namespace WSDbfetchDoclitServerServices
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -556,7 +556,7 @@ Namespace WSDbfetchDoclitServerServices
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -572,97 +572,84 @@ Namespace WSDbfetchDoclitServerServices
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
-        Function getSupportedDBs(ByVal request As WSDbfetchDoclitServerServices.getSupportedDBsRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="getSupportedDBsReturn")> WSDbfetchDoclitServerServices.getSupportedDBsResponse
+        Function getSupportedDBs( request As WSDbfetchDoclitServerServices.getSupportedDBsRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="getSupportedDBsReturn")> WSDbfetchDoclitServerServices.getSupportedDBsResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function getSupportedDBsAsync(ByVal request As WSDbfetchDoclitServerServices.getSupportedDBsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedDBsResponse)
+        Function getSupportedDBsAsync( request As WSDbfetchDoclitServerServices.getSupportedDBsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedDBsResponse)
         
         'CODEGEN: Parameter 'getSupportedFormatsReturn' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
-        Function getSupportedFormats(ByVal request As WSDbfetchDoclitServerServices.getSupportedFormatsRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="getSupportedFormatsReturn")> WSDbfetchDoclitServerServices.getSupportedFormatsResponse
+        Function getSupportedFormats( request As WSDbfetchDoclitServerServices.getSupportedFormatsRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="getSupportedFormatsReturn")> WSDbfetchDoclitServerServices.getSupportedFormatsResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function getSupportedFormatsAsync(ByVal request As WSDbfetchDoclitServerServices.getSupportedFormatsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedFormatsResponse)
+        Function getSupportedFormatsAsync( request As WSDbfetchDoclitServerServices.getSupportedFormatsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedFormatsResponse)
         
         'CODEGEN: Parameter 'getSupportedStylesReturn' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
-        Function getSupportedStyles(ByVal request As WSDbfetchDoclitServerServices.getSupportedStylesRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="getSupportedStylesReturn")> WSDbfetchDoclitServerServices.getSupportedStylesResponse
+        Function getSupportedStyles( request As WSDbfetchDoclitServerServices.getSupportedStylesRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="getSupportedStylesReturn")> WSDbfetchDoclitServerServices.getSupportedStylesResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function getSupportedStylesAsync(ByVal request As WSDbfetchDoclitServerServices.getSupportedStylesRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedStylesResponse)
+        Function getSupportedStylesAsync( request As WSDbfetchDoclitServerServices.getSupportedStylesRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedStylesResponse)
         
         'CODEGEN: Parameter 'getDatabaseInfoListReturn' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
-        Function getDatabaseInfoList(ByVal request As WSDbfetchDoclitServerServices.getDatabaseInfoListRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="getDatabaseInfoListReturn")> WSDbfetchDoclitServerServices.getDatabaseInfoListResponse
+        Function getDatabaseInfoList( request As WSDbfetchDoclitServerServices.getDatabaseInfoListRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="getDatabaseInfoListReturn")> WSDbfetchDoclitServerServices.getDatabaseInfoListResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function getDatabaseInfoListAsync(ByVal request As WSDbfetchDoclitServerServices.getDatabaseInfoListRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getDatabaseInfoListResponse)
+        Function getDatabaseInfoListAsync( request As WSDbfetchDoclitServerServices.getDatabaseInfoListRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getDatabaseInfoListResponse)
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfParamsException), Action:="", Name:="fault"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
-        Function getDatabaseInfo(ByVal db As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getDatabaseInfoReturn")> WSDbfetchDoclitServerServices.DatabaseInfo
+        Function getDatabaseInfo( db As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getDatabaseInfoReturn")> WSDbfetchDoclitServerServices.DatabaseInfo
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function getDatabaseInfoAsync(ByVal db As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getDatabaseInfoReturn")> System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.DatabaseInfo)
+        Function getDatabaseInfoAsync( db As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getDatabaseInfoReturn")> System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.DatabaseInfo)
         
         'CODEGEN: Parameter 'getDbFormatsReturn' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfParamsException), Action:="", Name:="fault"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
-        Function getDbFormats(ByVal request As WSDbfetchDoclitServerServices.getDbFormatsRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="getDbFormatsReturn")> WSDbfetchDoclitServerServices.getDbFormatsResponse
+        Function getDbFormats( request As WSDbfetchDoclitServerServices.getDbFormatsRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="getDbFormatsReturn")> WSDbfetchDoclitServerServices.getDbFormatsResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function getDbFormatsAsync(ByVal request As WSDbfetchDoclitServerServices.getDbFormatsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getDbFormatsResponse)
+        Function getDbFormatsAsync( request As WSDbfetchDoclitServerServices.getDbFormatsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getDbFormatsResponse)
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfParamsException), Action:="", Name:="fault"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
-        Function getFormatInfo(ByVal db As String, ByVal format As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getFormatInfoReturn")> WSDbfetchDoclitServerServices.FormatInfo
+        Function getFormatInfo( db As String,  format As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getFormatInfoReturn")> WSDbfetchDoclitServerServices.FormatInfo
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function getFormatInfoAsync(ByVal db As String, ByVal format As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getFormatInfoReturn")> System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.FormatInfo)
+        Function getFormatInfoAsync( db As String,  format As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getFormatInfoReturn")> System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.FormatInfo)
         
         'CODEGEN: Parameter 'getFormatStylesReturn' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfParamsException), Action:="", Name:="fault"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
-        Function getFormatStyles(ByVal request As WSDbfetchDoclitServerServices.getFormatStylesRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="getFormatStylesReturn")> WSDbfetchDoclitServerServices.getFormatStylesResponse
+        Function getFormatStyles( request As WSDbfetchDoclitServerServices.getFormatStylesRequest) As <System.ServiceModel.MessageParameterAttribute(Name:="getFormatStylesReturn")> WSDbfetchDoclitServerServices.getFormatStylesResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function getFormatStylesAsync(ByVal request As WSDbfetchDoclitServerServices.getFormatStylesRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getFormatStylesResponse)
+        Function getFormatStylesAsync( request As WSDbfetchDoclitServerServices.getFormatStylesRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getFormatStylesResponse)
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfParamsException), Action:="", Name:="fault"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
-        Function getStyleInfo(ByVal db As String, ByVal format As String, ByVal style As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getStyleInfoReturn")> WSDbfetchDoclitServerServices.StyleInfo
+        Function getStyleInfo( db As String,  format As String,  style As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getStyleInfoReturn")> WSDbfetchDoclitServerServices.StyleInfo
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function getStyleInfoAsync(ByVal db As String, ByVal format As String, ByVal style As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getStyleInfoReturn")> System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.StyleInfo)
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfConnException), Action:="", Name:="fault1"),  _
-         System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfException), Action:="", Name:="fault3"),  _
-         System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfParamsException), Action:="", Name:="fault"),  _
-         System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfNoEntryFoundException), Action:="", Name:="fault2"),  _
-         System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.InputException), Action:="", Name:="fault4"),  _
-         System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
-         System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
-        Function fetchData(ByVal query As String, ByVal format As String, ByVal style As String) As <System.ServiceModel.MessageParameterAttribute(Name:="fetchDataReturn")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function fetchDataAsync(ByVal query As String, ByVal format As String, ByVal style As String) As <System.ServiceModel.MessageParameterAttribute(Name:="fetchDataReturn")> System.Threading.Tasks.Task(Of String)
+        Function getStyleInfoAsync( db As String,  format As String,  style As String) As <System.ServiceModel.MessageParameterAttribute(Name:="getStyleInfoReturn")> System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.StyleInfo)
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
          System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfConnException), Action:="", Name:="fault1"),  _
@@ -672,10 +659,23 @@ Namespace WSDbfetchDoclitServerServices
          System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.InputException), Action:="", Name:="fault4"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
          System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
-        Function fetchBatch(ByVal db As String, ByVal ids As String, ByVal format As String, ByVal style As String) As <System.ServiceModel.MessageParameterAttribute(Name:="fetchBatchReturn")> String
+        Function fetchData( query As String,  format As String,  style As String) As <System.ServiceModel.MessageParameterAttribute(Name:="fetchDataReturn")> String
         
         <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function fetchBatchAsync(ByVal db As String, ByVal ids As String, ByVal format As String, ByVal style As String) As <System.ServiceModel.MessageParameterAttribute(Name:="fetchBatchReturn")> System.Threading.Tasks.Task(Of String)
+        Function fetchDataAsync( query As String,  format As String,  style As String) As <System.ServiceModel.MessageParameterAttribute(Name:="fetchDataReturn")> System.Threading.Tasks.Task(Of String)
+        
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
+         System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfConnException), Action:="", Name:="fault1"),  _
+         System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfException), Action:="", Name:="fault3"),  _
+         System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfParamsException), Action:="", Name:="fault"),  _
+         System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.DbfNoEntryFoundException), Action:="", Name:="fault2"),  _
+         System.ServiceModel.FaultContractAttribute(GetType(WSDbfetchDoclitServerServices.InputException), Action:="", Name:="fault4"),  _
+         System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true),  _
+         System.ServiceModel.ServiceKnownTypeAttribute(GetType(DbfException))>  _
+        Function fetchBatch( db As String,  ids As String,  format As String,  style As String) As <System.ServiceModel.MessageParameterAttribute(Name:="fetchBatchReturn")> String
+        
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
+        Function fetchBatchAsync( db As String,  ids As String,  format As String,  style As String) As <System.ServiceModel.MessageParameterAttribute(Name:="fetchBatchReturn")> System.Threading.Tasks.Task(Of String)
     End Interface
     
     <System.Diagnostics.DebuggerStepThroughAttribute(),  _
@@ -703,7 +703,7 @@ Namespace WSDbfetchDoclitServerServices
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal getSupportedDBsReturn() As String)
+        Public Sub New( getSupportedDBsReturn() As String)
             MyBase.New
             Me.getSupportedDBsReturn = getSupportedDBsReturn
         End Sub
@@ -734,7 +734,7 @@ Namespace WSDbfetchDoclitServerServices
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal getSupportedFormatsReturn() As String)
+        Public Sub New( getSupportedFormatsReturn() As String)
             MyBase.New
             Me.getSupportedFormatsReturn = getSupportedFormatsReturn
         End Sub
@@ -765,7 +765,7 @@ Namespace WSDbfetchDoclitServerServices
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal getSupportedStylesReturn() As String)
+        Public Sub New( getSupportedStylesReturn() As String)
             MyBase.New
             Me.getSupportedStylesReturn = getSupportedStylesReturn
         End Sub
@@ -796,7 +796,7 @@ Namespace WSDbfetchDoclitServerServices
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal getDatabaseInfoListReturn() As WSDbfetchDoclitServerServices.DatabaseInfo)
+        Public Sub New( getDatabaseInfoListReturn() As WSDbfetchDoclitServerServices.DatabaseInfo)
             MyBase.New
             Me.getDatabaseInfoListReturn = getDatabaseInfoListReturn
         End Sub
@@ -815,7 +815,7 @@ Namespace WSDbfetchDoclitServerServices
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal db As String)
+        Public Sub New( db As String)
             MyBase.New
             Me.db = db
         End Sub
@@ -835,7 +835,7 @@ Namespace WSDbfetchDoclitServerServices
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal getDbFormatsReturn() As String)
+        Public Sub New( getDbFormatsReturn() As String)
             MyBase.New
             Me.getDbFormatsReturn = getDbFormatsReturn
         End Sub
@@ -857,7 +857,7 @@ Namespace WSDbfetchDoclitServerServices
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal db As String, ByVal format As String)
+        Public Sub New( db As String,  format As String)
             MyBase.New
             Me.db = db
             Me.format = format
@@ -878,7 +878,7 @@ Namespace WSDbfetchDoclitServerServices
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal getFormatStylesReturn() As String)
+        Public Sub New( getFormatStylesReturn() As String)
             MyBase.New
             Me.getFormatStylesReturn = getFormatStylesReturn
         End Sub
@@ -899,24 +899,24 @@ Namespace WSDbfetchDoclitServerServices
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal endpointConfigurationName As String)
+        Public Sub New( endpointConfigurationName As String)
             MyBase.New(endpointConfigurationName)
         End Sub
         
-        Public Sub New(ByVal endpointConfigurationName As String, ByVal remoteAddress As String)
+        Public Sub New( endpointConfigurationName As String,  remoteAddress As String)
             MyBase.New(endpointConfigurationName, remoteAddress)
         End Sub
         
-        Public Sub New(ByVal endpointConfigurationName As String, ByVal remoteAddress As System.ServiceModel.EndpointAddress)
+        Public Sub New( endpointConfigurationName As String,  remoteAddress As System.ServiceModel.EndpointAddress)
             MyBase.New(endpointConfigurationName, remoteAddress)
         End Sub
         
-        Public Sub New(ByVal binding As System.ServiceModel.Channels.Binding, ByVal remoteAddress As System.ServiceModel.EndpointAddress)
+        Public Sub New( binding As System.ServiceModel.Channels.Binding,  remoteAddress As System.ServiceModel.EndpointAddress)
             MyBase.New(binding, remoteAddress)
         End Sub
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedDBs(ByVal request As WSDbfetchDoclitServerServices.getSupportedDBsRequest) As WSDbfetchDoclitServerServices.getSupportedDBsResponse Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getSupportedDBs
+        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedDBs( request As WSDbfetchDoclitServerServices.getSupportedDBsRequest) As WSDbfetchDoclitServerServices.getSupportedDBsResponse Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getSupportedDBs
             Return MyBase.Channel.getSupportedDBs(request)
         End Function
         
@@ -927,7 +927,7 @@ Namespace WSDbfetchDoclitServerServices
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedDBsAsync(ByVal request As WSDbfetchDoclitServerServices.getSupportedDBsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedDBsResponse) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getSupportedDBsAsync
+        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedDBsAsync( request As WSDbfetchDoclitServerServices.getSupportedDBsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedDBsResponse) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getSupportedDBsAsync
             Return MyBase.Channel.getSupportedDBsAsync(request)
         End Function
         
@@ -937,7 +937,7 @@ Namespace WSDbfetchDoclitServerServices
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedFormats(ByVal request As WSDbfetchDoclitServerServices.getSupportedFormatsRequest) As WSDbfetchDoclitServerServices.getSupportedFormatsResponse Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getSupportedFormats
+        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedFormats( request As WSDbfetchDoclitServerServices.getSupportedFormatsRequest) As WSDbfetchDoclitServerServices.getSupportedFormatsResponse Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getSupportedFormats
             Return MyBase.Channel.getSupportedFormats(request)
         End Function
         
@@ -948,7 +948,7 @@ Namespace WSDbfetchDoclitServerServices
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedFormatsAsync(ByVal request As WSDbfetchDoclitServerServices.getSupportedFormatsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedFormatsResponse) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getSupportedFormatsAsync
+        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedFormatsAsync( request As WSDbfetchDoclitServerServices.getSupportedFormatsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedFormatsResponse) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getSupportedFormatsAsync
             Return MyBase.Channel.getSupportedFormatsAsync(request)
         End Function
         
@@ -958,7 +958,7 @@ Namespace WSDbfetchDoclitServerServices
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedStyles(ByVal request As WSDbfetchDoclitServerServices.getSupportedStylesRequest) As WSDbfetchDoclitServerServices.getSupportedStylesResponse Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getSupportedStyles
+        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedStyles( request As WSDbfetchDoclitServerServices.getSupportedStylesRequest) As WSDbfetchDoclitServerServices.getSupportedStylesResponse Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getSupportedStyles
             Return MyBase.Channel.getSupportedStyles(request)
         End Function
         
@@ -969,7 +969,7 @@ Namespace WSDbfetchDoclitServerServices
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedStylesAsync(ByVal request As WSDbfetchDoclitServerServices.getSupportedStylesRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedStylesResponse) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getSupportedStylesAsync
+        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getSupportedStylesAsync( request As WSDbfetchDoclitServerServices.getSupportedStylesRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getSupportedStylesResponse) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getSupportedStylesAsync
             Return MyBase.Channel.getSupportedStylesAsync(request)
         End Function
         
@@ -979,7 +979,7 @@ Namespace WSDbfetchDoclitServerServices
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getDatabaseInfoList(ByVal request As WSDbfetchDoclitServerServices.getDatabaseInfoListRequest) As WSDbfetchDoclitServerServices.getDatabaseInfoListResponse Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getDatabaseInfoList
+        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getDatabaseInfoList( request As WSDbfetchDoclitServerServices.getDatabaseInfoListRequest) As WSDbfetchDoclitServerServices.getDatabaseInfoListResponse Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getDatabaseInfoList
             Return MyBase.Channel.getDatabaseInfoList(request)
         End Function
         
@@ -990,7 +990,7 @@ Namespace WSDbfetchDoclitServerServices
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getDatabaseInfoListAsync(ByVal request As WSDbfetchDoclitServerServices.getDatabaseInfoListRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getDatabaseInfoListResponse) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getDatabaseInfoListAsync
+        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getDatabaseInfoListAsync( request As WSDbfetchDoclitServerServices.getDatabaseInfoListRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getDatabaseInfoListResponse) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getDatabaseInfoListAsync
             Return MyBase.Channel.getDatabaseInfoListAsync(request)
         End Function
         
@@ -999,20 +999,20 @@ Namespace WSDbfetchDoclitServerServices
             Return CType(Me,WSDbfetchDoclitServerServices.WSDBFetchServer).getDatabaseInfoListAsync(inValue)
         End Function
         
-        Public Function getDatabaseInfo(ByVal db As String) As WSDbfetchDoclitServerServices.DatabaseInfo Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getDatabaseInfo
+        Public Function getDatabaseInfo( db As String) As WSDbfetchDoclitServerServices.DatabaseInfo Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getDatabaseInfo
             Return MyBase.Channel.getDatabaseInfo(db)
         End Function
         
-        Public Function getDatabaseInfoAsync(ByVal db As String) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.DatabaseInfo) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getDatabaseInfoAsync
+        Public Function getDatabaseInfoAsync( db As String) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.DatabaseInfo) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getDatabaseInfoAsync
             Return MyBase.Channel.getDatabaseInfoAsync(db)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getDbFormats(ByVal request As WSDbfetchDoclitServerServices.getDbFormatsRequest) As WSDbfetchDoclitServerServices.getDbFormatsResponse Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getDbFormats
+        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getDbFormats( request As WSDbfetchDoclitServerServices.getDbFormatsRequest) As WSDbfetchDoclitServerServices.getDbFormatsResponse Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getDbFormats
             Return MyBase.Channel.getDbFormats(request)
         End Function
         
-        Public Function getDbFormats(ByVal db As String) As String()
+        Public Function getDbFormats( db As String) As String()
             Dim inValue As WSDbfetchDoclitServerServices.getDbFormatsRequest = New WSDbfetchDoclitServerServices.getDbFormatsRequest()
             inValue.db = db
             Dim retVal As WSDbfetchDoclitServerServices.getDbFormatsResponse = CType(Me,WSDbfetchDoclitServerServices.WSDBFetchServer).getDbFormats(inValue)
@@ -1020,30 +1020,30 @@ Namespace WSDbfetchDoclitServerServices
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getDbFormatsAsync(ByVal request As WSDbfetchDoclitServerServices.getDbFormatsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getDbFormatsResponse) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getDbFormatsAsync
+        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getDbFormatsAsync( request As WSDbfetchDoclitServerServices.getDbFormatsRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getDbFormatsResponse) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getDbFormatsAsync
             Return MyBase.Channel.getDbFormatsAsync(request)
         End Function
         
-        Public Function getDbFormatsAsync(ByVal db As String) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getDbFormatsResponse)
+        Public Function getDbFormatsAsync( db As String) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getDbFormatsResponse)
             Dim inValue As WSDbfetchDoclitServerServices.getDbFormatsRequest = New WSDbfetchDoclitServerServices.getDbFormatsRequest()
             inValue.db = db
             Return CType(Me,WSDbfetchDoclitServerServices.WSDBFetchServer).getDbFormatsAsync(inValue)
         End Function
         
-        Public Function getFormatInfo(ByVal db As String, ByVal format As String) As WSDbfetchDoclitServerServices.FormatInfo Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getFormatInfo
+        Public Function getFormatInfo( db As String,  format As String) As WSDbfetchDoclitServerServices.FormatInfo Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getFormatInfo
             Return MyBase.Channel.getFormatInfo(db, format)
         End Function
         
-        Public Function getFormatInfoAsync(ByVal db As String, ByVal format As String) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.FormatInfo) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getFormatInfoAsync
+        Public Function getFormatInfoAsync( db As String,  format As String) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.FormatInfo) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getFormatInfoAsync
             Return MyBase.Channel.getFormatInfoAsync(db, format)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getFormatStyles(ByVal request As WSDbfetchDoclitServerServices.getFormatStylesRequest) As WSDbfetchDoclitServerServices.getFormatStylesResponse Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getFormatStyles
+        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getFormatStyles( request As WSDbfetchDoclitServerServices.getFormatStylesRequest) As WSDbfetchDoclitServerServices.getFormatStylesResponse Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getFormatStyles
             Return MyBase.Channel.getFormatStyles(request)
         End Function
         
-        Public Function getFormatStyles(ByVal db As String, ByVal format As String) As String()
+        Public Function getFormatStyles( db As String,  format As String) As String()
             Dim inValue As WSDbfetchDoclitServerServices.getFormatStylesRequest = New WSDbfetchDoclitServerServices.getFormatStylesRequest()
             inValue.db = db
             inValue.format = format
@@ -1052,38 +1052,38 @@ Namespace WSDbfetchDoclitServerServices
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getFormatStylesAsync(ByVal request As WSDbfetchDoclitServerServices.getFormatStylesRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getFormatStylesResponse) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getFormatStylesAsync
+        Function WSDbfetchDoclitServerServices_WSDBFetchServer_getFormatStylesAsync( request As WSDbfetchDoclitServerServices.getFormatStylesRequest) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getFormatStylesResponse) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getFormatStylesAsync
             Return MyBase.Channel.getFormatStylesAsync(request)
         End Function
         
-        Public Function getFormatStylesAsync(ByVal db As String, ByVal format As String) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getFormatStylesResponse)
+        Public Function getFormatStylesAsync( db As String,  format As String) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.getFormatStylesResponse)
             Dim inValue As WSDbfetchDoclitServerServices.getFormatStylesRequest = New WSDbfetchDoclitServerServices.getFormatStylesRequest()
             inValue.db = db
             inValue.format = format
             Return CType(Me,WSDbfetchDoclitServerServices.WSDBFetchServer).getFormatStylesAsync(inValue)
         End Function
         
-        Public Function getStyleInfo(ByVal db As String, ByVal format As String, ByVal style As String) As WSDbfetchDoclitServerServices.StyleInfo Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getStyleInfo
+        Public Function getStyleInfo( db As String,  format As String,  style As String) As WSDbfetchDoclitServerServices.StyleInfo Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getStyleInfo
             Return MyBase.Channel.getStyleInfo(db, format, style)
         End Function
         
-        Public Function getStyleInfoAsync(ByVal db As String, ByVal format As String, ByVal style As String) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.StyleInfo) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getStyleInfoAsync
+        Public Function getStyleInfoAsync( db As String,  format As String,  style As String) As System.Threading.Tasks.Task(Of WSDbfetchDoclitServerServices.StyleInfo) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.getStyleInfoAsync
             Return MyBase.Channel.getStyleInfoAsync(db, format, style)
         End Function
         
-        Public Function fetchData(ByVal query As String, ByVal format As String, ByVal style As String) As String Implements WSDbfetchDoclitServerServices.WSDBFetchServer.fetchData
+        Public Function fetchData( query As String,  format As String,  style As String) As String Implements WSDbfetchDoclitServerServices.WSDBFetchServer.fetchData
             Return MyBase.Channel.fetchData(query, format, style)
         End Function
         
-        Public Function fetchDataAsync(ByVal query As String, ByVal format As String, ByVal style As String) As System.Threading.Tasks.Task(Of String) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.fetchDataAsync
+        Public Function fetchDataAsync( query As String,  format As String,  style As String) As System.Threading.Tasks.Task(Of String) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.fetchDataAsync
             Return MyBase.Channel.fetchDataAsync(query, format, style)
         End Function
         
-        Public Function fetchBatch(ByVal db As String, ByVal ids As String, ByVal format As String, ByVal style As String) As String Implements WSDbfetchDoclitServerServices.WSDBFetchServer.fetchBatch
+        Public Function fetchBatch( db As String,  ids As String,  format As String,  style As String) As String Implements WSDbfetchDoclitServerServices.WSDBFetchServer.fetchBatch
             Return MyBase.Channel.fetchBatch(db, ids, format, style)
         End Function
         
-        Public Function fetchBatchAsync(ByVal db As String, ByVal ids As String, ByVal format As String, ByVal style As String) As System.Threading.Tasks.Task(Of String) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.fetchBatchAsync
+        Public Function fetchBatchAsync( db As String,  ids As String,  format As String,  style As String) As System.Threading.Tasks.Task(Of String) Implements WSDbfetchDoclitServerServices.WSDBFetchServer.fetchBatchAsync
             Return MyBase.Channel.fetchBatchAsync(db, ids, format, style)
         End Function
     End Class

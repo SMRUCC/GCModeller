@@ -104,19 +104,19 @@ Namespace WSDbfetch
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal endpointConfigurationName As String)
+        Public Sub New( endpointConfigurationName As String)
             MyBase.New(endpointConfigurationName)
         End Sub
         
-        Public Sub New(ByVal endpointConfigurationName As String, ByVal remoteAddress As String)
+        Public Sub New( endpointConfigurationName As String,  remoteAddress As String)
             MyBase.New(endpointConfigurationName, remoteAddress)
         End Sub
         
-        Public Sub New(ByVal endpointConfigurationName As String, ByVal remoteAddress As System.ServiceModel.EndpointAddress)
+        Public Sub New( endpointConfigurationName As String,  remoteAddress As System.ServiceModel.EndpointAddress)
             MyBase.New(endpointConfigurationName, remoteAddress)
         End Sub
         
-        Public Sub New(ByVal binding As System.ServiceModel.Channels.Binding, ByVal remoteAddress As System.ServiceModel.EndpointAddress)
+        Public Sub New( binding As System.ServiceModel.Channels.Binding,  remoteAddress As System.ServiceModel.EndpointAddress)
             MyBase.New(binding, remoteAddress)
         End Sub
         
