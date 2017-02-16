@@ -26,17 +26,24 @@
 
 #End Region
 
+Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans.NodeTrees
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
@@ -110,10 +117,34 @@ Public Module CLI
     Public Function TreePartitions(args As CommandLine) As Integer
         Dim in$ = args("/in")
         Dim quantile = args.GetValue("/quantile", 0.99)
-        Dim out = args.GetValue("/out", [in].TrimSuffix & $".cuts,quantile={quantile}/")
+        Dim out = args.GetValue("/out", [in].TrimDIR & $".cuts,quantile={quantile}/")
         Dim net As Network = Network.Load([in])
         Dim parts As Partition() = net.BuildTree.CutTrees(quantile).ToArray
         Dim json = parts.PartionTable
+        Dim colors As Color() = Designer.GetColors("vb.chart", json.Count + 1)
+        Dim memberColors = LinqAPI.Exec(Of Map(Of IndexOf(Of String), String)) <=
+ _
+            From cluster
+            In json.SeqIterator
+            Let i = cluster.i
+            Let members = cluster.value.Value
+            Let color As Color = colors(i)
+            Let index = New IndexOf(Of String)(members.Select(Function(x) x.Name))
+            Select New Map(Of IndexOf(Of String), String) With {
+                .Key = index,
+                .Maps = color.RGBExpression
+            }
+
+        For Each node As Node In net.Nodes
+            For Each cluster In memberColors
+                If cluster.Key.IndexOf(node.ID) > -1 Then
+                    node.Add("color", cluster.Maps)
+                    Exit For
+                End If
+            Next
+        Next
+
+        Call net.Save(out, Encodings.ASCII)
 
         Return json.GetJson(True).SaveTo(out & "/clusters.json").CLICode
     End Function
