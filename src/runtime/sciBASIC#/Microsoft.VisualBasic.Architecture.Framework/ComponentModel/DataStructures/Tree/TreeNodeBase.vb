@@ -1,4 +1,4 @@
-Namespace ComponentModel.DataStructures.Tree
+﻿Namespace ComponentModel.DataStructures.Tree
 
     ''' <summary>
     ''' Generic Tree Node base class
@@ -8,7 +8,7 @@ Namespace ComponentModel.DataStructures.Tree
     Public MustInherit Class TreeNodeBase(Of T As {
                                               Class, ITreeNode(Of T)
                                           })
-        Implements ITreeNode(Of T)
+        Implements ITreeNode(Of T), IEnumerable(Of T)
 
         ''' <summary>
         ''' 
@@ -113,5 +113,49 @@ Namespace ComponentModel.DataStructures.Tree
                 AddChild(child)
             Next
         End Sub
+
+        Public Sub ChildCountsTravel(distribute As Dictionary(Of String, Double), Optional getID As Func(Of T, String) = Nothing) Implements ITreeNode(Of T).ChildCountsTravel
+            Dim count As Double = ChildNodes.Count
+            Dim childCounts As New Dictionary(Of String, Double)
+
+            If getID Is Nothing Then
+                getID = Function(x) x.FullyQualifiedName
+            End If
+
+            For Each child As T In ChildNodes
+                ' 首先进行递归visit，之后才会有计数数据
+                Call childCounts.Clear()
+                Call child.ChildCountsTravel(childCounts, getID)
+                For Each counts In childCounts
+                    Call distribute.Add(counts.Key, counts.Value)
+                    count += counts.Value
+                Next
+            Next
+
+            Dim key$ = getID(MySelf)
+            Call distribute.Add(key, count)
+        End Sub
+
+        ''' <summary>
+        ''' Iterates all of my childs
+        ''' </summary>
+        ''' <returns></returns>
+        Public Iterator Function GetEnumerator() As IEnumerator(Of T) Implements IEnumerable(Of T).GetEnumerator
+            For Each myChild As T In ChildNodes
+                Yield myChild
+
+                For Each child As T In myChild.IteratesAllChilds
+                    Yield child
+                Next
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
+        End Function
+
+        Public Function IteratesAllChilds() As IEnumerable(Of T) Implements ITreeNode(Of T).IteratesAllChilds
+            Return Me
+        End Function
     End Class
 End Namespace
