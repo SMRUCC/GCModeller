@@ -159,14 +159,16 @@ Public Module CLI
         Dim goBrief As String = args.GetValue("/go.brief", GCModeller.FileSystem.GO & "/go_brief.csv")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".go.enrichment/")
         Dim GO_anno As IO.File = IO.File.LoadTsv(anno)
-        Dim term2gene$ = GO_anno.PushAsTable(False)
-        Dim go2name$ = clusterProfiler.LoadGoBriefTable(IO.File.Load(goBrief))
+        '  Dim term2gene$ = GO_anno.PushAsTable(False)
+        ' Dim go2name$ = clusterProfiler.LoadGoBriefTable(IO.File.Load(goBrief))
         Dim clusters = [in].ReadAllText.LoadObject(Of Dictionary(Of String, EntityLDM()))
 
         For Each cluster In clusters.Values
             Dim genes$() = cluster.Select(Function(g) g.Name.Split.First).Distinct.ToArray
             Dim list$ = base.c(genes, stringVector:=True)
-            Dim enrichment = clusterProfiler.enricher(list, "NULL", term2gene, TERM2NAME:=go2name)
+            '   Dim enrichment = clusterProfiler.enricher(list, "NULL", term2gene, TERM2NAME:=go2name)
+
+            Call genes.SaveTo("x:/test.txt")
         Next
     End Function
 
