@@ -132,7 +132,7 @@ Public Module CLI
             Let index = New IndexOf(Of String)(members.Select(Function(x) x.Name))
             Select New Map(Of IndexOf(Of String), String) With {
                 .Key = index,
-                .Maps = color.RGBExpression
+                .Maps = color.RGB2Hexadecimal
             }
 
         For Each node As Node In net.Nodes
