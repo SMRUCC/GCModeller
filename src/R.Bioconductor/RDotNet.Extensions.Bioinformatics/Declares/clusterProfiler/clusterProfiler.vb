@@ -1,6 +1,8 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.RScripts
@@ -8,6 +10,19 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.RScripts
 Namespace clusterProfiler
 
     Public Module clusterProfiler
+
+        <Extension> Public Function LoadGoBriefTable(goBriefTable As IO.File) As String
+            Dim goBrief$ = goBriefTable.PushAsDataFrame
+            Dim go2name$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{go2name} <- {goBrief}[, c(""goID"", ""name"")]"
+                End With
+            End SyncLock
+
+            Return go2name
+        End Function
 
         Public Function enricher(gene As IEnumerable(Of String), universe As IEnumerable(Of String), TERM2GENE As IEnumerable(Of NamedValue(Of String)),
                                  Optional pvalueCutoff# = 0.05,
@@ -49,14 +64,26 @@ Namespace clusterProfiler
                                  Optional TERM2NAME$ = "NA") As enrichResult
             SyncLock R
                 With R
-                    Dim pointer = .Evaluate($"enricher({gene}, pvalueCutoff = {pvalueCutoff}, pAdjustMethod = {Rstring(pAdjustMethod)}, universe = {universe}, 
-minGSSize = {minGSSize}, qvalueCutoff = {qvalueCutoff}, TERM2GENE = {TERM2GENE}, TERM2NAME = {TERM2NAME})")
+                    Dim pointer = .Evaluate(
+                        $"enricher({gene}, pvalueCutoff = {pvalueCutoff}, pAdjustMethod = {Rstring(pAdjustMethod)},
+                        universe = {universe}, minGSSize = {minGSSize}, qvalueCutoff = {qvalueCutoff}, 
+                        TERM2GENE = {TERM2GENE}, TERM2NAME = {TERM2NAME})")
 
 
                 End With
             End SyncLock
         End Function
     End Module
+
+    Public Class Term2Gene
+
+        Public Property GO_ID As String
+        Public Property Locus_tag As String
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
 
     Public Class enrichResult
 

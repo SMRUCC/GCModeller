@@ -44,6 +44,8 @@ Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports RDotNET.Extensions.Bioinformatics.clusterProfiler
+Imports RDotNET.Extensions.VisualBasic
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
@@ -147,6 +149,18 @@ Public Module CLI
         Call net.Save(out, Encodings.ASCII)
 
         Return json.GetJson(True).SaveTo(out & "/clusters.json").CLICode
+    End Function
+
+    <ExportAPI("/Cluster.Enrichment",
+               Usage:="/Cluster.Enrichment /in <partitions.json> /go.anno <proteins.go.annos.csv> [/go.brief <go_brief.csv> /out <out.DIR>]")>
+    Public Function ClusterEnrichment(args As CommandLine) As Integer
+        Dim [in] = args("/in")
+        Dim anno As String = args("/go.anno")
+        Dim goBrief As String = args.GetValue("/go.brief", GCModeller.FileSystem.GO & "/go_brief.csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".go.enrichment/")
+        Dim GO_anno As IO.File = IO.File.LoadTsv(anno)
+        Dim term2gene$ = GO_anno.PushAsTable(False)
+        Dim go2name$ = clusterProfiler.LoadGoBriefTable(IO.File.Load(goBrief))
     End Function
 
     <ExportAPI("/Parts.COGs",
