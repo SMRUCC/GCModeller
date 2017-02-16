@@ -49,58 +49,58 @@ Namespace NCBI.eUtils
         'CODEGEN: Generating message contract since the operation run_eGquery is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="egquery", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function run_eGquery(ByVal request As NCBI.eUtils.run_eGqueryRequest) As NCBI.eUtils.run_eGqueryResponse
+        Function run_eGquery( request As NCBI.eUtils.run_eGqueryRequest) As NCBI.eUtils.run_eGqueryResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="egquery", ReplyAction:="*")>  _
-        Function run_eGqueryAsync(ByVal request As NCBI.eUtils.run_eGqueryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eGqueryResponse)
+        Function run_eGqueryAsync( request As NCBI.eUtils.run_eGqueryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eGqueryResponse)
         
         'CODEGEN: Generating message contract since the operation run_eInfo is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="einfo", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function run_eInfo(ByVal request As NCBI.eUtils.run_eInfoRequest) As NCBI.eUtils.run_eInfoResponse
+        Function run_eInfo( request As NCBI.eUtils.run_eInfoRequest) As NCBI.eUtils.run_eInfoResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="einfo", ReplyAction:="*")>  _
-        Function run_eInfoAsync(ByVal request As NCBI.eUtils.run_eInfoRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eInfoResponse)
+        Function run_eInfoAsync( request As NCBI.eUtils.run_eInfoRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eInfoResponse)
         
         'CODEGEN: Generating message contract since the operation run_eSearch is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="esearch", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function run_eSearch(ByVal request As NCBI.eUtils.run_eSearchRequest) As NCBI.eUtils.run_eSearchResponse
+        Function run_eSearch( request As NCBI.eUtils.run_eSearchRequest) As NCBI.eUtils.run_eSearchResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="esearch", ReplyAction:="*")>  _
-        Function run_eSearchAsync(ByVal request As NCBI.eUtils.run_eSearchRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSearchResponse)
+        Function run_eSearchAsync( request As NCBI.eUtils.run_eSearchRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSearchResponse)
         
         'CODEGEN: Generating message contract since the operation run_eSummary is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="esummary", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function run_eSummary(ByVal request As NCBI.eUtils.run_eSummaryRequest) As NCBI.eUtils.run_eSummaryResponse
+        Function run_eSummary( request As NCBI.eUtils.run_eSummaryRequest) As NCBI.eUtils.run_eSummaryResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="esummary", ReplyAction:="*")>  _
-        Function run_eSummaryAsync(ByVal request As NCBI.eUtils.run_eSummaryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSummaryResponse)
+        Function run_eSummaryAsync( request As NCBI.eUtils.run_eSummaryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSummaryResponse)
         
         'CODEGEN: Generating message contract since the operation run_eLink is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="elink", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function run_eLink(ByVal request As NCBI.eUtils.run_eLinkRequest) As NCBI.eUtils.run_eLinkResponse
+        Function run_eLink( request As NCBI.eUtils.run_eLinkRequest) As NCBI.eUtils.run_eLinkResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="elink", ReplyAction:="*")>  _
-        Function run_eLinkAsync(ByVal request As NCBI.eUtils.run_eLinkRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eLinkResponse)
+        Function run_eLinkAsync( request As NCBI.eUtils.run_eLinkRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eLinkResponse)
         
         'CODEGEN: Generating message contract since the operation run_eSpell is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="espell", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function run_eSpell(ByVal request As NCBI.eUtils.run_eSpellRequest) As NCBI.eUtils.run_eSpellResponse
+        Function run_eSpell( request As NCBI.eUtils.run_eSpellRequest) As NCBI.eUtils.run_eSpellResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="espell", ReplyAction:="*")>  _
-        Function run_eSpellAsync(ByVal request As NCBI.eUtils.run_eSpellRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSpellResponse)
+        Function run_eSpellAsync( request As NCBI.eUtils.run_eSpellRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSpellResponse)
         
         'CODEGEN: Generating message contract since the operation run_ePost is neither RPC nor document wrapped.
         <System.ServiceModel.OperationContractAttribute(Action:="epost", ReplyAction:="*"),  _
          System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults:=true)>  _
-        Function run_ePost(ByVal request As NCBI.eUtils.run_ePostRequest) As NCBI.eUtils.run_ePostResponse
+        Function run_ePost( request As NCBI.eUtils.run_ePostRequest) As NCBI.eUtils.run_ePostResponse
         
         <System.ServiceModel.OperationContractAttribute(Action:="epost", ReplyAction:="*")>  _
-        Function run_ePostAsync(ByVal request As NCBI.eUtils.run_ePostRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_ePostResponse)
+        Function run_ePostAsync( request As NCBI.eUtils.run_ePostRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_ePostResponse)
     End Interface
     
     '''<remarks/>
@@ -157,7 +157,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -261,7 +261,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -315,7 +315,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -412,7 +412,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -502,7 +502,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -577,7 +577,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -611,7 +611,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -701,7 +701,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -755,7 +755,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -936,7 +936,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -985,7 +985,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1020,7 +1020,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1110,7 +1110,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1158,7 +1158,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1248,7 +1248,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1381,7 +1381,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1457,7 +1457,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1539,7 +1539,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1601,7 +1601,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1649,7 +1649,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1725,7 +1725,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1773,7 +1773,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -1849,7 +1849,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -2023,7 +2023,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -2143,7 +2143,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -2177,7 +2177,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -2253,7 +2253,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -2301,7 +2301,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -2349,7 +2349,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -2370,7 +2370,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal eGqueryRequest As NCBI.eUtils.eGqueryRequest)
+        Public Sub New( eGqueryRequest As NCBI.eUtils.eGqueryRequest)
             MyBase.New
             Me.eGqueryRequest = eGqueryRequest
         End Sub
@@ -2389,7 +2389,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal Result As NCBI.eUtils.Result)
+        Public Sub New( Result As NCBI.eUtils.Result)
             MyBase.New
             Me.Result = Result
         End Sub
@@ -2449,7 +2449,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -2511,7 +2511,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -2532,7 +2532,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal eInfoRequest As NCBI.eUtils.eInfoRequest)
+        Public Sub New( eInfoRequest As NCBI.eUtils.eInfoRequest)
             MyBase.New
             Me.eInfoRequest = eInfoRequest
         End Sub
@@ -2551,7 +2551,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal eInfoResult As NCBI.eUtils.eInfoResult)
+        Public Sub New( eInfoResult As NCBI.eUtils.eInfoResult)
             MyBase.New
             Me.eInfoResult = eInfoResult
         End Sub
@@ -2793,7 +2793,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -2985,7 +2985,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -3006,7 +3006,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal eSearchRequest As NCBI.eUtils.eSearchRequest)
+        Public Sub New( eSearchRequest As NCBI.eUtils.eSearchRequest)
             MyBase.New
             Me.eSearchRequest = eSearchRequest
         End Sub
@@ -3025,7 +3025,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal eSearchResult As NCBI.eUtils.eSearchResult)
+        Public Sub New( eSearchResult As NCBI.eUtils.eSearchResult)
             MyBase.New
             Me.eSearchResult = eSearchResult
         End Sub
@@ -3155,7 +3155,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -3203,7 +3203,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -3224,7 +3224,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal eSummaryRequest As NCBI.eUtils.eSummaryRequest)
+        Public Sub New( eSummaryRequest As NCBI.eUtils.eSummaryRequest)
             MyBase.New
             Me.eSummaryRequest = eSummaryRequest
         End Sub
@@ -3243,7 +3243,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal eSummaryResult As NCBI.eUtils.eSummaryResult)
+        Public Sub New( eSummaryResult As NCBI.eUtils.eSummaryResult)
             MyBase.New
             Me.eSummaryResult = eSummaryResult
         End Sub
@@ -3457,7 +3457,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -3505,7 +3505,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -3526,7 +3526,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal eLinkRequest As NCBI.eUtils.eLinkRequest)
+        Public Sub New( eLinkRequest As NCBI.eUtils.eLinkRequest)
             MyBase.New
             Me.eLinkRequest = eLinkRequest
         End Sub
@@ -3545,7 +3545,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal eLinkResult As NCBI.eUtils.eLinkResult)
+        Public Sub New( eLinkResult As NCBI.eUtils.eLinkResult)
             MyBase.New
             Me.eLinkResult = eLinkResult
         End Sub
@@ -3619,7 +3619,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -3709,7 +3709,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -3760,7 +3760,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -3794,7 +3794,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal eSpellRequest As NCBI.eUtils.eSpellRequest)
+        Public Sub New( eSpellRequest As NCBI.eUtils.eSpellRequest)
             MyBase.New
             Me.eSpellRequest = eSpellRequest
         End Sub
@@ -3813,7 +3813,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal eSpellResult As NCBI.eUtils.eSpellResult)
+        Public Sub New( eSpellResult As NCBI.eUtils.eSpellResult)
             MyBase.New
             Me.eSpellResult = eSpellResult
         End Sub
@@ -3901,7 +3901,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -3978,7 +3978,7 @@ Namespace NCBI.eUtils
         
         Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
         
-        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+        Protected Sub RaisePropertyChanged( propertyName As String)
             Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
             If (Not (propertyChanged) Is Nothing) Then
                 propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
@@ -3999,7 +3999,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal ePostRequest As NCBI.eUtils.ePostRequest)
+        Public Sub New( ePostRequest As NCBI.eUtils.ePostRequest)
             MyBase.New
             Me.ePostRequest = ePostRequest
         End Sub
@@ -4018,7 +4018,7 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal ePostResult As NCBI.eUtils.ePostResult)
+        Public Sub New( ePostResult As NCBI.eUtils.ePostResult)
             MyBase.New
             Me.ePostResult = ePostResult
         End Sub
@@ -4039,28 +4039,28 @@ Namespace NCBI.eUtils
             MyBase.New
         End Sub
         
-        Public Sub New(ByVal endpointConfigurationName As String)
+        Public Sub New( endpointConfigurationName As String)
             MyBase.New(endpointConfigurationName)
         End Sub
         
-        Public Sub New(ByVal endpointConfigurationName As String, ByVal remoteAddress As String)
+        Public Sub New( endpointConfigurationName As String,  remoteAddress As String)
             MyBase.New(endpointConfigurationName, remoteAddress)
         End Sub
         
-        Public Sub New(ByVal endpointConfigurationName As String, ByVal remoteAddress As System.ServiceModel.EndpointAddress)
+        Public Sub New( endpointConfigurationName As String,  remoteAddress As System.ServiceModel.EndpointAddress)
             MyBase.New(endpointConfigurationName, remoteAddress)
         End Sub
         
-        Public Sub New(ByVal binding As System.ServiceModel.Channels.Binding, ByVal remoteAddress As System.ServiceModel.EndpointAddress)
+        Public Sub New( binding As System.ServiceModel.Channels.Binding,  remoteAddress As System.ServiceModel.EndpointAddress)
             MyBase.New(binding, remoteAddress)
         End Sub
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_eGquery(ByVal request As NCBI.eUtils.run_eGqueryRequest) As NCBI.eUtils.run_eGqueryResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_eGquery
+        Function NCBI_eUtils_eUtilsServiceSoap_run_eGquery( request As NCBI.eUtils.run_eGqueryRequest) As NCBI.eUtils.run_eGqueryResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_eGquery
             Return MyBase.Channel.run_eGquery(request)
         End Function
         
-        Public Function run_eGquery(ByVal eGqueryRequest As NCBI.eUtils.eGqueryRequest) As NCBI.eUtils.Result
+        Public Function run_eGquery( eGqueryRequest As NCBI.eUtils.eGqueryRequest) As NCBI.eUtils.Result
             Dim inValue As NCBI.eUtils.run_eGqueryRequest = New NCBI.eUtils.run_eGqueryRequest()
             inValue.eGqueryRequest = eGqueryRequest
             Dim retVal As NCBI.eUtils.run_eGqueryResponse = CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_eGquery(inValue)
@@ -4068,22 +4068,22 @@ Namespace NCBI.eUtils
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_eGqueryAsync(ByVal request As NCBI.eUtils.run_eGqueryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eGqueryResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_eGqueryAsync
+        Function NCBI_eUtils_eUtilsServiceSoap_run_eGqueryAsync( request As NCBI.eUtils.run_eGqueryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eGqueryResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_eGqueryAsync
             Return MyBase.Channel.run_eGqueryAsync(request)
         End Function
         
-        Public Function run_eGqueryAsync(ByVal eGqueryRequest As NCBI.eUtils.eGqueryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eGqueryResponse)
+        Public Function run_eGqueryAsync( eGqueryRequest As NCBI.eUtils.eGqueryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eGqueryResponse)
             Dim inValue As NCBI.eUtils.run_eGqueryRequest = New NCBI.eUtils.run_eGqueryRequest()
             inValue.eGqueryRequest = eGqueryRequest
             Return CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_eGqueryAsync(inValue)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_eInfo(ByVal request As NCBI.eUtils.run_eInfoRequest) As NCBI.eUtils.run_eInfoResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_eInfo
+        Function NCBI_eUtils_eUtilsServiceSoap_run_eInfo( request As NCBI.eUtils.run_eInfoRequest) As NCBI.eUtils.run_eInfoResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_eInfo
             Return MyBase.Channel.run_eInfo(request)
         End Function
         
-        Public Function run_eInfo(ByVal eInfoRequest As NCBI.eUtils.eInfoRequest) As NCBI.eUtils.eInfoResult
+        Public Function run_eInfo( eInfoRequest As NCBI.eUtils.eInfoRequest) As NCBI.eUtils.eInfoResult
             Dim inValue As NCBI.eUtils.run_eInfoRequest = New NCBI.eUtils.run_eInfoRequest()
             inValue.eInfoRequest = eInfoRequest
             Dim retVal As NCBI.eUtils.run_eInfoResponse = CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_eInfo(inValue)
@@ -4091,22 +4091,22 @@ Namespace NCBI.eUtils
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_eInfoAsync(ByVal request As NCBI.eUtils.run_eInfoRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eInfoResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_eInfoAsync
+        Function NCBI_eUtils_eUtilsServiceSoap_run_eInfoAsync( request As NCBI.eUtils.run_eInfoRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eInfoResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_eInfoAsync
             Return MyBase.Channel.run_eInfoAsync(request)
         End Function
         
-        Public Function run_eInfoAsync(ByVal eInfoRequest As NCBI.eUtils.eInfoRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eInfoResponse)
+        Public Function run_eInfoAsync( eInfoRequest As NCBI.eUtils.eInfoRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eInfoResponse)
             Dim inValue As NCBI.eUtils.run_eInfoRequest = New NCBI.eUtils.run_eInfoRequest()
             inValue.eInfoRequest = eInfoRequest
             Return CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_eInfoAsync(inValue)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_eSearch(ByVal request As NCBI.eUtils.run_eSearchRequest) As NCBI.eUtils.run_eSearchResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_eSearch
+        Function NCBI_eUtils_eUtilsServiceSoap_run_eSearch( request As NCBI.eUtils.run_eSearchRequest) As NCBI.eUtils.run_eSearchResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_eSearch
             Return MyBase.Channel.run_eSearch(request)
         End Function
         
-        Public Function run_eSearch(ByVal eSearchRequest As NCBI.eUtils.eSearchRequest) As NCBI.eUtils.eSearchResult
+        Public Function run_eSearch( eSearchRequest As NCBI.eUtils.eSearchRequest) As NCBI.eUtils.eSearchResult
             Dim inValue As NCBI.eUtils.run_eSearchRequest = New NCBI.eUtils.run_eSearchRequest()
             inValue.eSearchRequest = eSearchRequest
             Dim retVal As NCBI.eUtils.run_eSearchResponse = CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_eSearch(inValue)
@@ -4114,22 +4114,22 @@ Namespace NCBI.eUtils
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_eSearchAsync(ByVal request As NCBI.eUtils.run_eSearchRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSearchResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_eSearchAsync
+        Function NCBI_eUtils_eUtilsServiceSoap_run_eSearchAsync( request As NCBI.eUtils.run_eSearchRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSearchResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_eSearchAsync
             Return MyBase.Channel.run_eSearchAsync(request)
         End Function
         
-        Public Function run_eSearchAsync(ByVal eSearchRequest As NCBI.eUtils.eSearchRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSearchResponse)
+        Public Function run_eSearchAsync( eSearchRequest As NCBI.eUtils.eSearchRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSearchResponse)
             Dim inValue As NCBI.eUtils.run_eSearchRequest = New NCBI.eUtils.run_eSearchRequest()
             inValue.eSearchRequest = eSearchRequest
             Return CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_eSearchAsync(inValue)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_eSummary(ByVal request As NCBI.eUtils.run_eSummaryRequest) As NCBI.eUtils.run_eSummaryResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_eSummary
+        Function NCBI_eUtils_eUtilsServiceSoap_run_eSummary( request As NCBI.eUtils.run_eSummaryRequest) As NCBI.eUtils.run_eSummaryResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_eSummary
             Return MyBase.Channel.run_eSummary(request)
         End Function
         
-        Public Function run_eSummary(ByVal eSummaryRequest As NCBI.eUtils.eSummaryRequest) As NCBI.eUtils.eSummaryResult
+        Public Function run_eSummary( eSummaryRequest As NCBI.eUtils.eSummaryRequest) As NCBI.eUtils.eSummaryResult
             Dim inValue As NCBI.eUtils.run_eSummaryRequest = New NCBI.eUtils.run_eSummaryRequest()
             inValue.eSummaryRequest = eSummaryRequest
             Dim retVal As NCBI.eUtils.run_eSummaryResponse = CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_eSummary(inValue)
@@ -4137,22 +4137,22 @@ Namespace NCBI.eUtils
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_eSummaryAsync(ByVal request As NCBI.eUtils.run_eSummaryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSummaryResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_eSummaryAsync
+        Function NCBI_eUtils_eUtilsServiceSoap_run_eSummaryAsync( request As NCBI.eUtils.run_eSummaryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSummaryResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_eSummaryAsync
             Return MyBase.Channel.run_eSummaryAsync(request)
         End Function
         
-        Public Function run_eSummaryAsync(ByVal eSummaryRequest As NCBI.eUtils.eSummaryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSummaryResponse)
+        Public Function run_eSummaryAsync( eSummaryRequest As NCBI.eUtils.eSummaryRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSummaryResponse)
             Dim inValue As NCBI.eUtils.run_eSummaryRequest = New NCBI.eUtils.run_eSummaryRequest()
             inValue.eSummaryRequest = eSummaryRequest
             Return CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_eSummaryAsync(inValue)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_eLink(ByVal request As NCBI.eUtils.run_eLinkRequest) As NCBI.eUtils.run_eLinkResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_eLink
+        Function NCBI_eUtils_eUtilsServiceSoap_run_eLink( request As NCBI.eUtils.run_eLinkRequest) As NCBI.eUtils.run_eLinkResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_eLink
             Return MyBase.Channel.run_eLink(request)
         End Function
         
-        Public Function run_eLink(ByVal eLinkRequest As NCBI.eUtils.eLinkRequest) As NCBI.eUtils.eLinkResult
+        Public Function run_eLink( eLinkRequest As NCBI.eUtils.eLinkRequest) As NCBI.eUtils.eLinkResult
             Dim inValue As NCBI.eUtils.run_eLinkRequest = New NCBI.eUtils.run_eLinkRequest()
             inValue.eLinkRequest = eLinkRequest
             Dim retVal As NCBI.eUtils.run_eLinkResponse = CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_eLink(inValue)
@@ -4160,22 +4160,22 @@ Namespace NCBI.eUtils
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_eLinkAsync(ByVal request As NCBI.eUtils.run_eLinkRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eLinkResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_eLinkAsync
+        Function NCBI_eUtils_eUtilsServiceSoap_run_eLinkAsync( request As NCBI.eUtils.run_eLinkRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eLinkResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_eLinkAsync
             Return MyBase.Channel.run_eLinkAsync(request)
         End Function
         
-        Public Function run_eLinkAsync(ByVal eLinkRequest As NCBI.eUtils.eLinkRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eLinkResponse)
+        Public Function run_eLinkAsync( eLinkRequest As NCBI.eUtils.eLinkRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eLinkResponse)
             Dim inValue As NCBI.eUtils.run_eLinkRequest = New NCBI.eUtils.run_eLinkRequest()
             inValue.eLinkRequest = eLinkRequest
             Return CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_eLinkAsync(inValue)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_eSpell(ByVal request As NCBI.eUtils.run_eSpellRequest) As NCBI.eUtils.run_eSpellResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_eSpell
+        Function NCBI_eUtils_eUtilsServiceSoap_run_eSpell( request As NCBI.eUtils.run_eSpellRequest) As NCBI.eUtils.run_eSpellResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_eSpell
             Return MyBase.Channel.run_eSpell(request)
         End Function
         
-        Public Function run_eSpell(ByVal eSpellRequest As NCBI.eUtils.eSpellRequest) As NCBI.eUtils.eSpellResult
+        Public Function run_eSpell( eSpellRequest As NCBI.eUtils.eSpellRequest) As NCBI.eUtils.eSpellResult
             Dim inValue As NCBI.eUtils.run_eSpellRequest = New NCBI.eUtils.run_eSpellRequest()
             inValue.eSpellRequest = eSpellRequest
             Dim retVal As NCBI.eUtils.run_eSpellResponse = CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_eSpell(inValue)
@@ -4183,22 +4183,22 @@ Namespace NCBI.eUtils
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_eSpellAsync(ByVal request As NCBI.eUtils.run_eSpellRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSpellResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_eSpellAsync
+        Function NCBI_eUtils_eUtilsServiceSoap_run_eSpellAsync( request As NCBI.eUtils.run_eSpellRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSpellResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_eSpellAsync
             Return MyBase.Channel.run_eSpellAsync(request)
         End Function
         
-        Public Function run_eSpellAsync(ByVal eSpellRequest As NCBI.eUtils.eSpellRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSpellResponse)
+        Public Function run_eSpellAsync( eSpellRequest As NCBI.eUtils.eSpellRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_eSpellResponse)
             Dim inValue As NCBI.eUtils.run_eSpellRequest = New NCBI.eUtils.run_eSpellRequest()
             inValue.eSpellRequest = eSpellRequest
             Return CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_eSpellAsync(inValue)
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_ePost(ByVal request As NCBI.eUtils.run_ePostRequest) As NCBI.eUtils.run_ePostResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_ePost
+        Function NCBI_eUtils_eUtilsServiceSoap_run_ePost( request As NCBI.eUtils.run_ePostRequest) As NCBI.eUtils.run_ePostResponse Implements NCBI.eUtils.eUtilsServiceSoap.run_ePost
             Return MyBase.Channel.run_ePost(request)
         End Function
         
-        Public Function run_ePost(ByVal ePostRequest As NCBI.eUtils.ePostRequest) As NCBI.eUtils.ePostResult
+        Public Function run_ePost( ePostRequest As NCBI.eUtils.ePostRequest) As NCBI.eUtils.ePostResult
             Dim inValue As NCBI.eUtils.run_ePostRequest = New NCBI.eUtils.run_ePostRequest()
             inValue.ePostRequest = ePostRequest
             Dim retVal As NCBI.eUtils.run_ePostResponse = CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_ePost(inValue)
@@ -4206,11 +4206,11 @@ Namespace NCBI.eUtils
         End Function
         
         <System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)>  _
-        Function NCBI_eUtils_eUtilsServiceSoap_run_ePostAsync(ByVal request As NCBI.eUtils.run_ePostRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_ePostResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_ePostAsync
+        Function NCBI_eUtils_eUtilsServiceSoap_run_ePostAsync( request As NCBI.eUtils.run_ePostRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_ePostResponse) Implements NCBI.eUtils.eUtilsServiceSoap.run_ePostAsync
             Return MyBase.Channel.run_ePostAsync(request)
         End Function
         
-        Public Function run_ePostAsync(ByVal ePostRequest As NCBI.eUtils.ePostRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_ePostResponse)
+        Public Function run_ePostAsync( ePostRequest As NCBI.eUtils.ePostRequest) As System.Threading.Tasks.Task(Of NCBI.eUtils.run_ePostResponse)
             Dim inValue As NCBI.eUtils.run_ePostRequest = New NCBI.eUtils.run_ePostRequest()
             inValue.ePostRequest = ePostRequest
             Return CType(Me,NCBI.eUtils.eUtilsServiceSoap).run_ePostAsync(inValue)

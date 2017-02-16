@@ -26,15 +26,20 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Histogram
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -71,6 +76,21 @@ Partial Module CLI
         Call net.Save(out & "/binary-net/")
 
         Return 0
+    End Function
+
+    <ExportAPI("/Promoter.Palindrome.loci.hist",
+               Usage:="/Promoter.Palindrome.loci.hist /in <palindrome.csv> /len <length-bp> [/step <10> /out <out.csv>]")>
+    Public Function PromoterPalindromeLociHist(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".promoter.Palindrome.loci.hist.png")
+        Dim len# = args.GetDouble("/len")
+        Dim step! = args.GetValue("/step", 10.0!)
+        Dim data = [in].LoadCsv(Of PalindromeLoci)
+        Dim histPlot As Bitmap = data _
+            .Select(Function(s) s.Start - len) _
+            .HistogramPlot([step], serialsTitle:="Frequency(loci.start)", xlabel:="Palindrome loci")
+
+        Return histPlot.SaveAs(out).CLICode
     End Function
 
     Public Function BinaryKmeans(seq As FastaFile, Optional cutoff# = 0.65, Optional minW% = 6) As EntityLDM()

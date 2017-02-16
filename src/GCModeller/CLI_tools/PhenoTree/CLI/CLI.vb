@@ -1,39 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::e237384a79be8c7a1cdce368da9eed1e, ..\GCModeller\CLI_tools\PhenoTree\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
+Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.DataMining.KMeans.NodeTrees
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
+Imports RDotNET.Extensions.Bioinformatics.clusterProfiler
+Imports RDotNET.Extensions.VisualBasic
+Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
@@ -101,6 +113,63 @@ Public Module CLI
         Dim parallel As Boolean = args.GetBoolean("/parallel")
         Dim result As List(Of EntityLDM) = Entity.TreeCluster(parallel).ToList
         Return result > out
+    End Function
+
+    <ExportAPI("/Tree.Partitions", Usage:="/Tree.Partitions /in <btree.network.DIR> [/quantile <0.99> /out <out.DIR>]")>
+    Public Function TreePartitions(args As CommandLine) As Integer
+        Dim in$ = args("/in")
+        Dim quantile = args.GetValue("/quantile", 0.99)
+        Dim out = args.GetValue("/out", [in].TrimDIR & $".cuts,quantile={quantile}/")
+        Dim net As Network = Network.Load([in])
+        Dim parts As Partition() = net.BuildTree.CutTrees(quantile).ToArray
+        Dim json = parts.PartionTable
+        Dim colors As Color() = Designer.GetColors("vb.chart", json.Count + 1)
+        Dim memberColors = LinqAPI.Exec(Of Map(Of IndexOf(Of String), String)) <=
+ _
+            From cluster
+            In json.SeqIterator
+            Let i = cluster.i
+            Let members = cluster.value.Value
+            Let color As Color = colors(i)
+            Let index = New IndexOf(Of String)(members.Select(Function(x) x.Name))
+            Select New Map(Of IndexOf(Of String), String) With {
+                .Key = index,
+                .Maps = color.RGB2Hexadecimal
+            }
+
+        For Each node As Node In net.Nodes
+            For Each cluster In memberColors
+                If cluster.Key.IndexOf(node.ID) > -1 Then
+                    node.Add("color", cluster.Maps)
+                    Exit For
+                End If
+            Next
+        Next
+
+        Call net.Save(out, Encodings.ASCII)
+
+        Return json.GetJson(True).SaveTo(out & "/clusters.json").CLICode
+    End Function
+
+    <ExportAPI("/Cluster.Enrichment",
+               Usage:="/Cluster.Enrichment /in <partitions.json> /go.anno <proteins.go.annos.csv> [/go.brief <go_brief.csv> /out <out.DIR>]")>
+    Public Function ClusterEnrichment(args As CommandLine) As Integer
+        Dim [in] = args("/in")
+        Dim anno As String = args("/go.anno")
+        Dim goBrief As String = args.GetValue("/go.brief", GCModeller.FileSystem.GO & "/go_brief.csv")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".go.enrichment/")
+        Dim GO_anno As IO.File = IO.File.LoadTsv(anno)
+        '  Dim term2gene$ = GO_anno.PushAsTable(False)
+        ' Dim go2name$ = clusterProfiler.LoadGoBriefTable(IO.File.Load(goBrief))
+        Dim clusters = [in].ReadAllText.LoadObject(Of Dictionary(Of String, EntityLDM()))
+
+        For Each cluster In clusters.Values
+            Dim genes$() = cluster.Select(Function(g) g.Name.Split.First).Distinct.ToArray
+            Dim list$ = base.c(genes, stringVector:=True)
+            '   Dim enrichment = clusterProfiler.enricher(list, "NULL", term2gene, TERM2NAME:=go2name)
+
+            Call genes.SaveTo("x:/test.txt")
+        Next
     End Function
 
     <ExportAPI("/Parts.COGs",

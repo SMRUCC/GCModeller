@@ -197,7 +197,6 @@
     <Compile Include="Graph\cytoscape.js\Styles\Translator.vb" />
     <Compile Include="Graph\cytoscape.js\Styles\style.vb" />
     <Compile Include="Graph\cytoscape.js\Cyjs.vb" />
-    <Compile Include="Graph\Visualization\CytoscapeColor.vb" />
     <Compile Include="Graph\Visualization\Node.vb" />
     <Compile Include="Graph\Serialization\GraphicsMapper.vb" />
     <Compile Include="Graph\Xgmml\Attributes.vb" />

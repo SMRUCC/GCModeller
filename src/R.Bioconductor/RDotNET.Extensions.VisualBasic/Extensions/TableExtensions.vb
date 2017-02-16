@@ -37,6 +37,13 @@ Imports vbList = Microsoft.VisualBasic.Language.List(Of String)
 
 Public Module TableExtensions
 
+    <Extension>
+    Public Function PushAsTable(table As IO.File, Optional skipFirst As Boolean = True) As String
+        Dim var$ = App.NextTempName
+        Call table.PushAsTable(var, skipFirst)
+        Return var
+    End Function
+
     ''' <summary>
     ''' Push the table data in the VisualBasic into R system.
     ''' </summary>
@@ -144,6 +151,16 @@ Public Module TableExtensions
             End With
         End SyncLock
     End Sub
+
+    <Extension>
+    Public Function PushAsDataFrame(df As IO.File,
+                                    Optional types As Dictionary(Of String, Type) = Nothing,
+                                    Optional typeParsing As Boolean = True,
+                                    Optional rowNames As IEnumerable(Of String) = Nothing) As String
+        Dim var$ = App.NextTempName
+        Call df.PushAsDataFrame(var, types, typeParsing, rowNames)
+        Return var
+    End Function
 
     ''' <summary>
     ''' Push this object collection into the R memory as dataframe object.
