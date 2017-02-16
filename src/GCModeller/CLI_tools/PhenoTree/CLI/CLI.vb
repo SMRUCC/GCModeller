@@ -1,39 +1,42 @@
 ﻿#Region "Microsoft.VisualBasic::e237384a79be8c7a1cdce368da9eed1e, ..\GCModeller\CLI_tools\PhenoTree\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.DataMining.KMeans.NodeTrees
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
@@ -103,20 +106,16 @@ Public Module CLI
         Return result > out
     End Function
 
-    <ExportAPI("/Tree.Partitions", Usage:="/Tree.Partitions /in <btree.clusters.csv> [/depth <-1> /out <out.DIR>]")>
+    <ExportAPI("/Tree.Partitions", Usage:="/Tree.Partitions /in <btree.network.DIR> [/quantile <0.99> /out <out.DIR>]")>
     Public Function TreePartitions(args As CommandLine) As Integer
         Dim in$ = args("/in")
-        Dim depth% = args.GetValue("/depth", -1)
-        Dim out = args.GetValue("/out", [in].TrimSuffix & ".partitions/")
-        Dim data As EntityLDM() = DataMining.Extensions.ClusterResultFastLoad([in]).ToArray
-        Dim parts = data.Partitioning(depth)
+        Dim quantile = args.GetValue("/quantile", 0.99)
+        Dim out = args.GetValue("/out", [in].TrimSuffix & $".cuts,quantile={quantile}/")
+        Dim net As Network = Network.Load([in])
+        Dim parts As Partition() = net.BuildTree.CutTrees(quantile).ToArray
+        Dim json = parts.PartionTable
 
-        For Each part As Partition In parts
-            Dim path$ = $"{out}/{part.Tag}.csv"
-            Call part.members.SaveTo(path)
-        Next
-
-        Return 0
+        Return json.GetJson(True).SaveTo(out & "/clusters.json").CLICode
     End Function
 
     <ExportAPI("/Parts.COGs",
