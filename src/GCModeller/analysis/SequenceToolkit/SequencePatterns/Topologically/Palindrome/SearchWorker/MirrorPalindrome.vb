@@ -22,6 +22,10 @@ Namespace Topologically
             End Get
         End Property
 
+        ''' <summary>
+        ''' 在这里会对原始序列进行切割得到<see cref="PalindromeLoci.SequenceData"/>用来验证位点是否正确
+        ''' </summary>
+        ''' <returns></returns>
         Private Function __return() As PalindromeLoci()
             Dim LQuery = From site As PalindromeLoci
                          In _resultSet

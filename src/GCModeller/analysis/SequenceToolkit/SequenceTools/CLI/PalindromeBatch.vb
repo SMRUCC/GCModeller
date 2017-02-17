@@ -107,7 +107,7 @@ Partial Module Utilities
         Dim nt As New FASTA.FastaToken([in])
         Dim minAp As Integer = args.GetValue("/min-appears", 2)
 
-        Dim mirrorPalindrome As PalindromeLoci() = Topologically.SearchMirror(nt, min, max)   ' 镜像回文
+        Dim mirrorPalindrome As PalindromeLoci() = Topologically.SearchMirrorPalindrome(nt, min, max)   ' 镜像回文
 
         Dim palindrome = Topologically.SearchPalindrome(nt, min, max)  ' 简单回文
 
