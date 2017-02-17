@@ -42,7 +42,7 @@ Namespace CytoscapeGraphView.XGMML
             Get
                 Dim Hex As String = Mid(Fill, 2)
                 Dim alpha = Me("EDGE_TRANSPARENCY")
-                Dim r = CytoscapeColor.HexToARGB(Hex, If(alpha Is Nothing, 255, Val(alpha.Value)))
+                Dim r = HexColor.HexToARGB(Hex, If(alpha Is Nothing, 255, Val(alpha.Value)))
                 Return r
             End Get
         End Property
@@ -77,7 +77,7 @@ Namespace CytoscapeGraphView.XGMML
                     Return Color.Black
                 End If
 
-                Return CytoscapeColor.HexToARGB(Mid(clattr.Value, 2), If(alpha IsNot Nothing, Val(alpha.Value), 255))
+                Return HexColor.HexToARGB(Mid(clattr.Value, 2), If(alpha IsNot Nothing, Val(alpha.Value), 255))
             End Get
         End Property
 
