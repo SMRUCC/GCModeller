@@ -49,7 +49,7 @@ Namespace Topologically
     ''' all bases Not included inpalindromic hexamers are given a value of 0 (van et al. 2003).
     ''' -- van Noort V, Worning P, Ussery DW, Rosche WA, Sinden RR Strand misalignments lead To 
     '''    quasipalindrome correction (2003) 19:365-9
-    ''' <see cref="SearchMirror"/> (镜像回文序列)
+    ''' <see cref="SearchMirrorPalindrome"/> (镜像回文序列)
     ''' 
     ''' 
     ''' === Inverted Repeats ===
@@ -291,22 +291,23 @@ Namespace Topologically
         ''' 这个函数求解的是绝对相等的
         ''' </summary>
         ''' <param name="seed"></param>
-        ''' <param name="Sequence"></param>
+        ''' <param name="sequence"></param>
         ''' <returns></returns>
         <ExportAPI("Mirrors.Locis.Get")>
-        Public Function FindMirrorPalindromes(seed As String, Sequence As String) As PalindromeLoci()
-            Dim locis As Integer() = FindLocation(Sequence, seed)
+        Public Function FindMirrorPalindromes(seed As String, sequence As String) As PalindromeLoci()
+            Dim locis As Integer() = FindLocation(sequence, seed)
 
             If locis.IsNullOrEmpty Then
                 Return Nothing
             End If
 
+            ' 得到种子位点的反向序列，并查找出该位点后面的序列是否和这个反向序列相等，即可判断是否为镜像回文位点
             Dim mirror As New String(seed.Reverse.ToArray)
             Dim l As Integer = Len(seed)
             Dim out As PalindromeLoci() = LinqAPI.Exec(Of PalindromeLoci) <=
                 From loci As Integer
                 In locis
-                Let ml As Integer = __haveMirror(l, loci, mirror, Sequence)
+                Let ml As Integer = __haveMirror(l, loci, mirror, sequence)
                 Where ml > -1
                 Select New PalindromeLoci With {
                     .Loci = seed,
@@ -356,17 +357,32 @@ Namespace Topologically
         ''' <summary>
         ''' 搜索序列上面的镜像回文片段
         ''' </summary>
-        ''' <param name="Sequence"></param>
-        ''' <param name="Min"></param>
-        ''' <param name="Max"></param>
+        ''' <param name="seq"></param>
+        ''' <param name="min"></param>
+        ''' <param name="max"></param>
         ''' <returns></returns>
         <ExportAPI("Search.Mirror")>
-        Public Function SearchMirror(Sequence As I_PolymerSequenceModel,
-                                     Optional Min As Integer = 3,
-                                     Optional Max As Integer = 20) As PalindromeLoci()
-            Dim search As New Topologically.MirrorPalindrome(Sequence, Min, Max)
-            Call search.DoSearch()
-            Return search.ResultSet.ToArray
+        <Extension>
+        Public Function SearchMirrorPalindrome(seq As I_PolymerSequenceModel,
+                                               Optional min% = 3,
+                                               Optional max% = 20,
+                                               Optional tag$ = Nothing) As PalindromeLoci()
+            Dim out As PalindromeLoci()
+
+            With New MirrorPalindrome(seq, min, max)
+                .DoSearch()
+                out = .ResultSet.ToArray
+            End With
+
+            If Not tag.StringEmpty Then
+                For Each loci As PalindromeLoci In out
+                    loci.Data = New Dictionary(Of String, String) From {
+                        {NameOf(tag), tag}
+                    }
+                Next
+            End If
+
+            Return out
         End Function
 
         <ExportAPI("Search.Palindrome")>

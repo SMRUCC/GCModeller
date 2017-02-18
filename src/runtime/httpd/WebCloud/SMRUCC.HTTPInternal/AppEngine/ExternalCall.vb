@@ -38,12 +38,21 @@ Namespace AppEngine
     ''' </summary>
     Public Module ExternalCall
 
-        Public Function Scan(Platform As PlatformEngine) As Boolean
-            Dim dlls As IEnumerable(Of String) = ls - l - wildcards("*.dll") <= App.HOME
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="platform"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 只要是.NET assembly都会进行扫描，否则使用<see cref="DebuggerAPI"/>进行调试的时候
+        ''' 就不能够正确的加载对象了，所以在这里取消掉exe的限制
+        ''' </remarks>
+        Public Function Scan(platform As PlatformEngine) As Boolean
+            Dim dlls As IEnumerable(Of String) = ls - l - {"*.dll", "*.exe"} <= App.HOME
 
             For Each dllFile As String In dlls
                 Try
-                    Call ParseDll(dllFile, Platform)
+                    Call ParseDll(dllFile, platform)
                 Catch ex As Exception
                     ex = New Exception(dllFile, ex)
                     Call ex.PrintException

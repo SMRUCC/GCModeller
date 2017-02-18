@@ -548,13 +548,19 @@ Partial Module Utilities
     End Function
 
     <ExportAPI("/Promoter.Regions.Palindrome",
-               Usage:="/Promoter.Regions.Palindrome /in <genbank.gb> [/min <3> /max <20> /len <100,150,200,250,300,400,500, default:=250> /out <out.csv>]")>
+               Usage:="/Promoter.Regions.Palindrome /in <genbank.gb> [/min <3> /max <20> /len <100,150,200,250,300,400,500, default:=250> /mirror /out <out.csv>]")>
+    <Argument("/mirror", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="Search for the mirror palindrome loci sites.")>
     Public Function PromoterRegionPalindrome(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim min = args.GetValue("/min", 3)
-        Dim max = args.GetValue("/max", 20)
-        Dim len = args.GetValue("/len", 250)
-        Dim out = args.GetValue("/out", [in].TrimSuffix & $"_min={min},max={max},upstream=-{len}bp.palindrome.csv")
+        Dim min% = args.GetValue("/min", 3)
+        Dim max% = args.GetValue("/max", 20)
+        Dim len% = args.GetValue("/len", 250)
+        Dim mirror As Boolean = args.GetBoolean("/mirror")
+        Dim out$ = args.GetValue(
+            "/out",
+            [in].TrimSuffix & $"_min={min},max={max},upstream=-{len}bp.palindrome{If(mirror, "-mirror", "")}.csv")
         Dim gb As GBFF.File = GBFF.File.Load([in])
         Dim parser As New PromoterRegionParser(gb.Origin.ToFasta, gb.GbkffExportToPTT)
         Dim source As New FastaFile(parser.GetRegionCollectionByLength(len).Values)
@@ -562,7 +568,12 @@ Partial Module Utilities
 
         For Each promoter As FastaToken In source
             Call promoter.Title.__DEBUG_ECHO
-            output += promoter.SearchPalindrome(min, max, promoter.Title)
+
+            If mirror Then
+                output += promoter.SearchMirrorPalindrome(min, max, promoter.Title)
+            Else
+                output += promoter.SearchPalindrome(min, max, promoter.Title)
+            End If
         Next
 
         Return output.SaveTo(out, Encodings.ASCII).CLICode
