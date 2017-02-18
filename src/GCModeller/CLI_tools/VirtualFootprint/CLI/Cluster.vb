@@ -50,7 +50,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Binary.KMeans.SW",
-               Usage:="/Binary.KMeans.SW /in <dataset.fasta> [/cut 0.65 /minw 6 /first.ID /out <out.DIR>]")>
+               Usage:="/Binary.KMeans.SW /in <dataset.fasta> [/cut 0.65 /minw 6 /first.ID /parallel.depth 50 /out <out.DIR>]")>
     <Argument("/first.ID",
               Description:="Using the first token in the fasta header as the output entity ID? Default is using the full title.")>
     Public Function BinaryKmeansSW(args As CommandLine) As Integer
@@ -60,6 +60,7 @@ Partial Module CLI
         Dim out As String =
             args.GetValue("/out", [in].TrimSuffix & $"-cut={cut},minw={minw}/")
         Dim fa As New FastaFile([in])
+        Dim parallelDepth% = args.GetValue("/parallel.depth", 50)
 
         If args.GetBoolean("/first.ID") Then
             For Each f As FastaToken In fa
@@ -69,7 +70,7 @@ Partial Module CLI
             Next
         End If
 
-        Dim clusters As EntityLDM() = BinaryKmeans(fa, cut, minw)
+        Dim clusters As EntityLDM() = BinaryKmeans(fa, cut, minw, parallelDepth)
         Dim net As Network = clusters.bTreeNET(removesProperty:=True)
 
         Call clusters.SaveTo(out & $"/{[in].BaseName}-kmeans.csv")
@@ -93,7 +94,7 @@ Partial Module CLI
         Return histPlot.SaveAs(out).CLICode
     End Function
 
-    Public Function BinaryKmeans(seq As FastaFile, Optional cutoff# = 0.65, Optional minW% = 6) As EntityLDM()
+    Public Function BinaryKmeans(seq As FastaFile, Optional cutoff# = 0.65, Optional minW% = 6, Optional parallelDepth% = 5) As EntityLDM()
         Dim ms? As Boolean = App.IsMicrosoftPlatform ' optimization for linux
         Dim LQuery As EntityLDM() = LinqAPI.Exec(Of EntityLDM) <=
  _
@@ -105,7 +106,7 @@ Partial Module CLI
                 .Properties = a.Key.Cluster(a.Value, cutoff, minW)
             }
 
-        Dim tree As EntityLDM() = LQuery.TreeCluster(True)
+        Dim tree As EntityLDM() = LQuery.TreeCluster(True, parallelDepth:=parallelDepth)
         Return tree
     End Function
 
