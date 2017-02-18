@@ -50,7 +50,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Binary.KMeans.SW",
-               Usage:="/Binary.KMeans.SW /in <dataset.fasta> [/cut 0.65 /minw 6 /first.ID /parallel.depth 50 /out <out.DIR>]")>
+               Usage:="/Binary.KMeans.SW /in <dataset.fasta> [/cut 0.65 /minw 6 /first.ID /parallel.depth <-1> /out <out.DIR>]")>
     <Argument("/first.ID",
               Description:="Using the first token in the fasta header as the output entity ID? Default is using the full title.")>
     Public Function BinaryKmeansSW(args As CommandLine) As Integer
@@ -60,7 +60,7 @@ Partial Module CLI
         Dim out As String =
             args.GetValue("/out", [in].TrimSuffix & $"-cut={cut},minw={minw}/")
         Dim fa As New FastaFile([in])
-        Dim parallelDepth% = args.GetValue("/parallel.depth", 50)
+        Dim parallelDepth% = args.GetValue("/parallel.depth", -1)
 
         If args.GetBoolean("/first.ID") Then
             For Each f As FastaToken In fa
