@@ -29,10 +29,10 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Imaging
 Imports System.Drawing.Drawing2D
 
@@ -209,8 +209,8 @@ Namespace ComparativeAlignment
                                                                             Select From lnk
                                                                                    In pairs
                                                                                    Select New ComparativeGenomics.GeneLink With {
-                                                                                       .genome1 = lnk.Key,
-                                                                                       .genome2 = lnk.Value
+                                                                                       .genome1 = lnk.Item1,
+                                                                                       .genome2 = lnk.Item2
                                                                                    }
             Links += model.links
 
