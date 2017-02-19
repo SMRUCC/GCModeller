@@ -30,7 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
@@ -249,9 +249,9 @@ Namespace BlastAPI
 
             Call FileIO.FileSystem.CreateDirectory(EXPORT)
 
-            Dim LQuery As String() = (From paired As KeyValuePair(Of String, String)
-                                  In ComboList.AsParallel
-                                      Let PathLog As String = BuildFileName(paired.Key, paired.Value, EXPORT)
+            Dim LQuery As String() = (From paired As Tuple(Of String, String)
+                                      In ComboList.AsParallel
+                                      Let PathLog As String = BuildFileName(paired.Item1, paired.Item2, EXPORT)
                                       Let InternalInvoke = paired.__invokeInner(PathLog, Handle, Evalue, EXPORT)
                                       Where Not String.IsNullOrEmpty(InternalInvoke)
                                       Select InternalInvoke).ToArray
@@ -259,17 +259,21 @@ Namespace BlastAPI
         End Function
 
         <Extension>
-        Private Function __invokeInner(paired As KeyValuePair(Of String, String),
+        Private Function __invokeInner(paired As Tuple(Of String, String),
                                PathLog As String,
                                Handle As BlastInvoker,
                                Evalue As String,
                                EXPORT As String) As String
-            If NCBILocalBlast.FastCheckIntegrityProvider(FastaFile.Read(paired.Key), PathLog) Then
+            If NCBILocalBlast.FastCheckIntegrityProvider(FastaFile.Read(paired.Item1), PathLog) Then
                 Call Console.Write(".")
                 Return ""
             Else
                 Call VBDebugger.Warning($"File ""{PathLog.ToFileURL}"" is incorrect!")
-                Return Handle(query:=paired.Key, subject:=paired.Value, evalue:=Evalue, EXPORT:=EXPORT, num_threads:=Environment.ProcessorCount / 2, [overrides]:=True)
+                Return Handle(query:=paired.Item1, subject:=paired.Item2,
+                              evalue:=Evalue,
+                              EXPORT:=EXPORT,
+                              num_threads:=Environment.ProcessorCount / 2,
+                              [overrides]:=True)
             End If
         End Function
 

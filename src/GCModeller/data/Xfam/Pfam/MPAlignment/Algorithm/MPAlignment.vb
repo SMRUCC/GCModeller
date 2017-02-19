@@ -30,7 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -259,7 +259,7 @@ Statistics as Topic",
         <ExportAPI("Position.Equals")>
         Public Function PositionEquals(ds1 As DomainDistribution, ds2 As DomainDistribution, ByRef a_score As Double, high_Scoring_thresholds As Double) As DomainAlignment
             Dim score As Double
-            Dim combinations As Position()() = Comb.Generate(Of Position)({ds1.Distribution, ds2.Distribution})
+            Dim combinations As Position()() = Combination.Generate(Of Position)({ds1.Distribution, ds2.Distribution})
             Dim high_scores As Integer '高分比对的次数，假若完全匹配上高分比对的时候，则高分比对的次数很明显应该为ds1.count
 
             score -= Math.Abs(ds1.Distribution.Length - ds2.Distribution.Length) / 2  'Domain number is not equals, so protein function maybe not equals.

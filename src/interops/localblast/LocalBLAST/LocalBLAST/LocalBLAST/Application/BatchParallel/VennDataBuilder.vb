@@ -29,7 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -81,9 +81,9 @@ Namespace LocalBLAST.Application.BatchParallel
             Call EXPORT.MkDIR
 
             For Each pairedList In clist
-                For Each paired As KeyValuePair(Of String, String) In pairedList
-                    FileList += localblast(query:=paired.Key,
-                                           subject:=paired.Value,
+                For Each paired As Tuple(Of String, String) In pairedList
+                    FileList += localblast(query:=paired.Item1,
+                                           subject:=paired.Item2,
                                            evalue:=evalue,
                                            EXPORT:=EXPORT,
                                            num_threads:=RecommendedThreads,
