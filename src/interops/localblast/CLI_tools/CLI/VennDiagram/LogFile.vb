@@ -62,11 +62,11 @@ Partial Module CLI
         Dim ListCsv = New List(Of IO.File())  '每一个文件对中的File1位主要的文件
         For Each List In ListFile.Logs
             Dim Query = From Pair In List
-                        Select LogAnalysis.TakeBestHits(Legacy.BLASTOutput.Load(Pair.File1),
-                            Legacy.BLASTOutput.Load(Pair.File2)) '获取BestHit
+                        Select LogAnalysis.TakeBestHits(Legacy.BLASTOutput.Load(Pair.Query),
+                            Legacy.BLASTOutput.Load(Pair.Target)) '获取BestHit
             Call ListCsv.Add(Query.ToArray)
         Next
-        Dim LastFile = Legacy.BLASTOutput.Load(ListFile.Logs.Last.Last.File2)
+        Dim LastFile = Legacy.BLASTOutput.Load(ListFile.Logs.Last.Last.Target)
         Call ListCsv.Add(New IO.File() {(From Query In LastFile.Queries.AsParallel Select Query.QueryName).ToArray})
 
         Dim MergeResult = (From List In ListCsv Select LogAnalysis.Merge(dataset:=List)).ToList

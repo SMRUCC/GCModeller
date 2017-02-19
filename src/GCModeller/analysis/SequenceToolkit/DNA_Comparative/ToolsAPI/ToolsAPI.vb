@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -1021,7 +1021,8 @@ Public Module ToolsAPI
             Call Console.WriteLine("[DEBUG] fasta data load done!, start to calculates the sigma differences in window_size {0}KB....", windowsSize / 1000)
 
             Dim MAT = Comb(Of FastaToken).CreateCompleteObjectPairs(FastaObjects)
-            Dim ChunkBuffer = (From pairedList In MAT
+            Dim ChunkBuffer = (From pairedList
+                               In MAT
                                Select pairedList.__calculates(windowsSize, EXPORT)).Unlist
 
             Call Console.WriteLine("All data calculation job done!, grouping data!")
@@ -1034,15 +1035,15 @@ Public Module ToolsAPI
         Return True
     End Function
 
-    <Extension> Private Function __calculates(pairedList As KeyValuePair(Of FastaToken, FastaToken)(),
+    <Extension> Private Function __calculates(pairedList As Tuple(Of FastaToken, FastaToken)(),
                                               windowsSize As Integer,
                                               EXPORT As String) As KeyValuePair(Of String, String)()
         Dim InternalList As New List(Of KeyValuePair(Of String, String))
 
         For Each paired In pairedList
-            Dim sigma = GenomeSigmaDifference_p(paired.Key, paired.Value, windowsSize)
+            Dim sigma = GenomeSigmaDifference_p(paired.Item1, paired.Item2, windowsSize)
             Call Console.WriteLine("[DEBUG] Calculation job done, trying to export data to filesystem " & EXPORT)
-            Dim f = paired.Key.Title, g = paired.Value.Title
+            Dim f = paired.Item1.Title, g = paired.Item2.Title
             Dim dat = New KeyValuePair(Of String, String)(f.Split(CChar("|")).First, g.Split(CChar("|")).First)
             Call sigma.SaveTo(String.Format("{0}/{1}-{2}.csv", EXPORT, dat.Key, dat.Value), False)
             Call InternalList.Add(dat)
@@ -1083,13 +1084,13 @@ Public Module ToolsAPI
         Return True
     End Function
 
-    Private Function __calculate(windowsSize As Integer, EXPORT As String, paireds As KeyValuePair(Of FastaToken, FastaToken)()) As KeyValuePair(Of String, String)()
+    Private Function __calculate(windowsSize As Integer, EXPORT As String, paireds As Tuple(Of FastaToken, FastaToken)()) As KeyValuePair(Of String, String)()
         Dim InternalList As New List(Of KeyValuePair(Of String, String))
 
         For Each paired In paireds
-            Dim sigma = GenomeSigmaDifference_p(paired.Key, paired.Value, windowsSize)
+            Dim sigma = GenomeSigmaDifference_p(paired.Item1, paired.Item2, windowsSize)
             Call Console.WriteLine("[DEBUG] Calculation job done, trying to export data to filesystem " & EXPORT)
-            Dim f = paired.Key.Title, g = paired.Value.Title
+            Dim f = paired.Item1.Title, g = paired.Item2.Title
             Dim dat = New KeyValuePair(Of String, String)(f.Split(CChar("|")).First, g.Split(CChar("|")).First)
             Call sigma.SaveTo(String.Format("{0}/{1}-{2}.csv", EXPORT, dat.Key, dat.Value), False)
             Call InternalList.Add(dat)

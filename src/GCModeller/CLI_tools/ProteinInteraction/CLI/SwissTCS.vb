@@ -108,8 +108,8 @@ Partial Module CLI
         Dim Pfam As String = GCModeller.FileSystem.CDD & "/Pfam.fasta"
         Dim out As String = Temp & "/Pfam.txt"
 
-        Call blast.FormatDb(Pfam, blast.MolTypeProtein).Start(WaitForExit:=True)
-        Call blast.Blastp(Merge, Pfam, out).Start(WaitForExit:=True)
+        Call blast.FormatDb(Pfam, blast.MolTypeProtein).Start(waitForExit:=True)
+        Call blast.Blastp(Merge, Pfam, out).Start(waitForExit:=True)
 
         Dim Logs = LocalBLAST.BLASTOutput.BlastPlus.Parser.TryParse(out)
         Dim PfamString = Xfam.Pfam.CreatePfamString(Logs, disableUltralarge:=True)

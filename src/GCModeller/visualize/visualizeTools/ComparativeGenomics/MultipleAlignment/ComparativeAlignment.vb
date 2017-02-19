@@ -30,7 +30,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Imaging
@@ -168,7 +168,7 @@ Namespace ComparativeAlignment
             Dim RegionData1 = __invokeDrawing(Model.Query, Device, Length, MaxLengthTitleSize, Height, TitleDrawingFont, Font, Type2Arrow, color_overrides)
             Dim RegionData2 As Dictionary(Of String, Rectangle)
 
-            Dim Links As List(Of GeneLink) = (From itemfff In (From ItemLinks In Model.links Select ItemLinks Group By ItemLinks.genome1 Into Group).ToArray Let id = (From nnn In itemfff.Group Select nnn.genome2).ToArray Let idComb = Microsoft.VisualBasic.ComponentModel.Comb(Of String).CreateCompleteObjectPairs(id) Select (From nnnnn In idComb Select (From jjjjjj In nnnnn Select New ComparativeGenomics.GeneLink With {.genome1 = jjjjjj.Key, .genome2 = jjjjjj.Value}).ToArray).ToArray).ToArray.Unlist.Unlist
+            Dim Links As List(Of GeneLink) = (From itemfff In (From ItemLinks In Model.links Select ItemLinks Group By ItemLinks.genome1 Into Group).ToArray Let id = (From nnn In itemfff.Group Select nnn.genome2).ToArray Let idComb = Comb(Of String).CreateCompleteObjectPairs(id) Select (From nnnnn In idComb Select (From jjjjjj In nnnnn Select New ComparativeGenomics.GeneLink With {.genome1 = jjjjjj.Item1, .genome2 = jjjjjj.Item2}).ToArray).ToArray).ToArray.Unlist.Unlist
             Call Links.AddRange(Model.links)
 
             If DefaultColor = Nothing Then
@@ -565,13 +565,16 @@ POSITIONNING:
 
             Do While DF.Read
                 Dim Genes = (From p As Integer In Orders Let s As String = DF.GetValue(p) Where Not String.IsNullOrEmpty(s) Select s).ToArray
-REPEAT:         Dim Combs As List(Of KeyValuePair(Of String, String)) = Comb(Of String).CreateObject(Genes).CombList.Unlist
-                Combs = (From cb As KeyValuePair(Of String, String)
+REPEAT:         Dim Combs As List(Of Tuple(Of String, String)) = Comb(Of String).CreateObject(Genes).CombList.Unlist
+                Combs = (From cb As Tuple(Of String, String)
                      In Combs
-                         Where Not (cb.Key.First = "/"c OrElse cb.Value.First = "/"c) Select cb).ToList
-                Call Links.AddRange((From cb As KeyValuePair(Of String, String)
-                                 In Combs
-                                     Select New Orthology With {.genome1 = cb.Key, .genome2 = cb.Value}).ToArray)
+                         Where Not (cb.Item1.First = "/"c OrElse cb.Item2.First = "/"c) Select cb).ToList
+                Links += From cb As Tuple(Of String, String)
+                         In Combs
+                         Select New Orthology With {
+                             .genome1 = cb.Item1,
+                             .genome2 = cb.Item2
+                         }
                 Genes = (From ID As String In Genes Where Not ID.First = "/"c Select ID).ToArray
                 If Genes.Count = 1 And Combs.IsNullOrEmpty Then
                     Genes = {Genes, PreGeneCombs}.ToVector

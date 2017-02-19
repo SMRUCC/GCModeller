@@ -27,9 +27,9 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace SequenceModel.NucleotideModels.Translation
 
@@ -143,15 +143,15 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         Public Shared Function CreateHashTable() As Codon()
             Dim NNCols As DNA() = {DNA.dAMP, DNA.dCMP, DNA.dGMP, DNA.dTMP}
-            Dim Combos = Comb.CreateCombos(NNCols, NNCols)
-            Dim TripleCombos = Comb.CreateCombos(Combos, NNCols)
+            Dim Combos = Combination.CreateCombos(NNCols, NNCols)
+            Dim TripleCombos = Combination.CreateCombos(Combos, NNCols)
             Dim Codens As Codon() =
-                LinqAPI.Exec(Of Codon) <= From coden As KeyValuePair(Of KeyValuePair(Of DNA, DNA), DNA)
+                LinqAPI.Exec(Of Codon) <= From coden As Tuple(Of Tuple(Of DNA, DNA), DNA)
                                           In TripleCombos
                                           Select New Codon With {
-                                              .X = coden.Key.Key,
-                                              .Y = coden.Key.Value,
-                                              .Z = coden.Value
+                                              .X = coden.Item1.Item1,
+                                              .Y = coden.Item1.Item2,
+                                              .Z = coden.Item2
                                           }
             Return Codens
         End Function

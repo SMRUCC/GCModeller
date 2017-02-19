@@ -51,7 +51,7 @@ Module Extensions
                 printf("[ERR] Database ""%s"" file not found!", DbPath)
                 Continue For
             End If
-            Call LocalBLAST.FormatDb(DbPath, LocalBLAST.MolTypeProtein).Start(WaitForExit:=True)
+            Call LocalBLAST.FormatDb(DbPath, LocalBLAST.MolTypeProtein).Start(waitForExit:=True)
 
             i += 1
             printf("[INFO] Install database ""%s"" successfully!", DbPath)

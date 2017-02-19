@@ -82,8 +82,8 @@ Namespace LocalBLAST.Application.BBH
                                    Optional e As String = "1e-3",
                                    Optional ExportAll As Boolean = False) As BBH.BiDirectionalBesthit()
 
-            Call _LocalBLASTService.FormatDb(Query, _LocalBLASTService.MolTypeProtein).Start(WaitForExit:=True)
-            Call _LocalBLASTService.FormatDb(Subject, _LocalBLASTService.MolTypeProtein).Start(WaitForExit:=True)
+            Call _LocalBLASTService.FormatDb(Query, _LocalBLASTService.MolTypeProtein).Start(waitForExit:=True)
+            Call _LocalBLASTService.FormatDb(Subject, _LocalBLASTService.MolTypeProtein).Start(waitForExit:=True)
 
             Dim WorkDir As String = Me._WorkDir & "/" & Subject.BaseName & "/"
 
@@ -92,7 +92,7 @@ Namespace LocalBLAST.Application.BBH
 #If DEBUG Then
             Call LocalBLASTServices.Blastp(Query, Subject, String.Format("{0}\BLASTP_QUERY_TO_SUBJECT.dat", WorkDir))
 #Else
-            Call _LocalBLASTService.Blastp(Query, Subject, String.Format("{0}/bbh_query.vs.subject.txt", WorkDir), e).Start(WaitForExit:=True)
+            Call _LocalBLASTService.Blastp(Query, Subject, String.Format("{0}/bbh_query.vs.subject.txt", WorkDir), e).Start(waitForExit:=True)
 #End If
 
             Dim Log = _LocalBLASTService.GetLastLogFile
@@ -105,7 +105,7 @@ Namespace LocalBLAST.Application.BBH
 #If DEBUG Then
             Call LocalBLASTServices.Blastp(Subject, Query, String.Format("{0}\BLASTP_SUBJECT_TO_QUERY.dat", WorkDir))
 #Else
-            Call _LocalBLASTService.Blastp(Subject, Query, String.Format("{0}/bbh_subject.vs.query.txt", WorkDir), e).Start(WaitForExit:=True)
+            Call _LocalBLASTService.Blastp(Subject, Query, String.Format("{0}/bbh_subject.vs.query.txt", WorkDir), e).Start(waitForExit:=True)
 #End If
 
             Log = _LocalBLASTService.GetLastLogFile
@@ -142,8 +142,8 @@ Namespace LocalBLAST.Application.BBH
         Public Function Paralogs(Fasta As String, GrepMethod As TextGrepMethod) As BBH.BestHit()
             Dim Output As String = Me._WorkDir & "/" & Fasta.BaseName & "_paralogs.txt"
 
-            Call Me._LocalBLASTService.FormatDb(Fasta, dbType:=_LocalBLASTService.MolTypeProtein).Start(WaitForExit:=True)
-            Call Me._LocalBLASTService.Blastp(Fasta, Fasta, Output).Start(WaitForExit:=True)
+            Call Me._LocalBLASTService.FormatDb(Fasta, dbType:=_LocalBLASTService.MolTypeProtein).Start(waitForExit:=True)
+            Call Me._LocalBLASTService.Blastp(Fasta, Fasta, Output).Start(waitForExit:=True)
 
             Dim Log = Me._LocalBLASTService.GetLastLogFile
 

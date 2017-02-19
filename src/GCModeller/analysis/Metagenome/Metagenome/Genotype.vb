@@ -29,7 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
@@ -40,7 +40,7 @@ Imports Microsoft.VisualBasic.Text
 
 Public Module Genotype
 
-    ReadOnly __all As KeyValuePair(Of Char, Char)() =
+    ReadOnly __all As Tuple(Of Char, Char)() =
         Comb(Of Char).CreateCompleteObjectPairs({"A"c, "T"c, "G"c, "C"c}) _
                      .IteratesALL _
                      .ToArray
@@ -50,8 +50,8 @@ Public Module Genotype
         Dim file As New IO.File
         Dim head As New RowObject From {"", "Genomes"}
 
-        For Each pp As KeyValuePair(Of Char, Char) In __all
-            Call head.Add($"locus.{pp.Key}{pp.Value}")
+        For Each pp As Tuple(Of Char, Char) In __all
+            Call head.Add($"locus.{pp.Item1}{pp.Item2}")
         Next
 
         Call file.AppendLine(head)
@@ -64,9 +64,9 @@ Public Module Genotype
             End If
 
             row += CStr(x.Frequency.Sum(Function(f) f.Count))
-            row += From pp As KeyValuePair(Of Char, Char)
+            row += From pp As Tuple(Of Char, Char)
                    In __all
-                   Select CStr(x(pp.Key, pp.Value).Frequency)
+                   Select CStr(x(pp.Item1, pp.Item2).Frequency)
             file += row
         Next
 
@@ -179,11 +179,11 @@ Public Module Genotype
 
         out += head
 
-        For Each tag As KeyValuePair(Of Char, Char) In all
-            Dim row As New RowObject({$"{tag.Key}/{tag.Value}"})
+        For Each tag As Tuple(Of Char, Char) In all
+            Dim row As New RowObject({$"{tag.Item1}/{tag.Item2}"})
 
             For Each sample In array
-                Dim genotype = sample(tag.Key, tag.Value)
+                Dim genotype = sample(tag.Item1, tag.Item2)
 
                 row += $"{genotype.Count} ({genotype.Frequency * 100})"
             Next

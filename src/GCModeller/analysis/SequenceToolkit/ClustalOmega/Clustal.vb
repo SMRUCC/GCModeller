@@ -117,7 +117,7 @@ Public Class Clustal : Inherits InteropService
         Dim out As String = App.GetAppSysTempFile(".fasta")
         Dim args As String = String.Format(CLUSTAL_ARGUMENTS, source, out)
         Call Console.WriteLine("EXEC --> {0} {1}", MyBase._executableAssembly, args)
-        Call New IORedirectFile(MyBase._executableAssembly, args).Start(WaitForExit:=True)
+        Call New IORedirectFile(MyBase._executableAssembly, args).Start(waitForExit:=True)
 
         Dim result As FASTA.FastaFile = FASTA.FastaFile.Read(out, False)
         Return result

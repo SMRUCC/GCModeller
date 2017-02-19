@@ -104,14 +104,14 @@ Partial Module CLI
     End Function
 
     Private Function ToXml(FileList As LogsPair, XmlLogsDir As String) As LogsPair
-        Dim ReturnedPair As List(Of Pair()) = New List(Of Pair())
+        Dim ReturnedPair As List(Of QueryPair()) = New List(Of QueryPair())
 
-        For Each Pairs As Pair() In FileList.Logs
-            Dim TEMPList As List(Of Pair) = New List(Of Pair)
+        For Each Pairs As QueryPair() In FileList.Logs
+            Dim TEMPList As List(Of QueryPair) = New List(Of QueryPair)
 
             For Each Pair In Pairs
-                Pair.File1 = ToXml(Pair.File1, XmlLogsDir)
-                Pair.File2 = ToXml(Pair.File2, XmlLogsDir)
+                Pair.Query = ToXml(Pair.Query, XmlLogsDir)
+                Pair.Target = ToXml(Pair.Target, XmlLogsDir)
                 Call TEMPList.Add(Pair)
             Next
 

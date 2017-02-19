@@ -67,12 +67,12 @@ Public Class CompileDomains
     Public Function Performance(QueryInput As String, GrepScript As String, Cache As String, Optional DbName As String = "Pfam") As String
         Dim SubjectDbPath As String = CDD.GetFastaUrl(DbName)
 
-        Call LocalBLAST.FormatDb(QueryInput, LocalBLAST.MolTypeProtein).Start(WaitForExit:=True)
-        Call LocalBLAST.FormatDb(SubjectDbPath, LocalBLAST.MolTypeProtein).Start(WaitForExit:=True)
+        Call LocalBLAST.FormatDb(QueryInput, LocalBLAST.MolTypeProtein).Start(waitForExit:=True)
+        Call LocalBLAST.FormatDb(SubjectDbPath, LocalBLAST.MolTypeProtein).Start(waitForExit:=True)
         Call LocalBLAST.Blastp(TargetSubjectDb:=QueryInput,
                                InputQuery:=SubjectDbPath,
                                Output:=String.Format("{0}/{1}-${2}.xml", TempWorkspace, FileIO.FileSystem.GetName(QueryInput), DbName),
-                               e:="1e-3").Start(WaitForExit:=True)
+                               e:="1e-3").Start(waitForExit:=True)
 
         Dim SubjectDb = CDD.LoadFASTA(DbName)
         Dim CddDb = CDD.Load(DbName)

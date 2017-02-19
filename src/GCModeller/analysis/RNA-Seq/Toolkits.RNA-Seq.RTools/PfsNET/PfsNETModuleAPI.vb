@@ -27,9 +27,8 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.Extensions
@@ -37,10 +36,9 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
-Imports RDotNET
-Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.Analysis.PFSNet.PFSNet
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives
@@ -133,10 +131,10 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
                 Dim Combo As Comb(Of String) = Comb(Of String).CreateObject(PathwayInfo.GetPathwayGenes)
 
                 For Each Line In Combo.CombList
-                    bufs += From pair As KeyValuePair(Of String, String)
+                    bufs += From pair As Tuple(Of String, String)
                             In Line
                             Let strPair As String() = (From strId As String
-                                                       In New String() {pair.Key, pair.Value}
+                                                       In pair.Iterates
                                                        Select strId
                                                        Order By strId Ascending).ToArray
                             Select String.Join(vbTab, PathwayInfo.EntryId, strPair(0), strPair(1))
@@ -178,7 +176,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
             For Each Line In Repressions
                 Call ChunkBuffer.AddRange(Line)
             Next
-            ChunkBuffer = (From strLine As String In ChunkBuffer Select strLine Distinct).ToList
+            ChunkBuffer = New List(Of String)(ChunkBuffer.Distinct)
             '  Dim RemovedLines As String() = (From strLine As String In ChunkBuffer Where (From GeneId As String In _RemovedList Where InStr(strLine, GeneId) > 0 Select 1).ToArray.Count > 0 Select strLine).ToArray
             '  For Each strLine As String In RemovedLines
             'Call ChunkBuffer.Remove(strLine)
@@ -393,14 +391,14 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
 
             For Each Comb In ComboList.CombList
                 For Each item In Comb
-                    Dim p1 = CreateMatrix(chipdata, GeneList, item.Key.Split(CChar(",")))
-                    Dim p2 = CreateMatrix(chipdata, GeneList, item.Value.Split(CChar(",")))
+                    Dim p1 = CreateMatrix(chipdata, GeneList, item.Item1.Split(CChar(",")))
+                    Dim p2 = CreateMatrix(chipdata, GeneList, item.Item2.Split(CChar(",")))
 
                     If String.IsNullOrEmpty(file3) Then
                         file3 = PathwayGeneRelationship(pathways)
                     End If
 
-                    Dim savePath As String = String.Format("{0}/{1}_{2}.xml", export, item.Key, item.Value)
+                    Dim savePath As String = String.Format("{0}/{1}_{2}.xml", export, item.Item1, item.Item2)
                     Try
                         Dim result = PfsNETRInvoke.Evaluate(p1, p2, file3, 0.5, 0.8, 0.8)
                         Call SavePfsNET(result, saveCsv:=savePath)
@@ -513,17 +511,17 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         Public Function BatchScript(phenlist As String, scriptfile As String, saveto As String, shell As String) As Integer
             Dim clist As Comb(Of String) =
                 Comb(Of String).CreateObject(IO.File.ReadAllLines(phenlist))
-            Dim sBuilder As New StringBuilder(1024)
+            Dim CMD As New StringBuilder(1024)
             Dim parentDir As String = FileIO.FileSystem.GetParentPath(saveto)
 
             For Each Comb In clist.CombList
                 For Each item In Comb
-                    Dim saveFile As String = String.Format("{0}/PfsNET.OUT/{1}_____{2}.xml", parentDir, item.Key, item.Value)
-                    Call sBuilder.AppendLine(String.Format("start /b {0} ""{1}"" p1 ""{2}"" p2 ""{3}"" save ""{4}""", shell, scriptfile, item.Key, item.Value, saveFile))
+                    Dim saveFile As String = String.Format("{0}/PfsNET.OUT/{1}_____{2}.xml", parentDir, item.Item1, item.Item2)
+                    Call CMD.AppendLine(String.Format("start /b {0} ""{1}"" p1 ""{2}"" p2 ""{3}"" save ""{4}""", shell, scriptfile, item.Item1, item.Item2, saveFile))
                 Next
             Next
 
-            Return sBuilder.SaveTo(saveto, Encoding.ASCII)
+            Return CMD.SaveTo(saveto, Encoding.ASCII)
         End Function
 
         ''' <summary>
