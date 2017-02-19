@@ -150,11 +150,11 @@ Public Module NCBILocalBlast
 
         If genomeRes.FileExists Then
             If reversed Then
-                Call Handle.FormatDb(NT, Handle.MolTypeNucleotide).Start(WaitForExit:=True)
-                Call Handle.Blastn(genomeRes, NT, Output, EValue).Start(WaitForExit:=True)
+                Call Handle.FormatDb(NT, Handle.MolTypeNucleotide).Start(waitForExit:=True)
+                Call Handle.Blastn(genomeRes, NT, Output, EValue).Start(waitForExit:=True)
             Else
-                Call Handle.FormatDb(genomeRes, Handle.MolTypeNucleotide).Start(WaitForExit:=True)
-                Call Handle.Blastn(NT, genomeRes, Output, EValue).Start(WaitForExit:=True)
+                Call Handle.FormatDb(genomeRes, Handle.MolTypeNucleotide).Start(waitForExit:=True)
+                Call Handle.Blastn(NT, genomeRes, Output, EValue).Start(waitForExit:=True)
             End If
             Return True
         ElseIf FileIO.FileSystem.DirectoryExists(genomeRes) Then
@@ -194,7 +194,7 @@ Public Module NCBILocalBlast
                            Optional reversed As Boolean = False,
                            Optional numThreads As Integer = -1, Optional TimeInterval As Integer = 1000) As Boolean
         If reversed Then
-            Call Handle.FormatDb(nt, Handle.MolTypeNucleotide).Start(WaitForExit:=True)
+            Call Handle.FormatDb(nt, Handle.MolTypeNucleotide).Start(waitForExit:=True)
         End If
 
         Call $"{NameOf(GenomeSource)}:={GenomeSource.Count}".__DEBUG_ECHO
@@ -212,10 +212,10 @@ Public Module NCBILocalBlast
         Dim OutLog As String = outputDIR & "/" & subject.BaseName & ".txt"
 
         If reversed Then
-            Call handle.Blastn(subject, nt, OutLog, evalue).Start(WaitForExit:=True)
+            Call handle.Blastn(subject, nt, OutLog, evalue).Start(waitForExit:=True)
         Else
-            Call handle.FormatDb(subject, handle.MolTypeNucleotide).Start(WaitForExit:=True)
-            Call handle.Blastn(nt, subject, OutLog, evalue).Start(WaitForExit:=True)
+            Call handle.FormatDb(subject, handle.MolTypeNucleotide).Start(waitForExit:=True)
+            Call handle.Blastn(nt, subject, OutLog, evalue).Start(waitForExit:=True)
         End If
 
         Return True
@@ -241,8 +241,8 @@ Public Module NCBILocalBlast
                            output As String,
                            Optional evalue As String = "1e-5") As Boolean
         If proteins.FileExists Then
-            Call handle.FormatDb(proteins, handle.MolTypeProtein).Start(WaitForExit:=True)
-            Call handle.TryInvoke("blastx", nt, proteins, evalue, output).Start(WaitForExit:=True)
+            Call handle.FormatDb(proteins, handle.MolTypeProtein).Start(waitForExit:=True)
+            Call handle.TryInvoke("blastx", nt, proteins, evalue, output).Start(waitForExit:=True)
             Return True
         ElseIf FileIO.FileSystem.DirectoryExists(proteins) Then
             Dim FastaSource As String() = FileIO.FileSystem.GetFiles(proteins, FileIO.SearchOption.SearchAllSubDirectories, "*.fa", "*.fsa", "*.fasta").ToArray
@@ -262,8 +262,8 @@ Public Module NCBILocalBlast
     Private Function __blastX(output As String, subject As String, handle As LocalBLAST.InteropService.InteropService, nt As String, evalue As String) As Boolean
         Dim OutLog As String = output & "/" & subject.BaseName & ".txt"
 
-        Call handle.FormatDb(subject, handle.MolTypeProtein).Start(WaitForExit:=True)
-        Call handle.TryInvoke("blastx", nt, subject, evalue, OutLog).Start(WaitForExit:=True)
+        Call handle.FormatDb(subject, handle.MolTypeProtein).Start(waitForExit:=True)
+        Call handle.TryInvoke("blastx", nt, subject, evalue, OutLog).Start(waitForExit:=True)
         Return True
     End Function
 
@@ -314,8 +314,8 @@ Public Module NCBILocalBlast
             Call FileIO.FileSystem.CreateDirectory(FileIO.FileSystem.GetParentPath(BlastOutput))
         End If
 
-        Call session.FormatDb(Db, session.MolTypeProtein).Start(WaitForExit:=True)
-        Call session.Blastp(Query, Db, BlastOutput, Evalue).Start(WaitForExit:=True)
+        Call session.FormatDb(Db, session.MolTypeProtein).Start(waitForExit:=True)
+        Call session.Blastp(Query, Db, BlastOutput, Evalue).Start(waitForExit:=True)
         Return BlastOutput
     End Function
 

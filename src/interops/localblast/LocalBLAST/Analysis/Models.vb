@@ -33,7 +33,7 @@ Namespace Analysis
     Public Class LogsPair
 
         <XmlAttribute> Public LogsDir As String
-        <XmlArray> Public Logs As Pair()()
+        <XmlArray> Public Logs As QueryPair()()
 
         Public Shared Function GetFileName(LogsDir As String) As String
             Return String.Format("{0}/blast_venn.xml", LogsDir)
@@ -48,11 +48,13 @@ Namespace Analysis
         End Function
     End Class
 
-    Public Class Pair
-        <XmlAttribute> Public File1, File2 As String
+    Public Class QueryPair
+
+        <XmlAttribute> Public Property Query As String
+        <XmlAttribute> Public Property Target As String
 
         Public Overrides Function ToString() As String
-            Return String.Format("[{0}]  &&  [{1}]", File1, File2)
+            Return String.Format("[{0}]  &&  [{1}]", Query, Target)
         End Function
     End Class
 End Namespace

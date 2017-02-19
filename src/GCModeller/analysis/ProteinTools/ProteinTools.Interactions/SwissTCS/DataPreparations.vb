@@ -70,7 +70,7 @@ Public Class DataPreparations
             Temp = My.Computer.FileSystem.SpecialDirectories.Temp & "/"
         End If
 
-        Call LocalBLAST.FormatDb(DipFsaSequence.FilePath, LocalBLAST.MolTypeProtein).Start(WaitForExit:=True)
+        Call LocalBLAST.FormatDb(DipFsaSequence.FilePath, LocalBLAST.MolTypeProtein).Start(waitForExit:=True)
         Call TryInit(rBin)
 
         Clustal = New Clustal(ClustalBin)
@@ -85,7 +85,7 @@ Public Class DataPreparations
         Call GenomicsProteins.Select(Function(FsaObject As FASTA.FastaToken) String.Equals(FsaObject.Attributes.First, GeneId)).Save(TempFile)
         '2.blastp搜索dip数据库中的同源蛋白，作为原始计算数据
         Call Console.WriteLine("Searching the homologous protein in the dip database for object ""{0}""...", GeneId)
-        Call LocalBLAST.Blastp(TempFile, DipFsaSequence.FilePath, String.Format("{0}/blastp_{1}_vs._dip.txt", workDir, GeneId), "1e-3").Start(WaitForExit:=True)
+        Call LocalBLAST.Blastp(TempFile, DipFsaSequence.FilePath, String.Format("{0}/blastp_{1}_vs._dip.txt", workDir, GeneId), "1e-3").Start(waitForExit:=True)
         '3.导出所有的符合条件的besthit
         Dim Besthits = NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.TryParse(Me.LocalBLAST.LastBLASTOutputFilePath).ExportAllBestHist
         Dim Hits As BestHit() = Besthits
@@ -125,8 +125,8 @@ Public Class DataPreparations
         Dim TargetHomologousPartners = DipFsaSequence.Select(Function(FsaObject As FASTA.FastaToken) PartnersIdList.IndexOf(FsaObject.Attributes.First.Split.First) > -1)
         TempFile = workDir & GeneId & "_alignment_partners.fsa"
         Call TargetHomologousPartners.Save(TempFile)
-        Call LocalBLAST.FormatDb(TempFile, LocalBLAST.MolTypeProtein).Start(WaitForExit:=True)
-        Call LocalBLAST.Blastp(GenomicsProteins.FilePath, TargetHomologousPartners.FilePath, workDir & "/blastp_genomics_proteins_vs.dip_partner.txt", "1e-3").Start(WaitForExit:=True)
+        Call LocalBLAST.FormatDb(TempFile, LocalBLAST.MolTypeProtein).Start(waitForExit:=True)
+        Call LocalBLAST.Blastp(GenomicsProteins.FilePath, TargetHomologousPartners.FilePath, workDir & "/blastp_genomics_proteins_vs.dip_partner.txt", "1e-3").Start(waitForExit:=True)
 
         Besthits = NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.TryParse(Me.LocalBLAST.LastBLASTOutputFilePath).ExportAllBestHist
         Hits = Besthits

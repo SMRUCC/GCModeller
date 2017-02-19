@@ -67,9 +67,9 @@ Namespace LocalBLAST.Application
                                    QueryGrepMethod As TextGrepMethod, HitsGrepMethod As TextGrepMethod,
                                    Optional e As String = "1e-3", Optional ExportAll As Boolean = False) As IO.File
 
-            Call LocalBLAST.FormatDb(Subject, LocalBLAST.MolTypeProtein).Start(WaitForExit:=True)
+            Call LocalBLAST.FormatDb(Subject, LocalBLAST.MolTypeProtein).Start(waitForExit:=True)
             '在这里将evalue值设置为较大的一个数值是因为做部分比对的时候，Query会有一部分无法被比对上，会导致evalue值过大，取较小的evalue值会将某些阳性数据丢弃
-            Call LocalBLAST.Blastp(Query, Subject, String.Format("{0}/{1}_.vs._{2}.txt", WorkDIR, FileIO.FileSystem.GetName(Query), FileIO.FileSystem.GetName(Subject)), 1000000).Start(WaitForExit:=True)
+            Call LocalBLAST.Blastp(Query, Subject, String.Format("{0}/{1}_.vs._{2}.txt", WorkDIR, FileIO.FileSystem.GetName(Query), FileIO.FileSystem.GetName(Subject)), 1000000).Start(waitForExit:=True)
             Dim LogOutput = DirectCast(LocalBLAST.GetLastLogFile, BLASTOutput.BlastPlus.v228)
             Call LogOutput.Grep(QueryGrepMethod, HitsGrepMethod)
 

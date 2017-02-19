@@ -118,7 +118,7 @@ Namespace BlastAPI
             End If
 
             Call FileIO.FileSystem.CreateDirectory(EXPORT)
-            Call Handle.FormatDb(Subject, Handle.MolTypeProtein).Start(WaitForExit:=True)
+            Call Handle.FormatDb(Subject, Handle.MolTypeProtein).Start(waitForExit:=True)
 
             Dim tasks As IORedirectFile() =
             LinqAPI.Exec(Of IORedirectFile) <= From Path As PathEntry
@@ -131,7 +131,7 @@ Namespace BlastAPI
                                                    e:=Evalue,
                                                    Output:=log)
                                                Select invoke
-            Dim runTask As Func(Of IORedirectFile, Integer) = Function(x) x.Start(WaitForExit:=True)
+            Dim runTask As Func(Of IORedirectFile, Integer) = Function(x) x.Start(waitForExit:=True)
 
             If Parallel Then
                 Call BatchTask(tasks, runTask, numThreads)

@@ -266,8 +266,8 @@ Module CLI
         Dim out As String = query.TrimSuffix & ".BlastSelf.txt"
         Dim localblast As New Programs.BLASTPlus(blast)
 
-        Call localblast.FormatDb(query, localblast.MolTypeProtein).Start(WaitForExit:=True)
-        Call localblast.Blastp(query, query, out, "1e-3").Start(WaitForExit:=True)
+        Call localblast.FormatDb(query, localblast.MolTypeProtein).Start(waitForExit:=True)
+        Call localblast.Blastp(query, query, out, "1e-3").Start(waitForExit:=True)
 
         Dim outLog As BlastPlus.v228 = BlastPlus.Parser.TryParse(out)
         Dim hits As BestHit() = outLog.ExportOverview.GetExcelData
