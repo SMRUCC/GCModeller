@@ -36,6 +36,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting
 
+''' <summary>
+''' 用来可视化差异表达基因
+''' </summary>
 Public Module Volcano
 
     ReadOnly DEG_diff# = Math.Log(2, 2)
@@ -123,7 +126,8 @@ Public Module Volcano
                          Optional translate As Func(Of Double, Double) = Nothing,
                          Optional displayLabel As LabelTypes = LabelTypes.None,
                          Optional labelFontStyle$ = CSSFont.PlotSubTitle,
-                         Optional legendFont$ = CSSFont.Win7LargerBold) As Bitmap
+                         Optional legendFont$ = CSSFont.Win7LargerBold,
+                         Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.Centra) As Bitmap
 
         If translate Is Nothing Then
             translate = Function(pvalue) -Math.Log10(pvalue)
