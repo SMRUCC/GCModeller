@@ -27,6 +27,7 @@
 #End Region
 
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports Microsoft.VisualBasic.Linq
 
 Namespace API
 
@@ -274,7 +275,8 @@ Namespace API
                                      Optional ncol As Integer = -1,
                                      Optional byrow As Boolean = False,
                                      Optional dimnames As String = NULL) As String
-            Dim vec As String = c(data.ToArray)
+            Dim strings$() = data.ToArray(AddressOf Scripting.ToString)
+            Dim vec As String = c(strings, recursive:=False)
             Return matrix(vec, nrow, ncol, byrow, dimnames)
         End Function
 
