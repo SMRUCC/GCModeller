@@ -54,7 +54,7 @@ Public Class ExtendedEngine : Inherits REngine
     End Sub
 
 #If DEBUG Then
-    Friend ReadOnly __logs As StreamWriter = App.GetAppSysTempFile(".log").OpenWriter
+    Friend ReadOnly __logs As StreamWriter = App.GetAppSysTempFile(".log", App.PID).OpenWriter
 #End If
 
     Friend Shared Function __init(id As String, Optional dll As String = Nothing) As ExtendedEngine

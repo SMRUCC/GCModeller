@@ -32,11 +32,13 @@ Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting
 
+''' <summary>
+''' 用来可视化差异表达基因
+''' </summary>
 Public Module Volcano
 
     ReadOnly DEG_diff# = Math.Log(2, 2)
@@ -90,9 +92,9 @@ Public Module Volcano
                 End If
             End Function
         Dim colors As New Dictionary(Of Integer, Color) From {
-            {1, Color.Blue},
-            {-1, Color.Red},
-            {0, Color.Lime}
+            {1, Color.Red},    ' 上调
+            {-1, Color.Lime}, ' 下调
+            {0, Color.Gray}    ' 没有变化
         }
         Return genes.Select(
             Function(g) New DEGModel With {
@@ -124,7 +126,8 @@ Public Module Volcano
                          Optional translate As Func(Of Double, Double) = Nothing,
                          Optional displayLabel As LabelTypes = LabelTypes.None,
                          Optional labelFontStyle$ = CSSFont.PlotSubTitle,
-                         Optional legendFont$ = CSSFont.Win7LargerBold) As Bitmap
+                         Optional legendFont$ = CSSFont.Win7LargerBold,
+                         Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.Centra) As Bitmap
 
         If translate Is Nothing Then
             translate = Function(pvalue) -Math.Log10(pvalue)
@@ -161,7 +164,7 @@ Public Module Volcano
                                       Call gdi.DrawString(label, labelFont, black, New PointF(point.X - lbSize.Width / 2, point.Y + ptSize))
                                   End Sub
 
-                Call Axis.DrawAxis(g, region, scaler, True,, xlab, ylab)
+                Call Axis.DrawAxis(g, region, scaler, True,, xlab, ylab,, axisLayout)
 
                 For Each gene As DEGModel In DEG_matrix
                     Dim factor As Integer = factors(gene)

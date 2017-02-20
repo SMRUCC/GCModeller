@@ -8,6 +8,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
 
@@ -118,6 +119,20 @@ Partial Module CLI
             .logFCHistogram(tag,
                             size:=args.GetValue("/size", New Size(1600, 1200)),
                             [step]:=0.5) _
+            .SaveAs(out) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP.qlfTable.csv> [/size <1600,1200> /out <plot.csv>]")>
+    Public Function logFCVolcano(args As CommandLine) As Integer
+        Dim in$ = args("/in")
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEP.vocano.plot.png")
+        Dim sample = EntityObject.LoadDataSet([in])
+        Dim size As Size = args.GetValue("/size", New Size(1600, 1200))
+
+        Return Volcano.PlotDEGs(sample, pvalue:="PValue",
+                                displayLabel:=LabelTypes.DEG,
+                                size:=size) _
             .SaveAs(out) _
             .CLICode
     End Function
