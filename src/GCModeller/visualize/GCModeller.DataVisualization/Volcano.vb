@@ -164,7 +164,7 @@ Public Module Volcano
                                       Call gdi.DrawString(label, labelFont, black, New PointF(point.X - lbSize.Width / 2, point.Y + ptSize))
                                   End Sub
 
-                Call Axis.DrawAxis(g, region, scaler, True,, xlab, ylab)
+                Call Axis.DrawAxis(g, region, scaler, True,, xlab, ylab,, axisLayout)
 
                 For Each gene As DEGModel In DEG_matrix
                     Dim factor As Integer = factors(gene)
