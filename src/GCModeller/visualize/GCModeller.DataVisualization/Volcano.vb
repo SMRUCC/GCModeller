@@ -32,7 +32,6 @@ Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting
@@ -90,9 +89,9 @@ Public Module Volcano
                 End If
             End Function
         Dim colors As New Dictionary(Of Integer, Color) From {
-            {1, Color.Blue},
-            {-1, Color.Red},
-            {0, Color.Lime}
+            {1, Color.Red},    ' 上调
+            {-1, Color.Lime}, ' 下调
+            {0, Color.Gray}    ' 没有变化
         }
         Return genes.Select(
             Function(g) New DEGModel With {
