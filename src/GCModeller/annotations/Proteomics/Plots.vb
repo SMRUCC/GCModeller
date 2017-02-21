@@ -102,7 +102,8 @@ Public Module Plots
                                    Optional tag$ = "logFC",
                                    Optional serialTitle$ = "Frequency(logFC)",
                                    Optional step! = 1,
-                                   Optional size As Size = Nothing) As Bitmap
+                                   Optional size As Size = Nothing,
+                                   Optional padding$ = "padding: 100 180 100 180") As Bitmap
         Dim logFC#() = data _
             .Select(Function(prot) prot(tag).ParseNumeric) _
             .ToArray
@@ -114,7 +115,7 @@ Public Module Plots
                 serialsTitle:=serialTitle,
                 histData:=histData,
                 size:=size,
-                margin:=New Size(180, 100),
+                padding:=padding,
                 xlabel:=tag)
         Catch ex As Exception
             ' 有时候标签没有设置正确会导致得到的向量全部为0，则绘图会出错，这个时候显示一下调试信息

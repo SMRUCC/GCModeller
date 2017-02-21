@@ -21,7 +21,7 @@ Public Module Extensions
     ''' 
     ''' </summary>
     ''' <param name="model"></param>
-    ''' <param name="data">可以使用<see cref="GenomeMotifFootPrints.GroupMotifs"></see>方法来合并一些重复的motif数据</param>
+    ''' <param name="data">可以使用<see cref="GroupMotifs"></see>方法来合并一些重复的motif数据</param>
     ''' <param name="onlyRegulations">如果为真，则仅会将有调控因子的位点进行转换，如果为假，则所有的位点都会被绘制出来</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
@@ -103,7 +103,7 @@ Public Module Extensions
     ''' 
     ''' </summary>
     ''' <param name="model"></param>
-    ''' <param name="data">可以使用<see cref="GenomeMotifFootPrints.GroupMotifs"></see>方法来合并一些重复的motif数据</param>
+    ''' <param name="data">可以使用<see cref="GroupMotifs"></see>方法来合并一些重复的motif数据</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     ''' 

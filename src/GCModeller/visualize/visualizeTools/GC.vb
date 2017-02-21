@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::b0c223f4ff65f365c393e92d360caa9e, ..\GCModeller\visualize\visualizeTools\GC.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
@@ -99,7 +100,6 @@ Public Module GCPlot
     ''' <param name="steps%"></param>
     ''' <param name="isCircle"></param>
     ''' <param name="size"></param>
-    ''' <param name="margin"></param>
     ''' <param name="bg$"></param>
     ''' <param name="colors$"></param>
     ''' <param name="levels%"></param>
@@ -111,7 +111,7 @@ Public Module GCPlot
                            steps%,
                            Optional isCircle? As Boolean = True,
                            Optional size As Size = Nothing,
-                           Optional margin As Size = Nothing,
+                           Optional padding$ = "padding: 100 350 100 350",
                            Optional bg$ = "white",
                            Optional colors$ = "Jet",
                            Optional levels% = 100,
@@ -141,12 +141,10 @@ Public Module GCPlot
             })
         Dim mapColors As Color() = New ColorMap(levels * 2 + 1) _
             .ColorSequence(colors)
+        Dim margin As Padding = padding
 
         If size.IsEmpty Then
             size = New Size(30000, 15000)
-        End If
-        If margin.IsEmpty Then
-            margin = New Size(350, 100)
         End If
 
         If Not String.IsNullOrEmpty(base) Then
@@ -160,14 +158,14 @@ Public Module GCPlot
             Sub(ByRef g, grect)
 
                 Dim plotWidth = grect.PlotRegion.Width
-                Dim y! = margin.Height
+                Dim y! = margin.Top
                 Dim deltaX! = plotWidth / lvMAT(Scan0).Value.Length
                 Dim deltaY! = grect.PlotRegion.Height / lvMAT.Length
                 Dim plotTick As Boolean = True
 
                 For Each line As NamedValue(Of Integer()) In lvMAT
 
-                    Dim x! = margin.Width
+                    Dim x! = margin.Left
                     Dim bp% = 1
 
                     For Each d As Integer In line.Value
@@ -180,7 +178,7 @@ Public Module GCPlot
                         Call g.FillRectangle(b, rect)
 
                         If plotTick Then
-                            Call g.DrawString(bp, tick, Brushes.Black, New Point(x, margin.Height - 20))
+                            Call g.DrawString(bp, tick, Brushes.Black, New Point(x, margin.Top - 20))
                             bp += steps
                         End If
 

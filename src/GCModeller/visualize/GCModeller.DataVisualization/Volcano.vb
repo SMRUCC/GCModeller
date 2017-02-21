@@ -50,7 +50,7 @@ Public Module Volcano
     <Extension>
     Public Function PlotDEGs(genes As IEnumerable(Of EntityObject),
                              Optional size As Size = Nothing,
-                             Optional margin As Size = Nothing,
+                             Optional padding$ = g.DefaultPadding,
                              Optional bg$ = "white",
                              Optional logFC$ = "logFC",
                              Optional pvalue$ = "P.value",
@@ -62,7 +62,7 @@ Public Module Volcano
             y:=Function(gene) gene(pvalue).ParseNumeric,
             label:=Function(gene) gene.ID,
             size:=size,
-            margin:=margin,
+            padding:=padding,
             bg:=bg,
             displayLabel:=displayLabel,
             labelFontStyle:=labelFontStyle)
@@ -74,7 +74,7 @@ Public Module Volcano
                                    y As Func(Of T, Double),
                                    label As Func(Of T, String),
                                    Optional size As Size = Nothing,
-                                   Optional margin As Size = Nothing,
+                                   Optional padding$ = g.DefaultPadding,
                                    Optional bg$ = "white",
                                    Optional displayLabel As LabelTypes = LabelTypes.None,
                                    Optional labelFontStyle$ = CSSFont.Win10Normal) As Bitmap
@@ -102,7 +102,7 @@ Public Module Volcano
                 .logFC = x(g),
                 .pvalue = y(g)
         }).Plot(factor, colors,
-                size, margin, bg,
+                size, padding, bg,
                 ,,,,
                 displayLabel, labelFontStyle)
     End Function
@@ -118,7 +118,7 @@ Public Module Volcano
     <Extension>
     Public Function Plot(genes As IEnumerable(Of DEGModel), factors As Func(Of DEGModel, Integer), colors As Dictionary(Of Integer, Color),
                          Optional size As Size = Nothing,
-                         Optional margin As Size = Nothing,
+                         Optional padding$ = g.DefaultPadding,
                          Optional bg$ = "white",
                          Optional xlab$ = "log2 Fold Change",
                          Optional ylab$ = "-log10(p.value)",
@@ -147,11 +147,8 @@ Public Module Volcano
         If size.IsEmpty Then
             size = New Size(2000, 1850)
         End If
-        If margin.IsEmpty Then
-            margin = New Size(120, 120)
-        End If
 
-        Return g.Allocate(size, margin, bg) <=
+        Return g.Allocate(size, padding, bg) <=
  _
             Sub(ByRef g As Graphics, region As GraphicsRegion)
 
@@ -192,8 +189,8 @@ Public Module Volcano
                     Dim legends = colors.GetLegends(legendFont)
                     Dim lsize As SizeF = legends.MaxLegendSize(g)
                     Dim topleft As New Point(
-                        .Size.Width - .Margin.Width - (lsize.Width + 50),
-                        .Margin.Height)
+                        .Size.Width - .Padding.Left - (lsize.Width + 50),
+                        .Padding.Top)
 
                     Call g.DrawLegends(topleft, legends)
                 End With

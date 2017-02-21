@@ -55,7 +55,6 @@ Public Module CatalogProfiling
     ''' <param name="colorSchema$"></param>
     ''' <param name="bg$"></param>
     ''' <param name="size"></param>
-    ''' <param name="margin"></param>
     ''' <param name="classFontStyle$"></param>
     ''' <param name="catalogFontStyle$"></param>
     ''' <param name="titleFontStyle$"></param>
@@ -67,7 +66,7 @@ Public Module CatalogProfiling
                                  Optional colorSchema$ = "Set1:c6",
                                  Optional bg$ = "white",
                                  Optional size As Size = Nothing,
-                                 Optional margin As Size = Nothing,
+                                 Optional padding$ = "padding: 25 25 25 25",
                                  Optional classFontStyle$ = CSSFont.Win7LargerBold,
                                  Optional catalogFontStyle$ = CSSFont.Win7Bold,
                                  Optional titleFontStyle$ = CSSFont.PlotTitle,
@@ -91,12 +90,9 @@ Public Module CatalogProfiling
         If size.IsEmpty Then
             size = New Size(2200, 2000)
         End If
-        If margin.IsEmpty Then
-            margin = New Size(25, 25)
-        End If
 
         Return g.GraphicsPlots(
-            size, margin,
+            size, padding,
             bg,
             Sub(ByRef g, region)
                 Call g.__plotInternal(
@@ -126,7 +122,7 @@ Public Module CatalogProfiling
         Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject
         Dim catalogFont As Font = CSSFont.TryParse(catalogFontStyle).GDIObject
         Dim classFont As Font = CSSFont.TryParse(classFontStyle).GDIObject
-        Dim margin As Size = region.Margin
+        Dim padding As Padding = region.Padding
         Dim size As Size = region.Size
 
         Dim maxLenSubKey$ = profile _
@@ -147,18 +143,18 @@ Public Module CatalogProfiling
                     classes.Length * 20
         Dim left As Single, y! = (region.PlotRegion.Height - totalHeight) / 2
         Dim barRect As New Rectangle(
-                    New Point(margin.Width * 1.5 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
-                    New Size(size.Width - margin.Width * 2 - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - margin.Width / 2, totalHeight))
+                    New Point(padding.Left * 1.5 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
+                    New Size(size.Width - padding.Horizontal - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - padding.Left / 2, totalHeight))
 
-        left = barRect.Left - margin.Width
-        left = (size.Width - margin.Width * 2 - left) / 2 + left + margin.Width
+        left = barRect.Left - padding.Left
+        left = (size.Width - padding.Horizontal - left) / 2 + left + padding.Left
 
         Dim titleSize As SizeF = g.MeasureString(title, titleFont)
 
         Call g.DrawString(title, titleFont, Brushes.Black, New PointF(barRect.Left + (barRect.Width - titleSize.Width) / 2, (y - titleSize.Height) / 2.0!))
         Call g.DrawRectangle(New Pen(Color.Black, 5), barRect)
 
-        left = margin.Width
+        left = padding.Left
 
         Dim gap! = 10.0!
 

@@ -29,6 +29,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -51,7 +52,7 @@ Public Module CatalogPlots
                                   Optional colorSchema$ = "Set1:c6",
                                   Optional bg$ = "white",
                                   Optional size As Size = Nothing,
-                                  Optional margin As Size = Nothing,
+                                  Optional padding$ = g.DefaultPadding,
                                   Optional classFontStyle$ = CSSFont.Win7LargerBold,
                                   Optional catalogFontStyle$ = CSSFont.Win7Bold,
                                   Optional titleFontStyle$ = CSSFont.PlotTitle,
@@ -83,7 +84,7 @@ Public Module CatalogPlots
 
         Return profile.ProfilesPlot(
             title, axisTitle, colorSchema,
-            bg, size, margin,
+            bg, size, padding,
             classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
             tickFontStyle, tick)
     End Function
@@ -100,7 +101,6 @@ Public Module CatalogPlots
     ''' <param name="colorSchema$"></param>
     ''' <param name="bg$"></param>
     ''' <param name="size"></param>
-    ''' <param name="margin"></param>
     ''' <param name="classFontStyle$"></param>
     ''' <param name="catalogFontStyle$"></param>
     ''' <param name="titleFontStyle$"></param>
@@ -117,7 +117,7 @@ Public Module CatalogPlots
                                   Optional colorSchema$ = "Set1:c6",
                                   Optional bg$ = "white",
                                   Optional size As Size = Nothing,
-                                  Optional margin As Size = Nothing,
+                                  Optional padding$ = g.DefaultPadding,
                                   Optional classFontStyle$ = CSSFont.Win7LargerBold,
                                   Optional catalogFontStyle$ = CSSFont.Win7Bold,
                                   Optional titleFontStyle$ = CSSFont.PlotTitle,
@@ -148,7 +148,7 @@ Public Module CatalogPlots
 
         Return profile.ProfilesPlot(
             title, axisTitle, colorSchema,
-            bg, size, margin,
+            bg, size, padding,
             classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
             tickFontStyle, tick)
     End Function
@@ -160,7 +160,7 @@ Public Module CatalogPlots
                          Optional colorSchema$ = "Set1:c6",
                          Optional bg$ = "white",
                          Optional size As Size = Nothing,
-                         Optional margin As Size = Nothing,
+                         Optional padding$ = g.DefaultPadding,
                          Optional classFontStyle$ = CSSFont.Win7LargerBold,
                          Optional catalogFontStyle$ = CSSFont.Win7Bold,
                          Optional titleFontStyle$ = CSSFont.PlotTitle,
@@ -170,7 +170,7 @@ Public Module CatalogPlots
 
         Return profile.ProfilesPlot(
             title, axisTitle, colorSchema,
-            bg, size, margin,
+            bg, size, padding,
             classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
             tickFontStyle, tick)
     End Function
@@ -184,7 +184,6 @@ Public Module CatalogPlots
     ''' <param name="colorSchema$"></param>
     ''' <param name="bg$"></param>
     ''' <param name="size"></param>
-    ''' <param name="margin"></param>
     ''' <param name="classFontStyle$"></param>
     ''' <param name="catalogFontStyle$"></param>
     ''' <param name="titleFontStyle$"></param>
@@ -200,7 +199,7 @@ Public Module CatalogPlots
                          Optional colorSchema$ = "Set1:c6",
                          Optional bg$ = "white",
                          Optional size As Size = Nothing,
-                         Optional margin As Size = Nothing,
+                         Optional padding$ = g.DefaultPadding,
                          Optional classFontStyle$ = CSSFont.Win7LargerBold,
                          Optional catalogFontStyle$ = CSSFont.Win7Bold,
                          Optional titleFontStyle$ = CSSFont.PlotTitle,
@@ -245,7 +244,7 @@ Public Module CatalogPlots
 
         Return data.ProfilesPlot(
             title, axisTitle, colorSchema,
-            bg, size, margin,
+            bg, size, padding,
             classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
             tickFontStyle, tick)
     End Function
