@@ -117,7 +117,7 @@ Public Module Volcano
     ReadOnly black As Brush = Brushes.Black
 
     ''' <summary>
-    ''' 
+    ''' 绘制差异表达基因的火山图
     ''' </summary>
     ''' <param name="genes"></param>
     ''' <returns></returns>
