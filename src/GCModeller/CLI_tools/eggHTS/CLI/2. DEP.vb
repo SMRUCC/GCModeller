@@ -131,7 +131,7 @@ Partial Module CLI
         Dim size As Size = args.GetValue("/size", New Size(1600, 1200))
 
         Return Volcano.PlotDEGs(sample, pvalue:="PValue",
-                                displayLabel:=LabelTypes.DEG,
+                                displayLabel:=LabelTypes.None,
                                 size:=size) _
             .SaveAs(out) _
             .CLICode

@@ -47,7 +47,8 @@ Namespace Graphic.Axis
                             Optional xlabel$ = "",
                             Optional ylabel$ = "",
                             Optional xlayout As XAxisLayoutStyles = XAxisLayoutStyles.Bottom,
-                            Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Left)
+                            Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Left,
+                            Optional labelFont$ = CSSFont.PlotSubTitle)
             With region
                 Call g.DrawAxis(
                     .Size, .Padding,
@@ -55,7 +56,8 @@ Namespace Graphic.Axis
                     showGrid,
                     offset,
                     xlabel, ylabel,
-                    xlayout, ylayout)
+                    xlayout:=xlayout, ylayout:=ylayout,
+                    labelFontStyle:=labelFont)
             End With
         End Sub
 

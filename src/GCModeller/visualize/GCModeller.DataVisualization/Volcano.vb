@@ -58,7 +58,7 @@ Public Module Volcano
                              Optional logFC$ = "logFC",
                              Optional pvalue$ = "P.value",
                              Optional displayLabel As LabelTypes = LabelTypes.None,
-                             Optional labelFontStyle$ = CSSFont.Win10Normal) As Bitmap
+                             Optional labelFontStyle$ = CSSFont.PlotTitle) As Bitmap
 
         Return genes.PlotDEGs(
             x:=Function(gene) gene(logFC).ParseNumeric,
@@ -106,8 +106,8 @@ Public Module Volcano
                 .pvalue = y(g)
         }).Plot(factor, colors,
                 size, padding, bg,
-                ,,,,
-                displayLabel, labelFontStyle)
+                displayLabel:=displayLabel,
+                labelFontStyle:=labelFontStyle)
     End Function
 
     ReadOnly black As Brush = Brushes.Black
@@ -123,13 +123,13 @@ Public Module Volcano
                          Optional size As Size = Nothing,
                          Optional padding$ = g.DefaultPadding,
                          Optional bg$ = "white",
-                         Optional xlab$ = "log2 Fold Change",
-                         Optional ylab$ = "-log10(p.value)",
+                         Optional xlab$ = "log<sub>2</sub>(Fold Change)",
+                         Optional ylab$ = "-log<sub>10</sub>(p-value)",
                          Optional ptSize! = 5,
                          Optional translate As Func(Of Double, Double) = Nothing,
                          Optional displayLabel As LabelTypes = LabelTypes.None,
-                         Optional labelFontStyle$ = CSSFont.PlotSubTitle,
-                         Optional legendFont$ = CSSFont.Win7LargerBold,
+                         Optional labelFontStyle$ = CSSFont.PlotTitle,
+                         Optional legendFont$ = CSSFont.UbuntuNormal,
                          Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.Centra) As Bitmap
 
         If translate Is Nothing Then
@@ -164,7 +164,7 @@ Public Module Volcano
                                       Call gdi.DrawString(label, labelFont, black, New PointF(point.X - lbSize.Width / 2, point.Y + ptSize))
                                   End Sub
 
-                Call Axis.DrawAxis(g, region, scaler, True,, xlab, ylab,, axisLayout)
+                Call Axis.DrawAxis(g, region, scaler, True, xlabel:=xlab, ylabel:=ylab, ylayout:=axisLayout)
 
                 For Each gene As DEGModel In DEG_matrix
                     Dim factor As Integer = factors(gene)
