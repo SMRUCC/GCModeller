@@ -123,8 +123,12 @@ Namespace Graphic.Axis
                 Next
             End If
 
-            Call g.DrawX(size, padding, pen, xlabel, scaler, xlayout, offset, labelFontStyle, tickFont)
-            Call g.DrawY(size, padding, pen, ylabel, scaler, ylayout, offset, labelFontStyle, tickFont)
+            If xlayout <> XAxisLayoutStyles.None Then
+                Call g.DrawX(size, padding, pen, xlabel, scaler, xlayout, offset, labelFontStyle, tickFont)
+            End If
+            If ylayout <> YAxisLayoutStyles.None Then
+                Call g.DrawY(size, padding, pen, ylabel, scaler, ylayout, offset, labelFontStyle, tickFont)
+            End If
         End Sub
 
         Public Property delta As Integer = 10

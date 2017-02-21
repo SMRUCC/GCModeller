@@ -58,7 +58,8 @@ Public Module Volcano
                              Optional logFC$ = "logFC",
                              Optional pvalue$ = "P.value",
                              Optional displayLabel As LabelTypes = LabelTypes.None,
-                             Optional labelFontStyle$ = CSSFont.PlotTitle) As Bitmap
+                             Optional labelFontStyle$ = CSSFont.PlotTitle,
+                             Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Centra) As Bitmap
 
         Return genes.PlotDEGs(
             x:=Function(gene) gene(logFC).ParseNumeric,
@@ -68,7 +69,8 @@ Public Module Volcano
             padding:=padding,
             bg:=bg,
             displayLabel:=displayLabel,
-            labelFontStyle:=labelFontStyle)
+            labelFontStyle:=labelFontStyle,
+            ylayout:=ylayout)
     End Function
 
     <Extension>
@@ -80,7 +82,8 @@ Public Module Volcano
                                    Optional padding$ = g.DefaultPadding,
                                    Optional bg$ = "white",
                                    Optional displayLabel As LabelTypes = LabelTypes.None,
-                                   Optional labelFontStyle$ = CSSFont.Win10Normal) As Bitmap
+                                   Optional labelFontStyle$ = CSSFont.Win10Normal,
+                                   Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Centra) As Bitmap
 
         Dim factor As Func(Of DEGModel, Integer) =
             Function(DEG)
@@ -107,7 +110,8 @@ Public Module Volcano
         }).Plot(factor, colors,
                 size, padding, bg,
                 displayLabel:=displayLabel,
-                labelFontStyle:=labelFontStyle)
+                labelFontStyle:=labelFontStyle,
+                axisLayout:=ylayout)
     End Function
 
     ReadOnly black As Brush = Brushes.Black
