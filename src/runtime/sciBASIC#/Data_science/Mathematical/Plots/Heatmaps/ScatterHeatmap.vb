@@ -29,11 +29,12 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
-Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
@@ -310,7 +311,7 @@ Public Module ScatterHeatmap
 
         Public Sub Plot(ByRef g As Graphics, region As GraphicsRegion)
             Dim data = GetData(region.PlotRegion.Size)
-            Dim scaler As New Scaling(data)
+            Dim scaler As New Mapper(New Scaling(data))
             Dim xf = scaler.XScaler(region.Size, region.Padding)
             Dim yf = scaler.YScaler(region.Size, region.Padding)
             Dim colorDatas As SolidBrush() = Nothing

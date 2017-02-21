@@ -35,7 +35,10 @@ Imports Microsoft.VisualBasic.Language
 
 Namespace Imaging
 
-    Public Module ColorExtensions
+    ''' <summary>
+    ''' Extensions function for the gdi+ color type.
+    ''' </summary>
+    Public Module GDIColors
 
         ''' <summary>
         ''' Creates a new light color object for the control from the specified color and
@@ -235,9 +238,16 @@ Namespace Imaging
         ''' <param name="b"></param>
         ''' <returns></returns>
         <Extension> Public Function Equals(a As Color, b As Color) As Boolean
-            If a.A <> b.A Then
-                Return False
+            If a.A = b.A Then
+                If a.A = 0 Then
+                    ' 只要是alpha值为零，肯定是透明色
+                    ' 在这里判定为相同的颜色
+                    Return True
+                End If
+            Else
+                Return False '  alpha值不相等，则颜色值肯定不相等
             End If
+
             If a.B <> b.B Then
                 Return False
             End If
