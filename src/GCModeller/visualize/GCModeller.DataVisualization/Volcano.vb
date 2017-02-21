@@ -59,7 +59,7 @@ Public Module Volcano
                              Optional pvalue$ = "P.value",
                              Optional displayLabel As LabelTypes = LabelTypes.None,
                              Optional labelFontStyle$ = CSSFont.PlotTitle,
-                             Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Centra) As Bitmap
+                             Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As Bitmap
 
         Return genes.PlotDEGs(
             x:=Function(gene) gene(logFC).ParseNumeric,
@@ -83,7 +83,7 @@ Public Module Volcano
                                    Optional bg$ = "white",
                                    Optional displayLabel As LabelTypes = LabelTypes.None,
                                    Optional labelFontStyle$ = CSSFont.Win10Normal,
-                                   Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Centra) As Bitmap
+                                   Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As Bitmap
 
         Dim factor As Func(Of DEGModel, Integer) =
             Function(DEG)
@@ -134,7 +134,7 @@ Public Module Volcano
                          Optional displayLabel As LabelTypes = LabelTypes.None,
                          Optional labelFontStyle$ = CSSFont.PlotTitle,
                          Optional legendFont$ = CSSFont.UbuntuNormal,
-                         Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.Centra) As Bitmap
+                         Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As Bitmap
 
         If translate Is Nothing Then
             translate = Function(pvalue) -Math.Log10(pvalue)

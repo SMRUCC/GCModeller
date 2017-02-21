@@ -124,18 +124,17 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP.qlfTable.csv> [/size <1600,1200> /out <plot.csv>]")>
+    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP.qlfTable.csv> [/size <1920,1440> /out <plot.csv>]")>
     Public Function logFCVolcano(args As CommandLine) As Integer
         Dim in$ = args("/in")
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEP.vocano.plot.png")
         Dim sample = EntityObject.LoadDataSet([in])
-        Dim size As Size = args.GetValue("/size", New Size(1920, 1600))
+        Dim size As Size = args.GetValue("/size", New Size(1920, 1440))
 
         Return Volcano.PlotDEGs(sample, pvalue:="PValue",
                                 padding:="padding: 50 50 150 150",
                                 displayLabel:=LabelTypes.None,
-                                size:=size,
-                                ylayout:=YAxisLayoutStyles.Left) _
+                                size:=size) _
             .SaveAs(out) _
             .CLICode
     End Function
