@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::6466aefa3cea065f2b14fb43cd17ece0, ..\GCModeller\visualize\GCModeller.DataVisualization\CatalogProfiling.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,8 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
@@ -55,7 +57,6 @@ Public Module CatalogProfiling
     ''' <param name="colorSchema$"></param>
     ''' <param name="bg$"></param>
     ''' <param name="size"></param>
-    ''' <param name="margin"></param>
     ''' <param name="classFontStyle$"></param>
     ''' <param name="catalogFontStyle$"></param>
     ''' <param name="titleFontStyle$"></param>
@@ -67,7 +68,7 @@ Public Module CatalogProfiling
                                  Optional colorSchema$ = "Set1:c6",
                                  Optional bg$ = "white",
                                  Optional size As Size = Nothing,
-                                 Optional margin As Size = Nothing,
+                                 Optional padding$ = "padding: 25 25 25 25",
                                  Optional classFontStyle$ = CSSFont.Win7LargerBold,
                                  Optional catalogFontStyle$ = CSSFont.Win7Bold,
                                  Optional titleFontStyle$ = CSSFont.PlotTitle,
@@ -91,19 +92,16 @@ Public Module CatalogProfiling
         If size.IsEmpty Then
             size = New Size(2200, 2000)
         End If
-        If margin.IsEmpty Then
-            margin = New Size(25, 25)
-        End If
 
         Return g.GraphicsPlots(
-            size, margin,
+            size, padding,
             bg,
             Sub(ByRef g, region)
                 Call g.__plotInternal(
                     region, profile, title,
                     colors,
                     titleFontStyle, catalogFontStyle, classFontStyle, valueFontStyle,
-                    mapper,
+                    New Mapper(mapper),
                     tickFontStyle, tick,
                     axisTitle)
             End Sub)
@@ -117,7 +115,7 @@ Public Module CatalogProfiling
                                titleFontStyle$,
                                catalogFontStyle$,
                                classFontStyle$, valueFontStyle$,
-                               mapper As Scaling,
+                               mapper As Mapper,
                                tickFontStyle$,
                                tick#,
                                axisTitle$)
@@ -126,7 +124,7 @@ Public Module CatalogProfiling
         Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject
         Dim catalogFont As Font = CSSFont.TryParse(catalogFontStyle).GDIObject
         Dim classFont As Font = CSSFont.TryParse(classFontStyle).GDIObject
-        Dim margin As Size = region.Margin
+        Dim padding As Padding = region.Padding
         Dim size As Size = region.Size
 
         Dim maxLenSubKey$ = profile _
@@ -147,18 +145,18 @@ Public Module CatalogProfiling
                     classes.Length * 20
         Dim left As Single, y! = (region.PlotRegion.Height - totalHeight) / 2
         Dim barRect As New Rectangle(
-                    New Point(margin.Width * 1.5 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
-                    New Size(size.Width - margin.Width * 2 - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - margin.Width / 2, totalHeight))
+                    New Point(padding.Left * 1.5 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
+                    New Size(size.Width - padding.Horizontal - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - padding.Left / 2, totalHeight))
 
-        left = barRect.Left - margin.Width
-        left = (size.Width - margin.Width * 2 - left) / 2 + left + margin.Width
+        left = barRect.Left - padding.Left
+        left = (size.Width - padding.Horizontal - left) / 2 + left + padding.Left
 
         Dim titleSize As SizeF = g.MeasureString(title, titleFont)
 
         Call g.DrawString(title, titleFont, Brushes.Black, New PointF(barRect.Left + (barRect.Width - titleSize.Width) / 2, (y - titleSize.Height) / 2.0!))
         Call g.DrawRectangle(New Pen(Color.Black, 5), barRect)
 
-        left = margin.Width
+        left = padding.Left
 
         Dim gap! = 10.0!
 

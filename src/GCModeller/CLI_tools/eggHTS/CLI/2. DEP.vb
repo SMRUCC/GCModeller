@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
@@ -128,11 +129,13 @@ Partial Module CLI
         Dim in$ = args("/in")
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEP.vocano.plot.png")
         Dim sample = EntityObject.LoadDataSet([in])
-        Dim size As Size = args.GetValue("/size", New Size(1600, 1200))
+        Dim size As Size = args.GetValue("/size", New Size(1920, 1600))
 
         Return Volcano.PlotDEGs(sample, pvalue:="PValue",
-                                displayLabel:=LabelTypes.DEG,
-                                size:=size) _
+                                padding:="padding: 50 50 150 150",
+                                displayLabel:=LabelTypes.None,
+                                size:=size,
+                                ylayout:=YAxisLayoutStyles.Left) _
             .SaveAs(out) _
             .CLICode
     End Function

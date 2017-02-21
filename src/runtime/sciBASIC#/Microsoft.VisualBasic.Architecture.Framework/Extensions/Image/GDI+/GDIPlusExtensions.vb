@@ -337,7 +337,7 @@ Namespace Imaging
             Dim gdi As Graphics = Graphics.FromImage(Bitmap)
             Dim rect As New Rectangle(New Point, Bitmap.Size)
 
-            If filled = Nothing Then
+            If filled.IsNullOrEmpty Then
                 filled = Color.White
             End If
 
@@ -454,15 +454,21 @@ Namespace Imaging
         End Function
 
         ''' <summary>
-        ''' 确定边界，然后进行剪裁
+        ''' 将图像的多余的空白处给剪裁掉，确定边界，然后进行剪裁
         ''' </summary>
         ''' <param name="res"></param>
         ''' <param name="margin"></param>
+        ''' <param name="blankColor">默认白色为空白色</param>
         ''' <returns></returns>
         <ExportAPI("Image.CorpBlank")>
         <Extension> Public Function CorpBlank(res As Image, Optional margin As Integer = 0, Optional blankColor As Color = Nothing) As Image
             If blankColor.IsNullOrEmpty Then
                 blankColor = Color.White
+            ElseIf blankColor.Name = NameOf(Color.Transparent) Then
+                ' 系统的transparent颜色为 0,255,255,255
+                ' 但是bitmap之中的transparent为 0,0,0,0
+                ' 在这里要变换一下
+                blankColor = New Color
             End If
 
             Dim top As Integer
@@ -476,7 +482,7 @@ Namespace Imaging
 
                 For left = 0 To res.Width - 1
                     Dim p = bmp.GetPixel(left, top)
-                    If Not Equals(p, blankColor) Then
+                    If Not GDIColors.Equals(p, blankColor) Then
                         ' 在这里确定了左右
                         find = True
                         Exit For
@@ -499,7 +505,7 @@ Namespace Imaging
 
                 For top = 0 To res.Height - 1
                     Dim p = bmp.GetPixel(left, top)
-                    If Not Equals(p, blankColor) Then
+                    If Not GDIColors.Equals(p, blankColor) Then
                         ' 在这里确定了左右
                         find = True
                         Exit For
@@ -525,7 +531,7 @@ Namespace Imaging
 
                 For right = res.Width - 1 To 0 Step -1
                     Dim p = bmp.GetPixel(right, bottom)
-                    If Not Equals(p, blankColor) Then
+                    If Not GDIColors.Equals(p, blankColor) Then
                         ' 在这里确定了左右
                         find = True
                         Exit For
@@ -548,7 +554,7 @@ Namespace Imaging
 
                 For bottom = res.Height - 1 To 0 Step -1
                     Dim p = bmp.GetPixel(right, bottom)
-                    If Not Equals(p, blankColor) Then
+                    If Not GDIColors.Equals(p, blankColor) Then
                         ' 在这里确定了左右
                         find = True
                         Exit For

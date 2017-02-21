@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::c97063ef689fa372bfb3c223f2d958bd, ..\GCModeller\annotations\KEGG\KEGGOrthology.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -140,7 +141,6 @@ Public Module KEGGOrthology
     ''' <param name="colorSchema$"></param>
     ''' <param name="bg$"></param>
     ''' <param name="size"></param>
-    ''' <param name="margin"></param>
     ''' <param name="classFontStyle$"></param>
     ''' <param name="catalogFontStyle$"></param>
     ''' <param name="titleFontStyle$"></param>
@@ -152,7 +152,7 @@ Public Module KEGGOrthology
                          Optional colorSchema$ = "Set1:c6",
                          Optional bg$ = "white",
                          Optional size As Size = Nothing,
-                         Optional margin As Size = Nothing,
+                         Optional padding$ = g.DefaultPadding,
                          Optional classFontStyle$ = CSSFont.Win7LargerBold,
                          Optional catalogFontStyle$ = CSSFont.Win7Bold,
                          Optional titleFontStyle$ = CSSFont.PlotTitle,
@@ -172,7 +172,7 @@ Public Module KEGGOrthology
         Return profile.ProfilesPlot(
             title, axisTitle,
             colorSchema, bg,
-            size, margin,
+            size, padding,
             classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
             tickFontStyle, tick)
     End Function
