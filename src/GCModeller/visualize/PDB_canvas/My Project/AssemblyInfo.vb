@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("PDB_canvas")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("PDB_canvas")> 
-<Assembly: AssemblyCopyright("Copyright ©  2016")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("PDB based protein 3D structure canvas and viewer")>
+<Assembly: AssemblyDescription("PDB based protein 3D structure canvas and viewer")>
+<Assembly: AssemblyCompany("SMRUCC genomics")>
+<Assembly: AssemblyProduct("GCModeller")>
+<Assembly: AssemblyCopyright("Copyright © SMRUCC genomics 2016")>
+<Assembly: AssemblyTrademark("PDB_canvas")>
 
 <Assembly: ComVisible(False)>
 
