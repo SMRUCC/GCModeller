@@ -157,8 +157,8 @@ Public Module ReadsMap
                 GeneObject.Height = Config.GeneObjectHeight
 
                 Dim drawingSize = GeneObject.Draw(g:=canvas.Graphics,
-                                            Location:=New Point(x, bottom + Config.GeneObjectHeight + Level * 110),
-                                            ConvertFactor:=1,
+                                            location:=New Point(x, bottom + Config.GeneObjectHeight + Level * 110),
+                                            factor:=1,
                                             RightLimited:=GeneObject.Right + 2, conf:=ConfData)
 
                 'TSS的位置大概在ATG上有的54bp的位置

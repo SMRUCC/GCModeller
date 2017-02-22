@@ -27,10 +27,11 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Imaging
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
+Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
 Public Class DrawingDevice
 
@@ -134,23 +135,23 @@ Public Class DrawingDevice
         End If
     End Sub
 
-    Public Function InvokeDrawing(ObjectModel As DrawingModels.ChromesomeDrawingModel) As Bitmap()
+    Public Function InvokeDrawing(model As DrawingModels.ChromesomeDrawingModel) As Bitmap()
 
-        Call ObjectModel.ToString.__DEBUG_ECHO
+        Call model.ToString.__DEBUG_ECHO
 
-        If ObjectModel.MotifSites.IsNullOrEmpty Then ObjectModel.MotifSites = New DrawingModels.MotifSite() {}
-        If ObjectModel.MutationDatas.IsNullOrEmpty Then ObjectModel.MutationDatas = New DrawingModels.MultationPointData() {}
-        If ObjectModel.Loci.IsNullOrEmpty Then ObjectModel.Loci = New DrawingModels.Loci() {}
-        If ObjectModel.TSSs.IsNullOrEmpty Then ObjectModel.TSSs = New DrawingModels.TSSs() {}
+        If model.MotifSites.IsNullOrEmpty Then model.MotifSites = New DrawingModels.MotifSite() {}
+        If model.MutationDatas.IsNullOrEmpty Then model.MutationDatas = New DrawingModels.MultationPointData() {}
+        If model.Loci.IsNullOrEmpty Then model.Loci = New DrawingModels.Loci() {}
+        If model.TSSs.IsNullOrEmpty Then model.TSSs = New DrawingModels.TSSs() {}
 
-        If ObjectModel.COGs.IsNullOrEmpty Then
-            ObjectModel.COGs = New Dictionary(Of String, Brush)
+        If model.COGs.IsNullOrEmpty Then
+            model.COGs = New Dictionary(Of String, Brush)
         End If
 
-        Call ObjectModel.COGs.Add("COG_NOT_ASSIGNED", New SolidBrush(_Conf.NoneCogColor))
+        Call model.COGs.Add("COG_NOT_ASSIGNED", New SolidBrush(_Conf.NoneCogColor))
 
         Try
-            Return __invokeDrawing(ObjectModel)
+            Return __invokeDrawing(model)
         Catch ex As Exception
             Call GDI_PLUS_UNHANDLE_EXCEPTION.Warning
             Throw ex
@@ -158,22 +159,21 @@ Public Class DrawingDevice
     End Function
 
     Private Function __invokeDrawing(ObjectModel As DrawingModels.ChromesomeDrawingModel) As Bitmap()
-        Dim ImageList As New List(Of Bitmap)
-        Dim StartLength As Integer = 0, GeneId As Integer = 0
+        Dim imageList As New List(Of Bitmap)
+        Dim startLen As Integer = 0, geneID As Integer = 0
         Dim First As Boolean = True
 
-        Do While GeneId < ObjectModel.GeneObjects.Count
-            Dim Frame = __chrMapDrawerProcessor(ObjectModel, StartLength, GeneId, First)
-            Call ImageList.Add(item:=Frame)
+        Do While geneID < ObjectModel.GeneObjects.Count
+            imageList += __chrMapDrawerProcessor(ObjectModel, startLen, geneID, First)
 
-            If StartLength = 0 Then  '当基因组的序列太短的时候，会出现死循环，并且startlength参数的值没有被改变，为0
+            If startLen = 0 Then  '当基因组的序列太短的时候，会出现死循环，并且startlength参数的值没有被改变，为0
                 Exit Do
             Else
                 '  First = False
             End If
         Loop
 
-        Return ImageList.ToArray
+        Return imageList.ToArray
     End Function
 
     Const GDI_PLUS_UNHANDLE_EXCEPTION As String = "DataVisualization program crash due to an unexpected exception and a part of the data drawing is not accomplished."
@@ -296,8 +296,8 @@ Public Class DrawingDevice
 
             Dim drawingLociLeft As Integer = (Gene.Left - _Start_Length) * _ScaleFactor + MARGIN
             Dim drawingSize = Gene.Draw(g:=g.Graphics,
-                                            Location:=New Point(drawingLociLeft, Height + 100 + Level * 110),
-                                            ConvertFactor:=_ScaleFactor,
+                                            location:=New Point(drawingLociLeft, Height + 100 + Level * 110),
+                                            factor:=_ScaleFactor,
                                             RightLimited:=RightEnd,
                                             conf:=Me._Conf)
         Next
@@ -414,15 +414,15 @@ Public Class DrawingDevice
         Return LQuery
     End Function
 
-    Public Function ExportColorProfiles(ObjectModel As ChromosomeMap.DrawingModels.ChromesomeDrawingModel) As Image
-        Dim GrDevice As GDIPlusDeviceHandle
+    Public Function ExportColorProfiles(ObjectModel As ChromesomeDrawingModel) As Image
+        Dim g As GDIPlusDeviceHandle
         Dim _Width As Integer = 1920, _Height As Integer = 1200
 
         Try
             Call $"Resolution is {_Width}, {_Height}".__DEBUG_ECHO
             Call FlushMemory()
 
-            GrDevice = New Size(_Width, _Height).CreateGDIDevice
+            g = New Size(_Width, _Height).CreateGDIDevice
         Catch ex As Exception
             Call Console.WriteLine(GDI_PLUS_MEMORY_EXCEPTION & vbCrLf)
             Throw
@@ -433,21 +433,21 @@ Public Class DrawingDevice
         Dim Top As Integer
 
         Dim str As String = ObjectModel.Taxname '绘制NCBI上面的基本信息
-        Dim size As SizeF = GrDevice.MeasureString(str, Font)
+        Dim size As SizeF = g.MeasureString(str, Font)
 
-        Call GrDevice.DrawString(str, Font, Brushes.Black, New Point(Left, Top))
+        Call g.DrawString(str, Font, Brushes.Black, New Point(Left, Top))
         Top += size.Height * 1.5 : Left += 0.1 * size.Width
         str = String.Format("Chromesome DNA Length: {0}", ObjectModel.Size)
         Font = New Font("Ubuntu", 16)
-        size = GrDevice.MeasureString(str, Font)
-        Call GrDevice.DrawString(str, Font, Brushes.Black, New Point(Left, Top))
+        size = g.MeasureString(str, Font)
+        Call g.DrawString(str, Font, Brushes.Black, New Point(Left, Top))
         Top = _Height * 0.4
-        Call GrDevice.DrawString("Footprint map information", Font, Brushes.Black, New Point(Left, Top))
+        Call g.DrawString("Footprint map information", Font, Brushes.Black, New Point(Left, Top))
 
         If ObjectModel.MotifSites.IsNullOrEmpty Then
-            Call GrDevice.DrawString("No motif site on the map.", Font, Brushes.Gray, New Point(Left, Top + 10))
+            Call g.DrawString("No motif site on the map.", Font, Brushes.Gray, New Point(Left, Top + 10))
         End If
 
-        Return GrDevice.ImageResource
+        Return g.ImageResource
     End Function
 End Class
