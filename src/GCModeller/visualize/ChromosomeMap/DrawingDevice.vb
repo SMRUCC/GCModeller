@@ -143,11 +143,11 @@ Public Class DrawingDevice
         If ObjectModel.Loci.IsNullOrEmpty Then ObjectModel.Loci = New DrawingModels.Loci() {}
         If ObjectModel.TSSs.IsNullOrEmpty Then ObjectModel.TSSs = New DrawingModels.TSSs() {}
 
-        If ObjectModel.MyvaCogColorProfile.IsNullOrEmpty Then
-            ObjectModel.MyvaCogColorProfile = New Dictionary(Of String, Brush)
+        If ObjectModel.COGs.IsNullOrEmpty Then
+            ObjectModel.COGs = New Dictionary(Of String, Brush)
         End If
 
-        Call ObjectModel.MyvaCogColorProfile.Add("COG_NOT_ASSIGNED", New SolidBrush(_Conf.NoneCogColor))
+        Call ObjectModel.COGs.Add("COG_NOT_ASSIGNED", New SolidBrush(_Conf.NoneCogColor))
 
         Try
             Return __invokeDrawing(ObjectModel)
@@ -306,7 +306,7 @@ Public Class DrawingDevice
 
         If _Conf.AddLegend Then
             Call g.Graphics.DrawingCOGColors(
-                LDM.MyvaCogColorProfile,
+                LDM.COGs,
                 ref:=New Point(MARGIN, _Height),
                 legendFont:=_Conf.LegendFont,
                 width:=_Width,

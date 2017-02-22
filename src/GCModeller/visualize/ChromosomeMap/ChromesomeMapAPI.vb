@@ -27,7 +27,6 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Imaging
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -246,52 +245,58 @@ Public Module ChromesomeMapAPI
     End Function
 
     <ExportAPI("DrawingModel.From.PTT")>
-    Public Function FromPttDir(<Parameter("DIR.PTT")> PTT_DIR As String, conf As Config) As ChromesomeDrawingModel
-        Dim PTTFile As String = FileIO.FileSystem.GetFiles(PTT_DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.ptt").First
+    Public Function FromGenbankDIR(<Parameter("DIR.PTT")> PTT_DIR As String, conf As Config) As ChromesomeDrawingModel
+        Dim PTTFile As String = PTT_DIR.TheFile("*.ptt")
 #Region ""
-        Dim GeneObjects = (From Gene As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief
-                           In SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT.Load(PTTFile).GeneObjects
-                           Select New SegmentObject With {
-                               .Color = New SolidBrush(Color.Black),
-                               .Product = Gene.Product,
-                               .LocusTag = Gene.Synonym,
-                               .CommonName = Gene.Gene,
-                               .Left = Global.System.Math.Min(Gene.Location.Left, Gene.Location.Right),
-                               .Right = Global.System.Math.Max(Gene.Location.Right, Gene.Location.Left),
-                               .Direction = Gene.Location.Strand}).ToList
+        Dim genes = LinqAPI.MakeList(Of SegmentObject) <=
+            From gene As GeneBrief
+            In PTT.Load(PTTFile).GeneObjects
+            Select New SegmentObject With {
+                .Color = New SolidBrush(Color.Black),
+                .Product = gene.Product,
+                .LocusTag = gene.Synonym,
+                .CommonName = gene.Gene,
+                .Left = Math.Min(gene.Location.Left, gene.Location.Right),
+                .Right = Math.Max(gene.Location.Right, gene.Location.Left),
+                .Direction = gene.Location.Strand
+            }
 #End Region
-        PTTFile = FileIO.FileSystem.GetFiles(PTT_DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.rnt").First
+        PTTFile = PTT_DIR.TheFile("*.rnt")
 
         Dim configs As Configuration.DataReader = conf.ToConfigurationModel
         Dim SetRNAColor As New __setRNAColorInvoke(configs)
-        Dim Rna = (From GeneObject In PTT.Load(PTTFile).GeneObjects
-                   Select New SegmentObject With {
-                       .Color = SetRNAColor.__setColorBrush(GeneObject.Product),
-                       .Product = GeneObject.Product,
-                       .LocusTag = GeneObject.Synonym,
-                       .CommonName = GeneObject.Gene,
-                       .Left = Global.System.Math.Min(GeneObject.Location.Left, GeneObject.Location.Right),
-                       .Right = Global.System.Math.Max(GeneObject.Location.Right, GeneObject.Location.Left),
-                       .Direction = GeneObject.Location.Strand
-                       }).ToArray
-        Call GeneObjects.AddRange(Rna)
+        Dim RNA = LinqAPI.Exec(Of SegmentObject) <=
+            From gene As GeneBrief
+            In PTT.Load(PTTFile).GeneObjects
+            Select New SegmentObject With {
+                .Color = SetRNAColor.__setColorBrush(gene.Product),
+                .Product = gene.Product,
+                .LocusTag = gene.Synonym,
+                .CommonName = gene.Gene,
+                .Left = Math.Min(gene.Location.Left, gene.Location.Right),
+                .Right = Math.Max(gene.Location.Right, gene.Location.Left),
+                .Direction = gene.Location.Strand
+            }
 
-        Dim Model As ChromesomeDrawingModel = Rpt.Load(Of ChromesomeDrawingModel)(
-            FileIO.FileSystem.GetFiles(PTT_DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.rpt").First)
-        Model.GeneObjects = (From Gene In GeneObjects
-                             Select Gene
-                             Order By Gene.Left Ascending).ToArray
-        Model.DrawingConfigurations = configs
-        Model.MutationDatas = New MultationPointData() {}
+        genes += RNA
 
-        Return Model
+        With Rpt.Load(Of ChromesomeDrawingModel)(PTT_DIR.TheFile("*.rpt"))
+            .GeneObjects = genes _
+                .OrderBy(Function(gene) gene.Left) _
+                .ToArray
+            .Configuration = configs
+            .MutationDatas = New MultationPointData() {}
+
+            Return DirectCast(.this, ChromesomeDrawingModel)
+        End With
     End Function
 
     <ExportAPI("DrawingModel.From.PTT", Info:="Creates a basically simple drawing model object from the PTT file data.")>
     Public Function FromPTT(PTT As PTT, conf As Config) As ChromesomeDrawingModel
-        Dim Model As ChromesomeDrawingModel = FromGenes(PTT, conf, PTT.Size)
-        Model.CDSCount = PTT.NumOfProducts
-        Return Model
+        With FromGenes(PTT, conf, PTT.Size)
+            .CDSCount = PTT.NumOfProducts
+            Return DirectCast(.this, ChromesomeDrawingModel)
+        End With
     End Function
 
     ''' <summary>
@@ -323,7 +328,8 @@ Public Module ChromesomeMapAPI
                 .Left = position.Left,
                 .Right = position.Right,
                 .Direction = gene.Location.Strand
-            } Order By gm.Left Ascending
+            }
+            Order By gm.Left Ascending
 #End Region
         Dim model As New ChromesomeDrawingModel With {
             .CDSCount = geneModels.Count,
@@ -334,7 +340,7 @@ Public Module ChromesomeMapAPI
             .PseudoGeneCount = 0,
             .RNACount = 0,
             .GeneObjects = geneModels,
-            .DrawingConfigurations = conf.ToConfigurationModel,
+            .Configuration = conf.ToConfigurationModel,
             .MutationDatas = New MultationPointData() {}
         }
 
@@ -405,7 +411,7 @@ Public Module ChromesomeMapAPI
                                  In GeneObjects
                              Select GeneObject
                              Order By GeneObject.Left Ascending).ToArray
-        Model.DrawingConfigurations = configurations
+        Model.Configuration = configurations
         Model.MutationDatas = New MultationPointData() {}
 
         Return Model
@@ -416,21 +422,5 @@ Public Module ChromesomeMapAPI
         Dim g = Rnd() * 255
         Dim b = Rnd() * 255
         Return Color.FromArgb(r, g, b)
-    End Function
-
-    Public Function GetTestMutationData() As MultationPointData()
-        Return New DrawingModels.MultationPointData() {
-            New DrawingModels.MultationPointData With {
-                .Direction = 1,
-                .Left = 100,
-                .Right = 200,
-                .MutationType = MultationPointData.MutationTypes.DeleteMutation},
-            New DrawingModels.MultationPointData With {
-                .Direction = -1,
-                .Left = 3000,
-                .Right = 4000,
-                .MutationType = MultationPointData.MutationTypes.IntegrationMutant
-            }
-        }
     End Function
 End Module

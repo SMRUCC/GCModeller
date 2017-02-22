@@ -64,7 +64,7 @@ Namespace DrawingModels
         ''' 绘图设备的配置数据
         ''' </summary>
         ''' <returns></returns>
-        Public Property DrawingConfigurations As Configuration.DataReader
+        Public Property Configuration As Configuration.DataReader
         ''' <summary>
         ''' 转录调控位点
         ''' </summary>
@@ -83,149 +83,26 @@ Namespace DrawingModels
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property MyvaCogColorProfile As Dictionary(Of String, Brush)
+        Public Property COGs As Dictionary(Of String, Brush)
         ''' <summary>
         ''' Motif位点的颜色配置
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property MotifSiteColorProfile As Dictionary(Of String, Color)
+        Public Property MotifSiteColors As Dictionary(Of String, Color)
 
         Public Overrides Function ToString() As String
-            Dim sBuilder As StringBuilder = New StringBuilder
-            Call sBuilder.AppendLine("Drawing Model Brief Information:" & vbCrLf)
-            Call sBuilder.AppendLine($"GeneObject Segments:  {GeneObjects.GetElementCounts}")
-            Call sBuilder.AppendLine($"Mutation Sites Data:  {MutationDatas.GetElementCounts}")
-            Call sBuilder.AppendLine($"Motif Sites:          {MotifSites.GetElementCounts}")
-            Call sBuilder.AppendLine($"Loci Sites:           {Loci.GetElementCounts}")
-            Call sBuilder.AppendLine($"TSSs Sites:          {TSSs.GetElementCounts}")
+            Dim sb As New StringBuilder
 
-            Return sBuilder.ToString
-        End Function
-    End Class
+            Call sb.AppendLine("Drawing Model Brief Information:" & vbCrLf)
+            Call sb.AppendLine($"GeneObject Segments:  {GeneObjects.GetElementCounts}")
+            Call sb.AppendLine($"Mutation Sites Data:  {MutationDatas.GetElementCounts}")
+            Call sb.AppendLine($"Motif Sites:          {MotifSites.GetElementCounts}")
+            Call sb.AppendLine($"Loci Sites:           {Loci.GetElementCounts}")
+            Call sb.AppendLine($"TSSs Sites:           {TSSs.GetElementCounts}")
 
-    <[Namespace]("PlasmidAnnotations")>
-    Public Class PlasmidAnnotation : Implements IGeneBrief
-
-        ''' <summary>
-        ''' 基因号
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property ORF_ID As String Implements INamedValue.Key
-        Public Property Strand As String
-        <Column("Gene-Length")> Public Property Length As Integer Implements ICOGDigest.Length
-        ''' <summary>
-        ''' 基因核酸序列
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        <Column("Gene")> Public Property GeneNA As String
-        ''' <summary>
-        ''' 蛋白质序列
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property Protein As String
-        Public Property ST As Integer
-        Public Property SP As Integer
-        ''' <summary>
-        ''' 简写的基因名
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property Gene_name As String
-        ''' <summary>
-        ''' 蛋白质功能注释
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property product As String Implements ICOGDigest.Product
-        <Column("GO-I")> Public Property GOI As String
-        <Column("GO-ID")> Public Property GO_ID As String
-        Public Property GO_name As String
-        Public Property GO_discription As String
-        <Column("Protein family membership")> Public Property Family As String
-        <Column("Protein family membership discription")> Public Property discription As String
-        <Column("COG-NO.")> Public Property COG_NO As String Implements ICOGDigest.COG
-        <Column("COG-cat")> Public Property COG_cat As String
-        <Column("COG-annotation")> Public Property COG_annotation As String
-        Public Property Identity As String
-        <Column("qst.")> Public Property qst As String
-        <Column("qsp.")> Public Property qsp As String
-        <Column("sst.")> Public Property sst As String
-        <Column("ssp.")> Public Property ssp As String
-        Public Property subject_length As String
-        <Column("E-value")> Public Property Evalue As String
-        Public Property Protein_len As String
-
-        Public Property Location As SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation Implements IGeneBrief.Location
-            Get
-                Return New SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation(ST, SP, Strand)
-            End Get
-            Set(value As SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation)
-                If Not value Is Nothing Then
-                    ST = value.Left
-                    SP = value.Right
-                End If
-            End Set
-        End Property
-
-        ''' <summary>
-        ''' 导出蛋白质的序列信息
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        ''' 
-        <ExportAPI("Export.Orf")>
-        Public Shared Function ExportProteinFasta(data As IEnumerable(Of PlasmidAnnotation),
-                                                  <Parameter("Id.Only")>
-                                                  Optional JustId As Boolean = False) As SequenceModel.FASTA.FastaFile
-            Dim GetTitle As Func(Of PlasmidAnnotation, String()) = JustId.[If](
-                Function(Gene As PlasmidAnnotation) {Gene.ORF_ID},
-                Function(Gene As PlasmidAnnotation) New String() {Gene.ORF_ID, Gene.Gene_name, Gene.product})
-
-            Dim LQuery = (From PlasmidGene As PlasmidAnnotation
-                          In data
-                          Where Not String.IsNullOrEmpty(PlasmidGene.Protein)
-                          Select New SequenceModel.FASTA.FastaToken With {
-                              .Attributes = GetTitle(PlasmidGene),
-                              .SequenceData = PlasmidGene.Protein}).ToArray
-            Return CType(LQuery, SequenceModel.FASTA.FastaFile)
-        End Function
-
-        <ExportAPI("read.csv.plasmid_data")>
-        Public Shared Function READ_PlasmidData(path As String) As PlasmidAnnotation()
-            Return path.LoadCsv(Of PlasmidAnnotation)(False).ToArray
-        End Function
-
-        <ExportAPI("export.as_ncbi_annotation")>
-        Public Shared Function ExportAnnotations(data As Generic.IEnumerable(Of PlasmidAnnotation), Optional saveto As String = "") As GeneDumpInfo()
-            Dim LQuery = (From item As PlasmidAnnotation In data
-                          Where Not String.IsNullOrEmpty(item.Protein)
-                          Let gc As Double = GC_Content(New NucleicAcid(item.GeneNA).ToArray)
-                          Select New GeneDumpInfo With {
-                              .CDS = item.GeneNA,
-                              .GC_Content = gc,
-                              .COG = item.COG_NO,
-                              .Strand = item.Strand,
-                              .CommonName = item.product,
-                              .GeneName = item.Gene_name,
-                              .LocusID = item.ORF_ID,
-                              .Translation = item.Protein,
-                              .Left = item.Location.Left,
-                              .Right = item.Location.Right}).ToArray
-            If Not String.IsNullOrEmpty(saveto) Then
-                Call LQuery.SaveTo(saveto, False)
-            End If
-
-            Return LQuery
+            Return sb.ToString
         End Function
     End Class
 End Namespace

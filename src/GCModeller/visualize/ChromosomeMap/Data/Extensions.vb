@@ -94,7 +94,7 @@ Public Module Extensions
                           .Strand = footprint.Strand.First,
                           .Comments = If(siteEntry.Key.IsNullOrEmpty, "", String.Join(", ", siteEntry.Key)),
                           .SiteName = footprint.MotifId}).ToArray
-        Call model.MotifSiteColorProfile.InvokeSet(ColorProfiles.ColorProfiles)
+        Call model.MotifSiteColors.InvokeSet(ColorProfiles.ColorProfiles)
         model.MotifSites = LQuery
         Return model
     End Function
