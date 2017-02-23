@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Text
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Graphic.Axis
 
@@ -48,7 +49,9 @@ Namespace Graphic.Axis
                             Optional ylabel$ = "",
                             Optional xlayout As XAxisLayoutStyles = XAxisLayoutStyles.Bottom,
                             Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Left,
-                            Optional labelFont$ = CSSFont.PlotSubTitle)
+                            Optional labelFont$ = CSSFont.PlotSubTitle,
+                            Optional axisStroke$ = Stroke.AxisStroke,
+                            Optional gridFill$ = "rgb(245,245,245)")
             With region
                 Call g.DrawAxis(
                     .Size, .Padding,
@@ -57,7 +60,8 @@ Namespace Graphic.Axis
                     offset,
                     xlabel, ylabel,
                     xlayout:=xlayout, ylayout:=ylayout,
-                    labelFontStyle:=labelFont)
+                    labelFontStyle:=labelFont,
+                    axisStroke:=axisStroke, gridFill:=gridFill)
             End With
         End Sub
 
@@ -83,11 +87,11 @@ Namespace Graphic.Axis
                             Optional labelFontStyle$ = CSSFont.PlotSubTitle,
                             Optional xlayout As XAxisLayoutStyles = XAxisLayoutStyles.Bottom,
                             Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.Left,
-                            Optional gridFill$ = "rgb(242,242,242)",
-                            Optional gridColor$ = "white")
+                            Optional gridFill$ = "rgb(245,245,245)",
+                            Optional gridColor$ = "white",
+                            Optional axisStroke$ = Stroke.AxisStroke)
 
             ' 填充网格要先于坐标轴的绘制操作进行，否则会将坐标轴给覆盖掉
-            Dim pen As New Pen(Color.Black, 5)
             Dim rect As Rectangle = padding.GetCanvasRegion(size)
             Dim tickFont As New Font(FontFace.MicrosoftYaHei, 14)
             Dim sx = scaler.XScaler(size, padding)
@@ -123,6 +127,8 @@ Namespace Graphic.Axis
                 Next
             End If
 
+            Dim pen As Pen = Stroke.TryParse(axisStroke).GDIObject
+
             If xlayout <> XAxisLayoutStyles.None Then
                 Call g.DrawX(size, padding, pen, xlabel, scaler, xlayout, offset, labelFontStyle, tickFont)
             End If
@@ -146,6 +152,8 @@ Namespace Graphic.Axis
                     X = padding.Left + (size.Width - padding.Horizontal) / 2 + offset.X
                 Case YAxisLayoutStyles.Right
                     X = size.Width - padding.Right + offset.X
+                Case YAxisLayoutStyles.ZERO
+                    X = scaler.XScaler(size, padding)(0) + offset.X
                 Case Else
                     X = padding.Left + offset.X
             End Select
@@ -172,10 +180,18 @@ Namespace Graphic.Axis
                 End If
             Next
 
-            Dim labelImage As Image = label.__plotLabel(labelFont)
-            ' y轴标签文本是旋转90度绘制于左边
-            labelImage = labelImage.RotateImage(-90)
-            g.DrawImageUnscaled(labelImage, New Point((padding.Left - labelImage.Width) / 2, (size.Height - labelImage.Height) / 2))
+            If Not label.StripHTMLTags(stripBlank:=True).StringEmpty Then
+                Dim labelImage As Image = label.__plotLabel(labelFont)
+
+                ' y轴标签文本是旋转90度绘制于左边
+                labelImage = labelImage.RotateImage(-90)
+
+                Dim location As New Point(
+                    (padding.Left - labelImage.Width) / 2,
+                    (size.Height - labelImage.Height) / 2)
+
+                Call g.DrawImageUnscaled(labelImage, location)
+            End If
         End Sub
 
         ''' <summary>
@@ -220,7 +236,7 @@ Namespace Graphic.Axis
             For Each tick# In scaler.xAxis
 
                 If scaler.dx <> 0R Then
-                    Dim x = sx(tick) + offset.X
+                    Dim x As Single = sx(tick) + offset.X
                     Dim axisX As New PointF(x, ZERO.Y)
 
                     Dim labelText = (tick).FormatNumeric(2)
@@ -231,11 +247,13 @@ Namespace Graphic.Axis
                 End If
             Next
 
-            Dim labelImage As Image = label.__plotLabel(labelFont)
-            g.DrawImageUnscaled(
-                labelImage,
-                New Point((size.Width - labelImage.Width) / 2,
-                          size.Height - padding.Bottom + (padding.Bottom - labelImage.Height) * 0.5))
+            If Not label.StripHTMLTags(stripBlank:=True).StringEmpty Then
+                Dim labelImage As Image = label.__plotLabel(labelFont)
+                Call g.DrawImageUnscaled(
+                    labelImage,
+                    New Point((size.Width - labelImage.Width) / 2,
+                              size.Height - padding.Bottom + (padding.Bottom - labelImage.Height) * 0.5))
+            End If
         End Sub
     End Module
 End Namespace

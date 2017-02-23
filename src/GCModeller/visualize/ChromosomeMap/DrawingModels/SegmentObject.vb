@@ -108,11 +108,11 @@ Namespace DrawingModels
 
         Private Shared Function RightAlignment(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As Point) As Point
             p = New Point(p.X + segnmentLength - textLength, p.Y)
-            p = InternalCheckRightEndTrimmed(p, textLength, rightEnds)
+            p = __checkRightEndTrimmed(p, textLength, rightEnds)
             Return p
         End Function
 
-        Private Shared Function InternalCheckRightEndTrimmed(p As Point, textLength As Integer, rightEnds As Integer) As Point
+        Private Shared Function __checkRightEndTrimmed(p As Point, textLength As Integer, rightEnds As Integer) As Point
             If p.X + textLength > rightEnds Then
                 Dim d = p.X + textLength - rightEnds
                 d = p.X - d
@@ -125,7 +125,7 @@ Namespace DrawingModels
         Private Shared Function MiddleAlignment(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As Point) As Point
             Dim d As Integer = (segnmentLength - textLength) / 2
             p = New Point(d + p.X - headLength, p.Y)
-            p = InternalCheckRightEndTrimmed(p, textLength, rightEnds)
+            p = __checkRightEndTrimmed(p, textLength, rightEnds)
             Return p
         End Function
 
@@ -133,29 +133,29 @@ Namespace DrawingModels
         ''' 
         ''' </summary>
         ''' <param name="g"></param>
-        ''' <param name="Location">图形的左上角的坐标</param>
+        ''' <param name="location">图形的左上角的坐标</param>
         ''' <returns>返回绘制的图形的大小</returns>
         ''' <remarks></remarks>
         Public Function Draw(g As Graphics,
-                             Location As Point,
-                             ConvertFactor As Double,
+                             location As Point,
+                             factor As Double,
                              RightLimited As Integer,
                              conf As Configuration.DataReader) As Size
 
             Dim GraphicPath As GraphicsPath
-            Dim LocusTagLocation As Integer = Location.X
+            Dim LocusTagLocation As Integer = location.X
             Dim Font As Font, size As SizeF
 
             Font = conf.LocusTagFont
 
-            Me.ConvertFactor = ConvertFactor
+            Me.ConvertFactor = factor
 
             If Direction < 0 Then
-                GraphicPath = CreateBackwardModel(Location, RightLimited)
+                GraphicPath = CreateBackwardModel(location, RightLimited)
             ElseIf Direction > 0 Then
-                GraphicPath = CreateForwardModel(Location, RightLimited)
+                GraphicPath = CreateForwardModel(location, RightLimited)
             Else
-                GraphicPath = CreateNoneDirectionModel(Location, RightLimited)
+                GraphicPath = CreateNoneDirectionModel(location, RightLimited)
             End If
 
             Call g.DrawPath(New Pen(Brushes.Black, 5), GraphicPath)
@@ -171,12 +171,12 @@ Namespace DrawingModels
                 LocusTagLocation += 0.5 * Math.Abs(Length - size.Width)
             End If
 
-            Dim pLocusTagLocation = InternalCheckRightEndTrimmed(New Point(LocusTagLocation, Location.Y - size.Height - LocusTagOffset), MaxLength, RightLimited)
+            Dim pLocusTagLocation = __checkRightEndTrimmed(New Point(LocusTagLocation, location.Y - size.Height - LocusTagOffset), MaxLength, RightLimited)
             Call g.DrawString(LocusTag, Font, Brushes.Black, pLocusTagLocation)
 
             size = g.MeasureString(CommonName, Font)
             MaxLength = Math.Max(size.Width, Length)
-            LocusTagLocation = Location.X
+            LocusTagLocation = location.X
             If size.Width > Length Then
                 LocusTagLocation -= 0.5 * Global.System.Math.Abs(Length - size.Width)
             Else
@@ -187,13 +187,13 @@ Namespace DrawingModels
 
             Font = New Font("Microsoft YaHei", 6)
 
-            LocusTagLocation = Location.X
+            LocusTagLocation = location.X
 
             If Direction < 0 Then
                 LocusTagLocation += (10 + HeadLength)
             End If
 
-            Call g.DrawString(Product, Font, Brushes.DarkOliveGreen, New Point(LocusTagLocation, Location.Y + 5 + Height))
+            Call g.DrawString(Product, Font, Brushes.DarkOliveGreen, New Point(LocusTagLocation, location.Y + 5 + Height))
 
 #If DEBUG Then
             Call g.DrawString(String.Format("{0} .. {1} KBp", Left / 1000, Right / 1000), Font, Brushes.White, New Point(LocusTagLocation, Location.Y + 0.2 * Height))

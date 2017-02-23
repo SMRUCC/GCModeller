@@ -50,7 +50,7 @@ Namespace DrawingModels
                               Function(obj) CType(New SolidBrush(obj.Value), Brush))
             With chromesome
 
-                Dim defaultCOG_color As New SolidBrush(.DrawingConfigurations.NoneCogColor)
+                Dim defaultCOG_color As New SolidBrush(.Configuration.NoneCogColor)
                 Dim geneTable As Dictionary(Of MyvaCOG) = genes.ToDictionary
 
                 For Each gene As SegmentObject In .GeneObjects
@@ -77,7 +77,7 @@ Namespace DrawingModels
                     End If
                 Next
 
-                .MyvaCogColorProfile = colorProfiles
+                .COGs = colorProfiles
             End With
 
             Return chromesome
@@ -89,7 +89,7 @@ Namespace DrawingModels
                                                               Select cogAlign.COG
                                                               Distinct).ToArray).ToDictionary(Function(obj) obj.Key,
                                                                                               Function(obj) DirectCast(New SolidBrush(obj.Value), Brush))
-            Dim DefaultCogColor As New SolidBrush(Chromesome.DrawingConfigurations.NoneCogColor)
+            Dim DefaultCogColor As New SolidBrush(Chromesome.Configuration.NoneCogColor)
             Dim geneTable As Dictionary(Of MyvaCOG) = genes.ToDictionary
 
             For Each gene As SegmentObject In Chromesome.GeneObjects
@@ -106,7 +106,7 @@ Namespace DrawingModels
                 End If
             Next
 
-            Call Chromesome.MyvaCogColorProfile.InvokeSet(ColorProfiles)
+            Call Chromesome.COGs.InvokeSet(ColorProfiles)
 
             Return Chromesome
         End Function

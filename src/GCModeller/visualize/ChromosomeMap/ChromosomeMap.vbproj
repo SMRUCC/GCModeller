@@ -109,6 +109,8 @@
   <ItemGroup>
     <Compile Include="ChromesomeDrawingModel.vb" />
     <Compile Include="ChromesomeMapAPI.vb" />
+    <Compile Include="DrawingModels\Abstract.vb" />
+    <Compile Include="PlasmidAnnotation.vb" />
     <Compile Include="Configuration\DataReader.vb" />
     <Compile Include="Configuration\Config.vb" />
     <Compile Include="Configuration\Extensions.vb" />
