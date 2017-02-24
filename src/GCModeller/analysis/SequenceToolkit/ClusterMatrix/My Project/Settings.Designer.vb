@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.My.MySettings
+        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.Analysis.SequenceTools.ClusterMatrix.My.MySettings
             Get
-                Return Global.SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.My.MySettings.Default
+                Return Global.SMRUCC.genomics.Analysis.SequenceTools.ClusterMatrix.My.MySettings.Default
             End Get
         End Property
     End Module
