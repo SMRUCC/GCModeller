@@ -99,7 +99,7 @@ Namespace Topologically
     ''' The sequence segment of the nucleotide repeats.(重复的核酸片段)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Repeats : Implements I_PolymerSequenceModel
+    Public Class Repeats : Implements IPolymerSequenceModel
 
         ''' <summary>
         ''' The Repeats sequence data.(重复序列)
@@ -107,7 +107,7 @@ Namespace Topologically
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
         Public ReadOnly Property Length As Integer
             Get

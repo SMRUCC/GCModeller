@@ -227,7 +227,7 @@ Namespace Topologically.SimilarityMatches
         End Function
 
         <ExportAPI("invoke.search.similarity")>
-        Public Function InvokeSearch(Sequence As I_PolymerSequenceModel, Min As Integer, Max As Integer, Optional cutoff As Double = 0.65) As LociMatchedResult()
+        Public Function InvokeSearch(Sequence As IPolymerSequenceModel, Min As Integer, Max As Integer, Optional cutoff As Double = 0.65) As LociMatchedResult()
             Return InvokeSearch(Sequence.SequenceData, Min, Max, cutoff)
         End Function
 

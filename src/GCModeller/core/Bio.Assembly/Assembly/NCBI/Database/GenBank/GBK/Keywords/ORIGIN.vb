@@ -52,7 +52,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlIgnore> Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        <XmlIgnore> Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
         ''' <summary>
         ''' The origin nucleic acid sequence contains illegal character in the nt sequence, ignored as character N... 

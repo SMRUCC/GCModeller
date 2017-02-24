@@ -59,7 +59,7 @@ Public Module ExtensionsAPI
     End Sub
 
     <ExportAPI("Karyotype.doc.DeltaDiff")>
-    Public Function CreateDeltaDiffPlots(SequenceModel As I_PolymerSequenceModel,
+    Public Function CreateDeltaDiffPlots(SequenceModel As IPolymerSequenceModel,
                                      <Parameter("SlideWindow.Size")> SlideWindowSize As Integer,
                                      steps As Integer) As NtProps.DeltaDiff
         Return New NtProps.DeltaDiff(SequenceModel, SlideWindowSize, steps)

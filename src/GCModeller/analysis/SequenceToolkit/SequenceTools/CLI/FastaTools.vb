@@ -421,7 +421,7 @@ Partial Module Utilities
     End Function
 
     Private Function __fillSegment(region As NucleotideModels.SimpleSegment,
-                                   reader As I_PolymerSequenceModel,
+                                   reader As IPolymerSequenceModel,
                                    Complement As Boolean,
                                    Reversed As Boolean) As NucleotideModels.SimpleSegment
         Dim seq As String = reader _
@@ -537,7 +537,7 @@ Partial Module Utilities
         Dim nt As String = args("/nt")
         Dim out As String = args.GetValue("/out", [in].ParentPath)
         Dim locis As IEnumerable(Of Loci) = [in].LoadCsv(Of Loci)
-        Dim parser As I_PolymerSequenceModel = New FASTA.FastaToken(nt)
+        Dim parser As IPolymerSequenceModel = New FASTA.FastaToken(nt)
 
         For Each loci In locis
             loci.SequenceData = parser.CutSequenceLinear(loci.MappingLocation).SequenceData
@@ -597,7 +597,7 @@ Partial Module Utilities
             args.GetValue("/out", [in].TrimSuffix & "-" & sites.BaseName & ".fasta")
         Dim fna = FastaToken.LoadNucleotideData([in])
         Dim gff As GFFTable = GFFTable.LoadDocument(sites)
-        Dim nt As I_PolymerSequenceModel = fna
+        Dim nt As IPolymerSequenceModel = fna
         Dim result = From loci As GFF.Feature
                      In gff.Features
                      Where (Not loci.attributes.ContainsKey("gbkey")) OrElse

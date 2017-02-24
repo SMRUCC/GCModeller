@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.SequenceModel
 Namespace PfamFastaComponentModels
 
     Public MustInherit Class PfamCommon
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
 
         Friend Const P1 As Integer = 0
         Friend Const P2 As Integer = 1
@@ -56,7 +56,7 @@ Namespace PfamFastaComponentModels
         Public Property PfamCommonName As String
 #End Region
 
-        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
         Public Function ShadowCopy(Of T As PfamCommon)() As T
             Dim PfamObject As T = Activator.CreateInstance(Of T)()

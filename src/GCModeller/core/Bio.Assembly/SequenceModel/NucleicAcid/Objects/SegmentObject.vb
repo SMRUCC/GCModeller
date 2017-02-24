@@ -37,7 +37,7 @@ Namespace SequenceModel.NucleotideModels
     ''' </summary>
     ''' <remarks></remarks>
     Public Class SegmentObject : Inherits Location
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
 
         ''' <summary>
         ''' This sequence segment object site is on the complement strand?
@@ -48,7 +48,7 @@ Namespace SequenceModel.NucleotideModels
         ''' The sequence data of this site.
         ''' </summary>
         ''' <returns></returns>
-        Public Overridable Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Overridable Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
         ''' <summary>
         ''' User tag data
         ''' </summary>
@@ -114,7 +114,7 @@ Namespace SequenceModel.NucleotideModels
             Me.Complement = False
         End Sub
 
-        Sub New(SequenceData As I_PolymerSequenceModel, Left As Integer)
+        Sub New(SequenceData As IPolymerSequenceModel, Left As Integer)
             Me.SequenceData = SequenceData.SequenceData
             Me.Left = Left
             Me.Right = Left + FragmentSize
@@ -164,7 +164,7 @@ Namespace SequenceModel.NucleotideModels
             Return LQuery / Len(SequenceData)
         End Function
 
-        Public Shared Function Get_GCContent(SequenceData As I_PolymerSequenceModel) As Double
+        Public Shared Function Get_GCContent(SequenceData As IPolymerSequenceModel) As Double
             Return Get_GCContent(SequenceData.SequenceData)
         End Function
 #End Region

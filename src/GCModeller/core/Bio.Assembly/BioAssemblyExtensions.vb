@@ -154,7 +154,7 @@ Public Module BioAssemblyExtensions
     ''' (请注意，这个只允许核酸序列)
     ''' </param>
     ''' <returns></returns>
-    <Extension> Public Function IsReversed(nt As I_PolymerSequenceModel) As Boolean
+    <Extension> Public Function IsReversed(nt As IPolymerSequenceModel) As Boolean
         If Not InStrAny(nt.SequenceData, "ATG", "GTG") = 1 Then
             Dim last As String = Mid(nt.SequenceData, Len(nt.SequenceData) - 3, 3)
             Return Not String.IsNullOrEmpty(last.EqualsAny("GTG", "GTA"))

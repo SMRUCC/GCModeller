@@ -241,7 +241,7 @@ Public Module Views
         sites = If(ORF, (From site In sites.AsParallel Where Not String.IsNullOrEmpty(site.Synonym) Select site).ToArray, sites)
 
         Dim sitesGroup = (From site In sites Select site Group site By site.TSSs Into Group).ToArray
-        Dim reader As I_PolymerSequenceModel = NT
+        Dim reader As IPolymerSequenceModel = NT
         Dim LQuery = LinqAPI.Exec(Of FASTA.FastaToken) <=
             From site
             In sitesGroup
@@ -285,7 +285,7 @@ Public Module Views
 
         sites = (From site In sites Where Not String.IsNullOrEmpty(site.Synonym) Select site).ToArray
         Dim SitesGroup = (From site In sites Select site Group site By site.Synonym Into Group).ToArray.ToDictionary(Function(obj) obj.Synonym, elementSelector:=Function(obj) obj.Group.ToArray)
-        Dim reader As I_PolymerSequenceModel = NT
+        Dim reader As IPolymerSequenceModel = NT
 
         Call __Export(SitesGroup, Reader, Length:=Length, ID:=(From COG In DESeqCOGs Select COG.DiffDown).ToArray.Unlist.Distinct.ToArray) _
                 .Save($"{Export}/TSSs+Promoters{Length}/{NameOf(DESeq2.DESeqCOGs.DiffDown)}.fasta")
@@ -300,7 +300,7 @@ Public Module Views
     End Function
 
     Private Function __Export(TSSs As Dictionary(Of String, DocumentFormat.Transcript()),
-                              Reader As I_PolymerSequenceModel,
+                              Reader As IPolymerSequenceModel,
                               ID As String(),
                               Length As Integer) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
         Dim LQuery = (From site In ID.AsParallel
@@ -314,7 +314,7 @@ Public Module Views
         Return CType(LQuery, SMRUCC.genomics.SequenceModel.FASTA.FastaFile)
     End Function
 
-    Private Function __Export(site_loci As DocumentFormat.Transcript, Length As Integer, reader As I_PolymerSequenceModel) As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
+    Private Function __Export(site_loci As DocumentFormat.Transcript, Length As Integer, reader As IPolymerSequenceModel) As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
         Dim loci = If(site_loci.MappingLocation.Strand = Strands.Forward,
                           New SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation(site_loci.TSSs - Length, site_loci.TSSs, SMRUCC.genomics.ComponentModel.Loci.Strands.Forward),
                           New SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation(site_loci.TSSs, site_loci.TSSs + Length, SMRUCC.genomics.ComponentModel.Loci.Strands.Reverse))

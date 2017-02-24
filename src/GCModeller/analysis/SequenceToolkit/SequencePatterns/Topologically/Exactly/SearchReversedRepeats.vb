@@ -41,7 +41,7 @@ Namespace Topologically
         Public ReadOnly Property MinAppeared As Integer
         Public ReadOnly Property ResultSet As New List(Of RevRepeats)
 
-        Sub New(Sequence As I_PolymerSequenceModel,
+        Sub New(Sequence As IPolymerSequenceModel,
                 <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> Min As Integer,
                 <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer,
                 MinAppeared As Integer)

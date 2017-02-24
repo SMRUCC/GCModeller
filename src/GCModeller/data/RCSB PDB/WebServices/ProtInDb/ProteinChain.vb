@@ -33,11 +33,11 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Public Class ProteinChain : Inherits ITextFile
-    Implements I_PolymerSequenceModel
+    Implements IPolymerSequenceModel
 
     <XmlAttribute> Public Property PdbId As String
     <XmlAttribute> Public Property ChainId As String
-    <XmlElement> Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+    <XmlElement> Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
     <XmlAttribute> Public Property Surface As Integer()
     ''' <summary>
     ''' {<see cref="ProteinChain.ChainId">ChainId</see>, SurfaceSite}

@@ -49,7 +49,7 @@ Namespace SequenceModel.FASTA
     <PackageNamespace("GCModeller.IO.FastaToken", Publisher:="amethyst.asuka@gcmodeller.org")>
     <ActiveViews(FastaToken.SampleView, type:="bash")>
     Public Class FastaToken : Inherits ISequenceModel
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
         Implements IAbstractFastaToken
         Implements ISaveHandle
         Implements I_FastaProvider

@@ -44,7 +44,7 @@ Namespace Topologically
         Public ReadOnly Property CountStatics As New IO.File
         Public ReadOnly Property ResultSet As New List(Of Repeats)
 
-        Sub New(Sequence As I_PolymerSequenceModel,
+        Sub New(Sequence As IPolymerSequenceModel,
                 <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> Min As Integer,
                 <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer,
                 MinAppeared As Integer)

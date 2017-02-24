@@ -160,14 +160,14 @@ Public Module API
     Public Function RfamAnalysis(Rfam As Stockholm,
                                  blastn As IEnumerable(Of BlastnMapping),
                                  PTT As PTT,
-                                 reader As I_PolymerSequenceModel,
+                                 reader As IPolymerSequenceModel,
                                  <Parameter("Source.Directed?")>
                                  Optional sourceDirect As Boolean = True) As Rfamily()
         Dim lstData As Rfamily() = blastn.ToArray(Function(x) __createObject(Rfam, x, PTT, reader, sourceDirect))
         Return lstData
     End Function
 
-    Private Function __createObject(Rfam As Stockholm, blastn As BlastnMapping, PTT As PTT, reader As I_PolymerSequenceModel, sourceDirect As Boolean) As Rfamily
+    Private Function __createObject(Rfam As Stockholm, blastn As BlastnMapping, PTT As PTT, reader As IPolymerSequenceModel, sourceDirect As Boolean) As Rfamily
         Dim result As New Rfamily With {
             .Evalue = blastn.Evalue,
             .Hit = blastn.ReadQuery.Split.First,
@@ -196,7 +196,7 @@ Public Module API
     Public Function RfamAnalysis(blastn As String,
                                  Rfam As Dictionary(Of String, Stockholm),
                                  PTT As PTT,
-                                 reader As I_PolymerSequenceModel,
+                                 reader As IPolymerSequenceModel,
                                  <Parameter("Source.Directed?")> Optional sourceDirect As Boolean = True) As Rfamily()
         Dim sId As String = BaseName(blastn)
         Dim RfamAnno As Stockholm = Rfam(sId)

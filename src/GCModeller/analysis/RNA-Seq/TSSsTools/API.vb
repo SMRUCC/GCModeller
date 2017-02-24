@@ -62,7 +62,7 @@ Public Module API
 
         Public readsCount As ReadsCount()
 
-        Sub New(ref As I_PolymerSequenceModel)
+        Sub New(ref As IPolymerSequenceModel)
             Call $"Create reads count from references, length {ref.SequenceData.Length} characters....".__DEBUG_ECHO
 
             Dim chars As Char() = ref.SequenceData.ToArray

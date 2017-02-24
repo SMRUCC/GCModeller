@@ -82,11 +82,11 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
     ''' 匹配上的序列片段
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Segment : Implements I_PolymerSequenceModel, ILocationSegment
+    Public Class Segment : Implements IPolymerSequenceModel, ILocationSegment
 
         <XmlAttribute> Public Property Left As Long
         <XmlAttribute> Public Property Right As Long
-        <XmlAttribute> Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        <XmlAttribute> Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
         Public ReadOnly Property UniqueId As String Implements ILocationSegment.UniqueId
             Get

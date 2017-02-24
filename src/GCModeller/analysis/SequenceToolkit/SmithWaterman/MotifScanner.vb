@@ -38,7 +38,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Public Class MotifScanner : Inherits IScanner
 
-    Sub New(nt As I_PolymerSequenceModel)
+    Sub New(nt As IPolymerSequenceModel)
         Call MyBase.New(nt)
     End Sub
 

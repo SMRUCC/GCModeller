@@ -60,7 +60,7 @@ Namespace ContextModel
         ''' <param name="nt">全基因组序列</param>
         ''' <remarks></remarks>
         Sub New(nt As FastaToken, PTT As PTT)
-            Dim genome As I_PolymerSequenceModel = nt
+            Dim genome As IPolymerSequenceModel = nt
             Dim regions(PrefixLength.GetLength - 1) As IntegerTagged(Of Dictionary(Of String, FastaToken))
             Dim i As int = 0
 
@@ -87,7 +87,7 @@ Namespace ContextModel
         ''' <param name="PTT"></param>
         ''' <param name="nt"></param>
         ''' <returns></returns>
-        Private Shared Function CreateObject(Length As Integer, PTT As PTT, nt As I_PolymerSequenceModel) As Dictionary(Of String, FASTA.FastaToken)
+        Private Shared Function CreateObject(Length As Integer, PTT As PTT, nt As IPolymerSequenceModel) As Dictionary(Of String, FASTA.FastaToken)
             Dim LQuery = (From gene As ComponentModels.GeneBrief
                           In PTT.GeneObjects.AsParallel
                           Select gene.Synonym,
@@ -105,7 +105,7 @@ Namespace ContextModel
         ''' <param name="nt"></param>
         ''' <param name="len%"></param>
         ''' <returns></returns>
-        Private Shared Function GetFASTA(gene As ComponentModels.GeneBrief, nt As I_PolymerSequenceModel, len%) As FastaToken
+        Private Shared Function GetFASTA(gene As ComponentModels.GeneBrief, nt As IPolymerSequenceModel, len%) As FastaToken
             Dim loci As NucleotideLocation = gene.Location
 
             Call loci.Normalization()

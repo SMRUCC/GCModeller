@@ -133,7 +133,7 @@ Namespace Analysis.GenomeMotifFootPrints
         ''' <returns></returns>
         ''' <remarks></remarks>
         Friend Shared Function __createRegulationObject(data As MEMEOutput,
-                                                        GenomeSequence As I_PolymerSequenceModel,
+                                                        GenomeSequence As IPolymerSequenceModel,
                                                         Ptt As PTTDbLoader,
                                                         IgnoreDirection As Boolean,
                                                         Optional ATGDistance As Integer = 500) As PredictedRegulationFootprint()

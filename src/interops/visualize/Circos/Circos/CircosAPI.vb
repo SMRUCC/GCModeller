@@ -1011,7 +1011,7 @@ SET_END:    Dim ends = i
     ''' <param name="steps"></param>
     ''' <returns></returns>
     <ExportAPI("Karyotype.doc.gcSkew", Info:="Creates the circos circle plots of the genome gcskew.")>
-    Public Function CreateGCSkewPlots(SequenceModel As I_PolymerSequenceModel,
+    Public Function CreateGCSkewPlots(SequenceModel As IPolymerSequenceModel,
                                       <Parameter("SlideWindow.Size")> SlideWindowSize As Integer,
                                       steps As Integer) As NtProps.GCSkew
         Return New NtProps.GCSkew(SequenceModel, SlideWindowSize, steps, True)

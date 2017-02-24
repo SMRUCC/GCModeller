@@ -83,7 +83,7 @@ Namespace Programs
         ''' 位点的序列
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Site As String Implements I_PolymerSequenceModel.SequenceData
+        <XmlAttribute> Public Property Site As String Implements IPolymerSequenceModel.SequenceData
         <Column("MEME.pvalue")> Public Overridable Property MEMEPvalue As Double
         ''' <summary>
         ''' 在整条序列之中的起始位置

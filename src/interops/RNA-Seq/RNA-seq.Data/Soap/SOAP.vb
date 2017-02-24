@@ -15,10 +15,10 @@
     ''' ```
     ''' </remarks>
     Public Class Read
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
 
         Public Property Reads As String
-        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
         Public Property Quality As String
         '1
         'b

@@ -91,7 +91,7 @@ End Class
 ''' > xcb:XC_1184|Family|Regulates|Regulog|Definition
 ''' </summary>
 Public Class Regulator
-    Implements INamedValue, I_PolymerSequenceModel
+    Implements INamedValue, IPolymerSequenceModel
 
     ''' <summary>
     ''' &lt;(KEGG)species_code>:&lt;locusTag>
@@ -102,7 +102,7 @@ Public Class Regulator
     Public Property Family As String
     Public Property Regulog As String
     Public Property Definition As String
-    Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+    Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
     Public Property Species As String
     ''' <summary>
     ''' identifier of regulator gene in MicrobesOnline database 

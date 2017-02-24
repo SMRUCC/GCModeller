@@ -46,7 +46,7 @@ Namespace Assembly.NCBI.CDD
 #Region "Public Property & Constants"
 
         Implements INamedValue
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
 
         <XmlAttribute>
         Public Property Id As Integer
@@ -61,7 +61,7 @@ Namespace Assembly.NCBI.CDD
         ''' </summary>
         ''' <remarks></remarks>
         <XmlText>
-        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
         ''' <summary>
         ''' UniqueId
         ''' </summary>

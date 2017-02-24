@@ -37,7 +37,7 @@ Namespace SequenceModel
     ''' </summary>
     ''' <remarks></remarks>
     Public MustInherit Class ISequenceModel : Inherits ClassObject
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
 
 #Region "Object properties"
 
@@ -47,7 +47,7 @@ Namespace SequenceModel
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overridable Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Overridable Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
         ''' <summary>
         ''' This sequence is a protein type sequence?(判断这条序列是否为蛋白质序列)
@@ -95,7 +95,7 @@ Namespace SequenceModel
         ''' or <see cref="ISequenceModel.NA_CHARS_ALL">nucleotide</see>.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function Get_CompositionVector(SequenceModel As I_PolymerSequenceModel, compositions As Char()) As Integer()
+        Public Shared Function Get_CompositionVector(SequenceModel As IPolymerSequenceModel, compositions As Char()) As Integer()
             Dim CompositionVector As Integer() = New Integer(compositions.Length - 1) {}
             Dim SequenceData As Char() = SequenceModel.SequenceData.ToUpper
 
@@ -114,7 +114,7 @@ Namespace SequenceModel
         ''' <param name="SequenceData"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function IsProteinSource(SequenceData As I_PolymerSequenceModel) As Boolean
+        Public Shared Function IsProteinSource(SequenceData As IPolymerSequenceModel) As Boolean
             Dim LQuery = (From c As Char
                           In SequenceData.SequenceData.ToUpper
                           Where c <> "N"c AndAlso AA_CHARS_ALL.IndexOf(c) > -1

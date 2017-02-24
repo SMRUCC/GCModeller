@@ -44,7 +44,7 @@ Namespace ProteinModel
     ''' <remarks></remarks>
     ''' 
     <XmlType("ProtDomains", [Namespace]:="http://gcmodeller.org/models/protein")>
-    Public Class Protein : Implements INamedValue, I_PolymerSequenceModel
+    Public Class Protein : Implements INamedValue, IPolymerSequenceModel
 
         ''' <summary>
         ''' 该目标蛋白质的唯一标识符
@@ -57,7 +57,7 @@ Namespace ProteinModel
         Public Property Organism As String
 
         <XmlElement> Public Property Description As String
-        <XmlElement> Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        <XmlElement> Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
         ''' <summary>
         ''' 结构域分布
         ''' </summary>

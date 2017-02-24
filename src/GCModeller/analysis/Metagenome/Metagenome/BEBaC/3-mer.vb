@@ -181,7 +181,7 @@ Namespace BEBaC
         ''' <param name="seq"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function GetVector(seq As I_PolymerSequenceModel) As Dictionary(Of I3Mers, Integer)
+        Public Function GetVector(seq As IPolymerSequenceModel) As Dictionary(Of I3Mers, Integer)
             Dim hash As New Dictionary(Of I3Mers, Integer)
             Dim nt As String = seq.SequenceData.ToUpper
             Dim n As Integer

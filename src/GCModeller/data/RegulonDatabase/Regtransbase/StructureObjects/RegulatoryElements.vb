@@ -449,7 +449,7 @@ Namespace Regtransbase.StructureObjects
     ''' ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
     ''' </remarks>
     Public Class Gene : Inherits RegulatoryElement
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
 
         ''' <summary>
         ''' location: localization in genome
@@ -464,7 +464,7 @@ Namespace Regtransbase.StructureObjects
         ''' signature: gene signature (30 nt beginning from start codon or 30 aa from N-end of the protein).
         ''' </summary>
         ''' <remarks></remarks>
-        <DatabaseField("signature")> Public Property signature As String Implements I_PolymerSequenceModel.SequenceData
+        <DatabaseField("signature")> Public Property signature As String Implements IPolymerSequenceModel.SequenceData
         ''' <summary>
         ''' metabol_path: metabolic pathway, for genes encoding enzymes or transporters
         ''' </summary>

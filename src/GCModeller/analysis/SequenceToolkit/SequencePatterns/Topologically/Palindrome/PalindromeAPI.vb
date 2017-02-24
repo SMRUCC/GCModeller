@@ -363,7 +363,7 @@ Namespace Topologically
         ''' <returns></returns>
         <ExportAPI("Search.Mirror")>
         <Extension>
-        Public Function SearchMirrorPalindrome(seq As I_PolymerSequenceModel,
+        Public Function SearchMirrorPalindrome(seq As IPolymerSequenceModel,
                                                Optional min% = 3,
                                                Optional max% = 20,
                                                Optional tag$ = Nothing) As PalindromeLoci()
@@ -387,7 +387,7 @@ Namespace Topologically
 
         <ExportAPI("Search.Palindrome")>
         <Extension>
-        Public Function SearchPalindrome(Sequence As I_PolymerSequenceModel,
+        Public Function SearchPalindrome(Sequence As IPolymerSequenceModel,
                                          Optional Min As Integer = 3,
                                          Optional Max As Integer = 20,
                                          Optional tag$ = Nothing) As PalindromeLoci()

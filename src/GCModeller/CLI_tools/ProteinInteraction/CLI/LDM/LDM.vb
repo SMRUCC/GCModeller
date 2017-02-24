@@ -59,7 +59,7 @@ Public Class Signature : Implements IAbstractFastaToken
     End Property
 
     <XmlText>
-    Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+    Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
     Public Overrides Function ToString() As String
         Return PfamString.ToString

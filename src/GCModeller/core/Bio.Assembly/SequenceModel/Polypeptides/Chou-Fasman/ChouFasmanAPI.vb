@@ -109,7 +109,7 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure
         ''' <param name="sequence"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Calculate(sequence As I_PolymerSequenceModel) As AminoAcid()
+        Public Function Calculate(sequence As IPolymerSequenceModel) As AminoAcid()
             Return ChouFasman.Calculate(sequence.SequenceData)
         End Function
 

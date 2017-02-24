@@ -343,7 +343,7 @@ Namespace Regtransbase.WebServices
 
     Public Class FastaObject
         Implements IReadOnlyId
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
         Implements I_FastaProvider
 
         <XmlAttribute> Public Property LocusTag As String
@@ -352,7 +352,7 @@ Namespace Regtransbase.WebServices
         <XmlAttribute> Public Property Score As Double
 
         <XmlElement("Sequence")>
-        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
         Public Property Bacteria As String
 
         Public ReadOnly Property UniqueId As String Implements IReadOnlyId.Identity

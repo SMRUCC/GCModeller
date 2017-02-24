@@ -64,7 +64,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DistanceMatrix.vb" />
+    <Compile Include="Matrix\DistanceMatrix.vb" />
     <Compile Include="Clusters.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

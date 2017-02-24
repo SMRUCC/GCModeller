@@ -36,7 +36,7 @@ Namespace SequenceModel.NucleotideModels
     ''' 没有更多的复杂的继承或者接口实现，只是最简单序列片段对象
     ''' </summary>
     Public Class SimpleSegment : Inherits Contig
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
 
         ''' <summary>
         ''' Probably synonym, locus_tag data
@@ -55,7 +55,7 @@ Namespace SequenceModel.NucleotideModels
         ''' 当前的这个位点的序列数据
         ''' </summary>
         ''' <returns></returns>
-        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
         ''' <summary>
         ''' The complements sequence of data <see cref="SequenceData"/>
         ''' </summary>

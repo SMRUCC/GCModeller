@@ -33,11 +33,11 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Namespace SabiorkKineticLaws.TabularDump
 
     Public Class EnzymeModifier : Inherits SabiorkEntity
-        Implements I_PolymerSequenceModel, INamedValue
+        Implements IPolymerSequenceModel, INamedValue
 
         Public Property Uniprot As String
         Public Property CommonName As String
-        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
         Public Overrides Function ToString() As String
             Return String.Format("{0}: {1}", Uniprot, CommonName)

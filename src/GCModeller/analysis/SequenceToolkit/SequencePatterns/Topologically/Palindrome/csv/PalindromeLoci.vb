@@ -39,7 +39,7 @@ Namespace Topologically
     ''' Mirror 或者 Palindrome 位点的搜索结果的csv文件存储模型
     ''' </summary>
     Public Class PalindromeLoci : Inherits Contig
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
         Implements ILoci
         Implements INumberTag
 
@@ -88,7 +88,7 @@ Namespace Topologically
         ''' (理论上这个序列属性的值应该是等于<see cref="loci"/> + <see cref="MirrorSite"/>)
         ''' </summary>
         ''' <returns></returns>
-        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
         ''' <summary>
         ''' 选出最长的片段
