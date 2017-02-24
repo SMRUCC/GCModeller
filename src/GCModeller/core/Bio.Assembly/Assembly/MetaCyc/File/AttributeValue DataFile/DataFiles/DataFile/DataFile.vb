@@ -192,7 +192,9 @@ Namespace Assembly.MetaCyc.File.DataFiles
         End Function
 
         Private Function IDictionary_TryGetValue(key As String, ByRef value As T) As Boolean Implements IDictionary(Of String, T).TryGetValue
-            Return FrameObjects.TryGetValue(key, value)
+            Dim success As Boolean
+            value = FrameObjects.TryGetValue(key, success)
+            Return success
         End Function
 
         Public Sub Add(item As KeyValuePair(Of String, T)) Implements ICollection(Of KeyValuePair(Of String, T)).Add

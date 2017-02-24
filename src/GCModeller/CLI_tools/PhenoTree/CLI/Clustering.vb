@@ -8,7 +8,6 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceTools.ClusterMatrix
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.Imaging
 
 Partial Module CLI
 
