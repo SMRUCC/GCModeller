@@ -276,6 +276,10 @@
       <Project>{4d83f459-ac49-4569-b40d-5a9d35edd397}</Project>
       <Name>PrimerDesigner</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\analysis\SequenceToolkit\ClusterMatrix\ClusterMatrix.vbproj">
+      <Project>{8eb1f309-4d69-4353-a5ff-539061540aa5}</Project>
+      <Name>ClusterMatrix</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.vbproj">
       <Project>{e54c3dc8-66a0-4617-aff8-d89457569723}</Project>
       <Name>DNA_Comparative</Name>

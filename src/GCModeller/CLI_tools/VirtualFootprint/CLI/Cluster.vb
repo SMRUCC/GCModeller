@@ -36,9 +36,9 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Analysis.SequenceTools.ClusterMatrix
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -63,11 +63,7 @@ Partial Module CLI
         Dim parallelDepth% = args.GetValue("/parallel.depth", -1)
 
         If args.GetBoolean("/first.ID") Then
-            For Each f As FastaToken In fa
-                f.Attributes = {
-                    f.Attributes(Scan0)
-                }
-            Next
+            Call fa.FirstTokenID
         End If
 
         Dim clusters As EntityLDM() = BinaryKmeans(fa, cut, minw, parallelDepth)
