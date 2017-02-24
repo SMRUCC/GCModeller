@@ -85,6 +85,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Matrix\Matrix.vb" />
     <Compile Include="Matrix\SmithWaterman.vb" />
     <Compile Include="Matrix\NeedlemanWunsch.vb" />
     <Compile Include="Clusters.vb" />
