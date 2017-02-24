@@ -1,4 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Clusters
@@ -26,4 +28,11 @@ Public Module Clusters
             f.Attributes = tokens(f)
         Next
     End Sub
+
+    <Extension>
+    Public Function KMeans(data As IEnumerable(Of DataSet), Optional expected% = 20) As EntityLDM()
+        Dim models As EntityLDM() = data.ToKMeansModels
+        Dim clusters As EntityLDM() = models.Kmeans(expected:=expected)
+        Return clusters
+    End Function
 End Module
