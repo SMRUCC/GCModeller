@@ -137,6 +137,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -160,6 +161,7 @@
     <Compile Include="BinaryTree\TreeClustering.vb" />
     <Compile Include="BinaryTree\Partition.vb" />
     <Compile Include="Extensions.vb" />
+    <Compile Include="KMeansNetwork.vb" />
     <Compile Include="NeuralNetwork\ModelAPI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

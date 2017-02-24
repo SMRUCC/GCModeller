@@ -145,7 +145,7 @@ Partial Module CLI
         Dim out As String =
             args.GetValue("/out", sites.TrimSuffix & $".{[in].BaseName}.fasta")
         Dim fa As New FASTA.FastaToken([in])
-        Dim parser As I_PolymerSequenceModel = fa
+        Dim parser As IPolymerSequenceModel = fa
         Dim seqs As New List(Of Bac_sRNA.org.Sequence)
         Dim ntTitle As String = fa.Attributes.Last.Trim
 

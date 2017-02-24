@@ -123,7 +123,7 @@ Namespace CEG
             ''' <value></value>
             ''' <returns></returns>
             ''' <remarks></remarks>
-            Public Property Nt As String Implements I_PolymerSequenceModel.SequenceData
+            Public Property Nt As String Implements IPolymerSequenceModel.SequenceData
 
             Public Property Species As String
 

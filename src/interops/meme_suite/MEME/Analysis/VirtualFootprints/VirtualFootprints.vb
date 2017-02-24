@@ -54,7 +54,7 @@ Namespace Analysis.GenomeMotifFootPrints
 
         Friend Function __createMotifSiteInfo(Of T As IGeneBrief)(
                                  data As MEMEOutput,
-                                 GenomeSequence As I_PolymerSequenceModel,
+                                 GenomeSequence As IPolymerSequenceModel,
                                  GeneBriefInformation As IEnumerable(Of T),
                                  Optional ATGDistance As Integer = 500) As VirtualFootprints()
 
@@ -97,7 +97,7 @@ Namespace Analysis.GenomeMotifFootPrints
         Public Function CreateMotifSiteInfo(Of T As IGeneBrief)(
                         data As MEME.LDM.Motif,
                         mast As MatchedSite,
-                        GenomeSequence As I_PolymerSequenceModel,
+                        GenomeSequence As IPolymerSequenceModel,
                         GeneBriefInformation As IEnumerable(Of T),
                         Optional ATGDistance As Integer = 500) As VirtualFootprints()
 

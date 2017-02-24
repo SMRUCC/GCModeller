@@ -49,7 +49,7 @@ Namespace SequenceModel.FASTA
     <PackageNamespace("GCModeller.IO.FastaToken", Publisher:="amethyst.asuka@gcmodeller.org")>
     <ActiveViews(FastaToken.SampleView, type:="bash")>
     Public Class FastaToken : Inherits ISequenceModel
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
         Implements IAbstractFastaToken
         Implements ISaveHandle
         Implements I_FastaProvider
@@ -160,6 +160,11 @@ AAGCGAACAAATGTTCTATA"
         End Sub
 #End Region
 
+        ''' <summary>
+        ''' NCBI style header delimiter
+        ''' </summary>
+        Public Const DefaultHeaderDelimiter As String = "|"
+
         Sub New()
         End Sub
 
@@ -196,7 +201,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function ToString() As String
-            Return String.Join("|", Me.Attributes)
+            Return String.Join(DefaultHeaderDelimiter, Me.Attributes)
         End Function
 
         ''' <summary>
@@ -302,14 +307,20 @@ AAGCGAACAAATGTTCTATA"
         ''' 
         <ExportAPI("FastaToken.From.Stream")>
         Public Shared Function ParseFromStream(stream As IEnumerable(Of String), deli As Char()) As FastaToken
-            If stream.IsNullOrEmpty Then Return Nothing
+            If stream.IsNullOrEmpty Then
+                Return Nothing
+            End If
 
             Dim lines As String() = stream.ToArray
-            Dim fa As New FastaToken
+            Dim attrs$() = Mid(lines(Scan0), 2).Split(deli)
+            Dim removeInvalids = Function(s$) s.Replace(StreamIterator.SOH, "")
 
-            fa.Attributes = Mid(lines(Scan0), 2).Split(deli)
-            fa.Attributes = fa.Attributes.ToArray(Function(s) s.Replace(StreamIterator.SOH, ""))
-            fa.SequenceData = String.Join("", lines.Skip(1).ToArray)  ' Linux mono does not support <Extension> attribute!
+            attrs = attrs.ToArray(removeInvalids)
+
+            Dim fa As New FastaToken With {
+                .Attributes = attrs,
+                .SequenceData = String.Join("", lines.Skip(1).ToArray)  ' Linux mono does not support <Extension> attribute!
+            }
 
             Return fa
         End Function
@@ -317,16 +328,14 @@ AAGCGAACAAATGTTCTATA"
         ''' <summary>
         ''' Try parsing a fasta sequence object from a string chunk value.(尝试从一个字符串之中解析出一个fasta序列数据)
         ''' </summary>
-        ''' <param name="strData">The string text value which is in the Fasta format.(FASTA格式的序列文本)</param>
+        ''' <param name="s">The string text value which is in the Fasta format.(FASTA格式的序列文本)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("FastaToken.Parser")>
-        Public Shared Function TryParse(strData As String, Optional deli As Char = "|"c) As FastaToken
-            Dim LQuery = (From strLine As String
-                          In strData.Split(CChar(vbLf))
-                          Select strLine.Replace(vbCr, "")).ToArray
-            Return FastaToken.ParseFromStream(LQuery, {deli})
+        Public Shared Function TryParse(s As String, Optional deli As Char = DefaultHeaderDelimiter) As FastaToken
+            Dim lines$() = s.lTokens
+            Return FastaToken.ParseFromStream(lines, {deli})
         End Function
 
         ''' <summary>
@@ -343,7 +352,7 @@ AAGCGAACAAATGTTCTATA"
             If [overrides] Then
                 Call sb.Append(Me.ToString)
             Else
-                Call sb.Append(String.Join("|", Attributes))
+                Call sb.Append(String.Join(DefaultHeaderDelimiter, Attributes))
             End If
 
             Call sb.AppendLine()

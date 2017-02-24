@@ -44,7 +44,7 @@ Namespace Analysis.MotifScans
     ''' 通过MAST程序扫描RegPrecise数据库里面的Motif Fasta所得到的结果
     ''' </summary>
     Public Class MotifSiteHit
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
 
         ''' <summary>
         ''' 这个属性是记录了这个motif位点的来源信息，这个是用于Csv文档的，Xml文档会被忽略掉
@@ -63,7 +63,7 @@ Namespace Analysis.MotifScans
         ''' <returns></returns>
         <XmlAttribute> Public Property RegPrecise As String
         <XmlAttribute> Public Property Regulators As String()
-        <XmlAttribute> Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        <XmlAttribute> Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
         Sub New()
         End Sub

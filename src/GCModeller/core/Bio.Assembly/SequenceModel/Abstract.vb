@@ -37,7 +37,7 @@ Namespace SequenceModel
     ''' Sequence model for a macro biomolecule sequence.
     ''' </summary>
     ''' <remarks></remarks>
-    Public Interface I_PolymerSequenceModel
+    Public Interface IPolymerSequenceModel
 
         ''' <summary>
         ''' <see cref="System.String"></see> type sequence data for the target <see cref="ISequenceModel"/> sequence model object.

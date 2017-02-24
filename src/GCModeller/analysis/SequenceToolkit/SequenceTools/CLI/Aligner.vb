@@ -62,6 +62,26 @@ Partial Module Utilities
         Return 0
     End Function
 
+    <ExportAPI("/NeedlemanWunsch.NT",
+               Usage:="/NeedlemanWunsch.NT /query <nt> /subject <nt>")>
+    Public Function NWNT(args As CommandLine) As Integer
+        Dim query As New FastaToken With {
+            .Attributes = {"query_nt"},
+            .SequenceData = args <= "/query"
+        }
+        Dim target As New FastaToken With {
+            .Attributes = {"target_nt"},
+            .SequenceData = args <= "/subject"
+        }
+
+        Dim score# = RunNeedlemanWunsch.RunAlign(query, target, False, echo:=True)
+
+        Call println()
+        Call println("------------------> alignment_score:=" & score)
+
+        Return 0
+    End Function
+
     <ExportAPI("/align", Usage:="/align /query <query.fasta> /subject <subject.fasta> [/blosum <matrix.txt> /out <out.xml>]")>
     <Group(CLIGrouping.Aligner)>
     Public Function Align2(args As CommandLine) As Integer

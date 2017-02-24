@@ -53,7 +53,7 @@ Public Class Contig : Inherits NucleotideModels.Contig
     End Property
 
     Public Property Attributes As String() Implements IAbstractFastaToken.Attributes
-    Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+    Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
     Public Function ToFastaToken() As FastaToken
         Return New FastaToken With {

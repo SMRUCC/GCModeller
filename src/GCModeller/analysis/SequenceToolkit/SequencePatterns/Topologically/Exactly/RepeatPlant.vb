@@ -60,10 +60,10 @@ Namespace Topologically
     ''' 正向重复位点的序列模型
     ''' </summary>
     Public Class RepeatsView : Implements ILoci
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
 
         Public Property Left As Integer Implements ILoci.Left
-        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
         Public Property Locis As Integer()
         Public ReadOnly Property Length As Integer
             Get
@@ -202,7 +202,7 @@ Namespace Topologically
     ''' </summary>
     Public Class RevRepeatsView : Inherits RepeatsView
         Implements ILoci
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
 
         Public Property RevLocis As Integer()
         Public Property RevSegment As String

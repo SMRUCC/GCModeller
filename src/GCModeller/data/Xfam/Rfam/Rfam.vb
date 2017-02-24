@@ -33,7 +33,7 @@ Imports SMRUCC.genomics.SequenceModel
 ''' 相当于RNA调控因子的数据结构
 ''' </summary>
 Public Class Rfamily : Inherits NucleotideModels.Contig
-    Implements I_PolymerSequenceModel
+    Implements IPolymerSequenceModel
 
     ''' <summary>
     ''' 数据库之中得到的匹配记录
@@ -66,7 +66,7 @@ Public Class Rfamily : Inherits NucleotideModels.Contig
         End Get
     End Property
 
-    Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+    Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
     Protected Overrides Function __getMappingLoci() As NucleotideLocation
         Return New NucleotideLocation(Left, Right, Strand)

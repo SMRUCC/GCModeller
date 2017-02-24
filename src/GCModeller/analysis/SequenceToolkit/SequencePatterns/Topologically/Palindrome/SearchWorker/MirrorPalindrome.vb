@@ -58,7 +58,7 @@ Namespace Topologically
         ''' <param name="Sequence"></param>
         ''' <param name="Min"></param>
         ''' <param name="Max"></param>
-        Sub New(Sequence As I_PolymerSequenceModel,
+        Sub New(Sequence As IPolymerSequenceModel,
                 <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> Min As Integer,
                 <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer)
 

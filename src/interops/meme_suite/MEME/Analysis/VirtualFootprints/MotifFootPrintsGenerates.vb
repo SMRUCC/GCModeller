@@ -122,7 +122,7 @@ Namespace Analysis.GenomeMotifFootPrints
         ''' <param name="grouped">已经按照<see cref="PredictedRegulationFootprint.Starts"></see>属性进行排序</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function __reGenerate(grouped As IEnumerable(Of PredictedRegulationFootprint), Genome As I_PolymerSequenceModel) As PredictedRegulationFootprint
+        Private Function __reGenerate(grouped As IEnumerable(Of PredictedRegulationFootprint), Genome As IPolymerSequenceModel) As PredictedRegulationFootprint
             'Dim RightAligned = (From item In grouped Select item Order By item.Ends Descending).First
             'Dim ReGeneratedData As PredictedRegulationFootprint = grouped.First.Clone
             'ReGeneratedData.Starts = grouped.First.Starts
@@ -304,7 +304,7 @@ Namespace Analysis.GenomeMotifFootPrints
         <ExportAPI("Footprint.Generate.From.Text")>
         Public Function FootprintMatchesTEXT(MEME_Text As String,
                                              MAST_html As String,
-                                             GenomeSequence As I_PolymerSequenceModel,
+                                             GenomeSequence As IPolymerSequenceModel,
                                              GeneBriefInformation As PTT,
                                              Optional ATGDistance As Integer = 500,
                                              Optional FilterPromoter As Boolean = False) As VirtualFootprints()

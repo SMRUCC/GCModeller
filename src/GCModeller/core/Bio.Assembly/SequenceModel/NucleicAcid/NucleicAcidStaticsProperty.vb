@@ -136,7 +136,7 @@ Namespace SequenceModel.NucleotideModels
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("GC%", Info:="Calculate the GC content of the target sequence data.")>
-        Public Function GCContent(Sequence As I_PolymerSequenceModel) As Double
+        Public Function GCContent(Sequence As IPolymerSequenceModel) As Double
             Return GCContent(Sequence.SequenceData)
         End Function
 
@@ -184,7 +184,7 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="Circular"></param>
         ''' <returns></returns>
         <ExportAPI("GC%", Info:="Calculate the GC content of the target sequence data.")>
-        Public Function GCContent(SequenceModel As I_PolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
+        Public Function GCContent(SequenceModel As IPolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
             Return __contentCommon(SequenceModel, SlideWindowSize, Steps, Circular, {"G", "C"})
         End Function
 
@@ -197,7 +197,7 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="Circular"></param>
         ''' <param name="base">必须是大写的字符</param>
         ''' <returns></returns>
-        Private Function __contentCommon(SequenceModel As I_PolymerSequenceModel,
+        Private Function __contentCommon(SequenceModel As IPolymerSequenceModel,
                                          SlideWindowSize As Integer,
                                          Steps As Integer,
                                          Circular As Boolean,
@@ -209,7 +209,7 @@ Namespace SequenceModel.NucleotideModels
             End If
         End Function
 
-        Private Function __liner(SequenceModel As I_PolymerSequenceModel,
+        Private Function __liner(SequenceModel As IPolymerSequenceModel,
                                  SlideWindowSize As Integer,
                                  Steps As Integer,
                                  base As Char()) As Double()
@@ -225,7 +225,7 @@ Namespace SequenceModel.NucleotideModels
             Return ChunkBuffer.ToArray
         End Function
 
-        Private Function __circular(SequenceModel As I_PolymerSequenceModel,
+        Private Function __circular(SequenceModel As IPolymerSequenceModel,
                                     SlideWindowSize As Integer,
                                     Steps As Integer,
                                     base As Char()) As Double()
@@ -254,11 +254,11 @@ Namespace SequenceModel.NucleotideModels
         End Function
 
         <ExportAPI("AT%")>
-        Public Function ATPercent(SequenceModel As I_PolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
+        Public Function ATPercent(SequenceModel As IPolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
             Return __contentCommon(SequenceModel, SlideWindowSize, Steps, Circular, {"A", "T"})
         End Function
 
-        Public Delegate Function NtProperty(SequenceModel As I_PolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
+        Public Delegate Function NtProperty(SequenceModel As IPolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
 
         ''' <summary>
         ''' Calculation the GC skew of a specific nucleotide acid sequence.
@@ -270,7 +270,7 @@ Namespace SequenceModel.NucleotideModels
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("GCSkew", Info:="Calculation the GC skew of a specific nucleotide acid sequence.")>
-        Public Function GCSkew(SequenceModel As I_PolymerSequenceModel, slideWindowSize As Integer, steps As Integer, isCircular As Boolean) As Double()
+        Public Function GCSkew(SequenceModel As IPolymerSequenceModel, slideWindowSize As Integer, steps As Integer, isCircular As Boolean) As Double()
             Dim SequenceData As String = SequenceModel.SequenceData.ToUpper
             Dim bufs As New List(Of Double)
 

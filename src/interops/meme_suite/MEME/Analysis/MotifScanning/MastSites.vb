@@ -44,7 +44,7 @@ Namespace Analysis.MotifScans
     ''' 使用某一个Motif的MEME模型扫描整个基因组的结果
     ''' </summary>
     Public Class MastSites : Inherits NucleotideModels.Contig
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
         Implements ISiteReader
 
         Public Property Start As Integer Implements ISiteReader.gStart
@@ -54,7 +54,7 @@ Namespace Analysis.MotifScans
         <Column("MEME.E-value")>
         Public Property evalue As Double
         Public Property match As String
-        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
         ''' <summary>
         ''' 在Regprecise之中的调控位点的记录，这个是通过meme模型来获取的，然后再根据这个就可以找到调控因子了，再结合bbh结果就可以计算出预测的调控关系了

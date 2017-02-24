@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.SequenceModel
 
 Namespace Output
 
-    Public Class Loci : Implements I_PolymerSequenceModel
+    Public Class Loci : Implements IPolymerSequenceModel
 
         ''' <summary>
         ''' 起始位置
@@ -45,7 +45,7 @@ Namespace Output
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute> Public Property Left As Integer
-        <XmlAttribute> Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        <XmlAttribute> Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
         Public ReadOnly Property Right As Integer
             Get

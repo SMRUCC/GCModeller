@@ -184,10 +184,10 @@ Namespace SequenceModel.NucleotideModels
         End Sub
 
         ''' <summary>
-        ''' Construct the nucleotide sequence from a nt sequence model interface <see cref="I_PolymerSequenceModel"/>
+        ''' Construct the nucleotide sequence from a nt sequence model interface <see cref="IPolymerSequenceModel"/>
         ''' </summary>
         ''' <param name="SequenceData"></param>
-        Sub New(SequenceData As I_PolymerSequenceModel)
+        Sub New(SequenceData As IPolymerSequenceModel)
             Call __convertSequence(SequenceData.SequenceData)
         End Sub
 

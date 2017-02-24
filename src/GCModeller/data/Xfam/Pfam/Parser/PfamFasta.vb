@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.SequenceModel
 Namespace PfamFastaComponentModels
 
     Public Class PfamFasta : Inherits PfamCommon
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
         Implements IAbstractFastaToken
 
         Public Property Location As SMRUCC.genomics.ComponentModel.Loci.Location

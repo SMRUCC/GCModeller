@@ -132,8 +132,8 @@ Public Class Primer
         End Get
     End Property
 
-    Dim _Template As I_PolymerSequenceModel
-    Dim _ReversedTemplate As I_PolymerSequenceModel
+    Dim _Template As IPolymerSequenceModel
+    Dim _ReversedTemplate As IPolymerSequenceModel
 
     Sub New(Template As NucleicAcid)
         _Template = Template

@@ -36,13 +36,13 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Assembly.Bac_sRNA.org
 
     Public Class Sequence : Inherits Contig
-        Implements I_PolymerSequenceModel
+        Implements IPolymerSequenceModel
 
         Public ReadOnly Property UniqueId As String
         Public ReadOnly Property Specie As String
         Public ReadOnly Property Name As String
 
-        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
             Get
                 Return __raw.SequenceData
             End Get

@@ -65,7 +65,7 @@ Namespace DocumentFormat.MAST.HTML
                 ' DO NOTHING
             End Set
         End Property
-        Public Property SequenceData As String Implements I_PolymerSequenceModel.SequenceData
+        Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
         Public Overrides Function ToString() As String
             Return $"{SequenceId} <--> Motif_{MotifId}:  E-value:={EValue}, #{Starts},{Ends}"

@@ -63,7 +63,7 @@ Namespace Topologically
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Invoke.Search")>
-        Public Function SearchRepeats(SequenceData As I_PolymerSequenceModel,
+        Public Function SearchRepeats(SequenceData As IPolymerSequenceModel,
                                       <Parameter("Min.Len", "The minimum length of the repeat sequence loci.")> Min As Integer,
                                       <Parameter("Max.Len", "The maximum length of the repeat sequence loci.")> Max As Integer,
                                       Optional MinAppeared As Integer = 2) As Repeats()
@@ -133,7 +133,7 @@ RETURN_VALUE:
         End Function
 
         <ExportAPI("Invoke.Search.Reversed")>
-        Public Function SearchReversedRepeats(SequenceData As I_PolymerSequenceModel,
+        Public Function SearchReversedRepeats(SequenceData As IPolymerSequenceModel,
                                               Min As Integer,
                                               Max As Integer,
                                               Optional MinAppeared As Integer = 2) As RevRepeats()

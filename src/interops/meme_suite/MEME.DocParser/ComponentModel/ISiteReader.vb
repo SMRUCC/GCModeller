@@ -30,7 +30,7 @@ Imports SMRUCC.genomics.SequenceModel
 
 Namespace ComponentModel
 
-    Public Interface ISiteReader : Inherits I_PolymerSequenceModel
+    Public Interface ISiteReader : Inherits IPolymerSequenceModel
         ReadOnly Property Distance As Integer
         ReadOnly Property ORF As String
         ReadOnly Property Strand As String

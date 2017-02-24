@@ -302,7 +302,7 @@ Namespace Assembly.NCBI.GenBank
                                         .Attributes = New String() {Entry.AccessionID},
                                         .SequenceData = GBKFF.Origin.SequenceData.ToUpper
                                     }
-                                Let reader As I_PolymerSequenceModel = GBKFF.Origin
+                                Let reader As IPolymerSequenceModel = GBKFF.Origin
                                 Let GeneFastaDump = CType((From GeneObject In GBKFF.Features._innerList.AsParallel
                                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                                            Let loc = GeneObject.Location.ContiguousRegion
@@ -452,7 +452,7 @@ Namespace Assembly.NCBI.GenBank
                 Call PlasmidList.Add(Plasmid)
                 Call Plasmid.SaveTo(String.Format("{0}/plasmids/{1}.fasta", FastaExport, gb.Accession.AccessionId))
 
-                Dim reader As I_PolymerSequenceModel = gb.Origin
+                Dim reader As IPolymerSequenceModel = gb.Origin
                 Dim GeneFastaDump = CType((From GeneObject In gb.Features._innerList.AsParallel
                                            Where String.Equals(GeneObject.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                            Let loc = GeneObject.Location.ContiguousRegion
@@ -521,7 +521,7 @@ Namespace Assembly.NCBI.GenBank
         ''' <returns></returns>
         <Extension>
         Public Function ExportGeneNtFasta(gb As GBFF.File, Optional geneName As Boolean = False) As FASTA.FastaFile
-            Dim reader As I_PolymerSequenceModel = gb.Origin
+            Dim reader As IPolymerSequenceModel = gb.Origin
             Dim list As New List(Of FASTA.FastaToken)
             Dim loc As NucleotideLocation = Nothing
             Dim attrs As String() = Nothing

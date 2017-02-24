@@ -26,11 +26,14 @@
 
 #End Region
 
+Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -134,35 +137,43 @@ Partial Module CLI
         Return network.Save(out, Encodings.UTF8).CLICode
     End Function
 
-    <ExportAPI("/MAT2NET", Usage:="/MAT2NET /in <mat.csv> [/out <net.csv> /cutoff 0]")>
+    <ExportAPI("/Matrix.NET",
+               Info:="Converts a generic distance matrix or kmeans clustering result to network model.",
+               Usage:="/Matrix.NET /in <kmeans-out.csv> [/out <net.DIR> /generic /colors <clusters> /cutoff 0 /cutoff.paired]")>
     <Group(CLIGrouping.Metagenomics)>
+    <Argument("/in", AcceptTypes:={GetType(EntityLDM), GetType(DataSet)})>
+    <Argument("/generic", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this argument parameter was presents, then the ""/in"" input data is a generic matrix(DataSet) type, otherwise is a kmeans output result csv file.")>
     Public Function MatrixToNetwork(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
-        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".network.Csv")
-        Dim Csv = IO.File.Load(Path:=inFile)
-        Dim ids As String() = Csv.First.Skip(1).ToArray
-        Dim net As New List(Of NetworkEdge)
+        Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".network/")
+        Dim colors$ = args.GetValue("/colors", "clusters")
+        Dim data As EntityLDM()
+
+        If args.GetBoolean("/generic") Then
+            data = DataSet.LoadDataSet(inFile).ToKMeansModels
+        Else
+            data = inFile.LoadCsv(Of EntityLDM)
+        End If
+
         Dim cutoff As Double = args.GetDouble("/cutoff")
+        Dim clusters$() = data.Select(Function(d) d.Cluster).Distinct.ToArray
+        Dim clusterColors As Dictionary(Of String, Color) = Designer _
+            .GetColors(colors, clusters.Length) _
+            .SeqIterator _
+            .ToDictionary(Function(cluster) clusters(cluster),
+                          Function(color) +color)
+        Dim cut As Func(Of Double, Boolean)
 
-        For Each row As IO.RowObject In Csv.Skip(1)
-            Dim from As String = row.First
-            Dim values As Double() = row.Skip(1).ToArray(Function(x) Val(x))
+        If args.GetBoolean("/cutoff.paired") Then
+            cut = Function(score) Math.Abs(score) > cutoff
+        Else
+            cut = Function(d) d > cutoff
+        End If
 
-            For i As Integer = 0 To ids.Length - 1
-                Dim n As Double = values(i)
-
-                If n <> 0R AndAlso Not Double.IsNaN(n) AndAlso n <= cutoff Then
-                    Dim edge As New NetworkEdge With {
-                        .FromNode = from,
-                        .Confidence = n,
-                        .ToNode = ids(i)
-                    }
-                    Call net.Add(edge)
-                End If
-            Next
-        Next
-
-        Return net.SaveTo(out).CLICode
+        Dim net As Network = data.ToNetwork(clusterColors, cut:=cut)
+        Return net.Save(out, Encodings.ASCII).CLICode
     End Function
 
     <ExportAPI("/BLAST.Metagenome.SSU.Network",

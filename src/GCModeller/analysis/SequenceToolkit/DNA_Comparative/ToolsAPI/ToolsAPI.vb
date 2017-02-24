@@ -97,7 +97,7 @@ Public Module ToolsAPI
 
     <ExportAPI("Simple.Partition.Create")>
     Public Function CreateSimplePartition(genbank As GBFF.File, data As IEnumerable(Of ChromosomePartitioningEntry)) As PartitioningData()
-        Dim Reader As I_PolymerSequenceModel = genbank.Origin.ToFasta
+        Dim Reader As IPolymerSequenceModel = genbank.Origin.ToFasta
         Dim dGroup = From x As ChromosomePartitioningEntry
                      In data
                      Select x
@@ -184,7 +184,7 @@ Public Module ToolsAPI
 
     Private Function __getSequence(row As DynamicObjectLoader,
                                    tag As String,
-                                   Reader As I_PolymerSequenceModel,
+                                   Reader As IPolymerSequenceModel,
                                    StartTag As String,
                                    <Parameter("Column.Stop")> StopTag As String,
                                    Nt As FastaToken) As PartitioningData
@@ -223,7 +223,7 @@ Public Module ToolsAPI
                                        <Parameter("With.Rule")> Rule As FastaToken,
                                        St As Integer,
                                        Sp As Integer) As IO.DataFrame
-        Dim Reader As I_PolymerSequenceModel = Rule
+        Dim Reader As IPolymerSequenceModel = Rule
         Dim fa As New FastaToken With {
             .SequenceData = Reader.CutSequenceLinear(St, Sp - St).SequenceData
         }
@@ -357,7 +357,7 @@ Public Module ToolsAPI
                     Continue For
                 End If
 
-                Dim Reader As I_PolymerSequenceModel = Rule
+                Dim Reader As IPolymerSequenceModel = Rule
                 Dim St As Integer = locus.dnaA.Location.Left
                 Dim Sp As Integer = locus.gyrB.Location.Right
 

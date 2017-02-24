@@ -38,7 +38,7 @@ Namespace TrackDatas.NtProps
     ''' <remarks></remarks>
     Public Class GCSkew : Inherits data(Of ValueTrackData)
 
-        Sub New(nt As I_PolymerSequenceModel,
+        Sub New(nt As IPolymerSequenceModel,
                 slideWinSize As Integer,
                 steps As Integer,
                 isCircular As Boolean,

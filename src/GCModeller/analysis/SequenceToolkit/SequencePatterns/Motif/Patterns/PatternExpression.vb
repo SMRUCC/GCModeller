@@ -65,7 +65,7 @@ Namespace Motif.Patterns
         ''' </summary>
         Dim __rc As Regex
 
-        Public Function Match(seq As I_PolymerSequenceModel) As SimpleSegment()
+        Public Function Match(seq As IPolymerSequenceModel) As SimpleSegment()
             Dim nt As String = seq.SequenceData.ToUpper
             Dim matches = __regex.Matches(nt).ToArray
 

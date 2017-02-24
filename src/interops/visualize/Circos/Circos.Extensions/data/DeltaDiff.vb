@@ -39,7 +39,7 @@ Namespace Documents.Karyotype.NtProps
         Dim _Steps As Integer
         Dim dbufs As Double()
 
-        Sub New(SequenceModel As I_PolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer)
+        Sub New(SequenceModel As IPolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer)
             Me._Steps = Steps
             Dim NT = New NucleotideModels.NucleicAcid(SequenceModel)
             Dim SW = NT.ToArray.CreateSlideWindows(SlideWindowSize, Steps)

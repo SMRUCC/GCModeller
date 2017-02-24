@@ -42,7 +42,7 @@ Namespace Reports.DocumentElements
         <XmlAttribute> Public Property COG As String
         Public Property PossibleFunction As String
         Public Property AnnotationSource As TripleKeyValuesPair
-        <XmlText> Public Property ProteinSequence As String Implements I_PolymerSequenceModel.SequenceData
+        <XmlText> Public Property ProteinSequence As String Implements IPolymerSequenceModel.SequenceData
 
         Public ReadOnly Property Title As String Implements SequenceModel.FASTA.IAbstractFastaToken.Title
             Get

@@ -9,14 +9,14 @@ Namespace Topologically.Seeding
     ''' </summary>
     Public Class SeedBox
 
-        ReadOnly __seq As I_PolymerSequenceModel
+        ReadOnly __seq As IPolymerSequenceModel
         ReadOnly __chars As Char()
 
         ''' <summary>
         ''' 会将``*``和``-``这些缺口的符号是需要被过滤掉的
         ''' </summary>
         ''' <param name="seq"></param>
-        Sub New(seq As I_PolymerSequenceModel)
+        Sub New(seq As IPolymerSequenceModel)
             ' 获取所有的残基的符号
             __chars = seq.SequenceData _
                 .ToArray _
@@ -47,7 +47,7 @@ Namespace Topologically.Seeding
         ''' <param name="min%"></param>
         ''' <param name="max%"></param>
         ''' <returns></returns>
-        Public Shared Iterator Function PopulateSeedsFromSeedsFile(seeds$, seq As I_PolymerSequenceModel, min%, max%) As IEnumerable(Of Seed())
+        Public Shared Iterator Function PopulateSeedsFromSeedsFile(seeds$, seq As IPolymerSequenceModel, min%, max%) As IEnumerable(Of Seed())
             Dim data As SeedData = SeedData.Load(seeds)
             Dim lg = From seed As String
                      In data.Seeds
@@ -65,7 +65,7 @@ Namespace Topologically.Seeding
             Next
         End Function
 
-        Public Shared Iterator Function PopulateSeedsFromSequence(seq As I_PolymerSequenceModel, min%, max%) As IEnumerable(Of Seed())
+        Public Shared Iterator Function PopulateSeedsFromSequence(seq As IPolymerSequenceModel, min%, max%) As IEnumerable(Of Seed())
             Dim box As New SeedBox(seq)
 
             For Each pack In box.PopulateSeeds(min, max)

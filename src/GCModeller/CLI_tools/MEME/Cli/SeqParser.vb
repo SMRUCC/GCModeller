@@ -211,7 +211,7 @@ Partial Module CLI
         End If
 
         Dim PTT As PTT = PTTDb.ORF_PTT
-        Dim parser As I_PolymerSequenceModel = PTTDb.GenomeFasta
+        Dim parser As IPolymerSequenceModel = PTTDb.GenomeFasta
 
         For Each siteGroup In GroupHash
             Dim path As String = out & "/" & siteGroup.Key.NormalizePathString(False) & ".fa"

@@ -60,7 +60,7 @@ Namespace Workflows.PromoterParser
             Me.Promoter_500 = CreateObject(500, Door, GenomeSeq)
         End Sub
 
-        Private Shared Function CreateObject(SegmentLength As Integer, Door As OperonView, GenomeSeq As I_PolymerSequenceModel) As Dictionary(Of String, FASTA.FastaToken)
+        Private Shared Function CreateObject(SegmentLength As Integer, Door As OperonView, GenomeSeq As IPolymerSequenceModel) As Dictionary(Of String, FASTA.FastaToken)
             Dim LQuery = (From i As Integer
                           In Door.Operons.Sequence.AsParallel
                           Let Operon = Door.Operons(i)
@@ -76,7 +76,7 @@ Namespace Workflows.PromoterParser
                                          SegmentLength As Integer,
                                          Operon As Operon,
                                          FirstGene As GeneBrief,
-                                         GenomeSeq As I_PolymerSequenceModel) _
+                                         GenomeSeq As IPolymerSequenceModel) _
             As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
 
             Dim PromoterFsa As SequenceModel.FASTA.FastaToken =
