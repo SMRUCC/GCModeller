@@ -39,7 +39,7 @@ Public Module Matrix
         Dim vector As New Dictionary(Of String, Double)
 
         For Each target As FastaToken In buffer
-            score = RunNeedlemanWunsch.RunAlign(query, target, True, dev)
+            score = RunNeedlemanWunsch.RunAlign(query, target, True, dev, echo:=False)
             dev.WriteLine()
             vector.Add(target.Title, score)
         Next
@@ -56,6 +56,8 @@ Public Module Matrix
             Call out.WriteLine(query.Title)
             Call out.WriteLine(block)
             Call out.WriteLine()
+
+            Call query.Title.__DEBUG_ECHO
         End SyncLock
 
         Return New DataSet With {

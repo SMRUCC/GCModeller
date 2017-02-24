@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -6,6 +7,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.ClusterMatrix
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -25,18 +27,20 @@ Partial Module CLI
             Call fasta.FirstTokenID
         End If
 
-        Dim matrix As DataSet() = fasta.SimilarityMatrix
-        Dim clusters As EntityLDM() = matrix.KMeans(expected)
-        Dim colors As Color() = Designer.GetColors(args <= "/colors", expected)
-        Dim clusterColors As Dictionary(Of String, Color) = clusters _
-            .Select(Function(x) x.Cluster) _
-            .Distinct _
-            .SeqIterator _
-            .ToDictionary(Function(cluster) +cluster,
-                          Function(color) colors(color))
+        Using log As StreamWriter = (out & "/alignment.txt").OpenWriter(Encodings.ASCII)
+            Dim matrix As DataSet() = fasta.SimilarityMatrix(out:=log)
+            Dim clusters As EntityLDM() = matrix.KMeans(expected)
+            Dim colors As Color() = Designer.GetColors(args <= "/colors", expected)
+            Dim clusterColors As Dictionary(Of String, Color) = clusters _
+                .Select(Function(x) x.Cluster) _
+                .Distinct _
+                .SeqIterator _
+                .ToDictionary(Function(cluster) +cluster,
+                              Function(color) colors(color))
 
-        Call clusters.SaveTo(out & "/clusters.csv")
-        Call clusters.ToNetwork(clusterColors).Save(out)
+            Call clusters.SaveTo(out & "/clusters.csv")
+            Call clusters.ToNetwork(clusterColors).Save(out)
+        End Using
 
         Return 0
     End Function
