@@ -48,6 +48,7 @@ Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.SoftwareToolkits
+Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Windows.Forms.VistaSecurity
 
 '                   _ooOoo_
@@ -359,9 +360,10 @@ Public Module App
     ''' 假若有些时候函数的参数要求有一个输出流，但是并不想输出任何数据的话，则可以使用这个进行输出
     ''' </summary>
     ''' <returns></returns>
-    Public Function NullDevice() As StreamWriter
+    Public Function NullDevice(Optional encoding As Encodings = Encodings.ASCII) As StreamWriter
         Dim ms As New MemoryStream(capacity:=BufferSize)
-        Return New StreamWriter(ms)
+        Dim codePage As Encoding = encoding.GetEncodings
+        Return New StreamWriter(ms, encoding:=codePage)
     End Function
 
     ''' <summary>
