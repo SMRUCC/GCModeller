@@ -44,6 +44,7 @@ Public Module RunNeedlemanWunsch
     ''' Run the Needleman-Wunsch Algorithm 
     ''' </summary>
     ''' <param name="fasta1"> commandline arguments </param>
+    ''' <param name="output">假若这个参数为空，则会被输出到终端窗口，如果不想有任何输出，则可以重定向到<see cref="App.NullDevice"/></param>
     ''' <exception cref="Exception"> </exception>
     ''' <returns>This function returns the alignment score</returns>
     Public Function RunAlign(fasta1 As FASTA.FastaToken,
@@ -102,6 +103,7 @@ Public Module RunNeedlemanWunsch
     ''' Run the Needleman-Wunsch Algorithm 
     ''' </summary>
     ''' <param name="fasta1"> commandline arguments </param>
+    ''' <param name="outfile">假若文件路径的参数为空，则会被输出到终端</param>
     ''' <exception cref="Exception"> </exception>
     ''' <returns>This function returns the alignment score</returns>
     Public Function RunAlign(fasta1 As FASTA.FastaToken, fasta2 As FASTA.FastaToken, [single] As Boolean, Optional outfile$ = Nothing) As Double
