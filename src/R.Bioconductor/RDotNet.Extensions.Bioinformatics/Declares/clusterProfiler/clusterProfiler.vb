@@ -35,13 +35,30 @@ Namespace clusterProfiler
             Dim genes = base.c(gene.ToArray(AddressOf Rstring))
             Dim background = base.c(universe.ToArray(AddressOf Rstring))
 
-            Return enricher(gene:=genes,
-                            universe:=background,
-                            TERM2GENE:=t2g,
-                            minGSSize:=minGSSize,
-                            pAdjustMethod:=pAdjustMethod,
-                            pvalueCutoff:=pvalueCutoff,
-                            qvalueCutoff:=qvalueCutoff)
+            Return enricherS4(gene:=genes,
+                              universe:=background,
+                              TERM2GENE:=t2g,
+                              minGSSize:=minGSSize,
+                              pAdjustMethod:=pAdjustMethod,
+                              pvalueCutoff:=pvalueCutoff,
+                              qvalueCutoff:=qvalueCutoff)
+        End Function
+
+        Public Function enricherS4(gene$, universe$, TERM2GENE$,
+                                    Optional pvalueCutoff# = 0.05,
+                                    Optional pAdjustMethod$ = "BH",
+                                    Optional minGSSize% = 5,
+                                    Optional qvalueCutoff# = 0.2,
+                                    Optional TERM2NAME$ = "NA") As enrichResult
+            Dim var$ = enricher(gene, universe, TERM2GENE, pvalueCutoff, pAdjustMethod, minGSSize, qvalueCutoff, TERM2NAME)
+
+            SyncLock R
+                With R
+                    Dim pointer = .Evaluate(var)
+
+
+                End With
+            End SyncLock
         End Function
 
         ''' <summary>
@@ -61,17 +78,19 @@ Namespace clusterProfiler
                                  Optional pAdjustMethod$ = "BH",
                                  Optional minGSSize% = 5,
                                  Optional qvalueCutoff# = 0.2,
-                                 Optional TERM2NAME$ = "NA") As enrichResult
+                                 Optional TERM2NAME$ = "NA") As String
+            Dim var$ = App.NextTempName
+
             SyncLock R
                 With R
-                    Dim pointer = .Evaluate(
-                        $"enricher({gene}, pvalueCutoff = {pvalueCutoff}, pAdjustMethod = {Rstring(pAdjustMethod)},
-                        universe = {universe}, minGSSize = {minGSSize}, qvalueCutoff = {qvalueCutoff}, 
-                        TERM2GENE = {TERM2GENE}, TERM2NAME = {TERM2NAME})")
-
-
+                    .call = $"{var} <- enricher({gene},
+pvalueCutoff = {pvalueCutoff}, pAdjustMethod = {Rstring(pAdjustMethod)},
+universe = {universe}, minGSSize = {minGSSize}, qvalueCutoff = {qvalueCutoff}, 
+TERM2GENE = {TERM2GENE}, TERM2NAME = {TERM2NAME})"
                 End With
             End SyncLock
+
+            Return var
         End Function
     End Module
 

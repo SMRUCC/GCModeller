@@ -38,15 +38,16 @@ Namespace clusterProfiler
         ''' <param name="save$"></param>
         ''' <param name="noCuts"></param>
         ''' <returns></returns>
-        Public Function Enrich(DEGs As IEnumerable(Of String), term2gene$, save$, Optional noCuts As Boolean = False) As Boolean
+        Public Function Enrich(DEGs As IEnumerable(Of String), backgrounds As IEnumerable(Of String), term2gene$, save$, Optional noCuts As Boolean = False) As Boolean
             Dim deg$ = c(DEGs, stringVector:=True)
+            Dim universe$ = c(backgrounds, stringVector:=True)
             Dim t2g$ = read.table(term2gene, header:=False)
             Dim result$
 
             If noCuts Then
-
+                result = clusterProfiler.enricher(deg, universe, t2g, pvalueCutoff:=1, minGSSize:=1, qvalueCutoff:=1, TERM2NAME:=go2name)
             Else
-
+                result = clusterProfiler.enricher(deg, universe, t2g, TERM2NAME:=go2name)
             End If
 
             Call write.csv(summary(result), save, rowNames:=False)
@@ -54,8 +55,8 @@ Namespace clusterProfiler
             Return save.FileExists(ZERO_Nonexists:=True)
         End Function
 
-        Public Function Enrich(DEGs$, term2gene$, save$, Optional noCuts As Boolean = False) As Boolean
-            Return Enrich(DEGs.ReadAllLines, term2gene, save, noCuts)
+        Public Function Enrich(DEGs$, backgrounds$, term2gene$, save$, Optional noCuts As Boolean = False) As Boolean
+            Return Enrich(DEGs.ReadAllLines, backgrounds.ReadAllLines, term2gene, save, noCuts)
         End Function
     End Class
 End Namespace
