@@ -413,7 +413,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <remarks></remarks>
         Public Overloads Function Save(LineBreak As Integer, Optional Path As String = "", Optional encoding As Encodings = Encodings.ASCII) As Boolean
             Try
-                Return Save(LineBreak, Path, encoding.GetEncodings)
+                Return Save(LineBreak, Path, encoding.CodePage)
             Catch ex As Exception
                 Throw New Exception(Path, ex)
             End Try

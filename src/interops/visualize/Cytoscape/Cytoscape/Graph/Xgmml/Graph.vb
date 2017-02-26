@@ -238,7 +238,7 @@ Namespace CytoscapeGraphView.XGMML
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function Save(Optional FilePath As String = "", Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
-            Return WriteXml(Me.GetXml, Encodings.UTF8.GetEncodings, getPath(FilePath))
+            Return WriteXml(Me.GetXml, Encodings.UTF8.CodePage, getPath(FilePath))
         End Function
     End Class
 End Namespace

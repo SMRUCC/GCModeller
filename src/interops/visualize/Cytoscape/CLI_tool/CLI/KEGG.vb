@@ -223,11 +223,11 @@ Partial Module CLI
             out = model.TrimSuffix & ".ReactionNET/"
             Dim bMods As XmlModel = model.LoadXml(Of XmlModel)
             Dim net As FileStream.Network = ModelNET(bMods, source)
-            Return net.Save(out, Encodings.ASCII.GetEncodings).CLICode
+            Return net.Save(out, Encodings.ASCII.CodePage).CLICode
         Else
             out = args.GetValue("/out", source & ".ReactionNET/")
             Dim net As FileStream.Network = BuildNET(source)
-            Return net.Save(out, Encodings.ASCII.GetEncodings).CLICode
+            Return net.Save(out, Encodings.ASCII.CodePage).CLICode
         End If
     End Function
 

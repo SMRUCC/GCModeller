@@ -1,4 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.Uniprot.XML
 
@@ -18,6 +20,27 @@ Namespace Assembly.Uniprot.XML
             Else
                 Return protein.gene.ORF.First
             End If
+        End Function
+
+        <Extension>
+        Public Function Term2Gene(uniprotXML As UniprotXML, Optional type$ = "GO", Optional idType As IDTypes = IDTypes.Accession) As IDMap()
+            Dim out As New List(Of IDMap)
+            Dim getID As Func(Of entry, String) = idType.GetID
+
+            For Each prot As entry In uniprotXML.entries
+                Dim ID As String = getID(prot)
+
+                If prot.Xrefs.ContainsKey(type) Then
+                    out += From term As dbReference
+                           In prot.Xrefs(type)
+                           Select New IDMap With {
+                               .Key = term.id,
+                               .Maps = ID
+                           }
+                End If
+            Next
+
+            Return out
         End Function
     End Module
 End Namespace

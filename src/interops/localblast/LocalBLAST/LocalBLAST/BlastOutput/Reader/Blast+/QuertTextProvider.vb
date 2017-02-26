@@ -6,7 +6,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
     Public Class QuertTextProvider : Inherits BufferedStream
 
         Sub New(file As String, Optional encoding As Encodings = Encodings.Default, Optional bufSize As Integer = 64 * 1024 * 1024)
-            Call MyBase.New(file, encoding.GetEncodings, bufSize)
+            Call MyBase.New(file, encoding.CodePage, bufSize)
         End Sub
 
         ''' <summary>

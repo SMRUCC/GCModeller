@@ -34,6 +34,24 @@ Namespace API
     Public Module base
 
         ''' <summary>
+        ''' vector produces a vector of the given length and mode.
+        ''' </summary>
+        ''' <param name="mode$"></param>
+        ''' <param name="length%"></param>
+        ''' <returns></returns>
+        Public Function vector(Optional mode$ = "logical", Optional length% = 0) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- vector(mode = {Rstring(mode)}, length = {length})"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        ''' <summary>
         ''' Combine Values into a Vector or List
         ''' 
         ''' This is a generic function which combines its arguments.
@@ -303,5 +321,23 @@ Namespace API
         Public Sub suppressWarnings(expr As String)
 
         End Sub
+
+        ''' <summary>
+        ''' summary is a generic function used to produce result summaries of the results of various model fitting functions. 
+        ''' The function invokes particular methods which depend on the class of the first argument.
+        ''' </summary>
+        ''' <param name="object$">an object for which a summary is desired.</param>
+        ''' <returns></returns>
+        Public Function summary(object$) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- summary({[object]})"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
     End Module
 End Namespace
