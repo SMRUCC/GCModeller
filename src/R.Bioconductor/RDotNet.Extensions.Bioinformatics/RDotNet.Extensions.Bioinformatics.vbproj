@@ -185,6 +185,7 @@
     <Compile Include="Declares\bnlearn\ArcOperations.vb" />
     <Compile Include="Declares\bnlearn\bnFit.vb" />
     <Compile Include="Declares\bnlearn\bnFitPlots.vb" />
+    <Compile Include="Declares\clusterProfiler\Enricher.vb" />
     <Compile Include="Declares\clusterProfiler\clusterProfiler.vb" />
     <Compile Include="Declares\deSolve\API.vb" />
     <Compile Include="Declares\deSolve\integrator.vb" />
