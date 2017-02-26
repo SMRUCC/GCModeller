@@ -114,13 +114,14 @@ Module CLI
         Return table.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/Term2genes", Usage:="/Term2genes /in <uniprot.XML> [/term <GO> /out <out.tsv>]")>
+    <ExportAPI("/Term2genes", Usage:="/Term2genes /in <uniprot.XML> [/term <GO> /id <ORF> /out <out.tsv>]")>
     Public Function Term2Genes(args As CommandLine) As Integer
         Dim [in] = args <= "/in"
         Dim term As String = args.GetValue("/term", "GO")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-type={term}.term2genes.tsv")
+        Dim idType$ = args.GetValue("/id", "ORF")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-type={term},{idType}.term2genes.tsv")
         Dim uniprot As UniprotXML = UniprotXML.Load([in])
-        Dim tsv As IDMap() = uniprot.Term2Gene(type:=term)
+        Dim tsv As IDMap() = uniprot.Term2Gene(type:=term, idType:=idType)
         Return tsv.SaveTSV(out).CLICode
     End Function
 End Module

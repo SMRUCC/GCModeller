@@ -19,6 +19,10 @@ Namespace Assembly.Uniprot.XML
 
         Dim parser As New MapsHelper(Of IDTypes)(map:=EnumParser(Of IDTypes)(), [default]:=IDTypes.Accession)
 
+        Public Function ParseType(type$) As IDTypes
+            Return parser(type)
+        End Function
+
         <Extension> Public Function GetID(type As IDTypes) As Func(Of entry, String)
             Select Case type
                 Case IDTypes.Accession

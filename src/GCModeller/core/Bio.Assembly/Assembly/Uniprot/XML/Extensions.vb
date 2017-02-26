@@ -23,11 +23,12 @@ Namespace Assembly.Uniprot.XML
         End Function
 
         <Extension>
-        Public Function Term2Gene(uniprotXML As UniprotXML, Optional type$ = "GO") As IDMap()
+        Public Function Term2Gene(uniprotXML As UniprotXML, Optional type$ = "GO", Optional idType As IDTypes = IDTypes.Accession) As IDMap()
             Dim out As New List(Of IDMap)
+            Dim getID As Func(Of entry, String) = idType.GetID
 
             For Each prot As entry In uniprotXML.entries
-                Dim ID As String = prot.accession
+                Dim ID As String = getID(prot)
 
                 If prot.Xrefs.ContainsKey(type) Then
                     out += From term As dbReference
