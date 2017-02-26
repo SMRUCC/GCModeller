@@ -27,8 +27,15 @@ Namespace Assembly.Uniprot.XML
             Dim out As New List(Of IDMap)
 
             For Each prot As entry In uniprotXML.entries
-                If prot.Xrefs.ContainsKey(type) Then
+                Dim ID As String = prot.accession
 
+                If prot.Xrefs.ContainsKey(type) Then
+                    out += From term As dbReference
+                           In prot.Xrefs(type)
+                           Select New IDMap With {
+                               .Key = term.id,
+                               .Maps = ID
+                           }
                 End If
             Next
 
