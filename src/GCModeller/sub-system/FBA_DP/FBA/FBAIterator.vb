@@ -98,7 +98,7 @@ Public Class FBAIterator : Implements IObjectModel_Driver
     Public Function Run() As Integer Implements IObjectModel_Driver.Run
         Dim script As String = ""
         Dim n As Integer = _iterates
-        Dim ASCII As Encoding = Encodings.ASCII.GetEncodings
+        Dim ASCII As Encoding = Encodings.ASCII.CodePage
 
         Do While _iterates > 0
             Dim result As lpOUT = __solver.RSolving(__lpModel, script)

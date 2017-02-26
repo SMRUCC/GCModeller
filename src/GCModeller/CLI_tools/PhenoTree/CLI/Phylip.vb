@@ -50,7 +50,7 @@ Partial Module CLI
         Dim query As String = args - "/query"
         Dim gendist As Gendist = source.ExportGendistMatrixFromBesthitMeta(query, Limits:=limits)
         Call gendist.MATRaw.Save(out.TrimSuffix & ".csv", Encodings.ASCII)
-        Call gendist.GenerateDocument.SaveTo(out, Encodings.ASCII.GetEncodings)
+        Call gendist.GenerateDocument.SaveTo(out, Encodings.ASCII.CodePage)
         Return 0
     End Function
 End Module

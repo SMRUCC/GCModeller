@@ -139,7 +139,7 @@ Public Module CLI
             Call TryInit(R_HOME)
         End If
 
-        Call RScript.SaveTo(EXPORT, Encodings.ASCII.GetEncodings)
+        Call RScript.SaveTo(EXPORT, Encodings.ASCII.CodePage)
         Call RSystem.source(EXPORT)
         Call VennDiagram.SaveAsXml(EXPORT.TrimSuffix & ".Xml")
 
@@ -175,7 +175,7 @@ Public Module CLI
             Dim EXPORT As String = venn.saveTiff.TrimSuffix & ".r"
 
             Call TryInit()
-            Call venn.RScript.SaveTo(EXPORT, Encodings.ASCII.GetEncodings)
+            Call venn.RScript.SaveTo(EXPORT, Encodings.ASCII.CodePage)
             Call RSystem.source(EXPORT)
             Call Process.Start(venn.saveTiff)
 

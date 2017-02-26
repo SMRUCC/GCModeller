@@ -123,7 +123,7 @@ Namespace Framework.Provider.ImportsAPI
         End Function
 
         Public Function Save(Optional Path As String = "", Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
-            Return Save(Path, encoding.GetEncodings)
+            Return Save(Path, encoding.CodePage)
         End Function
 
         Public Shared Function LoadDefault() As APIProvider

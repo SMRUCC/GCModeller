@@ -147,7 +147,7 @@ Partial Module CLI
             Dim title As String = file.ReadFirstLine
             title = Regex.Replace(title, " [-] \d+\s\.\.\s\d+", "", RegexICSng).Trim
             Dim out As String = EXPORT & $"/{title.NormalizePathString(False)}.PTT"
-            file.ReadAllText.SaveTo(out, Encodings.ASCII.GetEncodings)
+            file.ReadAllText.SaveTo(out, Encodings.ASCII.CodePage)
         Next
 
         Return 0
@@ -283,7 +283,7 @@ Partial Module CLI
             Next
         Next
 
-        Return gb.Save(out, Encodings.ASCII.GetEncodings).CLICode
+        Return gb.Save(out, Encodings.ASCII.CodePage).CLICode
     End Function
 End Module
 

@@ -42,6 +42,6 @@ Partial Module CLI
         Dim fbaResult As String = args("/fba.out")
         Dim outDIR As String = args.GetValue("/out", inSBML.TrimSuffix & "-" & fbaResult.BaseName & "/")
         Dim net = SBMLrFBA.CreateNetwork(XmlFile.Load(inSBML), SBMLrFBA.LoadFBAResult(fbaResult))
-        Return net.Save(outDIR, Encodings.ASCII.GetEncodings).CLICode
+        Return net.Save(outDIR, Encodings.ASCII.CodePage).CLICode
     End Function
 End Module

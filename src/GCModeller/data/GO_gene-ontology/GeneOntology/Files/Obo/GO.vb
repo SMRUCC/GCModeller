@@ -60,7 +60,7 @@ Namespace OBO
                 Call bufs.Add("")
             Next
 
-            Return bufs.SaveTo(path, Encodings.ASCII.GetEncodings)
+            Return bufs.SaveTo(path, Encodings.ASCII.CodePage)
         End Function
 
         ''' <summary>
