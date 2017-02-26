@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
@@ -11,6 +12,7 @@ Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.GO.PlantRegMap
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
+Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Module CLI
@@ -110,5 +112,15 @@ Module CLI
         Next
 
         Return table.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/Term2genes", Usage:="/Term2genes /in <uniprot.XML> [/term <GO> /out <out.tsv>]")>
+    Public Function Term2Genes(args As CommandLine) As Integer
+        Dim [in] = args <= "/in"
+        Dim term As String = args.GetValue("/term", "GO")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-type={term}.term2genes.tsv")
+        Dim uniprot As UniprotXML = UniprotXML.Load([in])
+        Dim tsv As IDMap() = uniprot.Term2Gene(type:=term)
+        Return tsv.SaveTSV(out).CLICode
     End Function
 End Module
