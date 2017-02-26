@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.Uniprot.XML
 
@@ -21,8 +22,17 @@ Namespace Assembly.Uniprot.XML
             End If
         End Function
 
-        Public Function Term2Gene(uniprotXML As UniprotXML, type$) As IDMap()
+        <Extension>
+        Public Function Term2Gene(uniprotXML As UniprotXML, Optional type$ = "GO") As IDMap()
+            Dim out As New List(Of IDMap)
 
+            For Each prot As entry In uniprotXML.entries
+                If prot.Xrefs.ContainsKey(type) Then
+
+                End If
+            Next
+
+            Return out
         End Function
     End Module
 End Namespace
