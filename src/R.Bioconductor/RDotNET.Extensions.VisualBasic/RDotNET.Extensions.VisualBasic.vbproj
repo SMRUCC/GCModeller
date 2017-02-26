@@ -180,6 +180,7 @@
     <Content Include="ScriptBuilder\Helpers\README.txt" />
     <Compile Include="API\base\base.vb" />
     <Compile Include="API\as.vb" />
+    <Compile Include="API\base\as.vb" />
     <Compile Include="API\base\seq.vb" />
     <Compile Include="API\base\with.vb" />
     <Compile Include="API\base\print.vb" />
@@ -191,6 +192,7 @@
     <Compile Include="API\utils\csv.vb" />
     <Compile Include="API\utils\install.vb" />
     <Compile Include="API\utils\utils.vb" />
+    <Compile Include="userFunctions\Tools.vb" />
     <Compile Include="var.vb" />
     <Compile Include="Extensions\out.vb" />
     <Compile Include="Extensions\TableExtensions.vb" />

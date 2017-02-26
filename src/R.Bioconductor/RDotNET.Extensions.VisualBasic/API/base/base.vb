@@ -34,6 +34,24 @@ Namespace API
     Public Module base
 
         ''' <summary>
+        ''' vector produces a vector of the given length and mode.
+        ''' </summary>
+        ''' <param name="mode$"></param>
+        ''' <param name="length%"></param>
+        ''' <returns></returns>
+        Public Function vector(Optional mode$ = "logical", Optional length% = 0) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- vector(mode = {Rstring(mode)}, length = {length})"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        ''' <summary>
         ''' Combine Values into a Vector or List
         ''' 
         ''' This is a generic function which combines its arguments.

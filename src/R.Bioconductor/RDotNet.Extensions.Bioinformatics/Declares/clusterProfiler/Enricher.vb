@@ -19,11 +19,43 @@ Namespace clusterProfiler
             goBrief = read.csv(goBrief)
             go2name = App.NextTempName
 
+            require("clusterProfiler")
+
             SyncLock R
                 With R
                     .call = $"{go2name} <- {goBrief}[, {header}]"
                 End With
             End SyncLock
         End Sub
+
+        ''' <summary>
+        ''' GO富集操作
+        ''' </summary>
+        ''' <param name="DEGs"></param>
+        ''' <param name="term2gene$">
+        ''' term2gene should provide background annotation of the whole genome
+        ''' </param>
+        ''' <param name="save$"></param>
+        ''' <param name="noCuts"></param>
+        ''' <returns></returns>
+        Public Function Enrich(DEGs As IEnumerable(Of String), term2gene$, save$, Optional noCuts As Boolean = False) As Boolean
+            Dim deg$ = c(DEGs, stringVector:=True)
+            Dim t2g$ = read.table(term2gene, header:=False)
+            Dim result$
+
+            If noCuts Then
+
+            Else
+
+            End If
+
+            Call write.csv(summary(result), save, rowNames:=False)
+
+            Return save.FileExists(ZERO_Nonexists:=True)
+        End Function
+
+        Public Function Enrich(DEGs$, term2gene$, save$, Optional noCuts As Boolean = False) As Boolean
+            Return Enrich(DEGs.ReadAllLines, term2gene, save, noCuts)
+        End Function
     End Class
 End Namespace
