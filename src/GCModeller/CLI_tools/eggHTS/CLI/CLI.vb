@@ -121,7 +121,7 @@ Module CLI
         Dim idType$ = args.GetValue("/id", "ORF")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-type={term},{idType}.term2genes.tsv")
         Dim uniprot As UniprotXML = UniprotXML.Load([in])
-        Dim tsv As IDMap() = uniprot.Term2Gene(type:=term, idType:=idType)
+        Dim tsv As IDMap() = uniprot.Term2Gene(type:=term, idType:=GetIDs.ParseType(idType))
         Return tsv.SaveTSV(out).CLICode
     End Function
 End Module

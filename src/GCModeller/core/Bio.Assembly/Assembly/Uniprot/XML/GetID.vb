@@ -17,10 +17,13 @@ Namespace Assembly.Uniprot.XML
             EMBL
         End Enum
 
+        ''' <summary>
+        ''' 名字是小写的
+        ''' </summary>
         Dim parser As New MapsHelper(Of IDTypes)(map:=EnumParser(Of IDTypes)(), [default]:=IDTypes.Accession)
 
         Public Function ParseType(type$) As IDTypes
-            Return parser(type)
+            Return parser(LCase(type))
         End Function
 
         <Extension> Public Function GetID(type As IDTypes) As Func(Of entry, String)
@@ -71,7 +74,7 @@ Namespace Assembly.Uniprot.XML
         End Function
 
         <Extension> Public Function GetID(type$) As Func(Of entry, String)
-            Return parser(type).GetID
+            Return parser(LCase(type)).GetID
         End Function
 
     End Module
