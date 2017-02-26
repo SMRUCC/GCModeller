@@ -116,6 +116,16 @@ Namespace Assembly.Uniprot.XML
 
         Dim table As Dictionary(Of String, value())
 
+        Default Public ReadOnly Property IDs(type$) As String()
+            Get
+                If table.ContainsKey(type) Then
+                    Return table(type).ValueArray
+                Else
+                    Return Nothing
+                End If
+            End Get
+        End Property
+
         Public Function HaveKey(type$) As Boolean
             Return table.ContainsKey(type)
         End Function

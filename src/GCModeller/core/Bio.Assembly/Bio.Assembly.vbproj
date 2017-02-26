@@ -353,6 +353,7 @@
     <Compile Include="Assembly\NCBI\Taxonomy\TaxonomyWeb.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Taxonomy.vb" />
     <Compile Include="Assembly\NCBI\WebServiceHandler\Taxonomy.vb" />
+    <Compile Include="Assembly\Uniprot\XML\GetID.vb" />
     <Compile Include="Assembly\Uniprot\XML\Elements.vb" />
     <Compile Include="Assembly\Uniprot\XML\Extensions.vb" />
     <Compile Include="Assembly\Uniprot\XML\UniprotXML.vb" />
