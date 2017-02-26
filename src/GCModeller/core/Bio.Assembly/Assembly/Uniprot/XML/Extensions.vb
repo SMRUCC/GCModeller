@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel
 
 Namespace Assembly.Uniprot.XML
 
@@ -18,6 +19,10 @@ Namespace Assembly.Uniprot.XML
             Else
                 Return protein.gene.ORF.First
             End If
+        End Function
+
+        Public Function Term2Gene(uniprotXML As UniprotXML, type$) As IDMap()
+
         End Function
     End Module
 End Namespace
