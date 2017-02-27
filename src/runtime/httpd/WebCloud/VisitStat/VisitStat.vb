@@ -1,38 +1,36 @@
-﻿#Region "Microsoft.VisualBasic::1791bed3f2f7b0cc02c86497abc5d059, ..\httpd\WebCloud\VisitStat\VisitStat.vb"
+﻿#Region "Microsoft.VisualBasic::ff580cb6d6750e1bfc932c1b2d591674, ..\httpd\WebCloud\VisitStat\VisitStat.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Parallel.Tasks
-Imports Oracle.LinuxCompatibility.MySQL
-Imports SMRUCC.WebCloud.HTTPInternal.Platform
-Imports SMRUCC.WebCloud.HTTPInternal
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Oracle.LinuxCompatibility.MySQL
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
+Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 Public Class VisitStat : Inherits Plugins.PluginBase
 
@@ -42,7 +40,7 @@ Public Class VisitStat : Inherits Plugins.PluginBase
 
     ''' <summary>
     ''' ```bash
-    ''' /@set "host=localhost,mysql_port=3306,user=root,password=1234,database=test"
+    ''' /@set "host=localhost;mysql_port=3306;user=root;password=1234;database=test"
     ''' ```
     ''' </summary>
     ''' <param name="platform"></param>
@@ -51,6 +49,7 @@ Public Class VisitStat : Inherits Plugins.PluginBase
         _commitThread = New UpdateThread(60 * 1000, AddressOf __commits)
 
 #Region "通过环境变量来初始化mysql连接"
+
         If _mySQL <= New ConnectionUri With {
             .Database = App.GetVariable("database"),
             .IPAddress = App.GetVariable("host"),
@@ -58,6 +57,7 @@ Public Class VisitStat : Inherits Plugins.PluginBase
             .ServicesPort = App.GetVariable("mysql_port"),
             .User = App.GetVariable("user")
         } = -1.0R Then
+
 #Disable Warning
             Dim ex As New Exception("Unable establish mysql connection!")
             Dim environment$ = App _
@@ -68,6 +68,7 @@ Public Class VisitStat : Inherits Plugins.PluginBase
 
             Throw New ExecutionEngineException(environment, ex)
 #Enable Warning
+
         End If
 #End Region
     End Sub

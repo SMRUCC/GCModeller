@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6846e1a084d4816927a47a8d7d67b388, ..\httpd\WebCloud\SMRUCC.WebCloud.GIS\MaxMind\MySQL\geolite2\geographical_information_view.vb"
+﻿#Region "Microsoft.VisualBasic::77bbbd5b52a5f00fae09c548dd69e829, ..\httpd\WebCloud\SMRUCC.WebCloud.GIS\MaxMind\MySQL\geolite2\geographical_information_view.vb"
 
     ' Author:
     ' 
@@ -132,4 +132,3 @@ End Class
 
 
 End Namespace
-
