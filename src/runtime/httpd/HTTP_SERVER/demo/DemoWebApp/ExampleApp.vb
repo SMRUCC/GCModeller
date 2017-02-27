@@ -49,6 +49,12 @@ Public Class ExampleApp : Inherits SMRUCC.WebCloud.HTTPInternal.AppEngine.WebApp
         Return True
     End Function
 
+    ''' <summary>
+    ''' POST method test
+    ''' </summary>
+    ''' <param name="req"></param>
+    ''' <param name="response"></param>
+    ''' <returns></returns>
     <[POST](GetType(Integer()))>
     <ExportAPI("/example/post.html")>
     Public Function PostTest(req As HttpPOSTRequest, response As HttpResponse) As Boolean
@@ -56,6 +62,12 @@ Public Class ExampleApp : Inherits SMRUCC.WebCloud.HTTPInternal.AppEngine.WebApp
         Return True
     End Function
 
+    ''' <summary>
+    ''' this rest API redirect to <see cref="getWebForm"/>
+    ''' </summary>
+    ''' <param name="req"></param>
+    ''' <param name="response"></param>
+    ''' <returns></returns>
     <[GET](GetType(String))>
     <ExportAPI("/example/redirect.vb")>
     Public Function redirectTest(req As HttpRequest, response As HttpResponse) As Boolean

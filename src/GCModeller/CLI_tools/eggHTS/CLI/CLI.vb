@@ -139,4 +139,9 @@ Module CLI
 
         Return genes.SaveTo(out, Encodings.ASCII.CodePage).CLICode
     End Function
+
+    <ExportAPI>
+    Public Function GoEnrichment(args As CommandLine) As Integer
+
+    End Function
 End Module
