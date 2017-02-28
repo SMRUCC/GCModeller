@@ -2,6 +2,9 @@
 
 Namespace API.utils
 
+    ''' <summary>
+    ''' Data Input
+    ''' </summary>
     Public Module read
 
         Public Function csv(file$,
@@ -15,7 +18,7 @@ Namespace API.utils
 
             SyncLock R
                 With R
-                    .call = $"{var} <- read.csv({file}, 
+                    .call = $"{var} <- read.csv({Rstring(file.UnixPath)}, 
 header = {Rbool(header)}, 
 sep = {Rstring(sep)}, 
 quote = {Rstring(quote)},
@@ -35,9 +38,23 @@ comment.char = {Rstring(commentChar)});"
         ''' <summary>
         ''' Reads a file in table format and creates a data frame from it, with cases corresponding to lines and variables to fields in the file.
         ''' </summary>
-        ''' <param name="file$"></param>
-        ''' <param name="header"></param>
-        ''' <param name="sep$"></param>
+        ''' <param name="file$">
+        ''' the name of the file which the data are to be read from. Each row of the table appears as one line of the file. If it does not contain an absolute path, the file name is relative to the current working directory, getwd(). Tilde-expansion is performed where supported. This can be a compressed file (see file).
+        '''
+        ''' Alternatively, file can be a readable text-mode connection (which will be opened for reading if necessary, And if so closed (And hence destroyed) at the end of the function call). (If stdin() Is used, the prompts for lines may be somewhat confusing. Terminate input with a blank line Or an EOF signal, Ctrl-D on Unix And Ctrl-Z on Windows. Any pushback on stdin() will be cleared before return.)
+        '''
+        ''' file can also be a complete URL. (For the supported URL schemes, see the 'URLs’ section of the help for url.)
+        ''' </param>
+        ''' <param name="header">
+        ''' a logical value indicating whether the file contains the names of the variables as its first line. If missing, 
+        ''' the value is determined from the file format: header is set to TRUE if and only if the first row contains 
+        ''' one fewer field than the number of columns.
+        ''' </param>
+        ''' <param name="sep$">
+        ''' the field separator character. Values on each line of the file are separated by this character. 
+        ''' If sep = "" (the default for read.table) the separator is ‘white space’, that is one or more 
+        ''' spaces, tabs, newlines or carriage returns.
+        ''' </param>
         ''' <param name="quote$"></param>
         ''' <param name="dec$"></param>
         ''' <param name="numerals$">
@@ -77,7 +94,24 @@ comment.char = {Rstring(commentChar)});"
                               Optional allowEscapes As Boolean = False, Optional flush As Boolean = False,
                               Optional stringsAsFactors$ = "default.stringsAsFactors()",
                               Optional fileEncoding$ = "", Optional encoding$ = "unknown", Optional text$ = NULL, Optional skipNul As Boolean = False) As String
+            Dim var$ = App.NextTempName
 
+            SyncLock R
+                With R
+                    .call = $"{var} <- read.table({Rstring(file.UnixPath)}, header = {Rbool(header)}, sep = {Rstring(seq)}, quote = {Rstring(quote)},
+dec = {Rstring(dec)}, numerals = {Rstring(numerals)},
+row.names = {rowNames}, col.names = {colNames}, as.is = {asIs},
+na.strings = {Rstring(NAstrings)}, colClasses = {colClasses}, nrows = {nrows},
+skip = {skip}, check.names = {Rbool(checknames)}, fill = {fill},
+strip.white = {Rbool(stripwhite)}, blank.lines.skip = {Rbool(blanklinesskip)},
+comment.char = {Rstring(commentChar)},
+allowEscapes = {Rbool(allowEscapes)}, flush = {Rbool(flush)},
+stringsAsFactors = {stringsAsFactors},
+fileEncoding = {Rstring(fileEncoding)}, encoding = {Rstring(encoding)}, text = {Rstring(text)}, skipNul = {Rbool(skipNul)})"
+                End With
+            End SyncLock
+
+            Return var
         End Function
     End Module
 End Namespace

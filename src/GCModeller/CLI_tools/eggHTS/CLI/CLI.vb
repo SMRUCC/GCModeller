@@ -8,10 +8,13 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.GO.PlantRegMap
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
@@ -123,5 +126,23 @@ Module CLI
         Dim uniprot As UniprotXML = UniprotXML.Load([in])
         Dim tsv As IDMap() = uniprot.Term2Gene(type:=term, idType:=GetIDs.ParseType(idType))
         Return tsv.SaveTSV(out).CLICode
+    End Function
+
+    <ExportAPI("/enricher.background",
+               Usage:="/enricher.background /in <genbank.gb> [/out <universe.txt>]")>
+    Public Function Backgrounds(args As CommandLine) As Integer
+        Dim [in] = args <= "/in"
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".backgrounds.txt")
+        Dim gb As GBFF.File = GBFF.File.Load([in])
+        Dim PTT As PTT = gb.GbffToORF_PTT
+        Dim genes$() = PTT.GeneIDList.ToArray
+
+        Return genes.SaveTo(out, Encodings.ASCII.CodePage).CLICode
+    End Function
+
+    <ExportAPI("/enrichment.go",
+               Usage:="/enrichment.go /deg <deg.list> /backgrounds <genome_genes.list> /t2g <term2gene.csv> [/go <go_brief.csv> /out <enricher.result.csv>]")>
+    Public Function GoEnrichment(args As CommandLine) As Integer
+
     End Function
 End Module

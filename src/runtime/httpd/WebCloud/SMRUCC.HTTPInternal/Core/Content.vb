@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::12f2cb45abf9a877933888d5f544e49a, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\Content.vb"
+﻿#Region "Microsoft.VisualBasic::f852b63d1419c6ce58a121d8665335a4, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\Content.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports System.IO
 Imports Microsoft.VisualBasic.Serialization.JSON

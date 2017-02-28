@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e75682496ec040b53e2a37a47783eff3, ..\httpd\WebCloud\SMRUCC.WebCloud.d3js\PieChart.vb"
+﻿#Region "Microsoft.VisualBasic::cd9bd3095d530e1f3f0621650765c36f, ..\httpd\WebCloud\SMRUCC.WebCloud.d3js\PieChart.vb"
 
     ' Author:
     ' 
@@ -42,4 +42,3 @@ Namespace PieChart
         End Function
     End Class
 End Namespace
-

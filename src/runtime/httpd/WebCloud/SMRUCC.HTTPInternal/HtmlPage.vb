@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b88adf02282ffd8bd5bf27a286f2b613, ..\httpd\WebCloud\SMRUCC.HTTPInternal\HtmlPage.vb"
+﻿#Region "Microsoft.VisualBasic::eadd8f19bdc026092f41378a23cb1c31, ..\httpd\WebCloud\SMRUCC.HTTPInternal\HtmlPage.vb"
 
     ' Author:
     ' 
@@ -66,4 +66,3 @@ Public Class HtmlPage : Inherits ClassObject
         }
     End Function
 End Class
-

@@ -1,65 +1,78 @@
 ﻿#Region "Microsoft.VisualBasic::87b23e424215b8abc600c7ae6d03cbc5, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
 Namespace Assembly.NCBI.GenBank.GBFF
 
+    ''' <summary>
+    ''' 将数据写入现有的genbank文件或者创建新的genbank文件
+    ''' </summary>
     <PackageNamespace("NCBI.Genbank.WriteStream", Publisher:="GCModeller", Url:="http://gcmodeller.org")>
     Public Module GbkWriter
 
-        <ExportAPI("Doc.Create"), Extension>
-        Public Function CreateDoc(gb As GenBank.GBFF.File) As String
-            Dim gbBuilder As StringBuilder = New StringBuilder(1024)
+        ''' <summary>
+        ''' 将genbank对象模型转换为文本文档数据以进行数据保存
+        ''' </summary>
+        ''' <param name="gb"></param>
+        ''' <returns></returns>
+        <ExportAPI("Doc.Create"), Extension> Public Function CreateDoc(gb As GenBank.GBFF.File) As String
+            Dim writer As New StringBuilder(1024)
 
             On Error Resume Next
 
-            Call gbBuilder.AppendLine(ToString(gb.Locus))
-            Call gbBuilder.AppendLine(ToString(gb.Definition))
-            Call gbBuilder.AppendLine(ToString(gb.Accession))
-            Call gbBuilder.AppendLine(ToString(gb.Version))
-            Call gbBuilder.AppendLine(ToString(gb.DbLinks))
-            Call gbBuilder.AppendLine(ToString(gb.Keywords))
-            Call gbBuilder.AppendLine(ToString(gb.Source))
-            Call gbBuilder.Append(ToString(gb.Reference))
-            Call gbBuilder.Append(ToString(gb.Features))
-            Call gbBuilder.Append(ToString(gb.Origin))
-            Call gbBuilder.AppendLine("//")
+            ' 头部的元数据
+            Call writer.AppendLine(ToString(gb.Locus))
+            Call writer.AppendLine(ToString(gb.Definition))
+            Call writer.AppendLine(ToString(gb.Accession))
+            Call writer.AppendLine(ToString(gb.Version))
+            Call writer.AppendLine(ToString(gb.DbLinks))
+            Call writer.AppendLine(ToString(gb.Keywords))
+            Call writer.AppendLine(ToString(gb.Source))
+            Call writer.Append(ToString(gb.Reference))
 
-            Dim Tokens As String() = gbBuilder.ToString.lTokens
-            Dim doc As String = String.Join(vbLf, Tokens)
+            ' 位点注释数据
+            Call writer.Append(ToString(gb.Features))
 
-            Return doc
+            ' 基因组序列数据
+            Call writer.Append(ToString(gb.Origin))
+            Call writer.AppendLine("//")
+
+            Dim lines As String() = writer.ToString.lTokens
+            Dim text As String = String.Join(vbLf, lines)
+
+            Return text
         End Function
 
         <ExportAPI("ToString")>
@@ -70,6 +83,11 @@ Namespace Assembly.NCBI.GenBank.GBFF
         Const __INDEX As String = "         "
         ReadOnly __INDEX_LEN As Integer = __INDEX.Length
 
+        ''' <summary>
+        ''' 保存基因组序列数据
+        ''' </summary>
+        ''' <param name="origin"></param>
+        ''' <returns></returns>
         <ExportAPI("ToString")>
         Public Function ToString(origin As Keywords.ORIGIN) As String
             Dim sbr As StringBuilder = New StringBuilder
@@ -91,9 +109,14 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Return sbr.ToString
         End Function
 
+        ''' <summary>
+        ''' 生成基因组位点注释数据
+        ''' </summary>
+        ''' <param name="features"></param>
+        ''' <returns></returns>
         <ExportAPI("ToString")>
         Public Function ToString(features As Keywords.FEATURES.FEATURES) As String
-            Dim sbr As StringBuilder = New StringBuilder(1024)
+            Dim sbr As New StringBuilder(1024)
             Call sbr.AppendLine("FEATURES             Location/Qualifiers")
 
             For Each feature In features._innerList
@@ -104,7 +127,6 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Function
 
         Const __BLANK__ As String = "                     "
-
         ReadOnly __lenBlank As Integer = __BLANK__.Length
 
         ''' <summary>
@@ -115,8 +137,11 @@ Namespace Assembly.NCBI.GenBank.GBFF
         <ExportAPI("ToString")>
         Public Function ToString(feature As Feature) As String
             Dim sbr As StringBuilder = New StringBuilder
-            Call sbr.Append($"     {feature.KeyName}{New String(" ", __lenBlank - 6 - feature.KeyName.Length)} {feature.Location.ToString}")
+            Dim blank As New String(" ", __lenBlank - 6 - feature.KeyName.Length)
+
+            Call sbr.Append($"     {feature.KeyName}{blank} {feature.Location.ToString}")
             Call sbr.AppendLine()
+
             For Each q In feature.PairedValues
                 Call sbr.Append(__qualifierFormats($"/{q.Name}=""{q.Value}"""))
             Next
@@ -198,10 +223,24 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Return sbr.ToString
         End Function
 
+        ''' <summary>
+        ''' 使用这个函数将更新之后的genbank对象写入文件之中
+        ''' </summary>
+        ''' <param name="gb"></param>
+        ''' <param name="path$">``*.gb``，所需要进行保存的genbank数据库的文件路径</param>
+        ''' <param name="encoding">文本编码</param>
+        ''' <returns></returns>
         <ExportAPI("Write.GBK")>
-        Public Function WriteGbk(gb As GenBank.GBFF.File, saveGb As String, Optional encoding As System.Text.Encoding = Nothing) As Boolean
+        <Extension>
+        Public Function WriteGenbank(gb As GenBank.GBFF.File, path$, Optional encoding As Encoding = Nothing) As Boolean
             Dim doc As String = gb.CreateDoc()
-            Return doc.SaveTo(saveGb, encoding)
+            Return doc.SaveTo(path, encoding)
+        End Function
+
+        <ExportAPI("Write.GBK")>
+        <Extension>
+        Public Function WriteGenbank(gb As GenBank.GBFF.File, path$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
+            Return gb.WriteGenbank(path, encoding.CodePage)
         End Function
     End Module
 End Namespace

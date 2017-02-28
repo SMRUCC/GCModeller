@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fe9ee9c2a9b3f9b2d3d0bd5bab6718c, ..\httpd\WebCloud\SMRUCC.WebCloud.Mail\Subscription.vb"
+﻿#Region "Microsoft.VisualBasic::48a4afd62d6da295c58238562a5bfba0, ..\httpd\WebCloud\SMRUCC.WebCloud.Mail\Subscription.vb"
 
     ' Author:
     ' 
@@ -78,4 +78,3 @@ Public Class SubscriptionMgr
         Call __changeStatus(0, hash)
     End Sub
 End Class
-

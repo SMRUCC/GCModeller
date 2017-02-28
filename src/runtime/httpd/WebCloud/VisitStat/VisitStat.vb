@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1791bed3f2f7b0cc02c86497abc5d059, ..\httpd\WebCloud\VisitStat\VisitStat.vb"
+﻿#Region "Microsoft.VisualBasic::ff580cb6d6750e1bfc932c1b2d591674, ..\httpd\WebCloud\VisitStat\VisitStat.vb"
 
     ' Author:
     ' 
@@ -26,22 +26,51 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Net
 Imports Microsoft.VisualBasic.Parallel.Tasks
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Oracle.LinuxCompatibility.MySQL
-Imports SMRUCC.WebCloud.HTTPInternal.Platform
-Imports SMRUCC.WebCloud.HTTPInternal
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
+Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 Public Class VisitStat : Inherits Plugins.PluginBase
 
     ReadOnly _transactions As New List(Of visitor_stat)
     ReadOnly _commitThread As UpdateThread
-    ReadOnly _mySQL As MySQL
+    ReadOnly _mySQL As New MySQL
 
+    ''' <summary>
+    ''' ```bash
+    ''' /@set "host=localhost;mysql_port=3306;user=root;password=1234;database=test"
+    ''' ```
+    ''' </summary>
+    ''' <param name="platform"></param>
     Sub New(platform As PlatformEngine)
         Call MyBase.New(platform)
         _commitThread = New UpdateThread(60 * 1000, AddressOf __commits)
+
+#Region "通过环境变量来初始化mysql连接"
+
+        If _mySQL <= New ConnectionUri With {
+            .Database = App.GetVariable("database"),
+            .IPAddress = App.GetVariable("host"),
+            .Password = App.GetVariable("password"),
+            .ServicesPort = App.GetVariable("mysql_port"),
+            .User = App.GetVariable("user")
+        } = -1.0R Then
+
+#Disable Warning
+            Dim ex As New Exception("Unable establish mysql connection!")
+            Dim environment$ = App _
+                .GetAppVariables _
+                .ToDictionary(Function(k) k.Name,
+                              Function(k) k.Value) _
+                .GetJson
+
+            Throw New ExecutionEngineException(environment, ex)
+#Enable Warning
+
+        End If
+#End Region
     End Sub
 
     Private Sub __commits()
