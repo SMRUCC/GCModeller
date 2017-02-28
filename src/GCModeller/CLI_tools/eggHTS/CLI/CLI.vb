@@ -140,7 +140,8 @@ Module CLI
         Return genes.SaveTo(out, Encodings.ASCII.CodePage).CLICode
     End Function
 
-    <ExportAPI>
+    <ExportAPI("/enrichment.go",
+               Usage:="/enrichment.go /deg <deg.list> /backgrounds <genome_genes.list> /t2g <term2gene.csv> [/go <go_brief.csv> /out <enricher.result.csv>]")>
     Public Function GoEnrichment(args As CommandLine) As Integer
 
     End Function

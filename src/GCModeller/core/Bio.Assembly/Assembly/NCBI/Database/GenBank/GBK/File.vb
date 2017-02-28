@@ -28,15 +28,15 @@
 
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Assembly.NCBI.GenBank.GBFF
 
@@ -278,7 +278,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Function
 
         Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return GbkWriter.WriteGbk(Me, getPath(FilePath), Encoding)
+            Return GbkWriter.WriteGenbank(Me, getPath(FilePath), Encoding)
         End Function
     End Class
 End Namespace
