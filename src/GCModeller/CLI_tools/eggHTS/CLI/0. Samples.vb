@@ -264,7 +264,9 @@ Partial Module CLI
         }.Plot(size:=size,
                drawLine:=False,
                XaxisAbsoluteScalling:=True,
-               absoluteScaling:=False)
+               absoluteScaling:=False,
+               Xlabel:="Calc.pI",
+               Ylabel:="MW [kDa]")
 
         Return res.SaveAs(out).CLICode
     End Function

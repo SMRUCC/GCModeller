@@ -87,17 +87,18 @@ Namespace Graphic.Axis
         ''' <param name="min#"></param>
         ''' <returns></returns>
         Private Function __max(max#, min#) As Double
-            Dim p% = Fix(Math.Log10(max)) ' max.ToString.Split("."c).First.Length - 1
-            Dim value#
-            Dim upbound% = (CInt(Val(CStr(max.ToString.First)) + 1)) * 10 ^ p
+            'Dim p% = Fix(Math.Log10(max)) ' max.ToString.Split("."c).First.Length - 1
+            'Dim value#
+            'Dim upbound% = (CInt(Val(CStr(max.ToString.First)) + 1)) * 10 ^ p
 
-            If max < upbound Then
-                value = upbound
-            Else
-                value = max + (max - min) / 20
-            End If
+            'If max < upbound Then
+            '    value = upbound
+            'Else
+            '    value = max + (max - min) / 20
+            'End If
 
-            Return value
+            'Return value
+            Return max + (max - min) / 20
         End Function
 
         Private Function __fix(ByRef n#, enlarge As Boolean) As Double

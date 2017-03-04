@@ -75,7 +75,9 @@ Public Module Scatter
                          Optional absoluteScaling As Boolean = True,
                          Optional XaxisAbsoluteScalling As Boolean = False,
                          Optional YaxisAbsoluteScalling As Boolean = False,
-                         Optional drawAxis As Boolean = True) As Bitmap
+                         Optional drawAxis As Boolean = True,
+                         Optional Xlabel$ = "X",
+                         Optional Ylabel$ = "Y") As Bitmap
 
         Dim margin As Padding = padding
 
@@ -90,7 +92,7 @@ Public Module Scatter
                     YabsoluteScalling:=YaxisAbsoluteScalling)
 
                 If drawAxis Then
-                    Call g.DrawAxis(size, margin, mapper, showGrid)
+                    Call g.DrawAxis(size, margin, mapper, showGrid, xlabel:=Xlabel, ylabel:=Ylabel)
                 End If
 
                 For Each line As SerialData In mapper.ForEach(size, margin)
