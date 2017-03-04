@@ -80,8 +80,24 @@ Namespace Graphic.Axis
             Return out.ToArray
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="max#">必须始终是正数</param>
+        ''' <param name="min#"></param>
+        ''' <returns></returns>
         Private Function __max(max#, min#) As Double
-            Return max + (max - min) / 20
+            Dim p% = Fix(Math.Log10(max)) ' max.ToString.Split("."c).First.Length - 1
+            Dim value#
+            Dim upbound% = (CInt(Val(CStr(max.ToString.First)) + 1)) * 10 ^ p
+
+            If max < upbound Then
+                value = upbound
+            Else
+                value = max + (max - min) / 20
+            End If
+
+            Return value
         End Function
 
         Private Function __fix(ByRef n#, enlarge As Boolean) As Double
@@ -99,16 +115,19 @@ Namespace Graphic.Axis
             '    End If
             'End If
 
-            Dim p% = Math.Round(Math.Log10(Math.Abs(n)), 0)
+            Dim p% = Fix(Math.Log10(Math.Abs(n))) ' Math.Round(Math.Log10(Math.Abs(n)), 0)
             Dim d = 10 ^ (p - 1)
             Dim v#
             Dim s = Math.Sign(n)
+            Dim l% = CInt(Val(Math.Abs(n).ToString.First))
 
             If Not enlarge Then
                 p = 10 ^ (p - 1)
             Else
                 p = 10 ^ p
             End If
+
+            p *= l
 
             For i As Double = 0 To 10 Step 0.5
                 v = s * p + s * i * d
