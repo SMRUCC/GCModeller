@@ -54,6 +54,10 @@ Public Module Scatter
     ''' <param name="c"></param>
     ''' <param name="size"></param>
     ''' <param name="bg"></param>
+    ''' <param name="fill">是否进行填充？当这个参数为真的时候就相当于绘制histogram图形了</param>
+    ''' <param name="drawLine">
+    ''' 是否绘制两个点之间的连接线段，当这个参数为假的时候，将不会绘制连线，就相当于绘制散点图了，而非折线图
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Function Plot(c As IEnumerable(Of SerialData),
