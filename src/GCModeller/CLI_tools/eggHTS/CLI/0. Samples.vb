@@ -250,18 +250,21 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/plot.pimw",
-               Usage:="/plot.pimw /in <samples.csv> [/field.pi <calc. pI> /field.mw <MW [kDa]> /out <pimw.png> /size <1200,700> /color <black> /pt.size <5>]")>
+               Usage:="/plot.pimw /in <samples.csv> [/field.pi <calc. pI> /field.mw <MW [kDa]> /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
     Public Function pimwScatterPlot(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
         Dim pi$ = args.GetValue("/field.pi", "calc. pI")
         Dim mw$ = args.GetValue("/field.mw", "MW [kDa]")
-        Dim size As Size = args.GetValue("/size", New Size(1200, 700))
+        Dim size As Size = args.GetValue("/size", New Size(1600, 1200))
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pI_MW.png")
         Dim color As String = args.GetValue("/color", "black")
-        Dim ptSize! = args.GetValue("/pt.Size", 5.0!)
+        Dim ptSize! = args.GetValue("/pt.Size", 8.0!)
         Dim res As Image = {
             ScatterSerials(File.Load([in]), pi, mw, color, ptSize)
-        }.Plot(size:=size, drawLine:=False)
+        }.Plot(size:=size,
+               drawLine:=False,
+               axisAbsoluteScalling:=True,
+               absoluteScaling:=False)
 
         Return res.SaveAs(out).CLICode
     End Function

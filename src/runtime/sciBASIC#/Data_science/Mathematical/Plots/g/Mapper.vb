@@ -28,16 +28,16 @@ Namespace Graphic
         Public ReadOnly dx#, dy#
         Public ReadOnly xmin, ymin As Single
 
-        Sub New(range As Scaling, Optional parts% = 10)
-            Call Me.New(range.xrange, range.yrange, parts)
+        Sub New(range As Scaling, Optional parts% = 10, Optional absoluteScalling As Boolean = False)
+            Call Me.New(range.xrange, range.yrange, parts, absoluteScalling)
 
             serials = range.serials
             hist = range.hist
         End Sub
 
-        Sub New(xrange As DoubleRange, yrange As DoubleRange, Optional parts% = 10)
-            xAxis = New Vector(xrange.GetAxisValues(parts))
-            yAxis = New Vector(yrange.GetAxisValues(parts))
+        Sub New(xrange As DoubleRange, yrange As DoubleRange, Optional parts% = 10, Optional absoluteScalling As (Boolean, Boolean) = (False, False))
+            xAxis = New Vector(xrange.GetAxisValues(parts, absoluteScalling))
+            yAxis = New Vector(yrange.GetAxisValues(parts, absoluteScalling))
             dx = xAxis.Max - xAxis.Min
             dy = yAxis.Max - yAxis.Min
             xmin = xAxis.Min
