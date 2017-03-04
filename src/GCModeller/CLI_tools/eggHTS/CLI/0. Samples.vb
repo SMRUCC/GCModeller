@@ -1,8 +1,12 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.ChartPlots.csv
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -243,5 +247,27 @@ Partial Module CLI
         Next
 
         Return dataTable.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/plot.pimw",
+               Usage:="/plot.pimw /in <samples.csv> [/field.pi <calc. pI> /field.mw <MW [kDa]> /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
+    Public Function pimwScatterPlot(args As CommandLine) As Integer
+        Dim [in] As String = args <= "/in"
+        Dim pi$ = args.GetValue("/field.pi", "calc. pI")
+        Dim mw$ = args.GetValue("/field.mw", "MW [kDa]")
+        Dim size As Size = args.GetValue("/size", New Size(1600, 1200))
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pI_MW.png")
+        Dim color As String = args.GetValue("/color", "black")
+        Dim ptSize! = args.GetValue("/pt.Size", 8.0!)
+        Dim res As Image = {
+            ScatterSerials(File.Load([in]), pi, mw, color, ptSize)
+        }.Plot(size:=size,
+               drawLine:=False,
+               XaxisAbsoluteScalling:=True,
+               absoluteScaling:=False,
+               Xlabel:="Calc.pI",
+               Ylabel:="MW [kDa]")
+
+        Return res.SaveAs(out).CLICode
     End Function
 End Module

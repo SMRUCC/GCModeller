@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::f873ea89db2c1e1abb0fb0b502c96167, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Gene.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,8 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
@@ -56,29 +58,35 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
         <ExportAPI("GET.Genes")>
         <Extension> Public Function GetGenes(gb As File) As GeneObject()
-            Dim GeneList = gb.GeneList
-            Dim GQuery As Generic.IEnumerable(Of GeneObject) =
-                From Gene In GeneList
-                Let Query = (
-                    From e In gb.Features._innerList Where String.Equals(e.Query("locus_tag"), Gene.Key)
+            Dim list As NamedValue(Of String)() = gb.GeneList
+            Dim genes = LinqAPI.Exec(Of GeneObject) <=
+ _
+                From gene
+                In list
+                Let features As Feature() = (
+                    From e
+                    In gb.Features._innerList
+                    Where String.Equals(e.Query(locus_tag), gene.Name)
                     Select e).ToArray
                 Select New GeneObject With {
-                    .LocusTag = Gene.Key,
-                    .Gene = Gene.Value,
-                    .Features = Query
+                    .LocusTag = gene.Name,
+                    .Gene = gene.Value,
+                    .Features = features
                 }
 
-            Return GQuery.ToArray
+            Return genes
         End Function
+
+        Const locus_tag$ = NameOf(locus_tag)
 
         <ExportAPI("GET.Gene")>
         <Extension> Public Function GetGene(gb As File, LocusTag As String) As GeneObject
-            Dim GQuery =
-                From Feature In gb.Features._innerList
-                Where String.Equals(Feature.Query("locus_tag"), LocusTag)
-                Select Feature '
-            Dim List = GQuery.ToList
-            Dim Gene = (From e In List Where String.Equals(e.KeyName, "gene") Select e).First
+            Dim LQuery = From feature As Feature
+                         In gb.Features._innerList
+                         Where String.Equals(feature.Query(locus_tag), LocusTag)
+                         Select feature '
+            Dim List As New List(Of Feature)(LQuery)
+            Dim Gene = (From e As Feature In List Where String.Equals(e.KeyName, "gene") Select e).First
 
             Call List.Remove(Gene)
 

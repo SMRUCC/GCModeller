@@ -28,6 +28,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
@@ -242,15 +244,19 @@ Namespace Assembly.NCBI.GenBank
         ''' <remarks></remarks>
         '''
         <ExportAPI("Export.GeneList")>
-        <Extension> Public Function GeneList(Gbk As NCBI.GenBank.GBFF.File) As KeyValuePair(Of String, String)()
+        <Extension> Public Function GeneList(Gbk As NCBI.GenBank.GBFF.File) As NamedValue(Of String)()
             Dim GQuery As IEnumerable(Of GBFF.Keywords.FEATURES.Feature) =
-                From feature In Gbk.Features
+                From feature
+                In Gbk.Features
                 Where String.Equals(feature.KeyName, "gene")
                 Select feature 'Gene list query
-            Dim AQuery = From locusTag
-                         In GQuery.ToArray
-                         Select New KeyValuePair(Of String, String)(locusTag.Query("locus_tag"), locusTag.Query("gene")) '
-            Return AQuery.ToArray
+            Dim AQuery = LinqAPI.Exec(Of NamedValue(Of String)) <=
+ _
+                From locusTag
+                In GQuery.ToArray
+                Select New NamedValue(Of String)(locusTag.Query("locus_tag"), locusTag.Query("gene")) '
+
+            Return AQuery
         End Function
 
         <ExportAPI("Export.16SrRNA")>
