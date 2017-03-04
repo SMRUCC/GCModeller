@@ -74,6 +74,7 @@ Public Module Scatter
                          Optional legendFontSize! = 24,
                          Optional absoluteScaling As Boolean = True,
                          Optional XaxisAbsoluteScalling As Boolean = False,
+                         Optional YaxisAbsoluteScalling As Boolean = False,
                          Optional drawAxis As Boolean = True) As Bitmap
 
         Dim margin As Padding = padding
@@ -83,7 +84,10 @@ Public Module Scatter
             bg,
             Sub(ByRef g, grect)
                 Dim array As SerialData() = c.ToArray
-                Dim mapper As New Mapper(New Scaling(array, absoluteScaling), absoluteScalling:=axisAbsoluteScalling)
+                Dim mapper As New Mapper(
+                    New Scaling(array, absoluteScaling),
+                    XabsoluteScalling:=XaxisAbsoluteScalling,
+                    YabsoluteScalling:=YaxisAbsoluteScalling)
 
                 If drawAxis Then
                     Call g.DrawAxis(size, margin, mapper, showGrid)

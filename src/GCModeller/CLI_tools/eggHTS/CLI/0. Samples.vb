@@ -263,7 +263,7 @@ Partial Module CLI
             ScatterSerials(File.Load([in]), pi, mw, color, ptSize)
         }.Plot(size:=size,
                drawLine:=False,
-               axisAbsoluteScalling:=True,
+               XaxisAbsoluteScalling:=True,
                absoluteScaling:=False)
 
         Return res.SaveAs(out).CLICode
