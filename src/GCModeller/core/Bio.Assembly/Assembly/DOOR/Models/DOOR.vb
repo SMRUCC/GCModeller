@@ -49,18 +49,31 @@ Namespace Assembly.DOOR
         ''' <returns></returns>
         Public Property Genes As OperonGene()
             Get
-                Return _Genes
+                Return _genes
             End Get
             Set(value As OperonGene())
-                _Genes = value
-                _geneHash = _Genes.ToDictionary(Function(gene) gene.Synonym)
+                _genes = value
+                _geneTable = _genes.ToDictionary(Function(gene) gene.Synonym)
             End Set
         End Property
 
-        Public Property DOOROperonView As OperonView
+        ''' <summary>
+        ''' 按照操纵子编号进行分组得到的operon模型的集合
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property DOOROperonView As OperonView
+            Get
+                If view Is Nothing Then
+                    view = CreateOperonView
+                End If
 
-        Dim _Genes As OperonGene()
-        Dim _geneHash As Dictionary(Of String, OperonGene)
+                Return view
+            End Get
+        End Property
+
+        Dim view As OperonView
+        Dim _genes As OperonGene()
+        Dim _geneTable As Dictionary(Of String, OperonGene)
 
         ''' <summary>
         ''' 查找不到目标基因对象则会返回空值
@@ -69,8 +82,8 @@ Namespace Assembly.DOOR
         ''' <returns></returns>
         Default Public ReadOnly Property GetGene(locusId As String) As OperonGene
             Get
-                If _geneHash.ContainsKey(locusId) Then
-                    Return _geneHash(locusId)
+                If _geneTable.ContainsKey(locusId) Then
+                    Return _geneTable(locusId)
                 Else
                     Return Nothing
                 End If
@@ -83,9 +96,9 @@ Namespace Assembly.DOOR
         ''' <param name="locus">目标基因的基因编号</param>
         ''' <returns></returns>
         Public Function IsOprPromoter(locus As String) As Boolean
-            Dim g As OperonGene = _geneHash(locus)
+            Dim g As OperonGene = _geneTable(locus)
             Dim opr As String = g.OperonID
-            Dim DOOR As Operon = Me.DOOROperonView.GetOperon(opr)
+            Dim DOOR As Operon = DOOROperonView.GetOperon(opr)
 
             Return String.Equals(DOOR.InitialX.Synonym, locus, StringComparison.OrdinalIgnoreCase)
         End Function
@@ -93,21 +106,25 @@ Namespace Assembly.DOOR
         ''' <summary>
         ''' 是否能够在存在的基因数据之中找得到目标基因对象？
         ''' </summary>
-        ''' <param name="GeneID"></param>
+        ''' <param name="locus_tag"></param>
         ''' <returns></returns>
-        Public Function ContainsGene(GeneID As String) As Boolean
-            Return _geneHash.ContainsKey(GeneID)
+        Public Function HaveGene(locus_tag As String) As Boolean
+            Return _geneTable.ContainsKey(locus_tag)
+        End Function
+
+        Public Function HaveOperon(DOOR_id$) As Boolean
+            Return DOOROperonView._operonsTable.ContainsKey(DOOR_id)
         End Function
 
         ''' <summary>
         ''' 根据基因编号来判断这两个基因是否是处在相同的一个操纵子之中的
         ''' </summary>
-        ''' <param name="a"></param>
-        ''' <param name="b"></param>
+        ''' <param name="locus_a"></param>
+        ''' <param name="locus_b"></param>
         ''' <returns></returns>
-        Public Function SameOperon(a As String, b As String) As Boolean
-            Dim ga As OperonGene = Me(a)
-            Dim gb As OperonGene = Me(b)
+        Public Function SameOperon(locus_a As String, locus_b As String) As Boolean
+            Dim ga As OperonGene = Me(locus_a)
+            Dim gb As OperonGene = Me(locus_b)
 
             If ga Is Nothing OrElse gb Is Nothing Then
                 Return False
@@ -119,14 +136,14 @@ Namespace Assembly.DOOR
         ''' <summary>
         ''' 根据操纵子编号来获取改操纵子之中的一系列的结构基因
         ''' </summary>
-        ''' <param name="OperonId"></param>
+        ''' <param name="operonID"></param>
         ''' <returns></returns>
-        Public Function [Select](OperonId As String) As OperonGene()
+        Public Function [Select](operonID As String) As OperonGene()
             Dim LQuery = LinqAPI.Exec(Of OperonGene) <=
  _
                 From obj As OperonGene
                 In Genes
-                Where String.Equals(OperonId, obj.OperonID)
+                Where String.Equals(operonID, obj.OperonID)
                 Select obj
                 Order By obj.Synonym Ascending
 
@@ -141,7 +158,7 @@ Namespace Assembly.DOOR
         Public Function GetOperon(locusId As String) As Operon
             Dim g As OperonGene = GetGene(locusId)
             Dim DOOR As String = g.OperonID
-            Return Me.DOOROperonView.GetOperon(DOOR)
+            Return DOOROperonView.GetOperon(DOOR)
         End Function
 
         Public Overrides Function Save(Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
@@ -155,7 +172,7 @@ Namespace Assembly.DOOR
         Public Shared Function CreateEmpty() As DOOR
             Return New DOOR With {
                 .Genes = New OperonGene() {},
-                .DOOROperonView = New OperonView With {
+                .view = New OperonView With {
                     .Operons = New Operon() {}
                 }
             }

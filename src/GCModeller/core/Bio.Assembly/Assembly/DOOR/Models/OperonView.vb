@@ -41,25 +41,26 @@ Namespace Assembly.DOOR
 
         Public Property Operons As Operon()
             Get
-                Return _Operons
+                Return _operons
             End Get
             Set(value As Operon())
-                _Operons = value
+                _operons = value
+
                 If Not value Is Nothing Then
-                    _Dict_Operons = value.ToDictionary(Function(x) x.Key)
+                    _operonsTable = value.ToDictionary(Function(x) x.Key)
                 Else
-                    _Dict_Operons = New Dictionary(Of String, Operon)
+                    _operonsTable = New Dictionary(Of String, Operon)
                 End If
             End Set
         End Property
 
-        Protected Friend __doorOperon As DOOR
+        Protected Friend DOOR As DOOR
 
-        Dim _Operons As Operon()
-        Dim _Dict_Operons As Dictionary(Of String, Operon) = New Dictionary(Of String, Operon)
+        Dim _operons As Operon()
+        Protected Friend _operonsTable As New Dictionary(Of String, Operon)
 
-        Public Function SameOperon(GeneId1 As String, GeneId2 As String) As String
-            Dim op1 = [Select](GeneId1), op2 = [Select](GeneId2)
+        Public Function SameOperon(locus_a As String, locus_b As String) As String
+            Dim op1 = [Select](locus_a), op2 = [Select](locus_b)
 
             If op1 Is Nothing OrElse op2 Is Nothing Then
                 Return ""
@@ -115,7 +116,7 @@ Namespace Assembly.DOOR
         ''' <remarks></remarks>
         Public Function [Select](GeneIdList As String()) As Operon()
             Dim OperonIdList = (From Gene As Assembly.DOOR.OperonGene
-                                    In __doorOperon.Genes
+                                    In DOOR.Genes
                                 Where Array.IndexOf(GeneIdList, Gene.Synonym) > -1
                                 Select Gene.OperonID
                                 Distinct
@@ -128,20 +129,20 @@ Namespace Assembly.DOOR
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Operon) Implements IEnumerable(Of Operon).GetEnumerator
-            For Each Operon As Operon In _Operons
+            For Each Operon As Operon In _operons
                 Yield Operon
             Next
         End Function
 
         Public ReadOnly Property Count As Integer Implements IReadOnlyCollection(Of Operon).Count, IReadOnlyCollection(Of KeyValuePair(Of String, Operon)).Count
             Get
-                Return Me._Operons.Count
+                Return Me._operons.Count
             End Get
         End Property
 
         Default Public Overloads ReadOnly Property Item(index As Integer) As Operon Implements IReadOnlyList(Of Operon).Item
             Get
-                Return Me._Operons(index)
+                Return Me._operons(index)
             End Get
         End Property
 
@@ -150,13 +151,13 @@ Namespace Assembly.DOOR
         End Function
 
         Public Iterator Function GetEnumerator2() As IEnumerator(Of KeyValuePair(Of String, Operon)) Implements IEnumerable(Of KeyValuePair(Of String, Operon)).GetEnumerator
-            For Each Item As KeyValuePair(Of String, Operon) In _Dict_Operons
+            For Each Item As KeyValuePair(Of String, Operon) In _operonsTable
                 Yield Item
             Next
         End Function
 
         Public Function ContainsOperon(OperonId As String) As Boolean Implements IReadOnlyDictionary(Of String, Operon).ContainsKey
-            Return _Dict_Operons.ContainsKey(OperonId)
+            Return _operonsTable.ContainsKey(OperonId)
         End Function
 
         ''' <summary>
@@ -166,18 +167,18 @@ Namespace Assembly.DOOR
         ''' <returns></returns>
         Public Overloads ReadOnly Property GetOperon(DOOR_Id As String) As Operon Implements IReadOnlyDictionary(Of String, Operon).Item
             Get
-                Return _Dict_Operons(DOOR_Id)
+                Return _operonsTable(DOOR_Id)
             End Get
         End Property
 
         Public ReadOnly Property Keys As IEnumerable(Of String) Implements IReadOnlyDictionary(Of String, Operon).Keys
             Get
-                Return _Dict_Operons.Keys
+                Return _operonsTable.Keys
             End Get
         End Property
 
         Public Function TryGetValue(key As String, ByRef value As Operon) As Boolean Implements IReadOnlyDictionary(Of String, Operon).TryGetValue
-            Return _Dict_Operons.TryGetValue(key, value)
+            Return _operonsTable.TryGetValue(key, value)
         End Function
 
         Public ReadOnly Property Values As IEnumerable(Of Operon) Implements IReadOnlyDictionary(Of String, Operon).Values

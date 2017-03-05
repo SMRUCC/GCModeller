@@ -10,7 +10,7 @@ Namespace Assembly.DOOR
 
         <Extension>
         Private Function __generate(DOOR As DOOR, sId As String, trim As Boolean) As String
-            Dim Genes As OperonGene() = DOOR.[Select](OperonId:=sId)
+            Dim Genes As OperonGene() = DOOR.[Select](operonID:=sId)
 
             If trim Then
                 If Genes.Length < 2 Then

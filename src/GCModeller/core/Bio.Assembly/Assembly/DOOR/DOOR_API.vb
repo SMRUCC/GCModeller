@@ -103,11 +103,10 @@ Software",
                     .Product = x.Product,
                     .Synonym = x.Synonym
                 }
-            Dim xD As New DOOR With {
+
+            Return New DOOR With {
                 .Genes = LQuery
             }
-            xD.DOOROperonView = xD.CreateOperonView
-            Return xD
         End Function
 
         ''' <summary>
@@ -116,42 +115,42 @@ Software",
         ''' <param name="struct">操纵子里面的某一个结构基因成员的基因编号</param>
         ''' <returns></returns>
         <ExportAPI("Get.OprFirst", Info:="Gets the first gene in the operon of the struct gene that inputs from the parameter.")>
-        Public Function GetOprFirst(struct As String, door As DOOR) As OperonGene
-            Dim gene = door.GetGene(struct)
+        Public Function GetOprFirst(struct As String, DOOR As DOOR) As OperonGene
+            Dim gene As OperonGene = DOOR.GetGene(struct)
             If gene Is Nothing Then
                 Return Nothing
             End If
 
-            Dim operon = door.DOOROperonView(gene.OperonID)
+            Dim operon As Operon = DOOR.DOOROperonView(gene.OperonID)
             Return operon.InitialX
         End Function
 
         ''' <summary>
-        ''' ``{OperonID, GeneId()}()``
+        ''' 创建操纵子对象的集合视图: ``{OperonID, GeneId()}()``
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("OperonView.Create"), Extension>
-        Public Function CreateOperonView(Door As DOOR) As OperonView
+        Public Function CreateOperonView(DOOR As DOOR) As OperonView
             Dim OperonIds As String() = LinqAPI.Exec(Of String) <=
  _
                 From obj As OperonGene
-                In Door.Genes
+                In DOOR.Genes
                 Select obj.OperonID
                 Distinct
                 Order By OperonID Ascending
 
             Dim LQuery = LinqAPI.Exec(Of Operon) <=
  _
-                From OperonId As String
+                From oprID As String
                 In OperonIds.AsParallel
-                Let genes = Door.[Select](OperonId)
-                Select New Operon(OperonId, genes)
+                Let genes = DOOR.[Select](oprID)
+                Select New Operon(oprID, genes)
 
             Return New OperonView With {
                 .Operons = LQuery,
-                .__doorOperon = Door
+                .DOOR = DOOR
             }
         End Function
 
@@ -185,13 +184,13 @@ Software",
         ''' <returns></returns>
         <ExportAPI("Doc.Save")>
         Public Function SaveFile(data As Operon(), Path As String) As Boolean
-            Dim sBuilder As String = GenerateDocument(data)
+            Dim sBuilder As String = Text(data)
             Return sBuilder.SaveTo(Path, Encoding.ASCII)
         End Function
 
         <ExportAPI("Doc.Reload")>
         Public Function Reload(data As Operon()) As DOOR
-            Dim Doc As String = GenerateDocument(data).Replace(vbLf, "")
+            Dim Doc As String = Text(data).Replace(vbLf, "")
             Dim DOOR As DOOR = LoadDocument(Doc.Split(CChar(vbCr)))
             Return DOOR
         End Function

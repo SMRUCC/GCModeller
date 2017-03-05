@@ -241,12 +241,12 @@ Namespace Regprecise
             ' 补齐基因的功能描述信息
             For Each gene As RegulatedGene In mappings
                 If String.IsNullOrEmpty(gene.Function) Then
-                    If DOOR.ContainsGene(gene.LocusId) Then
+                    If DOOR.HaveGene(gene.LocusId) Then
                         gene.Function = DOOR.GetGene(gene.LocusId).Product
                     End If
                 End If
                 If String.IsNullOrEmpty(gene.Name) Then
-                    If DOOR.ContainsGene(gene.LocusId) Then
+                    If DOOR.HaveGene(gene.LocusId) Then
                         gene.Name = DOOR.GetGene(gene.LocusId).COG_number
                     End If
                 End If
