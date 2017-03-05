@@ -260,7 +260,7 @@
     <Compile Include="Assembly\DOOR\DOOR_API.vb" />
     <Compile Include="Assembly\DOOR\Operon.vb" />
     <Compile Include="Assembly\DOOR\OperonView.vb" />
-    <Compile Include="Assembly\DOOR\Gene.vb" />
+    <Compile Include="Assembly\DOOR\OperonGene.vb" />
     <Compile Include="Assembly\DOOR\OperonLDM.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Tables.vb" />
     <Compile Include="Assembly\Expasy\API.vb" />

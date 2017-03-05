@@ -75,7 +75,7 @@ Namespace Workflows.PromoterParser
         Private Shared Function GetFASTA(i As Integer,
                                          SegmentLength As Integer,
                                          Operon As Operon,
-                                         FirstGene As GeneBrief,
+                                         FirstGene As OperonGene,
                                          GenomeSeq As IPolymerSequenceModel) _
             As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
 

@@ -187,7 +187,7 @@ Namespace Analysis.FootprintTraceAPI
                                   DOOR As DOOR,
                                   mapsHash As Dictionary(Of String, bbhMappings())) As PredictedRegulationFootprint()
 
-            Dim g As GeneBrief = DOOR.GetGene(site.ORF)
+            Dim g As OperonGene = DOOR.GetGene(site.ORF)
             site.DoorId = g.OperonID
             site.ORFDirection = g.Location.Strand.GetBriefCode
             site.Strand = site.ORFDirection

@@ -28,11 +28,11 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.DOOR
 
@@ -80,15 +80,20 @@ Software",
     <PackageNamespace("Door.API", Category:=APICategories.UtilityTools, Description:="Door operon prediction data.")>
     Public Module DOOR_API
 
-        Public Function PTT2DOOR(PTT As NCBI.GenBank.TabularFormat.PTT) As DOOR
+        ''' <summary>
+        ''' 将NCBI之中的PTT蛋白表转换为DOOR文件
+        ''' </summary>
+        ''' <param name="PTT"></param>
+        ''' <returns></returns>
+        <Extension> Public Function PTT2DOOR(PTT As NCBI.GenBank.TabularFormat.PTT) As DOOR
             Dim array = PTT.GeneObjects.ToArray
-            Dim LQuery As GeneBrief() = LinqAPI.Exec(Of GeneBrief) <=
+            Dim LQuery As OperonGene() = LinqAPI.Exec(Of OperonGene) <=
  _
                 From o
                 In array.SeqIterator
                 Let idx As Integer = o.i
                 Let x = o.value
-                Select New GeneBrief With {
+                Select New OperonGene With {
                     .COG_number = x.COG,
                     .GI = x.PID,
                     .Length = x.Length,
@@ -110,7 +115,7 @@ Software",
         ''' <param name="struct">操纵子里面的某一个结构基因成员的基因编号</param>
         ''' <returns></returns>
         <ExportAPI("Get.OprFirst", Info:="Gets the first gene in the operon of the struct gene that inputs from the parameter.")>
-        Public Function GetOprFirst(struct As String, door As DOOR) As GeneBrief
+        Public Function GetOprFirst(struct As String, door As DOOR) As OperonGene
             Dim gene = door.GetGene(struct)
             If gene Is Nothing Then
                 Return Nothing
@@ -121,7 +126,7 @@ Software",
         End Function
 
         ''' <summary>
-        ''' {OperonID, GeneId()}()
+        ''' ``{OperonID, GeneId()}()``
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
@@ -130,7 +135,7 @@ Software",
         Public Function CreateOperonView(Door As DOOR) As OperonView
             Dim OperonIds As String() = LinqAPI.Exec(Of String) <=
  _
-                From obj As GeneBrief
+                From obj As OperonGene
                 In Door.Genes
                 Select obj.OperonID
                 Distinct
@@ -167,12 +172,21 @@ Software",
             Return DOOR.DocParser(s_Data, path)
         End Function
 
+        ''' <summary>
+        ''' 将操纵子模型数据保存为DOOR数据库格式
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="Path"></param>
+        ''' <returns></returns>
         <ExportAPI("Doc.Save")>
         Public Function SaveFile(data As Operon(), Path As String) As Boolean
             Dim sBuilder As String = GenerateDocument(data)
             Return sBuilder.SaveTo(Path, Encoding.ASCII)
         End Function
 
+        ''' <summary>
+        ''' 文本的标题行
+        ''' </summary>
         Const docTitle As String = "OperonID	GI	Synonym	Start	End	Strand	Length	COG_number	Product"
 
         <ExportAPI("Doc.Create")>
@@ -182,7 +196,7 @@ Software",
  _
                 From Operon As Operon
                 In data
-                Select From gene As GeneBrief
+                Select From gene As OperonGene
                        In Operon.Value
                        Let strand = If(gene.Location.Strand = Strands.Forward, "+", "-")
                        Let rowData = {

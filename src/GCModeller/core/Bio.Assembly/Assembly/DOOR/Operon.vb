@@ -35,9 +35,9 @@ Namespace Assembly.DOOR
     ''' <see cref="Operon.Genes">操纵子中的基因</see>在构造函数之中已经进行过按照转录方向排序操作了的
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Operon : Inherits KeyValuePairObject(Of String, GeneBrief())
+    Public Class Operon : Inherits KeyValuePairObject(Of String, OperonGene())
         Implements INamedValue
-        Implements IReadOnlyDictionary(Of String, GeneBrief)
+        Implements IReadOnlyDictionary(Of String, OperonGene)
 
         ''' <summary>
         ''' OperonId value.(操纵子的Door编号)
@@ -72,18 +72,18 @@ Namespace Assembly.DOOR
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overrides Property Value As GeneBrief()
+        Public Overrides Property Value As OperonGene()
             Get
                 Return MyBase.Value
             End Get
-            Set(value As GeneBrief())
+            Set(value As OperonGene())
                 MyBase.Value = value
                 SortedIdList = (From Gene In value Select Gene.Synonym).ToArray
             End Set
         End Property
 
         ''' <summary>
-        ''' 这个列表的<see cref="GeneBrief.Synonym">对象</see>顺序与<see cref="Operon.Value"></see>之中的列表对象的顺序一致
+        ''' 这个列表的<see cref="OperonGene.Synonym">对象</see>顺序与<see cref="Operon.Value"></see>之中的列表对象的顺序一致
         ''' </summary>
         ''' <remarks></remarks>
         Dim SortedIdList As String()
@@ -105,17 +105,17 @@ Namespace Assembly.DOOR
             End Get
         End Property
 
-        Sub New(OperonId As String, Genes As GeneBrief())
+        Sub New(OperonId As String, Genes As OperonGene())
             Me.Key = OperonId
             Me.Value = Genes
 
             If Me.InitialX.Location.Strand = Strands.Forward Then  '按照转录的方向进行排序
-                Me.Value = (From g As GeneBrief
+                Me.Value = (From g As OperonGene
                             In Me.Value
                             Select g
                             Order By g.Location.Left Ascending).ToArray
             Else
-                Value = (From GeneObject In Value Select GeneObject Order By GeneObject.Location.Right Descending).ToArray
+                Value = (From gene As OperonGene In Value Select gene Order By gene.Location.Right Descending).ToArray
             End If
         End Sub
 
@@ -123,7 +123,7 @@ Namespace Assembly.DOOR
         ''' 这个Operon里面的所有的结构基因的基因号的集合
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property lstLocus As IEnumerable(Of String) Implements IReadOnlyDictionary(Of String, GeneBrief).Keys
+        Public ReadOnly Property lstLocus As IEnumerable(Of String) Implements IReadOnlyDictionary(Of String, OperonGene).Keys
             Get
                 Return SortedIdList.ToArray
             End Get
@@ -137,11 +137,11 @@ Namespace Assembly.DOOR
         ''' 若为中间的一个基因的话，则返回该基因以及其后面的所有基因，“后面”是依照<see cref="ComponentModel.Loci.NucleotideLocation.Strand">转录方向</see>来判定的</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function GetLast(GeneId As String) As GeneBrief()
+        Public Function GetLast(GeneId As String) As OperonGene()
             Dim p As Integer = Array.IndexOf(SortedIdList, GeneId)
 
             If p = SortedIdList.Length - 1 Then
-                Return New GeneBrief() {Value.Last}
+                Return New OperonGene() {Value.Last}
             End If
 
             If p > -1 Then
@@ -158,14 +158,14 @@ Namespace Assembly.DOOR
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property InitialX As GeneBrief
+        Public ReadOnly Property InitialX As OperonGene
             Get
                 If Value.First.Location.Strand = Strands.Forward Then
-                    Return (From g As GeneBrief In MyBase.Value
+                    Return (From g As OperonGene In MyBase.Value
                             Select g
                             Order By g.Location.Left Ascending).First
                 Else
-                    Return (From g As GeneBrief In MyBase.Value
+                    Return (From g As OperonGene In MyBase.Value
                             Select g
                             Order By g.Location.Right Descending).First
                 End If
@@ -178,7 +178,7 @@ Namespace Assembly.DOOR
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property LastGene As GeneBrief
+        Public ReadOnly Property LastGene As OperonGene
             Get
                 If Value.First.Location.Strand = Strands.Forward Then
                     Return (From Gene In MyBase.Value Select Gene Order By Gene.Location.Left Ascending).Last
@@ -209,7 +209,7 @@ Namespace Assembly.DOOR
         ''' <remarks></remarks>
         Public Function ConvertToCsvData() As Assembly.DOOR.CsvModel.Operon
             Dim Direction As String = Value.First.Location.Strand.GetBriefCode
-            Dim structs As String() = (From GeneObject As GeneBrief
+            Dim structs As String() = (From GeneObject As OperonGene
                                        In Me.Value
                                        Select GeneObject.Synonym).ToArray
             Return New Assembly.DOOR.CsvModel.Operon With {
@@ -220,11 +220,11 @@ Namespace Assembly.DOOR
             }
         End Function
 
-        Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of String, GeneBrief)) _
-                    Implements IEnumerable(Of KeyValuePair(Of String, GeneBrief)).GetEnumerator
+        Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of String, OperonGene)) _
+                    Implements IEnumerable(Of KeyValuePair(Of String, OperonGene)).GetEnumerator
 
-            For Each Item As GeneBrief In Genes
-                Yield New KeyValuePair(Of String, GeneBrief)(Item.Synonym, Item)
+            For Each Item As OperonGene In Genes
+                Yield New KeyValuePair(Of String, OperonGene)(Item.Synonym, Item)
             Next
         End Function
 
@@ -232,7 +232,7 @@ Namespace Assembly.DOOR
         ''' 这个操纵子里面的结构基因的数目
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property NumOfGenes As Integer Implements IReadOnlyCollection(Of KeyValuePair(Of String, GeneBrief)).Count
+        Public ReadOnly Property NumOfGenes As Integer Implements IReadOnlyCollection(Of KeyValuePair(Of String, OperonGene)).Count
             Get
                 Return Value.Length
             End Get
@@ -243,12 +243,12 @@ Namespace Assembly.DOOR
         ''' </summary>
         ''' <param name="locusId"></param>
         ''' <returns></returns>
-        Public Function HaveGene(locusId As String) As Boolean Implements IReadOnlyDictionary(Of String, GeneBrief).ContainsKey
-            Dim LQuery = (From g As GeneBrief In Value Where String.Equals(g.Synonym, locusId) Select g).FirstOrDefault
+        Public Function HaveGene(locusId As String) As Boolean Implements IReadOnlyDictionary(Of String, OperonGene).ContainsKey
+            Dim LQuery = (From g As OperonGene In Value Where String.Equals(g.Synonym, locusId) Select g).FirstOrDefault
             Return Not LQuery Is Nothing
         End Function
 
-        Default Public ReadOnly Property Item(key As String) As GeneBrief Implements IReadOnlyDictionary(Of String, GeneBrief).Item
+        Default Public ReadOnly Property Item(key As String) As OperonGene Implements IReadOnlyDictionary(Of String, OperonGene).Item
             Get
                 Dim LQuery = (From Gene In Value Where String.Equals(Gene.Synonym, key) Select Gene).ToArray
                 If LQuery.IsNullOrEmpty Then
@@ -259,8 +259,8 @@ Namespace Assembly.DOOR
             End Get
         End Property
 
-        Public Function TryGetValue(key As String, ByRef value As GeneBrief) As Boolean _
-                    Implements IReadOnlyDictionary(Of String, GeneBrief).TryGetValue
+        Public Function TryGetValue(key As String, ByRef value As OperonGene) As Boolean _
+                    Implements IReadOnlyDictionary(Of String, OperonGene).TryGetValue
 
             Dim Gene = Item(key)
             value = Gene
@@ -271,7 +271,7 @@ Namespace Assembly.DOOR
         ''' 这个属性会返回本Operon里面的一组基因，基因的位置和其在基因组上面的位置相关，并且与链的方向相关
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Genes As IEnumerable(Of GeneBrief) Implements IReadOnlyDictionary(Of String, GeneBrief).Values
+        Public ReadOnly Property Genes As IEnumerable(Of OperonGene) Implements IReadOnlyDictionary(Of String, OperonGene).Values
             Get
                 Return Value
             End Get

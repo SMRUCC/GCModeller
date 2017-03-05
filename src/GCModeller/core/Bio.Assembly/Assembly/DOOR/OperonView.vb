@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Namespace Assembly.DOOR
 
     ''' <summary>
-    ''' {OperonID, GeneId()}()
+    ''' ``{OperonID, GeneId()}()``
     ''' </summary>
     ''' <remarks></remarks>
     Public Class OperonView
@@ -72,7 +72,7 @@ Namespace Assembly.DOOR
             End If
         End Function
 
-        Public Shared Function GetFirstGene(Operon As KeyValuePair(Of String, GeneBrief())) As GeneBrief
+        Public Shared Function GetFirstGene(Operon As KeyValuePair(Of String, OperonGene())) As OperonGene
             If Operon.Value.First.Location.Strand = Strands.Forward Then
                 Return (From Gene In Operon.Value Select Gene Order By Gene.Location.Left Ascending).First
             Else
@@ -80,7 +80,7 @@ Namespace Assembly.DOOR
             End If
         End Function
 
-        Public Shared Function GenerateLstIdString(Operon As KeyValuePairObject(Of String, GeneBrief())) As String
+        Public Shared Function GenerateLstIdString(Operon As KeyValuePairObject(Of String, OperonGene())) As String
             If Operon.Value.Count = 1 Then
                 Return Operon.Value.First.Synonym
             End If
@@ -114,7 +114,7 @@ Namespace Assembly.DOOR
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function [Select](GeneIdList As String()) As Operon()
-            Dim OperonIdList = (From Gene As Assembly.DOOR.GeneBrief
+            Dim OperonIdList = (From Gene As Assembly.DOOR.OperonGene
                                     In __doorOperon.Genes
                                 Where Array.IndexOf(GeneIdList, Gene.Synonym) > -1
                                 Select Gene.OperonID

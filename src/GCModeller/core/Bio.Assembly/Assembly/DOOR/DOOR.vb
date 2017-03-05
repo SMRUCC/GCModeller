@@ -50,11 +50,11 @@ Namespace Assembly.DOOR
         ''' 在文件之中，是一个表格的形式来表示整个文件的，这个属性表示文件之中的所有行
         ''' </summary>
         ''' <returns></returns>
-        Public Property Genes As GeneBrief()
+        Public Property Genes As OperonGene()
             Get
                 Return _Genes
             End Get
-            Set(value As GeneBrief())
+            Set(value As OperonGene())
                 _Genes = value
                 _geneHash = _Genes.ToDictionary(Function(gene) gene.Synonym)
             End Set
@@ -62,15 +62,15 @@ Namespace Assembly.DOOR
 
         Public Property DOOROperonView As OperonView
 
-        Dim _Genes As GeneBrief()
-        Dim _geneHash As Dictionary(Of String, GeneBrief)
+        Dim _Genes As OperonGene()
+        Dim _geneHash As Dictionary(Of String, OperonGene)
 
         ''' <summary>
         ''' 查找不到目标基因对象则会返回空值
         ''' </summary>
         ''' <param name="locusId"></param>
         ''' <returns></returns>
-        Default Public ReadOnly Property GetGene(locusId As String) As GeneBrief
+        Default Public ReadOnly Property GetGene(locusId As String) As OperonGene
             Get
                 If _geneHash.ContainsKey(locusId) Then
                     Return _geneHash(locusId)
@@ -86,7 +86,7 @@ Namespace Assembly.DOOR
         ''' <param name="locus"></param>
         ''' <returns></returns>
         Public Function IsOprPromoter(locus As String) As Boolean
-            Dim g As GeneBrief = _geneHash(locus)
+            Dim g As OperonGene = _geneHash(locus)
             Dim opr As String = g.OperonID
             Dim DOOR As Operon = Me.DOOROperonView.GetOperon(opr)
             Return String.Equals(DOOR.InitialX.Synonym, locus, StringComparison.OrdinalIgnoreCase)
@@ -106,10 +106,10 @@ Namespace Assembly.DOOR
             Return String.Equals(ga.OperonID, gb.OperonID)
         End Function
 
-        Public Function [Select](OperonId As String) As GeneBrief()
-            Dim LQuery = LinqAPI.Exec(Of GeneBrief) <=
+        Public Function [Select](OperonId As String) As OperonGene()
+            Dim LQuery = LinqAPI.Exec(Of OperonGene) <=
  _
-                From obj As GeneBrief
+                From obj As OperonGene
                 In Genes
                 Where String.Equals(OperonId, obj.OperonID)
                 Select obj
@@ -124,7 +124,7 @@ Namespace Assembly.DOOR
         ''' <param name="locusId">The gene's locus_tag</param>
         ''' <returns></returns>
         Public Function GetOperon(locusId As String) As Operon
-            Dim g As GeneBrief = GetGene(locusId)
+            Dim g As OperonGene = GetGene(locusId)
             Dim DOOR As String = g.OperonID
             Return Me.DOOROperonView.GetOperon(DOOR)
         End Function
@@ -138,7 +138,7 @@ Namespace Assembly.DOOR
         End Operator
 
         Private Function __generate(sId As String, trim As Boolean) As String
-            Dim Genes As GeneBrief() = Me.[Select](OperonId:=sId)
+            Dim Genes As OperonGene() = Me.[Select](OperonId:=sId)
 
             If trim Then
                 If Genes.Length < 2 Then
@@ -171,7 +171,7 @@ Namespace Assembly.DOOR
 
         Public Shared Function CreateEmpty() As DOOR
             Return New DOOR With {
-                .Genes = New GeneBrief() {},
+                .Genes = New OperonGene() {},
                 .DOOROperonView = New OperonView With {
                     .Operons = New Operon() {}
                 }
@@ -179,9 +179,9 @@ Namespace Assembly.DOOR
         End Function
 
         Public Shared Function DocParser(data As String(), path As String) As DOOR
-            Dim LQuery As GeneBrief() = (From s_Line As String In data.Skip(1)
+            Dim LQuery As OperonGene() = (From s_Line As String In data.Skip(1)
                                          Where Not String.IsNullOrEmpty(s_Line)
-                                         Select GeneBrief.TryParse(s_Line)).ToArray
+                                         Select OperonGene.TryParse(s_Line)).ToArray
             Dim DOOR As DOOR = New DOOR With {
                 .Genes = LQuery,
                 .FilePath = path
@@ -200,7 +200,7 @@ Namespace Assembly.DOOR
         Public Function Export(SavedPath As String, Trim As Boolean) As Boolean
             Dim OperonIds As String() = LinqAPI.Exec(Of String) <=
  _
-                From gene As GeneBrief
+                From gene As OperonGene
                 In Genes
                 Select gene.OperonID
                 Distinct

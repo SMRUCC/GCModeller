@@ -38,7 +38,7 @@ Namespace Assembly.DOOR.CsvModel
         ''' <remarks></remarks>
         Public Property DoorId As String
         ''' <summary>
-        ''' 转路方向
+        ''' 转录方向
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>

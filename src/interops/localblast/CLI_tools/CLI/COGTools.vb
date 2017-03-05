@@ -95,7 +95,7 @@ Partial Module CLI
 
         Return (LinqAPI.MakeList(Of MyvaCOG) <=
  _
-            From x As GeneBrief
+            From x As OperonGene
             In DOOR.Genes
             Select New MyvaCOG With {
                 .COG = x.COG_number,

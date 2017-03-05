@@ -26,11 +26,11 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.DOOR
 
@@ -38,9 +38,13 @@ Namespace Assembly.DOOR
     ''' Door操纵子之中的一个基因对象的数据
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class GeneBrief : Implements INamedValue
+    Public Class OperonGene : Implements INamedValue
         Implements IGeneBrief
 
+        ''' <summary>
+        ''' DOOR数据库之中的操纵子编号
+        ''' </summary>
+        ''' <returns></returns>
         Public Property OperonID As String Implements INamedValue.Key
         Public Property GI As String
         Public Property Synonym As String
@@ -56,6 +60,10 @@ Namespace Assembly.DOOR
         Sub New()
         End Sub
 
+        ''' <summary>
+        ''' 将PTT文件之中的一个基因模型转换为DOOR数据库之中的一个基因模型
+        ''' </summary>
+        ''' <param name="g"></param>
         Sub New(g As NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief)
             GI = g.PID
             Synonym = g.Synonym
@@ -65,24 +73,28 @@ Namespace Assembly.DOOR
             Location = g.Location
         End Sub
 
-        Public Shared Function TryParse(strLine As String) As GeneBrief
-            Dim Tokens As String() = Strings.Split(strLine, vbTab)
-            Dim Gene As Assembly.DOOR.GeneBrief = New GeneBrief
+        ''' <summary>
+        ''' 将``opr``文件之中的一行元素解析为一个操纵子之中的基因的模型
+        ''' </summary>
+        ''' <param name="strLine">文件之中的文本行</param>
+        ''' <returns></returns>
+        Public Shared Function TryParse(strLine As String) As OperonGene
+            Dim tokens As String() = Strings.Split(strLine, vbTab)
             Dim p As int = Scan0
-            Gene.OperonID = Tokens(++p)
-            Gene.GI = Tokens(++p)
-            Gene.Synonym = Tokens(++p)
-            Gene.Location =
-                New ComponentModel.Loci.NucleotideLocation With {
-                    .Left = Tokens(++p),
-                    .Right = Tokens(++p),
-                    .Strand = GetStrand(Tokens(++p))
-            }
-            Gene.Length = Tokens(++p)
-            Gene.COG_number = Tokens(++p)
-            Gene.Product = Tokens(++p)
 
-            Return Gene
+            Return New OperonGene With {
+                .OperonID = tokens(++p),
+                .GI = tokens(++p),
+                .Synonym = tokens(++p),
+                .Location = New NucleotideLocation With {
+                    .Left = tokens(++p),
+                    .Right = tokens(++p),
+                    .Strand = GetStrand(tokens(++p))
+                },
+                .Length = tokens(++p),
+                .COG_number = tokens(++p),
+                .Product = tokens(++p)
+            }
         End Function
     End Class
 End Namespace
