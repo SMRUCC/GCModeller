@@ -49,7 +49,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' 整个基因组中的所有基因的集合，包括有蛋白质编码基因和RNA基因
         ''' </summary>
         ''' <remarks></remarks>
-        Dim _genomeContext As Dictionary(Of String, GeneBrief) = New Dictionary(Of String, GeneBrief)
+        Dim _genomeContext As New Dictionary(Of String, GeneBrief)
 
         Public ReadOnly Property GeneFastas As Dictionary(Of String, FastaObjects.Fasta)
         Public ReadOnly Property Proteins As Dictionary(Of String, FastaObjects.Fasta)

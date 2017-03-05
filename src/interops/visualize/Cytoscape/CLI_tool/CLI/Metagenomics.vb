@@ -102,7 +102,7 @@ Partial Module CLI
         Dim type As String = args.GetValue("/type", "blast_out").ToLower
         Dim method As BuildFromSource
 
-        If BuildMethods.ContainsKey(type) Then
+        If BuildMethods.HaveOperon(type) Then
             method = BuildMethods(type)
         Else
             method = AddressOf BuildFromBlastOUT

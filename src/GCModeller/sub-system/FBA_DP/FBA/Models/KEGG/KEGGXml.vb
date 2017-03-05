@@ -55,7 +55,7 @@ Namespace Models
         End Function
 
         Public Overrides Function GetEquation(rxn As String) As String
-            If _reactions.ContainsKey(rxn) Then
+            If _reactions.HaveOperon(rxn) Then
                 Return _reactions(rxn).ToString
             Else
                 Return ""

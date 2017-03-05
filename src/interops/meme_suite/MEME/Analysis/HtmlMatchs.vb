@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::f5cb24ce3fe849bd402314b7ce790df6, ..\interops\meme_suite\MEME\Analysis\HtmlMatchs.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -54,6 +54,7 @@ Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel
 
 Imports Strands = SMRUCC.genomics.ComponentModel.Loci.Strands
+Imports SMRUCC.genomics.Assembly.DOOR
 
 Namespace Analysis
 
@@ -406,15 +407,15 @@ Namespace Analysis
             Return 0
         End Function
 
-        Private Function __matchProcess(DoorOperons As DOOR.OperonView,
+        Private Function __matchProcess(DOOR As OperonView,
                                         item As MatchedResult,
                                         Pcc As PccMatrix,
                                         WGCNAWeights As WGCNAWeight) As MatchedResult
 
-            If Not DoorOperons.ContainsOperon(item.DoorId) Then
+            If Not DOOR.HaveOperon(item.DoorId) Then
                 Call $"{item.DoorId} is not exists in the operons data!".__DEBUG_ECHO
             Else
-                item.OperonPromoter = DoorOperons(item.DoorId).InitialX.Synonym
+                item.OperonPromoter = DOOR(item.DoorId).InitialX.Synonym
             End If
             item.TFPcc = Pcc.GetValue(item.TF, item.OperonPromoter)
             item.PccArray = (From Id As String In item.OperonGeneIds Select Pcc.GetValue(item.TF, Id)).ToArray
@@ -555,12 +556,11 @@ Namespace Analysis
             Return 0
         End Function
 
-        Private Function __assignOperonInfo(item As MatchedResult,
-                                            DoorOperons As SMRUCC.genomics.Assembly.DOOR.OperonView) As MatchedResult
-            If Not DoorOperons.ContainsOperon(item.DoorId) Then
+        Private Function __assignOperonInfo(item As MatchedResult, DOOR As OperonView) As MatchedResult
+            If Not DOOR.HaveOperon(item.DoorId) Then
                 Call $"{item.DoorId} is not exists in the operons data!".__DEBUG_ECHO
             Else
-                item.OperonPromoter = DoorOperons(item.DoorId).InitialX.Synonym
+                item.OperonPromoter = DOOR(item.DoorId).InitialX.Synonym
             End If
 
             Return item

@@ -313,7 +313,7 @@ Namespace Runtime.MMU
             End Get
         End Property
 
-        Public Function ContainsKey(key As String) As Boolean Implements IReadOnlyDictionary(Of String, MMU.IPageUnit).ContainsKey
+        Public Function ContainsKey(key As String) As Boolean Implements IReadOnlyDictionary(Of String, MMU.IPageUnit).HaveOperon
             Return Me.MTRR.ContainsKey(key.ToLower)
         End Function
 

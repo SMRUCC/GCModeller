@@ -231,7 +231,7 @@ Namespace SPM
             End Get
         End Property
 
-        Public Function ContainsKey(key As String) As Boolean Implements IDictionary(Of String, [Namespace]).ContainsKey
+        Public Function ContainsKey(key As String) As Boolean Implements IDictionary(Of String, [Namespace]).HaveOperon
             Return Me._NamespaceHash.ContainsKey(key.ToLower)
         End Function
 

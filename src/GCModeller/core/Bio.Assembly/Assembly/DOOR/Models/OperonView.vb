@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::aea6c367400d052e9aa4e214ef3d6ac8, ..\GCModeller\core\Bio.Assembly\Assembly\DOOR\OperonView.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.DOOR
 
@@ -73,21 +74,6 @@ Namespace Assembly.DOOR
             End If
         End Function
 
-        Public Shared Function GetFirstGene(Operon As KeyValuePair(Of String, OperonGene())) As OperonGene
-            If Operon.Value.First.Location.Strand = Strands.Forward Then
-                Return (From Gene In Operon.Value Select Gene Order By Gene.Location.Left Ascending).First
-            Else
-                Return (From Gene In Operon.Value Select Gene Order By Gene.Location.Left Descending).First
-            End If
-        End Function
-
-        Public Shared Function GenerateLstIdString(Operon As KeyValuePairObject(Of String, OperonGene())) As String
-            If Operon.Value.Count = 1 Then
-                Return Operon.Value.First.Synonym
-            End If
-            Return String.Join("; ", (From GeneObject In Operon.Value Select GeneObject.Synonym).ToArray)
-        End Function
-
         Public Function [Select](GeneId As String, Optional Parallel As Boolean = True) As Operon
             Dim LQuery As Operon()
 
@@ -111,21 +97,23 @@ Namespace Assembly.DOOR
         ''' <summary>
         ''' 使用基因编号列表来获取目标操纵子对象的集合
         ''' </summary>
-        ''' <param name="GeneIdList"></param>
+        ''' <param name="listID"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function [Select](GeneIdList As String()) As Operon()
-            Dim OperonIdList = (From Gene As Assembly.DOOR.OperonGene
-                                    In DOOR.Genes
-                                Where Array.IndexOf(GeneIdList, Gene.Synonym) > -1
-                                Select Gene.OperonID
-                                Distinct
-                                Order By OperonID Ascending).ToArray
-            Dim LQuery = (From Operon As Operon
-                              In Operons
-                          Where Array.IndexOf(OperonIdList, Operon.Key) > -1
-                          Select Operon).ToArray
-            Return LQuery
+        Public Function [Select](listID As IEnumerable(Of String)) As Operon()
+            Dim list$() = listID.ToArray
+            Dim operons = LinqAPI.Exec(Of String) <=
+ _
+                From gene As OperonGene
+                In DOOR.Genes
+                Where Array.IndexOf(list, gene.Synonym) > -1
+                Select gene.OperonID
+                Distinct
+                Order By OperonID Ascending
+
+            Return operons _
+                .Select(Function(opr) _operonsTable(opr)) _
+                .ToArray
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Operon) Implements IEnumerable(Of Operon).GetEnumerator
@@ -156,18 +144,23 @@ Namespace Assembly.DOOR
             Next
         End Function
 
-        Public Function ContainsOperon(OperonId As String) As Boolean Implements IReadOnlyDictionary(Of String, Operon).ContainsKey
-            Return _operonsTable.ContainsKey(OperonId)
+        ''' <summary>
+        ''' 目标操纵子对象是否存在于这个基因组之中？？
+        ''' </summary>
+        ''' <param name="operonID"></param>
+        ''' <returns></returns>
+        Public Function HaveOperon(operonID As String) As Boolean Implements IReadOnlyDictionary(Of String, Operon).ContainsKey
+            Return _operonsTable.ContainsKey(operonID)
         End Function
 
         ''' <summary>
         ''' 从这里得到指定DOOR编号的操纵子对象
         ''' </summary>
-        ''' <param name="DOOR_Id"></param>
+        ''' <param name="DOOR_id"></param>
         ''' <returns></returns>
-        Public Overloads ReadOnly Property GetOperon(DOOR_Id As String) As Operon Implements IReadOnlyDictionary(Of String, Operon).Item
+        Public Overloads ReadOnly Property GetOperon(DOOR_id As String) As Operon Implements IReadOnlyDictionary(Of String, Operon).Item
             Get
-                Return _operonsTable(DOOR_Id)
+                Return _operonsTable(DOOR_id)
             End Get
         End Property
 

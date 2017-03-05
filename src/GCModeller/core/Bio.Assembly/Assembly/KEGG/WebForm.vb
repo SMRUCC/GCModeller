@@ -250,7 +250,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             End Get
         End Property
 
-        Public Function ContainsKey(key As String) As Boolean Implements IReadOnlyDictionary(Of String, String()).ContainsKey
+        Public Function ContainsKey(key As String) As Boolean Implements IReadOnlyDictionary(Of String, String()).HaveOperon
             Return _strData.ContainsKey(key)
         End Function
 

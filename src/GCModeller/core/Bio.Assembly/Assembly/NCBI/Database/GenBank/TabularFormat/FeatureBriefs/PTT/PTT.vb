@@ -339,7 +339,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' </summary>
         ''' <param name="locusId"><see cref="GeneBrief.Synonym"/></param>
         ''' <returns></returns>
-        Public Function ExistsLocusId(locusId As String) As Boolean Implements IReadOnlyDictionary(Of String, GeneBrief).ContainsKey
+        Public Function ExistsLocusId(locusId As String) As Boolean Implements IReadOnlyDictionary(Of String, GeneBrief).HaveOperon
             Return __innerHash.ContainsKey(locusId)
         End Function
 

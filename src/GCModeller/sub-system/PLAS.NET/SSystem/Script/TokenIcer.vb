@@ -68,7 +68,7 @@ Namespace Script
         <Extension> Private Function __tokenParser(line As String) As Token(Of Tokens)
             Dim x As String = line.Split.First.ToUpper
 
-            If Not Tokens.ContainsKey(x) Then
+            If Not Tokens.HaveOperon(x) Then
                 Return Nothing
             End If
 

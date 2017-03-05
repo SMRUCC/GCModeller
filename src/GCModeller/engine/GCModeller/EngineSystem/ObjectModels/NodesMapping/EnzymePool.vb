@@ -43,12 +43,12 @@ Namespace EngineSystem.ObjectModels.PoolMappings
                 Enzymes As Generic.IEnumerable(Of EngineSystem.ObjectModels.Feature.MetabolismEnzyme))
 
             Me._MappingHandlers = (From strId As String In (From item In ReactionModels Select item.EC Distinct).ToArray.AsParallel Select New PoolMappings.EnzymeClass(strId)).ToArray.AddHandle
-            Me._DICT_MappingPool = New Dictionary(Of String, List(Of Feature.MetabolismEnzyme))
+            Me.__mappingPool = New Dictionary(Of String, List(Of Feature.MetabolismEnzyme))
             For Each Item As PoolMappings.EnzymeClass In _MappingHandlers
-                Call _DICT_MappingPool.Add(Item.ECNumber, New List(Of EngineSystem.ObjectModels.Feature.MetabolismEnzyme))
+                Call __mappingPool.Add(Item.ECNumber, New List(Of EngineSystem.ObjectModels.Feature.MetabolismEnzyme))
             Next
             For Each Enzyme In Enzymes
-                Call _DICT_MappingPool(Enzyme.ECNumber).Add(Enzyme)
+                Call __mappingPool(Enzyme.ECNumber).Add(Enzyme)
             Next
 
             Call UpdateCache()
