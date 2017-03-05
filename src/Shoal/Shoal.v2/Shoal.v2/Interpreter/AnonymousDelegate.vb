@@ -132,7 +132,7 @@ Namespace Interpreter
             End Get
         End Property
 
-        Public Function ContainsKey(key As String) As Boolean Implements IReadOnlyDictionary(Of String, SyntaxModel).HaveOperon
+        Public Function ContainsKey(key As String) As Boolean Implements IReadOnlyDictionary(Of String, SyntaxModel).ContainsKey
             Return Delegates.ContainsKey(key.ToLower)
         End Function
 

@@ -341,7 +341,7 @@ Namespace Core
         Private Sub __transferData(p As HttpProcessor, ext As String, buf As Byte(), name As String)
             Dim type As ContentType
 
-            If Not ContentTypes.ExtDict.HaveOperon(ext) Then
+            If Not ContentTypes.ExtDict.ContainsKey(ext) Then
                 type = ContentTypes.ExtDict(".bin")
             Else
                 type = ContentTypes.ExtDict(ext)

@@ -76,7 +76,7 @@ Namespace xref2go
 
         <Extension>
         Public Function Parse(Of uid As XrefId)(raw As String, parser As XrefIdTypes) As uid
-            If _XrefIdParsers.HaveOperon(parser) Then
+            If _XrefIdParsers.ContainsKey(parser) Then
                 Return DirectCast(_XrefIdParsers(parser)(raw), uid)
             Else
                 Return Nothing

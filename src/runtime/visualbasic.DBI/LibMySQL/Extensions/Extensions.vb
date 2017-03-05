@@ -147,7 +147,7 @@ Public Module Extensions
     ''' <returns></returns>
     ''' <remarks></remarks>
     <Extension> Public Function GetDbDataType(Type As Type) As MySqlDbType
-        If MySqlDbTypes.HaveOperon(Type) Then
+        If MySqlDbTypes.ContainsKey(Type) Then
             Return MySqlDbTypes(Type)
         Else
             Return MySqlDbType.Text

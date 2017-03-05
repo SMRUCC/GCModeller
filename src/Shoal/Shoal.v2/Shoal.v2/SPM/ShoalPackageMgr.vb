@@ -13,7 +13,7 @@ Namespace SPM
         Implements IDictionary(Of String, SPM.Nodes.Namespace)
         Implements System.IDisposable
 
-        Dim _NamespaceHash As Dictionary(Of String, SPM.Nodes.Namespace)
+        Dim _NamespaceTable As Dictionary(Of String, SPM.Nodes.Namespace)
         Dim _LibraryDb As SPM.PackageModuleDb
 
         Sub New(ByRef Library As SPM.PackageModuleDb)
@@ -22,7 +22,7 @@ Namespace SPM
             End If
 
             _LibraryDb = Library
-            _NamespaceHash = Library.NamespaceCollection.ToDictionary(Function(ns) ns.Namespace.ToLower)
+            _NamespaceTable = Library.NamespaceCollection.ToDictionary(Function(ns) ns.Namespace.ToLower)
         End Sub
 
         ''' <summary>
@@ -71,7 +71,7 @@ Namespace SPM
         End Sub
 
         Public Sub UpdateDb()
-            _LibraryDb.NamespaceCollection = _NamespaceHash.Values.ToArray
+            _LibraryDb.NamespaceCollection = _NamespaceTable.Values.ToArray
             _LibraryDb.Save()
 
             Call HTML.DocRenderer.Indexing(_LibraryDb)
@@ -82,8 +82,8 @@ Namespace SPM
             Dim [Namespace] As SPM.Nodes.Namespace
             Dim Name As String = ns.Namespace.ToLower
 
-            If _NamespaceHash.ContainsKey(Name) Then
-                [Namespace] = _NamespaceHash(Name)
+            If _NamespaceTable.ContainsKey(Name) Then
+                [Namespace] = _NamespaceTable(Name)
 
                 Dim EqualsModule = (From [module] In [Namespace].PartialModules
                                     Where SPM.Nodes.PartialModule.Equals([module], ns)
@@ -106,7 +106,7 @@ Namespace SPM
                     .PartialModules = {ns},
                     .Namespace = ns.Namespace
                 }
-                Call _NamespaceHash.Add(Name, [Namespace])
+                Call _NamespaceTable.Add(Name, [Namespace])
             End If
 
             Call HTML.DocRenderer.GenerateHtmlDoc([Namespace])
@@ -149,7 +149,7 @@ Namespace SPM
                     Return Strings.Split(imported, "///")
                 End If
 
-            ElseIf String.IsNullOrEmpty(imported)
+            ElseIf String.IsNullOrEmpty(imported) Then
                 Return cites
 
             Else
@@ -190,8 +190,8 @@ Namespace SPM
             Get
                 key = key.ToLower
 
-                If Me._NamespaceHash.ContainsKey(key) Then
-                    Return Me._NamespaceHash(key)
+                If Me._NamespaceTable.ContainsKey(key) Then
+                    Return Me._NamespaceTable(key)
                 Else
                     Return Nothing
                 End If
@@ -199,29 +199,29 @@ Namespace SPM
             Set(value As [Namespace])
                 key = key.ToLower
 
-                If Me._NamespaceHash.ContainsKey(key) Then
-                    Call Me._NamespaceHash.Remove(key)
+                If Me._NamespaceTable.ContainsKey(key) Then
+                    Call Me._NamespaceTable.Remove(key)
                 End If
 
-                Call Me._NamespaceHash.Add(key, value)
+                Call Me._NamespaceTable.Add(key, value)
             End Set
         End Property
 
         Public ReadOnly Property Keys As ICollection(Of String) Implements IDictionary(Of String, [Namespace]).Keys
             Get
-                Return Me._NamespaceHash.Keys
+                Return Me._NamespaceTable.Keys
             End Get
         End Property
 
         Public ReadOnly Property Values As ICollection(Of [Namespace]) Implements IDictionary(Of String, [Namespace]).Values
             Get
-                Return Me._NamespaceHash.Values
+                Return Me._NamespaceTable.Values
             End Get
         End Property
 
         Public ReadOnly Property Count As Integer Implements ICollection(Of KeyValuePair(Of String, [Namespace])).Count
             Get
-                Return Me._NamespaceHash.Count
+                Return Me._NamespaceTable.Count
             End Get
         End Property
 
@@ -231,46 +231,46 @@ Namespace SPM
             End Get
         End Property
 
-        Public Function ContainsKey(key As String) As Boolean Implements IDictionary(Of String, [Namespace]).HaveOperon
-            Return Me._NamespaceHash.ContainsKey(key.ToLower)
+        Public Function ContainsKey(key As String) As Boolean Implements IDictionary(Of String, [Namespace]).ContainsKey
+            Return Me._NamespaceTable.ContainsKey(key.ToLower)
         End Function
 
         Public Sub Add(key As String, value As [Namespace]) Implements IDictionary(Of String, [Namespace]).Add
-            Call Me._NamespaceHash.Add(key.ToLower, value)
+            Call Me._NamespaceTable.Add(key.ToLower, value)
         End Sub
 
         Public Function Remove(key As String) As Boolean Implements IDictionary(Of String, [Namespace]).Remove
-            Return Me._NamespaceHash.Remove(key.ToLower)
+            Return Me._NamespaceTable.Remove(key.ToLower)
         End Function
 
         Public Function TryGetValue(key As String, ByRef value As [Namespace]) As Boolean Implements IDictionary(Of String, [Namespace]).TryGetValue
-            Return Me._NamespaceHash.TryGetValue(key.ToLower, value)
+            Return Me._NamespaceTable.TryGetValue(key.ToLower, value)
         End Function
 
         Public Sub Add(item As KeyValuePair(Of String, [Namespace])) Implements ICollection(Of KeyValuePair(Of String, [Namespace])).Add
-            Call Me._NamespaceHash.Add(item.Key.ToLower, item.Value)
+            Call Me._NamespaceTable.Add(item.Key.ToLower, item.Value)
         End Sub
 
         Public Sub Clear() Implements ICollection(Of KeyValuePair(Of String, [Namespace])).Clear
-            Call Me._NamespaceHash.Clear()
+            Call Me._NamespaceTable.Clear()
         End Sub
 
         Public Function Contains(item As KeyValuePair(Of String, [Namespace])) As Boolean Implements ICollection(Of KeyValuePair(Of String, [Namespace])).Contains
-            Return Me._NamespaceHash.ContainsKey(item.Key.ToLower)
+            Return Me._NamespaceTable.ContainsKey(item.Key.ToLower)
         End Function
 
         Public Sub CopyTo(array() As KeyValuePair(Of String, [Namespace]), arrayIndex As Integer) Implements ICollection(Of KeyValuePair(Of String, [Namespace])).CopyTo
-            Call Me._NamespaceHash.ToArray.CopyTo(array, arrayIndex)
+            Call Me._NamespaceTable.ToArray.CopyTo(array, arrayIndex)
         End Sub
 
         Public Function Remove(item As KeyValuePair(Of String, [Namespace])) As Boolean Implements ICollection(Of KeyValuePair(Of String, [Namespace])).Remove
-            Return Me._NamespaceHash.Remove(item.Key.ToLower)
+            Return Me._NamespaceTable.Remove(item.Key.ToLower)
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of String, [Namespace])) _
             Implements IEnumerable(Of KeyValuePair(Of String, [Namespace])).GetEnumerator
 
-            For Each obj In Me._NamespaceHash
+            For Each obj In Me._NamespaceTable
                 Yield obj
             Next
         End Function
