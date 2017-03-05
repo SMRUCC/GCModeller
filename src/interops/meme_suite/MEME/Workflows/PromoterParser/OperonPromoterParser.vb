@@ -82,7 +82,7 @@ Namespace Workflows.PromoterParser
             Dim PromoterFsa As SequenceModel.FASTA.FastaToken =
                 New SequenceModel.FASTA.FastaToken With {
                 .Attributes = New String() {
-                    $"lcl_{i + 1} [AssociatedOperon={Operon.Key}] [OperonPromoter={FirstGene.Synonym}; {FirstGene.Location.ToString}] [OperonGenes={OperonView.GenerateLstIdString(Operon)}]"}}
+                    $"lcl_{i + 1} [AssociatedOperon={Operon.Key}] [OperonPromoter={FirstGene.Synonym}; {FirstGene.Location.ToString}] [OperonGenes={ViewAPI.GenerateLstIdString(Operon)}]"}}
 
             Dim Location As NucleotideLocation = FirstGene.Location
 
