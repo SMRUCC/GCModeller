@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::73783cd48053e9651513a17899bb1e75, ..\GCModeller\core\Bio.Assembly\Assembly\DOOR\DOOR_API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -154,22 +155,26 @@ Software",
             }
         End Function
 
-        <ExportAPI("Doc.Load")>
-        Public Function Load(FilePath As String) As DOOR
-            Dim s_Data As String() = IO.File.ReadAllLines(FilePath)
-            Dim DOOR As DOOR = LoadDocument(s_Data, FilePath)
+        ''' <summary>
+        ''' 读取DOOR数据库文件
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
+        <ExportAPI("Doc.Load")> Public Function Load(path As String) As DOOR
+            Dim lines As String() = File.ReadAllLines(path)
+            Dim DOOR As DOOR = LoadDocument(lines, path)
             Return DOOR
         End Function
 
         ''' <summary>
         ''' 从文档之中的数据行之中加载数据
         ''' </summary>
-        ''' <param name="s_Data"></param>
+        ''' <param name="lines"></param>
         ''' <returns></returns>
         ''' 
         <ExportAPI("Doc.Load")>
-        Public Function LoadDocument(s_Data As String(), Optional path As String = Nothing) As DOOR
-            Return DOOR.DocParser(s_Data, path)
+        Public Function LoadDocument(lines As String(), Optional path As String = Nothing) As DOOR
+            Return DOOR_IO.Imports(lines, path)
         End Function
 
         ''' <summary>
@@ -182,46 +187,6 @@ Software",
         Public Function SaveFile(data As Operon(), Path As String) As Boolean
             Dim sBuilder As String = GenerateDocument(data)
             Return sBuilder.SaveTo(Path, Encoding.ASCII)
-        End Function
-
-        ''' <summary>
-        ''' 文本的标题行
-        ''' </summary>
-        Const docTitle As String = "OperonID	GI	Synonym	Start	End	Strand	Length	COG_number	Product"
-
-        <ExportAPI("Doc.Create")>
-        <Extension>
-        Public Function GenerateDocument(data As IEnumerable(Of Operon)) As String
-            Dim LQuery As String() = LinqAPI.Exec(Of String) <=
- _
-                From Operon As Operon
-                In data
-                Select From gene As OperonGene
-                       In Operon.Value
-                       Let strand = If(gene.Location.Strand = Strands.Forward, "+", "-")
-                       Let rowData = {
-                           Operon.Key,
-                           gene.GI,
-                           gene.Synonym,
-                           CStr(gene.Location.Left),
-                           CStr(gene.Location.Right),
-                           strand,
-                           CStr(gene.Location.FragmentSize),
-                           gene.COG_number,
-                           gene.Product
-                       }
-                       Select String.Join(vbTab, rowData)
-
-            Dim sb As New StringBuilder(1024)
-
-            Call sb.AppendLine(docTitle)
-
-            For Each Line In LQuery
-                Call sb.AppendLine(Line)
-            Next
-
-            Dim value As String = sb.ToString
-            Return value
         End Function
 
         <ExportAPI("Doc.Reload")>

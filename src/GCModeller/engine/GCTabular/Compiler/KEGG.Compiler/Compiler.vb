@@ -96,7 +96,7 @@ Namespace KEGG.Compiler
             Me._ModelIO.SetExportDirectory(argvs("-export"))
             Me._ModelIO.SystemVariables = SystemVariables.CreateDefault.ToList
 
-            Dim Door = SMRUCC.genomics.Assembly.DOOR.Load(FilePath:=argvs("-door"))
+            Dim Door = SMRUCC.genomics.Assembly.DOOR.Load(path:=argvs("-door"))
             Dim Footprints = argvs("-footprints").LoadCsv(Of RegulatesFootprints)(False)
 
             'Me.PccMatrix = SMRUCC.genomics.Toolkits.RNASeq.ChipData.LoadChipData(argvs("-chipdata")).CalculatePccMatrix

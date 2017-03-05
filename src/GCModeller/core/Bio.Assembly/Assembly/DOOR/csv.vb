@@ -6,7 +6,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.DOOR
 
-    Partial Public Module IO
+    Partial Public Module DOOR_IO
 
         <Extension>
         Private Function __generate(DOOR As DOOR, sId As String, trim As Boolean) As String

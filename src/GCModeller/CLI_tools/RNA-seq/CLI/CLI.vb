@@ -103,7 +103,7 @@ Module CLI
         Call MAT.Add({"DOOR", "locus_id", "Strand"})
 
         For Each operon As Operon In corrects
-            Dim row As New IO.RowObject
+            Dim row As New RowObject
             Dim initX = operon.InitialX
             Call row.AddRange({operon.OperonID, initX.Synonym, initX.Location.Strand.GetBriefCode})
             Call MAT.Add(row)

@@ -173,7 +173,7 @@ Namespace Compiler
                 Call New Components.MergeKEGGCompounds(_ModelIO, KEGGCOmpounds).InvokeMergeCompoundSpecies()
             End If
 
-            Dim Door = SMRUCC.genomics.Assembly.DOOR.Load(FilePath:=ModelProperty("-door"))
+            Dim Door = SMRUCC.genomics.Assembly.DOOR.Load(path:=ModelProperty("-door"))
             _ModelIO.DoorOperon = (From Operon In Door.DOOROperonView.Operons Select Operon.ConvertToCsvData).ToArray
             _ModelIO.CellSystemModel.OperonCounts = _ModelIO.DoorOperon.Count
             _Door = Door
