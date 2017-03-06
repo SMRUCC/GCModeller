@@ -27,7 +27,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <param name="s$"></param>
         ''' <returns></returns>
         Public Shared Function HumanGeneID(s$) As String
-
+            Return s.GetStackValue("[", "]").Split(":"c).Last
         End Function
     End Class
 End Namespace
