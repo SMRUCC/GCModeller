@@ -36,6 +36,23 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Private Function MarkerList(html$) As TripleKeyValuesPair()
             Dim list As New List(Of TripleKeyValuesPair)
 
+            html = html.DivInternals.FirstOrDefault
+
+            Dim lines$() = html _
+                .HtmlLines _
+                .Select(Function(s) s.StripHTMLTags(stripBlank:=True)) _
+                .Where(Function(s) Not s.StringEmpty) _
+                .ToArray
+
+            For Each line$ In lines
+                Dim tokens$() = line.Split
+                list += New TripleKeyValuesPair With {
+                    .Key = tokens(0),
+                    .Value1 = tokens(1),
+                    .Value2 = tokens(2)
+                }
+            Next
+
             Return list
         End Function
 
