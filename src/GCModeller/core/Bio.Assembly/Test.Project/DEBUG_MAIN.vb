@@ -66,6 +66,8 @@ Module DEBUG_MAIN
 
     Sub Main()
 
+        Dim dg = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadDrug("G:\GCModeller\GCModeller\test\KEGG\dbget\drug_Dasatinib.html")
+
         Dim dis = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\disease-test.html")
 
         dis = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\Imatinib.html")

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)http://www.kegg.jp/dbget-bin/www_bget?hsa:1969 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>KEGG T01001: 1969</title>
+<link type="text/css" rel="stylesheet" href="./KEGG T01001_ 1969_files/gn2.css">
+<link rel="stylesheet" href="./KEGG T01001_ 1969_files/bget.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="./KEGG T01001_ 1969_files/bgetm.css" media="only screen and (max-width: 768px)">
+<style>.kcfd{display:none;}</style>
+<script>
+<!--
+var getElementsByClassName = document.getElementsByClassName ?
+  function (cl){
+    return document.getElementsByClassName(cl);
+  } :
+  function (cl){
+    var elms = [];
+    var objs = document.getElementsByTagName('*');
+    for(var i=0;i<objs.length;i++){
+      var obj = objs[i];
+      if(obj.className == cl){
+        elms.push(obj);
+      }
+    }
+    return elms;
+  };
+function toggleField(clk,cl,show,hide){
+  var objs = getElementsByClassName(cl);
+  for(var i=0;i<objs.length;i++){
+    var obj = objs[i];
+    if(!obj.style.display||obj.style.display == 'none'){
+      obj.style.display = 'block';
+      clk.innerHTML = '&nbsp;&laquo; '+hide;
+    }
+    else{
+      obj.style.display = 'none';
+      clk.innerHTML = '&nbsp;&raquo; '+show;
+    }
+  }
+}
+function toggleData(bobj,e){
+  var id = bobj.id.replace(/[^0-9]/g,'');
+  var dt = document.getElementById('kcfd'+id);
+  if(!dt.style.display||dt.style.display == 'none'){
+    bobj.name = 'hide_kcf';
+    bobj.alt = 'Hide';
+    bobj.src = '/Fig/bget/button_Hib.gif';
+    dt.style.display = 'block';
+  }
+  else{
+    bobj.name = 'show_kcf';
+    bobj.alt = 'Show';
+    bobj.src = '/Fig/bget/button_Sb.gif';
+    dt.style.display = 'none';
+  }
+}
+function btn(bobj,img) {
+  bobj.src = "/Fig/bget/button_" + img + ".gif";
+}
+function btn_e(e) {
+  e = e || event;
+  var obj = e.target;
+  var img = e.target.src;
+  var img_base = img.replace(/\\/g,'/').replace(/(b|bd|bh)\.gif$/,'');
+  if(e.type == 'mousedown'||e.type == 'touchstart'){
+    obj.src = img_base +'bd.gif';
+  }
+  else if(e.type == 'mouseover'){
+    obj.src = img_base +'bh.gif';
+  }
+  else if(e.type == 'mouseup'||e.type == 'touchend'){
+    obj.src = img_base +'b.gif';
+  }
+  else if(e.type == 'mouseout'){
+    obj.src = img_base +'b.gif';
+  }
+}
+function init(){
+  for(var i=1;i<=1;i++){
+    if(document.getElementById('kcfb'+i)){
+      document.getElementById('kcfb'+i).onclick = function(e){toggleData(this,e);};
+      document.getElementById('kcfb'+i).onmousedown = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).onmouseover = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).onmouseout = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).onmouseup = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).ontouchstart = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).ontouchend = function(e){btn_e(e);};
+    }
+  }
+}
+function Link_XtrctSeq2(form) {
+    var dna_from;
+    var dna_to;
+    var dna_len;
+    var plus_up   = Number(form.XtrctSeq_UP.value) ;
+    var plus_down = Number(form.XtrctSeq_DOWN.value);
+    var vector    = Number(form.VECTOR.value);
+    var org       = form.ORG.value;
+    var chr       = form.CHR.value;
+    var kid       = form.KEGGID.value;
+    var url;
+
+    if (plus_up == 0 && plus_down == 0) {
+	url = "/dbget-bin/www_bget?-f+-n+n+" + kid;
+    }
+    else {
+	if (vector == 1) {
+	    dna_from  = Number(form.FROM.value)  - plus_up;
+	    dna_to    = Number(form.TO.value) + plus_down;
+	} else {
+	    dna_from  = Number(form.FROM.value)  - plus_down;
+	    dna_to    = Number(form.TO.value) + plus_up;
+	}
+
+	url = "http://www.genome.jp/dbget-bin/cut_sequence_genes.pl?FROM=" + dna_from + "&TO=" + dna_to +"&VECTOR=" + vector + "&ORG=" + org;
+	if (chr) url += "&CHR=" + chr;
+    }
+    //window.open( url, "_self" );
+    location.href = url;
+}
+function go_taxonomy(form,params){
+  for(var key in params){
+    if(form[key]){
+      form.setAttribute(key,params[key]);
+    }
+    else{
+      var obj = document.createElement('input');
+      obj.setAttribute('type','hidden');
+      obj.setAttribute('name',key);
+      obj.setAttribute('value',params[key]);
+      form.appendChild(obj);
+    }
+  }
+  form.submit();
+}
+window.onload=function(){window.focus();init();};
+//--->
+</script>
+
+</head>
+<body>
+<div>
+
+<table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td>
+<table border="0" cellpadding="0" cellspacing="0" width="650"><tbody><tr><td width="70"><a href="http://www.kegg.jp/kegg/kegg2.html"><img align="middle" alt="KEGG" border="0" src="./KEGG T01001_ 1969_files/kegg1.gif"></a></td><td>&nbsp;&nbsp;&nbsp;</td><td><a name="hsa:1969"></a><font class="title1">Homo sapiens (human): 1969</font></td><td align="right" valign="bottom"><a href="javascript:void(window.open(&#39;/kegg/document/help_bget_genes.html&#39;,&#39;KEGG_Help&#39;,&#39;toolbar=no,location=no,directories=no,width=720,height=640,resizable=yes,scrollbars=yes&#39;))"><img align="middle" alt="Help" border="0" name="help" onmousedown="btn(this,&#39;Hbd&#39;)" onmouseout="btn(this,&#39;Hb&#39;)" onmouseover="btn(this,&#39;Hbh&#39;)" onmouseup="btn(this,&#39;Hb&#39;)" ontouchend="btn(this,&#39;Hb&#39;)" ontouchstart="btn(this,&#39;Hbd&#39;)" src="./KEGG T01001_ 1969_files/button_Hb.gif"></a></td></tr></tbody></table><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td valign="top">
+<form method="post" action="javascript:Link_XtrctSeq2(document.form1);" enctype="application/x-www-form-urlencoded" name="form1"><input type="hidden" name="ACCESSION" value="1969">
+<input type="hidden" name="KEGGID" value="hsa:1969">
+<input type="hidden" name="ORG" value="hsa">
+<input type="hidden" name="FROM" value="1">
+<input type="hidden" name="TO" value="13">
+<input type="hidden" name="VECTOR" value="1">
+<input type="hidden" name="CHR" value="">
+<input type="hidden" name="source" value="OPEN">
+<input type="hidden" name="pos" value="1p36.13">
+<table border="0" cellpadding="1" cellspacing="0">
+<tbody><tr>
+<td class="fr1">
+<table border="0" cellpadding="2" cellspacing="0" style="border-bottom:#000 1px solid">
+
+<tbody><tr><th class="th10" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Entry</nobr></th>
+<td class="td10" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table border="0" cellpadding="0" cellspacing="0" width="555"><tbody><tr><td align="left"><code><nobr>1969&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.kegg.jp/kegg-bin/show_organism?org=T01001">T01001</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+</nobr></code></td><td align="right"><br></td></tr></tbody></table></td></tr>
+
+
+<tr><th class="th11" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Gene name</nobr></th>
+<td class="td11" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">EPHA2, ARCC2, CTPA, CTPP1, CTRCT6, ECK<br>
+</div></td></tr>
+
+
+<tr><th class="th10" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Definition</nobr></th>
+<td class="td10" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">(RefSeq) EPH receptor A2<br>
+</div></td></tr>
+
+
+<tr><th class="th11" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;KO</nobr></th>
+<td class="td11" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><table width="555" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="http://www.kegg.jp/dbget-bin/www_bget?ko:K05103">K05103</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Eph receptor A2 [EC:<a href="http://www.kegg.jp/dbget-bin/www_bget?ec:2.7.10.1">2.7.10.1</a>]</div></td></tr></tbody></table></div></td></tr>
+
+
+<tr><th class="th10" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Organism</nobr></th>
+<td class="td10" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><a href="http://www.kegg.jp/kegg-bin/show_organism?org=hsa">hsa</a>&nbsp;&nbsp;Homo sapiens (human)<br>
+</div></td></tr>
+
+
+<tr><th class="th11" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Pathway</nobr></th>
+<td class="td11" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table width="555" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td align="left" valign="top" style="width:5.5em"><div><nobr><a href="http://www.kegg.jp/kegg-bin/show_pathway?hsa04014+1969">hsa04014</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Ras signaling pathway</div></td></tr><tr><td align="left" valign="top" style="width:5.5em"><div><nobr><a href="http://www.kegg.jp/kegg-bin/show_pathway?hsa04015+1969">hsa04015</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Rap1 signaling pathway</div></td></tr><tr><td align="left" valign="top" style="width:5.5em"><div><nobr><a href="http://www.kegg.jp/kegg-bin/show_pathway?hsa04151+1969">hsa04151</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>PI3K-Akt signaling pathway</div></td></tr><tr><td align="left" valign="top" style="width:5.5em"><div><nobr><a href="http://www.kegg.jp/kegg-bin/show_pathway?hsa04360+1969">hsa04360</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Axon guidance</div></td></tr></tbody></table></td></tr>
+
+
+<tr><th class="th10" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Disease</nobr></th>
+<td class="td10" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><table width="555" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="http://www.kegg.jp/dbget-bin/www_bget?ds:H01202">H01202</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Cataract</div></td></tr></tbody></table></div></td></tr>
+
+
+<tr><th class="th11" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Drug&nbsp;target</nobr></th>
+<td class="td11" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="float:left">Dasatinib (<a href="http://www.kegg.jp/dbget-bin/www_bget?dg:DG00714">DG00714</a>):&nbsp;</div><div style="margin-left:11em"><a href="http://www.kegg.jp/dbget-bin/www_bget?dr:D03658">D03658</a> <a href="http://www.kegg.jp/dbget-bin/www_bget?dr:D06414">D06414</a></div></div></td></tr>
+
+
+<tr><th class="th10" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Brite</nobr></th>
+<td class="td10" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><nobr>KEGG Orthology (KO) [BR:<a href="http://www.kegg.jp/kegg-bin/get_htext?hsa00001+1969">hsa00001</a>]<br>
+&nbsp;Environmental Information Processing<br>
+&nbsp;&nbsp;Signal transduction<br>
+&nbsp;&nbsp;&nbsp;04014 Ras signaling pathway<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1969 (EPHA2)<br>
+&nbsp;&nbsp;&nbsp;04015 Rap1 signaling pathway<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1969 (EPHA2)<br>
+&nbsp;&nbsp;&nbsp;04151 PI3K-Akt signaling pathway<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1969 (EPHA2)<br>
+&nbsp;Organismal Systems<br>
+&nbsp;&nbsp;Development<br>
+&nbsp;&nbsp;&nbsp;04360 Axon guidance<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1969 (EPHA2)<br>
+Enzymes [BR:<a href="http://www.kegg.jp/kegg-bin/get_htext?hsa01000+1969">hsa01000</a>]<br>
+&nbsp;2. Transferases<br>
+&nbsp;&nbsp;2.7&nbsp;&nbsp;Transferring phosphorus-containing groups<br>
+&nbsp;&nbsp;&nbsp;2.7.10&nbsp;&nbsp;Protein-tyrosine kinases<br>
+&nbsp;&nbsp;&nbsp;&nbsp;2.7.10.1&nbsp;&nbsp;receptor protein-tyrosine kinase<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1969 (EPHA2)<br>
+Protein kinases [BR:<a href="http://www.kegg.jp/kegg-bin/get_htext?hsa01001+1969">hsa01001</a>]<br>
+&nbsp;Tyrosine protein kinases<br>
+&nbsp;&nbsp;Eph family<br>
+&nbsp;&nbsp;&nbsp;1969 (EPHA2)<br>
+Enzyme-linked receptors [BR:<a href="http://www.kegg.jp/kegg-bin/get_htext?hsa01020+1969">hsa01020</a>]<br>
+&nbsp;Receptor tyrosine kinases<br>
+&nbsp;&nbsp;RTK class VIII (EPH receptor family)<br>
+&nbsp;&nbsp;&nbsp;1969 (EPHA2)<br>
+Cytokine receptors [BR:<a href="http://www.kegg.jp/kegg-bin/get_htext?hsa04050+1969">hsa04050</a>]<br>
+&nbsp;Receptor tyrosine kinase<br>
+&nbsp;&nbsp;RTK class VIII (EPH receptor family)<br>
+&nbsp;&nbsp;&nbsp;1969 (EPHA2)<br>
+Cell adhesion molecules and their ligands [BR:<a href="http://www.kegg.jp/kegg-bin/get_htext?hsa04516+1969">hsa04516</a>]<br>
+&nbsp;7. Others<br>
+&nbsp;&nbsp;EFNA; ephrin-A [KO:<a href="http://www.kegg.jp/dbget-bin/www_bget?ko:K05462">K05462</a>]<br>
+&nbsp;&nbsp;&nbsp;1969 (EPHA2)<br>
+</nobr></div><a href="http://www.kegg.jp/kegg-bin/search_brite?option=-a&amp;search_string=1969&amp;prefix=hsa"><img align="middle" alt="BRITE hierarchy" border="0" name="BRH" onmousedown="btn(this,&#39;BHbd&#39;)" onmouseout="btn(this,&#39;BHb&#39;)" onmouseover="btn(this,&#39;BHbh&#39;)" onmouseup="btn(this,&#39;BHb&#39;)" ontouchend="btn(this,&#39;BHb&#39;)" ontouchstart="btn(this,&#39;BHbd&#39;)" src="./KEGG T01001_ 1969_files/button_BHb.gif"></a></td></tr>
+
+
+<tr><th class="th11" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>SSDB</nobr></th>
+<td class="td11" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><a href="http://www.kegg.jp/ssdb-bin/ssdb_best?org_gene=hsa:1969"><img align="middle" alt="Ortholog" border="0" name="OC" onmousedown="btn(this,&#39;Obd&#39;)" onmouseout="btn(this,&#39;Ob&#39;)" onmouseover="btn(this,&#39;Obh&#39;)" onmouseup="btn(this,&#39;Ob&#39;)" ontouchend="btn(this,&#39;Ob&#39;)" ontouchstart="btn(this,&#39;Obd&#39;)" src="./KEGG T01001_ 1969_files/button_Ob.gif"></a><a href="http://www.kegg.jp/ssdb-bin/ssdb_paralog?org_gene=hsa:1969"><img align="middle" alt="Paralog" border="0" name="PC" onmousedown="btn(this,&#39;Pbd&#39;)" onmouseout="btn(this,&#39;Pb&#39;)" onmouseover="btn(this,&#39;Pbh&#39;)" onmouseup="btn(this,&#39;Pb&#39;)" ontouchend="btn(this,&#39;Pb&#39;)" ontouchstart="btn(this,&#39;Pbd&#39;)" src="./KEGG T01001_ 1969_files/button_Pb.gif"></a><a href="http://www.kegg.jp/ssdb-bin/www_ssget?hsa:1969"><img align="middle" alt="GFIT" border="0" name="GFIT" onmousedown="btn(this,&#39;GFITbd&#39;)" onmouseout="btn(this,&#39;GFITb&#39;)" onmouseover="btn(this,&#39;GFITbh&#39;)" onmouseup="btn(this,&#39;GFITb&#39;)" ontouchend="btn(this,&#39;GFITb&#39;)" ontouchstart="btn(this,&#39;GFITbd&#39;)" src="./KEGG T01001_ 1969_files/button_GFITb.gif"></a></td></tr>
+
+
+<tr><th class="th10" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Motif</nobr></th>
+<td class="td10" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="float:left">Pfam:&nbsp;</div><div style="margin-left:3.5em"><a href="http://www.genome.jp/dbget-bin/www_bget?pfam:Pkinase_Tyr">Pkinase_Tyr</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pfam:Ephrin_lbd">Ephrin_lbd</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pfam:Pkinase">Pkinase</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pfam:fn3">fn3</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pfam:SAM_1">SAM_1</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pfam:EphA2_TM">EphA2_TM</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pfam:SAM_2">SAM_2</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pfam:Pur_ac_phosph_N">Pur_ac_phosph_N</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pfam:Interfer-bind">Interfer-bind</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pfam:DUF2369">DUF2369</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pfam:Ephrin_rec_like">Ephrin_rec_like</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pfam:SKG6">SKG6</a></div></div><a href="http://www.kegg.jp/ssdb-bin/ssdb_motif?kid=hsa:1969"><img align="middle" alt="Motif" border="0" name="PD" onmousedown="btn(this,&#39;Mbd&#39;)" onmouseout="btn(this,&#39;Mb&#39;)" onmouseover="btn(this,&#39;Mbh&#39;)" onmouseup="btn(this,&#39;Mb&#39;)" ontouchend="btn(this,&#39;Mb&#39;)" ontouchstart="btn(this,&#39;Mbd&#39;)" src="./KEGG T01001_ 1969_files/button_Mb.gif"></a></td></tr>
+
+
+<tr><th class="th11" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Other DBs</nobr></th>
+<td class="td11" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="float:left">NCBI-ProteinID:&nbsp;</div><div style="margin-left:8.5em"><a href="https://www.ncbi.nlm.nih.gov/protein/NP_004422">NP_004422</a></div><div style="float:left">NCBI-GeneID:&nbsp;</div><div style="margin-left:7em"><a href="https://www.ncbi.nlm.nih.gov/gene/1969">1969</a></div><div style="float:left">OMIM:&nbsp;</div><div style="margin-left:3.5em"><a href="http://omim.org/entry/176946">176946</a></div><div style="float:left">HGNC:&nbsp;</div><div style="margin-left:3.5em"><a href="http://www.genenames.org/data/hgnc_data.php?hgnc_id=3386">3386</a></div><div style="float:left">Ensembl:&nbsp;</div><div style="margin-left:5em"><a href="http://www.ensembl.org/Homo_sapiens/geneview?gene=ENSG00000142627">ENSG00000142627</a></div><div style="float:left">Vega:&nbsp;</div><div style="margin-left:3.5em"><a href="http://vega.sanger.ac.uk/id/OTTHUMG00000009527">OTTHUMG00000009527</a></div><div style="float:left">Pharos:&nbsp;</div><div style="margin-left:4.5em"><a href="https://pharos.nih.gov/idg/targets/P29317">P29317</a>(Tclin)</div><div style="float:left">UniProt:&nbsp;</div><div style="margin-left:5em"><a href="http://www.uniprot.org/uniprot/P29317">P29317</a> <a href="http://www.uniprot.org/uniprot/A0A024QZA8">A0A024QZA8</a></div></div></td></tr>
+
+
+<tr><th class="th10" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>LinkDB</nobr></th>
+<td class="td10" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><a href="http://www.genome.jp/dbget-bin/get_linkdb?hsa+1969"><img align="middle" alt="All DBs" border="0" name="alldbs" onmousedown="btn(this,&#39;ADbd&#39;)" onmouseout="btn(this,&#39;ADb&#39;)" onmouseover="btn(this,&#39;ADbh&#39;)" onmouseup="btn(this,&#39;ADb&#39;)" ontouchend="btn(this,&#39;ADb&#39;)" ontouchstart="btn(this,&#39;ADbd&#39;)" src="./KEGG T01001_ 1969_files/button_ADb.gif"></a></td></tr>
+
+
+<tr><th class="th11" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Structure</nobr></th>
+<td class="td11" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="float:left">PDB:&nbsp;</div><div style="max-width:23.5em;float:left"><a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5I9Y">5I9Y</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5I9W">5I9W</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5I9X">5I9X</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5I9V">5I9V</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:4P2K">4P2K</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5IA2">5IA2</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5I9Z">5I9Z</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5IA5">5IA5</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5IA3">5IA3</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5IA4">5IA4</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5I9U">5I9U</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5EK7">5EK7</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5IA0">5IA0</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:3C8X">3C8X</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:3HEI">3HEI</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:5IA1">5IA1</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:4PDO">4PDO</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:1MQB">1MQB</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:3KKA">3KKA</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:4TRL">4TRL</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:3SKJ">3SKJ</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:3FL7">3FL7</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:3HPN">3HPN</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:3CZU">3CZU</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:3MBW">3MBW</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:2X10">2X10</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:3MX0">3MX0</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:2X11">2X11</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:2KSO">2KSO</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:2K9Y">2K9Y</a> <a href="http://www.genome.jp/dbget-bin/www_bget?pdb:2E8N">2E8N</a><br><a href="http://www.genome.jp/dbget-bin/pdb_list.cgi?hsa:1969"><img align="middle" alt="Thumbnails" border="0" name="Thumbnails" onmousedown="btn(this,&#39;Thumbd&#39;)" onmouseout="btn(this,&#39;Thumb&#39;)" onmouseover="btn(this,&#39;Thumbh&#39;)" onmouseup="btn(this,&#39;Thumb&#39;)" ontouchend="btn(this,&#39;Thumb&#39;)" ontouchstart="btn(this,&#39;Thumbd&#39;)" src="./KEGG T01001_ 1969_files/button_Thumb.gif"></a></div><div style="padding-left:10px;float:left"><div><a href="http://www.genome.jp/Fig/pdb/pdb5i9y.png"><img name="img0" src="./KEGG T01001_ 1969_files/pdb5i9y_icon_100.png" border="0"></a><br>
+</div><div style="text-align:center"><a href="http://www.genome.jp/dbget-bin/Jmol.jnlp?pdb:5i9y+-s"><img align="middle" alt="Jmol" border="0" name="Jmol" onmousedown="btn(this,&#39;Jmlbd&#39;)" onmouseout="btn(this,&#39;Jmlb&#39;)" onmouseover="btn(this,&#39;Jmlbh&#39;)" onmouseup="btn(this,&#39;Jmlb&#39;)" ontouchend="btn(this,&#39;Jmlb&#39;)" ontouchstart="btn(this,&#39;Jmlbd&#39;)" src="./KEGG T01001_ 1969_files/button_Jmlb.gif"></a></div></div></td></tr>
+
+
+<tr><th class="th10" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Position</nobr></th>
+<td class="td10" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">1p36.13<br>
+</div></td></tr>
+
+
+<tr><th class="th11" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>AA seq</nobr></th>
+<td class="td11" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">976 aa <a href="http://www.kegg.jp/dbget-bin/www_bget?-f+-n+a+hsa:1969"><img align="middle" alt="AA seq" border="0" name="XtrctA" onmousedown="btn(this,&#39;Abd&#39;)" onmouseout="btn(this,&#39;Ab&#39;)" onmouseover="btn(this,&#39;Abh&#39;)" onmouseup="btn(this,&#39;Ab&#39;)" ontouchend="btn(this,&#39;Ab&#39;)" ontouchstart="btn(this,&#39;Abd&#39;)" src="./KEGG T01001_ 1969_files/button_Ab.gif"></a><a href="http://www.genome.jp/tools-bin/search_sequence?prog=blast&amp;seqid=hsa:1969+aa"><img align="middle" alt="DB search" border="0" name="blast" onmousedown="btn(this,&#39;Dsbd&#39;)" onmouseout="btn(this,&#39;Dsb&#39;)" onmouseover="btn(this,&#39;Dsbh&#39;)" onmouseup="btn(this,&#39;Dsb&#39;)" ontouchend="btn(this,&#39;Dsb&#39;)" ontouchstart="btn(this,&#39;Dsbd&#39;)" src="./KEGG T01001_ 1969_files/button_Dsb.gif"></a><br>
+MELQAARACFALLWGCALAAAAAAQGKEVVLLDFAAAGGELGWLTHPYGKGWDLMQNIMN<br>
+DMPIYMYSVCNVMSGDQDNWLRTNWVYRGEAERIFIELKFTVRDCNSFPGGASSCKETFN<br>
+LYYAESDLDYGTNFQKRLFTKIDTIAPDEITVSSDFEARHVKLNVEERSVGPLTRKGFYL<br>
+AFQDIGACVALLSVRVYYKKCPELLQGLAHFPETIAGSDAPSLATVAGTCVDHAVVPPGG<br>
+EEPRMHCAVDGEWLVPIGQCLCQAGYEKVEDACQACSPGFFKFEASESPCLECPEHTLPS<br>
+PEGATSCECEEGFFRAPQDPASMPCTRPPSAPHYLTAVGMGAKVELRWTPPQDSGGREDI<br>
+VYSVTCEQCWPESGECGPCEASVRYSEPPHGLTRTSVTVSDLEPHMNYTFTVEARNGVSG<br>
+LVTSRSFRTASVSINQTEPPKVRLEGRSTTSLSVSWSIPPPQQSRVWKYEVTYRKKGDSN<br>
+SYNVRRTEGFSVTLDDLAPDTTYLVQVQALTQEGQGAGSKVHEFQTLSPEGSGNLAVIGG<br>
+VAVGVVLLLVLAGVGFFIHRRRKNQRARQSPEDVYFSKSEQLKPLKTYVDPHTYEDPNQA<br>
+VLKFTTEIHPSCVTRQKVIGAGEFGEVYKGMLKTSSGKKEVPVAIKTLKAGYTEKQRVDF<br>
+LGEAGIMGQFSHHNIIRLEGVISKYKPMMIITEYMENGALDKFLREKDGEFSVLQLVGML<br>
+RGIAAGMKYLANMNYVHRDLAARNILVNSNLVCKVSDFGLSRVLEDDPEATYTTSGGKIP<br>
+IRWTAPEAISYRKFTSASDVWSFGIVMWEVMTYGERPYWELSNHEVMKAINDGFRLPTPM<br>
+DCPSAIYQLMMQCWQQERARRPKFADIVSILDKLIRAPDSLKTLADFDPRVSIRLPSTSG<br>
+SEGVPFRTVSEWLESIKMQQYTEHFMAAGYTAIEKVVQMTNDDIKRIGVRLPGHQKRIAY<br>
+SLLGLKDQVNTVGIPI</td></tr>
+
+
+<tr><th class="th10" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>NT seq</nobr></th>
+<td class="td10" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid">2931 nt <a href="javascript:Link_XtrctSeq2(document.form1)"><img align="middle" alt="NT seq" border="0" name="Xtrct2" onmousedown="btn(this,&#39;Nbd&#39;)" onmouseout="btn(this,&#39;Nb&#39;)" onmouseover="btn(this,&#39;Nbh&#39;)" onmouseup="btn(this,&#39;Nb&#39;)" ontouchend="btn(this,&#39;Nb&#39;)" ontouchstart="btn(this,&#39;Nbd&#39;)" src="./KEGG T01001_ 1969_files/button_Nb.gif"></a><span style="display:none"><code>&nbsp;&nbsp;+upstream<input type="text" name="XtrctSeq_UP" value="0" size="3">nt&nbsp;&nbsp;+downstream<input type="text" name="XtrctSeq_DOWN" value="0" size="3">nt</code></span><br>
+atggagctccaggcagcccgcgcctgcttcgccctgctgtggggctgtgcgctggccgcg<br>
+gccgcggcggcgcagggcaaggaagtggtactgctggactttgctgcagctggaggggag<br>
+ctcggctggctcacacacccgtatggcaaagggtgggacctgatgcagaacatcatgaat<br>
+gacatgccgatctacatgtactccgtgtgcaacgtgatgtctggcgaccaggacaactgg<br>
+ctccgcaccaactgggtgtaccgaggagaggctgagcgtatcttcattgagctcaagttt<br>
+actgtacgtgactgcaacagcttccctggtggcgccagctcctgcaaggagactttcaac<br>
+ctctactatgccgagtcggacctggactacggcaccaacttccagaagcgcctgttcacc<br>
+aagattgacaccattgcgcccgatgagatcaccgtcagcagcgacttcgaggcacgccac<br>
+gtgaagctgaacgtggaggagcgctccgtggggccgctcacccgcaaaggcttctacctg<br>
+gccttccaggatatcggtgcctgtgtggcgctgctctccgtccgtgtctactacaagaag<br>
+tgccccgagctgctgcagggcctggcccacttccctgagaccatcgccggctctgatgca<br>
+ccttccctggccactgtggccggcacctgtgtggaccatgccgtggtgccaccggggggt<br>
+gaagagccccgtatgcactgtgcagtggatggcgagtggctggtgcccattgggcagtgc<br>
+ctgtgccaggcaggctacgagaaggtggaggatgcctgccaggcctgctcgcctggattt<br>
+tttaagtttgaggcatctgagagcccctgcttggagtgccctgagcacacgctgccatcc<br>
+cctgagggtgccacctcctgcgagtgtgaggaaggcttcttccgggcacctcaggaccca<br>
+gcgtcgatgccttgcacacgacccccctccgccccacactacctcacagccgtgggcatg<br>
+ggtgccaaggtggagctgcgctggacgccccctcaggacagcgggggccgcgaggacatt<br>
+gtctacagcgtcacctgcgaacagtgctggcccgagtctggggaatgcgggccgtgtgag<br>
+gccagtgtgcgctactcggagcctcctcacggactgacccgcaccagtgtgacagtgagc<br>
+gacctggagccccacatgaactacaccttcaccgtggaggcccgcaatggcgtctcaggc<br>
+ctggtaaccagccgcagcttccgtactgccagtgtcagcatcaaccagacagagcccccc<br>
+aaggtgaggctggagggccgcagcaccacctcgcttagcgtctcctggagcatccccccg<br>
+ccgcagcagagccgagtgtggaagtacgaggtcacttaccgcaagaagggagactccaac<br>
+agctacaatgtgcgccgcaccgagggtttctccgtgaccctggacgacctggccccagac<br>
+accacctacctggtccaggtgcaggcactgacgcaggagggccagggggccggcagcaag<br>
+gtgcacgaattccagacgctgtccccggagggatctggcaacttggcggtgattggcggc<br>
+gtggctgtcggtgtggtcctgcttctggtgctggcaggagttggcttctttatccaccgc<br>
+aggaggaagaaccagcgtgcccgccagtccccggaggacgtttacttctccaagtcagaa<br>
+caactgaagcccctgaagacatacgtggacccccacacatatgaggaccccaaccaggct<br>
+gtgttgaagttcactaccgagatccatccatcctgtgtcactcggcagaaggtgatcgga<br>
+gcaggagagtttggggaggtgtacaagggcatgctgaagacatcctcggggaagaaggag<br>
+gtgccggtggccatcaagacgctgaaagccggctacacagagaagcagcgagtggacttc<br>
+ctcggcgaggccggcatcatgggccagttcagccaccacaacatcatccgcctagagggc<br>
+gtcatctccaaatacaagcccatgatgatcatcactgagtacatggagaatggggccctg<br>
+gacaagttccttcgggagaaggatggcgagttcagcgtgctgcagctggtgggcatgctg<br>
+cggggcatcgcagctggcatgaagtacctggccaacatgaactatgtgcaccgtgacctg<br>
+gctgcccgcaacatcctcgtcaacagcaacctggtctgcaaggtgtctgactttggcctg<br>
+tcccgcgtgctggaggacgaccccgaggccacctacaccaccagtggcggcaagatcccc<br>
+atccgctggaccgccccggaggccatttcctaccggaagttcacctctgccagcgacgtg<br>
+tggagctttggcattgtcatgtgggaggtgatgacctatggcgagcggccctactgggag<br>
+ttgtccaaccacgaggtgatgaaagccatcaatgatggcttccggctccccacacccatg<br>
+gactgcccctccgccatctaccagctcatgatgcagtgctggcagcaggagcgtgcccgc<br>
+cgccccaagttcgctgacatcgtcagcatcctggacaagctcattcgtgcccctgactcc<br>
+ctcaagaccctggctgactttgacccccgcgtgtctatccggctccccagcacgagcggc<br>
+tcggagggggtgcccttccgcacggtgtccgagtggctggagtccatcaagatgcagcag<br>
+tatacggagcacttcatggcggccggctacactgccatcgagaaggtggtgcagatgacc<br>
+aacgacgacatcaagaggattggggtgcggctgcccggccaccagaagcgcatcgcctac<br>
+agcctgctgggactcaaggaccaggtgaacactgtggggatccccatctga</td></tr>
+
+</tbody></table></td></tr></tbody></table>
+<br></form></td></tr></tbody></table></td></tr></tbody></table>
+
+
+<a href="http://www.kegg.jp/dbget/">DBGET</a> integrated database retrieval system</div>
+
+
+
+</body></html>

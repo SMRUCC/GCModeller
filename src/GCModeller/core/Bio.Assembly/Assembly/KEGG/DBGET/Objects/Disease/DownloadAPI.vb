@@ -126,5 +126,42 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Function DownloadURL(url$) As Disease
             Return New WebForm(url).Parse
         End Function
+
+        <Extension> Public Function ParseDrugData(form As WebForm) As Drug
+            Dim drug As New Drug With {
+                .Entry = form.GetText("Entry").Split.First,
+                .Name = form.GetText("Name"),
+                .Comment = form.GetText("Comment"),
+                .Metabolism = form.GetText("Metabolism"),
+                .Remark = form.GetText("Remark"),
+                .Target = form("Target").FirstOrDefault.MarkerList,
+                .Members = form("Member").FirstOrDefault.__drugMembers
+            }
+
+            Return drug
+        End Function
+
+        <Extension>
+        Private Function __drugMembers(html$) As KeyValuePair()
+            Dim t = html.GetTablesHTML
+            Dim out As New List(Of KeyValuePair)
+            Dim rows = t.Select(Function(s) s.GetRowsHTML).IteratesALL.ToArray
+
+            For Each row$ In rows
+                Dim cols = row.GetColumnsHTML
+                If cols.Length >= 2 Then
+                    out += New KeyValuePair With {
+                        .Key = cols(Scan0).StripHTMLTags.StripBlank,
+                        .Value = cols(1).StripHTMLTags.StripBlank
+                    }
+                End If
+            Next
+
+            Return out
+        End Function
+
+        Public Function DownloadDrug(url$) As Drug
+            Return New WebForm(url).ParseDrugData
+        End Function
     End Module
 End Namespace
