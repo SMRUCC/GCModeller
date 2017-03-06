@@ -20,5 +20,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Public Property References As Reference()
         Public Property Description As String
+
+        ''' <summary>
+        ''' 从标签文本之中解析出人基因组的基因的编号
+        ''' </summary>
+        ''' <param name="s$"></param>
+        ''' <returns></returns>
+        Public Shared Function HumanGeneID(s$) As String
+
+        End Function
     End Class
 End Namespace
