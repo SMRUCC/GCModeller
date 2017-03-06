@@ -1,38 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::73783cd48053e9651513a17899bb1e75, ..\GCModeller\core\Bio.Assembly\Assembly\DOOR\DOOR_API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.DOOR
 
@@ -80,15 +81,20 @@ Software",
     <PackageNamespace("Door.API", Category:=APICategories.UtilityTools, Description:="Door operon prediction data.")>
     Public Module DOOR_API
 
-        Public Function PTT2DOOR(PTT As NCBI.GenBank.TabularFormat.PTT) As DOOR
+        ''' <summary>
+        ''' 将NCBI之中的PTT蛋白表转换为DOOR文件
+        ''' </summary>
+        ''' <param name="PTT"></param>
+        ''' <returns></returns>
+        <Extension> Public Function PTT2DOOR(PTT As NCBI.GenBank.TabularFormat.PTT) As DOOR
             Dim array = PTT.GeneObjects.ToArray
-            Dim LQuery As GeneBrief() = LinqAPI.Exec(Of GeneBrief) <=
+            Dim LQuery As OperonGene() = LinqAPI.Exec(Of OperonGene) <=
  _
                 From o
                 In array.SeqIterator
                 Let idx As Integer = o.i
                 Let x = o.value
-                Select New GeneBrief With {
+                Select New OperonGene With {
                     .COG_number = x.COG,
                     .GI = x.PID,
                     .Length = x.Length,
@@ -97,11 +103,10 @@ Software",
                     .Product = x.Product,
                     .Synonym = x.Synonym
                 }
-            Dim xD As New DOOR With {
+
+            Return New DOOR With {
                 .Genes = LQuery
             }
-            xD.DOOROperonView = xD.CreateOperonView
-            Return xD
         End Function
 
         ''' <summary>
@@ -110,109 +115,82 @@ Software",
         ''' <param name="struct">操纵子里面的某一个结构基因成员的基因编号</param>
         ''' <returns></returns>
         <ExportAPI("Get.OprFirst", Info:="Gets the first gene in the operon of the struct gene that inputs from the parameter.")>
-        Public Function GetOprFirst(struct As String, door As DOOR) As GeneBrief
-            Dim gene = door.GetGene(struct)
+        Public Function GetOprFirst(struct As String, DOOR As DOOR) As OperonGene
+            Dim gene As OperonGene = DOOR.GetGene(struct)
             If gene Is Nothing Then
                 Return Nothing
             End If
 
-            Dim operon = door.DOOROperonView(gene.OperonID)
+            Dim operon As Operon = DOOR.DOOROperonView(gene.OperonID)
             Return operon.InitialX
         End Function
 
         ''' <summary>
-        ''' {OperonID, GeneId()}()
+        ''' 创建操纵子对象的集合视图: ``{OperonID, GeneId()}()``
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("OperonView.Create"), Extension>
-        Public Function CreateOperonView(Door As DOOR) As OperonView
+        Public Function CreateOperonView(DOOR As DOOR) As OperonView
             Dim OperonIds As String() = LinqAPI.Exec(Of String) <=
  _
-                From obj As GeneBrief
-                In Door.Genes
+                From obj As OperonGene
+                In DOOR.Genes
                 Select obj.OperonID
                 Distinct
                 Order By OperonID Ascending
 
             Dim LQuery = LinqAPI.Exec(Of Operon) <=
  _
-                From OperonId As String
+                From oprID As String
                 In OperonIds.AsParallel
-                Let genes = Door.[Select](OperonId)
-                Select New Operon(OperonId, genes)
+                Let genes = DOOR.[Select](oprID)
+                Select New Operon(oprID, genes)
 
             Return New OperonView With {
                 .Operons = LQuery,
-                .__doorOperon = Door
+                .DOOR = DOOR
             }
         End Function
 
-        <ExportAPI("Doc.Load")>
-        Public Function Load(FilePath As String) As DOOR
-            Dim s_Data As String() = IO.File.ReadAllLines(FilePath)
-            Dim DOOR As DOOR = LoadDocument(s_Data, FilePath)
+        ''' <summary>
+        ''' 读取DOOR数据库文件
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
+        <ExportAPI("Doc.Load")> Public Function Load(path As String) As DOOR
+            Dim lines As String() = File.ReadAllLines(path)
+            Dim DOOR As DOOR = LoadDocument(lines, path)
             Return DOOR
         End Function
 
         ''' <summary>
         ''' 从文档之中的数据行之中加载数据
         ''' </summary>
-        ''' <param name="s_Data"></param>
+        ''' <param name="lines"></param>
         ''' <returns></returns>
         ''' 
         <ExportAPI("Doc.Load")>
-        Public Function LoadDocument(s_Data As String(), Optional path As String = Nothing) As DOOR
-            Return DOOR.DocParser(s_Data, path)
+        Public Function LoadDocument(lines As String(), Optional path As String = Nothing) As DOOR
+            Return DOOR_IO.Imports(lines, path)
         End Function
 
+        ''' <summary>
+        ''' 将操纵子模型数据保存为DOOR数据库格式
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="Path"></param>
+        ''' <returns></returns>
         <ExportAPI("Doc.Save")>
         Public Function SaveFile(data As Operon(), Path As String) As Boolean
-            Dim sBuilder As String = GenerateDocument(data)
+            Dim sBuilder As String = Text(data)
             Return sBuilder.SaveTo(Path, Encoding.ASCII)
-        End Function
-
-        Const docTitle As String = "OperonID	GI	Synonym	Start	End	Strand	Length	COG_number	Product"
-
-        <ExportAPI("Doc.Create")>
-        <Extension>
-        Public Function GenerateDocument(data As IEnumerable(Of Operon)) As String
-            Dim LQuery As String() = LinqAPI.Exec(Of String) <=
- _
-                From Operon As Operon
-                In data
-                Select From gene As GeneBrief
-                       In Operon.Value
-                       Let strand = If(gene.Location.Strand = Strands.Forward, "+", "-")
-                       Let rowData = {
-                           Operon.Key,
-                           gene.GI,
-                           gene.Synonym,
-                           CStr(gene.Location.Left),
-                           CStr(gene.Location.Right),
-                           strand,
-                           CStr(gene.Location.FragmentSize),
-                           gene.COG_number,
-                           gene.Product
-                       }
-                       Select String.Join(vbTab, rowData)
-
-            Dim sb As New StringBuilder(1024)
-
-            Call sb.AppendLine(docTitle)
-
-            For Each Line In LQuery
-                Call sb.AppendLine(Line)
-            Next
-
-            Dim value As String = sb.ToString
-            Return value
         End Function
 
         <ExportAPI("Doc.Reload")>
         Public Function Reload(data As Operon()) As DOOR
-            Dim Doc As String = GenerateDocument(data).Replace(vbLf, "")
+            Dim Doc As String = Text(data).Replace(vbLf, "")
             Dim DOOR As DOOR = LoadDocument(Doc.Split(CChar(vbCr)))
             Return DOOR
         End Function

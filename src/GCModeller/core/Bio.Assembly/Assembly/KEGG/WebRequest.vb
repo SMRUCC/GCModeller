@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::c0f719955ad8b63d8b2560abc68006b5, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\WebRequest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,6 +35,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Assembly.KEGG.WebServices
 
@@ -59,6 +62,22 @@ Namespace Assembly.KEGG.WebServices
 5. PubMed database</pre>",
                       Publisher:="xie.guigang@gmail.com")>
     Public Module WebRequest
+
+        ''' <summary>
+        ''' 得到表格之中的某一项的文本值
+        ''' </summary>
+        ''' <param name="form"></param>
+        ''' <param name="key$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function GetText(form As WebForm, key$) As String
+            Return form(key) _
+                .FirstOrDefault _
+                .StripHTMLTags _
+                .StripBlank _
+                .GetTagValue(vbLf) _
+                .Value
+        End Function
 
         ''' <summary>
         ''' The unify interface for gets the data from KEGG database.(从KEGG数据库获取序列数据以及从本底的数据库之中获取序列数据的统一接口)

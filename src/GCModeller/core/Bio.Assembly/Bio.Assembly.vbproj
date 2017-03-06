@@ -256,12 +256,15 @@
     <Compile Include="Assembly\bac-srna.org\Interaction.vb" />
     <Compile Include="Assembly\bac-srna.org\Database.vb" />
     <Compile Include="Assembly\DOMINE\ImportsAPI.vb" />
-    <Compile Include="Assembly\DOOR\DOOR.vb" />
+    <Compile Include="Assembly\DOOR\csv.vb" />
+    <Compile Include="Assembly\DOOR\Models\DOOR.vb" />
     <Compile Include="Assembly\DOOR\DOOR_API.vb" />
-    <Compile Include="Assembly\DOOR\Operon.vb" />
-    <Compile Include="Assembly\DOOR\OperonView.vb" />
-    <Compile Include="Assembly\DOOR\Gene.vb" />
-    <Compile Include="Assembly\DOOR\OperonLDM.vb" />
+    <Compile Include="Assembly\DOOR\Models\Operon.vb" />
+    <Compile Include="Assembly\DOOR\Models\OperonView.vb" />
+    <Compile Include="Assembly\DOOR\Models\OperonGene.vb" />
+    <Compile Include="Assembly\DOOR\Models\OperonLDM.vb" />
+    <Compile Include="Assembly\DOOR\IO.vb" />
+    <Compile Include="Assembly\DOOR\ViewAPI.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Tables.vb" />
     <Compile Include="Assembly\Expasy\API.vb" />
     <Compile Include="Assembly\Expasy\csv\SwissProt.vb" />
@@ -273,6 +276,8 @@
     <Compile Include="Assembly\KEGG\Archives\Xml\MapAPI.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Disease.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb" />
     <Compile Include="Assembly\KEGG\PathwayMapping.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\htext.vb" />
@@ -301,6 +306,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb" />
     <Compile Include="Assembly\KEGG\AllLinksWidget.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\API.vb" />
+    <Compile Include="Assembly\KEGG\Web\Extensions.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\ObjectModel.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\Loader.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ObjectBase\IComplexes.vb" />
@@ -421,7 +427,7 @@
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\TSV.vb" />
     <Compile Include="Assembly\EBI.ChEBI\WebServices.vb" />
     <Compile Include="Assembly\Expasy\EnzymeClass.vb" />
-    <Compile Include="Assembly\KEGG\WebForm.vb" />
+    <Compile Include="Assembly\KEGG\Web\WebForm.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\PropertyAttributes.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\TransportReactions.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\EquationEquals.vb" />

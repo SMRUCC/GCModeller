@@ -202,7 +202,7 @@
     <Compile Include="Heatmaps\Heatmap.vb" />
     <Compile Include="BarPlot\Data.vb" />
     <Compile Include="Heatmaps\HeatmapTable.vb" />
-    <Compile Include="Heatmaps\ScatterHeatmap.vb" />
+    <Compile Include="Heatmaps\Contour.vb" />
     <Compile Include="BarPlot\Histogram\Histogram.vb" />
     <Compile Include="ImageData.vb" />
     <Compile Include="QQPlot.vb" />
@@ -212,6 +212,7 @@
     <Compile Include="Scatter\Annotation.vb" />
     <Compile Include="Scatter\ManhattanStatics.vb" />
     <Compile Include="Scatter\Data.vb" />
+    <Compile Include="Scatter\Heatmap.vb" />
     <Compile Include="Scatter\Scatter.vb" />
     <Compile Include="g\Scaling.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

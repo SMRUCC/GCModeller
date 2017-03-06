@@ -89,13 +89,13 @@ Namespace Workflows.PromoterParser
             End Function
 
             Private Function __initX(locus As String) As String
-                Dim gene As GeneBrief = __DOOR.GetGene(locus)
+                Dim gene As OperonGene = __DOOR.GetGene(locus)
                 If gene Is Nothing Then
                     Call $"locus_id {locus} not contains in database???".__DEBUG_ECHO
                     Return locus
                 End If
                 Dim operon As Operon = __DOOR.DOOROperonView.GetOperon(gene.OperonID)
-                Dim firstGene As GeneBrief = operon.InitialX
+                Dim firstGene As OperonGene = operon.InitialX
                 Return firstGene.Synonym
             End Function
 

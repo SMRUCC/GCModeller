@@ -43,8 +43,8 @@ Namespace EngineSystem.ObjectModels.SubSystem
     Public MustInherit Class ReactorMachine(Of TFluxObject As ModellingEngine.EngineSystem.ObjectModels.Module.FluxObject.IFluxObjectHandle)
         Inherits SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.ReactorMachine(Of Double, TFluxObject)
 
-        Implements Global.System.Collections.Generic.IReadOnlyDictionary(Of String, TFluxObject) '<UniqueId, Item>
-        Implements Global.System.IDisposable
+        Implements IReadOnlyDictionary(Of String, TFluxObject) '<UniqueId, Item>
+        Implements IDisposable
         Implements PlugIns.ISystemFrameworkEntry.ISystemFramework
         Implements EngineSystem.ObjectModels.Module.FluxObject.IConsumptionStaticsInterface
         Implements IDataSource

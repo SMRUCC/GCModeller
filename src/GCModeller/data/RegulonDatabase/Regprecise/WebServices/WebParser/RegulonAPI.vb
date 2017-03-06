@@ -218,12 +218,12 @@ Namespace Regprecise
                            Group x By x.LocusId Into Group) _
                                 .ToDictionary(Function(x) x.LocusId,
                                               Function(x) x.Group.ToArray)
-            Dim oprGenes As GeneBrief()
+            Dim oprGenes As OperonGene()
             If DOOR.Genes.IsNullOrEmpty Then
                 oprGenes =
-                    LinqAPI.Exec(Of GeneBrief) <= From x As RegulatedGene
+                    LinqAPI.Exec(Of OperonGene) <= From x As RegulatedGene
                                                   In mappings
-                                                  Select New GeneBrief With {
+                                                  Select New OperonGene With {
                                                       .OperonID = "x",
                                                       .Synonym = x.LocusId,
                                                       .Product = x.Function,
@@ -232,7 +232,7 @@ Namespace Regprecise
             Else
                 oprGenes = mappings.ToArray(Function(x) DOOR.GetGene(x.LocusId))
             End If
-            Dim opr = (From x As GeneBrief In oprGenes
+            Dim opr = (From x As OperonGene In oprGenes
                        Select x
                        Group x By x.OperonID Into Group) _
                             .ToArray(Function(x) New Operon With {
@@ -241,12 +241,12 @@ Namespace Regprecise
             ' 补齐基因的功能描述信息
             For Each gene As RegulatedGene In mappings
                 If String.IsNullOrEmpty(gene.Function) Then
-                    If DOOR.ContainsGene(gene.LocusId) Then
+                    If DOOR.HaveGene(gene.LocusId) Then
                         gene.Function = DOOR.GetGene(gene.LocusId).Product
                     End If
                 End If
                 If String.IsNullOrEmpty(gene.Name) Then
-                    If DOOR.ContainsGene(gene.LocusId) Then
+                    If DOOR.HaveGene(gene.LocusId) Then
                         gene.Name = DOOR.GetGene(gene.LocusId).COG_number
                     End If
                 End If

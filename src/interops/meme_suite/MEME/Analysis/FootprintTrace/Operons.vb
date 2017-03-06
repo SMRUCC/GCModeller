@@ -113,10 +113,10 @@ Namespace Analysis.FootprintTraceAPI
         ''' <returns>原来的数据将不会被添加</returns>
         <Extension>
         Private Function __expands(x As PredictedRegulationFootprint, operon As Operon, corrs As Correlation2) As PredictedRegulationFootprint()
-            Dim genes = (From g As GeneBrief In operon.Genes
+            Dim genes = (From g As OperonGene In operon.Genes
                          Where Not String.Equals(g.Synonym, x.ORF)
                          Select g) ' 由于操纵的第一个基因的调控数据已经有了，所以在这里筛选掉
-            Dim LQuery = (From g As GeneBrief In genes Select x.__copy(g, corrs)).ToArray
+            Dim LQuery = (From g As OperonGene In genes Select x.__copy(g, corrs)).ToArray
             Return LQuery
         End Function
 
@@ -129,7 +129,7 @@ Namespace Analysis.FootprintTraceAPI
         ''' <returns></returns>
         ''' 
         <Extension>
-        Private Function __copy(x As PredictedRegulationFootprint, g As GeneBrief, corrs As Correlation2) As PredictedRegulationFootprint
+        Private Function __copy(x As PredictedRegulationFootprint, g As OperonGene, corrs As Correlation2) As PredictedRegulationFootprint
             Dim footprint As PredictedRegulationFootprint = x.Clone
 
             ' 由于操纵子的模式是连带调控的。所以调控位点的信息不会被修改，任然是第一个基因的信息

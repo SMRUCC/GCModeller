@@ -103,7 +103,7 @@ Module CLI
         Call MAT.Add({"DOOR", "locus_id", "Strand"})
 
         For Each operon As Operon In corrects
-            Dim row As New IO.RowObject
+            Dim row As New RowObject
             Dim initX = operon.InitialX
             Call row.AddRange({operon.OperonID, initX.Synonym, initX.Location.Strand.GetBriefCode})
             Call MAT.Add(row)
@@ -114,7 +114,7 @@ Module CLI
 
             Dim pre As New List(Of String)
 
-            For Each gene As GeneBrief In (From x In operon Where Not x.Value Is initX Select x.Value)
+            For Each gene As OperonGene In (From x In operon Where Not x.Value Is initX Select x.Value)
                 row = New RowObject
                 Call row.AddRange({operon.OperonID, gene.Synonym, gene.Location.Strand.GetBriefCode})
                 Call row.Add(PCC.GetValue(initX.Synonym, gene.Synonym))

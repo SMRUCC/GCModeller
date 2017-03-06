@@ -27,16 +27,13 @@
 #End Region
 
 Imports System.Text
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Terminal
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Terminal
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
@@ -200,7 +197,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         End Function
 
         Protected Friend Sub CopyTo(ByRef InternalList As List(Of NamedValue(Of String)))
-            InternalList = Me.PairedValues.ToList
+            InternalList = New List(Of NamedValue(Of String))(PairedValues)
         End Sub
 
         Public Function SetValue(key As FeatureQualifiers, value As String) As Feature
