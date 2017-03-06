@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `jp_kegg2` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `jp_kegg2`;
--- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
 -- Host: localhost    Database: jp_kegg2
 -- ------------------------------------------------------
--- Server version	5.6.17
+-- Server version	5.7.17-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,265 +18,138 @@ USE `jp_kegg2`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `disease`
+-- Dumping data for table `disease`
 --
 
-DROP TABLE IF EXISTS `disease`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `disease` (
-  `entry_id` varchar(45) NOT NULL,
-  `definition` longtext,
-  `guid` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`entry_id`),
-  UNIQUE KEY `guid_UNIQUE` (`guid`),
-  UNIQUE KEY `entry_id_UNIQUE` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `disease` WRITE;
+/*!40000 ALTER TABLE `disease` DISABLE KEYS */;
+/*!40000 ALTER TABLE `disease` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `gene`
+-- Dumping data for table `genes`
 --
 
-DROP TABLE IF EXISTS `gene`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `gene` (
-  `locus_tag` char(45) NOT NULL,
-  `gene_name` mediumtext,
-  `definition` mediumtext,
-  `aa_seq` longtext,
-  `nt_seq` longtext,
-  `ec` tinytext,
-  `modules` mediumtext,
-  `diseases` mediumtext,
-  `organism` varchar(45) DEFAULT NULL,
-  `pathways` varchar(45) DEFAULT NULL,
-  `uniprot` varchar(45) DEFAULT NULL COMMENT 'uniprot entry for this protein',
-  `ncbi_entry` varchar(45) DEFAULT NULL,
-  `kegg_sp` varchar(45) DEFAULT NULL COMMENT 'kegg species organism brief code',
-  PRIMARY KEY (`locus_tag`),
-  UNIQUE KEY `entry_UNIQUE` (`locus_tag`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `genes` WRITE;
+/*!40000 ALTER TABLE `genes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `genes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `module`
+-- Dumping data for table `module`
 --
 
-DROP TABLE IF EXISTS `module`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `module` (
-  `entry` varchar(45) NOT NULL,
-  `name` longtext,
-  `definition` longtext,
-  `class` text,
-  `category` text,
-  `type` text,
-  PRIMARY KEY (`entry`),
-  UNIQUE KEY `entry_UNIQUE` (`entry`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `module` WRITE;
+/*!40000 ALTER TABLE `module` DISABLE KEYS */;
+/*!40000 ALTER TABLE `module` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `orthology`
+-- Dumping data for table `orthology`
 --
 
-DROP TABLE IF EXISTS `orthology`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `orthology` (
-  `entry` char(45) NOT NULL,
-  `name` mediumtext,
-  `definition` longtext,
-  `pathways` int(11) DEFAULT NULL COMMENT 'Number of pathways that associated with this kegg orthology data',
-  `modules` int(11) DEFAULT NULL,
-  `genes` int(11) DEFAULT NULL,
-  `disease` int(11) DEFAULT NULL,
-  `brief_A` text,
-  `brief_B` text,
-  `brief_C` text,
-  `brief_D` text,
-  `brief_E` text,
-  `EC` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`entry`),
-  UNIQUE KEY `entry_UNIQUE` (`entry`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `orthology` WRITE;
+/*!40000 ALTER TABLE `orthology` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orthology` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `orthology_diseases`
+-- Dumping data for table `orthology_diseases`
 --
 
-DROP TABLE IF EXISTS `orthology_diseases`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `orthology_diseases` (
-  `entry_id` varchar(45) NOT NULL,
-  `disease` varchar(45) NOT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `description` text,
-  `url` text,
-  PRIMARY KEY (`disease`,`entry_id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `orthology_diseases` WRITE;
+/*!40000 ALTER TABLE `orthology_diseases` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orthology_diseases` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `orthology_genes`
+-- Dumping data for table `orthology_genes`
 --
 
-DROP TABLE IF EXISTS `orthology_genes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `orthology_genes` (
-  `ko` varchar(100) NOT NULL,
-  `gene` varchar(100) NOT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `url` text,
-  `sp_code` varchar(45) DEFAULT NULL COMMENT 'The bacterial genome name brief code in KEGG database',
-  `name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`gene`,`ko`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9312 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `orthology_genes` WRITE;
+/*!40000 ALTER TABLE `orthology_genes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orthology_genes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `orthology_modules`
+-- Dumping data for table `orthology_modules`
 --
 
-DROP TABLE IF EXISTS `orthology_modules`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `orthology_modules` (
-  `entry_id` varchar(45) NOT NULL,
-  `module` varchar(45) NOT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`module`,`entry_id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `orthology_modules` WRITE;
+/*!40000 ALTER TABLE `orthology_modules` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orthology_modules` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `orthology_pathways`
+-- Dumping data for table `orthology_pathways`
 --
 
-DROP TABLE IF EXISTS `orthology_pathways`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `orthology_pathways` (
-  `entry_id` varchar(45) NOT NULL,
-  `pathway` varchar(45) NOT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `describ` text,
-  `url` text,
-  PRIMARY KEY (`entry_id`,`pathway`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `orthology_pathways` WRITE;
+/*!40000 ALTER TABLE `orthology_pathways` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orthology_pathways` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `orthology_references`
+-- Dumping data for table `orthology_references`
 --
 
-DROP TABLE IF EXISTS `orthology_references`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `orthology_references` (
-  `entry_id` varchar(45) NOT NULL,
-  `pmid` varchar(45) NOT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`pmid`,`entry_id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `orthology_references` WRITE;
+/*!40000 ALTER TABLE `orthology_references` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orthology_references` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `pathway`
+-- Dumping data for table `pathway`
 --
 
-DROP TABLE IF EXISTS `pathway`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pathway` (
-  `entry_id` varchar(45) NOT NULL,
-  `name` longtext,
-  `definition` longtext,
-  `class` text,
-  `category` text,
-  PRIMARY KEY (`entry_id`),
-  UNIQUE KEY `entry_id_UNIQUE` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `pathway` WRITE;
+/*!40000 ALTER TABLE `pathway` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pathway` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `reference`
+-- Dumping data for table `reference`
 --
 
-DROP TABLE IF EXISTS `reference`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `reference` (
-  `authors` longtext,
-  `title` longtext,
-  `journal` longtext,
-  `pmid` bigint(20) NOT NULL,
-  PRIMARY KEY (`pmid`),
-  UNIQUE KEY `pmid_UNIQUE` (`pmid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `reference` WRITE;
+/*!40000 ALTER TABLE `reference` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reference` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `xref_ko2cog`
+-- Dumping data for table `xref_ko2cog`
 --
 
-DROP TABLE IF EXISTS `xref_ko2cog`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `xref_ko2cog` (
-  `uid` int(11) NOT NULL AUTO_INCREMENT,
-  `ko` varchar(45) NOT NULL,
-  `COG` varchar(45) NOT NULL,
-  `url` text,
-  PRIMARY KEY (`ko`,`COG`),
-  UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='KEGG orthology database cross reference to COG database.';
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `xref_ko2cog` WRITE;
+/*!40000 ALTER TABLE `xref_ko2cog` DISABLE KEYS */;
+/*!40000 ALTER TABLE `xref_ko2cog` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `xref_ko2go`
+-- Dumping data for table `xref_ko2go`
 --
 
-DROP TABLE IF EXISTS `xref_ko2go`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `xref_ko2go` (
-  `uid` int(11) NOT NULL AUTO_INCREMENT,
-  `ko` varchar(45) NOT NULL,
-  `go` varchar(45) NOT NULL,
-  `url` text,
-  PRIMARY KEY (`ko`,`go`),
-  UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='kegg orthology cross reference to go database';
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `xref_ko2go` WRITE;
+/*!40000 ALTER TABLE `xref_ko2go` DISABLE KEYS */;
+/*!40000 ALTER TABLE `xref_ko2go` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `xref_ko2rn`
+-- Dumping data for table `xref_ko2rn`
 --
 
-DROP TABLE IF EXISTS `xref_ko2rn`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `xref_ko2rn` (
-  `uid` int(11) NOT NULL AUTO_INCREMENT,
-  `ko` varchar(45) NOT NULL,
-  `rn` varchar(45) NOT NULL,
-  `url` text,
-  PRIMARY KEY (`ko`,`rn`),
-  UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='kegg orthology corss reference to kegg reactions database.';
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `xref_ko2rn` WRITE;
+/*!40000 ALTER TABLE `xref_ko2rn` DISABLE KEYS */;
+/*!40000 ALTER TABLE `xref_ko2rn` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'jp_kegg2'
+--
+
+--
+-- Dumping routines for database 'jp_kegg2'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -287,4 +160,4 @@ CREATE TABLE `xref_ko2rn` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-03 18:35:08
+-- Dump completed on 2017-03-06 15:28:41
