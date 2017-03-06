@@ -9,6 +9,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Category As String
         Public Property Comment As String
         Public Property Drug As KeyValuePair()
+        Public Property Pathway As KeyValuePair()
 
         Public Property Entry As String Implements IKeyedEntity(Of String).Key
         Public Property Name As String
@@ -18,6 +19,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property OtherDBs As KeyValuePair()
 
         Public Property References As Reference()
-
+        Public Property Description As String
     End Class
 End Namespace
