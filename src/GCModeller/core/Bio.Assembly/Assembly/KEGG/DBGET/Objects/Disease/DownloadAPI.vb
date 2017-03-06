@@ -29,7 +29,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Pathway = PathwayWebParser.__parseHTML_ModuleList(html("Pathway").FirstOrDefault, LIST_TYPES.Pathway),
                 .Comment = html.GetText("Comment"),
                 .References = html.References,
-                .Markers = html("Marker").FirstOrDefault.MarkerList,
+                .Markers = html("Marker").FirstOrDefault _
+                    .DivInternals _
+                    .Select(AddressOf HtmlLines) _
+                    .IteratesALL _
+                    .Select(Function(s) s.StripHTMLTags.StripBlank) _
+                    .Where(Function(s) Not s.StringEmpty) _
+                    .ToArray,
                 .Genes = html("Gene").FirstOrDefault.MarkerList,
                 .Drug = html("Drug").FirstOrDefault.__pairList(
                     Function(s$)
@@ -41,7 +47,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                             .Value = id
                         }
                     End Function),
-                .OtherDBs = html("Other DBs").FirstOrDefault.__otherDBs
+                .OtherDBs = html("Other DBs").FirstOrDefault.__otherDBs,
+                .Carcinogen = html(NameOf(Disease.Carcinogen)) _
+                    .FirstOrDefault _
+                    .StripHTMLTags(stripBlank:=True)
             }
 
             Return dis

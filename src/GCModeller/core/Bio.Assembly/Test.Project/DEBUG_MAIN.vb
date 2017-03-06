@@ -68,6 +68,7 @@ Module DEBUG_MAIN
 
         Dim dis = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\disease-test.html")
 
+        dis = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\Imatinib.html")
 
 
         Dim gbbb As GenBank.GBFF.File = GBFF.File.Load("G:\Xanthomonas_campestris_8004_uid15\genbank\CP000050.1.txt")
