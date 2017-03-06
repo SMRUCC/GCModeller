@@ -224,24 +224,7 @@
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLI\DumpTools.vb" />
     <Compile Include="CLI\Pathways.vb" />
-    <Compile Include="LocalMySQL\disease.vb" />
-    <Compile Include="LocalMySQL\gene.vb" />
-    <Compile Include="LocalMySQL\module.vb" />
-    <Compile Include="LocalMySQL\orthology.vb" />
-    <Compile Include="LocalMySQL\orthology_diseases.vb" />
-    <Compile Include="LocalMySQL\orthology_genes.vb" />
-    <Compile Include="LocalMySQL\orthology_modules.vb" />
-    <Compile Include="LocalMySQL\orthology_pathways.vb" />
-    <Compile Include="LocalMySQL\orthology_references.vb" />
-    <Compile Include="LocalMySQL\pathway.vb" />
-    <Compile Include="LocalMySQL\reference.vb" />
-    <Compile Include="LocalMySQL\xref_ko2cog.vb" />
-    <Compile Include="LocalMySQL\xref_ko2go.vb" />
-    <Compile Include="LocalMySQL\xref_ko2rn.vb" />
     <Compile Include="PathwayAssociationAnalysis.vb" />
-    <Compile Include="Procedures\jp_kegg2.vb" />
-    <Compile Include="Procedures\SeuqneceDownloader.vb" />
-    <Compile Include="Procedures\Orthology.vb" />
     <Compile Include="SystemDistribution.vb" />
     <Compile Include="OrthologExport.vb" />
     <Compile Include="Program.vb" />
@@ -314,6 +297,10 @@
     <ProjectReference Include="..\..\core\Bio.Repository\Bio.Repository.vbproj">
       <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
       <Name>Bio.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\KEGG\KEGG.vbproj">
+      <Project>{68849e9f-359e-4844-a6db-0cae421594ad}</Project>
+      <Name>KEGG</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
