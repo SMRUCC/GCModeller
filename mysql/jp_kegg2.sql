@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `jp_kegg2` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `jp_kegg2`;
--- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
 -- Host: localhost    Database: jp_kegg2
 -- ------------------------------------------------------
--- Server version	5.6.17
+-- Server version	5.7.17-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,19 +31,19 @@ CREATE TABLE `disease` (
   PRIMARY KEY (`entry_id`),
   UNIQUE KEY `guid_UNIQUE` (`guid`),
   UNIQUE KEY `entry_id_UNIQUE` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='KEGG上面的疾病的定义的数据表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `gene`
+-- Table structure for table `genes`
 --
 
-DROP TABLE IF EXISTS `gene`;
+DROP TABLE IF EXISTS `genes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `gene` (
-  `locus_tag` char(45) NOT NULL,
-  `gene_name` mediumtext,
+CREATE TABLE `genes` (
+  `locus_tag` char(45) NOT NULL COMMENT '基因号',
+  `gene_name` mediumtext COMMENT '基因名',
   `definition` mediumtext,
   `aa_seq` longtext,
   `nt_seq` longtext,
@@ -57,7 +57,7 @@ CREATE TABLE `gene` (
   `kegg_sp` varchar(45) DEFAULT NULL COMMENT 'kegg species organism brief code',
   PRIMARY KEY (`locus_tag`),
   UNIQUE KEY `entry_UNIQUE` (`locus_tag`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='基因的概览表，主要的数据包括蛋白功能以及序列数据和一些dbxref的简单的数量统计';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,7 +76,7 @@ CREATE TABLE `module` (
   `type` text,
   PRIMARY KEY (`entry`),
   UNIQUE KEY `entry_UNIQUE` (`entry`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='KEGG反应模块概览表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,7 +120,7 @@ CREATE TABLE `orthology_diseases` (
   `url` text,
   PRIMARY KEY (`disease`,`entry_id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='直系同源基因与疾病之间的关联表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +207,7 @@ CREATE TABLE `pathway` (
   `category` text,
   PRIMARY KEY (`entry_id`),
   UNIQUE KEY `entry_id_UNIQUE` (`entry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='代谢途径概览表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -224,7 +224,7 @@ CREATE TABLE `reference` (
   `pmid` bigint(20) NOT NULL,
   PRIMARY KEY (`pmid`),
   UNIQUE KEY `pmid_UNIQUE` (`pmid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='参考文献数据表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -277,6 +277,14 @@ CREATE TABLE `xref_ko2rn` (
   UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='kegg orthology corss reference to kegg reactions database.';
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping events for database 'jp_kegg2'
+--
+
+--
+-- Dumping routines for database 'jp_kegg2'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -287,4 +295,4 @@ CREATE TABLE `xref_ko2rn` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-03 18:35:08
+-- Dump completed on 2017-03-06 15:36:30
