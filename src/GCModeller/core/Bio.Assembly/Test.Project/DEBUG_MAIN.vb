@@ -40,8 +40,8 @@ Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
-Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -55,7 +55,7 @@ Module DEBUG_MAIN
         Dim gb As GBFF.File = GBFF.File.Load(path)
         Dim gbs As IEnumerable(Of GBFF.File) = GBFF.File.LoadDatabase(path)
         Dim PTT As PTT = PTT.Load(path)
-        Dim GFF As GFF = GFF.LoadDocument(path)
+        Dim GFF As GFF.GFFTable = GFFTable.LoadDocument(path)
 
         Dim Fasta As New FASTA.FastaFile(path)
         Dim nt As New FASTA.FastaToken(path)
@@ -65,6 +65,10 @@ Module DEBUG_MAIN
     End Sub
 
     Sub Main()
+
+        Dim dis = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\disease-test.html")
+
+
 
         Dim gbbb As GenBank.GBFF.File = GBFF.File.Load("G:\Xanthomonas_campestris_8004_uid15\genbank\CP000050.1.txt")
 

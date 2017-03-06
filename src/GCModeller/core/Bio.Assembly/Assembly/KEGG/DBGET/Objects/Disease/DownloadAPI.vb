@@ -1,9 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
-Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -45,11 +46,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .ToArray
 
             For Each line$ In lines
-                Dim tokens$() = line.Split
+                Dim refs$() = Regex _
+                    .Matches(line, "\[.+?\]", RegexICSng) _
+                    .ToArray
+
                 list += New TripleKeyValuesPair With {
-                    .Key = tokens(0),
-                    .Value1 = tokens(1),
-                    .Value2 = tokens(2)
+                    .Key = line,
+                    .Value1 = refs(0),
+                    .Value2 = refs(1)
                 }
             Next
 
