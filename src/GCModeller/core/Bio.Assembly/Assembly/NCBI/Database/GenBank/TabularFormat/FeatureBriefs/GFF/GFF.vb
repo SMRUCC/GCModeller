@@ -248,30 +248,39 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' Load a GFF (General Feature Format) specifications document file from a plant text file.
         ''' (从一个指定的文本文件之中加载基因组特性片段的数据)
         ''' </summary>
-        ''' <param name="Path"></param>
+        ''' <param name="path"></param>
+        ''' <param name="defaultVersion">
+        ''' 当GFF的文件头部之中没有包含有版本字样的时候，所使用的的默认版本号，默认是版本3
+        ''' </param>
         ''' <returns></returns>
-        Public Shared Function LoadDocument(Path As String) As GFFTable
-            Dim Text As String() = IO.File.ReadAllLines(Path)
+        Public Shared Function LoadDocument(path As String, Optional defaultVersion% = 3) As GFFTable
+            Dim Text As String() = IO.File.ReadAllLines(path)
             Dim GFF As New GFFTable With {
-                .FilePath = Path
+                .FilePath = path
             }
 
-            Call TrySetMetaData(Text, GFF)
+            Call TrySetMetaData(Text, GFF, defaultVer:=defaultVersion)
             Call SetValue(Of GFFTable).InvokeSet(GFF, NameOf(GFF.Features), TryGetFreaturesData(Text, GFF.GffVersion))
             Call $"There are {GFF.Features.Length} genome features exists in the gff file: {GFF.FilePath.ToFileURL}".__DEBUG_ECHO
 
             Return GFF
         End Function
 
-        Private Shared Sub TrySetMetaData(s_Data As String(), ByRef Gff As GFFTable)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="s_Data"></param>
+        ''' <param name="Gff"></param>
+        ''' <param name="defaultVer%">默认的文件格式版本号缺省值</param>
+        Private Shared Sub TrySetMetaData(s_Data As String(), ByRef Gff As GFFTable, defaultVer%)
             s_Data = TryGetMetaData(s_Data)
 
-            Dim LQuery = From Token As String
+            Dim LQuery = From t As String
                          In s_Data
-                         Where Not Token.IndexOf(" "c) = -1  ' ### 这种情况下mid函数会出错
-                         Let p As Integer = InStr(Token, " ")
-                         Let Name As String = Mid(Token, 1, p - 1)
-                         Let Value As String = Mid(Token, p + 1)
+                         Where Not t.IndexOf(" "c) = -1  ' ### 这种情况下mid函数会出错
+                         Let p As Integer = InStr(t, " ")
+                         Let Name As String = Mid(t, 1, p - 1)
+                         Let Value As String = Mid(t, p + 1)
                          Select Name,
                              Value
                          Group By Name Into Group '
@@ -287,7 +296,16 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Gff.Type = TryGetValue(hash, "##type")
             Gff.SeqRegion = SeqRegion.Parser(TryGetValue(hash, "##sequence-region"))
 
+            ' 为零，则表示文本字符串为空值，则会使用默认的版本号
+            If Gff.GffVersion = 0 Then
+                Gff.GffVersion = defaultVer
+            End If
+
             Call $"The parser version of the gff file is version {Gff.GffVersion}...".__DEBUG_ECHO
+
+            If {1, 2, 3}.IndexOf(Gff.GffVersion) = -1 Then
+                Call $"{NameOf(Version)}={Gff.GffVersion} is currently not supported yet, ignored!".Warning
+            End If
         End Sub
 
         ''' <summary>

@@ -59,37 +59,37 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' <param name="version">gff1, gff2, gff3之间的差异是由于本属性值的列的读取方式的差异而产生的</param>
         ''' <returns></returns>
         Public Function CreateObject(s_Data As String, version As Integer) As Feature
-            Dim Tokens As String() = Strings.Split(s_Data, vbTab)
-            Dim Feature As New Feature
-            Dim p As New Pointer
+            Dim t As String() = Strings.Split(s_Data, vbTab)
+            Dim feature As New Feature
+            Dim i As int = Scan0
 
             ' Fields are: <seqname> <source> <feature> <start> <end> <score> <strand> <frame> [attributes] [comments]
 
-            With Feature
-                .seqname = Tokens(++p)
-                .source = Tokens(++p)
-                .Feature = Tokens(++p)
-                .Left = CLng(Val(Tokens(++p)))
-                .Right = CLng(Val(Tokens(++p)))
-                .score = Tokens(++p)
-                .Strand = GetStrand(Tokens(++p))
-                .frame = Tokens(++p)
+            With feature
+                .seqname = t(++i)
+                .source = t(++i)
+                .Feature = t(++i)
+                .Left = CLng(Val(t(++i)))
+                .Right = CLng(Val(t(++i)))
+                .score = t(++i)
+                .Strand = GetStrand(t(++i))
+                .frame = t(++i)
             End With
 
             '在这里开始读取可选的列数据
-            Dim attrValue As String = If(Tokens.Count > p, Tokens(++p), "")
+            Dim attrValue As String = If(t.Length > i, t(++i), "")
 
             If Not String.IsNullOrEmpty(attrValue) Then
                 Select Case version
                     Case 1
                     Case 2
-                    Case 3 : Feature.attributes = CreateObjectGff3(attrValue)
+                    Case 3 : feature.attributes = CreateObjectGff3(attrValue)
                     Case Else
-                        Call Console.WriteLine($"{NameOf(version)}={version} is currently not supported yet, ignored!")
+                        ' DO_NOTHING
                 End Select
             End If
 
-            Return Feature
+            Return feature
         End Function
 
         ''' <summary>
