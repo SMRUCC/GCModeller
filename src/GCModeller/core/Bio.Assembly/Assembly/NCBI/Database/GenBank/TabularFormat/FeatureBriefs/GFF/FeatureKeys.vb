@@ -28,6 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
@@ -96,18 +97,36 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         Public Function GetAllCDSGeneIDs(gff As GFFTable) As String()
             Dim fs As Feature() = gff.GetsAllFeatures(Features.CDS)
             Dim geneIDs As String() = fs _
-                .Where(Function(f) f.attributes.ContainsKey("Dbxref")) _
-                .Select(Function(f) f.attributes("Dbxref")) _
+                .Where(Function(f) f.attributes.ContainsKey("dbxref")) _
+                .Select(Function(f) f.attributes("dbxref")) _
                 .Distinct _
                 .ToArray
             geneIDs = geneIDs _
-                .Select(Function(s) s.GetTagValue(":", trim:=True)) _
-                .Where(Function(s) s.Name = "GeneID") _
-                .Select(Function(s) s.Value) _
+                .Select(AddressOf DbXref) _
+                .Where(Function(s) s.ContainsKey("GeneID")) _
+                .Select(Function(s) s("GeneID")) _
+                .IteratesALL _
                 .Distinct _
                 .ToArray
 
             Return geneIDs
+        End Function
+
+        ''' <summary>
+        ''' 解析出DbXref属性之中的外部数据库连接
+        ''' </summary>
+        ''' <param name="value$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function DbXref(value$) As Dictionary(Of String, String())
+            Dim t$() = value.Split(","c)
+            Dim d As Dictionary(Of String, String()) =
+                t _
+                .Select(Function(s) s.GetTagValue(":", trim:=True)) _
+                .GroupBy(Function(o) o.Name) _
+                .ToDictionary(Function(k) k.Key,
+                              Function(v) v.ToArray(Function(x) x.Value))
+            Return d
         End Function
     End Module
 End Namespace
