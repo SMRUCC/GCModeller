@@ -123,6 +123,7 @@ Namespace Assembly.Uniprot.Web
             'Next
 
             ' http://www.uniprot.org/uniprot/?sort=yourlist:M20170111AAFB7E4D2F1D05654627429E83DA5CCEA02970F&desc=&compress=yes&query=yourlist:M20170111AAFB7E4D2F1D05654627429E83DA5CCEA02970F&fil=&format=tab&force=yes&columns=yourlist(M20170111AAFB7E4D2F1D05654627429E83DA5CCEA02970F),id
+            ' http://www.uniprot.org/uniprot/?sort=yourlist:M20170307A7434721E10EE6586998A056CCD0537E86F2B0I&desc=&compress=yes&query=yourlist:M20170307A7434721E10EE6586998A056CCD0537E86F2B0I&fil=&format=tab&force=yes&columns=yourlist(M20170307A7434721E10EE6586998A056CCD0537E86F2B0I),id
             url = $"http://www.uniprot.org/uniprot/?sort={query}&desc=&compress=yes&query={query}&fil=&format=tab&force=yes&columns=yourlist({uid}),id"
 
             Try
@@ -131,6 +132,7 @@ Namespace Assembly.Uniprot.Web
                 Call App.LogException(New Exception(url, ex))
             End Try
 
+            ' http://www.uniprot.org/uniprot/?sort=yourlist:M20170307A7434721E10EE6586998A056CCD0537E86F2B0I&desc=&compress=yes&query=yourlist:M20170307A7434721E10EE6586998A056CCD0537E86F2B0I&fil=&format=xml&force=yes
             url = $"http://www.uniprot.org/uniprot/?sort={query}&desc=&compress={compress}&query={query}&fil=&format={format}&force=yes"
 
             Try
