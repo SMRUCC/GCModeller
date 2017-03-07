@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
@@ -42,15 +43,32 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Partial Module CLI
 
     <ExportAPI("/Download.human.genes",
-               Usage:="/Download.human.genes /in <geneID.list> [/out <save.DIR>]")>
+               Usage:="/Download.human.genes /in <geneID.list/DIR> [/batch /out <save.DIR>]")>
     Public Function DownloadHumanGenes(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".human_genes/")
-        Dim list$() = [in].ReadAllLines
-        Dim failures$() = list.DownloadHumanGenome(EXPORT:=out)
-        Return failures _
-            .SaveTo(out & "/failures.txt") _
-            .CLICode
+        Dim batch As Boolean = args.GetBoolean("/batch")
+        Dim download = Sub(path$, out$)
+                           Dim list$() = path.ReadAllLines
+                           Dim failures$() = list.DownloadHumanGenome(EXPORT:=out)
+                           Call failures _
+                                .SaveTo(out & "/failures.txt") _
+                                .CLICode
+                       End Sub
+
+        If batch Then
+            Dim out As String = args.GetValue("/out", [in].TrimDIR & "-KEGG_human_genes/")
+            Dim EXPORT$
+
+            For Each file As String In ls - l - r - "*.list" <= [in]
+                EXPORT = $"{out}/{file.BaseName}/"
+                download(file, out:=EXPORT)
+            Next
+        Else
+            Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".human_genes/")
+            Call download([in], out)
+        End If
+
+        Return 0
     End Function
 
     <ExportAPI("--Dump.Db", Info:="", Usage:="--Dump.Db /KEGG.Pathways <DIR> /KEGG.Modules <DIR> /KEGG.Reactions <DIR> /sp <sp.Code> /out <out.Xml>")>
@@ -97,9 +115,13 @@ Partial Module CLI
     End Function
 
     Private Sub __queryKO2(infile As String, out As String, evalue As Double)
-        Dim inHits = infile.LoadCsv(Of bGetObject.SSDB.BlastnHit)
+        Dim inHits = infile.LoadCsv(Of SSDB.BlastnHit)
         inHits = (From x In inHits Where x.Eval <= evalue Select x).ToList
-        Dim KO As String() = inHits.ToArray([CType]:=Function(x) x.KO, where:=Function(s) Not String.IsNullOrWhiteSpace(s.KO)).Distinct.ToArray
+        Dim KO As String() = inHits _
+            .ToArray([CType]:=Function(x) x.KO,
+                     where:=Function(s) Not String.IsNullOrWhiteSpace(s.KO)) _
+            .Distinct _
+            .ToArray
         Dim brite = BriteHEntry.Pathway.LoadDictionary
         Dim name As String = infile.BaseName
         Dim anno = KO.ToArray(Function(sKO) __queryKO(name, sKO, brite)).Unlist
@@ -211,7 +233,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
 
         WebServiceUtils.Proxy = "http://127.0.0.1:8087/"
 
-        If bGetObject.PathwayMap.DownloadAll(outDIR) <> 0 Then
+        If PathwayMap.DownloadAll(outDIR) <> 0 Then
             Call "Some maps file download failured, please check error logs for detail information...".Warning
             Return -10
         Else

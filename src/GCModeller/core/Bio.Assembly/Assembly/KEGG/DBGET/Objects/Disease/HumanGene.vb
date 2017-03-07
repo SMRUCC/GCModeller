@@ -19,6 +19,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property AA As String
         Public Property NT As String
         Public Property OtherDBs As KeyValuePair()
+        Public Property Modules As KeyValuePair()
 
         Public Overrides Function ToString() As String
             Return Definition.ToString

@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
@@ -48,7 +49,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Pathway = PathwayWebParser.__parseHTML_ModuleList(html("Pathway").FirstOrDefault, LIST_TYPES.Pathway),
                 .GeneName = html.GetText("Gene name"),
                 .Disease = __parseHTML_ModuleList(html.GetValue("Disease").FirstOrDefault, LIST_TYPES.Disease),
-                .DrugTarget = html("Drug target").FirstOrDefault.__drugTarget
+                .DrugTarget = html("Drug target").FirstOrDefault.__drugTarget,
+                .Modules = __parseHTML_ModuleList(html.GetValue("Module").FirstOrDefault, LIST_TYPES.Module)
             }
 
             With hsa
@@ -66,6 +68,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <Extension> Private Function __drugTarget(html$) As KeyValuePair()
             Dim out As New List(Of KeyValuePair)
             Dim divs = html.DivInternals.SlideWindows(2, offset:=2)
+
+            If Trim(html).StringEmpty Then
+                Return Nothing
+            End If
 
             For Each pair In divs
                 out += New KeyValuePair With {
@@ -100,6 +106,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                     If Not (path = $"{EXPORT}/{id}.xml").FileExists(True) Then
                         Try
                             Call DownloadHSA(id).SaveAsXml(path,,)
+                            Call Thread.Sleep(1500)
                         Catch ex As Exception
                             failures += id
                         End Try
