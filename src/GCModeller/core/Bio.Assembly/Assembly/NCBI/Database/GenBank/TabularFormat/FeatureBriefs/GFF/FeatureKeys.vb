@@ -86,5 +86,28 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             {FeatureKeys.tmRNA, Features.tmRNA},
             {FeatureKeys.tRNA, Features.tRNA}
         }
+
+        ''' <summary>
+        ''' 获取所有的CDS的基因编号列表
+        ''' </summary>
+        ''' <param name="gff"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function GetAllCDSGeneIDs(gff As GFFTable) As String()
+            Dim fs As Feature() = gff.GetsAllFeatures(Features.CDS)
+            Dim geneIDs As String() = fs _
+                .Where(Function(f) f.attributes.ContainsKey("Dbxref")) _
+                .Select(Function(f) f.attributes("Dbxref")) _
+                .Distinct _
+                .ToArray
+            geneIDs = geneIDs _
+                .Select(Function(s) s.GetTagValue(":", trim:=True)) _
+                .Where(Function(s) s.Name = "GeneID") _
+                .Select(Function(s) s.Value) _
+                .Distinct _
+                .ToArray
+
+            Return geneIDs
+        End Function
     End Module
 End Namespace
