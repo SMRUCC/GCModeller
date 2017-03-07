@@ -43,7 +43,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         Public Const region As String = "region"
 
         Public Enum Features As Integer
-            UnDefine = -1
+            Undefine = -1
             CDS
             gene
             tRNA
@@ -57,7 +57,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         Public Function [GetFeatureType](x As Feature) As Features
             If String.IsNullOrEmpty(x.Feature) OrElse
                 Not FeatureKeys.FeaturesHash.ContainsKey(x.Feature) Then
-                Return Features.UnDefine
+                Return Features.Undefine
             Else
                 Return FeatureKeys.FeaturesHash(x.Feature)
             End If
@@ -92,10 +92,15 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' 获取所有的CDS的基因编号列表
         ''' </summary>
         ''' <param name="gff"></param>
+        ''' <param name="feature">默认是使用所有的feature类型来用作为数据源</param>
         ''' <returns></returns>
+        ''' <remarks>这个函数似乎有问题，因为使用人类基因组的第一条染色体的GFF测试才2000多个基因</remarks>
         <Extension>
-        Public Function GetAllCDSGeneIDs(gff As GFFTable) As String()
-            Dim fs As Feature() = gff.GetsAllFeatures(Features.CDS)
+        Public Function GetAllGeneIDs(gff As GFFTable, Optional feature As Features = Features.Undefine) As String()
+            Dim fs As Feature() = If(
+                feature = Features.Undefine,
+                gff.Features,
+                gff.GetsAllFeatures(feature))
             Dim geneIDs As String() = fs _
                 .Where(Function(f) f.attributes.ContainsKey("dbxref")) _
                 .Select(Function(f) f.attributes("dbxref")) _
