@@ -284,4 +284,26 @@ Partial Module CLI
 
         Return 0
     End Function
+
+    ''' <summary>
+    ''' 这个函数总是会将目标输入编号mapping为uniprotKB编号
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Uniprot.Mappings",
+               Info:="Retrieve the uniprot annotation data by using ID mapping operations.",
+               Usage:="/Uniprot.Mappings /in <id.list> [/type <P_REFSEQ_AC> /out <out.DIR>]")>
+    Public Function UniprotMappings(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim type As ID_types = args.GetValue("/type", ID_types.P_REFSEQ_AC, AddressOf IDTypeParser)
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-uniprot/")
+
+        Call Retrieve_IDmapping.Mapping(
+            uploadQuery:=[in].ReadAllLines,
+            from:=type,
+            [to]:=ID_types.ACC_ID,
+            save:=out & "/proteins.txt")
+
+        Return 0
+    End Function
 End Module

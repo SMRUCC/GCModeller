@@ -35,6 +35,20 @@ Namespace Assembly.Uniprot.Web
 
     Public Module Retrieve_IDmapping
 
+        ReadOnly idTypes As Dictionary(Of String, ID_types) =
+            Enums(Of ID_types) _
+            .ToDictionary(Function(id) id.Description)
+
+        Public Function IDTypeParser(value$, Optional [default] As ID_types = ID_types.P_REFSEQ_AC) As ID_types
+            value = value.ToUpper
+
+            If idTypes.ContainsKey(value) Then
+                Return idTypes(value)
+            Else
+                Return [default]
+            End If
+        End Function
+
         Const yes$ = NameOf(yes)
         Const no$ = NameOf(no)
 
@@ -44,7 +58,7 @@ Namespace Assembly.Uniprot.Web
         ''' <param name="uploadQuery"></param>
         ''' <param name="from"></param>
         ''' <param name="[to]"></param>
-        ''' <param name="save$"></param>
+        ''' <param name="save$">这是一个文件名来的</param>
         ''' <param name="compress$">
         ''' 假若这个参数为<see cref="yes"/>的话，下载的是一个``*.gz``格式的压缩文件
         ''' </param>
