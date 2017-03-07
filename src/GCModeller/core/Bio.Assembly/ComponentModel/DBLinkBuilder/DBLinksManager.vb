@@ -49,7 +49,7 @@ Namespace ComponentModel.DBLinkBuilder
             Get
                 Dim LQuery = (From ItemDBLink As TLink
                               In Me._DBLinkObjects
-                              Where String.Equals(DBName, ItemDBLink.locusId, StringComparison.OrdinalIgnoreCase)
+                              Where String.Equals(DBName, ItemDBLink.DbName, StringComparison.OrdinalIgnoreCase)
                               Select ItemDBLink).ToArray
                 Return LQuery
             End Get
@@ -74,8 +74,8 @@ Namespace ComponentModel.DBLinkBuilder
 
         Public Sub AddEntry(Entry As TLink)
             Dim LQuery = (From item As TLink In DBLinkObjects
-                          Where String.Equals(item.locusId, Entry.locusId, StringComparison.OrdinalIgnoreCase) AndAlso
-                              String.Equals(item.Address, Entry.Address, StringComparison.OrdinalIgnoreCase)
+                          Where String.Equals(item.DbName, Entry.DbName, StringComparison.OrdinalIgnoreCase) AndAlso
+                              String.Equals(item.ID, Entry.ID, StringComparison.OrdinalIgnoreCase)
                           Select item).ToArray
 
             If LQuery.IsNullOrEmpty Then
@@ -89,7 +89,7 @@ Namespace ComponentModel.DBLinkBuilder
             If Not links.IsNullOrEmpty Then
                 For Each ll In (From n As TLink
                                 In links
-                                Where String.Equals(n.Address, Entry, StringComparison.OrdinalIgnoreCase)
+                                Where String.Equals(n.ID, Entry, StringComparison.OrdinalIgnoreCase)
                                 Select n).ToArray
                     Call _DBLinkObjects.Remove(ll)
                 Next
@@ -97,10 +97,10 @@ Namespace ComponentModel.DBLinkBuilder
         End Sub
 
         Public Sub AddEntry(DBName As String, Entry As String)
-            Dim EntryObject As TLink = Activator.CreateInstance(Of TLink)()
-            EntryObject.locusId = DBName
-            EntryObject.Address = Entry
-            Call AddEntry(Entry:=EntryObject)
+            Dim link As TLink = Activator.CreateInstance(Of TLink)()
+            link.DbName = DBName
+            link.ID = Entry
+            Call AddEntry(Entry:=link)
         End Sub
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of TLink) Implements IEnumerable(Of TLink).GetEnumerator
