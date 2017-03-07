@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel
@@ -275,7 +276,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' </summary>
         ''' <returns></returns>
         Public Overloads Shared Function Read(path As String, Optional FillBlankName As Boolean = False) As PTT
-            Dim lines As String() = System.IO.File.ReadAllLines(path)
+            Dim lines As String() = File.ReadAllLines(path)
             Dim PTT As PTT = New PTT With {
                 .FilePath = path,
                 .Title = lines(0)
