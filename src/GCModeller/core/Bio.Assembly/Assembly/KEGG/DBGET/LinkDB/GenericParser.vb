@@ -33,6 +33,9 @@ Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Assembly.KEGG.DBGET.LinkDB
 
+    ''' <summary>
+    ''' 通用化的linkdb数据解析器
+    ''' </summary>
     Public Module GenericParser
 
         Const regexpLine$ = "<a href="".+?"">.+?</a>.+?$"

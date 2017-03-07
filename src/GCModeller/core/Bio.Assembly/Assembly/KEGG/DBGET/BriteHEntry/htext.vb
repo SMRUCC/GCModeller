@@ -61,11 +61,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         ''' <summary>
-        ''' 从文本文件之中进行解析操作
+        ''' 从文本文件之中进行解析操作，<paramref name="res"/>参数为文本内容或者文件的路径
         ''' </summary>
         ''' <param name="res$"></param>
         ''' <returns></returns>
         Public Shared Function StreamParser(res$) As htext
+            If (res.IndexOf(ASCII.LF) = -1 AndAlso res.LastIndexOf(ASCII.CR) = -1 AndAlso res.FileExists(True)) Then
+                res = res.ReadAllText
+            End If
+
             Dim lines$() = res.Replace("<b>", "").Replace("</b>", "").lTokens
             Dim header$() = lines(Scan0).Split(ASCII.TAB)
             Dim title As String = lines(1)
