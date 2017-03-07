@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -84,9 +85,32 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="EXPORT$"></param>
         ''' <returns></returns>
-        Public Function DownloadHumanGenome(EXPORT$) As String()
-            Throw New NotImplementedException
-        End Function
+        ''' 
+        <Extension>
+        Public Function DownloadHumanGenome(geneIDs As IEnumerable(Of String), EXPORT$) As String()
+            Dim list$() = geneIDs.ToArray
+            Dim failures As New List(Of String)
 
+            Using progress As New ProgressBar("Download genes of human genome...",, True)
+                Dim tick As New ProgressProvider(list.Length)
+                Dim path As New Value(Of String)
+                Dim ETA$
+
+                For Each id As String In list
+                    If Not (path = $"{EXPORT}/{id}.xml").FileExists(True) Then
+                        Try
+                            Call DownloadHSA(id).SaveAsXml(path,,)
+                        Catch ex As Exception
+                            failures += id
+                        End Try
+                    End If
+
+                    ETA = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
+                    progress.SetProgress(tick.StepProgress, detail:=ETA)
+                Next
+            End Using
+
+            Return failures
+        End Function
     End Module
 End Namespace
