@@ -276,8 +276,12 @@
     <Compile Include="Assembly\KEGG\Archives\Xml\MapAPI.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\KEGGgenomeFetchs.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\HumanGene.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Drug.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Disease.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb" />
     <Compile Include="Assembly\KEGG\PathwayMapping.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\htext.vb" />

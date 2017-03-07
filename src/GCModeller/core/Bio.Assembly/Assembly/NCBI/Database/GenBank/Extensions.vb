@@ -84,6 +84,11 @@ Namespace Assembly.NCBI.GenBank
             Return gene
         End Function
 
+        ''' <summary>
+        ''' 将NCBI genbank数据库文件转换为GFF3文件
+        ''' </summary>
+        ''' <param name="gb"></param>
+        ''' <returns></returns>
         <ExportAPI("ToGff"), Extension>
         Public Function ToGff(gb As GBFF.File) As GFFTable
             Dim Gff As New GFFTable With {

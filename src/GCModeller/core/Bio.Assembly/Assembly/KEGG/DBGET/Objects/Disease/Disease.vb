@@ -15,11 +15,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Name As String
 
         Public Property Genes As TripleKeyValuesPair()
-        Public Property Markers As TripleKeyValuesPair()
+        Public Property Markers As String()
         Public Property OtherDBs As KeyValuePair()
 
         Public Property References As Reference()
         Public Property Description As String
+        Public Property Carcinogen As String
 
         ''' <summary>
         ''' 从标签文本之中解析出人基因组的基因的编号
@@ -27,7 +28,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <param name="s$"></param>
         ''' <returns></returns>
         Public Shared Function HumanGeneID(s$) As String
-
+            Return s.GetStackValue("[", "]").Split(":"c).Last
         End Function
     End Class
 End Namespace
