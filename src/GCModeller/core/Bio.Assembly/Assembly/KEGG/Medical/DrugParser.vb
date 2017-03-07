@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG
@@ -44,18 +45,31 @@ Namespace Assembly.KEGG
             }
 
             Return New Drug With {
-               .Entry = list("ENTRY").Value.FirstOrDefault,
-               .Names = list("NAME").Value,
-               .Formula = list("FORMULA").Value.FirstOrDefault,
-               .Exact_Mass = Val(list("EXACT_MASS").Value.FirstOrDefault),
-               .Mol_Weight = Val(list("MOL_WEIGHT").Value.FirstOrDefault),
-               .Remarks = list("REMARKS").Value,
-               .DBLinks = list("DBLINKS").Value _
+               .Entry = list.TryGetValue("ENTRY").Value.FirstOrDefault,
+               .Names = list.TryGetValue("NAME").Value,
+               .Formula = list.TryGetValue("FORMULA").Value.FirstOrDefault,
+               .Exact_Mass = Val(list.TryGetValue("EXACT_MASS").Value.FirstOrDefault),
+               .Mol_Weight = Val(list.TryGetValue("MOL_WEIGHT").Value.FirstOrDefault),
+               .Remarks = list.TryGetValue("REMARKS").Value,
+               .DBLinks = list.TryGetValue("DBLINKS").Value _
                    .Select(AddressOf DBLink.FromTagValue) _
                    .ToArray,
-               .Activity = list("ACTIVITY").Value.FirstOrDefault,
-               .Atoms = __atoms(list("ATOM").Value),
-               .Bounds = __bounds(list("BOUND").Value)
+               .Activity = list.TryGetValue("ACTIVITY").Value.FirstOrDefault,
+               .Atoms = __atoms(list.TryGetValue("ATOM").Value),
+               .Bounds = __bounds(list.TryGetValue("BOUND").Value),
+               .Comments = list.TryGetValue("COMMENT").Value,
+               .Targets = list.TryGetValue("TARGET").Value,
+               .Metabolism = list.TryGetValue("METABOLISM") _
+                    .Value _
+                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
+               .Interaction = list.TryGetValue("INTERACTION") _
+                    .Value _
+                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
+               .Source = list.TryGetValue("SOURCE") _
+                    .Value _
+                    .ToArray(Function(s) s.StringSplit(",\s+")) _
+                    .IteratesALL _
+                    .ToArray
             }
         End Function
 

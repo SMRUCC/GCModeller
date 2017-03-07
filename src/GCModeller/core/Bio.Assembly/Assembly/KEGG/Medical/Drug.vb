@@ -17,6 +17,11 @@ Namespace Assembly.KEGG
         Public Property DBLinks As DBLink()
         Public Property Atoms As Atom()
         Public Property Bounds As Bound()
+        Public Property Comments As String()
+        Public Property Targets As String()
+        Public Property Metabolism As NamedValue(Of String)()
+        Public Property Interaction As NamedValue(Of String)()
+        Public Property Source As String()
 
         Public Overrides Function ToString() As String
             Return GetJson
