@@ -12,7 +12,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Definition As KeyValuePair
         Public Property Pathway As KeyValuePair()
         Public Property Disease As KeyValuePair()
-        Public Property DrugTarget As String()
+        Public Property DrugTarget As KeyValuePair()
         Public Property Motif As NamedCollection(Of String)
         Public Property [Structure] As NamedCollection(Of String)
         Public Property Position As String
