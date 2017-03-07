@@ -40,7 +40,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
     ''' <remarks></remarks>
     Public Class BriteHText
 
+        ''' <summary>
+        ''' 大分类的标签
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property ClassLabel As String
+        ''' <summary>
+        ''' 假若这个层次还可以进行细分的话，则这个属性就是当前的小分类的子分类列表
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement> Public Property CategoryItems As BriteHText()
         <XmlAttribute> Public Property Level As Integer
         <XmlAttribute> Public Property Degree As Char
@@ -227,6 +235,30 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Shared Function Load_ko00001() As BriteHText
             Return Load(strData:=My.Resources.ko00001)
+        End Function
+
+        ''' <summary>
+        ''' 创建分层次的文件保存路径
+        ''' </summary>
+        ''' <param name="EXPORT$">数据文件所导出的文件夹</param>
+        ''' <param name="ext$">文件拓展名，KEGG数据库文件默认为``xml``格式</param>
+        ''' <returns></returns>
+        Public Function BuildPath(EXPORT$, Optional ext$ = ".xml") As String
+            Dim levels As New List(Of String)
+            Dim o As BriteHText = Me.Parent
+
+            Do While Not o.Parent Is Nothing
+                levels += o.ClassLabel
+                o = o.Parent
+            Loop
+
+            Call levels.Reverse()
+
+            Dim sub$ = levels _
+                .Select(Function(s) s.NormalizePathString(False)) _
+                .JoinBy("/")
+
+            Return EXPORT & "/" & [sub] & EntryId & ext
         End Function
     End Class
 End Namespace
