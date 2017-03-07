@@ -38,6 +38,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.KEGG.WebServices
 
@@ -403,11 +404,10 @@ Namespace Assembly.KEGG.WebServices
         <ExportAPI("Download.16S_rRNA")>
         Public Function Download16S_rRNA(outDIR As String) As SequenceModel.FASTA.FastaFile
             Dim ortholog = DBGET.bGetObject.SSDB.API.QueryURL(_16S_rRNA)
-            Dim lstFa As New List(Of SequenceModel.FASTA.FastaToken)
+            Dim lstFa As New List(Of FastaToken)
 
             For Each gene In ortholog.Genes
-                Dim fa As SequenceModel.FASTA.FastaToken =
-                    KEGG.WebServices.FetchNt(gene.SpeciesId, gene.LocusId)
+                Dim fa As FastaToken = KEGG.WebServices.FetchNt(gene.SpeciesId, gene.LocusId)
                 If Not fa Is Nothing Then
                     Dim path As String = $"{outDIR}/{gene.SpeciesId}_{gene.LocusId}.fasta"
                     Call fa.SaveTo(path)

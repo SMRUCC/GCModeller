@@ -9,6 +9,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
     Public Module DownloadWorker
 
+        ''' <summary>
+        ''' 批量下载KEGG之上的人类疾病的数据
+        ''' </summary>
+        ''' <param name="htext"></param>
+        ''' <param name="EXPORT$"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function DownloadDisease(htext As htext, EXPORT$) As String()
             Dim all As BriteHText() = htext.Hierarchical.EnumerateEntries.ToArray

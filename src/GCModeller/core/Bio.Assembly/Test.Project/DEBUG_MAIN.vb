@@ -66,6 +66,8 @@ Module DEBUG_MAIN
 
     Sub Main()
 
+        Dim gene = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.KEGGGenomeFetchs.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\human_gene.html")
+
         Dim htext As htext = htext.StreamParser("C:\Users\xieguigang\Downloads\br08402.keg")
 
         Call SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadWorker.DownloadDisease(htext, "x:\test\")

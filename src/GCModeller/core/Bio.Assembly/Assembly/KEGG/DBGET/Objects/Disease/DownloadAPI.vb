@@ -58,7 +58,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         <Extension>
-        Private Function __otherDBs(html$) As KeyValuePair()
+        Friend Function __otherDBs(html$) As KeyValuePair()
             Dim lines$() = html _
                 .DivInternals _
                 .ToArray(Function(s) s.StripHTMLTags(stripBlank:=True))
