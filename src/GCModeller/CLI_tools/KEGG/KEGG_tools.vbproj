@@ -267,7 +267,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="kegg.ico" />
-    <Content Include="Terminal.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
