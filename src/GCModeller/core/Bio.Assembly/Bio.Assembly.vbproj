@@ -283,6 +283,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb" />
+    <Compile Include="Assembly\KEGG\Medical\Disease.vb" />
     <Compile Include="Assembly\KEGG\Medical\Drug.vb" />
     <Compile Include="Assembly\KEGG\Medical\DrugParser.vb" />
     <Compile Include="Assembly\KEGG\PathwayMapping.vb" />
