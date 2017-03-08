@@ -75,7 +75,8 @@ Public Module CatalogProfiling
                                  Optional valueFontStyle$ = CSSFont.Win7Bold,
                                  Optional tickFontStyle$ = CSSFont.Win7LargerBold,
                                  Optional tick# = 50,
-                                 Optional removeNotAssign As Boolean = True) As Bitmap
+                                 Optional removeNotAssign As Boolean = True,
+                                 Optional gray As Boolean = False) As Bitmap
 
         If removeNotAssign AndAlso profile.ContainsKey(NOT_ASSIGN) Then
             profile = New Dictionary(Of String, NamedValue(Of Double)())(profile)
@@ -101,12 +102,30 @@ Public Module CatalogProfiling
                     region, profile, title,
                     colors,
                     titleFontStyle, catalogFontStyle, classFontStyle, valueFontStyle,
-                    New Mapper(mapper),
+                    New Mapper(mapper, ignoreAxis:=True),
                     tickFontStyle, tick,
-                    axisTitle)
+                    axisTitle,
+                    gray:=gray)
             End Sub)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="g"></param>
+    ''' <param name="region"></param>
+    ''' <param name="profile"></param>
+    ''' <param name="title$"></param>
+    ''' <param name="colors"></param>
+    ''' <param name="titleFontStyle$"></param>
+    ''' <param name="catalogFontStyle$"></param>
+    ''' <param name="classFontStyle$"></param>
+    ''' <param name="valueFontStyle$"></param>
+    ''' <param name="mapper"></param>
+    ''' <param name="tickFontStyle$"></param>
+    ''' <param name="tick#"></param>
+    ''' <param name="axisTitle$"></param>
+    ''' <param name="gray">条形图使用灰色的颜色，不再根据分类而产生不同颜色了</param>
     <Extension>
     Private Sub __plotInternal(ByRef g As Graphics, region As GraphicsRegion,
                                profile As Dictionary(Of String, NamedValue(Of Double)()),
@@ -118,7 +137,7 @@ Public Module CatalogProfiling
                                mapper As Mapper,
                                tickFontStyle$,
                                tick#,
-                               axisTitle$)
+                               axisTitle$, gray As Boolean)
 
         Dim classes$() = profile.Keys.ToArray
         Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject
@@ -171,6 +190,10 @@ Public Module CatalogProfiling
             Dim valueSize As SizeF
             Dim valueLeft!
             Dim valueLabel$
+
+            If gray Then
+                color = New SolidBrush(System.Drawing.Color.FromArgb(30, 30, 30))
+            End If
 
             ' 绘制Class大分类的标签
             Call g.DrawString(+[class], classFont, Brushes.Black, New PointF(left, y))

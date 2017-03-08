@@ -298,7 +298,8 @@ Public Module CatalogPlots
                                                                            GO_terms As Dictionary(Of String, Term),
                                                                            Optional pvalue# = 0.05,
                                                                            Optional size As Size = Nothing,
-                                                                           Optional tick# = 1) As Bitmap
+                                                                           Optional tick# = 1,
+                                                                           Optional gray As Boolean = False) As Bitmap
 
         Dim profile As New Dictionary(Of String, List(Of NamedValue(Of Double)))
 
@@ -321,7 +322,8 @@ Public Module CatalogPlots
                 "GO enrichment",
                 size:=size,
                 axisTitle:="-Log10(p-value)",
-                tick:=tick)
+                tick:=tick,
+                gray:=gray)
     End Function
 End Module
 
