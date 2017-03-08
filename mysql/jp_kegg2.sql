@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `jp_kegg2` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `jp_kegg2`;
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
 -- Host: localhost    Database: jp_kegg2
 -- ------------------------------------------------------
--- Server version	5.7.17-log
+-- Server version	5.7.12-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -32,6 +32,44 @@ CREATE TABLE `disease` (
   UNIQUE KEY `guid_UNIQUE` (`guid`),
   UNIQUE KEY `entry_id_UNIQUE` (`entry_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='KEGG上面的疾病的定义的数据表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `drug`
+--
+
+DROP TABLE IF EXISTS `drug`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `drug` (
+  `entry` char(8) NOT NULL,
+  `names` mediumtext,
+  `formula` varchar(128) DEFAULT NULL,
+  `exact_mass` double DEFAULT NULL,
+  `mol_weight` double DEFAULT NULL,
+  `remarks` varchar(45) DEFAULT NULL,
+  `activity` varchar(45) DEFAULT NULL,
+  `atoms` varchar(45) DEFAULT NULL,
+  `bounds` varchar(45) DEFAULT NULL,
+  `comments` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`entry`),
+  UNIQUE KEY `entry_UNIQUE` (`entry`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='KEGG drug data';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `drug_xref`
+--
+
+DROP TABLE IF EXISTS `drug_xref`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `drug_xref` (
+  `drug` int(11) NOT NULL,
+  `db` varchar(45) DEFAULT NULL,
+  `xref` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`drug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +177,7 @@ CREATE TABLE `orthology_genes` (
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`gene`,`ko`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9312 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +193,7 @@ CREATE TABLE `orthology_modules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`module`,`entry_id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -173,7 +211,7 @@ CREATE TABLE `orthology_pathways` (
   `url` text,
   PRIMARY KEY (`entry_id`,`pathway`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +227,7 @@ CREATE TABLE `orthology_references` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`pmid`,`entry_id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,7 +279,7 @@ CREATE TABLE `xref_ko2cog` (
   `url` text,
   PRIMARY KEY (`ko`,`COG`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='KEGG orthology database cross reference to COG database.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='KEGG orthology database cross reference to COG database.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +296,7 @@ CREATE TABLE `xref_ko2go` (
   `url` text,
   PRIMARY KEY (`ko`,`go`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='kegg orthology cross reference to go database';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='kegg orthology cross reference to go database';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,4 +333,4 @@ CREATE TABLE `xref_ko2rn` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-06 15:36:30
+-- Dump completed on 2017-03-07 22:10:00

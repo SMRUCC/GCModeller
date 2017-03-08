@@ -45,8 +45,8 @@ Namespace Assembly.MetaCyc.Schema
         ''' <remarks></remarks>
         Public Class DBLink : Implements IDBLink
 
-            Public Property DBName As String Implements IDBLink.locusId
-            Public Property AccessionId As String Implements IDBLink.Address
+            Public Property DBName As String Implements IDBLink.DbName
+            Public Property AccessionId As String Implements IDBLink.ID
             Public Property attributes As String()
 
             Public Const SPLIT_REGX_EXPRESSION As String = " (?=(?:[^""]|""[^""]*"")*$)"
