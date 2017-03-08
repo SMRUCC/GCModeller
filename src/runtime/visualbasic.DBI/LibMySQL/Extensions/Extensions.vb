@@ -29,9 +29,9 @@ Imports System.Data.Common
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
 
@@ -197,6 +197,17 @@ Public Module Extensions
         Next
 
         Return sb.ToString
+    End Function
+
+    ''' <summary>
+    ''' 生成用于将数据集合批量导入数据库的INSERT SQL事务
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="source"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T)) As String
+        Return source.Select(Function(row) row.GetInsertSQL).JoinBy(ASCII.LF)
     End Function
 End Module
 

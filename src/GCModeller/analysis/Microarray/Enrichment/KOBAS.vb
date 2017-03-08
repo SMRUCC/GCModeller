@@ -110,6 +110,10 @@ Namespace KOBAS
         Implements IGoTerm
         Implements IGoTermEnrichment
 
+        ''' <summary>
+        ''' #Term
+        ''' </summary>
+        ''' <returns></returns>
         <Column("#Term")>
         Public Property Term As String
         Public Property Database As String
