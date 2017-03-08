@@ -1,43 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::58ec84ed60a376e8f56494da26cc8ee2, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports System.Text
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ComponentModel.DBLinkBuilder
 
+    ''' <summary>
+    ''' Database xref data
+    ''' </summary>
     Public Class DBLink : Implements IKeyValuePairObject(Of String, String)
         Implements IDBLink
         Implements INamedValue
 
-        Public Property DBName As String Implements IKeyValuePairObject(Of String, String).Identifier, INamedValue.Key, IDBLink.locusId
-        Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.Address
+        ''' <summary>
+        ''' Database name
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property DBName As String Implements IKeyValuePairObject(Of String, String).Identifier, INamedValue.Key, IDBLink.DbName
+        ''' <summary>
+        ''' Entity uid in the target database
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.ID
+
+        Sub New()
+        End Sub
+
+        Sub New(DB$, ID$)
+            DBName = DB
+            Entry = ID
+        End Sub
 
         Public Overrides Function ToString() As String
             Return ToString(Me)
@@ -55,15 +74,15 @@ Namespace ComponentModel.DBLinkBuilder
             Dim Name As String = Regex.Match(strData, "\[.+?\] ").Value
             Dim Entry = strData.Replace(Name, "").Trim
             Return New DBLink With {
-                .DBName = RemoveQuot(Name.Trim),
+                .DBName = Name.Trim.GetString,
                 .Entry = Entry
             }
         End Function
 
-        Private Shared Function RemoveQuot(str As String) As String
-            str = Mid(str, 2)
-            str = Mid(str, 1, Len(str) - 1)
-            Return str
+        Public Shared Function FromTagValue(s$, Optional tag$ = ":") As DBLink
+            With s.GetTagValue(tag, trim:=True)
+                Return New DBLink(.Name, .Value)
+            End With
         End Function
 
         Public Function GetFormatValue() As String Implements IDBLink.GetFormatValue
