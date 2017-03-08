@@ -26,7 +26,7 @@ Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Go.enrichment.plot", Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/PlantRegMap /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
+    <ExportAPI("/Go.enrichment.plot", Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/PlantRegMap /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function GO_enrichment(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
@@ -38,6 +38,7 @@ Module CLI
         Dim size As String = args.GetValue("/size", "2000,1600")
         Dim plot As Bitmap
         Dim tick# = args.GetValue("/tick", 1.0R)
+        Dim gray As Boolean = args.GetBoolean("/gray")
 
         If PlantRegMap Then
             Dim enrichments As IEnumerable(Of PlantRegMap_GoTermEnrichment) =
@@ -46,13 +47,13 @@ Module CLI
             enrichments.ToArray.SaveTo([in].TrimSuffix & ".csv")
         Else
             Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
-            plot = enrichments.EnrichmentPlot(terms, pvalue, size.SizeParser, tick)
+            plot = enrichments.EnrichmentPlot(terms, pvalue, size.SizeParser, tick, gray)
         End If
 
         Return plot.SaveAs(out, ImageFormats.Png).CLICode
     End Function
 
-    <ExportAPI("/KEGG.enrichment.plot", Usage:="/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/pvalue <0.05> /size <2000,1600> /out <out.png>]")>
+    <ExportAPI("/KEGG.enrichment.plot", Usage:="/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /pvalue <0.05> /size <2000,1600> /out <out.png>]")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGG_enrichment(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -60,7 +61,8 @@ Module CLI
         Dim pvalue As Double = args.GetValue("/pvalue", 0.05)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".GO_enrichment.pvalue={pvalue}.png")
         Dim size As String = args.GetValue("/size", "2000,1600")
-        Dim plot As Bitmap = enrichments.KEGGEnrichmentPlot(size.SizeParser, pvalue)
+        Dim gray As Boolean = args.GetBoolean("/gray")
+        Dim plot As Bitmap = enrichments.KEGGEnrichmentPlot(size.SizeParser, pvalue, gray:=gray)
 
         Return plot.SaveAs(out, ImageFormats.Png).CLICode
     End Function

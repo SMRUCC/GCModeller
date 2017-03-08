@@ -18,8 +18,17 @@ Namespace Assembly.KEGG
 
         <Extension> Private Function ParseStream(lines$()) As Drug
             Dim list As New Dictionary(Of NamedValue(Of List(Of String)))
-            Dim tag$ = Nothing
+            Dim tag$ = ""  ' 在这里使用空字符串，如果使用Nothing空值的话，添加字典的时候出发生错误
             Dim values As New List(Of String)
+            Dim add = Sub()
+                          ' 忽略掉original，bracket这些分子结构参数，因为可以很方便的从ChEBI数据库之中获取得到
+                          If Not list.ContainsKey(tag) Then
+                              list += New NamedValue(Of List(Of String)) With {
+                                  .Name = tag,
+                                  .Value = values
+                              }
+                          End If
+                      End Sub
 
             For Each line As String In lines
                 Dim s$ = Mid(line, 1, 12).StripBlank
@@ -28,10 +37,7 @@ Namespace Assembly.KEGG
                     values += line.Trim
                 Else
                     ' 切换到新的标签
-                    list += New NamedValue(Of List(Of String)) With {
-                        .Name = tag,
-                        .Value = values
-                    }
+                    Call add()
 
                     tag = s
                     values = New List(Of String)
@@ -39,34 +45,37 @@ Namespace Assembly.KEGG
                 End If
             Next
 
-            list += New NamedValue(Of List(Of String)) With {
-                .Name = tag,
-                .Value = values
-            }
+            ' 还会有剩余的数据的，在这里将他们添加上去
+            Call add()
+
+            Dim getValue = Function(KEY$) As String()
+                               If list.ContainsKey(KEY) Then
+                                   Return list(KEY).Value
+                               Else
+                                   Return {}
+                               End If
+                           End Function
 
             Return New Drug With {
-               .Entry = list.TryGetValue("ENTRY").Value.FirstOrDefault,
-               .Names = list.TryGetValue("NAME").Value,
-               .Formula = list.TryGetValue("FORMULA").Value.FirstOrDefault,
-               .Exact_Mass = Val(list.TryGetValue("EXACT_MASS").Value.FirstOrDefault),
-               .Mol_Weight = Val(list.TryGetValue("MOL_WEIGHT").Value.FirstOrDefault),
-               .Remarks = list.TryGetValue("REMARKS").Value,
-               .DBLinks = list.TryGetValue("DBLINKS").Value _
-                   .Select(AddressOf DBLink.FromTagValue) _
-                   .ToArray,
-               .Activity = list.TryGetValue("ACTIVITY").Value.FirstOrDefault,
-               .Atoms = __atoms(list.TryGetValue("ATOM").Value),
-               .Bounds = __bounds(list.TryGetValue("BOUND").Value),
-               .Comments = list.TryGetValue("COMMENT").Value,
-               .Targets = list.TryGetValue("TARGET").Value,
-               .Metabolism = list.TryGetValue("METABOLISM") _
-                    .Value _
+                .Entry = getValue("ENTRY").FirstOrDefault.Split.First,
+                .Names = getValue("NAME"),
+                .Formula = getValue("FORMULA").FirstOrDefault,
+                .Exact_Mass = Val(getValue("EXACT_MASS").FirstOrDefault),
+                .Mol_Weight = Val(getValue("MOL_WEIGHT").FirstOrDefault),
+                .Remarks = getValue("REMARKS"),
+                .DBLinks = getValue("DBLINKS") _
+                    .Select(AddressOf DBLink.FromTagValue) _
+                    .ToArray,
+                .Activity = getValue("ACTIVITY").FirstOrDefault,
+                .Atoms = __atoms(getValue("ATOM")),
+                .Bounds = __bounds(getValue("BOUND")),
+                .Comments = getValue("COMMENT"),
+                .Targets = getValue("TARGET"),
+                .Metabolism = getValue("METABOLISM") _
                     .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
-               .Interaction = list.TryGetValue("INTERACTION") _
-                    .Value _
+                .Interaction = getValue("INTERACTION") _
                     .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
-               .Source = list.TryGetValue("SOURCE") _
-                    .Value _
+                .Source = getValue("SOURCE") _
                     .ToArray(Function(s) s.StringSplit(",\s+")) _
                     .IteratesALL _
                     .ToArray
@@ -74,9 +83,8 @@ Namespace Assembly.KEGG
         End Function
 
         Private Function __atoms(lines$()) As Atom()
-            Dim n = lines(Scan0).ParseInteger
-
-            If n = 0 Then
+            If lines.IsNullOrEmpty OrElse
+                lines(Scan0).ParseInteger = 0 Then
                 Return {}
             End If
 
@@ -91,7 +99,7 @@ Namespace Assembly.KEGG
                     .Atom = t(2),
                     .M = Val(t(3)),
                     .Charge = Val(t(4)),
-                    .Edit = t(5)
+                    .Edit = t.Get(5)
                 }
             Next
 
@@ -99,9 +107,8 @@ Namespace Assembly.KEGG
         End Function
 
         Private Function __bounds(lines$()) As Bound()
-            Dim n = lines(Scan0).ParseInteger
-
-            If n = 0 Then
+            If lines.IsNullOrEmpty OrElse
+                lines(Scan0).ParseInteger = 0 Then
                 Return {}
             End If
 
@@ -115,7 +122,7 @@ Namespace Assembly.KEGG
                     .a = Val(t(1)),
                     .b = Val(t(2)),
                     .N = Val(t(3)),
-                    .Edit = t(4)
+                    .Edit = t.Get(4)
                 }
             Next
 
