@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
@@ -144,5 +145,16 @@ Module CLI
                Usage:="/enrichment.go /deg <deg.list> /backgrounds <genome_genes.list> /t2g <term2gene.csv> [/go <go_brief.csv> /out <enricher.result.csv>]")>
     Public Function GoEnrichment(args As CommandLine) As Integer
 
+    End Function
+
+    <ExportAPI("/Enrichment.Term.Filter", Usage:="/Enrichment.Term.Filter /in <enrichment.csv> /filter <key-string> [/out <out.csv>]")>
+    Public Function EnrichmentTermFilter(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim filter$ = args <= "/filter"
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & filter.NormalizePathString & ".csv")
+        Dim terms = [in].LoadCsv(Of EnrichmentTerm)
+        Dim r As New Regex(filter, RegexICSng)
+        Dim result = terms.Where(Function(t) r.Match(t.Term).Success).ToArray
+        Return result.SaveTo(out).CLICode
     End Function
 End Module

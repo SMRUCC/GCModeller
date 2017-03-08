@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 
 Namespace VCF
@@ -27,9 +28,12 @@ Namespace VCF
         ''' 
         <Extension>
         Private Iterator Function __parserInternal(path$, count%) As IEnumerable(Of SNPVcf)
+            Dim title$ = Nothing
+            Dim source As IEnumerable(Of String) = path.IteratesTableData(title, skip:=count)
+            Dim seqs$() = title.Split(ASCII.TAB).Skip(9).ToArray
 
-            For Each line$ In path.IterateAllLines.Skip(count)
-                Yield VCFStream.LineParser(line)
+            For Each line$ In source
+                Yield VCFStream.LineParser(line, seqTitles:=seqs)
             Next
         End Function
 
@@ -56,9 +60,18 @@ Namespace VCF
             }
         End Function
 
+        ''' <summary>
+        ''' 解析出SNP位点的序列数据
+        ''' </summary>
+        ''' <param name="seqs$"></param>
+        ''' <param name="t$"></param>
+        ''' <returns></returns>
         <Extension>
         Private Function __seq(seqs$(), t$()) As Dictionary(Of String, String)
-
+            Return seqs _
+                .SeqIterator _
+                .ToDictionary(Function(k) (+k),
+                              Function(k) t(k))
         End Function
     End Module
 End Namespace

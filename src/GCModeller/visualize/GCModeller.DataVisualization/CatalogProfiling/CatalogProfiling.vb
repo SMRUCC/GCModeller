@@ -101,7 +101,7 @@ Public Module CatalogProfiling
                     region, profile, title,
                     colors,
                     titleFontStyle, catalogFontStyle, classFontStyle, valueFontStyle,
-                    New Mapper(mapper),
+                    New Mapper(mapper, ignoreAxis:=True),
                     tickFontStyle, tick,
                     axisTitle)
             End Sub)
