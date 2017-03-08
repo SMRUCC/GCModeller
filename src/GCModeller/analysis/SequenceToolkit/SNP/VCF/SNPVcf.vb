@@ -34,6 +34,9 @@ Imports Microsoft.VisualBasic.Text
 
 Namespace VCF
 
+    ''' <summary>
+    ''' VCF文件之中的某一个位点数据行
+    ''' </summary>
     Public Class SNPVcf
 
 #Region "Site Information"

@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace VCF
@@ -39,12 +40,14 @@ Namespace VCF
         ''' </summary>
         ''' <param name="file$"></param>
         ''' <returns></returns>
-        Public Shared Function ParseMeta(file$) As MetaData
+        Public Shared Function ParseMeta(file$, Optional ByRef n% = Integer.MaxValue) As MetaData
             Dim table As Dictionary(Of String, String()) = GenericMeta.TryParseMetaDataRows(file)
             Dim defaultArray$() = {}
             Dim getValue = Function(key$)
                                Return table.TryGetValue(key, [default]:=defaultArray)
                            End Function
+
+            n = table.Values.IteratesALL.Count
 
             Return New MetaData With {
                 .contig = getValue(key:=NameOf(MetaData.contig)).FirstOrDefault,
