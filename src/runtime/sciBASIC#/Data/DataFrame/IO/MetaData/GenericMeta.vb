@@ -26,7 +26,7 @@ Namespace IO
             Return out.ToArray
         End Function
 
-        Public Function TryParseMetaDataRows(file$, Optional delimiter$ = "=", Optional prefix$ = "##") As Dictionary(Of String, String)
+        Public Function TryParseMetaDataRows(file$, Optional delimiter$ = "=", Optional prefix$ = "##") As Dictionary(Of String, String())
             Dim rows$() = GetMetaDataRows(file, prefix)
             Dim pl% = prefix.Length
             Dim tagsData As NamedValue(Of String)() = rows _
@@ -34,9 +34,9 @@ Namespace IO
                 .Select(Function(s) s.GetTagValue(delimiter, trim:=True)) _
                 .ToArray
 
-            Return tagsData.ToDictionary(
-                Function(k) k.Name,
-                Function(s) s.Value)
+            Return tagsData.GroupBy(Function(o) o.Name) _
+                .ToDictionary(Function(k) k.Key,
+                              Function(s) s.Select(Function(v) v.Value).ToArray)
         End Function
     End Module
 End Namespace
