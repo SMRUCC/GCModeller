@@ -58,7 +58,9 @@ Namespace Assembly.KEGG
 
             Return New Drug With {
                 .Entry = getValue("ENTRY").FirstOrDefault.Split.First,
-                .Names = getValue("NAME"),
+                .Names = getValue("NAME") _
+                    .Where(Function(s) Not s.StringEmpty) _
+                    .ToArray,
                 .Formula = getValue("FORMULA").FirstOrDefault,
                 .Exact_Mass = Val(getValue("EXACT_MASS").FirstOrDefault),
                 .Mol_Weight = Val(getValue("MOL_WEIGHT").FirstOrDefault),
