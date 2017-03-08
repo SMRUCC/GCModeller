@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
-Namespace Assembly.KEGG
+Namespace Assembly.KEGG.Medical
 
     Public Module DrugParser
 
@@ -12,11 +12,104 @@ Namespace Assembly.KEGG
             Dim lines$() = path.ReadAllLines
 
             For Each pack As String() In lines.Split("///")
-                Yield pack.ParseStream
+                Yield pack.ParseStream.CreateDrugModel
             Next
         End Function
 
-        <Extension> Private Function ParseStream(lines$()) As Drug
+        <Extension>
+        Public Function CreateDrugGroupModel(getValue As Func(Of String, String())) As DrugGroup
+            Return New DrugGroup With {
+                .Entry = getValue("ENTRY").FirstOrDefault.Split.First,
+                .Names = getValue("NAME") _
+                    .Where(Function(s) Not s.StringEmpty) _
+                    .ToArray,
+                .Remarks = getValue("REMARKS"),
+                .Comments = getValue("COMMENT").JoinBy(" "),
+                .Targets = getValue("TARGET"),
+                .Metabolism = getValue("METABOLISM") _
+                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
+                .Interaction = getValue("INTERACTION") _
+                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
+                .Members = getValue("MEMBER"),
+                .Class = getValue("CLASS").__classGroup
+            }
+        End Function
+
+        Const DrugAndGroup$ = "DG?\d+"
+
+        <Extension>
+        Private Function __classGroup(data$()) As NamedCollection(Of String)()
+            If data.IsNullOrEmpty Then
+                Return {}
+            ElseIf data.Length = 1 Then
+                Return {
+                    New NamedCollection(Of String) With {
+                        .Name = data(Scan0)
+                    }
+                }
+            End If
+
+            Dim out As New List(Of NamedCollection(Of String))
+            Dim temp As New List(Of String)
+            Dim name$ = data(Scan0)
+
+            For Each line As String In data
+                If line.Locates(DrugAndGroup) = 1 Then
+                    temp += line
+                Else
+                    out += New NamedCollection(Of String) With {
+                        .Name = name,
+                        .Value = temp
+                    }
+
+                    temp *= 0
+                    name = line
+                End If
+            Next
+
+            out += New NamedCollection(Of String) With {
+                .Name = name,
+                .Value = temp
+            }
+
+            Return out
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="getValue">数据源的函数指针</param>
+        ''' <returns></returns>
+        <Extension> Public Function CreateDrugModel(getValue As Func(Of String, String())) As Drug
+            Return New Drug With {
+                .Entry = getValue("ENTRY").FirstOrDefault.Split.First,
+                .Names = getValue("NAME") _
+                    .Where(Function(s) Not s.StringEmpty) _
+                    .ToArray,
+                .Formula = getValue("FORMULA").FirstOrDefault,
+                .Exact_Mass = Val(getValue("EXACT_MASS").FirstOrDefault),
+                .Mol_Weight = Val(getValue("MOL_WEIGHT").FirstOrDefault),
+                .Remarks = getValue("REMARKS"),
+                .DBLinks = getValue("DBLINKS") _
+                    .Select(AddressOf DBLink.FromTagValue) _
+                    .ToArray,
+                .Activity = getValue("ACTIVITY").JoinBy(" "),
+                .Atoms = __atoms(getValue("ATOM")),
+                .Bounds = __bounds(getValue("BOUND")),
+                .Comments = getValue("COMMENT"),
+                .Targets = getValue("TARGET"),
+                .Metabolism = getValue("METABOLISM") _
+                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
+                .Interaction = getValue("INTERACTION") _
+                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
+                .Source = getValue("SOURCE") _
+                    .ToArray(Function(s) s.StringSplit(",\s+")) _
+                    .IteratesALL _
+                    .ToArray
+            }
+        End Function
+
+        <Extension> Private Function ParseStream(lines$()) As Func(Of String, String())
             Dim list As New Dictionary(Of NamedValue(Of List(Of String)))
             Dim tag$ = ""  ' 在这里使用空字符串，如果使用Nothing空值的话，添加字典的时候出发生错误
             Dim values As New List(Of String)
@@ -55,33 +148,7 @@ Namespace Assembly.KEGG
                                    Return {}
                                End If
                            End Function
-
-            Return New Drug With {
-                .Entry = getValue("ENTRY").FirstOrDefault.Split.First,
-                .Names = getValue("NAME") _
-                    .Where(Function(s) Not s.StringEmpty) _
-                    .ToArray,
-                .Formula = getValue("FORMULA").FirstOrDefault,
-                .Exact_Mass = Val(getValue("EXACT_MASS").FirstOrDefault),
-                .Mol_Weight = Val(getValue("MOL_WEIGHT").FirstOrDefault),
-                .Remarks = getValue("REMARKS"),
-                .DBLinks = getValue("DBLINKS") _
-                    .Select(AddressOf DBLink.FromTagValue) _
-                    .ToArray,
-                .Activity = getValue("ACTIVITY").FirstOrDefault,
-                .Atoms = __atoms(getValue("ATOM")),
-                .Bounds = __bounds(getValue("BOUND")),
-                .Comments = getValue("COMMENT"),
-                .Targets = getValue("TARGET"),
-                .Metabolism = getValue("METABOLISM") _
-                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
-                .Interaction = getValue("INTERACTION") _
-                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
-                .Source = getValue("SOURCE") _
-                    .ToArray(Function(s) s.StringSplit(",\s+")) _
-                    .IteratesALL _
-                    .ToArray
-            }
+            Return getValue
         End Function
 
         Private Function __atoms(lines$()) As Atom()
