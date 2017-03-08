@@ -44,6 +44,39 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <XmlAttribute> Public Property Journal As String
         <XmlAttribute> Public Property PMID As String
 
+        Sub New()
+        End Sub
+
+        ''' <summary>
+        ''' 解析Disease文件之中的参考文献数据
+        ''' </summary>
+        ''' <param name="meta$"></param>
+        ''' <remarks>
+        ''' Example as:
+        ''' 
+        ''' ```
+        ''' REFERENCE   PMID:19585782 (description, env_factor)
+        '''   AUTHORS   Larsen JC, Johnson NH
+        '''   TITLE     Pathogenesis Of Burkholderia pseudomallei And Burkholderia mallei.
+        '''   JOURNAL   Mil Med 174:647-51 (2009)
+        ''' ```
+        ''' </remarks>
+        Sub New(meta$())
+            Dim data = meta.ToDictionary(
+                Function(k) Mid(k, 1, 12).StripBlank,
+                Function(v) Mid(v, 13).StripBlank)
+
+            Authors = data.TryGetValue("AUTHORS").StringSplit(",")
+            Title = data.TryGetValue("TITLE")
+            Journal = data.TryGetValue("JOURNAL")
+            PMID = data.TryGetValue("REFERENCE")
+        End Sub
+
+        ''' <summary>
+        ''' HTML parser
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <returns></returns>
         Public Shared Function References(data As String()) As Reference()
             Return data.ToArray(AddressOf Reference)
         End Function

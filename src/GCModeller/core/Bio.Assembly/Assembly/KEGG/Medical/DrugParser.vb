@@ -1,7 +1,9 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.Medical
@@ -109,7 +111,13 @@ Namespace Assembly.KEGG.Medical
             }
         End Function
 
-        <Extension> Private Function ParseStream(lines$()) As Func(Of String, String())
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="lines$"></param>
+        ''' <param name="ref">假设参考文献都是在每一个小节最末尾的部分</param>
+        ''' <returns></returns>
+        <Extension> Friend Function ParseStream(lines$(), Optional ref As Reference() = void) As Func(Of String, String())
             Dim list As New Dictionary(Of NamedValue(Of List(Of String)))
             Dim tag$ = ""  ' 在这里使用空字符串，如果使用Nothing空值的话，添加字典的时候出发生错误
             Dim values As New List(Of String)
@@ -123,11 +131,30 @@ Namespace Assembly.KEGG.Medical
                           End If
                       End Sub
 
-            For Each line As String In lines
-                Dim s$ = Mid(line, 1, 12).StripBlank
+            Dim i As int = Scan0
+            Dim line As New Value(Of String)
+
+            Do While i < lines.Length
+                Dim s$ = Mid(line = lines(++i), 1, 12).StripBlank
+
+                If s = "REFERENCE" Then
+                    ' 已经到小节的末尾了
+                    Dim refList As New List(Of Reference)
+
+                    ' 将前面的数据给添加完
+                    Call add()
+
+                    lines = lines.Skip(i).ToArray
+
+                    For Each r As String() In lines.Split(Function(str) InStr(str, "REFERENCE") = 1, includes:=True)
+                        refList += New Reference(meta:=r)
+                    Next
+
+                    ref = refList
+                End If
 
                 If s.StringEmpty Then
-                    values += line.Trim
+                    values += (+line).Trim
                 Else
                     ' 切换到新的标签
                     Call add()
@@ -136,7 +163,7 @@ Namespace Assembly.KEGG.Medical
                     values = New List(Of String)
                     values += Mid(line, 12).StripBlank
                 End If
-            Next
+            Loop
 
             ' 还会有剩余的数据的，在这里将他们添加上去
             Call add()
