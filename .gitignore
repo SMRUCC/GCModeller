@@ -225,3 +225,4 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 /src/runtime/GCModeller/GCModeller
+/src/runtime/httpd/httpd/ftp_publish
