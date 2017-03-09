@@ -1,10 +1,12 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
-Namespace Assembly.KEGG
+Namespace Assembly.KEGG.Medical
 
     Public Module DrugParser
 
@@ -12,50 +14,75 @@ Namespace Assembly.KEGG
             Dim lines$() = path.ReadAllLines
 
             For Each pack As String() In lines.Split("///")
-                Yield pack.ParseStream
+                Yield pack.ParseStream.CreateDrugModel
             Next
         End Function
 
-        <Extension> Private Function ParseStream(lines$()) As Drug
-            Dim list As New Dictionary(Of NamedValue(Of List(Of String)))
-            Dim tag$ = ""  ' 在这里使用空字符串，如果使用Nothing空值的话，添加字典的时候出发生错误
-            Dim values As New List(Of String)
-            Dim add = Sub()
-                          ' 忽略掉original，bracket这些分子结构参数，因为可以很方便的从ChEBI数据库之中获取得到
-                          If Not list.ContainsKey(tag) Then
-                              list += New NamedValue(Of List(Of String)) With {
-                                  .Name = tag,
-                                  .Value = values
-                              }
-                          End If
-                      End Sub
+        <Extension>
+        Public Function CreateDrugGroupModel(getValue As Func(Of String, String())) As DrugGroup
+            Return New DrugGroup With {
+                .Entry = getValue("ENTRY").FirstOrDefault.Split.First,
+                .Names = getValue("NAME") _
+                    .Where(Function(s) Not s.StringEmpty) _
+                    .ToArray,
+                .Remarks = getValue("REMARKS"),
+                .Comments = getValue("COMMENT").JoinBy(" "),
+                .Targets = getValue("TARGET"),
+                .Metabolism = getValue("METABOLISM") _
+                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
+                .Interaction = getValue("INTERACTION") _
+                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
+                .Members = getValue("MEMBER"),
+                .Class = getValue("CLASS").__classGroup
+            }
+        End Function
 
-            For Each line As String In lines
-                Dim s$ = Mid(line, 1, 12).StripBlank
+        Const DrugAndGroup$ = "DG?\d+"
 
-                If s.StringEmpty Then
-                    values += line.Trim
+        <Extension>
+        Private Function __classGroup(data$()) As NamedCollection(Of String)()
+            If data.IsNullOrEmpty Then
+                Return {}
+            ElseIf data.Length = 1 Then
+                Return {
+                    New NamedCollection(Of String) With {
+                        .Name = data(Scan0)
+                    }
+                }
+            End If
+
+            Dim out As New List(Of NamedCollection(Of String))
+            Dim temp As New List(Of String)
+            Dim name$ = data(Scan0)
+
+            For Each line As String In data
+                If line.Locates(DrugAndGroup) = 1 Then
+                    temp += line
                 Else
-                    ' 切换到新的标签
-                    Call add()
+                    out += New NamedCollection(Of String) With {
+                        .Name = name,
+                        .Value = temp
+                    }
 
-                    tag = s
-                    values = New List(Of String)
-                    values += Mid(line, 12).StripBlank
+                    temp *= 0
+                    name = line
                 End If
             Next
 
-            ' 还会有剩余的数据的，在这里将他们添加上去
-            Call add()
+            out += New NamedCollection(Of String) With {
+                .Name = name,
+                .Value = temp
+            }
 
-            Dim getValue = Function(KEY$) As String()
-                               If list.ContainsKey(KEY) Then
-                                   Return list(KEY).Value
-                               Else
-                                   Return {}
-                               End If
-                           End Function
+            Return out
+        End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="getValue">数据源的函数指针</param>
+        ''' <returns></returns>
+        <Extension> Public Function CreateDrugModel(getValue As Func(Of String, String())) As Drug
             Return New Drug With {
                 .Entry = getValue("ENTRY").FirstOrDefault.Split.First,
                 .Names = getValue("NAME") _
@@ -68,7 +95,7 @@ Namespace Assembly.KEGG
                 .DBLinks = getValue("DBLINKS") _
                     .Select(AddressOf DBLink.FromTagValue) _
                     .ToArray,
-                .Activity = getValue("ACTIVITY").FirstOrDefault,
+                .Activity = getValue("ACTIVITY").JoinBy(" "),
                 .Atoms = __atoms(getValue("ATOM")),
                 .Bounds = __bounds(getValue("BOUND")),
                 .Comments = getValue("COMMENT"),
@@ -82,6 +109,73 @@ Namespace Assembly.KEGG
                     .IteratesALL _
                     .ToArray
             }
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="lines$"></param>
+        ''' <param name="ref">假设参考文献都是在每一个小节最末尾的部分</param>
+        ''' <returns></returns>
+        <Extension> Friend Function ParseStream(lines$(), Optional ref As Reference() = void) As Func(Of String, String())
+            Dim list As New Dictionary(Of NamedValue(Of List(Of String)))
+            Dim tag$ = ""  ' 在这里使用空字符串，如果使用Nothing空值的话，添加字典的时候出发生错误
+            Dim values As New List(Of String)
+            Dim add = Sub()
+                          ' 忽略掉original，bracket这些分子结构参数，因为可以很方便的从ChEBI数据库之中获取得到
+                          If Not list.ContainsKey(tag) Then
+                              list += New NamedValue(Of List(Of String)) With {
+                                  .Name = tag,
+                                  .Value = values
+                              }
+                          End If
+                      End Sub
+
+            Dim i As int = Scan0
+            Dim line As New Value(Of String)
+
+            Do While i < lines.Length
+                Dim s$ = Mid(line = lines(++i), 1, 12).StripBlank
+
+                If s = "REFERENCE" Then
+                    ' 已经到小节的末尾了
+                    Dim refList As New List(Of Reference)
+
+                    ' 将前面的数据给添加完
+                    Call add()
+
+                    lines = lines.Skip(i).ToArray
+
+                    For Each r As String() In lines.Split(Function(str) InStr(str, "REFERENCE") = 1, includes:=True)
+                        refList += New Reference(meta:=r)
+                    Next
+
+                    ref = refList
+                End If
+
+                If s.StringEmpty Then
+                    values += (+line).Trim
+                Else
+                    ' 切换到新的标签
+                    Call add()
+
+                    tag = s
+                    values = New List(Of String)
+                    values += Mid(line, 12).StripBlank
+                End If
+            Loop
+
+            ' 还会有剩余的数据的，在这里将他们添加上去
+            Call add()
+
+            Dim getValue = Function(KEY$) As String()
+                               If list.ContainsKey(KEY) Then
+                                   Return list(KEY).Value
+                               Else
+                                   Return {}
+                               End If
+                           End Function
+            Return getValue
         End Function
 
         Private Function __atoms(lines$()) As Atom()
