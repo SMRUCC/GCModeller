@@ -194,7 +194,13 @@ Public Module KEGGOrthology
     End Function
 
     <Extension>
-    Public Function KEGGEnrichmentPlot(result As IEnumerable(Of EnrichmentTerm), Optional size As Size = Nothing, Optional pvalue# = 0.05, Optional tick# = 1, Optional gray As Boolean = False) As Bitmap
+    Public Function KEGGEnrichmentPlot(result As IEnumerable(Of EnrichmentTerm),
+                                       Optional size As Size = Nothing,
+                                       Optional pvalue# = 0.05,
+                                       Optional tick# = 1,
+                                       Optional gray As Boolean = False,
+                                       Optional labelRightAlignment As Boolean = False) As Bitmap
+
         Dim data As NamedValue(Of Double)() = result _
             .Where(Function(x) x.Pvalue <= pvalue) _
             .Select(Function(x) New NamedValue(Of Double) With {
@@ -208,7 +214,8 @@ Public Module KEGGOrthology
                        size:=size,
                        axisTitle:="-Log10(p-value)",
                        tick:=tick,
-                       gray:=gray)
+                       gray:=gray,
+                       labelRightAlignment:=labelRightAlignment)
     End Function
 End Module
 

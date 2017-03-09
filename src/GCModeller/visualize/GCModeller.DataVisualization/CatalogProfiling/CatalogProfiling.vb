@@ -76,7 +76,8 @@ Public Module CatalogProfiling
                                  Optional tickFontStyle$ = CSSFont.Win7LargerBold,
                                  Optional tick# = 50,
                                  Optional removeNotAssign As Boolean = True,
-                                 Optional gray As Boolean = False) As Bitmap
+                                 Optional gray As Boolean = False,
+                                 Optional labelRightAlignment As Boolean = False) As Bitmap
 
         If removeNotAssign AndAlso profile.ContainsKey(NOT_ASSIGN) Then
             profile = New Dictionary(Of String, NamedValue(Of Double)())(profile)
@@ -105,7 +106,8 @@ Public Module CatalogProfiling
                     New Mapper(mapper, ignoreAxis:=True),
                     tickFontStyle, tick,
                     axisTitle,
-                    gray:=gray)
+                    gray:=gray,
+                    labelAlignmentRight:=labelRightAlignment)
             End Sub)
     End Function
 
@@ -115,7 +117,7 @@ Public Module CatalogProfiling
     ''' <param name="g"></param>
     ''' <param name="region"></param>
     ''' <param name="profile"></param>
-    ''' <param name="title$"></param>
+    ''' <param name="title$">图形上方的标题字符串</param>
     ''' <param name="colors"></param>
     ''' <param name="titleFontStyle$"></param>
     ''' <param name="catalogFontStyle$"></param>
@@ -137,8 +139,11 @@ Public Module CatalogProfiling
                                mapper As Mapper,
                                tickFontStyle$,
                                tick#,
-                               axisTitle$, gray As Boolean)
+                               axisTitle$,
+                               gray As Boolean,
+                               labelAlignmentRight As Boolean)
 
+        ' 这里是大标签的字符串向量
         Dim classes$() = profile.Keys.ToArray
         Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject
         Dim catalogFont As Font = CSSFont.TryParse(catalogFontStyle).GDIObject
@@ -147,31 +152,35 @@ Public Module CatalogProfiling
         Dim size As Size = region.Size
 
         Dim maxLenSubKey$ = profile _
-                    .Values _
-                    .Select(Function(o) o.Select(Function(oo) oo.Name)) _
-                    .IteratesALL _
-                    .OrderByDescending(Function(s) s.Length) _
-                    .First
+            .Values _
+            .Select(Function(o) o.Select(Function(oo) oo.Name)) _
+            .IteratesALL _
+            .OrderByDescending(Function(s) s.Length) _
+            .First
         Dim maxLenClsKey$ = classes _
-                    .OrderByDescending(Function(s) s.Length) _
-                    .First
+            .OrderByDescending(Function(s) s.Length) _
+            .First
         Dim maxLenSubKeySize As SizeF = g.MeasureString(maxLenSubKey, catalogFont)
         Dim maxLenClsKeySize As SizeF = g.MeasureString(maxLenClsKey, classFont)
         Dim valueFont As Font = CSSFont.TryParse(valueFontStyle)
 
+        ' 所绘制的图形的总的高度
         Dim totalHeight = classes.Length * (maxLenClsKeySize.Height + 5) +
-                    profile.Values.IteratesALL.Count * (maxLenSubKeySize.Height + 4) +
-                    classes.Length * 20
+            profile.Values.IteratesALL.Count * (maxLenSubKeySize.Height + 4) +
+            classes.Length * 20
         Dim left As Single, y! = (region.PlotRegion.Height - totalHeight) / 2
+
+        ' barPlot的最左边的坐标
         Dim barRect As New Rectangle(
-                    New Point(padding.Left * 1.5 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
-                    New Size(size.Width - padding.Horizontal - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - padding.Left / 2, totalHeight))
+            New Point(padding.Left * 1.5 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width), y),
+            New Size(size.Width - padding.Horizontal - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - padding.Left / 2, totalHeight))
 
         left = barRect.Left - padding.Left
         left = (size.Width - padding.Horizontal - left) / 2 + left + padding.Left
 
         Dim titleSize As SizeF = g.MeasureString(title, titleFont)
 
+        ' 在这里进行plot的标题的绘制操作
         Call g.DrawString(title, titleFont, Brushes.Black, New PointF(barRect.Left + (barRect.Width - titleSize.Width) / 2, (y - titleSize.Height) / 2.0!))
         Call g.DrawRectangle(New Pen(Color.Black, 5), barRect)
 
@@ -181,7 +190,7 @@ Public Module CatalogProfiling
 
         For Each [class] As SeqValue(Of String) In classes.SeqIterator
             Dim color As New SolidBrush(colors([class]))
-            Dim linePen As New Pen(colors([class]), 2) With {
+            Dim linePen As New Pen(If(gray, Drawing.Color.Gray, colors([class])), 2) With {
                 .DashStyle = DashStyle.Dot
             }
             Dim yPlot!
@@ -192,7 +201,7 @@ Public Module CatalogProfiling
             Dim valueLabel$
 
             If gray Then
-                color = New SolidBrush(System.Drawing.Color.FromArgb(30, 30, 30))
+                color = New SolidBrush(Drawing.Color.FromArgb(30, 30, 30))
             End If
 
             ' 绘制Class大分类的标签
@@ -201,14 +210,23 @@ Public Module CatalogProfiling
 
             ' 绘制统计的小分类标签以及barplot图形
             For Each cata As NamedValue(Of Double) In profile(+[class])
-                Call g.DrawString(cata.Name, catalogFont, color, New PointF(left + 25, y))
+                Dim pos As PointF
+
+                If labelAlignmentRight Then
+                    ' 重新计算位置进行右对齐操作
+                    pos = New PointF(barRect.Left - 25 - g.MeasureString(cata.Name, catalogFont).Width, y)
+                Else
+                    pos = New PointF(left + 25, y)
+                End If
+
+                Call g.DrawString(cata.Name, catalogFont, color, pos)
 
                 ' 绘制虚线
                 yPlot = y + maxLenSubKeySize.Height / 2
                 barWidth = mapper.ScallingWidth(cata.Value, barRect.Width - gap)
                 barRectPlot = New Rectangle(
-                            New Point(barRect.Left, y),
-                            New Size(barWidth - gap, maxLenSubKeySize.Height))
+                    New Point(barRect.Left, y),
+                    New Size(barWidth - gap, maxLenSubKeySize.Height))
 
                 valueLabel = cata.Value.FormatNumeric(2)
                 valueSize = g.MeasureString(valueLabel, valueFont)
@@ -220,7 +238,11 @@ Public Module CatalogProfiling
 
                 Call g.DrawLine(linePen, New Point(barRect.Left, yPlot), New Point(barRect.Right, yPlot))
                 Call g.FillRectangle(color, barRectPlot)
-                Call g.DrawString(valueLabel, valueFont, Brushes.Black, New PointF(valueLeft, y - valueSize.Height / 3))
+
+                If Not gray Then
+                    ' 如果是灰度的图，就不需要再绘制值得标签字符串了，因为灰色和黑色的颜色太相近了，看不清楚
+                    Call g.DrawString(valueLabel, valueFont, Brushes.Black, New PointF(valueLeft, y - valueSize.Height / 3))
+                End If
 
                 y += maxLenSubKeySize.Height + 4
             Next
