@@ -59,24 +59,30 @@ Namespace Assembly.Uniprot.XML
         ''' <param name="handle$">file or directory</param>
         ''' <returns></returns>
         Public Shared Function LoadDictionary(handle$) As Dictionary(Of entry)
-            If handle.FileExists(True) Then
-                Return Load(handle).entries.ToDictionary
-            Else
-                Dim files As IEnumerable(Of UniprotXML) =
-                    (ls - l - r - "*.xml" <= handle).Select(AddressOf Load)
-                Dim groups = From protein As entry
-                             In files.Select(Function(xml) xml.entries) _
-                                 .IteratesALL _
-                                 .Select(Function(o) o.ShadowCopy) _
-                                 .IteratesALL
-                             Select protein
-                             Group protein By DirectCast(protein, INamedValue).Key Into Group
-                Dim out As Dictionary(Of entry) = groups _
-                    .Select(Function(g) g.Group.First) _
-                    .ToDictionary
+            Dim source As entry()
 
-                Return out
+            If handle.FileExists(True) Then
+                source = Load(handle).entries
+            Else
+                source =
+                    (ls - l - r - "*.xml" <= handle) _
+                    .Select(AddressOf Load) _
+                    .Select(Function(xml) xml.entries) _
+                    .IteratesALL _
+                    .ToArray
             End If
+
+            Dim groups = From protein As entry
+                         In source _
+                             .Select(Function(o) o.ShadowCopy) _
+                             .IteratesALL
+                         Select protein
+                         Group protein By DirectCast(protein, INamedValue).Key Into Group
+            Dim out As Dictionary(Of entry) = groups _
+                .Select(Function(g) g.Group.First) _
+                .ToDictionary
+
+            Return out
         End Function
 
         Public Overrides Function ToString() As String
