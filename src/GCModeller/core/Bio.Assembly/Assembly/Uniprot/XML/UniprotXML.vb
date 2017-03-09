@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::97c9708153190eb6f7853a38cf8c657f, ..\GCModeller\core\Bio.Assembly\Assembly\Uniprot\UniprotXML.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml
@@ -58,21 +59,30 @@ Namespace Assembly.Uniprot.XML
         ''' <param name="handle$">file or directory</param>
         ''' <returns></returns>
         Public Shared Function LoadDictionary(handle$) As Dictionary(Of entry)
-            If handle.FileExists(True) Then
-                Return Load(handle).entries.ToDictionary
-            Else
-                Dim files As IEnumerable(Of UniprotXML) =
-                    (ls - l - r - "*.xml" <= handle).Select(AddressOf Load)
-                Dim groups = From protein As entry
-                             In files.Select(Function(xml) xml.entries).IteratesALL
-                             Select protein
-                             Group protein By protein.accession Into Group
-                Dim out As Dictionary(Of entry) = groups _
-                    .Select(Function(g) g.Group.First) _
-                    .ToDictionary
+            Dim source As entry()
 
-                Return out
+            If handle.FileExists(True) Then
+                source = Load(handle).entries
+            Else
+                source =
+                    (ls - l - r - "*.xml" <= handle) _
+                    .Select(AddressOf Load) _
+                    .Select(Function(xml) xml.entries) _
+                    .IteratesALL _
+                    .ToArray
             End If
+
+            Dim groups = From protein As entry
+                         In source _
+                             .Select(Function(o) o.ShadowCopy) _
+                             .IteratesALL
+                         Select protein
+                         Group protein By DirectCast(protein, INamedValue).Key Into Group
+            Dim out As Dictionary(Of entry) = groups _
+                .Select(Function(g) g.Group.First) _
+                .ToDictionary
+
+            Return out
         End Function
 
         Public Overrides Function ToString() As String

@@ -209,5 +209,28 @@ Public Module Extensions
     Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T)) As String
         Return source.Select(Function(row) row.GetInsertSQL).JoinBy(ASCII.LF)
     End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="source"></param>
+    ''' <param name="path$">
+    ''' 请注意，在这里假若字符串是含有sql作为文件名后缀的话，会直接用作为文件路径来保存
+    ''' 假若不是以sql为后缀的话，会被当做文件夹来处理
+    ''' </param>
+    ''' <param name="encoding"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T), path$, Optional encoding As Encodings = Encodings.Default) As Boolean
+        Dim sql$ = source.DumpTransaction
+
+        If Not path.ExtensionSuffix.TextEquals("sql") Then
+            Dim name$ = GetType(T).Name
+            path = path & "/" & name & ".sql"
+        End If
+
+        Return sql.SaveTo(path, encoding.CodePage)
+    End Function
 End Module
 
