@@ -299,7 +299,8 @@ Public Module CatalogPlots
                                                                            Optional pvalue# = 0.05,
                                                                            Optional size As Size = Nothing,
                                                                            Optional tick# = 1,
-                                                                           Optional gray As Boolean = False) As Bitmap
+                                                                           Optional gray As Boolean = False,
+                                                                           Optional labelRightAlignment As Boolean = False) As Bitmap
 
         Dim profile As New Dictionary(Of String, List(Of NamedValue(Of Double)))
 
@@ -323,7 +324,8 @@ Public Module CatalogPlots
                 size:=size,
                 axisTitle:="-Log10(p-value)",
                 tick:=tick,
-                gray:=gray)
+                gray:=gray,
+                labelRightAlignment:=labelRightAlignment)
     End Function
 End Module
 

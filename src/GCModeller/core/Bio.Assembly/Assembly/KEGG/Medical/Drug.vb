@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
-Namespace Assembly.KEGG
+Namespace Assembly.KEGG.Medical
 
     Public Class Drug
 
