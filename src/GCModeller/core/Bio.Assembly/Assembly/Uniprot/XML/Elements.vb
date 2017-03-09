@@ -7,7 +7,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Assembly.Uniprot.XML
 
     ''' <summary>
-    ''' <see cref="accession"/>属性为主键
+    ''' 因为<see cref="accessions"/>可能会出现多个值，所以会需要使用
+    ''' <see cref="entry.ShadowCopy()"/>函数来解决实体多态的问题。
+    ''' 经过shadow copy之后可以使用主键<see cref="accession"/>来创建字典
     ''' </summary>
     Public Class entry : Implements INamedValue
 
@@ -17,10 +19,18 @@ Namespace Assembly.Uniprot.XML
         <XmlAttribute> Public Property version As String
 
         ''' <summary>
+        ''' shadow copy之后的唯一标识符
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlIgnore>
+        Private Property accession As String Implements INamedValue.Key
+
+        ''' <summary>
         ''' 蛋白质的唯一标识符，可以用作为字典的键名
         ''' </summary>
         ''' <returns></returns>
-        Public Property accession As String Implements INamedValue.Key
+        <XmlElement("accession")>
+        Public Property accessions As String()
         Public Property name As String
         Public Property protein As protein
         <XmlElement("feature")>
@@ -71,6 +81,21 @@ Namespace Assembly.Uniprot.XML
         <XmlIgnore>
         Public ReadOnly Property Xrefs As Dictionary(Of String, dbReference())
 
+        ''' <summary>
+        ''' 这个是处理有多个accession的情况
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function ShadowCopy() As entry()
+            Dim list As New List(Of entry)
+
+            For Each accID As String In accessions
+                Dim o As entry = TryCast(Me.MemberwiseClone, entry)
+                o.accession = accID
+                list += o
+            Next
+
+            Return list
+        End Function
     End Class
 
     Public Class sequence

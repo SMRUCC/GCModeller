@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+﻿Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.Medical
@@ -24,5 +25,8 @@ Namespace Assembly.KEGG.Medical
         Public Property References As Reference()
         Public Property Env_factors As String()
 
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
     End Class
 End Namespace

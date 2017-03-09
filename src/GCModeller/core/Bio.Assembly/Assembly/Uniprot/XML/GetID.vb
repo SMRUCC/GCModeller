@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace Assembly.Uniprot.XML
 
@@ -30,7 +31,7 @@ Namespace Assembly.Uniprot.XML
             Select Case type
                 Case IDTypes.Accession
                     Return Function(prot As entry)
-                               Return prot.accession
+                               Return DirectCast(prot, INamedValue).Key
                            End Function
                 Case IDTypes.EMBL
                     Return Function(prot As entry)

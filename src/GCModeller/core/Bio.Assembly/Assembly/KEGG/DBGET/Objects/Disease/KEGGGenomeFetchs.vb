@@ -21,7 +21,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="id$">人类基因的编号</param>
         ''' <returns></returns>
-        Public Function DownloadHSA(id$) As HumanGene
+        Public Function DownloadHSA(id$) As Hsa_gene
             Return DownloadURL($"http://www.kegg.jp/dbget-bin/www_bget?hsa:{id}")
         End Function
 
@@ -30,7 +30,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="url$"></param>
         ''' <returns></returns>
-        <Extension> Public Function DownloadURL(url$) As HumanGene
+        <Extension> Public Function DownloadURL(url$) As Hsa_gene
             Return New WebForm(url).ParseModel
         End Function
 
@@ -39,12 +39,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="html"></param>
         ''' <returns></returns>
-        <Extension> Public Function ParseModel(html As WebForm) As HumanGene
-            Dim hsa As New HumanGene With {
+        <Extension> Public Function ParseModel(html As WebForm) As Hsa_gene
+            Dim hsa As New Hsa_gene With {
                 .AA = html.GetText("AA seq"),
                 .NT = html.GetText("NT seq"),
                 .Position = html.GetText("Position"),
-                .Entry = html.GetText(NameOf(HumanGene.Entry)).Split.First,
+                .Entry = html.GetText(NameOf(Hsa_gene.Entry)).Split.First,
                 .OtherDBs = html("Other DBs").FirstOrDefault.__otherDBs,
                 .Pathway = PathwayWebParser.__parseHTML_ModuleList(html("Pathway").FirstOrDefault, LIST_TYPES.Pathway),
                 .GeneName = html.GetText("Gene name"),

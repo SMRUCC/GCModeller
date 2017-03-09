@@ -8,6 +8,9 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.Medical
 
+    ''' <summary>
+    ''' 解析KEGG ftp服务器上面的药物数据模型
+    ''' </summary>
     Public Module DrugParser
 
         Public Iterator Function ParseStream(path$) As IEnumerable(Of Drug)
@@ -117,7 +120,7 @@ Namespace Assembly.KEGG.Medical
         ''' <param name="lines$"></param>
         ''' <param name="ref">假设参考文献都是在每一个小节最末尾的部分</param>
         ''' <returns></returns>
-        <Extension> Friend Function ParseStream(lines$(), Optional ref As Reference() = void) As Func(Of String, String())
+        <Extension> Friend Function ParseStream(lines$(), Optional ByRef ref As Reference() = void) As Func(Of String, String())
             Dim list As New Dictionary(Of NamedValue(Of List(Of String)))
             Dim tag$ = ""  ' 在这里使用空字符串，如果使用Nothing空值的话，添加字典的时候出发生错误
             Dim values As New List(Of String)
@@ -144,13 +147,15 @@ Namespace Assembly.KEGG.Medical
                     ' 将前面的数据给添加完
                     Call add()
 
-                    lines = lines.Skip(i).ToArray
+                    lines = lines.Skip(i.value - 1).ToArray
 
                     For Each r As String() In lines.Split(Function(str) InStr(str, "REFERENCE") = 1, includes:=True)
                         refList += New Reference(meta:=r)
                     Next
 
                     ref = refList
+
+                    Exit Do
                 End If
 
                 If s.StringEmpty Then
