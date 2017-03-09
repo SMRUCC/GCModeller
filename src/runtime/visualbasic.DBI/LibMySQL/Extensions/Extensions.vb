@@ -209,5 +209,10 @@ Public Module Extensions
     Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T)) As String
         Return source.Select(Function(row) row.GetInsertSQL).JoinBy(ASCII.LF)
     End Function
+
+    <Extension>
+    Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T), path$, Optional encoding As Encodings = Encodings.Default) As Boolean
+        Return source.DumpTransaction.SaveTo(path, encoding.CodePage)
+    End Function
 End Module
 
