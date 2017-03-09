@@ -7,6 +7,8 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace Assembly.Uniprot.XML
 
     ''' <summary>
+    ''' 因为<see cref="accessions"/>可能会出现多个值，所以会需要使用
+    ''' <see cref="entry.ShadowCopy()"/>函数来解决实体多态的问题。
     ''' 经过shadow copy之后可以使用主键<see cref="accession"/>来创建字典
     ''' </summary>
     Public Class entry : Implements INamedValue

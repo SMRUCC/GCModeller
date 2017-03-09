@@ -65,7 +65,10 @@ Namespace Assembly.Uniprot.XML
                 Dim files As IEnumerable(Of UniprotXML) =
                     (ls - l - r - "*.xml" <= handle).Select(AddressOf Load)
                 Dim groups = From protein As entry
-                             In files.Select(Function(xml) xml.entries).IteratesALL
+                             In files.Select(Function(xml) xml.entries) _
+                                 .IteratesALL _
+                                 .Select(Function(o) o.ShadowCopy) _
+                                 .IteratesALL
                              Select protein
                              Group protein By DirectCast(protein, INamedValue).Key Into Group
                 Dim out As Dictionary(Of entry) = groups _
