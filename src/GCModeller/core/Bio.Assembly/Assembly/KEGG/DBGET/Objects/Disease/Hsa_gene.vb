@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel
+﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
@@ -8,7 +9,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' <summary>
     ''' The data model of the genes in the human genome.(人类基因组之中的基因模型)    
     ''' </summary>
-    Public Class Hsa_gene : Implements INamedValue
+    <XmlRoot("HumanGene")> Public Class Hsa_gene : Implements INamedValue
 
         Public Property Entry As String Implements IKeyedEntity(Of String).Key
         Public Property GeneName As String

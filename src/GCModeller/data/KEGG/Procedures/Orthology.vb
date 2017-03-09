@@ -209,13 +209,13 @@ Namespace Procedures
                                   New LocalMySQL.reference With {
                                      .authors = String.Join(", ", entry.Authors).Replace("'", "~"),
                                      .journal = entry.Journal.Replace("'", "~"),
-                                     .pmid = entry.PMID,
+                                     .pmid = entry.Reference,
                                      .title = entry.Title.Replace("'", "~")
                                   }
                               Let [or] As LocalMySQL.orthology_references =
                                   New LocalMySQL.orthology_references With {
                                      .entry_id = ort.Entry,
-                                     .pmid = entry.PMID}
+                                     .pmid = entry.Reference}
                               Select reference, [or]).ToArray
             For Each entry In references
                 Call data.Add(entry.or)

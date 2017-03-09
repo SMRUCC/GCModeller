@@ -42,7 +42,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <XmlElement> Public Property Authors As String()
         <XmlText> Public Property Title As String
         <XmlAttribute> Public Property Journal As String
-        <XmlAttribute> Public Property PMID As String
+        <XmlAttribute> Public Property Reference As String
+
+        Public ReadOnly Property PMID As Long
+            Get
+                Return CLng(Val(Regex.Match(Reference, "PMID[:]\s*\d+", RegexICSng).Value))
+            End Get
+        End Property
 
         Sub New()
         End Sub
@@ -66,10 +72,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Function(k) Mid(k, 1, 12).StripBlank,
                 Function(v) Mid(v, 13).StripBlank)
 
-            Authors = data.TryGetValue("AUTHORS").StringSplit(",")
+            Authors = data.TryGetValue("AUTHORS").StringSplit(",\s*")
             Title = data.TryGetValue("TITLE")
             Journal = data.TryGetValue("JOURNAL")
-            PMID = data.TryGetValue("REFERENCE")
+            Reference = data.TryGetValue("REFERENCE")
         End Sub
 
         ''' <summary>
@@ -78,20 +84,23 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <param name="data"></param>
         ''' <returns></returns>
         Public Shared Function References(data As String()) As Reference()
-            Return data.ToArray(AddressOf Reference)
+            Return data.ToArray(AddressOf ReferenceParserHTML)
         End Function
 
         Const REF_ITEM As String = "<td .+?</div></td></tr>"
+        Const DIVInternal$ = "<div .+?>.+?</div>"
 
-        Public Shared Function Reference(str As String) As Reference
-            Dim tokens As String() = (From m As Match In Regex.Matches(str, REF_ITEM) Select m.Value).ToArray
-            tokens = (From s As String In tokens Select Regex.Match(s, "<div .+?>.+?</div>").Value).ToArray
+        Public Shared Function ReferenceParserHTML(html$) As Reference
+            Dim tokens As String() = Regex.Matches(html, REF_ITEM).ToArray
+            tokens = tokens _
+                .Select(Function(s) Regex.Match(s, DIVInternal).Value) _
+                .ToArray
 
-            Dim p As int = Scan0
-            Dim PMID As String = tokens.Get(++p).GetValue
-            Dim Authors As String = tokens.Get(++p).GetValue
-            Dim Title As String = tokens.Get(++p).GetValue
-            Dim Journal As String = tokens.Get(++p).GetValue
+            Dim i As int = Scan0
+            Dim PMID As String = tokens.Get(++i).GetValue
+            Dim Authors As String = tokens.Get(++i).GetValue
+            Dim Title As String = tokens.Get(++i).GetValue
+            Dim Journal As String = tokens.Get(++i).GetValue
 
             If Regex.Match(PMID, "PMID[:]<a").Success Then
                 PMID = PMID.GetValue
@@ -101,12 +110,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Authors = Strings.Split(Authors, ", "),
                 .Title = Title,
                 .Journal = Journal,
-                .PMID = PMID
+                .Reference = PMID
             }
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{ String.Join(", ", Authors) }. {Title}. {Journal}.  PMID:{PMID}"
+            Return $"{ String.Join(", ", Authors) }. {Title}. {Journal}.  PMID:{Reference}"
         End Function
     End Class
 End Namespace
