@@ -22,6 +22,13 @@ Namespace Assembly.Uniprot.XML
             End If
         End Function
 
+        ''' <summary>
+        ''' 生成KEGG或者GO注释分类的mapping表
+        ''' </summary>
+        ''' <param name="uniprotXML"></param>
+        ''' <param name="type$"></param>
+        ''' <param name="idType"></param>
+        ''' <returns>``term --> geneID``</returns>
         <Extension>
         Public Function Term2Gene(uniprotXML As UniprotXML, Optional type$ = "GO", Optional idType As IDTypes = IDTypes.Accession) As IDMap()
             Dim out As New List(Of IDMap)

@@ -369,10 +369,12 @@
     <Compile Include="Assembly\NCBI\Taxonomy\TaxonomyWeb.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Taxonomy.vb" />
     <Compile Include="Assembly\NCBI\WebServiceHandler\Taxonomy.vb" />
+    <Compile Include="Assembly\Uniprot\XML\Model\CommentData.vb" />
+    <Compile Include="Assembly\Uniprot\XML\Model\entry.vb" />
     <Compile Include="Assembly\Uniprot\XML\GetID.vb" />
-    <Compile Include="Assembly\Uniprot\XML\Elements.vb" />
+    <Compile Include="Assembly\Uniprot\XML\Model\Data.vb" />
     <Compile Include="Assembly\Uniprot\XML\Extensions.vb" />
-    <Compile Include="Assembly\Uniprot\XML\UniprotXML.vb" />
+    <Compile Include="Assembly\Uniprot\XML\Model\UniprotXML.vb" />
     <Compile Include="Assembly\Uniprot\UniprotFasta.vb" />
     <Compile Include="Assembly\Uniprot\IdMapping.vb" />
     <Compile Include="Assembly\Uniprot\Web\ID_types.vb" />
