@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.KEGG
 
@@ -21,11 +22,28 @@ Namespace Assembly.KEGG
             Dim ids$() = Regex _
                 .Matches(text, "\[.+?\]", RegexICSng) _
                 .ToArray(Function(s) s.GetStackValue("[", "]"))
-            Dim table As Dictionary(Of String, String()) = ids _
-                .Select(Function(s) s.GetTagValue(":", trim:=True)) _
-                .ToDictionary(Function(k) k.Name,
-                              Function(v) v.Value.StringSplit("\s+"))
-            Return table
+
+            ' 可能还会存在多重数据，所以在这里不能够直接生成字典
+            Dim table As New Dictionary(Of String, List(Of String))
+
+            For Each id As String In ids
+                Dim k = id.GetTagValue(":")
+
+                If Not table.ContainsKey(k.Name) Then
+                    table.Add(
+                        k.Name,
+                        New List(Of String))
+                End If
+
+                Call table(k.Name).AddRange(k.Value.Split)
+            Next
+
+            Dim out As Dictionary(Of String, String()) =
+                table.ToDictionary(
+                Function(k) k.Key,
+                Function(k) k.Value.ToArray)
+
+            Return out
         End Function
 
         ''' <summary>
