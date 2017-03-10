@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
@@ -105,13 +106,7 @@ Public Module ProteinGroups
                                                  Optional prefix$ = "",
                                                  Optional deli As Char = ";"c,
                                                  Optional scientifcName$ = Nothing) As IEnumerable(Of (protein, String()))
-        Dim uniprot As Dictionary(Of Uniprot.XML.entry) =
-            SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML _
-            .Load(uniprotXML) _
-            .entries _
-            .GroupBy(Function(x) x.accession) _
-            .Select(Function(x) x.First) _
-            .ToDictionary
+        Dim uniprot As Dictionary(Of Uniprot.XML.entry) = SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML.LoadDictionary(uniprotXML)
 
         For Each Idtags As SeqValue(Of String) In ID.SeqIterator
             Dim list$() = (+Idtags).Split(deli)
@@ -155,13 +150,7 @@ Public Module ProteinGroups
                                                Optional deli As Char = ";"c,
                                                Optional scientifcName$ = Nothing) As IEnumerable(Of (protein, String()))
 
-        Dim uniprot As Dictionary(Of Uniprot.XML.entry) =
-            SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML _
-            .Load(uniprotXML) _
-            .entries _
-            .GroupBy(Function(x) x.accession) _
-            .Select(Function(x) x.First) _
-            .ToDictionary
+        Dim uniprot As Dictionary(Of Uniprot.XML.entry) = SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML.LoadDictionary(uniprotXML)
         Dim ID As IEnumerable(Of String) = uniprot.Keys
         Dim mappings As Dictionary(Of String, String()) =
             ID.ToDictionary(
@@ -217,7 +206,9 @@ Public Module ProteinGroups
 
                 If Not protein.organism Is Nothing AndAlso protein.organism.scientificName = scientifcName Then
                     uniprots = {protein}  ' 已经找到了目标物种的蛋白注释了，则会抛弃掉其他物种的蛋白注释
-                    mappsId = {protein.accession}
+                    mappsId = {
+                        DirectCast(protein, INamedValue).Key
+                    }
                     found = True
 #If DEBUG Then
                     Call $"[{protein.organism.scientificName}] {protein.name}".__DEBUG_ECHO
@@ -235,7 +226,9 @@ Public Module ProteinGroups
                 Next
 
                 uniprots = {uniprots(Scan0)}
-                mappsId = {uniprots(Scan0).accession}
+                mappsId = {
+                    DirectCast(uniprots(Scan0), INamedValue).Key
+                }
             End If
         End If
 
@@ -381,13 +374,7 @@ Public Module ProteinGroups
                         ByRef geneList$())
 
         Dim mappings As Dictionary(Of String, String()) = Retrieve_IDmapping.MappingReader(idMapping)
-        Dim uniprot As Dictionary(Of Uniprot.XML.entry) =
-            SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML _
-            .Load(uniprotXML) _
-            .entries _
-            .GroupBy(Function(x) x.accession) _
-            .Select(Function(x) x.First) _
-            .ToDictionary
+        Dim uniprot As Dictionary(Of Uniprot.XML.entry) = SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML.LoadDictionary(uniprotXML)
         Dim edgeRfields$() = {"logFC", "logCPM", "F", "PValue"}
         Dim suffix$ = If(DEGsMode, "-DEGs-annotations.csv", "-proteins-annotations.csv")
         Dim __where As Func(Of protein, Boolean)
