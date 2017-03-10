@@ -32,7 +32,7 @@ Namespace LocalBLAST.Application.BBH.Abstract
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Column("query_name")> Public Overridable Property QueryName As String _
-            Implements IKeyValuePairObject(Of String, String).Identifier,
+            Implements IKeyValuePairObject(Of String, String).Key,
                        IBlastHit.locusId,
                        IMap.Key
         ''' <summary>

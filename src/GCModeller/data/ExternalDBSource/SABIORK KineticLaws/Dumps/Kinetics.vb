@@ -51,7 +51,7 @@ Namespace SabiorkKineticLaws.TabularDump
     Public Class EnzymeCatalystKineticLaw
         Implements IKeyValuePair
 
-        Public Property Uniprot As String Implements IKeyValuePairObject(Of String, String).Identifier
+        Public Property Uniprot As String Implements IKeyValuePairObject(Of String, String).Key
         Public Property Enzyme As String
         Public Property Metabolite As String
         <Column("MetaboliteId(KEGG.Compound)")> Public Property KEGGCompoundId As String Implements IKeyValuePairObject(Of String, String).Value
@@ -118,7 +118,7 @@ Namespace SabiorkKineticLaws.TabularDump
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Column("Modifier(KEGG.Compound)")> Public Property KEGGCompoundId As String
-        Public Property Modifier As String Implements IKeyValuePairObject(Of String, String).Identifier
+        Public Property Modifier As String Implements IKeyValuePairObject(Of String, String).Key
         ''' <summary>
         ''' 具备附加属性的：Enzyme或者Reaction
         ''' </summary>

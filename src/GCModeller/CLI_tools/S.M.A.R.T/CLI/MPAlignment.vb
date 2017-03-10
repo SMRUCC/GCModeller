@@ -169,7 +169,7 @@ Partial Module CLI
         Dim Tokens As String() = FamilyTokens(Family)
         Dim LQuery = (From domain
                       In prot.GetDomainData(True)
-                      Where Not (From fam As String In Tokens Where InStr(domain.Identifier, fam, CompareMethod.Text) > 0 Select 1).ToArray.IsNullOrEmpty
+                      Where Not (From fam As String In Tokens Where InStr(domain.Name, fam, CompareMethod.Text) > 0 Select 1).ToArray.IsNullOrEmpty
                       Select 1).ToArray
         Return Not LQuery.IsNullOrEmpty
     End Function
