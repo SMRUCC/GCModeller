@@ -2,6 +2,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.csv
 Imports Microsoft.VisualBasic.Data.csv
@@ -102,7 +103,7 @@ Partial Module CLI
                     ' 存在则更新数据
                     Dim uniprotData As Uniprot.XML.entry = uniprotTable(mappingsID(bbhHit).First)
 
-                    protein.ID = uniprotData.accession
+                    protein.ID = DirectCast(uniprotData, INamedValue).Key
                     ORF = uniprotData.ORF
                     If ORF.StringEmpty Then
                         ORF = protein.ID
@@ -123,7 +124,7 @@ Partial Module CLI
                 Dim uniprotData As Uniprot.XML.entry = uniprotTable(protein.ID)
                 ORF = uniprotData.ORF
                 If ORF.StringEmpty Then
-                    ORF = uniprotData.accession
+                    ORF = DirectCast(uniprotData, INamedValue).Key
                 End If
                 protein.Properties.Add("ORF", ORF)
             End If
@@ -179,7 +180,7 @@ Partial Module CLI
                     Dim uniprotData As Uniprot.XML.entry = uniprotTable(mappingsID(bbhHit).First)
                     ORF = uniprotData.ORF
                     If ORF.StringEmpty Then
-                        ORF = uniprotData.accession
+                        ORF = DirectCast(uniprotData, INamedValue).Key
                     End If
                     protein.Properties.Add("ORF", ORF)
                 Else
@@ -191,7 +192,7 @@ Partial Module CLI
                 Dim uniprotData As Uniprot.XML.entry = uniprotTable(protein.ID)
                 ORF = uniprotData.ORF
                 If ORF.StringEmpty Then
-                    ORF = uniprotData.accession
+                    ORF = DirectCast(uniprotData, INamedValue).Key
                 End If
                 protein.Properties.Add("ORF", ORF)
             End If

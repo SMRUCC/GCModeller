@@ -102,7 +102,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
             Return PathwayGenes
         End Function
 
-        Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).Identifier
+        Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).Key
             Get
                 Return MyBase.EntryId
             End Get

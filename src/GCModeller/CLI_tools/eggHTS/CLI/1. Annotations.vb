@@ -3,6 +3,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Extensions
@@ -161,7 +162,7 @@ Partial Module CLI
                 Dim orf$ = If(prot.gene Is Nothing, "", prot.gene.ORF.JoinBy(","))
                 Dim fa As New FastaToken With {
                     .SequenceData = prot.sequence.sequence.lTokens.JoinBy(""),
-                    .Attributes = {prot.accession, orf$}
+                    .Attributes = {prot.accessions.First, orf$}
                 }
                 Call writer.WriteLine(fa.GenerateDocument(-1))
             Next
@@ -187,14 +188,13 @@ Partial Module CLI
         Dim annotations As String = args <= "/annotations"
         Dim out As String = args.GetValue("/out", annotations.TrimSuffix & "-species.normalization.csv")
         Dim annotationData As IEnumerable(Of UniprotAnnotations) = annotations.LoadCsv(Of UniprotAnnotations)
-        Dim uniprotXML As UniprotXML = UniprotXML.Load(uniprot)
         Dim mappingsID = Retrieve_IDmapping.MappingReader(mappings)
         Dim output As New List(Of UniprotAnnotations)
         Dim bbhData As Dictionary(Of String, BBHIndex) = bbh _
             .LoadCsv(Of BBHIndex) _
             .Where(Function(bh) bh.Matched) _
             .ToDictionary(Function(bh) bh.QueryName.Split("|"c).First)
-        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = uniprotXML.entries.ToDictionary
+        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniprotXML.LoadDictionary(uniprot)
 
         For Each protein As UniprotAnnotations In annotationData
 
@@ -207,7 +207,7 @@ Partial Module CLI
                     ' 存在则更新数据
                     Dim uniprotData As Uniprot.XML.entry = uniprotTable(mappingsID(bbhHit).First)
 
-                    protein.uniprot = uniprotData.accession
+                    protein.uniprot = DirectCast(uniprotData, INamedValue).Key
                     protein.geneName = uniprotData.gene.names.First.value
                     protein.ORF = uniprotData.gene.ORF.First
                     protein.fullName = uniprotData.proteinFullName

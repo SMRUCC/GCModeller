@@ -39,12 +39,17 @@ Namespace ProteinModel
     Public Class DomainModel
         Implements INamedValue, IKeyValuePairObject(Of String, Location)
         Implements IMotifSite
+        Implements IMotifDomain
 
-        Public Property DomainId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Location).Identifier, IMotifSite.Type, IMotifSite.Name
+        Public Property DomainId As String Implements INamedValue.Key,
+            IKeyValuePairObject(Of String, Location).Key,
+            IMotifSite.Type,
+            IMotifSite.Name,
+            IMotifDomain.ID
         Public Property Start As Integer
         Public Property [End] As Integer
 
-        Private Property Location As Location Implements IKeyValuePairObject(Of String, Location).Value, IMotifSite.Site
+        Private Property Location As Location Implements IKeyValuePairObject(Of String, Location).Value, IMotifSite.Site, IMotifDomain.Location
             Get
                 Return New Location(Start, [End])
             End Get

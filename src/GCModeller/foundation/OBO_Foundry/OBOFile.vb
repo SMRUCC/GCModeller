@@ -207,9 +207,13 @@ Public Class OBOFile : Implements IDisposable
     ReadOnly __file As String
     ReadOnly __reader As StreamReader
 
-    Sub New(file As String)
-        __file = file
-        __reader = New StreamReader(New FileStream(file, FileMode.Open))
+    Sub New(file$)
+        If file.StringEmpty Then
+            Throw New ArgumentNullException("File path can not be empty!")
+        Else
+            __file = file
+            __reader = New StreamReader(New FileStream(file, FileMode.Open))
+        End If
 
         Call __parseHeader()
     End Sub

@@ -109,7 +109,7 @@ Namespace DataVisualization.DynamicMap
             Dim NewComponentsList As List(Of Component) = New List(Of Component)
 
             For Each Id As String In ComponentsId
-                Dim Items = Components.GetItems(uniqueId:=Id, Explicit:=False)
+                Dim Items = Components.Takes(uniqueId:=Id, strict:=False)
                 Items = (From item In Items.AsParallel Where item.Quantity > 0 Select item).ToArray
 
                 If Items.IsNullOrEmpty Then

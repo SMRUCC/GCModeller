@@ -111,9 +111,9 @@ Namespace PathRoutes
             Dim AdjacencyLQuery = (From itr In NetworkInteractions.AsParallel Where itr.Equals(start, ends) Select itr).ToArray
             If Not AdjacencyLQuery.IsNullOrEmpty Then  '是直接相邻的两个节点
                 Dim AdjacencyPath = New NodeAttributes() {
-                    OriginalNodes.GetItem(uniqueId:=start),
-                    OriginalNodes.GetItem(uniqueId:=AdjacencyLQuery.First.UniqueId),
-                    OriginalNodes.GetItem(uniqueId:=ends)}
+                    OriginalNodes.Take(uniqueId:=start),
+                    OriginalNodes.Take(uniqueId:=AdjacencyLQuery.First.UniqueId),
+                    OriginalNodes.Take(uniqueId:=ends)}
                 Return AdjacencyPath
             End If
 
