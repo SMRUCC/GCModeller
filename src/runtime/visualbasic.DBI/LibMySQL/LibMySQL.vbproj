@@ -207,6 +207,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\DataClient.vb" />
     <Compile Include="MYSQL.Client\Linq.vb" />
     <Compile Include="MYSQL.Client\Table.vb" />
     <Compile Include="Reflection\SQL_LDM\SqlGenerateMethods.vb" />

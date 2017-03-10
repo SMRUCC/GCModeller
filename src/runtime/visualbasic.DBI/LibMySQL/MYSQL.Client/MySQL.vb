@@ -128,10 +128,12 @@ Public Class MySQL : Implements IDisposable
     ''' <summary>
     ''' Executes the query, and returns the first column of the first row in the 
     ''' result set returned by the query. Additional columns or rows are ignored.
-    ''' (请注意，这个函数会自动添加``LIMIT 1``限定在SQL语句末尾)
+    ''' (请注意，这个函数会自动判断添加``LIMIT 1``限定在SQL语句末尾)
     ''' </summary>
     ''' <returns></returns>
-    ''' <param name="SQL">这个函数会自动添加``LIMIT 1``限定</param>
+    ''' <param name="SQL">
+    ''' 这个函数会自动进行判断添加``LIMIT 1``限定，所以不需要刻意担心
+    ''' </param>
     Public Function ExecuteScalar(Of T As Class)(SQL As String) As T
         Dim result As DataSet = Fetch(__limit1(SQL.Trim))
         Dim reader As DataTableReader = result.CreateDataReader
@@ -299,6 +301,15 @@ Public Class MySQL : Implements IDisposable
         Return DataSet
     End Function
 
+    ''' <summary>
+    ''' 使用这个函数进行批量数据的查询操作，基于反射操作的ORM解决方案。
+    ''' 假若只需要查询一条数据库记录的话，则推荐使用<see cref="ExecuteScalar(Of T)(String)"/>函数以获取更高的性能
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="SQL"></param>
+    ''' <param name="Parallel"></param>
+    ''' <param name="throwExp"></param>
+    ''' <returns></returns>
     Public Function Query(Of T As Class)(SQL As String, Optional Parallel As Boolean = False, Optional throwExp As Boolean = True) As T()
         Dim Err As String = ""
         Dim Table As T() =

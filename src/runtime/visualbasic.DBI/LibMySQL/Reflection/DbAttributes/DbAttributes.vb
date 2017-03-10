@@ -77,6 +77,10 @@ Namespace Reflection.DbAttributes
     <AttributeUsage(AttributeTargets.Class Or AttributeTargets.Struct, AllowMultiple:=False, Inherited:=True)>
     Public Class TableName : Inherits DbAttribute
 
+        ''' <summary>
+        ''' 数据库的表名
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public ReadOnly Property Name As String
         ''' <summary>
         ''' 这个数据表所处的数据库的名称，可选的属性
@@ -85,6 +89,10 @@ Namespace Reflection.DbAttributes
         <XmlAttribute> Public Property Database As String
         <XmlText> Public Property SchemaSQL As String
 
+        ''' <summary>
+        ''' 使用表名来初始化这个元数据属性
+        ''' </summary>
+        ''' <param name="Name"></param>
         Public Sub New(Name As String)
             Me.Name = Name
         End Sub
@@ -93,7 +101,7 @@ Namespace Reflection.DbAttributes
             If String.IsNullOrEmpty(Database) Then
                 Return Name
             Else
-                Return $"{Database} => {Name}"
+                Return $"`{Database}`.`{Name}`"
             End If
         End Function
 

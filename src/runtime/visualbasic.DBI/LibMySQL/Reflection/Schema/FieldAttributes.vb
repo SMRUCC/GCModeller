@@ -1,39 +1,40 @@
 ﻿#Region "Microsoft.VisualBasic::d1685b4da67e25e37b0c1fd02c8e6c7f, ..\LibMySQL\Reflection\Schema\FieldAttributes.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Reflection
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 
 Namespace Reflection.Schema
 
-    Public Class Field
+    Public Class Field : Implements INamedValue
 
-        Public Property FieldName As String
+        Public Property FieldName As String Implements INamedValue.Key
         Public Property Unique As Boolean
         Public Property PrimaryKey As Boolean
         Public Property DataType As DataType
@@ -57,26 +58,26 @@ Namespace Reflection.Schema
         Public Property Comment As String
 
         Public Overrides Function ToString() As String
-            Dim sBuilder As StringBuilder = New StringBuilder("`%` ".Replace("%", FieldName), 512)
+            Dim sb As New StringBuilder("`%` ".Replace("%", FieldName), 512)
 
-            Call sBuilder.AppendFormat("{0} ", DataType.ToString)
+            Call sb.AppendFormat("{0} ", DataType.ToString)
 
-            If Unsigned Then sBuilder.AppendFormat("{0} ", "UNSIGNED")
-            If ZeroFill Then sBuilder.AppendFormat("{0} ", "ZEROFILL")
-            If NotNull Then sBuilder.AppendFormat("{0} ", "NOT NULL")
-            If Binary Then sBuilder.AppendFormat("{0} ", "BINARY")
-            If AutoIncrement Then sBuilder.AppendFormat("{0} ", "AUTO_INCREMENT")
+            If Unsigned Then sb.AppendFormat("{0} ", "UNSIGNED")
+            If ZeroFill Then sb.AppendFormat("{0} ", "ZEROFILL")
+            If NotNull Then sb.AppendFormat("{0} ", "NOT NULL")
+            If Binary Then sb.AppendFormat("{0} ", "BINARY")
+            If AutoIncrement Then sb.AppendFormat("{0} ", "AUTO_INCREMENT")
 
             If Len([Default]) > 0 Then
                 Select Case DataType.MySQLType
                     Case MySqlDbType.LongText, MySqlDbType.MediumText, MySqlDbType.Text, MySqlDbType.TinyText
-                        Call sBuilder.AppendFormat("DEFAULT `{0}`", [Default])
+                        Call sb.AppendFormat("DEFAULT `{0}`", [Default])
                     Case Else
-                        Call sBuilder.AppendFormat("DEFAULT {0}", [Default])
+                        Call sb.AppendFormat("DEFAULT {0}", [Default])
                 End Select
             End If
 
-            Return sBuilder.ToString
+            Return sb.ToString
         End Function
 
         Public Shared Narrowing Operator CType(field As Field) As String
