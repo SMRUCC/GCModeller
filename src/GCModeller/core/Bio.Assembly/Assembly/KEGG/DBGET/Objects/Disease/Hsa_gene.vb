@@ -31,7 +31,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         Public ReadOnly Property MyNames As String()
             Get
-                Return GeneName.StringSplit(",\s+")
+                Return GeneName.Replace("'", "").Trim.StringSplit(",\s+")
+            End Get
+        End Property
+
+        Public ReadOnly Property MyPositions As String()
+            Get
+                Return Position.StringSplit("\s+and\s+")
             End Get
         End Property
 
@@ -46,10 +52,17 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Function Match(pos$, symbol$) As Integer
             Dim n%
 
-            n += If(Position.TextEquals(pos), 1, 0)
+            n += If(MatchAnyPosition(pos), 1, 0)
             n += If(MatchAnyName(symbol), 1, 0)
 
             Return n
+        End Function
+
+        Public Function MatchAnyPosition(pos$) As Boolean
+            Return Not MyPositions _
+                .Where(Function(l) l.TextEquals(pos)) _
+                .FirstOrDefault _
+                .StringEmpty
         End Function
 
         ''' <summary>
