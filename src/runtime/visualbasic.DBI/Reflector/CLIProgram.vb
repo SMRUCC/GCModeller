@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Oracle.LinuxCompatibility.MySQL
+Imports Oracle.LinuxCompatibility.MySQL.CodeSolution
 
 <PackageNamespace("MySQL.Reflector", Description:="Tools for convert the mysql schema dump sql script into VisualBasic classes source code.")>
 Module CLIProgram
@@ -96,7 +97,7 @@ Module CLIProgram
 
             Call FileIO.FileSystem.CreateDirectory(out)
 
-            For Each doc As KeyValuePair(Of String, String) In CodeGenerator.GenerateCodeSplit(file, ns, SQL)
+            For Each doc As KeyValuePair(Of String, String) In VisualBasic.CodeGenerator.GenerateCodeSplit(file, ns, SQL)
                 Call doc.Value.SaveTo($"{out}/{doc.Key}.vb", Encoding.Unicode)
             Next
         Else ' 整个的文档形式
@@ -106,10 +107,10 @@ Module CLIProgram
                     out = $"{out}/{SQL.BaseName}.vb"
                 End If
 
-                Dim doc As String = CodeGenerator.GenerateCode(file, ns, SQL)  ' Convert the SQL file into a visualbasic source code
+                Dim doc As String = VisualBasic.CodeGenerator.GenerateCode(file, ns, SQL)  ' Convert the SQL file into a visualbasic source code
                 Return doc.SaveTo(out, Encoding.Unicode).CLICode               ' Save the vb source code into a text file
             Else
-                Call output.Write(CodeGenerator.GenerateCode(file, ns, SQL))
+                Call output.Write(VisualBasic.CodeGenerator.GenerateCode(file, ns, SQL))
                 Call output.Flush()
             End If
         End If
@@ -135,7 +136,7 @@ Module CLIProgram
 
         Dim SQLs As IEnumerable(Of String) = ls - l - wildcards("*.sql") <= DIR
         Dim LQuery = SQLs.ToArray(
-            Function(sql) CodeGenerator.GenerateClass(sql.ReadAllText, ns))
+            Function(sql) VisualBasic.CodeGenerator.GenerateClass(sql.ReadAllText, ns))
 
         For Each cls As KeyValuePair In LQuery
             Dim vb As String = $"{outDIR}/{cls.Key}.vb"

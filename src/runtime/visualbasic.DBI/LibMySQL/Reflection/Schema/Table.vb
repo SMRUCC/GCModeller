@@ -116,6 +116,10 @@ Namespace Reflection.Schema
             SchemaType = Schema
         End Sub
 
+        Sub New(databaseFields As Dictionary(Of String, Field))
+            _databaseFields = databaseFields
+        End Sub
+
         Public Function GetPrimaryKeyFields() As Field()
             Return PrimaryFields.ToArray(AddressOf __getField)
         End Function

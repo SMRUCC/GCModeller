@@ -8,8 +8,8 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("LibMySQL")> 
-<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyTitle("MySQL ORM framework for MS VisualBasic")>
+<Assembly: AssemblyDescription("MySQL ORM framework for MS VisualBasic")>
 <Assembly: AssemblyCompany("GPL3")>
 <Assembly: AssemblyProduct("LibMySQL")>
 <Assembly: AssemblyCopyright("Copyright © xie.guigang@gmail.com 2013")>
