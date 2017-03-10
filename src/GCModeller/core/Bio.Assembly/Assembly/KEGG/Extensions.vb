@@ -17,7 +17,7 @@ Namespace Assembly.KEGG
         ''' </param>
         ''' <returns></returns>
         <Extension>
-        Public Function GetIDList(text$) As Dictionary(Of String, String())
+        Public Function GetIDpairedList(text$) As Dictionary(Of String, String())
             Dim ids$() = Regex _
                 .Matches(text, "\[.+?\]", RegexICSng) _
                 .ToArray(Function(s) s.GetStackValue("[", "]"))
@@ -26,6 +26,23 @@ Namespace Assembly.KEGG
                 .ToDictionary(Function(k) k.Name,
                               Function(v) v.Value.StringSplit("\s+"))
             Return table
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="tag$"></param>
+        ''' <param name="list$"></param>
+        ''' <returns>
+        ''' Example as:
+        ''' 
+        ''' ```
+        ''' HSA:6929 5087
+        ''' ```
+        ''' </returns>
+        <Extension>
+        Public Function IDlistStrings(tag$, list$()) As String
+            Return $"{tag}:{list.JoinBy(" ")}"
         End Function
     End Module
 End Namespace
