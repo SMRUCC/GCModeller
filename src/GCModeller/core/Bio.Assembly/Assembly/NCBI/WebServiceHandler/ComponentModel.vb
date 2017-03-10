@@ -40,7 +40,7 @@ Namespace Assembly.NCBI.Entrez.ComponentModels
         Implements IKeyValuePairObject(Of String, String)
 
         Public Property Title As String Implements IKeyValuePairObject(Of String, String).Value
-        Public Property URL As String Implements IKeyValuePairObject(Of String, String).Identifier
+        Public Property URL As String Implements IKeyValuePairObject(Of String, String).Key
 
         Public Overrides Function ToString() As String
             Return Title

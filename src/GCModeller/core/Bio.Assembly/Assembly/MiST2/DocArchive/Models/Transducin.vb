@@ -85,11 +85,10 @@ Namespace Assembly.MiST2
             Dim TempTokens As String() = (From m As Match
                                           In Regex.Matches(Mid(pfam, p), "\d+")
                                           Select m.Value).ToArray
-            Dim Domain As DomainObject =
-                New DomainObject With {
-                    .Identifier = Mid(pfam, 1, p - 1)
+            Dim Domain As New DomainObject With {
+                .Name = Mid(pfam, 1, p - 1)
             }
-            Domain.CommonName = Domain.Identifier
+            Domain.CommonName = Domain.Name
             Domain.Position = New ComponentModel.Loci.Location With {
                 .Left = Convert.ToInt64(TempTokens(0)),
                 .Right = Convert.ToInt64(TempTokens(1))

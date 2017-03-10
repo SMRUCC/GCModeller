@@ -27,6 +27,9 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
+''' <summary>
+''' 这个数据表对象是MYSQL ORM解决方案的类型基础
+''' </summary>
 Public MustInherit Class SQLTable : Inherits SchemaMaps.SQLTable
 
     ''' <summary>

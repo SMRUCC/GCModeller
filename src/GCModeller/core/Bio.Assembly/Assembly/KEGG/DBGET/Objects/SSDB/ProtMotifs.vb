@@ -78,7 +78,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
             Dim cols As String() = HtmlParser.GetColumnsHTML(row)
             Dim motif As New ProteinModel.DomainObject
 
-            motif.Identifier = cols(0).GetValue
+            motif.Name = cols(0).GetValue
             motif.Describes = cols(3)
             motif.EValue = Val(cols(4))
             motif.BitScore = cols(5)

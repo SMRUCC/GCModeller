@@ -207,12 +207,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeBridge\CodeGenerator.vb" />
-    <Compile Include="CodeBridge\SQLParser.vb" />
+    <Compile Include="Extensions\DataClient.vb" />
     <Compile Include="MYSQL.Client\Linq.vb" />
     <Compile Include="MYSQL.Client\Table.vb" />
     <Compile Include="Reflection\SQL_LDM\SqlGenerateMethods.vb" />
-    <Compile Include="CodeBridge\SQLTable.vb" />
+    <Compile Include="SQLTable.vb" />
     <Compile Include="GlobalSuppressions.vb" />
     <Compile Include="MYSQL.Client\RecordStatus.vb" />
     <Compile Include="Reflection\DbAttributes\DbDataTypes.vb" />

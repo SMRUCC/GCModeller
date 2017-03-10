@@ -163,6 +163,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CodeSolution\CodeSolution.vbproj">
+      <Project>{6fbb3d95-4d76-42b8-a991-a4beed9831bc}</Project>
+      <Name>CodeSolution</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>

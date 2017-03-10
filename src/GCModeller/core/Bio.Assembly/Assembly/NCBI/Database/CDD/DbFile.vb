@@ -111,7 +111,7 @@ Here, we report on the progress of the curation effort and associated improvemen
             End Get
             Set(value As CDD.SmpFile())
                 If Not value.IsNullOrEmpty Then
-                    _innerDict = value.ToDictionary(Function(o As CDD.SmpFile) o.Identifier)
+                    _innerDict = value.ToDictionary(Function(o As CDD.SmpFile) o.Name)
                 Else
                     Call $"Null database entries!".__DEBUG_ECHO
                     _innerDict = New Dictionary(Of Dir, SmpFile)
@@ -149,7 +149,7 @@ Here, we report on the progress of the curation effort and associated improvemen
         End Property
 
         ''' <summary>
-        ''' 非并行版本的<see cref="CDD.SmpFile.Identifier">AccessionId</see>, <see cref="CDD.SmpFile.Id">TagId</see>, <see cref="CDD.SmpFile.CommonName">CommonName</see>
+        ''' 非并行版本的<see cref="CDD.SmpFile.Name">AccessionId</see>, <see cref="CDD.SmpFile.Id">TagId</see>, <see cref="CDD.SmpFile.CommonName">CommonName</see>
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
@@ -196,7 +196,7 @@ Here, we report on the progress of the curation effort and associated improvemen
                          In pn.AsParallel
                          Where FileIO.FileSystem.FileExists(FilePath)
                          Let SmpFile As CDD.SmpFile = CDD.SmpFile.Load(FilePath)
-                         Select SmpFile Order By SmpFile.Identifier
+                         Select SmpFile Order By SmpFile.Name
                          Ascending  '..AsParallel
             Dim DbFile As CDD.DbFile = New DbFile With {
                 .FilePath = File & ".xml",
@@ -208,7 +208,7 @@ Here, we report on the progress of the curation effort and associated improvemen
             Call $" EXPORT fasta sequence data {FASTA}".__DEBUG_ECHO
             Call CType((From Smp As SmpFile
                         In DbFile.SmpData.AsParallel
-                        Let Fsa As FASTA.FastaToken = Smp.Export
+                        Let Fsa As FASTA.FastaToken = Smp.EXPORT
                         Select Fsa).ToArray, FASTA.FastaFile).Save(FASTA)
             Call DbFile.GetXml.SaveTo(DbFile.FilePath)
         End Sub
@@ -232,7 +232,7 @@ Here, we report on the progress of the curation effort and associated improvemen
         Public Overloads Shared Function ExportFASTA(Db As DbFile) As FASTA.FastaFile
             Dim LQuery = From smp As CDD.SmpFile
                          In Db.SmpData
-                         Select smp.Export '
+                         Select smp.EXPORT '
             Dim Fasta As New FASTA.FastaFile(LQuery)
             Return Fasta
         End Function
@@ -251,7 +251,7 @@ Here, we report on the progress of the curation effort and associated improvemen
             Dim Ids As String() = lstAccId.ToArray
             Dim LQuery = From smp As SmpFile
                          In Me.SmpData.AsParallel
-                         Where Array.IndexOf(Ids, smp.Identifier) > -1
+                         Where Array.IndexOf(Ids, smp.Name) > -1
                          Select smp '
             Return New DbFile With {
                 .SmpData = LQuery.ToArray

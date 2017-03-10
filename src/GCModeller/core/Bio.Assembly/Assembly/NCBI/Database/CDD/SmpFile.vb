@@ -49,7 +49,7 @@ Namespace Assembly.NCBI.CDD
         Implements IPolymerSequenceModel
 
         <XmlAttribute>
-        Public Property Id As Integer
+        Public Property ID As String
         <XmlElement>
         Public Property Title As String
         <XmlElement>
@@ -69,7 +69,7 @@ Namespace Assembly.NCBI.CDD
         ''' <returns></returns>
         ''' <remarks></remarks>
         <XmlAttribute>
-        Public Overridable Property Identifier As String Implements INamedValue.Key
+        Public Overridable Property Name As String Implements INamedValue.Key
         <XmlAttribute("name")>
         Public Property CommonName As String
 
@@ -86,7 +86,7 @@ Namespace Assembly.NCBI.CDD
 #End Region
 
         Public Overrides Function ToString() As String
-            Return String.Format("[{0}] {1}", Id, Title)
+            Return String.Format("[{0}] {1}", ID, Title)
         End Function
 
         ''' <summary>
@@ -94,8 +94,8 @@ Namespace Assembly.NCBI.CDD
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Export() As FastaToken
-            Dim Title As String = $"{Id}/1-2 {Id}.1 {Identifier}.1;{CommonName};"
+        Public Function EXPORT() As FastaToken
+            Dim Title As String = $"{ID}/1-2 {ID}.1 {Name}.1;{CommonName};"
             Dim fasta As New FastaToken With {
                 .SequenceData = SequenceData,
                 .Attributes = New String() {Title}
@@ -120,7 +120,7 @@ Namespace Assembly.NCBI.CDD
                 tokens = Strings.Split(sTemp, ",")
             End If
 
-            SmpFile.Identifier = tokens(0)
+            SmpFile.Name = tokens(0)
             SmpFile.CommonName = tokens(1).Trim
             SmpFile.Title = tokens(2).Trim
 

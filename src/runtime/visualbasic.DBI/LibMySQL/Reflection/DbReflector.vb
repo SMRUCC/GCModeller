@@ -171,6 +171,14 @@ Namespace Reflection
             Return fields
         End Function
 
+        ''' <summary>
+        ''' 这个函数应该执行将sql查询结果数据描述为具体的.NET对象的过程的，ORM解决方案的核心
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="Reader"></param>
+        ''' <param name="type"></param>
+        ''' <param name="FieldList"></param>
+        ''' <returns></returns>
         Private Delegate Function QueryInvoke(Of T)(Reader As MySqlDataReader, type As Type, FieldList As SeqValue(Of PropertyInfo)()) As IEnumerable(Of T)
 
         Private Function __queryParallelInvoke(Of T)(Reader As MySqlDataReader,
@@ -222,9 +230,9 @@ Namespace Reflection
         ''' <param name="getError"></param>
         ''' <returns></returns>
         Private Function __queryEngine(Of T)(SQL As String, queryEngine As QueryInvoke(Of T), ByRef getError As String) As IEnumerable(Of T)
-            Dim Type As Type = GetType(T)
-            Dim MySql As MySqlConnection = New MySqlConnection(ConnectionString) '[ConnectionString] is a compiled mysql connection string from our class constructor.
-            Dim MySqlCommand As MySqlCommand = New MySqlCommand(SQL, MySql)
+            Dim type As Type = GetType(T)
+            Dim MySql As New MySqlConnection(ConnectionString) '[ConnectionString] is a compiled mysql connection string from our class constructor.
+            Dim MySqlCommand As New MySqlCommand(SQL, MySql)
             Dim Reader As MySqlDataReader = Nothing
 
             Try
@@ -236,16 +244,14 @@ Namespace Reflection
                     Return New T() {}
                 End If
 
-                Dim FieldList As SeqValue(Of PropertyInfo)() = __queryInitSchema(Reader, Type)
-                Dim Table As IEnumerable(Of T) = queryEngine(Reader, Type, FieldList)
+                Dim fields As SeqValue(Of PropertyInfo)() = __queryInitSchema(Reader, type)
+                Dim Table As IEnumerable(Of T) = queryEngine(Reader, type, fields)
                 Return Table
             Catch ex As Exception
-                Dim log As String = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "/MYSQL_REFLECTOR_ERROR.log"
+                ex = New Exception(type.FullName, ex)
+                ex = New Exception(SQL, ex)
 
-                ex = New Exception(Type.FullName, ex)
-                getError = App.BugsFormatter(New Exception(SQL, ex), MethodBase.GetCurrentMethod.GetFullName)
-
-                Call FileIO.FileSystem.WriteAllText(log, getError & vbCrLf & vbCrLf, append:=True)
+                Call App.LogException(ex)
             Finally
                 If Not Reader Is Nothing Then Call Reader.Close()
                 If Not MySqlCommand Is Nothing Then Call MySqlCommand.Dispose()
