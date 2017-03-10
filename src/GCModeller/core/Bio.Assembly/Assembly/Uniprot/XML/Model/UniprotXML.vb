@@ -54,7 +54,13 @@ Namespace Assembly.Uniprot.XML
         End Function
 
         ''' <summary>
+        ''' 因为可能会存在一个蛋白质entry对应多个accession的情况，
+        ''' 所以这个函数会自动将这些重复的<see cref="entry.accessions"/>进行展开，
+        ''' 则取出唯一的accessionID只需要使用表达式
         ''' 
+        ''' ```vbnet
+        ''' DirectCast(entry, <see cref="InamedValue"/>).Key
+        ''' ```
         ''' </summary>
         ''' <param name="handle$">file or directory</param>
         ''' <returns></returns>

@@ -383,7 +383,7 @@ Namespace Compiler
                                                          Distinct
                                                          Order By strId Ascending
             For Each strId As String In EnzymeGenes
-                Dim ProteinPolypeptide = _ModelIO.Proteins.GetItem(uniqueId:=strId)
+                Dim ProteinPolypeptide = _ModelIO.Proteins.Take(uniqueId:=strId)
                 If ProteinPolypeptide Is Nothing Then '可能为蛋白质复合物
                     Call _Logging.WriteLine(String.Format("ASSIGN_PROTEIN_TYPES: {0} is not a polypeptide and it may be protein complex...", strId))
                     Continue For
@@ -607,7 +607,7 @@ Namespace Compiler
 
             Dim Regulators = (From item In _ModelIO.Regulators Where item.Effectors.IsNullOrEmpty Select item.ProteinId Distinct).ToArray
             For Each strId As String In Regulators
-                Dim Regulator = _ModelIO.Proteins.GetItem(uniqueId:=strId)
+                Dim Regulator = _ModelIO.Proteins.Take(uniqueId:=strId)
                 Regulator.ProteinType = GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Polypeptide.ProteinTypes.TranscriptFactor
             Next
 
