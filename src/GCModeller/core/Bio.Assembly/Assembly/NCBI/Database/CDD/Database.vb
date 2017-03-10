@@ -131,7 +131,7 @@ Namespace Assembly.NCBI.CDD
         Public Function GetDomainInfo(Id As String) As CDD.SmpFile
             For Each DbName As String In DbPaths.Keys
                 Dim Db = DomainInfo(Name:=DbName)
-                Dim LQuery = From Item In Db.SmpData.AsParallel Where String.Equals(Item.Identifier, Id) Select Item '
+                Dim LQuery = From Item In Db.SmpData.AsParallel Where String.Equals(Item.Name, Id) Select Item '
                 Dim Result = LQuery.FirstOrDefault
                 Return Result
             Next

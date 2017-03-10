@@ -1,4 +1,5 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -162,8 +163,12 @@ Namespace Assembly.Uniprot.XML
         End Property
     End Class
 
-    Public Class feature
-        <XmlAttribute> Public Property type As String
+    ''' <summary>
+    ''' Get by types using <see cref="Takes"/> extensions
+    ''' </summary>
+    Public Class feature : Implements INamedValue
+
+        <XmlAttribute> Public Property type As String Implements INamedValue.Key
         <XmlAttribute> Public Property evidence As String
         <XmlAttribute> Public Property description As String
         <XmlText> Public Property value As String
@@ -188,8 +193,17 @@ Namespace Assembly.Uniprot.XML
         Public Property position As position
     End Class
 
+    ''' <summary>
+    ''' 序列上面的某一个位点位置
+    ''' </summary>
     Public Class position
-        Public Property position As String
+
+        <XmlAttribute>
+        Public Property position As Integer
+
+        Public Overrides Function ToString() As String
+            Return position
+        End Function
     End Class
 
     Public Class recommendedName

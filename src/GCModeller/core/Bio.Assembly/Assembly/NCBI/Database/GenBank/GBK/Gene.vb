@@ -43,7 +43,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
         Implements ITripleKeyValuesPair(Of String, String, Feature())
 
         Public Property Gene As String Implements ITripleKeyValuesPair(Of String, String, Feature()).Value2
-        Public Property LocusTag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Feature()).Identifier,
+        Public Property LocusTag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Feature()).Key,
             ITripleKeyValuesPair(Of String, String, Feature()).Identifier
         Public Property Features As Feature() Implements IKeyValuePairObject(Of String, Feature()).Value,
             ITripleKeyValuesPair(Of String, String, Feature()).Address

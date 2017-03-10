@@ -460,8 +460,10 @@
     <Compile Include="IQueryExtensions.vb" />
     <Compile Include="Metagenomics\BIOMTaxonomy.vb" />
     <Compile Include="Metagenomics\OTUData.vb" />
+    <Compile Include="ProteinModel\Abstract.vb" />
     <Compile Include="ProteinModel\DomainObject.vb" />
     <Compile Include="ProteinModel\DomainModels.vb" />
+    <Compile Include="ProteinModel\Extensions.vb" />
     <Compile Include="SequenceModel\Abstract.vb" />
     <Compile Include="SequenceModel\CutSequence.vb" />
     <Compile Include="SequenceModel\FASTA\Abstract.vb" />

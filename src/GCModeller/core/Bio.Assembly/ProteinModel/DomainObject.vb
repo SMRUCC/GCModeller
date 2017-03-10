@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::f812687194078b11dfd8fe11286f659e, ..\GCModeller\core\Bio.Assembly\ProteinModel\DomainObject.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.CDD
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
+Imports System.Xml.Serialization
 
 Namespace ProteinModel
 
@@ -39,8 +40,12 @@ Namespace ProteinModel
     ''' </summary>
     Public Class DomainObject : Inherits SmpFile
         Implements INamedValue
+        Implements IMotifDomain
 
-        Public Property Position As Location
+        <XmlAttribute>
+        Public Overrides Property Name As String Implements IMotifDomain.ID
+
+        Public Property Position As Location Implements IMotifDomain.Location
         Public Property EValue As Double
         Public Property BitScore As String
         ''' <summary>
@@ -50,8 +55,7 @@ Namespace ProteinModel
         Public Property Location As Position
 
         Public Overrides Function ToString() As String
-            Call Me.Position.Normalization()
-            Return $"{Identifier}({Position.Left}|{Position.Right})"
+            Return Me.AsMetaString()
         End Function
 
         ''' <summary>
@@ -65,7 +69,7 @@ Namespace ProteinModel
             Dim LQuery = LinqAPI.Exec(Of String) <=
                 From Interaction As DOMINE.Tables.Interaction
                 In Interactions
-                Let DomainId As String = Interaction.GetInteractionDomain(MyBase.Identifier)
+                Let DomainId As String = Interaction.GetInteractionDomain(MyBase.Name)
                 Where Not String.IsNullOrEmpty(DomainId)
                 Select DomainId '
 
@@ -73,24 +77,24 @@ Namespace ProteinModel
         End Function
 
         Sub New(SmpFile As SmpFile)
-            MyBase.Identifier = SmpFile.Identifier
+            MyBase.Name = SmpFile.Name
             MyBase.CommonName = SmpFile.CommonName
             MyBase.Describes = SmpFile.Describes
             MyBase.SequenceData = SmpFile.SequenceData
-            MyBase.Id = SmpFile.Id
+            MyBase.ID = SmpFile.ID
             MyBase.Title = SmpFile.Title
         End Sub
 
         Public Function CopyTo(Of T As DomainObject)() As T
             Dim Target As T = Activator.CreateInstance(Of T)()
-            Target.Identifier = Identifier
+            Target.Name = Name
             Target.BitScore = BitScore
             Target.CommonName = CommonName
             Target.Describes = Describes
             Target.EValue = EValue
             Target.Position = Position
             Target.SequenceData = SequenceData
-            Target.Id = Id
+            Target.ID = ID
             Target.Title = Title
 
             Return Target

@@ -36,7 +36,7 @@ Namespace Assembly.KEGG.Archives.Csv
     Public Class [Module] : Inherits ComponentModel.PathwayBrief
         Implements IKeyValuePairObject(Of String, String())
 
-        Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).Identifier
+        Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).Key
             Get
                 Return MyBase.EntryId
             End Get

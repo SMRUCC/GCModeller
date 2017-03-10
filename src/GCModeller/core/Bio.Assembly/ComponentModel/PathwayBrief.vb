@@ -36,7 +36,7 @@ Namespace ComponentModel
         Implements INamedValue
 
         <XmlAttribute>
-        Public Overridable Property EntryId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, String).Identifier
+        Public Overridable Property EntryId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, String).Key
         Public Property Description As String Implements IKeyValuePairObject(Of String, String).Value
 
         ''' <summary>
