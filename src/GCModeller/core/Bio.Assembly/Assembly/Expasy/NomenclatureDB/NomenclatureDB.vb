@@ -91,7 +91,7 @@ Namespace Assembly.Expasy.Database
                 Return LQuery.IteratesALL.Distinct.ToArray
             Else
                 Return (From id As String
-                        In Enzymes.GetItem(ECNumber).SwissProt
+                        In Enzymes.Take(ECNumber).SwissProt
                         Where Not String.IsNullOrEmpty(id)
                         Select id
                         Distinct).ToArray
