@@ -288,7 +288,8 @@
     <Compile Include="Assembly\KEGG\Medical\Drug.vb" />
     <Compile Include="Assembly\KEGG\Medical\DrugParser.vb" />
     <Compile Include="Assembly\KEGG\Medical\DiseaseParser.vb" />
-    <Compile Include="Assembly\KEGG\PathwayMapping.vb" />
+    <Compile Include="Assembly\KEGG\Extensions.vb" />
+    <Compile Include="Assembly\KEGG\Web\PathwayMapping.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\htext.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModsBrite.vb" />
@@ -299,7 +300,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Ortholog.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\SShit.vb" />
-    <Compile Include="Assembly\KEGG\QueryEntry.vb" />
+    <Compile Include="Assembly\KEGG\Web\QueryEntry.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Pathway.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Module.vb" />
@@ -313,9 +314,9 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Orthology.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\ReferenceMap\Reaction.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb" />
-    <Compile Include="Assembly\KEGG\AllLinksWidget.vb" />
+    <Compile Include="Assembly\KEGG\Web\Form\AllLinksWidget.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\API.vb" />
-    <Compile Include="Assembly\KEGG\Web\Extensions.vb" />
+    <Compile Include="Assembly\KEGG\Web\Form\Extensions.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\ObjectModel.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\Loader.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ObjectBase\IComplexes.vb" />
@@ -436,7 +437,7 @@
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\TSV.vb" />
     <Compile Include="Assembly\EBI.ChEBI\WebServices.vb" />
     <Compile Include="Assembly\Expasy\EnzymeClass.vb" />
-    <Compile Include="Assembly\KEGG\Web\WebForm.vb" />
+    <Compile Include="Assembly\KEGG\Web\Form\WebForm.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\PropertyAttributes.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\TransportReactions.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\EquationEquals.vb" />
@@ -502,7 +503,7 @@
     <Compile Include="Assembly\MiST2\DocArchive\Domain.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\KEGGOrganism.vb" />
     <Compile Include="Assembly\KEGG\Archives\SequenceDump.vb" />
-    <Compile Include="Assembly\KEGG\WebRequest.vb" />
+    <Compile Include="Assembly\KEGG\Web\WebRequest.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\PathwayLink.vb" />
     <Compile Include="Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb" />
     <Compile Include="SequenceModel\FASTA\Reflection\Attributes.vb" />

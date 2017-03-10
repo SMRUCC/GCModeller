@@ -25,6 +25,58 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property OtherDBs As KeyValuePair()
         Public Property Modules As KeyValuePair()
 
+        ''' <summary>
+        ''' Split of the <see cref="GeneName"/> property value
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property MyNames As String()
+            Get
+                Return GeneName.Replace("'", "").Trim.StringSplit(",\s+")
+            End Get
+        End Property
+
+        Public ReadOnly Property MyPositions As String()
+            Get
+                Return Position.StringSplit("\s+and\s+")
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' + 两个都匹配，则返回2
+        ''' + 匹配任意一个，则返回1
+        ''' + 匹配不上任何一个，则返回0
+        ''' </summary>
+        ''' <param name="pos$"></param>
+        ''' <param name="symbol$"></param>
+        ''' <returns></returns>
+        Public Function Match(pos$, symbol$) As Integer
+            Dim n%
+
+            n += If(MatchAnyPosition(pos), 1, 0)
+            n += If(MatchAnyName(symbol), 1, 0)
+
+            Return n
+        End Function
+
+        Public Function MatchAnyPosition(pos$) As Boolean
+            Return Not MyPositions _
+                .Where(Function(l) l.TextEquals(pos)) _
+                .FirstOrDefault _
+                .StringEmpty
+        End Function
+
+        ''' <summary>
+        ''' 目标输入的基因名称符号能够匹配上这个基因对象的任意一个名称
+        ''' </summary>
+        ''' <param name="symbol$"></param>
+        ''' <returns></returns>
+        Public Function MatchAnyName(symbol$) As Boolean
+            Return Not MyNames _
+                .Where(Function(s$) s.TextEquals(symbol)) _
+                .FirstOrDefault _
+                .StringEmpty
+        End Function
+
         Public Overrides Function ToString() As String
             Return Definition.ToString
         End Function

@@ -1,9 +1,9 @@
 ﻿
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
