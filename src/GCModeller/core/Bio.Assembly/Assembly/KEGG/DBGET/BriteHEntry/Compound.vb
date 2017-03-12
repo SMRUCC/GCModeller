@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
@@ -232,6 +233,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Else
                         Call cpd.GetXml.SaveTo(xml)
                     End If
+
+                    Call Thread.Sleep(1000)
                 End If
 
                 Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"

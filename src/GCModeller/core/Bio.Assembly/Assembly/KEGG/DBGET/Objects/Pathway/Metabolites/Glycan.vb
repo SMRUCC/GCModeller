@@ -55,13 +55,18 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Const URL = "http://www.kegg.jp/dbget-bin/www_bget?gl:{0}"
 
-        Public Overloads Shared Function Download(Id As String) As Glycan
-            Return DownloadFrom(url:=String.Format(URL, Id))
+        ''' <summary>
+        ''' 使用glycan编号来下载数据模型
+        ''' </summary>
+        ''' <param name="ID$"></param>
+        ''' <returns></returns>
+        Public Overloads Shared Function Download(ID$) As Glycan
+            Return DownloadFrom(url:=String.Format(URL, ID))
         End Function
 
         Public Overloads Shared Function DownloadFrom(url As String) As Glycan
-            Dim WebForm As New WebForm(url)
-            Dim base As Compound = WebForm.ParseCompound
+            Dim html As New WebForm(url)
+            Dim base As Compound = html.ParseCompound
             Dim gl As New Glycan(base._DBLinks) With {
                 .Entry = base.Entry,
                 .CommonNames = base.CommonNames,
@@ -73,9 +78,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .ExactMass = base.ExactMass,
                 .Formula = base.Formula,
                 .Enzyme = base.Enzyme,
-                .Composition = WebForm.GetText("Composition"),
-                .Mass = WebForm.GetText("Mass"),
-                .Orthology = __parseOrthology(WebForm("Orthology").FirstOrDefault)
+                .Composition = html.GetText("Composition"),
+                .Mass = html.GetText("Mass"),
+                .Orthology = __parseOrthology(html("Orthology").FirstOrDefault)
             }
 
             Return gl
