@@ -96,74 +96,80 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <summary>
         ''' Pathway和Module的格式都是一样的，所以在这里通过<paramref name="type"/>参数来控制对象的类型
         ''' </summary>
-        ''' <param name="s_Value"></param>
+        ''' <param name="html"></param>
         ''' <param name="type"></param>
         ''' <returns></returns>
-        Public Function __parseHTML_ModuleList(s_Value As String, type As LIST_TYPES) As KeyValuePair()
-            If String.IsNullOrEmpty(s_Value) Then
-                Return Nothing
+        Public Function __parseHTML_ModuleList(html$, type As LIST_TYPES) As KeyValuePair()
+            If String.IsNullOrEmpty(html) Then
+                Return {}
             End If
 
-            Dim SplitRegex As String = ""
+            Dim splitRegex As String = ""
 
             Select Case type
                 Case LIST_TYPES.Disease
-                    SplitRegex = "<a href=""/dbget-bin/www_bget\?ds:H.+?"">.+?"
+                    splitRegex = "<a href=""/dbget-bin/www_bget\?ds:H.+?"">.+?"
                 Case LIST_TYPES.Module
-                    SplitRegex = MODULE_SPLIT
+                    splitRegex = MODULE_SPLIT
                 Case LIST_TYPES.Pathway
-                    SplitRegex = PATHWAY_SPLIT
+                    splitRegex = PATHWAY_SPLIT
             End Select
 
-            Dim sbuf As String() = Regex.Matches(s_Value, SplitRegex).ToArray.Distinct.ToArray
-            Dim ModuleList As New List(Of KeyValuePair)
+            Dim sbuf As String() = Regex _
+                .Matches(html, splitRegex) _
+                .ToArray _
+                .Distinct _
+                .ToArray
+            Dim out As New List(Of KeyValuePair)
 
             Select Case type
                 Case LIST_TYPES.Disease
-                    SplitRegex = "<a href=""/dbget-bin/www_bget\?ds:H.+?"">.+?</a>"
+                    splitRegex = "<a href=""/dbget-bin/www_bget\?ds:H.+?"">.+?</a>"
                 Case LIST_TYPES.Module
-                    SplitRegex = "<a href=""/kegg-bin/show_module.+?"">.+?</a>"
+                    splitRegex = "<a href=""/kegg-bin/show_module.+?"">.+?</a>"
                 Case LIST_TYPES.Pathway
-                    SplitRegex = "<a href=""/kegg-bin/show_pathway.+?"">.+?</a>"
+                    splitRegex = "<a href=""/kegg-bin/show_pathway.+?"">.+?</a>"
             End Select
 
-            For i As Integer = 0 To sbuf.Count - 2
-                Dim p1 As Integer = InStr(s_Value, sbuf(i))
-                Dim p2 As Integer = InStr(s_Value, sbuf(i + 1))
+            For i As Integer = 0 To sbuf.Length - 2
+                Dim p1 As Integer = InStr(html, sbuf(i))
+                Dim p2 As Integer = InStr(html, sbuf(i + 1))
                 Dim len As Integer = p2 - p1
-                Dim strTemp As String = Mid(s_Value, p1, len)
+                Dim strTemp As String = Mid(html, p1, len)
 
-                Dim ModuleEntry As String = Regex.Match(strTemp, SplitRegex).Value
-                Dim ModuleFunction As String = strTemp.Replace(ModuleEntry, "").Trim
+                Dim entry As String = Regex.Match(strTemp, splitRegex).Value
+                Dim func$ = strTemp.Replace(entry, "").Trim
 
-                ModuleEntry = ModuleEntry.GetValue
-                ModuleFunction = WebForm.RemoveHrefLink(ModuleFunction)
+                entry = entry.GetValue
+                func = WebForm.RemoveHrefLink(func)
 
-                ModuleList += New KeyValuePair With {
-                    .Key = ModuleEntry,
-                    .Value = ModuleFunction
+                out += New KeyValuePair With {
+                    .Key = entry,
+                    .Value = func
                 }
             Next
 
-            Dim p As Integer = InStr(s_Value, sbuf.Last)
-            s_Value = Mid(s_Value, p)
-            Dim LastEntry As New KeyValuePair With {
-                .Key = Regex.Match(s_Value, SplitRegex).Value,
-                .Value = WebForm.RemoveHrefLink(s_Value.Replace(.Key, "").Trim)
+            Dim p As Integer = InStr(html, sbuf.Last)
+            html = Mid(html, p)
+            Dim lastEntry As New KeyValuePair With {
+                .Key = Regex.Match(html, splitRegex).Value,
+                .Value = WebForm.RemoveHrefLink(html.Replace(.Key, "").Trim)
             }
-            LastEntry.Key = LastEntry.Key.GetValue
+            ' 由于解析value属性的时候还需要使用到key的原始字符串数据
+            ' 所以key的最后解析放在初始化代码外
+            lastEntry.Key = lastEntry.Key.GetValue
 
-            Call ModuleList.Add(LastEntry)
+            Call out.Add(lastEntry)
 
-            For Each x In ModuleList
+            For Each x As KeyValuePair In out
                 x.Key = x.Key.StripHTMLTags.StripBlank
                 x.Value = x.Value.StripHTMLTags.StripBlank
             Next
 
-            Return ModuleList.ToArray
+            Return out.ToArray
         End Function
 
-        Enum LIST_TYPES As Integer
+        Friend Enum LIST_TYPES As Integer
             [Module]
             [Pathway]
             [Disease]

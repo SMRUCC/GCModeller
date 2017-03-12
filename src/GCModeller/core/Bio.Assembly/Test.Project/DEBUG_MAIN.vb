@@ -33,6 +33,7 @@ Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
@@ -65,6 +66,18 @@ Module DEBUG_MAIN
     End Sub
 
     Sub Main()
+
+        Dim cpdTest As KEGG.DBGET.bGetObject.Compound = MetabolitesDBGet.DownloadCompoundFrom("G:\GCModeller\GCModeller\test\KEGG\dbget\cpd_Test.html") 'MetabolitesDBGet.DownloadCompound("C00311")
+
+        ' Call "http://www.kegg.jp/dbget-bin/www_bget?gl:G00112".GET.SaveTo("x:\gl_Test.html")
+
+
+        Dim KEGG_gl As Glycan = Glycan.DownloadFrom("G:\GCModeller\GCModeller\test\KEGG\dbget\gl_Test.html")
+
+        Pause()
+
+
+
 
         Dim gene = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.KEGGgenomeFetch.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\human_gene.html")
 
@@ -201,7 +214,7 @@ Module DEBUG_MAIN
         Dim compound As Compounds = Compounds.LoadCompoundsData("G:\1.13.RegPrecise_network\FBA\xcam314565\19.0\data\compounds.dat")
 
 
-        Dim rxn = bGetObject.Reaction.DownloadFrom("http://www.genome.jp/dbget-bin/www_bget?rn:R00086")
+        Dim rxn = KEGG.DBGET.bGetObject.Reaction.DownloadFrom("http://www.genome.jp/dbget-bin/www_bget?rn:R00086")
         Dim modelssss = rxn.ReactionModel
 
         Call rxn.SaveAsXml("x:\safsdsdfsd____rxn.xml")
@@ -210,7 +223,7 @@ Module DEBUG_MAIN
         Dim model = CompilerAPI.Compile("F:\1.13.RegPrecise_network\Cellular Phenotypes\KEGG_Pathways", "F:\1.13.RegPrecise_network\Cellular Phenotypes\KEGG_Modules", "F:\GCModeller\KEGG\Reactions", "xcb")
         Call model.SaveAsXml("x:\dfsasdfsdf.kegg.xml")
 
-        Dim rxns = FileIO.FileSystem.GetFiles("F:\GCModeller\KEGG\Reactions", FileIO.SearchOption.SearchAllSubDirectories, "*.xml").ToArray(Function(x) x.LoadXml(Of bGetObject.Reaction))
+        Dim rxns = FileIO.FileSystem.GetFiles("F:\GCModeller\KEGG\Reactions", FileIO.SearchOption.SearchAllSubDirectories, "*.xml").ToArray(Function(x) x.LoadXml(Of KEGG.DBGET.bGetObject.Reaction))
 
 
 

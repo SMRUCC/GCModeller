@@ -64,8 +64,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Pathway As String()
         Public Property [Module] As String()
         Public Property Remarks As String()
+        Public Property Enzyme As String()
 
-        Dim _DBLinks As DBLinks
+        Protected Friend _DBLinks As DBLinks
         Public Property DbLinks As String() 'Implements MetaCyc.Schema.CompoundsMapping.ICompoundObject.DBLinks
             Get
                 If _DBLinks Is Nothing Then
