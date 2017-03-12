@@ -184,7 +184,7 @@ Partial Module CLI
         Next
 
         Call lst.AddRange(rDomains)
-        PfamString.PfamString = lst.ToArray(Function(x) $"{x.Identifier}({x.Position.Left}|{x.Position.Right})")
+        PfamString.PfamString = lst.ToArray(Function(x) $"{x.Name}({x.Position.Left}|{x.Position.Right})")
 
         Return PfamString
     End Function

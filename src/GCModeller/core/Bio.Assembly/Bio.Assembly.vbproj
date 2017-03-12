@@ -282,6 +282,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Disease.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb" />
     <Compile Include="Assembly\KEGG\Medical\DrugGroup.vb" />
     <Compile Include="Assembly\KEGG\Medical\Disease.vb" />
@@ -307,7 +308,7 @@
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\EnzymaticReaction.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\bGetObject.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\KEGGgenes.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Glycan.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Reference.vb" />
@@ -447,7 +448,7 @@
     <Compile Include="Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Equation.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\OrthologREST.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Compound.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\Pathways.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Species.vb" />

@@ -179,6 +179,7 @@
     <Compile Include="3D\Scatter.vb" />
     <Compile Include="3D\Data.vb" />
     <Compile Include="BarPlot\Histogram\Extensions.vb" />
+    <Compile Include="BarPlot\StyledBarplot.vb" />
     <Compile Include="csv\Extensions.vb" />
     <Compile Include="g\Axis\Axis.vb" />
     <Compile Include="BarPlot\BarPlot2.vb" />
@@ -193,6 +194,7 @@
     <Compile Include="g\Axis\AxisScalling.vb" />
     <Compile Include="g\Axis\AxisData.vb" />
     <Compile Include="g\Axis\Styles.vb" />
+    <Compile Include="g\DataScaler.vb" />
     <Compile Include="g\Mapper.vb" />
     <Compile Include="g\ProfileGroup.vb" />
     <Compile Include="g\Legends\LegendPlot.vb" />

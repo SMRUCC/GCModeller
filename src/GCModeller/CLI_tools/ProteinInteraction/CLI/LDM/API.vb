@@ -44,7 +44,7 @@ Public Module API
             .ProteinId = title,
             .PfamString = fD.ToArray(Function(x) x.ToString),
             .Length = SRChain.Length,
-            .Domains = (From x In fD Select x.Identifier Distinct).ToArray
+            .Domains = (From x In fD Select x.Name Distinct).ToArray
         }
         Return PfamString
     End Function
@@ -57,7 +57,7 @@ Public Module API
             New ComponentModel.Loci.Location(index.Min, index.Max))
         srchain = (From x In srchain Select x Order By x.Index Ascending).ToArray
         Return New ProteinModel.DomainObject With {
-            .Identifier = New String(srchain.ToArray(Function(x) x.Residue)),
+            .Name = New String(srchain.ToArray(Function(x) x.Residue)),
             .Position = pos
         }
     End Function

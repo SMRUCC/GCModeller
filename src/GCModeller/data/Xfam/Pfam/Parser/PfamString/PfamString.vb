@@ -114,10 +114,10 @@ Namespace PfamString
                 Dim current = ChunkBuffer(i)
                 Dim [next] = ChunkBuffer(i + 1)
 
-                If IsChouFasmanData(current.Identifier) Then
+                If IsChouFasmanData(current.Name) Then
                     Dim Data = current.CopyTo(Of DomainObject)()
                     Data.ProteinId = ProteinId
-                    Data.Id_Handle = String.Format("{0}_{1}*{2}_{3}", previous.Identifier, i - 1, [next].Identifier, i + 1)
+                    Data.Id_Handle = String.Format("{0}_{1}*{2}_{3}", previous.Name, i - 1, [next].Name, i + 1)
 
                     Call ChunkList.Add(Data)
                 End If
@@ -148,7 +148,7 @@ Namespace PfamString
                 LQuery = (From domainData As ProteinModel.DomainObject
                           In LQuery
                           Select domainData
-                          Order By domainData.Identifier, domainData.Position.Left Ascending).ToArray
+                          Order By domainData.Name, domainData.Position.Left Ascending).ToArray
             End If
 
             Return LQuery

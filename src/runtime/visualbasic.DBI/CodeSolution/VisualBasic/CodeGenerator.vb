@@ -225,7 +225,7 @@ Namespace VisualBasic
             Dim CodeGenerator As New StringBuilder("''' <summary>" & vbCrLf)
             Dim DBName As String = Table.Database
             Dim refConflict As Boolean = Not String.IsNullOrEmpty((From field As String
-                                                               In Table.lstFieldName
+                                                               In Table.FieldNames
                                                                    Where String.Equals(field, "datatype", StringComparison.OrdinalIgnoreCase)
                                                                    Select field).FirstOrDefault)
             If Not String.IsNullOrEmpty(DBName) Then
@@ -436,7 +436,7 @@ NO_KEY:
         ''' <returns></returns>
         Private Function __getExprInvoke(Field As Reflection.Schema.Field, dtype_conflicts As Boolean) As String
             If Field.DataType.MySQLType = Reflection.DbAttributes.MySqlDbType.Date OrElse
-            Field.DataType.MySQLType = Reflection.DbAttributes.MySqlDbType.DateTime Then
+                Field.DataType.MySQLType = Reflection.DbAttributes.MySqlDbType.DateTime Then
                 If dtype_conflicts Then
                     Dim ref As String = GetType(Reflection.DbAttributes.DataType).FullName
                     Return $"{ref}.ToMySqlDateTimeString({TrimKeyword(Field.FieldName)})"

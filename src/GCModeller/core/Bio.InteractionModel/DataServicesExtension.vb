@@ -46,7 +46,7 @@ Imports Microsoft.VisualBasic.Data.csv
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Tag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Double()).Identifier
+        Public Property Tag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Double()).Key
         ''' <summary>
         ''' 该样品的实验数据
         ''' </summary>

@@ -1,39 +1,40 @@
 ﻿#Region "Microsoft.VisualBasic::277738347653512c6c03fabf00aa2237, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Glycan.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
-Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -64,9 +65,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim Compound As New Glycan With {
                 .Entry = Regex.Match(WebForm.GetValue("Entry").FirstOrDefault, "[GC]\d+").Value
             }
-            Compound.CommonNames = KEGG.DBGET.bGetObject.Compound.GetCommonNames(WebForm.GetValue("Name").FirstOrDefault())
+            Compound.CommonNames = MetabolitesDBGet.GetCommonNames(WebForm.GetValue("Name").FirstOrDefault())
             Compound.Composition = WebForm.GetValue("Composition").FirstOrDefault.Replace("<br>", "")
-            Compound.Reactions = KEGG.DBGET.bGetObject.Compound.GetReactionList(WebForm.GetValue("Reaction").FirstOrDefault)
+            Compound.Reactions = WebForm.GetValue("Reaction").FirstOrDefault.GetLinks
             Compound.Pathway = LinqAPI.Exec(Of String) <=
  _
                 From x As KeyValuePair
@@ -79,7 +80,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 In InternalWebFormParsers.WebForm.parseList(modules, show_module)
                 Select String.Format("[{0}] {1}", x.Key, x.Value)
 
-            Compound._DBLinks = KEGG.DBGET.bGetObject.Compound.GetDBLinks(WebForm.GetValue("Other DBs").FirstOrDefault)
+            Compound._DBLinks = MetabolitesDBGet.GetDBLinks(WebForm.GetValue("Other DBs").FirstOrDefault)
             Compound.Mass = Val(WebForm.GetValue("Mass").FirstOrDefault)
 
             If Compound.CommonNames.IsNullOrEmpty Then
@@ -95,7 +96,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .CommonNames = CommonNames,
                 .DbLinks = DbLinks,
                 .Formula = Me.Composition,
-                .InvolvedReactions = Reactions,
+                .KEGG_reaction = Reactions,
                 .Module = Me.Module,
                 .MolWeight = Val(Mass),
                 .Pathway = Pathway

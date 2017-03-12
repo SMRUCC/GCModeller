@@ -57,9 +57,9 @@ Partial Module CLI
                           In pfamString
                           Let motifs As ProteinModel.DomainObject() = x.GetDomainData(False)
                           Select motifs).IteratesALL
-                      Select motif.Identifier
-                      Group Identifier By Identifier Into Count)
-        Dim result = (From x In LQuery Select x.Identifier, density = x.Count / n Order By density Descending).ToArray
+                      Select motif.Name
+                      Group Name By Name Into Count)
+        Dim result = (From x In LQuery Select x.Name, density = x.Count / n Order By density Descending).ToArray
         Return result.SaveTo(out)
     End Function
 
@@ -92,13 +92,13 @@ Partial Module CLI
     <ExportAPI("--align.Function",
                Info:="Protein function annotation by using MPAlignment algorithm.")>
     Public Function AlignFunction(args As CommandLine) As Integer
-
+        Throw New NotImplementedException
     End Function
 
     <ExportAPI("--align.PPI",
                Info:="Protein-Protein interaction network annotation by using MPAlignment algorithm.")>
     Public Function MplPPI(args As CommandLine) As Integer
-
+        Throw New NotImplementedException
     End Function
 
     ''' <summary>
@@ -118,6 +118,7 @@ Partial Module CLI
         Dim alignOut = Align(query, Db, score, cutoff)
         Dim outDIR As String = args.GetValue("/out", queryFile.ParentPath & "/PPI_MPAlignment/")
         '    Return __getReport(Db, query, alignOut, score, outDIR)
+        Throw New NotImplementedException
     End Function
 
     Private Function __getReport(Db As Category,
