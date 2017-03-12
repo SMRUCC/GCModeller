@@ -54,10 +54,10 @@ Partial Module CLI
     Public Function DownloadPathwayMaps(args As CommandLine) As Integer
         Dim sp As String = args("/sp")
         Dim EXPORT As String = args.GetValue("/out", App.CurrentDirectory & "/" & sp)
-
-        Call LinkDB.Pathways.Downloads(sp, EXPORT).ToArray
-
-        Return 0
+        Return LinkDB.Pathways _
+            .Downloads(sp, EXPORT) _
+            .SaveTo(EXPORT & "/failures.txt") _
+            .CLICode
     End Function
 
     ''' <summary>
