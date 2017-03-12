@@ -62,5 +62,15 @@ Namespace Assembly.KEGG
         Public Function IDlistStrings(tag$, list$()) As String
             Return $"{tag}:{list.JoinBy(" ")}"
         End Function
+
+        ''' <summary>
+        ''' 检测判断所输入的字符串是否是符合格式要求的？
+        ''' </summary>
+        ''' <param name="s$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function ValidateEntryFormat(s$) As Boolean
+            Return s.MatchPattern("[a-z]+\d+")
+        End Function
     End Module
 End Namespace

@@ -156,7 +156,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim pathwayMap As New PathwayMap With {
                 .Brite = entry,
                 .EntryId = entry.EntryId,
-                .Name = WebForm.StripName(webForm.GetValue("Name").FirstOrDefault).StripHTMLTags.StripBlank,
+                .Name = webForm.GetValue("Name").FirstOrDefault.Strip_NOBR.StripHTMLTags.StripBlank,
                 .Description = .Name
             }
 
@@ -235,7 +235,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                         rtvl -= 1
                         GoTo EXIT_LOOP
                     Else
-                        Call DownloadPathwayMap("map", EntryId, SaveLocationDir:=SaveToDir)
+                        Call DownloadPathwayMap("map", EntryId, EXPORT:=SaveToDir)
                         Call Pathway.SetMapImage(LoadImage(PngFile))
                         Call Pathway.SaveAsXml(XmlFile)
                         Call Thread.Sleep(10000)

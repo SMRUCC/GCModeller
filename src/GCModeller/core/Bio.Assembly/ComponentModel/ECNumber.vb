@@ -130,5 +130,23 @@ Namespace ComponentModel
         Public Overrides Function ToString() As String
             Return String.Format("EC-{0}.{1}.{2}.{3}", CInt(Type), SubType, SubCategory, SerialNumber)
         End Function
+
+        ''' <summary>
+        ''' ```
+        ''' 1.2.3.4
+        ''' 1.2.3.-
+        ''' 1.2.-.-
+        ''' ```
+        ''' </summary>
+        Public Const RegexEC$ = "\d+(\.((\d+)|[-]))+"
+
+        ''' <summary>
+        ''' 验证所输入的字符串的格式是否正确
+        ''' </summary>
+        ''' <param name="s$"></param>
+        ''' <returns></returns>
+        Public Shared Function ValidateValue(s$) As Boolean
+            Return s.MatchPattern(regex:=RegexEC)
+        End Function
     End Class
 End Namespace

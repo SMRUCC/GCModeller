@@ -113,7 +113,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         Const MODULE_PATTERN As String = "<a href=""/kegg-bin/show_module\?M\d+.+?\[PATH:.+?</a>\]"
 
         Public Function GetGeneOrthology(refRxn As ReferenceMap.ReferenceReaction) As KeyValuePairObject(Of KEGG.WebServices.ListEntry, KeyValuePairObject(Of String, SequenceModel.FASTA.FastaToken)())()
-            Dim LQuery = (From ort In refRxn.SSDBs Where _refGeneOrthology.ContainsKey(ort.Key) Select _refGeneOrthology(ort.Key)).ToArray
+            Dim LQuery = (From ort In refRxn.SSDBs Where _refGeneOrthology.ContainsKey(ort.Name) Select _refGeneOrthology(ort.Name)).ToArray
             Return LQuery
         End Function
 
@@ -137,21 +137,23 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
 
             sValue = Form("Module").FirstOrDefault
             If Not String.IsNullOrEmpty(sValue) Then
-                RefMap.Module = LinqAPI.Exec(Of KeyValuePair)() <= From m As Match
-                                                                                  In Regex.Matches(sValue, MODULE_PATTERN)
-                                                                   Let str As String = m.Value
-                                                                   Let ModID As String = Regex.Match(str, "M\d+").Value
-                                                                   Let descr As String = str.Replace(String.Format("<a href=""/kegg-bin/show_module?{0}"">{0}</a>", ModID), "").Trim
-                                                                   Select New KeyValuePair With {
-                                                                                        .Key = ModID,
-                                                                                        .Value = Regex.Replace(descr, "<a href=""/kegg-bin/show_pathway?map\d+\+M\d+"">map\d+</a>", ModID)
-                                                                                  }
+                RefMap.Module = LinqAPI.Exec(Of KeyValuePair)() <=
+ _
+                    From m As Match
+                    In Regex.Matches(sValue, MODULE_PATTERN)
+                    Let str As String = m.Value
+                    Let ModID As String = Regex.Match(str, "M\d+").Value
+                    Let descr As String = str.Replace(String.Format("<a href=""/kegg-bin/show_module?{0}"">{0}</a>", ModID), "").Trim
+                    Select New KeyValuePair With {
+                        .Key = ModID,
+                        .Value = Regex.Replace(descr, "<a href=""/kegg-bin/show_pathway?map\d+\+M\d+"">map\d+</a>", ModID)
+                    }
             End If
 
             sValue = Form("Disease").FirstOrDefault
             If Not String.IsNullOrEmpty(sValue) Then
                 RefMap.Disease = LinqAPI.Exec(Of KeyValuePair) <= From m As Match
-                                                                                 In Regex.Matches(sValue, "<a href=""/dbget-bin/www_bget\?ds:H.+?"">H.+?</a> [^<]+")
+                                                                  In Regex.Matches(sValue, "<a href=""/dbget-bin/www_bget\?ds:H.+?"">H.+?</a> [^<]+")
                                                                   Let str As String = m.Value
                                                                   Select __diseaseParser(str)
             End If

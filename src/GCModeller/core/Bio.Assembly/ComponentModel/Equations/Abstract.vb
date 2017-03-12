@@ -49,4 +49,20 @@ Namespace ComponentModel.EquaionModel
         Property Products As TCompound()
         Property Reversible As Boolean
     End Interface
+
+    Public Interface ICompoundObject : Inherits INamedValue
+        Property CommonNames As String()
+        Property PUBCHEM As String
+        ''' <summary>
+        ''' ChEBI ID list
+        ''' </summary>
+        ''' <returns></returns>
+        Property CHEBI As String()
+
+        ''' <summary>
+        ''' KEGG compound ID
+        ''' </summary>
+        ''' <returns></returns>
+        Property KEGG_cpd As String
+    End Interface
 End Namespace

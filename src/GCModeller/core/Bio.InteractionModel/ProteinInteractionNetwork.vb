@@ -40,7 +40,7 @@ Public Class ProteinInteractionNetwork
 
     Public Class Interaction : Implements IKeyValuePairObject(Of String, String())
 
-        <XmlAttribute> Public Property Protein As String Implements IKeyValuePairObject(Of String, String()).Identifier
+        <XmlAttribute> Public Property Protein As String Implements IKeyValuePairObject(Of String, String()).Key
         Public Property InteractionWith As String() Implements IKeyValuePairObject(Of String, String()).Value
 
         Public Overrides Function ToString() As String

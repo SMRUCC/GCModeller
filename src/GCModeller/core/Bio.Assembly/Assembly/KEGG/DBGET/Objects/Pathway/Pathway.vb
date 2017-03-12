@@ -1,39 +1,38 @@
 ﻿#Region "Microsoft.VisualBasic::30740070bbe85043e75f87047c6f9c34, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Pathway.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text.HtmlParser
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
+Imports Microsoft.VisualBasic.Terminal
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -68,7 +67,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property Compound As KeyValuePair()
-
+        Public Property Drugs As KeyValuePair()
+        Public Property OtherDBs As KeyValuePair()
         Public Property PathwayMap As KeyValuePair
 
         Public Property Genes As KeyValuePair()
@@ -158,46 +158,69 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="sp">The brief code of the target genome species in KEGG database.(目标基因组在KEGG数据库之中的简写编号.)</param>
         ''' <param name="EXPORT"></param>
-        ''' <returns>返回成功下载的代谢途径的数目</returns>
+        ''' <returns>函数返回下载失败的代谢途径的编号代码</returns>
         ''' <remarks></remarks>
-        Public Shared Function Download(sp As String, EXPORT As String, Optional BriefFile As String = "") As Integer
-            Dim BriefEntries As KEGG.DBGET.BriteHEntry.Pathway() =
-                If(String.IsNullOrEmpty(BriefFile),
-                   KEGG.DBGET.BriteHEntry.Pathway.LoadFromResource,
-                   KEGG.DBGET.BriteHEntry.Pathway.LoadData(BriefFile))
+        Public Shared Function Download(sp$, EXPORT As String, Optional briefFile$ = "") As String()
+            Dim source As BriteHEntry.Pathway() = __source(briefFile)
+            Dim failures As New List(Of String)
 
-            For Each Entry As KEGG.DBGET.BriteHEntry.Pathway In BriefEntries
-                Dim EntryId As String = String.Format("{0}{1}", sp, Entry.Entry.Key)
-                Dim SaveToDir As String = BriteHEntry.Pathway.CombineDIR(Entry, EXPORT)
+            Using progress As New ProgressBar("Download KEGG pathway data for " & sp,, cls:=True)
+                Dim tick As New ProgressProvider(source.Length)
+                Dim ETA$
 
-                Dim XmlFile As String = String.Format("{0}/{1}.xml", SaveToDir, EntryId)
-                Dim PngFile As String = String.Format("{0}/{1}.png", SaveToDir, EntryId)
+                For Each entry As KEGG.DBGET.BriteHEntry.Pathway In source
+                    Dim EntryID As String = String.Format("{0}{1}", sp, entry.Entry.Key)
+                    Dim saveDIR As String = BriteHEntry.Pathway.CombineDIR(entry, EXPORT)
 
-                If XmlFile.FileExists AndAlso PngFile.FileExists Then
-                    Continue For
-                End If
+                    Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryID)
+                    Dim png As String = String.Format("{0}/{1}.png", saveDIR, EntryID)
 
-                Dim Pathway As Pathway = DownloadPage(sp, Entry.Entry.Key)
+                    If xml.FileExists AndAlso png.FileExists Then
+                        Continue For
+                    End If
 
-                If Pathway Is Nothing Then
-                    Call $"[{sp}] {Entry.ToString} is not exists in the KEGG!".__DEBUG_ECHO
-                    Continue For
-                End If
+                    Dim pathway As Pathway = DownloadPage(sp, entry.Entry.Key)
 
-                Call DownloadPathwayMap(sp, Entry.Entry.Key, SaveLocationDir:=SaveToDir)
-                Call Pathway.GetXml.SaveTo(XmlFile)
-            Next
+                    If pathway Is Nothing Then
+                        Call $"[{sp}] {entry.ToString} is not exists in the KEGG!".__DEBUG_ECHO
+                        failures += EntryID
+                    Else
+                        Call pathway.GetXml.SaveTo(xml)
+                        Call DownloadPathwayMap(sp, entry.Entry.Key, EXPORT:=saveDIR)
+                        Call Thread.Sleep(1000)
+                    End If
+Exit_LOOP:
+                    ETA = "ETA:= " & tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                    Call progress.SetProgress(tick.StepProgress, ETA)
+                Next
+            End Using
 
-            Return 0
+            Return failures
         End Function
 
-        Public Shared Function DownloadPathwayMap(SpeciesCode As String, Entry As String, SaveLocationDir As String) As Boolean
-            Dim Url As String = String.Format("http://www.genome.jp/kegg/pathway/{0}/{0}{1}.png", SpeciesCode, Entry)
-            Return Url.DownloadFile(String.Format("{0}/{1}{2}.png", SaveLocationDir, SpeciesCode, Entry))
+        Private Shared Function __source(path$) As BriteHEntry.Pathway()
+            If path.FileLength = 0 Then
+                Return BriteHEntry.Pathway.LoadFromResource
+            Else
+                Return BriteHEntry.Pathway.LoadData(path)
+            End If
         End Function
 
-        Public Shared Function DownloadPage(SpeciesCode As String, Entry As String) As Pathway
-            Return DownloadPage(url:=String.Format(PATHWAY_DBGET, SpeciesCode, Entry))
+        ''' <summary>
+        ''' 下载pathway的图片
+        ''' </summary>
+        ''' <param name="sp$"></param>
+        ''' <param name="entry$"></param>
+        ''' <param name="EXPORT$"></param>
+        ''' <returns></returns>
+        Public Shared Function DownloadPathwayMap(sp$, entry$, EXPORT$) As Boolean
+            Dim url As String = $"http://www.genome.jp/kegg/pathway/{sp}/{sp}{entry}.png"
+            Dim path$ = String.Format("{0}/{1}{2}.png", EXPORT, sp, entry)
+            Return url.DownloadFile(save:=path)
+        End Function
+
+        Public Shared Function DownloadPage(sp As String, Entry As String) As Pathway
+            Return DownloadPage(url:=String.Format(PATHWAY_DBGET, sp, Entry))
         End Function
 
         ''' <summary>
@@ -206,28 +229,41 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <param name="url"></param>
         ''' <returns></returns>
         Public Shared Function DownloadPage(url As String) As Pathway
-            Return url.PageParser
+#If Not DEBUG Then
+            Try
+#End If
+                Return url.PageParser
+#If Not DEBUG Then
+            Catch ex As Exception
+                ex = New Exception(url, ex)
+                Call ex.PrintException
+                Throw ex
+            End Try
+#End If
         End Function
 
         Public Shared Function GetCompoundCollection(source As IEnumerable(Of Pathway)) As String()
-            Dim CompoundList As New List(Of String)
+            Dim out As New List(Of String)
 
             For Each pwy As Pathway In source
                 If pwy.Compound.IsNullOrEmpty Then
                     Continue For
                 End If
 
-                CompoundList += From met As KeyValuePair
-                                In pwy.Compound
-                                Select met.Key
+                out += From met As KeyValuePair
+                       In pwy.Compound
+                       Select met.Key
             Next
 
-            Return LinqAPI.Exec(Of String) <= From sId As String
-                                              In CompoundList
-                                              Where Not String.IsNullOrEmpty(sId)
-                                              Select sId
-                                              Distinct
-                                              Order By sId Ascending
+            Return LinqAPI.Exec(Of String) <=
+ _
+                From sId As String
+                In out
+                Where Not String.IsNullOrEmpty(sId)
+                Select sId
+                Distinct
+                Order By sId Ascending
+
         End Function
 
         ''' <summary>
@@ -236,9 +272,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <param name="ImportsDIR"></param>
         ''' <returns></returns>
         Public Shared Function GetCompoundCollection(ImportsDIR As String) As String()
-            Dim LQuery As IEnumerable(Of Pathway) = From xml As String
-                                                    In ls - l - r - wildcards("*.xml") <= ImportsDIR
-                                                    Select xml.LoadXml(Of Pathway)()
+            Dim LQuery As IEnumerable(Of Pathway) =
+ _
+                From xml As String
+                In ls - l - r - wildcards("*.xml") <= ImportsDIR
+                Select xml.LoadXml(Of Pathway)()
+
             Return GetCompoundCollection(LQuery)
         End Function
 
@@ -248,57 +287,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         Public Overrides Function GetPathwayGenes() As String()
             If Genes.IsNullOrEmpty Then
-                Call $"{EntryId} Gene set is Null!".__DEBUG_ECHO
-                Return New String() {}
+                Call $"{EntryId} gene set is Null!".__DEBUG_ECHO
+                Return {}
             End If
 
-            Dim LQuery As String() = LinqAPI.Exec(Of String) <=
- _
-                From gEntry As KeyValuePair
-                In Genes
-                Select gEntry.Key.Split(":"c).Last
-
+            Dim LQuery As String() = Genes _
+                .Select(Function(g) g.Key.Split(":"c).Last) _
+                .ToArray
             Return LQuery
-        End Function
-    End Class
-
-    Public Class PathwayEntry
-
-        Public Property Entry As String
-        Public Property Name As String
-        Public Property Description As String
-        Public Property [Object] As String
-        Public Property Legend As String
-        Public Property Url As String
-
-        Public Const ENTRY_ITEM As String = "<a target="".+?"" href=.+?</tr>"
-
-        Public Overrides Function ToString() As String
-            Return String.Format("{0}:  {1}", Entry, Description)
-        End Function
-
-        Public Shared Function TryParseWebPage(url As String) As PathwayEntry()
-            Dim html As String = url.GET
-            Dim sbuf As String() = Regex.Matches(html, ENTRY_ITEM, RegexOptions.Singleline).ToArray
-            Dim result As PathwayEntry() = sbuf.ToArray(AddressOf __parserEntry)
-
-            Return result
-        End Function
-
-        Private Shared Function __parserEntry(s As String) As PathwayEntry
-            Dim EntryItem As New PathwayEntry
-            Dim sbuf As String() = Strings.Split(s, vbLf)
-            EntryItem.Entry = sbuf.First.GetValue
-            EntryItem.Url = sbuf.First.href
-            sbuf = sbuf.Skip(3).ToArray
-
-            Dim p As New Pointer(0)
-            EntryItem.Name = sbuf(++p).GetValue
-            EntryItem.Description = sbuf(++p).GetValue
-            EntryItem.Object = sbuf(++p).GetValue
-            EntryItem.Legend = sbuf(++p).GetValue
-
-            Return EntryItem
         End Function
     End Class
 End Namespace
