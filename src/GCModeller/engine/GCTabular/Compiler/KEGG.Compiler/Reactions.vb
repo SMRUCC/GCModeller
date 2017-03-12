@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.Interops
@@ -42,7 +43,7 @@ Namespace KEGG.Compiler
     Public Module Reactions
 
         <Extension>
-        Private Function __match(models As Dictionary(Of String, bGetObject.Reaction), item As CARMEN.Reaction, ReactionsDownloads As String) As bGetObject.Reaction
+        Private Function __match(models As Dictionary(Of String, Reaction), item As CARMEN.Reaction, ReactionsDownloads As String) As Reaction
             If models.ContainsKey(item.rnId) Then
                 Return models(item.rnId)
             Else
@@ -51,7 +52,7 @@ Namespace KEGG.Compiler
                     Return Nothing  '由于CARMEN软件的数据库与KEGG数据库的版本不一致，故而会出现这个情况，对这种错误进行忽略
                 End If
 
-                Dim DownloadReactionModel = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction.Download(item.rnId)
+                Dim DownloadReactionModel = ReactionWebAPI.Download(item.rnId)
                 Call DownloadReactionModel.GetXml.SaveTo(DownloadFile)
                 Return DownloadReactionModel
             End If
@@ -65,14 +66,14 @@ Namespace KEGG.Compiler
         ''' <param name="ModelLoader">包含有整个KEGG数据库之中的Compound</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function CompileCARMEN(KEGGReactions As IEnumerable(Of bGetObject.Reaction),
+        Public Function CompileCARMEN(KEGGReactions As IEnumerable(Of Reaction),
                                       CARMEN_DIR As String,
                                       ModelLoader As FileStream.IO.XmlresxLoader,
                                       ReactionsDownloads As String,
                                       CompoundsDownloads As String,
                                       Logging As Logging.LogFile) As List(Of FileStream.MetabolismFlux)
 
-            Dim Models = KEGGReactions.ToDictionary(Function(item As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction) item.Entry)
+            Dim Models = KEGGReactions.ToDictionary(Function(item As Reaction) item.Entry)
             Dim CARMEN = SMRUCC.genomics.Interops.CARMEN.Merge(CARMEN_DIR, EnzymaticOnly:=True)
             Dim LQuery = (From item As CARMEN.Reaction In CARMEN.AsParallel
                           Let Model = Models.__match(item, ReactionsDownloads)
@@ -140,7 +141,7 @@ Namespace KEGG.Compiler
                     Dim ReactionModels = MetaCycEnzymaticsReactions(Enzyme.Class) '将ReactionModel转换为LQuery
                     LQuery = (From mRxn As Slots.Reaction In ReactionModels
                               Where SbmlModels.ContainsKey(mRxn.Identifier)
-                              Select New bGetObject.Reaction With {
+                              Select New Reaction With {
                                   .Entry = mRxn.Identifier,
                                   .Definition = mRxn.CommonName,
                                   .CommonNames = If(mRxn.Names.IsNullOrEmpty, Nothing, mRxn.Names.ToArray),
@@ -219,7 +220,7 @@ Namespace KEGG.Compiler
             Return (From item In SbmlModels Where Not item Is Nothing Select item).ToArray
         End Function
 
-        Private Function GenerateModel(Model As bGetObject.Reaction,
+        Private Function GenerateModel(Model As Reaction,
                                        Metabolites As Dictionary(Of String, FileStream.Metabolite),
                                        Enzymes As IEnumerable(Of String),
                                        DownloadDir As String,

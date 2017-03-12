@@ -167,13 +167,6 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             Return componentList.ToArray
         End Function
 
-        Public Shared Function StripName(s$) As String
-            If s Is Nothing Then
-                Return ""
-            End If
-            Return s.Replace(Regex.Match(s, "<nobr>.+</nobr>").Value, "")
-        End Function
-
         ''' <summary>
         ''' 将符合目标规则的字符串替换为空字符串
         ''' </summary>

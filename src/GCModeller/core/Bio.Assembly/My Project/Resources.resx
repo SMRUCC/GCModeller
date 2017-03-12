@@ -127,9 +127,6 @@
   <data name="ko00002_keg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ko00002.keg.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
-  <data name="br08201" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\br08201.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
-  </data>
   <data name="GenBankQuery" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\InternalScripts\Perl\GenBankQuery.pl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;gb2312</value>
   </data>
@@ -223,5 +220,14 @@
   </data>
   <data name="br08010" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\KEGG\Compounds\br08010.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08201" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Reactions\br08201.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08202" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Reactions\br08202.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="br08203" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KEGG\Reactions\br08203.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

@@ -13,9 +13,11 @@ Partial Module CLI
     <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/save <DIR>]")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadKEGGReaction(args As CommandLine) As Integer
-        Dim save$ = args.GetValue("/save", App.HOME & "/br08201/")
-        Call EnzymaticReaction.DownloadReactions(save).ToArray
-        Return 0
+        Dim save$ = args.GetValue("/save", "./br08201/")
+        Return EnzymaticReaction _
+            .DownloadReactions(save) _
+            .SaveTo(save & "/failures.txt") _
+            .CLICode
     End Function
 
     <ExportAPI("/Download.Compounds", Usage:="/Download.Compounds [/flat /updates /save <DIR>]")>

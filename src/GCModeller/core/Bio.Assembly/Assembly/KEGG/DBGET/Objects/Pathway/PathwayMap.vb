@@ -156,7 +156,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim pathwayMap As New PathwayMap With {
                 .Brite = entry,
                 .EntryId = entry.EntryId,
-                .Name = WebForm.StripName(webForm.GetValue("Name").FirstOrDefault).StripHTMLTags.StripBlank,
+                .Name = webForm.GetValue("Name").FirstOrDefault.Strip_NOBR.StripHTMLTags.StripBlank,
                 .Description = .Name
             }
 
