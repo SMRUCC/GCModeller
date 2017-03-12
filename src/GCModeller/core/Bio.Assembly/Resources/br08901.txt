@@ -132,6 +132,7 @@ C    00281  Geraniol degradation
 C    01052  Type I polyketide structures
 C    00522  Biosynthesis of 12-, 14- and 16-membered macrolides
 C    01051  Biosynthesis of ansamycins
+C    01059  Biosynthesis of enediyne antibiotics
 C    01056  Biosynthesis of type II polyketide backbone
 C    01057  Biosynthesis of type II polyketide products
 C    00253  Tetracycline biosynthesis
@@ -251,6 +252,7 @@ C    04390  Hippo signaling pathway
 C    04391  Hippo signaling pathway - fly
 C    04392  Hippo signaling pathway -multiple species
 C    04370  VEGF signaling pathway
+C    04371  Apelin signaling pathway
 C    04630  Jak-STAT signaling pathway
 C    04064  NF-kappa B signaling pathway
 C    04668  TNF signaling pathway
@@ -278,12 +280,10 @@ C    04144  Endocytosis
 C    04145  Phagosome
 C    04142  Lysosome
 C    04146  Peroxisome
-C    04140  Autophagy
+C    04140  Autophagy - animal
+C    04138  Autophagy - yeast
+C    04137  Mitophagy - animal
 C    04139  Mitophagy - yeast
-B  Cell motility
-C    02030  Bacterial chemotaxis
-C    02040  Flagellar assembly
-C    04810  Regulation of actin cytoskeleton
 B  Cell growth and death
 C    04110  Cell cycle
 C    04111  Cell cycle - yeast
@@ -305,6 +305,10 @@ C    02024  Quorum sensing
 C    05111  Biofilm formation - Vibrio cholerae
 C    02025  Biofilm formation - Pseudomonas aeruginosa
 C    02026  Biofilm formation - Escherichia coli
+B  Cell motility
+C    02030  Bacterial chemotaxis
+C    02040  Flagellar assembly
+C    04810  Regulation of actin cytoskeleton
 #
 A<b>Organismal Systems</b>
 B  Immune system
@@ -321,6 +325,7 @@ C    04612  Antigen processing and presentation
 C    04660  T cell receptor signaling pathway
 C    04658  Th1 and Th2 cell differentiation
 C    04659  Th17 cell differentiation
+C    04657  IL-17 signaling pathway
 C    04662  B cell receptor signaling pathway
 C    04664  Fc epsilon RI signaling pathway
 C    04666  Fc gamma R-mediated phagocytosis
@@ -446,6 +451,7 @@ C    05032  Morphine addiction
 C    05033  Nicotine addiction
 C    05034  Alcoholism
 B  Cardiovascular diseases
+C    05418  Fluid shear stress and atherosclerosis
 C    05410  Hypertrophic cardiomyopathy (HCM)
 C    05412  Arrhythmogenic right ventricular cardiomyopathy (ARVC)
 C    05414  Dilated cardiomyopathy
@@ -583,5 +589,5 @@ C    07117  Benzodiazepine family
 !
 #<hr>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: January 6, 2017
+#Last updated: March 10, 2017
 #<br><br><a href="/kegg-bin/get_htext?jp08901.keg">&raquo; Japanese version</a>
