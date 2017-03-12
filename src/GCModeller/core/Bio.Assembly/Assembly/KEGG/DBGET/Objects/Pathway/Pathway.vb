@@ -236,6 +236,7 @@ Exit_LOOP:
 #If Not DEBUG Then
             Catch ex As Exception
                 ex = New Exception(url, ex)
+                Call ex.PrintException
                 Throw ex
             End Try
 #End If

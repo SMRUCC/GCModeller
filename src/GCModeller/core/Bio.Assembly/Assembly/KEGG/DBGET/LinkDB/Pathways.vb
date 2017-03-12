@@ -88,7 +88,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             Dim Progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways....", cls:=True)
             Dim failures As New List(Of String)
 
-            VBDebugger.Mute = True
+            ' VBDebugger.Mute = True
 
             Dim all As ListEntry() = AllEntries(sp).ToArray
             Dim i As int = 1
@@ -118,14 +118,14 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                     entries += entry
                     data.Genes = KEGGgenes.Download($"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}").ToArray
 
-                    Call data.SaveAsXml(path)
+                    Call data.SaveAsXml(xml)
                 End If
 
                 Call Thread.Sleep(1000)
 EXIT_LOOP:      Call Progress.SetProgress(++i / all.Length * 100, entry.GetJson)
             Next
 
-            VBDebugger.Mute = False
+            ' VBDebugger.Mute = False
 
             Call entries.GetJson.SaveTo(EXPORT & $"/{sp}.json")
 
