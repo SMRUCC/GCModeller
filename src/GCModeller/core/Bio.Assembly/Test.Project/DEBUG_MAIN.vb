@@ -67,6 +67,13 @@ Module DEBUG_MAIN
 
     Sub Main()
 
+        '  Call "http://www.genome.jp/dbget-bin/www_bget?pathway:hsa00010".GET.SaveTo("x:\pathway_Test.html")
+
+        'Pause()
+        Dim pathW = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway.DownloadPage("G:\GCModeller\GCModeller\test\KEGG\dbget\pathway_Test.html")
+
+
+        Pause()
 
         Dim rxn = KEGG.DBGET.bGetObject.ReactionWebAPI.DownloadFrom("http://www.genome.jp/dbget-bin/www_bget?rn:R00235")
 
