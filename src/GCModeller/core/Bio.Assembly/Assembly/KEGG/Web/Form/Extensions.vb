@@ -34,5 +34,10 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
                 Return html
             End If
         End Function
+
+        <Extension>
+        Public Function IsShowAllLink(s$) As Boolean
+            Return InStr(s, "show all", Compare:=CompareMethod.Text) > 0
+        End Function
     End Module
 End Namespace

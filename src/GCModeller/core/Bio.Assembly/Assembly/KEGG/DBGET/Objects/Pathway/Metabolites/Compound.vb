@@ -60,7 +60,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property KEGG_reaction As String()
+        Public Property KEGG_reactions As String()
         Public Property Pathway As String()
         Public Property [Module] As String()
         Public Property Remarks As String()
