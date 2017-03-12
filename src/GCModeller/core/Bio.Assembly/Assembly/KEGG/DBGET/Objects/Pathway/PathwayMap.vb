@@ -235,7 +235,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                         rtvl -= 1
                         GoTo EXIT_LOOP
                     Else
-                        Call DownloadPathwayMap("map", EntryId, SaveLocationDir:=SaveToDir)
+                        Call DownloadPathwayMap("map", EntryId, EXPORT:=SaveToDir)
                         Call Pathway.SetMapImage(LoadImage(PngFile))
                         Call Pathway.SaveAsXml(XmlFile)
                         Call Thread.Sleep(10000)

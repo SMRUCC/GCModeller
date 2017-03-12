@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -33,13 +34,17 @@ Partial Module CLI
     <ExportAPI("-ref.map.download", Usage:="-ref.map.download -o <out_dir>")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadReferenceMapDatabase(argvs As CommandLine) As Integer
-        Dim OutDir As String = argvs("-o")
-        Dim IDList = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway.LoadFromResource
-        Dim DownloadLQuery = (From ID As SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
-                              In IDList
-                              Let MapID As String = "map" & ID.EntryId
-                              Let Map = ReferenceMapData.Download(MapID)
-                              Select Map.GetXml.SaveTo(OutDir & "/" & MapID & ".xml")).ToArray
+        Dim EXPORT As String = argvs("-o")
+        Dim IDList = BriteHEntry.Pathway.LoadFromResource
+        Dim Downloads = LinqAPI.Exec(Of Boolean) <=
+ _
+            From ID As BriteHEntry.Pathway
+            In IDList
+            Let MapID As String = "map" & ID.EntryId
+            Let Map = ReferenceMapData.Download(MapID)
+            Let save As String = EXPORT & "/" & MapID & ".xml"
+            Select Map.GetXml.SaveTo(save)
+
         Return 0
     End Function
 

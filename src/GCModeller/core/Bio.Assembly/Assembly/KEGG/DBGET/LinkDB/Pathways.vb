@@ -34,7 +34,6 @@ Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 
 Namespace Assembly.KEGG.DBGET.LinkDB
 
@@ -71,17 +70,23 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             Next
         End Function
 
+        ''' <summary>
+        ''' 下载某一个物种所注释的代谢途径的数据
+        ''' </summary>
+        ''' <param name="sp"></param>
+        ''' <param name="EXPORT"></param>
+        ''' <returns></returns>
         Public Iterator Function Downloads(sp As String, Optional EXPORT As String = "./LinkDB-Pathways/") As IEnumerable(Of Pathway)
             Dim entries As New List(Of ListEntry)
             Dim briefHash As Dictionary(Of String, BriteHEntry.Pathway) =
                 BriteHEntry.Pathway.LoadDictionary
             Dim Downloader As New WebClient()
-            Dim Progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways....")
+            Dim Progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways....", cls:=True)
 
             VBDebugger.Mute = True
 
             Dim all As ListEntry() = AllEntries(sp).ToArray
-            Dim i As Integer
+            Dim i As int = 1
 
             For Each entry As ListEntry In all
                 Dim ImageUrl = String.Format("http://www.genome.jp/kegg/pathway/{0}/{1}.png", sp, entry.EntryID)
@@ -105,8 +110,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
 
                 Yield data
 
-                i += 1
-                Call Progress.SetProgress(i / all.Length * 100, data.Name)
+                Call Progress.SetProgress(++i / all.Length * 100, data.Name)
             Next
 
             VBDebugger.Mute = False
