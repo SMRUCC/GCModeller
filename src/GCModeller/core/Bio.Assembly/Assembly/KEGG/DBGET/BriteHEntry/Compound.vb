@@ -233,11 +233,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Else
                         Call cpd.GetXml.SaveTo(xml)
                     End If
-
-                    Call Thread.Sleep(1000)
                 End If
 
                 Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
+                Call Thread.Sleep(1000)
                 Call progress.SetProgress(tick.StepProgress, detail:=ETA)
             Next
 

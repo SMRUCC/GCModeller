@@ -175,7 +175,7 @@ Module CLI
 
     <ExportAPI("/Download.Compounds", Usage:="/Download.Compounds [/flat /updates /save <DIR>]")>
     Public Function DownloadCompounds(args As CommandLine) As Integer
-        Dim save$ = args.GetValue("/save", App.HOME & "/KEGG_cpd/")
+        Dim save$ = args.GetValue("/save", "./KEGG_cpd/")
         Dim flat As Boolean = args.GetBoolean("/flat")
         Dim updates As Boolean = args.GetBoolean("/updates")
         Dim failures As IEnumerable(Of String) = BriteHEntry.Compound.DownloadFromResource(save, Not flat, updates)
