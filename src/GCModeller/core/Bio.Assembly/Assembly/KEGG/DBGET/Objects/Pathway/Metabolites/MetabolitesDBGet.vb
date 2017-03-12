@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
@@ -11,10 +12,20 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Const URL = "http://www.kegg.jp/dbget-bin/www_bget?cpd:{0}"
 
+        ''' <summary>
+        ''' 使用KEGG compound的编号来下载代谢物数据
+        ''' </summary>
+        ''' <param name="Id"></param>
+        ''' <returns></returns>
         Public Function DownloadCompound(Id As String) As Compound
             Return DownloadCompoundFrom(url:=String.Format(URL, Id))
         End Function
 
+        ''' <summary>
+        ''' 使用KEGG compound页面的url来下载代谢物数据
+        ''' </summary>
+        ''' <param name="url"></param>
+        ''' <returns></returns>
         Public Function DownloadCompoundFrom(url As String) As Compound
             Dim html As New WebForm(url)
             Dim links As DBLinks = GetDBLinks(html.GetValue("Other DBs").FirstOrDefault)
@@ -32,35 +43,34 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         ''' <summary>
-        ''' 
+        ''' 下载指定编号集合的代谢物数据，并保存到指定的文件夹之中
         ''' </summary>
-        ''' <param name="lstId"></param>
+        ''' <param name="list">KEGG compound id list</param>
         ''' <param name="EXPORT"></param>
-        ''' <returns>返回成功下载的对象的数目</returns>
+        ''' <returns>返回下载失败的对象的编号列表</returns>
         ''' <remarks></remarks>
-        Public Function FetchTo(lstId As String(), EXPORT As String) As Integer
-            Dim i As Integer = 0
+        Public Function FetchTo(list As String(), EXPORT As String) As String()
+            Dim failures As New List(Of String)
+            Dim path$
 
-            Call $"{lstId} go to download!".__DEBUG_ECHO
+            Call $"{list.Length} KEGG compounds are going to download!".__DEBUG_ECHO
 
-            For Each Id As String In lstId
-                Dim path As String = String.Format("{0}/{1}.xml", EXPORT, Id)
+            For Each cpdID As String In list
+
+                path = String.Format("{0}/{1}.xml", EXPORT, cpdID)
 
                 If Not path.FileExists Then
-                    Dim CompoundData As Compound = DownloadCompound(Id)
+                    Dim CompoundData As Compound = DownloadCompound(cpdID)
 
                     If CompoundData Is Nothing Then
-#If DEBUG Then
-                        Call Console.WriteLine("{0} download failure!", Id)
-#End If
-                        Continue For
+                        failures += cpdID
+                    Else
+                        Call CompoundData.GetXml.SaveTo(path)
                     End If
-                    i += 1
-                    Call CompoundData.GetXml.SaveTo(path)
                 End If
             Next
 
-            Return i
+            Return failures
         End Function
 
         Const FLAG As String = "[a-z0-9-_.]+"
