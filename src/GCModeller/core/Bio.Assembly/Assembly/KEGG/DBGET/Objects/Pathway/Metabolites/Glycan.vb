@@ -30,6 +30,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
@@ -66,7 +67,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             }
             Compound.CommonNames = MetabolitesDBGet.GetCommonNames(WebForm.GetValue("Name").FirstOrDefault())
             Compound.Composition = WebForm.GetValue("Composition").FirstOrDefault.Replace("<br>", "")
-            Compound.Reactions = MetabolitesDBGet.GetReactionList(WebForm.GetValue("Reaction").FirstOrDefault)
+            Compound.Reactions = WebForm.GetValue("Reaction").FirstOrDefault.GetLinks
             Compound.Pathway = LinqAPI.Exec(Of String) <=
  _
                 From x As KeyValuePair

@@ -34,7 +34,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             }
             cpd.CommonNames = GetCommonNames(html.GetValue("Name").FirstOrDefault())
             cpd.Formula = html.GetValue("Formula").FirstOrDefault.Replace("<br>", "")
-            cpd.KEGG_reaction = GetReactionList(html.GetValue("Reaction").FirstOrDefault)
+            cpd.KEGG_reaction = html.GetValue("Reaction").FirstOrDefault.GetLinks()
             cpd.Pathway = (From s As KeyValuePair In WebForm.parseList(html.GetValue("Pathway").FirstOrDefault, "<a href="".*/kegg-bin/show_pathway\?.+?"">.+?</a>") Select String.Format("[{0}] {1}", s.Key, s.Value)).ToArray
             cpd.Module = (From s As KeyValuePair In WebForm.parseList(html.GetValue("Module").FirstOrDefault, "<a href="".*/kegg-bin/show_module\?.+?"">.+?</a>") Select String.Format("[{0}] {1}", s.Key, s.Value)).ToArray
             cpd.MolWeight = Val(html.GetValue("Mol weight").FirstOrDefault)
@@ -89,9 +89,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         Private Function TryParse(str As String) As DBLink()
-            Dim TempChunk As String() = Strings.Split(str, ": ")
-            Dim DBName As String = TempChunk.First
-            Dim Entries As String() = GetValues(TempChunk.Last)
+            Dim tmp As String() = Strings.Split(str, ": ")
+            Dim DBName As String = tmp.First
+            Dim Entries As String() = tmp.Last.GetLinks
             Dim LQuery As String = (From prefixName As String
                                     In ComponentModel.DBLinkBuilder.DBLinks.PrefixDB
                                     Where InStr(DBName, prefixName, CompareMethod.Text) > 0
@@ -104,35 +104,19 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                     Select New DBLink With {.DBName = DBName, .Entry = s}).ToArray
         End Function
 
-        Private Function GetValues(str As String) As String()
-            Dim buf As String() =
-                Regex.Matches(str, "<a href="".+?"">.+?</a>") _
-               .ToArray(AddressOf HtmlStrips.GetValue)
-            Return buf
-        End Function
-
-        Friend Function GetReactionList(strData As String) As String()
-            If String.IsNullOrEmpty(strData) Then
+        Friend Function GetCommonNames(str$) As String()
+            If String.IsNullOrEmpty(str) Then
                 Return New String() {}
             End If
 
-            Dim buf As String() =
-                Regex.Matches(strData, "<a href="".+?"">.+?</a>", RegexOptions.Singleline) _
-               .ToArray(AddressOf HtmlStrips.GetValue)
-            Return buf
-        End Function
-
-        Friend Function GetCommonNames(strData As String) As String()
-            If String.IsNullOrEmpty(strData) Then
-                Return New String() {}
-            End If
-
-            Dim buf As String() = Strings.Split(strData, "<br>")
-            buf = (From s As String
-                   In buf
-                   Let strItem As String = s.Replace(";", "").Trim
-                   Where Not String.IsNullOrEmpty(strItem)
-                   Select strItem).ToArray
+            Dim buf As String() = Strings.Split(str, "<br>")
+            buf = LinqAPI.Exec(Of String) <=
+ _
+                From s As String
+                In buf
+                Let line As String = s.Replace(";", "").Trim
+                Where Not String.IsNullOrEmpty(line)
+                Select line
 
             Return buf
         End Function
