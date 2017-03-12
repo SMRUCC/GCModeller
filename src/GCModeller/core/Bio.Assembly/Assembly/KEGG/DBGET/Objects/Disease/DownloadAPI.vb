@@ -75,7 +75,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         <Extension>
-        Private Function __pairList(html$, parser As Func(Of String, KeyValuePair)) As KeyValuePair()
+        Friend Function __pairList(html$, parser As Func(Of String, KeyValuePair)) As KeyValuePair()
             Dim lines$() = html.DivInternals _
                 .FirstOrDefault _
                 .HtmlLines _

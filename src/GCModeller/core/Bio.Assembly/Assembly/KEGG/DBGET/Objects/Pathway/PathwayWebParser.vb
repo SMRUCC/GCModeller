@@ -38,7 +38,18 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Modules = __parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module),
                 .Genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .Organism.Key)),
                 .Compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT),
-                .References = WebForm.References
+                .References = WebForm.References,
+                .OtherDBs = WebForm("Other DBs").FirstOrDefault.__otherDBs,
+                .Drugs = WebForm("Drug").FirstOrDefault.__pairList(
+                    Function(s$)
+                        Dim id$ = Regex.Match(s, "\[.+?\]", RegexICSng) _
+                            .Value _
+                            .GetStackValue("[", "]")
+                        Return New KeyValuePair With {
+                            .Key = s,
+                            .Value = id
+                        }
+                    End Function)
             }
 
             Return Pathway

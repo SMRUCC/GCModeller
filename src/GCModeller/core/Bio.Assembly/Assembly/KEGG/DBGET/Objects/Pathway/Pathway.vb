@@ -67,7 +67,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property Compound As KeyValuePair()
-
+        Public Property Drugs As KeyValuePair()
+        Public Property OtherDBs As KeyValuePair()
         Public Property PathwayMap As KeyValuePair
 
         Public Property Genes As KeyValuePair()
