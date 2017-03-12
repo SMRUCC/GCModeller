@@ -64,9 +64,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim Compound As New Glycan With {
                 .Entry = Regex.Match(WebForm.GetValue("Entry").FirstOrDefault, "[GC]\d+").Value
             }
-            Compound.CommonNames = KEGG.DBGET.bGetObject.Compound.GetCommonNames(WebForm.GetValue("Name").FirstOrDefault())
+            Compound.CommonNames = MetabolitesDBGet.GetCommonNames(WebForm.GetValue("Name").FirstOrDefault())
             Compound.Composition = WebForm.GetValue("Composition").FirstOrDefault.Replace("<br>", "")
-            Compound.Reactions = KEGG.DBGET.bGetObject.Compound.GetReactionList(WebForm.GetValue("Reaction").FirstOrDefault)
+            Compound.Reactions = MetabolitesDBGet.GetReactionList(WebForm.GetValue("Reaction").FirstOrDefault)
             Compound.Pathway = LinqAPI.Exec(Of String) <=
  _
                 From x As KeyValuePair
@@ -79,7 +79,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 In InternalWebFormParsers.WebForm.parseList(modules, show_module)
                 Select String.Format("[{0}] {1}", x.Key, x.Value)
 
-            Compound._DBLinks = KEGG.DBGET.bGetObject.Compound.GetDBLinks(WebForm.GetValue("Other DBs").FirstOrDefault)
+            Compound._DBLinks = MetabolitesDBGet.GetDBLinks(WebForm.GetValue("Other DBs").FirstOrDefault)
             Compound.Mass = Val(WebForm.GetValue("Mass").FirstOrDefault)
 
             If Compound.CommonNames.IsNullOrEmpty Then

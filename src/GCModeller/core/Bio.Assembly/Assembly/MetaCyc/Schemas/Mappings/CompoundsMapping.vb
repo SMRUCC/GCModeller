@@ -80,7 +80,7 @@ Namespace Assembly.MetaCyc.Schema
             If String.Equals(name, compound.Key, StringComparison.OrdinalIgnoreCase) Then
                 Return 100
             End If
-            If String.Equals(name, compound.locusId, StringComparison.OrdinalIgnoreCase) Then
+            If String.Equals(name, compound.KEGG_cpd, StringComparison.OrdinalIgnoreCase) Then
                 Return 100
             End If
 

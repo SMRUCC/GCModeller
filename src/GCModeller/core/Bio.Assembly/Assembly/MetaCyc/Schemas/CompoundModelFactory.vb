@@ -46,7 +46,7 @@ Namespace Assembly.MetaCyc.Schema
             Public Function GenerateModels(data As IEnumerable(Of bGetObject.Compound)) As GeneralCompoundModel()
                 Dim LQuery = (From item In data
                               Select New GeneralCompoundModel With {
-                                  .Identifier = item.Entry,
+                                  .ID = item.Entry,
                                   ._CHEBI = item.CHEBI,
                                   .CommonNames = item.CommonNames,
                                   .KEGGCompound = item.Entry,
@@ -57,7 +57,7 @@ Namespace Assembly.MetaCyc.Schema
             Public Function GenerateModels(data As Generic.IEnumerable(Of MetaCyc.File.DataFiles.Slots.Compound)) As GeneralCompoundModel()
                 Dim LQuery = (From item In data
                               Select New GeneralCompoundModel With {
-                                  .Identifier = item.Identifier,
+                                  .ID = item.Identifier,
                                   ._PUBCHEM = item.PUBCHEM,
                                   ._CHEBI = item.CHEBI,
                                   .CommonNames = item.Names,

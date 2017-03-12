@@ -11,11 +11,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Const URL = "http://www.kegg.jp/dbget-bin/www_bget?cpd:{0}"
 
-        Public Function Download(Id As String) As Compound
-            Return DownloadFrom(url:=String.Format(URL, Id))
+        Public Function DownloadCompound(Id As String) As Compound
+            Return DownloadCompoundFrom(url:=String.Format(URL, Id))
         End Function
 
-        Public Function DownloadFrom(url As String) As Compound
+        Public Function DownloadCompoundFrom(url As String) As Compound
             Dim html As New WebForm(url)
             Dim links As DBLinks = GetDBLinks(html.GetValue("Other DBs").FirstOrDefault)
             Dim cpd As New Compound(links) With {
@@ -47,7 +47,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Dim path As String = String.Format("{0}/{1}.xml", EXPORT, Id)
 
                 If Not path.FileExists Then
-                    Dim CompoundData As Compound = Download(Id)
+                    Dim CompoundData As Compound = DownloadCompound(Id)
 
                     If CompoundData Is Nothing Then
 #If DEBUG Then
