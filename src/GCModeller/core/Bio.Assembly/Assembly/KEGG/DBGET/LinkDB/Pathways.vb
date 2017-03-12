@@ -77,12 +77,16 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         ''' <param name="sp"></param>
         ''' <param name="EXPORT"></param>
         ''' <returns></returns>
-        Public Iterator Function Downloads(sp As String, Optional EXPORT As String = "./LinkDB-Pathways/") As IEnumerable(Of Pathway)
+        Public Function Downloads(sp$,
+                                  Optional EXPORT$ = "./LinkDB-Pathways/",
+                                  Optional forceUpdate As Boolean = False) As IEnumerable(Of String())
+
             Dim entries As New List(Of ListEntry)
             Dim briefHash As Dictionary(Of String, BriteHEntry.Pathway) =
                 BriteHEntry.Pathway.LoadDictionary
             Dim Downloader As New WebClient()
             Dim Progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways....", cls:=True)
+            Dim failures As New List(Of String)
 
             VBDebugger.Mute = True
 
@@ -95,29 +99,37 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Dim path As String = EXPORT & "/webpages/" & entry.EntryID & ".html"
                 Dim img As String = EXPORT & $"/{entry.EntryID}.png"
                 Dim bCode As String = Regex.Match(entry.EntryID, "\d+").Value
+                Dim xml$ = BriteHEntry.Pathway.CombineDIR(briefHash(bCode), EXPORT) & $"/{entry.EntryID}.Xml"
+
+                If xml.FileLength > 0 AndAlso img.FileLength > 0 Then
+                    If Not forceUpdate Then
+                        GoTo EXIT_LOOP
+                    End If
+                End If
 
                 Call pathwayPage.GET.SaveTo(path)
                 Call Downloader.DownloadFile(ImageUrl, img)
 
                 Dim data As Pathway = Pathway.DownloadPage(path)
 
-                entries += entry
-                data.Genes = KEGGgenes.Download($"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}").ToArray
+                If data Is Nothing Then
+                    failures += entry.EntryID
+                Else
+                    entries += entry
+                    data.Genes = KEGGgenes.Download($"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}").ToArray
 
-                path = BriteHEntry.Pathway.CombineDIR(briefHash(bCode), EXPORT)
-                path = path & $"/{entry.EntryID}.Xml"
-
-                Call data.SaveAsXml(path)
-
-                Yield data
+                    Call data.SaveAsXml(path)
+                End If
 
                 Call Thread.Sleep(1000)
-                Call Progress.SetProgress(++i / all.Length * 100, data.Name)
+EXIT_LOOP:      Call Progress.SetProgress(++i / all.Length * 100, entry.GetJson)
             Next
 
             VBDebugger.Mute = False
 
             Call entries.GetJson.SaveTo(EXPORT & $"/{sp}.json")
+
+            Return failures
         End Function
     End Module
 End Namespace

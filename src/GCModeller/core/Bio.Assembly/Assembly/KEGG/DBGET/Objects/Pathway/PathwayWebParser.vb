@@ -14,7 +14,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Const PATHWAY_SPLIT As String = "<a href=""/kegg-bin/show_pathway.+?"">.+?"
         Const MODULE_SPLIT As String = "<a href=""/kegg-bin/show_module.+?"">.+?"
         Const GENE_SPLIT As String = "<a href=""/dbget-bin/www_bget\?{0}:.+?"">.+?</a>"
-        Const COMPOUND_SPLIT As String = "\<a href\=""/dbget-bin/www_bget\?cpd:.+?""\>.+?\</a\>.+?"
+
+        ''' <summary>
+        ''' 这里会需要同时兼容compound和glycan这两种数据
+        ''' </summary>
+        Const COMPOUND_SPLIT As String = "\<a href\=""/dbget-bin/www_bget\?((cpd)|(gl)):.+?""\>.+?\</a\>.+?"
 
         ''' <summary>
         ''' 从某一个页面url或者文件路径所指向的网页文件之中解析出模型数据

@@ -229,7 +229,16 @@ Exit_LOOP:
         ''' <param name="url"></param>
         ''' <returns></returns>
         Public Shared Function DownloadPage(url As String) As Pathway
-            Return url.PageParser
+#If Not DEBUG Then
+            Try
+#End If
+                Return url.PageParser
+#If Not DEBUG Then
+            Catch ex As Exception
+                ex = New Exception(url, ex)
+                Throw ex
+            End Try
+#End If
         End Function
 
         Public Shared Function GetCompoundCollection(source As IEnumerable(Of Pathway)) As String()
