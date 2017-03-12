@@ -1,0 +1,307 @@
+<!doctype html>
+<html><head>
+<title>KEGG PATHWAY: hsa00600</title>
+<link type="text/css" rel="stylesheet" href="/css/gn2.css">
+<link rel="stylesheet" href="/css/bget.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="/css/bgetm.css" media="only screen and (max-width: 768px)">
+<style>.kcfd{display:none;}</style>
+<script>
+<!--
+var getElementsByClassName = document.getElementsByClassName ?
+  function (cl){
+    return document.getElementsByClassName(cl);
+  } :
+  function (cl){
+    var elms = [];
+    var objs = document.getElementsByTagName('*');
+    for(var i=0;i<objs.length;i++){
+      var obj = objs[i];
+      if(obj.className == cl){
+        elms.push(obj);
+      }
+    }
+    return elms;
+  };
+function toggleField(clk,cl,show,hide){
+  var objs = getElementsByClassName(cl);
+  for(var i=0;i<objs.length;i++){
+    var obj = objs[i];
+    if(!obj.style.display||obj.style.display == 'none'){
+      obj.style.display = 'block';
+      clk.innerHTML = '&nbsp;&laquo; '+hide;
+    }
+    else{
+      obj.style.display = 'none';
+      clk.innerHTML = '&nbsp;&raquo; '+show;
+    }
+  }
+}
+function toggleData(bobj,e){
+  var id = bobj.id.replace(/[^0-9]/g,'');
+  var dt = document.getElementById('kcfd'+id);
+  if(!dt.style.display||dt.style.display == 'none'){
+    bobj.name = 'hide_kcf';
+    bobj.alt = 'Hide';
+    bobj.src = '/Fig/bget/button_Hib.gif';
+    dt.style.display = 'block';
+  }
+  else{
+    bobj.name = 'show_kcf';
+    bobj.alt = 'Show';
+    bobj.src = '/Fig/bget/button_Sb.gif';
+    dt.style.display = 'none';
+  }
+}
+function btn(bobj,img) {
+  bobj.src = "/Fig/bget/button_" + img + ".gif";
+}
+function btn_e(e) {
+  e = e || event;
+  var obj = e.target;
+  var img = e.target.src;
+  var img_base = img.replace(/\\/g,'/').replace(/(b|bd|bh)\.gif$/,'');
+  if(e.type == 'mousedown'||e.type == 'touchstart'){
+    obj.src = img_base +'bd.gif';
+  }
+  else if(e.type == 'mouseover'){
+    obj.src = img_base +'bh.gif';
+  }
+  else if(e.type == 'mouseup'||e.type == 'touchend'){
+    obj.src = img_base +'b.gif';
+  }
+  else if(e.type == 'mouseout'){
+    obj.src = img_base +'b.gif';
+  }
+}
+function init(){
+  for(var i=1;i<=1;i++){
+    if(document.getElementById('kcfb'+i)){
+      document.getElementById('kcfb'+i).onclick = function(e){toggleData(this,e);};
+      document.getElementById('kcfb'+i).onmousedown = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).onmouseover = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).onmouseout = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).onmouseup = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).ontouchstart = function(e){btn_e(e);};
+      document.getElementById('kcfb'+i).ontouchend = function(e){btn_e(e);};
+    }
+  }
+}
+function Link_XtrctSeq2(form) {
+    var dna_from;
+    var dna_to;
+    var dna_len;
+    var plus_up   = Number(form.XtrctSeq_UP.value) ;
+    var plus_down = Number(form.XtrctSeq_DOWN.value);
+    var vector    = Number(form.VECTOR.value);
+    var org       = form.ORG.value;
+    var chr       = form.CHR.value;
+    var kid       = form.KEGGID.value;
+    var url;
+
+    if (plus_up == 0 && plus_down == 0) {
+	url = "/dbget-bin/www_bget?-f+-n+n+" + kid;
+    }
+    else {
+	if (vector == 1) {
+	    dna_from  = Number(form.FROM.value)  - plus_up;
+	    dna_to    = Number(form.TO.value) + plus_down;
+	} else {
+	    dna_from  = Number(form.FROM.value)  - plus_down;
+	    dna_to    = Number(form.TO.value) + plus_up;
+	}
+
+	url = "http://www.genome.jp/dbget-bin/cut_sequence_genes.pl?FROM=" + dna_from + "&TO=" + dna_to +"&VECTOR=" + vector + "&ORG=" + org;
+	if (chr) url += "&CHR=" + chr;
+    }
+    //window.open( url, "_self" );
+    location.href = url;
+}
+function go_taxonomy(form,params){
+  for(var key in params){
+    if(form[key]){
+      form.setAttribute(key,params[key]);
+    }
+    else{
+      var obj = document.createElement('input');
+      obj.setAttribute('type','hidden');
+      obj.setAttribute('name',key);
+      obj.setAttribute('value',params[key]);
+      form.appendChild(obj);
+    }
+  }
+  form.submit();
+}
+window.onload=function(){window.focus();init();};
+//--->
+</script>
+
+</head>
+<body>
+<div>
+
+<table border=0 cellpadding=0 cellspacing=0><tr><td>
+<table border=0 cellpadding=0 cellspacing=0 width="650"><tr><td width=70><a href="/kegg/kegg2.html"><img align="middle" alt="KEGG" border=0 src="/Fig/bget/kegg3.gif"></a></td><td>&nbsp;&nbsp;&nbsp;</td><td><a name="pathway:hsa00600"></a><font class="title3">PATHWAY: hsa00600</font></td><td align="right" valign="bottom"><a href="javascript:void(window.open('/kegg/document/help_bget_pathway.html','KEGG_Help','toolbar=no,location=no,directories=no,width=720,height=640,resizable=yes,scrollbars=yes'))"><img align="middle" alt="Help" border="0" name="help" onmousedown="btn(this,'Hbd')" onmouseout="btn(this,'Hb')" onmouseover="btn(this,'Hbh')" onmouseup="btn(this,'Hb')" ontouchend="btn(this,'Hb')" ontouchstart="btn(this,'Hbd')" src="/Fig/bget/button_Hb.gif"></a></td></tr></table><form method="post" action="/dbget-bin/www_bget" enctype="application/x-www-form-urlencoded" name="form1"><table border=0 cellpadding=1 cellspacing=0>
+<tr>
+<td class="fr3">
+<table border=0 cellpadding=2 cellspacing=0 style="border-bottom:#000 1px solid">
+
+<tr><th class="th30" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Entry</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td align="left"><code><nobr>hsa00600&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pathway&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+</nobr></code></td><td align="right"><br></td></tr></table></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Name</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Sphingolipid metabolism - Homo sapiens (human)<br>
+</div></div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Class</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Metabolism; Lipid metabolism<br>
+<a href="/kegg-bin/get_htext?query=hsa00600&amp;htext=hsa00001.keg"><img align="middle" alt="BRITE hierarchy" border="0" name="BRH" onmousedown="btn(this,'BHbd')" onmouseout="btn(this,'BHb')" onmouseover="btn(this,'BHbh')" onmouseup="btn(this,'BHb')" ontouchend="btn(this,'BHb')" ontouchstart="btn(this,'BHbd')" src="/Fig/bget/button_BHb.gif"></a></div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Pathway&nbsp;map</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table width=555 border=0 cellspacing=0 cellpadding=0><tr><td align="left" valign="top" style="width:5.5em"><div><nobr><a href="/kegg-bin/show_pathway?hsa00600">hsa00600</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Sphingolipid metabolism</div></td></tr></table><center><a href="/kegg-bin/show_pathway?hsa00600"><img src="/kegg/misc/thumbnail/map00600.gif" alt="hsa00600" style="border-style:none;"></a></center><br><a href="http://www.kegg.jp/kegg-bin/show_ot_map?map=00600"><img align="middle" alt="All organisms" border="0" name="AO" onmousedown="btn(this,'AObd')" onmouseout="btn(this,'AOb')" onmouseover="btn(this,'AObh')" onmouseup="btn(this,'AOb')" ontouchend="btn(this,'AOb')" ontouchstart="btn(this,'AObd')" src="/Fig/bget/button_AOb.gif"></a><a href="http://www.kegg.jp/kegg-bin/view_ortholog_table?map=00600"><img align="middle" alt="Ortholog table" border="0" name="OT" onmousedown="btn(this,'OTbd')" onmouseout="btn(this,'OTb')" onmouseover="btn(this,'OTbh')" onmouseup="btn(this,'OTb')" ontouchend="btn(this,'OTb')" ontouchstart="btn(this,'OTbd')" src="/Fig/bget/button_OTb.gif"></a></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Module</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table width=555 border=0 cellspacing=0 cellpadding=0><tr><td align="left" valign="top" style="width:6.5em"><div><nobr><a href="/kegg-bin/show_module?hsa_M00066">hsa_M00066</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Lactosylceramide biosynthesis [PATH:<a href="/kegg-bin/show_pathway?hsa00600+M00066">hsa00600</a>]</div></td></tr><tr><td align="left" valign="top" style="width:6.5em"><div><nobr><a href="/kegg-bin/show_module?hsa_M00067">hsa_M00067</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Sulfoglycolipids biosynthesis, ceramide/1-alkyl-2-acylglycerol => sulfatide/seminolipid [PATH:<a href="/kegg-bin/show_pathway?hsa00600+M00067">hsa00600</a>]</div></td></tr><tr><td align="left" valign="top" style="width:6.5em"><div><nobr><a href="/kegg-bin/show_module?hsa_M00094">hsa_M00094</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Ceramide biosynthesis [PATH:<a href="/kegg-bin/show_pathway?hsa00600+M00094">hsa00600</a>]</div></td></tr><tr><td align="left" valign="top" style="width:6.5em"><div><nobr><a href="/kegg-bin/show_module?hsa_M00099">hsa_M00099</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Sphingosine biosynthesis [PATH:<a href="/kegg-bin/show_pathway?hsa00600+M00099">hsa00600</a>]</div></td></tr><tr><td align="left" valign="top" style="width:6.5em"><div><nobr><a href="/kegg-bin/show_module?hsa_M00100">hsa_M00100</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Sphingosine degradation [PATH:<a href="/kegg-bin/show_pathway?hsa00600+M00100">hsa00600</a>]</div></td></tr></table></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Disease</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><table width=555 border=0 cellspacing=0 cellpadding=0><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00125">H00125</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Fabry disease</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00126">H00126</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Gaucher disease</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00127">H00127</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Metachromatic leukodystrophy (MLD)</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00135">H00135</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Krabbe disease</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00137">H00137</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Niemann-Pick disease (NPD) typeA and B</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00138">H00138</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Farber lipogranulomatosis</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00142">H00142</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Sialidosis</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00265">H00265</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Hereditary sensory and autonomic neuropathy (HSAN)</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00276">H00276</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Galactosialidosis</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00281">H00281</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>GM1 gangliosidosis</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00423">H00423</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Defects in the degradation of sulfatide</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00424">H00424</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Defects in the degradation of sphingomyelin</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00426">H00426</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Defects in the degradation of ganglioside</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?ds:H00810">H00810</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Progressive myoclonic epilepsy (PME/ EPM)</div></td></tr></table></div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Drug</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table width=555 border=0 cellspacing=0 cellpadding=0><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?dr:D05032">D05032</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Miglustat (JAN/USAN/INN)</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?dr:D09893">D09893</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Eliglustat (USAN/INN)</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?dr:D09894">D09894</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Eliglustat tartrate (JAN/USAN)</div></td></tr></table></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Other DBs</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden"><div style="float:left">BSID:&nbsp;</div><div style="margin-left:3.5em"><a href="https://www.ncbi.nlm.nih.gov/biosystems/82994">82994</a></div><div style="float:left">GO:&nbsp;</div><div style="margin-left:2.5em"><a href="http://amigo.geneontology.org/amigo/term/GO:0006665">0006665</a> <a href="http://amigo.geneontology.org/amigo/term/GO:0030148">0030148</a></div></div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Organism</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Homo sapiens (human) [GN:<a href="/dbget-bin/www_bget?gn:hsa">hsa</a>]<br>
+</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Gene</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table width=555 border=0 cellspacing=0 cellpadding=0><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:10558">10558</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SPTLC1; serine palmitoyltransferase long chain base subunit 1 [KO:<a href="/dbget-bin/www_bget?ko:K00654">K00654</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.3.1.50">2.3.1.50</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:9517">9517</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SPTLC2; serine palmitoyltransferase long chain base subunit 2 [KO:<a href="/dbget-bin/www_bget?ko:K00654">K00654</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.3.1.50">2.3.1.50</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:55304">55304</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SPTLC3; serine palmitoyltransferase long chain base subunit 3 [KO:<a href="/dbget-bin/www_bget?ko:K00654">K00654</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.3.1.50">2.3.1.50</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:2531">2531</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>KDSR; 3-ketodihydrosphingosine reductase [KO:<a href="/dbget-bin/www_bget?ko:K04708">K04708</a>] [EC:<a href="/dbget-bin/www_bget?ec:1.1.1.102">1.1.1.102</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:29956">29956</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>CERS2; ceramide synthase 2 [KO:<a href="/dbget-bin/www_bget?ko:K04710">K04710</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.3.1.24">2.3.1.24</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:204219">204219</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>CERS3; ceramide synthase 3 [KO:<a href="/dbget-bin/www_bget?ko:K04710">K04710</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.3.1.24">2.3.1.24</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:253782">253782</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>CERS6; ceramide synthase 6 [KO:<a href="/dbget-bin/www_bget?ko:K04710">K04710</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.3.1.24">2.3.1.24</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:10715">10715</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>CERS1; ceramide synthase 1 [KO:<a href="/dbget-bin/www_bget?ko:K04710">K04710</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.3.1.24">2.3.1.24</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:79603">79603</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>CERS4; ceramide synthase 4 [KO:<a href="/dbget-bin/www_bget?ko:K04710">K04710</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.3.1.24">2.3.1.24</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:91012">91012</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>CERS5; ceramide synthase 5 [KO:<a href="/dbget-bin/www_bget?ko:K04710">K04710</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.3.1.24">2.3.1.24</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3em"><div><nobr><a href="/dbget-bin/www_bget?hsa:427">427</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>ASAH1; N-acylsphingosine amidohydrolase 1 [KO:<a href="/dbget-bin/www_bget?ko:K12348">K12348</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.5.1.23">3.5.1.23</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:56624">56624</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>ASAH2; N-acylsphingosine amidohydrolase 2 [KO:<a href="/dbget-bin/www_bget?ko:K12349">K12349</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.5.1.23">3.5.1.23</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:340485">340485</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>ACER2; alkaline ceramidase 2 [KO:<a href="/dbget-bin/www_bget?ko:K01441">K01441</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.5.1.23">3.5.1.23</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:125981">125981</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>ACER1; alkaline ceramidase 1 [KO:<a href="/dbget-bin/www_bget?ko:K01441">K01441</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.5.1.23">3.5.1.23</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:55331">55331</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>ACER3; alkaline ceramidase 3 [KO:<a href="/dbget-bin/www_bget?ko:K04711">K04711</a>] [EC:3.5.1.-]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:8560">8560</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>DEGS1; delta 4-desaturase, sphingolipid 1 [KO:<a href="/dbget-bin/www_bget?ko:K04712">K04712</a>] [EC:1.14.-.-]</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:123099">123099</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>DEGS2; delta 4-desaturase, sphingolipid 2 [KO:<a href="/dbget-bin/www_bget?ko:K04712">K04712</a>] [EC:1.14.-.-]</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:259230">259230</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SGMS1; sphingomyelin synthase 1 [KO:<a href="/dbget-bin/www_bget?ko:K04714">K04714</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.7.8.27">2.7.8.27</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:166929">166929</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SGMS2; sphingomyelin synthase 2 [KO:<a href="/dbget-bin/www_bget?ko:K04714">K04714</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.7.8.27">2.7.8.27</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:6609">6609</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SMPD1; sphingomyelin phosphodiesterase 1 [KO:<a href="/dbget-bin/www_bget?ko:K12350">K12350</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.1.4.12">3.1.4.12</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:6610">6610</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SMPD2; sphingomyelin phosphodiesterase 2 [KO:<a href="/dbget-bin/www_bget?ko:K12351">K12351</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.1.4.12">3.1.4.12</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:55512">55512</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SMPD3; sphingomyelin phosphodiesterase 3 [KO:<a href="/dbget-bin/www_bget?ko:K12352">K12352</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.1.4.12">3.1.4.12</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:55627">55627</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SMPD4; sphingomyelin phosphodiesterase 4 [KO:<a href="/dbget-bin/www_bget?ko:K12353">K12353</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.1.4.12">3.1.4.12</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:339221">339221</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>ENPP7; ectonucleotide pyrophosphatase/phosphodiesterase 7 [KO:<a href="/dbget-bin/www_bget?ko:K12354">K12354</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.1.4.12">3.1.4.12</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:64781">64781</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>CERK; ceramide kinase [KO:<a href="/dbget-bin/www_bget?ko:K04715">K04715</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.7.1.138">2.7.1.138</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:8611">8611</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>PLPP1; phospholipid phosphatase 1 [KO:<a href="/dbget-bin/www_bget?ko:K01080">K01080</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.1.3.4">3.1.3.4</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:8613">8613</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>PLPP3; phospholipid phosphatase 3 [KO:<a href="/dbget-bin/www_bget?ko:K01080">K01080</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.1.3.4">3.1.3.4</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:8612">8612</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>PLPP2; phospholipid phosphatase 2 [KO:<a href="/dbget-bin/www_bget?ko:K01080">K01080</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.1.3.4">3.1.3.4</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:81537">81537</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SGPP1; sphingosine-1-phosphate phosphatase 1 [KO:<a href="/dbget-bin/www_bget?ko:K04716">K04716</a>] [EC:3.1.3.-]</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:130367">130367</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SGPP2; sphingosine-1-phosphate phosphatase 2 [KO:<a href="/dbget-bin/www_bget?ko:K04717">K04717</a>] [EC:3.1.3.-]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:8877">8877</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SPHK1; sphingosine kinase 1 [KO:<a href="/dbget-bin/www_bget?ko:K04718">K04718</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.7.1.91">2.7.1.91</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:56848">56848</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SPHK2; sphingosine kinase 2 [KO:<a href="/dbget-bin/www_bget?ko:K04718">K04718</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.7.1.91">2.7.1.91</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:8879">8879</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>SGPL1; sphingosine-1-phosphate lyase 1 [KO:<a href="/dbget-bin/www_bget?ko:K01634">K01634</a>] [EC:<a href="/dbget-bin/www_bget?ec:4.1.2.27">4.1.2.27</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:7357">7357</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>UGCG; UDP-glucose ceramide glucosyltransferase [KO:<a href="/dbget-bin/www_bget?ko:K00720">K00720</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.4.1.80">2.4.1.80</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:2629">2629</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>GBA; glucosylceramidase beta [KO:<a href="/dbget-bin/www_bget?ko:K01201">K01201</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.2.1.45">3.2.1.45</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:57704">57704</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>GBA2; glucosylceramidase beta 2 [KO:<a href="/dbget-bin/www_bget?ko:K17108">K17108</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.2.1.45">3.2.1.45</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:9331">9331</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>B4GALT6; beta-1,4-galactosyltransferase 6 [KO:<a href="/dbget-bin/www_bget?ko:K07553">K07553</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.4.1.274">2.4.1.274</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:2720">2720</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>GLB1; galactosidase beta 1 [KO:<a href="/dbget-bin/www_bget?ko:K12309">K12309</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.2.1.23">3.2.1.23</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:7368">7368</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>UGT8; UDP glycosyltransferase 8 [KO:<a href="/dbget-bin/www_bget?ko:K04628">K04628</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.4.1.47">2.4.1.47</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:2581">2581</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>GALC; galactosylceramidase [KO:<a href="/dbget-bin/www_bget?ko:K01202">K01202</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.2.1.46">3.2.1.46</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:9514">9514</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>GAL3ST1; galactose-3-O-sulfotransferase 1 [KO:<a href="/dbget-bin/www_bget?ko:K01019">K01019</a>] [EC:<a href="/dbget-bin/www_bget?ec:2.8.2.11">2.8.2.11</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3em"><div><nobr><a href="/dbget-bin/www_bget?hsa:410">410</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>ARSA; arylsulfatase A [KO:<a href="/dbget-bin/www_bget?ko:K01134">K01134</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.1.6.8">3.1.6.8</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:4758">4758</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>NEU1; neuraminidase 1 [KO:<a href="/dbget-bin/www_bget?ko:K01186">K01186</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.2.1.18">3.2.1.18</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4em"><div><nobr><a href="/dbget-bin/www_bget?hsa:10825">10825</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>NEU3; neuraminidase 3 [KO:<a href="/dbget-bin/www_bget?ko:K12357">K12357</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.2.1.18">3.2.1.18</a>]</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:129807">129807</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>NEU4; neuraminidase 4 [KO:<a href="/dbget-bin/www_bget?ko:K12357">K12357</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.2.1.18">3.2.1.18</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:4759">4759</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>NEU2; neuraminidase 2 [KO:<a href="/dbget-bin/www_bget?ko:K12357">K12357</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.2.1.18">3.2.1.18</a>]</div></td></tr><tr><td align="left" valign="top" style="width:3.5em"><div><nobr><a href="/dbget-bin/www_bget?hsa:2717">2717</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>GLA; galactosidase alpha [KO:<a href="/dbget-bin/www_bget?ko:K01189">K01189</a>] [EC:<a href="/dbget-bin/www_bget?ec:3.2.1.22">3.2.1.22</a>]</div></td></tr></table></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Compound</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table width=555 border=0 cellspacing=0 cellpadding=0><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C00065">C00065</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>L-Serine</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C00154">C00154</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Palmitoyl-CoA</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C00195">C00195</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>N-Acylsphingosine</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C00319">C00319</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Sphingosine</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C00346">C00346</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Ethanolamine phosphate</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C00550">C00550</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Sphingomyelin</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C00836">C00836</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Sphinganine</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C01120">C01120</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Sphinganine 1-phosphate</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C01190">C01190</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>beta-D-Glucosyl-(1&lt;->1)-ceramide</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C01290">C01290</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>beta-D-Galactosyl-(1->4)-beta-D-glucosyl-(1&lt;->1)-ceramide</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C01747">C01747</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Psychosine</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C02686">C02686</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Galactosylceramide</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C02934">C02934</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>3-Dehydrosphinganine</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C02960">C02960</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Ceramide 1-phosphate</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C03640">C03640</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Sphingosyl-phosphocholine</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C05681">C05681</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Ceramide 2-aminoethylphosphonate</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C06062">C06062</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Ceramide phosphoethanolamine</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C06124">C06124</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Sphingosine 1-phosphate</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C06125">C06125</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Sulfatide</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C06126">C06126</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Digalactosylceramide</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C06127">C06127</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Digalactosylceramide sulfate</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C06128">C06128</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>GM4</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C12126">C12126</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Dihydroceramide</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C12144">C12144</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Phytosphingosine</div></td></tr><tr><td align="left" valign="top" style="width:4.5em"><div><nobr><a href="/dbget-bin/www_bget?cpd:C12145">C12145</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>Phytoceramide</div></td></tr></table></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/12011104">12011104</a></div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Merrill AH Jr.</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">De novo sphingolipid biosynthesis: a necessary, but dangerous, pathway.</div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">J Biol Chem 277:25843-6 (2002)</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/10652340">10652340</a></div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Tani M, Okino N, Mitsutake S, Tanigawa T, Izu H, Ito M.</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Purification and characterization of a neutral ceramidase from mouse liver. A single protein catalyzes the reversible reaction in which ceramide is both hydrolyzed and synthesized.</div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">J Biol Chem 275:3462-8 (2000)</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/11305904">11305904</a></div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Hannun YA, Luberto C, Argraves KM.</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Enzymes of sphingolipid metabolism: from modular to integrative signaling.</div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Biochemistry 40:4893-903 (2001)</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/1495423">1495423</a></div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Merrill AH Jr, Wang E.</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Enzymes of ceramide biosynthesis.</div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Methods Enzymol 209:427-37 (1992)</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/8457204">8457204</a></div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Hirschberg K, Rodger J, Futerman AH.</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">The long-chain sphingoid base of sphingolipids is acylated at the cytosolic surface of the endoplasmic reticulum in rat liver.</div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Biochem J 290 ( Pt 3):751-7 (1993)</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>Reference</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">PMID:<a href="https://www.ncbi.nlm.nih.gov/pubmed/10366774">10366774</a></div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Authors</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Dickson RC, Lester RL.</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Title</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Metabolism and selected functions of sphingolipids in the yeast Saccharomyces cerevisiae.</div></td></tr>
+
+
+<tr><th class="th30" align="left" valign="top" style="border-color:#000; border-width: 0px 0px 0px 1px; border-style: solid"><nobr>&nbsp;&nbsp;Journal</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 0px 1px 0px 1px; border-style: solid"><div style="width:555px;overflow-x:auto;overflow-y:hidden">Biochim Biophys Acta 1438:305-21 (1999)</div></td></tr>
+
+
+<tr><th class="th31" align="left" valign="top" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>KO&nbsp;pathway</nobr></th>
+<td class="td31" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><table width=555 border=0 cellspacing=0 cellpadding=0><tr><td align="left" valign="top" style="width:5em"><div><nobr><a href="/dbget-bin/www_bget?ko00600">ko00600</a>&nbsp;&nbsp;</nobr></div></td><td align="left"><div>&nbsp;</div></td></tr></table></td></tr>
+
+
+<tr><th class="th30" align="left" valign="middle" style="border-color:#000; border-width: 1px 0px 0px 1px; border-style: solid"><nobr>LinkDB</nobr></th>
+<td class="td30" style="border-color:#000; border-width: 1px 1px 0px 1px; border-style: solid"><a href="http://www.genome.jp/dbget-bin/get_linkdb?pathway+hsa00600"><img align="middle" alt="All DBs" border="0" name="alldbs" onmousedown="btn(this,'ADbd')" onmouseout="btn(this,'ADb')" onmouseover="btn(this,'ADbh')" onmouseup="btn(this,'ADb')" ontouchend="btn(this,'ADb')" ontouchstart="btn(this,'ADbd')" src="/Fig/bget/button_ADb.gif"></a></td></tr>
+
+</table></td></tr></table>
+<br></form></td></tr></table>
+
+
+<a href="/dbget/">DBGET</a> integrated database retrieval system</div>
+
+</body>
+</html>

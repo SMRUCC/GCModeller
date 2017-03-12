@@ -1,12 +1,12 @@
-﻿Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel
+﻿Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.HtmlParser
-Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
+Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -39,13 +39,21 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Entry = Regex.Match(html.GetValue("Entry").FirstOrDefault, "[GC]\d+").Value,
                 .CommonNames = GetCommonNames(html.GetValue("Name").FirstOrDefault()),
                 .Formula = html.GetValue("Formula").FirstOrDefault.Strip_NOBR.StripHTMLTags(stripBlank:=True),
-                .KEGG_reaction = html.GetValue("Reaction").FirstOrDefault.GetLinks(),
-                .Enzyme = html.GetValue("Enzyme").FirstOrDefault.GetLinks,
+                .KEGG_reactions = html _
+                    .GetValue("Reaction") _
+                    .FirstOrDefault _
+                    .GetLinks() _
+                    .Where(Function(s) Not s.IsShowAllLink) _
+                    .ToArray,
+                .Enzyme = html.GetValue("Enzyme").FirstOrDefault.GetLinks.Where(Function(s) Not s.IsShowAllLink).ToArray,
                 .Pathway = __parseHTML_ModuleList(html.GetValue("Pathway").FirstOrDefault, LIST_TYPES.Pathway).Select(Function(s) String.Format("[{0}] {1}", s.Key, s.Value)).ToArray,
                 .Module = __parseHTML_ModuleList(html.GetValue("Module").FirstOrDefault, LIST_TYPES.Module).Select(Function(s) String.Format("[{0}] {1}", s.Key, s.Value)).ToArray,
                 .MolWeight = Val(html.GetValue("Mol weight").FirstOrDefault.Strip_NOBR.StripHTMLTags(stripBlank:=True)),
                 .ExactMass = Val(html.GetValue("Exact mass").FirstOrDefault.Strip_NOBR.StripHTMLTags(stripBlank:=True)),
-                .Remarks = html.GetValue("Remark").Select(Function(s) s.StripHTMLTags(stripBlank:=True)).ToArray
+                .Remarks = html _
+                    .GetValue("Remark") _
+                    .Select(Function(s) s.Strip_NOBR.StripHTMLTags(stripBlank:=True).TrimNewLine) _
+                    .ToArray
             }
             Return cpd
         End Function

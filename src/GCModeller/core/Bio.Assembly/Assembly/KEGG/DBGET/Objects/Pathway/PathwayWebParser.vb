@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.HtmlParser
@@ -13,7 +14,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Const PATHWAY_SPLIT As String = "<a href=""/kegg-bin/show_pathway.+?"">.+?"
         Const MODULE_SPLIT As String = "<a href=""/kegg-bin/show_module.+?"">.+?"
         Const GENE_SPLIT As String = "<a href=""/dbget-bin/www_bget\?{0}:.+?"">.+?</a>"
-        Const COMPOUND_SPLIT As String = "\<a href\=""/dbget-bin/www_bget\?cpd:.+?""\>.+?\</a\>.+?"
+
+        ''' <summary>
+        ''' 这里会需要同时兼容compound和glycan这两种数据
+        ''' </summary>
+        Const COMPOUND_SPLIT As String = "\<a href\=""/dbget-bin/www_bget\?((cpd)|(gl)):.+?""\>.+?\</a\>.+?"
 
         ''' <summary>
         ''' 从某一个页面url或者文件路径所指向的网页文件之中解析出模型数据
@@ -38,10 +43,26 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Modules = __parseHTML_ModuleList(WebForm.GetValue("Module").FirstOrDefault, LIST_TYPES.Module),
                 .Genes = WebForm.parseList(WebForm.GetValue("Gene").FirstOrDefault, String.Format(GENE_SPLIT, .Organism.Key)),
                 .Compound = WebForm.parseList(WebForm.GetValue("Compound").FirstOrDefault, COMPOUND_SPLIT),
-                .References = WebForm.References
+                .References = WebForm.References,
+                .OtherDBs = WebForm("Other DBs").FirstOrDefault.__otherDBs,
+                .Drugs = WebForm("Drug").FirstOrDefault.__pathwayDrugs
             }
 
             Return Pathway
+        End Function
+
+        <Extension> Private Function __pathwayDrugs(html$) As KeyValuePair()
+            Dim divs = html.Strip_NOBR.DivInternals
+            Dim out As New List(Of KeyValuePair)
+
+            For Each d In divs.SlideWindows(2, 2)
+                out += New KeyValuePair With {
+                    .Key = d(0).StripHTMLTags(stripBlank:=True),
+                    .Value = d(1).StripHTMLTags(stripBlank:=True)
+                }
+            Next
+
+            Return out
         End Function
 
         <Extension>

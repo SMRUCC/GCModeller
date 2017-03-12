@@ -306,6 +306,38 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to +D	Reaction	Substrate	Product	Substrate2	Product2
+        '''%&lt;style type=&quot;text/css&quot;&gt;&lt;!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1400px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:200px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;overflow:hidden;width:300px;}.col3{position:relative;background:white;z-index:3;padding-left:10px;overflow:hidden;width:300px;}.col4{position:relative;background:white;z-index:2;padding-left:10p [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property br08202() As String
+            Get
+                Return ResourceManager.GetString("br08202", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +B	Glycosyltransferase reaction
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; Glycosyltransferase Reactions&lt;/h2&gt;
+        '''#&lt;!---
+        '''#ENTRY       br08203
+        '''#DEFINITION  Glycosyltransferase reactions
+        '''#---&gt;
+        '''!
+        '''A&lt;b&gt;Glucosyltransferase reactions&lt;/b&gt;
+        '''B  R06264  Glc a1-2 Glc [KO:K03850] [PATH:rn00510]
+        '''B  R03118  Glc a1-3 Glc [KO:K00706] [PATH:rn00500]
+        '''B  R06263  Glc a1-3 Glc [KO:K03849] [PATH:rn00510]
+        '''B  R00292  Glc a1-4 Glc [KO:K00693] [PATH:rn00500]
+        '''B  R06184  Glc a1-6 Glc
+        '''B [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property br08203() As String
+            Get
+                Return ResourceManager.GetString("br08203", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to +U
         '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Organisms in the NCBI Taxonomy&lt;/h2&gt;
         '''#&lt;!---

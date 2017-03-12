@@ -120,8 +120,8 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             "<table .+?>"
         }
 
-        Protected Friend Shared Function parseList(strValue As String, SplitRegx As String) As KeyValuePair()
-            If String.IsNullOrEmpty(strValue) Then
+        Protected Friend Shared Function parseList(html As String, SplitRegx As String) As KeyValuePair()
+            If String.IsNullOrEmpty(html) Then
                 Return New KeyValuePair() {}
             End If
 
@@ -129,35 +129,35 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             Dim bufs As String() = LinqAPI.Exec(Of String) <=
  _
                 From m As Match
-                In Regex.Matches(strValue, SplitRegx)
+                In Regex.Matches(html, SplitRegx)
                 Select m.Value
                 Distinct
 
             For i As Integer = 0 To bufs.Length - 2
-                Dim p1 As Integer = InStr(strValue, bufs(i))
-                Dim p2 As Integer = InStr(strValue, bufs(i + 1))
-                Dim strTemp As String = Mid(strValue, p1, p2 - p1)
+                Dim p1 As Integer = InStr(html, bufs(i))
+                Dim p2 As Integer = InStr(html, bufs(i + 1))
+                Dim strTemp As String = Mid(html, p1, p2 - p1)
 
-                Dim ComponentEntry As String = Regex.Match(strTemp, SplitRegx).Value
-                Dim ComponentDescription As String = strTemp.Replace(ComponentEntry, "").Trim
+                Dim entry As String = Regex.Match(strTemp, SplitRegx).Value
+                Dim cps_Describ As String = strTemp.Replace(entry, "").Trim
 
-                ComponentEntry = ComponentEntry.GetValue
-                ComponentDescription = WebForm.RemoveHrefLink(ComponentDescription)
+                entry = entry.GetValue
+                cps_Describ = WebForm.RemoveHrefLink(cps_Describ)
 
                 componentList += New KeyValuePair With {
-                    .Key = ComponentEntry,
-                    .Value = ComponentDescription
+                    .Key = entry,
+                    .Value = cps_Describ
                 }
             Next
 
-            Dim p As Integer = InStr(strValue, bufs.Last)
-            strValue = Mid(strValue, p)
-            Dim LastEntry As New KeyValuePair
-            LastEntry.Key = Regex.Match(strValue, SplitRegx).Value
-            LastEntry.Value = WebForm.RemoveHrefLink(strValue.Replace(LastEntry.Key, "").Trim)
-            LastEntry.Key = LastEntry.Key.GetValue
+            Dim p As Integer = InStr(html, bufs.Last)
+            html = Mid(html, p)
+            Dim last As New KeyValuePair
+            last.Key = Regex.Match(html, SplitRegx).Value
+            last.Value = WebForm.RemoveHrefLink(html.Replace(last.Key, "").Trim)
+            last.Key = last.Key.GetValue
 
-            Call componentList.Add(LastEntry)
+            Call componentList.Add(last)
 
             For Each x As KeyValuePair In componentList
                 x.Key = x.Key.StripHTMLTags.Trim({ASCII.TAB, ASCII.CR, ASCII.LF, " "c})
@@ -165,13 +165,6 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
             Next
 
             Return componentList.ToArray
-        End Function
-
-        Public Shared Function StripName(s$) As String
-            If s Is Nothing Then
-                Return ""
-            End If
-            Return s.Replace(Regex.Match(s, "<nobr>.+</nobr>").Value, "")
         End Function
 
         ''' <summary>

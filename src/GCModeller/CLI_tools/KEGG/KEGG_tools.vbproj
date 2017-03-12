@@ -219,14 +219,16 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Blastn.vb" />
+    <Compile Include="CLIGroups.vb" />
+    <Compile Include="CLI\DBGET.vb" />
+    <Compile Include="Tools\Blastn.vb" />
     <Compile Include="CLI\Views.vb" />
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLI\DumpTools.vb" />
     <Compile Include="CLI\Pathways.vb" />
-    <Compile Include="PathwayAssociationAnalysis.vb" />
-    <Compile Include="SystemDistribution.vb" />
-    <Compile Include="OrthologExport.vb" />
+    <Compile Include="Tools\PathwayAssociationAnalysis.vb" />
+    <Compile Include="Tools\SystemDistribution.vb" />
+    <Compile Include="Tools\OrthologExport.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

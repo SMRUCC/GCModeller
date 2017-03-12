@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
@@ -205,7 +206,16 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim progress As New ProgressBar("Downloads " & key, cls:=True)
             Dim tick As New ProgressProvider(briteEntry.Length)
 
-            For Each entry As Compound In briteEntry
+            ' 2017-3-12
+            ' 有些entry的编号是空值？？？
+            Dim keys = briteEntry.Where(
+                Function(ID)
+                    Return (Not ID Is Nothing) AndAlso
+                        (Not ID.Entry Is Nothing) AndAlso
+                        (Not ID.Entry.Key.StringEmpty)
+                End Function)
+
+            For Each entry As Compound In keys
                 Dim EntryId As String = entry.Entry.Key
                 Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized, [class]:=key)
                 Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryId)
@@ -235,6 +245,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 End If
 
                 Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
+                Call Thread.Sleep(1000)
                 Call progress.SetProgress(tick.StepProgress, detail:=ETA)
             Next
 
