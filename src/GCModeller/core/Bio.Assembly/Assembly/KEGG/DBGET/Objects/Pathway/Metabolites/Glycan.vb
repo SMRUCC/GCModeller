@@ -26,9 +26,9 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -44,10 +44,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Public Property Composition As String
         Public Property Mass As String
+        Public Property Orthology As KeyValuePair()
 
-        Dim _DBLinks As DBLinks
+        Sub New()
+        End Sub
 
-        Public Property Reactions As String()
+        Sub New(links As DBLinks)
+            MyBase._DBLinks = links
+        End Sub
 
         Const URL = "http://www.kegg.jp/dbget-bin/www_bget?gl:{0}"
 
@@ -55,39 +59,40 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return DownloadFrom(url:=String.Format(URL, Id))
         End Function
 
-        Const show_pathway As String = "<a href="".*/kegg-bin/show_pathway\?.+?"">.+?</a>"
-        Const show_module As String = "<a href="".*/kegg-bin/show_module\?.+?"">.+?</a>"
-
         Public Overloads Shared Function DownloadFrom(url As String) As Glycan
             Dim WebForm As New WebForm(url)
-            Dim pathways = WebForm.GetValue("Pathway").FirstOrDefault
-            Dim modules = WebForm.GetValue("Module").FirstOrDefault
-            Dim Compound As New Glycan With {
-                .Entry = Regex.Match(WebForm.GetValue("Entry").FirstOrDefault, "[GC]\d+").Value
+            Dim base As Compound = WebForm.ParseCompound
+            Dim gl As New Glycan(base._DBLinks) With {
+                .Entry = base.Entry,
+                .CommonNames = base.CommonNames,
+                .Remarks = base.Remarks,
+                .Pathway = base.Pathway,
+                .MolWeight = base.MolWeight,
+                .Module = base.Module,
+                .KEGG_reaction = base.KEGG_reaction,
+                .ExactMass = base.ExactMass,
+                .Formula = base.Formula,
+                .Enzyme = base.Enzyme,
+                .Composition = WebForm.GetText("Composition"),
+                .Mass = WebForm.GetText("Mass"),
+                .Orthology = __parseOrthology(WebForm("Orthology").FirstOrDefault)
             }
-            Compound.CommonNames = MetabolitesDBGet.GetCommonNames(WebForm.GetValue("Name").FirstOrDefault())
-            Compound.Composition = WebForm.GetValue("Composition").FirstOrDefault.Replace("<br>", "")
-            Compound.Reactions = WebForm.GetValue("Reaction").FirstOrDefault.GetLinks
-            Compound.Pathway = LinqAPI.Exec(Of String) <=
- _
-                From x As KeyValuePair
-                In InternalWebFormParsers.WebForm.parseList(pathways, show_pathway)
-                Select String.Format("[{0}] {1}", x.Key, x.Value)
 
-            Compound.Module = LinqAPI.Exec(Of String) <=
- _
-                From x As KeyValuePair
-                In InternalWebFormParsers.WebForm.parseList(modules, show_module)
-                Select String.Format("[{0}] {1}", x.Key, x.Value)
+            Return gl
+        End Function
 
-            Compound._DBLinks = MetabolitesDBGet.GetDBLinks(WebForm.GetValue("Other DBs").FirstOrDefault)
-            Compound.Mass = Val(WebForm.GetValue("Mass").FirstOrDefault)
+        Private Shared Function __parseOrthology(html$) As KeyValuePair()
+            Dim divs = html.Strip_NOBR.DivInternals
+            Dim out As New List(Of KeyValuePair)
 
-            If Compound.CommonNames.IsNullOrEmpty Then
-                Compound.CommonNames = New String() {Compound.Composition}
-            End If
+            For Each o In divs.SlideWindows(2, 2)
+                out += New KeyValuePair With {
+                    .Key = o(0).StripHTMLTags(stripBlank:=True),
+                    .Value = o(1).StripHTMLTags(stripBlank:=True)
+                }
+            Next
 
-            Return Compound
+            Return out
         End Function
 
         Public Function ToCompound() As Compound
@@ -96,10 +101,13 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .CommonNames = CommonNames,
                 .DbLinks = DbLinks,
                 .Formula = Me.Composition,
-                .KEGG_reaction = Reactions,
+                .KEGG_reaction = KEGG_reaction,
                 .Module = Me.Module,
                 .MolWeight = Val(Mass),
-                .Pathway = Pathway
+                .Pathway = Pathway,
+                .Enzyme = Enzyme,
+                .ExactMass = .MolWeight,
+                .Remarks = .Remarks
             }
         End Function
     End Class

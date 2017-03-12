@@ -1,5 +1,5 @@
 +D
-#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a> &nbsp; Pesticides</h2>
+#<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a>&nbsp; Pesticides</h2>
 #<!---
 #ENTRY       br08007
 #NAME        Pesticides
@@ -261,6 +261,7 @@ D      C18539  Sethoxydim
 D      C18540  Tepraloxydim
 D      C18769  Tralkoxydim
 C    Dinitroaniline herbicides
+D      C21273  Benfluralin
 D      C18785  Dinitramine
 D      C18827  Ethalfluralin
 D      C18730  Fluchloralin
@@ -1063,5 +1064,5 @@ D      C19146  Sesamex
 !
 #<hr>
 #<b>[ <a href="/kegg/drug/">DRUG</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: April 6, 2011
+#Last updated: August 10, 2016
 #<br><br><a href="/kegg-bin/get_htext?jp08007.keg">&raquo; Japanese version</a>

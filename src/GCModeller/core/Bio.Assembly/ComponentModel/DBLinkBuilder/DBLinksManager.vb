@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::031749378a89f79ca4e7d0f565de0ab9, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinksManager.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,11 +30,12 @@ Imports System.Text.RegularExpressions
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 
 Namespace ComponentModel.DBLinkBuilder
 
     Public MustInherit Class DBLinksManager(Of TLink As IDBLink)
-        Implements Generic.IReadOnlyCollection(Of TLink)
+        Implements IReadOnlyCollection(Of TLink)
 
         Public Shared ReadOnly Property PrefixDB As String() = New String() {
             "ChEBI", "3DMET", "HMDB",
@@ -47,10 +48,13 @@ Namespace ComponentModel.DBLinkBuilder
 
         Default Public ReadOnly Property Item(DBName As String) As TLink()
             Get
-                Dim LQuery = (From ItemDBLink As TLink
-                              In Me._DBLinkObjects
-                              Where String.Equals(DBName, ItemDBLink.DbName, StringComparison.OrdinalIgnoreCase)
-                              Select ItemDBLink).ToArray
+                Dim LQuery = LinqAPI.Exec(Of TLink) <=
+ _
+                    From link As TLink
+                    In Me._DBLinkObjects
+                    Where String.Equals(DBName, link.DbName, StringComparison.OrdinalIgnoreCase)
+                    Select link
+
                 Return LQuery
             End Get
         End Property
@@ -73,24 +77,40 @@ Namespace ComponentModel.DBLinkBuilder
         End Property
 
         Public Sub AddEntry(Entry As TLink)
-            Dim LQuery = (From item As TLink In DBLinkObjects
-                          Where String.Equals(item.DbName, Entry.DbName, StringComparison.OrdinalIgnoreCase) AndAlso
-                              String.Equals(item.ID, Entry.ID, StringComparison.OrdinalIgnoreCase)
-                          Select item).ToArray
+            Dim duplicated As TLink = LinqAPI.DefaultFirst(Of TLink) <=
+ _
+                From link As TLink
+                In DBLinkObjects
+                Where String.Equals(link.DbName, Entry.DbName, StringComparison.OrdinalIgnoreCase) AndAlso
+                    String.Equals(link.ID, Entry.ID, StringComparison.OrdinalIgnoreCase)
+                Select link
 
-            If LQuery.IsNullOrEmpty Then
+            ' 会在这里先检查是否有重复的记录数据出现，
+            ' 假若还没有重复的数据才会进行添加
+            If duplicated Is Nothing Then
                 Call _DBLinkObjects.Add(Entry)
             End If
         End Sub
 
-        Public Sub Remove(Db_Name As String, Entry As String)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="Db_Name"></param>
+        ''' <param name="entryID">
+        ''' 当编号值为空的时候，会将所有的<paramref name="Db_Name"/>类型的数据都删除掉
+        ''' </param>
+        Public Sub Remove(Db_Name As String, Optional entryID As String = "")
             Dim links As TLink() = Item(Db_Name)
+            Dim test = Function(l As TLink)
+                           If entryID.StringEmpty Then
+                               Return True
+                           Else
+                               Return entryID.TextEquals(l.ID)
+                           End If
+                       End Function
 
             If Not links.IsNullOrEmpty Then
-                For Each ll In (From n As TLink
-                                In links
-                                Where String.Equals(n.ID, Entry, StringComparison.OrdinalIgnoreCase)
-                                Select n).ToArray
+                For Each ll As TLink In links.Where(Function(l) True = test(l))
                     Call _DBLinkObjects.Remove(ll)
                 Next
             End If

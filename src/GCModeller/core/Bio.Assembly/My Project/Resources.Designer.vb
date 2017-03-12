@@ -76,7 +76,7 @@ Namespace My.Resources
         '''D      C00033  Acetate; Ethanoate
         '''D      C00163  Propionate; Propanoate
         '''D      C00246  Butyrate; Butanoate
-        '''D      C00803  Va [rest of string was truncated]&quot;;.
+        '''D      C00803  Valerate; Pentano [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08001() As String
             Get
@@ -103,7 +103,7 @@ Namespace My.Resources
         '''D      C00803  Pentanoic acid
         '''D      C01585  Hexanoic acid
         '''D      C17714  Heptanoic acid
-        ''' [rest of string was truncated]&quot;;.
+        '''D      C06423  Oct [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08002() As String
             Get
@@ -129,7 +129,7 @@ Namespace My.Resources
         '''D      C10152  (-)-Hygroline
         '''D      C10172  Stachydrine
         '''D      C08283  Homostachydrine
-        '''D      C1 [rest of string was truncated]&quot;;.
+        '''D      C10151  3-Hydroxyst [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08003() As String
             Get
@@ -157,7 +157,8 @@ Namespace My.Resources
         '''C    C16100  Endokinin C
         '''C    C16101  Endokinin D
         '''B  Neurotensin
-        '''C    C [rest of string was truncated]&quot;;.
+        '''C    C01836  Neurotensin
+        ''' [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08005() As String
             Get
@@ -183,7 +184,8 @@ Namespace My.Resources
         '''C    C10981  Vinclozolin
         '''B  Dithiocarbamate pesticides
         '''C    C15225  Mancozeb
-        '''C    C15231  Ma [rest of string was truncated]&quot;;.
+        '''C    C15231  Maneb
+        '''C    C18144   [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08006() As String
             Get
@@ -193,7 +195,7 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to +D
-        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; Pesticides&lt;/h2&gt;
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Pesticides&lt;/h2&gt;
         '''#&lt;!---
         '''#ENTRY       br08007
         '''#NAME        Pesticides
@@ -211,7 +213,8 @@ Namespace My.Resources
         '''D      C10929  Benalaxyl
         '''D      C18547  Boscalid
         '''D      C11255  Carboxin
-        '''D      C10932  Carp [rest of string was truncated]&quot;;.
+        '''D      C10932  Carpropamid
+        '''D      C1857 [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08007() As String
             Get
@@ -227,7 +230,9 @@ Namespace My.Resources
         '''#ENTRY       br08008
         '''#NAME        Carcinogen
         '''#DEFINITION  Carcinogens
-        '''#---&gt;        ''' [rest of string was truncated]&quot;;.
+        '''#---&gt;
+        '''!
+        '''A&lt;b&gt;G [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08008() As String
             Get
@@ -256,7 +261,7 @@ Namespace My.Resources
         '''D      C08438  alpha-Amanitin
         '''D      C08439  Phalloidin
         '''C    Terpenoids
-        '''D     [rest of string was truncated]&quot;;.
+        '''D      C19957  Fasciculol [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08009() As String
             Get
@@ -270,7 +275,7 @@ Namespace My.Resources
         '''%&lt;style type=&quot;text/css&quot;&gt;&lt;!--#grid{table-layout:fixed;font-family:monospace;position:relative;color:black;width:1000px;}.col1{position:relative;background:white;z-index:1;overflow:hidden;width:600px;}.col2{position:relative;background:white;z-index:2;padding-left:10px;}--&gt;&lt;/style&gt;
         '''#&lt;!---
         '''#ENTRY       br08010
-        '''#DEFINITION  Target-based classific [rest of string was truncated]&quot;;.
+        '''#DEFINITION  Target-based classification [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08010() As String
             Get
@@ -279,7 +284,12 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to 
+        '''  Looks up a localized string similar to +E	Reaction
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Enzymatic Reactions&lt;/h2&gt;
+        '''#&lt;!---
+        '''#ENTRY       br08201
+        '''#DEFINITION  Enzymatic reactions
+        '''#---&gt;
         '''!
         '''A&lt;b&gt;1. Oxidoreductase reactions&lt;/b&gt;
         '''B  1.1  Acting on the CH-OH group of donors
@@ -287,10 +297,7 @@ Namespace My.Resources
         '''D      1.1.1.1
         '''E        R00623  Primary alcohol + NAD+ &lt;=&gt; Aldehyde + NADH + H+
         '''E        R00624  Secondary alcohol + NAD+ &lt;=&gt; Ketone + NADH + H+
-        '''E        R00754  Ethanol + NAD+ &lt;=&gt; Acetaldehyde + NADH + H+
-        '''E        R02124  Retinol + NAD+ &lt;=&gt; Retinal + NADH + H+
-        '''E        R02878  1-Octanol + NAD+ &lt;=&gt; 1-Octanal + NADH + H+
-        '''E        R04805  3alpha,7alpha,26-Trihydroxy-5beta-ch [rest of string was truncated]&quot;;.
+        '''E        R00754  Ethanol + NAD+ &lt;=&gt; Acet [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08201() As String
             Get
@@ -342,7 +349,7 @@ Namespace My.Resources
         '''C    01120  Microbial metabolism in diverse environments
         '''C    01130  Biosynthesis of antibiotics
         '''C    01200  Carbon metabolism
-        '''C    01210  2-Oxoca [rest of string was truncated]&quot;;.
+        '''C    01210  2-Oxocarboxylic acid m [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property br08901() As String
             Get
@@ -385,7 +392,7 @@ Namespace My.Resources
         '''D      K12407  GCK; glucokinase [EC:2.7.1.2]
         '''D      K00845  glk; glucokinase [EC:2.7.1.2]
         '''D      K00886  ppgK; polyphosphate glucokinase [EC:2.7.1.63]
-        '''D   [rest of string was truncated]&quot;;.
+        '''D      K08074  ADPG [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property ko00001() As String
             Get

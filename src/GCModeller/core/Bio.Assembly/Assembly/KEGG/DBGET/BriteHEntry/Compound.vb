@@ -176,7 +176,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <param name="forceUpdate">是否需要API对已经存在的数据进行强制更新？</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function DownloadFromResource(EXPORT As String,
+        Public Shared Function DownloadFromResource(EXPORT$,
                                                     Optional DirectoryOrganized As Boolean = True,
                                                     Optional forceUpdate As Boolean = False) As String()
             Dim Resource = {

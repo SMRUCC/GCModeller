@@ -5,6 +5,8 @@ Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -15,10 +17,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <summary>
         ''' 使用KEGG compound的编号来下载代谢物数据
         ''' </summary>
-        ''' <param name="Id"></param>
+        ''' <param name="ID">``cpd:ID``</param>
         ''' <returns></returns>
-        Public Function DownloadCompound(Id As String) As Compound
-            Return DownloadCompoundFrom(url:=String.Format(URL, Id))
+        Public Function DownloadCompound(ID As String) As Compound
+            Return DownloadCompoundFrom(url:=String.Format(URL, ID))
         End Function
 
         ''' <summary>
@@ -27,18 +29,24 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <param name="url"></param>
         ''' <returns></returns>
         Public Function DownloadCompoundFrom(url As String) As Compound
-            Dim html As New WebForm(url)
+            Return New WebForm(url).ParseCompound
+        End Function
+
+        <Extension>
+        Public Function ParseCompound(html As WebForm) As Compound
             Dim links As DBLinks = GetDBLinks(html.GetValue("Other DBs").FirstOrDefault)
             Dim cpd As New Compound(links) With {
-                .Entry = Regex.Match(html.GetValue("Entry").FirstOrDefault, "[GC]\d+").Value
+                .Entry = Regex.Match(html.GetValue("Entry").FirstOrDefault, "[GC]\d+").Value,
+                .CommonNames = GetCommonNames(html.GetValue("Name").FirstOrDefault()),
+                .Formula = html.GetValue("Formula").FirstOrDefault.Strip_NOBR.StripHTMLTags(stripBlank:=True),
+                .KEGG_reaction = html.GetValue("Reaction").FirstOrDefault.GetLinks(),
+                .Enzyme = html.GetValue("Enzyme").FirstOrDefault.GetLinks,
+                .Pathway = __parseHTML_ModuleList(html.GetValue("Pathway").FirstOrDefault, LIST_TYPES.Pathway).Select(Function(s) String.Format("[{0}] {1}", s.Key, s.Value)).ToArray,
+                .Module = __parseHTML_ModuleList(html.GetValue("Module").FirstOrDefault, LIST_TYPES.Module).Select(Function(s) String.Format("[{0}] {1}", s.Key, s.Value)).ToArray,
+                .MolWeight = Val(html.GetValue("Mol weight").FirstOrDefault.Strip_NOBR.StripHTMLTags(stripBlank:=True)),
+                .ExactMass = Val(html.GetValue("Exact mass").FirstOrDefault.Strip_NOBR.StripHTMLTags(stripBlank:=True)),
+                .Remarks = html.GetValue("Remark").Select(Function(s) s.StripHTMLTags(stripBlank:=True)).ToArray
             }
-            cpd.CommonNames = GetCommonNames(html.GetValue("Name").FirstOrDefault())
-            cpd.Formula = html.GetValue("Formula").FirstOrDefault.Replace("<br>", "")
-            cpd.KEGG_reaction = html.GetValue("Reaction").FirstOrDefault.GetLinks()
-            cpd.Pathway = (From s As KeyValuePair In WebForm.parseList(html.GetValue("Pathway").FirstOrDefault, "<a href="".*/kegg-bin/show_pathway\?.+?"">.+?</a>") Select String.Format("[{0}] {1}", s.Key, s.Value)).ToArray
-            cpd.Module = (From s As KeyValuePair In WebForm.parseList(html.GetValue("Module").FirstOrDefault, "<a href="".*/kegg-bin/show_module\?.+?"">.+?</a>") Select String.Format("[{0}] {1}", s.Key, s.Value)).ToArray
-            cpd.MolWeight = Val(html.GetValue("Mol weight").FirstOrDefault)
-
             Return cpd
         End Function
 
@@ -74,34 +82,43 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         Const FLAG As String = "[a-z0-9-_.]+"
-        Const REGEX_DBLINK As String = FLAG & ": (\s*<a href="".+?"">" & FLAG & "</a>\s*)+"
+        Const regexpDBLink As String = FLAG & ": (\s*<a href="".+?"">" & FLAG & "</a>\s*)+"
 
-        Friend Function GetDBLinks(strData As String) As DBLinks
-            If String.IsNullOrEmpty(strData) Then
+        Friend Function GetDBLinks(html$) As DBLinks
+            If String.IsNullOrEmpty(html) Then
                 Return Nothing
             End If
 
-            Dim Tokens As String() = (From m As Match
-                                      In Regex.Matches(strData, REGEX_DBLINK, RegexOptions.IgnoreCase)
-                                      Select m.Value).ToArray
-            Dim LQuery As IEnumerable(Of DBLink()) = From s As String In Tokens Select TryParse(s)
-            Return New DBLinks(LQuery.IteratesALL)
+            Dim t$() = html.DivInternals
+            Dim LQuery As DBLink() = t _
+                .SlideWindows(2, 2) _
+                .Select(Function(s) TryParse(s(0).StripHTMLTags(stripBlank:=True).Trim(":"c).Trim, s(1))) _
+                .IteratesALL _
+                .ToArray
+            Return New DBLinks(LQuery)
         End Function
 
-        Private Function TryParse(str As String) As DBLink()
-            Dim tmp As String() = Strings.Split(str, ": ")
-            Dim DBName As String = tmp.First
-            Dim Entries As String() = tmp.Last.GetLinks
-            Dim LQuery As String = (From prefixName As String
-                                    In ComponentModel.DBLinkBuilder.DBLinks.PrefixDB
-                                    Where InStr(DBName, prefixName, CompareMethod.Text) > 0
-                                    Select prefixName).FirstOrDefault
+        <Extension> Private Function TryParse(DBName$, values$) As DBLink()
+            Dim IDs$() = values _
+                .StripHTMLTags(stripBlank:=True) _
+                .Split _
+                .Select(AddressOf Trim) _
+                .Where(Function(s) Not s.StringEmpty) _
+                .ToArray
+            Dim LQuery As String = LinqAPI.DefaultFirst(Of String) <=
+ _
+                From prefixName As String
+                In DBLinks.PrefixDB
+                Where InStr(DBName, prefixName, CompareMethod.Text) > 0
+                Select prefixName
 
             DBName = If(String.IsNullOrEmpty(LQuery), DBName, LQuery)
 
-            Return (From s As String
-                    In Entries
-                    Select New DBLink With {.DBName = DBName, .Entry = s}).ToArray
+            Return IDs.Select(
+                Function(ID$) New DBLink With {
+                    .DBName = DBName,
+                    .Entry = ID
+                }).ToArray
         End Function
 
         Friend Function GetCommonNames(str$) As String()
@@ -109,12 +126,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Return New String() {}
             End If
 
-            Dim buf As String() = Strings.Split(str, "<br>")
+            Dim buf As String() = str.Strip_NOBR.HtmlLines
             buf = LinqAPI.Exec(Of String) <=
  _
                 From s As String
                 In buf
-                Let line As String = s.Replace(";", "").Trim
+                Let line As String = s.StripHTMLTags(stripBlank:=True).Trim(";"c, " "c)
                 Where Not String.IsNullOrEmpty(line)
                 Select line
 

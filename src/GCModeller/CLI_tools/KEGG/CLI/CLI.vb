@@ -173,6 +173,15 @@ Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/Download.Compounds", Usage:="/Download.Compounds [/flat /updates /save <DIR>]")>
+    Public Function DownloadCompounds(args As CommandLine) As Integer
+        Dim save$ = args.GetValue("/save", App.HOME & "/KEGG_cpd/")
+        Dim flat As Boolean = args.GetBoolean("/flat")
+        Dim updates As Boolean = args.GetBoolean("/updates")
+        Dim failures As IEnumerable(Of String) = BriteHEntry.Compound.DownloadFromResource(save, Not flat, updates)
+        Return failures.SaveTo(save & "/failures.txt").CLICode
+    End Function
+
     <ExportAPI("/ko.index.sub.match", Usage:="/ko.index.sub.match /index <index.csv> /maps <maps.csv> /key <key> /map <mapTo> [/out <out.csv>]")>
     Public Function IndexSubMatch(args As CommandLine) As Integer
         Dim index As String = args("/index")
