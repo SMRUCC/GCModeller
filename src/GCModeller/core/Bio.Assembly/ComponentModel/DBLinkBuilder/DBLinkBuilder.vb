@@ -46,11 +46,11 @@ Namespace ComponentModel.DBLinkBuilder
             Call Initialize((From strValue As String In strData Select DBLink.CreateObject(strValue)).ToArray)
         End Sub
 
-        Sub New(objects As Generic.IEnumerable(Of DBLink))
+        Sub New(objects As IEnumerable(Of DBLink))
             Call Initialize(objects)
         End Sub
 
-        Private Sub Initialize(objects As Generic.IEnumerable(Of DBLink))
+        Private Sub Initialize(objects As IEnumerable(Of DBLink))
             _DBLinkObjects = objects.ToList
             Call LoadData(_DBLinkObjects, New KeyValuePair(Of String, Action(Of DBLink))() {
                           New KeyValuePair(Of String, Action(Of DBLink))("3DMET", Sub(DBLink As DBLink) Me.__3DMET = DBLink),

@@ -137,7 +137,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Return (From item In _DBLinks.CHEBI Select item.Entry).ToArray
             End Get
             Set(value As String())
-                _DBLinks.AddEntry(New DBLink With {.DBName = "CHEBI", .Entry = value.First})
+                For Each ID As String In value
+                    Call _DBLinks.AddEntry(New DBLink With {.DBName = "CHEBI", .Entry = ID})
+                Next
             End Set
         End Property
 
