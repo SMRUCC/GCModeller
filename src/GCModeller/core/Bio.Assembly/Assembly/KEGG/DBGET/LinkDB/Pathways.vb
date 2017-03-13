@@ -66,21 +66,12 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Yield New ListEntry With {
                     .EntryID = key,
                     .Description = Description,
-                    .Url = url
+                    .url = url
                 }
             Next
         End Function
 
-        ''' <summary>
-        ''' 下载某一个物种所注释的代谢途径的数据
-        ''' </summary>
-        ''' <param name="sp"></param>
-        ''' <param name="EXPORT"></param>
-        ''' <returns></returns>
-        Public Function Downloads(sp$,
-                                  Optional EXPORT$ = "./LinkDB-Pathways/",
-                                  Optional forceUpdate As Boolean = False) As String()
-
+        Public Iterator Function Downloads(sp As String, Optional EXPORT As String = "./LinkDB-Pathways/") As IEnumerable(Of Pathway)
             Dim entries As New List(Of ListEntry)
             Dim briefHash As Dictionary(Of String, BriteHEntry.Pathway) =
                 BriteHEntry.Pathway.LoadDictionary
