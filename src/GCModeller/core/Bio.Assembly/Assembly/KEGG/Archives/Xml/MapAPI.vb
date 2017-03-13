@@ -82,7 +82,7 @@ Namespace Assembly.KEGG.Archives.Xml
         <Extension> Public Function IsThisReaction(cps As String(), rxn As bGetObject.Reaction) As Boolean
             Dim LDM As Equation = rxn.ReactionModel
             For Each x As CompoundSpecieReference In LDM.GetMetabolites
-                Dim sId As String = x.Identifier
+                Dim sId As String = x.ID
                 If Array.IndexOf(cps, sId) = -1 Then  ' 当前的化合物不存在
                     Return False  ' 则当前的这个过程很明显不会发生
                 End If

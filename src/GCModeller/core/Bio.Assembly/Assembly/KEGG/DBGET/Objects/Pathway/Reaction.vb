@@ -105,7 +105,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                     FluxModel.Reactants,
                     FluxModel.Products
                 }.IteratesALL
-                Select csr.Identifier
+                Select csr.ID
                 Distinct
 
             Return Compounds
