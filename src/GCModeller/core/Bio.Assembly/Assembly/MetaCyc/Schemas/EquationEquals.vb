@@ -101,7 +101,7 @@ Namespace Assembly.MetaCyc.Schema
                 Return False
             End If
 
-            Dim LQuery = (From item In Side1 Let MAP = _CompoundMapping.Take(item.Identifier)
+            Dim LQuery = (From item In Side1 Let MAP = _CompoundMapping.Take(item.ID)
                           Where (Not MAP Is Nothing) AndAlso Not String.IsNullOrEmpty(MAP.MetaCycId)
                           Let value = New KeyValuePair(Of CompoundSpecieReference, EffectorMap)(item, MAP)
                           Select value).ToArray

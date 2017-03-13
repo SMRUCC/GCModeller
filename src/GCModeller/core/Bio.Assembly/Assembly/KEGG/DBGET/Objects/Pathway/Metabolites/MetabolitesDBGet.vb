@@ -145,5 +145,21 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
             Return buf
         End Function
+
+        ''' <summary>
+        ''' 请注意，这个函数仅会根据文件名的前缀来判断类型
+        ''' </summary>
+        ''' <param name="xml$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function LoadCompoundObject(xml$) As Compound
+            Dim ID$ = xml.BaseName
+
+            If ID.First = "G"c Then
+                Return xml.LoadXml(Of Glycan)(stripInvalidsCharacter:=True)
+            Else
+                Return xml.LoadXml(Of Compound)(stripInvalidsCharacter:=True)
+            End If
+        End Function
     End Module
 End Namespace

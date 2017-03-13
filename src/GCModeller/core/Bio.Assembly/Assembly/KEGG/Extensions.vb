@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.KEGG
@@ -72,5 +73,35 @@ Namespace Assembly.KEGG
         Public Function ValidateEntryFormat(s$) As Boolean
             Return s.MatchPattern("[a-z]+\d+")
         End Function
+
+        ''' <summary>
+        ''' Example as:
+        ''' 
+        ''' ```
+        ''' Same as: C00001
+        ''' ```
+        ''' </summary>
+        ''' <param name="s$"></param>
+        ''' <returns></returns>
+        <Extension> Public Function TheSameAs(s$()) As String
+            Dim tags As NamedValue(Of String) = s _
+                .Select(Function(l) l.GetTagValue(":", trim:=True)) _
+                .Where(Function(v) v.Name.TextEquals("Same as")) _
+                .FirstOrDefault
+            Return tags.Value
+        End Function
+
+        <Extension>
+        Public Function TheSameAs(Of T As IKEGGRemarks)(o As T) As String
+            If Not o.Remarks.IsNullOrEmpty Then
+                Return o.Remarks.TheSameAs
+            Else
+                Return ""
+            End If
+        End Function
+
+        Public Interface IKEGGRemarks
+            Property Remarks As String()
+        End Interface
     End Module
 End Namespace

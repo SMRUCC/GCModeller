@@ -139,10 +139,10 @@ Namespace Assembly.MetaCyc.Schema
                                                         Return String.Format("{0} [^COMPARTMENT - {1}]", item.Identifier, item.Compartment)
                                                     End If
                                                 End Function
-                              Select New CompoundSpecieReference With {.Identifier = GetUniqueId(), .StoiChiometry = item.StoiChiometry}).ToArray,
+                              Select New CompoundSpecieReference With {.ID = GetUniqueId(), .StoiChiometry = item.StoiChiometry}).ToArray,
                 .Products = (From x As CompoundSpecies In _Right
-                              Select New CompoundSpecieReference With {
-                                  .Identifier = GetUniqueId(x),
+                             Select New CompoundSpecieReference With {
+                                  .ID = GetUniqueId(x),
                                   .StoiChiometry = x.StoiChiometry}).ToArray,
                                   .Reversible = Reversible
             }

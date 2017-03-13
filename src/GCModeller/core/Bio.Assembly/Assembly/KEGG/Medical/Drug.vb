@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
@@ -6,13 +7,14 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Namespace Assembly.KEGG.Medical
 
     Public Class Drug
+        Implements INamedValue, IKEGGRemarks
 
-        Public Property Entry As String
+        Public Property Entry As String Implements INamedValue.Key
         Public Property Names As String()
         Public Property Formula As String
         Public Property Exact_Mass As Double
         Public Property Mol_Weight As Double
-        Public Property Remarks As String()
+        Public Property Remarks As String() Implements IKEGGRemarks.Remarks
         Public Property Activity As String
         Public Property DBLinks As DBLink()
         Public Property Atoms As Atom()
