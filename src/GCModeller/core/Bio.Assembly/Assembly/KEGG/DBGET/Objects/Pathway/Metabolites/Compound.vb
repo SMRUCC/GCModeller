@@ -116,7 +116,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
  _
                 From s As String
                 In strData
-                Let Id As String = Regex.Match(s, "[.+?]").Value
+                Let Id As String = Regex.Match(s, "\[.+?\]", RegexICSng).Value
                 Let value As String = s.Replace(Id, "").Trim
                 Select New NamedValue(Of String) With {
                     .Name = Id,
