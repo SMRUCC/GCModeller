@@ -293,6 +293,7 @@
     <Compile Include="Assembly\KEGG\Medical\DrugParser.vb" />
     <Compile Include="Assembly\KEGG\Medical\DiseaseParser.vb" />
     <Compile Include="Assembly\KEGG\Extensions.vb" />
+    <Compile Include="Assembly\KEGG\Medical\Extensions.vb" />
     <Compile Include="Assembly\KEGG\Web\PathwayMapping.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\htext.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb" />

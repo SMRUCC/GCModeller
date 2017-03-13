@@ -90,19 +90,41 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
             Return ACCESSION_NUMBER
         End Function
 
-        Public Shared Function Load(path$) As Dictionary(Of NamedCollection(Of Accession))
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <param name="type$">
+        ''' 例如假若只需要KEGG代谢物的编号的话，则指定这个参数的值为``KEGG COMPOUND accession``
+        ''' 这个参数为空值的话是不会进行任何过滤操作的
+        ''' </param>
+        ''' <returns></returns>
+        Public Shared Function Load(path$, Optional type$ = Nothing) As Dictionary(Of NamedCollection(Of Accession))
             Dim index As IndexOf(Of String) = path.TsvHeaders
             Dim table As New List(Of Accession)
+            Dim IDtype As New Value(Of String)
+
+            Dim test = Function(t$)
+                           Return type = t
+                       End Function
+            ' 假若所指定的类型参数值为空的话，则不会进行筛选过滤
+            If type.StringEmpty Then
+                test = Function(t$) True
+            End If
 
             For Each line As String In path.IterateAllLines.Skip(1)
                 Dim t$() = line.Split(ASCII.TAB)
+
+                If Not test(IDtype = t(index(NameOf(Accession.TYPE)))) Then
+                    Continue For
+                End If
 
                 table += New Accession With {
                     .ACCESSION_NUMBER = t(index(NameOf(ACCESSION_NUMBER))),
                     .COMPOUND_ID = t(index(NameOf(COMPOUND_ID))),
                     .ID = t(index(NameOf(ID))),
                     .SOURCE = t(index(NameOf(SOURCE))),
-                    .TYPE = t(index(NameOf(TYPE)))
+                    .TYPE = IDtype
                 }
             Next
 
