@@ -204,10 +204,22 @@ Public Module Extensions
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
+    ''' <param name="type">Only allowed action ``insert/update/delete/replace``</param>
     ''' <returns></returns>
     <Extension>
-    Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T)) As String
-        Return source.Select(Function(row) row.GetInsertSQL).JoinBy(ASCII.LF)
+    Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T), Optional type$ = "insert") As String
+        Dim SQL As Func(Of T, String)
+
+        Select Case LCase(type)
+            Case "insert" : SQL = Function(o) o.GetInsertSQL
+            Case "update" : SQL = Function(o) o.GetUpdateSQL
+            Case "delete" : SQL = Function(o) o.GetDeleteSQL
+            Case "replace" : SQL = Function(o) o.GetReplaceSQL
+            Case Else
+                Throw New ArgumentException("Only allowes ""insert/update/delete/replace"" actions.", paramName:=NameOf(type))
+        End Select
+
+        Return source.Select(SQL).JoinBy(ASCII.LF)
     End Function
 
     ''' <summary>
@@ -222,8 +234,11 @@ Public Module Extensions
     ''' <param name="encoding"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T), path$, Optional encoding As Encodings = Encodings.Default) As Boolean
-        Dim sql$ = source.DumpTransaction
+    Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T),
+                                                      path$,
+                                                      Optional encoding As Encodings = Encodings.Default,
+                                                      Optional type$ = "insert") As Boolean
+        Dim sql$ = source.DumpTransaction(type)
 
         If Not path.ExtensionSuffix.TextEquals("sql") Then
             Dim name$ = GetType(T).Name
