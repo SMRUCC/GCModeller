@@ -166,13 +166,6 @@ Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Download.Reaction", Usage:="/Download.Reaction [/save <DIR>]")>
-    Public Function DownloadKEGGReaction(args As CommandLine) As Integer
-        Dim save$ = args.GetValue("/save", App.HOME & "/br08201/")
-        Call EnzymaticReaction.DownloadReactions(save).ToArray
-        Return 0
-    End Function
-
     <ExportAPI("/ko.index.sub.match", Usage:="/ko.index.sub.match /index <index.csv> /maps <maps.csv> /key <key> /map <mapTo> [/out <out.csv>]")>
     Public Function IndexSubMatch(args As CommandLine) As Integer
         Dim index As String = args("/index")
@@ -189,7 +182,7 @@ Module CLI
     Public Function ImportsDb(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".Csv")
-        Dim ssdb = DBGET.bGetObject.SSDB.API.Transform(inDIR)
+        Dim ssdb = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.Transform(inDIR)
         Return ssdb.SaveTo(out).CLICode
     End Function
 
@@ -265,13 +258,13 @@ Module CLI
             Call MatrixBuilder.Last.Add(col.ID)
         Next
 
-        Dim OrganismList = DBGET.bGetObject.Organism.GetOrganismListFromResource
+        Dim OrganismList = bGetObject.Organism.GetOrganismListFromResource
         'Dim [ClassList] = (From sp In OrganismList.ToArray Select sp.Class Distinct).ToArray
         'For Each cls In ClassList
         '    Call MatrixBuilder.Last.Add("Class." & cls)
         'Next
 
-        For Each sp As DBGET.bGetObject.Organism.Organism In OrganismList.Eukaryotes.Join(OrganismList.Prokaryote)
+        For Each sp As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism.Organism In OrganismList.Eukaryotes.Join(OrganismList.Prokaryote)
             Call File.Add(New String() {sp.Class, sp.Kingdom, sp.Phylum, sp.KEGGId})
             Call MatrixBuilder.AppendLine({sp.Class, sp.KEGGId})
 
@@ -302,11 +295,11 @@ Module CLI
 
     <ExportAPI("-query.orthology", Usage:="-query.orthology -keyword <gene_name> -o <output_csv>")>
     Public Function QueryOrthology(argvs As CommandLine) As Integer
-        Dim EntryList = DBGET.bGetObject.SSDB.API.HandleQuery(argvs("-keyword"))
+        Dim EntryList = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.HandleQuery(argvs("-keyword"))
         Dim GeneEntries As List(Of QueryEntry) = New List(Of QueryEntry)
 
         For Each EntryPoint As QueryEntry In EntryList
-            Call GeneEntries.AddRange(DBGET.bGetObject.SSDB.API.HandleDownload(EntryPoint.LocusId))
+            Call GeneEntries.AddRange(SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.HandleDownload(EntryPoint.LocusId))
         Next
 
         Call GeneEntries.SaveTo(argvs("-o"), False)
@@ -467,18 +460,6 @@ Module CLI
         Return True
     End Function
 
-    <ExportAPI("-ref.map.download", Usage:="-ref.map.download -o <out_dir>")>
-    Public Function DownloadReferenceMapDatabase(argvs As CommandLine) As Integer
-        Dim OutDir As String = argvs("-o")
-        Dim IDList = DBGET.BriteHEntry.Pathway.LoadFromResource
-        Dim DownloadLQuery = (From ID As DBGET.BriteHEntry.Pathway
-                              In IDList
-                              Let MapID As String = "map" & ID.EntryId
-                              Let Map = ReferenceMapData.Download(MapID)
-                              Select Map.GetXml.SaveTo(OutDir & "/" & MapID & ".xml")).ToArray
-        Return 0
-    End Function
-
     <ExportAPI("-function.association.analysis", Usage:="-function.association.analysis -i <matrix_csv>")>
     Public Function FunctionAnalysis(argvs As CommandLine) As Integer
         Dim MAT = IO.File.FastLoad(argvs("-i"))
@@ -558,16 +539,5 @@ Module CLI
             Select New FastaToken(fa)
 
         Return New FastaFile(result).Save(out & ".fasta")
-    End Function
-
-    <ExportAPI("/Download.Pathway.Maps",
-               Usage:="/Download.Pathway.Maps /sp <kegg.sp_code> [/out <EXPORT_DIR>]")>
-    Public Function DownloadPathwayMaps(args As CommandLine) As Integer
-        Dim sp As String = args("/sp")
-        Dim EXPORT As String = args.GetValue("/out", App.CurrentDirectory & "/" & sp)
-
-        Call LinkDB.Pathways.Downloads(sp, EXPORT).ToArray
-
-        Return 0
     End Function
 End Module

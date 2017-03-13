@@ -77,7 +77,7 @@ Partial Module CLI
             .Attributes = {predict.ProteinId},
             .SequenceData = prot(tokens.First).SequenceData & prot(tokens.Last).SequenceData
         }
-        Dim struct = predict.GetDomainData(False).ToArray(Function(x) x.Identifier)
+        Dim struct = predict.GetDomainData(False).ToArray(Function(x) x.Name)
         Dim LQuery = (From x In subject.AsParallel
                       Let fm_tokens As String() = x.Family.Split("+"c)
                       Let score = LevenshteinDistance.Similarity(struct, fm_tokens, 0.95)
@@ -171,7 +171,7 @@ Partial Module CLI
                       In inPfam.AsParallel
                       Let order As String = (From id As ProteinModel.DomainObject
                                              In x.GetDomainData(False)
-                                             Select id.Identifier).ToArray.JoinBy("+")
+                                             Select id.Name).JoinBy("+")
                       Select order, x
                       Group By order Into Group) _
                  .ToDictionary(Function(x) x.order,
@@ -250,7 +250,7 @@ Partial Module CLI
                       In inPfam.AsParallel
                       Let order As String = (From id As ProteinModel.DomainObject
                                              In x.GetDomainData(False)
-                                             Select id.Identifier).ToArray.JoinBy("+")
+                                             Select id.Name).ToArray.JoinBy("+")
                       Select order, x
                       Group By order Into Group) _
                          .ToDictionary(Function(x) x.order,

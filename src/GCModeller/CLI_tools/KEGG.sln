@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "KEGG_tools", "KEGG\KEGG_tools.vbproj", "{76F9E7EE-A0B4-4BC0-A05D-E880F1F85B9D}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Microsoft.VisualBasic.Mathematical", "..\..\runtime\sciBASIC#\Data_science\Mathematical\Math\Microsoft.VisualBasic.Mathematical.vbproj", "{E3367B88-5D0C-495A-8273-331656D4B5AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GCModeller", "GCModeller", "{5335505B-CC48-4841-A7D1-F9DD38AA9D97}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "KEGG", "..\data\KEGG\KEGG.vbproj", "{68849E9F-359E-4844-A6DB-0CAE421594AD}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -351,6 +353,36 @@ Global
 		{E3367B88-5D0C-495A-8273-331656D4B5AA}.Release2|x64.Build.0 = Release2|x64
 		{E3367B88-5D0C-495A-8273-331656D4B5AA}.Release2|x86.ActiveCfg = Release2|x86
 		{E3367B88-5D0C-495A-8273-331656D4B5AA}.Release2|x86.Build.0 = Release2|x86
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Debug|x64.ActiveCfg = Debug|x64
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Debug|x64.Build.0 = Debug|x64
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Debug|x86.Build.0 = Debug|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.docs|x64.ActiveCfg = Debug|x64
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.docs|x64.Build.0 = Debug|x64
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.docs|x86.ActiveCfg = Debug|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.docs|x86.Build.0 = Debug|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Publish|x64.ActiveCfg = Release|x64
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Publish|x64.Build.0 = Release|x64
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Publish|x86.ActiveCfg = Release|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Publish|x86.Build.0 = Release|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Release|x64.ActiveCfg = Release|x64
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Release|x64.Build.0 = Release|x64
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Release|x86.ActiveCfg = Release|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Release|x86.Build.0 = Release|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Release2|Any CPU.ActiveCfg = Release|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Release2|Any CPU.Build.0 = Release|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Release2|x64.ActiveCfg = Release|x64
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Release2|x64.Build.0 = Release|x64
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Release2|x86.ActiveCfg = Release|Any CPU
+		{68849E9F-359E-4844-A6DB-0CAE421594AD}.Release2|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

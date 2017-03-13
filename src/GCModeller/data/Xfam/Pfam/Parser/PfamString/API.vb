@@ -46,12 +46,12 @@ Namespace PfamString
 
         <ExportAPI("FromChouFasman")>
         Public Function FromChouFasman(data As DomainObject) As PfamString
-            Dim struct As String = data.Identifier
+            Dim struct As String = data.Name
             struct = Mid(struct, 2, Len(struct) - 2)
             Dim [Structure] As PfamString =
                 New PfamString With {
                     .ProteinId = data.Id_Handle,
-                    .Description = data.Identifier,
+                    .Description = data.Name,
                     .Length = data.Position.FragmentSize,
                     .PfamString = (From i As Integer In struct.Sequence Let c As Char = struct(i) Select String.Format("{0}({1}|{2})", c.ToString, i + 1, i + 2)).ToArray}
             [Structure].Domains = (From c As Char In struct.ToArray Select CStr(c) Distinct).ToArray
@@ -71,7 +71,7 @@ Namespace PfamString
             Dim lociX As Loci.Location = Loci.Location.CreateObject(Mid(Loc, 2, Len(Loc) - 2), "|")
             Dim DomainData As ProteinModel.DomainObject =
                 New ProteinModel.DomainObject With {
-                    .Identifier = id,
+                    .Name = id,
                     .Position = lociX,
                     .Location = New Loci.Position(lociX, normlz)
             }
@@ -88,7 +88,7 @@ Namespace PfamString
         End Function
 
         ''' <summary>
-        ''' <see cref="ProteinModel.DomainObject.Identifier"/>
+        ''' <see cref="ProteinModel.DomainObject.Name"/>
         ''' </summary>
         ''' <param name="token"></param>
         ''' <returns></returns>
@@ -100,7 +100,7 @@ Namespace PfamString
 
         <ExportAPI("Pfam.Token"), Extension>
         Public Function ToPfamStringToken(dat As SMRUCC.genomics.ProteinModel.DomainObject) As String
-            Return String.Format("{0}({1}|{2})", dat.Identifier, dat.Position.Left, dat.Position.Right)
+            Return String.Format("{0}({1}|{2})", dat.Name, dat.Position.Left, dat.Position.Right)
         End Function
 
         ''' <summary>
@@ -140,7 +140,7 @@ Namespace PfamString
             Dim sBuilder As StringBuilder = New StringBuilder(2048)
             Call sBuilder.Append(String.Format("{0}    {1} ", Protein.Value.Identifier, Protein.Key))
             For Each Domain In Protein.Value.Domains
-                Call sBuilder.Append(String.Format("{0},{1},{2},Pfam-A,,,{3},{4},{5}   ", Domain.Position.Left, Domain.Position.Right, Domain.CommonName, Domain.Identifier, Domain.EValue, Domain.BitScore))
+                Call sBuilder.Append(String.Format("{0},{1},{2},Pfam-A,,,{3},{4},{5}   ", Domain.Position.Left, Domain.Position.Right, Domain.CommonName, Domain.Name, Domain.EValue, Domain.BitScore))
             Next
 
             Return sBuilder.ToString
@@ -186,7 +186,7 @@ Namespace PfamString
                 Return New String() {}
             End If
 
-            Return (From Domain In Domains Select String.Format("{0}({1}|{2})", Domain.Identifier, Domain.Position.Left, Domain.Position.Right)).ToArray
+            Return (From Domain In Domains Select String.Format("{0}({1}|{2})", Domain.Name, Domain.Position.Left, Domain.Position.Right)).ToArray
         End Function
 
         <ExportAPI("Description")>
@@ -235,7 +235,7 @@ Namespace PfamString
             Dim SmpFile As CDD.SmpFile = New SmpFile With {.Id = Tokens.First}
             Dim p As int = 1
 
-            SmpFile.Identifier = Tokens.GetItem(++p)
+            SmpFile.Name = Tokens.GetItem(++p)
             SmpFile.CommonName = Tokens.GetItem(++p)
             'SmpFile.Title = Tokens.GetItem(p.MoveNext)
             p += 1

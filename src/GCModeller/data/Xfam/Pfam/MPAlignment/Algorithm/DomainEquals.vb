@@ -53,7 +53,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
         End Function
 
         Public Overloads Function Equals(a As DomainObject, b As DomainObject) As Boolean
-            If Not String.Equals(a.Identifier, b.Identifier, StringComparison.OrdinalIgnoreCase) Then
+            If Not String.Equals(a.Name, b.Name, StringComparison.OrdinalIgnoreCase) Then
                 Return False
             End If
 

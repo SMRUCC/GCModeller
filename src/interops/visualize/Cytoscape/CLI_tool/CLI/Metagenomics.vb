@@ -242,7 +242,7 @@ Partial Module CLI
         ' step2
         Dim matrix As IEnumerable(Of DataSet)
 
-        If net.ReadFirstLine.Matched("BLASTN \d+\.\d+\.", RegexICSng) Then  ' blastn raw data
+        If net.ReadFirstLine.MatchPattern("BLASTN \d+\.\d+\.", RegexICSng) Then  ' blastn raw data
             Dim netdata As v228 = BlastPlus.Parser.ParsingSizeAuto(net)
             matrix = netdata.BuildMatrix(identities, coverage)
         Else

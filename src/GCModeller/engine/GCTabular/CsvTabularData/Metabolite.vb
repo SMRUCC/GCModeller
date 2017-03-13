@@ -1,37 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::e126ac4aff8d42853a158e1a3df200ed, ..\GCModeller\engine\GCTabular\CsvTabularData\Metabolite.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.Model.SBML
 
@@ -143,7 +145,15 @@ Namespace FileStream
             Call CommonNameList.Add(MetaCycCompound.CommonName)
             If Not MetaCycCompound.Names.IsNullOrEmpty Then Call CommonNameList.AddRange(MetaCycCompound.Names)
             If Not MetaCycCompound.Synonyms.IsNullOrEmpty Then Call CommonNameList.AddRange(MetaCycCompound.Synonyms)
-            CommonNameList = (From strValue As String In CommonNameList Where Not String.IsNullOrEmpty(strValue) Select strValue Distinct).ToList
+
+            CommonNameList = LinqAPI.MakeList(Of String) <=
+ _
+                From strValue As String
+                In CommonNameList
+                Where Not String.IsNullOrEmpty(strValue)
+                Select strValue
+                Distinct
+
             Dim DBLinks = MetaCycCompound.GetDBLinkManager
             Call DBLinks.AddEntry(New MetaCyc.Schema.DBLinkManager.DBLink With {.DBName = "METACYC", .AccessionId = MetaCycCompound.Identifier})
 
@@ -185,18 +195,22 @@ Namespace FileStream
 
             Public Property CHEBI As String() Implements ICompoundObject.CHEBI
             Public Property CommonNames As String() Implements ICompoundObject.CommonNames
-            Public Property KEGGCompound As String Implements ICompoundObject.locusId
+            Public Property KEGGCompound As String Implements ICompoundObject.KEGG_cpd
             Public Property PUBCHEM As String Implements ICompoundObject.PUBCHEM
 
-            Public Shared Function GenerateCompoundMappingModel(data As Generic.IEnumerable(Of Metabolite)) As List(Of MappingComponentModel)
-                Dim LQuery = (From compound As FileStream.Metabolite
-                              In data
-                              Select New MappingComponentModel With {
-                                  ._PUBCHEM = compound.PUBCHEM,
-                                  .KEGGCompound = compound.KEGGCompound,
-                                  ._CHEBI = compound.ChEBI,
-                                  .Identifier = compound.Identifier,
-                                  .CommonNames = compound.CommonNames}).ToList
+            Public Shared Function GenerateCompoundMappingModel(data As IEnumerable(Of Metabolite)) As List(Of MappingComponentModel)
+                Dim LQuery = LinqAPI.MakeList(Of MappingComponentModel) <=
+ _
+                    From compound As FileStream.Metabolite
+                    In data
+                    Select New MappingComponentModel With {
+                        ._PUBCHEM = compound.PUBCHEM,
+                        .KEGGCompound = compound.KEGGCompound,
+                        ._CHEBI = compound.ChEBI,
+                        .Identifier = compound.Identifier,
+                        .CommonNames = compound.CommonNames
+                    }
+
                 Return LQuery
             End Function
         End Class

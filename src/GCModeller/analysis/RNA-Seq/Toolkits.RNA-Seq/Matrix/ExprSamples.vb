@@ -54,7 +54,7 @@ Namespace dataExprMAT
         End Sub
 
         <XmlAttribute("Id")>
-        Public Property locusId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Double()).Identifier
+        Public Property locusId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Double()).Key
         Public Overrides Property Values As Double() Implements IKeyValuePairObject(Of String, Double()).Value
 
         Public Overrides Function ToString() As String

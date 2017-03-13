@@ -81,7 +81,7 @@ Namespace TRN.KineticsModel.Regulators
             Return Me
         End Function
 
-        Public ReadOnly Property UniqueId As String Implements IReadOnlyId.Identity, IReadOnlyDataSource(Of Boolean).Identifier
+        Public ReadOnly Property UniqueId As String Implements IReadOnlyId.Identity, IReadOnlyDataSource(Of Boolean).Key
             Get
                 Return RegulatorModel.Identifier
             End Get

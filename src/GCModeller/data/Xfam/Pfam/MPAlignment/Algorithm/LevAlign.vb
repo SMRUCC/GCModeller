@@ -75,7 +75,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
         Const A As Integer = Asc("A"c)
 
         Private Function __asChar(x As ProteinModel.DomainObject) As Char
-            Return DomainCodes(x.Identifier)
+            Return DomainCodes(x.Name)
         End Function
 
         ''' <summary>
@@ -100,16 +100,16 @@ Namespace ProteinDomainArchitecture.MPAlignment
         ''' <param name="prot_a"></param>
         ''' <param name="prot_b"></param>
         Sub New(prot_a As PfamString.PfamString, prot_b As PfamString.PfamString, equals As DomainEquals)
-            Dim domainA As ProteinModel.DomainObject() = prot_a.GetDomainData(False).OrderBy(Function(x) x.Position.Left).ThenBy(Function(x) x.Identifier).ToArray
-            Dim domainB As ProteinModel.DomainObject() = prot_b.GetDomainData(False).OrderBy(Function(x) x.Position.Left).ThenBy(Function(x) x.Identifier).ToArray
+            Dim domainA As ProteinModel.DomainObject() = prot_a.GetDomainData(False).OrderBy(Function(x) x.Position.Left).ThenBy(Function(x) x.Name).ToArray
+            Dim domainB As ProteinModel.DomainObject() = prot_b.GetDomainData(False).OrderBy(Function(x) x.Position.Left).ThenBy(Function(x) x.Name).ToArray
 
             ' 首先进行编码工作
             DomainCodes = (From domain In domainA.Join(domainB)
                            Select domain
-                           Group domain By domain.Identifier Into Group) _
+                           Group domain By domain.Name Into Group) _
                                     .ToArray(Function(name, idx) New With {
                                         .ch = ChrW(idx + LevAlign.A),
-                                        .Name = name.Identifier}) _
+                                        .Name = name.Name}) _
                                             .ToDictionary(Function(name) name.Name,
                                                           Function(name) name.ch)
 

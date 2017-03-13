@@ -79,7 +79,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         ''' <returns></returns>
         Public Function Downloads(sp$,
                                   Optional EXPORT$ = "./LinkDB-Pathways/",
-                                  Optional forceUpdate As Boolean = False) As IEnumerable(Of String())
+                                  Optional forceUpdate As Boolean = False) As String()
 
             Dim entries As New List(Of ListEntry)
             Dim briefHash As Dictionary(Of String, BriteHEntry.Pathway) =

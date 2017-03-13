@@ -55,13 +55,21 @@ Namespace Reflection.Schema
         ''' <returns></returns>
         Public Property PrimaryFields As New List(Of String)
 
+        ''' <summary>
+        ''' 获取这个数据表的列定义集合
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Fields As Field()
             Get
                 Return _databaseFields.Values.ToArray
             End Get
         End Property
 
-        Public ReadOnly Property lstFieldName As String()
+        ''' <summary>
+        ''' 获取这个数据表的列名称的集合
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property FieldNames As String()
             Get
                 Return _databaseFields.ToArray(Function(x) x.Value.FieldName)
             End Get
@@ -112,10 +120,14 @@ Namespace Reflection.Schema
             _databaseFields = New Dictionary(Of String, Field)
         End Sub
 
-        Sub New(Schema As Type)
+        ''' <summary>
+        ''' 从数据类型之中直接创建``schema``对象
+        ''' </summary>
+        ''' <param name="schema"></param>
+        Sub New(schema As Type)
             Call Me.New
-            Call Me.__getSchema(Schema)
-            SchemaType = Schema
+            Call Me.__getSchema(schema)
+            SchemaType = schema
         End Sub
 
         ''' <summary>
@@ -135,7 +147,7 @@ Namespace Reflection.Schema
         End Function
 
         Private Sub __getSchema(schema As Type)
-            Dim ItemProperty = schema.GetProperties
+            Dim ItemProperty As PropertyInfo() = schema.GetProperties
             Dim Field As Field
             Dim Index2 As String = String.Empty
             Dim IndexProperty2 As PropertyInfo = Nothing
@@ -144,9 +156,15 @@ Namespace Reflection.Schema
             Database = GetDatabaseName(schema)
 
             For i As Integer = 0 To ItemProperty.Length - 1
-                Field = ItemProperty(i) 'Parse the field attribute from the ctype operator, this property must have a DatabaseField custom attribute to indicate that it is a database field.
 
-                If Field Is Nothing Then Continue For
+                ' Parse the field attribute from the ctype operator, 
+                ' this property must have a DatabaseField custom 
+                ' Attribute to indicate that it is a database field.
+                Field = ItemProperty(i)
+
+                If Field Is Nothing Then
+                    Continue For
+                End If
 
                 Call _databaseFields.Add(Field.FieldName, Field)
 
@@ -167,7 +185,8 @@ Namespace Reflection.Schema
                 End If
             Next
 
-            Call __indexing(Index2, IndexProperty2, ItemProperty) 'If we can not found a index from its unique field, then we indexing from its primary key.
+            ' If we can not found a index from its unique field, then we indexing from its primary key.
+            Call __indexing(Index2, IndexProperty2, ItemProperty)
         End Sub
 
         ''' <summary>

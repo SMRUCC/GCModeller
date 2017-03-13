@@ -313,13 +313,13 @@ Statistics as Topic",
             Dim Groups = (From x As ProteinModel.DomainObject
                           In domains
                           Select x
-                          Group x By x.Identifier Into Group)
+                          Group x By x.Name Into Group)
             Dim LQuery As IEnumerable(Of DomainDistribution) = From xGroup In Groups
                                                                Let dists As Position() = (From domain As ProteinModel.DomainObject
                                                                                           In xGroup.Group.ToArray
                                                                                           Select New Position(domain.Position, protLen)).ToArray
                                                                Select New DomainDistribution With {
-                                                                   .DomainId = xGroup.Identifier,
+                                                                   .DomainId = xGroup.Name,
                                                                    .Distribution = dists
                                                                }
             Return LQuery.ToArray
