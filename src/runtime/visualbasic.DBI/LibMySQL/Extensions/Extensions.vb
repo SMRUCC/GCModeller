@@ -204,14 +204,40 @@ Public Module Extensions
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
+    ''' <param name="type">
+    ''' Only allowed action ``insert/update/delete/replace``, if the user custom SQL generator 
+    ''' <paramref name="custom"/> is nothing, then this parameter works.
+    ''' </param>
+    ''' <param name="custom">
+    ''' User custom SQL generator. If this parameter is not nothing, then <paramref name="type"/> will disabled.
+    ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T)) As String
-        Return source.Select(Function(row) row.GetInsertSQL).JoinBy(ASCII.LF)
+    Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T),
+                                                      Optional custom As Func(Of T, String) = Nothing,
+                                                      Optional type$ = "insert") As String
+        Dim SQL As Func(Of T, String)
+
+        If custom Is Nothing Then
+            Select Case LCase(type)
+                Case "insert" : SQL = Function(o) o.GetInsertSQL
+                Case "update" : SQL = Function(o) o.GetUpdateSQL
+                Case "delete" : SQL = Function(o) o.GetDeleteSQL
+                Case "replace" : SQL = Function(o) o.GetReplaceSQL
+                Case Else
+                    Throw New ArgumentException("Only allowes ""insert/update/delete/replace"" actions.", paramName:=NameOf(type))
+            End Select
+        Else
+            SQL = custom
+        End If
+
+        Return source.Select(SQL).JoinBy(ASCII.LF)
     End Function
 
     ''' <summary>
-    ''' 
+    ''' 从<see cref="SQLTable"/>之中生成SQL语句之后保存到指定的文件句柄之上，
+    ''' + 假若所输入的文件句柄是带有``.sql``后缀的话，会直接保存为该文件，
+    ''' + 反之会被当作为文件夹，当前的集合对象会保存为与类型相同名称的sql文件
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
@@ -222,8 +248,11 @@ Public Module Extensions
     ''' <param name="encoding"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T), path$, Optional encoding As Encodings = Encodings.Default) As Boolean
-        Dim sql$ = source.DumpTransaction
+    Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T),
+                                                      path$,
+                                                      Optional encoding As Encodings = Encodings.Default,
+                                                      Optional type$ = "insert") As Boolean
+        Dim sql$ = source.DumpTransaction(type:=type)
 
         If Not path.ExtensionSuffix.TextEquals("sql") Then
             Dim name$ = GetType(T).Name

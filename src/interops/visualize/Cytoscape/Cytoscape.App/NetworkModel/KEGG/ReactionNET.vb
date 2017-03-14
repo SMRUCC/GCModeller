@@ -72,12 +72,12 @@ Namespace NetworkModel.KEGG
                             Let LDM As Equation = x.ReactionModel
                             Select (From cp As CompoundSpecieReference
                                     In LDM.GetMetabolites
-                                    Select cp.Identifier,
+                                    Select cp.ID,
                                         rxn = x)).IteratesALL
             Dim hash = (From x In preCache
                         Select x
-                        Group x By x.Identifier Into Group) _
-                             .ToDictionary(Function(x) x.Identifier,
+                        Group x By x.ID Into Group) _
+                             .ToDictionary(Function(x) x.ID,
                                            Function(x) x.Group.ToArray(Function(xx) xx.rxn))
             Return hash
         End Function
