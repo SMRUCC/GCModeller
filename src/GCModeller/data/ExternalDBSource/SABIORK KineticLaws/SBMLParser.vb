@@ -102,7 +102,7 @@ Namespace SabiorkKineticLaws.SBMLParser
 
         Private Shared Function TryParseSpeciesReference(strData As String) As CompoundSpecieReference
             Dim Reference As CompoundSpecieReference = New CompoundSpecieReference
-            Reference.Identifier = GetStringValue(Regex.Match(strData, "species="".+?""").Value)
+            Reference.ID = GetStringValue(Regex.Match(strData, "species="".+?""").Value)
             Reference.StoiChiometry = Val(GetStringValue(Regex.Match(strData, "stoichiometry="".+?""").Value))
 
             Return Reference

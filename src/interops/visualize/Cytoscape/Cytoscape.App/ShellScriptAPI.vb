@@ -167,8 +167,8 @@ Public Module ShellScriptAPI
         Graph.Edges = (From rxn In Reaction
                        Let Edges = (From target In Reaction
                                     Let Compound As String() = (From source In rxn.DataModel.Products
-                                                                Where target.DataModel.GetCoEfficient(source.Identifier) < 0
-                                                                Select source.Identifier).ToArray
+                                                                Where target.DataModel.GetCoEfficient(source.ID) < 0
+                                                                Select source.ID).ToArray
                                     Where Not Compound.IsNullOrEmpty
                                     Select New XGMML.Edge With {
                                         .source = Graph.GetNode(rxn.ID).id,

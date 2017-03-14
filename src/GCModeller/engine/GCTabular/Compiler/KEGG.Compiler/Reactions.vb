@@ -234,7 +234,7 @@ Namespace KEGG.Compiler
             Dim IsKEGGReaction As Boolean = True
 
             For i As Integer = 0 To Substrates.Length - 1
-                Dim UniqueId As String = Substrates(i).Identifier
+                Dim UniqueId As String = Substrates(i).ID
 
                 UniqueId = Regex.Replace(UniqueId, "\(.+?\)", "") '由于这里的编号仅为KEGGCompound的编号，故而可以直接在这里使用替换操作
                 UniqueId = UniqueId.Split.Last.ToUpper
@@ -284,7 +284,7 @@ Download:
 
                         If Not String.IsNullOrEmpty(Compound.KEGGCompound) Then
                             If Metabolites.ContainsKey(Compound.KEGGCompound) Then
-                                Substrates(i).Identifier = Metabolites(Compound.KEGGCompound).Identifier
+                                Substrates(i).ID = Metabolites(Compound.KEGGCompound).Identifier
                                 Continue For
                             End If
 
@@ -298,9 +298,9 @@ Download:
                         End If
                     End If
 
-                    Substrates(i).Identifier = DownloadList.Last.Identifier
+                    Substrates(i).ID = DownloadList.Last.Identifier
                 Else
-                    Substrates(i).Identifier = Metabolites(UniqueId).Identifier
+                    Substrates(i).ID = Metabolites(UniqueId).Identifier
                 End If
             Next
 

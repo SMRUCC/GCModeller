@@ -151,8 +151,8 @@ Namespace FileStream
             Set(value As String)
                 _Equation = value
                 Dim Model As DefaultTypes.Equation = EquationBuilder.CreateObject(value)
-                _Internal_compilerLeft = (From item In Model.Reactants Select New KeyValuePair(Of Double, String)(item.StoiChiometry, item.Identifier)).ToArray
-                _Internal_compilerRight = (From item In Model.Products Select New KeyValuePair(Of Double, String)(item.StoiChiometry, item.Identifier)).ToArray
+                _Internal_compilerLeft = (From item In Model.Reactants Select New KeyValuePair(Of Double, String)(item.StoiChiometry, item.ID)).ToArray
+                _Internal_compilerRight = (From item In Model.Products Select New KeyValuePair(Of Double, String)(item.StoiChiometry, item.ID)).ToArray
             End Set
         End Property
 
@@ -291,10 +291,10 @@ Namespace FileStream
             Dim Model = EquationBuilder.CreateObject(Equation)
             Dim Reactants = (From item As CompoundSpecieReference
                              In Model.Reactants
-                             Select New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = item.Identifier, .StoiChiometry = item.StoiChiometry}).ToArray
+                             Select New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = item.ID, .StoiChiometry = item.StoiChiometry}).ToArray
             Dim Products = (From item As CompoundSpecieReference
                             In Model.Products
-                            Select New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = item.Identifier, .StoiChiometry = item.StoiChiometry}).ToArray
+                            Select New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.Identifier = item.ID, .StoiChiometry = item.StoiChiometry}).ToArray
 
             Return New Metabolism.Reaction With {
                 .Identifier = Identifier,
