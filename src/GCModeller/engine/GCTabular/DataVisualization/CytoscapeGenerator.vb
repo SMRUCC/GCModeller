@@ -187,14 +187,14 @@ Namespace DataVisualization
             End If
 
             If MetabolismModel.Reversible Then
-                Call List.AddRange((From item In FluxModel.Reactants Select New DataVisualization.Interactions With {.FromNode = MetabolismModel.Identifier, .ToNode = item.Identifier, .InteractionType = "MetabolismFlux Substrates"}).ToArray)
-                Call List.AddRange((From item In FluxModel.Products Select New DataVisualization.Interactions With {.FromNode = item.Identifier, .ToNode = MetabolismModel.Identifier, .InteractionType = "MetabolismFlux Substrates"}).ToArray)
+                Call List.AddRange((From item In FluxModel.Reactants Select New DataVisualization.Interactions With {.FromNode = MetabolismModel.Identifier, .ToNode = item.ID, .InteractionType = "MetabolismFlux Substrates"}).ToArray)
+                Call List.AddRange((From item In FluxModel.Products Select New DataVisualization.Interactions With {.FromNode = item.ID, .ToNode = MetabolismModel.Identifier, .InteractionType = "MetabolismFlux Substrates"}).ToArray)
                 '处于路径搜索的查找方向以及整个网络的连通性考虑，在这里添加冗余数据
-                Call List.AddRange((From item In FluxModel.Reactants Select New DataVisualization.Interactions With {.FromNode = item.Identifier, .ToNode = MetabolismModel.Identifier, .InteractionType = "MetabolismFlux Substrates"}).ToArray)
-                Call List.AddRange((From item In FluxModel.Products Select New DataVisualization.Interactions With {.FromNode = MetabolismModel.Identifier, .ToNode = item.Identifier, .InteractionType = "MetabolismFlux Substrates"}).ToArray)
+                Call List.AddRange((From item In FluxModel.Reactants Select New DataVisualization.Interactions With {.FromNode = item.ID, .ToNode = MetabolismModel.Identifier, .InteractionType = "MetabolismFlux Substrates"}).ToArray)
+                Call List.AddRange((From item In FluxModel.Products Select New DataVisualization.Interactions With {.FromNode = MetabolismModel.Identifier, .ToNode = item.ID, .InteractionType = "MetabolismFlux Substrates"}).ToArray)
             Else
-                Call List.AddRange((From item In FluxModel.Reactants Select New DataVisualization.Interactions With {.FromNode = item.Identifier, .ToNode = MetabolismModel.Identifier, .InteractionType = "MetabolismFlux Reactants"}).ToArray)
-                Call List.AddRange((From item In FluxModel.Products Select New DataVisualization.Interactions With {.FromNode = MetabolismModel.Identifier, .ToNode = item.Identifier, .InteractionType = "MetabolismFlux Products"}).ToArray)
+                Call List.AddRange((From item In FluxModel.Reactants Select New DataVisualization.Interactions With {.FromNode = item.ID, .ToNode = MetabolismModel.Identifier, .InteractionType = "MetabolismFlux Reactants"}).ToArray)
+                Call List.AddRange((From item In FluxModel.Products Select New DataVisualization.Interactions With {.FromNode = MetabolismModel.Identifier, .ToNode = item.ID, .InteractionType = "MetabolismFlux Products"}).ToArray)
             End If
             Return 0
         End Function

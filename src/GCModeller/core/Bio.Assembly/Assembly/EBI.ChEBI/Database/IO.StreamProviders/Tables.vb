@@ -91,7 +91,7 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
         End Function
 
         ''' <summary>
-        ''' 
+        ''' 返回的字典的键名是chebi编号
         ''' </summary>
         ''' <param name="path$"></param>
         ''' <param name="type$">

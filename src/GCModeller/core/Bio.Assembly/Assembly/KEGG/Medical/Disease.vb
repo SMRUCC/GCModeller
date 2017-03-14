@@ -1,12 +1,13 @@
-﻿Imports Microsoft.VisualBasic.Serialization.JSON
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.Medical
 
-    Public Class Disease
+    Public Class Disease : Implements INamedValue
 
-        Public Property Entry As String
+        Public Property Entry As String Implements INamedValue.Key
         Public Property Names As String()
         Public Property Description As String
         Public Property Category As String
