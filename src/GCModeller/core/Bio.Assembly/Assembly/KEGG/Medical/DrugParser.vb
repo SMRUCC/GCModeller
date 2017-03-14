@@ -21,6 +21,15 @@ Namespace Assembly.KEGG.Medical
             Next
         End Function
 
+        Public Function LoadDrugGroup(path$) As DrugGroup()
+            Dim lines$() = path.ReadAllLines
+            Dim out As DrugGroup() = lines _
+                .Split("///") _
+                .Select(Function(pack) pack.ParseStream.CreateDrugGroupModel) _
+                .ToArray
+            Return out
+        End Function
+
         <Extension>
         Public Function CreateDrugGroupModel(getValue As Func(Of String, String())) As DrugGroup
             Return New DrugGroup With {
@@ -28,7 +37,7 @@ Namespace Assembly.KEGG.Medical
                 .Names = getValue("NAME") _
                     .Where(Function(s) Not s.StringEmpty) _
                     .ToArray,
-                .Remarks = getValue("REMARKS"),
+                .Remarks = getValue("REMARK"),
                 .Comments = getValue("COMMENT").JoinBy(" "),
                 .Targets = getValue("TARGET"),
                 .Metabolism = getValue("METABOLISM") _
@@ -94,7 +103,7 @@ Namespace Assembly.KEGG.Medical
                 .Formula = getValue("FORMULA").FirstOrDefault,
                 .Exact_Mass = Val(getValue("EXACT_MASS").FirstOrDefault),
                 .Mol_Weight = Val(getValue("MOL_WEIGHT").FirstOrDefault),
-                .Remarks = getValue("REMARKS"),
+                .Remarks = getValue("REMARK"),
                 .DBLinks = getValue("DBLINKS") _
                     .Select(AddressOf DBLink.FromTagValue) _
                     .ToArray,

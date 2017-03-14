@@ -1,12 +1,13 @@
 ﻿
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.KEGG.Medical
 
-    Public Class DrugGroup
+    Public Class DrugGroup : Implements INamedValue
 
-        Public Property Entry As String
+        Public Property Entry As String Implements INamedValue.Key
         Public Property Names As String()
         Public Property Members As String()
         Public Property Remarks As String()
