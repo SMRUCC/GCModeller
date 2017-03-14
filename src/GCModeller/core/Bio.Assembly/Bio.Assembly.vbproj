@@ -265,6 +265,7 @@
     <Compile Include="Assembly\DOOR\Models\OperonLDM.vb" />
     <Compile Include="Assembly\DOOR\IO.vb" />
     <Compile Include="Assembly\DOOR\ViewAPI.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Compound.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Tables.vb" />
     <Compile Include="Assembly\Expasy\API.vb" />
     <Compile Include="Assembly\Expasy\csv\SwissProt.vb" />

@@ -27,5 +27,24 @@ Namespace Assembly.KEGG.Medical
                 .ToArray
             Return geneIDs
         End Function
+
+        ''' <summary>
+        ''' Using remarks the same as map drug to compounds
+        ''' </summary>
+        ''' <param name="drugs"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function CompoundsDrugs(drugs As IEnumerable(Of Drug)) As Dictionary(Of String, Drug())
+            Dim compoundDrugs = drugs _
+                .Select(Function(dr) New Tuple(Of String, Drug)(dr.TheSameAs, dr)) _
+                .Where(Function(dr) Not dr.Item1.StringEmpty) _
+                .GroupBy(Function(k) k.Item1) _
+                .ToDictionary(Function(k) k.Key,
+                              Function(v) v.Select(Function(g) g.Item2) _
+                                           .GroupBy(Function(d) d.Entry) _
+                                           .Select(Function(dr) dr.First) _
+                                           .ToArray)
+            Return compoundDrugs
+        End Function
     End Module
 End Namespace
