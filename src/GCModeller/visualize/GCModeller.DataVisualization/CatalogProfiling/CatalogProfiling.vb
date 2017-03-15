@@ -187,7 +187,7 @@ Public Module CatalogProfiling
         Dim totalHeight = classes.Length * (maxLenClsKeySize.Height + 5) +
             profile.Values.IteratesALL.Count * (maxLenSubKeySize.Height + 4) +
             classes.Length * 20
-        Dim left As Single, y! = (region.PlotRegion.Height - totalHeight) '/ 2
+        Dim left As Single, y! = region.Padding.Top + (region.PlotRegion.Height - totalHeight) / 2
 
         ' barPlot的最左边的坐标
         Dim barRect As New Rectangle(

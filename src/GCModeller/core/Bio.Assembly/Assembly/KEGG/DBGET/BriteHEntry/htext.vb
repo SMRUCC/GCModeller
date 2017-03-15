@@ -62,6 +62,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Property Hierarchical As BriteHText
 
+        Public Function GetEntryDictionary() As Dictionary(Of String, BriteHText)
+            Return Hierarchical _
+                .EnumerateEntries _
+                .Where(Function(x) Not x.EntryId.StringEmpty) _
+                .GroupBy(Function(t) t.EntryId) _
+                .ToDictionary(Function(k) k.Key,
+                              Function(o) o.First)
+        End Function
+
         Public Overrides Function ToString() As String
             Return Title
         End Function
