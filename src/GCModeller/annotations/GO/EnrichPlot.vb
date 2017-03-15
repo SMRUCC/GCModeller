@@ -18,7 +18,8 @@ Public Module EnrichPlot
                                Optional padding$ = g.DefaultPadding,
                                Optional bg$ = "white",
                                Optional unenrichColor$ = "gray",
-                               Optional enrichColorSchema$ = "Paired:c8") As Image
+                               Optional enrichColorSchema$ = "Paired:c6",
+                               Optional pvalue# = 0.01) As Image
 
         Dim enrichResult = data.EnrichResult(GO_terms)
         Dim colors As Color() = Designer.GetColors(enrichColorSchema)
@@ -28,7 +29,7 @@ Public Module EnrichPlot
             size.SizeParser, padding,
             bg,
             Sub(ByRef g, region)
-                Call g.__plotInternal(region, enrichResult, unenrich, colors)
+                Call g.__plotInternal(region, enrichResult, unenrich, colors, pvalue)
             End Sub)
     End Function
 
@@ -36,7 +37,7 @@ Public Module EnrichPlot
     Public Function EnrichResult(data As IEnumerable(Of EnrichmentTerm), GO_terms As Dictionary(Of Term)) As Dictionary(Of String, EnrichmentTerm())
         Dim result As New Dictionary(Of String, List(Of EnrichmentTerm))
 
-        For Each term As EnrichmentTerm In data
+        For Each term As EnrichmentTerm In data.Where(Function(t) GO_terms.ContainsKey(t.ID))
             Dim goTerm As Term = GO_terms(term.ID)
 
             If Not result.ContainsKey(goTerm.namespace) Then
@@ -55,11 +56,20 @@ Public Module EnrichPlot
                                region As GraphicsRegion,
                                result As Dictionary(Of String, EnrichmentTerm()),
                                unenrich As Color,
-                               enrichColors As Color())
+                               enrichColors As Color(), pvalue#)
         Dim serials As SerialData() = result _
             .SeqIterator _
-            .Select(Function(cat) (+cat).Value.__createModel(ns:=(+cat).Key, color:=enrichColors(cat))) _
-            .ToArray
+            .Select(Function(cat) (+cat).Value.__createModel(
+                ns:=(+cat).Key,
+                color:=enrichColors(cat),
+                pvalue:=pvalue)) _
+            .Join(
+            {
+                result.Values _
+                    .IteratesALL _
+                    .__unenrichSerial(pvalue, color:=unenrich)
+            }) _
+            .ToArray  ' 这些都是经过筛选的，pvalue阈值符合条件的，剩下的pvalue阈值不符合条件的都被当作为同一个serials
         Dim plot As Bitmap = Bubble.Plot(
             serials,
             size:=New Size(region.Size.Width * 0.85, region.Size.Height),
@@ -70,13 +80,36 @@ Public Module EnrichPlot
     End Sub
 
     <Extension>
-    Private Function __createModel(catalog As EnrichmentTerm(), ns$, color As Color) As SerialData
+    Private Function __unenrichSerial(catalog As IEnumerable(Of EnrichmentTerm), pvalue#, color As Color) As SerialData
+        Dim unenrichs = catalog.Where(Function(term) term.CorrectedPvalue > pvalue)
+        Return New SerialData With {
+            .color = color,
+            .title = "Unenrich terms",
+            .pts = unenrichs _
+                .Select(Function(gene) New PointData With {
+                    .value = Math.Log(gene.number, 1.25) + 1,
+                    .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P)
+                }).ToArray
+        }
+    End Function
+
+    ''' <summary>
+    ''' 返回来的是经过cutoff的数据
+    ''' </summary>
+    ''' <param name="catalog"></param>
+    ''' <param name="ns$"></param>
+    ''' <param name="color"></param>
+    ''' <param name="pvalue#"></param>
+    ''' <returns></returns>
+    <Extension>
+    Private Function __createModel(catalog As EnrichmentTerm(), ns$, color As Color, pvalue#) As SerialData
         Return New SerialData With {
             .color = color,
             .title = ns,
-            .pts = catalog.Select(
-                Function(gene) New PointData With {
-                    .value = gene.number,
+            .pts = catalog _
+                .Where(Function(gene) gene.CorrectedPvalue <= pvalue) _
+                .Select(Function(gene) New PointData With {
+                    .value = Math.Log(gene.number, 1.25) + 1,
                     .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P)
                 }).ToArray
         }

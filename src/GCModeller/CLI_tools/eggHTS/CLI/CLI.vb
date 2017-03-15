@@ -34,13 +34,14 @@ Module CLI
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function GO_enrichment(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
-        Dim terms = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
+        Dim terms = GO_OBO.Open(goDB).ToDictionary
         Dim [in] As String = args("/in")
         Dim PlantRegMap As Boolean = args.GetBoolean("/PlantRegMap")
         Dim pvalue As Double = args.GetValue("/pvalue", 0.05)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".GO_enrichment.pvalue={pvalue}.png")
         Dim size As String = args.GetValue("/size", "2000,1600")
         Dim plot As Bitmap
+        Dim bubbleStyle As Boolean = args.GetBoolean("/bubble")
         Dim tick# = args.GetValue("/tick", 1.0R)
         Dim gray As Boolean = args.GetBoolean("/gray")
         Dim labelRight As Boolean = args.GetBoolean("/label.right")
@@ -52,10 +53,15 @@ Module CLI
             enrichments.ToArray.SaveTo([in].TrimSuffix & ".csv")
         Else
             Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
-            plot = enrichments.EnrichmentPlot(
-                terms, pvalue, size.SizeParser,
-                tick,
-                gray, labelRight)
+
+            If bubbleStyle Then
+                plot = enrichments.BubblePlot(GO_terms:=terms)
+            Else
+                plot = enrichments.EnrichmentPlot(
+                    terms, pvalue, size.SizeParser,
+                    tick,
+                    gray, labelRight)
+            End If
         End If
 
         Return plot.SaveAs(out, ImageFormats.Png).CLICode

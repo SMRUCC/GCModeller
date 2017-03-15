@@ -295,7 +295,7 @@ Public Module CatalogPlots
     ''' <returns></returns>
     <Extension>
     Public Function EnrichmentPlot(Of EnrichmentTerm As IGoTermEnrichment)(data As IEnumerable(Of EnrichmentTerm),
-                                                                           GO_terms As Dictionary(Of String, Term),
+                                                                           GO_terms As Dictionary(Of Term),
                                                                            Optional pvalue# = 0.05,
                                                                            Optional size As Size = Nothing,
                                                                            Optional tick# = 1,
