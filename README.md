@@ -88,6 +88,7 @@ Here listing the scientific paperworks that based on the analysis services of GC
 
 ## Gallery
 
+![](./images/KOBAS-GeneOntology.GO_enrichment.bubble.png)
 <img src="./manual/KEGG/Unigenes.blast.m8.filter-KO.Catalogs/kegg-level-A.png" width=435 /><img src="/images/GO-enrichment.png" width=435 />
 ![](./images/FUR-lightbox.png)
 ![](./images/Xanthomonas_oryzae_oryzicola_BLS256_uid16740-lightbox.png)

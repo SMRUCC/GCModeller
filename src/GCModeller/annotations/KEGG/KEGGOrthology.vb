@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
@@ -200,22 +201,46 @@ Public Module KEGGOrthology
                                        Optional tick# = 1,
                                        Optional gray As Boolean = False,
                                        Optional labelRightAlignment As Boolean = False) As Bitmap
+        Dim pathwayBrite = Pathway.LoadDictionary
+        Dim profiles As New Dictionary(Of String, List(Of NamedValue(Of Double)))
+        Dim catalog As Pathway
 
-        Dim data As NamedValue(Of Double)() = result _
-            .Where(Function(x) x.Pvalue <= pvalue) _
-            .Select(Function(x) New NamedValue(Of Double) With {
-                .Name = x.Term,
-                .Value = -Math.Log10(x.Pvalue)
-            }).OrderByDescending(Function(x) x.Value) _
-              .ToArray
-        Return New Dictionary(Of String, NamedValue(Of Double)()) From {
-            {"KEGG Pathways", data}
-        }.ProfilesPlot(title:="KEGG Pathway enrichment",
-                       size:=size,
-                       axisTitle:="-Log10(p-value)",
-                       tick:=tick,
-                       gray:=gray,
-                       labelRightAlignment:=labelRightAlignment)
+        For Each term As EnrichmentTerm In result.Where(Function(x) x.Pvalue <= pvalue)
+            catalog = pathwayBrite.GetPathwayBrite(term.ID)
+
+            If catalog Is Nothing Then
+                catalog = New Pathway With {
+                    .Category = "Unclassified",
+                    .Class = .Category
+                }
+            End If
+
+            If Not profiles.ContainsKey(catalog.Class) Then
+                Call profiles.Add(catalog.Class, New List(Of NamedValue(Of Double)))
+            End If
+
+            Call profiles(catalog.Class).Add(
+                New NamedValue(Of Double) With {
+                    .Name = term.Term,
+                    .Value = -Math.Log10(term.Pvalue)
+                })
+        Next
+
+        Dim profileData = profiles _
+            .ToDictionary(Function(k) k.Key,
+                          Function(terms) As NamedValue(Of Double)()
+                              Return terms _
+                                  .Value _
+                                  .OrderByDescending(Function(t) t.Value) _
+                                  .ToArray
+                          End Function)
+        Return profileData _
+            .ProfilesPlot(title:="KEGG Pathway enrichment",
+                          size:=size,
+                          axisTitle:="-Log10(p-value)",
+                          tick:=tick,
+                          gray:=gray,
+                          labelRightAlignment:=labelRightAlignment)
     End Function
 End Module
 

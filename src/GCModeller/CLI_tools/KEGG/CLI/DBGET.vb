@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
@@ -21,13 +22,23 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/Download.Compounds", Usage:="/Download.Compounds [/flat /updates /save <DIR>]")>
+    <ExportAPI("/Download.Compounds",
+               Info:="Downloads the KEGG compounds data from KEGG web server using dbget API",
+               Usage:="/Download.Compounds [/chebi <accessions.tsv> /flat /updates /save <DIR>]")>
+    <Argument("/chebi", True, CLITypes.File,
+              AcceptTypes:={GetType(Accession)},
+              Description:="Some compound metabolite in the KEGG database have no brite catalog info, then using the brite database for the compounds downloads will missing some compounds, then you can using this option for downloads the complete compounds data in the KEGG database.")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadCompounds(args As CommandLine) As Integer
         Dim save$ = args.GetValue("/save", "./KEGG_cpd/")
         Dim flat As Boolean = args.GetBoolean("/flat")
         Dim updates As Boolean = args.GetBoolean("/updates")
-        Dim failures As IEnumerable(Of String) = BriteHEntry.Compound.DownloadFromResource(save, Not flat, updates)
+        Dim failures As New List(Of String)(BriteHEntry.Compound.DownloadFromResource(save, Not flat, updates))
+        ' 下载补充数据
+        Dim accs As String = args <= "/chebi"
+        If accs.FileExists(True) Then
+            failures += MetabolitesDBGet.CompleteUsingChEBI(save, accs, updates)
+        End If
         Return failures.SaveTo(save & "/failures.txt").CLICode
     End Function
 
