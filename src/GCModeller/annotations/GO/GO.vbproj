@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CatalogPlots.vb" />
+    <Compile Include="EnrichPlot.vb" />
     <Compile Include="PlantRegMap\EnrichmentPlots.vb" />
     <Compile Include="PlantRegMap\PlantRegMap.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
