@@ -108,6 +108,18 @@ Namespace Assembly.KEGG
         End Interface
 
         ''' <summary>
+        ''' 这个函数会自动将物种的KEGG前缀去除掉，从而能够直接匹配字典之中的键名
+        ''' </summary>
+        ''' <param name="table"></param>
+        ''' <param name="ID$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function GetPathwayBrite(table As Dictionary(Of String, Pathway), ID$) As Pathway
+            ID = Regex.Match(ID, "\d+").Value
+            Return table.TryGetValue(ID)
+        End Function
+
+        ''' <summary>
         ''' 
         ''' </summary>
         ''' <param name="mappings">``{geneID -> KO}`` mapping data collection.</param>
