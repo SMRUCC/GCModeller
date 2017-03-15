@@ -27,7 +27,7 @@ Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Go.enrichment.plot",
-               Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /PlantRegMap /label.right /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
+               Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /PlantRegMap /label.right /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
     <Argument("/bubble", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Visuallize the GO enrichment analysis result using bubble plot, not the bar plot.")>
@@ -55,7 +55,11 @@ Module CLI
             Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
 
             If bubbleStyle Then
-                plot = enrichments.BubblePlot(GO_terms:=terms, pvalue:=pvalue)
+                Dim R$ = args.GetValue("/r", "log(x,1.5)")
+                plot = enrichments.BubblePlot(GO_terms:=terms,
+                                              pvalue:=pvalue,
+                                              R:=R,
+                                              size:=size)
             Else
                 plot = enrichments.EnrichmentPlot(
                     terms, pvalue, size.SizeParser,
