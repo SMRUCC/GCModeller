@@ -17,6 +17,24 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Public Module EnrichPlot
 
+    ''' <summary>
+    ''' GO富集结果可视化
+    ''' </summary>
+    ''' <param name="data">KOBAS富集计算分析的结果数据</param>
+    ''' <param name="GO_terms">GO数据库</param>
+    ''' <param name="size$">输出的图像的大小</param>
+    ''' <param name="padding$">留白的大小</param>
+    ''' <param name="bg$">背景色</param>
+    ''' <param name="unenrichColor$">未被富集的go term的颜色，即那些pvalue值大于<paramref name="pvalue"/>参数值的go term的颜色，默认为浅灰色</param>
+    ''' <param name="enrichColorSchema$">颜色谱的名称</param>
+    ''' <param name="pvalue#">pvalue阈值</param>
+    ''' <param name="legendFont$">legend的字体CSS</param>
+    ''' <param name="geneIDFont$">term标签的显示字体CSS</param>
+    ''' <param name="R$">term的半径大小的计算表达式</param>
+    ''' <param name="displays%">每一个GO的命名空间分类之下的显示标签label的term的数量，默认为每个命名空间显示10个term的标签</param>
+    ''' <param name="titleFontCSS$">标题字体的CSS字体</param>
+    ''' <param name="title$">Plot绘图的标题</param>
+    ''' <returns></returns>
     <Extension>
     Public Function BubblePlot(data As IEnumerable(Of EnrichmentTerm),
                                GO_terms As Dictionary(Of Term),
