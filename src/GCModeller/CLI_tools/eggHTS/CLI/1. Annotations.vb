@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
@@ -27,6 +28,25 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
+
+    <ExportAPI("/Samples.IDlist",
+               Info:="Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.",
+               Usage:="/Samples.IDlist /in <samples.csv> [/Perseus /out <out.list.txt>]")>
+    Public Function GetIDlistFromSampleTable(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim isPerseus As Boolean = args.GetBoolean("/Perseus")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".geneIDs.txt")
+        Dim list$()
+
+        If isPerseus Then
+            list = {}
+        Else
+            Dim table = EntityObject.LoadDataSet([in])
+            list$ = table.Keys(distinct:=True)
+        End If
+
+        Return list.SaveTo(out, Encodings.ASCII.CodePage).CLICode
+    End Function
 
     ''' <summary>
     ''' 1. 总蛋白注释
