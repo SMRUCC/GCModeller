@@ -44,6 +44,25 @@ Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 ''' </summary>
 Public Module CatalogProfiling
 
+    <Extension>
+    Public Function AsDouble(data As Dictionary(Of String, NamedValue(Of Integer)())) As Dictionary(Of String, NamedValue(Of Double)())
+        Dim out As New Dictionary(Of String, NamedValue(Of Double)())
+
+        For Each [class] In data
+            out([class].Key) = [class] _
+                .Value _
+                .Select(Function(c)
+                            Return New NamedValue(Of Double) With {
+                                .Name = c.Name,
+                                .Value = c.Value
+                            }
+                        End Function) _
+                .ToArray
+        Next
+
+        Return out
+    End Function
+
     ''' <summary>
     ''' No classification
     ''' </summary>

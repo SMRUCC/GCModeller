@@ -112,6 +112,10 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         Private Shared ReadOnly ClassLevels As Char() = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+        ''' <summary>
+        ''' 获取得到当前的分类之下的所有的<see cref="EntryId"/>列表
+        ''' </summary>
+        ''' <returns></returns>
         Public Function GetEntries() As String()
             If Me.CategoryItems.IsNullOrEmpty Then
                 Return {

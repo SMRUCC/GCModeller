@@ -1,7 +1,9 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 Namespace Assembly.KEGG
 
@@ -103,5 +105,53 @@ Namespace Assembly.KEGG
         Public Interface IKEGGRemarks
             Property Remarks As String()
         End Interface
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="mappings">``{geneID -> KO}`` mapping data collection.</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function LevelAKOStatics(mappings As IEnumerable(Of NamedValue(Of String)),
+                                        Optional ByRef KO_counts As Tuple(Of String, Integer, String())() = Nothing) _
+                                        As Dictionary(Of String, NamedValue(Of Integer)())
+            Dim counts = mappings _
+                .GroupBy(Function(gene) gene.Value) _
+                .Select(Function(x)
+                            ' 对每一个KO进行数量上的统计分析
+                            Return New Tuple(Of String, Integer, String())(
+                                x.Key,
+                                x.Count,
+                                x.Select(Function(gene) gene.Name).ToArray)
+                        End Function) _
+                .ToArray
+            Dim brites As htext = htext.ko00001
+            Dim out As New Dictionary(Of String, NamedValue(Of Integer)())
+
+            KO_counts = counts
+
+            For Each [class] As BriteHText In brites.Hierarchical.CategoryItems
+                Dim profile As New List(Of NamedValue(Of Integer))
+
+                For Each levelACatalog As BriteHText In [class].CategoryItems
+                    ' 在这里统计levelA的分布情况
+                    Dim KO As IndexOf(Of String) = levelACatalog _
+                        .GetEntries _
+                        .Where(Function(s) Not s.StringEmpty) _
+                        .Indexing
+                    profile += New NamedValue(Of Integer) With {
+                        .Name = levelACatalog.ClassLabel,
+                        .Description = levelACatalog.Description,
+                        .Value = counts _
+                            .Where(Function(tag) KO(tag.Item1) > -1) _
+                            .Count
+                    }
+                Next
+
+                out([class].ClassLabel) = profile
+            Next
+
+            Return out
+        End Function
     End Module
 End Namespace

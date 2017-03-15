@@ -171,6 +171,8 @@ Partial Module CLI
             .ToArray
         Dim catalogs = maps.KOCatalog
 
+
+
         Return catalogs.DataFrame.SaveTo(out & "/KOCatalogs.csv").CLICode
     End Function
 
