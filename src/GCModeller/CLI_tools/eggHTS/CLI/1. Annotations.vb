@@ -35,6 +35,9 @@ Partial Module CLI
     <ExportAPI("/Samples.IDlist",
                Info:="Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.",
                Usage:="/Samples.IDlist /in <samples.csv> [/Perseus /out <out.list.txt>]")>
+    <Argument("/Perseus", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this flag was presented, that means the input sample data is the Perseus analysis output file ``ProteinGroups.txt``, or the input sample data is the iTraq result.")>
     Public Function GetIDlistFromSampleTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim isPerseus As Boolean = args.GetBoolean("/Perseus")
@@ -58,6 +61,9 @@ Partial Module CLI
     <ExportAPI("/protein.annotations",
                Info:="Total proteins functional annotation by using uniprot database.",
                Usage:="/protein.annotations /uniprot <uniprot.XML> [/list <uniprot.id.list.txt> /out <out.csv>]")>
+    <Argument("/list", True, CLITypes.File,
+              AcceptTypes:={GetType(String())},
+              Description:="Using for the iTraq method result.")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function SampleAnnotations(args As CommandLine) As Integer
         Dim list As String = args("/list")
