@@ -68,7 +68,7 @@ Public Module CatalogProfiling
                                  Optional colorSchema$ = "Set1:c6",
                                  Optional bg$ = "white",
                                  Optional size As Size = Nothing,
-                                 Optional padding$ = "padding: 25 25 25 25",
+                                 Optional padding$ = "padding: 125 25 25 25",
                                  Optional classFontStyle$ = CSSFont.Win7LargerBold,
                                  Optional catalogFontStyle$ = CSSFont.Win7Bold,
                                  Optional titleFontStyle$ = CSSFont.PlotTitle,

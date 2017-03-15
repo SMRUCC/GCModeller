@@ -123,13 +123,14 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/proteins.Go.plot",
-               Usage:="/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /top 25 /size <2000,4000> /out <out.DIR>]")>
+               Info:="ProteinGroups sample data go profiling plot from the uniprot annotation data.",
+               Usage:="/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /top 20 /size <2000,4000> /out <out.DIR>]")>
     Public Function ProteinsGoPlot(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
         Dim in$ = args("/in")
         Dim size As Size = args.GetValue("/size", New Size(2000, 4000))
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/GO/")
-        Dim top% = args.GetValue("/top", 25)
+        Dim top% = args.GetValue("/top", 20)
 
         ' 绘制GO图
         Dim goTerms As Dictionary(Of String, Term) = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
