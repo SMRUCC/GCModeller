@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -8,6 +9,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.csv
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -26,6 +28,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Perseus.Table",
                Usage:="/Perseus.Table /in <proteinGroups.txt> [/out <out.csv>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function PerseusTable(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".csv")
@@ -47,6 +50,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Perseus.Stat", Usage:="/Perseus.Stat /in <proteinGroups.txt> [/out <out.csv>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function PerseusStatics(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".perseus.Stat.csv")
@@ -138,6 +142,7 @@ Partial Module CLI
 
     <ExportAPI("/Data.Add.Mappings",
                Usage:="/Data.Add.Mappings /in <data.csv> /bbh <bbh.csv> /ID.mappings <uniprot.ID.mappings.tsv> /uniprot <uniprot.XML> [/ID <fieldName> /out <out.csv>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function AddReMapping(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim bbh As String = args("/bbh")
@@ -209,6 +214,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Data.Add.ORF", Usage:="/Data.Add.ORF /in <data.csv> /uniprot <uniprot.XML> [/ID <fieldName> /out <out.csv>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function DataAddORF(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim uniprot As String = args("/uniprot")
@@ -236,6 +242,7 @@ Partial Module CLI
 
     <ExportAPI("/Data.Add.uniprotIDs",
                Usage:="/Data.Add.uniprotIDs /in <annotations.csv> /data <data.csv> [/out <out.csv>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function DataAddUniprotIDs(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim data As String = args("/data")
@@ -251,7 +258,9 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/plot.pimw",
-               Usage:="/plot.pimw /in <samples.csv> [/field.pi <calc. pI> /field.mw <MW [kDa]> /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
+               Info:="'calc. pI'/'MW [kDa]' scatter plot of the protomics raw sample data.",
+               Usage:="/plot.pimw /in <samples.csv> [/field.pi <calc. pI> /field.mw <MW [kDa]> /legend.fontsize <20> /legend.size (100,30) /x.axis ""(min,max),tick=2"" /y.axis ""(min,max),n=10"" /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function pimwScatterPlot(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
         Dim pi$ = args.GetValue("/field.pi", "calc. pI")
@@ -260,14 +269,25 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pI_MW.png")
         Dim color As String = args.GetValue("/color", "black")
         Dim ptSize! = args.GetValue("/pt.Size", 8.0!)
+        Dim legendFontSize! = args.GetValue("/legend.fontsize", 20.0#)
+        Dim legendSize As Size = args.GetValue("/legend.size", New Size(100, 30))
         Dim res As Image = {
             ScatterSerials(File.Load([in]), pi, mw, color, ptSize)
         }.Plot(size:=size,
                drawLine:=False,
                XaxisAbsoluteScalling:=True,
                absoluteScaling:=False,
+               legendFontSize:=legendFontSize,
+               legendSize:=legendSize,
                Xlabel:="Calc.pI",
-               Ylabel:="MW [kDa]")
+               Ylabel:="MW [kDa]",
+               xaxis:=(args <= "/x.axis"),
+               yaxis:=(args <= "/y.axis"),
+               legendRegionBorder:=New Border With {
+                   .color = Drawing.Color.Black,
+                   .style = DashStyle.Solid,
+                   .width = 2
+               })
 
         Return res.SaveAs(out).CLICode
     End Function

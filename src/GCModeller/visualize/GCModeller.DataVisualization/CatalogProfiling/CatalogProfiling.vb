@@ -44,6 +44,25 @@ Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 ''' </summary>
 Public Module CatalogProfiling
 
+    <Extension>
+    Public Function AsDouble(data As Dictionary(Of String, NamedValue(Of Integer)())) As Dictionary(Of String, NamedValue(Of Double)())
+        Dim out As New Dictionary(Of String, NamedValue(Of Double)())
+
+        For Each [class] In data
+            out([class].Key) = [class] _
+                .Value _
+                .Select(Function(c)
+                            Return New NamedValue(Of Double) With {
+                                .Name = c.Name,
+                                .Value = c.Value
+                            }
+                        End Function) _
+                .ToArray
+        Next
+
+        Return out
+    End Function
+
     ''' <summary>
     ''' No classification
     ''' </summary>
@@ -68,7 +87,7 @@ Public Module CatalogProfiling
                                  Optional colorSchema$ = "Set1:c6",
                                  Optional bg$ = "white",
                                  Optional size As Size = Nothing,
-                                 Optional padding$ = "padding: 25 25 25 25",
+                                 Optional padding$ = "padding: 125 25 25 25",
                                  Optional classFontStyle$ = CSSFont.Win7LargerBold,
                                  Optional catalogFontStyle$ = CSSFont.Win7Bold,
                                  Optional titleFontStyle$ = CSSFont.PlotTitle,
@@ -168,7 +187,7 @@ Public Module CatalogProfiling
         Dim totalHeight = classes.Length * (maxLenClsKeySize.Height + 5) +
             profile.Values.IteratesALL.Count * (maxLenSubKeySize.Height + 4) +
             classes.Length * 20
-        Dim left As Single, y! = (region.PlotRegion.Height - totalHeight) / 2
+        Dim left As Single, y! = region.Padding.Top + (region.PlotRegion.Height - totalHeight) / 2
 
         ' barPlot的最左边的坐标
         Dim barRect As New Rectangle(

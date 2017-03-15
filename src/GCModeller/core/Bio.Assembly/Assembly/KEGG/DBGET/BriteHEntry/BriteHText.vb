@@ -73,6 +73,24 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             End Get
         End Property
 
+        ''' <summary>
+        ''' Root class label
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property [Class] As String
+            Get
+                Dim o As BriteHText = Me.Parent
+                Dim label$ = Nothing
+
+                Do While Not o.Parent Is Nothing
+                    label = o.ClassLabel
+                    o = o.Parent
+                Loop
+
+                Return label
+            End Get
+        End Property
+
         Public ReadOnly Property Description As String
             Get
                 If String.IsNullOrEmpty(EntryId) Then
@@ -98,7 +116,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             End If
 
             Dim LQuery As BriteHText() = (From value As BriteHText
-                                 In Me.CategoryItems
+                                          In Me.CategoryItems
                                           Let path As BriteHText() = value.GetHPath(Key)
                                           Where Not path.IsNullOrEmpty
                                           Select path).FirstOrDefault
@@ -112,18 +130,26 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         Private Shared ReadOnly ClassLevels As Char() = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+        ''' <summary>
+        ''' 获取得到当前的分类之下的所有的<see cref="EntryId"/>列表
+        ''' </summary>
+        ''' <returns></returns>
         Public Function GetEntries() As String()
             If Me.CategoryItems.IsNullOrEmpty Then
                 Return {
                     EntryId
                 }
             Else
-                Return (From htext As BriteHText
-                        In Me.CategoryItems
-                        Select s_Data = htext.GetEntries).ToVector
+                Return Me.CategoryItems _
+                    .Select(Function(htext) htext.GetEntries) _
+                    .ToVector
             End If
         End Function
 
+        ''' <summary>
+        ''' 递归枚举当前的分类对象之下的所有的Entry列表
+        ''' </summary>
+        ''' <returns></returns>
         Public Iterator Function EnumerateEntries() As IEnumerable(Of BriteHText)
             If CategoryItems.IsNullOrEmpty Then
                 Yield Me

@@ -277,6 +277,7 @@
     <Compile Include="Assembly\KEGG\Archives\Xml\MapAPI.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\KOCatalog.vb" />
     <Compile Include="Assembly\KEGG\DBGET\KEGGObjects.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\KEGGgenomeFetchs.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Hsa_gene.vb" />
@@ -284,6 +285,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Disease.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayEntry.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb" />
@@ -386,6 +388,7 @@
     <Compile Include="Assembly\Uniprot\Web\ID_types.vb" />
     <Compile Include="Assembly\Uniprot\Web\Retrieve_IDmapping.vb" />
     <Compile Include="Assembly\Uniprot\Web\Entry.vb" />
+    <Compile Include="ComponentModel\CatalogProfiling.vb" />
     <Compile Include="ComponentModel\Loci.Models\LociSites\Extensions.vb" />
     <Compile Include="ComponentModel\Loci.Models\LociSites\MotifSite.vb" />
     <Compile Include="ContextModel\Algorithm\Context.vb" />

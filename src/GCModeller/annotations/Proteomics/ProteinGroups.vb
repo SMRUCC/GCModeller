@@ -68,13 +68,13 @@ Public Module ProteinGroups
     ''' <param name="uniprotXML$"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function GenerateAnnotations(ID As IEnumerable(Of String), uniprotXML$) As IEnumerable(Of (protein, String()))
+    Public Function GenerateAnnotations(ID As IEnumerable(Of String), uniprotXML$, Optional iTraq As Boolean = False) As IEnumerable(Of (protein, String()))
         Dim list$() = ID.ToArray
         Dim mappings As Dictionary(Of String, String()) =
             list.ToDictionary(
             Function(x) x,
             Function(x) {x})
-        Return list.GenerateAnnotations(mappings, uniprotXML, "uniprot",,)
+        Return list.GenerateAnnotations(mappings, uniprotXML, "uniprot",, iTraq:=iTraq)
     End Function
 
     ''' <summary>
@@ -105,7 +105,9 @@ Public Module ProteinGroups
                                                  uniprotXML$,
                                                  Optional prefix$ = "",
                                                  Optional deli As Char = ";"c,
-                                                 Optional scientifcName$ = Nothing) As IEnumerable(Of (protein, String()))
+                                                 Optional scientifcName$ = Nothing,
+                                                 Optional iTraq As Boolean = False) As IEnumerable(Of (protein, String()))
+
         Dim uniprot As Dictionary(Of Uniprot.XML.entry) = SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML.LoadDictionary(uniprotXML)
 
         For Each Idtags As SeqValue(Of String) In ID.SeqIterator
@@ -113,7 +115,10 @@ Public Module ProteinGroups
             Dim i As Integer = Idtags.i + 1
 
             Yield list.__applyInternal(
-                New Dictionary(Of String, String), mappings, uniprot, prefix, i, scientifcName)
+                New Dictionary(Of String, String),
+                mappings, uniprot, prefix, i,
+                scientifcName,
+                iTraq)
         Next
     End Function
 
@@ -121,7 +126,8 @@ Public Module ProteinGroups
     Public Iterator Function GenerateAnnotations(proteinGroups As IEnumerable(Of Perseus),
                                                  uniprot As Dictionary(Of Uniprot.XML.entry),
                                                  Optional prefix$ = "",
-                                                 Optional scientifcName$ = Nothing) As IEnumerable(Of (protein, String()))
+                                                 Optional scientifcName$ = Nothing,
+                                                 Optional iTraq As Boolean = False) As IEnumerable(Of (protein, String()))
 
         For Each Idtags As SeqValue(Of Perseus) In proteinGroups.SeqIterator
             Dim list$() = (+Idtags).ProteinIDs _
@@ -132,7 +138,10 @@ Public Module ProteinGroups
             Dim mappings = list.ToDictionary(Function(id) id, Function(id) {id})
 
             Yield list.__applyInternal(
-                New Dictionary(Of String, String), mappings, uniprot, prefix, i, scientifcName)
+                New Dictionary(Of String, String),
+                mappings, uniprot, prefix, i,
+                scientifcName,
+                iTraq)
         Next
     End Function
 
@@ -148,7 +157,8 @@ Public Module ProteinGroups
     Public Iterator Function ExportAnnotations(uniprotXML$,
                                                Optional prefix$ = "",
                                                Optional deli As Char = ";"c,
-                                               Optional scientifcName$ = Nothing) As IEnumerable(Of (protein, String()))
+                                               Optional scientifcName$ = Nothing,
+                                               Optional iTraq As Boolean = False) As IEnumerable(Of (protein, String()))
 
         Dim uniprot As Dictionary(Of Uniprot.XML.entry) = SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML.LoadDictionary(uniprotXML)
         Dim ID As IEnumerable(Of String) = uniprot.Keys
@@ -162,7 +172,10 @@ Public Module ProteinGroups
             Dim i As Integer = Idtags.i + 1
 
             Yield list.__applyInternal(
-                New Dictionary(Of String, String), mappings, uniprot, prefix, i, scientifcName)
+                New Dictionary(Of String, String),
+                mappings, uniprot, prefix, i,
+                scientifcName,
+                iTraq)
         Next
     End Function
 
@@ -183,7 +196,8 @@ Public Module ProteinGroups
                                      mappings As Dictionary(Of String, String()),
                                      uniprot As Dictionary(Of Uniprot.XML.entry),
                                      prefix$, i%,
-                                     scientifcName$) As (protein As protein, mapsId As String())
+                                     scientifcName$,
+                                     iTraq As Boolean) As (protein As protein, mapsId As String())
 
         Dim mappsId$() = source _
             .Select(Function(s) UCase(s)) _
@@ -297,6 +311,10 @@ Public Module ProteinGroups
             geneID = prefix & "_" & geneID.FormatZero("0000")
         End If
 
+        If iTraq Then
+            geneID = annotations("uniprot")
+        End If
+
         Return (New protein With {
             .ID = geneID,
             .Properties = annotations
@@ -312,7 +330,8 @@ Public Module ProteinGroups
                                                  Optional prefix$ = "",
                                                  Optional deli As Char = ";"c,
                                                  Optional geneList As List(Of String) = Nothing,
-                                                 Optional scientifcName$ = Nothing) As IEnumerable(Of protein)
+                                                 Optional scientifcName$ = Nothing,
+                                                 Optional iTraq As Boolean = False) As IEnumerable(Of protein)
         If where Is Nothing Then
             where = Function(prot) True
         End If
@@ -334,7 +353,7 @@ Public Module ProteinGroups
             With list.__applyInternal(
                 annotations, mappings, uniprot,
                 prefix, i,
-                scientifcName)
+                scientifcName, iTraq)
 
                 If Not geneList Is Nothing Then
                     Call geneList.AddRange(.mapsId)
