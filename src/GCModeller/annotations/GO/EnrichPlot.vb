@@ -1,9 +1,10 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -32,23 +33,17 @@ Public Module EnrichPlot
     End Function
 
     <Extension>
-    Public Function EnrichResult(data As IEnumerable(Of EnrichmentTerm), GO_terms As Dictionary(Of Term)) As Dictionary(Of String, NamedValue(Of (P#, richFactor#))())
-        Dim result As New Dictionary(Of String, List(Of NamedValue(Of (P#, richFactor#))))
+    Public Function EnrichResult(data As IEnumerable(Of EnrichmentTerm), GO_terms As Dictionary(Of Term)) As Dictionary(Of String, EnrichmentTerm())
+        Dim result As New Dictionary(Of String, List(Of EnrichmentTerm))
 
         For Each term As EnrichmentTerm In data
             Dim goTerm As Term = GO_terms(term.ID)
 
             If Not result.ContainsKey(goTerm.namespace) Then
-                Call result.Add(
-                    goTerm.namespace,
-                    New List(Of NamedValue(Of (P As Double, richFactor As Double))))
+                Call result.Add(goTerm.namespace, New List(Of EnrichmentTerm))
             End If
 
-            Call result(goTerm.namespace).Add(
-                New NamedValue(Of (P As Double, richFactor As Double)) With {
-                    .Name = term.Term,
-                    .Value = (term.P, richFactor:=term.number / term.Backgrounds)
-                })
+            Call result(goTerm.namespace).Add(term)
         Next
 
         Dim out = result.ToDictionary(Function(k) k.Key, Function(v) v.Value.ToArray)
@@ -58,9 +53,32 @@ Public Module EnrichPlot
     <Extension>
     Private Sub __plotInternal(g As Graphics,
                                region As GraphicsRegion,
-                               result As Dictionary(Of String, NamedValue(Of (P#, richFactor#))()),
+                               result As Dictionary(Of String, EnrichmentTerm()),
                                unenrich As Color,
                                enrichColors As Color())
+        Dim serials As SerialData() = result _
+            .SeqIterator _
+            .Select(Function(cat) (+cat).Value.__createModel(ns:=(+cat).Key, color:=enrichColors(cat))) _
+            .ToArray
+        Dim plot As Bitmap = Bubble.Plot(
+            serials,
+            size:=New Size(region.Size.Width * 0.85, region.Size.Height),
+            legend:=False)
+
+        Call g.DrawImageUnscaled(plot, New Point)
 
     End Sub
+
+    <Extension>
+    Private Function __createModel(catalog As EnrichmentTerm(), ns$, color As Color) As SerialData
+        Return New SerialData With {
+            .color = color,
+            .title = ns,
+            .pts = catalog.Select(
+                Function(gene) New PointData With {
+                    .value = gene.number,
+                    .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P)
+                }).ToArray
+        }
+    End Function
 End Module
