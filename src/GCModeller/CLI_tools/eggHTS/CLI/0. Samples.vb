@@ -28,6 +28,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/Perseus.Table",
                Usage:="/Perseus.Table /in <proteinGroups.txt> [/out <out.csv>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function PerseusTable(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".csv")
@@ -49,6 +50,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Perseus.Stat", Usage:="/Perseus.Stat /in <proteinGroups.txt> [/out <out.csv>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function PerseusStatics(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".perseus.Stat.csv")
@@ -140,6 +142,7 @@ Partial Module CLI
 
     <ExportAPI("/Data.Add.Mappings",
                Usage:="/Data.Add.Mappings /in <data.csv> /bbh <bbh.csv> /ID.mappings <uniprot.ID.mappings.tsv> /uniprot <uniprot.XML> [/ID <fieldName> /out <out.csv>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function AddReMapping(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim bbh As String = args("/bbh")
@@ -211,6 +214,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Data.Add.ORF", Usage:="/Data.Add.ORF /in <data.csv> /uniprot <uniprot.XML> [/ID <fieldName> /out <out.csv>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function DataAddORF(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim uniprot As String = args("/uniprot")
@@ -238,6 +242,7 @@ Partial Module CLI
 
     <ExportAPI("/Data.Add.uniprotIDs",
                Usage:="/Data.Add.uniprotIDs /in <annotations.csv> /data <data.csv> [/out <out.csv>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function DataAddUniprotIDs(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim data As String = args("/data")
@@ -253,7 +258,9 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/plot.pimw",
+               Info:="'calc. pI'/'MW [kDa]' scatter plot of the protomics raw sample data.",
                Usage:="/plot.pimw /in <samples.csv> [/field.pi <calc. pI> /field.mw <MW [kDa]> /legend.fontsize <20> /legend.size (100,30) /x.axis ""(min,max),tick=2"" /y.axis ""(min,max),n=10"" /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function pimwScatterPlot(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
         Dim pi$ = args.GetValue("/field.pi", "calc. pI")
