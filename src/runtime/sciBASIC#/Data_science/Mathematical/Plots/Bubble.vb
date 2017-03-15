@@ -59,9 +59,12 @@ Public Module Bubble
                          Optional yAxis$ = Nothing,
                          Optional xlabel$ = "",
                          Optional ylabel$ = "",
-                         Optional axisLabelFontCSS$ = CSSFont.Win7LargeBold) As Bitmap
+                         Optional axisLabelFontCSS$ = CSSFont.Win7LargeBold,
+                         Optional tagFontCSS$ = CSSFont.Win10Normal) As Bitmap
 
         Dim margin As Padding = padding
+        Dim tagLabelFont As Font = CSSFont.TryParse(tagFontCSS).GDIObject
+
         Dim plotInternal =
             Sub(ByRef g As Graphics, grect As GraphicsRegion)
                 Dim array As SerialData() = data.ToArray
@@ -95,6 +98,10 @@ Public Module Bubble
                         Dim rect As New Rectangle(p, New Size(r * 2, r * 2))
 
                         Call g.FillPie(b, rect, 0, 360)
+
+                        If Not pt.Tag.StringEmpty Then
+                            Call g.DrawString(pt.Tag, tagLabelFont, Brushes.Black, New PointF(rect.Right, rect.Top))
+                        End If
                     Next
                 Next
 

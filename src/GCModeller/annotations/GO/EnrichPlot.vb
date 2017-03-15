@@ -28,8 +28,10 @@ Public Module EnrichPlot
                                Optional pvalue# = 0.01,
                                Optional legendFont$ = CSSFont.PlotSmallTitle,
                                Optional geneIDFont$ = CSSFont.Win10Normal,
-                               Optional geneIDDisplayPvalue# = 0.0001,
-                               Optional R$ = "log(x)") As Image
+                               Optional R$ = "log(x)",
+                               Optional displays% = 10,
+                               Optional titleFontCSS$ = CSSFont.PlotTitle,
+                               Optional title$ = "GO enrichment") As Image
 
         Dim enrichResult = data.EnrichResult(GO_terms)
         Dim colors As Color() = Designer.GetColors(enrichColorSchema).Alpha(240)
@@ -48,7 +50,16 @@ Public Module EnrichPlot
                     region, enrichResult, unenrich,
                     colors, pvalue,
                     legendFont,
-                    r:=calcR)
+                    r:=calcR,
+                    displays:=displays)
+
+                Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject
+                Dim fsize As SizeF = g.MeasureString(title, titleFont)
+                Dim tloc As New PointF(
+                    (region.Size.Width - fsize.Width) / 2,
+                    (region.Padding.Top - fsize.Height) / 2)
+
+                Call g.DrawString(title, titleFont, Brushes.Black, tloc)
             End Sub)
     End Function
 
@@ -95,7 +106,7 @@ Public Module EnrichPlot
                                enrichColors As Color(),
                                pvalue#,
                                legendFontStyle$,
-                               r As Func(Of Double, Double))
+                               r As Func(Of Double, Double), displays%)
 
         Dim serials As SerialData() = result _
             .SeqIterator _
@@ -103,7 +114,7 @@ Public Module EnrichPlot
                 ns:=(+cat).Key,
                 color:=enrichColors(cat),
                 pvalue:=pvalue,
-                r:=r)) _
+                r:=r, displays:=displays)) _
             .Join(
             {
                 result.Values _
@@ -167,16 +178,31 @@ Public Module EnrichPlot
     ''' <param name="pvalue#"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function __createModel(catalog As EnrichmentTerm(), ns$, color As Color, pvalue#, r As Func(Of Double, Double)) As SerialData
-        Return New SerialData With {
+    Private Function __createModel(catalog As EnrichmentTerm(), ns$, color As Color, pvalue#, r As Func(Of Double, Double), displays%) As SerialData
+        Dim s As New SerialData With {
             .color = color,
             .title = ns,
             .pts = catalog _
                 .Where(Function(gene) gene.CorrectedPvalue <= pvalue) _
                 .Select(Function(gene) New PointData With {
                     .value = r(gene.number) + 1,
-                    .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P)
+                    .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P),
+                    .Tag = gene.Term
                 }).ToArray
         }
+
+        ' 按照y倒序排序
+        s.pts = s.pts.OrderByDescending(Function(p) p.pt.Y).ToArray
+
+        For i As Integer = displays To s.pts.Length - 1
+            Dim pt = s.pts(i)
+            s.pts(i) = New PointData With {
+                .pt = pt.pt,
+                .Tag = Nothing,  ' 只显示前五个term的标签字符串，其余的term的标签字符串都设置为空值，就不会被显示出来了
+                .value = pt.value
+            }
+        Next
+
+        Return s
     End Function
 End Module
