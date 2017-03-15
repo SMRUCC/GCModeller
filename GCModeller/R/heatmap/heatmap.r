@@ -19,7 +19,12 @@ if (!require("RColorBrewer")) {
 ### 1. 第一列数据为基因的编号
 ### 2. 其他的剩余的数据的列都是基因的表达量或者实验间的logFC值
 ### @size: (width, height)
-plotDEPs <- function(csv, size = c(5*300, 5*300), colorsPalette = c("darkblue", "green", "red"), title = NA) {
+plotDEPs <- function(csv, 
+					 size          = c(5*300, 5*300), 
+					 colorsPalette = c("darkblue", "green", "red"), 
+					 fontsize.row  = 0.35, 
+					 fontsize.col  = 1.5, 
+					 title         = NA) {
 
 	#########################################################
 	### B) Reading in data and transform it into matrix format
@@ -63,7 +68,8 @@ plotDEPs <- function(csv, size = c(5*300, 5*300), colorsPalette = c("darkblue", 
 			  lwid         = c(1.5, 2),
 			  lhei         = c(0.4, 2),
 			  col          = my_palette,       # use on color palette defined earlier
-			  cexRow       = 0.35,
+			  cexRow       = fontsize.row,
+			  cexCol       = fontsize.col,
 			  # breaks     = col_breaks,       # enable color transition at specified limits
 			  dendrogram   = "row",            # only draw a row dendrogram
 			  Colv         = "NA")             # turn off column clustering

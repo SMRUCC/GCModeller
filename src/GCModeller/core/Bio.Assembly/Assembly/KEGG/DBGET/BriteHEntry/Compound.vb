@@ -162,6 +162,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         ''' <summary>
+        ''' 请注意，这个函数只能够下载包含有分类信息的化合物，假若代谢物还没有分类信息的话，则无法利用这个函数进行下载
+        ''' 
         '''  br08001  Compounds with biological roles
         '''  br08002  Lipids
         '''  br08003  Phytochemical compounds
