@@ -61,17 +61,20 @@ Public Module Scatter
     ''' <param name="xaxis">
     ''' 参数<paramref name="xaxis"/>和<paramref name="yaxis"/>必须要同时不为空才会起作用
     ''' </param>
+    ''' <param name="legendSize">默认为(120,40)</param>
     ''' <returns></returns>
     <Extension>
     Public Function Plot(c As IEnumerable(Of SerialData),
                          Optional size As Size = Nothing,
-                         Optional padding$ = g.DefaultPadding,
+                         Optional padding$ = g.DefaultPaddingLarger,
                          Optional bg As String = "white",
                          Optional showGrid As Boolean = True,
                          Optional showLegend As Boolean = True,
                          Optional legendPosition As Point = Nothing,
+                         Optional legendSize As Size = Nothing,
                          Optional drawLine As Boolean = True,
                          Optional legendBorder As Border = Nothing,
+                         Optional legendRegionBorder As Border = Nothing,
                          Optional fill As Boolean = False,
                          Optional fillPie As Boolean = True,
                          Optional legendFontSize! = 24,
@@ -165,10 +168,14 @@ Public Module Scatter
                             }
 
                         If legendPosition.IsEmpty Then
-                            legendPosition = New Point(CInt(size.Width * 0.7), margin.Bottom)
+                            legendPosition = New Point(
+                                CInt(size.Width * 0.7),
+                                margin.Bottom)
                         End If
 
-                        Call g.DrawLegends(legendPosition, legends,,, legendBorder)
+                        Call g.DrawLegends(legendPosition, legends, legendSize,,
+                                           legendBorder,
+                                           legendRegionBorder)
                     End If
                 Next
             End Sub
@@ -185,7 +192,7 @@ Public Module Scatter
                          Optional drawLine As Boolean = False) As Bitmap
         Return {
             FromVector(x,,, ptSize, width)
-        }.Plot(size, padding, bg, True, False, , drawLine)
+        }.Plot(size, padding, bg, True, False, , drawLine:=drawLine)
     End Function
 
     Public Function FromVector(y As IEnumerable(Of Double),

@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -8,6 +9,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.csv
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -251,7 +253,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/plot.pimw",
-               Usage:="/plot.pimw /in <samples.csv> [/field.pi <calc. pI> /field.mw <MW [kDa]> /x.axis ""(min,max),tick=2"" /y.axis ""(min,max),n=10"" /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
+               Usage:="/plot.pimw /in <samples.csv> [/field.pi <calc. pI> /field.mw <MW [kDa]> /legend.fontsize <20> /legend.size (100,30) /x.axis ""(min,max),tick=2"" /y.axis ""(min,max),n=10"" /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
     Public Function pimwScatterPlot(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
         Dim pi$ = args.GetValue("/field.pi", "calc. pI")
@@ -260,16 +262,25 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pI_MW.png")
         Dim color As String = args.GetValue("/color", "black")
         Dim ptSize! = args.GetValue("/pt.Size", 8.0!)
+        Dim legendFontSize! = args.GetValue("/legend.fontsize", 20.0#)
+        Dim legendSize As Size = args.GetValue("/legend.size", New Size(100, 30))
         Dim res As Image = {
             ScatterSerials(File.Load([in]), pi, mw, color, ptSize)
         }.Plot(size:=size,
                drawLine:=False,
                XaxisAbsoluteScalling:=True,
                absoluteScaling:=False,
+               legendFontSize:=legendFontSize,
+               legendSize:=legendSize,
                Xlabel:="Calc.pI",
                Ylabel:="MW [kDa]",
                xaxis:=(args <= "/x.axis"),
-               yaxis:=(args <= "/y.axis"))
+               yaxis:=(args <= "/y.axis"),
+               legendRegionBorder:=New Border With {
+                   .color = Drawing.Color.Black,
+                   .style = DashStyle.Solid,
+                   .width = 2
+               })
 
         Return res.SaveAs(out).CLICode
     End Function
