@@ -50,10 +50,16 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
     ''' hierarchy files For disease And drug information have been converted To table files.
     ''' </summary>
     Public Class htext
+
         Public Property MaxDepth As String
         Public Property Descript As String
         Public Property Title As String
         Public Property Schema As NamedValue(Of String)
+
+        ''' <summary>
+        ''' <see cref="BriteHText"/>层次分类数据
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Hierarchical As BriteHText
 
         Public Overrides Function ToString() As String

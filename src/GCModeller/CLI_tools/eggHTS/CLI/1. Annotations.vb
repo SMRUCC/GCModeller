@@ -17,6 +17,8 @@ Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.KEGG.KEGGOrthology
 Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -170,10 +172,14 @@ Partial Module CLI
             .IteratesALL _
             .ToArray
         Dim catalogs = maps.KOCatalog
+        Dim KO_counts As KOCatalog() = Nothing
+        Dim profile = maps.LevelAKOStatics(KO_counts).AsDouble
 
+        profile.ProfilesPlot("KEGG Orthology Profiling").SaveAs(out & "/plot.png")
+        KO_counts.SaveTo(out & "/KO_counts.csv")
+        catalogs.DataFrame.SaveTo(out & "/KOCatalogs.csv")
 
-
-        Return catalogs.DataFrame.SaveTo(out & "/KOCatalogs.csv").CLICode
+        Return 0
     End Function
 
     <ExportAPI("/protein.EXPORT",
