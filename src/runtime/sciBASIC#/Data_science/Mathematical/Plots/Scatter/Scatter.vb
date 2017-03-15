@@ -85,21 +85,19 @@ Public Module Scatter
                          Optional xaxis$ = Nothing) As Bitmap
 
         Dim margin As Padding = padding
-
-        Return GraphicsPlots(
-            size, margin,
-            bg,
-            Sub(ByRef g, grect)
+        Dim plotInternal =
+            Sub(ByRef g As Graphics, grect As GraphicsRegion)
                 Dim array As SerialData() = c.ToArray
                 Dim mapper As Mapper
+                Dim serialsData As New Scaling(array, absoluteScaling)
 
                 If xaxis.StringEmpty OrElse yaxis.StringEmpty Then
                     mapper = New Mapper(
-                        New Scaling(array, absoluteScaling),
+                        serialsData,
                         XabsoluteScalling:=XaxisAbsoluteScalling,
                         YabsoluteScalling:=YaxisAbsoluteScalling)
                 Else
-                    mapper = New Mapper(xaxis, yaxis)
+                    mapper = New Mapper(x:=xaxis, y:=yaxis, range:=serialsData)
                 End If
 
                 If drawAxis Then
@@ -173,7 +171,9 @@ Public Module Scatter
                         Call g.DrawLegends(legendPosition, legends,,, legendBorder)
                     End If
                 Next
-            End Sub)
+            End Sub
+
+        Return GraphicsPlots(size, margin, bg, plotInternal)
     End Function
 
     Public Function Plot(x As Vector,
