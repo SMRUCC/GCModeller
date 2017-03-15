@@ -1,10 +1,12 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -18,8 +20,9 @@ Public Module EnrichPlot
                                Optional padding$ = g.DefaultPadding,
                                Optional bg$ = "white",
                                Optional unenrichColor$ = "gray",
-                               Optional enrichColorSchema$ = "Paired:c6",
-                               Optional pvalue# = 0.01) As Image
+                               Optional enrichColorSchema$ = "Rainbow",
+                               Optional pvalue# = 0.01,
+                               Optional legendFont$ = CSSFont.PlotSubTitle) As Image
 
         Dim enrichResult = data.EnrichResult(GO_terms)
         Dim colors As Color() = Designer.GetColors(enrichColorSchema)
@@ -29,7 +32,7 @@ Public Module EnrichPlot
             size.SizeParser, padding,
             bg,
             Sub(ByRef g, region)
-                Call g.__plotInternal(region, enrichResult, unenrich, colors, pvalue)
+                Call g.__plotInternal(region, enrichResult, unenrich, colors, pvalue, legendFont)
             End Sub)
     End Function
 
@@ -56,7 +59,7 @@ Public Module EnrichPlot
                                region As GraphicsRegion,
                                result As Dictionary(Of String, EnrichmentTerm()),
                                unenrich As Color,
-                               enrichColors As Color(), pvalue#)
+                               enrichColors As Color(), pvalue#, legendFontStyle$)
         Dim serials As SerialData() = result _
             .SeqIterator _
             .Select(Function(cat) (+cat).Value.__createModel(
@@ -76,6 +79,14 @@ Public Module EnrichPlot
             legend:=False)
 
         Call g.DrawImageUnscaled(plot, New Point)
+
+        Dim legends As Legend() = serials _
+            .Select(Function(s) New Legend With {
+                .color = s.color.RGB2Hexadecimal,
+                .fontstyle = legendFontStyle,
+                .style = LegendStyles.Circle,
+                .title = s.title
+            }).ToArray
 
     End Sub
 
