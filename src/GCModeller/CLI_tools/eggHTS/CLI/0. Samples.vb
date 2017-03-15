@@ -251,7 +251,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/plot.pimw",
-               Usage:="/plot.pimw /in <samples.csv> [/field.pi <calc. pI> /field.mw <MW [kDa]> /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
+               Usage:="/plot.pimw /in <samples.csv> [/field.pi <calc. pI> /field.mw <MW [kDa]> /x.axis ""(min,max),tick=2"" /y.axis ""(min,max),n=10"" /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
     Public Function pimwScatterPlot(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
         Dim pi$ = args.GetValue("/field.pi", "calc. pI")
@@ -267,7 +267,9 @@ Partial Module CLI
                XaxisAbsoluteScalling:=True,
                absoluteScaling:=False,
                Xlabel:="Calc.pI",
-               Ylabel:="MW [kDa]")
+               Ylabel:="MW [kDa]",
+               xaxis:=(args <= "/x.axis"),
+               yaxis:=(args <= "/y.axis"))
 
         Return res.SaveAs(out).CLICode
     End Function
