@@ -27,7 +27,6 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
@@ -36,7 +35,8 @@ Imports Microsoft.VisualBasic.Text.HtmlParser
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
     ''' <summary>
-    ''' The brief entry information for the pathway objects in the KEGG database.(KEGG数据库之中的代谢途径对象的入口点信息) 
+    ''' The brief entry information for the pathway objects in the KEGG database.
+    ''' (KEGG数据库之中的代谢途径对象的分类以及入口点信息) 
     ''' </summary>
     ''' <remarks></remarks>
     Public Class Pathway : Implements IReadOnlyId
@@ -57,7 +57,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Property Category As String
 
         ''' <summary>
-        ''' C
+        ''' **C**, example as: ``01100  Metabolic pathways``
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
@@ -149,7 +149,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         ''' <summary>
-        ''' <see cref="Entry"/>::<see cref="KeyValuePair.Key"/>
+        ''' <see cref="Entry"/>::<see cref="KeyValuePair.Key"/>, ``\d+``
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property EntryId As String Implements IReadOnlyId.Identity

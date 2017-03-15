@@ -1,7 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace Assembly.KEGG
 
@@ -103,5 +106,82 @@ Namespace Assembly.KEGG
         Public Interface IKEGGRemarks
             Property Remarks As String()
         End Interface
+
+        ''' <summary>
+        ''' 这个函数会自动将物种的KEGG前缀去除掉，从而能够直接匹配字典之中的键名
+        ''' </summary>
+        ''' <param name="table"></param>
+        ''' <param name="ID$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function GetPathwayBrite(table As Dictionary(Of String, Pathway), ID$) As Pathway
+            ID = Regex.Match(ID, "\d+").Value
+            Return table.TryGetValue(ID)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="mappings">``{geneID -> KO}`` mapping data collection.</param>
+        ''' <param name="keepsZERO">默认不保存计数为零的分类</param>
+        ''' <returns>这个函数所返回去的数据一般是用作于绘图操作的</returns>
+        <Extension>
+        Public Function LevelAKOStatics(mappings As IEnumerable(Of NamedValue(Of String)),
+                                        Optional ByRef KO_counts As KOCatalog() = Nothing,
+                                        Optional keepsZERO As Boolean = False) _
+                                        As Dictionary(Of String, NamedValue(Of Integer)())
+            Dim brites As htext = htext.ko00001
+            Dim KOTable As Dictionary(Of String, BriteHText) = brites.GetEntryDictionary
+            Dim counts = mappings _
+                .GroupBy(Function(gene) gene.Value) _
+                .Select(Function(x)
+                            ' 对每一个KO进行数量上的统计分析
+                            If KOTable.ContainsKey(x.Key) Then
+                                Return New KOCatalog With {
+                                    .Catalog = x.Key,
+                                    .IDs = x.Select(Function(gene) gene.Name).ToArray,
+                                    .Description = KOTable(.Catalog).Description,
+                                    .Class = KOTable(.Catalog).Class
+                                }
+                            Else
+                                Return New KOCatalog With {
+                                    .Catalog = x.Key,
+                                    .IDs = x.Select(Function(gene) gene.Name).ToArray,
+                                    .Description = "No hits in KEGG KO database",
+                                    .Class = "Unclassified"
+                                }
+                            End If
+                        End Function) _
+                .ToArray
+            Dim out As New Dictionary(Of String, NamedValue(Of Integer)())
+
+            KO_counts = counts
+
+            For Each [class] As BriteHText In brites.Hierarchical.CategoryItems
+                Dim profile As New List(Of NamedValue(Of Integer))
+
+                For Each levelACatalog As BriteHText In [class].CategoryItems
+                    ' 在这里统计levelA的分布情况
+                    Dim KO As IndexOf(Of String) = levelACatalog _
+                        .GetEntries _
+                        .Where(Function(s) Not s.StringEmpty) _
+                        .Indexing
+                    profile += New NamedValue(Of Integer) With {
+                        .Name = levelACatalog.ClassLabel,
+                        .Description = levelACatalog.Description,
+                        .Value = counts _
+                            .Where(Function(tag) KO(tag.Catalog) > -1) _
+                            .Count
+                    }
+                Next
+
+                out([class].ClassLabel) = If(
+                    keepsZERO,
+                    profile,
+                    profile.Where(Function(x) x.Value > 0).ToArray)
+            Next
+
+            Return out
+        End Function
     End Module
 End Namespace

@@ -49,8 +49,8 @@ Namespace Assembly.NCBI.COG
             Return SubClasses.ToArray(
                 Function(x) New COGFunction With {
                     .Category = [Class],
-                    .COG = x.Key,
-                    .Func = x.Value
+                    .Catalog = x.Key,
+                    .Description = x.Value
             })
         End Function
 
