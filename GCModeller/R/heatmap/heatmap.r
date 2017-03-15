@@ -18,6 +18,7 @@ if (!require("RColorBrewer")) {
 ### 所输入的数据文件的要求：
 ### 1. 第一列数据为基因的编号
 ### 2. 其他的剩余的数据的列都是基因的表达量或者实验间的logFC值
+### @size: (width, height)
 plotDEPs <- function(csv, size = c(5*300, 5*300), colorsPalette = c("darkblue", "green", "red"), title = NA) {
 
 	#########################################################
@@ -48,8 +49,8 @@ plotDEPs <- function(csv, size = c(5*300, 5*300), colorsPalette = c("darkblue", 
   
 	# creates a 5 x 5 inch image
 	png(paste(DIR, "heatmap.png", sep="-"),    # create PNG for the heat map        
-		width     = size[0],                   # 5 x 300 pixels
-		height    = size[1],
+		width     = size[1],                   # 5 x 300 pixels
+		height    = size[2],
 		res       = 300,                       # 300 pixels per inch
 		pointsize = 8)                         # smaller font size
 
