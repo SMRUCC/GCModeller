@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace Assembly.KEGG
 
@@ -113,16 +114,16 @@ Namespace Assembly.KEGG
         ''' <returns></returns>
         <Extension>
         Public Function LevelAKOStatics(mappings As IEnumerable(Of NamedValue(Of String)),
-                                        Optional ByRef KO_counts As Tuple(Of String, Integer, String())() = Nothing) _
+                                        Optional ByRef KO_counts As CatalogProfiling() = Nothing) _
                                         As Dictionary(Of String, NamedValue(Of Integer)())
             Dim counts = mappings _
                 .GroupBy(Function(gene) gene.Value) _
                 .Select(Function(x)
                             ' 对每一个KO进行数量上的统计分析
-                            Return New Tuple(Of String, Integer, String())(
-                                x.Key,
-                                x.Count,
-                                x.Select(Function(gene) gene.Name).ToArray)
+                            Return New CatalogProfiling With {
+                                .Catalog = x.Key,
+                                .IDs = x.Select(Function(gene) gene.Name).ToArray
+                            }
                         End Function) _
                 .ToArray
             Dim brites As htext = htext.ko00001
@@ -143,7 +144,7 @@ Namespace Assembly.KEGG
                         .Name = levelACatalog.ClassLabel,
                         .Description = levelACatalog.Description,
                         .Value = counts _
-                            .Where(Function(tag) KO(tag.Item1) > -1) _
+                            .Where(Function(tag) KO(tag.Catalog) > -1) _
                             .Count
                     }
                 Next
