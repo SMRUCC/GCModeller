@@ -1,10 +1,12 @@
 ﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting
@@ -20,12 +22,14 @@ Public Module EnrichPlot
                                Optional padding$ = g.DefaultPadding,
                                Optional bg$ = "white",
                                Optional unenrichColor$ = "gray",
-                               Optional enrichColorSchema$ = "Rainbow",
+                               Optional enrichColorSchema$ = "darkblue,lime,red",
                                Optional pvalue# = 0.01,
-                               Optional legendFont$ = CSSFont.PlotSubTitle) As Image
+                               Optional legendFont$ = CSSFont.PlotSmallTitle,
+                               Optional geneIDFont$ = CSSFont.Win10Normal,
+                               Optional geneIDDisplayPvalue# = 0.0001) As Image
 
         Dim enrichResult = data.EnrichResult(GO_terms)
-        Dim colors As Color() = Designer.GetColors(enrichColorSchema)
+        Dim colors As Color() = Designer.GetColors(enrichColorSchema).Alpha(240)
         Dim unenrich As Color = unenrichColor.TranslateColor
 
         Return g.GraphicsPlots(
@@ -82,12 +86,24 @@ Public Module EnrichPlot
 
         Dim legends As Legend() = serials _
             .Select(Function(s) New Legend With {
-                .color = s.color.RGB2Hexadecimal,
+                .color = s.color.RGBExpression,
                 .fontstyle = legendFontStyle,
                 .style = LegendStyles.Circle,
                 .title = s.title
             }).ToArray
+        Dim ltopLeft As New Point(
+            plot.Width - region.Padding.Horizontal,
+            region.Size.Height * 0.3)
 
+        Call g.DrawLegends(
+            ltopLeft,
+            legends,
+            graphicSize:=New Size(60, 35),
+            regionBorder:=New Border With {
+                .color = Color.Black,
+                .style = DashStyle.Solid,
+                .width = 2
+            })
     End Sub
 
     <Extension>

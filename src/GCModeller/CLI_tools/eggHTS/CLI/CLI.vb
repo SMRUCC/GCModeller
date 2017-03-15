@@ -55,7 +55,7 @@ Module CLI
             Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
 
             If bubbleStyle Then
-                plot = enrichments.BubblePlot(GO_terms:=terms)
+                plot = enrichments.BubblePlot(GO_terms:=terms, pvalue:=pvalue)
             Else
                 plot = enrichments.EnrichmentPlot(
                     terms, pvalue, size.SizeParser,
