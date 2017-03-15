@@ -221,6 +221,11 @@ Namespace Assembly.KEGG.WebServices
             Return out
         End Function
 
+        ''' <summary>
+        ''' KEGG直系同源分类统计
+        ''' </summary>
+        ''' <param name="KO_maps">``{geneID -> KO}`` map data collection.</param>
+        ''' <returns></returns>
         <Extension>
         Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String))) As NamedValue(Of Dictionary(Of String, String))()
             Dim KO_htext As Dictionary(Of String, BriteHText) = BriteHText _

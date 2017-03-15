@@ -17,6 +17,7 @@ Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.KEGG.KEGGOrthology
 Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
@@ -143,6 +144,34 @@ Partial Module CLI
         Call CatalogPlots.Plot(data, orderTakes:=top).SaveAs(out & "/plot.png")
 
         Return 0
+    End Function
+
+    ''' <summary>
+    ''' 总蛋白注释绘制KEGG分布图
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/proteins.KEGG.plot",
+               Usage:="/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/size <2000,4000> /out <out.DIR>]")>
+    Public Function proteinsKEGGPlot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim size As Size = args.GetValue("/size", New Size(2000, 4000))
+        Dim out As String = args.GetValue("/out", [in].ParentPath & "/KEGG/")
+        Dim sample = [in].LoadSample
+        Dim maps As NamedValue(Of String)() = sample _
+            .Where(Function(prot) Not prot("KO").StringEmpty) _
+            .Select(Function(prot)
+                        Return prot("KO").StringSplit(";\s+") _
+                            .Select(Function(KO) New NamedValue(Of String) With {
+                                .Name = prot.ID,
+                                .Value = KO
+                            })
+                    End Function) _
+            .IteratesALL _
+            .ToArray
+        Dim catalogs = maps.KOCatalog
+
+        Return catalogs.DataFrame.SaveTo(out & "/KOCatalogs.csv").CLICode
     End Function
 
     <ExportAPI("/protein.EXPORT",
