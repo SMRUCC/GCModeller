@@ -207,6 +207,7 @@
     <Compile Include="Declares\VennDiagram\VennDiagram\RModelAPI.vb" />
     <Compile Include="Declares\VennDiagram\VennDiagram\Partition.vb" />
     <Compile Include="Declares\VennDiagram\VennDiagram\VennDiagram.vb" />
+    <Compile Include="Declares\xcms\API.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
