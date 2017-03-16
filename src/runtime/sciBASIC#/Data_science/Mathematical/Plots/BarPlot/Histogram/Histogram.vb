@@ -191,7 +191,10 @@ Namespace BarPlot.Histogram
                     If xAxis.StringEmpty Then
                         mapper = New Mapper(scalerData)
                     Else
-                        mapper = New Mapper(xAxis, y:=New AxisProvider(scalerData.yrange.GetAxisValues))
+                        mapper = New Mapper(
+                            xAxis,
+                            y:=New AxisProvider(scalerData.yrange.GetAxisValues),
+                            range:=scalerData)
                     End If
 
                     Call g.DrawAxis(size, margin, mapper, showGrid,
@@ -240,7 +243,7 @@ Namespace BarPlot.Histogram
 
                     If legendPos.IsEmpty Then
                         legendPos = New Point(
-                            CInt(size.Width * 0.8),
+                            CInt(size.Width * 0.7),
                             margin.Top)
                     End If
 
@@ -276,7 +279,8 @@ Namespace BarPlot.Histogram
                                       Optional padding$ = DefaultPadding,
                                       Optional showGrid As Boolean = True,
                                       Optional ByRef histData As IntegerTagged(Of Double)() = Nothing,
-                                      Optional xlabel$ = "X") As Bitmap
+                                      Optional xlabel$ = "X",
+                                      Optional xAxis$ = Nothing) As Bitmap
 
             With data.ToArray.Hist([step])
 
@@ -299,7 +303,8 @@ Namespace BarPlot.Histogram
                     bg:=bg, padding:=padding, size:=size,
                     showGrid:=showGrid,
                     showTagChartLayer:=False,
-                    xlabel:=xlabel)
+                    xlabel:=xlabel,
+                    xAxis:=xAxis)
             End With
         End Function
     End Module
