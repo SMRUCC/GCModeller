@@ -177,16 +177,22 @@ Namespace BarPlot.Histogram
                              Optional drawRect As Boolean = True,
                              Optional showTagChartLayer As Boolean = False,
                              Optional xlabel$ = "X",
-                             Optional axisLabelFontStyle$ = CSSFont.Win7LargerBold) As Bitmap
+                             Optional axisLabelFontStyle$ = CSSFont.Win7LargerBold,
+                             Optional xAxis$ = Nothing) As Bitmap
 
             Dim margin As Padding = padding
+            Dim plotInternal =
+                Sub(ByRef g As Graphics, region As GraphicsRegion)
 
-            Return GraphicsPlots(
-                size, margin,
-                bg$,
-                Sub(ByRef g, region)
-                    Dim mapper As New Mapper(New Scaling(groups, False)) ' 这里也不是使用y值来表示数量的，也用相对值
+                    Dim scalerData As New Scaling(groups, False)
+                    Dim mapper As Mapper ' 这里也不是使用y值来表示数量的，也用相对值
                     Dim annotations = groups.Serials.ToDictionary
+
+                    If xAxis.StringEmpty Then
+                        mapper = New Mapper(scalerData)
+                    Else
+                        mapper = New Mapper(xAxis, y:=New AxisProvider(scalerData.yrange.GetAxisValues))
+                    End If
 
                     Call g.DrawAxis(size, margin, mapper, showGrid,
                                     xlabel:=xlabel,
@@ -244,7 +250,9 @@ Namespace BarPlot.Histogram
                             .Select(Function(x) x.legend),
                         ,,
                         legendBorder)
-                End Sub)
+                End Sub
+
+            Return GraphicsPlots(size, margin, bg$, plotInternal)
         End Function
 
         ''' <summary>

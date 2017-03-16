@@ -109,12 +109,18 @@ Partial Module CLI
             .SaveDataSet(dataOUT, blank:=1)
     End Function
 
-    <ExportAPI("/DEP.logFC.hist", Usage:="/DEP.logFC.hist /in <log2test.csv> [/tag <logFC> /size <1600,1200> /out <out.png>]")>
+    ''' <summary>
+    ''' 当没有任何生物学重复的时候，就只能够使用这个函数进行FoldChange的直方图的绘制了
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/DEP.logFC.hist", Usage:="/DEP.logFC.hist /in <log2test.csv> [/tag <logFC> /x.axis ""(min,max),tick=0.25"" /size <1600,1200> /out <out.png>]")>
     Public Function logFCHistogram(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim tag As String = args.GetValue("/tag", "logFC")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".logFCHistogram.png")
         Dim data = EntityObject.LoadDataSet([in])
+        Dim xAxis As String = args("/x.axis")
 
         Return data _
             .logFCHistogram(tag,
