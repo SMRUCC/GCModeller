@@ -104,7 +104,8 @@ Public Module Plots
                                    Optional step! = 1,
                                    Optional size As Size = Nothing,
                                    Optional padding$ = "padding: 100 180 100 180",
-                                   Optional xAxis$ = Nothing) As Bitmap
+                                   Optional xAxis$ = Nothing,
+                                   Optional color$ = "lightblue") As Bitmap
         Dim logFC#() = data _
             .Select(Function(prot) prot(tag).ParseNumeric) _
             .ToArray
@@ -118,7 +119,8 @@ Public Module Plots
                 size:=size,
                 padding:=padding,
                 xlabel:=tag,
-                xAxis:=xAxis)
+                xAxis:=xAxis,
+                color:=color)
         Catch ex As Exception
             ' 有时候标签没有设置正确会导致得到的向量全部为0，则绘图会出错，这个时候显示一下调试信息
             Dim msg$ = $"tag={tag}, vector={Mid(logFC.GetJson, 1, 256)}..., hist={Mid(histData.GetJson, 1, 300)}..."

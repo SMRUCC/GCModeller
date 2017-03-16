@@ -183,20 +183,28 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/DEP.logFC.hist", Usage:="/DEP.logFC.hist /in <log2test.csv> [/step <0.5> /tag <logFC> /x.axis ""(min,max),tick=0.25"" /size <1600,1200> /out <out.png>]")>
+    <ExportAPI("/DEP.logFC.hist",
+               Usage:="/DEP.logFC.hist /in <log2test.csv> [/step <0.5> /tag <logFC> /legend.title <Frequency(logFC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1600,1200> /out <out.png>]")>
+    <Argument("/tag", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is ""logFC"".")>
     Public Function logFCHistogram(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim tag As String = args.GetValue("/tag", "logFC")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".logFCHistogram.png")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".{tag.NormalizePathString}.histogram.png")
         Dim data = EntityObject.LoadDataSet([in])
         Dim xAxis As String = args("/x.axis")
         Dim step! = args.GetValue("/step", 0.5!)
+        Dim lTitle$ = args.GetValue("/legend.title", "Frequency(logFC)")
+        Dim color$ = args.GetValue("/color", "lightblue")
 
         Return data _
             .logFCHistogram(tag,
                             size:=args.GetValue("/size", New Size(1600, 1200)),
                             [step]:=[step],
-                            xAxis:=xAxis) _
+                            xAxis:=xAxis,
+                            serialTitle:=lTitle,
+                            color:=color) _
             .SaveAs(out) _
             .CLICode
     End Function
