@@ -147,10 +147,20 @@ Namespace SymbolBuilder
             Return $"getOption(""{verbose}"")"
         End Function
 
+        ''' <summary>
+        '''  Treat the target input string a the string vector in the R language.
+        ''' </summary>
+        ''' <param name="s">Input value</param>
+        ''' <returns></returns>
         Public Function Rstring(s As String) As String
             Return $"""{s}"""
         End Function
 
+        ''' <summary>
+        '''  Escaping the boolean value in VisualBasic as the bool value in R language
+        ''' </summary>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Public Function Rbool(b As Boolean) As String
             Return New RBoolean(b).RScript
         End Function
