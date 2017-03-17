@@ -49,7 +49,8 @@ Public Module EnrichPlot
                                Optional R$ = "log(x)",
                                Optional displays% = 10,
                                Optional titleFontCSS$ = CSSFont.PlotTitle,
-                               Optional title$ = "GO enrichment") As Image
+                               Optional title$ = "GO enrichment",
+                               Optional bubbleBorder As Boolean = True) As Image
 
         Dim enrichResult = data.EnrichResult(GO_terms)
         Dim colors As Color() = Designer.GetColors(enrichColorSchema).Alpha(240)
@@ -69,7 +70,8 @@ Public Module EnrichPlot
                     colors, pvalue,
                     legendFont,
                     r:=calcR,
-                    displays:=displays)
+                    displays:=displays,
+                    showBubbleBorder:=bubbleBorder)
 
                 Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject
                 Dim fsize As SizeF = g.MeasureString(title, titleFont)
@@ -124,7 +126,9 @@ Public Module EnrichPlot
                                enrichColors As Color(),
                                pvalue#,
                                legendFontStyle$,
-                               r As Func(Of Double, Double), displays%)
+                               r As Func(Of Double, Double),
+                               displays%,
+                               showBubbleBorder As Boolean)
 
         Dim serials As SerialData() = result _
             .SeqIterator _
@@ -140,6 +144,16 @@ Public Module EnrichPlot
                     .__unenrichSerial(pvalue, color:=unenrich, r:=r)
             }) _
             .ToArray  ' 这些都是经过筛选的，pvalue阈值符合条件的，剩下的pvalue阈值不符合条件的都被当作为同一个serials
+        Dim bubbleBorder As Stroke = Nothing
+
+        If showBubbleBorder Then
+            bubbleBorder = New Stroke With {
+                .dash = DashStyle.Solid,
+                .fill = "black",
+                .width = 2
+            }
+        End If
+
         Dim plot As Bitmap = Bubble.Plot(
             serials,
             padding:="padding: 100 100 150 150",
@@ -147,7 +161,8 @@ Public Module EnrichPlot
             legend:=False,
             xAxis:="(0,1),tick=0.2",
             xlabel:="richFactor=(n/background)",
-            ylabel:="-log<sub>10</sub>(p.value)")
+            ylabel:="-log<sub>10</sub>(p.value)",
+            bubbleBorder:=bubbleBorder)
 
         Call g.DrawImageUnscaled(plot, New Point)
 
@@ -166,9 +181,9 @@ Public Module EnrichPlot
             ltopLeft,
             legends,
             graphicSize:=New Size(60, 35),
-            regionBorder:=New Border With {
-                .color = Color.Black,
-                .style = DashStyle.Solid,
+            regionBorder:=New Stroke With {
+                .fill = "Black",
+                .dash = DashStyle.Solid,
                 .width = 2
             })
     End Sub
