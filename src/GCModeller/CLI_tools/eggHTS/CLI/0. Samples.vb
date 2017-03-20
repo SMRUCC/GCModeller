@@ -12,6 +12,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Assembly
@@ -283,9 +284,9 @@ Partial Module CLI
                Ylabel:="MW [kDa]",
                xaxis:=(args <= "/x.axis"),
                yaxis:=(args <= "/y.axis"),
-               legendRegionBorder:=New Border With {
-                   .color = Drawing.Color.Black,
-                   .style = DashStyle.Solid,
+               legendRegionBorder:=New Stroke With {
+                   .fill = "Black",
+                   .dash = DashStyle.Solid,
                    .width = 2
                })
 
