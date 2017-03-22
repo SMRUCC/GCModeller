@@ -107,6 +107,67 @@ Partial Module CLI
         End If
     End Function
 
+    <ExportAPI("/protein.annotations.shotgun",
+               Usage:="/protein.annotations.shotgun /p1 <data.csv> /p2 <data.csv> /uniprot <data.DIR/*.xml,*.tab> [/remapping /out <out.csv>]")>
+    Public Function SampleAnnotations2(args As CommandLine) As Integer
+        Dim p1$ = args <= "/p1"
+        Dim p2$ = args <= "/p2"
+        Dim uniprot$ = args <= "/uniprot"
+        Dim remapping As Boolean = args.GetBoolean("/remapping")
+        Dim out As String = args.GetValue("/out", p1.TrimSuffix & "-" & p2.BaseName & ".uniprot-annotations.csv")
+        Dim proteins As EntityObject()
+        Dim p1Data = EntityObject.LoadDataSet(p1).ToArray
+        Dim p2Data = EntityObject.LoadDataSet(p2).ToArray
+        Dim list$() = p1Data.Keys _
+            .JoinIterates(p2Data.Keys) _
+            .Distinct _
+            .ToArray
+
+        If remapping Then
+            Dim mappings = uniprot
+        Else
+            proteins = list _
+                .GenerateAnnotations(uniprot, iTraq:=True) _
+                .Select(Function(t) t.Item1) _
+                .ToArray
+
+            ' 将注释数据放进去
+            Dim table = proteins.ToDictionary
+            Dim A$ = p1.BaseName, B$ = p2.BaseName
+            Dim insertKey$
+
+            ' shotgun使用Pep开始的肽段数作为表达量的近似值
+            For Each prot In p1Data
+                For Each k In prot.EnumerateKeys
+                    If InStr(k, "Pep") > 0 Then
+                        insertKey = A & "." & k
+                    Else
+                        insertKey = k
+                    End If
+                    table(prot.ID).Properties.Add(insertKey, prot(k))
+                Next
+            Next
+
+            For Each prot In p2Data
+                For Each k In prot.EnumerateKeys
+                    If InStr(k, "Pep") > 0 Then
+                        insertKey = B & "." & k
+                    Else
+                        insertKey = k
+                    End If
+
+                    With table(prot.ID).Properties
+                        If Not .ContainsKey(insertKey) Then
+                            .Add(insertKey, prot(k))
+                        End If
+                    End With
+                Next
+            Next
+        End If
+
+        Return proteins.SaveTo(out).CLICode
+    End Function
+
     ''' <summary>
     ''' 这个函数除了会生成注释表格之外，还会将原表格添加新的编号，以及导出蛋白表达的数据表
     ''' </summary>

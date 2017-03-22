@@ -37,6 +37,8 @@ Namespace Assembly.Uniprot.XML
     <XmlType("uniprot")> Public Class UniprotXML
 
         Const ns$ = "xmlns=""http://uniprot.org/uniprot"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniprot http://www.uniprot.org/support/docs/uniprot.xsd"""
+        ' <uniparc xmlns="http://uniprot.org/uniparc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://uniprot.org/uniparc http://www.uniprot.org/docs/uniparc.xsd" version="2017_03">
+        Const uniparc_ns$ = "xmlns=""http://uniprot.org/uniparc"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniparc http://www.uniprot.org/docs/uniparc.xsd"""
 
         ''' <summary>
         ''' <see cref="entry.accession"/>可以用作为字典的键名
@@ -46,9 +48,20 @@ Namespace Assembly.Uniprot.XML
         Public Property entries As entry()
         <XmlElement>
         Public Property copyright As String
+        <XmlAttribute>
+        Public Property version As String
 
         Public Shared Function Load(path$) As UniprotXML
-            Dim xml As String = path.ReadAllText.Replace(UniprotXML.ns, Xmlns.DefaultXmlns)
+            Dim xml As String = path.ReadAllText
+
+            If InStr(xml, "<uniparc xmlns=", CompareMethod.Text) > 0 Then
+                xml = xml.Replace(UniprotXML.uniparc_ns, Xmlns.DefaultXmlns)
+                xml = xml.Replace("<uniparc xmlns", "<uniprot xmlns")
+                xml = xml.Replace("</uniparc>", "</uniprot>")
+            Else
+                xml = xml.Replace(UniprotXML.ns, Xmlns.DefaultXmlns)
+            End If
+
             Dim model As UniprotXML = xml.LoadFromXml(Of UniprotXML)
             Return model
         End Function
