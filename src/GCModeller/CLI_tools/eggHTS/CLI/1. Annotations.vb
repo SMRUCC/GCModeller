@@ -124,7 +124,7 @@ Partial Module CLI
             .ToArray
 
         If remapping Then
-            Dim mappings = uniprot
+            Dim mappings = uniprot.EnumerateFiles("*.tab", "*.tsv").Select(AddressOf Retrieve_IDmapping.MappingReader)
         Else
             proteins = list _
                 .GenerateAnnotations(uniprot, iTraq:=True) _
