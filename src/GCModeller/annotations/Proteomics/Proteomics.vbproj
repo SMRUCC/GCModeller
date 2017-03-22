@@ -117,8 +117,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shotgun_csvReader.vb" />
-    <Compile Include="Perseus.vb" />
+    <Compile Include="DATA\Shotgun_csvReader.vb" />
     <Compile Include="DATA\ShotgunReader.vb" />
     <Compile Include="DATA\Perseus.vb" />
     <Compile Include="DEP.vb" />

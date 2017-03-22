@@ -34,7 +34,7 @@ Partial Module CLI
 
     <ExportAPI("/Samples.IDlist",
                Info:="Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.",
-               Usage:="/Samples.IDlist /in <samples.csv> [/Perseus /out <out.list.txt>]")>
+               Usage:="/Samples.IDlist /in <samples.csv> [/Perseus /shotgun /pair <samples2.csv> /out <out.list.txt>]")>
     <Argument("/Perseus", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this flag was presented, that means the input sample data is the Perseus analysis output file ``ProteinGroups.txt``, or the input sample data is the iTraq result.")>
@@ -43,9 +43,23 @@ Partial Module CLI
         Dim isPerseus As Boolean = args.GetBoolean("/Perseus")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".geneIDs.txt")
         Dim list$()
+        Dim isShotgun As Boolean = args.GetBoolean("/shotgun")
 
         If isPerseus Then
             list = {}
+        ElseIf isShotgun Then
+            Dim pair$ = args <= "/pair"
+            Dim pairData As EntityObject() = If(
+                pair.FileExists(True),
+                EntityObject.LoadDataSet(pair).ToArray,
+                {})
+            Dim input = EntityObject.LoadDataSet([in])
+
+            list = input.Values("UniprotID") _
+                .JoinIterates(pairData.Values("UniprotID")) _
+                .Distinct _
+                .ToArray
+            out = [in].TrimSuffix & "-" & pair.BaseName(allowEmpty:=True) & ".geneIDs.txt"
         Else
             Dim table = EntityObject.LoadDataSet([in])
             list$ = table.Keys(distinct:=True)
