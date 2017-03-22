@@ -222,10 +222,11 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/proteins.KEGG.plot",
-               Usage:="/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/size <2000,4000> /out <out.DIR>]")>
+               Usage:="/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/size <2000,4000> /tick 20 /out <out.DIR>]")>
     Public Function proteinsKEGGPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim size As Size = args.GetValue("/size", New Size(2000, 4000))
+        Dim tick! = args.GetValue("/tick", 20.0!)
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/KEGG/")
         Dim sample = [in].LoadSample
         Dim maps As NamedValue(Of String)() = sample _
@@ -243,7 +244,7 @@ Partial Module CLI
         Dim KO_counts As KOCatalog() = Nothing
         Dim profile = maps.LevelAKOStatics(KO_counts).AsDouble
 
-        profile.ProfilesPlot("KEGG Orthology Profiling").SaveAs(out & "/plot.png")
+        profile.ProfilesPlot("KEGG Orthology Profiling", size:=size, tick:=tick).SaveAs(out & "/plot.png")
         KO_counts.SaveTo(out & "/KO_counts.csv")
         catalogs.DataFrame.SaveTo(out & "/KOCatalogs.csv")
 
