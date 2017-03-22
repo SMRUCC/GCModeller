@@ -119,8 +119,10 @@
   <ItemGroup>
     <Compile Include="Shotgun_csvReader.vb" />
     <Compile Include="Perseus.vb" />
+    <Compile Include="DATA\ShotgunReader.vb" />
+    <Compile Include="DATA\Perseus.vb" />
     <Compile Include="DEP.vb" />
-    <Compile Include="UniprotAnnotations.vb" />
+    <Compile Include="DATA\UniprotAnnotations.vb" />
     <Compile Include="Plots.vb" />
     <Compile Include="ProteinGroups.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
