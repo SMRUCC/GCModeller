@@ -24,7 +24,10 @@ plotDEPs <- function(csv,
 					 colorsPalette = c("darkblue", "green", "red"), 
 					 fontsize.row  = 0.35, 
 					 fontsize.col  = 1.5, 
-					 title         = NA) {
+					 title         = NA, 
+					 plot.margin   = c(4, 3), 
+					 l.width       = c(1.5, 2), 
+					 l.height      = c(0.4, 2)) {
 
 	#########################################################
 	### B) Reading in data and transform it into matrix format
@@ -64,9 +67,9 @@ plotDEPs <- function(csv,
 			  notecol      = "black",          # change font color of cell labels to black
 			  density.info = "none",           # turns off density plot inside color legend
 			  trace        = "none",           # turns off trace lines inside the heat map
-			  margins      = c(4, 3),          # widens margins around plot
-			  lwid         = c(1.5, 2),
-			  lhei         = c(0.4, 2),
+			  margins      = plot.margin,      # widens margins around plot
+			  lwid         = l.width,
+			  lhei         = l.height,
 			  col          = my_palette,       # use on color palette defined earlier
 			  cexRow       = fontsize.row,
 			  cexCol       = fontsize.col,

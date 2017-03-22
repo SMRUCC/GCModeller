@@ -8,6 +8,15 @@ Namespace Assembly.Uniprot.XML
 
     Public Module Extensions
 
+        <Extension>
+        Public Function OrganismScientificName(protein As entry) As String
+            If protein.organism Is Nothing Then
+                Return ""
+            Else
+                Return protein.organism.scientificName
+            End If
+        End Function
+
         <Extension> Public Function proteinFullName(protein As entry) As String
             If protein.protein Is Nothing Then
                 Return ""

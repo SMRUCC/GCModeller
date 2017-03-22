@@ -29,6 +29,7 @@
 Imports System.Collections.Specialized
 Imports System.Text.RegularExpressions
 Imports System.Threading
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.HtmlParser
 
@@ -147,15 +148,55 @@ Namespace Assembly.Uniprot.Web
         ''' </summary>
         ''' <param name="path$"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 可能每一行之中会存在多对多的情况，但是不需要担心，这个函数会自动处理这些非一对一的情况的
+        ''' </remarks>
         Public Function MappingReader(path$) As Dictionary(Of String, String())
             Dim lines = path.ReadAllLines.Skip(1)
             Dim maps As Dictionary(Of String, String()) = lines _
                 .Select(Function(l) l.Split(ASCII.TAB)) _
-                .GroupBy(Function(x) x(0)) _
-                .ToDictionary(Function(x) x.Key,
-                              Function(x) x.Select(
-                              Function(row) row(1)).Distinct.ToArray)
+                .Select(Function(t) New KeyValuePair(Of String, String())(t(0), t(1).Split(","c))) _
+                .GroupBy(Function(x) x.Key) _
+                .Select(Function(k)
+                            Dim values$() = k.Select(Function(v) v.Value) _
+                                .IteratesALL _
+                                .Distinct _
+                                .ToArray
+                            Return k.Key.Split(","c) _
+                                .Select(Function(key$) New KeyValuePair(Of String, String())(key, values))
+                        End Function) _
+                .IteratesALL _
+                .GroupBy(Function(g) g.Key) _
+                .ToDictionary(Function(k) k.Key,
+                              Function(g)
+                                  Return g.Select(Function(v) v.Value) _
+                                      .IteratesALL _
+                                      .Distinct _
+                                      .ToArray
+                              End Function)
             Return maps
+        End Function
+
+        ''' <summary>
+        ''' 与<see cref="MappingReader"/>所不同的是，这个函数是读取一个文件夹之中的所有的
+        ''' mapping table(``*.tsv``, ``*.tab``)作为一个mapping数据的整体来使用的
+        ''' </summary>
+        ''' <param name="DIR$"></param>
+        ''' <returns></returns>
+        Public Function MappingsReader(DIR$) As Dictionary(Of String, String())
+            Dim mappings As Dictionary(Of String, String()) = DIR _
+                .EnumerateFiles("*.tab", "*.tsv") _
+                .Select(AddressOf Retrieve_IDmapping.MappingReader) _
+                .IteratesALL _
+                .GroupBy(Function(k) k.Key) _
+                .ToDictionary(Function(k) k.Key,
+                              Function(g)
+                                  Return g.Select(Function(v) v.Value) _
+                                      .IteratesALL _
+                                      .Distinct _
+                                      .ToArray
+                              End Function)
+            Return mappings
         End Function
 
         ''' <summary>
@@ -163,12 +204,15 @@ Namespace Assembly.Uniprot.Web
         ''' </summary>
         ''' <param name="path$"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 其实这个函数就是直接读取行数据然后依据TAB符号进行分割之后写入字典之中
+        ''' </remarks>
         Public Function SingleMappings(path$) As Dictionary(Of String, String)
             Dim out As New Dictionary(Of String, String)
 
             For Each line As String In path.ReadAllLines.Skip(1)
                 Dim t$() = line.Split(ASCII.TAB)
-                out.Add(t(0), t(1))
+                Call out.Add(t(0), t(1))
             Next
 
             Return out

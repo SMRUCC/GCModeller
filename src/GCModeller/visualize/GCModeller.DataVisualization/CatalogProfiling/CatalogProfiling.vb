@@ -269,15 +269,14 @@ Public Module CatalogProfiling
             y += 20
         Next
 
-        Dim axisTicks#() = AxisScalling.GetAxisByTick(
-            profile.Values.Max(Function(v) If(v.Length = 0, 0, v.Max(Function(n) n.Value))),
-            tick)
+        Dim maxValue# = profile.Values.Max(Function(v) If(v.Length = 0, 0, v.Max(Function(n) n.Value)))
+        Dim axisTicks#() = AxisScalling.GetAxisByTick(maxValue, tick)
         Dim d# = 25
         Dim tickFont = CSSFont.TryParse(tickFontStyle)
         Dim tickSize As SizeF
         Dim tickPen As New Pen(Color.Black, 3)
 
-        For Each tick In axisTicks
+        For Each tick In axisTicks.Where(Function(v) v <= maxValue)
             Dim tickX = barRect.Left + mapper.ScallingWidth(tick, barRect.Width - gap)
 
             tickSize = g.MeasureString(tick, tickFont)

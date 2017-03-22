@@ -32,7 +32,7 @@
         ''' <summary>
         ''' Children
         ''' </summary>
-        Public Property ChildNodes() As List(Of T)
+        Public Property ChildNodes() As List(Of T) Implements ITreeNode(Of T).ChildNodes
 
         ''' <summary>
         ''' Me/this
@@ -56,6 +56,21 @@
                 Return Parent Is Nothing
             End Get
         End Property
+
+        Public Function MaxTravelDepth() As Integer
+            Return __travelInternal(Me.MySelf)
+        End Function
+
+        Private Shared Function __travelInternal(child As T) As Integer
+            Dim l As New List(Of Integer) From {0}
+
+            For Each c As T In child.ChildNodes
+                l.Add(__travelInternal(child:=c))
+            Next
+
+            ' 最后的 +1 是因为当前的对象自己本身也是一层节点
+            Return l.Max + 1
+        End Function
 
         ''' <summary>
         ''' List of Leaf Nodes

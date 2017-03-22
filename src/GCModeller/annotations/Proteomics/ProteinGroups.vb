@@ -66,6 +66,9 @@ Public Module ProteinGroups
     ''' </summary>
     ''' <param name="ID">直接是uniprot编号</param>
     ''' <param name="uniprotXML$"></param>
+    ''' <param name="iTraq">
+    ''' 会直接使用原来的<paramref name="ID"/>编号来代替后面的系统自动生成的数字编号
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Function GenerateAnnotations(ID As IEnumerable(Of String), uniprotXML$, Optional iTraq As Boolean = False) As IEnumerable(Of (protein, String()))
@@ -83,7 +86,7 @@ Public Module ProteinGroups
     ''' <param name="ID">
     ''' 对于蛋白组分析而言，这里的每一个元素都是一组基因号的集合，基因号之间通过<paramref name="deli"/>来区分
     ''' </param>
-    ''' <param name="idMapping$"></param>
+    ''' <param name="idMapping$">``*.tsv``, ``*.tab``文件的文件路径</param>
     ''' <param name="uniprotXML$"></param>
     ''' <param name="deli"></param>
     ''' <returns></returns>
@@ -108,7 +111,10 @@ Public Module ProteinGroups
                                                  Optional scientifcName$ = Nothing,
                                                  Optional iTraq As Boolean = False) As IEnumerable(Of (protein, String()))
 
-        Dim uniprot As Dictionary(Of Uniprot.XML.entry) = SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML.LoadDictionary(uniprotXML)
+        Dim uniprot As Dictionary(Of Uniprot.XML.entry) =
+            SMRUCC.genomics.Assembly.Uniprot.XML _
+            .UniprotXML _
+            .LoadDictionary(uniprotXML)
 
         For Each Idtags As SeqValue(Of String) In ID.SeqIterator
             Dim list$() = (+Idtags).Split(deli)
@@ -287,7 +293,7 @@ Public Module ProteinGroups
         Call annotations.Add("GO", GO.JoinBy("; "))
         Call annotations.Add("EC", EC.JoinBy("; "))
         Call annotations.Add("KO", KO.JoinBy("; "))
-        Call annotations.Add("organism", uniprots.Select(Function(prot) prot.organism.scientificName).JoinBy("; "))
+        Call annotations.Add("organism", uniprots.Select(Function(prot) prot.OrganismScientificName).JoinBy("; "))
 
         'getKeyValue = Function(key)
         '                  Return uniprots _

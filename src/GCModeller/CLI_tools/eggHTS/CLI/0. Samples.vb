@@ -12,6 +12,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Assembly
@@ -20,6 +21,13 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Partial Module CLI
+
+    <ExportAPI("/Shotgun.Data.Strip", Usage:="/Shotgun.Data.Strip /in <data.csv> [/out <output.csv>]")>
+    Public Function StripShotgunData(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Data.csv")
+        Return Shotgun_csvReader.StripCsv([in]).Save(out,)
+    End Function
 
     ''' <summary>
     ''' 将perseus软件的输出转换为csv文档并且导出uniprot编号以方便进行注释
@@ -283,9 +291,9 @@ Partial Module CLI
                Ylabel:="MW [kDa]",
                xaxis:=(args <= "/x.axis"),
                yaxis:=(args <= "/y.axis"),
-               legendRegionBorder:=New Border With {
-                   .color = Drawing.Color.Black,
-                   .style = DashStyle.Solid,
+               legendRegionBorder:=New Stroke With {
+                   .fill = "Black",
+                   .dash = DashStyle.Solid,
                    .width = 2
                })
 
