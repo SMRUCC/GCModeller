@@ -122,48 +122,27 @@ Partial Module CLI
             .JoinIterates(p2Data.Keys) _
             .Distinct _
             .ToArray
+        Dim mappings As Dictionary(Of String, String()) = Nothing
 
         If remapping Then
-            Dim mappings = uniprot.EnumerateFiles("*.tab", "*.tsv").Select(AddressOf Retrieve_IDmapping.MappingReader)
+            mappings = Retrieve_IDmapping.MappingsReader(DIR:=uniprot)
+            list = mappings.Keys.ToArray
+            proteins = list _
+                .GenerateAnnotations(mappings, uniprot, , , , iTraq:=True) _
+                .Select(Function(t) t.Item1) _
+                .ToArray
         Else
             proteins = list _
                 .GenerateAnnotations(uniprot, iTraq:=True) _
                 .Select(Function(t) t.Item1) _
                 .ToArray
-
-            ' 将注释数据放进去
-            Dim table = proteins.ToDictionary
-            Dim A$ = p1.BaseName, B$ = p2.BaseName
-            Dim insertKey$
-
-            ' shotgun使用Pep开始的肽段数作为表达量的近似值
-            For Each prot In p1Data
-                For Each k In prot.EnumerateKeys
-                    If InStr(k, "Pep") > 0 Then
-                        insertKey = A & "." & k
-                    Else
-                        insertKey = k
-                    End If
-                    table(prot.ID).Properties.Add(insertKey, prot(k))
-                Next
-            Next
-
-            For Each prot In p2Data
-                For Each k In prot.EnumerateKeys
-                    If InStr(k, "Pep") > 0 Then
-                        insertKey = B & "." & k
-                    Else
-                        insertKey = k
-                    End If
-
-                    With table(prot.ID).Properties
-                        If Not .ContainsKey(insertKey) Then
-                            .Add(insertKey, prot(k))
-                        End If
-                    End With
-                Next
-            Next
         End If
+
+        proteins = proteins _
+            .MergeShotgunAnnotations(
+                New NamedCollection(Of EntityObject)(p1.BaseName, p1Data),
+                New NamedCollection(Of EntityObject)(p2.BaseName, p2Data),
+                mappings)
 
         Return proteins.SaveTo(out).CLICode
     End Function

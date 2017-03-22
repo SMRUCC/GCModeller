@@ -1,6 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot
 
 Public Module Shotgun_csvReader
@@ -41,5 +43,87 @@ Public Module Shotgun_csvReader
         Next
 
         Return out
+    End Function
+
+    <Extension>
+    Public Function MergeShotgunAnnotations(proteins As EntityObject(),
+                                            ta As NamedCollection(Of EntityObject),
+                                            tb As NamedCollection(Of EntityObject),
+                                            Optional mappings As Dictionary(Of String, String()) = Nothing) As EntityObject()
+        ' 将注释数据放进去
+        Dim table As Dictionary(Of NamedCollection(Of EntityObject)) = proteins.GroupByKey.ToDictionary
+        Dim A$ = ta.Name, B$ = tb.Name
+        Dim insertKey$
+        'Dim reverseMappings As Dictionary(Of String, String()) = mappings _
+        '    .SafeQuery _
+        '    .Select(Function(k)
+        '                Return k.Value.Select(Function(kv)
+        '                                          Return (key:=kv, Value:=k.Key)
+        '                                      End Function)
+        '            End Function) _
+        '    .IteratesALL _
+        '    .GroupBy(Function(t) t.key) _
+        '    .ToDictionary(Function(k) k.Key,
+        '                  Function(g) g.Select(Function(v) v.Value).ToArray)
+        Dim array As EntityObject()
+
+        Const refID$ = "ref.ID"
+
+        ' shotgun使用Pep开始的肽段数作为表达量的近似值
+        For Each prot As EntityObject In ta
+            For Each k In prot.EnumerateKeys
+                If InStr(k, "Pep") > 0 Then
+                    insertKey = A & "." & k
+                Else
+                    insertKey = k
+                End If
+
+                If mappings Is Nothing Then
+                    array = table(prot.ID).ToArray
+                Else
+                    array = mappings(prot.ID) _
+                        .Select(Function(key) table(key)) _
+                        .IteratesAll
+                End If
+
+                For Each o As EntityObject In array.Distinct
+                    Call o.Properties.Add(insertKey, prot(k))
+                    If Not o.Properties.ContainsKey(refID) Then
+                        Call o.Properties.Add(refID, prot.ID)
+                    End If
+                Next
+            Next
+        Next
+
+        For Each prot As EntityObject In tb
+            For Each k In prot.EnumerateKeys
+                If InStr(k, "Pep") > 0 Then
+                    insertKey = B & "." & k
+                Else
+                    insertKey = k
+                End If
+
+                If mappings Is Nothing Then
+                    array = table(prot.ID).ToArray
+                Else
+                    array = mappings(prot.ID) _
+                        .Select(Function(key) table(key)) _
+                        .IteratesAll
+                End If
+
+                For Each o As EntityObject In array
+                    With o.Properties
+                        If Not .ContainsKey(insertKey) Then
+                            .Add(insertKey, prot(k))
+                        End If
+                        If Not .ContainsKey(refID) Then
+                            .Add(refID, prot.ID)
+                        End If
+                    End With
+                Next
+            Next
+        Next
+
+        Return table.Values.IteratesAll.ToArray
     End Function
 End Module

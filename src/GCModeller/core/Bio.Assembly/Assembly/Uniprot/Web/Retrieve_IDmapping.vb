@@ -178,6 +178,28 @@ Namespace Assembly.Uniprot.Web
         End Function
 
         ''' <summary>
+        ''' 与<see cref="MappingReader"/>所不同的是，这个函数是读取一个文件夹之中的所有的
+        ''' mapping table(``*.tsv``, ``*.tab``)作为一个mapping数据的整体来使用的
+        ''' </summary>
+        ''' <param name="DIR$"></param>
+        ''' <returns></returns>
+        Public Function MappingsReader(DIR$) As Dictionary(Of String, String())
+            Dim mappings As Dictionary(Of String, String()) = DIR _
+                .EnumerateFiles("*.tab", "*.tsv") _
+                .Select(AddressOf Retrieve_IDmapping.MappingReader) _
+                .IteratesALL _
+                .GroupBy(Function(k) k.Key) _
+                .ToDictionary(Function(k) k.Key,
+                              Function(g)
+                                  Return g.Select(Function(v) v.Value) _
+                                      .IteratesALL _
+                                      .Distinct _
+                                      .ToArray
+                              End Function)
+            Return mappings
+        End Function
+
+        ''' <summary>
         ''' 假若在mapping表之中不存在重复的基因编号的话，可以使用这个函数
         ''' </summary>
         ''' <param name="path$"></param>

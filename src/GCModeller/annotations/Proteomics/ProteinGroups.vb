@@ -86,7 +86,7 @@ Public Module ProteinGroups
     ''' <param name="ID">
     ''' 对于蛋白组分析而言，这里的每一个元素都是一组基因号的集合，基因号之间通过<paramref name="deli"/>来区分
     ''' </param>
-    ''' <param name="idMapping$"></param>
+    ''' <param name="idMapping$">``*.tsv``, ``*.tab``文件的文件路径</param>
     ''' <param name="uniprotXML$"></param>
     ''' <param name="deli"></param>
     ''' <returns></returns>
@@ -293,7 +293,7 @@ Public Module ProteinGroups
         Call annotations.Add("GO", GO.JoinBy("; "))
         Call annotations.Add("EC", EC.JoinBy("; "))
         Call annotations.Add("KO", KO.JoinBy("; "))
-        Call annotations.Add("organism", uniprots.Select(Function(prot) prot.organism.scientificName).JoinBy("; "))
+        Call annotations.Add("organism", uniprots.Select(Function(prot) prot.OrganismScientificName).JoinBy("; "))
 
         'getKeyValue = Function(key)
         '                  Return uniprots _
