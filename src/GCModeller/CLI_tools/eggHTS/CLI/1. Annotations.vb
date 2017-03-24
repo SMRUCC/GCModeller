@@ -34,7 +34,7 @@ Partial Module CLI
 
     <ExportAPI("/Samples.IDlist",
                Info:="Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.",
-               Usage:="/Samples.IDlist /in <samples.csv> [/Perseus /out <out.list.txt>]")>
+               Usage:="/Samples.IDlist /in <samples.csv> [/Perseus /shotgun /pair <samples2.csv> /out <out.list.txt>]")>
     <Argument("/Perseus", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this flag was presented, that means the input sample data is the Perseus analysis output file ``ProteinGroups.txt``, or the input sample data is the iTraq result.")>
@@ -43,9 +43,23 @@ Partial Module CLI
         Dim isPerseus As Boolean = args.GetBoolean("/Perseus")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".geneIDs.txt")
         Dim list$()
+        Dim isShotgun As Boolean = args.GetBoolean("/shotgun")
 
         If isPerseus Then
             list = {}
+        ElseIf isShotgun Then
+            Dim pair$ = args <= "/pair"
+            Dim pairData As EntityObject() = If(
+                pair.FileExists(True),
+                EntityObject.LoadDataSet(pair).ToArray,
+                {})
+            Dim input = EntityObject.LoadDataSet([in])
+
+            list = input.Values("UniprotID") _
+                .JoinIterates(pairData.Values("UniprotID")) _
+                .Distinct _
+                .ToArray
+            out = [in].TrimSuffix & "-" & pair.BaseName(allowEmpty:=True) & ".geneIDs.txt"
         Else
             Dim table = EntityObject.LoadDataSet([in])
             list$ = table.Keys(distinct:=True)
@@ -93,6 +107,46 @@ Partial Module CLI
         End If
     End Function
 
+    <ExportAPI("/protein.annotations.shotgun",
+               Usage:="/protein.annotations.shotgun /p1 <data.csv> /p2 <data.csv> /uniprot <data.DIR/*.xml,*.tab> [/remapping /out <out.csv>]")>
+    Public Function SampleAnnotations2(args As CommandLine) As Integer
+        Dim p1$ = args <= "/p1"
+        Dim p2$ = args <= "/p2"
+        Dim uniprot$ = args <= "/uniprot"
+        Dim remapping As Boolean = args.GetBoolean("/remapping")
+        Dim out As String = args.GetValue("/out", p1.TrimSuffix & "-" & p2.BaseName & ".uniprot-annotations.csv")
+        Dim proteins As EntityObject()
+        Dim p1Data = EntityObject.LoadDataSet(p1).ToArray
+        Dim p2Data = EntityObject.LoadDataSet(p2).ToArray
+        Dim list$() = p1Data.Keys _
+            .JoinIterates(p2Data.Keys) _
+            .Distinct _
+            .ToArray
+        Dim mappings As Dictionary(Of String, String()) = Nothing
+
+        If remapping Then
+            mappings = Retrieve_IDmapping.MappingsReader(DIR:=uniprot)
+            list = mappings.Keys.ToArray
+            proteins = list _
+                .GenerateAnnotations(mappings, uniprot, , , , iTraq:=True) _
+                .Select(Function(t) t.Item1) _
+                .ToArray
+        Else
+            proteins = list _
+                .GenerateAnnotations(uniprot, iTraq:=True) _
+                .Select(Function(t) t.Item1) _
+                .ToArray
+        End If
+
+        proteins = proteins _
+            .MergeShotgunAnnotations(
+                New NamedCollection(Of EntityObject)(p1.BaseName, p1Data),
+                New NamedCollection(Of EntityObject)(p2.BaseName, p2Data),
+                mappings)
+
+        Return proteins.SaveTo(out).CLICode
+    End Function
+
     ''' <summary>
     ''' 这个函数除了会生成注释表格之外，还会将原表格添加新的编号，以及导出蛋白表达的数据表
     ''' </summary>
@@ -137,13 +191,14 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/proteins.Go.plot",
                Info:="ProteinGroups sample data go profiling plot from the uniprot annotation data.",
-               Usage:="/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /top 20 /size <2000,4000> /out <out.DIR>]")>
+               Usage:="/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /tick 50 /top 20 /size <2000,4000> /out <out.DIR>]")>
     Public Function ProteinsGoPlot(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
         Dim in$ = args("/in")
         Dim size As Size = args.GetValue("/size", New Size(2000, 4000))
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/GO/")
         Dim top% = args.GetValue("/top", 20)
+        Dim tick! = args.GetValue("/tick", 50.0!)
 
         ' 绘制GO图
         Dim goTerms As Dictionary(Of String, Term) = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
@@ -153,7 +208,10 @@ Partial Module CLI
             sample.CountStat(selector, goTerms)
 
         Call data.SaveCountValue(out & "/plot.csv")
-        Call CatalogPlots.Plot(data, orderTakes:=top).SaveAs(out & "/plot.png")
+        Call CatalogPlots.Plot(
+            data, orderTakes:=top,
+            tick:=tick,
+            size:=size).SaveAs(out & "/plot.png")
 
         Return 0
     End Function
@@ -164,10 +222,11 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/proteins.KEGG.plot",
-               Usage:="/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/size <2000,4000> /out <out.DIR>]")>
+               Usage:="/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/size <2000,4000> /tick 20 /out <out.DIR>]")>
     Public Function proteinsKEGGPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim size As Size = args.GetValue("/size", New Size(2000, 4000))
+        Dim tick! = args.GetValue("/tick", 20.0!)
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/KEGG/")
         Dim sample = [in].LoadSample
         Dim maps As NamedValue(Of String)() = sample _
@@ -185,7 +244,7 @@ Partial Module CLI
         Dim KO_counts As KOCatalog() = Nothing
         Dim profile = maps.LevelAKOStatics(KO_counts).AsDouble
 
-        profile.ProfilesPlot("KEGG Orthology Profiling").SaveAs(out & "/plot.png")
+        profile.ProfilesPlot("KEGG Orthology Profiling", size:=size, tick:=tick).SaveAs(out & "/plot.png")
         KO_counts.SaveTo(out & "/KO_counts.csv")
         catalogs.DataFrame.SaveTo(out & "/KOCatalogs.csv")
 

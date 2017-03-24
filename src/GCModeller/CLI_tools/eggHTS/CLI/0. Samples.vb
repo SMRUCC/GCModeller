@@ -22,6 +22,13 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abst
 
 Partial Module CLI
 
+    <ExportAPI("/Shotgun.Data.Strip", Usage:="/Shotgun.Data.Strip /in <data.csv> [/out <output.csv>]")>
+    Public Function StripShotgunData(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Data.csv")
+        Return Shotgun_csvReader.StripCsv([in]).Save(out,)
+    End Function
+
     ''' <summary>
     ''' 将perseus软件的输出转换为csv文档并且导出uniprot编号以方便进行注释
     ''' </summary>
