@@ -73,7 +73,10 @@ Namespace Core
                 If(threads = -1,
                 LQuerySchedule.Recommended_NUM_THREADS * 8,
                 threads))
-            Call Console.WriteLine("Web server threads_pool_size=" & _threadPool.NumOfThreads)
+            Me.BufferSize = Val(App.GetVariable("httpserver.buffer_size"))
+            Me.BufferSize = If(BufferSize <= 0, 4096, BufferSize)
+
+            Call $"Web server threads_pool_size={_threadPool.NumOfThreads}, buffer_size={BufferSize}bytes".__INFO_ECHO
         End Sub
 
         ''' <summary>
@@ -111,7 +114,7 @@ Namespace Core
             End Try
 
 #Const DEBUG = 0
-            Call Console.WriteLine("Http Server Start listen at " & _httpListener.LocalEndpoint.ToString)
+            Call $"Http Server Start listen at {_httpListener.LocalEndpoint.ToString}".__INFO_ECHO
 #If DEBUG Then
             Call RunTask(AddressOf Me.OpenAPI_HOME)
 #End If
