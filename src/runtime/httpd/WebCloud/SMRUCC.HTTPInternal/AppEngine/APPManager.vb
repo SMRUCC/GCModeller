@@ -1,38 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::d63609e904d26419db8a1fcdd62cf2c7, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\APPManager.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.IO
 Imports System.Reflection
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
 Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 Namespace AppEngine
@@ -40,7 +39,7 @@ Namespace AppEngine
     ''' <summary>
     ''' Help document developer user manual page
     ''' </summary>
-    <[Namespace]("sdk")>
+    <[Namespace]("dashboard")>
     Public Class APPManager : Inherits WebApp
         Implements IEnumerable(Of APPEngine)
 
@@ -48,6 +47,9 @@ Namespace AppEngine
         ''' 键名要求是小写的
         ''' </summary>
         Dim RunningAPP As New Dictionary(Of String, APPEngine)
+        ''' <summary>
+        ''' 动态添加的API，这些API的url不是标准的url命名空间
+        ''' </summary>
         Dim dynamics As New Dictionary(Of String, (App As Object, API As APIInvoker))
 
         ''' <summary>
@@ -154,25 +156,37 @@ Namespace AppEngine
         End Function
 
         Public Function PrintHelp() As String
-            Dim LQuery = (From app In Me.RunningAPP
-                          Let head = $"<br /><div><h3>Application/Namespace                --- <strong>{baseUrl}/{app.Value.Namespace.Namespace}/</strong> ---</h3>" &
-                          If(String.IsNullOrEmpty(app.Value.Namespace.Description), "",
-                          $"                <p>{app.Value.Namespace.Description}</p>
-                          <br /><br />")
-                          Select head & vbCrLf &
-                          app.Value.GetHelp & vbCrLf &
-                          "</div>").ToArray
+            Dim LQuery$() = LinqAPI.Exec(Of String) <=
+ _
+                From app As KeyValuePair(Of String, APPEngine)
+                In Me.RunningAPP
+                Let nsDescrib As String = If(
+                    String.IsNullOrEmpty(app.Value.Namespace.Description),
+                    "",
+                    $"                <p>{app.Value.Namespace.Description}</p><br /><br />")
+                Let head = $"<br /><div><h3>Application/Namespace                --- <strong>{baseUrl}/{app.Value.Namespace.Namespace}/</strong> ---</h3>" & nsDescrib
+                Select head & vbCrLf & app.Value.GetHelp & vbCrLf & "</div>"
+
             Dim HelpPage As String = String.Join($"<br /><br />", LQuery)
-            '    HelpPage = Program.requestHtml("sdk_doc.html").Replace("%SDK_HELP%", HelpPage)
+
             Return HelpPage
         End Function
 
-        <ExportAPI("/sdk/help_doc.html", Info:="Get the help documents about how to using the mipaimai platform WebAPI.",
-             Usage:="/sdk/help_doc.html",
-             Example:="<a href=""/sdk/help_doc.html"">/sdk/help_doc.html</a>")>
+        <ExportAPI("/dashboard/help_doc.html",
+                   Info:="Get the help documents about how to using the mipaimai platform WebAPI.",
+                   Usage:="/dashboard/help_doc.html",
+                   Example:="<a href=""/dashboard/help_doc.html"">/dashboard/help_doc.html</a>")>
         <[GET](GetType(String))>
-        Public Function Help(args As String) As String
-            Return PrintHelp()
+        Public Function Help(request As HttpRequest, response As HttpResponse) As Boolean
+            Call response.WriteHTML(PrintHelp)
+            Return True
+        End Function
+
+        <ExportAPI("/dashboard/server_status.vbs")>
+        <[GET](GetType(String))>
+        Public Function ServerStatus(request As HttpRequest, response As HttpResponse) As Boolean
+            Call response.WriteLine(PlatformEngine._threadPool.GetStatus.GetJson(indent:=True))
+            Return True
         End Function
 
         ''' <summary>

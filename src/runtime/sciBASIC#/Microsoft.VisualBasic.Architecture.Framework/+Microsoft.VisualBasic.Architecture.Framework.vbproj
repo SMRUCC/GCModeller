@@ -426,7 +426,7 @@
     <Compile Include="Extensions\IO\CollectionIO.vb" />
     <Compile Include="ComponentModel\System.Collections.Generic\PriorityQueue.vb" />
     <Compile Include="ComponentModel\ValuePair\GenericAbstract.vb" />
-    <Compile Include="ComponentModel\ValuePair\RefValue.vb" />
+    <Compile Include="ComponentModel\ValuePair\Binding.vb" />
     <Compile Include="ComponentModel\ValuePair\TagData\TagData.vb" />
     <Compile Include="ComponentModel\ValuePair\Triple.vb" />
     <Compile Include="Language\UnixBash\ShellSyntax.vb" />
@@ -438,6 +438,7 @@
     <Compile Include="Parallel\Tasks\Actor%28Of T, V%29.vb" />
     <Compile Include="Scripting\Expressions\ArrayIndex.vb" />
     <Compile Include="Scripting\Expressions\StringInterpolation.vb" />
+    <Compile Include="Scripting\NumberConversionRoutines.vb" />
     <Compile Include="Terminal\InteractiveIODevice\Shell.vb" />
     <Compile Include="Terminal\PipelineCLI.vb" />
     <Compile Include="Terminal\InnerQueue.vb" />
