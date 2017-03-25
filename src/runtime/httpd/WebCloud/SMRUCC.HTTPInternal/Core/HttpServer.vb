@@ -82,7 +82,7 @@ Namespace Core
         ''' <summary>
         ''' 处理连接的线程池
         ''' </summary>
-        Protected _threadPool As Threads.ThreadPool
+        Protected Friend _threadPool As Threads.ThreadPool
 
         ''' <summary>
         ''' Running this http server. 
@@ -223,6 +223,7 @@ Namespace Core
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).
                     Me.Is_active = False
+                    _threadPool.Dispose()
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.

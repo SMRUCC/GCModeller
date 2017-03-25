@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::fb4fd661fdb512ce527449b82aa226b7, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports System.Collections
 Imports System.IO
 Imports System.Net
 Imports System.Net.Sockets
+Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
@@ -145,7 +146,8 @@ Namespace Core
             _inputStream = New BufferedStream(socket.GetStream())
 
             ' we probably shouldn't be using a streamwriter for all output from handlers either
-            outputStream = New StreamWriter(New BufferedStream(socket.GetStream()))
+            ' 2017-3-25 使用utf8来尝试解决中文乱码问题
+            outputStream = New StreamWriter(New BufferedStream(socket.GetStream()), Encoding.UTF8)
             Try
                 Call __processInvoker()
             Catch e As Exception
@@ -196,16 +198,38 @@ Namespace Core
         End Sub
 
         Public Sub parseRequest()
-            Dim request As [String] = __streamReadLine(_inputStream)
-            Dim tokens As String() = request.Split(" "c)
-            If tokens.Length <> 3 Then
-                Throw New Exception("invalid http request line")
+            Dim request As String = __streamReadLine(_inputStream)
+
+            If request.StringEmpty Then
+                ' 2017-3-25 因为在__streamReadLine函数之中可能会出现没有数据导致休眠时间长度可能会超过1024ms
+                ' 所以在这里只需要等待3次就行了，以避免当前线程占用系统资源的时间过长而导致对其他的请求响应过低
+                Dim wait% = 3
+
+                Do While request.StringEmpty
+                    ' 可能是网络传输速度比较慢，在这里等待一段时间再解析流之中的数据
+                    ' 但是当前的这条处理线程最多只等待wait次数
+                    Call Thread.Sleep(5)
+
+                    If wait <= 0 Then
+                        Exit Do
+                    Else
+                        request = __streamReadLine(_inputStream)
+                        wait -= 1
+                    End If
+                Loop
             End If
+
+            Dim tokens As String() = request.Split(" "c)
+
+            If tokens.Length <> 3 Then
+                Throw New Exception("invalid http request line: " & request)
+            End If
+
             http_method = tokens(0).ToUpper()
             http_url = tokens(1)
             http_protocol_versionstring = tokens(2)
 
-            ' Console.WriteLine("starting: " & request)
+            Call $"starting: {request}".__INFO_ECHO
         End Sub
 
         Public Sub readHeaders()
@@ -214,8 +238,8 @@ Namespace Core
             Call NameOf(readHeaders).__DEBUG_ECHO
 
             While (s = __streamReadLine(_inputStream)) IsNot Nothing
-                If s.value.Equals("") Then
-                    ' Console.WriteLine("got headers")
+                If s.value.StringEmpty Then
+                    Call "got headers".__DEBUG_ECHO
                     Return
                 Else
                     line = s.value

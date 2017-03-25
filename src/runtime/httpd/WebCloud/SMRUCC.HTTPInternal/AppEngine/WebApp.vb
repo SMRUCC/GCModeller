@@ -48,6 +48,12 @@ Namespace AppEngine
 
         Sub New(main As PlatformEngine)
             Call MyBase.New(main)
+
+            methods = MyClass _
+                .GetType _
+                .GetMethods(BindingFlags.Public Or BindingFlags.Instance) _
+                .Where(Function(m) Not m.GetCustomAttribute(GetType(APIMethod)) Is Nothing) _
+                .ToDictionary(Function(m) m.Name)
         End Sub
 
         ''' <summary>
@@ -78,11 +84,7 @@ Namespace AppEngine
         ''' <summary>
         ''' 只会加载有<see cref="APIMethod"/>属性标记的实例方法
         ''' </summary>
-        Dim methods As Dictionary(Of String, MethodInfo) = MyClass _
-            .GetType _
-            .GetMethods(BindingFlags.Public Or BindingFlags.Instance) _
-            .Where(Function(m) Not m.GetCustomAttribute(GetType(APIMethod)) Is Nothing) _
-            .ToDictionary(Function(m) m.Name)
+        ReadOnly methods As Dictionary(Of String, MethodInfo)
 
         ''' <summary>
         ''' 
@@ -96,7 +98,9 @@ Namespace AppEngine
         End Sub
 
         ''' <summary>
-        ''' 
+        ''' 请注意，这个方法所获取的对象都必须是具备有<see cref="APIMethod"/>属性标记的方法对象，
+        ''' 假若你的方法找不到的话，即出现了NullReference的错误，请检查是否对函数对象添加了
+        ''' <see cref="APIMethod"/>自定义属性标记？
         ''' </summary>
         ''' <param name="name$">必须要使用NameOf操作符来获取</param>
         ''' <returns></returns>
