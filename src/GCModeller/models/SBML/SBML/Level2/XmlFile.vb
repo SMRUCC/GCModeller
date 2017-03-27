@@ -73,7 +73,7 @@ Namespace Level2
         End Function
 
         Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return Me.SaveAsXml(getPath(FilePath), throwEx:=True, encoding:=Encoding)
+            Return Me.GetXml.SaveTo(getPath(FilePath), throwEx:=True, encoding:=Encoding)
         End Function
 
         ''' <summary>
