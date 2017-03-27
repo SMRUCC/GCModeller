@@ -179,10 +179,21 @@ Namespace Core
             End Try
         End Sub
 
+        ''' <summary>
+        ''' 在这个方法之中完成对一次http请求的解析到相对应的API处理的完整过程，当这个方法执行完毕之后就会关闭socket断开与浏览器的连接了
+        ''' </summary>
         Private Sub __processInvoker()
-            Call parseRequest()
-            Call readHeaders()
+            ' 解析http请求
+            If Not parseRequest() Then
+                ' 没有解析到请求的头部，则不会再做进一步的处理了，直接退出断开连接
+                ' 不在抛出错误了，因为抛出错误的整个处理过程开销比较大
+                Call $"[{socket.Client.RemoteEndPoint.ToString}] Empty request header, this request will not be processed!".Warning
+                Return
+            Else
+                Call readHeaders()
+            End If
 
+            ' 调用相对应的API进行请求的处理
             If http_method.Equals("GET", StringComparison.OrdinalIgnoreCase) Then
                 handleGETRequest()
 
@@ -197,7 +208,11 @@ Namespace Core
             End If
         End Sub
 
-        Public Sub parseRequest()
+        ''' <summary>
+        ''' 对于非法的header格式会直接抛出错误，对于空的请求则会返回False
+        ''' </summary>
+        ''' <returns></returns>
+        Private Function parseRequest() As Boolean
             Dim request As String = __streamReadLine(_inputStream)
 
             If request.StringEmpty Then
@@ -211,7 +226,7 @@ Namespace Core
                     Call Thread.Sleep(5)
 
                     If wait <= 0 Then
-                        Exit Do
+                        Return False
                     Else
                         request = __streamReadLine(_inputStream)
                         wait -= 1
@@ -230,7 +245,9 @@ Namespace Core
             http_protocol_versionstring = tokens(2)
 
             Call $"starting: {request}".__INFO_ECHO
-        End Sub
+
+            Return True
+        End Function
 
         Public Sub readHeaders()
             Dim line As String = "", s As New Value(Of String)
