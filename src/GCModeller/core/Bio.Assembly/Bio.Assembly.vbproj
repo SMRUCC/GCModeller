@@ -265,6 +265,8 @@
     <Compile Include="Assembly\DOOR\Models\OperonLDM.vb" />
     <Compile Include="Assembly\DOOR\IO.vb" />
     <Compile Include="Assembly\DOOR\ViewAPI.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\DATA.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\DataModels\ChEBIEntity.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Compound.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Tables.vb" />
     <Compile Include="Assembly\Expasy\API.vb" />
@@ -649,9 +651,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assembly\EBI.ChEBI\Database\DataModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\br08901.txt" />
   </ItemGroup>

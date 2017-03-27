@@ -30,7 +30,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                     If Not (path = entry.BuildPath(EXPORT)).FileExists(ZERO_Nonexists:=True) Then
                         Try
                             disease = DownloadDiseases.Download(entry.EntryId)
-                            disease.SaveAsXml(path, , Encodings.ASCII.CodePage)
+                            disease.SaveAsXml(path, , Encodings.ASCII)
                         Catch ex As Exception
                             failures += entry.EntryId
                             ex = New Exception(entry.EntryId & " " & entry.Description, ex)

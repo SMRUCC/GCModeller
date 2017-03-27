@@ -28,7 +28,33 @@
 
 Namespace Assembly.EBI.ChEBI.WebServices
 
-    Public Class WebServices
+    ''' <summary>
+    ''' The main aim of ChEBI Web Services is to provide programmatic access 
+    ''' to the ChEBI database in order to aid our users in integrating ChEBI 
+    ''' into their applications. Web Services is an integration technology. 
+    ''' To ensure software from various sources work well together, this 
+    ''' technology is built on open standards such as Simple Object Access 
+    ''' Protocol (SOAP), a messaging protocol for transporting information, 
+    ''' Web Services Description Language (WSDL), a standard method of describing 
+    ''' Web Services and their capabilities. For the transport layer itself, 
+    ''' Web Services utilise most of the commonly available network protocols, 
+    ''' especially Hypertext Transfer Protocol (HTTP).
+    '''
+    ''' ChEBI provides SOAP access To its database. If you just wish To obtain 
+    ''' light weight ontology objects you can use the Ontology Lookup Service 
+    ''' As alternative Web Services.
+    ''' 
+    ''' > https://www.ebi.ac.uk/chebi/webServices.do
+    ''' </summary>
+    Public Module WebServices
 
-    End Class
+        ''' <summary>
+        ''' Retrieves the complete entity including synonyms, database links and chemical structures, using the ChEBI identifier.
+        ''' </summary>
+        ''' <param name="chebiId$"></param>
+        ''' <returns></returns>
+        Public Function GetCompleteEntity(chebiId$)
+            Throw New NotImplementedException
+        End Function
+    End Module
 End Namespace
