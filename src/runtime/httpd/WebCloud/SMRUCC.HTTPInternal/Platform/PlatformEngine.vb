@@ -82,7 +82,8 @@ Namespace Platform
                 Call AppEngine.ExternalCall.Scan(Me)
             End If
 
-            Me._EnginePlugins = Plugins.ExternalCall.Scan(Me)
+            _EnginePlugins = Plugins.ExternalCall.Scan(Me)
+            Call "Web App engine initialized!".__DEBUG_ECHO
         End Sub
 
         ''' <summary>
