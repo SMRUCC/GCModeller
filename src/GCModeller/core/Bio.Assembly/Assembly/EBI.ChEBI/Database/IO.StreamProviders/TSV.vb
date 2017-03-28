@@ -95,6 +95,7 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
 
         Dim Names As Tables.Names()
         Dim Accessions As Tables.Accession()
+        Dim chemical_data As Tables.ChemicalData()
 
         ''' <summary>
         ''' 从ChEBI的ftp文件夹之中加载数据 
@@ -109,6 +110,10 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
             Return __lazyLoadData(Of Names)(Names, filename)
         End Function
 
+        Public Function GetChemicalData(Optional filename As String = "chemical_data.tsv") As ChemicalData()
+            Return __lazyLoadData(Of ChemicalData)(chemical_data, filename)
+        End Function
+
         ''' <summary>
         ''' Lazy loading
         ''' </summary>
@@ -119,9 +124,9 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
         Private Function __lazyLoadData(Of T As Tables.Entity)(ByRef fieldData As T(), FileName As String) As T()
             If fieldData.IsNullOrEmpty Then
                 Dim path$ = $"{_DIR}/{FileName}"
-                Call $"[{GetType(T).FullName}] Load data from {FileName}".__DEBUG_ECHO
                 Dim st = Stopwatch.StartNew
-                fieldData = TsvFileIO.Load(Of T)(FileName)
+                Call $"[{GetType(T).FullName}] Load data from {path.ToFileURL}".__DEBUG_ECHO
+                fieldData = TsvFileIO.Load(Of T)(path).ToArray
                 Call $"[LOAD_DATA_DONE] Performance load {fieldData.Length} objects in {st.ElapsedMilliseconds} ms...".__DEBUG_ECHO
             End If
             Return fieldData
