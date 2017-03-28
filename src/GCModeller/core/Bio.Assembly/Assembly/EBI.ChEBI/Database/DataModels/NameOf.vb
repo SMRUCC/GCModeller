@@ -14,6 +14,7 @@ Namespace Assembly.EBI.ChEBI
         ''' </summary>
         Dim names As Dictionary(Of String, Tables.Names())
         Dim chebiXrefs As Dictionary(Of String, Tables.Accession())
+        ' Dim DbXrefs As
 
         Sub New(table As TSVTables)
             Dim accIDs = table.GetDatabaseAccessions
@@ -62,7 +63,7 @@ Namespace Assembly.EBI.ChEBI
         End Function
 
         Public Function MatchByID(ID$) As Tables.Accession()
-
+            Throw New NotImplementedException
         End Function
 
 #Region "由于有同分异构体之类的存在，所以即使化学式或者分子质量相同，也会匹配出几种不同的化合物，所以这两个方法应该是优先级别最低的"
