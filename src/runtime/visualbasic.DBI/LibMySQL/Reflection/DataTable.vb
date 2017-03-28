@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fb96062edc809ea9903c1ee55ded9ab5, ..\LibMySQL\Reflection\DataTable.vb"
+﻿#Region "Microsoft.VisualBasic::54900c41d65819ee0ec2d5831de32547, ..\visualbasic.DBI\LibMySQL\Reflection\DataTable.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -362,5 +363,3 @@ Namespace Reflection
         End Sub
     End Class
 End Namespace
-
-

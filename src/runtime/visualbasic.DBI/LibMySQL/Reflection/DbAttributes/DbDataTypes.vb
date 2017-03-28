@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::6f59db4732d0d2f58040cd2f859105f6, ..\LibMySQL\Reflection\DbAttributes\DbDataTypes.vb"
+﻿#Region "Microsoft.VisualBasic::c71558344a070825503cf5fc48b19c99, ..\visualbasic.DBI\LibMySQL\Reflection\DbAttributes\DbDataTypes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -82,5 +83,3 @@ Namespace Reflection.DbAttributes
         Year
     End Enum
 End Namespace
-
-

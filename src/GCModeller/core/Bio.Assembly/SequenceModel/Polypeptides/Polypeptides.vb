@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4edd97db54d2ec0710509a1d9c7efbf, ..\GCModeller\core\Bio.Assembly\SequenceModel\Polypeptides\Polypeptides.vb"
+﻿#Region "Microsoft.VisualBasic::f4edd97db54d2ec0710509a1d9c7efbf, ..\core\Bio.Assembly\SequenceModel\Polypeptides\Polypeptides.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6c7546356050290cc6a7ab0584a4aa4, ..\GCModeller\core\Bio.Assembly\Assembly\Uniprot\UniprotFasta.vb"
+﻿#Region "Microsoft.VisualBasic::469bfe62e06c22cdde2688ecda750b9d, ..\core\Bio.Assembly\Assembly\Uniprot\UniprotFasta.vb"
 
     ' Author:
     ' 

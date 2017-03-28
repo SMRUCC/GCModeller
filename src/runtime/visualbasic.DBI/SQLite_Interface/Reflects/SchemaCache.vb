@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::7398a835ce062a0a729036fed0a25f63, ..\SQLite_Interface\Reflector\SchemaCache.vb"
+﻿#Region "Microsoft.VisualBasic::56f68c95922f0672cbb4a6cb712f880f, ..\visualbasic.DBI\SQLite_Interface\Reflects\SchemaCache.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

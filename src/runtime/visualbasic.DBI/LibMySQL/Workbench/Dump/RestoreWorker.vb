@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d4c4b245860c31b402b556481859628d, ..\LibMySQL\Workbench\Dump\RestoreWorker.vb"
+﻿#Region "Microsoft.VisualBasic::f5515d0b3298822a0da5930a984abab0, ..\visualbasic.DBI\LibMySQL\Workbench\Dump\RestoreWorker.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

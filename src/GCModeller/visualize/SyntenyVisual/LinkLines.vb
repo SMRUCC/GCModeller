@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a915362094779587471ade374b48dbe7, ..\GCModeller\visualize\SyntenyVisual\LinkLines.vb"
+﻿#Region "Microsoft.VisualBasic::a915362094779587471ade374b48dbe7, ..\visualize\SyntenyVisual\LinkLines.vb"
 
     ' Author:
     ' 

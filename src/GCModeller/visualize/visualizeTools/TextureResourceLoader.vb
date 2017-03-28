@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::086567ee256a23de4529cb3166c602a1, ..\GCModeller\visualize\visualizeTools\TextureResourceLoader.vb"
+﻿#Region "Microsoft.VisualBasic::086567ee256a23de4529cb3166c602a1, ..\visualize\visualizeTools\TextureResourceLoader.vb"
 
     ' Author:
     ' 

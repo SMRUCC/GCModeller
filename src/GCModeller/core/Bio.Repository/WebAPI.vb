@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a9a82883b5a3a90fa1416c09843e65f, ..\GCModeller\core\Bio.Repository\WebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5a9a82883b5a3a90fa1416c09843e65f, ..\core\Bio.Repository\WebAPI.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2739486ac2fdea68803bda58d63ce823, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\GeneObject.vb"
+﻿#Region "Microsoft.VisualBasic::2739486ac2fdea68803bda58d63ce823, ..\visualize\visualizeTools\ComparativeGenomics\GeneObject.vb"
 
     ' Author:
     ' 

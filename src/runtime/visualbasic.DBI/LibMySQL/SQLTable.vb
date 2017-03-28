@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::71cedd4bda2071535a95360defcd1d93, ..\LibMySQL\CodeBridge\SQLTable.vb"
+﻿#Region "Microsoft.VisualBasic::c764589a692db65756b751cbc55edebd, ..\visualbasic.DBI\LibMySQL\SQLTable.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

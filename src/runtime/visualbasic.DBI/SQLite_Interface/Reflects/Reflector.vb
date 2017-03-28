@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::d4c06ebe6606f3a676c2204a50644d75, ..\SQLite_Interface\Reflector\Reflector.vb"
+﻿#Region "Microsoft.VisualBasic::d8caa97ef5a760e971c9cf85ab077aa3, ..\visualbasic.DBI\SQLite_Interface\Reflects\Reflector.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -447,4 +448,3 @@ Public Module Reflector
         Return Result.HasRows
     End Function
 End Module
-

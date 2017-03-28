@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::9f07c59b1157410082ff1beeb94f6bc1, ..\SQLite_Interface\QueryBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::b38be66c5fa64dc6c9ed5e80663028ab, ..\visualbasic.DBI\SQLite_Interface\QueryBuilder.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -147,4 +148,3 @@ Public Module QueryBuilder
         Return str.Replace("'", "_").Replace(",", "_")
     End Function
 End Module
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::584e1f28ae6ac88ab1acda0003aa65ca, ..\LibMySQL\TinyServer\TinyServer.vb"
+﻿#Region "Microsoft.VisualBasic::4585e07efeb212542d4d8f4fcaa66027, ..\visualbasic.DBI\mysql-nt\TinyServer.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -70,4 +71,3 @@ Public Class TinyServer
     End Sub
 
 End Class
-

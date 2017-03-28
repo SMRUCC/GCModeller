@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::73dc2f6bf7341d41bc0857e99eba7f8c, ..\LibMySQL\Reflection\SQL_LDM\SqlGenerateMethods.vb"
+﻿#Region "Microsoft.VisualBasic::747fdb703fdc23b7030f90dcb86420cd, ..\visualbasic.DBI\LibMySQL\Reflection\SQL_LDM\SqlGenerateMethods.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -95,4 +96,3 @@ Namespace Reflection.SQL
         End Function
     End Module
 End Namespace
-

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::f04e7a21f5d2574c4cb9cd937093514d, ..\LibMySQL\MYSQL.Client\Linq.vb"
+﻿#Region "Microsoft.VisualBasic::250346551b8b27be904005ec8ff33931, ..\visualbasic.DBI\LibMySQL\MYSQL.Client\Linq.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -24,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' Linq to MySQL
@@ -63,4 +63,3 @@ Public Class Linq(Of TTable As SQLTable) : Inherits Table(Of TTable)
         Return DBI <= SQL
     End Operator
 End Class
-

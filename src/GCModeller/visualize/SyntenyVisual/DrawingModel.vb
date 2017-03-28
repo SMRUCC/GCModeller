@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bde824e70b07e2ee1718cad2d61fb52, ..\GCModeller\visualize\SyntenyVisual\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::1bde824e70b07e2ee1718cad2d61fb52, ..\visualize\SyntenyVisual\DrawingModel.vb"
 
     ' Author:
     ' 
