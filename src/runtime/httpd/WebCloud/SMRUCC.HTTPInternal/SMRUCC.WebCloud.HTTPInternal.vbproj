@@ -207,6 +207,7 @@
     <Compile Include="AppEngine\ExternalCall.vb" />
     <Compile Include="AppEngine\WebApp.vb" />
     <Compile Include="AppEngine\API\APIInvoker.vb" />
+    <Compile Include="Extensions.vb" />
     <Compile Include="Core\CachedFile.vb" />
     <Compile Include="Core\Content.vb" />
     <Compile Include="Core\HttpFileSystem.vb" />

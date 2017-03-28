@@ -113,8 +113,8 @@ Module CLI
 
         Using result As StreamWriter = out.OpenWriter
             Do While True
-                Dim pack%() = SeqRandom(20000)
-                Dim returns = BatchTasks.BatchTask(pack, getTask:=test, numThreads:=10000, TimeInterval:=0)
+                Dim pack%() = SeqRandom(10000)
+                Dim returns = BatchTasks.BatchTask(pack, getTask:=test, numThreads:=1000, TimeInterval:=0)
                 For Each line In returns
                     Call result.WriteLine(line)
                 Next
@@ -134,7 +134,7 @@ Module CLI
 
         Public Function Run(n%) As String
             Try
-                Dim request$ = url & "?random=" & StrUtils.RandomASCIIString(len:=n)
+                Dim request$ = url & "?random=" & UrlEncode(StrUtils.RandomASCIIString(len:=n))
                 Dim response& = Time(Sub() Call request.GET)
                 Return {"len=" & n, $"response={response}ms"}.JoinBy(ASCII.TAB)
             Catch ex As Exception
