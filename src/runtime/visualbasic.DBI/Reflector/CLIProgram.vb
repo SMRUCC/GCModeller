@@ -30,6 +30,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -138,8 +139,8 @@ Module CLIProgram
         Dim LQuery = SQLs.ToArray(
             Function(sql) VisualBasic.CodeGenerator.GenerateClass(sql.ReadAllText, ns))
 
-        For Each cls As KeyValuePair In LQuery
-            Dim vb As String = $"{outDIR}/{cls.Key}.vb"
+        For Each cls As NamedValue(Of String) In LQuery
+            Dim vb As String = $"{outDIR}/{cls.Name}.vb"
             Call cls.Value.SaveTo(vb)
         Next
 
