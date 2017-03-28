@@ -71,6 +71,12 @@ Namespace Assembly.EBI.ChEBI
                               Function(id) id.Item2).ToArray)
         End Sub
 
+        ''' <summary>
+        ''' 2. 直接匹配名称(使用默认的<paramref name="fuzzy"/>=False参数)也比较精确
+        ''' </summary>
+        ''' <param name="name$"></param>
+        ''' <param name="fuzzy"></param>
+        ''' <returns></returns>
         Public Function MatchByName(name$, Optional fuzzy As Boolean = False) As Tables.Accession()
             Dim getByNameKey =
                 Function(nameKey$)
@@ -102,6 +108,12 @@ Namespace Assembly.EBI.ChEBI
             End If
         End Function
 
+        ''' <summary>
+        ''' 1. 最精确的方法
+        ''' </summary>
+        ''' <param name="ID$"></param>
+        ''' <param name="type"></param>
+        ''' <returns></returns>
         Public Function MatchByID(ID$, type As AccessionTypes) As Tables.Accession()
             Dim list As Tables.Accession() = DbXrefs(type)
             For Each accID As Tables.Accession In list
@@ -114,7 +126,21 @@ Namespace Assembly.EBI.ChEBI
             Return {}
         End Function
 
+        Public Function MatchByIDs(IDs$(), type As AccessionTypes) As Tables.Accession()
+            Return IDs _
+                .Select(Function(id) MatchByID(id, type)) _
+                .IteratesALL _
+                .Distinct() _
+                .ToArray
+        End Function
+
 #Region "由于有同分异构体之类的存在，所以即使化学式或者分子质量相同，也会匹配出几种不同的化合物，所以这两个方法应该是优先级别最低的"
+
+        ''' <summary>
+        ''' 3. 会出现一系列的同分异构体或者其他的具备有相同原子组成的化合物
+        ''' </summary>
+        ''' <param name="formula$"></param>
+        ''' <returns></returns>
         Public Function MatchByFormula(formula$) As Tables.Accession()
             If formulas.ContainsKey(formula) Then
                 Dim ids = formulas(formula).Select(Function(f) f.COMPOUND_ID).Distinct.ToArray
@@ -129,6 +155,12 @@ Namespace Assembly.EBI.ChEBI
             End If
         End Function
 
+        ''' <summary>
+        ''' 4. 精准度最低
+        ''' </summary>
+        ''' <param name="mass#"></param>
+        ''' <param name="deltaPPM#"></param>
+        ''' <returns></returns>
         Public Function MatchByMass(mass#, Optional deltaPPM# = 1) As Tables.Accession()
             Dim enter As Boolean = True
             Dim result As New List(Of Tables.ChemicalData)
