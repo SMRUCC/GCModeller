@@ -103,7 +103,7 @@ Module CLI
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-KEGG_enrichment_pathwayMaps/")
         Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
         For Each term As EnrichmentTerm In data
-            Dim path$ = out & "/" & term.Term.NormalizePathString & ".png"
+            Dim path$ = out & "/" & term.ID & "-" & term.Term.NormalizePathString & $"-pvalue={term.Pvalue}" & ".png"
             Call PathwayMapping.ShowEnrichmentPathway(term.link, save:=path)
             Call Thread.Sleep(2000)
         Next
