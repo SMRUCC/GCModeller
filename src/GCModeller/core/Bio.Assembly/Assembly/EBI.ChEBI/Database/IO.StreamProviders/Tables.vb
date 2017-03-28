@@ -61,6 +61,15 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
         End Function
     End Class
 
+    ''' <summary>
+    ''' ``chemical_data.tsv``
+    ''' </summary>
+    Public Class ChemicalData : Inherits Entity
+
+        Public Property CHEMICAL_DATA As String
+
+    End Class
+
     Public Class Names : Inherits Entity
 
         Public Property NAME As String

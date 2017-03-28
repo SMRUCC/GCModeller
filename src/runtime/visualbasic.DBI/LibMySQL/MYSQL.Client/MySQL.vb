@@ -26,10 +26,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports System.Threading
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports MySql.Data.MySqlClient
 Imports Oracle.LinuxCompatibility.MySQL.Reflection

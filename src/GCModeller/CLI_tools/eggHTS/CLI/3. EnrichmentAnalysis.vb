@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
@@ -14,6 +15,7 @@ Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.GO.PlantRegMap
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -92,6 +94,53 @@ Module CLI
             tick:=tick)
 
         Return plot.SaveAs(out, ImageFormats.Png).CLICode
+    End Function
+
+    <ExportAPI("/Enrichments.ORF.info",
+               Info:="Retrive KEGG info for the genes in the enrichment result.",
+               Usage:="/Enrichments.ORF.info /in <enrichment.csv> /proteins <uniprot-genome.XML> [/out <out.csv>]")>
+    Public Function RetriveEnrichmentGeneInfo(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim proteins$ = args <= "/proteins"
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "__Enrichments.ORF.Info.csv")
+        Dim csv As New File
+        Dim uniprot As Dictionary(Of String, entry) = UniprotXML _
+            .Load(proteins) _
+            .entries _
+            .Where(Function(x) Not x.ORF.StringEmpty) _
+            .ToDictionary(Function(x) x.ORF)
+
+        For Each term As EnrichmentTerm In [in].LoadCsv(Of EnrichmentTerm)
+            csv += New RowObject From {
+                "pathway=" & term.ID,
+                "term=" & term.Term,
+                "pvalue=" & term.Pvalue
+            }
+
+            For Each ORF As String In term.ORF
+                Dim protein As entry = uniprot.TryGetValue(ORF)
+                Dim EC$ = protein?.ECNumberList.JoinBy("; ")
+                csv += New RowObject From {ORF, EC, protein.proteinFullName}
+            Next
+
+            csv.AppendLine()
+        Next
+
+        Return csv.Save(out).CLICode
+    End Function
+
+    <ExportAPI("/KEGG.Enrichment.PathwayMap",
+               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/out <DIR>]")>
+    Public Function KEGGEnrichmentPathwayMap(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-KEGG_enrichment_pathwayMaps/")
+        Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
+        For Each term As EnrichmentTerm In data
+            Dim path$ = out & "/" & term.ID & "-" & term.Term.NormalizePathString & $"-pvalue={term.Pvalue}" & ".png"
+            Call PathwayMapping.ShowEnrichmentPathway(term.link, save:=path)
+            Call Thread.Sleep(2000)
+        Next
+        Return 0
     End Function
 
     ''' <summary>

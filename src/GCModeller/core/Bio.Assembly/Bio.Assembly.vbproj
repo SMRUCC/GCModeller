@@ -265,7 +265,12 @@
     <Compile Include="Assembly\DOOR\Models\OperonLDM.vb" />
     <Compile Include="Assembly\DOOR\IO.vb" />
     <Compile Include="Assembly\DOOR\ViewAPI.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\DATA.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\DataModels\ChEBIEntity.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\DataModels\AccessionTypes.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\DataModels\NameOf.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Compound.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Extensions.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Tables.vb" />
     <Compile Include="Assembly\Expasy\API.vb" />
     <Compile Include="Assembly\Expasy\csv\SwissProt.vb" />
@@ -297,6 +302,7 @@
     <Compile Include="Assembly\KEGG\Medical\DiseaseParser.vb" />
     <Compile Include="Assembly\KEGG\Extensions.vb" />
     <Compile Include="Assembly\KEGG\Medical\Extensions.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\Map.vb" />
     <Compile Include="Assembly\KEGG\Web\PathwayMapping.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\htext.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb" />
@@ -649,9 +655,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assembly\EBI.ChEBI\Database\DataModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\br08901.txt" />
   </ItemGroup>
