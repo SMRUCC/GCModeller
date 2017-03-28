@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d70dc57d7df888f52cbcd134639b399, ..\GCModeller\core\Bio.Assembly\ComponentModel\DynamicsHTML.vb"
+﻿#Region "Microsoft.VisualBasic::4d70dc57d7df888f52cbcd134639b399, ..\core\Bio.Assembly\ComponentModel\DynamicsHTML.vb"
 
     ' Author:
     ' 

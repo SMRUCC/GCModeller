@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e0a5b49269c27fffa9686e9858afcee3, ..\LibMySQL\Reflection\Schema\Table.vb"
+﻿#Region "Microsoft.VisualBasic::07e93f31e42f3202e64cc7b565b1072e, ..\visualbasic.DBI\LibMySQL\Reflection\Schema\Table.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -247,4 +248,3 @@ Namespace Reflection.Schema
         End Operator
     End Class
 End Namespace
-

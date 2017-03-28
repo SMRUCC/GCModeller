@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::12a50657ba801b8f2f9d6030d785ffee, ..\LibMySQL\Reflection\SQL_LDM\Delete.vb"
+﻿#Region "Microsoft.VisualBasic::ed16a903b6fde2a72bb4e066c9db6931, ..\visualbasic.DBI\LibMySQL\Reflection\SQL_LDM\Delete.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -53,5 +54,3 @@ Namespace Reflection.SQL
         End Operator
     End Class
 End Namespace
-
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac5317f7a5c9bf842e330df602966143, ..\httpd\WebCloud\SMRUCC.HTTPInternal\DebuggerAPI.vb"
+﻿#Region "Microsoft.VisualBasic::0d4e47cf8b861fc0af045537057dfff3, ..\httpd\WebCloud\SMRUCC.HTTPInternal\DebuggerAPI.vb"
 
     ' Author:
     ' 
@@ -58,4 +58,3 @@ Public Module DebuggerAPI
         Return New PlatformEngine(wwwroot, port, True, threads:=threads, cache:=cacheMode).Run
     End Function
 End Module
-

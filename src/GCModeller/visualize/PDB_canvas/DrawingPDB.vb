@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee1696dc344a9e82fa23b1a7b62c0615, ..\GCModeller\visualize\PDB_canvas\DrawingPDB.vb"
+﻿#Region "Microsoft.VisualBasic::ee1696dc344a9e82fa23b1a7b62c0615, ..\visualize\PDB_canvas\DrawingPDB.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21b565f3fd4a00e97b59ac43247a0bdf, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb"
+﻿#Region "Microsoft.VisualBasic::0b17f910234441c59cc53308a38450fc, ..\core\Bio.Assembly\Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb"
 
     ' Author:
     ' 

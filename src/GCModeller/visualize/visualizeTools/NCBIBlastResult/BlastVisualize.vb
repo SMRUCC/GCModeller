@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e61e3e4950fd273c60fdb9ca6cd09fd2, ..\GCModeller\visualize\visualizeTools\NCBIBlastResult\BlastVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::439397fdf80b3d9df6f581dfc36797de, ..\visualize\visualizeTools\NCBIBlastResult\BlastVisualize.vb"
 
     ' Author:
     ' 

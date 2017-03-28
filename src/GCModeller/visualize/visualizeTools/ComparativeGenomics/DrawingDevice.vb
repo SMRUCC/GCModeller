@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1017c856332f5c6952d315aec3c6435, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::a1017c856332f5c6952d315aec3c6435, ..\visualize\visualizeTools\ComparativeGenomics\DrawingDevice.vb"
 
     ' Author:
     ' 

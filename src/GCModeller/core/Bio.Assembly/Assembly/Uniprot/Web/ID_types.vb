@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5408af664be520353b0ccdee561f643a, ..\GCModeller\core\Bio.Assembly\Assembly\Uniprot\Web\ID_types.vb"
+﻿#Region "Microsoft.VisualBasic::5408af664be520353b0ccdee561f643a, ..\core\Bio.Assembly\Assembly\Uniprot\Web\ID_types.vb"
 
     ' Author:
     ' 

@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::942877cefe3d4c30bdc83f7f5f3fd3aa, ..\LibMySQL\MYSQL.Client\RecordStatus.vb"
+﻿#Region "Microsoft.VisualBasic::39d5e8e4a6d5f8c7c39fb3aa1b752079, ..\visualbasic.DBI\LibMySQL\MYSQL.Client\RecordStatus.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -32,4 +33,3 @@ Public Enum RecordStatus As Integer
     UpdatePending
     DeletePending
 End Enum
-

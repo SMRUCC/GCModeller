@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed14d940d92307c67f430b651287d693, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\BLAST\DomnArch.vb"
+﻿#Region "Microsoft.VisualBasic::ed14d940d92307c67f430b651287d693, ..\core\Bio.Assembly\Assembly\NCBI\Database\CDD\BLAST\DomnArch.vb"
 
     ' Author:
     ' 

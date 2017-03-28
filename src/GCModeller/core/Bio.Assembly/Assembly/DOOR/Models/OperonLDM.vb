@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63ea88a88ff81593a00305c5b81fec74, ..\GCModeller\core\Bio.Assembly\Assembly\DOOR\OperonLDM.vb"
+﻿#Region "Microsoft.VisualBasic::3556c40d362fb8d62a4137cf120a7012, ..\core\Bio.Assembly\Assembly\DOOR\Models\OperonLDM.vb"
 
     ' Author:
     ' 

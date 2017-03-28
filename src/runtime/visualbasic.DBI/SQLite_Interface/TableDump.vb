@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::1588dae07f7766032ccb076f099fffc4, ..\SQLite_Interface\TableDump.vb"
+﻿#Region "Microsoft.VisualBasic::1588dae07f7766032ccb076f099fffc4, ..\visualbasic.DBI\SQLite_Interface\TableDump.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36c6ea754306ff4db8c4599e6d12ac08, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::36c6ea754306ff4db8c4599e6d12ac08, ..\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\DrawingModel.vb"
 
     ' Author:
     ' 

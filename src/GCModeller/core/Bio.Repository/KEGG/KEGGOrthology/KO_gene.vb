@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0078337b2c3f5941a6b7d803b801771c, ..\GCModeller\core\Bio.Repository\KEGG\KEGGOrthology\KO_gene.vb"
+﻿#Region "Microsoft.VisualBasic::ec5e7632706f4bcae78ad579e0002f27, ..\core\Bio.Repository\KEGG\KEGGOrthology\KO_gene.vb"
 
     ' Author:
     ' 
@@ -70,6 +70,3 @@ Public Class KO_gene
         Return Me.GetJson
     End Function
 End Class
-
-
-

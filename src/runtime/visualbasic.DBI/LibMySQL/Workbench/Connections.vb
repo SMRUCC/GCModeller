@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c430a4f62084b35da7a047f25588646b, ..\LibMySQL\Workbench\Connections.vb"
+﻿#Region "Microsoft.VisualBasic::62473c1b98e04658d957e1e02cd605bb, ..\visualbasic.DBI\LibMySQL\Workbench\Connections.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

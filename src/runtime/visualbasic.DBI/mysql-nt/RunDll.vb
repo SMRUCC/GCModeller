@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::a1012f6ccd3878c680e17382cf43e129, ..\LibMySQL\Extensions\RunDll.vb"
+﻿#Region "Microsoft.VisualBasic::84fd93e2a852e501b49fcf0458b87f81, ..\visualbasic.DBI\mysql-nt\RunDll.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -47,4 +48,3 @@ Public Module RunDll
         End Try
     End Function
 End Module
-

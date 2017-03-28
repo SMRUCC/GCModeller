@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5be223e613883cf287c63ae0ec3c0b1b, ..\GCModeller\visualize\SyntenyVisual\DeviceModel.vb"
+﻿#Region "Microsoft.VisualBasic::5be223e613883cf287c63ae0ec3c0b1b, ..\visualize\SyntenyVisual\DeviceModel.vb"
 
     ' Author:
     ' 

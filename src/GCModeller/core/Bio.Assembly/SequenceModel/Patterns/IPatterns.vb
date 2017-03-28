@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e5332cec3c6a9795dd516e30ea1117d, ..\GCModeller\core\Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
+﻿#Region "Microsoft.VisualBasic::8e5332cec3c6a9795dd516e30ea1117d, ..\core\Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
 
     ' Author:
     ' 

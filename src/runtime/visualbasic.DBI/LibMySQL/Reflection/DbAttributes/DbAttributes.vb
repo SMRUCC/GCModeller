@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b21654a42a0c6557bab5c4f27faf80c4, ..\LibMySQL\Reflection\DbAttributes\DbAttributes.vb"
+﻿#Region "Microsoft.VisualBasic::f04326d92a7f6c710046b0c3f258dc43, ..\visualbasic.DBI\LibMySQL\Reflection\DbAttributes\DbAttributes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a19f2c022db02cb6e8499712cc5147cf, ..\GCModeller\core\Bio.Assembly\ComponentModel\ECNumber.vb"
+﻿#Region "Microsoft.VisualBasic::fae493a52bd9e3dd2da076cbfb8ade45, ..\core\Bio.Assembly\ComponentModel\ECNumber.vb"
 
     ' Author:
     ' 

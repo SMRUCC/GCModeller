@@ -1,27 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::4875db9ec3242c834080ab84acbcc57b, ..\LibMySQL\CodeBridge\CodeGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::886a09c65c9da7affc59a0724cc72a42, ..\visualbasic.DBI\CodeSolution\VisualBasic\CodeGenerator.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +33,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 
 Namespace VisualBasic
@@ -43,7 +45,7 @@ Namespace VisualBasic
     Public Module CodeGenerator
 
         Const VBKeywords As String =
-            "|AddHandler|AddressOf|Alias|And|AndAlso|As|Boolean|ByRef|Byte||Call|Case|Catch|CBool|CByte|CChar|CDate|CDec|CDbl|Char|CInt|Class|CLng|CObj|Const|Continue|CSByte|CShort|CSng|CStr|" &
+            "|AddHandler|AddressOf|Alias|And|AndAlso|As|Boolean|ByRef|Byte|Call|Case|Catch|CBool|CByte|CChar|CDate|CDec|CDbl|Char|CInt|Class|CLng|CObj|Const|Continue|CSByte|CShort|CSng|CStr|" &
             "|CType|CUInt|CULng|CUShort|Date|Decimal|Declare|Default|Delegate|Dim|DirectCast|Do|Double|Each|Else|ElseIf|End|EndIf|Enum|Erase|Error|Event|Exit|False|Finally|For|Friend|Function|Get|" &
             "|GetType|GetXMLNamespace|Global|GoSub|GoTo|Handles|If|Implements|Imports|In|Inherits|Integer|Interface|Is|IsNot|Let|Lib|Like|Long|Loop|Me|Mod|Module|MustInherit|MustOverride|MyBase|MyClass|" &
             "|Namespace|Narrowing|New|Next|Not|Nothing|NotInheritable|NotOverridable|Object|Of|On|Operator|Option|Optional|Or|OrElse|Overloads|Overridable|Overrides|ParamArray|Partial|Private|Property|" &
@@ -57,20 +59,16 @@ Namespace VisualBasic
         ''' <returns></returns>
         ''' <remarks>处理所有的VB标识符之中的非法字符都可以在这个函数之中完成</remarks>
         Public Function TrimKeyword(name As String) As String
-            name = name.Replace("-", "_")  ' mysql之中允许在名称中使用-，但是vb并不允许，在这里替换掉
+            ' mysql之中允许在名称中使用可以印刷的ASCII符号，但是vb并不允许，在这里替换掉
+            For Each c As Char In ASCII.Symbols
+                name = name.Replace(c, "_")
+            Next
             name = name.Replace(" ", "_")
-            name = name.Replace("/", "_")
-            name = name.Replace("\", "_")
-            name = name.Replace(".", "_")
-            name = name.Replace("(", "_")
-            name = name.Replace(")", "_")
-            name = name.Replace("+", "_")
-
             If InStr(VBKeywords, $"|{name.ToLower}|", CompareMethod.Text) > 0 Then
-                Return $"[{name}]"
-            Else
-                Return name
-            End If
+                    Return $"[{name}]"
+                Else
+                    Return name
+                End If
         End Function
 
         ''' <summary>

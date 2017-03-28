@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c3a25065dbfd35b2b3a6269b241722f, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb"
+﻿#Region "Microsoft.VisualBasic::1dc62cddef0b532e9e0ea696edccda70, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb"
 
     ' Author:
     ' 

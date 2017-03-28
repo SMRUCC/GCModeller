@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::071b6ec4458717f3480c81509f4e9ef5, ..\GCModeller\visualize\SVG.Extensions\Graphics.vb"
+﻿#Region "Microsoft.VisualBasic::071b6ec4458717f3480c81509f4e9ef5, ..\visualize\SVG.Extensions\Graphics.vb"
 
     ' Author:
     ' 

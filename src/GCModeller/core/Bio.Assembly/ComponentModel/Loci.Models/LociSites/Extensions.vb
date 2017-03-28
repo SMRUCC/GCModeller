@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7b9277c0585d3e3f40610f2388a659c, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\LociSites\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::61509c89c2fcf062e4c2bca4172d983a, ..\core\Bio.Assembly\ComponentModel\Loci.Models\LociSites\Extensions.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports System.IO
 Imports System.Runtime.CompilerServices

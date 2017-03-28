@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8905b3fff2b69290f328c8e6b0244423, ..\GCModeller\visualize\GCModeller.DataVisualization\ColorProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::8905b3fff2b69290f328c8e6b0244423, ..\visualize\GCModeller.DataVisualization\ColorProfiles.vb"
 
     ' Author:
     ' 
