@@ -150,6 +150,10 @@ Namespace KOBAS
         Public Property Input As String
         Public Property ORF As String()
 
+        ''' <summary>
+        ''' 用于一些可视化的超链接url
+        ''' </summary>
+        ''' <returns></returns>
         <Column("Hyperlink")>
         Public Property link As String
 
