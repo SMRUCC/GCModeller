@@ -259,5 +259,22 @@ Namespace Assembly.KEGG.WebServices
 
             Return pathways
         End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="url$">
+        ''' Example as: http://www.genome.jp/kegg-bin/show_pathway?aor01100/aor:AOR_1_348154%09red/aor:AOR_1_1018164%09red/aor:AOR_1_46074%09red/aor:AOR_1_1132054%09red/aor:AOR_1_1796154%09red/aor:AOR_1_724024%09red/aor:AOR_1_980074%09red/aor:AOR_1_132064%09red/aor:AOR_1_936184%09red/aor:AOR_1_750024%09red/aor:AOR_1_858084%09red/aor:AOR_1_920184%09red/aor:AOR_1_1152144%09red/aor:AOR_1_1464054%09red/aor:AOR_1_506014%09red/aor:AOR_1_26114%09red/aor:AOR_1_654074%09red/aor:AOR_1_336094%09red/aor:AOR_1_700094%09red/aor:AOR_1_2326154%09red/aor:AOR_1_448144%09red/aor:AOR_1_1152014%09red/aor:AOR_1_964164%09red/aor:AOR_1_556094%09red/aor:AOR_1_76084%09red/aor:AOR_1_2070174%09red/aor:AOR_1_664034%09red/aor:AOR_1_890144%09red/aor:AOR_1_1888174%09red/aor:AOR_1_2198154%09red/aor:AOR_1_598144%09red/aor:AOR_1_1676014%09red/aor:AOR_1_1160154%09red/aor:AOR_1_362184%09red/aor:AOR_1_236174%09red/aor:AOR_1_514024%09red/aor:AOR_1_1554054%09red/aor:AOR_1_2706174%09red/aor:AOR_1_1692144%09red/aor:AOR_1_1046084%09red/aor:AOR_1_340154%09red/aor:AOR_1_968134%09red/aor:AOR_1_562034%09red/aor:AOR_1_1214024%09red/aor:AOR_1_1124054%09red/aor:AOR_1_988014%09red/aor:AOR_1_780164%09red/aor:AOR_1_622134%09red/aor:AOR_1_284154%09red/aor:AOR_1_968024%09red/aor:AOR_1_1062184%09red/aor:AOR_1_1274164%09red/aor:AOR_1_1272164%09red/aor:AOR_1_1114084%09red/aor:AOR_1_990184%09red/aor:AOR_1_2146154%09red/aor:AOR_1_1074144%09red/aor:AOR_1_1056134%09red/aor:AOR_1_504114%09red/aor:AOR_1_560024%09red/aor:AOR_1_462144%09red/aor:AOR_1_858054%09red/aor:AOR_1_2842174%09red
+        ''' 
+        ''' Which this enrichment result url can be obtained from KOBAS KEGG enrichment analysis.
+        ''' </param>
+        ''' <param name="save">File name</param>
+        ''' <returns></returns>
+        Public Function ShowEnrichmentPathway(url$, save$) As Boolean
+            Dim html$ = url.GET
+            Dim img = Regex.Match(html, "<img src=""/tmp/mark_pathway[^""]+"" name=""pathwayimage"".+?/>", RegexICSng).Value
+            img = "http://www.genome.jp/" & img.ImageSource
+            Return img.DownloadFile(save)
+        End Function
     End Module
 End Namespace

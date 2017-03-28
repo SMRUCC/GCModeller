@@ -31,6 +31,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
@@ -260,6 +261,25 @@ Public Module Extensions
         End If
 
         Return sql.SaveTo(path, encoding.CodePage)
+    End Function
+
+    <Extension>
+    Public Function CopySets(Of row As SQLTable, T)(o As row, list As IEnumerable(Of T), setValue As Action(Of row, T)) As row()
+        Dim array As T() = list.SafeQuery.ToArray
+
+        If array.Length = 0 Then
+            Return {o}
+        Else
+            Dim out As New List(Of row)
+
+            For Each x As T In list
+                Dim copy As row = o.Copy.As(Of row)
+                Call setValue(copy, x)
+                Call out.Add(copy)
+            Next
+
+            Return out
+        End If
     End Function
 End Module
 

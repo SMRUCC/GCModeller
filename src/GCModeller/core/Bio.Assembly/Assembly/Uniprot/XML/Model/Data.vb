@@ -207,8 +207,17 @@ Namespace Assembly.Uniprot.XML
     End Class
 
     Public Class recommendedName
+
         Public Property fullName As value
-        Public Property ecNumber As value
+
+        <XmlElement("shortName")>
+        Public Property shortNames As value()
+        ''' <summary>
+        ''' 一个蛋白可能会有多个EC编号
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("ecNumber")>
+        Public Property ecNumber As value()
     End Class
 
     Public Class value

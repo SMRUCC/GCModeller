@@ -1,0 +1,157 @@
+﻿Imports System.ComponentModel
+
+Namespace Assembly.EBI.ChEBI
+
+    Public Enum AccessionTypes As Byte
+
+        ''' <summary>
+        ''' KEGG COMPOUND accession
+        ''' </summary>
+        <Description("KEGG COMPOUND accession")> KEGG_Compound
+        ''' <summary>
+        ''' CAS Registry Number
+        ''' </summary>
+        <Description("CAS Registry Number")> CAS_Registry
+        ''' <summary>
+        ''' UM-BBD compID
+        ''' </summary>
+        <Description("UM-BBD compID")> UM_BBD_compID
+        ''' <summary>
+        ''' Beilstein Registry Number
+        ''' </summary>
+        <Description("Beilstein Registry Number")> Beilstein_Registry
+        ''' <summary>
+        ''' LIPID MAPS instance accession
+        ''' </summary>
+        <Description("LIPID MAPS instance accession")> LIPID_MAPS_instance
+        ''' <summary>
+        ''' KEGG DRUG accession
+        ''' </summary>
+        <Description("KEGG DRUG accession")> KEGG_Drug
+        ''' <summary>
+        ''' Gmelin Registry Number
+        ''' </summary>
+        <Description("Gmelin Registry Number")> Gmelin_Registry
+        ''' <summary>
+        ''' LIPID MAPS class accession
+        ''' </summary>
+        <Description("LIPID MAPS class accession")> LIPID_MAPS_class
+        ''' <summary>
+        ''' PDBeChem accession
+        ''' </summary>
+        <Description("PDBeChem accession")> PDBeChem
+        ''' <summary>
+        ''' KEGG GLYCAN accession
+        ''' </summary>
+        <Description("KEGG GLYCAN accession")> KEGG_Glycan
+        ''' <summary>
+        ''' COMe accession
+        ''' </summary>
+        <Description("COMe accession")> COMe
+        ''' <summary>
+        ''' MolBase accession
+        ''' </summary>
+        <Description("MolBase accession")> MolBase
+        ''' <summary>
+        ''' RESID accession
+        ''' </summary>
+        <Description("RESID accession")> RESID
+        ''' <summary>
+        ''' Reaxys Registry Number
+        ''' </summary>
+        <Description("Reaxys Registry Number")> Reaxys_Registry
+        ''' <summary>
+        ''' PDB accession
+        ''' </summary>
+        <Description("PDB accession")> PDB
+        ''' <summary>
+        ''' DrugBank accession
+        ''' </summary>
+        <Description("DrugBank accession")> DrugBank
+        ''' <summary>
+        ''' Patent accession
+        ''' </summary>
+        <Description("Patent accession")> Patent
+        ''' <summary>
+        ''' WebElements accession
+        ''' </summary>
+        <Description("WebElements accession")> WebElements
+        ''' <summary>
+        ''' PubMed citation
+        ''' </summary>
+        <Description("PubMed citation")> PubMed
+        ''' <summary>
+        ''' Wikipedia accession
+        ''' </summary>
+        <Description("Wikipedia accession")> Wikipedia
+        ''' <summary>
+        ''' MetaCyc accession
+        ''' </summary>
+        <Description("MetaCyc accession")> MetaCyc
+        ''' <summary>
+        ''' HMDB accession
+        ''' </summary>
+        <Description("HMDB accession")> HMDB
+        ''' <summary>
+        ''' Agricola citation
+        ''' </summary>
+        <Description("Agricola citation")> Agricola_citation
+        ''' <summary>
+        ''' Chinese Abstracts citation
+        ''' </summary>
+        <Description("Chinese Abstracts citation")> Chinese_Abstracts_citation
+        ''' <summary>
+        ''' ChemIDplus accession
+        ''' </summary>
+        <Description("ChemIDplus accession")> ChemIDplus
+        ''' <summary>
+        ''' Chemspider accession
+        ''' </summary>
+        <Description("Chemspider accession")> Chemspider
+        ''' <summary>
+        ''' PubMed Central citation
+        ''' </summary>
+        <Description("PubMed Central citation")> PubMed_Central
+        ''' <summary>
+        ''' CiteXplore citation
+        ''' </summary>
+        <Description("CiteXplore citation")> CiteXplore
+        ''' <summary>
+        ''' KNApSAcK accession
+        ''' </summary>
+        <Description("KNApSAcK accession")> KNApSAcK
+        ''' <summary>
+        ''' YMDB accession
+        ''' </summary>
+        <Description("YMDB accession")> YMDB
+        ''' <summary>
+        ''' ECMDB accession
+        ''' </summary>
+        <Description("ECMDB accession")> ECMDB
+        ''' <summary>
+        ''' SMID accession
+        ''' </summary>
+        <Description("SMID accession")> SMID
+        ''' <summary>
+        ''' Pesticides accession
+        ''' </summary>
+        <Description("Pesticides accession")> Pesticides
+        ''' <summary>
+        ''' LINCS accession
+        ''' </summary>
+        <Description("LINCS accession")> LINCS
+        ''' <summary>
+        ''' Pubchem accession
+        ''' </summary>
+        <Description("Pubchem accession")> Pubchem
+        ''' <summary>
+        ''' ETH
+        ''' </summary>
+        <Description("ETH")> ETH
+        ''' <summary>
+        ''' Drug Central accession
+        ''' </summary>
+        <Description("Drug Central accession")> Drug_Central
+
+    End Enum
+End Namespace

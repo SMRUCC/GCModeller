@@ -9,6 +9,15 @@ Namespace Assembly.Uniprot.XML
     Public Module Extensions
 
         <Extension>
+        Public Function ECNumberList(protein As entry) As String()
+            Return protein?. _
+                protein?. _
+                recommendedName?. _
+                ecNumber.
+                ToArray(Function(ec) ec.value)
+        End Function
+
+        <Extension>
         Public Function OrganismScientificName(protein As entry) As String
             If protein.organism Is Nothing Then
                 Return ""

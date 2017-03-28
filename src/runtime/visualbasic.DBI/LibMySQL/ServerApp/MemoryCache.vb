@@ -101,7 +101,7 @@ Namespace ServerApp
         ''' <returns></returns>
         Private Shared Function Clone(array As T()) As T()
             Return array _
-                .Select(Function(o) DirectCast(o.Clone, T)) _
+                .Select(Function(o) DirectCast(o.Copy, T)) _
                 .ToArray
         End Function
 
@@ -121,7 +121,7 @@ Namespace ServerApp
             If o Is Nothing Then
                 Return Nothing
             Else
-                Return o.Clone
+                Return o.Copy
             End If
         End Function
 
@@ -134,7 +134,7 @@ Namespace ServerApp
                     __cache(SQL) = {}
                 Else
                     __cache(SQL) = {
-                        DirectCast(data.Clone, T)
+                        DirectCast(data.Copy, T)
                     }
                 End If
 

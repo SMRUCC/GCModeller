@@ -80,6 +80,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="R\CodeGenerator.vb" />
     <Compile Include="SQL\SQLParser.vb" />
     <Compile Include="VisualBasic\CodeGenerator.vb" />
   </ItemGroup>
