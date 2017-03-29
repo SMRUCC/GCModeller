@@ -27,7 +27,6 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes

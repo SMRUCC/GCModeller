@@ -55,12 +55,14 @@ Namespace VisualBasic
             "|Try|TryCast|TypeOf|Variant|Wend|UInteger|ULong|UShort|Using|When|While|Widening|With|WithEvents|WriteOnly|Xor|NameOf|Yield|"
 
         ''' <summary>
-        ''' Works with the conflicts of the VisualBasic keyword.(处理VB里面的关键词的冲突)
+        ''' Works with the conflicts of the VisualBasic keyword and strips for 
+        ''' the invalid characters in the mysql table field name.
+        ''' (处理VB里面的关键词的冲突以及清除mysql的表之中的域名中的相对于vb的标识符而言的非法字符)
         ''' </summary>
         ''' <param name="name"></param>
         ''' <returns></returns>
         ''' <remarks>处理所有的VB标识符之中的非法字符都可以在这个函数之中完成</remarks>
-        Public Function TrimKeyword(name As String) As String
+        Public Function FixInvalids(name As String) As String
             ' mysql之中允许在名称中使用可以印刷的ASCII符号，但是vb并不允许，在这里替换掉
             For Each c As Char In ASCII.Symbols
                 name = name.Replace(c, "_")
@@ -228,7 +230,7 @@ Namespace VisualBasic
         ''' <param name="Table"></param>
         ''' <param name="DefSql"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks><see cref="SQLComments"/></remarks>
         Public Function GenerateTableClass(Table As Reflection.Schema.Table, DefSql As String, Optional trimAutoIncrement As Boolean = True) As String
             Dim tokens As String() = Strings.Split(DefSql.Replace(vbLf, ""), vbCr)
             Dim codeGenerator As New StringBuilder("''' <summary>" & vbCrLf)
@@ -260,7 +262,7 @@ Namespace VisualBasic
             Call codeGenerator.AppendLine("''' <remarks></remarks>")
 
             Call codeGenerator.AppendLine($"<Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes.TableName(""{Table.TableName}""{DBName})>")
-            Call codeGenerator.AppendLine($"Public Class {TrimKeyword(Table.TableName)}: Inherits {InheritsAbstract}")
+            Call codeGenerator.AppendLine($"Public Class {FixInvalids(Table.TableName)}: Inherits {InheritsAbstract}")
             Call codeGenerator.AppendLine("#Region ""Public Property Mapping To Database Fields""")
             For Each Field As Reflection.Schema.Field In Table.Fields
 
@@ -274,7 +276,7 @@ Namespace VisualBasic
                 End If
 
                 Call codeGenerator.Append(__createAttribute(Field, IsPrimaryKey:=Table.PrimaryFields.Contains(Field.FieldName))) 'Apply the custom attribute on the property 
-                Call codeGenerator.Append("Public Property " & TrimKeyword(Field.FieldName))                                     'Generate the property name 
+                Call codeGenerator.Append("Public Property " & FixInvalids(Field.FieldName))                                     'Generate the property name 
                 Call codeGenerator.Append(__toDataType(Field.DataType))                                                          'Generate the property data type
                 Call codeGenerator.AppendLine()
             Next
@@ -302,6 +304,12 @@ Namespace VisualBasic
             Call codeGenerator.AppendLine("    Public Overrides Function GetInsertSQL() As String")
             Call codeGenerator.AppendLine(___INSERT_SQL_Invoke(Table, trimAutoIncrement, refConflict))
             Call codeGenerator.AppendLine("    End Function")
+            Call codeGenerator.AppendLine()
+            Call codeGenerator.AppendLine("''' <summary>")
+            Call codeGenerator.AppendLine($"''' <see cref=""{NameOf(SQLTable.GetInsertSQL)}""/>")
+            Call codeGenerator.AppendLine("''' </summary>")
+            Call codeGenerator.AppendLine(__INSERT_VALUES(Table, trimAutoIncrement))
+            Call codeGenerator.AppendLine()
             Call codeGenerator.Append(SQLlist("REPLACE").SQLComments)
             Call codeGenerator.AppendLine("    Public Overrides Function GetReplaceSQL() As String")
             Call codeGenerator.AppendLine(___REPLACE_SQL_Invoke(Table, trimAutoIncrement, refConflict))
@@ -310,7 +318,6 @@ Namespace VisualBasic
             Call codeGenerator.AppendLine("    Public Overrides Function GetUpdateSQL() As String")
             Call codeGenerator.AppendLine(___UPDATE_SQL_Invoke(Table, refConflict))
             Call codeGenerator.AppendLine("    End Function")
-            Call codeGenerator.AppendLine(__INSERT_VALUES(Table, trimAutoIncrement))
             Call codeGenerator.AppendLine("#End Region")
 
             Call codeGenerator.AppendLine("End Class")
@@ -359,12 +366,12 @@ Namespace VisualBasic
                 ' 在代码之中应该是propertyName而不是数据库之中的fieldName
                 ' 因为schema对象是直接从SQL之中解析出来的，所以反射属性为空
                 ' 在这里使用TrimKeyword(Field.FieldName)来生成代码之中的属性的名称
-                values = values.Replace("{" & field.i & "}", "{" & TrimKeyword((+field).FieldName) & "}")
+                values = values.Replace("{" & field.i & "}", "{" & FixInvalids((+field).FieldName) & "}")
             Next
 
-            Call sb.AppendLine($"Public Overrides Function {NameOf(SQLTable.GetDumpInsertValue)}() As String")
-            Call sb.AppendLine($"Return $""{values}""")
-            Call sb.AppendLine("End Function")
+            Call sb.AppendLine($"    Public Overrides Function {NameOf(SQLTable.GetDumpInsertValue)}() As String")
+            Call sb.AppendLine($"        Return $""{values}""")
+            Call sb.AppendLine($"    End Function")
 
             Return sb.ToString
         End Function
@@ -377,7 +384,7 @@ Namespace VisualBasic
         ''' <returns></returns>
         <Extension>
         Private Function PropertyName(field As Field) As String
-            Return TrimKeyword(field.FieldName)
+            Return FixInvalids(field.FieldName)
         End Function
 
         Private Function __replaceInsertCommon(Schema As Reflection.Schema.Table,
@@ -492,12 +499,12 @@ NO_KEY:
                 Field.DataType.MySQLType = Reflection.DbAttributes.MySqlDbType.DateTime Then
                 If dtype_conflicts Then
                     Dim ref As String = GetType(Reflection.DbAttributes.DataType).FullName
-                    Return $"{ref}.ToMySqlDateTimeString({TrimKeyword(Field.FieldName)})"
+                    Return $"{ref}.ToMySqlDateTimeString({FixInvalids(Field.FieldName)})"
                 Else
-                    Return $"DataType.ToMySqlDateTimeString({TrimKeyword(Field.FieldName)})"
+                    Return $"DataType.ToMySqlDateTimeString({FixInvalids(Field.FieldName)})"
                 End If
             Else
-                Return TrimKeyword(Field.FieldName)
+                Return FixInvalids(Field.FieldName)
             End If
         End Function
 
