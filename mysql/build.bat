@@ -1,6 +1,7 @@
 REM converts the mysql dataabase schema source code to visualbasic source code
 
-"Reflector" --reflects -o "../src/repository/DataMySql/Xfam/Rfam/Tables" /namespace "Xfam.Rfam.MySQL.Tables" /split --language=visualbasic /sql "./xfam/rfam_12_2.sql"
+"Reflector" --reflects -o "../src/repository/DataMySql/UniprotSprot/MySQL" /namespace "UniprotKB.MySQL.Tables" /split --language=visualbasic /sql "../src/repository/DataMySql/UniprotSprot/uniprotKB.sql"
+REM "Reflector" --reflects -o "../src/repository/DataMySql/Xfam/Rfam/Tables" /namespace "Xfam.Rfam.MySQL.Tables" /split --language=visualbasic /sql "./xfam/rfam_12_2.sql"
 
 REM "Reflector" --reflects -o "../src/repository/Model_Repository/MySQL/" /namespace "MySQL.Tables" /split --language=visualbasic /sql "../src/repository/Model_Repository/MySQL/correlations.sql"
 
