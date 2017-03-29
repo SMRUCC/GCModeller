@@ -35,10 +35,10 @@ Namespace Compiler.Components
 
     Public Class MetaboliteInformationDownloader
 
-        Dim ChEBILoader As TSV
+        Dim ChEBILoader As TSVTables
 
         Sub New(ChEBIDir As String)
-            ChEBILoader = New TSV(ChEBIDir)
+            ChEBILoader = New TSVTables(ChEBIDir)
         End Sub
 
         Public Function Match(Model As FileStream.IO.XmlresxLoader) As Integer

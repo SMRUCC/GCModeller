@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::f58d84f42bce0e93f316687114174dee, ..\visualbasic.DBI\LibMySQL\Extensions\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.SQL
 
 Public Module Extensions
 
@@ -190,15 +191,17 @@ Public Module Extensions
     ''' <returns></returns>
     <Extension>
     Public Function MySqlEscaping(value As String) As String
-        Dim sb As New StringBuilder(value)
+        If value.StringEmpty Then
+            Return ""
+        Else
+            Dim sb As New StringBuilder(value)
 
-        Call sb.Replace("\", "\\")
-
-        For Each x In __esacps
-            Call sb.Replace(x.Key, x.Value)
-        Next
-
-        Return sb.ToString
+            Call sb.Replace("\", "\\")
+            For Each x In __esacps
+                Call sb.Replace(x.Key, x.Value)
+            Next
+            Return sb.ToString
+        End If
     End Function
 
     ''' <summary>
@@ -217,7 +220,8 @@ Public Module Extensions
     <Extension>
     Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T),
                                                       Optional custom As Func(Of T, String) = Nothing,
-                                                      Optional type$ = "insert") As String
+                                                      Optional type$ = "insert",
+                                                      Optional distinct As Boolean = True) As String
         Dim SQL As Func(Of T, String)
 
         If custom Is Nothing Then
@@ -233,7 +237,41 @@ Public Module Extensions
             SQL = custom
         End If
 
-        Return source.Select(SQL).JoinBy(ASCII.LF)
+        Dim schemaTable As New Table(GetType(T))
+        Dim tableName$ = schemaTable.TableName
+        Dim sb As New StringBuilder()
+
+        Call sb.AppendLine("--")
+        Call sb.AppendLine($"-- Dumping data for table `{tableName}`")
+        Call sb.AppendLine("--")
+        Call sb.AppendLine()
+
+        Call sb.AppendLine($"LOCK TABLES `{tableName}` WRITE;")
+        Call sb.AppendLine($"/*!40000 ALTER TABLE `{tableName}` DISABLE KEYS */;")
+
+        If type.TextEquals("insert") Then
+            Dim insertBlocks$() = source _
+                .Where(Function(r) Not r Is Nothing) _
+                .Select(Function(r) r.GetDumpInsertValue) _
+                .ToArray
+            Dim INSERT$ = schemaTable.GenerateInsertSql
+            Dim schema$ = INSERT.StringSplit("\)\s*VALUES\s*\(").First & ") VALUES "
+
+            If distinct Then
+                insertBlocks = insertBlocks.Distinct.ToArray
+            End If
+
+            For Each block In insertBlocks.Split(200)
+                Call sb.AppendLine(schema & block.JoinBy(", ") & ";")
+            Next
+        Else
+            Call sb.AppendLine(source.Select(SQL).JoinBy(ASCII.LF))
+        End If
+
+        Call sb.AppendLine($"/*!40000 ALTER TABLE `{tableName}` ENABLE KEYS */;")
+        Call sb.AppendLine("UNLOCK TABLES;")
+
+        Return sb.ToString
     End Function
 
     ''' <summary>
@@ -248,13 +286,17 @@ Public Module Extensions
     ''' 假若不是以sql为后缀的话，会被当做文件夹来处理
     ''' </param>
     ''' <param name="encoding"></param>
+    ''' <param name="distinct">是否对<see cref="SQLTable.GetDumpInsertValue()"/>进行去重处理？默认是</param>
     ''' <returns></returns>
     <Extension>
     Public Function DumpTransaction(Of T As SQLTable)(source As IEnumerable(Of T),
                                                       path$,
                                                       Optional encoding As Encodings = Encodings.Default,
-                                                      Optional type$ = "insert") As Boolean
-        Dim sql$ = source.DumpTransaction(type:=type)
+                                                      Optional type$ = "insert",
+                                                      Optional distinct As Boolean = True) As Boolean
+        Dim sql$ = source.DumpTransaction(
+            type:=type,
+            distinct:=distinct)
 
         If Not path.ExtensionSuffix.TextEquals("sql") Then
             Dim name$ = GetType(T).Name

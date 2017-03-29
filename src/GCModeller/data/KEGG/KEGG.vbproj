@@ -85,7 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LocalMySQL\disease.vb" />
-    <Compile Include="LocalMySQL\gene.vb" />
+    <Compile Include="LocalMySQL\genes.vb" />
     <Compile Include="LocalMySQL\module.vb" />
     <Compile Include="LocalMySQL\orthology.vb" />
     <Compile Include="LocalMySQL\orthology_diseases.vb" />
