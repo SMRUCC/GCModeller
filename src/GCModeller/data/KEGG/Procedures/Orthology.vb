@@ -175,7 +175,7 @@ Namespace Procedures
             If ort.Genes.IsNullOrEmpty Then Return Nothing
             Dim genes = (From entry In ort.Genes
                          Let desc = If(entry.Description Is Nothing, "", entry.Description)
-                         Let geneData = New LocalMySQL.gene With {
+                         Let geneData = New LocalMySQL.genes With {
                              .locus_tag = entry.LocusId,
                              .definition = MySqlEscaping(desc.Replace("'", "~").lTokens.JoinBy(" ")),
                              .gene_name = MySqlEscaping(desc.Replace("'", "~").lTokens.JoinBy(" ")),
