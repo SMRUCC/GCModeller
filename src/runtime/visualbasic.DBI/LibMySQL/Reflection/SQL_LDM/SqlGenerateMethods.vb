@@ -75,24 +75,28 @@ Namespace Reflection.SQL
         ''' <param name="Schema"></param>
         ''' <param name="TrimAutoIncrement">假若有列是被标记为自动增长的，则不需要在INSERT_SQL之中在添加他的值了</param>
         ''' <returns></returns>
-        Public Function GenerateInsertSql(Schema As Schema.Table, Optional TrimAutoIncrement As Boolean = False) As String
-            Dim sBuilder As StringBuilder = New StringBuilder(512)
+        Public Function GenerateInsertSql(Schema As Table, Optional TrimAutoIncrement As Boolean = False) As String
+            Dim sb As New StringBuilder(512)
 
+            Call sb.AppendFormat("INSERT INTO `{0}` (", Schema.TableName)  'Create table name header
             If Not TrimAutoIncrement Then
-                Call sBuilder.AppendFormat("INSERT INTO `{0}` (", Schema.TableName)  'Create table name header
-                Call sBuilder.Append(String.Join(", ", (From Field As Reflection.Schema.Field In Schema.Fields Select "`" & Field.FieldName & "`").ToArray)) 'Fields generate
-                Call sBuilder.Append(") VALUES (")  'Values formater generate
-                Call sBuilder.Append(String.Join(", ", (From i As Integer In Schema.Fields.Sequence Select "'{0}'".Replace("0"c, i)).ToArray) & ");") 'End of the statement
+                Call sb.Append(String.Join(", ", (From Field As Field In Schema.Fields Select "`" & Field.FieldName & "`").ToArray)) 'Fields generate
             Else
-
-                Call sBuilder.AppendFormat("INSERT INTO `{0}` (", Schema.TableName)  'Create table name header
-                Call sBuilder.Append(String.Join(", ", (From Field As Reflection.Schema.Field In Schema.Fields Where Not Field.AutoIncrement Select "`" & Field.FieldName & "`").ToArray)) 'Fields generate
-                Call sBuilder.Append(") VALUES (")  'Values formater generate
-                Call sBuilder.Append(String.Join(", ", (From i As Integer In (From Field In Schema.Fields Where Not Field.AutoIncrement Select Field).ToArray.Sequence Select "'{0}'".Replace("0"c, i)).ToArray) & ");") 'End of the statement
-
+                Call sb.Append(String.Join(", ", (From Field As Field In Schema.Fields Where Not Field.AutoIncrement Select "`" & Field.FieldName & "`").ToArray)) 'Fields generate
             End If
 
-            Return sBuilder.ToString
+            Call sb.Append(") VALUES ")  'Values formater generate
+            Call sb.Append(GenerateInsertValues(Schema, TrimAutoIncrement) & ";")
+
+            Return sb.ToString
+        End Function
+
+        Public Function GenerateInsertValues(Schema As Table, Optional TrimAutoIncrement As Boolean = False) As String
+            If Not TrimAutoIncrement Then
+                Return "(" & String.Join(", ", (From i As Integer In Schema.Fields.Sequence Select "'{0}'".Replace("0"c, i)).ToArray) & ")" 'End of the statement
+            Else
+                Return "(" & String.Join(", ", (From i As Integer In (From Field In Schema.Fields Where Not Field.AutoIncrement Select Field).ToArray.Sequence Select "'{0}'".Replace("0"c, i)).ToArray) & ")" 'End of the statement
+            End If
         End Function
     End Module
 End Namespace

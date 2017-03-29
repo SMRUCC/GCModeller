@@ -42,5 +42,6 @@ Public MustInherit Class SQLTable : Inherits SchemaMaps.SQLTable
     ''' </summary>
     ''' <returns></returns>
     Public MustOverride Function GetReplaceSQL() As String
+    Public MustOverride Function GetDumpInsertValue() As String
 
 End Class

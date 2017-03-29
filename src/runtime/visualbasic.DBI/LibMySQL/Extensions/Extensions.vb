@@ -233,7 +233,31 @@ Public Module Extensions
             SQL = custom
         End If
 
-        Return source.Select(SQL).JoinBy(ASCII.LF)
+        Dim tableName$ = New Table(GetType(T)).TableName
+        Dim sb As New StringBuilder()
+
+        Call sb.AppendLine("--")
+        Call sb.AppendLine($"-- Dumping data for table `{tableName}`")
+        Call sb.AppendLine("--")
+        Call sb.AppendLine()
+
+        Call sb.AppendLine($"LOCK TABLES `{tableName}` WRITE;")
+        Call sb.AppendLine($"/*!40000 ALTER TABLE `{tableName}` DISABLE KEYS */;")
+
+        If type.TextEquals("insert") Then
+            For Each block In source.Split(200)
+                Dim INSERT$ = block(Scan0).GetInsertSQL
+                Dim schema$ = INSERT.StringSplit("\)\s*VALUES\s*\(").First & ") VALUES "
+                Call sb.AppendLine(schema & block.Select(Function(r) r.GetDumpInsertValue).JoinBy(", ") & ";")
+            Next
+        Else
+            Call sb.AppendLine(source.Select(SQL).JoinBy(ASCII.LF))
+        End If
+
+        Call sb.AppendLine($"/*!40000 ALTER TABLE `{tableName}` ENABLE KEYS */;")
+        Call sb.AppendLine("UNLOCK TABLES;")
+
+        Return sb.ToString
     End Function
 
     ''' <summary>

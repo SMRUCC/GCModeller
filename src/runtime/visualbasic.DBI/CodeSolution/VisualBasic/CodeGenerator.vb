@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::886a09c65c9da7affc59a0724cc72a42, ..\visualbasic.DBI\CodeSolution\VisualBasic\CodeGenerator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,9 +32,11 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
 
 Namespace VisualBasic
 
@@ -65,10 +67,10 @@ Namespace VisualBasic
             Next
             name = name.Replace(" ", "_")
             If InStr(VBKeywords, $"|{name.ToLower}|", CompareMethod.Text) > 0 Then
-                    Return $"[{name}]"
-                Else
-                    Return name
-                End If
+                Return $"[{name}]"
+            Else
+                Return name
+            End If
         End Function
 
         ''' <summary>
@@ -308,6 +310,7 @@ Namespace VisualBasic
             Call codeGenerator.AppendLine("    Public Overrides Function GetUpdateSQL() As String")
             Call codeGenerator.AppendLine(___UPDATE_SQL_Invoke(Table, refConflict))
             Call codeGenerator.AppendLine("    End Function")
+            Call codeGenerator.AppendLine(__INSERT_VALUES(Table, trimAutoIncrement))
             Call codeGenerator.AppendLine("#End Region")
 
             Call codeGenerator.AppendLine("End Class")
@@ -342,6 +345,39 @@ Namespace VisualBasic
 
         Private Function ___REPLACE_SQL_Invoke(Schema As Reflection.Schema.Table, TrimAutoIncrement As Boolean, refConflict As Boolean) As String
             Return __replaceInsertInvokeCommon(Schema, TrimAutoIncrement, True, refConflict)
+        End Function
+
+        Private Function __INSERT_VALUES(schema As Reflection.Schema.Table, trimAutoIncrement As Boolean) As String
+            Dim sb As New StringBuilder
+            Dim values$ = Reflection.SQL.SqlGenerateMethods.GenerateInsertValues(schema, trimAutoIncrement)
+
+            For Each field As SeqValue(Of Field) In If(
+                trimAutoIncrement,
+                schema.Fields.Where(Function(f) Not f.AutoIncrement),
+                schema.Fields).SeqIterator
+
+                ' 在代码之中应该是propertyName而不是数据库之中的fieldName
+                ' 因为schema对象是直接从SQL之中解析出来的，所以反射属性为空
+                ' 在这里使用TrimKeyword(Field.FieldName)来生成代码之中的属性的名称
+                values = values.Replace("{" & field.i & "}", "{" & TrimKeyword((+field).FieldName) & "}")
+            Next
+
+            Call sb.AppendLine($"Public Overrides Function {NameOf(SQLTable.GetDumpInsertValue)}() As String")
+            Call sb.AppendLine($"Return $""{values}""")
+            Call sb.AppendLine("End Function")
+
+            Return sb.ToString
+        End Function
+
+        ''' <summary>
+        ''' 因为schema对象是直接从SQL之中解析出来的，所以反射属性为空
+        ''' 在这里使用TrimKeyword(Field.FieldName)来生成代码之中的属性的名称
+        ''' </summary>
+        ''' <param name="field"></param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function PropertyName(field As Field) As String
+            Return TrimKeyword(field.FieldName)
         End Function
 
         Private Function __replaceInsertCommon(Schema As Reflection.Schema.Table,
