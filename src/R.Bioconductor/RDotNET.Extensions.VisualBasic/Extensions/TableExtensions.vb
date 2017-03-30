@@ -173,7 +173,7 @@ Public Module TableExtensions
 
         ' 初始化schema对象会在save函数之中完成，然后被pushasdataframe调用
         Call Reflector _
-            .Save(source, schemaOut:=schema, maps:=maps) _
+            .Save(source, schemaOut:=schema, maps:=maps, strict:=False) _
             .PushAsDataFrame(var, types:=schema, typeParsing:=False)
     End Sub
 
