@@ -30,15 +30,14 @@ Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Oracle.LinuxCompatibility.MySQL
 Imports Oracle.LinuxCompatibility.MySQL.CodeSolution
 
-<PackageNamespace("MySQL.Reflector", Description:="Tools for convert the mysql schema dump sql script into VisualBasic classes source code.")>
+<PackageNamespace("MySQL.Reflector",
+                  Description:="Tools for convert the mysql schema dump sql script into VisualBasic classes source code.")>
 Module CLIProgram
 
     Public Function Main() As Integer
@@ -49,7 +48,7 @@ Module CLIProgram
 
     <ExportAPI("--reflects",
                Info:="Automatically generates visualbasic source code from the MySQL database schema dump.",
-               Usage:="--reflects /sql <sql_path/std_in> [-o <output_path> /namespace <namespace> /split]",
+               Usage:="--reflects /sql <sql_path/std_in> [-o <output_path> /namespace <namespace> --language <php/visualbasic, default=visualbasic> /split]",
                Example:="--reflects /sql ./test.sql /split /namespace ExampleNamespace")>
     <Argument("/sql", False,
                    AcceptTypes:={GetType(String)},
@@ -67,6 +66,7 @@ Module CLIProgram
         Dim split As Boolean = args.GetBoolean("/split")
         Dim SQL As String = args("/sql"), out As String = args("-o")
         Dim ns As String = args("/namespace")
+        Dim language$ = args.GetValue("/language", "visualbasic")
 
         If Not SQL.FileExists Then  ' 当文件不存在的时候可能是std_in，则判断是否存在out并且是split状态
             If split AndAlso String.IsNullOrEmpty(out) Then
@@ -90,6 +90,16 @@ Module CLIProgram
         Return 0
     End Function
 
+    ''' <summary>
+    ''' Export source code document to output stream
+    ''' </summary>
+    ''' <param name="SQL"></param>
+    ''' <param name="file"></param>
+    ''' <param name="ns"></param>
+    ''' <param name="out"></param>
+    ''' <param name="output"></param>
+    ''' <param name="split"></param>
+    ''' <returns></returns>
     Private Function __EXPORT(SQL As String, file As StreamReader, ns As String, out As String, output As StreamWriter, split As Boolean) As Integer
         If split Then ' 分开文档的输出形式，则不能够使用stream了
             If String.IsNullOrEmpty(out) Then
@@ -120,7 +130,13 @@ Module CLIProgram
         Return 0
     End Function
 
+    ''' <summary>
+    ''' Scans for the table schema sql files in a directory and converts these sql file as visualbasic source code
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("--export.dump",
+               Info:="Scans for the table schema sql files in a directory and converts these sql file as visualbasic source code.",
                Usage:="--export.dump [-o <out_dir> /namespace <namespace> --dir <source_dir>]")>
     Public Function ExportDumpDir(args As CommandLine) As Integer
         Dim DIR As String = args("--dir")

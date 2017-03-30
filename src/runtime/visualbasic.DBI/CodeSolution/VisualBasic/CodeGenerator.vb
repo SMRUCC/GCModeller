@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Data.Linq.Mapping
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
@@ -194,7 +195,8 @@ Namespace VisualBasic
             Next
 
             Call VbCodeGenerator.AppendLine()
-            Call VbCodeGenerator.AppendLine("Imports " & AttributesNs)
+            Call VbCodeGenerator.AppendLine("Imports " & LinqMappingNs)
+            Call VbCodeGenerator.AppendLine("Imports " & LibMySQLReflectionNs)
             Call VbCodeGenerator.AppendLine()
 
             If haveNamespace Then
@@ -221,7 +223,8 @@ Namespace VisualBasic
             Return VbCodeGenerator.ToString
         End Function
 
-        Private ReadOnly Property AttributesNs As String = GetType(Reflection.DbAttributes.MySqlDbType).FullName.Replace(".MySqlDbType", "")
+        Private ReadOnly Property LibMySQLReflectionNs As String = GetType(MySqlDbType).FullName.Replace(".MySqlDbType", "")
+        Private ReadOnly Property LinqMappingNs As String = GetType(ColumnAttribute).FullName.Replace(".ColumnAttribute", "")
         Private ReadOnly Property InheritsAbstract As String = GetType(SQLTable).FullName
 
         ''' <summary>
@@ -509,6 +512,10 @@ NO_KEY:
         End Function
 
         ReadOnly DataTypeFullNamesapce As String = GetType(Reflection.DbAttributes.MySqlDbType).Name
+        ''' <summary>
+        ''' 这个是为了兼容sciBASIC之中的csv序列化而设置的属性
+        ''' </summary>
+        ReadOnly columnMappingType As Type = GetType(ColumnAttribute)
 
         Private Function __createAttribute(Field As Reflection.Schema.Field, IsPrimaryKey As Boolean) As String
             Dim Code As String = $"    <DatabaseField(""{Field.FieldName}"")"
@@ -524,6 +531,7 @@ NO_KEY:
             End If
 
             Code &= $", DataType({DataTypeFullNamesapce}.{Field.DataType.MySQLType.ToString}{If(String.IsNullOrEmpty(Field.DataType.ParameterValue), "", ", """ & Field.DataType.ParameterValue & """")})"
+            Code &= $", Column(Name:=""{Field.FieldName}"")"
             Code &= "> "
             Return Code
         End Function
@@ -627,17 +635,18 @@ NO_KEY:
                 TableSql = New Dictionary(Of String, String)
             End If
 
-            Dim ClassList = (From Table As Reflection.Schema.Table
+            Dim ClassList = (From Table As Table
                              In SqlDoc
                              Let SqlDef As String = If(TableSql.ContainsKey(Table.TableName), TableSql(Table.TableName), "")
                              Select ClassDef = GenerateTableClass(Table, SqlDef),
                                  Table).ToArray
-            Dim LQuery = (From Table
+            Dim LQuery = (From table
                           In ClassList
-                          Select Table.Table,
-                              doc = GenerateSingleDocument(haveNamespace, [Namespace], Table.ClassDef)).ToArray
-            Return LQuery.ToDictionary(Function(x) x.Table.TableName,
-                                   Function(x) x.doc)
+                          Select table.Table,
+                              doc = GenerateSingleDocument(haveNamespace, [Namespace], table.ClassDef)).ToArray
+            Return LQuery.ToDictionary(
+                Function(x) x.Table.TableName,
+                Function(x) x.doc)
         End Function
 
         Private Function __schemaDb(DbName As String, ns As String) As String
@@ -659,7 +668,8 @@ NO_KEY:
             Call VbCodeGenerator.AppendLine()
 
             Call VbCodeGenerator.AppendLine()
-            Call VbCodeGenerator.AppendLine("Imports " & GetType(Reflection.DbAttributes.MySqlDbType).FullName.Replace(".MySqlDbType", ""))
+            Call VbCodeGenerator.AppendLine("Imports " & LinqMappingNs)
+            Call VbCodeGenerator.AppendLine("Imports " & LibMySQLReflectionNs)
             Call VbCodeGenerator.AppendLine()
 
             If haveNamespace Then
