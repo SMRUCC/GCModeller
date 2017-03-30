@@ -34,10 +34,10 @@ Public Class SeuqneceDownloader : Inherits jp_kegg2
 
     Public Sub RunTask()
         KEGG.UriMySQL.TimeOut = 1000 * 60 * 100 * 60
-        Call KEGG.ForEach(Of LocalMySQL.gene)("SELECT * FROM jp_kegg2.gene;", AddressOf __fillSeq)
+        Call KEGG.ForEach(Of LocalMySQL.genes)("SELECT * FROM jp_kegg2.gene;", AddressOf __fillSeq)
     End Sub
 
-    Private Sub __fillSeq(gene As LocalMySQL.gene)
+    Private Sub __fillSeq(gene As LocalMySQL.genes)
         Dim update As Boolean = False
         Dim query As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = Nothing
 
