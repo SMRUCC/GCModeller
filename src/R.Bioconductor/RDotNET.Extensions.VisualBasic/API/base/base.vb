@@ -34,6 +34,63 @@ Namespace API
     Public Module base
 
         ''' <summary>
+        ''' Remove Objects from a Specified Environment
+        ''' 
+        ''' ``remove`` and ``rm`` can be used to remove objects. These can be specified 
+        ''' successively as character strings, or in the character vector list, or 
+        ''' through a combination of both. 
+        ''' 
+        ''' All objects thus specified will be removed.
+        ''' </summary>
+        ''' <param name="list$">the objects To be removed, As names (unquoted) Or character strings (quoted). a character vector naming objects to be removed.</param>
+        ''' <param name="pos%">where to do the removal. By default, uses the current environment. See ‘details’ for other possibilities.</param>
+        ''' <param name="envir$">the environment to use. See ‘details’.</param>
+        ''' <param name="[inherits]">should the enclosing frames of the environment be inspected?</param>
+        Public Sub rm(list$,
+                      Optional pos% = -1,
+                      Optional envir$ = "as.environment(pos)",
+                      Optional [inherits] As Boolean = False)
+            SyncLock R
+                With R
+                    .call = $"rm(list = {list}, pos = {pos}, envir = {envir}, inherits = {[inherits].λ})"
+                End With
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' List Objects
+        ''' 
+        ''' ls and objects return a vector of character strings giving the names of the 
+        ''' objects in the specified environment. When invoked with no argument at the 
+        ''' top level prompt, ls shows what data sets and functions a user has defined. 
+        ''' When invoked with no argument inside a function, ls returns the names of 
+        ''' the function's local variables: this is useful in conjunction with browser.
+        ''' </summary>
+        ''' <param name="name$">which environment to use in listing the available objects. Defaults to the current environment. Although called name for back compatibility, in fact this argument can specify the environment in any form; see the ‘Details’ section.</param>
+        ''' <param name="pos$">an alternative argument to name for specifying the environment as a position in the search list. Mostly there for back compatibility.</param>
+        ''' <param name="envir$">an alternative argument to name for specifying the environment. Mostly there for back compatibility.</param>
+        ''' <param name="allnames">a logical value. If TRUE, all object names are returned. If FALSE, names which begin with a . are omitted.</param>
+        ''' <param name="pattern$">an optional regular expression. Only names matching pattern are returned. glob2rx can be used to convert wildcard patterns to regular expressions.</param>
+        ''' <param name="sorted">logical indicating if the resulting character should be sorted alphabetically. Note that this is part of ls() may take most of the time.</param>
+        ''' <returns></returns>
+        Public Function ls(Optional name$ = NULL,
+                           Optional pos$ = "-1L",
+                           Optional envir$ = "as.environment(pos)",
+                           Optional allnames As Boolean = False,
+                           Optional pattern$ = "NULL",
+                           Optional sorted As Boolean = True) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- ls({name}, pos = {pos}, envir = {envir},
+   all.names = {allnames.λ}, pattern = {pattern}, sorted = {sorted.λ})"
+                    Return var
+                End With
+            End SyncLock
+        End Function
+
+        ''' <summary>
         ''' writes an external representation of R objects to the specified file. The objects can be read back from the file at a later date by using the function load or attach (or data in some cases).
         ''' </summary>
         ''' <param name="objects">the names of the objects to be saved (as symbols or character strings).</param>
