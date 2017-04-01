@@ -30,26 +30,23 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.TableExtensions
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.BEBaC
-Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -59,6 +56,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Fastaq
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.SAM
+Imports R_api = RDotNET.Extensions.VisualBasic.API
 
 Partial Module CLI
 
@@ -523,16 +521,16 @@ Partial Module CLI
                 End If
             Next
 
-            nonZEROs = nonZEROs.MatrixTranspose.ToList
+            nonZEROs = New List(Of String())(nonZEROs.MatrixTranspose)
 
             Dim first = nonZEROs.First
-            nonZEROs = nonZEROs.Skip(1).ToList
+            nonZEROs = New List(Of String())(nonZEROs.Skip(1))
             Dim pvalues As New RowObject From {"p-value", "null"}
 
             For i As Integer = 0 To nonZEROs.Count - 1
                 Dim jdt As IO.File = {first, nonZEROs(i)}.JoinColumns
                 Call jdt.PushAsTable(tbl)
-                Dim reuslt = stats.chisqTest(tbl)
+                Dim reuslt = R_api.stats.chisqTest(tbl)
                 pvalues.Add(reuslt.pvalue)
             Next
 
