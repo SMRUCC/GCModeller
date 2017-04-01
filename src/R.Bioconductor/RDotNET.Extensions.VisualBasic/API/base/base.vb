@@ -48,7 +48,7 @@ Namespace API
         Public Sub rm(list$, Optional pos% = -1, Optional [inherits] As Boolean = False)
             SyncLock R
                 With R
-                    .call = $"rm(list = {list}, pos = {pos}, inherits = {[inherits].λ})"
+                    .call = $"rm(list = {list}, pos = {pos}, envir = as.environment({pos}), inherits = {[inherits].λ})"
                 End With
             End SyncLock
         End Sub
@@ -68,16 +68,17 @@ Namespace API
         ''' <param name="pattern$">an optional regular expression. Only names matching pattern are returned. glob2rx can be used to convert wildcard patterns to regular expressions.</param>
         ''' <param name="sorted">logical indicating if the resulting character should be sorted alphabetically. Note that this is part of ls() may take most of the time.</param>
         ''' <returns></returns>
-        Public Function ls(Optional name$ = NULL,
+        Public Function ls(Optional name$ = Nothing,
                            Optional pos$ = "-1L",
                            Optional allnames As Boolean = False,
-                           Optional pattern$ = "NULL",
+                           Optional pattern$ = Nothing,
                            Optional sorted As Boolean = True) As String
             Dim var$ = App.NextTempName
+            Dim args As New Dictionary(Of String, String)
 
             SyncLock R
                 With R
-                    .call = $"{var} <- ls({name}, pos = {pos}, all.names = {allnames.λ}, pattern = {pattern}, sorted = {sorted.λ})"
+                    .call = $"{var} <- ls({name}, pos = {pos}, envir = as.environment({pos}), all.names = {allnames.λ}, pattern = {pattern}, sorted = {sorted.λ})"
                     Return var
                 End With
             End SyncLock
@@ -167,6 +168,14 @@ Namespace API
             Return out
         End Function
 
+        ''' <summary>
+        ''' This is a generic function which combines its arguments.
+        ''' The Default method combines its arguments To form a vector. All arguments are coerced To a common type which Is the type Of the returned value, And all attributes except names are removed.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="list"></param>
+        ''' <param name="recursive"></param>
+        ''' <returns></returns>
         Public Function c(Of T)(list As IEnumerable(Of T), Optional recursive As Boolean = False) As String
             Return base.c(list.SafeQuery.Select(AddressOf Scripting.CStrSafe), recursive:=recursive)
         End Function
@@ -350,13 +359,17 @@ Namespace API
                                   Optional checkNames As Boolean = True,
                                   Optional stringsAsFactors As String = "default.stringsAsFactors()") As String
 
-            Dim out As String = App.NextTempName
+            Dim var As String = App.NextTempName
+            Dim paramRowNames$ = If(
+                rowNames.IsNullOrEmpty,
+                "NULL",
+                base.c(rowNames, stringVector:=True))
 
-            Call $"{out} <- data.frame({x.JoinBy(", ")}, row.names = {rowNames}, check.rows = {checkRows},
-           check.names = {checkNames},
+            Call $"{var} <- data.frame({x.JoinBy(", ")}, row.names = {paramRowNames}, check.rows = {checkRows.λ},
+           check.names = {checkNames.λ},
            stringsAsFactors = {stringsAsFactors})".__call
 
-            Return out
+            Return var
         End Function
 
         ''' <summary>

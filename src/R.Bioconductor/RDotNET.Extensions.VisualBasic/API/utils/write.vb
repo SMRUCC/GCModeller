@@ -87,6 +87,22 @@ Namespace API.utils
             End Try
         End Sub
 
+        ''' <summary>
+        ''' ``write.table`` prints its required argument x (after converting it to a data frame if it is not one nor a matrix) to a file or connection.
+        ''' </summary>
+        ''' <param name="x">the object to be written, preferably a matrix or data frame. If not, it is attempted to coerce x to a data frame.</param>
+        ''' <param name="file"></param>
+        ''' <param name="append"></param>
+        ''' <param name="quote"></param>
+        ''' <param name="sep"></param>
+        ''' <param name="eol"></param>
+        ''' <param name="na"></param>
+        ''' <param name="dec"></param>
+        ''' <param name="rowNames"></param>
+        ''' <param name="colNames"></param>
+        ''' <param name="qmethod"></param>
+        ''' <param name="fileEncoding"></param>
+        ''' <returns></returns>
         Public Function csv(x As String, Optional file As String = "", Optional append As Boolean = False, Optional quote As Boolean = True, Optional sep As String = " ",
                        Optional eol As String = "\n", Optional na As String = "NA", Optional dec As String = ".", Optional rowNames As Boolean = True,
                        Optional colNames As Boolean = True, Optional qmethod As qmethods = qmethods.escape, Optional fileEncoding As String = "") As Boolean
