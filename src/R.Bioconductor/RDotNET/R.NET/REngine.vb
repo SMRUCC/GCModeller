@@ -567,22 +567,22 @@ Public Class REngine
 		environment.SetSymbol(name, expression)
 	End Sub
 
-	''' <summary>
-	''' Evaluates a statement in the given string.
-	''' </summary>
-	''' <param name="statement">The statement.</param>
-	''' <returns>Last evaluation.</returns>
-	Public Function Evaluate(statement As String) As SymbolicExpression
-		CheckEngineIsRunning()
-		Return Defer(statement).LastOrDefault()
-	End Function
+    ''' <summary>
+    ''' Evaluates a statement in the given string.
+    ''' </summary>
+    ''' <param name="statement">The statement.</param>
+    ''' <returns>Last evaluation.</returns>
+    Public Overridable Function Evaluate(statement As String) As SymbolicExpression
+        CheckEngineIsRunning()
+        Return Defer(statement).LastOrDefault()
+    End Function
 
-	''' <summary>
-	''' Evaluates a statement in the given stream.
-	''' </summary>
-	''' <param name="stream">The stream.</param>
-	''' <returns>Last evaluation.</returns>
-	Public Function Evaluate(stream As Stream) As SymbolicExpression
+    ''' <summary>
+    ''' Evaluates a statement in the given stream.
+    ''' </summary>
+    ''' <param name="stream">The stream.</param>
+    ''' <returns>Last evaluation.</returns>
+    Public Function Evaluate(stream As Stream) As SymbolicExpression
 		CheckEngineIsRunning()
 		Return Defer(stream).LastOrDefault()
 	End Function

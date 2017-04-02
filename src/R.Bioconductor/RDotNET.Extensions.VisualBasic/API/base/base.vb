@@ -44,15 +44,11 @@ Namespace API
         ''' </summary>
         ''' <param name="list$">the objects To be removed, As names (unquoted) Or character strings (quoted). a character vector naming objects to be removed.</param>
         ''' <param name="pos%">where to do the removal. By default, uses the current environment. See ‘details’ for other possibilities.</param>
-        ''' <param name="envir$">the environment to use. See ‘details’.</param>
         ''' <param name="[inherits]">should the enclosing frames of the environment be inspected?</param>
-        Public Sub rm(list$,
-                      Optional pos% = -1,
-                      Optional envir$ = "as.environment(pos)",
-                      Optional [inherits] As Boolean = False)
+        Public Sub rm(list$, Optional pos% = -1, Optional [inherits] As Boolean = False)
             SyncLock R
                 With R
-                    .call = $"rm(list = {list}, pos = {pos}, envir = {envir}, inherits = {[inherits].λ})"
+                    .call = $"rm(list = {list}, pos = {pos}, envir = as.environment({pos}), inherits = {[inherits].λ})"
                 End With
             End SyncLock
         End Sub
@@ -68,23 +64,21 @@ Namespace API
         ''' </summary>
         ''' <param name="name$">which environment to use in listing the available objects. Defaults to the current environment. Although called name for back compatibility, in fact this argument can specify the environment in any form; see the ‘Details’ section.</param>
         ''' <param name="pos$">an alternative argument to name for specifying the environment as a position in the search list. Mostly there for back compatibility.</param>
-        ''' <param name="envir$">an alternative argument to name for specifying the environment. Mostly there for back compatibility.</param>
         ''' <param name="allnames">a logical value. If TRUE, all object names are returned. If FALSE, names which begin with a . are omitted.</param>
         ''' <param name="pattern$">an optional regular expression. Only names matching pattern are returned. glob2rx can be used to convert wildcard patterns to regular expressions.</param>
         ''' <param name="sorted">logical indicating if the resulting character should be sorted alphabetically. Note that this is part of ls() may take most of the time.</param>
         ''' <returns></returns>
-        Public Function ls(Optional name$ = NULL,
+        Public Function ls(Optional name$ = Nothing,
                            Optional pos$ = "-1L",
-                           Optional envir$ = "as.environment(pos)",
                            Optional allnames As Boolean = False,
-                           Optional pattern$ = "NULL",
+                           Optional pattern$ = Nothing,
                            Optional sorted As Boolean = True) As String
             Dim var$ = App.NextTempName
+            Dim args As New Dictionary(Of String, String)
 
             SyncLock R
                 With R
-                    .call = $"{var} <- ls({name}, pos = {pos}, envir = {envir},
-   all.names = {allnames.λ}, pattern = {pattern}, sorted = {sorted.λ})"
+                    .call = $"{var} <- ls({name}, pos = {pos}, envir = as.environment({pos}), all.names = {allnames.λ}, pattern = {pattern}, sorted = {sorted.λ})"
                     Return var
                 End With
             End SyncLock
@@ -174,6 +168,14 @@ Namespace API
             Return out
         End Function
 
+        ''' <summary>
+        ''' This is a generic function which combines its arguments.
+        ''' The Default method combines its arguments To form a vector. All arguments are coerced To a common type which Is the type Of the returned value, And all attributes except names are removed.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="list"></param>
+        ''' <param name="recursive"></param>
+        ''' <returns></returns>
         Public Function c(Of T)(list As IEnumerable(Of T), Optional recursive As Boolean = False) As String
             Return base.c(list.SafeQuery.Select(AddressOf Scripting.CStrSafe), recursive:=recursive)
         End Function
@@ -198,8 +200,13 @@ Namespace API
         ''' <summary>
         ''' 默认为生成字符串数组，这个函数是针对于R字符串而言的，<paramref name="list"/>参数之中的字符串的值都会被转义为字符串
         ''' </summary>
-        ''' <param name="list"></param>
-        ''' <param name="stringVector"></param>
+        ''' <param name="list">
+        ''' 所需要生成集合的对象列表，这个参数所代表的含义会依据<paramref name="stringVector"/>的值而变化
+        ''' </param>
+        ''' <param name="stringVector">
+        ''' 当这个参数为真的时候，则这个函数生成的是一个字符串向量，反之为False的时候，
+        ''' 输入的<paramref name="list"/>将不会被转义，即输出由一系列变量所生成的一个集合
+        ''' </param>
         ''' <returns></returns>
         Public Function c(list As String(), Optional stringVector As Boolean = True) As String
             If stringVector Then
@@ -249,12 +256,19 @@ Namespace API
                                 Optional logicalReturn As Boolean = False,
                                 Optional warnConflicts As Boolean = True,
                                 Optional quietly As Boolean = False,
-                                Optional verbose As String = packages.base.getOption.verbose)
-            Dim out As SymbolicExpression =
-                $"library({package}, {help}, pos = {pos}, lib.loc = {libloc},
-                           character.only = {characterOnly}, logical.return = {logicalReturn.λ},
-                           warn.conflicts = {warnConflicts.λ}, quietly = {quietly.λ},
-                           verbose = {verbose})".__call
+                                Optional verbose As String = packages.base.getOption.verbose) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- library({package}, {help}, pos = {pos}, lib.loc = {libloc}, 
+    character.only = {characterOnly}, logical.return = {logicalReturn.λ},
+    warn.conflicts = {warnConflicts.λ}, quietly = {quietly.λ},
+    verbose = {verbose})"
+                End With
+            End SyncLock
+
+            Return var
         End Function
 
         ''' <summary>
@@ -345,13 +359,17 @@ Namespace API
                                   Optional checkNames As Boolean = True,
                                   Optional stringsAsFactors As String = "default.stringsAsFactors()") As String
 
-            Dim out As String = App.NextTempName
+            Dim var As String = App.NextTempName
+            Dim paramRowNames$ = If(
+                rowNames.IsNullOrEmpty,
+                "NULL",
+                base.c(rowNames, stringVector:=True))
 
-            Call $"{out} <- data.frame({x.JoinBy(", ")}, row.names = {rowNames}, check.rows = {checkRows},
-           check.names = {checkNames},
+            Call $"{var} <- data.frame({x.JoinBy(", ")}, row.names = {paramRowNames}, check.rows = {checkRows.λ},
+           check.names = {checkNames.λ},
            stringsAsFactors = {stringsAsFactors})".__call
 
-            Return out
+            Return var
         End Function
 
         ''' <summary>
@@ -420,6 +438,62 @@ Namespace API
             Dim strings$() = data.ToArray(AddressOf Scripting.ToString)
             Dim vec As String = c(strings, recursive:=False)
             Return matrix(vec, nrow, ncol, byrow, dimnames)
+        End Function
+
+        ''' <summary>
+        ''' Take a sequence of vector, matrix or data-frame arguments and combine by columns or rows, respectively. 
+        ''' These are generic functions with methods for other R classes.
+        ''' (对datafram对象添加新的列集合)
+        ''' </summary>
+        ''' <param name="list">	
+        ''' (generalized) vectors Or matrices. These can be given as named arguments. Other R objects may be coerced as appropriate, 
+        ''' Or S4 methods may be used: see sections 'Details’ and ‘Value’. (For the "data.frame" method of cbind these can be further 
+        ''' arguments to data.frame such as stringsAsFactors.)
+        ''' </param>
+        ''' <param name="deparselevel%">
+        ''' integer controlling the construction of labels in the case of non-matrix-like arguments (for the default method):
+        ''' 
+        ''' + deparse.level = 0 constructs no labels; the default,
+        ''' + deparse.level = 1 Or 2 constructs labels from the argument names, see the 'Value’ section below.</param>
+        ''' <returns></returns>
+        Public Function cbind(list As IEnumerable(Of String), Optional deparselevel% = 1) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- cbind({list.JoinBy(", ")}, deparse.level = {deparselevel})"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        ''' <summary>
+        ''' Take a sequence of vector, matrix or data-frame arguments and combine by columns or rows, respectively. 
+        ''' These are generic functions with methods for other R classes.
+        ''' (对datafram对象拓展新的行数据)
+        ''' </summary>
+        ''' <param name="list">	
+        ''' (generalized) vectors Or matrices. These can be given as named arguments. Other R objects may be coerced as appropriate, 
+        ''' Or S4 methods may be used: see sections 'Details’ and ‘Value’. (For the "data.frame" method of cbind these can be further 
+        ''' arguments to data.frame such as stringsAsFactors.)
+        ''' </param>
+        ''' <param name="deparselevel%">
+        ''' integer controlling the construction of labels in the case of non-matrix-like arguments (for the default method):
+        ''' 
+        ''' + deparse.level = 0 constructs no labels; the default,
+        ''' + deparse.level = 1 Or 2 constructs labels from the argument names, see the 'Value’ section below.</param>
+        ''' <returns></returns>
+        Public Function rbind(list As IEnumerable(Of String), Optional deparselevel% = 1) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- rbind({list.JoinBy(", ")}, deparse.level = {deparselevel})"
+                End With
+            End SyncLock
+
+            Return var
         End Function
 
         ''' <summary>
