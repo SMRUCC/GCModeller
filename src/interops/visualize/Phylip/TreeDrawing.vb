@@ -64,7 +64,7 @@ Public Module TreeDrawing
     '''                       --------------------------------|
     '''                                                       |---------------
     ''' </remarks>
-    Private Sub __treeDrawing(plNode As PhyloNode, LayerTree As GDIPlusDeviceHandle, ParentXY As Point, Font As Font)
+    Private Sub __treeDrawing(plNode As PhyloNode, LayerTree As Graphics2D, ParentXY As Point, Font As Font)
         Dim Px As Single = ParentXY.X
         Dim Py As Single = ParentXY.Y
         Dim vLevel As Single = plNode.LevelVertical

@@ -142,7 +142,7 @@ Namespace TrackDatas.Highlights
         Protected Sub New()
         End Sub
 
-        Public Function LegendsDrawing(ref As Point, ByRef gdi As GDIPlusDeviceHandle) As Point
+        Public Function LegendsDrawing(ref As Point, ByRef gdi As Graphics2D) As Point
             Dim COGColors = (From clProfile
                              In Me.COGColors
                              Select clProfile.Key,

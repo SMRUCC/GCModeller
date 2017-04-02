@@ -62,7 +62,7 @@ Namespace ComparativeAlignment
         End Function
 
         Private Function __invokeDrawing(Models As GenomeModel,
-                                           Device As GDIPlusDeviceHandle,
+                                           Device As Graphics2D,
                                            Length As Integer,
                                            MaxLengthTitleSize As Size,
                                            Height As Integer,

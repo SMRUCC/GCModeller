@@ -185,7 +185,7 @@ Public Class DrawingDevice
                                              isFirst As Boolean) As Bitmap
 
         Dim FlagLength As Integer = _Conf.FlagLength, FlagHeight As Integer = _Conf.FLAG_HEIGHT
-        Dim g As GDIPlusDeviceHandle
+        Dim g As Graphics2D
 
         Call $"Resolution is {_Width}, {_Height}".__DEBUG_ECHO
 
@@ -415,7 +415,7 @@ Public Class DrawingDevice
     End Function
 
     Public Function ExportColorProfiles(ObjectModel As ChromesomeDrawingModel) As Image
-        Dim g As GDIPlusDeviceHandle
+        Dim g As Graphics2D
         Dim _Width As Integer = 1920, _Height As Integer = 1200
 
         Try

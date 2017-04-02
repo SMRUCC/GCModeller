@@ -54,7 +54,7 @@ Public Class DrawingModel
         Dim dh As Integer = GDIPlusExtensions.MeasureString(briefs.First.Name, font).Height / 2
         Dim totalSize As New Size(size.Width + maxtLen * 1.5, size.Height)
 
-        Using gdi As GDIPlusDeviceHandle = totalSize.CreateGDIDevice
+        Using gdi As Graphics2D = totalSize.CreateGDIDevice
             For Each lnk As Line In Links   ' 首先绘制连线
                 Call lnk.Draw(gdi, penWidth)
             Next
@@ -73,7 +73,7 @@ Public Class DrawingModel
     End Function
 
     Private Function __getSize(texts As Text()) As SizeF()
-        Using gdi As GDIPlusDeviceHandle = New Size(10, 10).CreateGDIDevice
+        Using gdi As Graphics2D = New Size(10, 10).CreateGDIDevice
             Return texts.ToArray(Function(x) x.MeasureString(gdi))
         End Using
     End Function

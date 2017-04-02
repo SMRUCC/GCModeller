@@ -55,7 +55,7 @@ Namespace Colors
                                        Optional min As Double = 0,
                                        Optional max As Double = 1) As Image
 
-            Dim Gr As GDIPlusDeviceHandle = New Size(1024, 300).CreateGDIDevice
+            Dim Gr As Graphics2D = New Size(1024, 300).CreateGDIDevice
             Dim titleFont As New Font(FontFace.MicrosoftYaHei, 64, FontStyle.Regular)
             Dim sz As SizeF = Gr.Graphics.MeasureString(title, titleFont)
 
