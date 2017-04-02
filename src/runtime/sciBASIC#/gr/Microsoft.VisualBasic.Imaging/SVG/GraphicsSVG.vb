@@ -2,6 +2,7 @@
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Imaging
 Imports System.Drawing.Text
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 
@@ -21,7 +22,9 @@ Namespace SVG
         Protected Friend rects As New List(Of rect)
         Protected Friend lines As New List(Of line)
         Protected Friend circles As New List(Of circle)
+        Protected Friend paths As New List(Of path)
         Protected Friend polygons As New List(Of polygon)
+        Protected Friend bg$
 
         Public Overrides Property Clip As Region
             Get
@@ -172,7 +175,7 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub Clear(color As Color)
-            Throw New NotImplementedException()
+            bg$ = color.RGB2Hexadecimal
         End Sub
 
         Public Overrides Sub CopyFromScreen(upperLeftSource As Point, upperLeftDestination As Point, blockRegionSize As Size)
@@ -433,7 +436,7 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub DrawEllipse(pen As Pen, rect As Rectangle)
-            Throw New NotImplementedException()
+
         End Sub
 
         Public Overrides Sub DrawEllipse(pen As Pen, rect As RectangleF)
@@ -441,7 +444,7 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub DrawEllipse(pen As Pen, x As Single, y As Single, width As Single, height As Single)
-            Throw New NotImplementedException()
+
         End Sub
 
         Public Overrides Sub DrawEllipse(pen As Pen, x As Integer, y As Integer, width As Integer, height As Integer)
@@ -449,31 +452,45 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub DrawLine(pen As Pen, pt1 As PointF, pt2 As PointF)
-            Throw New NotImplementedException()
+            DrawLine(pen, pt1.X, pt1.Y, pt2.X, pt2.Y)
         End Sub
 
         Public Overrides Sub DrawLine(pen As Pen, pt1 As Point, pt2 As Point)
-            Throw New NotImplementedException()
+            DrawLine(pen, pt1.X, pt1.Y, pt2.X, pt2.Y)
         End Sub
 
         Public Overrides Sub DrawLine(pen As Pen, x1 As Integer, y1 As Integer, x2 As Integer, y2 As Integer)
-            Throw New NotImplementedException()
+            DrawLine(pen, x1:=CSng(x1), x2:=CSng(x2), y1:=CSng(y1), y2:=CSng(y2))
         End Sub
 
         Public Overrides Sub DrawLine(pen As Pen, x1 As Single, y1 As Single, x2 As Single, y2 As Single)
-            Throw New NotImplementedException()
+            Dim line As New line With {
+                .x1 = x1,
+                .x2 = x2,
+                .y1 = y1,
+                .y2 = y2,
+                .style = New Stroke(pen).CSSValue
+            }
+            lines += line
         End Sub
 
         Public Overrides Sub DrawLines(pen As Pen, points() As PointF)
-            Throw New NotImplementedException()
+            For Each pt In points.SlideWindows(2)
+                DrawLine(pen, pt(0), pt(1))
+            Next
         End Sub
 
         Public Overrides Sub DrawLines(pen As Pen, points() As Point)
-            Throw New NotImplementedException()
+            For Each pt In points.SlideWindows(2)
+                DrawLine(pen, pt(0), pt(1))
+            Next
         End Sub
 
         Public Overrides Sub DrawPath(pen As Pen, path As GraphicsPath)
-            Throw New NotImplementedException()
+            Dim pathData As New path(path) With {
+                .style = New Stroke(pen).CSSValue
+            }
+            paths += pathData
         End Sub
 
         Public Overrides Sub DrawPie(pen As Pen, rect As Rectangle, startAngle As Single, sweepAngle As Single)
@@ -493,31 +510,50 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub DrawPolygon(pen As Pen, points() As PointF)
-            Throw New NotImplementedException()
+            Dim polygon As New polygon(points) With {
+                .style = New Stroke(pen).CSSValue
+            }
+            polygons += polygon
         End Sub
 
         Public Overrides Sub DrawPolygon(pen As Pen, points() As Point)
-            Throw New NotImplementedException()
+            DrawPolygon(pen, points.Select(Function(pt) pt.PointF).ToArray)
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, rect As Rectangle)
-            Throw New NotImplementedException()
+            Dim rectangle As New rect(rect) With {
+                .style = New Stroke(pen).CSSValue
+            }
+            rects += rectangle
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, x As Single, y As Single, width As Single, height As Single)
-            Throw New NotImplementedException()
+            Dim rectangle As New rect() With {
+                .x = x,
+                .y = y,
+                .width = width,
+                .height = height,
+                .style = New Stroke(pen).CSSValue
+            }
+            rects += rectangle
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, x As Integer, y As Integer, width As Integer, height As Integer)
-            Throw New NotImplementedException()
+            DrawRectangle(pen, CSng(x), CSng(y), CSng(width), CSng(height))
         End Sub
 
         Public Overrides Sub DrawRectangles(pen As Pen, rects() As RectangleF)
-            Throw New NotImplementedException()
+            For Each rect In rects
+                With rect
+                    Call DrawRectangle(pen, .X, .Y, .Width, .Height)
+                End With
+            Next
         End Sub
 
         Public Overrides Sub DrawRectangles(pen As Pen, rects() As Rectangle)
-            Throw New NotImplementedException()
+            For Each rect In rects
+                Call DrawRectangle(pen, rect)
+            Next
         End Sub
 
         Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, point As PointF)
@@ -527,6 +563,12 @@ Namespace SVG
                 .y = point.Y,
                 .style = New CSSFont(font).CSSValue
             }
+
+            If TypeOf brush Is SolidBrush Then
+                Dim color$ = "fill: " & DirectCast(brush, SolidBrush).Color.RGB2Hexadecimal
+                text.style &= color
+            End If
+
             texts += text
         End Sub
 
