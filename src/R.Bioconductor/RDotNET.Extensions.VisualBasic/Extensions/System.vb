@@ -59,6 +59,19 @@ Public Class ExtendedEngine : Inherits REngine
     End Sub
 
 #If DEBUG Then
+    Public Overrides Function Evaluate(statement As String) As SymbolicExpression
+        Try
+            Return MyBase.Evaluate(statement)
+        Catch ex As Exception
+            ex = New Exception(statement, ex)
+
+            App.LogException(ex)
+            Throw ex
+        End Try
+    End Function
+#End If
+
+#If DEBUG Then
     Friend ReadOnly __logs As StreamWriter = (App.CurrentDirectory & $"/{App.PID}_logs.R").OpenWriter(Encodings.ASCII)
 
     Private Sub __cleanHook()

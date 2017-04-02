@@ -24,6 +24,16 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Module CLI
 
     ''' <summary>
+    ''' 绘制GO分析之中的亚细胞定位结果的饼图
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/GO.cellular_location.Plot")>
+    Public Function GO_cellularLocationPlot(args As CommandLine) As Integer
+
+    End Function
+
+    ''' <summary>
     ''' go enrichment 绘图
     ''' </summary>
     ''' <param name="args"></param>
