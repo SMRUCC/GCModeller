@@ -44,7 +44,7 @@ Namespace Imaging
                   Publisher:="xie.guigang@gmail.com",
                   Revision:=58,
                   Url:="http://gcmodeller.org")>
-    Public Module GDIPlusExtensions
+    Public Module GraphicsExtensions
 
         ''' <summary>
         ''' 同时兼容颜色以及图片纹理画刷的创建

@@ -51,7 +51,7 @@ Public Class DrawingModel
         Dim szs As SizeF() = __getSize(texts)
         Dim maxtLen As Integer = szs.Select(Function(x) x.Width).Max
         Dim cl As SolidBrush = New SolidBrush(Color.Black)
-        Dim dh As Integer = GDIPlusExtensions.MeasureString(briefs.First.Name, font).Height / 2
+        Dim dh As Integer = GraphicsExtensions.MeasureString(briefs.First.Name, font).Height / 2
         Dim totalSize As New Size(size.Width + maxtLen * 1.5, size.Height)
 
         Using gdi As Graphics2D = totalSize.CreateGDIDevice
