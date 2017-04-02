@@ -54,7 +54,7 @@ Public MustInherit Class CurvesModel
 
         Using g As IGraphics = source.GdiFromImage
             Call Draw(g, sample, location, size)
-            Return DirectCast(g, GDIPlusDeviceHandle).ImageResource
+            Return DirectCast(g, Graphics2D).ImageResource
         End Using
     End Function
 

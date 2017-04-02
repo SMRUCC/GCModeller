@@ -38,7 +38,7 @@ Namespace ComparativeGenomics
         <DataFrameColumn> Dim Type2Arrow As Boolean = False
 
         Public Function InvokeDrawing(Model As DrawingModel) As Image
-            Dim gdi = GDIPlusDeviceHandle.CreateDevice(New Size(15024, 1000))
+            Dim gdi = Graphics2D.CreateDevice(New Size(15024, 1000))
             Dim Left, Height As Integer
             Dim gDrawHeight As Integer = 85
 

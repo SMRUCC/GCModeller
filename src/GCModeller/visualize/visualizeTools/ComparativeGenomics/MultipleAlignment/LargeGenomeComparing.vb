@@ -60,7 +60,7 @@ Namespace ComparativeAlignment
         <DataFrameColumn("triangle.height")> Dim TrangleHeight As Integer = 100
 
         Private Function __drawing(models As ComparativeGenomics.GenomeModel,
-                                   gdi As GDIPlusDeviceHandle,
+                                   gdi As Graphics2D,
                                    len As Integer,
                                    maxLenTitleSize As Size,
                                    height As Integer,
@@ -177,7 +177,7 @@ Namespace ComparativeAlignment
 
             Dim maxLenTitleSize As Size = model.EnumerateTitles.OrderByDescending(Function(s) Len(s)).First.MeasureString(titleFont) '得到最长的标题字符串作为基本的绘制长度的标准
             Dim devSize As New Size(Margin * 10 + model.Query.Length * InternalConvertFactor + maxLenTitleSize.Width * 2, 5 * Margin + model.aligns.Count * (GenomeInterval + 400))
-            Dim Device As GDIPlusDeviceHandle = devSize.CreateGDIDevice '创建GDI设备
+            Dim Device As Graphics2D = devSize.CreateGDIDevice '创建GDI设备
             Dim Height As Integer = Margin
             Dim Length As Integer = Device.Width - 3 * Margin - maxLenTitleSize.Width + 20  '基因组的绘制区域的长度已经被固定下来了
 

@@ -157,7 +157,7 @@ Namespace CytoscapeGraphView
                 Graph.GetSize(Scale),
                 New Size(Val(Size.Split(CChar(",")).First), Val(Size.Split(CChar(",")).Last)))
 
-            Using gdi As GDIPlusDeviceHandle = _size.CreateGDIDevice
+            Using gdi As Graphics2D = _size.CreateGDIDevice
                 Dim offset As Point = New Point(30, 35)
 
                 Call Size.__DEBUG_ECHO

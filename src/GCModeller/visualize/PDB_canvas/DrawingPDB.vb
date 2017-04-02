@@ -59,7 +59,7 @@ Public Module DrawingPDB
     <ExportAPI("Drawing.Invoke", Info:="Drawing a protein structure from its pdb data.")>
     <Extension>
     Public Function MolDrawing(PDB As PDB, Optional hideAtoms As Boolean = True, Optional DisplayAAID As Boolean = True) As Image
-        Dim Device As GDIPlusDeviceHandle = (New Size(3000, 3000)).CreateGDIDevice
+        Dim Device As Graphics2D = (New Size(3000, 3000)).CreateGDIDevice
         Dim offset As Point = Device.Center
         Dim AASequence As AminoAcid() = PDB.AminoAcidSequenceData
         Dim PreAA As AminoAcid = AASequence.First
@@ -94,7 +94,7 @@ Public Module DrawingPDB
     End Function
 
     <Extension>
-    Private Sub __drawingOfAA(AA As AminoAcid, ByRef pt2d As Point, offset As Point, Device As GDIPlusDeviceHandle, DisplayAAID As Boolean, AAFont As Font, hideAtoms As Boolean)
+    Private Sub __drawingOfAA(AA As AminoAcid, ByRef pt2d As Point, offset As Point, Device As Graphics2D, DisplayAAID As Boolean, AAFont As Font, hideAtoms As Boolean)
         Dim Carbon As Keywords.AtomUnit = AA.Carbon
         Dim pt3d As Drawing3D.Point3D = New Drawing3D.Point3D(Carbon.Location.X * ScaleFactor, Carbon.Location.Y * ScaleFactor, Carbon.Location.Z * ScaleFactor)
         pt2d = pt3d.SpaceToGrid(xRotate:=XRotation, offset:=offset)
