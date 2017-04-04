@@ -181,6 +181,11 @@ Namespace Language
             Next
         End Sub
 
+        ' 这个Add方法会导致一些隐式转换的类型匹配失败，所以删除掉这个方法
+        'Public Overloads Sub Add(data As IEnumerable(Of T))
+        '    Call MyBase.AddRange(data.SafeQuery)
+        'End Sub
+
         ''' <summary>
         ''' Pop all of the elements value in to array from the list object and then clear all of the list data.
         ''' </summary>

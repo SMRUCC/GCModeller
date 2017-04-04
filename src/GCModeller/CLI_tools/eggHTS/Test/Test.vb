@@ -195,8 +195,8 @@ Module Test
             Call GO.SaveTo($"{file.ParentPath}/GO/{name}.csv")
             Call KEGG.SaveTo($"{file.ParentPath}/KEGG_PATH/{name}.csv")
 
-            Call GO.EnrichmentPlot().SaveAs($"{file.ParentPath}/GO/{name}-enrichment.png")
-            Call KEGG.KEGGEnrichmentPlot(size:=New Size(1000, 750)).SaveAs($"{file.ParentPath}/KEGG_PATH/{name}-enrichment.png")
+            Call GO.EnrichmentPlot().Save($"{file.ParentPath}/GO/{name}-enrichment.png")
+            Call KEGG.KEGGEnrichmentPlot(size:=New Size(1000, 750)).Save($"{file.ParentPath}/KEGG_PATH/{name}-enrichment.png")
 
 
         Next

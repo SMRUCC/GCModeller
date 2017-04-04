@@ -205,7 +205,7 @@ Partial Module CLI
                             xAxis:=xAxis,
                             serialTitle:=lTitle,
                             color:=color) _
-            .SaveAs(out) _
+            .Save(out) _
             .CLICode
     End Function
 
@@ -220,7 +220,7 @@ Partial Module CLI
                                 padding:="padding: 50 50 150 150",
                                 displayLabel:=LabelTypes.None,
                                 size:=size) _
-            .SaveAs(out) _
+            .Save(out) _
             .CLICode
     End Function
 End Module

@@ -10,6 +10,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -279,7 +280,7 @@ Partial Module CLI
         Dim ptSize! = args.GetValue("/pt.Size", 8.0!)
         Dim legendFontSize! = args.GetValue("/legend.fontsize", 20.0#)
         Dim legendSize As Size = args.GetValue("/legend.size", New Size(100, 30))
-        Dim res As Image = {
+        Dim res As GraphicsData = {
             ScatterSerials(File.Load([in]), pi, mw, color, ptSize)
         }.Plot(size:=size,
                drawLine:=False,
@@ -297,6 +298,6 @@ Partial Module CLI
                    .width = 2
                })
 
-        Return res.SaveAs(out).CLICode
+        Return res.Save(out).CLICode
     End Function
 End Module

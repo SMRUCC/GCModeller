@@ -1,5 +1,5 @@
 ﻿Imports System.Text
-Imports Microsoft.VisualBasic.Terminal.STDIO__
+Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Terminal
 
 Namespace IO

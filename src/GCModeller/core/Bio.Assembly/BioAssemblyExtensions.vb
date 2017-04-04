@@ -182,7 +182,7 @@ Public Module BioAssemblyExtensions
         Dim Groups As New Dictionary(Of Integer, List(Of Contig))
         Dim idx As int = 1
 
-        For Each loci As NucleotideModels.Contig In contigs
+        For Each loci As Contig In contigs
             Dim equalContig As Func(Of IEnumerable(Of Contig), Contig) =
                 Function(value) LinqAPI.DefaultFirst(Of Contig) <= From site As Contig
                                                                    In value
@@ -200,7 +200,7 @@ Public Module BioAssemblyExtensions
                 Call Groups.Add(++idx, New List(Of Contig) From {loci})      ' 新的分组
             Else
                 Dim lst As List(Of Contig) = Groups(hash)
-                Call lst.Add(loci)
+                Call lst.Add(item:=loci)
             End If
         Next
 

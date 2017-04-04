@@ -31,6 +31,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -159,7 +160,7 @@ Public Module KEGGOrthology
                          Optional titleFontStyle$ = CSSFont.PlotTitle,
                          Optional valueFontStyle$ = CSSFont.Win7Bold,
                          Optional tickFontStyle$ = CSSFont.Win7LargerBold,
-                         Optional tick% = 50) As Bitmap
+                         Optional tick% = 50) As GraphicsData
 
         Static KO_class$() = {
             "Cellular Processes",
@@ -179,7 +180,7 @@ Public Module KEGGOrthology
     End Function
 
     <Extension>
-    Public Function KEGGEnrichmentPlot(result As IEnumerable(Of FunctionCluster), Optional size As Size = Nothing) As Bitmap
+    Public Function KEGGEnrichmentPlot(result As IEnumerable(Of FunctionCluster), Optional size As Size = Nothing) As GraphicsData
         Dim data As NamedValue(Of Double)() = result _
             .Select(Function(x) New NamedValue(Of Double) With {
                 .Name = x.Term.GetTagValue(":", trim:=True).Value,
@@ -200,7 +201,7 @@ Public Module KEGGOrthology
                                        Optional pvalue# = 0.05,
                                        Optional tick# = 1,
                                        Optional gray As Boolean = False,
-                                       Optional labelRightAlignment As Boolean = False) As Bitmap
+                                       Optional labelRightAlignment As Boolean = False) As GraphicsData
         Dim pathwayBrite = Pathway.LoadDictionary
         Dim profiles As New Dictionary(Of String, List(Of NamedValue(Of Double)))
         Dim catalog As Pathway

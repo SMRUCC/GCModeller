@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
@@ -114,18 +115,18 @@ Public Class Mapping : Implements System.IDisposable
 
         For i As Integer = 0 To Effectors.Count - 1
             Dim Effector = Effectors(i)
-            Dim LQuery = (From Compound In Compounds.AsParallel Where IsEqually(Effector, Compound) Select Compound).ToArray
+            Dim LQuery = (From cpd As Compounds In Compounds.AsParallel Where IsEqually(Effector, cpd) Select cpd).ToArray
             Dim CommonNames As New List(Of String)(Effector.EffectorAlias)
 
             If Not LQuery.IsNullOrEmpty Then '在MetaCyc数据库之中查询到了相对应的记录数据
                 Dim Compound = LQuery.First
 
-                Effector.MetaCycId = Compound.Identifier.ToUpper
-                Call CommonNames.Add(Compound.CommonName)
+                'Effector.MetaCycId = Compound.Identifier.ToUpper
+                'Call CommonNames.Add(Compound.CommonName)
 
-                If Not Compound.Synonyms.IsNullOrEmpty Then
-                    Call CommonNames.AddRange(Compound.Synonyms)
-                End If
+                'If Not Compound.Synonyms.IsNullOrEmpty Then
+                '    Call CommonNames.AddRange(Compound.Synonyms)
+                'End If
             Else '没有在MetaCyc数据库之中查询到相对应的记录数据，则尝试在SBML代谢物列表中进行查询
                 Dim SBMLQuery = (From Metabolite In Me.SBMLMetabolite.AsParallel Where IsEqually(Effector, Metabolite) Select Metabolite).ToArray
 

@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports SMRUCC.genomics.Analysis.SequenceTools
@@ -83,11 +84,11 @@ Partial Module CLI
         Dim len# = args.GetDouble("/len")
         Dim step! = args.GetValue("/step", 10.0!)
         Dim data = [in].LoadCsv(Of PalindromeLoci)
-        Dim histPlot As Bitmap = data _
+        Dim histPlot As GraphicsData = data _
             .Select(Function(s) s.Start - len) _
             .HistogramPlot([step], serialsTitle:="Frequency(loci.start)", xlabel:="Palindrome loci")
 
-        Return histPlot.SaveAs(out).CLICode
+        Return histPlot.Save(out).CLICode
     End Function
 
     Public Function BinaryKmeans(seq As FastaFile, Optional cutoff# = 0.65, Optional minW% = 6, Optional parallelDepth% = 5) As EntityLDM()

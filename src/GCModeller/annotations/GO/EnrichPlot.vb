@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.Scripting
@@ -50,7 +50,7 @@ Public Module EnrichPlot
                                Optional displays% = 10,
                                Optional titleFontCSS$ = CSSFont.PlotTitle,
                                Optional title$ = "GO enrichment",
-                               Optional bubbleBorder As Boolean = True) As Image
+                               Optional bubbleBorder As Boolean = True) As GraphicsData
 
         Dim enrichResult = data.EnrichResult(GO_terms)
         Dim colors As Color() = Designer.GetColors(enrichColorSchema).Alpha(240)
@@ -119,7 +119,7 @@ Public Module EnrichPlot
     ''' <param name="legendFontStyle$"></param>
     ''' <param name="r">点的半径大小的计算公式</param>
     <Extension>
-    Private Sub __plotInternal(g As Graphics,
+    Private Sub __plotInternal(g As IGraphics,
                                region As GraphicsRegion,
                                result As Dictionary(Of String, EnrichmentTerm()),
                                unenrich As Color,
@@ -154,7 +154,7 @@ Public Module EnrichPlot
             }
         End If
 
-        Dim plot As Bitmap = Bubble.Plot(
+        Dim plot As GraphicsData = Bubble.Plot(
             serials,
             padding:="padding: 100 100 150 150",
             size:=New Size(region.Size.Width * 0.85, region.Size.Height),

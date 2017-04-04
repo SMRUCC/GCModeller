@@ -28,13 +28,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.FASTA.FastaFile
 
 Namespace Pattern
 
@@ -70,8 +67,7 @@ Namespace Pattern
                                              In Match(Seq.SequenceData, pattern)
                                              Select Segment.ToRow).ToArray).ToArray
             Dim Head As RowObject = {Seq.ToString}, Count As RowObject = {"Hits count:", CStr(LQuery.Count)}
-            Dim RowList As List(Of RowObject) =
-                New List(Of RowObject) From {Head, Count}
+            Dim RowList As New List(Of RowObject) From {Head, Count}
 
             If LQuery.Length = 0 Then
                 Return Nothing
