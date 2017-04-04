@@ -33,8 +33,9 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.MIME.Markup.HTML
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Scripting
 
-Namespace SVG
+Namespace SVG.XML
 
     ''' <summary>
     ''' The basically SVG XML document node, it can be tweaks on the style by using CSS
@@ -63,10 +64,19 @@ Namespace SVG
     End Class
 
     Public Class circle : Inherits node
+
         <XmlAttribute> Public Property cy As Single
         <XmlAttribute> Public Property cx As Single
         <XmlAttribute> Public Property r As Single
+
         Public Property title As title
+
+        Public Shared Operator +(c As circle, offset As PointF) As circle
+            c = DirectCast(c.MemberwiseClone, circle)
+            c.cx += offset.X
+            c.cy += offset.Y
+            Return c
+        End Operator
     End Class
 
     ''' <summary>
@@ -79,13 +89,37 @@ Namespace SVG
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property points As String()
+            Get
+                Return cache
+            End Get
+            Set(value As String())
+                cache = value
+                data = value.Select(AddressOf FloatPointParser).ToArray
+            End Set
+        End Property
+
+        Dim data As PointF()
+        Dim cache$()
 
         Sub New()
         End Sub
 
         Sub New(pts As IEnumerable(Of PointF))
-            points = pts.Select(Function(pt) $"{pt.X},{pt.Y}").ToArray
+            data = pts.ToArray
+            cache = data.Select(Function(pt) $"{pt.X},{pt.Y}").ToArray
         End Sub
+
+        Public Shared Operator +(polygon As polygon, offset As PointF) As polygon
+            Dim points As PointF() = polygon _
+                .data _
+                .Select(Function(pt) New PointF(pt.X + offset.X, pt.Y + offset.Y)) _
+                .ToArray
+            Return New polygon(points) With {
+                .style = polygon.style,
+                .id = polygon.id,
+                .class = polygon.class
+            }
+        End Operator
     End Class
 
     ''' <summary>
@@ -109,6 +143,13 @@ Namespace SVG
                 .y = rect.Y
             End With
         End Sub
+
+        Public Shared Operator +(rect As rect, offset As PointF) As rect
+            rect = DirectCast(rect.MemberwiseClone(), rect)
+            rect.x += offset.X
+            rect.y += offset.Y
+            Return rect
+        End Operator
     End Class
 
     ''' <summary>
@@ -149,16 +190,39 @@ Namespace SVG
             Call sb.Append("Z")
             d = sb.ToString
         End Sub
+
+        Public Shared Operator +(path As path, offset As PointF) As path
+            Dim data = path.d.Split
+            path = DirectCast(path.MemberwiseClone, path)
+
+            ' 这里该如何进行偏移？
+
+            Return path
+        End Operator
     End Class
 
     ''' <summary>
     ''' 一个线段对象
     ''' </summary>
     Public Class line : Inherits node
+
         <XmlAttribute> Public Property y2 As Single
         <XmlAttribute> Public Property x2 As Single
         <XmlAttribute> Public Property y1 As Single
         <XmlAttribute> Public Property x1 As Single
+
+        Public Shared Operator +(line As line, offset As PointF) As line
+            line = DirectCast(line.MemberwiseClone, line)
+
+            With line
+                .x1 += offset.X
+                .x2 += offset.X
+                .y1 += offset.Y
+                .y2 += offset.Y
+
+                Return line
+            End With
+        End Operator
     End Class
 
     ''' <summary>
@@ -183,6 +247,13 @@ Namespace SVG
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property x As String
+
+        Public Shared Operator +(text As text, offset As PointF) As text
+            text = DirectCast(text.MemberwiseClone, text)
+            text.x += offset.X
+            text.y += offset.Y
+            Return text
+        End Operator
     End Class
 
     ''' <summary>

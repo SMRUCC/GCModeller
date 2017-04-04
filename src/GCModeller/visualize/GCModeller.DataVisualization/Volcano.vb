@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::e724834206f0cd5fa6958a418e76e075, ..\visualize\GCModeller.DataVisualization\Volcano.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting
@@ -59,7 +60,7 @@ Public Module Volcano
                              Optional pvalue$ = "P.value",
                              Optional displayLabel As LabelTypes = LabelTypes.None,
                              Optional labelFontStyle$ = CSSFont.PlotTitle,
-                             Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As Bitmap
+                             Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
 
         Return genes.PlotDEGs(
             x:=Function(gene) gene(logFC).ParseNumeric,
@@ -83,7 +84,7 @@ Public Module Volcano
                                    Optional bg$ = "white",
                                    Optional displayLabel As LabelTypes = LabelTypes.None,
                                    Optional labelFontStyle$ = CSSFont.Win10Normal,
-                                   Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As Bitmap
+                                   Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
 
         Dim factor As Func(Of DEGModel, Integer) =
             Function(DEG)
@@ -134,7 +135,7 @@ Public Module Volcano
                          Optional displayLabel As LabelTypes = LabelTypes.None,
                          Optional labelFontStyle$ = CSSFont.PlotTitle,
                          Optional legendFont$ = CSSFont.UbuntuNormal,
-                         Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As Bitmap
+                         Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
 
         If translate Is Nothing Then
             translate = Function(pvalue) -Math.Log10(pvalue)
@@ -157,12 +158,12 @@ Public Module Volcano
 
         Return g.Allocate(size, padding, bg) <=
  _
-            Sub(ByRef g As Graphics, region As GraphicsRegion)
+            Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
                 Dim scalling = scaler.TupleScaler(region)
                 Dim labelFont As Font = CSSFont.TryParse(labelFontStyle)
                 Dim lbSize As SizeF
-                Dim gdi As Graphics = g
+                Dim gdi As IGraphics = g
                 Dim __drawLabel = Sub(label$, point As PointF)
                                       lbSize = gdi.MeasureString(label, labelFont)
                                       Call gdi.DrawString(label, labelFont, black, New PointF(point.X - lbSize.Width / 2, point.Y + ptSize))

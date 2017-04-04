@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::86dde9961433d7d6bcfa46386292a4a0, ..\visualize\GCModeller.DataVisualization\CatalogProfiling\CatalogProfiling.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,8 +33,10 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -96,7 +98,7 @@ Public Module CatalogProfiling
                                  Optional tick# = 50,
                                  Optional removeNotAssign As Boolean = True,
                                  Optional gray As Boolean = False,
-                                 Optional labelRightAlignment As Boolean = False) As Bitmap
+                                 Optional labelRightAlignment As Boolean = False) As GraphicsData
 
         If removeNotAssign AndAlso profile.ContainsKey(NOT_ASSIGN) Then
             profile = New Dictionary(Of String, NamedValue(Of Double)())(profile)
@@ -114,20 +116,20 @@ Public Module CatalogProfiling
             size = New Size(2200, 2000)
         End If
 
-        Return g.GraphicsPlots(
-            size, padding,
-            bg,
-            Sub(ByRef g, region)
+        Dim plotInternal =
+            Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Call g.__plotInternal(
-                    region, profile, title,
-                    colors,
-                    titleFontStyle, catalogFontStyle, classFontStyle, valueFontStyle,
-                    New Mapper(mapper, ignoreAxis:=True),
-                    tickFontStyle, tick,
-                    axisTitle,
-                    gray:=gray,
-                    labelAlignmentRight:=labelRightAlignment)
-            End Sub)
+                   region, profile, title,
+                   colors,
+                   titleFontStyle, catalogFontStyle, classFontStyle, valueFontStyle,
+                   New Mapper(mapper, ignoreAxis:=True),
+                   tickFontStyle, tick,
+                   axisTitle,
+                   gray:=gray,
+                   labelAlignmentRight:=labelRightAlignment)
+            End Sub
+
+        Return g.GraphicsPlots(size, padding, bg, plotInternal)
     End Function
 
     ''' <summary>
@@ -148,7 +150,7 @@ Public Module CatalogProfiling
     ''' <param name="axisTitle$"></param>
     ''' <param name="gray">条形图使用灰色的颜色，不再根据分类而产生不同颜色了</param>
     <Extension>
-    Private Sub __plotInternal(ByRef g As Graphics, region As GraphicsRegion,
+    Private Sub __plotInternal(ByRef g As IGraphics, region As GraphicsRegion,
                                profile As Dictionary(Of String, NamedValue(Of Double)()),
                                title$,
                                colors As Color(),

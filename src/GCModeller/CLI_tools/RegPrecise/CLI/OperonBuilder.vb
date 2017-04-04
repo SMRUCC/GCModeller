@@ -311,24 +311,24 @@ Partial Module CLI
             g = source.First
 
             Do While True
-                Dim rm = (From x In source Where String.Equals(x.node.Identifier, g.node.Identifier) Select x).FirstOrDefault
+                Dim rm = (From x In source Where String.Equals(x.node.ID, g.node.ID) Select x).FirstOrDefault
                 If Not rm Is Nothing Then '  由于Next元素是新构建出来的，指针的位置不对，所以不能够直接使用remove方法移除
                     Call source.Remove(rm)
                 End If
-                gl += g.node.Identifier
+                gl += g.node.ID
                 g = g.Next
                 If g.node Is Nothing Then  ' 到头了，已经没有任何元素了
                     Exit Do
                 End If
-                If -1 = locus.IndexOf(g.node.Identifier) Then  ' 在列表里面不存在，则可能是中间的某一个元素由于进化较远bbh没有比对上，这里是一个缺口，
+                If -1 = locus.IndexOf(g.node.ID) Then  ' 在列表里面不存在，则可能是中间的某一个元素由于进化较远bbh没有比对上，这里是一个缺口，
                     g = g.Next                                 ' 但是后面可能还存在基因的， 试着比较一下下一个基因是否存在
                     If g Is Nothing OrElse g.node Is Nothing Then
                         Exit Do
                     End If
-                    If -1 = locus.IndexOf(g.node.Identifier) Then
+                    If -1 = locus.IndexOf(g.node.ID) Then
                         Exit Do
                     Else
-                        gl += g.Previous.node.Identifier
+                        gl += g.Previous.node.ID
                     End If
                 End If
             Loop

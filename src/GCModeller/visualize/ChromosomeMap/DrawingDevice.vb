@@ -1,33 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::65f007d1d0022e45551ac3609606f80f, ..\visualize\ChromosomeMap\DrawingDevice.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
@@ -135,7 +137,7 @@ Public Class DrawingDevice
         End If
     End Sub
 
-    Public Function InvokeDrawing(model As DrawingModels.ChromesomeDrawingModel) As Bitmap()
+    Public Function InvokeDrawing(model As DrawingModels.ChromesomeDrawingModel) As GraphicsData()
 
         Call model.ToString.__DEBUG_ECHO
 
@@ -158,15 +160,16 @@ Public Class DrawingDevice
         End Try
     End Function
 
-    Private Function __invokeDrawing(ObjectModel As DrawingModels.ChromesomeDrawingModel) As Bitmap()
-        Dim imageList As New List(Of Bitmap)
-        Dim startLen As Integer = 0, geneID As Integer = 0
-        Dim First As Boolean = True
+    Private Function __invokeDrawing(chr As ChromesomeDrawingModel) As GraphicsData()
+        Dim imageList As New List(Of GraphicsData)
+        Dim __args As New __args With {
+            .isFirst = True
+        }
 
-        Do While geneID < ObjectModel.GeneObjects.Count
-            imageList += __chrMapDrawerProcessor(ObjectModel, startLen, geneID, First)
+        Do While __args.locus < chr.GeneObjects.Length
+            imageList += __chrMapDrawerProcessor(chr, __args)
 
-            If startLen = 0 Then  '当基因组的序列太短的时候，会出现死循环，并且startlength参数的值没有被改变，为0
+            If __args.startLen = 0 Then  '当基因组的序列太短的时候，会出现死循环，并且startlength参数的值没有被改变，为0
                 Exit Do
             Else
                 '  First = False
@@ -179,143 +182,142 @@ Public Class DrawingDevice
     Const GDI_PLUS_UNHANDLE_EXCEPTION As String = "DataVisualization program crash due to an unexpected exception and a part of the data drawing is not accomplished."
     Const GDI_PLUS_MEMORY_EXCEPTION As String = "It seems the image resolution can not be hold on this computer because the free memory is not reach the requirements of the GDI+ to drawing such a big image file."
 
-    Private Function __chrMapDrawerProcessor(LDM As DrawingModels.ChromesomeDrawingModel,
-                                             ByRef startLen%,
-                                             ByRef locus%,
-                                             isFirst As Boolean) As Bitmap
+    ''' <summary>
+    ''' 因为调用函数<see cref="__invokeDrawing"/>还需要根据<see cref="__chrMapDrawerProcessor"/>的处理情况来判断结束条件
+    ''' </summary>
+    Private Class __args
+        Public startLen%
+        Public locus%
+        Public isFirst As Boolean
+    End Class
 
-        Dim FlagLength As Integer = _Conf.FlagLength, FlagHeight As Integer = _Conf.FLAG_HEIGHT
-        Dim g As Graphics2D
+    Private Function __chrMapDrawerProcessor(chr As ChromesomeDrawingModel, __args As __args) As GraphicsData
+        Dim plotInternal =
+            Sub(ByRef g As IGraphics, region As GraphicsRegion)
+                Dim FlagLength As Integer = _Conf.FlagLength, FlagHeight As Integer = _Conf.FLAG_HEIGHT
+                Dim Height As Integer
+                Dim Line As Integer = 0
+                Dim strFlagFont = New Font("Ubuntu", 64, FontStyle.Bold)
+                Dim NextLength As Integer = __args.startLen + _UnitLength
+                Dim LinePen = New Pen(Brushes.Black, 10)
+                Dim PreRight As Integer
+                Dim Level As Integer
+                Dim ExitFor As Boolean = False
+                Dim _Start_Length = __args.startLen
+                Dim FF As Boolean = False
+                Dim ChangeLine =
+                    Function() As Boolean
+                        If __args.isFirst Then
+                            Height = Line * SPLIT_HEIGHT + MARGIN
+                        Else
+                            If FF Then
+                                Height = Line * SPLIT_HEIGHT + MARGIN
+                            End If
+                        End If
+
+                        If Height > _Height - MARGIN Then
+                            ExitFor = True
+                        End If
+
+                        Line += 1
+
+                        Return ExitFor
+                    End Function
+                Dim RightEnd As Integer = _Width - 2 * MARGIN
+
+                Call ChangeLine()
+                If __args.isFirst Then
+                    Call __drawRuleLine(gdi:=g.Graphics,
+                                          Height:=Height,
+                                          Line:=Line,
+                                          LinePen:=LinePen,
+                                          strFlagFont:=strFlagFont,
+                                          RightEnd:=RightEnd,
+                                          ChromesomeLength:=chr.Size)
+                    Call __drawChromosomeSites(chr,
+                                                   _start_Length:=_Start_Length,
+                                                   FlagHeight:=FlagHeight,
+                                                   FlagLength:=FlagLength,
+                                                   GrDevice:=g.Graphics,
+                                                   Height:=Height,
+                                                   NextLength:=NextLength, scale:=_ScaleFactor)
+                End If
+
+                '    Dim PreDrawingRight As Integer
+
+                For __args.locus = __args.locus To chr.GeneObjects.Length - 1
+                    Dim gene As SegmentObject = chr.GeneObjects(__args.locus)
+
+                    If Gene.Left > NextLength Then
+                        FF = True  '这个变量确保能够正确的换行，不可以修改值以及顺序！~
+                        ExitFor = ChangeLine()
+
+                        If ExitFor Then
+                            _Start_Length = NextLength
+                            Exit For
+                        End If
+
+                        If NextLength >= chr.Size Then
+                            RightEnd = _Width - (NextLength - chr.Size) * _ScaleFactor - 2 * MARGIN
+                        End If
+
+                        Call __drawRuleLine(gdi:=g,
+                                              Height:=Height,
+                                              Line:=Line,
+                                              LinePen:=LinePen,
+                                              strFlagFont:=strFlagFont,
+                                              RightEnd:=RightEnd,
+                                              ChromesomeLength:=chr.Size)
+
+                        _Start_Length = NextLength
+                        NextLength = NextLength + _UnitLength
+
+                        Call __drawChromosomeSites(ObjectModel:=chr,
+                                                       _start_Length:=_Start_Length,
+                                                       FlagHeight:=FlagHeight,
+                                                       FlagLength:=FlagLength,
+                                                       GrDevice:=g,
+                                                       Height:=Height,
+                                                       NextLength:=NextLength,
+                                                       scale:=_ScaleFactor)       '每换一行则首先绘制突变数据
+                    End If
+
+                    If Gene.Left < PreRight Then
+                        Level += 1
+                    Else
+                        Level = 0
+                    End If
+
+                    If Gene.Left > PreRight Then PreRight = Gene.Right
+
+                    Gene.Height = _Conf.GeneObjectHeight
+
+                    Dim drawingLociLeft As Integer = (Gene.Left - _Start_Length) * _ScaleFactor + MARGIN
+                    Dim drawingSize = gene.Draw(g:=g,
+                                                    location:=New Point(drawingLociLeft, Height + 100 + Level * 110),
+                                                    factor:=_ScaleFactor,
+                                                    RightLimited:=RightEnd,
+                                                    conf:=Me._Conf)
+                Next
+
+                __args.startLen = _Start_Length
+
+                If _Conf.AddLegend Then
+                    Call g.Graphics.DrawingCOGColors(
+                        chr.COGs,
+                        ref:=New Point(MARGIN, _Height),
+                        legendFont:=_Conf.LegendFont,
+                        width:=_Width,
+                        margin:=MARGIN)
+                End If
+            End Sub
 
         Call $"Resolution is {_Width}, {_Height}".__DEBUG_ECHO
 
-        Try
-            g = New Size(_Width, _Height).CreateGDIDevice
-        Catch ex As Exception
-            ex = New Exception($"Resolution is {_Width}, {_Height}", ex)
-            ex = New Exception(GDI_PLUS_MEMORY_EXCEPTION, ex)
-
-            Throw ex
-        End Try
-
-        Dim Height As Integer
-        Dim Line As Integer = 0
-        Dim strFlagFont = New Font("Ubuntu", 64, FontStyle.Bold)
-        Dim NextLength As Integer = startLen + _UnitLength
-        Dim LinePen = New Pen(Brushes.Black, 10)
-        Dim PreRight As Integer
-        Dim Level As Integer
-        Dim ExitFor As Boolean = False
-        Dim _Start_Length = startLen
-        Dim FF As Boolean = False
-        Dim ChangeLine = Function() As Boolean
-                             If isFirst Then
-                                 Height = Line * SPLIT_HEIGHT + MARGIN
-                             Else
-                                 If FF Then
-                                     Height = Line * SPLIT_HEIGHT + MARGIN
-                                 End If
-                             End If
-
-                             If Height > _Height - MARGIN Then
-                                 ExitFor = True
-                             End If
-
-                             Line += 1
-
-                             Return ExitFor
-                         End Function
-        Dim RightEnd As Integer = _Width - 2 * MARGIN
-
-        Call ChangeLine()
-        If isFirst Then
-            Call __drawRuleLine(gdi:=g.Graphics,
-                                  Height:=Height,
-                                  Line:=Line,
-                                  LinePen:=LinePen,
-                                  strFlagFont:=strFlagFont,
-                                  RightEnd:=RightEnd,
-                                  ChromesomeLength:=LDM.Size)
-            Call __drawChromosomeSites(LDM,
-                                           _start_Length:=_Start_Length,
-                                           FlagHeight:=FlagHeight,
-                                           FlagLength:=FlagLength,
-                                           GrDevice:=g.Graphics,
-                                           Height:=Height,
-                                           NextLength:=NextLength, scale:=_ScaleFactor)
-        End If
-
-        '    Dim PreDrawingRight As Integer
-
-        For locus = locus To LDM.GeneObjects.Length - 1
-            Dim Gene As DrawingModels.SegmentObject = LDM.GeneObjects(locus)
-
-            If Gene.Left > NextLength Then
-                FF = True  '这个变量确保能够正确的换行，不可以修改值以及顺序！~
-                ExitFor = ChangeLine()
-
-                If ExitFor Then
-                    _Start_Length = NextLength
-                    Exit For
-                End If
-
-                If NextLength >= LDM.Size Then
-                    RightEnd = _Width - (NextLength - LDM.Size) * _ScaleFactor - 2 * MARGIN
-                End If
-
-                Call __drawRuleLine(gdi:=g.Graphics,
-                                      Height:=Height,
-                                      Line:=Line,
-                                      LinePen:=LinePen,
-                                      strFlagFont:=strFlagFont,
-                                      RightEnd:=RightEnd,
-                                      ChromesomeLength:=LDM.Size)
-
-                _Start_Length = NextLength
-                NextLength = NextLength + _UnitLength
-
-                Call __drawChromosomeSites(ObjectModel:=LDM,
-                                               _start_Length:=_Start_Length,
-                                               FlagHeight:=FlagHeight,
-                                               FlagLength:=FlagLength,
-                                               GrDevice:=g.Graphics,
-                                               Height:=Height,
-                                               NextLength:=NextLength,
-                                               scale:=_ScaleFactor)       '每换一行则首先绘制突变数据
-            End If
-
-            If Gene.Left < PreRight Then
-                Level += 1
-            Else
-                Level = 0
-            End If
-
-            If Gene.Left > PreRight Then PreRight = Gene.Right
-
-            Gene.Height = _Conf.GeneObjectHeight
-
-            Dim drawingLociLeft As Integer = (Gene.Left - _Start_Length) * _ScaleFactor + MARGIN
-            Dim drawingSize = Gene.Draw(g:=g.Graphics,
-                                            location:=New Point(drawingLociLeft, Height + 100 + Level * 110),
-                                            factor:=_ScaleFactor,
-                                            RightLimited:=RightEnd,
-                                            conf:=Me._Conf)
-        Next
-
-        startLen = _Start_Length
-
-        If _Conf.AddLegend Then
-            Call g.Graphics.DrawingCOGColors(
-                LDM.COGs,
-                ref:=New Point(MARGIN, _Height),
-                legendFont:=_Conf.LegendFont,
-                width:=_Width,
-                margin:=MARGIN)
-        End If
-        Return g.ImageResource
+        Return g.GraphicsPlots(New Size(_Width, _Height), g.DefaultPadding, "white", plotInternal)
     End Function
 
-    Private Sub __drawRuleLine(gdi As Graphics,
+    Private Sub __drawRuleLine(gdi As IGraphics,
                                    ByRef Height As Integer,
                                    ByRef Line As Integer,
                                    LinePen As Pen,

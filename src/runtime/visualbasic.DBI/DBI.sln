@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25402.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LibMySQL", "LibMySQL\LibMySQL.vbproj", "{2C34A044-1BDE-44E8-A86E-E9971C87DA21}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SQLite_Interface", "SQLite_Interface\SQLite_Interface.vbproj", "{67EAFC15-2237-494E-85D9-206E5BF71EF4}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+Microsoft.VisualBasic.Architecture.Framework", "..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj", "{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CodeSolution", "CodeSolution\CodeSolution.vbproj", "{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -150,6 +152,36 @@ Global
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Release2|x64.Build.0 = Release2|x64
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Release2|x86.ActiveCfg = Release2|x86
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}.Release2|x86.Build.0 = Release2|x86
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Debug|x64.ActiveCfg = Debug|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Debug|x64.Build.0 = Debug|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Debug|x86.Build.0 = Debug|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.docs|x64.ActiveCfg = Debug|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.docs|x64.Build.0 = Debug|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.docs|x86.ActiveCfg = Debug|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.docs|x86.Build.0 = Debug|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Publish|Any CPU.Build.0 = Publish|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Publish|x64.ActiveCfg = Release|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Publish|x64.Build.0 = Release|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Publish|x86.ActiveCfg = Release|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Publish|x86.Build.0 = Release|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Release|x64.ActiveCfg = Release|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Release|x64.Build.0 = Release|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Release|x86.ActiveCfg = Release|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Release|x86.Build.0 = Release|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Release2|Any CPU.ActiveCfg = Release|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Release2|Any CPU.Build.0 = Release|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Release2|x64.ActiveCfg = Release|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Release2|x64.Build.0 = Release|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Release2|x86.ActiveCfg = Release|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Release2|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

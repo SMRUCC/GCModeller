@@ -1,4 +1,4 @@
-﻿Imports Microsoft.VisualBasic.Terminal.STDIO__
+﻿Imports Microsoft.VisualBasic.Language.C
 
 Namespace System
 
