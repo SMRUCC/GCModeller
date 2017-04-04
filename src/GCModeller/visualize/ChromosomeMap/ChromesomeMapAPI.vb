@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::442436b4294b052c6399e2563a078c27, ..\visualize\ChromosomeMap\ChromesomeMapAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.ListExtensions
@@ -42,6 +43,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
@@ -134,15 +136,17 @@ Public Module ChromesomeMapAPI
     End Function
 
     <ExportAPI("Add.Loci_Sites")>
-    Public Function AddLociSites(model As ChromesomeDrawingModel, data As IEnumerable(Of SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentObject)) As ChromesomeDrawingModel
-        Dim Locis = (From site As SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentObject
-                     In data
-                     Select New DrawingModels.Loci With {
-                         .SiteName = site.Title,
-                         .SequenceData = site.SequenceData,
-                         .Right = site.Right,
-                         .Left = site.Left,
-                         .Color = Color.Black}).ToArray
+    Public Function AddLociSites(model As ChromesomeDrawingModel, data As IEnumerable(Of NucleotideModels.SegmentObject)) As ChromesomeDrawingModel
+        Dim Locis = LinqAPI.Exec(Of DrawingModels.Loci) <=
+            From site As NucleotideModels.SegmentObject
+            In data
+            Select New DrawingModels.Loci With {
+                .SiteName = site.Title,
+                .SequenceData = site.SequenceData,
+                .Right = site.Right,
+                .Left = site.Left,
+                .Color = Color.Black
+            }
         model.Loci = Locis
         Return model
     End Function
@@ -150,7 +154,7 @@ Public Module ChromesomeMapAPI
     <ExportAPI("Device.Invoke_Drawing")>
     Public Function InvokeDrawing(<Parameter("Gr.Device")> Device As DrawingDevice,
                                   <Parameter("Chr.Gr.Model", "The drawing object which was represents the bacteria genome chromosomes.")>
-                                  Model As ChromesomeDrawingModel) As Bitmap()
+                                  Model As ChromesomeDrawingModel) As GraphicsData()
         Return Device.InvokeDrawing(Model)
     End Function
 

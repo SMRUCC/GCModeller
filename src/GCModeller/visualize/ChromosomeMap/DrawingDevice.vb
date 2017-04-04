@@ -227,7 +227,7 @@ Public Class DrawingDevice
 
                 Call ChangeLine()
                 If __args.isFirst Then
-                    Call __drawRuleLine(gdi:=g.Graphics,
+                    Call __drawRuleLine(g,
                                           Height:=Height,
                                           Line:=Line,
                                           LinePen:=LinePen,
@@ -238,7 +238,7 @@ Public Class DrawingDevice
                                                    _start_Length:=_Start_Length,
                                                    FlagHeight:=FlagHeight,
                                                    FlagLength:=FlagLength,
-                                                   GrDevice:=g.Graphics,
+                                                   GrDevice:=g,
                                                    Height:=Height,
                                                    NextLength:=NextLength, scale:=_ScaleFactor)
                 End If
@@ -261,7 +261,7 @@ Public Class DrawingDevice
                             RightEnd = _Width - (NextLength - chr.Size) * _ScaleFactor - 2 * MARGIN
                         End If
 
-                        Call __drawRuleLine(gdi:=g,
+                        Call __drawRuleLine(g:=g,
                                               Height:=Height,
                                               Line:=Line,
                                               LinePen:=LinePen,
@@ -272,7 +272,7 @@ Public Class DrawingDevice
                         _Start_Length = NextLength
                         NextLength = NextLength + _UnitLength
 
-                        Call __drawChromosomeSites(ObjectModel:=chr,
+                        Call __drawChromosomeSites(chr,
                                                        _start_Length:=_Start_Length,
                                                        FlagHeight:=FlagHeight,
                                                        FlagLength:=FlagLength,
@@ -282,17 +282,17 @@ Public Class DrawingDevice
                                                        scale:=_ScaleFactor)       '每换一行则首先绘制突变数据
                     End If
 
-                    If Gene.Left < PreRight Then
+                    If gene.Left < PreRight Then
                         Level += 1
                     Else
                         Level = 0
                     End If
 
-                    If Gene.Left > PreRight Then PreRight = Gene.Right
+                    If gene.Left > PreRight Then PreRight = gene.Right
 
-                    Gene.Height = _Conf.GeneObjectHeight
+                    gene.Height = _Conf.GeneObjectHeight
 
-                    Dim drawingLociLeft As Integer = (Gene.Left - _Start_Length) * _ScaleFactor + MARGIN
+                    Dim drawingLociLeft As Integer = (gene.Left - _Start_Length) * _ScaleFactor + MARGIN
                     Dim drawingSize = gene.Draw(g:=g,
                                                     location:=New Point(drawingLociLeft, Height + 100 + Level * 110),
                                                     factor:=_ScaleFactor,
@@ -303,7 +303,7 @@ Public Class DrawingDevice
                 __args.startLen = _Start_Length
 
                 If _Conf.AddLegend Then
-                    Call g.Graphics.DrawingCOGColors(
+                    Call g.DrawingCOGColors(
                         chr.COGs,
                         ref:=New Point(MARGIN, _Height),
                         legendFont:=_Conf.LegendFont,
@@ -317,7 +317,7 @@ Public Class DrawingDevice
         Return g.GraphicsPlots(New Size(_Width, _Height), g.DefaultPadding, "white", plotInternal)
     End Function
 
-    Private Sub __drawRuleLine(gdi As IGraphics,
+    Private Sub __drawRuleLine(g As IGraphics,
                                    ByRef Height As Integer,
                                    ByRef Line As Integer,
                                    LinePen As Pen,
@@ -325,7 +325,7 @@ Public Class DrawingDevice
                                    RightEnd As Integer,
                                    ChromesomeLength As String)
 
-        Call gdi.DrawLine(LinePen, New Point(MARGIN, Height), New Point(RightEnd, Height))
+        Call g.DrawLine(LinePen, New Point(MARGIN, Height), New Point(RightEnd, Height))
 
         rlMain += 1 * _UnitConvert
 
@@ -334,18 +334,18 @@ Public Class DrawingDevice
             strFlag = String.Format("{0}bp", ChromesomeLength)
         End If
 
-        Dim size = gdi.MeasureString(strFlag, strFlagFont)
-        Call gdi.DrawString(strFlag, strFlagFont, Brushes.Black, New Point(RightEnd + 0.2 * MARGIN, Height - 0.5 * size.Height))
+        Dim size = g.MeasureString(strFlag, strFlagFont)
+        Call g.DrawString(strFlag, strFlagFont, Brushes.Black, New Point(RightEnd + 0.2 * MARGIN, Height - 0.5 * size.Height))
 
         Dim ms = 0, tagFont = Me.RuleFont    '绘制小标尺
-        Dim tagsize = gdi.MeasureString("0.00" & UnitText, tagFont)
+        Dim tagsize = g.MeasureString("0.00" & UnitText, tagFont)
 
         For i As Integer = 0 To 9
             Dim Left = i * (_Width - 2 * MARGIN) / 10 + MARGIN + 5
-            Call gdi.DrawLine(LinePen, New Point(Left, Height), New Point(Left, Height - 30))
+            Call g.DrawLine(LinePen, New Point(Left, Height), New Point(Left, Height - 30))
             Dim Tag = __getRuleText(rlMain - 1 * _UnitConvert)
             If InStr(Tag, ".") = 0 Then Tag = String.Format("{0}.{1}{2}", Tag, ms, UnitText) Else Tag = String.Format("{0}{1}{2}", Tag, ms, UnitText)
-            Call gdi.DrawString(Tag, tagFont, Brushes.Black, New Point(Left - tagsize.Width / 2, Height - 35 - tagsize.Height))
+            Call g.DrawString(Tag, tagFont, Brushes.Black, New Point(Left - tagsize.Width / 2, Height - 35 - tagsize.Height))
             ms += 1
         Next
     End Sub
@@ -372,7 +372,7 @@ Public Class DrawingDevice
     ''' <summary>
     ''' 在这里绘制基因组上面的所有的位点的数据
     ''' </summary>
-    ''' <param name="ObjectModel"></param>
+    ''' <param name="chr"></param>
     ''' <param name="_start_Length"></param>
     ''' <param name="NextLength"></param>
     ''' <param name="Height"></param>
@@ -380,32 +380,32 @@ Public Class DrawingDevice
     ''' <param name="FlagHeight"></param>
     ''' <param name="GrDevice"></param>
     ''' <param name="scale"></param>
-    Private Sub __drawChromosomeSites(ObjectModel As DrawingModels.ChromesomeDrawingModel,
+    Private Sub __drawChromosomeSites(chr As ChromesomeDrawingModel,
                                           _start_Length As Integer,
                                           NextLength As Integer,
                                           Height As Integer,
                                           FlagLength As Integer,
                                           FlagHeight As Integer,
-                                          GrDevice As Graphics,
+                                          GrDevice As IGraphics,
                                           scale As Double)
 
-        Dim MutationSites = __filteringSiteData(ObjectModel.MutationDatas, _start_Length, NextLength)
+        Dim MutationSites = __filteringSiteData(chr.MutationDatas, _start_Length, NextLength)
         For Each Point In MutationSites
             Call Point.Draw(GrDevice, New Point((Point.Left - _start_Length) * _ScaleFactor + MARGIN, Height - 30), FlagLength, FlagHeight)
         Next
 
-        Dim MotifSites = __filteringSiteData(ObjectModel.MotifSites, _start_Length, NextLength)
+        Dim MotifSites = __filteringSiteData(chr.MotifSites, _start_Length, NextLength)
         For Each Point In MotifSites
             Call Point.Draw(GrDevice, New Point((Point.Left - _start_Length + 0.5 * Point.Width) * _ScaleFactor + MARGIN, Height - 30), Point.Width * 0.6, 20)
         Next
 
-        Dim LociSites = __filteringSiteData(ObjectModel.Loci, _start_Length, NextLength)
+        Dim LociSites = __filteringSiteData(chr.Loci, _start_Length, NextLength)
         For Each Point In LociSites
             Point.Scale = scale
             Call Point.Draw(GrDevice, New Point((Point.Left - _start_Length + 0.5 * Point.Width) * _ScaleFactor + MARGIN, Height - 30), Point.Width * 0.6, 20)
         Next
 
-        Dim TSSs = __filteringSiteData(ObjectModel.TSSs, _start_Length, NextLength)
+        Dim TSSs = __filteringSiteData(chr.TSSs, _start_Length, NextLength)
         For Each Point In TSSs
             Call Point.Draw(GrDevice, New Point((Point.Left - _start_Length + 0.5 * Point.Width) * _ScaleFactor + MARGIN, Height - 30), Point.Width * 0.6, 20)
         Next
