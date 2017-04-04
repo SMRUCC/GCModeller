@@ -142,7 +142,7 @@ Namespace TrackDatas.Highlights
         Protected Sub New()
         End Sub
 
-        Public Function LegendsDrawing(ref As Point, ByRef gdi As Graphics2D) As Point
+        Public Function LegendsDrawing(ref As Point, ByRef gdi As IGraphics) As Point
             Dim COGColors = (From clProfile
                              In Me.COGColors
                              Select clProfile.Key,
@@ -151,11 +151,12 @@ Namespace TrackDatas.Highlights
                                                   Function(x) DirectCast(New SolidBrush(x.Cl), Brush))
             Dim Margin As Integer = 50
             Dim font As New Font(FontFace.MicrosoftYaHei, 20)
-            Dim w As Integer = CInt(gdi.Width * 0.3)
+            Dim size As Size = gdi.Size
+            Dim w As Integer = CInt(size.Width * 0.3)
 
-            ref = New Point(Margin, gdi.Height - 7 * Margin)
+            ref = New Point(Margin, size.Height - 7 * Margin)
 
-            Call gdi.Graphics.DrawingCOGColors(COGColors, ref, font, w, Margin)
+            Call gdi.DrawingCOGColors(COGColors, ref, font, w, Margin)
 
             Return ref
         End Function

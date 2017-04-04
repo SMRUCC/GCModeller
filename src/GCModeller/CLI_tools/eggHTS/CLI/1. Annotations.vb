@@ -211,7 +211,7 @@ Partial Module CLI
         Call CatalogPlots.Plot(
             data, orderTakes:=top,
             tick:=tick,
-            size:=size).SaveAs(out & "/plot.png")
+            size:=size).Save(out & "/plot.png")
 
         Return 0
     End Function
@@ -244,7 +244,7 @@ Partial Module CLI
         Dim KO_counts As KOCatalog() = Nothing
         Dim profile = maps.LevelAKOStatics(KO_counts).AsDouble
 
-        profile.ProfilesPlot("KEGG Orthology Profiling", size:=size, tick:=tick).SaveAs(out & "/plot.png")
+        profile.ProfilesPlot("KEGG Orthology Profiling", size:=size, tick:=tick).Save(out & "/plot.png")
         KO_counts.SaveTo(out & "/KO_counts.csv")
         catalogs.DataFrame.SaveTo(out & "/KOCatalogs.csv")
 
@@ -360,7 +360,7 @@ Partial Module CLI
         Dim COGs As IEnumerable(Of MyvaCOG) = [in].LoadCsv(Of MyvaCOG)
 
         Return COGs.COGCatalogProfilingPlot(size) _
-            .SaveAs(out) _
+            .Save(out) _
             .CLICode
     End Function
 
@@ -405,7 +405,7 @@ Partial Module CLI
                     Function(v) v.Value.ToArray(
                     Function(x) New NamedValue(Of Double)(x.Name, x.Value))) _
                         .Plot() _
-                        .SaveAs(out & "/kegg-level-A.png")
+                        .Save(out & "/kegg-level-A.png")
             End If
         Next
 

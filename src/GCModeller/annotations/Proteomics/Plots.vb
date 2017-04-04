@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Histogram
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -49,7 +50,7 @@ Public Module Plots
     ''' <param name="p#">Default cutoff is ``-<see cref="Math.Log10(Double)"/>(<see cref="EnrichmentTerm.Pvalue"/>) &lt;= 0.05``</param>
     ''' <returns></returns>
     <Extension>
-    Public Function GOEnrichmentPlot(input As IEnumerable(Of EnrichmentTerm), obo$, Optional p# = 0.05) As Bitmap
+    Public Function GOEnrichmentPlot(input As IEnumerable(Of EnrichmentTerm), obo$, Optional p# = 0.05) As GraphicsData
         Dim GO_terms As Dictionary(Of String, Term) = GO_OBO _
             .Open(obo) _
             .ToDictionary(Function(x) x.id)
@@ -105,7 +106,7 @@ Public Module Plots
                                    Optional size As Size = Nothing,
                                    Optional padding$ = "padding: 100 180 100 180",
                                    Optional xAxis$ = Nothing,
-                                   Optional color$ = "lightblue") As Bitmap
+                                   Optional color$ = "lightblue") As GraphicsData
         Dim logFC#() = data _
             .Select(Function(prot) prot(tag).ParseNumeric) _
             .ToArray

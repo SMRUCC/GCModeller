@@ -222,7 +222,7 @@ Public Module ChromesomeMapAPI
     ''' <returns></returns>
     <ExportAPI("Resource.Save")>
     <Extension>
-    Public Function SaveImage(<Parameter("Resource")> res As Bitmap(),
+    Public Function SaveImage(<Parameter("Resource")> res As GraphicsData(),
                               <Parameter("DIR.EXPORT")> EXPORT$,
                               <Parameter("Image.Format", "Value variant in jpg,bmp,emf,exif,gif,png,wmf,tiff")>
                               Optional format$ = "png") As Integer
@@ -236,8 +236,8 @@ Public Module ChromesomeMapAPI
             format = "png"
         End If
 
-        For Each Bitmap As Bitmap In res
-            Call Bitmap.SaveAs($"{EXPORT}/ChromosomeMap [{++i}].{format}", imageFormat)
+        For Each Bitmap As GraphicsData In res
+            Call Bitmap.Save($"{EXPORT}/ChromosomeMap [{++i}].{format}")
         Next
 
         Return i

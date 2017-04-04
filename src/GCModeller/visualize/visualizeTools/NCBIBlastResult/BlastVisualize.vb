@@ -485,7 +485,7 @@ CONTINUTE:
                     Call COGsColor.Add("", New SolidBrush(Color.Brown))
                     Call COGsColor.Remove("")
                     Call COGsColor.Add("COG_NOT_ASSIGN", Brushes.Brown)
-                    Call Device.Graphics.DrawingCOGColors(COGsColor,
+                    Call Device.DrawingCOGColors(COGsColor,
                                                            ref:=New Point(Margin, Device.Height - MaxIDLength * 3),
                                                            legendFont:=New Font(FontFace.Ubuntu, 8),
                                                            width:=Device.Width,

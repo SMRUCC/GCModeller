@@ -255,7 +255,7 @@ Namespace ComparativeAlignment
             Next
 
             If String.IsNullOrEmpty(color_overrides) Then
-                Call Device.Graphics.DrawingCOGColors(Model.COGColors, New Point(Margin, Device.Height - Margin), Font, Device.Width, Margin)
+                Call Device.DrawingCOGColors(Model.COGColors, New Point(Margin, Device.Height - Margin), Font, Device.Width, Margin)
             End If
 
             Return Device.ImageResource

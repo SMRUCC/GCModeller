@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
@@ -52,7 +53,7 @@ Module CLI
         Dim pvalue As Double = args.GetValue("/pvalue", 0.05)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".GO_enrichment.pvalue={pvalue}.png")
         Dim size As String = args.GetValue("/size", "2000,1600")
-        Dim plot As Bitmap
+        Dim plot As GraphicsData
         Dim bubbleStyle As Boolean = args.GetBoolean("/bubble")
         Dim tick# = args.GetValue("/tick", 1.0R)
         Dim gray As Boolean = args.GetBoolean("/gray")
@@ -83,7 +84,7 @@ Module CLI
             End If
         End If
 
-        Return plot.SaveAs(out, ImageFormats.Png).CLICode
+        Return plot.Save(out).CLICode
     End Function
 
     <ExportAPI("/KEGG.enrichment.plot", Usage:="/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /label.right /pvalue <0.05> /tick 1 /size <2000,1600> /out <out.png>]")>
@@ -97,13 +98,13 @@ Module CLI
         Dim gray As Boolean = args.GetBoolean("/gray")
         Dim labelRight As Boolean = args.GetBoolean("/label.right")
         Dim tick As Double = args.GetValue("/tick", 1.0)
-        Dim plot As Bitmap = enrichments.KEGGEnrichmentPlot(
+        Dim plot As GraphicsData = enrichments.KEGGEnrichmentPlot(
             size.SizeParser, pvalue,
             gray:=gray,
             labelRightAlignment:=labelRight,
             tick:=tick)
 
-        Return plot.SaveAs(out, ImageFormats.Png).CLICode
+        Return plot.Save(out).CLICode
     End Function
 
     <ExportAPI("/Enrichments.ORF.info",
