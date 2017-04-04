@@ -158,7 +158,7 @@ Public Class DomainVisualize
                 Call Gr.FillRectangle(ProfileItem.Value, DomainR)
 
                 Dim DomainDescription = DomainCache(ProfileItem.Key)
-                Dim Label As String = If(DomainDescription Is Nothing, ProfileItem.Key, String.Format("{0}:{1}, {2}", DomainDescription.Identifier, DomainDescription.CommonName, DomainDescription.Describes))
+                Dim Label As String = If(DomainDescription Is Nothing, ProfileItem.Key, String.Format("{0}:{1}, {2}", DomainDescription.Name, DomainDescription.CommonName, DomainDescription.Describes))
 
                 Call Gr.DrawString(Label, DomainLableFont, Brushes.Black, New Point(DomainR.X + DomainR.Width + 10, Y + (DomainR.Height - LabelHeight) / 2))
 
@@ -175,7 +175,7 @@ Public Class DomainVisualize
                 'Call Gr.DrawString(Domain.Position.Left, New Font(FONT_MICROSOFT_YAHEI, 8), Brushes.Black, New Point(DomainLeft - 3, RULE_HEIGHT))
                 'Call Gr.DrawString(Domain.Position.Right, New Font(FONT_MICROSOFT_YAHEI, 8), Brushes.Black, New Point(DomainRight - 3, RULE_HEIGHT))
 
-                Dim Color As Brush = ColorProfiles(Domain.Identifier)
+                Dim Color As Brush = ColorProfiles(Domain.Name)
 
                 Call Gr.FillRectangle(Color, DomainR)
             Next
@@ -185,7 +185,7 @@ Public Class DomainVisualize
     End Function
 
     Private Shared Function GetColorProfiles(Domains As DomainObject()) As Dictionary(Of String, Brush)
-        Dim IdList As String() = (From item In Domains Select item.Identifier Distinct).ToArray
+        Dim IdList As String() = (From item In Domains Select item.Name Distinct).ToArray
         Dim ProfileData As Dictionary(Of String, Brush) = New Dictionary(Of String, Brush)
         Dim AllKnownColors As Color() = AllDotNetPrefixColors
         Dim i As Integer = 0

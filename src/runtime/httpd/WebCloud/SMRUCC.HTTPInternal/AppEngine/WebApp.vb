@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::255da96162beef8700428573947e65c5, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\WebApp.vb"
+﻿#Region "Microsoft.VisualBasic::70ea29d73353ff491e79aa6e41ce705e, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\WebApp.vb"
 
     ' Author:
     ' 
@@ -27,9 +27,9 @@
 #End Region
 
 Imports System.IO
+Imports System.Reflection
+Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
-Imports SMRUCC.WebCloud.HTTPInternal.Core
 Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 Namespace AppEngine
@@ -48,6 +48,12 @@ Namespace AppEngine
 
         Sub New(main As PlatformEngine)
             Call MyBase.New(main)
+
+            methods = MyClass _
+                .GetType _
+                .GetMethods(BindingFlags.Public Or BindingFlags.Instance) _
+                .Where(Function(m) Not m.GetCustomAttribute(GetType(APIMethod)) Is Nothing) _
+                .ToDictionary(Function(m) m.Name)
         End Sub
 
         ''' <summary>
@@ -75,5 +81,35 @@ Namespace AppEngine
         ''' <returns></returns>
         Public Delegate Function IPOST(request As HttpPOSTRequest, response As StreamWriter) As Boolean
 
+        ''' <summary>
+        ''' 只会加载有<see cref="APIMethod"/>属性标记的实例方法
+        ''' </summary>
+        ReadOnly methods As Dictionary(Of String, MethodInfo)
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="url$"></param>
+        ''' <param name="method"></param>
+        ''' <param name="API">方法对象必须要是在当前的这个实例类型之中所定义的</param>
+        ''' <param name="help$"></param>
+        Public Sub AddDynamics(url$, method As APIMethod, API As MethodInfo, Optional help$ = "")
+            Call PlatformEngine.AppManager.Join(url, method, API, APP:=Me, help:=help)
+        End Sub
+
+        ''' <summary>
+        ''' 请注意，这个方法所获取的对象都必须是具备有<see cref="APIMethod"/>属性标记的方法对象，
+        ''' 假若你的方法找不到的话，即出现了NullReference的错误，请检查是否对函数对象添加了
+        ''' <see cref="APIMethod"/>自定义属性标记？
+        ''' </summary>
+        ''' <param name="name$">必须要使用NameOf操作符来获取</param>
+        ''' <returns></returns>
+        Public Function GetAPIMethod(name$) As MethodInfo
+            If methods.ContainsKey(name) Then
+                Return methods(name)
+            Else
+                Return Nothing
+            End If
+        End Function
     End Class
 End Namespace

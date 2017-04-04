@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::f41e417d039a54d90b8a3af5b6f24502, ..\sciBASIC#\Data_science\Mathematical\Plots\Scatter\Scatter.vb"
+﻿#Region "Microsoft.VisualBasic::35068ef7ed7ad7348656e132f3041848, ..\sciBASIC#\Data_science\Mathematical\Plots\Scatter\Scatter.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -39,6 +39,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
@@ -54,34 +55,57 @@ Public Module Scatter
     ''' <param name="c"></param>
     ''' <param name="size"></param>
     ''' <param name="bg"></param>
+    ''' <param name="fill">是否进行填充？当这个参数为真的时候就相当于绘制histogram图形了</param>
+    ''' <param name="drawLine">
+    ''' 是否绘制两个点之间的连接线段，当这个参数为假的时候，将不会绘制连线，就相当于绘制散点图了，而非折线图
+    ''' </param>
+    ''' <param name="xaxis">
+    ''' 参数<paramref name="xaxis"/>和<paramref name="yaxis"/>必须要同时不为空才会起作用
+    ''' </param>
+    ''' <param name="legendSize">默认为(120,40)</param>
     ''' <returns></returns>
     <Extension>
     Public Function Plot(c As IEnumerable(Of SerialData),
                          Optional size As Size = Nothing,
-                         Optional padding$ = g.DefaultPadding,
+                         Optional padding$ = g.DefaultLargerPadding,
                          Optional bg As String = "white",
                          Optional showGrid As Boolean = True,
                          Optional showLegend As Boolean = True,
                          Optional legendPosition As Point = Nothing,
+                         Optional legendSize As Size = Nothing,
                          Optional drawLine As Boolean = True,
-                         Optional legendBorder As Border = Nothing,
+                         Optional legendBorder As Stroke = Nothing,
+                         Optional legendRegionBorder As Stroke = Nothing,
                          Optional fill As Boolean = False,
                          Optional fillPie As Boolean = True,
                          Optional legendFontSize! = 24,
                          Optional absoluteScaling As Boolean = True,
-                         Optional drawAxis As Boolean = True) As Bitmap
+                         Optional XaxisAbsoluteScalling As Boolean = False,
+                         Optional YaxisAbsoluteScalling As Boolean = False,
+                         Optional drawAxis As Boolean = True,
+                         Optional Xlabel$ = "X",
+                         Optional Ylabel$ = "Y",
+                         Optional yaxis$ = Nothing,
+                         Optional xaxis$ = Nothing) As GraphicsData
 
         Dim margin As Padding = padding
-
-        Return GraphicsPlots(
-            size, margin,
-            bg,
-            Sub(ByRef g, grect)
+        Dim plotInternal =
+            Sub(ByRef g As IGraphics, grect As GraphicsRegion)
                 Dim array As SerialData() = c.ToArray
-                Dim mapper As New Mapper(New Scaling(array, absoluteScaling))
+                Dim mapper As Mapper
+                Dim serialsData As New Scaling(array, absoluteScaling)
+
+                If xaxis.StringEmpty OrElse yaxis.StringEmpty Then
+                    mapper = New Mapper(
+                        serialsData,
+                        XabsoluteScalling:=XaxisAbsoluteScalling,
+                        YabsoluteScalling:=YaxisAbsoluteScalling)
+                Else
+                    mapper = New Mapper(x:=xaxis, y:=yaxis, range:=serialsData)
+                End If
 
                 If drawAxis Then
-                    Call g.DrawAxis(size, margin, mapper, showGrid)
+                    Call g.DrawAxis(size, margin, mapper, showGrid, xlabel:=Xlabel, ylabel:=Ylabel)
                 End If
 
                 For Each line As SerialData In mapper.ForEach(size, margin)
@@ -145,13 +169,19 @@ Public Module Scatter
                             }
 
                         If legendPosition.IsEmpty Then
-                            legendPosition = New Point(CInt(size.Width * 0.7), margin.Bottom)
+                            legendPosition = New Point(
+                                CInt(size.Width * 0.7),
+                                margin.Bottom)
                         End If
 
-                        Call g.DrawLegends(legendPosition, legends,,, legendBorder)
+                        Call g.DrawLegends(legendPosition, legends, legendSize,,
+                                           legendBorder,
+                                           legendRegionBorder)
                     End If
                 Next
-            End Sub)
+            End Sub
+
+        Return GraphicsPlots(size, margin, bg, plotInternal)
     End Function
 
     Public Function Plot(x As Vector,
@@ -160,10 +190,10 @@ Public Module Scatter
                          Optional bg As String = "white",
                          Optional ptSize As Single = 15,
                          Optional width As Single = 5,
-                         Optional drawLine As Boolean = False) As Bitmap
+                         Optional drawLine As Boolean = False) As GraphicsData
         Return {
             FromVector(x,,, ptSize, width)
-        }.Plot(size, padding, bg, True, False, , drawLine)
+        }.Plot(size, padding, bg, True, False, , drawLine:=drawLine)
     End Function
 
     Public Function FromVector(y As IEnumerable(Of Double),
@@ -223,7 +253,7 @@ Public Module Scatter
                                  Optional bg$ = "white",
                                  Optional variables As Dictionary(Of String, String) = Nothing,
                                  Optional yline# = Double.NaN,
-                                 Optional ylineColor$ = "red") As Bitmap
+                                 Optional ylineColor$ = "red") As GraphicsData
 
         Dim engine As New Expression
         Dim ranges As Double() = range.Value.seq(steps).ToArray
@@ -267,7 +297,7 @@ Public Module Scatter
                          Optional lineColor$ = "black",
                          Optional lineWidth! = 10,
                          Optional bg$ = "white",
-                         Optional title$ = "Function Plot") As Bitmap
+                         Optional title$ = "Function Plot") As GraphicsData
 
         Dim ranges As Double() = range.seq(steps).ToArray
         Dim y As New List(Of Double)
@@ -288,7 +318,7 @@ Public Module Scatter
                          Optional title$ = "Plot Of Points",
                          Optional lineWidth! = 5.0!,
                          Optional ptSize! = 15.0!,
-                         Optional lineType As DashStyle = DashStyle.Solid) As Bitmap
+                         Optional lineType As DashStyle = DashStyle.Solid) As GraphicsData
         Dim s As SerialData = points _
             .FromPoints(lineColor$,
                         title$,
@@ -306,7 +336,7 @@ Public Module Scatter
                          Optional title$ = "Plot Of Points",
                          Optional lineWidth! = 5.0!,
                          Optional ptSize! = 15.0!,
-                         Optional lineType As DashStyle = DashStyle.Solid) As Bitmap
+                         Optional lineType As DashStyle = DashStyle.Solid) As GraphicsData
         Dim s As SerialData = points _
             .FromPoints(lineColor$,
                         title$,

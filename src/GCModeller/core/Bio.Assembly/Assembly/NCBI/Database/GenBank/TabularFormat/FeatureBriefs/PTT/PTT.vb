@@ -1,31 +1,32 @@
-﻿#Region "Microsoft.VisualBasic::c96bbe73b47e89273a9d0d92fb1dbfb8, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
+﻿#Region "Microsoft.VisualBasic::567316abbac4446962be4d39ebcd1ffb, ..\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel
@@ -71,7 +72,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
                     Next
                 End If
 
-                __innerHash = value.ToDictionary(Function(g) g.Synonym)
+                __innerTable = value.ToDictionary(Function(g) g.Synonym)
 
                 _forwards = (From gene As GeneBrief In value Where gene.Location.Strand = Strands.Forward Select gene).ToArray
                 _reversed = (From gene As GeneBrief In value Where gene.Location.Strand = Strands.Reverse Select gene).ToArray
@@ -103,11 +104,11 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' <summary>
         ''' {<see cref="ComponentModels.GeneBrief.Synonym"/>, <see cref="ComponentModels.GeneBrief"/>}
         ''' </summary>
-        Dim __innerHash As Dictionary(Of String, GeneBrief)
+        Dim __innerTable As Dictionary(Of String, GeneBrief)
         Dim _innerList As GeneBrief()
 
         Public Function ToDictionary() As Dictionary(Of String, GeneBrief)
-            Return __innerHash
+            Return __innerTable
         End Function
 
         Public Function OrderByGeneID() As PTT
@@ -275,7 +276,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' </summary>
         ''' <returns></returns>
         Public Overloads Shared Function Read(path As String, Optional FillBlankName As Boolean = False) As PTT
-            Dim lines As String() = System.IO.File.ReadAllLines(path)
+            Dim lines As String() = File.ReadAllLines(path)
             Dim PTT As PTT = New PTT With {
                 .FilePath = path,
                 .Title = lines(0)
@@ -328,7 +329,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 #Region "Implements IReadOnlyDictionary(Of String, GeneBrief)"
 
         Public Iterator Function GetEnumerator2() As IEnumerator(Of KeyValuePair(Of String, GeneBrief)) Implements IEnumerable(Of KeyValuePair(Of String, GeneBrief)).GetEnumerator
-            For Each Item As KeyValuePair(Of String, GeneBrief) In __innerHash
+            For Each Item As KeyValuePair(Of String, GeneBrief) In __innerTable
                 Yield Item
             Next
         End Function
@@ -340,7 +341,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' <param name="locusId"><see cref="GeneBrief.Synonym"/></param>
         ''' <returns></returns>
         Public Function ExistsLocusId(locusId As String) As Boolean Implements IReadOnlyDictionary(Of String, GeneBrief).ContainsKey
-            Return __innerHash.ContainsKey(locusId)
+            Return __innerTable.ContainsKey(locusId)
         End Function
 
         ''' <summary>
@@ -354,8 +355,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             IGenomicsContextProvider(Of GeneBrief).Feature
 
             Get
-                If __innerHash.ContainsKey(locusId) Then
-                    Return __innerHash(locusId)
+                If __innerTable.ContainsKey(locusId) Then
+                    Return __innerTable(locusId)
                 Else
                     Return Nothing
                 End If
@@ -370,7 +371,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' <remarks></remarks>
         Public ReadOnly Property GeneIDList As IEnumerable(Of String) Implements IReadOnlyDictionary(Of String, GeneBrief).Keys
             Get
-                Return __innerHash.Keys
+                Return __innerTable.Keys
             End Get
         End Property
 
@@ -381,12 +382,12 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' <param name="value"></param>
         ''' <returns></returns>
         Public Function TryGetGeneObjectValue(GeneID As String, ByRef value As GeneBrief) As Boolean Implements IReadOnlyDictionary(Of String, GeneBrief).TryGetValue
-            Return __innerHash.TryGetValue(GeneID, value)
+            Return __innerTable.TryGetValue(GeneID, value)
         End Function
 
         Public ReadOnly Property GetsGeneDatas As IEnumerable(Of GeneBrief) Implements IReadOnlyDictionary(Of String, GeneBrief).Values
             Get
-                Return __innerHash.Values
+                Return __innerTable.Values
             End Get
         End Property
 #End Region

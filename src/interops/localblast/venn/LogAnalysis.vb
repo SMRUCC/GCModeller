@@ -73,10 +73,10 @@ Namespace BlastAPI
         End Function
 
         Private Function GetMainidList(datasets As IEnumerable(Of IO.File)) As String()
-            Dim List As List(Of String) =
-                New List(Of String)(IteratesALL(From doc As IO.File
-                                                     In datasets
-                                                     Select doc.Column(Scan0)))
+            Dim List As New List(Of String)(
+                datasets _
+                    .Select(Function(doc) doc.Column(Scan0)) _
+                    .IteratesALL)
             List = (From Id As String
                     In List
                     Select Id

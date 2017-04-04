@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::ebab2001255cda38d7d6faeb6b92659c, ..\LibMySQL\GlobalSuppressions.vb"
+﻿#Region "Microsoft.VisualBasic::40e47231106b034746cc5d0379248cdc, ..\visualbasic.DBI\LibMySQL\GlobalSuppressions.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -48,4 +49,3 @@
 <Assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Scope:="member", Target:="Oracle.LinuxCompatibility.MySQL.MySQL.#CommitTransaction(System.String)")> 
 <Assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times", Scope:="member", Target:="Oracle.LinuxCompatibility.MySQL.MySQL.#Execute(System.String)")> 
 <Assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times", Scope:="member", Target:="Oracle.LinuxCompatibility.MySQL.MySQL.#CommitTransaction(System.String)")> 
-

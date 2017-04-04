@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1017c856332f5c6952d315aec3c6435, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::a1017c856332f5c6952d315aec3c6435, ..\visualize\visualizeTools\ComparativeGenomics\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@ Namespace ComparativeGenomics
         <DataFrameColumn> Dim Type2Arrow As Boolean = False
 
         Public Function InvokeDrawing(Model As DrawingModel) As Image
-            Dim gdi = GDIPlusDeviceHandle.CreateDevice(New Size(15024, 1000))
+            Dim gdi = Graphics2D.CreateDevice(New Size(15024, 1000))
             Dim Left, Height As Integer
             Dim gDrawHeight As Integer = 85
 

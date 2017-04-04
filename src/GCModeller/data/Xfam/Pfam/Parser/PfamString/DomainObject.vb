@@ -42,8 +42,8 @@ Namespace PfamString
     Public Class DomainObject : Inherits SMRUCC.genomics.ProteinModel.DomainObject
 
         ''' <summary>
-        ''' 在Pfam-String之中的位置，其格式为<see cref="SMRUCC.genomics.ProteinModel.DomainObject.Identifier"></see>
-        ''' _Handle*<see cref="SMRUCC.genomics.ProteinModel.DomainObject.Identifier"></see>_Handle
+        ''' 在Pfam-String之中的位置，其格式为<see cref="SMRUCC.genomics.ProteinModel.DomainObject.Name"></see>
+        ''' _Handle*<see cref="SMRUCC.genomics.ProteinModel.DomainObject.Name"></see>_Handle
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>

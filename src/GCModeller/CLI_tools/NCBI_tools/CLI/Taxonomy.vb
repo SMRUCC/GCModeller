@@ -243,16 +243,6 @@ Partial Module CLI
         Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
     End Function
 
-    Public Class MapHits
-        <Collection("MapHits",)> Public Property MapHits As String()
-        Public Property Data As Dictionary(Of String, String)
-        Public Property taxid As Integer
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Class
-
     <ExportAPI("/OTU.associated",
                Usage:="/OTU.associated /in <OTU.Data> /maps <mapsHit.csv> [/RawMap <data_mapping.csv> /OTU_Field <""#OTU_NUM""> /out <out.csv>]")>
     <Group(CLIGrouping.TaxonomyTools)>

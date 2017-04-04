@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Histogram
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -49,7 +50,7 @@ Public Module Plots
     ''' <param name="p#">Default cutoff is ``-<see cref="Math.Log10(Double)"/>(<see cref="EnrichmentTerm.Pvalue"/>) &lt;= 0.05``</param>
     ''' <returns></returns>
     <Extension>
-    Public Function GOEnrichmentPlot(input As IEnumerable(Of EnrichmentTerm), obo$, Optional p# = 0.05) As Bitmap
+    Public Function GOEnrichmentPlot(input As IEnumerable(Of EnrichmentTerm), obo$, Optional p# = 0.05) As GraphicsData
         Dim GO_terms As Dictionary(Of String, Term) = GO_OBO _
             .Open(obo) _
             .ToDictionary(Function(x) x.id)
@@ -103,7 +104,9 @@ Public Module Plots
                                    Optional serialTitle$ = "Frequency(logFC)",
                                    Optional step! = 1,
                                    Optional size As Size = Nothing,
-                                   Optional padding$ = "padding: 100 180 100 180") As Bitmap
+                                   Optional padding$ = "padding: 100 180 100 180",
+                                   Optional xAxis$ = Nothing,
+                                   Optional color$ = "lightblue") As GraphicsData
         Dim logFC#() = data _
             .Select(Function(prot) prot(tag).ParseNumeric) _
             .ToArray
@@ -116,7 +119,9 @@ Public Module Plots
                 histData:=histData,
                 size:=size,
                 padding:=padding,
-                xlabel:=tag)
+                xlabel:=tag,
+                xAxis:=xAxis,
+                color:=color)
         Catch ex As Exception
             ' 有时候标签没有设置正确会导致得到的向量全部为0，则绘图会出错，这个时候显示一下调试信息
             Dim msg$ = $"tag={tag}, vector={Mid(logFC.GetJson, 1, 256)}..., hist={Mid(histData.GetJson, 1, 300)}..."

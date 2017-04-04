@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d363462db0d9648b5bdb9516e8ed7a35, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\FootPrintMap\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::28a82d55d845a32cbc438175f7fdcfe1, ..\visualize\ChromosomeMap\FootPrintMap\MotifSite.vb"
 
     ' Author:
     ' 
@@ -50,7 +50,7 @@ Namespace DrawingModels
         ''' <returns></returns>
         Public Property Regulators As String()
 
-        Public Overrides Sub Draw(Device As Graphics,
+        Public Overrides Sub Draw(Device As IGraphics,
                                   Location As Point,
                                   WidthLength As Integer,
                                   Height As Integer)
@@ -102,7 +102,7 @@ Namespace DrawingModels
         ''' <param name="FlagLength">无用参数</param>
         ''' <param name="FLAG_HEIGHT">高度</param>
         ''' <remarks></remarks>
-        Public Overrides Sub Draw(Device As Graphics, Location As Point, FlagLength As Integer, FLAG_HEIGHT As Integer)
+        Public Overrides Sub Draw(Device As IGraphics, Location As Point, FlagLength As Integer, FLAG_HEIGHT As Integer)
             Dim GraphModel = Me.CreateLociModel(ref:=Location, Height:=FLAG_HEIGHT)
             Dim infoLabel As String = Me.SequenceData
             Dim LabelFont = New Font("Microsoft YaHei", 8)

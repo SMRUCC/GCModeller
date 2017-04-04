@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::8588d23352809a2ca59be5ac4769a1c6, ..\sciBASIC#\Data_science\Mathematical\Plots\g\Scaling.vb"
+﻿#Region "Microsoft.VisualBasic::2a42c162364f33d1ab649475bbe97189, ..\sciBASIC#\Data_science\Mathematical\Plots\g\Scaling.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -88,13 +88,13 @@ Namespace Graphic
         Sub New(data As (Double, Double)())
             dx = ScalingTuple(data, Function(p) p.X, False, xmin)
             dy = ScalingTuple(data, Function(p) p.y, False, ymin)
-            type = GetType(ScatterHeatmap)
+            type = GetType(Contour)
         End Sub
 
         Sub New(data As (X#, y#, z#)())
             dx = ScalingTuple(data, Function(p) p.X, False, xmin)
             dy = ScalingTuple(data, Function(p) p.y, False, ymin)
-            type = GetType(ScatterHeatmap)
+            type = GetType(Contour)
         End Sub
 
         ''' <summary>
@@ -141,6 +141,8 @@ Namespace Graphic
         Sub New(data As IEnumerable(Of Double), horizontal As Boolean)
             Dim h#() = data.ToArray
 
+            ' dx = 100 和 dy = 100 是为了防止tick出错而特意设置的
+
             If Not horizontal Then
                 ymin! = h.Min
 
@@ -148,6 +150,7 @@ Namespace Graphic
                     ymin = 0
                 End If
 
+                ' dx = 100
                 dy = h.Max - ymin
             Else
                 xmin! = h.Min
@@ -156,6 +159,7 @@ Namespace Graphic
                     xmin = 0
                 End If
 
+                ' dy = 100
                 dx = h.Max - xmin
             End If
 

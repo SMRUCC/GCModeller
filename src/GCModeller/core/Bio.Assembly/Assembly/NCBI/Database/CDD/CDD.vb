@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e3d1c9e65e789855b59593c9664ccbb, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDD.vb"
+﻿#Region "Microsoft.VisualBasic::7d2aa88e105d3ea03aacfb24030bce8f, ..\core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDD.vb"
 
     ' Author:
     ' 
@@ -106,7 +106,7 @@ Namespace Assembly.NCBI.CDD
         Public Function Query(Id As String) As CDD.SmpFile
             Dim LQuery As Generic.IEnumerable(Of CDD.SmpFile) = From entry As SmpFile
                                                                 In CDDInfoLoader.Cdd.SmpData
-                                                                Where String.Equals(entry.Identifier, Id)
+                                                                Where String.Equals(entry.Name, Id)
                                                                 Select entry '
             Return LQuery.FirstOrDefault
         End Function
@@ -118,7 +118,7 @@ Namespace Assembly.NCBI.CDD
         Public Shared Function Query(Id As String, Db As CDD.DbFile) As SmpFile
             Dim LQuery = From Domain As SmpFile
                          In Db.SmpData
-                         Where String.Equals(Domain.Identifier, Id)
+                         Where String.Equals(Domain.Name, Id)
                          Select Domain '
             Return LQuery.FirstOrDefault
         End Function

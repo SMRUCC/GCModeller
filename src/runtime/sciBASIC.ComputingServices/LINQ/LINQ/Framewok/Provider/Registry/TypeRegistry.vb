@@ -216,7 +216,7 @@ NEWLY:          Dim nlibs As New TypeRegistry With {
         End Function
 
         Public Overrides Function Save(Optional FilePath As String = "", Optional Encoding As Encoding = Nothing) As Boolean
-            Return Me.SaveAsXml(getPath(FilePath), False, Encoding)
+            Return Me.GetXml.SaveTo(getPath(FilePath), throwEx:=False, encoding:=Encoding)
         End Function
     End Class
 End Namespace

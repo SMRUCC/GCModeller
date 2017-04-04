@@ -118,7 +118,7 @@ Namespace TRN
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function SetMutationFactor(GeneID As String, Factor As Double) As Boolean
-            Dim Expression = _DynamicsExprs.GetItem(uniqueId:=GeneID)
+            Dim Expression = _DynamicsExprs.Take(uniqueId:=GeneID)
 
             If Expression Is Nothing Then
                 Return False

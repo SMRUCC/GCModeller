@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8e1077627d645d8e2653f6167705994, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::9c7eceed836ee42549c3103f418e781b, ..\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\Compound.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.Reflection
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.MetaCyc.File.DataFiles.Slots
 
@@ -73,7 +74,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         End Property
 
         <MetaCycField(Name:="UNIQUE-ID")>
-        Public Overrides Property Identifier As String Implements Regulation.IRegulator.locusId, INamedValue.Key, ICompoundObject.locusId
+        Public Overrides Property Identifier As String Implements Regulation.IRegulator.locusId, INamedValue.Key, ICompoundObject.KEGG_cpd
             Get
                 Return MyBase.Identifier
             End Get

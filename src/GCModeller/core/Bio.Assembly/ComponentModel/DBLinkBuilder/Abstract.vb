@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef3e2ee0d6a3809607de3283fe49d5d5, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::3352c56f67a01e2870c681dd9003bbfe, ..\core\Bio.Assembly\ComponentModel\DBLinkBuilder\Abstract.vb"
 
     ' Author:
     ' 
@@ -38,8 +38,8 @@ Namespace ComponentModel.DBLinkBuilder
     End Interface
 
     Public Interface IDBLink
-        Property locusId As String
-        Property Address As String
+        Property DbName As String
+        Property ID As String
         ''' <summary>
         ''' 将对象模型转换为含有格式的字符串的值用以写入文件之中
         ''' </summary>

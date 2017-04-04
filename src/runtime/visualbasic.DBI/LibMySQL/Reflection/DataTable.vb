@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::fb96062edc809ea9903c1ee55ded9ab5, ..\LibMySQL\Reflection\DataTable.vb"
+﻿#Region "Microsoft.VisualBasic::54900c41d65819ee0ec2d5831de32547, ..\visualbasic.DBI\LibMySQL\Reflection\DataTable.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -112,7 +113,11 @@ Namespace Reflection
             UpdateSQL = TableSchema
         End Sub
 
-        Function Create() As Boolean
+        ''' <summary>
+        ''' Execute ``CREATE TABLE`` sql.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function Create() As Boolean
             Dim SQL As String = CreateTableSQL.FromSchema(TableSchema)
 #If DEBUG Then
             Console.WriteLine(SQL)
@@ -129,11 +134,12 @@ Namespace Reflection
         ''' <remarks></remarks>
         Private Function GetHandle(Record As Schema) As Schema
             Dim [String] As String = TableSchema.IndexProperty.GetValue(Record, Nothing).ToString 'Get the Index field value
-            Dim Query As Generic.IEnumerable(Of Schema) = From schema As Schema In _listData
-                                                          Let str As String = TableSchema.IndexProperty.GetValue(schema, Nothing).ToString
-                                                          Where System.String.Equals([String], str)
-                                                          Select schema 'Use LINQ and index value find out the target item 
-            Return Query.First  'return the item handle
+            Dim LQuery As IEnumerable(Of Schema) = From schema As Schema
+                                                   In _listData
+                                                   Let str As String = TableSchema.IndexProperty.GetValue(schema, Nothing).ToString
+                                                   Where String.Equals([String], str)
+                                                   Select schema ' Use LINQ and index value find out the target item 
+            Return LQuery.First  'return the item handle
         End Function
 
         ''' <summary>
@@ -357,5 +363,3 @@ Namespace Reflection
         End Sub
     End Class
 End Namespace
-
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bdcd678906def14ee5b35da488271c7e, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
+﻿#Region "Microsoft.VisualBasic::324f8bad94d1116b661b24d2e7b89804, ..\core\Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
 
     ' Author:
     ' 
@@ -101,7 +101,7 @@ Namespace Assembly.MetaCyc.Schema
                 Return False
             End If
 
-            Dim LQuery = (From item In Side1 Let MAP = _CompoundMapping.GetItem(item.Identifier)
+            Dim LQuery = (From item In Side1 Let MAP = _CompoundMapping.Take(item.ID)
                           Where (Not MAP Is Nothing) AndAlso Not String.IsNullOrEmpty(MAP.MetaCycId)
                           Let value = New KeyValuePair(Of CompoundSpecieReference, EffectorMap)(item, MAP)
                           Select value).ToArray
@@ -119,7 +119,7 @@ Namespace Assembly.MetaCyc.Schema
 
         Private Function SideEqualsExplicit(Side1 As KeyValuePair(Of CompoundSpecieReference, EffectorMap)(), Side2 As ICompoundSpecies()) As Boolean
             For Each item In Side1
-                Dim MetaCycItem = Side2.GetItem(item.Value.MetaCycId)
+                Dim MetaCycItem = Side2.Take(item.Value.MetaCycId)
                 If MetaCycItem Is Nothing Then
                     Return False
                 Else
@@ -133,7 +133,7 @@ Namespace Assembly.MetaCyc.Schema
 
         Private Function SideEqualsNOTExplicit(Side1 As KeyValuePair(Of CompoundSpecieReference, EffectorMap)(), Side2 As ICompoundSpecies()) As Boolean
             For Each item In Side1
-                Dim MetaCycItem = Side2.GetItem(item.Value.MetaCycId)
+                Dim MetaCycItem = Side2.Take(item.Value.MetaCycId)
                 If MetaCycItem Is Nothing Then
                     Return False
                 End If

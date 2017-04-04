@@ -49,7 +49,7 @@ Namespace TRN
         Implements IKeyValuePairObject(Of String, Boolean)
         Implements INamedValue
 
-        Public Property locusId As String Implements IKeyValuePairObject(Of String, Boolean).Identifier, INamedValue.Key
+        Public Property locusId As String Implements IKeyValuePairObject(Of String, Boolean).Key, INamedValue.Key
 
         ''' <summary>
         ''' The initialize expression level for the target <see cref="locusId">gene</see>.(初始的表达水平)

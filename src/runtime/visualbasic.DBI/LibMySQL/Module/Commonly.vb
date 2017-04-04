@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::5d33d83b8fbf7a2ed156287f226581d3, ..\LibMySQL\Module\Commonly.vb"
+﻿#Region "Microsoft.VisualBasic::a6dc6b3f2141e62a0efba72e9d6e36f8, ..\visualbasic.DBI\LibMySQL\Module\Commonly.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -88,4 +89,3 @@ Module Commonly
             MySqlDbType.Int64, MySqlDbType.MediumInt, MySqlDbType.TinyInt, MySqlDbType.UByte, MySqlDbType.UInt16,
             MySqlDbType.UInt24, MySqlDbType.UInt32, MySqlDbType.UInt64, MySqlDbType.Year}
 End Module
-

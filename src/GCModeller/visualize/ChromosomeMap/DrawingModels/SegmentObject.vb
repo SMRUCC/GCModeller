@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e01bc8f07e6f0c0ad17f5d0ba5c02be8, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\DrawingModels\SegmentObject.vb"
+﻿#Region "Microsoft.VisualBasic::532597956e98b90cf2a490cfd61509f1, ..\visualize\ChromosomeMap\DrawingModels\SegmentObject.vb"
 
 ' Author:
 ' 
@@ -29,6 +29,7 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
@@ -136,7 +137,7 @@ Namespace DrawingModels
         ''' <param name="location">图形的左上角的坐标</param>
         ''' <returns>返回绘制的图形的大小</returns>
         ''' <remarks></remarks>
-        Public Function Draw(g As Graphics,
+        Public Function Draw(g As IGraphics,
                              location As Point,
                              factor As Double,
                              RightLimited As Integer,

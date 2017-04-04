@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::031749378a89f79ca4e7d0f565de0ab9, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinksManager.vb"
+﻿#Region "Microsoft.VisualBasic::5ffd26aabccdf15dc32cd5df4b0b5d0b, ..\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinksManager.vb"
 
     ' Author:
     ' 
@@ -30,11 +30,12 @@ Imports System.Text.RegularExpressions
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Language
 
 Namespace ComponentModel.DBLinkBuilder
 
     Public MustInherit Class DBLinksManager(Of TLink As IDBLink)
-        Implements Generic.IReadOnlyCollection(Of TLink)
+        Implements IReadOnlyCollection(Of TLink)
 
         Public Shared ReadOnly Property PrefixDB As String() = New String() {
             "ChEBI", "3DMET", "HMDB",
@@ -47,10 +48,13 @@ Namespace ComponentModel.DBLinkBuilder
 
         Default Public ReadOnly Property Item(DBName As String) As TLink()
             Get
-                Dim LQuery = (From ItemDBLink As TLink
-                              In Me._DBLinkObjects
-                              Where String.Equals(DBName, ItemDBLink.locusId, StringComparison.OrdinalIgnoreCase)
-                              Select ItemDBLink).ToArray
+                Dim LQuery = LinqAPI.Exec(Of TLink) <=
+ _
+                    From link As TLink
+                    In Me._DBLinkObjects
+                    Where String.Equals(DBName, link.DbName, StringComparison.OrdinalIgnoreCase)
+                    Select link
+
                 Return LQuery
             End Get
         End Property
@@ -73,34 +77,50 @@ Namespace ComponentModel.DBLinkBuilder
         End Property
 
         Public Sub AddEntry(Entry As TLink)
-            Dim LQuery = (From item As TLink In DBLinkObjects
-                          Where String.Equals(item.locusId, Entry.locusId, StringComparison.OrdinalIgnoreCase) AndAlso
-                              String.Equals(item.Address, Entry.Address, StringComparison.OrdinalIgnoreCase)
-                          Select item).ToArray
+            Dim duplicated As TLink = LinqAPI.DefaultFirst(Of TLink) <=
+ _
+                From link As TLink
+                In DBLinkObjects
+                Where String.Equals(link.DbName, Entry.DbName, StringComparison.OrdinalIgnoreCase) AndAlso
+                    String.Equals(link.ID, Entry.ID, StringComparison.OrdinalIgnoreCase)
+                Select link
 
-            If LQuery.IsNullOrEmpty Then
+            ' 会在这里先检查是否有重复的记录数据出现，
+            ' 假若还没有重复的数据才会进行添加
+            If duplicated Is Nothing Then
                 Call _DBLinkObjects.Add(Entry)
             End If
         End Sub
 
-        Public Sub Remove(Db_Name As String, Entry As String)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="Db_Name"></param>
+        ''' <param name="entryID">
+        ''' 当编号值为空的时候，会将所有的<paramref name="Db_Name"/>类型的数据都删除掉
+        ''' </param>
+        Public Sub Remove(Db_Name As String, Optional entryID As String = "")
             Dim links As TLink() = Item(Db_Name)
+            Dim test = Function(l As TLink)
+                           If entryID.StringEmpty Then
+                               Return True
+                           Else
+                               Return entryID.TextEquals(l.ID)
+                           End If
+                       End Function
 
             If Not links.IsNullOrEmpty Then
-                For Each ll In (From n As TLink
-                                In links
-                                Where String.Equals(n.Address, Entry, StringComparison.OrdinalIgnoreCase)
-                                Select n).ToArray
+                For Each ll As TLink In links.Where(Function(l) True = test(l))
                     Call _DBLinkObjects.Remove(ll)
                 Next
             End If
         End Sub
 
         Public Sub AddEntry(DBName As String, Entry As String)
-            Dim EntryObject As TLink = Activator.CreateInstance(Of TLink)()
-            EntryObject.locusId = DBName
-            EntryObject.Address = Entry
-            Call AddEntry(Entry:=EntryObject)
+            Dim link As TLink = Activator.CreateInstance(Of TLink)()
+            link.DbName = DBName
+            link.ID = Entry
+            Call AddEntry(Entry:=link)
         End Sub
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of TLink) Implements IEnumerable(Of TLink).GetEnumerator

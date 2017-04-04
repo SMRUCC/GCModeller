@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46ad00b7e40d53c09872b6521391564e, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::959483555f906ed084e03c2b347c4485, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
 
     ' Author:
     ' 
@@ -27,14 +27,17 @@
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Terminal
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
     ''' <summary>
-    ''' Compounds with Biological Roles
+    ''' Compounds with Biological Roles.(在这里面包含有KEGG compounds的下载API)
     ''' </summary>
     ''' <remarks>
     ''' Compounds
@@ -58,7 +61,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Property Entry As KeyValuePair
 
         Private Shared Function Build(Model As BriteHText) As Compound()
-            Dim CompoundList As New List(Of Compound)
+            Dim list As New List(Of Compound)
 
             Select Case Model.Degree
 
@@ -69,21 +72,21 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                             Continue For
                         End If
 
-                        For Each Category As BriteHText In [Class].CategoryItems
-                            If Category.CategoryItems.IsNullOrEmpty Then
+                        For Each category As BriteHText In [Class].CategoryItems
+                            If category.CategoryItems.IsNullOrEmpty Then
                                 Continue For
                             End If
 
-                            CompoundList += From htext As BriteHText
-                                            In Category.CategoryItems
-                                            Select New Compound With {
-                                                .Class = [Class].ClassLabel,
-                                                .Category = Category.ClassLabel,
-                                                .Entry = New KeyValuePair With {
-                                                    .Key = htext.EntryId,
-                                                    .Value = htext.Description
-                                                }
-                                            }
+                            list += From htext As BriteHText
+                                    In category.CategoryItems
+                                    Select New Compound With {
+                                        .Class = [Class].ClassLabel,
+                                        .Category = category.ClassLabel,
+                                        .Entry = New KeyValuePair With {
+                                            .Key = htext.EntryId,
+                                            .Value = htext.Description
+                                        }
+                                    }
                         Next
                     Next
 
@@ -94,60 +97,60 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                             Continue For
                         End If
 
-                        For Each Category As BriteHText In [Class].CategoryItems
-                            If Category.CategoryItems.IsNullOrEmpty Then
+                        For Each category As BriteHText In [Class].CategoryItems
+                            If category.CategoryItems.IsNullOrEmpty Then
                                 Continue For
                             End If
-                            For Each SubCategory As BriteHText In Category.CategoryItems
-                                If SubCategory.CategoryItems.IsNullOrEmpty Then
+                            For Each subCategory As BriteHText In category.CategoryItems
+                                If subCategory.CategoryItems.IsNullOrEmpty Then
                                     Continue For
                                 End If
 
-                                CompoundList += From item As BriteHText
-                                                In SubCategory.CategoryItems
-                                                Select New Compound With {
-                                                    .Class = [Class].ClassLabel,
-                                                    .Category = Category.ClassLabel,
-                                                    .SubCategory = SubCategory.ClassLabel,
-                                                    .Entry = New KeyValuePair With {
-                                                        .Key = item.EntryId,
-                                                        .Value = item.Description
-                                                    }
-                                                }
+                                list += From br As BriteHText
+                                        In subCategory.CategoryItems
+                                        Select New Compound With {
+                                            .Class = [Class].ClassLabel,
+                                            .Category = category.ClassLabel,
+                                            .SubCategory = subCategory.ClassLabel,
+                                            .Entry = New KeyValuePair With {
+                                                .Key = br.EntryId,
+                                                .Value = br.Description
+                                            }
+                                        }
                             Next
                         Next
                     Next
 
                 Case "E"c
-                    For Each [Class] As BriteHText In Model.CategoryItems
-                        If [Class].CategoryItems.IsNullOrEmpty Then
+                    For Each [class] As BriteHText In Model.CategoryItems
+                        If [class].CategoryItems.IsNullOrEmpty Then
                             Continue For
                         End If
-                        For Each Category As BriteHText In [Class].CategoryItems
-                            If Category.CategoryItems.IsNullOrEmpty Then
+                        For Each category As BriteHText In [class].CategoryItems
+                            If category.CategoryItems.IsNullOrEmpty Then
                                 Continue For
                             End If
-                            For Each SubCategory As BriteHText In Category.CategoryItems
-                                If SubCategory.CategoryItems.IsNullOrEmpty Then
+                            For Each subCategory As BriteHText In category.CategoryItems
+                                If subCategory.CategoryItems.IsNullOrEmpty Then
                                     Continue For
                                 End If
-                                For Each OrderItem In SubCategory.CategoryItems
-                                    If OrderItem.CategoryItems.IsNullOrEmpty Then
+                                For Each order As BriteHText In subCategory.CategoryItems
+                                    If order.CategoryItems.IsNullOrEmpty Then
                                         Continue For
                                     End If
 
-                                    CompoundList += From item
-                                                    In OrderItem.CategoryItems
-                                                    Select New Compound With {
-                                                        .Class = [Class].ClassLabel,
-                                                        .Category = Category.ClassLabel,
-                                                        .SubCategory = SubCategory.ClassLabel,
-                                                        .Order = OrderItem.ClassLabel,
-                                                        .Entry = New KeyValuePair With {
-                                                            .Key = item.EntryId,
-                                                            .Value = item.Description
-                                                        }
-                                                    }
+                                    list += From br As BriteHText
+                                            In order.CategoryItems
+                                            Select New Compound With {
+                                                .Class = [class].ClassLabel,
+                                                .Category = category.ClassLabel,
+                                                .SubCategory = subCategory.ClassLabel,
+                                                .Order = order.ClassLabel,
+                                                .Entry = New KeyValuePair With {
+                                                    .Key = br.EntryId,
+                                                    .Value = br.Description
+                                                }
+                                            }
 
                                 Next
                             Next
@@ -155,10 +158,12 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Next
             End Select
 
-            Return CompoundList.ToArray
+            Return list.ToArray
         End Function
 
         ''' <summary>
+        ''' 请注意，这个函数只能够下载包含有分类信息的化合物，假若代谢物还没有分类信息的话，则无法利用这个函数进行下载
+        ''' 
         '''  br08001  Compounds with biological roles
         '''  br08002  Lipids
         '''  br08003  Phytochemical compounds
@@ -171,9 +176,12 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <param name="EXPORT"></param>
         ''' <param name="DirectoryOrganized"></param>
+        ''' <param name="forceUpdate">是否需要API对已经存在的数据进行强制更新？</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function DownloadFromResource(EXPORT As String, Optional DirectoryOrganized As Boolean = True) As Integer
+        Public Shared Function DownloadFromResource(EXPORT$,
+                                                    Optional DirectoryOrganized As Boolean = True,
+                                                    Optional forceUpdate As Boolean = False) As String()
             Dim Resource = {
                 New KeyValuePair(Of String, Compound())("Compounds with biological roles", Build(BriteHText.Load(My.Resources.br08001))),
                 New KeyValuePair(Of String, Compound())("Lipids", Build(BriteHText.Load(My.Resources.br08002))),
@@ -185,70 +193,122 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 New KeyValuePair(Of String, Compound())("Natural toxins", Build(BriteHText.Load(My.Resources.br08009))),
                 New KeyValuePair(Of String, Compound())("Target-based classification of compounds", Build(BriteHText.Load(My.Resources.br08010)))
             }
+            Dim failures As New List(Of String)
 
-            For Each BriteEntry In Resource
-
-                For Each Entry As Compound In BriteEntry.Value
-                    Dim EntryId As String = Entry.Entry.Key
-                    Dim SaveToDir As String = If(DirectoryOrganized, String.Join("/", EXPORT, BriteEntry.Key, BriteHText.NormalizePath(Entry.Class), BriteHText.NormalizePath(Entry.Category), BriteHText.NormalizePath(Entry.SubCategory)), EXPORT)
-                    Dim XmlFile As String = String.Format("{0}/{1}.xml", SaveToDir, EntryId)
-
-                    If FileIO.FileSystem.FileExists(XmlFile) Then
-                        If FileIO.FileSystem.GetFileInfo(XmlFile).Length > 0 Then
-                            Continue For
-                        End If
-                    End If
-
-                    If EntryId.First = "G"c Then
-                        Dim [Module] = KEGG.DBGET.bGetObject.Glycan.Download(EntryId)
-
-                        If [Module] Is Nothing Then
-                            Call Console.WriteLine("[{0}] is not exists in the kegg!", Entry.ToString)
-                            Continue For
-                        End If
-
-                        Call [Module].GetXml.SaveTo(XmlFile)
-                    Else
-                        Dim [Module] = KEGG.DBGET.bGetObject.Compound.Download(EntryId)
-
-                        If [Module] Is Nothing Then
-                            Call Console.WriteLine("[{0}] is not exists in the kegg!", Entry.ToString)
-                            Continue For
-                        End If
-
-                        Call [Module].GetXml.SaveTo(XmlFile)
-                    End If
-                Next
+            For Each briteEntry In Resource
+                With briteEntry
+                    Call __downloadsInternal(.Key, .Value, failures, EXPORT, DirectoryOrganized, forceUpdate)
+                End With
             Next
 
-            Return 0
+            Return failures
         End Function
 
-        Public Shared Function DownloadCompounds(Export As String, BriefFile As String, Optional DirectoryOrganized As Boolean = True) As Integer
-            Dim BriefEntries = LoadFile(BriefFile)
+        Private Shared Sub __downloadsInternal(key$, briteEntry As Compound(), ByRef failures As List(Of String), EXPORT$, DirectoryOrganized As Boolean, forceUpdate As Boolean)
+            Dim progress As New ProgressBar("Downloads " & key, cls:=True)
+            Dim tick As New ProgressProvider(briteEntry.Length)
 
-            For Each Entry As Compound In BriefEntries
-                Dim EntryId As String = Entry.Entry.Key
-                Dim SaveToDir As String = If(DirectoryOrganized, String.Join("/", Export, BriteHText.NormalizePath(Entry.Class), BriteHText.NormalizePath(Entry.Category), BriteHText.NormalizePath(Entry.SubCategory)), Export)
-                Dim XmlFile As String = String.Format("{0}/{1}.xml", SaveToDir, EntryId)
+            ' 2017-3-12
+            ' 有些entry的编号是空值？？？
+            Dim keys = briteEntry.Where(
+                Function(ID)
+                    Return (Not ID Is Nothing) AndAlso
+                        (Not ID.Entry Is Nothing) AndAlso
+                        (Not ID.Entry.Key.StringEmpty)
+                End Function)
 
-                If FileIO.FileSystem.FileExists(XmlFile) Then
-                    If FileIO.FileSystem.GetFileInfo(XmlFile).Length > 0 Then
-                        Continue For
-                    End If
-                End If
+            For Each entry As Compound In keys
+                Dim EntryId As String = entry.Entry.Key
+                Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized, [class]:=key)
+                Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryId)
 
-                Dim [Module] = KEGG.DBGET.bGetObject.Compound.Download(EntryId)
-
-                If [Module] Is Nothing Then
-                    Call Console.WriteLine("[{0}] is not exists in the kegg!", Entry.ToString)
+                If Not forceUpdate AndAlso xml.FileExists(True) Then
                     Continue For
                 End If
 
-                Call [Module].GetXml.SaveTo(XmlFile)
+                If EntryId.First = "G"c Then
+                    Dim gl As Glycan = Glycan.Download(EntryId)
+
+                    If gl Is Nothing Then
+                        Call $"[{entry.ToString}] is not exists in the kegg!".Warning
+                        failures += EntryId
+                    Else
+                        Call gl.GetXml.SaveTo(xml)
+                    End If
+                Else
+                    Dim cpd As bGetObject.Compound = MetabolitesDBGet.DownloadCompound(EntryId)
+
+                    If cpd Is Nothing Then
+                        Call $"[{entry.ToString}] is not exists in the kegg!".Warning
+                        failures += EntryId
+                    Else
+                        Call cpd.GetXml.SaveTo(xml)
+                    End If
+                End If
+
+                Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
+                Call Thread.Sleep(1000)
+                Call progress.SetProgress(tick.StepProgress, detail:=ETA)
             Next
 
-            Return 0
+            Call progress.Dispose()
+        End Sub
+
+        Public Function BuildPath(EXPORT$, directoryOrganized As Boolean, Optional class$ = "") As String
+            With Me
+                If directoryOrganized Then
+                    Dim t As New List(Of String) From {
+                        EXPORT,
+                        BriteHText.NormalizePath(.Class),
+                        BriteHText.NormalizePath(.Category),
+                        BriteHText.NormalizePath(.SubCategory)
+                    }
+
+                    If Not [class].StringEmpty Then
+                        Call t.Insert(index:=1, item:=[class])
+                    End If
+
+                    Return String.Join("/", t)
+                Else
+                    Return EXPORT
+                End If
+            End With
+        End Function
+
+        ''' <summary>
+        ''' 函数返回失败的编号列表
+        ''' </summary>
+        ''' <param name="EXPORT"></param>
+        ''' <param name="BriefFile"></param>
+        ''' <param name="DirectoryOrganized"></param>
+        ''' <returns></returns>
+        Public Shared Function DownloadCompounds(EXPORT$, briefFile$,
+                                                 Optional DirectoryOrganized As Boolean = True,
+                                                 Optional forceUpdate As Boolean = False) As String()
+
+            Dim BriefEntries As Compound() = LoadFile(briefFile)
+            Dim failures As New List(Of String)
+
+            For Each entry As Compound In BriefEntries
+                Dim EntryId As String = entry.Entry.Key
+                Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized)
+                Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryId)
+
+                If Not forceUpdate AndAlso xml.FileExists(True) Then
+                    Continue For
+                End If
+
+                Dim cpd As bGetObject.Compound = MetabolitesDBGet.DownloadCompound(EntryId)
+
+                If cpd Is Nothing Then
+                    Call $"[{entry.ToString}] is not exists in the kegg!".Warning
+                    failures += EntryId
+                Else
+                    Call cpd.GetXml.SaveTo(xml)
+                End If
+            Next
+
+            Return failures
         End Function
 
         Public Shared Function LoadFile(path As String) As Compound()

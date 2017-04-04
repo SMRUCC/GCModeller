@@ -1,38 +1,38 @@
 ﻿#Region "Microsoft.VisualBasic::f526559cc3a830cef962c478b2237878, ..\GCModeller\engine\GCTabular\Compiler\KEGG.Compiler\Reactions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.Analysis
+Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.Interops
@@ -43,7 +43,7 @@ Namespace KEGG.Compiler
     Public Module Reactions
 
         <Extension>
-        Private Function __match(models As Dictionary(Of String, bGetObject.Reaction), item As CARMEN.Reaction, ReactionsDownloads As String) As bGetObject.Reaction
+        Private Function __match(models As Dictionary(Of String, Reaction), item As CARMEN.Reaction, ReactionsDownloads As String) As Reaction
             If models.ContainsKey(item.rnId) Then
                 Return models(item.rnId)
             Else
@@ -52,7 +52,7 @@ Namespace KEGG.Compiler
                     Return Nothing  '由于CARMEN软件的数据库与KEGG数据库的版本不一致，故而会出现这个情况，对这种错误进行忽略
                 End If
 
-                Dim DownloadReactionModel = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction.Download(item.rnId)
+                Dim DownloadReactionModel = ReactionWebAPI.Download(item.rnId)
                 Call DownloadReactionModel.GetXml.SaveTo(DownloadFile)
                 Return DownloadReactionModel
             End If
@@ -66,14 +66,14 @@ Namespace KEGG.Compiler
         ''' <param name="ModelLoader">包含有整个KEGG数据库之中的Compound</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function CompileCARMEN(KEGGReactions As IEnumerable(Of bGetObject.Reaction),
+        Public Function CompileCARMEN(KEGGReactions As IEnumerable(Of Reaction),
                                       CARMEN_DIR As String,
                                       ModelLoader As FileStream.IO.XmlresxLoader,
                                       ReactionsDownloads As String,
                                       CompoundsDownloads As String,
                                       Logging As Logging.LogFile) As List(Of FileStream.MetabolismFlux)
 
-            Dim Models = KEGGReactions.ToDictionary(Function(item As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction) item.Entry)
+            Dim Models = KEGGReactions.ToDictionary(Function(item As Reaction) item.Entry)
             Dim CARMEN = SMRUCC.genomics.Interops.CARMEN.Merge(CARMEN_DIR, EnzymaticOnly:=True)
             Dim LQuery = (From item As CARMEN.Reaction In CARMEN.AsParallel
                           Let Model = Models.__match(item, ReactionsDownloads)
@@ -82,17 +82,17 @@ Namespace KEGG.Compiler
 
             Dim DownloadMetabolites As List(Of FileStream.Metabolite) = New List(Of FileStream.Metabolite)
             Dim Metabolites = ModelLoader.MetabolitesModel.Values.ToDictionary(Function(Metabolite As FileStream.Metabolite) Metabolite.KEGGCompound) '将字典对象由UniqueID转换为KEGGCompound标识符
-            Dim Reactions = (From Model
-                             In LQuery
-                             Select GenerateModel(Model.Model, Metabolites, Model.Enzymes, CompoundsDownloads, DownloadMetabolites, Logging)).ToList '由于可能会涉及到List.Add操作（当需要下载缺失数据的时候）故而不能够进行并行化
+            Dim Reactions As New List(Of FileStream.MetabolismFlux)(LQuery.Select(Function(model) GenerateModel(model.Model, Metabolites, model.Enzymes, CompoundsDownloads, DownloadMetabolites, Logging))) ' 由于可能会涉及到List.Add操作（当需要下载缺失数据的时候）故而不能够进行并行化
 
-            If Not DownloadMetabolites.IsNullOrEmpty Then Call ModelLoader.MetabolitesModel.AddRange(DownloadMetabolites)
+            If Not DownloadMetabolites.IsNullOrEmpty Then
+                Call ModelLoader.MetabolitesModel.AddRange(DownloadMetabolites)
+            End If
 
             Return Reactions
         End Function
 
         Private Function Convert(DataModel As Level2.Elements.Reaction) As String
-            Dim Equation = SMRUCC.genomics.ComponentModel.EquaionModel.EquationBuilder.ToString(
+            Dim Equation = EquationBuilder.ToString(
                 LeftSide:=(From item In DataModel.Reactants Select New KeyValuePair(Of Double, String)(item.stoichiometry, item.species)).ToArray,
                 RightSide:=(From item In DataModel.Products Select New KeyValuePair(Of Double, String)(item.stoichiometry, item.species)).ToArray,
                 Reversible:=DataModel.reversible)
@@ -141,7 +141,7 @@ Namespace KEGG.Compiler
                     Dim ReactionModels = MetaCycEnzymaticsReactions(Enzyme.Class) '将ReactionModel转换为LQuery
                     LQuery = (From mRxn As Slots.Reaction In ReactionModels
                               Where SbmlModels.ContainsKey(mRxn.Identifier)
-                              Select New bGetObject.Reaction With {
+                              Select New Reaction With {
                                   .Entry = mRxn.Identifier,
                                   .Definition = mRxn.CommonName,
                                   .CommonNames = If(mRxn.Names.IsNullOrEmpty, Nothing, mRxn.Names.ToArray),
@@ -169,10 +169,13 @@ Namespace KEGG.Compiler
                                                                                    If Not String.IsNullOrEmpty(Metabolite.MetaCycId) Then Return Metabolite.MetaCycId
                                                                                    Return Metabolite.Identifier
                                                                                End Function)
-            Dim ReactionDataModels = (From Model In Reactions.Values
-                                      Let ObjectModel = GenerateModel(Model.Value, Metabolites, Model.Key, CompoundsDownloads, DownloadMetabolites, Logging)
-                                      Where Not ObjectModel Is Nothing
-                                      Select ObjectModel).ToList '由于可能会涉及到List.Add操作（当需要下载缺失数据的时候）故而不能够进行并行化
+            Dim ReactionDataModels = LinqAPI.MakeList(Of FileStream.MetabolismFlux) <=
+ _
+                From Model
+                In Reactions.Values
+                Let ObjectModel = GenerateModel(Model.Value, Metabolites, Model.Key, CompoundsDownloads, DownloadMetabolites, Logging)
+                Where Not ObjectModel Is Nothing
+                Select ObjectModel ' 由于可能会涉及到List.Add操作（当需要下载缺失数据的时候）故而不能够进行并行化
 
             Call Logging.WriteLine(String.Format("Assign {0} KEGG reactions", ReactionDataModels.Count), "CompileExpasy()")
 
@@ -217,7 +220,7 @@ Namespace KEGG.Compiler
             Return (From item In SbmlModels Where Not item Is Nothing Select item).ToArray
         End Function
 
-        Private Function GenerateModel(Model As bGetObject.Reaction,
+        Private Function GenerateModel(Model As Reaction,
                                        Metabolites As Dictionary(Of String, FileStream.Metabolite),
                                        Enzymes As IEnumerable(Of String),
                                        DownloadDir As String,
@@ -231,7 +234,7 @@ Namespace KEGG.Compiler
             Dim IsKEGGReaction As Boolean = True
 
             For i As Integer = 0 To Substrates.Length - 1
-                Dim UniqueId As String = Substrates(i).Identifier
+                Dim UniqueId As String = Substrates(i).ID
 
                 UniqueId = Regex.Replace(UniqueId, "\(.+?\)", "") '由于这里的编号仅为KEGGCompound的编号，故而可以直接在这里使用替换操作
                 UniqueId = UniqueId.Split.Last.ToUpper
@@ -239,7 +242,7 @@ Namespace KEGG.Compiler
                 If Not Metabolites.ContainsKey(UniqueId) Then
 Download:
                     If Regex.Match(UniqueId, "C\d{5}").Success Then
-                        Dim DownloadCompoundModel = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound.Download(UniqueId)
+                        Dim DownloadCompoundModel = DBGET.bGetObject.MetabolitesDBGet.DownloadCompound(UniqueId)
 
                         Call DownloadCompoundModel.GetXml.SaveTo(String.Format("{0}/Downloads/{1}.xml", DownloadDir, UniqueId))
                         Call DownloadList.Add(Compound.GenerateObject(DownloadCompoundModel))
@@ -281,7 +284,7 @@ Download:
 
                         If Not String.IsNullOrEmpty(Compound.KEGGCompound) Then
                             If Metabolites.ContainsKey(Compound.KEGGCompound) Then
-                                Substrates(i).Identifier = Metabolites(Compound.KEGGCompound).Identifier
+                                Substrates(i).ID = Metabolites(Compound.KEGGCompound).Identifier
                                 Continue For
                             End If
 
@@ -295,9 +298,9 @@ Download:
                         End If
                     End If
 
-                    Substrates(i).Identifier = DownloadList.Last.Identifier
+                    Substrates(i).ID = DownloadList.Last.Identifier
                 Else
-                    Substrates(i).Identifier = Metabolites(UniqueId).Identifier
+                    Substrates(i).ID = Metabolites(UniqueId).Identifier
                 End If
             Next
 

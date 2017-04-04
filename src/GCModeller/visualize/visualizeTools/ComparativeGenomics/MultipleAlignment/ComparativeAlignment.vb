@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a9f279c92d24d981df72aa29006dcdb, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::0e46f2e8f72af3721b60956c8c6ad026, ..\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
 
     ' Author:
     ' 
@@ -62,7 +62,7 @@ Namespace ComparativeAlignment
         End Function
 
         Private Function __invokeDrawing(Models As GenomeModel,
-                                           Device As GDIPlusDeviceHandle,
+                                           Device As Graphics2D,
                                            Length As Integer,
                                            MaxLengthTitleSize As Size,
                                            Height As Integer,
@@ -255,7 +255,7 @@ Namespace ComparativeAlignment
             Next
 
             If String.IsNullOrEmpty(color_overrides) Then
-                Call Device.Graphics.DrawingCOGColors(Model.COGColors, New Point(Margin, Device.Height - Margin), Font, Device.Width, Margin)
+                Call Device.DrawingCOGColors(Model.COGColors, New Point(Margin, Device.Height - Margin), Font, Device.Width, Margin)
             End If
 
             Return Device.ImageResource

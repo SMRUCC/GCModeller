@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8641777252d9b802eac391cca459aaaf, ..\GCModeller\visualize\GCModeller.DataVisualization\CurvesChart\CurvesModel.vb"
+﻿#Region "Microsoft.VisualBasic::8641777252d9b802eac391cca459aaaf, ..\visualize\GCModeller.DataVisualization\CurvesChart\CurvesModel.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,7 @@ Public MustInherit Class CurvesModel
 
         Using g As IGraphics = source.GdiFromImage
             Call Draw(g, sample, location, size)
-            Return DirectCast(g, GDIPlusDeviceHandle).ImageResource
+            Return DirectCast(g, Graphics2D).ImageResource
         End Using
     End Function
 

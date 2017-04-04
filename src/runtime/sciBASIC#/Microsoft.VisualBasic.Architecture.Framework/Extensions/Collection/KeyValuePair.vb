@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::dc970315c583e3f0093a530c58d1ff1f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\KeyValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::46f89fcd593d9663e5b6da1f21047c39, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\KeyValuePair.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,6 +35,69 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 Public Module KeyValuePairExtensions
+
+    ''' <summary>
+    ''' 删除字典之中的指定的键值对，然后返回被删除的数据值
+    ''' </summary>
+    ''' <typeparam name="K"></typeparam>
+    ''' <typeparam name="V"></typeparam>
+    ''' <param name="table"></param>
+    ''' <param name="key"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function RemoveAndGet(Of K, V)(table As Dictionary(Of K, V), key As K) As V
+        Dim item As V = table(key)
+        Call table.Remove(key)
+        Return item
+    End Function
+
+    <Extension>
+    Public Function IteratesAll(Of T As INamedValue)(source As IEnumerable(Of NamedCollection(Of T))) As T()
+        Return source.Select(Function(c) c.Value).IteratesALL.ToArray
+    End Function
+
+    <Extension>
+    Public Function GroupByKey(Of T As INamedValue)(source As IEnumerable(Of T)) As NamedCollection(Of T)()
+        Return source _
+            .GroupBy(Function(o) o.Key) _
+            .ToArray(Function(g)
+                         Return New NamedCollection(Of T) With {
+                             .Name = g.Key,
+                             .Value = g.ToArray
+                         }
+                     End Function)
+    End Function
+
+    <Extension>
+    Public Function Values(Of T)(source As IEnumerable(Of NamedValue(Of T))) As T()
+        Return source.Select(Function(x) x.Value).ToArray
+    End Function
+
+    ''' <summary>
+    ''' gets all <see cref="INamedValue.Key"/> values
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="source"></param>
+    ''' <param name="distinct"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function Keys(Of T As INamedValue)(source As IEnumerable(Of T), Optional distinct As Boolean = False) As String()
+        Dim list As IEnumerable(Of String) = source.Select(Function(o) o.Key)
+        If distinct Then
+            list = list.Distinct
+        End If
+        Return list.ToArray
+    End Function
+
+    <Extension>
+    Public Function ContainsKey(Of T As INamedValue)(table As Dictionary(Of T), k As NamedValue(Of T)) As Boolean
+        Return table.ContainsKey(k.Name)
+    End Function
+
+    <Extension>
+    Public Function ContainsKey(Of T)(table As Dictionary(Of String, T), k As NamedValue(Of T)) As Boolean
+        Return table.ContainsKey(k.Name)
+    End Function
 
     <Extension>
     Public Function DictionaryData(Of T, V)(source As IReadOnlyDictionary(Of T, V)) As Dictionary(Of T, V)

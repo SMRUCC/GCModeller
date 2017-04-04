@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::f7e8b1211bf7f0c206073593a96a99f9, ..\GCModeller\engine\GCTabular\Mapping.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,8 @@ Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 
@@ -113,18 +115,18 @@ Public Class Mapping : Implements System.IDisposable
 
         For i As Integer = 0 To Effectors.Count - 1
             Dim Effector = Effectors(i)
-            Dim LQuery = (From Compound In Compounds.AsParallel Where IsEqually(Effector, Compound) Select Compound).ToArray
+            Dim LQuery = (From cpd As Compounds In Compounds.AsParallel Where IsEqually(Effector, cpd) Select cpd).ToArray
             Dim CommonNames As New List(Of String)(Effector.EffectorAlias)
 
             If Not LQuery.IsNullOrEmpty Then '在MetaCyc数据库之中查询到了相对应的记录数据
                 Dim Compound = LQuery.First
 
-                Effector.MetaCycId = Compound.Identifier.ToUpper
-                Call CommonNames.Add(Compound.CommonName)
+                'Effector.MetaCycId = Compound.Identifier.ToUpper
+                'Call CommonNames.Add(Compound.CommonName)
 
-                If Not Compound.Synonyms.IsNullOrEmpty Then
-                    Call CommonNames.AddRange(Compound.Synonyms)
-                End If
+                'If Not Compound.Synonyms.IsNullOrEmpty Then
+                '    Call CommonNames.AddRange(Compound.Synonyms)
+                'End If
             Else '没有在MetaCyc数据库之中查询到相对应的记录数据，则尝试在SBML代谢物列表中进行查询
                 Dim SBMLQuery = (From Metabolite In Me.SBMLMetabolite.AsParallel Where IsEqually(Effector, Metabolite) Select Metabolite).ToArray
 
@@ -150,7 +152,7 @@ Public Class Mapping : Implements System.IDisposable
     ''' <param name="Regprecise"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function EffectorMapping(Regprecise As IEnumerable(Of TranscriptRegulation), Mapping As IEnumerable(Of MetaCyc.Schema.ICompoundObject)) As List(Of MetaCyc.Schema.EffectorMap)
+    Public Shared Function EffectorMapping(Regprecise As IEnumerable(Of TranscriptRegulation), Mapping As IEnumerable(Of ICompoundObject)) As List(Of MetaCyc.Schema.EffectorMap)
         Dim Effectors = GetEffectors(Regprecise.ToArray)
         Effectors = InternalEffectorMapping(Effectors, Mapping)
         Call Effectors.SaveTo(My.Computer.FileSystem.SpecialDirectories.Temp & "/____temp___EffectorMapping.csv", False)
@@ -158,7 +160,7 @@ Public Class Mapping : Implements System.IDisposable
         Return Effectors
     End Function
 
-    Private Shared Function InternalEffectorMapping(Effectors As List(Of MetaCyc.Schema.EffectorMap), Mapping As IEnumerable(Of MetaCyc.Schema.ICompoundObject)) As List(Of MetaCyc.Schema.EffectorMap)
+    Private Shared Function InternalEffectorMapping(Effectors As List(Of MetaCyc.Schema.EffectorMap), Mapping As IEnumerable(Of ICompoundObject)) As List(Of MetaCyc.Schema.EffectorMap)
         For i As Integer = 0 To Effectors.Count - 1
             Dim Effector = Effectors(i)
             Dim LQuery = (From Compound In Mapping.AsParallel Where IsEqually(Effector, Compound) Select Compound).ToArray
@@ -185,7 +187,7 @@ Public Class Mapping : Implements System.IDisposable
     ''' <param name="Regprecise"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function EffectorMapping(Regprecise As IEnumerable(Of RegpreciseMPBBH), Mapping As IEnumerable(Of MetaCyc.Schema.ICompoundObject)) As List(Of MetaCyc.Schema.EffectorMap)
+    Public Shared Function EffectorMapping(Regprecise As IEnumerable(Of RegpreciseMPBBH), Mapping As IEnumerable(Of ICompoundObject)) As List(Of MetaCyc.Schema.EffectorMap)
         Dim Effectors = GetEffectors(bh:=Regprecise.ToArray)
         Effectors = InternalEffectorMapping(Effectors, Mapping)
         Call Effectors.SaveTo(My.Computer.FileSystem.SpecialDirectories.Temp & "/____temp___EffectorMapping.csv", False)
@@ -193,7 +195,7 @@ Public Class Mapping : Implements System.IDisposable
         Return Effectors
     End Function
 
-    Private Shared Function IsEqually(Effector As MetaCyc.Schema.EffectorMap, Compound As MetaCyc.Schema.ICompoundObject) As Boolean
+    Private Shared Function IsEqually(Effector As MetaCyc.Schema.EffectorMap, Compound As ICompoundObject) As Boolean
         For i As Integer = 0 To Effector.EffectorAlias.Count - 1
             If IsEquals(Effector.EffectorAlias(i), Compound) Then
                 Return True
@@ -211,7 +213,7 @@ Public Class Mapping : Implements System.IDisposable
         Return False
     End Function
 
-    Private Shared Function IsEquals(Effector As String, Compound As MetaCyc.Schema.ICompoundObject) As Boolean
+    Private Shared Function IsEquals(Effector As String, Compound As ICompoundObject) As Boolean
         If String.Equals(Effector.ToUpper, Compound.Key) Then
             Return True
         Else

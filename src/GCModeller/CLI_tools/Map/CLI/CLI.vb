@@ -3,6 +3,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Oracle.Java.IO.Properties
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -63,7 +64,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
 
         With config
 
-            Dim output As Bitmap() =
+            Dim output As GraphicsData() =
                 .CreateDevice _
                 .InvokeDrawing(model)
 

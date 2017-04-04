@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b7e0b40fc48a5c135a2dfbf9bb8ff90, ..\GCModeller\core\Bio.Assembly\ProteinModel\ProteinDomains.vb"
+﻿#Region "Microsoft.VisualBasic::e569a1405b37f0de33c889dfb1d87bdc, ..\core\Bio.Assembly\ProteinModel\ProteinDomains.vb"
 
     ' Author:
     ' 
@@ -27,10 +27,8 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly
@@ -84,7 +82,7 @@ Namespace ProteinModel
 
         Public Function ContainsDomain(DomainAccession As String) As Boolean
             Dim LQuery = From Domain In Domains
-                         Where String.Equals(DomainAccession, Domain.Identifier)
+                         Where String.Equals(DomainAccession, Domain.Name)
                          Select 100 '
             Return LQuery.FirstOrDefault > 50
         End Function
@@ -128,8 +126,8 @@ Namespace ProteinModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function SimilarTo(Protein1 As Protein, Protein2 As Protein, Optional threshold As Double = 0.3) As Boolean
-            Dim a As String() = Protein1.Domains.ToArray(Function(x) x.Identifier)
-            Dim b As String() = Protein2.Domains.ToArray(Function(x) x.Identifier)
+            Dim a As String() = Protein1.Domains.ToArray(Function(x) x.Name)
+            Dim b As String() = Protein2.Domains.ToArray(Function(x) x.Name)
             Dim edits As DistResult = LevenshteinDistance.ComputeDistance(a, b, AddressOf __equals, Function(c) "")
             Return edits.MatchSimilarity >= threshold
         End Function

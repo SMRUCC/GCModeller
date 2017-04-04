@@ -53,7 +53,7 @@ Namespace EngineSystem.ObjectModels.PoolMappings
         ''' Nodes mapping dictionary data
         ''' </summary>
         ''' <remarks></remarks>
-        Protected _DICT_MappingPool As Dictionary(Of String, List(Of EntityFeatureMapping))
+        Protected __mappingPool As Dictionary(Of String, List(Of EntityFeatureMapping))
 
 #End Region
 
@@ -72,7 +72,7 @@ Namespace EngineSystem.ObjectModels.PoolMappings
         End Sub
 
         Protected Sub UpdateCache()
-            _CACHE_MappingPool = (From Line In _DICT_MappingPool.Values Select Line.ToArray).ToArray
+            _CACHE_MappingPool = (From Line In __mappingPool.Values Select Line.ToArray).ToArray
         End Sub
 
         ''' <summary>
@@ -83,9 +83,9 @@ Namespace EngineSystem.ObjectModels.PoolMappings
         ''' <returns></returns>
         ''' <remarks>这里不要使用并行化，因为需要使用<see cref="ModellingEngine.EngineSystem.ObjectModels.PoolMappings.MotifClass.Handle"></see>或者<see cref="ModellingEngine.EngineSystem.ObjectModels.PoolMappings.EnzymeClass.Handle"></see>进行映射操作</remarks>
         Public Function ModifyMapping(Node As EntityFeatureMapping, NewClass As String) As Boolean
-            Dim ChunkBuffer = _DICT_MappingPool(Node.MappingHandler.locusId)
+            Dim ChunkBuffer = __mappingPool(Node.MappingHandler.locusId)
             Call ChunkBuffer.Remove(Node)
-            ChunkBuffer = _DICT_MappingPool(NewClass)
+            ChunkBuffer = __mappingPool(NewClass)
             Call ChunkBuffer.Add(Node)
             Call UpdateCache()
 
@@ -93,40 +93,40 @@ Namespace EngineSystem.ObjectModels.PoolMappings
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of String, List(Of EntityFeatureMapping))) Implements IEnumerable(Of KeyValuePair(Of String, List(Of EntityFeatureMapping))).GetEnumerator
-            For Each Item As KeyValuePair(Of String, List(Of EntityFeatureMapping)) In _DICT_MappingPool
+            For Each Item As KeyValuePair(Of String, List(Of EntityFeatureMapping)) In __mappingPool
                 Yield Item
             Next
         End Function
 
         Public ReadOnly Property Count As Integer Implements IReadOnlyCollection(Of KeyValuePair(Of String, List(Of EntityFeatureMapping))).Count
             Get
-                Return _DICT_MappingPool.Count
+                Return __mappingPool.Count
             End Get
         End Property
 
         Public Function ContainsHandle(HandlerId As String) As Boolean Implements IReadOnlyDictionary(Of String, List(Of EntityFeatureMapping)).ContainsKey
-            Return _DICT_MappingPool.ContainsKey(HandlerId)
+            Return __mappingPool.ContainsKey(HandlerId)
         End Function
 
         Default Public ReadOnly Property Item(key As String) As List(Of EntityFeatureMapping) Implements IReadOnlyDictionary(Of String, List(Of EntityFeatureMapping)).Item
             Get
-                Return _DICT_MappingPool(key)
+                Return __mappingPool(key)
             End Get
         End Property
 
         Public ReadOnly Property HandlerIdCollection As IEnumerable(Of String) Implements IReadOnlyDictionary(Of String, List(Of EntityFeatureMapping)).Keys
             Get
-                Return _DICT_MappingPool.Keys
+                Return __mappingPool.Keys
             End Get
         End Property
 
         Public Function TryGetValue(key As String, ByRef value As List(Of EntityFeatureMapping)) As Boolean Implements IReadOnlyDictionary(Of String, List(Of EntityFeatureMapping)).TryGetValue
-            Return _DICT_MappingPool.TryGetValue(key, value)
+            Return __mappingPool.TryGetValue(key, value)
         End Function
 
         Public ReadOnly Property Values As IEnumerable(Of List(Of EntityFeatureMapping)) Implements IReadOnlyDictionary(Of String, List(Of EntityFeatureMapping)).Values
             Get
-                Return _DICT_MappingPool.Values
+                Return __mappingPool.Values
             End Get
         End Property
 

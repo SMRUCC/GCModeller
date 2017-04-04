@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4e73d82f18b6eb46485f7e54599297d, ..\sciBASIC#\mime\MIME_Markups\HTML\CSS\FontStyle.vb"
+﻿#Region "Microsoft.VisualBasic::91abd1c9ce044689f01547084fd1c747, ..\sciBASIC#\mime\MIME_Markups\HTML\CSS\FontStyle.vb"
 
     ' Author:
     ' 
@@ -49,16 +49,20 @@ Namespace HTML.CSS
     '''
     ''' 可以不设置其中的某个值，比如 ``font:100% verdana;`` 也是允许的。未设置的属性会使用其默认值。
     ''' </summary>
-    Public Class CSSFont
+    Public Class CSSFont : Inherits ICSSValue
+
+        Public Const Win10Normal As String = "font-style: normal; font-size: 12; font-family: " & FontFace.SegoeUI & ";"
+        Public Const Win10NormalLarger As String = "font-style: normal; font-size: 16; font-family: " & FontFace.SegoeUI & ";"
 
         Public Const Win7Normal As String = "font-style: normal; font-size: 12; font-family: " & FontFace.MicrosoftYaHei & ";"
-        Public Const Win10Normal As String = "font-style: normal; font-size: 12; font-family: " & FontFace.SegoeUI & ";"
         Public Const Win7Bold As String = "font-style: strong; font-size: 12; font-family: " & FontFace.MicrosoftYaHei & ";"
         Public Const Win7LargerBold As String = "font-style: strong; font-size: 16; font-family: " & FontFace.MicrosoftYaHei & ";"
         Public Const Win7LargeBold As String = "font-style: strong; font-size: 20; font-family: " & FontFace.MicrosoftYaHei & ";"
+        Public Const Win7Large As String = "font-style: strong; font-size: 24; font-family: " & FontFace.MicrosoftYaHei & ";"
 
         Public Const PlotTitle$ = "font-style: strong; font-size: 24; font-family: " & FontFace.BookmanOldStyle & ";"
         Public Const PlotSubTitle$ = "font-style: normal; font-size: 20; font-family: " & FontFace.BookmanOldStyle & ";"
+        Public Const PlotSmallTitle$ = "font-style: normal; font-size: 16; font-family: " & FontFace.BookmanOldStyle & ";"
 
         Public Const UbuntuLarge$ = "font-style: normal; font-size: 20; font-family: " & FontFace.Ubuntu & ";"
         Public Const UbuntuNormal$ = "font-style: normal; font-size: 12; font-family: " & FontFace.Ubuntu & ";"
@@ -84,6 +88,12 @@ Namespace HTML.CSS
         Public ReadOnly Property GDIObject As Font
             Get
                 Return New Font(family, size, style)
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property CSSValue As String
+            Get
+                Return ToString()
             End Get
         End Property
 
@@ -167,6 +177,10 @@ Namespace HTML.CSS
             End Try
         End Function
 
+        ''' <summary>
+        ''' To CSS style text
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
             Dim sb As New StringBuilder
 

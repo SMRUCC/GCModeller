@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::377a2b465762d1084e1ec28f7ed14ec3, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Module.vb"
+﻿#Region "Microsoft.VisualBasic::ac60cf49e6c00b4241d20e11b2506dd4, ..\core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Module.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@ Namespace Assembly.KEGG.Archives.Csv
     Public Class [Module] : Inherits ComponentModel.PathwayBrief
         Implements IKeyValuePairObject(Of String, String())
 
-        Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).Identifier
+        Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).Key
             Get
                 Return MyBase.EntryId
             End Get

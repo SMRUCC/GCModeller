@@ -1,0 +1,71 @@
+﻿#Region "Microsoft.VisualBasic::dc1e5ecb03b4bdd3ded29df5029b9aa8, ..\core\Bio.Assembly\Assembly\KEGG\Web\Form\Extensions.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
+
+Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
+
+    Public Module Extensions
+
+        Public Const DBGET$ = "DBGET integrated database retrieval system"
+
+        <Extension>
+        Public Function DivInternals(html$) As String()
+            If html.StringEmpty Then
+                Return {}
+            Else
+                Dim ms$() = Regex.Matches(html, "<div.+?</div>", RegexICSng).ToArray
+                Return ms
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 这个函数只会将第一个nobr标签，即key标签字符串部分给删除掉，其他的nobr标签会被保留
+        ''' </summary>
+        ''' <param name="html$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Strip_NOBR(html$) As String
+            If html.StringEmpty Then
+                Return ""
+            Else
+                Dim m$ = Regex.Match(html, "<nobr>.+?</nobr>", RegexICSng).Value
+                If Not m.Length = 0 Then
+                    html = html.Replace(m, "")
+                End If
+                Return html
+            End If
+        End Function
+
+        <Extension>
+        Public Function IsShowAllLink(s$) As Boolean
+            Return InStr(s, "show all", Compare:=CompareMethod.Text) > 0
+        End Function
+    End Module
+End Namespace

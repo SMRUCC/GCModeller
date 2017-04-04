@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be7c934fc578ca5a1971a0ee8ec1f1d0, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\Location.vb"
+﻿#Region "Microsoft.VisualBasic::2f479c25914afcc5b24544f6c9028c6d, ..\core\Bio.Assembly\ComponentModel\Loci.Models\Location.vb"
 
     ' Author:
     ' 
@@ -66,7 +66,7 @@ Namespace ComponentModel.Loci
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Left As Integer Implements ILocationComponent.Left, IKeyValuePairObject(Of Integer, Integer).Identifier
+        <XmlAttribute> Public Property Left As Integer Implements ILocationComponent.Left, IKeyValuePairObject(Of Integer, Integer).Key
             Get
                 Return MyBase.Min
             End Get

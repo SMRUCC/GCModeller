@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::e0a5b49269c27fffa9686e9858afcee3, ..\LibMySQL\Reflection\Schema\Table.vb"
+﻿#Region "Microsoft.VisualBasic::07e93f31e42f3202e64cc7b565b1072e, ..\visualbasic.DBI\LibMySQL\Reflection\Schema\Table.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -26,7 +27,6 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes
@@ -39,7 +39,7 @@ Namespace Reflection.Schema
     ''' <remarks></remarks>
     Public Class Table
 
-        Protected Friend _databaseFields As Dictionary(Of String, Field)
+        Protected _databaseFields As Dictionary(Of String, Field)
 
         ''' <summary>
         ''' 
@@ -55,13 +55,21 @@ Namespace Reflection.Schema
         ''' <returns></returns>
         Public Property PrimaryFields As New List(Of String)
 
+        ''' <summary>
+        ''' 获取这个数据表的列定义集合
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Fields As Field()
             Get
                 Return _databaseFields.Values.ToArray
             End Get
         End Property
 
-        Public ReadOnly Property lstFieldName As String()
+        ''' <summary>
+        ''' 获取这个数据表的列名称的集合
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property FieldNames As String()
             Get
                 Return _databaseFields.ToArray(Function(x) x.Value.FieldName)
             End Get
@@ -109,11 +117,25 @@ Namespace Reflection.Schema
         Public Property SQL As String
 
         Protected Friend Sub New()
+            _databaseFields = New Dictionary(Of String, Field)
         End Sub
 
-        Sub New(Schema As Type)
-            Call Me.__getSchema(Schema)
-            SchemaType = Schema
+        ''' <summary>
+        ''' 从数据类型之中直接创建``schema``对象
+        ''' </summary>
+        ''' <param name="schema"></param>
+        Sub New(schema As Type)
+            Call Me.New
+            Call Me.__getSchema(schema)
+            SchemaType = schema
+        End Sub
+
+        ''' <summary>
+        ''' 这里不进行反射解析，直接使用已经存在的数据进行数据表模型的构造
+        ''' </summary>
+        ''' <param name="databaseFields"></param>
+        Sub New(databaseFields As Dictionary(Of String, Field))
+            _databaseFields = databaseFields
         End Sub
 
         Public Function GetPrimaryKeyFields() As Field()
@@ -124,18 +146,25 @@ Namespace Reflection.Schema
             Return TableName
         End Function
 
-        Private Sub __getSchema(Schema As Type)
-            Dim ItemProperty = Schema.GetProperties
+        Private Sub __getSchema(schema As Type)
+            Dim ItemProperty As PropertyInfo() = schema.GetProperties
             Dim Field As Field
             Dim Index2 As String = String.Empty
             Dim IndexProperty2 As PropertyInfo = Nothing
 
-            TableName = GetTableName(Schema)
+            TableName = GetTableName(schema)
+            Database = GetDatabaseName(schema)
 
             For i As Integer = 0 To ItemProperty.Length - 1
-                Field = ItemProperty(i) 'Parse the field attribute from the ctype operator, this property must have a DatabaseField custom attribute to indicate that it is a database field.
 
-                If Field Is Nothing Then Continue For
+                ' Parse the field attribute from the ctype operator, 
+                ' this property must have a DatabaseField custom 
+                ' Attribute to indicate that it is a database field.
+                Field = ItemProperty(i)
+
+                If Field Is Nothing Then
+                    Continue For
+                End If
 
                 Call _databaseFields.Add(Field.FieldName, Field)
 
@@ -156,7 +185,8 @@ Namespace Reflection.Schema
                 End If
             Next
 
-            Call __indexing(Index2, IndexProperty2, ItemProperty) 'If we can not found a index from its unique field, then we indexing from its primary key.
+            ' If we can not found a index from its unique field, then we indexing from its primary key.
+            Call __indexing(Index2, IndexProperty2, ItemProperty)
         End Sub
 
         ''' <summary>
@@ -199,16 +229,17 @@ Namespace Reflection.Schema
             End If
         End Sub
 
+        ''' <summary>
+        ''' 使用这个函数从类型的元数据之中解析出数据库表名
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <returns></returns>
         Public Shared Function GetTableName(type As Type) As String
-            Dim Attributes = type.CustomAttributes
+            Return type.GetAttribute(Of TableName).Name
+        End Function
 
-            For Each attr As CustomAttributeData In Attributes
-                If String.Equals(attr.AttributeType.Name, "TableName") Then
-                    Return attr.ConstructorArguments.First.Value
-                End If
-            Next
-
-            Return String.Empty
+        Public Shared Function GetDatabaseName(type As Type) As String
+            Return type.GetAttribute(Of TableName).Database
         End Function
 
         Public Shared Widening Operator CType(Schema As Type) As Table
@@ -216,4 +247,3 @@ Namespace Reflection.Schema
         End Operator
     End Class
 End Namespace
-

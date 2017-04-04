@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e386b703bd88fc8353570cfdd4957828, ..\GCModeller\visualize\visualizeTools\PlasmidMap\PlasmidMap.vb"
+﻿#Region "Microsoft.VisualBasic::e386b703bd88fc8353570cfdd4957828, ..\visualize\visualizeTools\PlasmidMap\PlasmidMap.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd1371de55c63cab009b7db9052c7144, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Module.vb"
+﻿#Region "Microsoft.VisualBasic::cd1371de55c63cab009b7db9052c7144, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Module.vb"
 
     ' Author:
     ' 

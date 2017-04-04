@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc37200a13b1103c5d473fe9af6c9515, ..\GCModeller\core\Bio.Assembly\Test.Project\GFF.vb"
+﻿#Region "Microsoft.VisualBasic::bc37200a13b1103c5d473fe9af6c9515, ..\core\Bio.Assembly\Test.Project\GFF.vb"
 
     ' Author:
     ' 

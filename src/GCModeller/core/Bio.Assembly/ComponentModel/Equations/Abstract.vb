@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::09e7efd33b8c17314163700b1880d677, ..\GCModeller\core\Bio.Assembly\ComponentModel\Equations\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::0b920ecf6c7760ee1e230b976bfe2acd, ..\core\Bio.Assembly\ComponentModel\Equations\Abstract.vb"
 
     ' Author:
     ' 
@@ -48,5 +48,21 @@ Namespace ComponentModel.EquaionModel
         ''' <returns></returns>
         Property Products As TCompound()
         Property Reversible As Boolean
+    End Interface
+
+    Public Interface ICompoundObject : Inherits INamedValue
+        Property CommonNames As String()
+        Property PUBCHEM As String
+        ''' <summary>
+        ''' ChEBI ID list
+        ''' </summary>
+        ''' <returns></returns>
+        Property CHEBI As String()
+
+        ''' <summary>
+        ''' KEGG compound ID
+        ''' </summary>
+        ''' <returns></returns>
+        Property KEGG_cpd As String
     End Interface
 End Namespace

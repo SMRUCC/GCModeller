@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b94a0431a672203d899fa07786f8860, ..\GCModeller\core\Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::a9f3a7d6bfd94eeab9644c378759aef1, ..\core\Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
 
     ' Author:
     ' 
@@ -181,4 +181,3 @@ Public Class KEGGOrthology
         End Using
     End Function
 End Class
-

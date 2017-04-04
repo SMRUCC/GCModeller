@@ -1,47 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::a4c76a0c9a324aa7e3383f9a2d05fbe8, ..\GCModeller\engine\GCTabular\Compiler\Downloader\MetaboliteInformationDownloader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.IO
-Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.Similarity
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace Compiler.Components
 
     Public Class MetaboliteInformationDownloader
 
-        Dim ChEBILoader As TSV
+        Dim ChEBILoader As TSVTables
 
         Sub New(ChEBIDir As String)
-            ChEBILoader = New TSV(ChEBIDir)
+            ChEBILoader = New TSVTables(ChEBIDir)
         End Sub
 
         Public Function Match(Model As FileStream.IO.XmlresxLoader) As Integer
@@ -58,15 +55,15 @@ Namespace Compiler.Components
                         Continue For
                     End If
 
-                    If Metabolite.MolWeight > 0 Then
+                    If metabolite.MolWeight > 0 Then
                         Continue For
                     End If
 
-                    If Metabolite.CommonNames.IsNullOrEmpty Then
+                    If metabolite.CommonNames.IsNullOrEmpty Then
                         Continue For
                     End If
 
-                    For Each CommonName As String In Metabolite.CommonNames
+                    For Each CommonName As String In metabolite.CommonNames
                         Dim Result = (From item In ChEBINames.AsParallel Where FuzzyMatching(CommonName, item.NAME) Select item.COMPOUND_ID).ToArray
                         Dim KEGGCompound = (From item In ChEBIAccessions
                                             Where Array.IndexOf(Result, item.COMPOUND_ID) > -1 AndAlso
@@ -77,12 +74,12 @@ Namespace Compiler.Components
                             Continue For
                         End If
 
-                        Dim Compound = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound.Download(KEGGCompound.ACCESSION_NUMBER)
+                        Dim Compound = MetabolitesDBGet.DownloadCompound(KEGGCompound.ACCESSION_NUMBER)
 
                         metabolite.KEGGCompound = Compound.Entry
                         metabolite.MolWeight = Compound.MolWeight
                         If metabolite.MolWeight = 0.0R AndAlso Not String.IsNullOrEmpty(Compound.Formula) Then
-                            metabolite.MolWeight = SMRUCC.genomics.ComponentModel.PeriodicTable.MolecularWeightCalculate(Compound.Formula)
+                            metabolite.MolWeight = PeriodicTable.MolecularWeightCalculate(Compound.Formula)
                         End If
 
                         Call DonwloadList.Add(New DownloadedData With {.CommonName = CommonName, .KEGGCompounds = Compound, .MetaCycId = metabolite.Identifier})

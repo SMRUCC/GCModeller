@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a915362094779587471ade374b48dbe7, ..\GCModeller\visualize\SyntenyVisual\LinkLines.vb"
+﻿#Region "Microsoft.VisualBasic::a915362094779587471ade374b48dbe7, ..\visualize\SyntenyVisual\LinkLines.vb"
 
     ' Author:
     ' 
@@ -58,7 +58,7 @@ Public MustInherit Class Line
         Me.Color = cl
     End Sub
 
-    Public MustOverride Sub Draw(ByRef gdi As GDIPlusDeviceHandle, width As Integer)
+    Public MustOverride Sub Draw(ByRef gdi As Graphics2D, width As Integer)
 
     Public Overrides Function ToString() As String
         Return Me.GetJson
@@ -77,7 +77,7 @@ Public Class StraightLine : Inherits Line
         Call MyBase.New(from, toPoint, cl)
     End Sub
 
-    Public Overrides Sub Draw(ByRef gdi As GDIPlusDeviceHandle, width As Integer)
+    Public Overrides Sub Draw(ByRef gdi As Graphics2D, width As Integer)
         Call gdi.DrawLine(New Pen(Color, width), From, [To])
     End Sub
 End Class
@@ -110,7 +110,7 @@ Public Class Polyline : Inherits Line
         Turnp = p
     End Sub
 
-    Public Overrides Sub Draw(ByRef gdi As GDIPlusDeviceHandle, width As Integer)
+    Public Overrides Sub Draw(ByRef gdi As Graphics2D, width As Integer)
         Dim height As Integer = [To].Y - From.Y
         Dim t As Integer = height * Turnp
         Dim t1 As New Point(From.X, From.Y + t)
@@ -141,7 +141,7 @@ Public Class Bézier : Inherits Line
         Turnp = p
     End Sub
 
-    Public Overrides Sub Draw(ByRef gdi As GDIPlusDeviceHandle, width As Integer)
+    Public Overrides Sub Draw(ByRef gdi As Graphics2D, width As Integer)
         Dim height As Integer = [To].Y - From.Y       ' 由于假设To是下一个基因组，所以To的Y肯定会比From的Y的值要大
         Dim w As Integer = Math.Abs(From.X - [To].X)  ' 但是水平的基因组上面的位置却不会一定是To.X要比From.X要大了
         Dim ty As Integer = 2 * (height * Turnp)

@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("SQLite_Interface")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("SQLite_Interface")> 
-<Assembly: AssemblyCopyright("Copyright ©  2016")> 
+<Assembly: AssemblyTitle("SQLite ORM solution for Microsoft VisualBasic")>
+<Assembly: AssemblyDescription("SQLite ORM solution for Microsoft VisualBasic")>
+<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyProduct("SQLite ORM")>
+<Assembly: AssemblyCopyright("Copyright © GPL3 2016")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>

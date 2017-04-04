@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a19f2c022db02cb6e8499712cc5147cf, ..\GCModeller\core\Bio.Assembly\ComponentModel\ECNumber.vb"
+﻿#Region "Microsoft.VisualBasic::fae493a52bd9e3dd2da076cbfb8ade45, ..\core\Bio.Assembly\ComponentModel\ECNumber.vb"
 
     ' Author:
     ' 
@@ -129,6 +129,24 @@ Namespace ComponentModel
         ''' <remarks></remarks>
         Public Overrides Function ToString() As String
             Return String.Format("EC-{0}.{1}.{2}.{3}", CInt(Type), SubType, SubCategory, SerialNumber)
+        End Function
+
+        ''' <summary>
+        ''' ```
+        ''' 1.2.3.4
+        ''' 1.2.3.-
+        ''' 1.2.-.-
+        ''' ```
+        ''' </summary>
+        Public Const RegexEC$ = "\d+(\.((\d+)|[-]))+"
+
+        ''' <summary>
+        ''' 验证所输入的字符串的格式是否正确
+        ''' </summary>
+        ''' <param name="s$"></param>
+        ''' <returns></returns>
+        Public Shared Function ValidateValue(s$) As Boolean
+            Return s.MatchPattern(regex:=RegexEC)
         End Function
     End Class
 End Namespace

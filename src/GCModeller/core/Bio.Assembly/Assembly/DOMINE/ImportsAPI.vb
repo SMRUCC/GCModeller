@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fe20920a3739f15e07a924af1d1f33c, ..\GCModeller\core\Bio.Assembly\Assembly\DOMINE\ImportsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::0fe20920a3739f15e07a924af1d1f33c, ..\core\Bio.Assembly\Assembly\DOMINE\ImportsAPI.vb"
 
     ' Author:
     ' 

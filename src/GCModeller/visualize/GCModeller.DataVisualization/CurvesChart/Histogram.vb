@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f480f2095b29fd5c2d7895a9cd81045, ..\GCModeller\visualize\GCModeller.DataVisualization\CurvesChart\Histogram.vb"
+﻿#Region "Microsoft.VisualBasic::0f480f2095b29fd5c2d7895a9cd81045, ..\visualize\GCModeller.DataVisualization\CurvesChart\Histogram.vb"
 
     ' Author:
     ' 

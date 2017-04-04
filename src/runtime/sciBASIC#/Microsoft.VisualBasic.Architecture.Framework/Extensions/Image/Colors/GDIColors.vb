@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f695ebfad0679eae655ab897b4907cfa, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\ColorExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::98913cea4beb95bcad7533df426de50f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\GDIColors.vb"
 
     ' Author:
     ' 
@@ -39,6 +39,23 @@ Namespace Imaging
     ''' Extensions function for the gdi+ color type.
     ''' </summary>
     Public Module GDIColors
+
+        ''' <summary>
+        ''' 调整所输入的这一组颜色的alpha值
+        ''' </summary>
+        ''' <param name="colors"></param>
+        ''' <param name="alphaValue%"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Alpha(colors As IEnumerable(Of Color), alphaValue%) As Color()
+            Dim out As New List(Of Color)
+            For Each c As Color In colors
+                With c
+                    out += Color.FromArgb(alphaValue, .R, .G, .B)
+                End With
+            Next
+            Return out
+        End Function
 
         <Extension>
         Public Function Average(colors As IEnumerable(Of Color)) As Color

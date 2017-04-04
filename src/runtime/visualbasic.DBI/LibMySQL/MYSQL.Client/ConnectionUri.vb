@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::c63711bd2e8757606cf2c1fc43059c20, ..\LibMySQL\MYSQL.Client\ConnectionUri.vb"
+﻿#Region "Microsoft.VisualBasic::0982fff1b9f07fa250f22774baf04015, ..\visualbasic.DBI\LibMySQL\MYSQL.Client\ConnectionUri.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -349,4 +350,3 @@ Public Class ConnectionUri
     End Function
 #End Region
 End Class
-

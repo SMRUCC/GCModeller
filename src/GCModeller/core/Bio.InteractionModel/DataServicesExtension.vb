@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fc68740c2c93fb4cbcf8e4f00cd1d2b, ..\GCModeller\core\Bio.InteractionModel\DataServicesExtension.vb"
+﻿#Region "Microsoft.VisualBasic::fe7da575ac52dd6f302efae98d844424, ..\core\Bio.InteractionModel\DataServicesExtension.vb"
 
     ' Author:
     ' 
@@ -46,7 +46,7 @@ Imports Microsoft.VisualBasic.Data.csv
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Tag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Double()).Identifier
+        Public Property Tag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Double()).Key
         ''' <summary>
         ''' 该样品的实验数据
         ''' </summary>

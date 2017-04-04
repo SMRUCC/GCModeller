@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c5bc1b086ad640a99b483157ebc522ab, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\EnzymeClass.vb"
+﻿#Region "Microsoft.VisualBasic::c639cf885b60b1e1dac13f05d22d7d67, ..\core\Bio.Assembly\Assembly\Expasy\EnzymeClass.vb"
 
     ' Author:
     ' 
@@ -70,7 +70,7 @@ Namespace Assembly.Expasy.AnnotationsTool
     Public MustInherit Class T_ECPaired : Implements INamedValue
         Implements IKeyValuePairObject(Of String, String)
 
-        Public Property ProteinId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, String).Identifier
+        Public Property ProteinId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, String).Key
         Public Property uniprot As String Implements IKeyValuePairObject(Of String, String).Value
 
         Public Overrides Function ToString() As String

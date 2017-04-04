@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a85772db68b2c3bcfa60b00fee38d5d, ..\sciBASIC#\Data\DataFrame\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::baddd1cf128745180a85040ca7de20c1, ..\sciBASIC#\Data\DataFrame\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -169,6 +169,17 @@ Public Module Extensions
         Loop
 
         Return DataFrame.CreateObject(csv)
+    End Function
+
+    <Extension>
+    Public Function DataFrame(source As IEnumerable(Of NamedValue(Of Dictionary(Of String, String)))) As EntityObject()
+        Return source.ToArray(
+            Function(o)
+                Return New EntityObject With {
+                    .ID = o.Name,
+                    .Properties = o.Value
+                }
+            End Function)
     End Function
 
     <ExportAPI("Write.Csv")>

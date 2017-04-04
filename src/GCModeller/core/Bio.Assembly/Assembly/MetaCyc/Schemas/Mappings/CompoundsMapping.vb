@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91f8842ba32d09b20f5e599096daed5c, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Mappings\CompoundsMapping.vb"
+﻿#Region "Microsoft.VisualBasic::fbd230379be1db0638c7f8acc0787dac, ..\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Mappings\CompoundsMapping.vb"
 
     ' Author:
     ' 
@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Similarity
 Imports SMRUCC.genomics.Assembly.MetaCyc.File
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.MetaCyc.Schema
 
@@ -79,7 +80,7 @@ Namespace Assembly.MetaCyc.Schema
             If String.Equals(name, compound.Key, StringComparison.OrdinalIgnoreCase) Then
                 Return 100
             End If
-            If String.Equals(name, compound.locusId, StringComparison.OrdinalIgnoreCase) Then
+            If String.Equals(name, compound.KEGG_cpd, StringComparison.OrdinalIgnoreCase) Then
                 Return 100
             End If
 

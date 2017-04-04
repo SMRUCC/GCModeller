@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a03729626fb734edfd76d97c6cb20aa7, ..\GCModeller\core\Bio.Assembly\SequenceModel\FASTA\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e909ee1a6ac0ab79d94ec95e7675fb1d, ..\core\Bio.Assembly\SequenceModel\FASTA\Extensions.vb"
 
     ' Author:
     ' 
@@ -55,5 +55,3 @@ Namespace SequenceModel.FASTA
         End Function
     End Module
 End Namespace
-
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00129380919530e87ce10a9e5b61b2a3, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb"
+﻿#Region "Microsoft.VisualBasic::582721058f4be5b5ed30ef779d0d220c, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb"
 
     ' Author:
     ' 
@@ -26,12 +26,10 @@
 
 #End Region
 
-Imports SMRUCC.genomics.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 

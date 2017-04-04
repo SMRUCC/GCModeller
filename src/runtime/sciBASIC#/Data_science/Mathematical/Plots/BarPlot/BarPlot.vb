@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3958be664014dd79cb31cebfdc318a07, ..\sciBASIC#\Data_science\Mathematical\Plots\BarPlot\BarPlot.vb"
+﻿#Region "Microsoft.VisualBasic::66bde4ee23eb899b15d910f589cd2e5c, ..\sciBASIC#\Data_science\Mathematical\Plots\BarPlot\BarPlot.vb"
 
 ' Author:
 ' 
@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -62,21 +63,22 @@ Namespace BarPlot
         ''' <returns></returns>
         <Extension>
         Public Function Plot(data As BarDataGroup,
-                         Optional size As Size = Nothing,
-                         Optional padding$ = "padding: 300 120 300 120;",
-                         Optional bg$ = "white",
-                         Optional showGrid As Boolean = True,
-                         Optional stacked As Boolean = False,
-                         Optional stackReordered? As Boolean = True,
-                         Optional showLegend As Boolean = True,
-                         Optional legendPos As Point = Nothing,
-                         Optional legendBorder As Border = Nothing,
-                         Optional legendFont As Font = Nothing) As Bitmap
+                             Optional size As Size = Nothing,
+                             Optional padding$ = "padding: 300 120 300 120;",
+                             Optional bg$ = "white",
+                             Optional showGrid As Boolean = True,
+                             Optional stacked As Boolean = False,
+                             Optional stackReordered? As Boolean = True,
+                             Optional showLegend As Boolean = True,
+                             Optional legendPos As Point = Nothing,
+                             Optional legendBorder As Stroke = Nothing,
+                             Optional legendFont As Font = Nothing) As GraphicsData
 
             Dim margin As Padding = padding
 
             Return GraphicsPlots(
-                size, margin, bg,
+                size, margin,
+                bg,
                 Sub(ByRef g, grect) Call __plot1(
                     g, grect,
                     data,
@@ -98,7 +100,7 @@ Namespace BarPlot
         ''' <param name="showLegend"></param>
         ''' <param name="legendPos"></param>
         ''' <param name="legendBorder"></param>
-        Private Sub __plot1(ByRef g As Graphics, grect As GraphicsRegion,
+        Private Sub __plot1(ByRef g As IGraphics, grect As GraphicsRegion,
                             data As BarDataGroup,
                             bg$,
                             showGrid As Boolean,
@@ -106,7 +108,7 @@ Namespace BarPlot
                             stackReorder As Boolean,
                             showLegend As Boolean,
                             legendPos As Point,
-                            legendBorder As Border,
+                            legendBorder As Stroke,
                             legendFont As Font)
 
             Dim scaler As New Scaling(data, stacked, False)
@@ -164,11 +166,11 @@ Namespace BarPlot
 
                         Call g.DrawRectangle(Pens.Black, rect)
                         Call g.FillRectangle(
-                        New SolidBrush(data.Serials(val.i).Value),
-                        Rectangle(top + 1,
-                                  x + 1,
-                                  right - 1,
-                                  grect.Size.Height - grect.Padding.Bottom - 1))
+                            New SolidBrush(data.Serials(val.i).Value),
+                            Rectangle(top + 1,
+                                      x + 1,
+                                      right - 1,
+                                      grect.Size.Height - grect.Padding.Bottom - 1))
                         x += dxStep
                     Next
                 End If
@@ -177,8 +179,8 @@ Namespace BarPlot
             Next
 
             Dim keys$() = data.Samples _
-            .Select(Function(s) s.Tag) _
-            .ToArray
+                .Select(Function(s) s.Tag) _
+                .ToArray
             Dim font As New Font(FontFace.SegoeUI, 28)
             Dim dd = leftMargins(1) - leftMargins(0)
 
@@ -213,7 +215,7 @@ Namespace BarPlot
                 If legendPos.IsEmpty Then
                     Dim Y% = grect.Padding.Bottom / legends.Length
                     Dim X%
-                    Dim gr As Graphics = g
+                    Dim gr As IGraphics = g
                     Dim maxW As Single = legends.Max(
                     Function(l) gr _
                         .MeasureString(l.title, legendFont) _
@@ -242,50 +244,20 @@ Namespace BarPlot
         <Extension>
         Public Function FromData(data As IEnumerable(Of Double)) As BarDataGroup
             Return New BarDataGroup With {
-            .Serials = {
-                New NamedValue(Of Color) With {
-                    .Name = "",
-                    .Value = Color.Lime
-                }
-            },
-            .Samples = LinqAPI.Exec(Of BarDataSample) <=
-                From n
-                In data.SeqIterator
-                Select New BarDataSample With {
-                    .data = {n.value},
-                    .Tag = n.i
-                }
-        }
+                .Serials = {
+                    New NamedValue(Of Color) With {
+                        .Name = "",
+                        .Value = Color.Lime
+                    }
+                },
+                .Samples = LinqAPI.Exec(Of BarDataSample) <=
+                    From n
+                    In data.SeqIterator
+                    Select New BarDataSample With {
+                        .data = {n.value},
+                        .Tag = n.i
+                    }
+            }
         End Function
-
-        '   ''' <summary>
-        '   ''' Plot ODEs result using bar plot
-        '   ''' </summary>
-        '   ''' <param name="odes"></param>
-        '   ''' <returns></returns>
-        '   Public Function FromODE(ParamArray odes As ODE()) As BarDataGroup
-        '       Dim colors = Imaging.ChartColors.Shuffles
-        '       Dim serials = LinqAPI.Exec(Of NamedValue(Of Color)) <=
-        '_
-        '           From x As SeqValue(Of ODE)
-        '           In odes.SeqIterator
-        '           Select New NamedValue(Of Color) With {
-        '               .Name = x.value.df.ToString,
-        '               .Value = colors(x.i)
-        '           }
-        '       Dim samples = LinqAPI.Exec(Of BarDataSample) <=
-        '_
-        '           From i As Integer
-        '           In odes.First.y.Sequence
-        '           Select New BarDataSample With {
-        '               .Tag = i,
-        '               .data = odes.ToArray(Function(x) x.y(i))
-        '           }
-
-        '       Return New BarDataGroup With {
-        '           .Samples = samples,
-        '           .Serials = serials
-        '       }
-        '   End Function
     End Module
 End Namespace

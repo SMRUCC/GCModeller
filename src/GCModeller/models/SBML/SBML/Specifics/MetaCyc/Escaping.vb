@@ -42,7 +42,7 @@ Namespace Specifics.MetaCyc
         ''' 原来的特殊符号字符串
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Original As String Implements IKeyValuePairObject(Of String, String).Identifier
+        <XmlAttribute> Public Property Original As String Implements IKeyValuePairObject(Of String, String).Key
         ''' <summary>
         ''' 保存在文件之中的转义字符串
         ''' </summary>

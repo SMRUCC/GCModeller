@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c8bb86b6c05a66d74b8e46c2c93f343, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\ProtFasta.vb"
+﻿#Region "Microsoft.VisualBasic::0c8bb86b6c05a66d74b8e46c2c93f343, ..\core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\ProtFasta.vb"
 
     ' Author:
     ' 

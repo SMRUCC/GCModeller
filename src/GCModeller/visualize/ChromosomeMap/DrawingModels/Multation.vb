@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa7e2aaeb45da607fd0dcf7f8ab17a6e, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\DrawingModels\Multation.vb"
+﻿#Region "Microsoft.VisualBasic::915f11425a7a85604b3498b8718e7b77, ..\visualize\ChromosomeMap\DrawingModels\Multation.vb"
 
 ' Author:
 ' 
@@ -28,6 +28,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.FootprintMap
 
 Namespace DrawingModels
@@ -68,7 +69,7 @@ Namespace DrawingModels
             {MutationTypes.DeleteMutation, Color.Red},
             {MutationTypes.IntegrationMutant, Color.Blue}}
 
-        Public Overrides Sub Draw(Device As Graphics, location As Point, FlagLength As Integer, FLAG_HEIGHT As Integer)
+        Public Overrides Sub Draw(Device As IGraphics, location As Point, FlagLength As Integer, FLAG_HEIGHT As Integer)
             Dim GraphModel = __drawingModel(Me.MutationType)(location, Me.Direction, FlagLength, FLAG_HEIGHT)
             Dim Color As Color = __color(Me.MutationType)
 

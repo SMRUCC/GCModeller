@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3dfb986b5834a64144d124ed1ceffbe, ..\GCModeller\core\Bio.Assembly\Assembly\Uniprot\Web\Retrieve_IDmapping.vb"
+﻿#Region "Microsoft.VisualBasic::b1905c60ccf01f9e5b66ea8c19f9fcc9, ..\core\Bio.Assembly\Assembly\Uniprot\Web\Retrieve_IDmapping.vb"
 
     ' Author:
     ' 
@@ -27,13 +27,29 @@
 #End Region
 
 Imports System.Collections.Specialized
+Imports System.Text.RegularExpressions
 Imports System.Threading
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Assembly.Uniprot.Web
 
     Public Module Retrieve_IDmapping
+
+        ReadOnly idTypes As Dictionary(Of String, ID_types) =
+            Enums(Of ID_types) _
+            .ToDictionary(Function(id) id.Description)
+
+        Public Function IDTypeParser(value$, Optional [default] As ID_types = ID_types.P_REFSEQ_AC) As ID_types
+            value = value.ToUpper
+
+            If idTypes.ContainsKey(value) Then
+                Return idTypes(value)
+            Else
+                Return [default]
+            End If
+        End Function
 
         Const yes$ = NameOf(yes)
         Const no$ = NameOf(no)
@@ -44,7 +60,7 @@ Namespace Assembly.Uniprot.Web
         ''' <param name="uploadQuery"></param>
         ''' <param name="from"></param>
         ''' <param name="[to]"></param>
-        ''' <param name="save$"></param>
+        ''' <param name="save$">这是一个文件名来的</param>
         ''' <param name="compress$">
         ''' 假若这个参数为<see cref="yes"/>的话，下载的是一个``*.gz``格式的压缩文件
         ''' </param>
@@ -65,6 +81,17 @@ Namespace Assembly.Uniprot.Web
             Dim url$ = "http://www.uniprot.org/uploadlists/"
             Dim html As String = url.POST(args, "http://www.uniprot.org/uploadlists/",)
             Dim query$ = html.HTMLTitle.Split.First
+
+            ' 2017-3-7
+            ' 由于IE内核的版本不同的原因，所返回来的html文本会有些差异，所以对于query编号的解析会有些差异
+            ' 这里是处理win7老平台上面的query解析的操作
+            If query = "mapping" Then
+                query = Regex.Match(html, "new mappingResults\('.+?'\)", RegexICSng).Value
+                query = query.GetStackValue("(", ")")
+                query = query.Trim("'"c)
+                query = "yourlist:" & query
+            End If
+
             Dim uid$ = query.Split(":"c).Last
 
             Call Thread.Sleep(1000)
@@ -97,6 +124,7 @@ Namespace Assembly.Uniprot.Web
             'Next
 
             ' http://www.uniprot.org/uniprot/?sort=yourlist:M20170111AAFB7E4D2F1D05654627429E83DA5CCEA02970F&desc=&compress=yes&query=yourlist:M20170111AAFB7E4D2F1D05654627429E83DA5CCEA02970F&fil=&format=tab&force=yes&columns=yourlist(M20170111AAFB7E4D2F1D05654627429E83DA5CCEA02970F),id
+            ' http://www.uniprot.org/uniprot/?sort=yourlist:M20170307A7434721E10EE6586998A056CCD0537E86F2B0I&desc=&compress=yes&query=yourlist:M20170307A7434721E10EE6586998A056CCD0537E86F2B0I&fil=&format=tab&force=yes&columns=yourlist(M20170307A7434721E10EE6586998A056CCD0537E86F2B0I),id
             url = $"http://www.uniprot.org/uniprot/?sort={query}&desc=&compress=yes&query={query}&fil=&format=tab&force=yes&columns=yourlist({uid}),id"
 
             Try
@@ -105,6 +133,7 @@ Namespace Assembly.Uniprot.Web
                 Call App.LogException(New Exception(url, ex))
             End Try
 
+            ' http://www.uniprot.org/uniprot/?sort=yourlist:M20170307A7434721E10EE6586998A056CCD0537E86F2B0I&desc=&compress=yes&query=yourlist:M20170307A7434721E10EE6586998A056CCD0537E86F2B0I&fil=&format=xml&force=yes
             url = $"http://www.uniprot.org/uniprot/?sort={query}&desc=&compress={compress}&query={query}&fil=&format={format}&force=yes"
 
             Try
@@ -119,15 +148,55 @@ Namespace Assembly.Uniprot.Web
         ''' </summary>
         ''' <param name="path$"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 可能每一行之中会存在多对多的情况，但是不需要担心，这个函数会自动处理这些非一对一的情况的
+        ''' </remarks>
         Public Function MappingReader(path$) As Dictionary(Of String, String())
             Dim lines = path.ReadAllLines.Skip(1)
             Dim maps As Dictionary(Of String, String()) = lines _
                 .Select(Function(l) l.Split(ASCII.TAB)) _
-                .GroupBy(Function(x) x(0)) _
-                .ToDictionary(Function(x) x.Key,
-                              Function(x) x.Select(
-                              Function(row) row(1)).Distinct.ToArray)
+                .Select(Function(t) New KeyValuePair(Of String, String())(t(0), t(1).Split(","c))) _
+                .GroupBy(Function(x) x.Key) _
+                .Select(Function(k)
+                            Dim values$() = k.Select(Function(v) v.Value) _
+                                .IteratesALL _
+                                .Distinct _
+                                .ToArray
+                            Return k.Key.Split(","c) _
+                                .Select(Function(key$) New KeyValuePair(Of String, String())(key, values))
+                        End Function) _
+                .IteratesALL _
+                .GroupBy(Function(g) g.Key) _
+                .ToDictionary(Function(k) k.Key,
+                              Function(g)
+                                  Return g.Select(Function(v) v.Value) _
+                                      .IteratesALL _
+                                      .Distinct _
+                                      .ToArray
+                              End Function)
             Return maps
+        End Function
+
+        ''' <summary>
+        ''' 与<see cref="MappingReader"/>所不同的是，这个函数是读取一个文件夹之中的所有的
+        ''' mapping table(``*.tsv``, ``*.tab``)作为一个mapping数据的整体来使用的
+        ''' </summary>
+        ''' <param name="DIR$"></param>
+        ''' <returns></returns>
+        Public Function MappingsReader(DIR$) As Dictionary(Of String, String())
+            Dim mappings As Dictionary(Of String, String()) = DIR _
+                .EnumerateFiles("*.tab", "*.tsv") _
+                .Select(AddressOf Retrieve_IDmapping.MappingReader) _
+                .IteratesALL _
+                .GroupBy(Function(k) k.Key) _
+                .ToDictionary(Function(k) k.Key,
+                              Function(g)
+                                  Return g.Select(Function(v) v.Value) _
+                                      .IteratesALL _
+                                      .Distinct _
+                                      .ToArray
+                              End Function)
+            Return mappings
         End Function
 
         ''' <summary>
@@ -135,12 +204,15 @@ Namespace Assembly.Uniprot.Web
         ''' </summary>
         ''' <param name="path$"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 其实这个函数就是直接读取行数据然后依据TAB符号进行分割之后写入字典之中
+        ''' </remarks>
         Public Function SingleMappings(path$) As Dictionary(Of String, String)
             Dim out As New Dictionary(Of String, String)
 
             For Each line As String In path.ReadAllLines.Skip(1)
                 Dim t$() = line.Split(ASCII.TAB)
-                out.Add(t(0), t(1))
+                Call out.Add(t(0), t(1))
             Next
 
             Return out

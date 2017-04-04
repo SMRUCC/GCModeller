@@ -103,11 +103,11 @@ Partial Module CLI
                 .ProteinId = x.Identifier,
                 .Length = l,
                 .Description = x.Description,
-                .PfamString = motifs.ToArray(Function(d) $"{d.Identifier.Split(":"c).Last}({d.Position.Left}|{d.Position.Right})"),
+                .PfamString = motifs.ToArray(Function(d) $"{d.Name.Split(":"c).Last}({d.Position.Left}|{d.Position.Right})"),
                 .Domains =
                     LinqAPI.Exec(Of String) <= From d As ProteinModel.DomainObject
                                                In motifs
-                                               Let id As String = d.Identifier.Split(":"c).Last
+                                               Let id As String = d.Name.Split(":"c).Last
                                                Select $"{id}:{id}"
                                                Distinct
             }

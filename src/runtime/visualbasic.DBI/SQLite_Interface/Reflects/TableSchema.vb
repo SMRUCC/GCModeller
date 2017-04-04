@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::69dc622031acab759e5bcf6b5d34d99f, ..\SQLite_Interface\Reflector\TableSchema.vb"
+﻿#Region "Microsoft.VisualBasic::04c66936375f26b6a4c443185b96f19d, ..\visualbasic.DBI\SQLite_Interface\Reflects\TableSchema.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -70,4 +71,3 @@ Public Class TableSchema : Implements INamedValue
         Yield GetEnumerator()
     End Function
 End Class
-

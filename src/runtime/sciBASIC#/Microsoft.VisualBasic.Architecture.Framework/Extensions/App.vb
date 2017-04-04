@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::6593dd6f84cc3cb84a05df5c81dc0885, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\App.vb"
+﻿#Region "Microsoft.VisualBasic::7a140200366deed9bfc782f1ced33be0, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\App.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -225,11 +225,13 @@ Public Module App
         End Get
         Set(value As String)
             If String.Equals(value, "-") Then  ' 切换到前一个工作目录
-                FileIO.FileSystem.CurrentDirectory = _preDIR
+                value = _preDIR
             Else
                 _preDIR = FileIO.FileSystem.CurrentDirectory
-                FileIO.FileSystem.CurrentDirectory = value
             End If
+
+            FileIO.FileSystem.CreateDirectory(value)
+            FileIO.FileSystem.CurrentDirectory = value
         End Set
     End Property
 
@@ -280,6 +282,11 @@ Public Module App
 
     Dim __joinedVariables As New Dictionary(Of NamedValue(Of String))
 
+    ''' <summary>
+    ''' 添加参数到应用程序的环境变量之中
+    ''' </summary>
+    ''' <param name="name$"></param>
+    ''' <param name="value$"></param>
     Public Sub JoinVariable(name$, value$)
         __joinedVariables(name) =
             New NamedValue(Of String) With {
@@ -288,6 +295,10 @@ Public Module App
         }
     End Sub
 
+    ''' <summary>
+    ''' 添加参数集合到应用程序的环境变量之中
+    ''' </summary>
+    ''' <param name="vars"></param>
     Public Sub JoinVariables(ParamArray vars As NamedValue(Of String)())
         For Each v As NamedValue(Of String) In vars
             __joinedVariables(v.Name) = v
@@ -505,17 +516,21 @@ Public Module App
     ''' Is this application running on a Microsoft OS platform.(是否是运行于微软的操作系统平台？)
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property IsMicrosoftPlatform As Boolean
-        Get
-            Dim pt As PlatformID = Platform
+    Public ReadOnly Property IsMicrosoftPlatform As Boolean = App.__isMicrosoftPlatform
 
-            Return pt = PlatformID.Win32NT OrElse
-                pt = PlatformID.Win32S OrElse
-                pt = PlatformID.Win32Windows OrElse
-                pt = PlatformID.WinCE OrElse
-                pt = PlatformID.Xbox
-        End Get
-    End Property
+    ''' <summary>
+    ''' 这个主要是判断一个和具体的操作系统平台相关的Win32 API是否能够正常的工作？
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function __isMicrosoftPlatform() As Boolean
+        Dim pt As PlatformID = Platform
+
+        Return pt = PlatformID.Win32NT OrElse
+            pt = PlatformID.Win32S OrElse
+            pt = PlatformID.Win32Windows OrElse
+            pt = PlatformID.WinCE OrElse
+            pt = PlatformID.Xbox
+    End Function
 
     ''' <summary>
     ''' Example: ``tmp2A10.tmp``
@@ -1016,6 +1031,15 @@ Public Module App
         New UpdateThread(10 * 60 * 1000, AddressOf App.__GCThreadInvoke)
 
     Dim _CLIAutoClean As Boolean = False
+    Dim __exitHooks As New List(Of Action)
+
+    ''' <summary>
+    ''' 这里添加在应用程序退出执行的时候所需要完成的任务
+    ''' </summary>
+    ''' <param name="hook"></param>
+    Public Sub AddExitCleanHook(hook As Action)
+        Call __exitHooks.Add(hook)
+    End Sub
 
     ''' <summary>
     ''' 自动停止GC当前程序的线程
@@ -1029,6 +1053,22 @@ Public Module App
             Call StopGC()
         End If
 
+        ' 在这里等待终端的内部线程输出工作完毕，防止信息的输出错位
+
+        Call Terminal.WaitQueue()
+        Call Console.WriteLine()
+
+        For Each hook As Action In __exitHooks
+            Call hook()
+        Next
+
+        Call Terminal.WaitQueue()
+        Call Console.WriteLine()
+
+#If DEBUG Then
+        ' 应用程序在 debug 模式下会自动停止在这里
+        Call Pause()
+#End If
         Return state
     End Function
 

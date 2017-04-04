@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07d9ef6a6faa083d55801e838b1337f8, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\TransportReactions.vb"
+﻿#Region "Microsoft.VisualBasic::6da2daaf6d29d9953d6635581312cb99, ..\core\Bio.Assembly\Assembly\MetaCyc\Schemas\TransportReactions.vb"
 
     ' Author:
     ' 
@@ -139,10 +139,10 @@ Namespace Assembly.MetaCyc.Schema
                                                         Return String.Format("{0} [^COMPARTMENT - {1}]", item.Identifier, item.Compartment)
                                                     End If
                                                 End Function
-                              Select New CompoundSpecieReference With {.Identifier = GetUniqueId(), .StoiChiometry = item.StoiChiometry}).ToArray,
+                              Select New CompoundSpecieReference With {.ID = GetUniqueId(), .StoiChiometry = item.StoiChiometry}).ToArray,
                 .Products = (From x As CompoundSpecies In _Right
-                              Select New CompoundSpecieReference With {
-                                  .Identifier = GetUniqueId(x),
+                             Select New CompoundSpecieReference With {
+                                  .ID = GetUniqueId(x),
                                   .StoiChiometry = x.StoiChiometry}).ToArray,
                                   .Reversible = Reversible
             }

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac5317f7a5c9bf842e330df602966143, ..\httpd\WebCloud\SMRUCC.HTTPInternal\DebuggerAPI.vb"
+﻿#Region "Microsoft.VisualBasic::0d4e47cf8b861fc0af045537057dfff3, ..\httpd\WebCloud\SMRUCC.HTTPInternal\DebuggerAPI.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@ Public Module DebuggerAPI
     ''' </summary>
     ''' <param name="port%">The server port of this httpd web server to listen.</param>
     ''' <param name="wwwroot$">The website html root directory path.</param>
-    ''' <param name="threads%">The number of threads of this web server its thread pool.</param>
+    ''' <param name="threads%">The number of threads of this web server its thread pool.(为了方便进行调试，这个参数的默认值是一个很小的数)</param>
     ''' <param name="cacheMode">Is this server running in file system cache mode? Not recommended for open.</param>
     ''' <returns></returns>
     <ExportAPI("/start",
@@ -54,8 +54,7 @@ Public Module DebuggerAPI
     <Argument("/cache", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Is this server running in file system cache mode? Not recommended for open.")>
-    Public Function Start(Optional port% = 80, Optional wwwroot$ = "./wwwroot", Optional threads% = -1, Optional cacheMode As Boolean = False) As Integer
+    Public Function Start(Optional port% = 80, Optional wwwroot$ = "./wwwroot", Optional threads% = 3, Optional cacheMode As Boolean = False) As Integer
         Return New PlatformEngine(wwwroot, port, True, threads:=threads, cache:=cacheMode).Run
     End Function
 End Module
-

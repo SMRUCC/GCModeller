@@ -1,4 +1,32 @@
-﻿Imports System.Drawing
+﻿#Region "Microsoft.VisualBasic::d2b5f6467446c03dc8d9ca08b6314f6c, ..\sciBASIC#\Data_science\Mathematical\Plots\g\Mapper.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Histogram
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
@@ -28,20 +56,101 @@ Namespace Graphic
         Public ReadOnly dx#, dy#
         Public ReadOnly xmin, ymin As Single
 
-        Sub New(range As Scaling, Optional parts% = 10)
-            Call Me.New(range.xrange, range.yrange, parts)
+        Sub New(range As Scaling,
+                Optional parts% = 10,
+                Optional XabsoluteScalling As Boolean = False,
+                Optional YabsoluteScalling As Boolean = False,
+                Optional ignoreAxis As Boolean = False,
+                Optional ignoreX As Boolean = False,
+                Optional ignoreY As Boolean = False)
+
+            Call Me.New(range.xrange, range.yrange, parts,
+                        XabsoluteScalling,
+                        YabsoluteScalling,
+                        ignoreAxis, ignoreX, ignoreY)
 
             serials = range.serials
             hist = range.hist
         End Sub
 
-        Sub New(xrange As DoubleRange, yrange As DoubleRange, Optional parts% = 10)
-            xAxis = New Vector(xrange.GetAxisValues(parts))
-            yAxis = New Vector(yrange.GetAxisValues(parts))
-            dx = xAxis.Max - xAxis.Min
-            dy = yAxis.Max - yAxis.Min
-            xmin = xAxis.Min
-            ymin = yAxis.Min
+        Sub New(xrange As DoubleRange, yrange As DoubleRange,
+                Optional parts% = 10,
+                Optional XabsoluteScalling As Boolean = False,
+                Optional YabsoluteScalling As Boolean = False,
+                Optional ignoreAxis As Boolean = False,
+                Optional ignoreX As Boolean = False,
+                Optional ignoreY As Boolean = False)
+
+            If Not ignoreAxis Then
+
+                If Not ignoreX Then
+                    xAxis = New Vector(xrange.GetAxisValues(parts, XabsoluteScalling))
+                Else
+                    xAxis = New Vector({0R})
+                End If
+                If Not ignoreY Then
+                    yAxis = New Vector(yrange.GetAxisValues(parts, YabsoluteScalling))
+                Else
+                    yAxis = New Vector({0R})
+                End If
+
+                dx = xAxis.Max - xAxis.Min
+                dy = yAxis.Max - yAxis.Min
+                xmin = xAxis.Min
+                ymin = yAxis.Min
+            Else
+                dx = xrange.Max - xrange.Min
+                dy = yrange.Max - yrange.Min
+                xmin = xrange.Min
+                ymin = yrange.Min
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <param name="range">所获取得到的绘图所使用的系列的数据</param>
+        ''' <param name="ignoreAxis"></param>
+        ''' <param name="ignoreX"></param>
+        ''' <param name="ignoreY"></param>
+        Sub New(x As AxisProvider, y As AxisProvider, Optional range As Scaling = Nothing,
+                Optional ignoreAxis As Boolean = False,
+                Optional ignoreX As Boolean = False,
+                Optional ignoreY As Boolean = False)
+
+            If Not ignoreAxis Then
+
+                If Not ignoreX Then
+                    xAxis = New Vector(x.AxisTicks)
+                Else
+                    xAxis = New Vector({0R})
+                End If
+                If Not ignoreY Then
+                    yAxis = New Vector(y.AxisTicks)
+                Else
+                    yAxis = New Vector({0R})
+                End If
+
+                dx = xAxis.Max - xAxis.Min
+                dy = yAxis.Max - yAxis.Min
+                xmin = xAxis.Min
+                ymin = yAxis.Min
+            Else
+                Dim xrange As DoubleRange = x.Range
+                Dim yrange As DoubleRange = y.Range
+
+                dx = xrange.Max - xrange.Min
+                dy = yrange.Max - yrange.Min
+                xmin = xrange.Min
+                ymin = yrange.Min
+            End If
+
+            If Not range Is Nothing Then
+                hist = range.hist
+                serials = range.serials
+            End If
         End Sub
 
         Public Function ScallingWidth(x As Double, width%) As Single

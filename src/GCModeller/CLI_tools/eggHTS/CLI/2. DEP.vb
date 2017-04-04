@@ -1,11 +1,12 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Mathematical.Scripting
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -109,18 +110,102 @@ Partial Module CLI
             .SaveDataSet(dataOUT, blank:=1)
     End Function
 
-    <ExportAPI("/DEP.logFC.hist", Usage:="/DEP.logFC.hist /in <log2test.csv> [/tag <logFC> /size <1600,1200> /out <out.png>]")>
+    ''' <summary>
+    ''' 这个函数要求的列名称能够和raw之中的列名称可以一一对应，假若raw参数存在的话
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Merge.DEPs",
+               Info:="Usually using for generates the heatmap plot matrix of the DEPs. This function call will generates two dataset, one is using for the heatmap plot and another is using for the venn diagram plot.",
+               Usage:="/Merge.DEPs /in <*.csv,DIR> [/log2 /threshold ""log(1.5,2)"" /raw <sample.csv> /out <out.csv>]")>
+    Public Function MergeDEPs(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim log2 As Boolean = args.GetBoolean("/log2")
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & $".data{If(log2, "-log2", "")}.csv")
+        Dim raw As String = args("/raw")
+        Dim threshold As String = args.GetValue("/threshold", "log(1.5,2)")
+        Dim data = (ls - l - r - "*.csv" <= [in]) _
+            .Select(Function(x) DataSet.LoadDataSet(path:=x)) _
+            .IteratesALL _
+            .GroupBy(Function(gene) gene.ID) _
+            .ToArray
+        Dim allKeys$() = data _
+            .Select(Function(g) g.Select(Function(o) o.Properties.Keys)) _
+            .IteratesALL _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+        Dim t = Function(n#)
+                    If log2 Then
+                        Return System.Math.Log(n, newBase:=2)
+                    Else
+                        Return n
+                    End If
+                End Function
+        Dim output As New File
+
+        If raw.FileExists(True) Then
+            Dim sample As Dictionary(Of DataSet) = DataSet.LoadDataSet(path:=raw).ToDictionary
+            Dim row As New RowObject({"ID"}.JoinIterates(allKeys))
+
+            output += row
+
+            For Each gene In data
+                Dim gData = sample(gene.Key)
+
+                row = New RowObject()
+                row += gene.Key
+                row += allKeys.Select(Function(k) t(n:=gData(k)).ToString)
+                output += row
+            Next
+
+            Call output.Save(out.TrimSuffix & "-heatmapData.csv")
+        Else
+
+        End If
+
+        ' 在下面生成文氏图的数据
+        Dim cut# = (New Expression).Evaluation(threshold)
+
+        For Each row In output.Skip(1)
+            For i As Integer = 1 To row.Width - 1
+                row(i) = If(Math.Abs(Val(row(i))) >= cut, row(i), "")
+            Next
+        Next
+
+        Call output.Save(out.TrimSuffix & "-vennData.csv")
+
+        Return 0
+    End Function
+
+    ''' <summary>
+    ''' 当没有任何生物学重复的时候，就只能够使用这个函数进行FoldChange的直方图的绘制了
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/DEP.logFC.hist",
+               Usage:="/DEP.logFC.hist /in <log2test.csv> [/step <0.5> /tag <logFC> /legend.title <Frequency(logFC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1600,1200> /out <out.png>]")>
+    <Argument("/tag", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is ""logFC"".")>
     Public Function logFCHistogram(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim tag As String = args.GetValue("/tag", "logFC")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".logFCHistogram.png")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".{tag.NormalizePathString}.histogram.png")
         Dim data = EntityObject.LoadDataSet([in])
+        Dim xAxis As String = args("/x.axis")
+        Dim step! = args.GetValue("/step", 0.5!)
+        Dim lTitle$ = args.GetValue("/legend.title", "Frequency(logFC)")
+        Dim color$ = args.GetValue("/color", "lightblue")
 
         Return data _
             .logFCHistogram(tag,
                             size:=args.GetValue("/size", New Size(1600, 1200)),
-                            [step]:=0.5) _
-            .SaveAs(out) _
+                            [step]:=[step],
+                            xAxis:=xAxis,
+                            serialTitle:=lTitle,
+                            color:=color) _
+            .Save(out) _
             .CLICode
     End Function
 
@@ -135,7 +220,7 @@ Partial Module CLI
                                 padding:="padding: 50 50 150 150",
                                 displayLabel:=LabelTypes.None,
                                 size:=size) _
-            .SaveAs(out) _
+            .Save(out) _
             .CLICode
     End Function
 End Module

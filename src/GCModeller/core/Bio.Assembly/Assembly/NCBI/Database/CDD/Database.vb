@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29f693fd9cb183f32d60d2830686a906, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\CDD\Database.vb"
+﻿#Region "Microsoft.VisualBasic::f4322f5be7db0d3e41ca3c9c9b0abfa7, ..\core\Bio.Assembly\Assembly\NCBI\Database\CDD\Database.vb"
 
     ' Author:
     ' 
@@ -131,7 +131,7 @@ Namespace Assembly.NCBI.CDD
         Public Function GetDomainInfo(Id As String) As CDD.SmpFile
             For Each DbName As String In DbPaths.Keys
                 Dim Db = DomainInfo(Name:=DbName)
-                Dim LQuery = From Item In Db.SmpData.AsParallel Where String.Equals(Item.Identifier, Id) Select Item '
+                Dim LQuery = From Item In Db.SmpData.AsParallel Where String.Equals(Item.Name, Id) Select Item '
                 Dim Result = LQuery.FirstOrDefault
                 Return Result
             Next

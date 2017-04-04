@@ -61,7 +61,7 @@ Namespace Compiler.Components
 
             For Each Entry In GetEntryLQuery
                 For Each FluxObject In Entry.Entries
-                    Dim Item = TransmembraneTransportation.GetItem(uniqueId:=FluxObject.Key.Identifier)
+                    Dim Item = TransmembraneTransportation.Take(uniqueId:=FluxObject.Key.Identifier)
                     If Item Is Nothing Then
                         '不存在则插入新的纪录
                         Call TransmembraneTransportation.Add(CreateNewModel(FluxObject.Key, Entry.Matched))

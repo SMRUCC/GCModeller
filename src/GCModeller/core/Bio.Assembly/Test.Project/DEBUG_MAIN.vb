@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::a0282a47f27575010d94133798c8ad23, ..\GCModeller\core\Bio.Assembly\Test.Project\DEBUG_MAIN.vb"
+﻿#Region "Microsoft.VisualBasic::4c2384b9a3f314c7e380d228b610ea4e, ..\core\Bio.Assembly\Test.Project\DEBUG_MAIN.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
@@ -40,8 +41,8 @@ Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
-Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -55,7 +56,7 @@ Module DEBUG_MAIN
         Dim gb As GBFF.File = GBFF.File.Load(path)
         Dim gbs As IEnumerable(Of GBFF.File) = GBFF.File.LoadDatabase(path)
         Dim PTT As PTT = PTT.Load(path)
-        Dim GFF As GFF = GFF.LoadDocument(path)
+        Dim GFF As GFF.GFFTable = GFFTable.LoadDocument(path)
 
         Dim Fasta As New FASTA.FastaFile(path)
         Dim nt As New FASTA.FastaToken(path)
@@ -65,6 +66,46 @@ Module DEBUG_MAIN
     End Sub
 
     Sub Main()
+
+        '  Call "http://www.genome.jp/dbget-bin/www_bget?pathway:hsa00010".GET.SaveTo("x:\pathway_Test.html")
+        ' Call "http://www.kegg.jp/dbget-bin/www_bget?pathway+hsa00600".GET.SaveTo("x:\pathway_Test2.html")
+        'Pause()
+        Dim pathW = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway.DownloadPage("D:\KEGG\hsa\webpages\hsa00601.html")
+
+
+        Pause()
+
+        Dim rxn = KEGG.DBGET.bGetObject.ReactionWebAPI.DownloadFrom("http://www.genome.jp/dbget-bin/www_bget?rn:R00235")
+
+
+        Pause()
+
+
+        Dim cpdTest As KEGG.DBGET.bGetObject.Compound = MetabolitesDBGet.DownloadCompoundFrom("G:\GCModeller\GCModeller\test\KEGG\dbget\cpd_Test.html") 'MetabolitesDBGet.DownloadCompound("C00311")
+
+        ' Call "http://www.kegg.jp/dbget-bin/www_bget?gl:G00112".GET.SaveTo("x:\gl_Test.html")
+
+
+        Dim KEGG_gl As Glycan = Glycan.DownloadFrom("G:\GCModeller\GCModeller\test\KEGG\dbget\gl_Test.html")
+
+        Pause()
+
+
+
+
+        Dim gene = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.KEGGgenomeFetch.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\human_gene.html")
+
+        Dim htext As htext = htext.StreamParser("C:\Users\xieguigang\Downloads\br08402.keg")
+
+        Call SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadWorker.DownloadDisease(htext, "x:\test\")
+
+
+        Dim dg = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadDrug("G:\GCModeller\GCModeller\test\KEGG\dbget\drug_Dasatinib.html")
+
+        Dim dis = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\disease-test.html")
+
+        dis = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\Imatinib.html")
+
 
         Dim gbbb As GenBank.GBFF.File = GBFF.File.Load("G:\Xanthomonas_campestris_8004_uid15\genbank\CP000050.1.txt")
 
@@ -187,16 +228,16 @@ Module DEBUG_MAIN
         Dim compound As Compounds = Compounds.LoadCompoundsData("G:\1.13.RegPrecise_network\FBA\xcam314565\19.0\data\compounds.dat")
 
 
-        Dim rxn = bGetObject.Reaction.DownloadFrom("http://www.genome.jp/dbget-bin/www_bget?rn:R00086")
-        Dim modelssss = rxn.ReactionModel
+        'Dim rxn = KEGG.DBGET.bGetObject.Reaction.DownloadFrom("http://www.genome.jp/dbget-bin/www_bget?rn:R00086")
+        'Dim modelssss = rxn.ReactionModel
 
-        Call rxn.SaveAsXml("x:\safsdsdfsd____rxn.xml")
+        'Call rxn.SaveAsXml("x:\safsdsdfsd____rxn.xml")
 
 
         Dim model = CompilerAPI.Compile("F:\1.13.RegPrecise_network\Cellular Phenotypes\KEGG_Pathways", "F:\1.13.RegPrecise_network\Cellular Phenotypes\KEGG_Modules", "F:\GCModeller\KEGG\Reactions", "xcb")
         Call model.SaveAsXml("x:\dfsasdfsdf.kegg.xml")
 
-        Dim rxns = FileIO.FileSystem.GetFiles("F:\GCModeller\KEGG\Reactions", FileIO.SearchOption.SearchAllSubDirectories, "*.xml").ToArray(Function(x) x.LoadXml(Of bGetObject.Reaction))
+        Dim rxns = FileIO.FileSystem.GetFiles("F:\GCModeller\KEGG\Reactions", FileIO.SearchOption.SearchAllSubDirectories, "*.xml").ToArray(Function(x) x.LoadXml(Of KEGG.DBGET.bGetObject.Reaction))
 
 
 

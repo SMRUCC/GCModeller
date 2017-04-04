@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d116d44f6ce3e7a303aa73de99e493d4, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\GenericParser.vb"
+﻿#Region "Microsoft.VisualBasic::d47ba8152c09e854cad97408ef3da726, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\GenericParser.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,9 @@ Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Assembly.KEGG.DBGET.LinkDB
 
+    ''' <summary>
+    ''' 通用化的linkdb数据解析器
+    ''' </summary>
     Public Module GenericParser
 
         Const regexpLine$ = "<a href="".+?"">.+?</a>.+?$"

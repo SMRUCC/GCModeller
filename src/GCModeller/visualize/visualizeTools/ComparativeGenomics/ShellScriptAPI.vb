@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b77c79b519aa75cb0b5e3bbfbabe77a, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::c205dbc706fc2d4f938186811d25b5b7, ..\visualize\visualizeTools\ComparativeGenomics\ShellScriptAPI.vb"
 
     ' Author:
     ' 

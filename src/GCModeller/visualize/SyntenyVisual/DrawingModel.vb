@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::1bde824e70b07e2ee1718cad2d61fb52, ..\GCModeller\visualize\SyntenyVisual\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::1bde824e70b07e2ee1718cad2d61fb52, ..\visualize\SyntenyVisual\DrawingModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Text
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 
 Public Class DrawingModel
 
@@ -47,34 +48,28 @@ Public Class DrawingModel
 
     Public Function Visualize() As Image
         Dim font As New Font(FontFace.MicrosoftYaHei, 12, FontStyle.Italic)  ' 默认的字体
-        Dim texts As Text() = briefs.ToArray(Function(x) GetText(x.Name, font))
-        Dim szs As SizeF() = __getSize(texts)
-        Dim maxtLen As Integer = szs.Select(Function(x) x.Width).Max
+        Dim cssFont$ = New CSSFont(font).CSSValue
+        Dim texts As Image() = briefs.ToArray(Function(x) TextRender.DrawHtmlText(x.Name, cssFont))
+        Dim maxtLen As Integer = texts.Select(Function(x) x.Width).Max
         Dim cl As SolidBrush = New SolidBrush(Color.Black)
-        Dim dh As Integer = GDIPlusExtensions.MeasureString(briefs.First.Name, font).Height / 2
+        Dim dh As Integer = GraphicsExtensions.MeasureString(briefs.First.Name, font).Height / 2
         Dim totalSize As New Size(size.Width + maxtLen * 1.5, size.Height)
 
-        Using gdi As GDIPlusDeviceHandle = totalSize.CreateGDIDevice
+        Using gdi As Graphics2D = totalSize.CreateGDIDevice
             For Each lnk As Line In Links   ' 首先绘制连线
                 Call lnk.Draw(gdi, penWidth)
             Next
 
-            For Each x As SeqValue(Of Text) In texts.SeqIterator    '然后绘制基因组的简单表示，以及显示标题
+            For Each x As SeqValue(Of Image) In texts.SeqIterator    '然后绘制基因组的简单表示，以及显示标题
                 Dim y As Integer = briefs(x).Y
                 Dim pt1 As New Point(margin.Width, y)
                 Dim pt2 As New Point(size.Width - margin.Width, y)
 
-                Call x.value.Draw(gdi, New Point(size.Width, y - dh))
+                Call gdi.DrawImageUnscaled(+x, New Point(size.Width, y - dh))
                 Call gdi.DrawLine(New Pen(Color.Gray, 10), pt1, pt2)
             Next
 
             Return gdi.ImageResource
-        End Using
-    End Function
-
-    Private Function __getSize(texts As Text()) As SizeF()
-        Using gdi As GDIPlusDeviceHandle = New Size(10, 10).CreateGDIDevice
-            Return texts.ToArray(Function(x) x.MeasureString(gdi))
         End Using
     End Function
 End Class

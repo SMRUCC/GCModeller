@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df818b73e81b01a4133d649248975c60, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\PlatformEngine.vb"
+﻿#Region "Microsoft.VisualBasic::d3e76d4c77090c87719d922f9c7f14f1, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\PlatformEngine.vb"
 
     ' Author:
     ' 
@@ -82,7 +82,8 @@ Namespace Platform
                 Call AppEngine.ExternalCall.Scan(Me)
             End If
 
-            Me._EnginePlugins = Plugins.ExternalCall.Scan(Me)
+            _EnginePlugins = Plugins.ExternalCall.Scan(Me)
+            Call "Web App engine initialized!".__DEBUG_ECHO
         End Sub
 
         ''' <summary>

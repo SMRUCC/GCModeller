@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73c79319fc55c6bea80d492363befaae, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\DBLink.vb"
+﻿#Region "Microsoft.VisualBasic::88170594671195acea93057ddc26464c, ..\core\Bio.Assembly\Assembly\MetaCyc\Schemas\DBLink.vb"
 
     ' Author:
     ' 
@@ -45,8 +45,8 @@ Namespace Assembly.MetaCyc.Schema
         ''' <remarks></remarks>
         Public Class DBLink : Implements IDBLink
 
-            Public Property DBName As String Implements IDBLink.locusId
-            Public Property AccessionId As String Implements IDBLink.Address
+            Public Property DBName As String Implements IDBLink.DbName
+            Public Property AccessionId As String Implements IDBLink.ID
             Public Property attributes As String()
 
             Public Const SPLIT_REGX_EXPRESSION As String = " (?=(?:[^""]|""[^""]*"")*$)"

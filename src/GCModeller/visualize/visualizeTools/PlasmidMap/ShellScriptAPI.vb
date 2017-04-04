@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50be803fc8accc9ebd2f1b29c83f19ab, ..\GCModeller\visualize\visualizeTools\PlasmidMap\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::50be803fc8accc9ebd2f1b29c83f19ab, ..\visualize\visualizeTools\PlasmidMap\ShellScriptAPI.vb"
 
     ' Author:
     ' 

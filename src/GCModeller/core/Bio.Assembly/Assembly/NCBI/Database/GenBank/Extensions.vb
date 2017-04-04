@@ -1,33 +1,35 @@
-﻿#Region "Microsoft.VisualBasic::940a938521d2cde6b6405ef3d4741908, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::76bd08936ce0c3d35323b043d8d1c7fb, ..\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
@@ -82,6 +84,11 @@ Namespace Assembly.NCBI.GenBank
             Return gene
         End Function
 
+        ''' <summary>
+        ''' 将NCBI genbank数据库文件转换为GFF3文件
+        ''' </summary>
+        ''' <param name="gb"></param>
+        ''' <returns></returns>
         <ExportAPI("ToGff"), Extension>
         Public Function ToGff(gb As GBFF.File) As GFFTable
             Dim Gff As New GFFTable With {
@@ -242,15 +249,19 @@ Namespace Assembly.NCBI.GenBank
         ''' <remarks></remarks>
         '''
         <ExportAPI("Export.GeneList")>
-        <Extension> Public Function GeneList(Gbk As NCBI.GenBank.GBFF.File) As KeyValuePair(Of String, String)()
+        <Extension> Public Function GeneList(Gbk As NCBI.GenBank.GBFF.File) As NamedValue(Of String)()
             Dim GQuery As IEnumerable(Of GBFF.Keywords.FEATURES.Feature) =
-                From feature In Gbk.Features
+                From feature
+                In Gbk.Features
                 Where String.Equals(feature.KeyName, "gene")
                 Select feature 'Gene list query
-            Dim AQuery = From locusTag
-                         In GQuery.ToArray
-                         Select New KeyValuePair(Of String, String)(locusTag.Query("locus_tag"), locusTag.Query("gene")) '
-            Return AQuery.ToArray
+            Dim AQuery = LinqAPI.Exec(Of NamedValue(Of String)) <=
+ _
+                From locusTag
+                In GQuery.ToArray
+                Select New NamedValue(Of String)(locusTag.Query("locus_tag"), locusTag.Query("gene")) '
+
+            Return AQuery
         End Function
 
         <ExportAPI("Export.16SrRNA")>

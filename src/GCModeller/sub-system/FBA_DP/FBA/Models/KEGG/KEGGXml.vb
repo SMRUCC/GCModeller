@@ -75,7 +75,7 @@ Namespace Models
             array = (From x As Equation
                      In _reactions.Values.AsParallel
                      Select x.GetMetabolites.ToArray(
-                         Function(m) m.Identifier)).IteratesALL.Distinct.ToArray
+                         Function(m) m.ID)).IteratesALL.Distinct.ToArray
             allCompounds = New ReadOnlyCollection(Of String)(array)
         End Sub
 

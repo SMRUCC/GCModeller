@@ -54,7 +54,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                   Description:="Tools collection for handling NCBI data, includes: nt/nr database, NCBI taxonomy analysis, OTU taxonomy analysis, genbank database, and sequence query tools.",
                   Publisher:="xie.guigang@gcmodeller.org")>
 <GroupingDefine(CLIGrouping.GITools, Description:=CLIGrouping.GIWasObsoleted)>
-Module CLI
+Public Module CLI
 
     <ExportAPI("/Build_gi2taxi",
                Usage:="/Build_gi2taxi /in <gi2taxi.dmp> [/out <out.dat>]")>

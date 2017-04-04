@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e978bed8a27b2db80aa653a82986741f, ..\GCModeller\core\Bio.Assembly\ComponentModel\Equations\Equation(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::a545be1b29cbb0cfc01e9b8a089be2d1, ..\core\Bio.Assembly\ComponentModel\Equations\Equation(Of T).vb"
 
     ' Author:
     ' 
@@ -26,14 +26,19 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Linq
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.EquaionModel
 
     Public MustInherit Class Equation(Of T As ICompoundSpecies) : Implements IEquation(Of T)
 
 #Region "SBML接口"
+
+        ''' <summary>
+        ''' list of metabolism reaction substrates
+        ''' </summary>
+        ''' <returns></returns>
         <XmlArray("listOfReactants")> Public Overridable Property Reactants As T() Implements IEquation(Of T).Reactants
             Get
                 Return __leftOri
@@ -49,6 +54,11 @@ Namespace ComponentModel.EquaionModel
             End Set
         End Property
         <XmlAttribute> Public Overridable Property Reversible As Boolean Implements IEquation(Of T).Reversible
+
+        ''' <summary>
+        ''' list of metabolism reaction products
+        ''' </summary>
+        ''' <returns></returns>
         <XmlArray("listOfProducts")> Public Overridable Property Products As T() Implements IEquation(Of T).Products
             Get
                 Return __rightOri

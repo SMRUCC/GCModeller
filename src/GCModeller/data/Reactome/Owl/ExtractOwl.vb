@@ -90,11 +90,11 @@ Public Module ExtractOwl
         UniqueId = UniqueId.Split.Last
 
         If participantStoichiometry.IsNullOrEmpty Then
-            Return New CompoundSpecieReference With {.StoiChiometry = 1, .Identifier = UniqueId}
+            Return New CompoundSpecieReference With {.StoiChiometry = 1, .ID = UniqueId}
         End If
 
         Dim n As Integer = __getSTO(participantStoichiometry, met)
-        Return New CompoundSpecieReference With {.StoiChiometry = n, .Identifier = UniqueId}
+        Return New CompoundSpecieReference With {.StoiChiometry = n, .ID = UniqueId}
     End Function
 
     <ExportAPI("Extract.Reactions")>

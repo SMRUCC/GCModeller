@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebb4f51a0bcbfce1d44c2fd7a8c9064f, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\OrthologREST.vb"
+﻿#Region "Microsoft.VisualBasic::ebb4f51a0bcbfce1d44c2fd7a8c9064f, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\OrthologREST.vb"
 
     ' Author:
     ' 

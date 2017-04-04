@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e61e3e4950fd273c60fdb9ca6cd09fd2, ..\GCModeller\visualize\visualizeTools\NCBIBlastResult\BlastVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::439397fdf80b3d9df6f581dfc36797de, ..\visualize\visualizeTools\NCBIBlastResult\BlastVisualize.vb"
 
     ' Author:
     ' 
@@ -445,7 +445,7 @@ CONTINUTE:
                                      COGTextureMappings As Boolean,
                                      TextureSource As String,
                                      ResourceIDMapping As Boolean,
-                                     Device As GDIPlusDeviceHandle,
+                                     Device As Graphics2D,
                                      MaxIDLength As Integer) As ICOGsBrush
 
             Dim COGsColor As Dictionary(Of String, Brush) = Nothing
@@ -485,7 +485,7 @@ CONTINUTE:
                     Call COGsColor.Add("", New SolidBrush(Color.Brown))
                     Call COGsColor.Remove("")
                     Call COGsColor.Add("COG_NOT_ASSIGN", Brushes.Brown)
-                    Call Device.Graphics.DrawingCOGColors(COGsColor,
+                    Call Device.DrawingCOGColors(COGsColor,
                                                            ref:=New Point(Margin, Device.Height - MaxIDLength * 3),
                                                            legendFont:=New Font(FontFace.Ubuntu, 8),
                                                            width:=Device.Width,
@@ -547,7 +547,7 @@ CONTINUTE:
             Dim dSize As New Size((Margin * 2 + MappingLength + MaxIDLength.Width) * ScaleFactor,
                                   (If(AltIDAnnotation, ("0".MeasureString(DrawingFont, ScaleFactor, ScaleFactor).Height + 3) * (spList.Length + 5), 0) +
                                   Margin * 4 + spList.Length * (MaxIDLength.Height + 5) + 10 * (BlockSize.Height + 8)) * ScaleFactor)
-            Dim Device As GDIPlusDeviceHandle = dSize.CreateGDIDevice
+            Dim Device As Graphics2D = dSize.CreateGDIDevice
             '  Dim n As Integer = QueryLength / 10000 ' 这个长度是画标尺需要使用到的步移的长度
             ' Dim dl As Integer = MappingLength / n
             Dim X, Y As Integer
@@ -778,7 +778,7 @@ CONTINUTE:
 
             If Not QueryNT Is Nothing Then
                 Dim DeltaHeight As Integer = 1000
-                Dim Gr As GDIPlusDeviceHandle = New Size(Device.Width, Device.Height + DeltaHeight).CreateGDIDevice
+                Dim Gr As Graphics2D = New Size(Device.Width, Device.Height + DeltaHeight).CreateGDIDevice
                 Dim hhh As Single = DeltaHeight + TitleFontSize.Height + 30
 
                 Call Gr.Graphics.DrawImage(Device.ImageResource, 0, DeltaHeight, Device.Width, Device.Height)

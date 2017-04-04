@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58ec84ed60a376e8f56494da26cc8ee2, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
+﻿#Region "Microsoft.VisualBasic::f46d7ba8993598c3c7f94553381fff44, ..\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
 
     ' Author:
     ' 
@@ -27,17 +27,36 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports System.Text
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ComponentModel.DBLinkBuilder
 
+    ''' <summary>
+    ''' Database xref data
+    ''' </summary>
     Public Class DBLink : Implements IKeyValuePairObject(Of String, String)
         Implements IDBLink
         Implements INamedValue
 
-        Public Property DBName As String Implements IKeyValuePairObject(Of String, String).Identifier, INamedValue.Key, IDBLink.locusId
-        Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.Address
+        ''' <summary>
+        ''' Database name
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property DBName As String Implements IKeyValuePairObject(Of String, String).Key, INamedValue.Key, IDBLink.DbName
+        ''' <summary>
+        ''' Entity uid in the target database
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property Entry As String Implements IKeyValuePairObject(Of String, String).Value, IDBLink.ID
+
+        Sub New()
+        End Sub
+
+        Sub New(DB$, ID$)
+            DBName = DB
+            Entry = ID
+        End Sub
 
         Public Overrides Function ToString() As String
             Return ToString(Me)
@@ -55,15 +74,15 @@ Namespace ComponentModel.DBLinkBuilder
             Dim Name As String = Regex.Match(strData, "\[.+?\] ").Value
             Dim Entry = strData.Replace(Name, "").Trim
             Return New DBLink With {
-                .DBName = RemoveQuot(Name.Trim),
+                .DBName = Name.Trim.GetString,
                 .Entry = Entry
             }
         End Function
 
-        Private Shared Function RemoveQuot(str As String) As String
-            str = Mid(str, 2)
-            str = Mid(str, 1, Len(str) - 1)
-            Return str
+        Public Shared Function FromTagValue(s$, Optional tag$ = ":") As DBLink
+            With s.GetTagValue(tag, trim:=True)
+                Return New DBLink(.Name, .Value)
+            End With
         End Function
 
         Public Function GetFormatValue() As String Implements IDBLink.GetFormatValue

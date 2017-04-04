@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f6641d5ad6772dff3b647022a9b816b, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Mappings\Compounds.vb"
+﻿#Region "Microsoft.VisualBasic::f3530db05837e8c743f5cc1875c8b4c3, ..\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Mappings\Compounds.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,9 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.MetaCyc.Schema
-
-    Public Interface ICompoundObject : Inherits INamedValue
-        Property CommonNames As String()
-        Property PUBCHEM As String
-        Property CHEBI As String()
-        Property locusId As String
-    End Interface
 
     ''' <summary>
     ''' Regprecise Effector与MetaCyc Compounds Mapping
@@ -67,7 +61,7 @@ Namespace Assembly.MetaCyc.Schema
         End Function
 
         Public Property CHEBI As String() Implements ICompoundObject.CHEBI
-        Public Property KEGGCompound As String Implements ICompoundObject.locusId
+        Public Property KEGGCompound As String Implements ICompoundObject.KEGG_cpd
         Public Property PUBCHEM As String Implements ICompoundObject.PUBCHEM
 
         Public Shared Function GenerateMap(CompoundSpecies As ICompoundObject()) As EffectorMap()

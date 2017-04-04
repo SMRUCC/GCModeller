@@ -254,26 +254,6 @@
     <Compile Include="Interpro\Tables\varsplic_master.vb" />
     <Compile Include="Interpro\Tables\varsplic_match.vb" />
     <Compile Include="Interpro\Tables\varsplic_supermatch.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\citation.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\connectivity.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\ligand.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\ligand_chemistry.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\ligand_db_reference.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\ligand_image.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\ligand_synonym.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_entry.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_atom_int.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_lig_atom_int.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_region.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_region_int.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_region_lig_int.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_res_int.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_protein_res_lig_int.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\pdb_residue_data.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\protein_family.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\protein_family_has_citation.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\quality_control.vb" />
-    <Compile Include="Xfam\iPfam\LocalMySQL\version.vb" />
     <Compile Include="UniprotSprot\MySQL\id_mappings.vb" />
     <Compile Include="UniprotSprot\MySQL\uniprotkb.vb" />
     <Compile Include="UniprotSprot\ShellScriptAPI.vb" />
@@ -413,6 +393,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NCBI_NR\" />
+    <Folder Include="Xfam\iPfam\" />
   </ItemGroup>
   <Import Project="..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
   <Import Project="..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />

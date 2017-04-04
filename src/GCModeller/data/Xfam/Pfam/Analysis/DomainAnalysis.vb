@@ -300,9 +300,9 @@ Public Module DomainAnalysis
             Dim SequenceData As String = Mid(sequence.SequenceData, currentDomain_p, nextDomain_p - currentDomain_p)
             Dim ss = SMRUCC.genomics.SequenceModel.Polypeptides.SecondaryStructure.ChouFasman.Calculate(SequenceData)
             Dim doData As New DomainObject With {
-                .Identifier = $"[{New String((From aa As AminoAcid
+                .Name = $"[{New String((From aa As AminoAcid
                                               In ss
-                                              Select aa.StructureChar).ToArray)}]",
+                                        Select aa.StructureChar).ToArray)}]",
                 .Position = New ComponentModel.Loci.Location(currentDomain_p, nextDomain_p)
             }
 

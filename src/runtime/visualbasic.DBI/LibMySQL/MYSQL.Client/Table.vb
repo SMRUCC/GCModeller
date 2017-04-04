@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::85637f5e8383c0d315d69a50f2d3efe1, ..\LibMySQL\MYSQL.Client\Table.vb"
+﻿#Region "Microsoft.VisualBasic::a008c208149a8efdeb4e91338df7b093, ..\visualbasic.DBI\LibMySQL\MYSQL.Client\Table.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -102,4 +103,3 @@ Public Class Table(Of TTable As Oracle.LinuxCompatibility.MySQL.SQLTable)
 #End Region
 
 End Class
-

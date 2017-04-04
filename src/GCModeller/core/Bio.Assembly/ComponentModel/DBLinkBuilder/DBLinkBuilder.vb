@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d0d062bb6d1a8aaf7165d8df994a764, ..\GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinkBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::ff0fd5da62c9be6de2fa2538edf2aedd, ..\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinkBuilder.vb"
 
     ' Author:
     ' 
@@ -46,11 +46,11 @@ Namespace ComponentModel.DBLinkBuilder
             Call Initialize((From strValue As String In strData Select DBLink.CreateObject(strValue)).ToArray)
         End Sub
 
-        Sub New(objects As Generic.IEnumerable(Of DBLink))
+        Sub New(objects As IEnumerable(Of DBLink))
             Call Initialize(objects)
         End Sub
 
-        Private Sub Initialize(objects As Generic.IEnumerable(Of DBLink))
+        Private Sub Initialize(objects As IEnumerable(Of DBLink))
             _DBLinkObjects = objects.ToList
             Call LoadData(_DBLinkObjects, New KeyValuePair(Of String, Action(Of DBLink))() {
                           New KeyValuePair(Of String, Action(Of DBLink))("3DMET", Sub(DBLink As DBLink) Me.__3DMET = DBLink),

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da5803a5bcd9781b042728c9bfa1d102, ..\GCModeller\core\Bio.Assembly\SequenceModel\Patterns\PatternsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::da5803a5bcd9781b042728c9bfa1d102, ..\core\Bio.Assembly\SequenceModel\Patterns\PatternsAPI.vb"
 
     ' Author:
     ' 

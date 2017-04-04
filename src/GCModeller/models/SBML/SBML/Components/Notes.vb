@@ -77,7 +77,7 @@ Namespace Components
     Public Class [Property] : Implements IReadOnlyId, INamedValue
         Implements IKeyValuePairObject(Of String, String)
 
-        Public Property Name As String Implements IKeyValuePairObject(Of String, String).Identifier, IReadOnlyId.Identity, INamedValue.Key
+        Public Property Name As String Implements IKeyValuePairObject(Of String, String).Key, IReadOnlyId.Identity, INamedValue.Key
         Public Property value As String Implements IKeyValuePairObject(Of String, String).Value
 
         Public Overrides Function ToString() As String

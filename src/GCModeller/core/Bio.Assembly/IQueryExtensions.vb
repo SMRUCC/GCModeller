@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fcf105226833feec101b6871f748eff, ..\GCModeller\core\Bio.Assembly\IQueryExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::6fcf105226833feec101b6871f748eff, ..\core\Bio.Assembly\IQueryExtensions.vb"
 
     ' Author:
     ' 

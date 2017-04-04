@@ -42,7 +42,7 @@ Namespace Analysis.GenomeMotifFootPrints.MotifDb
 
     Public Class MotifFamily : Implements IKeyValuePairObject(Of String, Motif())
 
-        Public Property Family As String Implements IKeyValuePairObject(Of String, Motif()).Identifier
+        Public Property Family As String Implements IKeyValuePairObject(Of String, Motif()).Key
         Public Property Motifs As Motif() Implements IKeyValuePairObject(Of String, Motif()).Value
 
         Public Overrides Function ToString() As String

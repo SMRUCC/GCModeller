@@ -1,35 +1,33 @@
-﻿#Region "Microsoft.VisualBasic::f4767ff3e107e7318d5e28534ddd55ec, ..\LibMySQL\MYSQL.Client\MySQL.vb"
+﻿#Region "Microsoft.VisualBasic::e294170ec01ed2f46a99151f1cea5e87, ..\visualbasic.DBI\LibMySQL\MYSQL.Client\MySQL.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports System.Threading
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports MySql.Data.MySqlClient
 Imports Oracle.LinuxCompatibility.MySQL.Reflection
@@ -128,10 +126,12 @@ Public Class MySQL : Implements IDisposable
     ''' <summary>
     ''' Executes the query, and returns the first column of the first row in the 
     ''' result set returned by the query. Additional columns or rows are ignored.
-    ''' (请注意，这个函数会自动添加``LIMIT 1``限定在SQL语句末尾)
+    ''' (请注意，这个函数会自动判断添加``LIMIT 1``限定在SQL语句末尾)
     ''' </summary>
     ''' <returns></returns>
-    ''' <param name="SQL">这个函数会自动添加``LIMIT 1``限定</param>
+    ''' <param name="SQL">
+    ''' 这个函数会自动进行判断添加``LIMIT 1``限定，所以不需要刻意担心
+    ''' </param>
     Public Function ExecuteScalar(Of T As Class)(SQL As String) As T
         Dim result As DataSet = Fetch(__limit1(SQL.Trim))
         Dim reader As DataTableReader = result.CreateDataReader
@@ -299,6 +299,15 @@ Public Class MySQL : Implements IDisposable
         Return DataSet
     End Function
 
+    ''' <summary>
+    ''' 使用这个函数进行批量数据的查询操作，基于反射操作的ORM解决方案。
+    ''' 假若只需要查询一条数据库记录的话，则推荐使用<see cref="ExecuteScalar(Of T)(String)"/>函数以获取更高的性能
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="SQL"></param>
+    ''' <param name="Parallel"></param>
+    ''' <param name="throwExp"></param>
+    ''' <returns></returns>
     Public Function Query(Of T As Class)(SQL As String, Optional Parallel As Boolean = False, Optional throwExp As Boolean = True) As T()
         Dim Err As String = ""
         Dim Table As T() =
@@ -544,4 +553,3 @@ Public Class MySQL : Implements IDisposable
     End Sub
 #End Region
 End Class
-

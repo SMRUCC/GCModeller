@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::4ff471b68326d0fd158dc14aed50b84d, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\System.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Public Class ExtendedEngine : Inherits REngine
@@ -42,7 +43,7 @@ Public Class ExtendedEngine : Inherits REngine
     Public WriteOnly Property [call] As String
         Set(value As String)
 #If DEBUG Then
-            Call __logs.WriteLine(R)
+            Call __logs.WriteLine(value)
             Call __logs.Flush()
 #End If
             Call Evaluate(statement:=value)
@@ -51,11 +52,41 @@ Public Class ExtendedEngine : Inherits REngine
 
     Sub New(id As String, dll As String)
         MyBase.New(id, dll)
+
+#If DEBUG Then
+        Call App.AddExitCleanHook(hook:=AddressOf __cleanHook)
+#End If
     End Sub
 
 #If DEBUG Then
-    Friend ReadOnly __logs As StreamWriter = App.GetAppSysTempFile(".log", App.PID).OpenWriter
+    Public Overrides Function Evaluate(statement As String) As SymbolicExpression
+        Try
+            Return MyBase.Evaluate(statement)
+        Catch ex As Exception
+            ex = New Exception(statement, ex)
+
+            App.LogException(ex)
+            Throw ex
+        End Try
+    End Function
 #End If
+
+#If DEBUG Then
+    Friend ReadOnly __logs As StreamWriter = (App.CurrentDirectory & $"/{App.PID}_logs.R").OpenWriter(Encodings.ASCII)
+
+    Private Sub __cleanHook()
+        Call __logs.WriteLine()
+        Call __logs.WriteLine()
+        Call __logs.WriteLine($"#### =================={App.PID} {App.CommandLine.ToString}=======================================")
+        Call __logs.Flush()
+        Call __logs.Close()
+        Call __logs.Dispose()
+        Call "Execute R server logs clean job done!".__INFO_ECHO
+    End Sub
+#End If
+
+    Shared Sub New()
+    End Sub
 
     Friend Shared Function __init(id As String, Optional dll As String = Nothing) As ExtendedEngine
         If id Is Nothing Then

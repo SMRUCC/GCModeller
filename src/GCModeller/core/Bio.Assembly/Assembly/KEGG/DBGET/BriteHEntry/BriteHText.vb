@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e511bc138ca7afbb50308f34ceab06b, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb"
+﻿#Region "Microsoft.VisualBasic::a14e2ebed336aa2ca35f5b3a4d178fb5, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,15 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
     ''' <remarks></remarks>
     Public Class BriteHText
 
+        ''' <summary>
+        ''' 大分类的标签
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property ClassLabel As String
+        ''' <summary>
+        ''' 假若这个层次还可以进行细分的话，则这个属性就是当前的小分类的子分类列表
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement> Public Property CategoryItems As BriteHText()
         <XmlAttribute> Public Property Level As Integer
         <XmlAttribute> Public Property Degree As Char
@@ -62,6 +70,24 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 End If
 
                 Return _EntryId
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Root class label
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property [Class] As String
+            Get
+                Dim o As BriteHText = Me.Parent
+                Dim label$ = Nothing
+
+                Do While Not o.Parent Is Nothing
+                    label = o.ClassLabel
+                    o = o.Parent
+                Loop
+
+                Return label
             End Get
         End Property
 
@@ -90,7 +116,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             End If
 
             Dim LQuery As BriteHText() = (From value As BriteHText
-                                 In Me.CategoryItems
+                                          In Me.CategoryItems
                                           Let path As BriteHText() = value.GetHPath(Key)
                                           Where Not path.IsNullOrEmpty
                                           Select path).FirstOrDefault
@@ -104,18 +130,26 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         Private Shared ReadOnly ClassLevels As Char() = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+        ''' <summary>
+        ''' 获取得到当前的分类之下的所有的<see cref="EntryId"/>列表
+        ''' </summary>
+        ''' <returns></returns>
         Public Function GetEntries() As String()
             If Me.CategoryItems.IsNullOrEmpty Then
                 Return {
                     EntryId
                 }
             Else
-                Return (From htext As BriteHText
-                        In Me.CategoryItems
-                        Select s_Data = htext.GetEntries).ToVector
+                Return Me.CategoryItems _
+                    .Select(Function(htext) htext.GetEntries) _
+                    .ToVector
             End If
         End Function
 
+        ''' <summary>
+        ''' 递归枚举当前的分类对象之下的所有的Entry列表
+        ''' </summary>
+        ''' <returns></returns>
         Public Iterator Function EnumerateEntries() As IEnumerable(Of BriteHText)
             If CategoryItems.IsNullOrEmpty Then
                 Yield Me
@@ -227,6 +261,30 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         Public Shared Function Load_ko00001() As BriteHText
             Return Load(strData:=My.Resources.ko00001)
+        End Function
+
+        ''' <summary>
+        ''' 创建分层次的文件保存路径
+        ''' </summary>
+        ''' <param name="EXPORT$">数据文件所导出的文件夹</param>
+        ''' <param name="ext$">文件拓展名，KEGG数据库文件默认为``xml``格式</param>
+        ''' <returns></returns>
+        Public Function BuildPath(EXPORT$, Optional ext$ = ".xml") As String
+            Dim levels As New List(Of String)
+            Dim o As BriteHText = Me.Parent
+
+            Do While Not o.Parent Is Nothing
+                levels += o.ClassLabel
+                o = o.Parent
+            Loop
+
+            Call levels.Reverse()
+
+            Dim sub$ = levels _
+                .Select(Function(s) s.NormalizePathString(False)) _
+                .JoinBy("/")
+
+            Return EXPORT & "/" & [sub] & EntryId & ext
         End Function
     End Class
 End Namespace

@@ -1113,7 +1113,7 @@ SET_END:    Dim ends = i
                                      Optional loophole As Integer = 0) As Boolean
         Dim LQuery = (From Operon As Operon In DOOR_API.Load(DOOR)
                       Let Loci = (From obj In Operon Select {obj.Value.Location.Left, obj.Value.Location.Right}).Unlist
-                      Let COG As String = New String((From c In (From obj As KeyValuePair(Of String, GeneBrief)
+                      Let COG As String = New String((From c In (From obj As KeyValuePair(Of String, OperonGene)
                                                                  In Operon
                                                                  Select obj.Value.COG_number.GetCOGCategory.ToArray).Unlist
                                                       Select c

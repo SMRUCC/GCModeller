@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c7048489ce62fc89cfec372fb80f124, ..\GCModeller\core\Bio.Repository\KEGG\SSDB.vb"
+﻿#Region "Microsoft.VisualBasic::2050385d39a70cce752efc0dd2f118e9, ..\core\Bio.Repository\KEGG\SSDB.vb"
 
     ' Author:
     ' 
@@ -96,4 +96,3 @@ Public Module SSDB
         End Using
     End Sub
 End Module
-

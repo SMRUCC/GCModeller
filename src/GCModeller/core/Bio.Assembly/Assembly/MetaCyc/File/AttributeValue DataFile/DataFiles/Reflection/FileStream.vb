@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ce1f8a6289796e035995a1a163ece23, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\FileStream.vb"
+﻿#Region "Microsoft.VisualBasic::1ce1f8a6289796e035995a1a163ece23, ..\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\FileStream.vb"
 
     ' Author:
     ' 

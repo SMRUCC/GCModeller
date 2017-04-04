@@ -170,7 +170,7 @@ For example, we identified a new domain, likely to have a role downstream of the
 
             Dim n As Integer = model.Alphabets
             Dim gSize As New Size(model.Residues.Length * WordSize + 2 * margin, 2 * margin + n * Height)
-            Dim gdi As GDIPlusDeviceHandle = gSize.CreateGDIDevice(Color.Transparent)
+            Dim gdi As Graphics2D = gSize.CreateGDIDevice(Color.Transparent)
             Dim X, Y As Integer
             Dim font As New Font(MicrosoftYaHei, CInt(WordSize * 0.6), FontStyle.Bold)
             Dim size As SizeF

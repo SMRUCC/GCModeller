@@ -1,9 +1,10 @@
-﻿#Region "Microsoft.VisualBasic::b21654a42a0c6557bab5c4f27faf80c4, ..\LibMySQL\Reflection\DbAttributes\DbAttributes.vb"
+﻿#Region "Microsoft.VisualBasic::f04326d92a7f6c710046b0c3f258dc43, ..\visualbasic.DBI\LibMySQL\Reflection\DbAttributes\DbAttributes.vb"
 
     ' Author:
     ' 
     '       asuka (amethyst.asuka@gcmodeller.org)
     '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
     ' 
     ' Copyright (c) 2016 GPL3 Licensed
     ' 
@@ -77,6 +78,10 @@ Namespace Reflection.DbAttributes
     <AttributeUsage(AttributeTargets.Class Or AttributeTargets.Struct, AllowMultiple:=False, Inherited:=True)>
     Public Class TableName : Inherits DbAttribute
 
+        ''' <summary>
+        ''' 数据库的表名
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public ReadOnly Property Name As String
         ''' <summary>
         ''' 这个数据表所处的数据库的名称，可选的属性
@@ -85,6 +90,10 @@ Namespace Reflection.DbAttributes
         <XmlAttribute> Public Property Database As String
         <XmlText> Public Property SchemaSQL As String
 
+        ''' <summary>
+        ''' 使用表名来初始化这个元数据属性
+        ''' </summary>
+        ''' <param name="Name"></param>
         Public Sub New(Name As String)
             Me.Name = Name
         End Sub
@@ -93,7 +102,7 @@ Namespace Reflection.DbAttributes
             If String.IsNullOrEmpty(Database) Then
                 Return Name
             Else
-                Return $"{Database} => {Name}"
+                Return $"`{Database}`.`{Name}`"
             End If
         End Function
 

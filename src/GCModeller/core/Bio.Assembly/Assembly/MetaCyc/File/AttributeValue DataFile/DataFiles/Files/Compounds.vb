@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92b39d1a2129eafe3ddf55599142b321, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Compounds.vb"
+﻿#Region "Microsoft.VisualBasic::2a0945a657e4f74c2df4f9ef88d2f6cc, ..\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Compounds.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,7 @@ Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema.Reflection
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.MetaCyc.File.DataFiles
 

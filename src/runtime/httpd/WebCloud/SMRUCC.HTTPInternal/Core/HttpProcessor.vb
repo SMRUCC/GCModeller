@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb4fd661fdb512ce527449b82aa226b7, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
+﻿#Region "Microsoft.VisualBasic::1e38025c7829a48e305dea8eec943cc2, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,7 @@ Imports System.Collections
 Imports System.IO
 Imports System.Net
 Imports System.Net.Sockets
+Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
@@ -145,7 +146,8 @@ Namespace Core
             _inputStream = New BufferedStream(socket.GetStream())
 
             ' we probably shouldn't be using a streamwriter for all output from handlers either
-            outputStream = New StreamWriter(New BufferedStream(socket.GetStream()))
+            ' 2017-3-25 使用utf8来尝试解决中文乱码问题
+            outputStream = New StreamWriter(New BufferedStream(socket.GetStream()), Encoding.UTF8)
             Try
                 Call __processInvoker()
             Catch e As Exception
@@ -177,10 +179,21 @@ Namespace Core
             End Try
         End Sub
 
+        ''' <summary>
+        ''' 在这个方法之中完成对一次http请求的解析到相对应的API处理的完整过程，当这个方法执行完毕之后就会关闭socket断开与浏览器的连接了
+        ''' </summary>
         Private Sub __processInvoker()
-            Call parseRequest()
-            Call readHeaders()
+            ' 解析http请求
+            If Not parseRequest() Then
+                ' 没有解析到请求的头部，则不会再做进一步的处理了，直接退出断开连接
+                ' 不在抛出错误了，因为抛出错误的整个处理过程开销比较大
+                Call $"[{socket.Client.RemoteEndPoint.ToString}] Empty request header, this request will not be processed!".Warning
+                Return
+            Else
+                Call readHeaders()
+            End If
 
+            ' 调用相对应的API进行请求的处理
             If http_method.Equals("GET", StringComparison.OrdinalIgnoreCase) Then
                 handleGETRequest()
 
@@ -195,18 +208,46 @@ Namespace Core
             End If
         End Sub
 
-        Public Sub parseRequest()
-            Dim request As [String] = __streamReadLine(_inputStream)
-            Dim tokens As String() = request.Split(" "c)
-            If tokens.Length <> 3 Then
-                Throw New Exception("invalid http request line")
+        ''' <summary>
+        ''' 对于非法的header格式会直接抛出错误，对于空的请求则会返回False
+        ''' </summary>
+        ''' <returns></returns>
+        Private Function parseRequest() As Boolean
+            Dim request As String = __streamReadLine(_inputStream)
+
+            If request.StringEmpty Then
+                ' 2017-3-25 因为在__streamReadLine函数之中可能会出现没有数据导致休眠时间长度可能会超过1024ms
+                ' 所以在这里只需要等待3次就行了，以避免当前线程占用系统资源的时间过长而导致对其他的请求响应过低
+                Dim wait% = 3
+
+                Do While request.StringEmpty
+                    ' 可能是网络传输速度比较慢，在这里等待一段时间再解析流之中的数据
+                    ' 但是当前的这条处理线程最多只等待wait次数
+                    Call Thread.Sleep(5)
+
+                    If wait <= 0 Then
+                        Return False
+                    Else
+                        request = __streamReadLine(_inputStream)
+                        wait -= 1
+                    End If
+                Loop
             End If
+
+            Dim tokens As String() = request.Split(" "c)
+
+            If tokens.Length <> 3 Then
+                Throw New Exception("invalid http request line: " & request)
+            End If
+
             http_method = tokens(0).ToUpper()
             http_url = tokens(1)
             http_protocol_versionstring = tokens(2)
 
-            ' Console.WriteLine("starting: " & request)
-        End Sub
+            Call $"starting: {request}".__INFO_ECHO
+
+            Return True
+        End Function
 
         Public Sub readHeaders()
             Dim line As String = "", s As New Value(Of String)
@@ -214,8 +255,8 @@ Namespace Core
             Call NameOf(readHeaders).__DEBUG_ECHO
 
             While (s = __streamReadLine(_inputStream)) IsNot Nothing
-                If s.value.Equals("") Then
-                    ' Console.WriteLine("got headers")
+                If s.value.StringEmpty Then
+                    Call "got headers".__DEBUG_ECHO
                     Return
                 Else
                     line = s.value

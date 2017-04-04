@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a464be949d7e1383005582755b78afc, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\List(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::a63d76923e137aa3fa4a0f6d33eb0412, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\List(Of T).vb"
 
 ' Author:
 ' 
@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
@@ -38,6 +39,7 @@ Namespace Language
     ''' Represents a strongly typed list of objects that can be accessed by index. Provides
     ''' methods to search, sort, and manipulate lists.To browse the .NET Framework source
     ''' code for this type, see the Reference Source.
+    ''' (加强版的<see cref="System.Collections.Generic.List(Of T)"/>)
     ''' </summary>
     ''' <typeparam name="T">The type of elements in the list.</typeparam>
     Public Class List(Of T) : Inherits Generic.List(Of T)
@@ -46,6 +48,20 @@ Namespace Language
         Dim __index As Pointer
 
 #Region "Improvements Index"
+
+        ''' <summary>
+        ''' 这个是为了ODEs计算模块所准备的一个数据接口
+        ''' </summary>
+        ''' <param name="address"></param>
+        ''' <returns></returns>
+        Default Public Overloads Property Item(address As IAddress(Of Integer)) As T
+            Get
+                Return Item(address.Address)
+            End Get
+            Set(value As T)
+                Item(address.Address) = value
+            End Set
+        End Property
 
         Default Public Overloads Property Item(index%) As T
             Get
@@ -125,6 +141,7 @@ Namespace Language
         ''' Initializes a new instance of the <see cref="List"/>`1 class that
         ''' contains elements copied from the specified collection and has sufficient capacity
         ''' to accommodate the number of elements copied.
+        ''' (这是一个安全的构造函数，假若输入的参数为空值，则只会创建一个空的列表，而不会抛出错误)
         ''' </summary>
         ''' <param name="source">The collection whose elements are copied to the new list.</param>
         Sub New(source As IEnumerable(Of T))
@@ -132,7 +149,7 @@ Namespace Language
         End Sub
 
         ''' <summary>
-        ''' Initializes a new instance of the List`1 class that
+        ''' Initializes a new instance of the <see cref="List(Of T)"/> class that
         ''' contains elements copied from the specified collection and has sufficient capacity
         ''' to accommodate the number of elements copied.
         ''' </summary>
@@ -142,15 +159,15 @@ Namespace Language
         End Sub
 
         ''' <summary>
-        ''' Initializes a new instance of the List`1 class that
-        ''' is empty and has the default initial capacity.
+        ''' Initializes a new instance of the Microsoft VisualBasic language <see cref="List(Of T)"/> class 
+        ''' that is empty and has the default initial capacity.
         ''' </summary>
         Public Sub New()
             Call MyBase.New
         End Sub
 
         ''' <summary>
-        ''' Initializes a new instance of the List`1 class that
+        ''' Initializes a new instance of the <see cref="List(Of T)"/> class that
         ''' is empty and has the specified initial capacity.
         ''' </summary>
         ''' <param name="capacity">The number of elements that the new list can initially store.</param>
@@ -163,6 +180,11 @@ Namespace Language
                 Call Add(fill)
             Next
         End Sub
+
+        ' 这个Add方法会导致一些隐式转换的类型匹配失败，所以删除掉这个方法
+        'Public Overloads Sub Add(data As IEnumerable(Of T))
+        '    Call MyBase.AddRange(data.SafeQuery)
+        'End Sub
 
         ''' <summary>
         ''' Pop all of the elements value in to array from the list object and then clear all of the list data.
@@ -184,11 +206,13 @@ Namespace Language
         End Operator
 
         ''' <summary>
-        ''' Adds an object to the end of the List`1.
+        ''' Adds an object to the end of the <see cref="List(Of T)"/>.
         ''' </summary>
         ''' <param name="list"></param>
-        ''' <param name="x">The object to be added to the end of the List`1. The
-        ''' value can be null for reference types.</param>
+        ''' <param name="x">
+        ''' The object to be added to the end of the <see cref="List(Of T)"/>. 
+        ''' The value can be null for reference types.
+        ''' </param>
         ''' <returns></returns>
         Public Shared Operator +(list As List(Of T), x As T) As List(Of T)
             If list Is Nothing Then
@@ -200,7 +224,7 @@ Namespace Language
         End Operator
 
         ''' <summary>
-        ''' Adds an object to the end of the List`1.
+        ''' Adds an object to the end of the <see cref="List(Of T)"/>.
         ''' </summary>
         ''' <param name="list"></param>
         ''' <param name="x">The object to be added to the end of the List`1. The
@@ -317,8 +341,17 @@ Namespace Language
             Return list
         End Operator
 
+        ''' <summary>
+        ''' 将这个列表对象隐式转换为向量数组
+        ''' </summary>
+        ''' <param name="list"></param>
+        ''' <returns></returns>
         Public Shared Narrowing Operator CType(list As List(Of T)) As T()
-            Return list.ToArray
+            If list Is Nothing Then
+                Return {}
+            Else
+                Return list.ToArray
+            End If
         End Operator
 
         ' 因为这个隐式会使得数组被默认转换为本List对象，会导致 + 运算符重载失败，所以在这里将这个隐式转换取消掉

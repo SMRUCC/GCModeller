@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fadfd27a9d8fe17a1dcde362dbdb1c27, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\HttpServer.vb"
+﻿#Region "Microsoft.VisualBasic::fddb628438e39866c651cfe68e32a5e8, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\HttpServer.vb"
 
     ' Author:
     ' 
@@ -73,13 +73,16 @@ Namespace Core
                 If(threads = -1,
                 LQuerySchedule.Recommended_NUM_THREADS * 8,
                 threads))
-            Call Console.WriteLine("Web server threads_pool_size=" & _threadPool.NumOfThreads)
+            Me.BufferSize = Val(App.GetVariable("httpserver.buffer_size"))
+            Me.BufferSize = If(BufferSize <= 0, 4096, BufferSize)
+
+            Call $"Web server threads_pool_size={_threadPool.NumOfThreads}, buffer_size={BufferSize}bytes".__INFO_ECHO
         End Sub
 
         ''' <summary>
         ''' 处理连接的线程池
         ''' </summary>
-        Protected _threadPool As Threads.ThreadPool
+        Protected Friend _threadPool As Threads.ThreadPool
 
         ''' <summary>
         ''' Running this http server. 
@@ -111,7 +114,7 @@ Namespace Core
             End Try
 
 #Const DEBUG = 0
-            Call Console.WriteLine("Http Server Start listen at " & _httpListener.LocalEndpoint.ToString)
+            Call $"Http Server Start listen at {_httpListener.LocalEndpoint.ToString}".__INFO_ECHO
 #If DEBUG Then
             Call RunTask(AddressOf Me.OpenAPI_HOME)
 #End If
@@ -220,6 +223,7 @@ Namespace Core
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).
                     Me.Is_active = False
+                    _threadPool.Dispose()
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.

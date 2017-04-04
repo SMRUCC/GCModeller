@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::696415243cc90c64c255d39bd0dc630a, ..\GCModeller\core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
+﻿#Region "Microsoft.VisualBasic::9108e50ac6680af07d7749b0442ae065, ..\core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
 
     ' Author:
     ' 
@@ -26,21 +26,26 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Linq
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.EquaionModel.DefaultTypes
 
     Public Class CompoundSpecieReference : Implements ICompoundSpecies
+
+        ''' <summary>
+        ''' 化学计量数
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property StoiChiometry As Double Implements ICompoundSpecies.StoiChiometry
-        <XmlAttribute> Public Property Identifier As String Implements ICompoundSpecies.Key
+        <XmlAttribute> Public Property ID As String Implements ICompoundSpecies.Key
 
         Sub New()
         End Sub
 
         Sub New(x As ICompoundSpecies)
             StoiChiometry = x.StoiChiometry
-            Identifier = x.Key
+            ID = x.Key
         End Sub
 
         Public Overloads Function Equals(b As ICompoundSpecies, strict As Boolean) As Boolean
@@ -49,9 +54,9 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
 
         Public Overrides Function ToString() As String
             If StoiChiometry > 1 Then
-                Return String.Format("{0} {1}", StoiChiometry, Identifier)
+                Return String.Format("{0} {1}", StoiChiometry, ID)
             Else
-                Return Identifier
+                Return ID
             End If
         End Function
     End Class
@@ -72,16 +77,20 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
             Reversible = canReverse
         End Sub
 
-        Sub New(left As IEnumerable(Of ICompoundSpecies),
-                right As IEnumerable(Of ICompoundSpecies),
+        Sub New(left As IEnumerable(Of ICompoundSpecies), right As IEnumerable(Of ICompoundSpecies),
                 idMaps As Dictionary(Of String, String),
                 canReverse As Boolean)
-            Reactants = left.ToArray(Function(x) New CompoundSpecieReference With {
-                                         .Identifier = idMaps(x.Key),
-                                         .StoiChiometry = x.StoiChiometry})
-            Products = right.ToArray(Function(x) New CompoundSpecieReference With {
-                                         .Identifier = idMaps(x.Key),
-                                         .StoiChiometry = x.StoiChiometry})
+
+            Reactants = left.ToArray(
+                Function(x) New CompoundSpecieReference With {
+                    .ID = idMaps(x.Key),
+                    .StoiChiometry = x.StoiChiometry
+                })
+            Products = right.ToArray(
+                Function(x) New CompoundSpecieReference With {
+                    .ID = idMaps(x.Key),
+                    .StoiChiometry = x.StoiChiometry
+                })
             Reversible = canReverse
         End Sub
 

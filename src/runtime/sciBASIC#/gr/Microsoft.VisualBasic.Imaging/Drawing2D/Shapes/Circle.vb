@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62068313aedd93a8660ff696de63e012, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Circle.vb"
+﻿#Region "Microsoft.VisualBasic::548b2e2de9a9439031d93e0f565e247d, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Circle.vb"
 
     ' Author:
     ' 
@@ -29,6 +29,7 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 
 Namespace Drawing2D.Vector.Shapes
 
@@ -69,7 +70,7 @@ Namespace Drawing2D.Vector.Shapes
             End Get
         End Property
 
-        Public Overrides Function Draw(ByRef g As Graphics, Optional overridesLoci As Point = Nothing) As RectangleF
+        Public Overrides Function Draw(ByRef g As IGraphics, Optional overridesLoci As Point = Nothing) As RectangleF
             Dim rect = MyBase.Draw(g, overridesLoci)
             Call Draw(g, Location, Radius, Brush)
             Return rect
@@ -82,11 +83,11 @@ Namespace Drawing2D.Vector.Shapes
         ''' <param name="center"></param>
         ''' <param name="radius"></param>
         ''' <param name="br"></param>
-        Public Overloads Shared Sub Draw(ByRef g As Graphics,
+        Public Overloads Shared Sub Draw(ByRef g As IGraphics,
                                          center As Point,
                                          radius As Single,
                                          Optional br As Brush = Nothing,
-                                         Optional border As Border = Nothing)
+                                         Optional border As Stroke = Nothing)
             Dim rect As New Rectangle(
                 New Point(center.X - radius, center.Y - radius),
                 New Size(radius * 2, radius * 2))
@@ -99,9 +100,13 @@ Namespace Drawing2D.Vector.Shapes
                     center.Y - radius - border.width,
                     radius * 2 + 1,
                     radius * 2 + 1)
-                border.color = If(border.color.IsEmpty, Color.Black, border.color)
+                border.fill = If(
+                    border.fill.StringEmpty,
+                    "Black",
+                    border.fill)
 
-                Call g.DrawPie(border.GetPen, rect, 0, 360)
+                Call g.DrawCircle(
+                    rect.Centre, radius, border.GDIObject, fill:=False)
             End If
         End Sub
     End Class

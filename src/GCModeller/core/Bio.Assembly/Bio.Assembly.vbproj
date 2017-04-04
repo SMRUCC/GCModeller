@@ -256,12 +256,21 @@
     <Compile Include="Assembly\bac-srna.org\Interaction.vb" />
     <Compile Include="Assembly\bac-srna.org\Database.vb" />
     <Compile Include="Assembly\DOMINE\ImportsAPI.vb" />
-    <Compile Include="Assembly\DOOR\DOOR.vb" />
+    <Compile Include="Assembly\DOOR\csv.vb" />
+    <Compile Include="Assembly\DOOR\Models\DOOR.vb" />
     <Compile Include="Assembly\DOOR\DOOR_API.vb" />
-    <Compile Include="Assembly\DOOR\Operon.vb" />
-    <Compile Include="Assembly\DOOR\OperonView.vb" />
-    <Compile Include="Assembly\DOOR\Gene.vb" />
-    <Compile Include="Assembly\DOOR\OperonLDM.vb" />
+    <Compile Include="Assembly\DOOR\Models\Operon.vb" />
+    <Compile Include="Assembly\DOOR\Models\OperonView.vb" />
+    <Compile Include="Assembly\DOOR\Models\OperonGene.vb" />
+    <Compile Include="Assembly\DOOR\Models\OperonLDM.vb" />
+    <Compile Include="Assembly\DOOR\IO.vb" />
+    <Compile Include="Assembly\DOOR\ViewAPI.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\DATA.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\DataModels\ChEBIEntity.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\DataModels\AccessionTypes.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\DataModels\NameOf.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Compound.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Extensions.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Tables.vb" />
     <Compile Include="Assembly\Expasy\API.vb" />
     <Compile Include="Assembly\Expasy\csv\SwissProt.vb" />
@@ -273,8 +282,28 @@
     <Compile Include="Assembly\KEGG\Archives\Xml\MapAPI.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb" />
     <Compile Include="Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\KOCatalog.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\KEGGObjects.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\KEGGgenomeFetchs.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Hsa_gene.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Drug.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\Disease.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayEntry.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayWebParser.vb" />
-    <Compile Include="Assembly\KEGG\PathwayMapping.vb" />
+    <Compile Include="Assembly\KEGG\Medical\DrugGroup.vb" />
+    <Compile Include="Assembly\KEGG\Medical\Disease.vb" />
+    <Compile Include="Assembly\KEGG\Medical\Drug.vb" />
+    <Compile Include="Assembly\KEGG\Medical\DrugParser.vb" />
+    <Compile Include="Assembly\KEGG\Medical\DiseaseParser.vb" />
+    <Compile Include="Assembly\KEGG\Extensions.vb" />
+    <Compile Include="Assembly\KEGG\Medical\Extensions.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\Map.vb" />
+    <Compile Include="Assembly\KEGG\Web\PathwayMapping.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\htext.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModuleClassAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\ModsBrite.vb" />
@@ -285,22 +314,23 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\ProtMotifs.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Ortholog.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\SShit.vb" />
-    <Compile Include="Assembly\KEGG\QueryEntry.vb" />
+    <Compile Include="Assembly\KEGG\Web\QueryEntry.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Pathway.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\BriteHEntry\EnzymaticReaction.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\bGetObject.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\KEGGgenes.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Glycan.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\Module.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Reference.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\Orthology.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\ReferenceMap\Reaction.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb" />
-    <Compile Include="Assembly\KEGG\AllLinksWidget.vb" />
+    <Compile Include="Assembly\KEGG\Web\Form\AllLinksWidget.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\API.vb" />
+    <Compile Include="Assembly\KEGG\Web\Form\Extensions.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Parser\ObjectModel.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Reflection\Loader.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ObjectBase\IComplexes.vb" />
@@ -353,15 +383,18 @@
     <Compile Include="Assembly\NCBI\Taxonomy\TaxonomyWeb.vb" />
     <Compile Include="Assembly\NCBI\Taxonomy\Taxonomy.vb" />
     <Compile Include="Assembly\NCBI\WebServiceHandler\Taxonomy.vb" />
+    <Compile Include="Assembly\Uniprot\XML\Model\CommentData.vb" />
+    <Compile Include="Assembly\Uniprot\XML\Model\entry.vb" />
     <Compile Include="Assembly\Uniprot\XML\GetID.vb" />
-    <Compile Include="Assembly\Uniprot\XML\Elements.vb" />
+    <Compile Include="Assembly\Uniprot\XML\Model\Data.vb" />
     <Compile Include="Assembly\Uniprot\XML\Extensions.vb" />
-    <Compile Include="Assembly\Uniprot\XML\UniprotXML.vb" />
+    <Compile Include="Assembly\Uniprot\XML\Model\UniprotXML.vb" />
     <Compile Include="Assembly\Uniprot\UniprotFasta.vb" />
     <Compile Include="Assembly\Uniprot\IdMapping.vb" />
     <Compile Include="Assembly\Uniprot\Web\ID_types.vb" />
     <Compile Include="Assembly\Uniprot\Web\Retrieve_IDmapping.vb" />
     <Compile Include="Assembly\Uniprot\Web\Entry.vb" />
+    <Compile Include="ComponentModel\CatalogProfiling.vb" />
     <Compile Include="ComponentModel\Loci.Models\LociSites\Extensions.vb" />
     <Compile Include="ComponentModel\Loci.Models\LociSites\MotifSite.vb" />
     <Compile Include="ContextModel\Algorithm\Context.vb" />
@@ -421,7 +454,7 @@
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\TSV.vb" />
     <Compile Include="Assembly\EBI.ChEBI\WebServices.vb" />
     <Compile Include="Assembly\Expasy\EnzymeClass.vb" />
-    <Compile Include="Assembly\KEGG\WebForm.vb" />
+    <Compile Include="Assembly\KEGG\Web\Form\WebForm.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\PropertyAttributes.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\TransportReactions.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\EquationEquals.vb" />
@@ -429,7 +462,7 @@
     <Compile Include="Assembly\Expasy\NomenclatureDB\NomenclatureDB.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Equation.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\SSDB\OrthologREST.vb" />
-    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Compound.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb" />
     <Compile Include="Assembly\KEGG\DBGET\LinkDB\Pathways.vb" />
     <Compile Include="Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Species.vb" />
@@ -442,8 +475,10 @@
     <Compile Include="IQueryExtensions.vb" />
     <Compile Include="Metagenomics\BIOMTaxonomy.vb" />
     <Compile Include="Metagenomics\OTUData.vb" />
+    <Compile Include="ProteinModel\Abstract.vb" />
     <Compile Include="ProteinModel\DomainObject.vb" />
     <Compile Include="ProteinModel\DomainModels.vb" />
+    <Compile Include="ProteinModel\Extensions.vb" />
     <Compile Include="SequenceModel\Abstract.vb" />
     <Compile Include="SequenceModel\CutSequence.vb" />
     <Compile Include="SequenceModel\FASTA\Abstract.vb" />
@@ -487,7 +522,7 @@
     <Compile Include="Assembly\MiST2\DocArchive\Domain.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\KEGGOrganism\KEGGOrganism.vb" />
     <Compile Include="Assembly\KEGG\Archives\SequenceDump.vb" />
-    <Compile Include="Assembly\KEGG\WebRequest.vb" />
+    <Compile Include="Assembly\KEGG\Web\WebRequest.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\PathwayLink.vb" />
     <Compile Include="Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb" />
     <Compile Include="SequenceModel\FASTA\Reflection\Attributes.vb" />
@@ -620,44 +655,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assembly\EBI.ChEBI\Database\DataModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\br08901.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ko00002.keg.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\br08201.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\br08001.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\br08002.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\br08003.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\br08005.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\br08006.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\br08007.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\br08008.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\br08009.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\br08010.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ko00001.txt" />
@@ -727,6 +730,42 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\br08610.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08001.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08002.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08003.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08005.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08006.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08007.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08008.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08009.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Compounds\br08010.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Reactions\br08201.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Reactions\br08202.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KEGG\Reactions\br08203.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

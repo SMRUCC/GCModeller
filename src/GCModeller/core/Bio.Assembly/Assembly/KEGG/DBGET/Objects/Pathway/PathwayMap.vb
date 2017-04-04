@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1287a4887135fecfcef95d5109e78a3, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::93bc5b691314b4ae324a8f356178c46f, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports System.Drawing
 Imports System.Threading
@@ -156,7 +155,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim pathwayMap As New PathwayMap With {
                 .Brite = entry,
                 .EntryId = entry.EntryId,
-                .Name = WebForm.StripName(webForm.GetValue("Name").FirstOrDefault).StripHTMLTags.StripBlank,
+                .Name = webForm.GetValue("Name").FirstOrDefault.Strip_NOBR.StripHTMLTags.StripBlank,
                 .Description = .Name
             }
 
@@ -235,7 +234,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                         rtvl -= 1
                         GoTo EXIT_LOOP
                     Else
-                        Call DownloadPathwayMap("map", EntryId, SaveLocationDir:=SaveToDir)
+                        Call DownloadPathwayMap("map", EntryId, EXPORT:=SaveToDir)
                         Call Pathway.SetMapImage(LoadImage(PngFile))
                         Call Pathway.SaveAsXml(XmlFile)
                         Call Thread.Sleep(10000)

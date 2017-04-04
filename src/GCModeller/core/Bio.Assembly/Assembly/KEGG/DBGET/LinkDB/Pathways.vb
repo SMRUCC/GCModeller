@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd7a904f40048fd042cb63e7b1ea69b7, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Pathways.vb"
+﻿#Region "Microsoft.VisualBasic::bfca67d5c500498491d740f3f4e5ff22, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Pathways.vb"
 
     ' Author:
     ' 
@@ -28,13 +28,13 @@
 
 Imports System.Net
 Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 
 Namespace Assembly.KEGG.DBGET.LinkDB
 
@@ -71,17 +71,27 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             Next
         End Function
 
-        Public Iterator Function Downloads(sp As String, Optional EXPORT As String = "./LinkDB-Pathways/") As IEnumerable(Of Pathway)
+        ''' <summary>
+        ''' 下载某一个物种所注释的代谢途径的数据
+        ''' </summary>
+        ''' <param name="sp"></param>
+        ''' <param name="EXPORT"></param>
+        ''' <returns></returns>
+        Public Function Downloads(sp$,
+                                  Optional EXPORT$ = "./LinkDB-Pathways/",
+                                  Optional forceUpdate As Boolean = False) As String()
+
             Dim entries As New List(Of ListEntry)
             Dim briefHash As Dictionary(Of String, BriteHEntry.Pathway) =
                 BriteHEntry.Pathway.LoadDictionary
             Dim Downloader As New WebClient()
-            Dim Progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways....")
+            Dim Progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways....", cls:=True)
+            Dim failures As New List(Of String)
 
-            VBDebugger.Mute = True
+            ' VBDebugger.Mute = True
 
             Dim all As ListEntry() = AllEntries(sp).ToArray
-            Dim i As Integer
+            Dim i As int = 1
 
             For Each entry As ListEntry In all
                 Dim ImageUrl = String.Format("http://www.genome.jp/kegg/pathway/{0}/{1}.png", sp, entry.EntryID)
@@ -89,29 +99,37 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Dim path As String = EXPORT & "/webpages/" & entry.EntryID & ".html"
                 Dim img As String = EXPORT & $"/{entry.EntryID}.png"
                 Dim bCode As String = Regex.Match(entry.EntryID, "\d+").Value
+                Dim xml$ = BriteHEntry.Pathway.CombineDIR(briefHash(bCode), EXPORT) & $"/{entry.EntryID}.Xml"
+
+                If xml.FileLength > 0 AndAlso img.FileLength > 0 Then
+                    If Not forceUpdate Then
+                        GoTo EXIT_LOOP
+                    End If
+                End If
 
                 Call pathwayPage.GET.SaveTo(path)
                 Call Downloader.DownloadFile(ImageUrl, img)
 
                 Dim data As Pathway = Pathway.DownloadPage(path)
 
-                entries += entry
-                data.Genes = KEGGgenes.Download($"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}").ToArray
+                If data Is Nothing Then
+                    failures += entry.EntryID
+                Else
+                    entries += entry
+                    data.Genes = KEGGgenes.Download($"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}").ToArray
 
-                path = BriteHEntry.Pathway.CombineDIR(briefHash(bCode), EXPORT)
-                path = path & $"/{entry.EntryID}.Xml"
+                    Call data.SaveAsXml(xml)
+                End If
 
-                Call data.SaveAsXml(path)
-
-                Yield data
-
-                i += 1
-                Call Progress.SetProgress(i / all.Length * 100, data.Name)
+                Call Thread.Sleep(1000)
+EXIT_LOOP:      Call Progress.SetProgress(++i / all.Length * 100, entry.GetJson)
             Next
 
-            VBDebugger.Mute = False
+            ' VBDebugger.Mute = False
 
             Call entries.GetJson.SaveTo(EXPORT & $"/{sp}.json")
+
+            Return failures
         End Function
     End Module
 End Namespace

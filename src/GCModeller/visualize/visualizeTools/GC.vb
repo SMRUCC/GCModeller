@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0c223f4ff65f365c393e92d360caa9e, ..\GCModeller\visualize\visualizeTools\GC.vb"
+﻿#Region "Microsoft.VisualBasic::167ba634e048769d527a07587d6e7348, ..\visualize\visualizeTools\GC.vb"
 
 ' Author:
 ' 
@@ -30,6 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
@@ -42,12 +43,12 @@ Imports SMRUCC.genomics.SequenceModel.Patterns
 Public Module GCPlot
 
     <Extension>
-    Public Function PlotGCSkew(mal As FastaFile, cal As NtProperty, winSize%, steps%, Optional isCircle? As Boolean = True) As Bitmap
+    Public Function PlotGCSkew(mal As FastaFile, cal As NtProperty, winSize%, steps%, Optional isCircle? As Boolean = True) As GraphicsData
         Return mal.PlotGC(AddressOf NucleicAcidStaticsProperty.GCSkew, winSize, steps, isCircle)
     End Function
 
     <Extension>
-    Public Function PlotGCContent(mal As FastaFile, cal As NtProperty, winSize%, steps%, Optional isCircle? As Boolean = True) As Bitmap
+    Public Function PlotGCContent(mal As FastaFile, cal As NtProperty, winSize%, steps%, Optional isCircle? As Boolean = True) As GraphicsData
         Return mal.PlotGC(AddressOf GCContent, winSize, steps, isCircle)
     End Function
 
@@ -75,7 +76,7 @@ Public Module GCPlot
                            Optional bg$ = "white",
                            Optional colors$ = "Jet",
                            Optional levels% = 100,
-                           Optional ref$ = "0") As Bitmap
+                           Optional ref$ = "0") As GraphicsData
 
         If plot.TextEquals("gcskew") Then
             Return mal.PlotGC(AddressOf NucleicAcidStaticsProperty.GCSkew, winSize, steps, isCircle)
@@ -115,7 +116,7 @@ Public Module GCPlot
                            Optional bg$ = "white",
                            Optional colors$ = "Jet",
                            Optional levels% = 100,
-                           Optional base$ = Nothing) As Bitmap
+                           Optional base$ = Nothing) As GraphicsData
 
         Dim ntArray As NamedValue(Of Double())() = LinqAPI.Exec(Of NamedValue(Of Double())) <=
  _
@@ -153,14 +154,12 @@ Public Module GCPlot
 
         Call $"max:={v.Max}, min:={v.Min}".__DEBUG_ECHO
 
-        Return g.GraphicsPlots(
-            size, margin, bg,
-            Sub(ByRef g, grect)
-
-                Dim plotWidth = grect.PlotRegion.Width
+        Dim plotInternal =
+            Sub(ByRef g As IGraphics, region As GraphicsRegion)
+                Dim plotWidth = region.PlotRegion.Width
                 Dim y! = margin.Top
                 Dim deltaX! = plotWidth / lvMAT(Scan0).Value.Length
-                Dim deltaY! = grect.PlotRegion.Height / lvMAT.Length
+                Dim deltaY! = region.PlotRegion.Height / lvMAT.Length
                 Dim plotTick As Boolean = True
 
                 For Each line As NamedValue(Of Integer()) In lvMAT
@@ -190,7 +189,8 @@ Public Module GCPlot
                     plotTick = False
                     y += deltaY
                 Next
-            End Sub)
+            End Sub
+
+        Return g.GraphicsPlots(size, margin, bg, plotInternal)
     End Function
 End Module
-

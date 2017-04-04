@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::474439f507cc640980e458270da467a8, ..\GCModeller\core\Bio.Assembly\ComponentModel\Loci.Models\ExtensionMethods.vb"
+﻿#Region "Microsoft.VisualBasic::474439f507cc640980e458270da467a8, ..\core\Bio.Assembly\ComponentModel\Loci.Models\ExtensionMethods.vb"
 
     ' Author:
     ' 

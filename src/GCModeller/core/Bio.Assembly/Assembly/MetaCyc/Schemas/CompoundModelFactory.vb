@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::863307bcea6aa4fb9c9b3b5c167d7a53, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\CompoundModelFactory.vb"
+﻿#Region "Microsoft.VisualBasic::5bf2f0a9b50f982748941f8400e988bb, ..\core\Bio.Assembly\Assembly\MetaCyc\Schemas\CompoundModelFactory.vb"
 
     ' Author:
     ' 
@@ -26,9 +26,9 @@
 
 #End Region
 
-Imports SMRUCC.genomics.Assembly
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 Namespace Assembly.MetaCyc.Schema
 
@@ -36,17 +36,17 @@ Namespace Assembly.MetaCyc.Schema
 
         Public Class GeneralCompoundModel : Implements ICompoundObject
 
-            Public Property Identifier As String Implements INamedValue.Key
+            Public Property ID As String Implements INamedValue.Key
             Public Property CommonNames As String() Implements ICompoundObject.CommonNames
 
             Public Property CHEBI As String() Implements ICompoundObject.CHEBI
-            Public Property KEGGCompound As String Implements ICompoundObject.locusId
+            Public Property KEGGCompound As String Implements ICompoundObject.KEGG_cpd
             Public Property PUBCHEM As String Implements ICompoundObject.PUBCHEM
 
             Public Function GenerateModels(data As IEnumerable(Of bGetObject.Compound)) As GeneralCompoundModel()
                 Dim LQuery = (From item In data
                               Select New GeneralCompoundModel With {
-                                  .Identifier = item.Entry,
+                                  .ID = item.Entry,
                                   ._CHEBI = item.CHEBI,
                                   .CommonNames = item.CommonNames,
                                   .KEGGCompound = item.Entry,
@@ -57,7 +57,7 @@ Namespace Assembly.MetaCyc.Schema
             Public Function GenerateModels(data As Generic.IEnumerable(Of MetaCyc.File.DataFiles.Slots.Compound)) As GeneralCompoundModel()
                 Dim LQuery = (From item In data
                               Select New GeneralCompoundModel With {
-                                  .Identifier = item.Identifier,
+                                  .ID = item.Identifier,
                                   ._PUBCHEM = item.PUBCHEM,
                                   ._CHEBI = item.CHEBI,
                                   .CommonNames = item.Names,

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6af956088409b8d8c33cdc5375eb5bb8, ..\GCModeller\core\Bio.Assembly\ProteinModel\DomainModels.vb"
+﻿#Region "Microsoft.VisualBasic::52dd969f077869f6ff68ab23390f4c9b, ..\core\Bio.Assembly\ProteinModel\DomainModels.vb"
 
     ' Author:
     ' 
@@ -39,12 +39,17 @@ Namespace ProteinModel
     Public Class DomainModel
         Implements INamedValue, IKeyValuePairObject(Of String, Location)
         Implements IMotifSite
+        Implements IMotifDomain
 
-        Public Property DomainId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Location).Identifier, IMotifSite.Type, IMotifSite.Name
+        Public Property DomainId As String Implements INamedValue.Key,
+            IKeyValuePairObject(Of String, Location).Key,
+            IMotifSite.Type,
+            IMotifSite.Name,
+            IMotifDomain.ID
         Public Property Start As Integer
         Public Property [End] As Integer
 
-        Private Property Location As Location Implements IKeyValuePairObject(Of String, Location).Value, IMotifSite.Site
+        Private Property Location As Location Implements IKeyValuePairObject(Of String, Location).Value, IMotifSite.Site, IMotifDomain.Location
             Get
                 Return New Location(Start, [End])
             End Get

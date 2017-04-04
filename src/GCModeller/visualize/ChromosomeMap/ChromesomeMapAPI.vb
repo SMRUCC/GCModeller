@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bd2505dc1295233001cc7342b2060b7, ..\GCModeller\visualize\visualizeTools\ChromosomeMap\ChromesomeMapAPI.vb"
+﻿#Region "Microsoft.VisualBasic::442436b4294b052c6399e2563a078c27, ..\visualize\ChromosomeMap\ChromesomeMapAPI.vb"
 
 ' Author:
 ' 
@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.ListExtensions
@@ -42,6 +43,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
@@ -134,15 +136,17 @@ Public Module ChromesomeMapAPI
     End Function
 
     <ExportAPI("Add.Loci_Sites")>
-    Public Function AddLociSites(model As ChromesomeDrawingModel, data As IEnumerable(Of SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentObject)) As ChromesomeDrawingModel
-        Dim Locis = (From site As SMRUCC.genomics.SequenceModel.NucleotideModels.SegmentObject
-                     In data
-                     Select New DrawingModels.Loci With {
-                         .SiteName = site.Title,
-                         .SequenceData = site.SequenceData,
-                         .Right = site.Right,
-                         .Left = site.Left,
-                         .Color = Color.Black}).ToArray
+    Public Function AddLociSites(model As ChromesomeDrawingModel, data As IEnumerable(Of NucleotideModels.SegmentObject)) As ChromesomeDrawingModel
+        Dim Locis = LinqAPI.Exec(Of DrawingModels.Loci) <=
+            From site As NucleotideModels.SegmentObject
+            In data
+            Select New DrawingModels.Loci With {
+                .SiteName = site.Title,
+                .SequenceData = site.SequenceData,
+                .Right = site.Right,
+                .Left = site.Left,
+                .Color = Color.Black
+            }
         model.Loci = Locis
         Return model
     End Function
@@ -150,7 +154,7 @@ Public Module ChromesomeMapAPI
     <ExportAPI("Device.Invoke_Drawing")>
     Public Function InvokeDrawing(<Parameter("Gr.Device")> Device As DrawingDevice,
                                   <Parameter("Chr.Gr.Model", "The drawing object which was represents the bacteria genome chromosomes.")>
-                                  Model As ChromesomeDrawingModel) As Bitmap()
+                                  Model As ChromesomeDrawingModel) As GraphicsData()
         Return Device.InvokeDrawing(Model)
     End Function
 
@@ -218,7 +222,7 @@ Public Module ChromesomeMapAPI
     ''' <returns></returns>
     <ExportAPI("Resource.Save")>
     <Extension>
-    Public Function SaveImage(<Parameter("Resource")> res As Bitmap(),
+    Public Function SaveImage(<Parameter("Resource")> res As GraphicsData(),
                               <Parameter("DIR.EXPORT")> EXPORT$,
                               <Parameter("Image.Format", "Value variant in jpg,bmp,emf,exif,gif,png,wmf,tiff")>
                               Optional format$ = "png") As Integer
@@ -232,8 +236,8 @@ Public Module ChromesomeMapAPI
             format = "png"
         End If
 
-        For Each Bitmap As Bitmap In res
-            Call Bitmap.SaveAs($"{EXPORT}/ChromosomeMap [{++i}].{format}", imageFormat)
+        For Each Bitmap As GraphicsData In res
+            Call Bitmap.Save($"{EXPORT}/ChromosomeMap [{++i}].{format}")
         Next
 
         Return i

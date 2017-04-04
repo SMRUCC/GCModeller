@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e60525a21793bc49f5726e43b28e585, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::5e60525a21793bc49f5726e43b28e585, ..\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb"
 
     ' Author:
     ' 

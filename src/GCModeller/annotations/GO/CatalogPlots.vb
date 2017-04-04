@@ -30,6 +30,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -58,7 +59,7 @@ Public Module CatalogPlots
                                   Optional titleFontStyle$ = CSSFont.PlotTitle,
                                   Optional valueFontStyle$ = CSSFont.Win7Bold,
                                   Optional tickFontStyle$ = CSSFont.Win7LargerBold,
-                                  Optional tick% = 50) As Bitmap
+                                  Optional tick% = 50) As GraphicsData
 
 
         Dim data = annotations.CountStat(getGO, GO_terms) ' 返回来的是 Go_ID, label, count
@@ -123,7 +124,7 @@ Public Module CatalogPlots
                                   Optional titleFontStyle$ = CSSFont.PlotTitle,
                                   Optional valueFontStyle$ = CSSFont.Win7Bold,
                                   Optional tickFontStyle$ = CSSFont.Win7LargerBold,
-                                  Optional tick% = 50) As Bitmap
+                                  Optional tick% = 50) As GraphicsData
 
         Dim data = annotations.CountStat(Function(g) {getGO(g)}, GO_terms) ' 返回来的是 Go_ID, label, count
         Dim profile As New Dictionary(Of String, NamedValue(Of Double)())
@@ -166,7 +167,7 @@ Public Module CatalogPlots
                          Optional titleFontStyle$ = CSSFont.PlotTitle,
                          Optional valueFontStyle$ = CSSFont.Win7Bold,
                          Optional tickFontStyle$ = CSSFont.Win7LargerBold,
-                         Optional tick% = 50) As Bitmap
+                         Optional tick% = 50) As GraphicsData
 
         Return profile.ProfilesPlot(
             title, axisTitle, colorSchema,
@@ -206,7 +207,7 @@ Public Module CatalogPlots
                          Optional valueFontStyle$ = CSSFont.Win7Bold,
                          Optional tickFontStyle$ = CSSFont.Win7LargerBold,
                          Optional tick% = 50,
-                         Optional maxTermLength% = 72) As Bitmap
+                         Optional maxTermLength% = 72) As GraphicsData
 
         Dim data As New Dictionary(Of String, NamedValue(Of Double)())
 
@@ -250,7 +251,7 @@ Public Module CatalogPlots
     End Function
 
     <Extension>
-    Public Function EnrichmentPlot(data As IEnumerable(Of FunctionCluster), Optional size As Size = Nothing) As Bitmap
+    Public Function EnrichmentPlot(data As IEnumerable(Of FunctionCluster), Optional size As Size = Nothing) As GraphicsData
         Dim profile As New Dictionary(Of String, NamedValue(Of Double)())
         Dim g = From x As FunctionCluster
                 In data
@@ -295,10 +296,12 @@ Public Module CatalogPlots
     ''' <returns></returns>
     <Extension>
     Public Function EnrichmentPlot(Of EnrichmentTerm As IGoTermEnrichment)(data As IEnumerable(Of EnrichmentTerm),
-                                                                           GO_terms As Dictionary(Of String, Term),
+                                                                           GO_terms As Dictionary(Of Term),
                                                                            Optional pvalue# = 0.05,
                                                                            Optional size As Size = Nothing,
-                                                                           Optional tick# = 1) As Bitmap
+                                                                           Optional tick# = 1,
+                                                                           Optional gray As Boolean = False,
+                                                                           Optional labelRightAlignment As Boolean = False) As GraphicsData
 
         Dim profile As New Dictionary(Of String, List(Of NamedValue(Of Double)))
 
@@ -321,7 +324,9 @@ Public Module CatalogPlots
                 "GO enrichment",
                 size:=size,
                 axisTitle:="-Log10(p-value)",
-                tick:=tick)
+                tick:=tick,
+                gray:=gray,
+                labelRightAlignment:=labelRightAlignment)
     End Function
 End Module
 

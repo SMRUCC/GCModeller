@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f873ea89db2c1e1abb0fb0b502c96167, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Gene.vb"
+﻿#Region "Microsoft.VisualBasic::85adae3a4a823f013abbcc7ec367cbe3, ..\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Gene.vb"
 
     ' Author:
     ' 
@@ -27,12 +27,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
 Namespace Assembly.NCBI.GenBank.GBFF
 
@@ -42,7 +43,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
         Implements ITripleKeyValuesPair(Of String, String, Feature())
 
         Public Property Gene As String Implements ITripleKeyValuesPair(Of String, String, Feature()).Value2
-        Public Property LocusTag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Feature()).Identifier,
+        Public Property LocusTag As String Implements INamedValue.Key, IKeyValuePairObject(Of String, Feature()).Key,
             ITripleKeyValuesPair(Of String, String, Feature()).Identifier
         Public Property Features As Feature() Implements IKeyValuePairObject(Of String, Feature()).Value,
             ITripleKeyValuesPair(Of String, String, Feature()).Address
@@ -57,29 +58,35 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
         <ExportAPI("GET.Genes")>
         <Extension> Public Function GetGenes(gb As File) As GeneObject()
-            Dim GeneList = gb.GeneList
-            Dim GQuery As Generic.IEnumerable(Of GeneObject) =
-                From Gene In GeneList
-                Let Query = (
-                    From e In gb.Features._innerList Where String.Equals(e.Query("locus_tag"), Gene.Key)
+            Dim list As NamedValue(Of String)() = gb.GeneList
+            Dim genes = LinqAPI.Exec(Of GeneObject) <=
+ _
+                From gene
+                In list
+                Let features As Feature() = (
+                    From e
+                    In gb.Features._innerList
+                    Where String.Equals(e.Query(locus_tag), gene.Name)
                     Select e).ToArray
                 Select New GeneObject With {
-                    .LocusTag = Gene.Key,
-                    .Gene = Gene.Value,
-                    .Features = Query
+                    .LocusTag = gene.Name,
+                    .Gene = gene.Value,
+                    .Features = features
                 }
 
-            Return GQuery.ToArray
+            Return genes
         End Function
+
+        Const locus_tag$ = NameOf(locus_tag)
 
         <ExportAPI("GET.Gene")>
         <Extension> Public Function GetGene(gb As File, LocusTag As String) As GeneObject
-            Dim GQuery =
-                From Feature In gb.Features._innerList
-                Where String.Equals(Feature.Query("locus_tag"), LocusTag)
-                Select Feature '
-            Dim List = GQuery.ToList
-            Dim Gene = (From e In List Where String.Equals(e.KeyName, "gene") Select e).First
+            Dim LQuery = From feature As Feature
+                         In gb.Features._innerList
+                         Where String.Equals(feature.Query(locus_tag), LocusTag)
+                         Select feature '
+            Dim List As New List(Of Feature)(LQuery)
+            Dim Gene = (From e As Feature In List Where String.Equals(e.KeyName, "gene") Select e).First
 
             Call List.Remove(Gene)
 

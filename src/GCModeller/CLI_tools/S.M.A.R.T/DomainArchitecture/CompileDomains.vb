@@ -97,8 +97,8 @@ Public Class CompileDomains
         Dim Db = CDD.Load(DbName)
         Dim LQuery = From item In Db.SmpData
                      Select New RowObject From {
-                         item.Identifier,
-                         item.Id,
+                         item.Name,
+                         item.ID,
                          item.CommonName,
                          item.Title,
                          item.Describes,
@@ -198,7 +198,7 @@ Public Class SMARTDB
         Call Row.Add(Tokens(0))
         Call Row.Add(Tokens(1))
         Call Row.Add(Tokens(2))
-        Call Row.Add(String.Join("; ", (From pd In Protein.Domains Select pd.Identifier).ToArray))
+        Call Row.Add(String.Join("; ", (From pd In Protein.Domains Select pd.Name).ToArray))
         Call Row.Add(Protein.SequenceData)
 
         Return Row

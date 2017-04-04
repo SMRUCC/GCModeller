@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::166d76d12569bdbcb9fd7849e36b4b8c, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\base\base.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,100 @@ Imports Microsoft.VisualBasic.Linq
 Namespace API
 
     Public Module base
+
+        ''' <summary>
+        ''' Remove Objects from a Specified Environment
+        ''' 
+        ''' ``remove`` and ``rm`` can be used to remove objects. These can be specified 
+        ''' successively as character strings, or in the character vector list, or 
+        ''' through a combination of both. 
+        ''' 
+        ''' All objects thus specified will be removed.
+        ''' </summary>
+        ''' <param name="list$">the objects To be removed, As names (unquoted) Or character strings (quoted). a character vector naming objects to be removed.</param>
+        ''' <param name="pos%">where to do the removal. By default, uses the current environment. See ‘details’ for other possibilities.</param>
+        ''' <param name="[inherits]">should the enclosing frames of the environment be inspected?</param>
+        Public Sub rm(list$, Optional pos% = -1, Optional [inherits] As Boolean = False)
+            SyncLock R
+                With R
+                    .call = $"rm(list = {list}, pos = {pos}, envir = as.environment({pos}), inherits = {[inherits].λ})"
+                End With
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' List Objects
+        ''' 
+        ''' ls and objects return a vector of character strings giving the names of the 
+        ''' objects in the specified environment. When invoked with no argument at the 
+        ''' top level prompt, ls shows what data sets and functions a user has defined. 
+        ''' When invoked with no argument inside a function, ls returns the names of 
+        ''' the function's local variables: this is useful in conjunction with browser.
+        ''' </summary>
+        ''' <param name="name$">which environment to use in listing the available objects. Defaults to the current environment. Although called name for back compatibility, in fact this argument can specify the environment in any form; see the ‘Details’ section.</param>
+        ''' <param name="pos$">an alternative argument to name for specifying the environment as a position in the search list. Mostly there for back compatibility.</param>
+        ''' <param name="allnames">a logical value. If TRUE, all object names are returned. If FALSE, names which begin with a . are omitted.</param>
+        ''' <param name="pattern$">an optional regular expression. Only names matching pattern are returned. glob2rx can be used to convert wildcard patterns to regular expressions.</param>
+        ''' <param name="sorted">logical indicating if the resulting character should be sorted alphabetically. Note that this is part of ls() may take most of the time.</param>
+        ''' <returns></returns>
+        Public Function ls(Optional name$ = Nothing,
+                           Optional pos$ = "-1L",
+                           Optional allnames As Boolean = False,
+                           Optional pattern$ = Nothing,
+                           Optional sorted As Boolean = True) As String
+            Dim var$ = App.NextTempName
+            Dim args As New Dictionary(Of String, String)
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- ls({name}, pos = {pos}, envir = as.environment({pos}), all.names = {allnames.λ}, pattern = {pattern}, sorted = {sorted.λ})"
+                    Return var
+                End With
+            End SyncLock
+        End Function
+
+        ''' <summary>
+        ''' writes an external representation of R objects to the specified file. The objects can be read back from the file at a later date by using the function load or attach (or data in some cases).
+        ''' </summary>
+        ''' <param name="objects">the names of the objects to be saved (as symbols or character strings).</param>
+        ''' <param name="file$">a (writable binary-mode) connection or the name of the file where the data will be saved (when tilde expansion is done). Must be a file name for save.image or version = 1.</param>
+        ''' <param name="ascii">if TRUE, an ASCII representation of the data is written. The default value of ascii is FALSE which leads to a binary file being written. If NA and version >= 2, a different ASCII representation is used which writes double/complex numbers as binary fractions.</param>
+        ''' <param name="version$">the workspace format version to use. NULL specifies the current default format. The version used from R 0.99.0 to R 1.3.1 was version 1. The default format as from R 1.4.0 is version 2.</param>
+        ''' <param name="envir$">environment to search for objects to be saved.</param>
+        ''' <param name="compress$">logical or character string specifying whether saving to a named file is to use compression. TRUE corresponds to gzip compression, and character strings "gzip", "bzip2" or "xz" specify the type of compression. Ignored when file is a connection and for workspace format version 1.</param>
+        ''' <param name="compression_level$">integer: the level of compression to be used. Defaults to 6 for gzip compression and to 9 for bzip2 or xz compression.</param>
+        ''' <param name="eval_promises">logical: should objects which are promises be forced before saving?</param>
+        ''' <param name="precheck">logical: should the existence of the objects be checked before starting to save (and in particular before opening the file/connection)? Does not apply to version 1 saves.</param>
+        ''' <remarks>
+        ''' The names of the objects specified either as symbols (or character strings) in ... or as a character vector in list are used to look up the objects from environment envir. By default promises are evaluated, but if eval.promises = FALSE promises are saved (together with their evaluation environments). (Promises embedded in objects are always saved unevaluated.)
+        ''' All R platforms use the XDR (bigendian) representation Of C ints And doubles In binary save-d files, And these are portable across all R platforms.
+        ''' ASCII saves used To be useful For moving data between platforms but are now mainly Of historical interest. They can be more compact than binary saves where compression Is Not used, but are almost always slower To both read And write: binary saves compress much better than ASCII ones. Further, Decimal ASCII saves may Not restore Double/complex values exactly, And what value Is restored may depend On the R platform.
+        ''' Default values For the ascii, compress, safe And version arguments can be modified With the "save.defaults" Option (used both by save And save.image), see also the 'Examples’ section. If a "save.image.defaults" option is set it is used in preference to "save.defaults" for function save.image (which allows this to have different defaults). In addition, compression_level can be part of the "save.defaults" option.
+        ''' A connection that Is Not already open will be opened In mode "wb". Supplying a connection which Is open And Not In binary mode gives an Error.
+        ''' 
+        ''' ###### Compression
+        ''' Large files can be reduced considerably In size by compression. A particular 46MB R Object was saved As 35MB without compression In 2 seconds, 22MB With gzip compression In 8 secs, 19MB With bzip2 compression In 13 secs And 9.4MB With xz compression In 40 secs. The load times were 1.3, 2.8, 5.5 And 5.7 seconds respectively. These results are indicative, but the relative performances Do depend On the actual file: xz compressed unusually well here.
+        ''' It Is possible to compress later (with gzip, bzip2 Or xz) a file saved with compress = FALSE: the effect Is the same As saving With compression. Also, a saved file can be uncompressed And re-compressed under a different compression scheme (And see resaveRdaFiles For a way To Do so from within R).
+        ''' </remarks>
+        Public Sub save(objects As IEnumerable(Of String),
+                        file$,
+                        Optional ascii As Boolean = False,
+                        Optional version$ = "NULL",
+                        Optional envir$ = "parent.frame()",
+                        Optional compress As Boolean = True,
+                        Optional compression_level% = 6,
+                        Optional eval_promises As Boolean = True,
+                        Optional precheck As Boolean = True)
+            SyncLock R
+                With R
+                    .call = $"save({objects.JoinBy(", ")}, 
+     file = {Rstring(file.UnixPath)},
+     ascii = {ascii.λ}, version = {version}, envir = {envir},
+     compress = {compress.λ}, compression_level = {compression_level},
+     eval.promises = {eval_promises.λ}, precheck = {precheck.λ})"
+                End With
+            End SyncLock
+        End Sub
 
         ''' <summary>
         ''' vector produces a vector of the given length and mode.
@@ -56,6 +150,8 @@ Namespace API
         ''' 
         ''' This is a generic function which combines its arguments.
         ''' The Default method combines its arguments To form a vector. All arguments are coerced To a common type which Is the type Of the returned value, And all attributes except names are removed.
+        ''' 
+        ''' (这个函数是针对于R对象而言的，不会将<paramref name="list"/>之中的值转义为字符串)
         ''' </summary>
         ''' <param name="list">objects to be concatenated.</param>
         ''' <param name="recursive">logical. If recursive = TRUE, the function recursively descends through lists (and pairlists) combining all their elements into a vector.
@@ -70,6 +166,18 @@ Namespace API
             Dim out As String = App.NextTempName
             Call $"{out} <- c({list.JoinBy(", ")}, recursive = {recursive.λ})".__call
             Return out
+        End Function
+
+        ''' <summary>
+        ''' This is a generic function which combines its arguments.
+        ''' The Default method combines its arguments To form a vector. All arguments are coerced To a common type which Is the type Of the returned value, And all attributes except names are removed.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="list"></param>
+        ''' <param name="recursive"></param>
+        ''' <returns></returns>
+        Public Function c(Of T)(list As IEnumerable(Of T), Optional recursive As Boolean = False) As String
+            Return base.c(list.SafeQuery.Select(AddressOf Scripting.CStrSafe), recursive:=recursive)
         End Function
 
         ''' <summary>
@@ -90,10 +198,15 @@ Namespace API
         End Function
 
         ''' <summary>
-        ''' 默认为生成字符串数组
+        ''' 默认为生成字符串数组，这个函数是针对于R字符串而言的，<paramref name="list"/>参数之中的字符串的值都会被转义为字符串
         ''' </summary>
-        ''' <param name="list"></param>
-        ''' <param name="stringVector"></param>
+        ''' <param name="list">
+        ''' 所需要生成集合的对象列表，这个参数所代表的含义会依据<paramref name="stringVector"/>的值而变化
+        ''' </param>
+        ''' <param name="stringVector">
+        ''' 当这个参数为真的时候，则这个函数生成的是一个字符串向量，反之为False的时候，
+        ''' 输入的<paramref name="list"/>将不会被转义，即输出由一系列变量所生成的一个集合
+        ''' </param>
         ''' <returns></returns>
         Public Function c(list As String(), Optional stringVector As Boolean = True) As String
             If stringVector Then
@@ -101,6 +214,24 @@ Namespace API
             Else
                 Return c(list, recursive:=False)
             End If
+        End Function
+
+        ''' <summary>
+        ''' Functions to construct, coerce and check for both kinds of R lists.
+        ''' (实际上这个函数就是相当于创建了一个空的<see cref="Object"/>对象)
+        ''' </summary>
+        ''' <param name="objects$">objects, possibly named.(对象的名称列表)</param>
+        ''' <returns></returns>
+        Public Function list(ParamArray objects$()) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- list({objects.JoinBy(", ")})"
+                End With
+            End SyncLock
+
+            Return var
         End Function
 
         ''' <summary>
@@ -125,12 +256,19 @@ Namespace API
                                 Optional logicalReturn As Boolean = False,
                                 Optional warnConflicts As Boolean = True,
                                 Optional quietly As Boolean = False,
-                                Optional verbose As String = packages.base.getOption.verbose)
-            Dim out As SymbolicExpression =
-                $"library({package}, {help}, pos = {pos}, lib.loc = {libloc},
-                           character.only = {characterOnly}, logical.return = {logicalReturn.λ},
-                           warn.conflicts = {warnConflicts.λ}, quietly = {quietly.λ},
-                           verbose = {verbose})".__call
+                                Optional verbose As String = packages.base.getOption.verbose) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- library({package}, {help}, pos = {pos}, lib.loc = {libloc}, 
+    character.only = {characterOnly}, logical.return = {logicalReturn.λ},
+    warn.conflicts = {warnConflicts.λ}, quietly = {quietly.λ},
+    verbose = {verbose})"
+                End With
+            End SyncLock
+
+            Return var
         End Function
 
         ''' <summary>
@@ -221,13 +359,17 @@ Namespace API
                                   Optional checkNames As Boolean = True,
                                   Optional stringsAsFactors As String = "default.stringsAsFactors()") As String
 
-            Dim out As String = App.NextTempName
+            Dim var As String = App.NextTempName
+            Dim paramRowNames$ = If(
+                rowNames.IsNullOrEmpty,
+                "NULL",
+                base.c(rowNames, stringVector:=True))
 
-            Call $"{out} <- data.frame({x.JoinBy(", ")}, row.names = {rowNames}, check.rows = {checkRows},
-           check.names = {checkNames},
+            Call $"{var} <- data.frame({x.JoinBy(", ")}, row.names = {paramRowNames}, check.rows = {checkRows.λ},
+           check.names = {checkNames.λ},
            stringsAsFactors = {stringsAsFactors})".__call
 
-            Return out
+            Return var
         End Function
 
         ''' <summary>
@@ -296,6 +438,62 @@ Namespace API
             Dim strings$() = data.ToArray(AddressOf Scripting.ToString)
             Dim vec As String = c(strings, recursive:=False)
             Return matrix(vec, nrow, ncol, byrow, dimnames)
+        End Function
+
+        ''' <summary>
+        ''' Take a sequence of vector, matrix or data-frame arguments and combine by columns or rows, respectively. 
+        ''' These are generic functions with methods for other R classes.
+        ''' (对datafram对象添加新的列集合)
+        ''' </summary>
+        ''' <param name="list">	
+        ''' (generalized) vectors Or matrices. These can be given as named arguments. Other R objects may be coerced as appropriate, 
+        ''' Or S4 methods may be used: see sections 'Details’ and ‘Value’. (For the "data.frame" method of cbind these can be further 
+        ''' arguments to data.frame such as stringsAsFactors.)
+        ''' </param>
+        ''' <param name="deparselevel%">
+        ''' integer controlling the construction of labels in the case of non-matrix-like arguments (for the default method):
+        ''' 
+        ''' + deparse.level = 0 constructs no labels; the default,
+        ''' + deparse.level = 1 Or 2 constructs labels from the argument names, see the 'Value’ section below.</param>
+        ''' <returns></returns>
+        Public Function cbind(list As IEnumerable(Of String), Optional deparselevel% = 1) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- cbind({list.JoinBy(", ")}, deparse.level = {deparselevel})"
+                End With
+            End SyncLock
+
+            Return var
+        End Function
+
+        ''' <summary>
+        ''' Take a sequence of vector, matrix or data-frame arguments and combine by columns or rows, respectively. 
+        ''' These are generic functions with methods for other R classes.
+        ''' (对datafram对象拓展新的行数据)
+        ''' </summary>
+        ''' <param name="list">	
+        ''' (generalized) vectors Or matrices. These can be given as named arguments. Other R objects may be coerced as appropriate, 
+        ''' Or S4 methods may be used: see sections 'Details’ and ‘Value’. (For the "data.frame" method of cbind these can be further 
+        ''' arguments to data.frame such as stringsAsFactors.)
+        ''' </param>
+        ''' <param name="deparselevel%">
+        ''' integer controlling the construction of labels in the case of non-matrix-like arguments (for the default method):
+        ''' 
+        ''' + deparse.level = 0 constructs no labels; the default,
+        ''' + deparse.level = 1 Or 2 constructs labels from the argument names, see the 'Value’ section below.</param>
+        ''' <returns></returns>
+        Public Function rbind(list As IEnumerable(Of String), Optional deparselevel% = 1) As String
+            Dim var$ = App.NextTempName
+
+            SyncLock R
+                With R
+                    .call = $"{var} <- rbind({list.JoinBy(", ")}, deparse.level = {deparselevel})"
+                End With
+            End SyncLock
+
+            Return var
         End Function
 
         ''' <summary>
