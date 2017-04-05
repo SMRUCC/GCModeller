@@ -27,12 +27,10 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 
 Public Class CodonFrequencyCAI
 

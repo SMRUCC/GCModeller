@@ -27,9 +27,9 @@
 #End Region
 
 Imports System.IO
-Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Terminal.STDIO
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 '     *  Wellcome Trust Sanger Institute
 '     *  Copyright (C) 2016  Wellcome Trust Sanger Institute
