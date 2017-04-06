@@ -89,6 +89,15 @@ Namespace SequenceModel.NucleotideModels
         }
 
         ''' <summary>
+        ''' 大小写不敏感
+        ''' </summary>
+        ''' <param name="base"></param>
+        ''' <returns></returns>
+        Public Shared Function CharEnums(base As Char) As DNA
+            Return NucleotideConvert(base)
+        End Function
+
+        ''' <summary>
         '''
         ''' </summary>
         Protected Friend Shared ReadOnly __nucleotideAsChar As Dictionary(Of DNA, Char) =

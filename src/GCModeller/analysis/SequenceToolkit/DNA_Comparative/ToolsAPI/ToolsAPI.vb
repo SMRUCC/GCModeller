@@ -59,6 +59,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.XML
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
 
 <[PackageNamespace]("ComparativeGenomics.Sigma-Difference",
                     Description:="Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.",
@@ -737,15 +739,16 @@ Public Module ToolsAPI
 
         Call CSV.Add(Head)
 
-        For Each item In data.First.Value.BiasList
-            Call Head.Add(item.Value.Key.ToString)
+        For Each item In data.First.Value.GetCodonBiasList
+            Call Head.Add(item.Value.CodonString)
         Next
 
         For Each item In data
             Dim row As New IO.RowObject From {item.Key, item.Value.CAI}
+            Dim biasData = item.Value.GetCodonBiasList
 
-            For i As Integer = 0 To item.Value.BiasList.Count - 1
-                Call row.Add(item.Value.BiasList(i).Value.Value)
+            For i As Integer = 0 To biasData.Length - 1
+                Call row.Add(biasData(i).Value.Bias)
             Next
 
             Call CSV.Add(row)

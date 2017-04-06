@@ -1,10 +1,12 @@
-﻿Imports Microsoft.VisualBasic.Mathematical
+﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Mathematical
 
-Namespace DeltaSimilarity1998
+Namespace DeltaSimilarity1998.CAI
 
     Public Structure CodonBiasVector
-        Dim XY#, YZ#, XZ#
-        Dim Codon As String
+
+        <XmlAttribute> Dim Codon As String
+        <XmlAttribute> Dim XY#, YZ#, XZ#
 
         ''' <summary>
         ''' 对Profile进行归一化处理

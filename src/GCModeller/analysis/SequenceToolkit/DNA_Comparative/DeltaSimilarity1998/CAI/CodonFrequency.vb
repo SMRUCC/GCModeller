@@ -30,7 +30,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 
-Namespace DeltaSimilarity1998
+Namespace DeltaSimilarity1998.CAI
 
     Public Structure CodonFrequency
 
@@ -44,7 +44,7 @@ Namespace DeltaSimilarity1998
         ''' <remarks></remarks>
         Public Property BiasFrequencyProfile As Dictionary(Of String, CodonBiasVector)
         ''' <summary>
-        ''' Value为经过欧几里得距离归一化处理之后的计算结果
+        ''' Value为经过欧几里得距离归一化处理之后的计算结果，key为三联体密码子字符串
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>

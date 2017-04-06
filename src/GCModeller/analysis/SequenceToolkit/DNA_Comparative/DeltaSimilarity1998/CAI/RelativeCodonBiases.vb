@@ -34,7 +34,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 Imports SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptides
 
-Namespace DeltaSimilarity1998
+Namespace DeltaSimilarity1998.CAI
 
     ''' <summary>
     ''' Measures of Relative Codon Biases
@@ -55,6 +55,10 @@ Namespace DeltaSimilarity1998
         ReadOnly ORF As NucleicAcid
         ReadOnly _codonHash As Codon() = Codon.CreateHashTable
 
+        ''' <summary>
+        ''' <see cref="CodonFrequency.AminoAcid"/>就是这个字典的键名key
+        ''' </summary>
+        ''' <returns></returns>
         Public Property CodonFrequencyStatics As Dictionary(Of Char, CodonFrequency)
 
         ''' <summary>
