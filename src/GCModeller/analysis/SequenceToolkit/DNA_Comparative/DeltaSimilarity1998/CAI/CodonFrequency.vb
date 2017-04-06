@@ -42,15 +42,15 @@ Namespace DeltaSimilarity1998
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property BiasFrequencyProfile As KeyValuePair(Of Codon, TripleKeyValuesPair(Of Double))()
+        Public Property BiasFrequencyProfile As Dictionary(Of String, CodonBiasVector)
         ''' <summary>
         ''' Value为经过欧几里得距离归一化处理之后的计算结果
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property BiasFrequency As Dictionary(Of Codon, Double)
-        Public Property MaxBias As KeyValuePair(Of Codon, Double)
+        Public Property BiasFrequency As Dictionary(Of String, Double)
+        Public Property MaxBias As (codon$, bias#)
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

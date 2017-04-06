@@ -38,8 +38,8 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
         ''' <param name="SequenceData"></param>
         ''' <remarks></remarks>
         Public Function Invoke(SequenceData As AminoAcid()) As Integer
-            Dim SequenceEnums As SequenceModel.Polypeptides.Polypeptides.AminoAcid() = (From token In SequenceData Select token.AminoAcid).ToArray
-            Dim ChunkBuffer As SequenceModel.Polypeptides.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.Polypeptides.AminoAcid(CORE_LENGTH - 1) {}
+            Dim SequenceEnums As SequenceModel.Polypeptides.AminoAcid() = (From token In SequenceData Select token.AminoAcid).ToArray
+            Dim ChunkBuffer As SequenceModel.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.AminoAcid(CORE_LENGTH - 1) {}
             Dim Count_bs As Integer = 0
             Dim pp As Integer
 
@@ -49,7 +49,7 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
 
                 If CalculateCore(ChunkBuffer) Then '计算核心
                     Dim Segment = ExtendCore(SequenceEnums, i, CORE_LENGTH) '延伸核心
-                    Dim TempChunk As SequenceModel.Polypeptides.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.Polypeptides.AminoAcid(Segment.FragmentSize - 1) {}
+                    Dim TempChunk As SequenceModel.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.AminoAcid(Segment.FragmentSize - 1) {}
                     Call Array.ConstrainedCopy(SequenceEnums, Segment.Left, TempChunk, 0, Segment.FragmentSize)
 
                     Dim Avg_Pa As Double = Avg(TempChunk, AddressOf ChouFasmanParameter.Get_Pa), Avg_Pb As Double = Avg(TempChunk, AddressOf ChouFasmanParameter.Get_Pb)
@@ -67,8 +67,8 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
             Return Count_bs
         End Function
 
-        Private Function ExtendCore(SequenceData As SequenceModel.Polypeptides.Polypeptides.AminoAcid(), i As Integer, Length As Integer) As Location
-            Dim ChunkBuffer As SequenceModel.Polypeptides.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.Polypeptides.AminoAcid(Length - 1) {}
+        Private Function ExtendCore(SequenceData As SequenceModel.Polypeptides.AminoAcid(), i As Integer, Length As Integer) As Location
+            Dim ChunkBuffer As SequenceModel.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.AminoAcid(Length - 1) {}
             Dim Left, Right As Integer
 
             '向左端延伸
@@ -97,7 +97,7 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
             }
         End Function
 
-        Private Function CalculateCore(ChunkBuffer As Polypeptides.AminoAcid()) As Boolean
+        Private Function CalculateCore(ChunkBuffer As SequenceModel.Polypeptides.AminoAcid()) As Boolean
             Dim LQuery = (From token In ChunkBuffer Let p = ChouFasmanTable(token).P_b Where p > 100 Select 1).ToArray
             Return (LQuery.Count / ChunkBuffer.Count) > PROPORTION
         End Function

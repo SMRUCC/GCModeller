@@ -101,6 +101,11 @@ Namespace SequenceModel.NucleotideModels
                 {DNA.NA, "-"c}
         }
 
+        ''' <summary>
+        ''' ``<see cref="DNA"/> -> char``
+        ''' </summary>
+        ''' <param name="base"></param>
+        ''' <returns></returns>
         Public Shared Function ToChar(base As DNA) As Char
             Return __nucleotideAsChar(base)
         End Function
@@ -114,6 +119,15 @@ Namespace SequenceModel.NucleotideModels
 
         Public Function ToArray() As DNA()
             Return _innerSeqModel.ToArray
+        End Function
+
+        ''' <summary>
+        ''' 计算某一种碱基在序列之中的出现频率
+        ''' </summary>
+        ''' <param name="base"></param>
+        ''' <returns></returns>
+        Public Function Counts(base As DNA) As Integer
+            Return _innerSeqModel.Where(Function(b) b = base).Count
         End Function
 
         ''' <summary>
