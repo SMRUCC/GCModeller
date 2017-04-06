@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::06f0a389c88210c9a54026f7c62d0f1c, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -58,6 +58,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
 
 <[PackageNamespace]("ComparativeGenomics.Sigma-Difference",
                     Description:="Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.",
@@ -156,7 +157,7 @@ Public Module ToolsAPI
                                    In data.Sequence
                                    Let pInfo2 As PartitioningData = data(j)
                                    Let nt2 = New NucleotideModels.NucleicAcid(pInfo2)
-                                   Let Delta As String = (1000 * DNA_Comparative.Sigma(nt1, nt2)).ToString
+                                   Let Delta As String = (1000 * DeltaSimilarity1998.Sigma(nt1, nt2)).ToString
                                    Select Idx = i, j, Delta)).Unlist '为了保证顺序，这里也不可以使用并行化
 
         For Each Row In DeltaLQuery
@@ -284,29 +285,31 @@ Public Module ToolsAPI
     ''' 
     <ExportAPI("Get.Ref_Rule",
                Info:="Gets the segment betweens the dnaA and gyrB nucleotide sequence as the default reference rule for the homogeneity measuring.")>
-    Public Function GetReferenceRule(Nt As FastaToken, PTT As PTT) As FastaToken
+    Public Function GetReferenceRule(nt As FastaToken, PTT As PTT) As FastaToken
         Dim dnaA = MatchGene(PTT, "dnaA", {"chromosomal replication initiator protein DnaA", "chromosomal replication initiator"})
         Dim gyrB = MatchGene(PTT, "gyrB", {"DNA gyrase B subunit", "DNA gyrase, B subunit"})
 
         If (dnaA Is Nothing OrElse gyrB Is Nothing) Then
-            Call $"Could not found gene dnaA or gyrB on {Nt.Title}".PrintException
+            Call $"Could not found gene dnaA or gyrB on {nt.Title}".PrintException
             Return Nothing
         End If
 
+        ' 默认dnaA - gyrB这个基因簇是位于正义链的
         Dim St As Integer = dnaA.Location.Left
         Dim Sp As Integer = gyrB.Location.Right
 
+        ' 但是有些基因组或者由于测序的原因，位于负义链。。。
         If dnaA.Location.Strand = Strands.Reverse Then
             St = gyrB.Location.Left
             Sp = dnaA.Location.Right
         End If
 
         Dim RuleSegment As NucleotideModels.NucleicAcid
-
+        ' 构建基因组外标尺片段的计算模型
         Try
-            RuleSegment = New NucleotideModels.NucleicAcid(Nt.CutSequenceLinear(St, Sp - St))
+            RuleSegment = New NucleotideModels.NucleicAcid(nt.CutSequenceLinear(St, Sp - St))
             If RuleSegment.Length > 10 * 1000 Then
-                Call $"Location exception on (""{Nt.Title}"") parsing segment.".PrintException
+                Call $"Location exception on (""{nt.Title}"") parsing segment.".PrintException
                 Return Nothing
             End If
         Catch ex As Exception
@@ -316,11 +319,17 @@ Public Module ToolsAPI
         End Try
 
         Return New FastaToken With {
-            .Attributes = New String() {"dnaA-gyrB", Nt.Title},
+            .Attributes = New String() {"dnaA-gyrB", nt.Title},
             .SequenceData = RuleSegment.SequenceData
         }
     End Function
 
+    ''' <summary>
+    ''' 批量计算比较基因组序列之间的同质性
+    ''' </summary>
+    ''' <param name="PartitionData"></param>
+    ''' <param name="RuleSource"></param>
+    ''' <returns></returns>
     <ExportAPI("Measure.Homogeneity", Info:="Batch measuring the homogeneity property using a specific rule sequence between the dnaA and gyrB gene.")>
     Public Function MeasureHomogeneity(PartitionData As IEnumerable(Of PartitioningData),
                                        <Parameter("Dir.Rule.Source",
@@ -546,7 +555,7 @@ Public Module ToolsAPI
     Private Function __query(querySource As PartitioningData, subject As Dictionary(Of String, PartitioningData), windowsSize As Integer, EXPORT As String, ptag As String) As Boolean
         Dim Windows = New NucleotideModels.NucleicAcid(querySource.SequenceData).ToArray.CreateSlideWindows(windowsSize)
         Dim InternalCache As Cache() = (From Window In Windows
-                                        Let cacheData = New NucleicAcid(Window.Elements)
+                                        Let cacheData = New DeltaSimilarity1998.NucleicAcid(Window.Elements)
                                         Select New Cache With {
                                             .Cache = cacheData,
                                             .SlideWindow = Window}).ToArray 'Internal create cache data.
@@ -669,7 +678,7 @@ Public Module ToolsAPI
         Dim ResultList = New List(Of KeyValuePair(Of String, CAITable))
 
         For i As Integer = 0 To gene_source.Count - 1
-            Dim Sequence As SMRUCC.genomics.SequenceModel.FASTA.FastaToken = gene_source(i)
+            Dim Sequence As FastaToken = gene_source(i)
             Dim Path As String = String.Format("({0}){1}", InternalID, Sequence.Attributes.First.NormalizePathString)
             Dim SeqID As String = Path
             Dim CAIData As CAITable
@@ -791,7 +800,7 @@ Public Module ToolsAPI
     ''' <remarks></remarks>
     Private Function __genomeSigmaDiff(cache As Cache(), compare As FastaToken) As SiteSigma()
         Call "Creating compare cache..... ".__DEBUG_ECHO
-        Dim CompareCache = New NucleicAcid(compare)
+        Dim CompareCache = New DeltaSimilarity1998.NucleicAcid(compare)
         Call "Compare cache creating job done!".__DEBUG_ECHO
         Dim LQuery = (From segment As Cache In cache
                       Let Sigma = DifferenceMeasurement.Sigma(segment.Cache, CompareCache)
@@ -804,7 +813,7 @@ Public Module ToolsAPI
 
     Private Structure Cache
         Dim SlideWindow As SlideWindowHandle(Of DNA)
-        Dim Cache As NucleicAcid
+        Dim Cache As DeltaSimilarity1998.NucleicAcid
     End Structure
 
     ''' <summary>
@@ -932,7 +941,7 @@ Public Module ToolsAPI
         Dim QueryFasta = FastaToken.LoadNucleotideData(query)
         Dim Windows = New NucleotideModels.NucleicAcid(QueryFasta).ToArray.CreateSlideWindows(windowsSize)
         Dim InternalCache = (From Window In Windows.AsParallel
-                             Let cacheData = New NucleicAcid(Window.Elements)
+                             Let cacheData = New DeltaSimilarity1998.NucleicAcid(Window.Elements)
                              Select New Cache With {
                                  .Cache = cacheData,
                                  .SlideWindow = Window}).ToArray 'Internal create cache data.

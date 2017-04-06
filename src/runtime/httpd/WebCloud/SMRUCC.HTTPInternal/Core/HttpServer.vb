@@ -139,7 +139,7 @@ Namespace Core
                 Dim processor As HttpProcessor = getProcessor(s)
 
                 Call $"Process client from {s.Client.RemoteEndPoint.ToString}".__DEBUG_ECHO
-                Call processor.Process()
+                Call Time(AddressOf processor.Process)
             Catch ex As Exception
                 Call App.LogException(ex)
             End Try
