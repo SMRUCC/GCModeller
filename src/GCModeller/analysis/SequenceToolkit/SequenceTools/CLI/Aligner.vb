@@ -233,38 +233,4 @@ Partial Module Utilities
             args.GetValue("/out", aln.FilePath.TrimSuffix & $"{leftOffset}-{rightOffset}.fasta")
         Return out.Save(-1, outFile, Encodings.ASCII).CLICode
     End Function
-
-    <ExportAPI("/gwANI", Usage:="/gwANI /in <in.fasta> [/fast /out <out.Csv>]")>
-    <Group(CLIGrouping.Aligner)>
-    Public Function gwANI(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gwANI.Csv")
-        Dim fast As Boolean = args.GetBoolean("/fast")
-
-        Call gwANIExtensions.Evaluate([in], out, fast)
-        Return 0
-    End Function
-
-    <ExportAPI("/Sigma",
-               Usage:="/Sigma /in <in.fasta> [/out <out.Csv> /simple /round <-1>]")>
-    <Group(CLIGrouping.Aligner)>
-    Public Function Sigma(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Sigma.Csv")
-        Dim fasta As New FastaFile([in])
-        Dim simple As Boolean = args.GetBoolean("/simple")
-        Dim round As Integer = args.GetValue("/round", -1)
-        Dim keys As String() =
-            If(simple,
-            fasta.ToArray(AddressOf IdentityResult.SimpleTag),
-            fasta.ToArray(Function(x) x.Title))
-
-        Using writer As New WriteStream(Of IdentityResult)(out, metaKeys:=keys)
-            For Each x As IdentityResult In IdentityResult.SigmaMatrix(fasta, round, simple)
-                Call writer.Flush(x)
-            Next
-
-            Return 0
-        End Using
-    End Function
 End Module

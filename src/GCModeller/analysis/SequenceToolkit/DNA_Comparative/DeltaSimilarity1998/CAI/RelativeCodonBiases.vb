@@ -64,12 +64,13 @@ Namespace DeltaSimilarity1998.CAI
         ''' <summary>
         ''' ORF的核酸序列之中构建出密码子偏好属性
         ''' </summary>
-        ''' <param name="Sequence">ATG -> TGA这一段之间的ORF的核酸序列</param>
-        Sub New(Sequence As FastaToken)
-            ORF = New NucleotideModels.NucleicAcid(Sequence)
+        ''' <param name="nt">ATG -> TGA这一段之间的ORF的核酸序列</param>
+        Sub New(nt As FastaToken)
+            ORF = New NucleicAcid(nt)
             CodonFrequencyStatics =
-            ToChar.ToArray(Function(aa) __staticsOfMaxFrequencyCodon(aa.Value)) _
-                  .ToDictionary(Function(fr) fr.AminoAcid)
+                ToChar _
+                .ToArray(Function(aa) __staticsOfMaxFrequencyCodon(aa.Value)) _
+                .ToDictionary(Function(fr) fr.AminoAcid)
         End Sub
 
         Public Function CAI() As Double
