@@ -30,27 +30,30 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 
-Public Structure CodonFrequency
+Namespace DeltaSimilarity1998
 
-    Public Property AminoAcid As Char
+    Public Structure CodonFrequency
 
-    ''' <summary>
-    ''' {编码当前的氨基酸<see cref="AminoAcid"></see>的密码子, 在当前的基因之中的使用频率}
-    ''' </summary>
-    ''' <value></value>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Property BiasFrequencyProfile As KeyValuePair(Of Codon, TripleKeyValuesPair(Of Double))()
-    ''' <summary>
-    ''' Value为经过欧几里得距离归一化处理之后的计算结果
-    ''' </summary>
-    ''' <value></value>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Property BiasFrequency As Dictionary(Of Codon, Double)
-    Public Property MaxBias As KeyValuePair(Of Codon, Double)
+        Public Property AminoAcid As Char
 
-    Public Overrides Function ToString() As String
-        Return Me.GetJson
-    End Function
-End Structure
+        ''' <summary>
+        ''' {编码当前的氨基酸<see cref="AminoAcid"></see>的密码子, 在当前的基因之中的使用频率}
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Property BiasFrequencyProfile As KeyValuePair(Of Codon, TripleKeyValuesPair(Of Double))()
+        ''' <summary>
+        ''' Value为经过欧几里得距离归一化处理之后的计算结果
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Property BiasFrequency As Dictionary(Of Codon, Double)
+        Public Property MaxBias As KeyValuePair(Of Codon, Double)
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Structure
+End Namespace

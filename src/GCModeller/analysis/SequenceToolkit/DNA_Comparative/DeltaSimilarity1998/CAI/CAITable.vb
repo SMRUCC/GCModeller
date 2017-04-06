@@ -32,35 +32,37 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 
-Public Class CAITable : Inherits ClassObject
+Namespace DeltaSimilarity1998
 
-    <XmlAttribute> Public Property CAI As Double
-    Public Property BiasTable As KeyValuePairObject(Of Char, CodonFrequencyCAI)()
-        Get
-            Return _biasTable
-        End Get
-        Set(value As KeyValuePairObject(Of Char, CodonFrequencyCAI)())
-            _biasTable = value
-            _BiasList = (From codon In _biasTable
-                         Select (From subitem In codon.Value.BiasFrequency
-                                 Select New KeyValuePair(Of Char, KeyValuePairObject(Of Codon, Double))(codon.Key, New KeyValuePairObject(Of Codon, Double)(subitem.Key, subitem.Value)))).ToVector
-        End Set
-    End Property
+    Public Class CAITable : Inherits ClassObject
 
-    Dim _biasTable As KeyValuePairObject(Of Char, CodonFrequencyCAI)()
+        <XmlAttribute> Public Property CAI As Double
+        Public Property BiasTable As KeyValuePairObject(Of Char, CodonFrequencyCAI)()
+            Get
+                Return _biasTable
+            End Get
+            Set(value As KeyValuePairObject(Of Char, CodonFrequencyCAI)())
+                _biasTable = value
+                _BiasList = (From codon In _biasTable
+                             Select (From subitem In codon.Value.BiasFrequency
+                                     Select New KeyValuePair(Of Char, KeyValuePairObject(Of Codon, Double))(codon.Key, New KeyValuePairObject(Of Codon, Double)(subitem.Key, subitem.Value)))).ToVector
+            End Set
+        End Property
 
-    ''' <summary>
-    ''' 对<see cref="BiasTable"></see>进行展开
-    ''' </summary>
-    ''' <remarks></remarks>
-    Public ReadOnly Property BiasList As KeyValuePair(Of Char, KeyValuePairObject(Of Codon, Double))()
+        Dim _biasTable As KeyValuePairObject(Of Char, CodonFrequencyCAI)()
 
-    Sub New()
-    End Sub
+        ''' <summary>
+        ''' 对<see cref="BiasTable"></see>进行展开
+        ''' </summary>
+        ''' <remarks></remarks>
+        Public ReadOnly Property BiasList As KeyValuePair(Of Char, KeyValuePairObject(Of Codon, Double))()
 
-    Sub New(Model As RelativeCodonBiases)
-        CAI = Model.CAI
-        BiasTable = LinqAPI.Exec(Of KeyValuePairObject(Of Char, CodonFrequencyCAI)) <=
+        Sub New()
+        End Sub
+
+        Sub New(Model As RelativeCodonBiases)
+            CAI = Model.CAI
+            BiasTable = LinqAPI.Exec(Of KeyValuePairObject(Of Char, CodonFrequencyCAI)) <=
             From item As KeyValuePair(Of Char, CodonFrequency)
             In Model.CodonFrequencyStatics
             Select New KeyValuePairObject(Of Char, CodonFrequencyCAI) With {
@@ -76,5 +78,6 @@ Public Class CAITable : Inherits ClassObject
                     .MaxBias = New KeyValuePairObject(Of Codon, Double)(item.Value.MaxBias.Key, item.Value.MaxBias.Value)
                     }
                 }
-    End Sub
-End Class
+        End Sub
+    End Class
+End Namespace
