@@ -136,14 +136,21 @@ Public Module RSystem
     Const UnableRunAutomatically As String = "R server can not be initialized automatically, please manual set up init later."
 
     ''' <summary>
-    ''' Initialize the default R Engine.
+    ''' Initialize the default R Engine.(可以通过在命令行之中使用``/@set``开关设置``R_HOME``参数来手动设置R的文件夹位置)
     ''' </summary>
     Sub New()
+        Dim R_HOME$ = App.GetVariable("R_HOME")
+
         Try
-            RSystem.R = RInit.StartEngineServices
+            If R_HOME.StringEmpty Then
+                Call TryInit()
+            Else
+                Call TryInit(R_HOME)
+            End If
         Catch ex As Exception
             ' 无法自动初始化，需要手动启动R的计算引擎
             ex = New Exception(UnableRunAutomatically, ex)
+            Call ex.PrintException
             Call App.LogException(ex)
         End Try
     End Sub

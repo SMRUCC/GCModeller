@@ -70,7 +70,7 @@ Module RInit
     ''' <param name="R_HOME"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function StartEngineServices(R_HOME As String) As ExtendedEngine
+    Public Function StartEngineServices(R_HOME$) As ExtendedEngine
         Dim oldPath As String = Environment.GetEnvironmentVariable("PATH")
         Dim rPath As String = If(Environment.Is64BitProcess,
                                  $"{R_HOME}/x64",
