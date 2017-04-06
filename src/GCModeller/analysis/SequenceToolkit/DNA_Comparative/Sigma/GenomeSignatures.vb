@@ -33,7 +33,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 
 ''' <summary>

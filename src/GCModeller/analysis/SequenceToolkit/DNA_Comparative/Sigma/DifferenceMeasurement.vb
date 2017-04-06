@@ -31,7 +31,6 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 
 ''' <summary>
 ''' MEASURES OF DIFFERENCES WITHIN AND BETWEEN GENOMES.(比较两条核酸序列之间的差异性)
