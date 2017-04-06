@@ -1,17 +1,11 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis
-Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.XML
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.gwANI
-Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module Utilities
@@ -22,11 +16,15 @@ Partial Module Utilities
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gwANI.Csv")
         Dim fast As Boolean = args.GetBoolean("/fast")
-
         Call gwANIExtensions.Evaluate([in], out, fast)
         Return 0
     End Function
 
+    ''' <summary>
+    ''' 计算基因组序列的同质性
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Sigma",
                Usage:="/Sigma /in <in.fasta> [/out <out.Csv> /simple /round <-1>]")>
     <Group(CLIGrouping.DNA_ComparativeTools)>
@@ -50,6 +48,11 @@ Partial Module Utilities
         End Using
     End Function
 
+    ''' <summary>
+    ''' 基因组的密码子偏好性计算
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/CAI", Usage:="/CAI /ORF <orf_nt.fasta> [/out <out.XML>]")>
     <Group(CLIGrouping.DNA_ComparativeTools)>
     Public Function CAI(args As CommandLine) As Integer
