@@ -35,18 +35,18 @@ Namespace DeltaSimilarity1998.CAI.XML
     ''' <summary>
     ''' codon adaptation index profile table
     ''' </summary>
-    Public Class CAITable : Inherits ClassObject
+    Public Class CodonAdaptationIndex : Inherits ClassObject
 
         <XmlAttribute> Public Property CAI As Double
-
-        Public Property BiasTable As CodonFrequencyCAI()
+        <XmlElement>
+        Public Property Table As CodonFrequencyCAI()
 
         ''' <summary>
-        ''' 对<see cref="BiasTable"></see>进行展开
+        ''' 对<see cref="Table"></see>进行展开
         ''' </summary>
         ''' <remarks></remarks>
         Public Function GetCodonBiasList() As KeyValuePair(Of Char, CodonBias)()
-            Return BiasTable _
+            Return Table _
                 .Select(Function(subItem)
                             Return subItem _
                                 .BiasFrequency _
@@ -61,12 +61,16 @@ Namespace DeltaSimilarity1998.CAI.XML
         Sub New()
         End Sub
 
-        Sub New(Model As RelativeCodonBiases)
-            CAI = Model.CAI
-            BiasTable = LinqAPI.Exec(Of CodonFrequencyCAI) <=
+        Sub New(model As RelativeCodonBiases)
+            Dim cfrqData = model _
+                .CodonFrequencyStatics _
+                .Values
+
+            CAI = model.CAI
+            Table = LinqAPI.Exec(Of CodonFrequencyCAI) <=
  _
             From c As CodonFrequency
-            In Model.CodonFrequencyStatics.Values
+            In cfrqData
             Select New CodonFrequencyCAI With {
                 .AminoAcid = c.AminoAcid,
                 .BiasFrequency = c _
