@@ -224,6 +224,10 @@
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VirtualFootprint\VirtualFootprint.vbproj">
+      <Project>{1DC0341C-37F5-45A6-B486-337EDC2BAD76}</Project>
+      <Name>VirtualFootprint</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

@@ -153,6 +153,28 @@ Partial Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/Copy.Fasta",
+               Info:="Copy target type files from different sub directory into a directory.",
+               Usage:="/Copy.Fasta /imports <DIR> [/type <faa,fna,ffn,fasta,...., default:=faa> /out <DIR>]")>
+    Public Function CopyFasta(args As CommandLine) As Integer
+        Dim in$ = args <= "/imports"
+        Dim type$ = args.GetValue("/type", "faa")
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & "." & type)
+
+        type = "*." & type
+
+        For Each DIR As String In ls - l - lsDIR <= [in]
+            Dim dName$ = DIR.BaseName
+
+            For Each file$ In ls - l - r - type <= DIR$
+                Dim path$ = out & "/" & dName & "_" & file.FileName
+                Call file.ReadAllText.SaveTo(path)
+            Next
+        Next
+
+        Return 0
+    End Function
+
     <ExportAPI("/Merge.faa", Usage:="/Merge.faa /in <DIR> /out <out.fasta>")>
     <Group(CLIGrouping.GenbankTools)>
     Public Function MergeFaa(args As CommandLine) As Integer
@@ -226,6 +248,21 @@ Partial Module CLI
         Call GFF.Save(out & $"/{name}.gff")
         Call ffn.Save(out & $"/{name}.ffn")
     End Sub
+
+    <ExportAPI("/Export.gb.genes",
+               Usage:="/Export.gb.genes /gb <genbank.gb> [/geneName /out <out.fasta>]")>
+    <Argument("/geneName", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this parameter is specific as True, then this function will try using geneName as the fasta sequence title, or using locus_tag value as default.")>
+    <Group(CLIGrouping.GenbankTools)>
+    Public Function ExportGenesFasta(args As CommandLine) As Integer
+        Dim gb$ = args <= "/gb"
+        Dim geneName As Boolean = args.GetBoolean("/geneName")
+        Dim out As String = args.GetValue("/out", gb.TrimSuffix & ".genes.fasta")
+        Dim genbank As GBFF.File = GBFF.File.Load(gb)
+        Dim ffn As FastaFile = genbank.ExportGeneNtFasta(geneName)
+        Return ffn.Save(out, Encoding.ASCII).CLICode
+    End Function
 
     <ExportAPI("/add.locus_tag",
                Info:="Add locus_tag qualifier into the feature slot.",

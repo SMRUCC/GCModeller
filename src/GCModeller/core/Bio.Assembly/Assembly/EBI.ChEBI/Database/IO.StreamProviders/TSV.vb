@@ -96,6 +96,7 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
         Dim Names As Tables.Names()
         Dim Accessions As Tables.Accession()
         Dim chemical_data As Tables.ChemicalData()
+        Dim InChI As Tables.InChI()
 
         ''' <summary>
         ''' 从ChEBI的ftp文件夹之中加载数据 
@@ -112,6 +113,18 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
 
         Public Function GetChemicalData(Optional filename As String = "chemical_data.tsv") As ChemicalData()
             Return __lazyLoadData(Of ChemicalData)(chemical_data, filename)
+        End Function
+
+        ''' <summary>
+        ''' 加载化学结构式数据表格
+        ''' </summary>
+        ''' <param name="filename$"></param>
+        ''' <returns></returns>
+        Public Function GetInChI(Optional filename$ = "chebiId_inchi.tsv") As InChI()
+            If InChI Is Nothing Then
+                InChI = TsvFileIO.Load(Of InChI)(_DIR & "/" & filename, ).ToArray
+            End If
+            Return InChI
         End Function
 
         ''' <summary>

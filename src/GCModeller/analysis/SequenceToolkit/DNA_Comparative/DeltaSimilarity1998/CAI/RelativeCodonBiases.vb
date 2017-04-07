@@ -86,6 +86,10 @@ Namespace DeltaSimilarity1998.CAI
             End Try
         End Function
 
+        Public Overrides Function ToString() As String
+            Return ORF.UserTag
+        End Function
+
         ''' <summary>
         ''' 计算 W(Codon)
         ''' 即计算当前的密码子与编码相同氨基酸的最高频率的密码子的商( 
@@ -97,7 +101,7 @@ Namespace DeltaSimilarity1998.CAI
         Public Function W(Codon As Codon) As Double
             Dim AA As Char = TranslationTable.Translate(Codon)
             Dim Profile As CodonFrequency = Me.CodonFrequencyStatics(AA)
-            Dim f As Double = (From aac In Profile.BiasFrequency Where aac.Key.Equals(Codon) Select aac).First.Value
+            Dim f As Double = (From aac In Profile.BiasFrequency Where aac.Key = Codon.CodonValue Select aac).First.Value
             Dim max As Double = Profile.MaxBias.bias
             Dim value As Double = f / max
             Return value

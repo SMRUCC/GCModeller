@@ -28,7 +28,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ListExtensions
-Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
 
