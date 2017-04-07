@@ -82,6 +82,14 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
     End Class
 
     ''' <summary>
+    ''' ``chebiId_inchi.tsv``
+    ''' </summary>
+    Public Class InChI
+        Public Property CHEBI_ID As String
+        Public Property InChI As String
+    End Class
+
+    ''' <summary>
     ''' Database xref dblinks.(ChEBI的ftp服务器之上的``database_accession.tsv``文件数据的解析器)
     ''' </summary>
     ''' <remarks>
