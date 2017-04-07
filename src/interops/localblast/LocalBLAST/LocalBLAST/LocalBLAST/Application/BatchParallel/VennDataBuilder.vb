@@ -146,16 +146,18 @@ Namespace LocalBLAST.Application.BatchParallel
                                      Optional [overrides] As Boolean = False,
                                      Optional num_threads% = -1) As AlignEntry()
 
-            Dim Files As String() = (ls - l - r - wildcards("*.fasta", "*.fsa", "*.fa") <= inputDIR).ToArray
-            Dim clist As KeyValuePair(Of String, String)()() =
-                Comb(Of String).CreateCompleteObjectPairs(Files)
+            Dim Files$() = (ls - l - r - {"*.fasta", "*.fsa", "*.fa", "*.faa"} <= inputDIR).ToArray
+            Dim clist As Tuple(Of String, String)()() =
+                Comb(Of String) _
+                .CreateCompleteObjectPairs(Files) _
+                .ToArray
             Dim taskList As Func(Of String)() = LinqAPI.Exec(Of Func(Of String)) <=
  _
-                From task As KeyValuePair(Of String, String)
+                From task As Tuple(Of String, String)
                 In clist.IteratesALL.AsParallel
                 Let taskHandle As Func(Of String) =
                     Function() blastTask(
-                        query:=task.Key, subject:=task.Value, evalue:=evalue,
+                        query:=task.Item1, subject:=task.Item2, evalue:=evalue,
                         EXPORT:=outDIR,
                         num_threads:=RecommendedThreads,
                         [overrides]:=[overrides])

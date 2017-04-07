@@ -251,7 +251,7 @@ Partial Module CLI
     ''' <returns></returns>
     '''
     <ExportAPI("/venn.BlastAll",
-               Usage:="/venn.BlastAll /query <queryDIR> /out <outDIR> [/num_threads <-1> /evalue 10 /overrides /all /coverage <0.8> /identities <0.3>]",
+               Usage:="/venn.BlastAll /query <queryDIR> [/out <outDIR> /num_threads <-1> /evalue 10 /overrides /all /coverage <0.8> /identities <0.3>]",
                Info:="Completely paired combos blastp bbh operations for the venn diagram Or network builder.")>
     <Argument("/num_threads", True,
               Description:="The number of the parallel blast task in this command, set this argument ZERO for single thread. default value Is -1 which means the number of the blast threads Is determined by system automatically.")>
@@ -262,7 +262,7 @@ Partial Module CLI
     <Group(CLIGrouping.BBHTools)>
     Public Function vennBlastAll(args As CommandLine) As Integer
         Dim queryDIR As String = args("/query")
-        Dim out As String = args("/out")
+        Dim out$ = args.GetValue("/out", queryDIR.TrimDIR & ".blastp_ALL/")
         Dim numThreads As Integer = args.GetValue("/num_threads", -1)
         Dim evalue As String = args.GetValue("/evalue", "10")
         Dim [overrides] As Boolean = args.GetBoolean("/overrides")
