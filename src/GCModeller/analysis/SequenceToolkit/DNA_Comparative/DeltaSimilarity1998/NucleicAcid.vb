@@ -64,6 +64,9 @@ Namespace DeltaSimilarity1998
         Sub New(nt As DNA())
             Call MyBase.New(nt)
 
+            ' 因为__createSigma函数需要这个滑窗数据，所以需要先于__createSigma函数进行调用
+            __DNA_segments = Me.SlideWindows(2, offset:=1).ToArray
+
             For Each X As (a As DNA, B As DNA) In {
                 (DNA.dAMP, DNA.dAMP),
                 (DNA.dAMP, DNA.dCMP),
@@ -86,8 +89,6 @@ Namespace DeltaSimilarity1998
                     Call __biasTable.Add(.Key, .Value)
                 End With
             Next
-
-            __DNA_segments = Me.SlideWindows(2, offset:=1).ToArray
         End Sub
 
         ''' <summary>

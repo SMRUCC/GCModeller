@@ -97,7 +97,7 @@ Namespace DeltaSimilarity1998.CAI
         Public Function W(Codon As Codon) As Double
             Dim AA As Char = TranslationTable.Translate(Codon)
             Dim Profile As CodonFrequency = Me.CodonFrequencyStatics(AA)
-            Dim f As Double = (From aac In Profile.BiasFrequency Where aac.Key.Equals(Codon) Select aac).First.Value
+            Dim f As Double = (From aac In Profile.BiasFrequency Where aac.Key = Codon.CodonValue Select aac).First.Value
             Dim max As Double = Profile.MaxBias.bias
             Dim value As Double = f / max
             Return value
