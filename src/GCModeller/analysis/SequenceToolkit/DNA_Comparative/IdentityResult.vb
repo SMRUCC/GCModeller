@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::c09c1d13d5e63402d168894d4deaa46a, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\IdentityResult.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -53,9 +54,9 @@ Public Class IdentityResult
     End Function
 
     Public Shared Iterator Function SigmaMatrix(source As FastaFile, Optional round As Integer = -1, Optional simple As Boolean = True) As IEnumerable(Of IdentityResult)
-        Dim nts As NucleicAcid() =
-            source.ToArray(Function(x) New NucleicAcid(x), Parallel:=True)
-        Dim getTag As Func(Of NucleicAcid, String)
+        Dim nts As DeltaSimilarity1998.NucleicAcid() =
+            source.ToArray(Function(x) New DeltaSimilarity1998.NucleicAcid(x), parallel:=True)
+        Dim getTag As Func(Of DeltaSimilarity1998.NucleicAcid, String)
 
         If simple Then
             getTag = Function(x) x.UserTag.Split.First
@@ -71,10 +72,10 @@ Public Class IdentityResult
             getValue = Function(r) Math.Round(r, round)
         End If
 
-        For Each nt As NucleicAcid In nts
+        For Each nt As DeltaSimilarity1998.NucleicAcid In nts
             Dim result As List(Of NamedValue(Of Double)) =
                 LinqAPI.MakeList(Of NamedValue(Of Double)) <=
-                    From x As NucleicAcid
+                    From x As DeltaSimilarity1998.NucleicAcid
                     In nts.AsParallel
                     Where Not x Is nt
                     Let sigma As Double = DifferenceMeasurement.Sigma(nt, x)

@@ -44,5 +44,7 @@ Public Class CLIGrouping
 
     Public Const SNPTools As String = "SNP search tools"
 
+    Public Const DNA_ComparativeTools As String = "DNA_Comparative tools"
+
 End Class
 

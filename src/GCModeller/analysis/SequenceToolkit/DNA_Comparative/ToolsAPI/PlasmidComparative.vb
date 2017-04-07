@@ -96,7 +96,7 @@ Public Module PlasmidComparative
     Private Function __generateCols(x As NucleicAcid, cache As IEnumerable(Of NucleicAcid)) As List(Of String)
         Return LinqAPI.MakeList(Of String) <= From y As NucleicAcid
                                               In cache
-                                              Let n As Double = 1000 * DNA_Comparative.Sigma(x, y)
+                                              Let n As Double = 1000 * DeltaSimilarity1998.Sigma(x, y)
                                               Select CStr(CInt(n))
     End Function
 
