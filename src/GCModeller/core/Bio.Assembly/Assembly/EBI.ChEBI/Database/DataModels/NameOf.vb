@@ -56,6 +56,7 @@ Namespace Assembly.EBI.ChEBI
         ''' </summary>
         Dim formulas As Dictionary(Of String, Tables.ChemicalData())
         Dim masses As DoubleTagged(Of Tables.ChemicalData())()
+        Dim chebiNames As Dictionary(Of String, Tables.Names())
 
         Sub New(table As TSVTables)
             Dim accIDs = table.GetDatabaseAccessions
@@ -85,6 +86,10 @@ Namespace Assembly.EBI.ChEBI
                 .GroupBy(Function(name) name.NAME.ToLower) _
                 .ToDictionary(Function(k) k.Key,
                               Function(g) g.ToArray)
+            Me.chebiNames = names _
+                .GroupBy(Function(name) name.COMPOUND_ID) _
+                .ToDictionary(Function(ID) ID.Key,
+                              Function(nameList) nameList.ToArray)
             Me.chebiXrefs = accIDs _
                 .GroupBy(Function(acc) acc.COMPOUND_ID) _
                 .ToDictionary(Function(k) k.Key,
@@ -98,6 +103,22 @@ Namespace Assembly.EBI.ChEBI
                               Function(g) g.Select(
                               Function(id) id.Item2).ToArray)
         End Sub
+
+        ''' <summary>
+        ''' 通过chebi编号从names数据之中查找得到名称列表
+        ''' </summary>
+        ''' <param name="chebi_ID$"></param>
+        ''' <returns></returns>
+        Public Function GetChEBINamesByID(chebi_ID$) As String()
+            If chebiNames.ContainsKey(chebi_ID) Then
+                Return chebiNames(chebi_ID) _
+                    .Where(Function(name) name.TYPE = "SYNONYM" And name.SOURCE = "ChEBI") _
+                    .Select(Function(name) name.NAME) _
+                    .ToArray
+            Else
+                Return {}
+            End If
+        End Function
 
         ''' <summary>
         ''' 2. 直接匹配名称(使用默认的<paramref name="fuzzy"/>=False参数)也比较精确
