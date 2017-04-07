@@ -35,9 +35,12 @@ Namespace DeltaSimilarity1998.CAI.XML
     ''' <summary>
     ''' codon adaptation index profile table
     ''' </summary>
+    ''' 
+    <XmlRoot("codon-adaptation-index", [Namespace]:="http://gcmodeller.org/analysis/SequenceToolkit/DNA_Comparative/codon-adaptation-index.XML")>
     Public Class CodonAdaptationIndex : Inherits ClassObject
 
-        <XmlAttribute> Public Property CAI As Double
+        <XmlElement> Public Property Name As String
+        <XmlElement> Public Property CAI As Double
         <XmlElement>
         Public Property Table As CodonFrequencyCAI()
 
@@ -66,6 +69,7 @@ Namespace DeltaSimilarity1998.CAI.XML
                 .CodonFrequencyStatics _
                 .Values
 
+            Name = model.ToString
             CAI = model.CAI
             Table = LinqAPI.Exec(Of CodonFrequencyCAI) <=
  _

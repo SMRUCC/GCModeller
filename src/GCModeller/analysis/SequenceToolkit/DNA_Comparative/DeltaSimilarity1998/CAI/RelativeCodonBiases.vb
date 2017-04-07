@@ -86,6 +86,10 @@ Namespace DeltaSimilarity1998.CAI
             End Try
         End Function
 
+        Public Overrides Function ToString() As String
+            Return ORF.UserTag
+        End Function
+
         ''' <summary>
         ''' 计算 W(Codon)
         ''' 即计算当前的密码子与编码相同氨基酸的最高频率的密码子的商( 

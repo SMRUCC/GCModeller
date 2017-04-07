@@ -34,7 +34,11 @@ Namespace DeltaSimilarity1998.CAI.XML
 
     Public Class CodonFrequencyCAI
 
-        <XmlAttribute> Public Property AminoAcid As Char
+        ''' <summary>
+        ''' 应该是<see cref="Char"/>类型，但是XML序列化之后会变为ASCII值，所以在这里使用字符串类型
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property AminoAcid As String
 
         ''' <summary>
         ''' {编码当前的氨基酸<see cref="AminoAcid"></see>的密码子, 在当前的基因之中的使用频率}
@@ -42,14 +46,14 @@ Namespace DeltaSimilarity1998.CAI.XML
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement> Public Property BiasFrequencyProfile As CodonBiasVector()
+        Public Property BiasFrequencyProfile As CodonBiasVector()
         ''' <summary>
         ''' Value为经过欧几里得距离归一化处理之后的计算结果
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlElement> Public Property BiasFrequency As CodonBias()
+        Public Property BiasFrequency As CodonBias()
 
         Public ReadOnly Property MaxBias As CodonBias
             Get
