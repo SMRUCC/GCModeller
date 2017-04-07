@@ -59,6 +59,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.XML
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
 
 <[PackageNamespace]("ComparativeGenomics.Sigma-Difference",
                     Description:="Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.",
@@ -607,12 +609,12 @@ Public Module ToolsAPI
     End Function
 
     <ExportAPI("CAI")>
-    Public Function CAI(ORF As FastaToken) As CAITable
-        Return New CAITable(New RelativeCodonBiases(ORF))
+    Public Function CAI(ORF As FastaToken) As CodonAdaptationIndex
+        Return New CodonAdaptationIndex(New RelativeCodonBiases(ORF))
     End Function
 
     <ExportAPI("write.xml.cai")>
-    Public Function SaveCAI(dat As CAITable, saveXml As String) As Boolean
+    Public Function SaveCAI(dat As CodonAdaptationIndex, saveXml As String) As Boolean
         Return dat.GetXml.SaveTo(saveXml)
     End Function
 
@@ -674,49 +676,49 @@ Public Module ToolsAPI
         Throw New NotImplementedException
     End Function
 
-    Public Function __compileCAIBIASCalculationThread(gene_source As FastaFile, WorkTemp As String, InternalID As String) As KeyValuePair(Of String, CAITable)()
-        Dim ResultList = New List(Of KeyValuePair(Of String, CAITable))
+    Public Function __compileCAIBIASCalculationThread(gene_source As FastaFile, WorkTemp As String, InternalID As String) As KeyValuePair(Of String, CodonAdaptationIndex)()
+        Dim ResultList = New List(Of KeyValuePair(Of String, CodonAdaptationIndex))
 
         For i As Integer = 0 To gene_source.Count - 1
             Dim Sequence As FastaToken = gene_source(i)
             Dim Path As String = String.Format("({0}){1}", InternalID, Sequence.Attributes.First.NormalizePathString)
             Dim SeqID As String = Path
-            Dim CAIData As CAITable
+            Dim CAIData As CodonAdaptationIndex
 
             Path = WorkTemp & "/" & Path & ".xml"
 
             If FileIO.FileSystem.FileExists(Path) Then
-                CAIData = Path.LoadXml(Of CAITable)()
+                CAIData = Path.LoadXml(Of CodonAdaptationIndex)()
             Else
-                CAIData = New CAITable(New RelativeCodonBiases(Sequence))
+                CAIData = New CodonAdaptationIndex(New RelativeCodonBiases(Sequence))
                 Call CAIData.GetXml.SaveTo(Path)
             End If
 
-            Call ResultList.Add(New KeyValuePair(Of String, CAITable)(SeqID, CAIData))
+            Call ResultList.Add(New KeyValuePair(Of String, CodonAdaptationIndex)(SeqID, CAIData))
             Call Console.Write("{0}  ==>{1}%", SeqID, i / gene_source.Count * 100)
         Next
 
         Return ResultList.ToArray
     End Function
 
-    Public Function CompileCAIBIASCalculationThread_p(gene_source As FastaFile, WorkTemp As String, InternalID As String) As KeyValuePair(Of String, CAITable)()
+    Public Function CompileCAIBIASCalculationThread_p(gene_source As FastaFile, WorkTemp As String, InternalID As String) As KeyValuePair(Of String, CodonAdaptationIndex)()
         Dim ResultList = (From Sequence As FastaToken
                           In gene_source.AsParallel
                           Let Path As String = String.Format("({0}){1}", InternalID, Sequence.Attributes.First.NormalizePathString)
                           Let SeqID As String = Path
-                          Let CAIData As CAITable = __createTable(WorkTemp, Path, Sequence, SeqID)
-                          Select New KeyValuePair(Of String, CAITable)(SeqID, CAIData)).ToArray
+                          Let CAIData As CodonAdaptationIndex = __createTable(WorkTemp, Path, Sequence, SeqID)
+                          Select New KeyValuePair(Of String, CodonAdaptationIndex)(SeqID, CAIData)).ToArray
         Return ResultList.ToArray
     End Function
 
-    Private Function __createTable(workTMP As String, path As String, Sequence As FastaToken, seqId As String) As CAITable
+    Private Function __createTable(workTMP As String, path As String, Sequence As FastaToken, seqId As String) As CodonAdaptationIndex
         Dim XMLPath = workTMP & "/" & path & ".xml"
-        Dim da As CAITable
+        Dim da As CodonAdaptationIndex
 
         If FileIO.FileSystem.FileExists(XMLPath) Then
-            da = XMLPath.LoadXml(Of CAITable)()
+            da = XMLPath.LoadXml(Of CodonAdaptationIndex)()
         Else
-            da = New CAITable(New RelativeCodonBiases(Sequence))
+            da = New CodonAdaptationIndex(New RelativeCodonBiases(Sequence))
             Call da.GetXml.SaveTo(XMLPath)
         End If
 
@@ -731,21 +733,22 @@ Public Module ToolsAPI
         Return __compileCAI(CompiledData)
     End Function
 
-    Private Function __compileCAI(data As Generic.IEnumerable(Of KeyValuePair(Of String, CAITable))) As IO.File
+    Private Function __compileCAI(data As IEnumerable(Of KeyValuePair(Of String, CodonAdaptationIndex))) As IO.File
         Dim CSV As IO.File = New IO.File
         Dim Head = New IO.RowObject From {"SpeciesID", "CAI"}
 
         Call CSV.Add(Head)
 
-        For Each item In data.First.Value.BiasList
-            Call Head.Add(item.Value.Key.ToString)
+        For Each item In data.First.Value.GetCodonBiasList
+            Call Head.Add(item.Value.CodonString)
         Next
 
         For Each item In data
             Dim row As New IO.RowObject From {item.Key, item.Value.CAI}
+            Dim biasData = item.Value.GetCodonBiasList
 
-            For i As Integer = 0 To item.Value.BiasList.Count - 1
-                Call row.Add(item.Value.BiasList(i).Value.Value)
+            For i As Integer = 0 To biasData.Length - 1
+                Call row.Add(biasData(i).Value.Bias)
             Next
 
             Call CSV.Add(row)

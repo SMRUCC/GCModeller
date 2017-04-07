@@ -76,8 +76,8 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure
         }
 
         Private Function __sequenceData(SequenceData As String) As AminoAcid()
-            Dim SequenceEnums = SequenceModel.Polypeptides.Polypeptides.ConstructVector(SequenceData)
-            Dim AA = (From Token In SequenceEnums Where Token <> Polypeptides.AminoAcid.NULL Select New AminoAcid(Token)).ToArray
+            Dim SequenceEnums = SequenceModel.Polypeptides.ConstructVector(SequenceData)
+            Dim AA = (From Token In SequenceEnums Where Token <> SequenceModel.Polypeptides.AminoAcid.NULL Select New AminoAcid(Token)).ToArray
 
             If AA.Length < SequenceEnums.Length Then
                 Call VBDebugger.Warning("There is illegal character contains in your protein sequence, they was removed:  " & SequenceData)

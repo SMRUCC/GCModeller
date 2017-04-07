@@ -511,6 +511,7 @@
     <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleBetaSheet.vb" />
     <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleAlphaHelix.vb" />
     <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleOverlap.vb" />
+    <Compile Include="SequenceModel\Polypeptides\AminoAcid.vb" />
     <Compile Include="SequenceModel\Polypeptides\Polypeptides.vb" />
     <Compile Include="Assembly\Uniprot\Web\Uniprot.vb" />
     <Compile Include="Assembly\NCBI\Database\CDD\CDD.vb" />

@@ -26,15 +26,15 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
+Imports SMRUCC.genomics.SequenceModel.Polypeptides
 Imports SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptides
 
-Namespace DeltaSimilarity1998
+Namespace DeltaSimilarity1998.CAI
 
     ''' <summary>
     ''' Measures of Relative Codon Biases
@@ -52,20 +52,25 @@ Namespace DeltaSimilarity1998
     ''' <remarks></remarks>
     Public Class RelativeCodonBiases
 
-        ReadOnly ORF As NucleotideModels.NucleicAcid
+        ReadOnly ORF As NucleicAcid
         ReadOnly _codonHash As Codon() = Codon.CreateHashTable
 
+        ''' <summary>
+        ''' <see cref="CodonFrequency.AminoAcid"/>就是这个字典的键名key
+        ''' </summary>
+        ''' <returns></returns>
         Public Property CodonFrequencyStatics As Dictionary(Of Char, CodonFrequency)
 
         ''' <summary>
         ''' ORF的核酸序列之中构建出密码子偏好属性
         ''' </summary>
-        ''' <param name="Sequence">ATG -> TGA这一段之间的ORF的核酸序列</param>
-        Sub New(Sequence As FastaToken)
-            ORF = New NucleotideModels.NucleicAcid(Sequence)
+        ''' <param name="nt">ATG -> TGA这一段之间的ORF的核酸序列</param>
+        Sub New(nt As FastaToken)
+            ORF = New NucleicAcid(nt)
             CodonFrequencyStatics =
-            ToChar.ToArray(Function(aa) __staticsOfMaxFrequencyCodon(aa.Value)) _
-                  .ToDictionary(Function(fr) fr.AminoAcid)
+                ToChar _
+                .ToArray(Function(aa) __staticsOfMaxFrequencyCodon(aa.Value)) _
+                .ToDictionary(Function(fr) fr.AminoAcid)
         End Sub
 
         Public Function CAI() As Double
@@ -82,16 +87,6 @@ Namespace DeltaSimilarity1998
         End Function
 
         ''' <summary>
-        ''' 对Profile进行归一化处理
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Private Shared Function Normalization(p As TripleKeyValuesPair(Of Double)) As Double
-            Dim d As Double = {p.Value1, p.Value2, p.Value3}.EuclideanDistance
-            Return d
-        End Function
-
-        ''' <summary>
         ''' 计算 W(Codon)
         ''' 即计算当前的密码子与编码相同氨基酸的最高频率的密码子的商( 
         ''' Defining W(xyz) = f(xyz)/max(xyz[a])*f(xyz,H) as the ratio of the frequency of the codon (xyz) to the maximal codon frequency in H for the same amino acid a)
@@ -103,7 +98,7 @@ Namespace DeltaSimilarity1998
             Dim AA As Char = TranslationTable.Translate(Codon)
             Dim Profile As CodonFrequency = Me.CodonFrequencyStatics(AA)
             Dim f As Double = (From aac In Profile.BiasFrequency Where aac.Key.Equals(Codon) Select aac).First.Value
-            Dim max As Double = Profile.MaxBias.Value
+            Dim max As Double = Profile.MaxBias.bias
             Dim value As Double = f / max
             Return value
         End Function
@@ -111,36 +106,46 @@ Namespace DeltaSimilarity1998
         ''' <summary>
         ''' 统计某一中氨基酸的编码偏好性
         ''' </summary>
-        ''' <param name="AminoAcid"></param>
+        ''' <param name="aminoAcid">可能会有集中密码来编码相同的一个氨基酸</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function __staticsOfMaxFrequencyCodon(AminoAcid As Char) As CodonFrequency
-            Dim AA = Polypeptides.ToEnums(AminoAcid)
+        Private Function __staticsOfMaxFrequencyCodon(aminoAcid As Char) As CodonFrequency
+            Dim aa As AminoAcid = Polypeptides.ToEnums(aminoAcid)
             Dim HashLQueryValue = (From tl In CodenTable
-                                   Where tl.Value = AA
+                                   Where tl.Value = aa
                                    Select Hash = tl.Key,
-                                   AAC = tl.Value).ToArray '得到蛋白质翻译编码的哈希值
+                                   AAC = tl.Value).ToArray ' 得到蛋白质翻译编码的哈希值
             Dim HashLQuery = (From item In HashLQueryValue Select item.Hash).ToArray
             Dim CodonsForAA = (From item In Me._codonHash
                                Where Array.IndexOf(HashLQuery, item.TranslHash) > -1
                                Select item Distinct).ToArray      '从密码子之中查询哈希值
-            Dim F As New CodonFrequency With {
-            .AminoAcid = AminoAcid,
-            .BiasFrequencyProfile = (From Codon As Codon
-                                     In CodonsForAA
-                                     Let BIAS = GenomeSignatures.CodonSignature(Me.ORF, Codon)
-                                     Let C = New KeyValuePair(Of Codon, TripleKeyValuesPair(Of Double))(Codon, BIAS)
-                                     Select C).ToArray
-        }
-            F.BiasFrequency = (From item In F.BiasFrequencyProfile
-                               Select New KeyValuePair(Of Codon, Double)(item.Key, Normalization(item.Value))) _
-                                .ToDictionary(Function(item) item.Key, Function(item) item.Value)
-            Dim sum As Double = (From n In F.BiasFrequency Select n.Value).Sum
-            F.BiasFrequency = (From item In F.BiasFrequency
-                               Select New KeyValuePair(Of Codon, Double)(item.Key, item.Value / sum)) _
-                                .ToDictionary(Function(item) item.Key, Function(item) item.Value) ' 归一化处理，从而得到等式 SIGMA(x, y, z)[AA][c(x, y, z)] = 1
-            F.MaxBias = (From item In F.BiasFrequency Select item Order By item.Value Descending).First
-            Return F
+            Dim cfrq As New CodonFrequency With {
+                .AminoAcid = aminoAcid,
+                .BiasFrequencyProfile = CodonsForAA _
+                    .Select(Function(c) Me.ORF.CodonSignature(c)) _
+                    .ToDictionary(Function(c) c.Codon),
+                .BiasFrequency =
+                    .BiasFrequencyProfile _
+                    .ToDictionary(Function(k) k.Key,
+                                  Function(bias) bias.Value.EuclideanNormalization)
+            }
+
+            With cfrq
+                Dim sum# = .BiasFrequency.Values.Sum
+
+                ' 归一化处理，从而得到等式 SIGMA(x, y, z)[AA][c(x, y, z)] = 1
+                .BiasFrequency =
+                    .BiasFrequency _
+                    .ToDictionary(Function(c) c.Key,
+                                  Function(bias) bias.Value / sum)
+                .MaxBias =
+                    .BiasFrequency _
+                    .OrderByDescending(Function(c) c.Value) _
+                    .Select(Function(o) (o.Key, o.Value)) _
+                    .First
+            End With
+
+            Return cfrq
         End Function
     End Class
 End Namespace

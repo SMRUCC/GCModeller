@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::c41ad19c354b2e85f92d46a72c05fd1d, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\NucleicAcid.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -38,7 +39,12 @@ Namespace DeltaSimilarity1998
     ''' <remarks></remarks>
     Public Class NucleicAcid : Inherits NucleotideModels.NucleicAcid
 
-        Dim __biasHash As Dictionary(Of KeyValuePair(Of DNA, DNA), Double)
+        Protected Friend __biasTable As New Dictionary(Of String, Double)
+
+        ''' <summary>
+        ''' 为了防止反复重新创建划窗而构建出来的计算数据缓存
+        ''' </summary>
+        Protected Friend __DNA_segments As SlideWindowHandle(Of DNA)()
 
         ''' <summary>
         ''' Get value by using a paired of base.
@@ -47,55 +53,62 @@ Namespace DeltaSimilarity1998
         ''' <param name="Y"></param>
         ''' <returns></returns>
         Public Function GetValue(X As DNA, Y As DNA) As Double
-            Return __biasHash(New KeyValuePair(Of DNA, DNA)(X, Y))
+            Return __biasTable($"{ToChar(X)} -> {ToChar(Y)}")
         End Function
 
         ''' <summary>
         ''' 窗口数据或者缓存数据
         ''' </summary>
-        ''' <param name="SequenceData"></param>
+        ''' <param name="nt"></param>
         ''' <remarks></remarks>
-        Sub New(SequenceData As DNA())
-            Call MyBase.New(SequenceData)
-            __biasHash = New Dictionary(Of KeyValuePair(Of DNA, DNA), Double)
-            Dim dat As KeyValuePair(Of KeyValuePair(Of DNA, DNA), Double)
-            dat = __createSigma(Me, DNA.dAMP, DNA.dAMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dAMP, DNA.dCMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dAMP, DNA.dGMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dAMP, DNA.dTMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dCMP, DNA.dAMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dCMP, DNA.dCMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dCMP, DNA.dGMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dCMP, DNA.dTMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dGMP, DNA.dAMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dGMP, DNA.dCMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dGMP, DNA.dGMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dGMP, DNA.dTMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dTMP, DNA.dAMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dTMP, DNA.dCMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dTMP, DNA.dGMP) : Call __biasHash.Add(dat.Key, dat.Value)
-            dat = __createSigma(Me, DNA.dTMP, DNA.dTMP) : Call __biasHash.Add(dat.Key, dat.Value)
+        Sub New(nt As DNA())
+            Call MyBase.New(nt)
+
+            For Each X As (a As DNA, B As DNA) In {
+                (DNA.dAMP, DNA.dAMP),
+                (DNA.dAMP, DNA.dCMP),
+                (DNA.dAMP, DNA.dGMP),
+                (DNA.dAMP, DNA.dTMP),
+                (DNA.dCMP, DNA.dAMP),
+                (DNA.dCMP, DNA.dCMP),
+                (DNA.dCMP, DNA.dGMP),
+                (DNA.dCMP, DNA.dTMP),
+                (DNA.dGMP, DNA.dAMP),
+                (DNA.dGMP, DNA.dCMP),
+                (DNA.dGMP, DNA.dGMP),
+                (DNA.dGMP, DNA.dTMP),
+                (DNA.dTMP, DNA.dAMP),
+                (DNA.dTMP, DNA.dCMP),
+                (DNA.dTMP, DNA.dGMP),
+                (DNA.dTMP, DNA.dTMP)
+            }
+                With __createSigma(Me, X.a, X.B)
+                    Call __biasTable.Add(.Key, .Value)
+                End With
+            Next
+
+            __DNA_segments = Me.SlideWindows(2, offset:=1).ToArray
         End Sub
 
         ''' <summary>
         ''' Fasta序列会自动使用<see cref="FastaToken.Title"/>来作为序列的<see cref="UserTag"/>
         ''' </summary>
-        ''' <param name="SequenceData"></param>
-        Sub New(SequenceData As FastaToken)
-            Call Me.New(New NucleotideModels.NucleicAcid(SequenceData).ToArray)
-            Me.UserTag = SequenceData.Title
+        ''' <param name="nt"></param>
+        Sub New(nt As FastaToken)
+            Call Me.New(New NucleotideModels.NucleicAcid(nt).ToArray)
+            Me.UserTag = nt.Title
         End Sub
 
-        Sub New(SequenceData As String)
-            Call Me.New(New NucleotideModels.NucleicAcid(SequenceData).ToArray)
+        Sub New(nt$)
+            Call Me.New(New NucleotideModels.NucleicAcid(nt).ToArray)
         End Sub
 
-        Private Shared Function __createSigma(SequenceData As NucleotideModels.NucleicAcid,
-                                          X As DNA,
-                                          Y As DNA) As KeyValuePair(Of KeyValuePair(Of DNA, DNA), Double)
-            Dim KEY As New KeyValuePair(Of DNA, DNA)(X, Y)
-            Dim n As Double = GenomeSignatures.DinucleotideBIAS_p(SequenceData, X, Y)
-            Return New KeyValuePair(Of KeyValuePair(Of DNA, DNA), Double)(KEY, n)
+        Private Shared Function __createSigma(nt As NucleotideModels.NucleicAcid,
+                                              X As DNA,
+                                              Y As DNA) As KeyValuePair(Of String, Double)
+            Dim KEY As String = $"{ToChar(X)} -> {ToChar(Y)}"
+            Dim n As Double = GenomeSignatures.DinucleotideBIAS_p(nt, X, Y)
+            Return New KeyValuePair(Of String, Double)(KEY, n)
         End Function
     End Class
 End Namespace

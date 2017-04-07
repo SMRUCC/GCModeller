@@ -54,9 +54,9 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         <XmlAttribute> Public Property Z As DNA
 
-        '''' <param name="X">密码子中的第一个碱基</param>
-        '''' <param name="Y">密码子中的第二个碱基</param>
-        '''' <param name="Z">密码子中的第三个碱基</param>
+        ''' <param name="X">密码子中的第一个碱基</param>
+        ''' <param name="Y">密码子中的第二个碱基</param>
+        ''' <param name="Z">密码子中的第三个碱基</param>
         Public Shared Function CalTranslHash(X As DNA, Y As DNA, Z As DNA) As Integer
             Return X * 1000 + Y * 100 + Z * 10000
         End Function
@@ -70,17 +70,17 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <summary>
         ''' 翻译用途的
         ''' </summary>
-        ''' <param name="Tokens"></param>
-        Friend Sub New(Tokens As String())
-            If Tokens.Length = 4 Then
+        ''' <param name="tokens"></param>
+        Friend Sub New(tokens As String())
+            If tokens.Length = 4 Then
                 IsInitCodon = True
             End If
 
-            If String.Equals(Tokens(1), "*") Then
+            If String.Equals(tokens(1), "*") Then
                 IsStopCodon = True
             End If
 
-            Dim Codon = Tokens(Scan0).ToArray(Function(ntch) NucleicAcid.NucleotideConvert(ntch))
+            Dim Codon = tokens(Scan0).ToArray(Function(ntch) NucleicAcid.NucleotideConvert(ntch))
             X = Codon(Scan0)
             Y = Codon(1)
             Z = Codon(2)
@@ -98,7 +98,7 @@ Namespace SequenceModel.NucleotideModels.Translation
         End Property
 
         ''' <summary>
-        ''' 返回三联体密码子的核酸片段
+        ''' 返回三联体密码子的核酸片段，以三联体密码子字符串的形式显示当前的这个密码子内的内容
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property CodonValue As String

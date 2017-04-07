@@ -38,8 +38,8 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
         ''' <param name="SequenceData"></param>
         ''' <remarks></remarks>
         Public Function Invoke(SequenceData As AminoAcid()) As Integer
-            Dim SequenceEnums As SequenceModel.Polypeptides.Polypeptides.AminoAcid() = (From token In SequenceData Select token.AminoAcid).ToArray
-            Dim ChunkBuffer As SequenceModel.Polypeptides.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.Polypeptides.AminoAcid(CORE_LENGTH - 1) {}
+            Dim SequenceEnums As SequenceModel.Polypeptides.AminoAcid() = (From token In SequenceData Select token.AminoAcid).ToArray
+            Dim ChunkBuffer As SequenceModel.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.AminoAcid(CORE_LENGTH - 1) {}
             Dim Count_a As Integer = 0
             Dim pp As Integer
 
@@ -50,7 +50,7 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
                 If CalculateCore(ChunkBuffer) Then '计算核心
                     Dim Segment = ExtendCore(SequenceEnums, i, CORE_LENGTH) '延伸核心
                     If Segment.FragmentSize > 5 Then
-                        Dim TempChunk As SequenceModel.Polypeptides.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.Polypeptides.AminoAcid(Segment.FragmentSize - 1) {}
+                        Dim TempChunk As SequenceModel.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.AminoAcid(Segment.FragmentSize - 1) {}
                         Call Array.ConstrainedCopy(SequenceEnums, Segment.Left, TempChunk, 0, Segment.FragmentSize)
                         If Avg(TempChunk, AddressOf ChouFasmanParameter.Get_Pa) > Avg(TempChunk, AddressOf ChouFasmanParameter.Get_Pb) Then
                             For p As Integer = Segment.Left To Segment.Right
@@ -66,8 +66,8 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
             Return Count_a
         End Function
 
-        Private Function ExtendCore(SequenceData As SequenceModel.Polypeptides.Polypeptides.AminoAcid(), i As Integer, Length As Integer) As Location
-            Dim ChunkBuffer As SequenceModel.Polypeptides.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.Polypeptides.AminoAcid(Length - 1) {}
+        Private Function ExtendCore(SequenceData As SequenceModel.Polypeptides.AminoAcid(), i As Integer, Length As Integer) As Location
+            Dim ChunkBuffer As SequenceModel.Polypeptides.AminoAcid() = New SequenceModel.Polypeptides.AminoAcid(Length - 1) {}
             Dim Left, Right As Integer
 
             '向左端延伸
@@ -113,13 +113,13 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure.ChouFasmanRules
             Return New Location With {.Left = Left, .Right = Right}
         End Function
 
-        Private Function get_ProPosition(ChunkBuffer As SequenceModel.Polypeptides.Polypeptides.AminoAcid(), pp As Func(Of Integer, Integer)) As Integer()
-            Dim p_Pro = (From i_Pro As Integer In ChunkBuffer.Sequence Let Token As SequenceModel.Polypeptides.Polypeptides.AminoAcid = ChunkBuffer(i_Pro)
-                         Where Token = SequenceModel.Polypeptides.Polypeptides.AminoAcid.Praline Select pp(i_Pro)).ToArray
+        Private Function get_ProPosition(ChunkBuffer As SequenceModel.Polypeptides.AminoAcid(), pp As Func(Of Integer, Integer)) As Integer()
+            Dim p_Pro = (From i_Pro As Integer In ChunkBuffer.Sequence Let Token As SequenceModel.Polypeptides.AminoAcid = ChunkBuffer(i_Pro)
+                         Where Token = SequenceModel.Polypeptides.AminoAcid.Praline Select pp(i_Pro)).ToArray
             Return p_Pro
         End Function
 
-        Private Function CalculateCore(ChunkBuffer As SequenceModel.Polypeptides.Polypeptides.AminoAcid()) As Boolean
+        Private Function CalculateCore(ChunkBuffer As SequenceModel.Polypeptides.AminoAcid()) As Boolean
             Dim LQuery = (From token In ChunkBuffer Let p = ChouFasmanTable(token).P_a Where p > 100 Select 1).ToArray
             Return (LQuery.Count / ChunkBuffer.Count) > PROPORTION
         End Function
