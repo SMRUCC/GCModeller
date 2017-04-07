@@ -518,6 +518,10 @@ Namespace Assembly.NCBI.GenBank
         ''' (导出每一个基因的核酸序列)
         ''' </summary>
         ''' <param name="gb">Genbank数据库文件</param>
+        ''' <param name="geneName">
+        ''' If this parameter is specific as True, then this function will try using 
+        ''' geneName as the fasta sequence title, or using locus_tag value as default.
+        ''' </param>
         ''' <returns></returns>
         <Extension>
         Public Function ExportGeneNtFasta(gb As GBFF.File, Optional geneName As Boolean = False) As FASTA.FastaFile
@@ -530,11 +534,12 @@ Namespace Assembly.NCBI.GenBank
 
             Try
                 For Each gene As Feature In (From x As Feature
-                                             In gb.Features._innerList.AsParallel
+                                             In gb.Features._innerList
                                              Where String.Equals(x.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                              Select x)
 
                     Dim locus_tag As String
+                    Dim function$
 
                     If geneName Then
                         locus_tag = gene.Query("gene")
@@ -545,12 +550,14 @@ Namespace Assembly.NCBI.GenBank
                         locus_tag = gene.Query("locus_tag")
                     End If
 
+                    [function] = products.SafeGetValue(locus_tag)?.Function
+                    [function] = If([function].StringEmpty, products.SafeGetValue(locus_tag)?.CommonName, [function])
                     loc = gene.Location.ContiguousRegion
-                    attrs = {locus_tag, gene.Location.ToString, products.SafeGetValue(locus_tag)?.Function}
+                    attrs = {locus_tag, gene.Location.ToString, [function]}
                     Sequence = reader.CutSequenceLinear(loc.Left, loc.Right).SequenceData
-                    Sequence = If(gene.Location.Complement, NucleotideModels.NucleicAcid.Complement(Sequence), Sequence)
+                    Sequence = If(gene.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
 
-                    list += New FASTA.FastaToken(attrs, Sequence)
+                    list += New FastaToken(attrs, Sequence)
                 Next
             Catch ex As Exception
                 ex = New Exception(gb.ToString, ex)

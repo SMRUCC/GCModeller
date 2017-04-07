@@ -227,6 +227,21 @@ Partial Module CLI
         Call ffn.Save(out & $"/{name}.ffn")
     End Sub
 
+    <ExportAPI("/Export.gb.genes",
+               Usage:="/Export.gb.genes /gb <genbank.gb> [/geneName /out <out.fasta>]")>
+    <Argument("/geneName", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this parameter is specific as True, then this function will try using geneName as the fasta sequence title, or using locus_tag value as default.")>
+    <Group(CLIGrouping.GenbankTools)>
+    Public Function ExportGenesFasta(args As CommandLine) As Integer
+        Dim gb$ = args <= "/gb"
+        Dim geneName As Boolean = args.GetBoolean("/geneName")
+        Dim out As String = args.GetValue("/out", gb.TrimSuffix & ".genes.fasta")
+        Dim genbank As GBFF.File = GBFF.File.Load(gb)
+        Dim ffn As FastaFile = genbank.ExportGeneNtFasta(geneName)
+        Return ffn.Save(out, Encoding.ASCII).CLICode
+    End Function
+
     <ExportAPI("/add.locus_tag",
                Info:="Add locus_tag qualifier into the feature slot.",
                Usage:="/add.locus_tag /gb <gb.gbk> /prefix <prefix> [/add.gene /out <out.gb>]")>
