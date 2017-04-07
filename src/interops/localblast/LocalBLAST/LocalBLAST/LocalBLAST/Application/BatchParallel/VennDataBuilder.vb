@@ -146,7 +146,7 @@ Namespace LocalBLAST.Application.BatchParallel
                                      Optional [overrides] As Boolean = False,
                                      Optional num_threads% = -1) As AlignEntry()
 
-            Dim Files As String() = ls - l - r - wildcards("*.fasta", "*.fsa", "*.fa") <= inputDIR
+            Dim Files As String() = (ls - l - r - wildcards("*.fasta", "*.fsa", "*.fa") <= inputDIR).ToArray
             Dim clist As KeyValuePair(Of String, String)()() =
                 Comb(Of String).CreateCompleteObjectPairs(Files)
             Dim taskList As Func(Of String)() = LinqAPI.Exec(Of Func(Of String)) <=
