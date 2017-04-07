@@ -153,6 +153,28 @@ Partial Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/Copy.Fasta",
+               Info:="Copy target type files from different sub directory into a directory.",
+               Usage:="/Copy.Fasta /imports <DIR> [/type <faa,fna,ffn,fasta,...., default:=faa> /out <DIR>]")>
+    Public Function CopyFasta(args As CommandLine) As Integer
+        Dim in$ = args <= "/imports"
+        Dim type$ = args.GetValue("/type", "faa")
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & "." & type)
+
+        type = "*." & type
+
+        For Each DIR As String In ls - l - lsDIR <= [in]
+            Dim dName$ = DIR.BaseName
+
+            For Each file$ In ls - l - r - type <= DIR$
+                Dim path$ = out & "/" & dName & "_" & file.FileName
+                Call file.ReadAllText.SaveTo(path)
+            Next
+        Next
+
+        Return 0
+    End Function
+
     <ExportAPI("/Merge.faa", Usage:="/Merge.faa /in <DIR> /out <out.fasta>")>
     <Group(CLIGrouping.GenbankTools)>
     Public Function MergeFaa(args As CommandLine) As Integer

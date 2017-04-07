@@ -163,8 +163,16 @@ Partial Module CLI
 #End Region
     End Class
 
+    ''' <summary>
+    ''' 这个函数是单线程执行的
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/blastn.Query",
-               Usage:="/blastn.Query /query <query.fna> /db <db.DIR> [/thread /evalue 1e-5 /word_size <-1> /out <out.DIR>]")>
+               Info:="Using target fasta sequence query against all of the fasta sequence in target direcotry. This function is single thread.",
+               Usage:="/blastn.Query /query <query.fna/faa> /db <db.DIR> [/thread /evalue 1e-5 /word_size <-1> /out <out.DIR>]")>
+    <Argument("/thread", True, CLITypes.Boolean,
+              Description:="Is this CLI api running in one of the processor in thread mode for a caller API ``/blastn.Query.All``")>
     <Group(CLIGrouping.BlastnTools)>
     Public Function BlastnQuery(args As CommandLine) As Integer
         Dim query As String = args("/query")
@@ -199,6 +207,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/blastn.Query.All",
+               Info:="Using the fasta sequence in a directory query against all of the sequence in another directory.",
                Usage:="/blastn.Query.All /query <query.fasta.DIR> /db <db.DIR> [/skip-format /evalue 10 /word_size <-1> /out <out.DIR> /parallel /penalty <penalty> /reward <reward>]")>
     <Group(CLIGrouping.BlastnTools)>
     Public Function BlastnQueryAll(args As CommandLine) As Integer

@@ -246,7 +246,7 @@ Partial Module CLI
     End Function
 
     ''' <summary>
-    ''' 两两比对
+    ''' 完全的两两blastp比对，``/num_threads``设置为0的时候为单线程模式
     ''' </summary>
     ''' <returns></returns>
     '''
@@ -254,11 +254,11 @@ Partial Module CLI
                Usage:="/venn.BlastAll /query <queryDIR> /out <outDIR> [/num_threads <-1> /evalue 10 /overrides /all /coverage <0.8> /identities <0.3>]",
                Info:="Completely paired combos blastp bbh operations for the venn diagram Or network builder.")>
     <Argument("/num_threads", True,
-                   Description:="The number of the parallel blast task in this command, default value Is -1 which means the number of the blast threads Is determined by system automatically.")>
+              Description:="The number of the parallel blast task in this command, set this argument ZERO for single thread. default value Is -1 which means the number of the blast threads Is determined by system automatically.")>
     <Argument("/all", True,
-                   Description:="If this parameter Is represent, then all of the paired best hit will be export, otherwise only the top best will be export.")>
+              Description:="If this parameter Is represent, then all of the paired best hit will be export, otherwise only the top best will be export.")>
     <Argument("/query", False,
-                   Description:="Recommended format of the fasta title Is that the fasta title only contains gene locus_tag.")>
+              Description:="Recommended format of the fasta title Is that the fasta title only contains gene locus_tag.")>
     <Group(CLIGrouping.BBHTools)>
     Public Function vennBlastAll(args As CommandLine) As Integer
         Dim queryDIR As String = args("/query")
@@ -267,8 +267,11 @@ Partial Module CLI
         Dim evalue As String = args.GetValue("/evalue", "10")
         Dim [overrides] As Boolean = args.GetBoolean("/overrides")
 
-        If numThreads <= 0 Then
+        If numThreads < 0 Then
             numThreads = LQuerySchedule.Recommended_NUM_THREADS
+        ElseIf numThreads = 0 Then
+            ' 单线程模式
+            numThreads = 1
         End If
 
         Dim blastapp As String = GCModeller.FileSystem.GetLocalblast
