@@ -107,7 +107,7 @@ Partial Module CLI
                        Let uid As String = grep(hit.Family) & "." & hit.Target
                        Where memeHash.ContainsKey(uid)
                        Select memeHash(uid).Sites.Select(Function(x) x.ToFasta(uid))
-        Dim fasta As New FASTA.FastaFile(query.ToList + hitSites.IteratesALL)
+        Dim fasta As New FASTA.FastaFile(query.AsList + hitSites.IteratesALL)
         Return fasta
     End Function
 End Module

@@ -53,9 +53,9 @@ Namespace Karyotype.GeneObjects
             End If
 
             If MyvaCog.IsNullOrEmpty Then      ' 绘制基本图型
-                __bands = PTTMarks.Generate(genome, defaultColor:=defaultColor).ToList
+                __bands = PTTMarks.Generate(genome, defaultColor:=defaultColor).AsList
             Else
-                __bands = PTTMarks.Generate(genome, MyvaCog, defaultColor).ToList
+                __bands = PTTMarks.Generate(genome, MyvaCog, defaultColor).AsList
             End If
 
             Call __karyotype()
@@ -71,7 +71,7 @@ Namespace Karyotype.GeneObjects
                     .QueryLength = gene.Length
                 }
             Dim genome = PTTDbLoader.CreateObject(genes, nt)
-            __bands = PTTMarks.Generate(genome, MyvaCog, defaultColor).ToList
+            __bands = PTTMarks.Generate(genome, MyvaCog, defaultColor).AsList
             Call __karyotype()
         End Sub
 

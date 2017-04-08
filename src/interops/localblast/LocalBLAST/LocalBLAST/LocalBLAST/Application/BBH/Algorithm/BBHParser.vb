@@ -87,7 +87,7 @@ Namespace LocalBLAST.Application.BBH
 
             VBDebugger.Mute = True
 
-            For Each qId As String In (qHash.Keys.ToList + bhSvQ.ToArray(Function(x) x.HitName)).Distinct
+            For Each qId As String In (qHash.Keys.AsList + bhSvQ.ToArray(Function(x) x.HitName)).Distinct
                 If String.IsNullOrEmpty(qId) OrElse String.Equals(qId, "HITS_NOT_FOUND") Then
                     Continue For
                 End If
@@ -291,7 +291,7 @@ Namespace LocalBLAST.Application.BBH
 
             VBDebugger.Mute = True
 
-            For Each qId As String In (qHash.Keys.ToList + shash.Values.ToArray(Function(x) x.HitName)).Distinct
+            For Each qId As String In (qHash.Keys.AsList + shash.Values.ToArray(Function(x) x.HitName)).Distinct
                 If String.IsNullOrEmpty(qId) OrElse String.Equals(qId, "HITS_NOT_FOUND") Then
                     Continue For
                 End If

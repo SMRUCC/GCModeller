@@ -202,7 +202,7 @@ Availability: http://compbio.ddns.comp.nus.edu.sg:8080/pfsnet/", AuthorAddress:=
         <ExportAPI("get.gene_idlist")>
         Public Function GetRegulationGeneIdlist(regulations As PfsNETModuleAPI.Regulation()) As String()
             Dim gIds As List(Of String) =
-                regulations.Select(Function(r) r.TF).ToList +
+                regulations.Select(Function(r) r.TF).AsList +
                 regulations.Select(Function(x) x.SequenceId)
 
             Return LinqAPI.Exec(Of String) <= From strId As String

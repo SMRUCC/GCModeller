@@ -81,7 +81,7 @@ Namespace BlastAPI
                     In List
                     Select Id
                     Distinct
-                    Order By Id Ascending).ToList - "Unknown"
+                    Order By Id Ascending).AsList - "Unknown"
             Return List.ToArray
         End Function
 

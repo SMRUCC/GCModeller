@@ -124,7 +124,7 @@ Namespace Topologically.SimilarityMatches
                           Let Score As Double = LevenshteinEvaluate(s, loci)
                           Where Score >= cutoff
                           Select s,
-                              Score).ToList '生成初始长度的种子
+                              Score).AsList '生成初始长度的种子
             Dim buf As List(Of String)
             'Seeds = (From obj In SeedsCollection Select obj.s).ToList
 
