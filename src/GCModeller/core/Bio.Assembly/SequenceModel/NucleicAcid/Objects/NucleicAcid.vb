@@ -1,69 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::c96ac3720a3bea0293b5503e115b2466, ..\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.ComponentModel
 Imports System.Text
-Imports SMRUCC.genomics.SequenceModel.ISequenceModel
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace SequenceModel.NucleotideModels
-
-    ''' <summary>
-    ''' Deoxyribonucleotides NT base which consist of the DNA sequence.(枚举所有的脱氧核糖核苷酸)
-    ''' </summary>
-    ''' <remarks></remarks>
-    <Description("Deoxyribonucleotides")> Public Enum DNA As SByte
-        ''' <summary>
-        ''' Gaps/Rare bases(空格或者其他的稀有碱基)
-        ''' </summary>
-        ''' <remarks></remarks>
-        NA = -1
-        ''' <summary>
-        ''' Adenine, paired with <see cref="DNA.dTMP"/>(A, 腺嘌呤)
-        ''' </summary>
-        dAMP = 0
-        ''' <summary>
-        ''' Guanine, paired with <see cref="DNA.dCMP"/>(G, 鸟嘌呤)
-        ''' </summary>
-        dGMP = 1
-        ''' <summary>
-        ''' Cytosine, paired with <see cref="DNA.dGMP"/>(C, 胞嘧啶)
-        ''' </summary>
-        dCMP = 2
-        ''' <summary>
-        ''' Thymine, paired with <see cref="DNA.dAMP"/>(T, 胸腺嘧啶)
-        ''' </summary>
-        dTMP = 3
-    End Enum
 
     ''' <summary>
     ''' The nucleotide sequence object.(核酸序列对象)
@@ -234,8 +202,13 @@ Namespace SequenceModel.NucleotideModels
             Call __convertSequence(SequenceData.SequenceData)
         End Sub
 
-        Sub New(SequenceData As FASTA.FastaToken)
-            Call __convertSequence(SequenceData.SequenceData)
+        Sub New(nt As FASTA.FastaToken)
+            Try
+                Call __convertSequence(nt.SequenceData)
+            Catch ex As Exception
+                ex = New Exception(nt.Title, ex)
+                Throw ex
+            End Try
         End Sub
 
         ''' <summary>
