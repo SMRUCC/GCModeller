@@ -32,7 +32,7 @@ Partial Module Utilities
     Public Function RuleMatrix(args As CommandLine) As Integer
         Dim in$ = args <= "/genomes"
         Dim out As String = args.GetValue("/out", [in].TrimDIR & ".dnaA-gyrB.sigma_matrix.csv")
-        Dim genomes As GBFF.File() = (ls - l - r - "*.gb" <= in$) _
+        Dim genomes As GBFF.File() = (ls - l - r - {"*.gb", "*.gbk"} <= in$) _
             .Select(AddressOf GBFF.File.Load) _
             .ToArray
         Dim matrix As IdentityResult() = IdentityResult _
