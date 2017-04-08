@@ -179,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeltaSimilarity1998\CAI\CodonBiasVector.vb" />
+    <Compile Include="DeltaSimilarity1998\ReferenceRule.vb" />
     <Compile Include="DeltaSimilarity1998\SimilarDiscriptions.vb" />
     <Compile Include="IdentityResult.vb" />
     <Compile Include="GCOutlier.vb" />

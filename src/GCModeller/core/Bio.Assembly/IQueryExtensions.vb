@@ -26,14 +26,13 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Text.Similarity
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports System.IO
-Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
 ''' Extensions for object query in the GCModeller biological components

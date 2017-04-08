@@ -6,7 +6,7 @@ Namespace DeltaSimilarity1998
     ''' For convenience, we describe levels of sigma-differences for some reference examples (all values mutliplied by 1000)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Enum SimilarDiscriptions
+    Public Enum SimilarDiscriptions As Integer
 
         ''' <summary>
         ''' (sigma &lt;= 50; pervasively within species, human vs cow, Lactococcus lactis vs Streptococcus pyogenes).
