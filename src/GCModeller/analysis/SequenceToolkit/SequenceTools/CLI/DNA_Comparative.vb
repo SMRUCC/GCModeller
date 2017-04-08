@@ -1,6 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
@@ -23,6 +25,20 @@ Partial Module Utilities
             .dnaA_gyrB _
             .Save(out, Encodings.ASCII) _
             .CLICode
+    End Function
+
+    <ExportAPI("/Rule.dnaA_gyrB.Matrix",
+               Usage:="/Rule.dnaA_gyrB.Matrix /genomes <genomes.gb.DIR> [/out <out.csv>]")>
+    Public Function RuleMatrix(args As CommandLine) As Integer
+        Dim in$ = args <= "/genomes"
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".dnaA-gyrB.sigma_matrix.csv")
+        Dim genomes As GBFF.File() = (ls - l - r - "*.gb" <= in$) _
+            .Select(AddressOf GBFF.File.Load) _
+            .ToArray
+        Dim matrix As IdentityResult() = IdentityResult _
+            .SigmaMatrix(genomes) _
+            .ToArray
+        Return matrix.SaveTo(out).CLICode
     End Function
 
     <ExportAPI("/gwANI", Usage:="/gwANI /in <in.fasta> [/fast /out <out.Csv>]")>
