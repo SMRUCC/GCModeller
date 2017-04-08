@@ -8,7 +8,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports nucl = SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
+Imports nucl = SMRUCC.genomics.SequenceModel.NucleotideModels.SimpleSegment
 
 Namespace DeltaSimilarity1998
 
@@ -80,19 +80,18 @@ Namespace DeltaSimilarity1998
 
             ' 默认dnaA - gyrB这个基因簇是位于正义链的
             Dim St As Integer = dnaA.Location.Left
-            Dim Sp As Integer = gyrB.Location.Right
+            Dim sp As Integer = gyrB.Location.Right
 
             ' 但是有些基因组或者由于测序的原因，位于负义链。。。
             If dnaA.Location.Strand = Strands.Reverse Then
                 St = gyrB.Location.Left
-                Sp = dnaA.Location.Right
+                sp = dnaA.Location.Right
             End If
 
             Dim ruleSegment As nucl
             Try
                 ' 构建基因组外标尺片段的计算模型
-                ruleSegment = New nucl(nt.CutSequenceLinear(St, Sp - St))
-
+                ruleSegment = nt.CutSequenceLinear(left:=St, right:=sp)
                 If ruleSegment.Length > 10 * 1000 Then
                     Call $"Location exception on (""{nt.Title}"") parsing segment.".PrintException
                     Return Nothing

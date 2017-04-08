@@ -62,6 +62,12 @@ Namespace SequenceModel.NucleotideModels
         ''' <returns></returns>
         Public Property Complement As String
 
+        Public ReadOnly Property Length As Integer
+            Get
+                Return Len(SequenceData)
+            End Get
+        End Property
+
         Sub New()
 
         End Sub
