@@ -1,32 +1,31 @@
 ﻿#Region "Microsoft.VisualBasic::6048c3b304be3674e8aa947179d57cba, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\DifferenceMeasurement.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
@@ -63,7 +62,8 @@ Namespace DeltaSimilarity1998
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        <ExportAPI("Sigma", Info:="A measure of difference between two sequences f and g (from different organisms or from different regions of the same genome) 
+        <ExportAPI("Sigma",
+                   Info:="A measure of difference between two sequences f and g (from different organisms or from different regions of the same genome) 
  is the average absolute dinucleotide relative abundance difference calculated as
 
  sigma(f, g) = (1/16)*∑|pXY(f)-pXY(g)|
@@ -96,9 +96,7 @@ Namespace DeltaSimilarity1998
             Return Sigma(New NucleotideModels.NucleicAcid(f), New NucleotideModels.NucleicAcid(g))
         End Function
 
-        Private Function InternalBIAS(f As NucleotideModels.NucleicAcid,
-                                  g As NucleotideModels.NucleicAcid,
-                                  X As DNA, Y As DNA) As Double
+        Private Function InternalBIAS(f As NucleicAcid, g As NucleicAcid, X As DNA, Y As DNA) As Double
             Return Math.Abs(GenomeSignatures.DinucleotideBIAS(f, X, Y) - GenomeSignatures.DinucleotideBIAS(g, X, Y))
         End Function
 

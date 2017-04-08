@@ -26,14 +26,15 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Text.Similarity
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports System.IO
-Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
 ''' Extensions for object query in the GCModeller biological components
@@ -45,27 +46,54 @@ Public Module IQueryExtensions
     ''' </summary>
     ''' <param name="PTT"></param>
     ''' <param name="geneName"></param>
-    ''' <param name="products"></param>
+    ''' <param name="products">大小写不敏感</param>
     ''' <param name="cut">字符串匹配相似度的最小的阈值</param>
+    ''' <param name="First">
+    ''' 是直接返回匹配到的第一个结果还是先对所有基因匹配，然后再返回相似度最高的基因对象？默认是直接返回第一个匹配结果
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("Get.Gene")>
     <Extension>
-    Public Function MatchGene(PTT As PTT, geneName As String, products As IEnumerable(Of String), Optional cut As Double = 0.8) As GeneBrief
+    Public Function MatchGene(PTT As PTT, geneName$, products As IEnumerable(Of String), Optional cut# = 0.8, Optional First As Boolean = True) As GeneBrief
         Dim gene As GeneBrief = PTT.GetGeneByName(geneName)
 
-        If gene Is Nothing Then
-            For Each desc As String In products
-                gene = PTT.GetGeneByDescription(
-                    Function(productValue) _
-                        FuzzyMatching(desc, productValue, cutoff:=cut)).FirstOrDefault
-
-                If Not gene Is Nothing Then
-                    Exit For
-                End If
-            Next
+        If Not gene Is Nothing Then
+            Return gene
         End If
 
-        Return gene
+        ' 对功能描述或者代谢产物进行字符串模糊匹配
+        For Each desc$ In products.Select(AddressOf LCase)
+
+            If First Then
+                Dim match = Function(productValue$) As Boolean
+                                Return FuzzyMatching(
+                                    desc,
+                                    LCase(productValue),
+                                    tokenbased:=False,
+                                    cutoff:=cut)
+                            End Function
+
+                gene = PTT _
+                    .GetGeneByDescription(match) _
+                    .FirstOrDefault
+
+                If Not gene Is Nothing Then
+                    Return gene
+                End If
+            Else
+                Dim genes = PTT._innerList _
+                    .Select(Function(g) New Binding(Of DistResult, GeneBrief)(LevenshteinDistance.ComputeDistance(desc, LCase(g.Product)), g)) _
+                    .Where(Function(d) Not d.Bind Is Nothing) _
+                    .OrderByDescending(Function(d) d.Bind.MatchSimilarity) _
+                    .FirstOrDefault ' 可能会没有任何匹配，所以不直接使用First
+
+                If genes.Bind.MatchSimilarity >= cut Then
+                    Return genes.Target
+                End If
+            End If
+        Next
+
+        Return Nothing
     End Function
 
     ''' <summary>

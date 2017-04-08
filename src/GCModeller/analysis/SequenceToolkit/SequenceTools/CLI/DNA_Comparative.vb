@@ -1,14 +1,45 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI.XML
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.gwANI
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module Utilities
+
+    <ExportAPI("/Rule.dnaA_gyrB",
+               Usage:="/Rule.dnaA_gyrB /genome <genbank.gb> [/out <out.fasta>]")>
+    Public Function dnaA_gyrB_rule(args As CommandLine) As Integer
+        Dim in$ = args <= "/genome"
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "_dnaA-gyrB.fasta")
+        Dim genome As GBFF.File = GBFF.File.Load(in$)
+        Return genome _
+            .dnaA_gyrB _
+            .Save(out, Encodings.ASCII) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/Rule.dnaA_gyrB.Matrix",
+               Usage:="/Rule.dnaA_gyrB.Matrix /genomes <genomes.gb.DIR> [/out <out.csv>]")>
+    Public Function RuleMatrix(args As CommandLine) As Integer
+        Dim in$ = args <= "/genomes"
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".dnaA-gyrB.sigma_matrix.csv")
+        Dim genomes As GBFF.File() = (ls - l - r - {"*.gb", "*.gbk"} <= in$) _
+            .Select(AddressOf GBFF.File.Load) _
+            .ToArray
+        Dim matrix As IdentityResult() = IdentityResult _
+            .SigmaMatrix(genomes) _
+            .ToArray
+        Return matrix.SaveTo(out).CLICode
+    End Function
 
     <ExportAPI("/gwANI", Usage:="/gwANI /in <in.fasta> [/fast /out <out.Csv>]")>
     <Group(CLIGrouping.DNA_ComparativeTools)>

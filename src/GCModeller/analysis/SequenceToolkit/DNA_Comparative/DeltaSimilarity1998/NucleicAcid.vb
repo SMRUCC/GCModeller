@@ -104,7 +104,7 @@ Namespace DeltaSimilarity1998
             Call Me.New(New NucleotideModels.NucleicAcid(nt).ToArray)
         End Sub
 
-        Private Shared Function __createSigma(nt As NucleotideModels.NucleicAcid,
+        Private Shared Function __createSigma(nt As NucleicAcid,
                                               X As DNA,
                                               Y As DNA) As KeyValuePair(Of String, Double)
             Dim KEY As String = $"{ToChar(X)} -> {ToChar(Y)}"
