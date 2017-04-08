@@ -96,7 +96,7 @@ Namespace DeltaSimilarity1998
         ''' </summary>
         ''' <param name="nt"></param>
         Sub New(nt As FastaToken)
-            Call Me.New(New NucleotideModels.NucleicAcid(nt).ToArray)
+            Call Me.New(New NucleotideModels.NucleicAcid(nt, strict:=False).ToArray)
             Me.UserTag = nt.Title
         End Sub
 

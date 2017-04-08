@@ -171,7 +171,7 @@ Namespace SequenceModel.NucleotideModels
         End Property
 
         Sub New(Sequence As IEnumerable(Of DNA))
-            Call __convertSequence(ToString(Sequence))
+            Call __convertSequence(ToString(Sequence), True)
         End Sub
 
         ''' <summary>
@@ -179,7 +179,7 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <param name="SequenceData"></param>
         Sub New(SequenceData As IPolymerSequenceModel)
-            Call __convertSequence(SequenceData.SequenceData)
+            Call __convertSequence(SequenceData.SequenceData, True)
         End Sub
 
         Sub New()
@@ -191,7 +191,7 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <param name="SequenceData">This sequence data can be user input from the interface or sequence data from the <see cref="FASTA.FastaToken"/> object.</param>
         Sub New(SequenceData As String)
-            Call __convertSequence(SequenceData)
+            Call __convertSequence(SequenceData, True)
         End Sub
 
         ''' <summary>
@@ -199,12 +199,17 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <param name="SequenceData"></param>
         Sub New(SequenceData As ISequenceModel)
-            Call __convertSequence(SequenceData.SequenceData)
+            Call __convertSequence(SequenceData.SequenceData, True)
         End Sub
 
-        Sub New(nt As FASTA.FastaToken)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="nt"></param>
+        ''' <param name="strict">默认参数表示当核酸序列之中存在非法字符的时候会直接抛出错误</param>
+        Sub New(nt As FASTA.FastaToken, Optional strict As Boolean = True)
             Try
-                Call __convertSequence(nt.SequenceData)
+                Call __convertSequence(nt.SequenceData, strict)
             Catch ex As Exception
                 ex = New Exception(nt.Title, ex)
                 Throw ex
@@ -215,16 +220,28 @@ Namespace SequenceModel.NucleotideModels
         ''' 检查序列的可用性
         ''' </summary>
         ''' <param name="seq"></param>
-        Private Sub __convertSequence(seq As String)
+        Private Sub __convertSequence(seq$, strict As Boolean)
             Dim nt As String = seq.ToUpper.Replace("N", "-").Replace(".", "-")
             Dim invalids As Char() = InvalidForNt(nt)
 
+            ' 大写字母的
             seq = nt
 
             If invalids.Length > 0 Then  ' 有非法字符
-                Dim ex As Exception = New DataException(InvalidNotAllowed)
-                ex = New Exception(invalids.GetJson, ex)
-                Throw ex
+                If strict Then
+                    Dim ex As Exception = New DataException(InvalidNotAllowed)
+                    ex = New Exception(invalids.GetJson, ex)
+                    Throw ex
+                Else
+                    ' 非严格模式下，会将这些非法字符替换为-空格
+                    Dim sb As New StringBuilder(seq)
+
+                    For Each c As Char In invalids
+                        Call sb.Replace(c, "-")
+                    Next
+
+                    Me.SequenceData = sb.ToString
+                End If
             Else
                 Me.SequenceData = seq
             End If
