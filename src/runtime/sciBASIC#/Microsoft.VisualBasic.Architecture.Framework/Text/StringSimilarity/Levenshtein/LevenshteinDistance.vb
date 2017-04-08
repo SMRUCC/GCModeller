@@ -41,7 +41,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 
-Namespace Text
+Namespace Text.Levenshtein
 
     ''' <summary>
     ''' Levenshtein Edit Distance Algorithm for measure string distance
