@@ -1392,19 +1392,21 @@ Public Module Extensions
 
     ''' <summary>
     ''' Fuzzy match two string, this is useful for the text query or searching.
+    ''' (请注意，这个函数是不会自动转换大小写的，如果是需要字符大小写不敏感，
+    ''' 请先将query以及subject都转换为小写)
     ''' </summary>
-    ''' <param name="Query"></param>
+    ''' <param name="query"></param>
     ''' <param name="Subject"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("FuzzyMatch",
                Info:="Fuzzy match two string, this is useful for the text query or searching.")>
-    <Extension> Public Function FuzzyMatching(Query As String, Subject As String, Optional tokenbased As Boolean = True, Optional cutoff# = 0.8) As Boolean
+    <Extension> Public Function FuzzyMatching(query$, subject$, Optional tokenbased As Boolean = True, Optional cutoff# = 0.8) As Boolean
         If tokenbased Then
-            Dim similarity# = Evaluate(Query, Subject,,, )
+            Dim similarity# = Evaluate(query, subject,,, )
             Return similarity >= cutoff
         Else
-            Dim dist = LevenshteinDistance.ComputeDistance(Query, Subject)
+            Dim dist = LevenshteinDistance.ComputeDistance(query, subject)
             If dist Is Nothing Then
                 Return False
             Else
