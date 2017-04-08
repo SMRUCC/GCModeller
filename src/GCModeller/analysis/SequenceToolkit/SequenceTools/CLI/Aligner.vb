@@ -133,7 +133,7 @@ Partial Module Utilities
             For Each result As AlignmentResult In alignSet
                 Dim path As String =
                     outDIR & $"/Views/{result.Reference.Split.First.NormalizePathString(False)}_vs_{result.Hypotheses.Split.First.NormalizePathString(False)}.html"
-                Call result.Visualize.SaveTo(path)
+                Call result.HTMLVisualize.SaveTo(path)
             Next
 
             Call queryToken.Title.__DEBUG_ECHO
