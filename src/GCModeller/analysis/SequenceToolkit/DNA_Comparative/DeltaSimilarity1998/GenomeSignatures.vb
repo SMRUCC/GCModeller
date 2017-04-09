@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Conversion
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 
 Namespace DeltaSimilarity1998

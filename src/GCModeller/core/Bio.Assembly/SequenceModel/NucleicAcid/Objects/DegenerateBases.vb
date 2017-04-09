@@ -18,7 +18,7 @@ Namespace SequenceModel.NucleotideModels
     ''' 简并度：简并引物的种类数，等于该简并引物内所有简并碱基的简并个数之积，
     ''' 即共有多少种不同的引物，其中只有一条是真正可以和模板配对的。
     ''' </summary>
-    Public Module DegenerateBasesExtensions
+    Public NotInheritable Class DegenerateBasesExtensions
 
         Public ReadOnly Property DegenerateBases As New Dictionary(Of Char, Char()) From {
             {"R"c, {"A"c, "G"c}},
@@ -63,7 +63,6 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="base">just **ATGC**</param>
         ''' <returns></returns>
         ''' 
-        <Extension>
         Public Function CountWithDegenerateBases(nt$, base As Char) As Double
             Dim n# = nt.Count(base)
             Dim dbEntries = BaseDegenerateEntries(base)
@@ -77,5 +76,5 @@ Namespace SequenceModel.NucleotideModels
             ' 故而包含有简并碱基的计算结果应该是带有小数的
             Return n
         End Function
-    End Module
+    End Class
 End Namespace

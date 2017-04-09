@@ -81,7 +81,7 @@ Namespace DeltaSimilarity1998.CAI.XML
         Sub New(codon$, bias#)
             Me.Bias = bias
             Me.Codon = codon _
-                .Select(AddressOf NucleicAcid.CharEnums) _
+                .Select(AddressOf Conversion.CharEnums) _
                 .ToArray
         End Sub
 

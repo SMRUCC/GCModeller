@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 Imports SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptides
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Conversion
 
 Namespace SequenceModel.NucleotideModels.Translation
 
