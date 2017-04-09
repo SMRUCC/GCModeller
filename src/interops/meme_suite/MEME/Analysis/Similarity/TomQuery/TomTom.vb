@@ -38,6 +38,7 @@ Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Analysis.Similarity.TOMQuery
 
@@ -336,7 +337,7 @@ comparison function for the construction of familial binding profiles.")>
             Dim A = x.PWM(0), T = x.PWM(1), G = x.PWM(2), C = x.PWM(3)
             Dim nt As New MotifPM(A:=A, T:=T, G:=G, C:=C)
             Dim res = nt.MostProperly.Key
-            Dim ch As Char = SequenceModel.NucleotideModels.NucleicAcid.ToChar(base:=res)
+            Dim ch As Char = NucleotideModels.Conversion.ToChar(base:=res)
             Dim p As Double = nt.MostProperly.Value
 
             If p < 0.65 Then
