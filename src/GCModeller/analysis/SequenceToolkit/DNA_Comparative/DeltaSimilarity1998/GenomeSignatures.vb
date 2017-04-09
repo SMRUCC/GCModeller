@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.CAI
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Conversion
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 
 Namespace DeltaSimilarity1998
@@ -77,7 +77,7 @@ where fX denotes the frequency of the nucleotide X and fXY is the frequency of t
         <Extension>
         Private Function __counts(nt As SlideWindowHandle(Of DNA)(), dpair As DNA()) As Integer
             Dim c% = nt _
-                .Where(Function(npair) npair.SequenceEqual(dpair)) _
+                .Where(Function(npair) DegenerateBasesExtensions.Equals(npair.Elements, dpair)) _
                 .Count
             Return c
         End Function
@@ -116,7 +116,7 @@ where fX denotes the frequency of the nucleotide X and fXY is the frequency of t
         Private Function __counts_p(nt As SlideWindowHandle(Of DNA)(), dpair As DNA()) As Integer
             Dim c As Integer = nt _
                 .AsParallel _
-                .Where(Function(npair) dpair.SequenceEqual(npair)) _
+                .Where(Function(npair) DegenerateBasesExtensions.Equals(dpair, npair.Elements)) _
                 .Count
             Return c
         End Function

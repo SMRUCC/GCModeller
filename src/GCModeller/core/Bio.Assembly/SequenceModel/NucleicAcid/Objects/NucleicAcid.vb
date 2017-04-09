@@ -41,53 +41,6 @@ Namespace SequenceModel.NucleotideModels
         Implements IEnumerable(Of DNA)
 
         ''' <summary>
-        ''' 大小写不敏感
-        ''' </summary>
-        Protected Friend Shared ReadOnly Property NucleotideConvert As Dictionary(Of Char, DNA) =
-            New Dictionary(Of Char, DNA) From {
- _
-                {"A"c, DNA.dAMP},
-                {"T"c, DNA.dTMP},
-                {"G"c, DNA.dGMP},
-                {"C"c, DNA.dCMP},
-                {"a"c, DNA.dAMP},
-                {"t"c, DNA.dTMP},
-                {"g"c, DNA.dGMP},
-                {"c"c, DNA.dCMP}
-        }
-
-        ''' <summary>
-        ''' 大小写不敏感
-        ''' </summary>
-        ''' <param name="base"></param>
-        ''' <returns></returns>
-        Public Shared Function CharEnums(base As Char) As DNA
-            Return NucleotideConvert(base)
-        End Function
-
-        ''' <summary>
-        '''
-        ''' </summary>
-        Protected Friend Shared ReadOnly __nucleotideAsChar As Dictionary(Of DNA, Char) =
-            New Dictionary(Of DNA, Char) From {
- _
-                {DNA.dAMP, "A"c},
-                {DNA.dCMP, "C"c},
-                {DNA.dGMP, "G"c},
-                {DNA.dTMP, "T"c},
-                {DNA.NA, "-"c}
-        }
-
-        ''' <summary>
-        ''' ``<see cref="DNA"/> -> char``
-        ''' </summary>
-        ''' <param name="base"></param>
-        ''' <returns></returns>
-        Public Shared Function ToChar(base As DNA) As Char
-            Return __nucleotideAsChar(base)
-        End Function
-
-        ''' <summary>
         ''' Cache data for maintaining the high performance on sequence operation.
         ''' </summary>
         ''' <remarks></remarks>
@@ -101,10 +54,20 @@ Namespace SequenceModel.NucleotideModels
         ''' <summary>
         ''' 计算某一种碱基在序列之中的出现频率
         ''' </summary>
-        ''' <param name="base"></param>
-        ''' <returns></returns>
-        Public Function Counts(base As DNA) As Integer
-            Return _innerSeqModel.Where(Function(b) b = base).Count
+        ''' <param name="base">只允许``ATGC``</param>
+        ''' <returns>因为可能还存在简并碱基字符，所以在这里返回一个小数</returns>
+        Public Function Counts(base As DNA) As Double
+            Dim n# = _innerSeqModel.Where(Function(b) b = base).Count
+            Dim dbEntries = Conversion.BaseDegenerateEntries(base)
+
+            For Each dgBase As DNA In dbEntries
+                Dim cd% = _innerSeqModel.Where(Function(b) b = dgBase).Count
+                Dim l = 1 / Conversion.DegenerateBases(dgBase).Length
+                n += cd * l  ' 因为计算简并碱基的时候，是平均分配的，所以在这里就除以该简并碱基的可替换的碱基数量
+            Next
+
+            ' 故而包含有简并碱基的计算结果应该是带有小数的
+            Return n
         End Function
 
         ''' <summary>
@@ -140,13 +103,15 @@ Namespace SequenceModel.NucleotideModels
 
             Public Function __getList() As List(Of DNA)
                 Return LinqAPI.MakeList(Of DNA) <=
+ _
                     From ch As Char
                     In value
-                    Let __getNA =
-                        If(NucleotideConvert.ContainsKey(ch),
-                        NucleotideConvert(ch),
+                    Let __getNA As DNA = If(
+                        Conversion.NucleotideConvert.ContainsKey(ch),
+                        Conversion.NucleotideConvert(ch),
                         DNA.NA)
-                    Select __getNA
+                    Select __getNA '
+
             End Function
         End Structure
 
@@ -251,7 +216,7 @@ Namespace SequenceModel.NucleotideModels
             Dim LQuery As Char() =
                 LinqAPI.Exec(Of Char) <= From c As Char
                                          In seq
-                                         Where ISequenceModel.AA_CHARS_ALL.IndexOf(c) > -1
+                                         Where Not Conversion.IsAValidDNAChar(c)
                                          Select c
                                          Distinct
             Return LQuery
@@ -361,7 +326,9 @@ Namespace SequenceModel.NucleotideModels
         End Function
 
         Public Shared Function CreateObject(strSeq As String) As NucleicAcid
-            Return New NucleicAcid With {.SequenceData = strSeq}
+            Return New NucleicAcid With {
+                .SequenceData = strSeq
+            }
         End Function
 
         ''' <summary>
@@ -395,11 +362,11 @@ Namespace SequenceModel.NucleotideModels
         End Function
 
         Public Overloads Shared Function ToString(nn As DNA) As String
-            Return __nucleotideAsChar(nn).ToString
+            Return Conversion.NucleotideAsChar(nn).ToString
         End Function
 
         Public Overloads Shared Function ToString(nt As IEnumerable(Of DNA)) As String
-            Dim array As Char() = nt.ToArray(Function(x) __nucleotideAsChar(x))
+            Dim array As Char() = nt.ToArray(Function(x) Conversion.NucleotideAsChar(x))
             Return New String(array)
         End Function
 

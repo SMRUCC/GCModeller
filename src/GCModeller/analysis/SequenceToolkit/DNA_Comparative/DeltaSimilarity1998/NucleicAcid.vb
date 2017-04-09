@@ -30,6 +30,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Conversion
 
 Namespace DeltaSimilarity1998
 

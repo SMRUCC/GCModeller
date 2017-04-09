@@ -30,6 +30,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Conversion
 
 Namespace SequenceModel.NucleotideModels.Translation
 
@@ -80,7 +81,7 @@ Namespace SequenceModel.NucleotideModels.Translation
                 IsStopCodon = True
             End If
 
-            Dim Codon = tokens(Scan0).ToArray(Function(ntch) NucleicAcid.NucleotideConvert(ntch))
+            Dim Codon = tokens(Scan0).ToArray(Function(ntch) nucleotideConvert(ntch))
             X = Codon(Scan0)
             Y = Codon(1)
             Z = Codon(2)

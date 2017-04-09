@@ -1,5 +1,4 @@
-﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Linq
+﻿Imports Microsoft.VisualBasic.Linq
 
 Namespace SequenceModel.NucleotideModels
 
@@ -18,7 +17,7 @@ Namespace SequenceModel.NucleotideModels
     ''' 简并度：简并引物的种类数，等于该简并引物内所有简并碱基的简并个数之积，
     ''' 即共有多少种不同的引物，其中只有一条是真正可以和模板配对的。
     ''' </summary>
-    Public Module DegenerateBasesExtensions
+    Public NotInheritable Class DegenerateBasesExtensions
 
         Public ReadOnly Property DegenerateBases As New Dictionary(Of Char, Char()) From {
             {"R"c, {"A"c, "G"c}},
@@ -63,7 +62,6 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="base">just **ATGC**</param>
         ''' <returns></returns>
         ''' 
-        <Extension>
         Public Function CountWithDegenerateBases(nt$, base As Char) As Double
             Dim n# = nt.Count(base)
             Dim dbEntries = BaseDegenerateEntries(base)
@@ -77,5 +75,30 @@ Namespace SequenceModel.NucleotideModels
             ' 故而包含有简并碱基的计算结果应该是带有小数的
             Return n
         End Function
-    End Module
+
+        ''' <summary>
+        ''' Elements sequence equals.
+        ''' </summary>
+        ''' <param name="vx"></param>
+        ''' <param name="vy"></param>
+        ''' <returns></returns>
+        Public Overloads Shared Function Equals(vx As DNA(), vy As DNA()) As Boolean
+            If vx.Length <> vy.Length Then
+                Return False
+            End If
+
+            For i As Integer = 0 To vx.Length - 1
+                Dim a = vx(i), b = vy(i)
+
+                If a <> b Then
+                    ' 可能是简并碱基，还需要额外的判断才能够下定论
+                    If Not Conversion.Equals(a, b) Then
+                        Return False
+                    End If
+                End If
+            Next
+
+            Return True
+        End Function
+    End Class
 End Namespace

@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical
 Imports SMRUCC.genomics.SequenceModel
@@ -91,9 +92,11 @@ Namespace DeltaSimilarity1998.CAI
         End Function
 
         ''' <summary>
-        ''' 计算 W(Codon)
-        ''' 即计算当前的密码子与编码相同氨基酸的最高频率的密码子的商( 
-        ''' Defining W(xyz) = f(xyz)/max(xyz[a])*f(xyz,H) as the ratio of the frequency of the codon (xyz) to the maximal codon frequency in H for the same amino acid a)
+        ''' ###### 计算 W(Codon)
+        ''' 
+        ''' 即计算当前的密码子与编码相同氨基酸的最高频率的密码子的商
+        ''' (Defining ``W(xyz) = f(xyz)/max(xyz[a])*f(xyz,H)`` as the ratio of the frequency of the codon (xyz) 
+        ''' to the maximal codon frequency in ``H`` for the same amino acid ``a``)
         ''' </summary>
         ''' <param name="Codon"></param>
         ''' <returns></returns>
@@ -115,14 +118,24 @@ Namespace DeltaSimilarity1998.CAI
         ''' <remarks></remarks>
         Private Function __staticsOfMaxFrequencyCodon(aminoAcid As Char) As CodonFrequency
             Dim aa As AminoAcid = Polypeptides.ToEnums(aminoAcid)
-            Dim HashLQueryValue = (From tl In CodenTable
-                                   Where tl.Value = aa
-                                   Select Hash = tl.Key,
-                                   AAC = tl.Value).ToArray ' 得到蛋白质翻译编码的哈希值
-            Dim HashLQuery = (From item In HashLQueryValue Select item.Hash).ToArray
-            Dim CodonsForAA = (From item In Me._codonHash
-                               Where Array.IndexOf(HashLQuery, item.TranslHash) > -1
-                               Select item Distinct).ToArray      '从密码子之中查询哈希值
+            Dim hashAA = LinqAPI.Exec(Of SeqValue(Of AminoAcid)) <=
+ _
+                From tl
+                In CodenTable
+                Where tl.Value = aa
+                Select New SeqValue(Of AminoAcid) With {
+                    .i = tl.Key,
+                    .value = tl.Value
+                } ' 得到蛋白质翻译编码的哈希值
+
+            Dim hashValues%() = hashAA.Indices
+            Dim CodonsForAA = LinqAPI.Exec(Of Codon) <=
+                From c As Codon
+                In Me._codonHash
+                Where Array.IndexOf(hashValues, c.TranslHash) > -1
+                Select c
+                Distinct      ' 从密码子之中查询哈希值
+
             Dim cfrq As New CodonFrequency With {
                 .AminoAcid = aminoAcid,
                 .BiasFrequencyProfile = CodonsForAA _
