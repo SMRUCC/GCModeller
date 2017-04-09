@@ -1,5 +1,4 @@
-﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Linq
+﻿Imports Microsoft.VisualBasic.Linq
 
 Namespace SequenceModel.NucleotideModels
 
@@ -75,6 +74,31 @@ Namespace SequenceModel.NucleotideModels
 
             ' 故而包含有简并碱基的计算结果应该是带有小数的
             Return n
+        End Function
+
+        ''' <summary>
+        ''' Elements sequence equals.
+        ''' </summary>
+        ''' <param name="vx"></param>
+        ''' <param name="vy"></param>
+        ''' <returns></returns>
+        Public Overloads Shared Function Equals(vx As DNA(), vy As DNA()) As Boolean
+            If vx.Length <> vy.Length Then
+                Return False
+            End If
+
+            For i As Integer = 0 To vx.Length - 1
+                Dim a = vx(i), b = vy(i)
+
+                If a <> b Then
+                    ' 可能是简并碱基，还需要额外的判断才能够下定论
+                    If Not Conversion.Equals(a, b) Then
+                        Return False
+                    End If
+                End If
+            Next
+
+            Return True
         End Function
     End Class
 End Namespace

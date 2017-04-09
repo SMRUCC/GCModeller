@@ -7,10 +7,56 @@ Namespace SequenceModel.NucleotideModels
     ''' </summary>
     Public NotInheritable Class Conversion
 
+        ''' <summary>
+        ''' 简并碱基以及与之所对应的DNA碱基列表
+        ''' </summary>
+        ''' <returns></returns>
         Public Shared ReadOnly Property DegenerateBases As Dictionary(Of DNA, DNA())
         Public Shared ReadOnly Property BaseDegenerateEntries As Dictionary(Of DNA, DNA())
 
         Shared ReadOnly validsChars As IndexOf(Of Char)
+
+        Public Overloads Shared Function Equals(a As DNA, b As DNA) As Boolean
+            If a = b Then
+                Return True
+            End If
+
+            Dim vx As DNA() = Nothing, vy As DNA() = Nothing
+
+            If DegenerateBases.ContainsKey(a) Then
+                vx = DegenerateBases(a)
+            End If
+            If DegenerateBases.ContainsKey(b) Then
+                vy = DegenerateBases(b)
+            End If
+
+            If vx Is Nothing Then
+                ' a 不是简并碱基
+                If vy Is Nothing Then
+                    ' b也不是简并碱基
+                    Return False
+                Else
+                    ' b 是简并碱基
+                    Return Array.IndexOf(vy, a) > -1
+                End If
+            Else
+                ' a 是简并碱基
+                If vy Is Nothing Then
+                    ' b不是简并碱基
+                    Return Array.IndexOf(vx, b) > -1
+                Else
+                    ' b也是简并碱基
+                    ' 判断二者是不是有交集？
+                    For Each base In vx
+                        If Array.IndexOf(vy, base) > -1 Then
+                            Return True
+                        End If
+                    Next
+
+                    Return False
+                End If
+            End If
+        End Function
 
         Private Sub New()
         End Sub
