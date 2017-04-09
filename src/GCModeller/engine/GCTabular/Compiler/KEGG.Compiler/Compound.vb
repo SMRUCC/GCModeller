@@ -36,7 +36,7 @@ Namespace KEGG.Compiler
     Module Compound
 
         Public Function Compile(KEGGCompounds As Generic.IEnumerable(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound)) As List(Of FileStream.Metabolite)
-            Dim Metabolites = (From Model In KEGGCompounds.AsParallel Select GenerateObject(Model)).ToList
+            Dim Metabolites = (From Model In KEGGCompounds.AsParallel Select GenerateObject(Model)).AsList
             Dim Distinct As Dictionary(Of String, FileStream.Metabolite) = New Dictionary(Of String, FileStream.Metabolite)
             For Each item In Metabolites
                 If Not Distinct.ContainsKey(item.Identifier) Then
@@ -44,7 +44,7 @@ Namespace KEGG.Compiler
                 End If
             Next
 
-            Return Distinct.Values.ToList
+            Return Distinct.Values.AsList
         End Function
 
         Public Function GenerateObject(KEGGCompound As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound) As FileStream.Metabolite

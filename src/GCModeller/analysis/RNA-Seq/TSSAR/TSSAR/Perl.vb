@@ -344,7 +344,7 @@ Public Module Perl
     '                                Select ReadMapping = (From Segment In Contig.Group Select Segment Order By Segment.Length Descending).First
     '                                Order By ReadMapping.POS Ascending).ToArray '超过30条共享同一个左端的Reads被作为一个候选的TSSs
 
-    '    Dim ChunkBuffer = FwAyHandle.EndInvoke(FwStart).ToList
+    '    Dim ChunkBuffer = FwAyHandle.EndInvoke(FwStart).AsList
     '    ChunkBuffer.AddRange(ReversedPossibleTSSs)
     '    Return ChunkBuffer.ToArray
     'End Function

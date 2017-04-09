@@ -52,7 +52,7 @@ Partial Module CLI
             footprints = (From x As PredictedRegulationFootprint
                           In footprints.AsParallel
                           Where Not String.IsNullOrEmpty(x.Regulator)
-                          Select x).ToList
+                          Select x).AsList
         End If
 
         Dim cytoscape = CytoscapeGraphView.Serialization.Export(__getNodes(footprints), footprints.ToArray)
@@ -61,7 +61,7 @@ Partial Module CLI
     End Function
 
     Private Function __getNodes(footprints As List(Of PredictedRegulationFootprint)) As FileStream.Node()
-        Dim ORF = footprints.ToArray(Function(x) x.ORF).Distinct.ToList
+        Dim ORF = footprints.ToArray(Function(x) x.ORF).Distinct.AsList
         Dim TFs As List(Of String) =
             LinqAPI.MakeList(Of String) <= From x As PredictedRegulationFootprint
                                            In footprints

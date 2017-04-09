@@ -204,7 +204,7 @@ Namespace Analysis.GenomeMotifFootPrints
                                                     Select DoorList).ToArray.ToVector.Distinct.ToArray  '首先根据代谢途径之中的基因的信息得到相关的操纵子的编号信息
             Dim LQuery = (From fp_Data As PredictedRegulationFootprint In data.AsParallel
                           Where Array.IndexOf(pwyGeneObjs, fp_Data.ORF) > -1
-                          Select fp_Data).ToList   '得到代谢途径之中的基因的调控数据
+                          Select fp_Data).AsList   '得到代谢途径之中的基因的调控数据
             Call LQuery.AddRange((From GeneId As String In pwyGeneObjs.AsParallel
                                   Let OperonFirst = (From item In OperonData Where Array.IndexOf(item.StructGenes, GeneId) > -1 Select item).ToArray
                                   Select OperonFirst).ToArray.ToVector)  '代谢途径的基因所在的操纵子的第一个基因
@@ -244,7 +244,7 @@ Namespace Analysis.GenomeMotifFootPrints
         ''' <remarks></remarks>
         Private Function __checkMoitfCoRegulations(groupedMotif As PredictedRegulationFootprint()) As PredictedRegulationFootprint()
             'Dim RegulatorIds As String() = (From item In groupedMotif Select item.Regulators).ToArray.MatrixToList.Distinct.ToArray
-            'Dim TrimedData = (From item In groupedMotif Select Regulators = item.Regulators.ToList, Regulation = item).ToArray
+            'Dim TrimedData = (From item In groupedMotif Select Regulators = item.Regulators.AsList, Regulation = item).ToArray
             'Dim n As Integer = TrimedData.Count
 
             'For Each RegulatorId As String In RegulatorIds
@@ -325,7 +325,7 @@ Namespace Analysis.GenomeMotifFootPrints
             If FilterPromoter Then Footprint = (From fp As VirtualFootprints
                                                 In Footprint
                                                 Where fp.Distance < 0
-                                                Select fp).ToList
+                                                Select fp).AsList
             Return Footprint.ToArray
         End Function
 
@@ -676,7 +676,7 @@ Namespace Analysis.GenomeMotifFootPrints
             'Call IO.File.WriteAllLines(saveto & "/Edges.csv", FileData)
 
             'Csv = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File From {{"UniqueId", "NodeType"}.ToCsvRow}
-            'Dim ChunkBuffer = (From item In FiltedData.AsParallel Select item.ORF, NodeType = "Gene").ToList
+            'Dim ChunkBuffer = (From item In FiltedData.AsParallel Select item.ORF, NodeType = "Gene").AsList
             'Call ChunkBuffer.AddRange((From item In FiltedData.AsParallel Select (From struct As String In item.StructGenes Select ORF = struct, NodeType = "Gene").ToArray).ToArray.MatrixToVector)
             'Call ChunkBuffer.AddRange((From item In FiltedData.AsParallel Select (From Regulator As String In item.Regulators Select ORF = Regulator, NodeType = "Regulator").ToArray).ToArray.MatrixToVector)
 

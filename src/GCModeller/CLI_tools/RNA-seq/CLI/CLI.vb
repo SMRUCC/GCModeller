@@ -233,7 +233,7 @@ Module CLI
         Dim logFold As Double = args.GetValue("/log_fold", 2.0R)
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $".logFold={logFold}.csv")
         Dim diff = inFile.LoadCsv(Of RTools.DESeq2.ResultData)
-        diff = (From x In diff Where Math.Abs(x.log2FoldChange) >= logFold Select x).ToList
+        diff = (From x In diff Where Math.Abs(x.log2FoldChange) >= logFold Select x).AsList
         Return diff.SaveTo(out).CLICode
     End Function
 

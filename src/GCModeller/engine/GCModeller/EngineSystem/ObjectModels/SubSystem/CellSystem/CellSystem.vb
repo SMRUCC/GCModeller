@@ -173,7 +173,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
         End Function
 
         Public Function CreateServiceSerials() As IDataAcquisitionService()
-            Dim ServicesList = Me.Metabolism.CreateServiceSerials.ToList
+            Dim ServicesList = Me.Metabolism.CreateServiceSerials.AsList
             Call ServicesList.AddRange(Me.SignalTransductionNetwork.CreateServiceSerials)
             Call ServicesList.AddRange(ExpressionRegulationNetwork.CreateServiceSerials)
             Return ServicesList.ToArray

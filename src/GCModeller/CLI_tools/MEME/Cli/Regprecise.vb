@@ -540,7 +540,7 @@ Partial Module CLI
                                     Not regulon.Regulons Is Nothing AndAlso
                                     Not regulon.Regulons.Regulators.IsNullOrEmpty
                                 Select regulon.Regulons.Regulators).IteratesALL
-                bbhs = regulons.ToList(
+                bbhs = regulons.AsList(
                     Function(x) New BBHIndex With {
                         .HitName = x.LocusTag.Key,
                         .QueryName = x.LocusTag.Value})

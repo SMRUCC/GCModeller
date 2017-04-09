@@ -360,7 +360,7 @@ Namespace Interpreter
         End Function
 
         Private Function __delegate(Token As Parser.Tokens.Token) As LDM.SyntaxModel
-            Dim ScriptParser = Interpreter.MSLParser(Token.GetTrimExpr).ToList
+            Dim ScriptParser = Interpreter.MSLParser(Token.GetTrimExpr).AsList
             Dim innerScript = LDM.SyntaxModel.CreateObject(ScriptParser)
             innerScript.FilePath = $"VB$Anonymous`LDM.Expressions.Delegate"
 

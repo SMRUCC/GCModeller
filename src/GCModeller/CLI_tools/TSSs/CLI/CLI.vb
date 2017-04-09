@@ -179,14 +179,14 @@ the average number of reads per nucleotide in this Replicate and the specified t
         Call $"{NameOf(Forwards)}={ Forwards.Length};   { NameOf(Reversed)}={ Reversed.Length}    from {args("-ptt").ToFileURL}".__DEBUG_ECHO
         Call $"{NameOf(LociData)}={LociData.Count }".__DEBUG_ECHO
 
-        LociData = (From loci In LociData.AsParallel Where loci.TSSsShared >= TrimShared Select loci).ToList
+        LociData = (From loci In LociData.AsParallel Where loci.TSSsShared >= TrimShared Select loci).AsList
         Call $"{NameOf(LociData)}={LociData.Count} left after trimming the {NameOf(Transcript.TSSsShared)}...".__DEBUG_ECHO
 
         Dim Transcripts As List(Of DocumentFormat.Transcript)
         Dim sw = Stopwatch.StartNew
         If args.GetBoolean("/upstream") Then
             Call "Start to export all upstream loci sites.....".__DEBUG_ECHO
-            Transcripts = Transcriptome.UTRs.GenomicsContext(LociData, PTT, ATG).ToList
+            Transcripts = Transcriptome.UTRs.GenomicsContext(LociData, PTT, ATG).AsList
         Else
             Transcripts = (From loc In LociData.AsParallel Select GenomeContext(loc, PTT, ATG)).ToArray.Unlist
         End If

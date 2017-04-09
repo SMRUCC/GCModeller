@@ -89,7 +89,7 @@ Namespace dataExprMAT
                              Let i = item.i
                              Let createdRow As IO.RowObject = __createRow(LQuery, GeneId, i)
                              Select createdRow
-                             Order By createdRow.First Ascending).ToList
+                             Order By createdRow.First Ascending).AsList
             Dim Head As New IO.RowObject("LocusId" + (From item In LQuery Select item.locusId).AsList)
             Dim data As IO.File = New IO.File(Head + RowsQuery)
 

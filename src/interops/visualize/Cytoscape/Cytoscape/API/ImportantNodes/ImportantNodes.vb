@@ -164,9 +164,9 @@ Namespace API.ImportantNodes
         <ExportAPI("evaluate.importance",
                    Info:="If fast parameter is set to true, then a parallel edition of the algorithm will implemented for accelerates the network calculation.")>
         Public Function EquivalenceClass(S As Node(), Optional Fast As Boolean = False) As KeyValuePair(Of Integer, Node())()
-            If Fast Then Return __equivalenceFast(S.ToList, S)
+            If Fast Then Return __equivalenceFast(S.AsList, S)
 
-            Dim NDS As List(Of Node) = S.ToList
+            Dim NDS As List(Of Node) = S.AsList
             Dim Extra As List(Of Node) = New List(Of Node)
             Dim Rank As Integer = 0
             Dim SortResult As List(Of KeyValuePair(Of Integer, Node())) = New List(Of KeyValuePair(Of Integer, Node()))
@@ -186,7 +186,7 @@ Namespace API.ImportantNodes
                 Rank += 1
                 Call SortResult.Add(New KeyValuePair(Of Integer, Node())(Rank, NDS.ToArray))
                 Call Console.WriteLine("Rank:= {0};  ImportantNodes:= {1}", SortResult.Last.Key, String.Join("; ", (From item In SortResult.Last.Value Select item.SharedName).ToArray))
-                NDS = Extra.Distinct.ToList
+                NDS = Extra.Distinct.AsList
                 Call Extra.Clear()
             Loop
 
@@ -207,14 +207,14 @@ Namespace API.ImportantNodes
                        In NDS.AsParallel
                        Where Array.IndexOf(LQuery, node) = -1
                        Select node
-                       Distinct).ToList
+                       Distinct).AsList
                 Rank += 1
                 If NDS.IsNullOrEmpty Then
                     Exit Do
                 End If
                 Call SortResult.Add(New KeyValuePair(Of Integer, Node())(Rank, NDS.ToArray))
                 Call Console.WriteLine("Rank:= {0};  ImportantNodes:= {1}", SortResult.Last.Key, String.Join("; ", (From item In SortResult.Last.Value Select item.SharedName).ToArray))
-                NDS = LQuery.Distinct.ToList
+                NDS = LQuery.Distinct.AsList
             Loop
 
             Return SortResult.ToArray

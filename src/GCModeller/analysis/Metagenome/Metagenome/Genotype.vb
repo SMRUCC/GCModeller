@@ -94,7 +94,7 @@ Public Module Genotype
             gns(i) = CInt(10 * gns(i) / max)
         Next
 
-        notZEROs(1) = (notZEROs(1).First + gns.ToList(Function(x) x.ToString))
+        notZEROs(1) = (notZEROs(1).First + gns.AsList(Function(x) x.ToString))
         file = notZEROs.JoinColumns
 
         Return file

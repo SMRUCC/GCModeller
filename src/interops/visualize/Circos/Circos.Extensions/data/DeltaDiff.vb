@@ -49,19 +49,19 @@ Namespace Documents.Karyotype.NtProps
                                    d = Sigma(NT_Cache, New NucleotideModels.NucleicAcid(n.Elements))
                                Order By Left Ascending).ToArray
 
-            Dim LastSegment = SW.Last.Elements.ToList
+            Dim LastSegment = SW.Last.Elements.AsList
             Dim TempChunk As List(Of NucleotideModels.DNA)
             Dim p As Long = SW.Last.Left
             Dim NT_Array = NT.ToArray
             Dim List = New List(Of Double)
 
             For i As Integer = 0 To LastSegment.Count - 1 Step Steps
-                TempChunk = LastSegment.Skip(i).ToList
+                TempChunk = LastSegment.Skip(i).AsList
                 Call TempChunk.AddRange(NT_Array.Take(i).ToArray)
                 Call List.Add(Sigma(NT_Cache, New NucleotideModels.NucleicAcid(TempChunk.ToArray)))
             Next
 
-            Dim MergeList = (From item In ChunkBuffer Select item.d).ToList
+            Dim MergeList = (From item In ChunkBuffer Select item.d).AsList
             Call MergeList.AddRange(List)
             Me.dbufs = MergeList.ToArray
         End Sub

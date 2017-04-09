@@ -67,7 +67,7 @@ Namespace FileStream.XmlFormat
 
         Public Function LoadResource(Of T As Class)(ByRef List As List(Of T)) As T()
             Dim ChunkBuffer As T() = LoadResource(Of T)()
-            List = ChunkBuffer.ToList
+            List = ChunkBuffer.AsList
             Return ChunkBuffer
         End Function
 

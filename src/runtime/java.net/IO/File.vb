@@ -430,7 +430,7 @@ Namespace IO
         ''' <remarks></remarks>
         Public Function list() As String()
             If Directory Then
-                Dim ChunkList = (From dir As String In FileIO.FileSystem.GetDirectories(absolutePath, FileIO.SearchOption.SearchTopLevelOnly) Select FileIO.FileSystem.GetDirectoryInfo(dir).Name).ToList
+                Dim ChunkList = (From dir As String In FileIO.FileSystem.GetDirectories(absolutePath, FileIO.SearchOption.SearchTopLevelOnly) Select FileIO.FileSystem.GetDirectoryInfo(dir).Name).AsList
                 Call ChunkList.AddRange((From path As String In FileIO.FileSystem.GetFiles(absolutePath, FileIO.SearchOption.SearchTopLevelOnly, "*.*") Select FileIO.FileSystem.GetFileInfo(path).Name).ToArray)
                 Return ChunkList.ToArray
             Else

@@ -89,7 +89,7 @@ AAGCGAACAAATGTTCTATA"
                 Return _InnerList.ToArray
             End Get
             Set(value As String())
-                _InnerList = value.ToList
+                _InnerList = value.AsList
             End Set
         End Property
 
@@ -435,7 +435,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function Reverse() As FastaToken
-            Dim attrs As List(Of String) = Attributes.ToList.Join("Reversed_sequence")
+            Dim attrs As List(Of String) = Attributes.AsList.Join("Reversed_sequence")
             Dim revSeq As String = New String(SequenceData.Reverse.ToArray)
             Dim fa As New FastaToken With {
                 .Attributes = attrs.ToArray,

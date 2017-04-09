@@ -391,7 +391,7 @@ Public Module ToolsAPI
         Dim CreatePartitionLQuery = (From item In pData.AsParallel
                                      Let Create = ToolsAPI.__group(item.besthits)
                                      Select item.PartitioningTag,
-                                         Data = (From hit In Create Select GenomeID = hit.Key, ORF = (From h In hit.Value Select CDSInfo(h.HitName)).ToArray).ToList) _
+                                         Data = (From hit In Create Select GenomeID = hit.Key, ORF = (From h In hit.Value Select CDSInfo(h.HitName)).ToArray).AsList) _
                                          .ToDictionary(Function(item) item.PartitioningTag,
                                                        Function(item) item.Data) '根据参数partition之中的参照数据进行创建基因组分区数据的创建
         Dim LQuery = (From item In CreatePartitionLQuery

@@ -53,7 +53,7 @@ Namespace Fastaq
         ''' <returns></returns>
         Public Shared Function Load(path As String, Optional encoding As Encodings = Encodings.Default) As FastQFile
             Dim FastaqFile As New FastQFile With {
-                ._innerList = Stream.ReadAllLines(path, encoding).ToList,
+                ._innerList = Stream.ReadAllLines(path, encoding).AsList,
                 .FilePath = path
             }
 

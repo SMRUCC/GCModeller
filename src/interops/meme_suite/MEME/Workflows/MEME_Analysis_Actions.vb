@@ -247,7 +247,7 @@ Namespace Workflows
         End Function
 
         Public Function SequenceNotDownload(regprecise As String, DownloadSeq As FASTA.FastaFile) As KeyValuePair()
-            Dim AllList = GetKeywords(regprecise).ToList
+            Dim AllList = GetKeywords(regprecise).AsList
             Dim DonwloadList = (From fsa In DownloadSeq Let id = fsa.Attributes.Last Let tokens = Strings.Split(id, " - ") Select New KeyValuePair With {.Key = tokens(0), .Value = tokens(1)}).ToArray
 
             For Each iten In DonwloadList
@@ -278,7 +278,7 @@ Namespace Workflows
 
                     If Not LQuery.IsNullOrEmpty Then
                         Dim fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(LQuery.First)
-                        attrList = fsa.Attributes.ToList
+                        attrList = fsa.Attributes.AsList
                         attrList.Add(item.Key & " - " & item.Value)
 
                         fsa.Attributes = attrList.ToArray
@@ -289,7 +289,7 @@ Namespace Workflows
 
                     If Not entryList.IsNullOrEmpty Then
                         Dim fsa = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.FetchSeq(entryList.First)
-                        attrList = fsa.Attributes.ToList
+                        attrList = fsa.Attributes.AsList
                         attrList.Add(item.Key & " - " & item.Value)
 
                         fsa.Attributes = attrList.ToArray

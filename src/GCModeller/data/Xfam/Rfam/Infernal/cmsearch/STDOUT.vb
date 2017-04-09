@@ -67,7 +67,7 @@ Namespace Infernal.cmsearch
         Public Property describ As String
 
         Public Function GetDataFrame() As RfamHit() Implements IRfamHits.GetDataFrame
-            Return hits.ToList(Function(x) New RfamHit(x, Me)) + From x As Hit
+            Return hits.AsList(Function(x) New RfamHit(x, Me)) + From x As Hit
                                                                  In Uncertain
                                                                  Select New RfamHit(x, Me)
         End Function

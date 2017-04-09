@@ -63,7 +63,7 @@ Namespace Assembly.NCBI.CDD.Blastp
         ''' <remarks></remarks>
         Public Shared Function Parse(LogFile As String) As DomnArch
             Dim Text As String = FileIO.FileSystem.ReadAllText(LogFile)
-            Dim Tokens As List(Of String) = Regex.Split(Text, "^>", RegexOptions.Multiline).ToList
+            Dim Tokens As List(Of String) = Regex.Split(Text, "^>", RegexOptions.Multiline).AsList
             Dim DomainList As New List(Of Domain)
 
             If Tokens.Count = 1 Then Return Nothing 'No domains
@@ -73,7 +73,7 @@ Namespace Assembly.NCBI.CDD.Blastp
             For Each Token As String In Tokens
                 Dim DomainId As String = Token.Split(CChar("|")).First
                 Dim lstScore As List(Of String) =
-                    Regex.Split(Token, REGX_SPLIT, RegexOptions.Multiline).ToList
+                    Regex.Split(Token, REGX_SPLIT, RegexOptions.Multiline).AsList
 
                 Call lstScore.RemoveAt(Scan0)
 

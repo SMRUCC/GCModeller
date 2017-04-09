@@ -50,7 +50,7 @@ Namespace Kernel
 
         Sub New(kernel As Kernel)
             ' __kernel = kernel
-            __pendingKicks = kernel.Model.Experiments.ToList(
+            __pendingKicks = kernel.Model.Experiments.AsList(
                 Function(x) New Disturb(
                     x,
                     kernel.GetValue(x.Id),
@@ -62,7 +62,7 @@ Namespace Kernel
         End Sub
 
         Sub New(vars As Dictionary(Of Ivar), model As Script.Model, getRunTicks As Func(Of Long))
-            __pendingKicks = model.Experiments.ToList(
+            __pendingKicks = model.Experiments.AsList(
                 Function(x) New Disturb(
                     x,
                     vars(x.Id),

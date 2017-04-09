@@ -178,10 +178,10 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
                 If Not _innerHash.ContainsKey(QueryString) Then
                     Return If(emptyNull, New List(Of String), Nothing)
                 Else
-                    Return _innerHash(QueryString).ToList
+                    Return _innerHash(QueryString).AsList
                 End If
             Else
-                Return _innerHash(Key).ToList
+                Return _innerHash(Key).AsList
             End If
         End Function
 

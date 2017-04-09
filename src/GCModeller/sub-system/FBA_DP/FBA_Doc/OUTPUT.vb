@@ -66,7 +66,7 @@ Namespace FBA_OUTPUT
                 If value Is Nothing Then
                     __innerResult = New List(Of KeyValuePairObject(Of String, Double))
                 Else
-                    __innerResult = value.ToList
+                    __innerResult = value.AsList
                 End If
             End Set
         End Property

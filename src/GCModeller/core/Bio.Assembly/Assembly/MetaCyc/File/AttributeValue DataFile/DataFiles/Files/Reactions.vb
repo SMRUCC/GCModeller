@@ -78,8 +78,8 @@ Namespace Assembly.MetaCyc.File.DataFiles
         End Function
 
         Protected Friend Shared Function Trim(Reaction As Slots.Reaction) As Slots.Reaction
-            Reaction.Left = (From str As String In Reaction.Left Select Reactions.Trim(str)).ToList
-            Reaction.Right = (From str As String In Reaction.Right Select Reactions.Trim(str)).ToList
+            Reaction.Left = (From str As String In Reaction.Left Select Reactions.Trim(str)).AsList
+            Reaction.Right = (From str As String In Reaction.Right Select Reactions.Trim(str)).AsList
             Return Reaction
         End Function
 

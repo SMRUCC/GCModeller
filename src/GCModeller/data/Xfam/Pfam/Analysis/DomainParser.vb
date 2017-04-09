@@ -96,9 +96,9 @@ Public Module DomainParser
         '                  Select x,
         '                      evalue = (From od In d
         '                                Where x.Location.ContainSite(od.domain.Location.Center)
-        '                                Select od.FragmentSize).FirstOrDefault).ToList
+        '                                Select od.FragmentSize).FirstOrDefault).AsList
         Dim lstDomains As New List(Of DomainModel)
-        Dim GetDomains As List(Of DomainModel) = domains.ToList
+        Dim GetDomains As List(Of DomainModel) = domains.AsList
 
         Do While GetDomains.Count > 0
             Dim domain As DomainModel = GetDomains.First

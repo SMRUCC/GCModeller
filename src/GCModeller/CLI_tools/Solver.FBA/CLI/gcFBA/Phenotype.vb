@@ -313,7 +313,7 @@ PLANT:          objective.Associates = file.ReadAllLines
                 Function(x) Not String.IsNullOrEmpty(x.Regulator)).Distinct.ToArray
             rpkm = (From x As ExprStats In rpkm
                     Where Array.IndexOf(TF, x.locus) > -1
-                    Select x).ToList
+                    Select x).AsList
         End If
 
         Dim result As RPKMStat() = PhenoCoefficient.Coefficient(flxus, rpkm, sampleTable, Not spcc)
@@ -345,7 +345,7 @@ PLANT:          objective.Associates = file.ReadAllLines
                 Function(x) Not String.IsNullOrEmpty(x.Regulator)).Distinct.ToArray
             rpkm = (From x As ExprStats In rpkm
                     Where Array.IndexOf(TF, x.locus) > -1
-                    Select x).ToList
+                    Select x).AsList
         End If
 
         Dim result As RPKMStat() = PhenoCoefficient.Coefficient(flxus, rpkm, sampleTable, Not spcc)

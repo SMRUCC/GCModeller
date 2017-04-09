@@ -790,7 +790,7 @@ Namespace Options
 			c.OptionIndex = -1
 			Dim def = GetOptionForName("<>")
 			Dim unprocessed__1 = From argument In arguments Where If(System.Threading.Interlocked.Increment(c.OptionIndex) >= 0 AndAlso (process OrElse def IsNot Nothing), If(process, If(argument = "--", (InlineAssignHelper(process, False)), If(Not Parse(argument, c), If(def IsNot Nothing, Unprocessed(Nothing, def, c, argument), True), False)), If(def IsNot Nothing, Unprocessed(Nothing, def, c, argument), True)), True)argument
-			Dim r As List(Of String) = unprocessed__1.ToList()
+			Dim r As List(Of String) = unprocessed__1.AsList()
 			If c.[Option] IsNot Nothing Then
 				c.[Option].Invoke(c)
 			End If

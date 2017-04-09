@@ -109,7 +109,7 @@ Namespace Assembly.MetaCyc.File.DataFiles
         Public Shared Function LoadCompoundsData(path As String) As Compounds
             Dim dat As New Compounds
             Reflection.FileStream.Read(Of Slots.Compound, Compounds)(path, dat)
-            dat.Values = (From met As Slots.Compound In dat.Values Select met.Trim).ToList
+            dat.Values = (From met As Slots.Compound In dat.Values Select met.Trim).AsList
             Return dat
         End Function
     End Class

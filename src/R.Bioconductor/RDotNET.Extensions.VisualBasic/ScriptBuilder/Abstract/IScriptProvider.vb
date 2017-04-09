@@ -58,7 +58,7 @@ Namespace SymbolBuilder.Abstract
                 If value Is Nothing Then
                     __requires = Nothing
                 Else
-                    __requires = value.ToList
+                    __requires = value.AsList
                 End If
             End Set
         End Property

@@ -121,7 +121,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
                         .Identifier = ConstraintMapping.CONSTRAINT_PI.Identifier, .StoiChiometry = CompositionVector.Sum / 10}}
 
             Dim ConstraintFlux As ExpressionConstraintFlux = New ExpressionConstraintFlux With {._BaseType = ConstraintModel}
-            Dim Reactants = (From item In ConstraintModel.Reactants Select [Module].EquationModel.CompoundSpecieReference.CreateObject(ConstraintMapping(item.Identifier), item.StoiChiometry)).ToList
+            Dim Reactants = (From item In ConstraintModel.Reactants Select [Module].EquationModel.CompoundSpecieReference.CreateObject(ConstraintMapping(item.Identifier), item.StoiChiometry)).AsList
             UniqueId = String.Format("{0}.transcription_regulation_constraints", UniqueId)
             Dim RegulationConstraint As New EquationModel.CompoundSpecieReference With {
                 .Stoichiometry = 1,

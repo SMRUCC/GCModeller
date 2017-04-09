@@ -113,7 +113,7 @@ Namespace Assembly.MetaCyc.Schema
             End Get
             Set(value As CompoundSpecies())
                 _Left = value
-                MyBase.Left = (From item In _Left Select item.Identifier).ToList
+                MyBase.Left = (From item In _Left Select item.Identifier).AsList
             End Set
         End Property
         Public Shadows Property RIGHT As CompoundSpecies() Implements IEquation(Of CompoundSpecies).Products
@@ -122,7 +122,7 @@ Namespace Assembly.MetaCyc.Schema
             End Get
             Set(value As CompoundSpecies())
                 _Right = value
-                MyBase.Right = (From item In _Right Select item.Identifier).ToList
+                MyBase.Right = (From item In _Right Select item.Identifier).AsList
             End Set
         End Property
 

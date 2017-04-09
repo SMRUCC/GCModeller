@@ -49,7 +49,7 @@ Public Module HMMParserAPI
             Dim blocks As String()() = lines.Split("//").ToArray
 
             blocks(Scan0) = last + blocks(Scan0)
-            last = blocks.Last.ToList
+            last = blocks.Last.AsList
 
             For Each block As String() In blocks.Take(blocks.Length - 1)
                 Yield StreamParser(block)

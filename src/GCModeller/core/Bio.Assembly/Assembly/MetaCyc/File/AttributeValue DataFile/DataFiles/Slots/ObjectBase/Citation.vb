@@ -96,7 +96,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         End Operator
 
         Public Shared Widening Operator CType(Citation As String) As Citation
-            Dim Tokens As List(Of String) = Citation.Split(CChar(":")).ToList
+            Dim Tokens As List(Of String) = Citation.Split(CChar(":")).AsList
             Dim NewObj As New Citation
 
             Tokens.AddRange(EmptyFill)

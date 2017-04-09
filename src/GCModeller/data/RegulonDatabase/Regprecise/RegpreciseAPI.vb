@@ -397,7 +397,7 @@ Rodionov, D. A.", Volume:=14)>
                 Dim FastaFile = item.Value
                 For i As Integer = 0 To FastaFile.Count - 1
                     Dim FastaObject = FastaFile(i)
-                    Dim attrs = FastaObject.Attributes.ToList
+                    Dim attrs = FastaObject.Attributes.AsList
                     attrs(0) = String.Format("lcl_{0} ", i) & attrs.First
                     FastaObject.Attributes = attrs.ToArray
                 Next

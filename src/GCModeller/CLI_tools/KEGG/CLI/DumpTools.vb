@@ -116,7 +116,7 @@ Partial Module CLI
 
     Private Sub __queryKO2(infile As String, out As String, evalue As Double)
         Dim inHits = infile.LoadCsv(Of SSDB.BlastnHit)
-        inHits = (From x In inHits Where x.Eval <= evalue Select x).ToList
+        inHits = (From x In inHits Where x.Eval <= evalue Select x).AsList
         Dim KO As String() = inHits _
             .ToArray([CType]:=Function(x) x.KO,
                      where:=Function(s) Not String.IsNullOrWhiteSpace(s.KO)) _

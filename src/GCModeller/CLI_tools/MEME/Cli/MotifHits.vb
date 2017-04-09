@@ -451,7 +451,7 @@ Partial Module CLI
         Dim result As List(Of MotifLog) =
             If(motifs.DirectoryExists,
             Expand(loci.LoadCsv(Of SimpleSegment), motifs),
-            loci.LoadCsv(Of SimpleSegment).ToList(Function(x) New MotifLog(x)))
+            loci.LoadCsv(Of SimpleSegment).AsList(Function(x) New MotifLog(x)))
 
         Dim out As String =
             args.GetValue("/out", loci.TrimSuffix & If(String.IsNullOrEmpty(motifs), "", "-" & motifs.BaseName) & ".Csv")

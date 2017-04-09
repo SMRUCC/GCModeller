@@ -102,7 +102,7 @@ Namespace Analysis
         <ExportAPI("BBH_Entry.Build")>
         <Extension>
         Public Function BuildBBHEntry(DIR As String, Optional ext As String = "*.txt") As Entry()
-            Dim Source As List(Of AlignEntry) = LoadEntries(DIR, ext).ToList
+            Dim Source As List(Of AlignEntry) = LoadEntries(DIR, ext).AsList
             Return Source.BuildBBHEntry
         End Function
 

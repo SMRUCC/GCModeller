@@ -138,7 +138,7 @@ Namespace Interpreter.Linker
             Dim setValue = New SetValue(Of EntryPoints.APIEntryPoint)().GetSet(NameOf(EntryPoints.APIEntryPoint.target))
             Dim Commands = (From EntryPoint As EntryPoints.APIEntryPoint
                             In __allInstanceCommands(InvokedObject.GetType)
-                            Select setValue(EntryPoint, InvokedObject)).ToList '解析出命令并连接目标实例对象与函数的执行入口点
+                            Select setValue(EntryPoint, InvokedObject)).AsList '解析出命令并连接目标实例对象与函数的执行入口点
             Dim API = SPM.Nodes.AssemblyParser.APIParser(Commands)
             Call [Imports](API)
         End Sub

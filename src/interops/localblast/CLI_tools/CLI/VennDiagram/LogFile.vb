@@ -69,7 +69,7 @@ Partial Module CLI
         Dim LastFile = Legacy.BLASTOutput.Load(ListFile.Logs.Last.Last.Target)
         Call ListCsv.Add(New IO.File() {(From Query In LastFile.Queries.AsParallel Select Query.QueryName).ToArray})
 
-        Dim MergeResult = (From List In ListCsv Select LogAnalysis.Merge(dataset:=List)).ToList
+        Dim MergeResult = (From List In ListCsv Select LogAnalysis.Merge(dataset:=List)).AsList
         Dim Csv = CLI.__mergeFile(MergeResult)  '合并文件，获取最终绘制文氏图所需要的数据文件
 
         Return Csv.Save(path:=CsvFile).CLICode

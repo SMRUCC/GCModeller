@@ -146,8 +146,8 @@ Namespace DataVisualization.DynamicMap
                 Return New KeyValuePairObject(Of Component(), ComponentInteraction())
             End If
 
-            Dim Network = If(ChunkList.Value.IsNullOrEmpty, New List(Of ComponentInteraction), ChunkList.Value.ToList)
-            Dim Components = If(ChunkList.Key.IsNullOrEmpty, New List(Of Component), ChunkList.Key.ToList)
+            Dim Network = If(ChunkList.Value.IsNullOrEmpty, New List(Of ComponentInteraction), ChunkList.Value.AsList)
+            Dim Components = If(ChunkList.Key.IsNullOrEmpty, New List(Of Component), ChunkList.Key.AsList)
 
             If Network.IsNullOrEmpty AndAlso Components.IsNullOrEmpty Then
                 Return New KeyValuePairObject(Of Component(), ComponentInteraction())

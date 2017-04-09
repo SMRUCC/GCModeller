@@ -101,7 +101,7 @@ Namespace Analysis.FootprintTraceAPI
                         In expands.AsParallel
                         Where Math.Abs(x.Pcc) >= cut OrElse
                             Math.Abs(x.sPcc) >= cut
-                        Select x).ToList
+                        Select x).AsList
             Return cuts + footprints
         End Function
 

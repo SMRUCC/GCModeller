@@ -140,7 +140,7 @@ Namespace RegulationSignature
             Next
 
             For Each gene As GeneObject In KOHash.Values
-                gene.KO = (From KO_ID As String In gene.KO Select KO_ID Distinct Order By KO_ID Ascending).ToList
+                gene.KO = (From KO_ID As String In gene.KO Select KO_ID Distinct Order By KO_ID Ascending).AsList
                 If String.IsNullOrEmpty(gene.GeneID.GeneName) OrElse String.Equals(gene.GeneID.GeneName, "-") Then
                     gene.GeneID.GeneName = gene.KO.Last
                     gene.COG = gene.GeneID.GeneName
@@ -168,7 +168,7 @@ Namespace RegulationSignature
                               Let ClassID As String = Regex.Match(KO_ID, "\d+").Value
                               Where Not String.IsNullOrEmpty(ClassID)
                               Select ClassID).ToArray
-                gene.KO = LQuery.ToList
+                gene.KO = LQuery.AsList
             Next
 
         End Sub

@@ -65,7 +65,7 @@ Public Module Extensions
 
     <Extension> Public Function AsMetabolites(Collection As IEnumerable(Of Level2.Elements.Specie)) As List(Of Metabolism.Metabolite)
         Dim Query = From e In Collection.AsParallel Select Metabolism.Metabolite.CastTo(e) '
-        Return Query.ToList
+        Return Query.AsList
     End Function
 
     ''' <summary>

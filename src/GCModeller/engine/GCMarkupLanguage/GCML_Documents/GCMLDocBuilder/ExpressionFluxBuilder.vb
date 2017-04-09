@@ -81,7 +81,7 @@ Namespace Builder
                           In TransUnits.AsParallel
                           Let TU2 As GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit = TU.Link(Model.BacteriaGenome.Genes)
                           Select TU2
-                          Order By TU2.Identifier Ascending).ToList
+                          Order By TU2.Identifier Ascending).AsList
             Return LQuery
         End Function
 

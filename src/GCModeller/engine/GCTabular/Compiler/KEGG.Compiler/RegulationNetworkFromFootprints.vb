@@ -76,7 +76,7 @@ Public Module RegulationNetworkFromFootprints
         '                                                                          {
         '                                                                              .ORF = ItemRegulation.ORF,
         '                                                                              .Position = item.Distance,
-        '                                                                              .Regulators = item.Regulators.ToList,
+        '                                                                              .Regulators = item.Regulators.AsList,
         '                                                                              .TU_MODEL_GUID = TUModel.TU_GUID,
         '                                                                              .MotifName = item.MotifId}).ToArray
         '              Let motifIdList = (From item In motifObjects Select item.motifObject.Internal_GUID).ToArray
@@ -92,9 +92,9 @@ Public Module RegulationNetworkFromFootprints
         '              Let Modified = TUModel.InvokeSet(NameOf(TUModel.Motifs), motifIdList)
         '              Select motifObjects, TUModel, RegulatorList).ToArray
 
-        'TranscriptUnits = (From item In LQuery Select item.TUModel).ToList
+        'TranscriptUnits = (From item In LQuery Select item.TUModel).AsList
         'Motifs = (From item In LQuery Select (From n In item.motifObjects Select n.motifObject).ToArray).ToArray.MatrixToList
-        'Regulators = (From item In LQuery Select item.RegulatorList.MatrixToVector).ToArray.MatrixToVector.ToList
+        'Regulators = (From item In LQuery Select item.RegulatorList.MatrixToVector).ToArray.MatrixToVector.AsList
     End Sub
 
     ''' <summary>

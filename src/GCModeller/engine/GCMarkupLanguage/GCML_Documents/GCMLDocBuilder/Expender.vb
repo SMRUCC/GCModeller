@@ -89,7 +89,7 @@
 '                Function(source As List(Of SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction.speciesReference)) _
 '                    (From ref As SMRUCC.genomics.Assembly.SBML.Level2.Elements.Reaction.speciesReference
 '                     In source
-'                     Select ref.CopyData()).ToList
+'                     Select ref.CopyData()).AsList
 
 '            CopyObject.Products = CopySpecieRef(rxn.Products)
 '            CopyObject.Reactants = CopySpecieRef(rxn.Reactants)

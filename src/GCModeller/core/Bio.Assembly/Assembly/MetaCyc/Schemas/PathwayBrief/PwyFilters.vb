@@ -99,7 +99,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
         '        Dim GeneCollection = (From gene In Genes.Takes(pwy.AssociatedGenes) Select gene.Accession1).ToArray  '
         '        Call List.AddRange(GeneCollection)
         '    Next
-        '    List = List.Distinct.ToList
+        '    List = List.Distinct.AsList
 
         '    Dim File = New Microsoft.VisualBasic.DocumentFormat.Csv.DocumentStream.File
         '    Call File.AppendLine(New String() {"AccessionId", "Common_name", "Description", "Pfam_domains", "Sequence"})

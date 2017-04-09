@@ -22,7 +22,7 @@ Namespace SPM
                     value = New Nodes.HybridEnvir() {}
                 End If
 
-                __innerListEnvir = value.ToList
+                __innerListEnvir = value.AsList
             End Set
         End Property
 

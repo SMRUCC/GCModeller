@@ -54,7 +54,7 @@ Namespace Builder
         Private Sub BuildRegulationNetwork(MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder, Model As BacterialModel)
             Dim Regulations As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Regulations = MetaCyc.GetRegulations
             Dim AllGeneList As String() = MetaCyc.GetGenes.Index
-            Dim TUList As List(Of GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit) = Model.BacteriaGenome.TransUnits.ToList
+            Dim TUList As List(Of GCML_Documents.XmlElements.Bacterial_GENOME.TranscriptUnit) = Model.BacteriaGenome.TransUnits.AsList
 
             For Each regulation In Regulations
                 Select Case GCML_Documents.XmlElements.SignalTransductions.Regulator.GetRegulationsType(regulation.Types)

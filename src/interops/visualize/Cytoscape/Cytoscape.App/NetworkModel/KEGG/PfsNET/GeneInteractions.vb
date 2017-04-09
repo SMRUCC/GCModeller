@@ -204,7 +204,7 @@ Namespace NetworkModel.PfsNET
                      Let type = (From node In node_collection Select node.NodeType Distinct).ToArray
                      Let nodeEnzyme = New Enzyme With {.ID = item.ID, .EC = ec, .NodeType = String.Join("; ", type)}
                      Select nodeEnzyme
-                     Order By nodeEnzyme.ID Ascending).ToList
+                     Order By nodeEnzyme.ID Ascending).AsList
             Edges = (From item In (From item In Edges Select Guid = item.GetNullDirectedGuid, item Group By Guid Into Group).AsParallel
                      Let edge_collection = item.Group.ToArray
                      Let instance = edge_collection.First
@@ -217,7 +217,7 @@ Namespace NetworkModel.PfsNET
                          .Pathways = pathwaycollection,
                          .Modules = modules,
                          .InteractionType = instance.item.InteractionType,
-                         .Reactions = coeffectReactions}).ToList
+                         .Reactions = coeffectReactions}).AsList
 
             Dim Network As __KEGG_NETWORK_ = New __KEGG_NETWORK_ With {
                 .Edges = Edges.ToArray,
