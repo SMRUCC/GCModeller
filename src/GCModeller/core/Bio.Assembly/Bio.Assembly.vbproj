@@ -487,6 +487,7 @@
     <Compile Include="SequenceModel\FASTA\IO\KSeq.vb" />
     <Compile Include="SequenceModel\FASTA\IO\StreamIterator.vb" />
     <Compile Include="SequenceModel\ISequenceModel.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\DegenerateBases.vb" />
     <Compile Include="SequenceModel\NucleicAcid\mRNA.vb" />
     <Compile Include="SequenceModel\NucleicAcid\Objects\DNA.vb" />
     <Compile Include="SequenceModel\Patterns\Variation.vb" />

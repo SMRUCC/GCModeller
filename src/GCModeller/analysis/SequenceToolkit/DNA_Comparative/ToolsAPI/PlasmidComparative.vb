@@ -85,7 +85,7 @@ Public Module PlasmidComparative
         Dim cache = (From part As PartitioningData In partitions Select CacheData = New NucleicAcid(part.SequenceData), part).ToArray ' 因为要保持一一对应关系，所以这里不可以使用并行化拓展了
         Dim y As NucleicAcid() = cache.ToArray(Function(x) x.CacheData)
 
-        df += ("X/Y" + (From part As PartitioningData In partitions Select part.PartitioningTag).ToList)
+        df += ("X/Y" + (From part As PartitioningData In partitions Select part.PartitioningTag).AsList)
         df += From x In cache
               Let cols As List(Of String) =
                   __generateCols(x.CacheData, y)

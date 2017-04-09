@@ -758,7 +758,7 @@ SET_END:    Dim ends = i
                 Where gene.Location.Strand = strands
                 Select gene
         Else
-            list = anno.ToList
+            list = anno.AsList
         End If
 
         Dim circles As New List(Of HighLight)

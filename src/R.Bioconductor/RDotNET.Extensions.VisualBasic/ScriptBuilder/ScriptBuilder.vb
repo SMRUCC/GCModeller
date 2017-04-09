@@ -4,6 +4,14 @@ Namespace SymbolBuilder
 
     Public Class ScriptBuilder : Inherits Scripting.SymbolBuilder.ScriptBuilder
 
+        Sub New(capacity%)
+            Call MyBase.New(capacity)
+        End Sub
+
+        Sub New()
+            Call MyBase.New(1024)
+        End Sub
+
         ''' <summary>
         ''' AppendLine
         ''' </summary>

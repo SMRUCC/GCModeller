@@ -1,34 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::71ab8faa19c89bf950a016b9b1acba47, ..\GCModeller\CLI_tools\MEME\Cli\MotifSimilarity\TomTom.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -37,6 +36,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.GCModeller.Workbench.ReportBuilder
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
@@ -53,7 +53,7 @@ Partial Module CLI
         Dim threshold As Double = args.GetValue("/threshold", 0.3)
         Dim motifs As AnnotationModel() = AnnotationModel.LoadDocument(queryFile)
         Dim subjectLDM = subjectFile.LoadXml(Of AnnotationModel)
-        Dim out As String = args.GetValue("/out", queryFile.TrimSuffix & "-" & basename(subjectFile))
+        Dim out As String = args.GetValue("/out", queryFile.TrimSuffix & "-" & BaseName(subjectFile))
 
         For Each motif As AnnotationModel In motifs
             Call __LDMTom(motif, subjectLDM, method, cost, threshold, out, $"{motif.ToString}-{subjectLDM.ToString}")
@@ -87,7 +87,7 @@ Partial Module CLI
         Dim method As String = args.GetValue("/method", "sw")
         Dim cost As Double = args.GetValue("/cost", 0.7)
         Dim threshold As Double = args.GetValue("/threshold", 0.65)
-        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & basename(subject) & "." & method)
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & BaseName(subject) & "." & method)
 
         Call __LDMTom(queryLDM, subjectLDM, method, cost, threshold, out, "TOMQuery")
 
@@ -106,7 +106,7 @@ Partial Module CLI
         Dim resultSet As New List(Of Similarity.TOMQuery.CompareResult)
 
         For Each query As String In memeText
-            Dim outDIR As String = out & "/" & basename(query)
+            Dim outDIR As String = out & "/" & BaseName(query)
             Call resultSet.Add(__memeTOMQuery(query, outDIR, threshold, cost, method))
         Next
 
@@ -145,8 +145,8 @@ Partial Module CLI
             Call html.AppendLine("</p>")
         Next
 
-        Dim title As String = $"Motif tom query for {basename(query)}:"
-        Call html.SaveAsHTML($"{out}/TomQuery.html", basename(query), title)
+        Dim title As String = $"Motif tom query for {BaseName(query)}:"
+        Call html.SaveAsHTML($"{out}/TomQuery.html", BaseName(query), title)
 
         Return LQuery
     End Function

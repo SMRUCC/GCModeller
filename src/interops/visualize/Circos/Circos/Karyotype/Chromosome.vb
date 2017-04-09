@@ -106,7 +106,7 @@ Namespace Karyotype
                                               }.nt.SetValue(nt.value).As(Of Karyotype)
 
             Return New KaryotypeChromosomes With {
-                .__karyotypes = ks.ToList
+                .__karyotypes = ks.AsList
             }
         End Function
 
@@ -157,7 +157,7 @@ Namespace Karyotype
                 band.color = props.GC(GC)
             Next
 
-            ks.__bands = bands.OrderBy(Function(x) x.chrName).ToList
+            ks.__bands = bands.OrderBy(Function(x) x.chrName).AsList
 
             Return ks
         End Function

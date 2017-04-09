@@ -315,7 +315,7 @@ Public Module ShellScriptAPI
             Next
         Next
 
-        Dim IDChunkBuffer = (From data In DataDict.Values Select data.sp).ToList + MainData.sp
+        Dim IDChunkBuffer = (From data In DataDict.Values Select data.sp).AsList + MainData.sp
         Call IDChunkBuffer.ToArray().SaveTo("./MAT_ID.txt") '会同时输出矩阵之中的基因组的NCBI编号以方便后面的分析
         Call MAT.Save("./VennMatrix.csv", False)
         Call Console.WriteLine("Export data job done! start to create matrix!")
@@ -366,7 +366,7 @@ Public Module ShellScriptAPI
                         genElements).ToArray
         '默认使用欧几里得距离
         '为了防止数据混乱，这里不再使用并行拓展，以保持两两对应的顺序
-        Dim Head As New IO.RowObject("" + (From sp In Data Select sp.ID).ToList)
+        Dim Head As New IO.RowObject("" + (From sp In Data Select sp.ID).AsList)
         Dim MatBuilder As IO.File = New IO.File + Head
 
         Call Console.WriteLine("Start to generate matrix file")
