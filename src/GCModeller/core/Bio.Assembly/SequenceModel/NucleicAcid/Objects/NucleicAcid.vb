@@ -296,24 +296,24 @@ Namespace SequenceModel.NucleotideModels
         ''' <summary>
         ''' 分割得到的小片段的长度
         ''' </summary>
-        ''' <param name="SegmentLength"></param>
+        ''' <param name="segmentLen"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Split(SegmentLength As Integer) As SegmentObject()
-            Dim SegmentList As List(Of SegmentObject) = New List(Of SegmentObject)
-            SegmentLength -= 1
+        Public Function Split(segmentLen%) As SegmentObject()
+            Dim list As New List(Of SegmentObject)
+            segmentLen -= 1
 
-            For i As Integer = 1 To Me.Length Step SegmentLength + 1
-                Dim strSegmentData As String = Mid(Me.SequenceData, i, SegmentLength)
+            For i As Integer = 1 To Me.Length Step segmentLen + 1
+                Dim strSegmentData As String = Mid(Me.SequenceData, i, segmentLen)
 
-                SegmentList += New SegmentObject With {
+                list += New SegmentObject With {
                     .SequenceData = strSegmentData,
                     .Left = i,
                     .Right = i + Len(strSegmentData)
                 }
             Next
 
-            Return SegmentList
+            Return list
         End Function
 
         Public Overrides ReadOnly Property Length As Integer
