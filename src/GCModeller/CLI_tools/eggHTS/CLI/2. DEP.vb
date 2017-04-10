@@ -148,7 +148,7 @@ Partial Module CLI
         Dim level# = args.GetValue("/level", 1.25)
 
         Return DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue) _
+            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue, nonDEP_blank:=False) _
             .SaveDataSet(dataOUT, blank:=1)
     End Function
 
