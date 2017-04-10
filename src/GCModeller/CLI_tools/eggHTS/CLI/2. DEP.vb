@@ -135,8 +135,8 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/DEP.heatmap",
-               Info:="Generates the heatmap plot input data.",
-               Usage:="/DEP.heatmap /data <Directory> [/FC.tag <FC.avg> /pvalue <p.value> /out <out.csv>]")>
+               Info:="Generates the heatmap plot input data. The default label profile is using for the iTraq result.",
+               Usage:="/DEP.heatmap /data <Directory> [/level 1.25 /FC.tag <FC.avg> /pvalue <p.value> /out <out.csv>]")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
@@ -144,9 +144,10 @@ Partial Module CLI
         Dim pvalue$ = args.GetValue("/pvalue", "p.value")
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
+        Dim level# = args.GetValue("/level", 1.25)
 
         Return DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", 1.5, 0.05, FCtag, 1 / 1.5, pvalue) _
+            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue) _
             .SaveDataSet(dataOUT, blank:=1)
     End Function
 

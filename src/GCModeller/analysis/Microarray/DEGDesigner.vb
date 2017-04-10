@@ -96,7 +96,7 @@ Public Module DEGDesigner
     End Function
 
     ''' <summary>
-    ''' 
+    ''' 合并实验数据矩阵，可以使用这个函数用来生成诸如heatmap或者vennDiagram的绘图数据
     ''' </summary>
     ''' <param name="DIR$"></param>
     ''' <param name="name$">进行文件搜索的通配符</param>
@@ -107,7 +107,13 @@ Public Module DEGDesigner
     ''' 假若是使用默认值0的话，由于任何实数都大于0，所以就不会进行差异基因的筛选，即函数会返回所有的基因列表
     ''' </param>
     ''' <returns></returns>
-    Public Function MergeMatrix(DIR$, name$, Optional DEG# = 0, Optional Pvalue# = Integer.MaxValue, Optional fieldFC$ = "logFC", Optional FCdown# = Integer.MinValue, Optional fieldPvalue$ = "PValue") As gene()
+    Public Function MergeMatrix(DIR$, name$,
+                                Optional DEG# = 0,
+                                Optional Pvalue# = Integer.MaxValue,
+                                Optional fieldFC$ = "logFC",
+                                Optional FCdown# = Integer.MinValue,
+                                Optional fieldPvalue$ = "PValue") As gene()
+
         Dim samples As New Dictionary(Of String, gene())
         Dim test As Func(Of gene, Boolean)
 
