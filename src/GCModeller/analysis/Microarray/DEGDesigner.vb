@@ -142,7 +142,7 @@ Public Module DEGDesigner
                 .Select(Function(file$)
                             Return New NamedValue(Of gene()) With {
                                 .Name = file.ParentDirName & "-" & file.BaseName,
-                                .Value = EntityObject.LoadDataSet(file)
+                                .Value = EntityObject.LoadDataSet(file).ToArray
                             }
                         End Function).ToArray
             Dim allDEPs$() = datasets _
