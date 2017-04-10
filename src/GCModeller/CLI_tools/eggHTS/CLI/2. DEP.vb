@@ -115,8 +115,8 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/DEP.venn",
-               Info:="Generate the VennDiagram plot data and the venn plot tiff.",
-               Usage:="/DEP.venn /data <Directory> [/FC.tag <FC.avg> /title <VennDiagram title> /pvalue <p.value> /out <out.DIR>]")>
+               Info:="Generate the VennDiagram plot data and the venn plot tiff. The default parameter profile is using for the iTraq data.",
+               Usage:="/DEP.venn /data <Directory> [/level <1.25> /FC.tag <FC.avg> /title <VennDiagram title> /pvalue <p.value> /out <out.DIR>]")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function VennData(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
@@ -125,9 +125,10 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".venn/")
         Dim dataOUT = out & "/DEP.venn.csv"
         Dim title$ = args.GetValue("/title", "VennDiagram title")
+        Dim level# = args.GetValue("/level", 1.25)
 
         Call DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", 1.5, 0.05, FCtag, 1 / 1.5, pvalue) _
+            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue) _
             .SaveDataSet(dataOUT)
         Call Apps.VennDiagram.Draw(dataOUT, title, out:=out & "/venn.tiff")
 
