@@ -106,7 +106,7 @@ Partial Module CLI
         Dim dataOUT = out & "/DEP.heatmap.csv"
 
         Return DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", 1.5, 0.05, FCtag, 1 / 1.5, pvalue) _
+            .MergeMatrix(DIR, "*.csv", 1.5, 0.05, FCtag, 1 / 1.5, pvalue, nonDEP_blank:=False) _
             .SaveDataSet(dataOUT, blank:=1)
     End Function
 
