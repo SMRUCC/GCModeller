@@ -481,7 +481,7 @@ Module CLI
         Dim sp As String = args("/sp")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & sp.BaseName & ".fasta")
         Dim fasta As New FASTA.FastaFile([in])
-        Dim splist As List(Of String) = sp.ReadAllLines.AsList(Function(s) s.ToLower)
+        Dim splist As List(Of String) = sp.ReadAllLines.ToList(Function(s) s.ToLower)
         Dim LQuery As IEnumerable(Of FASTA.FastaToken) =
             From fa As FASTA.FastaToken
             In fasta

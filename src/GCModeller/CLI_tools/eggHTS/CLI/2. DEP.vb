@@ -3,16 +3,55 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.Scripting
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
+
+    ''' <summary>
+    ''' 使用这个函数来处理iTraq实验结果之中与分析需求单的FC比对方式颠倒的情况
+    ''' 
+    ''' 假设所输入的文件的第一列为标识符
+    ''' 最后的三列为结果数据
+    ''' 则中间的剩余的列数据都是FC值
+    ''' 
+    ''' ``Accession	T1.C1	T1.C2	T2.C1	T2.C2	FC.avg	p.value	is.DEP``
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/iTraq.Reverse.FC",
+               Info:="Reverse the FC value from the source result.",
+               Usage:="/iTraq.Reverse.FC /in <data.csv> [/out <Reverse.csv>]")>
+    <Group(CLIGroups.DEP_CLI)>
+    Public Function iTraqInvert(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".reverse.csv")
+        Dim data As File = File.Load([in])
+        Dim start = 1
+        Dim ends = (data.Width - 1) - 3
+
+        For Each row As RowObject In data.Skip(1)
+            For i As Integer = start To ends
+                Dim s$ = row(i)
+
+                If s = "NA" OrElse s.TextEquals("NaN") Then
+                    Continue For
+                Else
+                    row(i) = 1 / Val(s)
+                End If
+            Next
+        Next
+
+        Return data _
+            .Save(out, Encodings.ASCII) _
+            .CLICode
+    End Function
 
     <ExportAPI("/DEP.uniprot.list",
                Usage:="/DEP.uniprot.list /DEP <log2-test.DEP.csv> /sample <sample.csv> [/out <out.txt>]")>
@@ -43,6 +82,7 @@ Partial Module CLI
 
     <ExportAPI("/DEP.uniprot.list2",
                Usage:="/DEP.uniprot.list2 /in <log2.test.csv> [/DEP.Flag <is.DEP?> /uniprot.Flag <uniprot> /species <scientifcName> /uniprot <uniprotXML> /out <out.txt>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function DEPUniprotIDs2(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim DEPFlag As String = args.GetValue("/DEP.flag", "is.DEP?")
@@ -75,8 +115,8 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/DEP.venn",
-               Info:="Generate the VennDiagram plot data and the venn plot tiff.",
-               Usage:="/DEP.venn /data <Directory> [/FC.tag <FC.avg> /title <VennDiagram title> /pvalue <p.value> /out <out.DIR>]")>
+               Info:="Generate the VennDiagram plot data and the venn plot tiff. The default parameter profile is using for the iTraq data.",
+               Usage:="/DEP.venn /data <Directory> [/level <1.25> /FC.tag <FC.avg> /title <VennDiagram title> /pvalue <p.value> /out <out.DIR>]")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function VennData(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
@@ -85,9 +125,10 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".venn/")
         Dim dataOUT = out & "/DEP.venn.csv"
         Dim title$ = args.GetValue("/title", "VennDiagram title")
+        Dim level# = args.GetValue("/level", 1.25)
 
         Call DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", 1.5, 0.05, FCtag, 1 / 1.5, pvalue) _
+            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue) _
             .SaveDataSet(dataOUT)
         Call Apps.VennDiagram.Draw(dataOUT, title, out:=out & "/venn.tiff")
 
@@ -95,8 +136,8 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/DEP.heatmap",
-               Info:="Generates the heatmap plot input data.",
-               Usage:="/DEP.heatmap /data <Directory> [/FC.tag <FC.avg> /pvalue <p.value> /out <out.csv>]")>
+               Info:="Generates the heatmap plot input data. The default label profile is using for the iTraq result.",
+               Usage:="/DEP.heatmap /data <Directory> [/level 1.25 /FC.tag <FC.avg> /pvalue <p.value> /out <out.csv>]")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
@@ -104,9 +145,10 @@ Partial Module CLI
         Dim pvalue$ = args.GetValue("/pvalue", "p.value")
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
+        Dim level# = args.GetValue("/level", 1.25)
 
         Return DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", 1.5, 0.05, FCtag, 1 / 1.5, pvalue, nonDEP_blank:=False) _
+            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue) _
             .SaveDataSet(dataOUT, blank:=1)
     End Function
 
@@ -118,6 +160,7 @@ Partial Module CLI
     <ExportAPI("/Merge.DEPs",
                Info:="Usually using for generates the heatmap plot matrix of the DEPs. This function call will generates two dataset, one is using for the heatmap plot and another is using for the venn diagram plot.",
                Usage:="/Merge.DEPs /in <*.csv,DIR> [/log2 /threshold ""log(1.5,2)"" /raw <sample.csv> /out <out.csv>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function MergeDEPs(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim log2 As Boolean = args.GetBoolean("/log2")
@@ -184,10 +227,12 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/DEP.logFC.hist",
+               Info:="Using for plots the FC histogram when the experiment have no biological replicates.",
                Usage:="/DEP.logFC.hist /in <log2test.csv> [/step <0.5> /tag <logFC> /legend.title <Frequency(logFC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1600,1200> /out <out.png>]")>
     <Argument("/tag", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is ""logFC"".")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function logFCHistogram(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim tag As String = args.GetValue("/tag", "logFC")
@@ -210,6 +255,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP.qlfTable.csv> [/size <1920,1440> /out <plot.csv>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function logFCVolcano(args As CommandLine) As Integer
         Dim in$ = args("/in")
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEP.vocano.plot.png")
