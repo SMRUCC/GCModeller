@@ -3,16 +3,48 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.Scripting
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
+
+    ''' <summary>
+    ''' 使用这个函数来处理iTraq实验结果之中与分析需求单的FC比对方式颠倒的情况
+    ''' 
+    ''' 假设所输入的文件的第一列为标识符
+    ''' 最后的三列为结果数据
+    ''' 则中间的剩余的列数据都是FC值
+    ''' 
+    ''' ``Accession	T1.C1	T1.C2	T2.C1	T2.C2	FC.avg	p.value	is.DEP``
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/iTraq.Reverse.FC",
+               Info:="Reverse the FC value from the source result.",
+               Usage:="/iTraq.Reverse.FC /in <data.csv> [/out <Reverse.csv>]")>
+    Public Function iTraqInvert(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".reverse.csv")
+        Dim data As File = File.Load([in])
+        Dim start = 1
+        Dim ends = (data.Width - 1) - 3
+
+        For Each row As RowObject In data
+            For i As Integer = start To ends
+                row(i) = 1 / Val(row(i))
+            Next
+        Next
+
+        Return data _
+            .Save(out, Encodings.ASCII) _
+            .CLICode
+    End Function
 
     <ExportAPI("/DEP.uniprot.list",
                Usage:="/DEP.uniprot.list /DEP <log2-test.DEP.csv> /sample <sample.csv> [/out <out.txt>]")>
