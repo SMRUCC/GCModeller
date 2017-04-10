@@ -119,7 +119,7 @@ Public Class DataPreparations
                 Call InteractionPairs.Add(New KeyValuePair(Of String, String)(id, partnerid))
             Next
         Next
-        PartnersIdList = (From id As String In PartnersIdList Select id Distinct Order By id Ascending).ToList
+        PartnersIdList = (From id As String In PartnersIdList Select id Distinct Order By id Ascending).AsList
         Call Console.WriteLine("There are {0} partner records was found in the database!", PartnersIdList.Count)
 
         Dim TargetHomologousPartners = DipFsaSequence.Select(Function(FsaObject As FASTA.FastaToken) PartnersIdList.IndexOf(FsaObject.Attributes.First.Split.First) > -1)
@@ -197,7 +197,7 @@ Public Class DataPreparations
 
     Protected Friend Shared Function Trim(AlignedData As FASTA.FastaFile) As FASTA.FastaFile
         Dim p As Integer = 0
-        Dim Sequence As List(Of Char)() = (From fsa In AlignedData Select fsa.SequenceData.ToList).ToArray  '请注意，对象之间需要保持顺序
+        Dim Sequence As List(Of Char)() = (From fsa In AlignedData Select fsa.SequenceData.AsList).ToArray  '请注意，对象之间需要保持顺序
         Dim SequenceCountsCutOff = AlignedData.Count * 0.75
 
         Do While True

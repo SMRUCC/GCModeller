@@ -298,7 +298,7 @@ Namespace SequenceModel.NucleotideModels
                 Next
             End If
 
-            bufs = (From n As Double In bufs Select __NAHandle(n, slideWindowSize)).ToList '碱基之间是有顺序的，故而不适用并行化拓展
+            bufs = (From n As Double In bufs Select __NAHandle(n, slideWindowSize)).AsList '碱基之间是有顺序的，故而不适用并行化拓展
             Return bufs.ToArray
         End Function
 

@@ -179,10 +179,10 @@ Namespace SAM
 
             Reversed = Assembling(New Dictionary(Of Integer, List(Of AlignmentReads))((From gr In ReversedReads Select gr Order By gr.POS Descending).ToArray.ToDictionary(
                                                 Function(obj) obj.POS,
-                                                elementSelector:=Function(obj) obj.Group.ToList)), True)
+                                                elementSelector:=Function(obj) obj.Group.AsList)), True)
             Forwards = Assembling(New SortedDictionary(Of Integer, List(Of AlignmentReads))(ForwardReads.ToDictionary(
                                                           Function(obj) obj.POS,
-                                                          elementSelector:=Function(obj) obj.Group.ToList)).ToDictionary(Function(obj) obj.Key, elementSelector:=Function(obj) obj.Value), False)
+                                                          elementSelector:=Function(obj) obj.Group.AsList)).ToDictionary(Function(obj) obj.Key, elementSelector:=Function(obj) obj.Value), False)
 
 #Else
             Dim AssemblyTask = Function() Assembling(

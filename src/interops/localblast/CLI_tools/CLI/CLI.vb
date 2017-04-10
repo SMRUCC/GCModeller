@@ -93,7 +93,7 @@ Module CLI
         Next
 
         If Merge Then
-            MergeList = (From x In MergeList Select x Order By x.evalue Ascending).ToList
+            MergeList = (From x In MergeList Select x Order By x.evalue Ascending).AsList
             Call MergeList.SaveTo(out & "/" & FileIO.FileSystem.GetDirectoryInfo(inDIR).Name & ".Merge.Csv")
         End If
 

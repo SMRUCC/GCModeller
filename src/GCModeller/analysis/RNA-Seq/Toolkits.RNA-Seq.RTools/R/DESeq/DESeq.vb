@@ -336,7 +336,7 @@ Huber, W.",
             Dim HeadRow = New IO.RowObject From {""}
             Call HeadRow.AddRange(Factors) '为了保持一一对应关系，在这里不再使用并行化拓展
             Call colDataMAT.Add(HeadRow)
-            Call colDataMAT.AppendRange((From Experiment In Experiments Select Experiment.ToList.ToCsvRow).ToArray)
+            Call colDataMAT.AppendRange((From Experiment In Experiments Select Experiment.AsList.ToCsvRow).ToArray)
             Dim colData As String = $"{FileIO.FileSystem.GetParentPath(countData)}/{basename(countData)}.colData.csv"
             Call colDataMAT.Save(colData, Encoding:=Encoding.ASCII)
             Dim ScriptBuilder As StringBuilder = New StringBuilder(My.Resources.DEseq2_Template)

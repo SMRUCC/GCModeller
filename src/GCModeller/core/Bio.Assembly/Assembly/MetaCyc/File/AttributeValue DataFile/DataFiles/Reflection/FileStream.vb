@@ -174,11 +174,11 @@ Namespace Assembly.MetaCyc.File.DataFiles.Reflection
 #If DEBUG Then
             Dim LQuery = (From c As ObjectModel
                           In FileStream.Objects
-                          Select [CType](Of TObject)(c, TSchema, ItemProperties, FieldAttributes)).ToList '.AsParallel
+                          Select [CType](Of TObject)(c, TSchema, ItemProperties, FieldAttributes)).AsList '.AsParallel
 #Else
             Dim LQuery = (From c As ObjectModel
                           In FileStream.Objects.AsParallel
-                          Select [CType](Of TObject)(c, TSchema, ItemProperties, FieldAttributes)).ToList  '.AsParallel
+                          Select [CType](Of TObject)(c, TSchema, ItemProperties, FieldAttributes)).AsList  '.AsParallel
 #End If
             Stream.Values = LQuery
             Stream.DbProperty = FileStream.DbProperty
@@ -222,7 +222,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Reflection
                     If [Property].PropertyType.IsArray Then
                         Call [Property].SetValue(x, x.StringQuery(Field.Name, True).ToArray)
                     Else
-                        Call [Property].SetValue(x, x.StringQuery(Field.Name).ToList)
+                        Call [Property].SetValue(x, x.StringQuery(Field.Name).AsList)
                     End If
                 Else
                     If x.Exists(Field.Name) Then

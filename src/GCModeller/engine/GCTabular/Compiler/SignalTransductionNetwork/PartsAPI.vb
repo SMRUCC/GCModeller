@@ -90,7 +90,7 @@ Namespace Compiler.Components
             Next
 
             Dim Index = (From item In ChunkList Select item.Identifier Distinct).ToArray
-            ChunkList = (From Id As String In Index Select ChunkList.GetItem(Id)).ToList
+            ChunkList = (From Id As String In Index Select ChunkList.GetItem(Id)).AsList
 
             Dim SelfLoop = (From item In ChunkList
                             Let Metabolite As String() = (From [sub] In item.Metabolites Select [sub].species Distinct Order By Len(species) Ascending).ToArray
@@ -112,7 +112,7 @@ Namespace Compiler.Components
             Dim ChunkBuffer As List(Of GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly) =
                 (From Inducer As String
                  In Inducers
-                 Select ChemotaxisInduction(TCS.Chemotaxis, Pi, Inducer)).ToList
+                 Select ChemotaxisInduction(TCS.Chemotaxis, Pi, Inducer)).AsList
 
             Call ChunkBuffer.Add(PhosphoTransfer(TCS.Chemotaxis, TCS.HK, TCS.ChemotaxisHKConfidence, Pi))
             Dim TCSCrossTalk = PhosphoTransfer(TCS.HK, TCS.RR, TCS.HKRRConfidence, Pi)
@@ -126,7 +126,7 @@ Namespace Compiler.Components
         Private Function CreateFluxObject(TF As String, OCS As KeyValuePair, Inducers As String(), Pi As String) _
             As GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly()
             Dim ChunkBuffer As List(Of GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.ProteinAssembly) =
-                (From Inducer As String In Inducers Select ChemotaxisInduction(OCS.Key, Pi, Inducer)).ToList
+                (From Inducer As String In Inducers Select ChemotaxisInduction(OCS.Key, Pi, Inducer)).AsList
 
             Return ChunkBuffer.ToArray
         End Function

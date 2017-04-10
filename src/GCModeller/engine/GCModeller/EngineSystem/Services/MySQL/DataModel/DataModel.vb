@@ -88,7 +88,7 @@ Namespace EngineSystem.Services.MySQL
             Dim Query As Generic.IEnumerable(Of MySQL.DataModelRecord) = From row As DataRow
                                                                          In MYSQL.Fetch(SQL).Tables(0).Rows.AsParallel
                                                                          Select __model(row) 'Create new datamodel from database
-            DataSet = Query.ToList
+            DataSet = Query.AsList
             If Counts <= 0 Then
                 lPointer(Table) = DataSet.Count
             Else

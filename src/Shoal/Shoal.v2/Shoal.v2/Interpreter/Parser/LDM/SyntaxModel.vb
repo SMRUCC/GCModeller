@@ -65,7 +65,7 @@ Namespace Interpreter.LDM
         ''' <param name="File">脚本文件的文件路径</param>
         ''' <returns></returns>
         Public Shared Function ScriptParser(ScriptText As String, File As String) As SyntaxModel
-            Dim Expressions = Interpreter.MSLParser(ScriptText).ToList
+            Dim Expressions = Interpreter.MSLParser(ScriptText).AsList
             Dim script As SyntaxModel = CreateObject(Expressions)
             script.FilePath = File
             Return script

@@ -139,7 +139,7 @@ Module ProteinDomain
         For Each Rule In Rules
             Call AllDomains.AddRange(Rule.GetDomains)
         Next
-        AllDomains = AllDomains.Distinct.ToList
+        AllDomains = AllDomains.Distinct.AsList
         Dim DomainDistributed As Dictionary(Of String, String()) = New Dictionary(Of String, String())
         For Each DomainId As String In AllDomains
             Call DomainDistributed.Add(DomainId, (From row In DomainDistributionList Let List = row(3) Where InStr(List, DomainId) Select row.First).ToArray)

@@ -680,8 +680,8 @@ CONTINUTE:
             Dim LinePen As New Pen(New SolidBrush(Color.FromArgb(alpha:=100, baseColor:=Color.Brown)))
 
             If Not CustomOrder.IsNullOrEmpty Then '使用自定义的排序
-                Dim ls = spList.ToList
-                Dim ls2 = spList.ToList
+                Dim ls = spList.AsList
+                Dim ls2 = spList.AsList
                 Dim InternalGetItem = Function(id As String) (From Gene
                                                               In ls.AsParallel
                                                               Where String.Equals(id, Gene.SubjectIDs, StringComparison.OrdinalIgnoreCase) OrElse

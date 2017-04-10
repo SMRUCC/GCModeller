@@ -77,7 +77,7 @@ Namespace ComponentModel
             Dim lst = (From obj As KeyValuePair
                        In Collection
                        Select obj
-                       Order By obj.Key Ascending).ToList
+                       Order By obj.Key Ascending).AsList
             For i As Integer = 0 To lst.Count - 1
                 If i >= lst.Count Then
                     Exit For

@@ -65,13 +65,13 @@ Namespace Analysis.Similarity
 
             Dim Grouped = (From item In resources Select item Group item By item.Signature Into Group).ToArray
             Dim LQuery = (From item In Grouped.AsParallel() Let InternalCreateObject As Motif = __createObject(item.Signature, item.Group.ToArray) Select InternalCreateObject
-                          Order By InternalCreateObject.Sites.Count Descending).ToList
+                          Order By InternalCreateObject.Sites.Count Descending).AsList
             Dim ChunkBuffer As List(Of Motif()) = New List(Of Motif())  '按照相似性分组
 
             Do While LQuery.Count > 0
                 Dim Ref = LQuery.First
-                Dim cl = (From n In LQuery.Skip(1).AsParallel Let delta As Double = MotifDeltaSimilarity.Sigma(Ref, n) Where delta <= delta_threshold Select delta, n).ToList
-                Dim ls = (From item In cl Select item.n).ToList
+                Dim cl = (From n In LQuery.Skip(1).AsParallel Let delta As Double = MotifDeltaSimilarity.Sigma(Ref, n) Where delta <= delta_threshold Select delta, n).AsList
+                Dim ls = (From item In cl Select item.n).AsList
                 Call ls.Add(Ref)
                 Call ChunkBuffer.Add(ls.ToArray)
 
@@ -83,7 +83,7 @@ Namespace Analysis.Similarity
             LQuery = (From item As Motif()
                   In ChunkBuffer.AsParallel
                       Select Motif = __createObject((From nn In item Select s = MotifPM.ToString(nn.PspMatrix) Order By Len(s) Ascending).First, item)
-                      Order By Motif.Sites.Count Descending).ToList
+                      Order By Motif.Sites.Count Descending).AsList
             Return LQuery.ToArray
         End Function
 
@@ -98,16 +98,16 @@ Namespace Analysis.Similarity
 
         <ExportAPI("Motif.Clustering")>
         Public Function MergeSubsamples(source As IEnumerable(Of Motif), Optional delta_threshold As Double = 0.5) As Motif()
-            Dim resources = source.ToList
+            Dim resources = source.AsList
             Dim Grouped = (From item In resources Select item Group item By item.Signature Into Group).ToArray
             Dim LQuery = (From item In Grouped.AsParallel() Let InternalCreateObject As Motif = __createObject(item.Signature, item.Group.ToArray) Select InternalCreateObject
-                          Order By InternalCreateObject.Sites.Count Descending).ToList
+                          Order By InternalCreateObject.Sites.Count Descending).AsList
             Dim ChunkBuffer As List(Of Motif()) = New List(Of Motif())  '按照相似性分组
 
             Do While LQuery.Count > 0
                 Dim Ref = LQuery.First
-                Dim cl = (From n In LQuery.Skip(1).AsParallel Let delta As Double = MotifDeltaSimilarity.Sigma(Ref, n) Where delta <= delta_threshold Select delta, n).ToList
-                Dim ls = (From item In cl Select item.n).ToList
+                Dim cl = (From n In LQuery.Skip(1).AsParallel Let delta As Double = MotifDeltaSimilarity.Sigma(Ref, n) Where delta <= delta_threshold Select delta, n).AsList
+                Dim ls = (From item In cl Select item.n).AsList
                 Call ls.Add(Ref)
                 Call ChunkBuffer.Add(ls.ToArray)
 
@@ -119,7 +119,7 @@ Namespace Analysis.Similarity
             LQuery = (From item As Motif()
                   In ChunkBuffer.AsParallel
                       Select Motif = __createObject((From nn In item Select s = MotifPM.ToString(nn.PspMatrix) Order By Len(s) Ascending).First, item)
-                      Order By Motif.Sites.Count Descending).ToList
+                      Order By Motif.Sites.Count Descending).AsList
             Return LQuery.ToArray
         End Function
 

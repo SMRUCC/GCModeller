@@ -40,7 +40,7 @@ Partial Module CLI
     '                  Let XmlLog = NCBI.Extensions.LocalBLAST.BLASTOutput.Standard.BLASTOutput.Load(Log)
     '                  Select Hits.Append(XmlLog.GetAllits())) '
     '    LQuery = LQuery.ToArray
-    '    Hits = (From s As String In Hits Select s Distinct Order By s Ascending).ToList
+    '    Hits = (From s As String In Hits Select s Distinct Order By s Ascending).AsList
 
     '    Dim FASTAList As List(Of SequenceModel.FASTA.FASTA) = New List(Of SequenceModel.FASTA.FASTA)
     '    LQuery = From Id In Hits Select FASTAList.Append(FASTA.Query(Id, CompareMethod.Binary)) '

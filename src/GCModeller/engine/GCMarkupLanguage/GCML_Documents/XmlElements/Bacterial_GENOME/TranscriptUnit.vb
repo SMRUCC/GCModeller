@@ -181,7 +181,7 @@ Namespace GCML_Documents.XmlElements.Bacterial_GENOME
             End If
 
             Dim Site As MotifSite = MotifSites.First
-            Site.Regulators = {Site.Regulators, New SignalTransductions.Regulator() {Regulator}.ToList}.Unlist
+            Site.Regulators = {Site.Regulators, New SignalTransductions.Regulator() {Regulator}.AsList}.Unlist
             Return True
         End Function
 
@@ -193,7 +193,7 @@ Namespace GCML_Documents.XmlElements.Bacterial_GENOME
         ''' <remarks></remarks>
         Public Function RemoveRegulator(ID As String) As Integer
             For Each motif In Me.RegulatedMotifs
-                Dim LQuery = (From item In motif.Regulators Where Not String.Equals(item.Identifier, ID) Select item).ToList
+                Dim LQuery = (From item In motif.Regulators Where Not String.Equals(item.Identifier, ID) Select item).AsList
                 motif.Regulators = LQuery
             Next
 
@@ -202,7 +202,7 @@ Namespace GCML_Documents.XmlElements.Bacterial_GENOME
 
         Public Function RemoveRegulator(Regulator As SignalTransductions.Regulator) As Boolean
             For Each motif In Me.RegulatedMotifs
-                Dim LQuery = (From item In motif.Regulators Where Not item.Equals(Regulator) Select item).ToList
+                Dim LQuery = (From item In motif.Regulators Where Not item.Equals(Regulator) Select item).AsList
                 motif.Regulators = LQuery
             Next
 

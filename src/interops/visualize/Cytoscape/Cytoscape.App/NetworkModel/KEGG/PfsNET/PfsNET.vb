@@ -142,7 +142,7 @@ Namespace NetworkModel.PfsNET
             For Each Pathway In Pathways
                 Call ReactionList.AddRange(Reactions.Takes(Pathway.ReactionList))
             Next
-            ReactionList = (From rxn In ReactionList Select rxn Distinct).ToList
+            ReactionList = (From rxn In ReactionList Select rxn Distinct).AsList
 
             Dim EdgeList As List(Of NetworkModel.Edge) = New List(Of NetworkModel.Edge)
             Dim NodeList As List(Of NetworkModel.Node) = New List(Of NetworkModel.Node)
@@ -185,7 +185,7 @@ Namespace NetworkModel.PfsNET
             For Each subNet In PfsNET
                 Call GeneList.AddRange(subNet.SignificantGeneObjects)
             Next
-            GeneList = (From strId As String In GeneList Select strId Distinct).ToList
+            GeneList = (From strId As String In GeneList Select strId Distinct).AsList
 
             Call NodeList.AddRange((From GeneId As String In GeneList Select New NetworkModel.Node With {.NodeType = "GeneObject", .ID = GeneId}).ToArray)
 

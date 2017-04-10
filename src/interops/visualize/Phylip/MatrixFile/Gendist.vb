@@ -152,9 +152,9 @@ Namespace MatrixFile
                                 Order By InternalSamplingCounts Descending).ToArray.Take(Count).ToArray
             Dim SubMAT = New File
             Call SubMAT.Add(_innerMATRaw.First)
-            Dim TempList = (From row In SelectLQuery Select row.row).ToList
+            Dim TempList = (From row In SelectLQuery Select row.row).AsList
             Call TempList.Add(MainRow)
-            TempList = TempList.Shuffles.ToList
+            TempList = TempList.Shuffles.AsList
 
             Call SubMAT.AppendRange(TempList)
 

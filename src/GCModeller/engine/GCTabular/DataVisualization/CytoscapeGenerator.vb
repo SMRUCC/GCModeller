@@ -75,11 +75,11 @@ Namespace DataVisualization
 
         Public Sub AddStringInteractions(stringDB As String, ByRef Interactions As DataVisualization.Interactions(), ByRef NodeAttributes As DataVisualization.NodeAttributes())
             Dim Network = SimpleCsv.Network.Compile(stringDB).Nodes
-            Dim ListOfNodeAttributes = NodeAttributes.ToList
+            Dim ListOfNodeAttributes = NodeAttributes.AsList
             Call ListOfNodeAttributes.AddRange(CreateNodeAttributes(Network))
             NodeAttributes = TrimNodeAttributes(ListOfNodeAttributes)
 
-            Dim InteractionList = Interactions.ToList
+            Dim InteractionList = Interactions.AsList
             Call InteractionList.AddRange(CreateNodeInteractions(Network))
 
             Interactions = InteractionList.ToArray
@@ -128,7 +128,7 @@ Namespace DataVisualization
         End Function
 
         Private Shared Function CreateNodeAttributes(MetabolismModel As FileStream.MetabolismFlux()) As DataVisualization.NodeAttributes()
-            Dim LQuery = (From item In MetabolismModel Select New DataVisualization.NodeAttributes With {.ID = item.Identifier, .NodeType = "ReactionFlux", .CommonNames = item.CommonName}).ToList
+            Dim LQuery = (From item In MetabolismModel Select New DataVisualization.NodeAttributes With {.ID = item.Identifier, .NodeType = "ReactionFlux", .CommonNames = item.CommonName}).AsList
             For Each Flux In MetabolismModel
                 If Not Flux.Enzymes.IsNullOrEmpty Then
                     Call LQuery.AddRange((From strId As String In Flux.Enzymes Select New NodeAttributes With {.ID = strId, .NodeType = "Metabolism Enzyme"}))
@@ -153,7 +153,7 @@ Namespace DataVisualization
 #Region "CreateNodeInteractions() As DataVisualization.Interactions()"
 
         Private Shared Function CreateNodeInteractions(stringNodes As PitrNode()) As DataVisualization.Interactions()
-            Dim LQuery = (From item In stringNodes Select New Interactions With {.FromNode = item.FromNode, .ToNode = item.ToNode, .InteractionType = "Protein Interactions"}).ToList
+            Dim LQuery = (From item In stringNodes Select New Interactions With {.FromNode = item.FromNode, .ToNode = item.ToNode, .InteractionType = "Protein Interactions"}).AsList
             Call LQuery.AddRange((From item In stringNodes Select New Interactions With {.FromNode = item.ToNode, .ToNode = item.FromNode, .InteractionType = "Protein Interactions"}).ToArray)
             Return LQuery.ToArray
         End Function

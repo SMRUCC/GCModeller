@@ -50,7 +50,7 @@ Namespace Colors
                                            Select cId.ToUpper
                                            Distinct
             Dim ColorProfiles As New Dictionary(Of String, String)
-            Dim Colors = ColorAPI.Colors.Shuffles.ToList
+            Dim Colors = ColorAPI.Colors.Shuffles.AsList
             Dim i As Integer = 0
 
             Call Colors.Remove(defaultColor.ToLower)

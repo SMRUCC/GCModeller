@@ -60,7 +60,7 @@ Public Module API
     Public Function FamilyDomains(Regprecise As Dictionary(Of String, Regprecise.FastaReaders.Regulator),
                                   Pfam As Generic.IEnumerable(Of Xfam.Pfam.PfamString.PfamString)) As FamilyPfam
 
-        Pfam = (From x In Pfam.AsParallel Where Not StringHelpers.IsNullOrEmpty(x.PfamString) Select x).ToList
+        Pfam = (From x In Pfam.AsParallel Where Not StringHelpers.IsNullOrEmpty(x.PfamString) Select x).AsList
 
         Dim LQuery = (From x As Xfam.Pfam.PfamString.PfamString In Pfam
                       Let entry = Regprecise(x.ProteinId)

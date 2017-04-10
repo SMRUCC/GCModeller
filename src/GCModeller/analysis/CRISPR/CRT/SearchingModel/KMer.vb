@@ -192,7 +192,7 @@ Namespace SearchingModel
             End While
             leftExtensionLength -= 1
 
-            Dim NewRepeatsPosition As List(Of Integer) = CandidateCRISPR.Repeats.ToList
+            Dim NewRepeatsPosition As List(Of Integer) = CandidateCRISPR.Repeats.AsList
 
             For m As Integer = 0 To NewRepeatsPosition.Count - 1
                 Dim newValue As Integer = CandidateCRISPR.RepeatAt(m) - leftExtensionLength

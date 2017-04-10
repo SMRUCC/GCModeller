@@ -47,7 +47,7 @@ Namespace Compiler.Components
             Me._KEGGReaction = KEGGReactionsCsv.LoadCsv(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction)(explicit:=False).ToArray
             Me._KEGGCompounds = KEGGCompoundsCsv.LoadCsv(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound)(explicit:=False).ToArray
             Me._EuqationEquals = New EquationEquals(MetaCycCompoundModels:=ModelLoader.MetabolitesModel, CompoundSpecies:=_KEGGCompounds)
-            Me._EntryViews = New EntryViews(ModelLoader.MetabolitesModel.Values.ToList)
+            Me._EntryViews = New EntryViews(ModelLoader.MetabolitesModel.Values.AsList)
             Me._Carmen = (From item As CARMEN.Reaction
                           In CARMENCsv.LoadCsv(Of CARMEN.Reaction)(False).AsParallel
                           Where Not item.lstGene.IsNullOrEmpty

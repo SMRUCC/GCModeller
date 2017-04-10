@@ -49,7 +49,7 @@ Public Module KEGG
         Pfam = (From x As Xfam.Pfam.PfamString.PfamString
                 In Pfam.AsParallel
                 Where Not StringHelpers.IsNullOrEmpty(x.PfamString)
-                Select x).ToList
+                Select x).AsList
         Dim dict As Dictionary(Of String, String) = KEGG.ToArray(Function(x) SequenceDump.TitleParser(x.Title)) _
             .ToDictionary(Function(x) x.Key,
                           Function(x) SequenceDump.KEGGFamily(x.Value))

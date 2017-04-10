@@ -51,7 +51,7 @@ Namespace Compiler
             _CheBI_EntryView = CreateCheBIEntryView(Metabolites)
             _PubChem_EntryView = CreatePubChemEntryView(Metabolites)
             _OriginalList = Metabolites
-            _Index = (From Metabolite In Metabolites Select Metabolite.Identifier).ToList
+            _Index = (From Metabolite In Metabolites Select Metabolite.Identifier).AsList
         End Sub
 
         Public Function GetByUnique(UniqueId As String) As FileStream.Metabolite
@@ -96,7 +96,7 @@ Namespace Compiler
         End Sub
 
         Public Sub Update(ByRef Compound As FileStream.Metabolite, NewValue As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound)
-            Dim List = Compound.CommonNames.ToList
+            Dim List = Compound.CommonNames.AsList
             Call List.AddRange(NewValue.CommonNames)
             Compound.CommonNames = (From strValue As String In List Where Not String.IsNullOrEmpty(strValue) Select strValue Distinct Order By strValue Ascending).ToArray
             Call Update(Compound, NewValue.CHEBI, NewValue.Entry, NewValue.PUBCHEM, "")
@@ -123,7 +123,7 @@ Namespace Compiler
         End Sub
 
         Public Sub Update(ByRef Compound As FileStream.Metabolite, NewValue As CompoundSpecie)
-            Dim List = Compound.CommonNames.ToList
+            Dim List = Compound.CommonNames.AsList
             Call List.AddRange(NewValue.CommonNames)
             Compound.CommonNames = (From strValue As String In List Where Not String.IsNullOrEmpty(strValue) Select strValue Distinct Order By strValue Ascending).ToArray
             Call Update(Compound, NewValue.ICompoundObjectCHEBI_values, NewValue.KEGG_Compound, NewValue.PUBCHEM, NewValue.SabiorkId)
@@ -183,7 +183,7 @@ Namespace Compiler
                           Where Not String.IsNullOrEmpty(KEGG_compoundId)
                           Let item = New KeyValuePair(Of String, FileStream.Metabolite)(KEGG_compoundId, cpd)
                           Select item
-                          Order By item.Key Ascending).ToList
+                          Order By item.Key Ascending).AsList
             Return LQuery
         End Function
 
@@ -202,7 +202,7 @@ Namespace Compiler
                           Where Not String.IsNullOrEmpty(pubchem)
                           Let item = New KeyValuePair(Of String, FileStream.Metabolite)(pubchem, cpd)
                           Select item
-                          Order By item.Key Ascending).ToList
+                          Order By item.Key Ascending).AsList
             Return LQuery
         End Function
     End Class

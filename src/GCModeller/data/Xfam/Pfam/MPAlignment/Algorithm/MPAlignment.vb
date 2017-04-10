@@ -196,8 +196,8 @@ Statistics as Topic",
         ''' <param name="b"></param>
         ''' <remarks>这个比对不是实际的物理位置构成的比较</remarks>
         Private Sub __alignDomain(ByRef a As DomainDistribution(), ByRef b As DomainDistribution())
-            Dim la As List(Of DomainDistribution) = a.ToList,
-                lb As List(Of DomainDistribution) = b.ToList
+            Dim la As List(Of DomainDistribution) = a.AsList,
+                lb As List(Of DomainDistribution) = b.AsList
             Dim p As Integer
             Dim n As List(Of DomainDistribution) = (From dms As List(Of DomainDistribution)
                                                     In {la, lb}

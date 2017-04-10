@@ -125,7 +125,7 @@ Namespace Assembly.MiST2
 
             Call $"[MiST2 web_request handler] Loading data from {proteinCounts}...".__DEBUG_ECHO
 
-            Dim proteinArray As List(Of Transducin) = (From strItem As String In matchs Select Match(strItem)).ToList
+            Dim proteinArray As List(Of Transducin) = (From strItem As String In matchs Select Match(strItem)).AsList
 
             '查找NEXT标签所指向的页面
             Const NEXT_PAGE As String = "<a href=""[^>]+?"">Next</a>"

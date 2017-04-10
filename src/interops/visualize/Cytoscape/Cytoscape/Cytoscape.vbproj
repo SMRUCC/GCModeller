@@ -191,6 +191,7 @@
     <Compile Include="API\ImportantNodes\LDM.vb" />
     <Compile Include="API\ImportantNodes\ImportantNodes.vb" />
     <Compile Include="API\GraphExtensions.vb" />
+    <Compile Include="csv\LinkageNetwork.vb" />
     <Compile Include="csv\csv.vb" />
     <Compile Include="Graph\cytoscape.js\Styles\Expression.vb" />
     <Compile Include="Graph\cytoscape.js\Styles\Selector.vb" />

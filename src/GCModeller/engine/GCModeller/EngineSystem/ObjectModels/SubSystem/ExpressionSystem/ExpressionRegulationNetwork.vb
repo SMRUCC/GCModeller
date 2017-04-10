@@ -226,7 +226,7 @@ Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
                         Adapter:=New Services.DataAcquisition.DataAdapters.Transcriptome(Me), RuntimeContainer:=Me.IRuntimeContainer),
  _
                     New DataAcquisitionService(
-                        Adapter:=New Services.DataAcquisition.DataAdapters.TranscriptionFlux(Me), RuntimeContainer:=Me.IRuntimeContainer)}.ToList
+                        Adapter:=New Services.DataAcquisition.DataAdapters.TranscriptionFlux(Me), RuntimeContainer:=Me.IRuntimeContainer)}.AsList
             Call ServiceList.AddRange(Me._InternalTranscriptDisposableSystem.CreateServiceSerials)
             Call ServiceList.Add(New DataAcquisitionService(
                                  Adapter:=New EngineSystem.Services.DataAcquisition.DataAdapters.TranscriptionRegulation(Me),

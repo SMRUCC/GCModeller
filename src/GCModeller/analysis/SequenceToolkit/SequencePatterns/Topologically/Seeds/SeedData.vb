@@ -50,7 +50,7 @@ Namespace Topologically.Seeding
         End Function
 
         Public Shared Function Initialize(chars As Char(), max As Integer) As SeedData
-            Dim seedsBuf As List(Of String) = InitializeSeeds(chars, 1).Distinct.ToList
+            Dim seedsBuf As List(Of String) = InitializeSeeds(chars, 1).Distinct.AsList
             Dim tmp As String() = seedsBuf
 
             For i As Integer = 2 To max

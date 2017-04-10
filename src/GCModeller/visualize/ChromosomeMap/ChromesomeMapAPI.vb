@@ -407,7 +407,7 @@ Public Module ChromesomeMapAPI
                                .Left = Global.System.Math.Min(GeneObject.Location.Left, GeneObject.Location.Right),
                                .Right = Global.System.Math.Max(GeneObject.Location.Right, GeneObject.Location.Left),
                                .Direction = GeneObject.Location.Strand
-                               }).ToList
+                               }).AsList
 
         Dim configurations = conf.ToConfigurationModel
         Dim Model As ChromesomeDrawingModel = genome.RptGenomeBrief.CopyTo(Of ChromesomeDrawingModel)()

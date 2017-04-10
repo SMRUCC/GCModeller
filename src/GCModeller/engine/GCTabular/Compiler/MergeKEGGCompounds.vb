@@ -42,7 +42,7 @@ Namespace Compiler.Components
             Me._ModelLoader = Loader
             Me.KEGGCompounds = KEGGCompoundsCsv.LoadCsv(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Compound)(explicit:=False).ToArray
             Call Console.WriteLine("There is {0} metabolites define in the model", _ModelLoader.MetabolitesModel.Count)
-            Me._EntryViews = New EntryViews(Loader.MetabolitesModel.Values.ToList)
+            Me._EntryViews = New EntryViews(Loader.MetabolitesModel.Values.AsList)
         End Sub
 
         Public Sub InvokeMergeCompoundSpecies()

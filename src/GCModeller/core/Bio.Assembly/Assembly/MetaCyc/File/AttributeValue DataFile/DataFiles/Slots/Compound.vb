@@ -94,12 +94,12 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
                                         Me.AbbrevName + Me.CommonName + Me.Synonyms + Me.Types.ToArray
                                     Let strItem As String = strValue.Trim.ToLower
                                     Where Not String.IsNullOrEmpty(strItem)
-                                    Select strItem Distinct).ToList
+                                    Select strItem Distinct).AsList
                 End If
                 Return MyBase.Names
             End Get
             Set(value As String())
-                MyBase.Names = value.ToList
+                MyBase.Names = value.AsList
             End Set
         End Property
 

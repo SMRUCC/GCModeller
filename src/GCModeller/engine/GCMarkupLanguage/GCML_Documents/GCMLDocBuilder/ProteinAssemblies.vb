@@ -50,7 +50,7 @@ Namespace Builder
             Call Printf("Start to compile protein table into the proteinassembly rules...")
 
             Dim ProteinAssemblies = (From rxn In MyBase.MetaCyc.GetReactions Where rxn.Types.IndexOf("Protein-Reactions") > -1 Select rxn) '筛选出蛋白质反应
-            '     Model.ProteinAssemblies = (From rxn In ProteinAssemblies Select CType(rxn, GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction)).ToList
+            '     Model.ProteinAssemblies = (From rxn In ProteinAssemblies Select CType(rxn, GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction)).AsList
 
             Dim ProteinList As List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction) = New List(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction)
             Dim ProteinCPLXCollection = (From Protein As SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots.Protein

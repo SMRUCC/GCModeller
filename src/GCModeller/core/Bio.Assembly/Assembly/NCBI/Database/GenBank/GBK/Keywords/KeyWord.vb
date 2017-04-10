@@ -86,7 +86,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
             str = Strings.Split(String.Join(" ", str), "; ")
             Return New KEYWORDS With {
-                .KeyWordList = str.ToList
+                .KeyWordList = str.AsList
             }
         End Function
 

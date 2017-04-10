@@ -269,7 +269,7 @@ Partial Module CLI
         Dim out As String = args("/out")
         Dim logFold As Double = args.GetValue("/log-fold", 2)
         Dim DEGs = diff.LoadCsv(Of DESeq2.DESeq2Diff)
-        DEGs = (From x In DEGs Where Math.Abs(x.log2FoldChange) >= logFold Select x).ToList
+        DEGs = (From x In DEGs Where Math.Abs(x.log2FoldChange) >= logFold Select x).AsList
         Dim locus As String() = DEGs.ToArray(Function(x) x.locus_tag)
         Dim PTTDb As New GenBank.TabularFormat.PTTDbLoader(PTT)
         Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)

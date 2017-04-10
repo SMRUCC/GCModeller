@@ -363,7 +363,7 @@ Partial Module CLI
         Dim parts = args("/parts")
         Dim out = args.GetValue("/out", parts.TrimSuffix & "-" & ref.BaseName & ".diff.csv")
         Dim diff As New List(Of String)
-        Dim partsId = parts.LoadCsv(Of OTUData).Select(Function(x) x.OTU).Distinct.ToList
+        Dim partsId = parts.LoadCsv(Of OTUData).Select(Function(x) x.OTU).Distinct.AsList
 
         For Each x In ref.LoadCsv(Of OTUData)
             If partsId.IndexOf(x.OTU) = -1 Then

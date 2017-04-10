@@ -74,7 +74,7 @@
 '        For Each item In MatrixList
 '            Call Metabolites.AddRange(item.Substrates)
 '        Next
-'        Metabolites = (From strId As String In Metabolites Select strId Distinct).ToList
+'        Metabolites = (From strId As String In Metabolites Select strId Distinct).AsList
 '        _Matrix = (From Metabolite As String In Metabolites
 '                   Let Generate = Function() As Double()
 '                                      Dim ChunkBuffer As Double() = New Double(_TotalFluxCounts - 1) {}

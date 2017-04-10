@@ -137,7 +137,7 @@ Namespace Assembly.MetaCyc.Schema
             End Function
 
             Public Shared Function CreateObject(DBLinks As Generic.IEnumerable(Of String)) As List(Of DBLink)
-                Dim LQuery = (From strData As String In DBLinks Select DBLink.TryParse(strData)).ToList
+                Dim LQuery = (From strData As String In DBLinks Select DBLink.TryParse(strData)).AsList
                 Return LQuery
             End Function
 
@@ -189,7 +189,7 @@ Namespace Assembly.MetaCyc.Schema
         End Function
 
         Public Shared Function CreateObject(dblinks As KeyValuePair(Of String, String)()) As DBLinkManager
-            Dim LQuery = (From item In dblinks Select New Schema.DBLinkManager.DBLink With {.DBName = item.Key, .AccessionId = item.Value}).ToList
+            Dim LQuery = (From item In dblinks Select New Schema.DBLinkManager.DBLink With {.DBName = item.Key, .AccessionId = item.Value}).AsList
             Return New DBLinkManager With {._DBLinkObjects = LQuery}
         End Function
 

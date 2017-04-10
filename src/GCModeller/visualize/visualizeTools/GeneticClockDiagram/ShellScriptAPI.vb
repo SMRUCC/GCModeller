@@ -66,7 +66,7 @@ Namespace GeneticClock
 
         <ExportAPI("Data.Interpolate")>
         Public Function Interpolate(data As SerialsData(), n As Integer) As SerialsData()
-            Dim LQuery = (From item In data Select New SerialsData With {.Tag = item.Tag, .ChunkBuffer = Interpolate(item.ChunkBuffer, n)}).ToList
+            Dim LQuery = (From item In data Select New SerialsData With {.Tag = item.Tag, .ChunkBuffer = Interpolate(item.ChunkBuffer, n)}).AsList
             Return LQuery.ToArray
         End Function
 
@@ -88,7 +88,7 @@ Namespace GeneticClock
                                                       Return Nothing
                                                   End If
                                                   Return value
-                                              End Function() Where Not SelectedValue.ChunkBuffer.IsNullOrEmpty Select SelectedValue).ToList
+                                              End Function() Where Not SelectedValue.ChunkBuffer.IsNullOrEmpty Select SelectedValue).AsList
             Call LQuery.Insert(0, data.First)
             Return LQuery.ToArray
         End Function

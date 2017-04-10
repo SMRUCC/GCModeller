@@ -568,7 +568,7 @@ POSITIONNING:
 REPEAT:         Dim Combs As List(Of Tuple(Of String, String)) = Comb(Of String).CreateObject(Genes).CombList.Unlist
                 Combs = (From cb As Tuple(Of String, String)
                      In Combs
-                         Where Not (cb.Item1.First = "/"c OrElse cb.Item2.First = "/"c) Select cb).ToList
+                         Where Not (cb.Item1.First = "/"c OrElse cb.Item2.First = "/"c) Select cb).AsList
                 Links += From cb As Tuple(Of String, String)
                          In Combs
                          Select New Orthology With {
@@ -599,7 +599,7 @@ REPEAT:         Dim Combs As List(Of Tuple(Of String, String)) = Comb(Of String)
             Model.aligns = (From Genome In SubjectsPtt Select ModelAPI.CreateObject(Genome.Ptt, COGsColor:=Nothing)).ToArray
 
             If UsingColumnHeadersAsName Then
-                Dim TempList = ColumnList.ToList
+                Dim TempList = ColumnList.AsList
                 Dim setValue = New SetValue(Of GenomeModel) <= NameOf(GenomeModel.Title)
 
                 Call TempList.RemoveAt(Qp)
@@ -645,7 +645,7 @@ REPEAT:         Dim Combs As List(Of Tuple(Of String, String)) = Comb(Of String)
                            Let Loci As List(Of Integer) = (From Gene As ComparativeGenomics.GeneObject
                                                        In GenomeDrawingModel.genes
                                                            Select New Integer() {Gene.Left, Gene.Right}).ToArray.Unlist
-                           Select Loci.Max - Loci.Min).ToList
+                           Select Loci.Max - Loci.Min).AsList
 
             Model.Query.Length = Math.Max(Model.Query.Length, QueryLength.Max)
             Model.Query.SegmentOffset = Min

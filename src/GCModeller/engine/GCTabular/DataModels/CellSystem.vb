@@ -106,7 +106,7 @@ Namespace DataModel
         End Sub
 
         Private Sub LoadSystemVariables(Model As GCMarkupLanguage.BacterialModel, DataModel As FileStream.IO.XmlresxLoader)
-            'Dim ChunkBuffer = _CellSystemModel.SystemVariables.ToList
+            'Dim ChunkBuffer = _CellSystemModel.SystemVariables.AsList
             'Call ChunkBuffer.Add(New SMRUCC.genomics.ComponentModel.KeyValuePair With {
             '                     .Key = SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage.GCML_Documents.ComponentModels.SystemVariables._URL_CHIPDATA,
             '                     .Value = DataModel.CellSystemModel.ChipData.GetFullPath(Me._CellSystemModel.ModelParentDir)})
@@ -178,7 +178,7 @@ Namespace DataModel
                                                                     In item.AssociatedRegulationGenes
                                                                     Select New GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator With
                                                                            {
-                                                                               .Identifier = enz.Identifier, .CommonName = enz.Identifier, .Activation = True}).ToList
+                                                                               .Identifier = enz.Identifier, .CommonName = enz.Identifier, .Activation = True}).AsList
                                                   Select New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction With
                                                          {
                                                              .LOWER_BOUND = New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction.Parameter With
@@ -196,7 +196,7 @@ Namespace DataModel
                                                                             {
                                                                                 .Value = item.Upper_Bound},
                                                              .Enzymes = (From strId In item.AssociatedRegulationGenes Select strId.Identifier).ToArray,
-                                                             .DynamicsRegulators = regulators}).ToList
+                                                             .DynamicsRegulators = regulators}).AsList
 
             Model.Metabolism.MetabolismEnzymes = Me._CellSystemModel.Enzymes.ToArray
 
@@ -208,7 +208,7 @@ Namespace DataModel
                                                    {
                                                        .Identifier = item.Identifier, .InitialAmount = item.InitialAmount,
                                                        .NumOfFluxAssociated = item.n_FluxAssociated,
-                                                       .MetaboliteType = item.MetaboliteType}).ToList
+                                                       .MetaboliteType = item.MetaboliteType}).AsList
             '  Model.Proteins = (From item In Me._CellSystemModel.Proteins.AsParallel Select New SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.DocumentFormat.GCMarkupLanguage. GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Protein With {.UniqueId = item.UniqueId, .Lamda = item.Lambda, .CommonName = item.UniqueId}).ToArray
             Model.Metabolism.ConstraintMetaboliteMaps = Me._CellSystemModel.ConstraintMetabolites.ToArray
             Model.ProteinAssemblies = (From assemblyEntry In Me._CellSystemModel.ProteinAssembly
@@ -223,7 +223,7 @@ Namespace DataModel
                                                              .Identifier = component, .StoiChiometry = 1}),
                                            .Products = {
                                                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {
-                                                   .Identifier = assembly.ProteinComplexes, .StoiChiometry = 1}}}).ToList
+                                                   .Identifier = assembly.ProteinComplexes, .StoiChiometry = 1}}}).AsList
 
             Call CreateTranscripts(Model) '转录组分目标对象的形成需要代谢底物的句柄，故而目标对象的初始化需要在代谢组部分初始化完毕之后进行，而多肽链分子对象的构造则需要转录组对象，故而本对象的构造需要在构造多肽链分子对象之前完成
 
@@ -266,7 +266,7 @@ Namespace DataModel
                                                             .Identifier = component, .StoiChiometry = 1}).ToArray,
                                           .Products = {
                                               New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {
-                                                  .Identifier = assembly.ProteinComplexes, .StoiChiometry = 1}}}).ToList
+                                                  .Identifier = assembly.ProteinComplexes, .StoiChiometry = 1}}}).AsList
 
             Model.RNAPolymerase = (From assembly In Me._CellSystemModel.RNAPolymerase
                                    Let RxnId As String = If(String.IsNullOrEmpty(assembly.Comments), assembly.ProteinComplexes, String.Format("{0}.{1}", assembly.ProteinComplexes, assembly.Comments.Split.First))
@@ -279,10 +279,10 @@ Namespace DataModel
                                                            .Identifier = component, .StoiChiometry = 1}).ToArray,
                                          .Products = {
                                              New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {
-                                                 .Identifier = assembly.ProteinComplexes, .StoiChiometry = 1}}}).ToList
+                                                 .Identifier = assembly.ProteinComplexes, .StoiChiometry = 1}}}).AsList
 
             Dim Metabolites = (From item In Model.Metabolism.Metabolites Select item.Identifier Distinct Order By Identifier Ascending).ToArray
-            Model.Metabolism.Metabolites = (From Id As String In Metabolites Select Model.Metabolism.Metabolites.GetItem(Id)).ToList
+            Model.Metabolism.Metabolites = (From Id As String In Metabolites Select Model.Metabolism.Metabolites.GetItem(Id)).AsList
 
             Model.BacteriaGenome.ExpressionKinetics = (From item In _CellSystemModel.ExpressionKinetics
                                                        Select New EnzymeCatalystKineticLaw With {
@@ -299,7 +299,7 @@ Namespace DataModel
         End Function
 
         Private Function CreateTransmembraneTransportation(Model As List(Of FileStream.MetabolismFlux)) As List(Of XmlElements.Metabolism.TransportationReaction)
-            Dim LQuery = (From item In Model.AsParallel Select CreateTransportationFlux(item)).ToList
+            Dim LQuery = (From item In Model.AsParallel Select CreateTransportationFlux(item)).AsList
             Return LQuery
         End Function
 
@@ -332,7 +332,7 @@ Namespace DataModel
                 DataModel.DynamicsRegulators = (From enz In Model.Enzymes
                                                 Select New GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator With
                                                        {
-                                                           .Identifier = enz, .CommonName = enz, .Activation = True}).ToList
+                                                           .Identifier = enz, .CommonName = enz, .Activation = True}).AsList
             End If
 
             Return DataModel
@@ -408,7 +408,7 @@ Namespace DataModel
                 Call SubstrateList.AddRange((From ref In item.Products Select ref.Identifier).ToArray)
             Next
 
-            SubstrateList = SubstrateList.Distinct.ToList
+            SubstrateList = SubstrateList.Distinct.AsList
 
             Dim AppendedMetabolites = (From Id As String In SubstrateList
                                        Select Model.Metabolism.AppendNewMetabolite(Id, If(InStr(Id, "[") > 0 AndAlso InStr(Id, "]") > 0,
@@ -431,9 +431,9 @@ Namespace DataModel
             Dim ii = (From RegulationModel In TempChunk Select Internal_Process(RegulationModel.TFList, SubstrateList, RegulationModel.TranscriptionModel, Model, TFActive)).ToArray
 
             Dim Index As String() = (From item In ChemotaxisSensing Select item.Identifier Distinct Order By Identifier).ToArray
-            ChemotaxisSensing = (From strIndex In Index Select ChemotaxisSensing.GetItem(strIndex)).ToList
+            ChemotaxisSensing = (From strIndex In Index Select ChemotaxisSensing.GetItem(strIndex)).AsList
             Index = (From item In HKAutoPhosphorus Select item.Identifier Distinct Order By Identifier).ToArray
-            HKAutoPhosphorus = (From strIndex As String In Index Select HKAutoPhosphorus.GetItem(strIndex)).ToList
+            HKAutoPhosphorus = (From strIndex As String In Index Select HKAutoPhosphorus.GetItem(strIndex)).AsList
 
             Model.SignalTransductionPathway.CheBMethylesterase = (From rxn In _CellSystemModel.CheBMethylesterase.AsParallel Select rxn.CreateGCMLModel).ToArray
             Model.SignalTransductionPathway.CheBPhosphate = (From rxn In _CellSystemModel.CheBPhosphate.AsParallel Select rxn.CreateGCMLModel).ToArray
@@ -443,7 +443,7 @@ Namespace DataModel
             Model.SignalTransductionPathway.HkAutoPhosphorus = HKAutoPhosphorus.ToArray
             Model.SignalTransductionPathway.OCSSensing = (From rxn In _CellSystemModel.OCSSensing.AsParallel Select rxn.CreateGCMLModel).ToArray
 
-            SubstrateList = SubstrateList.Distinct.ToList
+            SubstrateList = SubstrateList.Distinct.AsList
             AppendedMetabolites = (From Id As String In SubstrateList Select Model.Metabolism.AppendNewMetabolite(Id, If(InStr(Id, "[") > 0 AndAlso InStr(Id, "]") > 0,
                                                                                      GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.ProteinComplexes,
                                                                                           GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite.MetaboliteTypes.Compound))).ToArray
@@ -451,7 +451,7 @@ Namespace DataModel
             Call _Logging.WriteLine("Finalize the signal transduction network initialization!")
 
             Index = (From item In TFActive.AsParallel Where Not item Is Nothing Select item.Identifier Distinct Order By Identifier).ToArray
-            TFActive = (From item In TFActive.AsParallel Where Not item Is Nothing Select item).ToList
+            TFActive = (From item In TFActive.AsParallel Where Not item Is Nothing Select item).AsList
             Model.SignalTransductionPathway.TFActive = (From strIndex As String In Index.AsParallel Select TFActive.GetItem(strIndex)).ToArray
 
             Call _Logging.WriteLine("End intialize the signal transduction network!")
@@ -526,7 +526,7 @@ Namespace DataModel
                             Call Complexes.AddRange((From item In Line.PC Select New KeyValuePair(Of Double, String)(Line.Conf, item)).ToArray)
                         Next
 
-                        Complexes = Complexes.Distinct.ToList
+                        Complexes = Complexes.Distinct.AsList
 
                         Dim TU_Regulators = TranscriptionModel.get_Regulators
 
@@ -593,7 +593,7 @@ Namespace DataModel
                                                                                      .Identifier = item.ProteinId,
                                                                                      .Weight = weight,
                                                                                      .Regulates = motifId}
-                                                                             }.ToList
+                                                                             }.AsList
                                                                          End If
 
                                                                          Return (From pc_id In PCs Select New GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions.Regulator With
@@ -607,12 +607,12 @@ Namespace DataModel
                                                                                                               .K_Dynamics = 1,
                                                                                                               .Identifier = pc_id.Key,
                                                                                                               .Weight = weight,
-                                                                                                              .Regulates = motifId}).ToList
+                                                                                                              .Regulates = motifId}).AsList
                                                                      End Function()
                                             Select __createRegulators).ToArray.Unlist
                           Select New GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.MotifSite With
                                  {
-                                     .MotifName = regulation.motif.Internal_GUID, .SitePosition = regulation.motif.Position, .Regulators = regulators}).ToList     '生成motif数据并返回
+                                     .MotifName = regulation.motif.Internal_GUID, .SitePosition = regulation.motif.Position, .Regulators = regulators}).AsList     '生成motif数据并返回
             Return LQuery
         End Function
 
@@ -623,7 +623,7 @@ Namespace DataModel
                               In _CellSystemModel.TranscriptionModel.AsParallel
                               Let motifs = get_Motifs(TranscriptUnit)
                               Let TU_Model = InternalCreate_TU_MODEL(motifs, GeneObjects, TranscriptUnit)
-                              Select TU_Model).ToList
+                              Select TU_Model).AsList
             Return TransUnits
         End Function
 

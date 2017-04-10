@@ -53,7 +53,7 @@ Namespace SequenceModel.Patterns.Clustal
         End Sub
 
         Sub New(source As IEnumerable(Of FastaToken))
-            _innerList = source.ToList
+            _innerList = source.AsList
             Call __initCommon()
         End Sub
 

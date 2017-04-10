@@ -70,7 +70,7 @@ Namespace SequenceModel.FASTA
         End Sub
 
         Sub New(source As IEnumerable(Of FastaToken), path As String)
-            Call Me.New(source.ToList)
+            Call Me.New(source.AsList)
             FilePath = path
         End Sub
 
@@ -145,7 +145,7 @@ Namespace SequenceModel.FASTA
             Dim List = CType((From fasta As FastaToken
                               In Me.__innerList
                               Select fasta
-                              Order By fasta.Title Ascending).ToList, List(Of FastaToken))
+                              Order By fasta.Title Ascending).AsList, List(Of FastaToken))
             For i As Integer = 1 To List.Count - 1
                 If String.Equals(List(i).Title, List(i - 1).Title) Then
                     Call List.RemoveAt(i)
@@ -310,7 +310,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
                                                        Where Find(Fasta.Attributes, KeyWord, CaseSensitive)
                                                        Select Fasta '
             Return New FastaFile With {
-                .__innerList = LQuery.ToList
+                .__innerList = LQuery.AsList
             }
         End Function
 
@@ -533,7 +533,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
 
         Public Shared Shadows Widening Operator CType(source As FastaToken()) As FastaFile
             Return New FastaFile With {
-                .__innerList = source.ToList
+                .__innerList = source.AsList
             }
         End Operator
 

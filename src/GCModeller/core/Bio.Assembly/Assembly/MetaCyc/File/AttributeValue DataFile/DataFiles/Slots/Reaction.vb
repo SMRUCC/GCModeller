@@ -139,7 +139,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
         ''' <remarks>Left和Right字段的值的集合，不能够被用户指定的一个只读属性</remarks>
         Public ReadOnly Property Substrates As String()
             Get
-                Dim ChunkBuffer As List(Of String) = Left.ToList
+                Dim ChunkBuffer As List(Of String) = Left.AsList
                 Call ChunkBuffer.AddRange(Right)
                 Return (From strValue As String
                         In ChunkBuffer

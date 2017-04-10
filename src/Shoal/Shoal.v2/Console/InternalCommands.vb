@@ -185,7 +185,7 @@ Public Module InternalCommands
                                <Parameter("Dir.CopyTo")> CopyTo As String) As String()
 
         Dim FailuredList As New List(Of String)
-        Dim FileList = FileIO.FileSystem.GetFiles(Source, FileIO.SearchOption.SearchTopLevelOnly).ToList
+        Dim FileList = FileIO.FileSystem.GetFiles(Source, FileIO.SearchOption.SearchTopLevelOnly).AsList
 
         Call FileIO.FileSystem.CreateDirectory(CopyTo)
 

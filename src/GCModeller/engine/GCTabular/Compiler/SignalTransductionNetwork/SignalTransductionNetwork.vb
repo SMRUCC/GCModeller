@@ -126,7 +126,7 @@ Namespace Compiler.Components
             For Each Line As String() In (From item In ModelIO.OCSSensing Select item.get_Metabolites).ToArray
                 Call SubstrateList.AddRange(Line)
             Next
-            SubstrateList = (From strValue As String In SubstrateList Select strValue Distinct Order By strValue Ascending).ToList
+            SubstrateList = (From strValue As String In SubstrateList Select strValue Distinct Order By strValue Ascending).AsList
 
             For Each strMetaboliteId As String In SubstrateList
 
@@ -193,7 +193,7 @@ Namespace Compiler.Components
                     Dim Regulations = (From item As FileStream.Regulator
                                        In ModelIO.Regulators
                                        Where String.Equals(TF_ID, item.ProteinId) AndAlso Array.IndexOf(motifs, item.RegulatesMotif) > -1
-                                       Select item).ToList
+                                       Select item).AsList
 
                     For Each regulator In Regulations
                         regulator.Effectors = (From item In Data Select item._Internal_compilerLeft(1).Value).ToArray
@@ -226,7 +226,7 @@ Namespace Compiler.Components
                 Call HK.AddRange((From item In STrP.TCSSystem Let Id As String = item.HK Select Id).ToArray)
             Next
 
-            HK = (From strValue As String In HK Select strValue Distinct Order By strValue Ascending).ToList
+            HK = (From strValue As String In HK Select strValue Distinct Order By strValue Ascending).AsList
 
             Dim TempChunk As New List(Of TCS.SensorInducers)
             For Each HKId As String In HK
@@ -248,7 +248,7 @@ Namespace Compiler.Components
                           Where String.Equals(Item.Class, "MCP")
                           Select New TCS.SensorInducers With {
                                      .SensorId = String.Format("[{0}][CH3]", Item.Identifier),
-                                     .Inducers = New String() {}}).ToList
+                                     .Inducers = New String() {}}).AsList
             Return LQuery
         End Function
 
@@ -260,13 +260,13 @@ Namespace Compiler.Components
 
                 Dim LQuery = (From HK In Me.ModelIO.MisT2.MajorModules.First.TwoComponent.HisK
                               Let Confidence As Double = StringNetwork.GetConfidence(CheB, HK.Identifier) + 0.05
-                              Select New With {.HK = HK.Identifier, .Conf = Confidence}).ToList
+                              Select New With {.HK = HK.Identifier, .Conf = Confidence}).AsList
                 Call LQuery.AddRange((From HK In Me.ModelIO.MisT2.MajorModules.First.TwoComponent.HHK
                                       Let Confidence As Double = StringNetwork.GetConfidence(CheB, HK.Identifier) + 0.05
-                                      Select New With {.HK = HK.Identifier, .Conf = Confidence}).ToList)
+                                      Select New With {.HK = HK.Identifier, .Conf = Confidence}).AsList)
                 Call LQuery.AddRange((From HK In Me.ModelIO.MisT2.MajorModules.First.TwoComponent.HRR
                                       Let Confidence As Double = StringNetwork.GetConfidence(CheB, HK.Identifier) + 0.05
-                                      Select New With {.HK = HK.Identifier, .Conf = Confidence}).ToList)
+                                      Select New With {.HK = HK.Identifier, .Conf = Confidence}).AsList)
                 If LQuery.IsNullOrEmpty Then
                     Continue For
                 End If

@@ -40,7 +40,7 @@ Namespace ComponentModel.Loci
     Public Module Loci_API
 
         Public Function InternalAssembler(source As IEnumerable(Of SegmentObject)) As NucleotideLocation()
-            Dim ls = (From p In source Select p Order By p.Left Ascending).ToList
+            Dim ls = (From p In source Select p Order By p.Left Ascending).AsList
 
             For i As Integer = 0 To ls.Count - 1
                 If i = ls.Count - 1 Then

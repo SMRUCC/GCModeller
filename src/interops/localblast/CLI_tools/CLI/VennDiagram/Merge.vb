@@ -66,7 +66,7 @@ Partial Module CLI
                        Order By Csv.Width Descending   '
 
         Dim CsvFile As IO.File =
-            __mergeFile(CsvFiles.ToList)
+            __mergeFile(CsvFiles.AsList)
         CsvFile = IO.File.Distinct(CsvFile, Scan0, True)
         CsvFile = IO.File.RemoveSubRow(CsvFile)
 

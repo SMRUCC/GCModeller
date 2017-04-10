@@ -42,7 +42,7 @@ Namespace Level2.Elements
                 Return __parameters.ToArray
             End Get
             Set(value As parameter())
-                __parameters = value.ToList
+                __parameters = value.AsList
 
                 If __parameters.IsNullOrEmpty Then
                     __paramHash = New Dictionary(Of parameter)

@@ -64,7 +64,7 @@ Namespace ComponentModel.DBLinkBuilder
                 Return _DBLinkObjects.ToArray
             End Get
             Set(value As TLink())
-                _DBLinkObjects = value.ToList
+                _DBLinkObjects = value.AsList
             End Set
         End Property
 

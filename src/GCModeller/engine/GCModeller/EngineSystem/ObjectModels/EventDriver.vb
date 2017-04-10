@@ -135,7 +135,7 @@ Namespace EngineSystem.ObjectModels
         End Function
 
         Public Overrides Function Initialize() As Integer
-            _lstEventDelegate = (From item In _lstEventDelegate Select item Distinct).ToList
+            _lstEventDelegate = (From item In _lstEventDelegate Select item Distinct).AsList
             Call SystemLogging.WriteLine(ToString)
             Return 0
         End Function

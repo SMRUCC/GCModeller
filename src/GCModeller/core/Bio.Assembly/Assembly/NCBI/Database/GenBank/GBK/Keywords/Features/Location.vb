@@ -90,7 +90,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                      .Left = Val(Tokens.First),
                      .Right = Val(Tokens.Last)
                  }
-                 Select Segment).ToList
+                 Select Segment).AsList
 
             If LQuery.IsNullOrEmpty Then
                 Call $"Location is empty!   ""{strData}""".__DEBUG_ECHO
