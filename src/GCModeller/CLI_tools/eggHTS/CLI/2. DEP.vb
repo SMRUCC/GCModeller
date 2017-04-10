@@ -28,6 +28,7 @@ Partial Module CLI
     <ExportAPI("/iTraq.Reverse.FC",
                Info:="Reverse the FC value from the source result.",
                Usage:="/iTraq.Reverse.FC /in <data.csv> [/out <Reverse.csv>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function iTraqInvert(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".reverse.csv")
@@ -35,9 +36,15 @@ Partial Module CLI
         Dim start = 1
         Dim ends = (data.Width - 1) - 3
 
-        For Each row As RowObject In data
+        For Each row As RowObject In data.Skip(1)
             For i As Integer = start To ends
-                row(i) = 1 / Val(row(i))
+                Dim s$ = row(i)
+
+                If s = "NA" OrElse s.TextEquals("NaN") Then
+                    Continue For
+                Else
+                    row(i) = 1 / Val(s)
+                End If
             Next
         Next
 
@@ -75,6 +82,7 @@ Partial Module CLI
 
     <ExportAPI("/DEP.uniprot.list2",
                Usage:="/DEP.uniprot.list2 /in <log2.test.csv> [/DEP.Flag <is.DEP?> /uniprot.Flag <uniprot> /species <scientifcName> /uniprot <uniprotXML> /out <out.txt>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function DEPUniprotIDs2(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim DEPFlag As String = args.GetValue("/DEP.flag", "is.DEP?")
@@ -150,6 +158,7 @@ Partial Module CLI
     <ExportAPI("/Merge.DEPs",
                Info:="Usually using for generates the heatmap plot matrix of the DEPs. This function call will generates two dataset, one is using for the heatmap plot and another is using for the venn diagram plot.",
                Usage:="/Merge.DEPs /in <*.csv,DIR> [/log2 /threshold ""log(1.5,2)"" /raw <sample.csv> /out <out.csv>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function MergeDEPs(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim log2 As Boolean = args.GetBoolean("/log2")
@@ -216,10 +225,12 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/DEP.logFC.hist",
+               Info:="Using for plots the FC histogram when the experiment have no biological replicates.",
                Usage:="/DEP.logFC.hist /in <log2test.csv> [/step <0.5> /tag <logFC> /legend.title <Frequency(logFC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1600,1200> /out <out.png>]")>
     <Argument("/tag", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is ""logFC"".")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function logFCHistogram(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim tag As String = args.GetValue("/tag", "logFC")
@@ -242,6 +253,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP.qlfTable.csv> [/size <1920,1440> /out <plot.csv>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function logFCVolcano(args As CommandLine) As Integer
         Dim in$ = args("/in")
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEP.vocano.plot.png")
