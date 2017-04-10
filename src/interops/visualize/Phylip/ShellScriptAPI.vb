@@ -230,11 +230,11 @@ Public Module ShellScriptAPI
 
         On Error Resume Next
 
-        Dim head As New IO.RowObject("QueryProtein" + hits.First.Hits.AsList(Function(x) x.tag))  '生成表头
+        Dim head As New IO.RowObject("QueryProtein" + hits.First.Hits.ToList(Function(x) x.tag))  '生成表头
         MAT += head
 
         For Each hit As HitCollection In hits
-            Dim Row As New IO.RowObject(hit.QueryName + hit.Hits.AsList(Function(x) CStr(x.Identities)))
+            Dim Row As New IO.RowObject(hit.QueryName + hit.Hits.ToList(Function(x) CStr(x.Identities)))
             MAT += Row
         Next
 

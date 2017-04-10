@@ -55,7 +55,7 @@ Partial Module CLI
                              Select x
                              Group x By uid = $"{x.LocusTag}:{x.Position}" Into Group
             Dim sites As List(Of FastaToken) =
-                GroupQuery.AsList(
+                GroupQuery.ToList(
                     Function(x) New FastaToken(
                         {x.uid}, SequenceTrimming(x.Group.First.SequenceData)))
             Dim fa As New FastaFile(sites)
