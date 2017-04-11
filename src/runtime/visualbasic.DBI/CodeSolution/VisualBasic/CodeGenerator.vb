@@ -267,7 +267,9 @@ Namespace VisualBasic
             Call codeGenerator.AppendLine($"<Oracle.LinuxCompatibility.MySQL.Reflection.DbAttributes.TableName(""{Table.TableName}""{DBName})>")
             Call codeGenerator.AppendLine($"Public Class {FixInvalids(Table.TableName)}: Inherits {InheritsAbstract}")
             Call codeGenerator.AppendLine("#Region ""Public Property Mapping To Database Fields""")
-            For Each Field As Reflection.Schema.Field In Table.Fields
+
+            ' 生成Class之中的属性
+            For Each Field As Field In Table.Fields
 
                 If Not String.IsNullOrEmpty(Field.Comment) Then
                     Call codeGenerator.AppendLine("''' <summary>")
@@ -283,6 +285,7 @@ Namespace VisualBasic
                 Call codeGenerator.Append(__toDataType(Field.DataType))                                                          'Generate the property data type
                 Call codeGenerator.AppendLine()
             Next
+
             Call codeGenerator.AppendLine("#End Region")
 
             Dim SQLlist As New Dictionary(Of String, Value(Of String)) From {
@@ -292,6 +295,7 @@ Namespace VisualBasic
                 {"UPDATE", New Value(Of String)}
             }
 
+            ' 生成SQL接口
             Call codeGenerator.AppendLine("#Region ""Public SQL Interface""")
             Call codeGenerator.AppendLine("#Region ""Interface SQL""")
             Call codeGenerator.AppendLine(___INSERT_SQL(Table, trimAutoIncrement, SQLlist("INSERT")))
@@ -323,9 +327,25 @@ Namespace VisualBasic
             Call codeGenerator.AppendLine("    End Function")
             Call codeGenerator.AppendLine("#End Region")
 
+#Region "Clone of the table data"
+            Call codeGenerator.AppendLine(FixInvalids(Table.TableName).__clone)
+#End Region
             Call codeGenerator.AppendLine("End Class")
 
             Return codeGenerator.ToString
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="type$">Class name</param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function __clone(type$) As String
+            Return _
+            $"Public Function Clone() As {type}
+                  Return DirectCast(MyClass.MemberwiseClone, {type})
+              End Function"
         End Function
 
         ''' <summary>
