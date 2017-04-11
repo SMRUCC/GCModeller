@@ -124,7 +124,7 @@ Namespace Assembly.EBI.ChEBI
         ''' <summary>
         ''' 通过chebi编号从names数据之中查找得到名称列表
         ''' </summary>
-        ''' <param name="chebi_ID$"></param>
+        ''' <param name="chebi_ID$">单纯的数值格式的ChEBI编号</param>
         ''' <returns></returns>
         Public Function GetChEBINamesByID(chebi_ID$) As String()
             If chebiNames.ContainsKey(chebi_ID) Then
