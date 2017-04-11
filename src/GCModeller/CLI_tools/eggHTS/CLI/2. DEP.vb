@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.Scripting
@@ -148,8 +149,30 @@ Partial Module CLI
         Dim level# = args.GetValue("/level", 1.25)
 
         Return DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue) _
+            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue, nonDEP_blank:=False) _
             .SaveDataSet(dataOUT, blank:=1)
+    End Function
+
+    <ExportAPI("/Venn.Functions", Usage:="/Venn.Functions /venn <venn.csv> /anno <annotations.csv> [/out <out.csv>]")>
+    Public Function VennFunctions(args As CommandLine) As Integer
+        Dim in$ = args <= "/venn"
+        Dim anno$ = args <= "/anno"
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-functions.csv")
+        Dim venn As EntityObject() = EntityObject.LoadDataSet([in]).ToArray
+        Dim annoData As Dictionary(Of String, EntityObject) = EntityObject _
+            .LoadDataSet(anno) _
+            .ToDictionary(Function(prot) prot("uniprot"))
+        Dim list As New List(Of EntityObject)
+
+        For Each prot As EntityObject In venn
+            prot.Properties.Add("geneName", annoData(prot.ID)("geneName"))
+            prot.Properties.Add("fullName", annoData(prot.ID)("fullName"))
+            prot.Properties.Add("functions", annoData(prot.ID)("functions"))
+
+            list += prot
+        Next
+
+        Return list.SaveTo(out).CLICode
     End Function
 
     ''' <summary>

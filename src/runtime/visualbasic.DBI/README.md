@@ -10,8 +10,15 @@ This project includes:
 
 Require of VisualBasic server CLI runtime
 
-> PM> Install-Package VB_AppFramework
+> PM> Install-Package sciBASIC
 
 Or reference to source code project:
 
-> https://github.com/xieguigang/VisualBasic_AppFramework
+> https://github.com/xieguigang/sciBASIC
+
+### ORM
+
+![](./Mimetypes-text-x-sql-icon.png)
+
+1. Generates source code for VisualBasic
+2. Generates source code for PHP
