@@ -104,6 +104,12 @@ Namespace Assembly.EBI.ChEBI
                               Function(id) id.Item2).ToArray)
         End Sub
 
+        Public Shared Function FromDataDirectory(DIR$) As [NameOf]
+            Dim tsv As New TSVTables(DIR)
+            Dim names As New [NameOf](tsv)
+            Return names
+        End Function
+
         ''' <summary>
         ''' 通过chebi编号从names数据之中查找得到名称列表
         ''' </summary>
