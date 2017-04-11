@@ -111,6 +111,17 @@ Namespace Assembly.EBI.ChEBI
         End Function
 
         ''' <summary>
+        ''' 目标<paramref name="chebiID"/>是否存在于这个名称mapping数据表之中
+        ''' </summary>
+        ''' <param name="chebiID$">
+        ''' ChEBI代谢物数据库编号，这里要求是纯数字的，不带有``CHEBI``前缀
+        ''' </param>
+        ''' <returns></returns>
+        Public Function ContainsChEBIid(chebiID$) As Boolean
+            Return chebiXrefs.ContainsKey(chebiID)
+        End Function
+
+        ''' <summary>
         ''' 通过chebi编号从names数据之中查找得到名称列表
         ''' </summary>
         ''' <param name="chebi_ID$"></param>
