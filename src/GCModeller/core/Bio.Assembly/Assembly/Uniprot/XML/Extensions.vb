@@ -55,7 +55,7 @@ Namespace Assembly.Uniprot.XML
         End Function
 
         <Extension> Public Function proteinFullName(protein As entry) As String
-            If protein.protein Is Nothing Then
+            If protein Is Nothing OrElse protein.protein Is Nothing Then
                 Return ""
             Else
                 Return protein.protein.FullName

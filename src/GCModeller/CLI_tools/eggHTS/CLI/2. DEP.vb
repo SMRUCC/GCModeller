@@ -138,7 +138,9 @@ Partial Module CLI
 
     <ExportAPI("/DEP.heatmap",
                Info:="Generates the heatmap plot input data. The default label profile is using for the iTraq result.",
-               Usage:="/DEP.heatmap /data <Directory> [/level 1.25 /FC.tag <FC.avg> /pvalue <p.value> /out <out.csv>]")>
+               Usage:="/DEP.heatmap /data <Directory> [/non_DEP.blank /level 1.25 /FC.tag <FC.avg> /pvalue <p.value> /out <out.csv>]")>
+    <Argument("/non_DEP.blank", True, CLITypes.Boolean,
+              Description:="If this parameter present, then all of the non-DEP that bring by the DEP set merge, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
@@ -147,9 +149,10 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
         Dim level# = args.GetValue("/level", 1.25)
+        Dim nonDEP_blank As Boolean = args.GetBoolean("/non_DEP.blank")
 
         Return DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue, nonDEP_blank:=False) _
+            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue, nonDEP_blank:=nonDEP_blank) _
             .SaveDataSet(dataOUT, blank:=1)
     End Function
 

@@ -1,12 +1,11 @@
-﻿Imports System.Drawing
-Imports System.Text.RegularExpressions
+﻿Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -108,30 +107,54 @@ Module CLI
     End Function
 
     <ExportAPI("/Enrichments.ORF.info",
-               Info:="Retrive KEGG info for the genes in the enrichment result.",
-               Usage:="/Enrichments.ORF.info /in <enrichment.csv> /proteins <uniprot-genome.XML> [/out <out.csv>]")>
+               Info:="Retrive KEGG/GO info for the genes in the enrichment result.",
+               Usage:="/Enrichments.ORF.info /in <enrichment.csv> /proteins <uniprot-genome.XML> [/nocut /ORF /out <out.csv>]")>
     Public Function RetriveEnrichmentGeneInfo(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim proteins$ = args <= "/proteins"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "__Enrichments.ORF.Info.csv")
         Dim csv As New File
-        Dim uniprot As Dictionary(Of String, entry) = UniprotXML _
-            .Load(proteins) _
-            .entries _
-            .Where(Function(x) Not x.ORF.StringEmpty) _
-            .ToDictionary(Function(x) x.ORF)
+        Dim getORF As Boolean = args.GetBoolean("/ORF")
+        Dim uniprot As Dictionary(Of String, entry)
+        Dim pvalue# = If(args.GetBoolean("/nocut"), 100.0#, 0.05)
 
-        For Each term As EnrichmentTerm In [in].LoadCsv(Of EnrichmentTerm)
+        If getORF Then
+            uniprot = UniprotXML _
+                .Load(proteins) _
+                .entries _
+                .Where(Function(x) Not x.ORF.StringEmpty) _
+                .ToDictionary(Function(x) x.ORF)
+        Else
+            uniprot = UniprotXML _
+                .LoadDictionary(proteins) _
+                .Values _
+                .ToDictionary(Function(x) DirectCast(x, INamedValue).Key)
+        End If
+
+        For Each term As EnrichmentTerm In [in].LoadCsv(Of EnrichmentTerm).Where(Function(t) t.Pvalue < pvalue)
             csv += New RowObject From {
-                "pathway=" & term.ID,
+                "#term-ID=" & term.ID,
                 "term=" & term.Term,
                 "pvalue=" & term.Pvalue
             }
 
+            If term.ORF.IsNullOrEmpty Then
+                term.ORF = term.Input.Split("|"c)
+            End If
+
+            csv += New RowObject From {"uniprot", "EC", "geneNames", "fullName"}
+
             For Each ORF As String In term.ORF
                 Dim protein As entry = uniprot.TryGetValue(ORF)
                 Dim EC$ = protein?.ECNumberList.JoinBy("; ")
-                csv += New RowObject From {ORF, EC, protein.proteinFullName}
+                Dim name$ = protein? _
+                    .gene? _
+                    .names? _
+                    .SafeQuery _
+                    .Select(Function(x) x.value) _
+                    .JoinBy("; ")
+
+                csv += New RowObject From {ORF, EC, name, protein.proteinFullName}
             Next
 
             csv.AppendLine()
