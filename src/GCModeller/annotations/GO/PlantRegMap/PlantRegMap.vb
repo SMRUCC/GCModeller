@@ -18,7 +18,7 @@ Namespace PlantRegMap
         Public Property Annotated As String
         Public Property Count As String
         Public Property Expected As String
-        <Column("p-value")> Public Property pvalue As Double Implements IGoTermEnrichment.Pvalue
+        <Column("p-value")> Public Property pvalue As Double Implements IGoTermEnrichment.Pvalue, IGoTermEnrichment.CorrectedPvalue
         <Column("q-value")> Public Property qvalue As Double
         Public Property Aspect As String
         Public Property Genes As String

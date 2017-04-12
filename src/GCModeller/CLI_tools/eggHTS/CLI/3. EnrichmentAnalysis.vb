@@ -39,7 +39,7 @@ Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Go.enrichment.plot",
-               Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /displays 10 /PlantRegMap /label.right /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
+               Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays 10 /PlantRegMap /label.right /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
     <Argument("/bubble", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Visuallize the GO enrichment analysis result using bubble plot, not the bar plot.")>
@@ -57,6 +57,7 @@ Module CLI
         Dim tick# = args.GetValue("/tick", 1.0R)
         Dim gray As Boolean = args.GetBoolean("/gray")
         Dim labelRight As Boolean = args.GetBoolean("/label.right")
+        Dim usingCorrected As Boolean = args.GetBoolean("/Corrected")
 
         If PlantRegMap Then
             Dim enrichments As IEnumerable(Of PlantRegMap_GoTermEnrichment) =
