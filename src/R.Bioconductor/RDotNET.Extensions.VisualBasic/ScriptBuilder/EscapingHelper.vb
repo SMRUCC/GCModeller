@@ -1,5 +1,6 @@
 ﻿Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace SymbolBuilder
@@ -7,7 +8,7 @@ Namespace SymbolBuilder
     Public Module EscapingHelper
 
         ''' <summary>
-        ''' 将``\``进行转义为``\\``
+        ''' 这个函数主要是处理mysql和R语言之间的不兼容的转义字符部分
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
@@ -26,12 +27,32 @@ Namespace SymbolBuilder
 
                 For Each [property] As PropertyInfo In props
                     s = Scripting.CStrSafe([property].GetValue(o))
-                    s = s.Replace("\", "\\")
+                    s = EscapingHelper.MySqlDeEscaping(s)
                     Call [property].SetValue(o, value:=s)
                 Next
             Next
 
             Return source
+        End Function
+
+        ''' <summary>
+        ''' MySQL和R之间的转移符不兼容，所以在这里需要将mysql之中的不兼容的转移符取消掉，否则自动生成的R脚本会出现语法错误
+        ''' </summary>
+        ''' <param name="value$"></param>
+        ''' <returns></returns>
+        Public Function MySqlDeEscaping(value$) As String
+            If value.StringEmpty Then
+                Return ""
+            Else
+                Dim sb As New StringBuilder(value)
+
+                Call sb.Replace("\%", "%")
+                Call sb.Replace("\'", "'")
+                Call sb.Replace("\Z", "[Z]")
+                Call sb.Replace("\0", "")
+
+                Return sb.ToString
+            End If
         End Function
     End Module
 End Namespace
