@@ -39,7 +39,7 @@ Module Program
         '  Call ssss.asfdsfd()
         '  sdfsdf()
         '  Call ExportNetwork()
-        Call test33333linkages()
+        '  Call test33333linkages()
 
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
