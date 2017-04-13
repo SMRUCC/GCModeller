@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
@@ -33,35 +34,50 @@ Namespace Tables
                 .ToDictionary(Function(name) types.Get(name, Rnd),
                               Function(color) +color)
             Dim linkages = source.Columns.SlideWindows(2).ToArray
-            Dim parent$() = {}
+            Dim parents As NamedValue(Of String)() = New NamedValue(Of String)(source.RowNumbers - 2) {} ' 
 
-            For Each linkage In linkages
-                Dim a = linkage(0)
-                Dim b = linkage(1)
-                Dim type1 = a.First
+            For Each linkage In linkages.SeqIterator
+                Dim a$() = (+linkage)(0)  ' 第一列的所有数据
+                Dim b$() = (+linkage)(1)  ' 第二列的所有数据
+                Dim type1 = a.First   ' 这里获得的是表头
                 Dim type2 = b.First
 
                 ' 跳过表头
                 a = a.Skip(1).ToArray
                 b = b.Skip(1).ToArray
 
+                ' 按行遍历当前的这两列的所有数据
                 For i As Integer = 0 To a.Length - 1
                     Dim list_a$() = a(i).Trim.StringSplit(";\s*")
                     Dim list_b$() = b(i).Trim.StringSplit(";\s*")
+                    Dim typeA = type1  ' 应该将A的类型单独拿出来，要不然后面遇见空缺的时候会被覆盖掉的，导致后面的类型全部错位
+
+                    If list_a.Length = 0 AndAlso list_b.Length = 0 Then
+                        Continue For
+                    End If
 
                     If Not list_a.IsNullOrEmpty Then
-                        parent = list_a
+                        parents(i) = New NamedValue(Of String) With {
+                            .Name = typeA,
+                            .Value = a(i)
+                        }
                     Else
-                        list_a = parent
+                        For pIndex = i To 0 Step -1
+                            list_a = parents(pIndex).Value.StringSplit(";\s*")
+                            If Not list_a.IsNullOrEmpty Then
+                                typeA = parents(pIndex).Name
+                                Exit For
+                            End If
+                        Next
                     End If
 
                     For Each n As String In list_a
-                        n = If(typePrefix, n.__addPrefix(type1), n)
+                        n = If(typePrefix, n.__addPrefix(typeA), n)
 
                         If Not nodes.ContainsKey(n) Then
                             nodes(n) = New FileStream.Node With {
                                 .ID = n,
-                                .NodeType = type1
+                                .NodeType = typeA
                             }
                         End If
                     Next
@@ -79,9 +95,9 @@ Namespace Tables
                     For Each aID In list_a
                         For Each bID In list_b
                             edges += New NetworkEdge With {
-                                .FromNode = If(typePrefix, aID.__addPrefix(type1), aID),
+                                .FromNode = If(typePrefix, aID.__addPrefix(typeA), aID),
                                 .ToNode = If(typePrefix, bID.__addPrefix(type2), bID),
-                                .InteractionType = $"{type1} --- {type2}"
+                                .InteractionType = $"{typeA} --- {type2}"
                             }
                         Next
                     Next
