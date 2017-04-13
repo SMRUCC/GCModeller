@@ -38,6 +38,7 @@ Namespace Assembly.EBI.ChEBI
     ''' </summary>
     ''' <remarks>
     ''' 这个对象的XML布局是根据ChEBI的Web Services来生成的，所以为了能够正确的读取ChEBI的数据，不能够再随意修改了
+    ''' return节点之中的数据
     ''' </remarks>
     Public Class ChEBIEntity : Implements INamedValue
 
@@ -53,7 +54,13 @@ Namespace Assembly.EBI.ChEBI
         Public Property entityStar As Integer
         <XmlElement>
         Public Property Synonyms As Synonyms()
+        <XmlElement>
+        Public Property IupacNames As Synonyms()
+        <XmlElement>
+        Public Property Citations As Synonyms()
         Public Property Formulae As Formulae
+        <XmlElement>
+        Public Property SecondaryChEBIIds As String()
         <XmlElement>
         Public Property RegistryNumbers As RegistryNumbers()
         <XmlElement>
@@ -62,6 +69,23 @@ Namespace Assembly.EBI.ChEBI
         Public Property DatabaseLinks As DatabaseLinks()
         <XmlElement>
         Public Property OntologyParents As OntologyParents()
+        <XmlElement>
+        Public Property OntologyChildren As OntologyParents()
+        <XmlElement>
+        Public Property CompoundOrigins As CompoundOrigin()
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Class
+
+    Public Class CompoundOrigin
+        Public Property speciesText As String
+        Public Property speciesAccession As String
+        Public Property componentText As String
+        Public Property componentAccession As String
+        Public Property SourceType As String
+        Public Property SourceAccession As String
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
