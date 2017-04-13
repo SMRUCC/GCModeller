@@ -23,6 +23,8 @@ Namespace Tables
         ''' <param name="schema$">The color schema name</param>
         ''' <returns></returns>
         Public Function BuildNetwork(source As File, Optional typePrefix As Boolean = True, Optional schema$ = "material") As Network
+            source = source.Trim
+
             Dim types$() = source.Headers.ToArray ' 表头作为节点类型
             Dim nodes As New Dictionary(Of FileStream.Node)
             Dim edges As New List(Of NetworkEdge)
@@ -31,7 +33,7 @@ Namespace Tables
                 .GetColors(term:=schema, n:=types.Length) _
                 .Select(Function(c) c.RGB2Hexadecimal) _
                 .SeqIterator _
-                .ToDictionary(Function(name) types.Get(name, Rnd),
+                .ToDictionary(Function(name) types.Get(name, App.NextTempName),
                               Function(color) +color)
             Dim linkages = source.Columns.SlideWindows(2).ToArray
             Dim parents As NamedValue(Of String)() = New NamedValue(Of String)(source.RowNumbers - 2) {} ' 
