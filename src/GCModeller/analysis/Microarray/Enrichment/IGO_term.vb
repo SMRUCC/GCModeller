@@ -6,4 +6,6 @@ End Interface
 Public Interface IGoTermEnrichment : Inherits IGoTerm
 
     Property Pvalue As Double
+    Property CorrectedPvalue As Double
+
 End Interface

@@ -272,6 +272,7 @@
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Compound.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Extensions.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Tables.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Web\REST.vb" />
     <Compile Include="Assembly\Expasy\API.vb" />
     <Compile Include="Assembly\Expasy\csv\SwissProt.vb" />
     <Compile Include="Assembly\Expasy\csv\Enzyme.vb" />
@@ -452,7 +453,7 @@
     <Compile Include="ComponentModel\Equations\EquationBuilder.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\StreamProvider.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\TSV.vb" />
-    <Compile Include="Assembly\EBI.ChEBI\WebServices.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Web\WebServices.vb" />
     <Compile Include="Assembly\Expasy\EnzymeClass.vb" />
     <Compile Include="Assembly\KEGG\Web\Form\WebForm.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\PropertyAttributes.vb" />
@@ -660,7 +661,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Assembly\EBI.ChEBI\EntityModel\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\br08901.txt" />
   </ItemGroup>
