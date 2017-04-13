@@ -135,13 +135,13 @@ Namespace KOBAS
         ''' P-Value
         ''' </summary>
         ''' <returns></returns>
-        <Column("P-Value")> Public Property Pvalue As Double
+        <Column("P-Value")> Public Property Pvalue As Double Implements IGoTermEnrichment.Pvalue
 
         ''' <summary>
         ''' Corrected P-Value
         ''' </summary>
         ''' <returns></returns>
-        <Column("Corrected P-Value")> Public Property CorrectedPvalue As Double Implements IGoTermEnrichment.Pvalue
+        <Column("Corrected P-Value")> Public Property CorrectedPvalue As Double Implements IGoTermEnrichment.CorrectedPvalue
 
         ''' <summary>
         ''' The group of this input gene id list
