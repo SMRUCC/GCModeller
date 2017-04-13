@@ -58,6 +58,7 @@ Namespace Assembly.EBI.ChEBI
         Dim masses As DoubleTagged(Of Tables.ChemicalData())()
         Dim chebiNames As Dictionary(Of String, Tables.Names())
         Dim chebiChemicalDatas As Dictionary(Of String, Dictionary(Of String, Tables.ChemicalData))
+        Dim chebiInChI As Dictionary(Of String, Tables.InChI())
 
         Sub New(table As TSVTables)
             Dim accIDs = table.GetDatabaseAccessions
@@ -67,6 +68,10 @@ Namespace Assembly.EBI.ChEBI
                 Enums(Of AccessionTypes) _
                 .ToDictionary(Function(t) t.Description)
 
+            Me.chebiInChI = table.GetInChI _
+                .GroupBy(Function(m) m.CHEBI_ID) _
+                .ToDictionary(Function(c) c.Key,
+                              Function(g) g.ToArray)
             Me.formulas = chemicals _
                 .Where(Function(c) c.TYPE = "FORMULA") _
                 .GroupBy(Function(x) x.CHEMICAL_DATA) _
@@ -113,6 +118,14 @@ Namespace Assembly.EBI.ChEBI
                               Function(g) g.Select(
                               Function(id) id.Item2).ToArray)
         End Sub
+
+        Public Function GetInCHIData(chebiID$) As Tables.InChI()
+            If chebiInChI.ContainsKey(chebiID) Then
+                Return chebiInChI(chebiID)
+            Else
+                Return Nothing
+            End If
+        End Function
 
         Private Shared Function __valueTable(data As IGrouping(Of String, Tables.ChemicalData)) As Dictionary(Of String, Tables.ChemicalData)
             Dim g = data _
