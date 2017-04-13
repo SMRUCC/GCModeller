@@ -38,6 +38,7 @@ Namespace Assembly.EBI.ChEBI
     ''' </summary>
     ''' <remarks>
     ''' 这个对象的XML布局是根据ChEBI的Web Services来生成的，所以为了能够正确的读取ChEBI的数据，不能够再随意修改了
+    ''' return节点之中的数据
     ''' </remarks>
     Public Class ChEBIEntity : Implements INamedValue
 

@@ -49,7 +49,7 @@ Namespace Assembly.EBI.ChEBI
         ''' <summary>
         ''' ``chebi -> xrefs``
         ''' </summary>
-        Dim chebiXrefs As Dictionary(Of String, Tables.Accession())
+        Dim chebiXrefs As Dictionary(Of String, Dictionary(Of AccessionTypes, Tables.Accession))
         Dim DbXrefs As Dictionary(Of AccessionTypes, Tables.Accession())
         ''' <summary>
         ''' 因为存在同分异构体，所以这里是一对多的关系
@@ -57,6 +57,7 @@ Namespace Assembly.EBI.ChEBI
         Dim formulas As Dictionary(Of String, Tables.ChemicalData())
         Dim masses As DoubleTagged(Of Tables.ChemicalData())()
         Dim chebiNames As Dictionary(Of String, Tables.Names())
+        Dim chebiChemicalDatas As Dictionary(Of String, Dictionary(Of String, Tables.ChemicalData))
 
         Sub New(table As TSVTables)
             Dim accIDs = table.GetDatabaseAccessions
@@ -82,6 +83,10 @@ Namespace Assembly.EBI.ChEBI
                         End Function) _
                 .OrderBy(Function(x) x.Tag) _
                 .ToArray
+            Me.chebiChemicalDatas = chemicals _
+                .GroupBy(Function(c) c.COMPOUND_ID) _
+                .ToDictionary(Function(id) id.Key,
+                              AddressOf __valueTable)
             Me.names = names _
                 .GroupBy(Function(name) name.NAME.ToLower) _
                 .ToDictionary(Function(k) k.Key,
@@ -93,7 +98,12 @@ Namespace Assembly.EBI.ChEBI
             Me.chebiXrefs = accIDs _
                 .GroupBy(Function(acc) acc.COMPOUND_ID) _
                 .ToDictionary(Function(k) k.Key,
-                              Function(g) g.ToArray)
+                              Function(g)
+                                  Return g _
+                                      .GroupBy(Function(db) db.TYPE) _
+                                      .ToDictionary(Function(db) accessionTypes(db.Key),
+                                                    Function(db) db.First)
+                              End Function)
             Me.DbXrefs = accIDs _
                 .Select(Function(id)
                             Return New Tuple(Of AccessionTypes, Tables.Accession)(accessionTypes(id.TYPE), id)
@@ -103,6 +113,53 @@ Namespace Assembly.EBI.ChEBI
                               Function(g) g.Select(
                               Function(id) id.Item2).ToArray)
         End Sub
+
+        Private Shared Function __valueTable(data As IGrouping(Of String, Tables.ChemicalData)) As Dictionary(Of String, Tables.ChemicalData)
+            Dim g = data _
+                .ToArray _
+                .GroupBy(Function(x) x.TYPE) _
+                .ToArray
+            Dim out = g.ToDictionary(
+                Function(t) t.Key,
+                Function(t) t.First)
+            Return out
+        End Function
+
+        Public Function ToKEGG(chebiID$) As String()
+            Dim xrefs = GetChebiXrefs(chebiID)
+
+            If xrefs Is Nothing Then
+                Return Nothing
+            Else
+                With xrefs
+                    Return {
+                        .TryGetValue(AccessionTypes.KEGG_Compound),
+                        .TryGetValue(AccessionTypes.KEGG_Drug),
+                        .TryGetValue(AccessionTypes.KEGG_Glycan)
+                    }.Where(Function(id) Not id Is Nothing) _
+                     .Select(Function(x)
+                                 Return x.ACCESSION_NUMBER
+                             End Function) _
+                     .ToArray
+                End With
+            End If
+        End Function
+
+        Public Function GetChebiXrefs(chebiID$) As Dictionary(Of AccessionTypes, Tables.Accession)
+            If chebiXrefs.ContainsKey(chebiID) Then
+                Return chebiXrefs(chebiID)
+            Else
+                Return Nothing
+            End If
+        End Function
+
+        Public Function GetChemicalDatas(chebiID$) As Dictionary(Of String, Tables.ChemicalData)
+            If chebiChemicalDatas.ContainsKey(chebiID) Then
+                Return chebiChemicalDatas(chebiID)
+            Else
+                Return Nothing
+            End If
+        End Function
 
         Public Shared Function FromDataDirectory(DIR$) As [NameOf]
             Dim tsv As New TSVTables(DIR)
@@ -149,7 +206,7 @@ Namespace Assembly.EBI.ChEBI
                     Dim names As Tables.Names() = Me.names(nameKey)
                     Dim out As Tables.Accession() = names _
                         .Where(Function(id) chebiXrefs.ContainsKey(id.COMPOUND_ID)) _
-                        .Select(Function(id) chebiXrefs(id.COMPOUND_ID)) _
+                        .Select(Function(id) chebiXrefs(id.COMPOUND_ID).Values) _
                         .IteratesALL _
                         .ToArray
                     Return out
@@ -184,9 +241,12 @@ Namespace Assembly.EBI.ChEBI
             Dim list As Tables.Accession() = DbXrefs(type)
             For Each accID As Tables.Accession In list
                 If ID.TextEquals(accID.ACCESSION_NUMBER) Then
-                    Dim chebi = accID.COMPOUND_ID
+                    Dim chebi As String = accID.COMPOUND_ID
                     Dim result = chebiXrefs(chebi)
-                    Return result
+
+                    Return result _
+                        .Values _
+                        .ToArray
                 End If
             Next
             Return {}
@@ -212,7 +272,7 @@ Namespace Assembly.EBI.ChEBI
                 Dim ids = formulas(formula).Select(Function(f) f.COMPOUND_ID).Distinct.ToArray
                 Dim accIDs As Tables.Accession() = ids _
                     .Where(AddressOf chebiXrefs.ContainsKey) _
-                    .Select(Function(id) chebiXrefs(id)) _
+                    .Select(Function(id) chebiXrefs(id).Values) _
                     .IteratesALL _
                     .ToArray
                 Return accIDs
@@ -249,7 +309,7 @@ Namespace Assembly.EBI.ChEBI
                 .ToArray
             Dim accIDs As Tables.Accession() = ids _
                 .Where(AddressOf chebiXrefs.ContainsKey) _
-                .Select(Function(id) chebiXrefs(id)) _
+                .Select(Function(id) chebiXrefs(id).Values) _
                 .IteratesALL _
                 .ToArray
 

@@ -53,8 +53,12 @@ Namespace Assembly.EBI.ChEBI.WebServices
         ''' </summary>
         ''' <param name="chebiId$"></param>
         ''' <returns></returns>
-        Public Function GetCompleteEntity(chebiId$)
-            Throw New NotImplementedException
+        Public Function GetCompleteEntity(chebiId$) As ChEBIEntity()
+            Dim url$ = $"http://www.ebi.ac.uk/webservices/chebi/2.0/test/getCompleteEntity?chebiId={chebiId}"
+            Dim xml$ = url.GET
+            Call xml.SaveTo("d:\test.xml")
+            Dim out As ChEBIEntity() = REST.ParsingRESTData(xml)
+            Return out
         End Function
     End Module
 End Namespace
