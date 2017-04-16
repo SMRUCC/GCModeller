@@ -44,8 +44,17 @@ Namespace Drawing3D
         ''' </summary>
         Public offset As Point
 
+        ''' <summary>
+        ''' Light
+        ''' </summary>
         Public lightAngle As Point3D
+        ''' <summary>
+        ''' Light
+        ''' </summary>
         Public colorDifference As Double
+        ''' <summary>
+        ''' Light, default using <see cref="Color.White"/> as the light color
+        ''' </summary>
         Public lightColor As Color
 
         Public Sub New()
@@ -136,12 +145,18 @@ Namespace Drawing3D
         End Sub
 
         Public Function Lighting(surface As Surface) As Color
-            Dim color As Color = surface _
-                .vertices.Lighting(
-                    lightAngle,
-                    DirectCast(surface.brush, SolidBrush).Color,
-                    colorDifference,
-                    lightColor)
+            Dim color As Color = DirectCast(surface.brush, SolidBrush).Color
+            Try
+                color = surface _
+                    .vertices _
+                    .Lighting(lightAngle,
+                              color,
+                              colorDifference,
+                              lightColor)
+            Catch ex As Exception
+
+            End Try
+
             Return color
         End Function
 
