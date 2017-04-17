@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{A298B539-BE81-4A66-AFC1-014D449E4887}"
 EndProject
@@ -317,11 +317,11 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+VB_DataFrame.Extensions", 
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SearchEngine", "runtime\sciBASIC#\Data\SearchEngine\SearchEngine\SearchEngine.vbproj", "{8AFBC715-5EB6-4EAF-A967-D29A5667709F}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "mime_markups", "runtime\sciBASIC#\mime\mime_markups\mime_markups.vbproj", "{2DD4BE80-DDC3-4767-94A7-10F1C3395716}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "mime_markups", "runtime\sciBASIC#\mime\text%html\mime-htmls.vbproj", "{2DD4BE80-DDC3-4767-94A7-10F1C3395716}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RDF", "runtime\sciBASIC#\mime\RDF\RDF.vbproj", "{20912FF3-CE68-497C-854D-21E372F11D7C}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RDF", "runtime\sciBASIC#\mime\application%RDF+xml\RDF.vbproj", "{20912FF3-CE68-497C-854D-21E372F11D7C}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RTF", "runtime\sciBASIC#\mime\RTF\RTF.vbproj", "{062AFA7D-1E0D-48F8-B07D-FB74AEEFA5D6}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RTF", "runtime\sciBASIC#\mime\application%RTF\RTF.vbproj", "{062AFA7D-1E0D-48F8-B07D-FB74AEEFA5D6}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Microsoft.VisualBasic.Imaging", "runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj", "{85E71B4B-9276-4EC8-AADC-C849205F1EA8}"
 EndProject
@@ -359,7 +359,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "httpd", "runtime\httpd\http
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SMRUCC.WebCloud.d3js", "runtime\httpd\WebCloud\SMRUCC.WebCloud.d3js\SMRUCC.WebCloud.d3js.vbproj", "{D6E1FCBB-69B4-43D3-9289-A987A140A435}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "JSON", "runtime\sciBASIC#\mime\JSON\JSON.vbproj", "{32228818-26F1-44DF-8D40-347136C743CD}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "JSON", "runtime\sciBASIC#\mime\application%JSON\JSON.vbproj", "{32228818-26F1-44DF-8D40-347136C743CD}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Dfam", "GCModeller\data\Xfam\Dfam\Dfam.vbproj", "{5915DD63-1F95-4DA8-ACA3-08EF9CE41A65}"
 EndProject
