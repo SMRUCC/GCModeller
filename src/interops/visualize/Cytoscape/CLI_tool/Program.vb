@@ -39,13 +39,13 @@ Module Program
         '  Call ssss.asfdsfd()
         '  sdfsdf()
         '  Call ExportNetwork()
-        Call test33333linkages()
+        'Call test33333linkages()
 
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
 
     Sub test33333linkages()
-        Dim data As File = File.Load("X:\B.csv")
+        Dim data As File = File.Load("C:\Users\xieguigang\OneDrive\4.7\sqq\chebi-kegg.csv")
         Call LinkageNetwork.BuildNetwork(data).Save("x:\test.network/")
     End Sub
 End Module

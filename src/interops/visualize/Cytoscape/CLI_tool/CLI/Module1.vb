@@ -1,38 +1,41 @@
 ﻿#Region "Microsoft.VisualBasic::860b3fe7ae505890ad0659c49e0f4a0c, ..\interops\visualize\Cytoscape\CLI_tool\CLI\Module1.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 
 Partial Module CLI
 
@@ -136,5 +139,21 @@ Partial Module CLI
         Return net.SaveTo(out & "/net.Csv").CLICode
     End Function
 
+    <ExportAPI("/linkage.knowledge.network",
+               Usage:="/linkage.knowledge.network /in <knowledge.network.csv/DIR> [/schema <material> /no-type_prefix /out <out.network.DIR>]")>
+    Public Function LinkageKnowledgeNetwork(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim schema$ = args.GetValue("/schema", "material")
+        Dim typePrefix As Boolean = Not args.GetBoolean("/no-type_prefix")
+        Dim out As String = args.GetValue("/out", [in].ParentPath & "/" & [in].BaseName & ".knowledge_network/")
+        Dim network As Network
 
+        If [in].DirectoryExists Then
+        Else
+            Dim data As File = File.Load([in])
+            network = LinkageNetwork.BuildNetwork(data, typePrefix, schema)
+        End If
+
+        Return network.Save(out, Encodings.ASCII)
+    End Function
 End Module
