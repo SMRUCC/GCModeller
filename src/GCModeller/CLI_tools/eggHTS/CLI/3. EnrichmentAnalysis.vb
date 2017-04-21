@@ -84,7 +84,7 @@ Module CLI
               AcceptTypes:={GetType(Boolean)},
               Description:="Visuallize the GO enrichment analysis result using bubble plot, not the bar plot.")>
     <Group(CLIGroups.Enrichment_CLI)>
-    Public Function GO_enrichment(args As CommandLine) As Integer
+    Public Function GO_enrichmentPlot(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
         Dim terms = GO_OBO.Open(goDB).ToDictionary
         Dim [in] As String = args("/in")
