@@ -28,7 +28,14 @@ Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/GO.cellular_location.Plot")>
+    <ExportAPI("/GO.cellular_location.Plot",
+               Info:="Visualize of the subcellular location result from the GO enrichment analysis.",
+               Usage:="/GO.cellular_location.Plot /in <KOBAS.GO.csv> [/3D /colors <schemaName> /out <out.png>]")>
+    <Argument("/3D", True,
+              Description:="3D style pie chart for the plot?")>
+    <Argument("/colors", True,
+              Description:="Color schema name, default using color brewer color schema.")>
+    <Group(CLIGroups.Enrichment_CLI)>
     Public Function GO_cellularLocationPlot(args As CommandLine) As Integer
 
     End Function
@@ -87,7 +94,9 @@ Module CLI
         Return plot.Save(out).CLICode
     End Function
 
-    <ExportAPI("/KEGG.enrichment.plot", Usage:="/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /label.right /pvalue <0.05> /tick 1 /size <2000,1600> /out <out.png>]")>
+    <ExportAPI("/KEGG.enrichment.plot",
+               Info:="Bar plots of the KEGG enrichment analysis result.",
+               Usage:="/KEGG.enrichment.plot /in <enrichmentTerm.csv> [/gray /label.right /pvalue <0.05> /tick 1 /size <2000,1600> /out <out.png>]")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGG_enrichment(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -110,6 +119,16 @@ Module CLI
     <ExportAPI("/Enrichments.ORF.info",
                Info:="Retrive KEGG/GO info for the genes in the enrichment result.",
                Usage:="/Enrichments.ORF.info /in <enrichment.csv> /proteins <uniprot-genome.XML> [/nocut /ORF /out <out.csv>]")>
+    <Argument("/ORF", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this argument presented, then the program will using the ORF value in uniprot.xml as the record identifier, 
+              default is using uniprotID in the accessions fields of the uniprot.XML records.")>
+    <Argument("/nocut", True,
+              Description:="Default is using pvalue < 0.05 as term cutoff, if this argument presented, then will no pavlue cutoff for the terms input.")>
+    <Argument("/in",
+              AcceptTypes:={GetType(EnrichmentTerm)},
+              Description:="KOBAS analysis result output.")>
+    <Group(CLIGroups.Enrichment_CLI)>
     Public Function RetriveEnrichmentGeneInfo(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim proteins$ = args <= "/proteins"
@@ -139,11 +158,11 @@ Module CLI
                 "pvalue=" & term.Pvalue
             }
 
-            If term.ORF.IsNullOrEmpty Then
+            If Not getORF OrElse term.ORF.IsNullOrEmpty Then
                 term.ORF = term.Input.Split("|"c)
             End If
 
-            csv += New RowObject From {"uniprot", "EC", "geneNames", "fullName"}
+            csv += New RowObject From {"uniprot", "ORF", "EC", "geneNames", "fullName"}
 
             For Each ORF As String In term.ORF
                 Dim protein As entry = uniprot.TryGetValue(ORF)
@@ -155,10 +174,12 @@ Module CLI
                     .Select(Function(x) x.value) _
                     .JoinBy("; ")
 
-                csv += New RowObject From {ORF, EC, name, protein.proteinFullName}
+                csv += New RowObject From {
+                    ORF, protein.ORF, EC, name, protein.proteinFullName
+                }
             Next
 
-            csv.AppendLine()
+            Call csv.AppendLine()
         Next
 
         Return csv.Save(out).CLICode
@@ -172,6 +193,7 @@ Module CLI
     <ExportAPI("/KEGG.Enrichment.PathwayMap",
                Info:="Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.",
                Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/out <DIR>]")>
+    <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGGEnrichmentPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-KEGG_enrichment_pathwayMaps/")
@@ -237,7 +259,8 @@ Module CLI
         Return table.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/Term2genes", Usage:="/Term2genes /in <uniprot.XML> [/term <GO> /id <ORF> /out <out.tsv>]")>
+    <ExportAPI("/Term2genes",
+               Usage:="/Term2genes /in <uniprot.XML> [/term <GO> /id <ORF> /out <out.tsv>]")>
     Public Function Term2Genes(args As CommandLine) As Integer
         Dim [in] = args <= "/in"
         Dim term As String = args.GetValue("/term", "GO")
@@ -250,6 +273,7 @@ Module CLI
 
     <ExportAPI("/enricher.background",
                Usage:="/enricher.background /in <genbank.gb> [/out <universe.txt>]")>
+    <Group(CLIGroups.Enrichment_CLI)>
     Public Function Backgrounds(args As CommandLine) As Integer
         Dim [in] = args <= "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".backgrounds.txt")
@@ -262,11 +286,15 @@ Module CLI
 
     <ExportAPI("/enrichment.go",
                Usage:="/enrichment.go /deg <deg.list> /backgrounds <genome_genes.list> /t2g <term2gene.csv> [/go <go_brief.csv> /out <enricher.result.csv>]")>
+    <Group(CLIGroups.Enrichment_CLI)>
     Public Function GoEnrichment(args As CommandLine) As Integer
 
     End Function
 
-    <ExportAPI("/Enrichment.Term.Filter", Usage:="/Enrichment.Term.Filter /in <enrichment.csv> /filter <key-string> [/out <out.csv>]")>
+    <ExportAPI("/Enrichment.Term.Filter",
+               Info:="Filter the specific term result from the analysis output by using pattern keyword",
+               Usage:="/Enrichment.Term.Filter /in <enrichment.csv> /filter <key-string> [/out <out.csv>]")>
+    <Group(CLIGroups.Enrichment_CLI)>
     Public Function EnrichmentTermFilter(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim filter$ = args <= "/filter"
