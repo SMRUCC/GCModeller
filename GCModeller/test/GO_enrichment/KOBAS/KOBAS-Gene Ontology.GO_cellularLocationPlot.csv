@@ -1,0 +1,257 @@
+﻿Name,Value,Description,IsEmpty
+GO:0043227,125,membrane-bounded organelle,False
+GO:0043226,125,organelle,False
+GO:0044464,125,cell part,False
+GO:0005623,125,cell,False
+GO:0005622,113,intracellular,False
+GO:0032991,112,macromolecular complex,False
+GO:0043234,110,protein complex,False
+GO:0044424,109,intracellular part,False
+GO:0043231,106,intracellular membrane-bounded organelle,False
+GO:0043229,106,intracellular organelle,False
+GO:0031982,105,vesicle,False
+GO:0031988,104,membrane-bounded vesicle,False
+GO:0044421,100,extracellular region part,False
+GO:0005576,100,extracellular region,False
+GO:0044446,98,intracellular organelle part,False
+GO:0044422,98,organelle part,False
+GO:0070062,94,extracellular exosome,False
+GO:1903561,94,extracellular vesicle,False
+GO:0043230,94,extracellular organelle,False
+GO:0005634,86,nucleus,False
+GO:0070013,83,intracellular organelle lumen,False
+GO:0031974,83,membrane-enclosed lumen,False
+GO:0043233,83,organelle lumen,False
+GO:0043232,82,intracellular non-membrane-bounded organelle,False
+GO:0043228,82,non-membrane-bounded organelle,False
+GO:0031981,81,nuclear lumen,False
+GO:0044428,81,nuclear part,False
+GO:0044427,79,chromosomal part,False
+GO:0005694,79,chromosome,False
+GO:0000786,78,nucleosome,False
+GO:0044815,78,DNA packaging complex,False
+GO:0032993,78,protein-DNA complex,False
+GO:0000785,78,chromatin,False
+GO:0044454,75,nuclear chromosome part,False
+GO:0000228,75,nuclear chromosome,False
+GO:0016020,64,membrane,False
+GO:0000790,60,nuclear chromatin,False
+GO:0005654,54,nucleoplasm,False
+GO:0005737,46,cytoplasm,False
+GO:0071944,40,cell periphery,False
+GO:0005886,39,plasma membrane,False
+GO:0000788,37,nuclear nucleosome,False
+GO:0044425,34,membrane part,False
+GO:0000781,33,"chromosome, telomeric region",False
+GO:0098687,33,chromosomal region,False
+GO:0000784,32,"nuclear chromosome, telomeric region",False
+GO:0005615,32,extracellular space,False
+GO:0031224,32,intrinsic component of membrane,False
+GO:0044459,31,plasma membrane part,False
+GO:0016021,31,integral component of membrane,False
+GO:0044444,25,cytoplasmic part,False
+GO:0098797,23,plasma membrane protein complex,False
+GO:0098796,23,membrane protein complex,False
+GO:0012505,21,endomembrane system,False
+GO:0098552,18,side of membrane,False
+GO:0005887,18,integral component of plasma membrane,False
+GO:0031226,18,intrinsic component of plasma membrane,False
+GO:0031410,17,cytoplasmic vesicle,False
+GO:0097708,17,intracellular vesicle,False
+GO:0016023,16,"cytoplasmic, membrane-bounded vesicle",False
+GO:0005773,16,vacuole,False
+GO:0009986,15,cell surface,False
+GO:0005768,15,endosome,False
+GO:0098805,15,whole membrane,False
+GO:0031090,15,organelle membrane,False
+GO:0010008,14,endosome membrane,False
+GO:0044440,14,endosomal part,False
+GO:0005774,14,vacuolar membrane,False
+GO:0044437,14,vacuolar part,False
+GO:0098588,14,bounding membrane of organelle,False
+GO:0042613,13,MHC class II protein complex,False
+GO:0042611,13,MHC protein complex,False
+GO:0098852,13,lytic vacuole membrane,False
+GO:0005765,13,lysosomal membrane,False
+GO:0005764,13,lysosome,False
+GO:0000323,13,lytic vacuole,False
+GO:0044433,13,cytoplasmic vesicle part,False
+GO:0030669,11,clathrin-coated endocytic vesicle membrane,False
+GO:0045334,11,clathrin-coated endocytic vesicle,False
+GO:0030665,11,clathrin-coated vesicle membrane,False
+GO:0030662,11,coated vesicle membrane,False
+GO:0030666,11,endocytic vesicle membrane,False
+GO:0030136,11,clathrin-coated vesicle,False
+GO:0030135,11,coated vesicle,False
+GO:0030139,11,endocytic vesicle,False
+GO:0030133,11,transport vesicle,False
+GO:0030659,11,cytoplasmic vesicle membrane,False
+GO:0012506,11,vesicle membrane,False
+GO:0005783,11,endoplasmic reticulum,False
+GO:0098553,10,lumenal side of endoplasmic reticulum membrane,False
+GO:0071556,10,integral component of lumenal side of endoplasmic reticulum membrane,False
+GO:0012507,10,ER to Golgi transport vesicle membrane,False
+GO:0030134,10,ER to Golgi transport vesicle,False
+GO:0032588,10,trans-Golgi network membrane,False
+GO:0072562,10,blood microparticle,False
+GO:0030176,10,integral component of endoplasmic reticulum membrane,False
+GO:0031227,10,intrinsic component of endoplasmic reticulum membrane,False
+GO:0030658,10,transport vesicle membrane,False
+GO:0005802,10,trans-Golgi network,False
+GO:0098791,10,Golgi subcompartment,False
+GO:0031984,10,organelle subcompartment,False
+GO:0000139,10,Golgi membrane,False
+GO:0044431,10,Golgi apparatus part,False
+GO:0005789,10,endoplasmic reticulum membrane,False
+GO:0042175,10,nuclear outer membrane-endoplasmic reticulum membrane network,False
+GO:0044432,10,endoplasmic reticulum part,False
+GO:0005794,10,Golgi apparatus,False
+GO:0009897,8,external side of plasma membrane,False
+GO:0005579,7,membrane attack complex,False
+GO:0046930,7,pore complex,False
+GO:1990904,7,ribonucleoprotein complex,False
+GO:0030529,7,intracellular ribonucleoprotein complex,False
+GO:0031902,6,late endosome membrane,False
+GO:0005770,6,late endosome,False
+GO:0005829,6,cytosol,False
+GO:0034708,5,methyltransferase complex,False
+GO:0099503,5,secretory vesicle,False
+GO:0030141,4,secretory granule,False
+GO:0030054,4,cell junction,False
+GO:0042995,4,cell projection,False
+GO:0005687,3,U4 snRNP,False
+GO:0034709,3,methylosome,False
+GO:0034719,3,SMN-Sm protein complex,False
+GO:0005682,3,U5 snRNP,False
+GO:0005685,3,U1 snRNP,False
+GO:0005686,3,U2 snRNP,False
+GO:0035327,3,transcriptionally active chromatin,False
+GO:0071010,3,prespliceosome,False
+GO:0000803,3,sex chromosome,False
+GO:0005689,3,U12-type spliceosomal complex,False
+GO:0097526,3,spliceosomal tri-snRNP complex,False
+GO:0005684,3,U2-type spliceosomal complex,False
+GO:0097525,3,spliceosomal snRNP complex,False
+GO:0030532,3,small nuclear ribonucleoprotein complex,False
+GO:0005581,3,collagen trimer,False
+GO:0071013,3,catalytic step 2 spliceosome,False
+GO:0098802,3,plasma membrane receptor complex,False
+GO:0005681,3,spliceosomal complex,False
+GO:0043235,3,receptor complex,False
+GO:1990234,3,transferase complex,False
+GO:0043005,3,neuron projection,False
+GO:1902494,3,catalytic complex,False
+GO:0097458,3,neuron part,False
+GO:0000805,2,X chromosome,False
+GO:0034715,2,pICln-Sm protein complex,False
+GO:0000243,2,commitment complex,False
+GO:0005683,2,U7 snRNP,False
+GO:0017146,2,NMDA selective glutamate receptor complex,False
+GO:0035098,2,ESC/E(Z) complex,False
+GO:0031143,2,pseudopodium,False
+GO:0005697,2,telomerase holoenzyme complex,False
+GO:0071011,2,precatalytic spliceosome,False
+GO:0005719,2,nuclear euchromatin,False
+GO:0000791,2,euchromatin,False
+GO:0005720,2,nuclear heterochromatin,False
+GO:0008328,2,ionotropic glutamate receptor complex,False
+GO:0031519,2,PcG protein complex,False
+GO:0098878,2,neurotransmitter receptor complex,False
+GO:0001725,2,stress fiber,False
+GO:0097517,2,contractile actin filament bundle,False
+GO:0031093,2,platelet alpha granule lumen,False
+GO:0032432,2,actin filament bundle,False
+GO:0042641,2,actomyosin,False
+GO:0000792,2,heterochromatin,False
+GO:0035097,2,histone methyltransferase complex,False
+GO:0031091,2,platelet alpha granule,False
+GO:0034774,2,secretory granule lumen,False
+GO:0005903,2,brush border,False
+GO:0060205,2,cytoplasmic membrane-bounded vesicle lumen,False
+GO:0031983,2,vesicle lumen,False
+GO:0030018,2,Z disc,False
+GO:0031674,2,I band,False
+GO:0098862,2,cluster of actin-based cell projections,False
+GO:0030017,2,sarcomere,False
+GO:0000793,2,condensed chromosome,False
+GO:0044449,2,contractile fiber part,False
+GO:0030016,2,myofibril,False
+GO:0045211,2,postsynaptic membrane,False
+GO:0043292,2,contractile fiber,False
+GO:0097060,2,synaptic membrane,False
+GO:0034702,2,ion channel complex,False
+GO:1902495,2,transmembrane transporter complex,False
+GO:1990351,2,transporter complex,False
+GO:0098794,2,postsynapse,False
+GO:0005911,2,cell-cell junction,False
+GO:0005925,2,focal adhesion,False
+GO:0005924,2,cell-substrate adherens junction,False
+GO:0030055,2,cell-substrate junction,False
+GO:0015629,2,actin cytoskeleton,False
+GO:0005912,2,adherens junction,False
+GO:0070161,2,anchoring junction,False
+GO:0044456,2,synapse part,False
+GO:0044451,2,nucleoplasm part,False
+GO:0045202,2,synapse,False
+GO:0098590,2,plasma membrane region,False
+GO:0044430,2,cytoskeletal part,False
+GO:0005856,2,cytoskeleton,False
+GO:0001739,1,sex chromatin,False
+GO:0071204,1,histone pre-mRNA 3'end processing complex,False
+GO:0005916,1,fascia adherens,False
+GO:0035631,1,CD40 receptor complex,False
+GO:0001673,1,male germ cell nucleus,False
+GO:0001741,1,XY body,False
+GO:0005721,1,pericentric heterochromatin,False
+GO:0071004,1,U2-type prespliceosome,False
+GO:0044216,1,other organism cell,False
+GO:0044217,1,other organism part,False
+GO:0001891,1,phagocytic cup,False
+GO:0044215,1,other organism,False
+GO:0043073,1,germ cell nucleus,False
+GO:0046540,1,U4/U6 x U5 tri-snRNP complex,False
+GO:0035861,1,site of double-strand break,False
+GO:0019005,1,SCF ubiquitin ligase complex,False
+GO:0001772,1,immunological synapse,False
+GO:0014704,1,intercalated disc,False
+GO:0005913,1,cell-cell adherens junction,False
+GO:0042734,1,presynaptic membrane,False
+GO:0005657,1,replication fork,False
+GO:0044291,1,cell-cell contact zone,False
+GO:0000932,1,cytoplasmic mRNA processing body,False
+GO:0005884,1,actin filament,False
+GO:0005776,1,autophagosome,False
+GO:0030863,1,cortical cytoskeleton,False
+GO:0017053,1,transcriptional repressor complex,False
+GO:0000794,1,condensed nuclear chromosome,False
+GO:0031901,1,early endosome membrane,False
+GO:0044448,1,cell cortex part,False
+GO:0008021,1,synaptic vesicle,False
+GO:0055037,1,recycling endosome,False
+GO:0036464,1,cytoplasmic ribonucleoprotein granule,False
+GO:0019897,1,extrinsic component of plasma membrane,False
+GO:0070382,1,exocytic vesicle,False
+GO:0035770,1,ribonucleoprotein granule,False
+GO:0031225,1,anchored component of membrane,False
+GO:0031461,1,cullin-RING ubiquitin ligase complex,False
+GO:0001726,1,ruffle,False
+GO:0000775,1,"chromosome, centromeric region",False
+GO:0005938,1,cell cortex,False
+GO:0019898,1,extrinsic component of membrane,False
+GO:0000151,1,ubiquitin ligase complex,False
+GO:0031965,1,nuclear membrane,False
+GO:0098793,1,presynapse,False
+GO:0099568,1,cytoplasmic region,False
+GO:0045121,1,membrane raft,False
+GO:0098857,1,membrane microdomain,False
+GO:0005769,1,early endosome,False
+GO:0031252,1,cell leading edge,False
+GO:0098589,1,membrane region,False
+GO:0005635,1,nuclear envelope,False
+GO:0031012,1,extracellular matrix,False
+GO:0048471,1,perinuclear region of cytoplasm,False
+GO:0099513,1,polymeric cytoskeletal fiber,False
+GO:0099512,1,supramolecular fiber,False
+GO:0005730,1,nucleolus,False
+GO:0031967,1,organelle envelope,False
+GO:0031975,1,envelope,False
