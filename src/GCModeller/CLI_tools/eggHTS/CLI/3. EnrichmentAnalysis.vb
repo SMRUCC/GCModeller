@@ -4,6 +4,9 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -30,14 +33,44 @@ Module CLI
     ''' <returns></returns>
     <ExportAPI("/GO.cellular_location.Plot",
                Info:="Visualize of the subcellular location result from the GO enrichment analysis.",
-               Usage:="/GO.cellular_location.Plot /in <KOBAS.GO.csv> [/3D /colors <schemaName> /out <out.png>]")>
+               Usage:="/GO.cellular_location.Plot /in <KOBAS.GO.csv> [/GO <go.obo> /3D /colors <schemaName, default=Paired:c8> /out <out.png>]")>
     <Argument("/3D", True,
               Description:="3D style pie chart for the plot?")>
     <Argument("/colors", True,
               Description:="Color schema name, default using color brewer color schema.")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function GO_cellularLocationPlot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim colors$ = args.GetValue("/colors", "Paired:c8")
+        Dim using3D As Boolean = args.GetBoolean("/3D")
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".GO_cellularLocationPlot.png")
+        Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
+        Dim go$ = args.GetValue("/go", GCModeller.FileSystem.GO & "/Go.obo")
+        Dim CCterms As Dictionary(Of Term) = GO_OBO _
+            .Open(go) _
+            .Where(Function(t) t.namespace = "cellular_component") _
+            .ToDictionary
+        Dim profiles As NamedValue(Of Integer)() =
+            data _
+            .Where(Function(x) CCterms.ContainsKey(x.ID)) _
+            .Select(Function(x) x.ID) _
+            .GroupBy(Function(id) id) _
+            .Select(Function(g)
+                        Return New NamedValue(Of Integer) With {
+                            .Name = g.Key,
+                            .Value = g.Count,
+                            .Description = CCterms(g.Key).name
+                        }
+                    End Function) _
+            .ToArray  ' 分组计数
 
+        If using3D Then
+            Call profiles.FromData(colors).Plot3D.Save(out)
+        Else
+            Call profiles.FromData(colors).Plot.Save(out)
+        End If
+
+        Return 0
     End Function
 
     ''' <summary>

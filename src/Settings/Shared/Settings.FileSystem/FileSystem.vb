@@ -167,6 +167,10 @@ Namespace GCModeller.FileSystem
             End Get
         End Property
 
+        ''' <summary>
+        ''' GO数据库的文件夹位置
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property GO As String
             Get
                 Return RepositoryRoot & "/GO/"
