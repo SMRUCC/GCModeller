@@ -1,5 +1,6 @@
 library(tools) 
 library(Cairo)
+library(ggplot2)
 
 #########################################################
 ### A) Installing and loading required packages
@@ -13,6 +14,8 @@ if (!require("RColorBrewer")) {
 	install.packages("RColorBrewer", dependencies = TRUE)
 	library(RColorBrewer)
 }
+
+## colorsPalette=brewer.pal(11,"RdYlBu")
 
 ### 这个脚本比较适合蛋白比较少的，会显示出基因的label
 ### 所输入的数据文件的要求：
@@ -70,12 +73,16 @@ plotDEPs <- function(csv,
 			  margins      = plot.margin,      # widens margins around plot
 			  lwid         = l.width,
 			  lhei         = l.height,
+			  sepwidth     = c(1,1),
+			  sepcolor     = "white",
 			  col          = my_palette,       # use on color palette defined earlier
 			  cexRow       = fontsize.row,
 			  cexCol       = fontsize.col,
 			  # breaks     = col_breaks,       # enable color transition at specified limits
 			  dendrogram   = "row",            # only draw a row dendrogram
-			  Colv         = "NA")             # turn off column clustering
+			  Colv         = "NA") 
+			  
+    # geom_tile(aes(fill = value), colour = "white")            # turn off column clustering
 
 	dev.off()                                  # close the PNG device
 }
