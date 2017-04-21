@@ -105,15 +105,30 @@ Namespace Imaging
 
         <Extension>
         Public Sub DrawCircle(ByRef g As Graphics, centra As PointF, r!, color As Pen, Optional fill As Boolean = True)
-            Dim d = r * 2
-
             With centra
+                Dim d! = r * 2
+                Dim rect As New Rectangle(.X - r, .Y - r, d, d)
+
                 If fill Then
-                    Call g.FillPie(New SolidBrush(color.Color), .X - r, .Y - r, d, d, 0, 360)
+                    Call g.FillPie(New SolidBrush(color.Color), rect, 0, 360)
                 Else
-                    Call g.DrawPie(color, .X - r, .Y - r, d, d, 0, 360)
+                    Call g.DrawEllipse(color, rect)
                 End If
             End With
+        End Sub
+
+        ''' <summary>
+        ''' 模仿Java之中的``DrawCircle``方法
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="color"></param>
+        ''' <param name="x!"></param>
+        ''' <param name="y!"></param>
+        ''' <param name="r!"></param>
+        ''' <param name="fill"></param>
+        <Extension>
+        Public Sub DrawCircle(ByRef g As Graphics, color As Pen, x!, y!, r!, Optional fill As Boolean = True)
+            Call g.DrawCircle(New PointF(x, y), r, color, fill)
         End Sub
 
         <Extension>
@@ -536,7 +551,7 @@ Namespace Imaging
         End Function
 
         ''' <summary>
-        ''' 将图像的多余的空白处给剪裁掉，确定边界，然后进行剪裁
+        ''' 将图像的多余的空白处给剪裁掉，确定边界，然后进行剪裁，使用这个函数需要注意下设置空白色，默认使用的空白色为<see cref="Color.White"/>
         ''' </summary>
         ''' <param name="res"></param>
         ''' <param name="margin"></param>

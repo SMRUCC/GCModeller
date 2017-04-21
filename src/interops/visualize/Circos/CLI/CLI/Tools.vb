@@ -96,7 +96,7 @@ Partial Module CLI
                              End Function).IteratesALL))
 
         For Each file$ In ls - l - r - "*.txt" <= vectorDIR
-            Dim vector#() = file.LoadDblArray
+            Dim vector#() = file.LoadAsNumericVector
             Dim sliWins = vector.SlideWindows(winSize, steps).ToArray
             Dim avg#() = sliWins _
                 .Select(Function(block) block.Average) _

@@ -164,7 +164,13 @@ Module CLI
         Return csv.Save(out).CLICode
     End Function
 
+    ''' <summary>
+    ''' 利用KOBAS的KEGG富集结果从KEGG服务器下载代谢物的显示图
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/KEGG.Enrichment.PathwayMap",
+               Info:="Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.",
                Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/out <DIR>]")>
     Public Function KEGGEnrichmentPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
