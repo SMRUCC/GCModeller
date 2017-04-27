@@ -12,6 +12,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Mathematical.Quantile
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
@@ -50,19 +51,38 @@ Module CLI
             .Open(go) _
             .Where(Function(t) t.namespace = "cellular_component") _
             .ToDictionary
-        Dim profiles As NamedValue(Of Integer)() =
+        Dim profiles As List(Of NamedValue(Of Integer)) =
             data _
             .Where(Function(x) CCterms.ContainsKey(x.ID)) _
-            .Select(Function(x) x.ID) _
-            .GroupBy(Function(id) id) _
             .Select(Function(g)
                         Return New NamedValue(Of Integer) With {
-                            .Name = g.Key,
-                            .Value = g.Count,
-                            .Description = CCterms(g.Key).name
+                            .Name = g.ID,
+                            .Value = g.Input.Split("|"c).Length,
+                            .Description = CCterms(g.ID).name
                         }
                     End Function) _
-            .ToArray  ' 分组计数
+            .AsList  ' 分组计数
+
+        Call profiles _
+            .OrderByDescending(Function(cc) cc.Value) _
+            .ToArray _
+            .SaveTo(out.TrimSuffix & ".csv")
+
+        Dim q As QuantileEstimationGK = profiles.Select(Function(cc) CDbl(cc.Value)).GKQuantile
+        Dim quantile# = q.Query(0.75)
+        Dim others As New List(Of NamedValue(Of Integer))
+
+        For Each cc In profiles.ToArray
+            If cc.Value <= quantile Then
+                others += cc
+                profiles -= cc
+            End If
+        Next
+
+        profiles += New NamedValue(Of Integer) With {
+            .Name = "Others",
+            .Value = others.Sum(Function(cc) cc.Value)
+        }
 
         If using3D Then
             Call profiles.FromData(colors).Plot3D.Save(out)
@@ -84,7 +104,7 @@ Module CLI
               AcceptTypes:={GetType(Boolean)},
               Description:="Visuallize the GO enrichment analysis result using bubble plot, not the bar plot.")>
     <Group(CLIGroups.Enrichment_CLI)>
-    Public Function GO_enrichment(args As CommandLine) As Integer
+    Public Function GO_enrichmentPlot(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
         Dim terms = GO_OBO.Open(goDB).ToDictionary
         Dim [in] As String = args("/in")
