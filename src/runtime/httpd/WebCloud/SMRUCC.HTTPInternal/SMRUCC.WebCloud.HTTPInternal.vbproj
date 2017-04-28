@@ -240,6 +240,7 @@
     <Compile Include="AppEngine\POSTReader\HttpPostedFile.vb" />
     <Compile Include="AppEngine\POSTReader\PostReader.vb" />
     <Compile Include="AppEngine\POSTReader\ReadSubStream.vb" />
+    <Compile Include="Scripting\Interpolate.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
