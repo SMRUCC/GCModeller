@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f7689ae8750777a360dee5fef3a434d, ..\sciBASIC#\Data_science\Bootstrapping\Topology\Inference.vb"
+﻿#Region "Microsoft.VisualBasic::eadd8f19bdc026092f41378a23cb1c31, ..\httpd\WebCloud\SMRUCC.HTTPInternal\HtmlPage.vb"
 
     ' Author:
     ' 
@@ -26,26 +26,11 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Mathematical.Calculus
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports System.Text
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Language
 
-Namespace Topology
+Namespace Scripting
 
-    ''' <summary>
-    ''' dy = A - B
-    ''' </summary>
-    Public Module Inference
 
-        ''' <summary>
-        ''' 使用遗传算法来进行网络拓扑结构的估算
-        ''' </summary>
-        ''' <param name="obs"></param>
-        ''' <param name="popSize%"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function GAFInference(obs As ODEsOut, Optional popSize% = 500) As NamedValue(Of (alpha As Double(), beta As Double()))
-            Throw New NotImplementedException
-        End Function
-    End Module
 End Namespace

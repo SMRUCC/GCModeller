@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `smrucc_webcloud` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `smrucc_webcloud`;
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
 -- Host: localhost    Database: smrucc_webcloud
 -- ------------------------------------------------------
--- Server version	5.7.15-log
+-- Server version	5.7.12-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -47,7 +47,7 @@ CREATE TABLE `subscription` (
   `active` int(11) NOT NULL DEFAULT '0' COMMENT '1 OR 0',
   PRIMARY KEY (`email`,`app`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `visitor_stat` (
   `app` int(11) NOT NULL,
   PRIMARY KEY (`ip`,`time`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=9717 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,4 +90,4 @@ CREATE TABLE `visitor_stat` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-08 17:27:13
+-- Dump completed on 2017-04-25 19:43:22
