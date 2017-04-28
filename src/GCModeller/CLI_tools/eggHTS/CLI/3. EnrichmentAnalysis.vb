@@ -1,4 +1,5 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports System.Drawing
+Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -9,6 +10,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -85,7 +87,17 @@ Module CLI
         }
 
         If using3D Then
-            Call profiles.FromData(colors).Plot3D.Save(out)
+            Call profiles _
+                .FromData(colors) _
+                .Plot3D(
+                    New Camera With {
+                        .screen = New Size(3600, 2500),
+                        .ViewDistance = -3.4,
+                        .angleZ = 30,
+                        .angleX = 30,
+                        .angleY = -30,
+                        .offset = New Point(0, -100)
+                }).Save(out)
         Else
             Call profiles.FromData(colors).Plot.Save(out)
         End If
