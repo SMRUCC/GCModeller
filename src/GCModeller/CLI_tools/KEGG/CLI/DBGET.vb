@@ -71,6 +71,14 @@ Partial Module CLI
             .CLICode
     End Function
 
+    <ExportAPI("/Download.Module.Maps",
+               Info:="Download the KEGG reference modules map data.",
+               Usage:="/Download.Module.Maps [/out <EXPORT_DIR, default=""./"">]")>
+    Public Function DownloadReferenceModule(args As CommandLine) As Integer
+        Dim out$ = args.GetValue("/out", "./")
+
+    End Function
+
     ''' <summary>
     ''' 这里下载的是标准的参考图数据
     ''' </summary>
