@@ -26,6 +26,10 @@
 
 #End Region
 
+Imports System.Numerics
+Imports System.Runtime.CompilerServices
+Imports UncheckedUInt64 = System.Numerics.BigInteger
+
 Namespace HashMaps
 
     ''' <summary>
@@ -44,7 +48,7 @@ Namespace HashMaps
         ''' </summary>
         ''' <param name="Key"></param>
         ''' <returns></returns>
-        Public Function HashDJB(Key As String) As UInt64
+        Public Function HashDJB(Key As String) As ULong
             Dim hash As UncheckedUInt64 = 5381
             Dim L As Int32 = Key.Length - 1
             Dim KeyCharArr() As Char = Key.ToArray
@@ -61,7 +65,7 @@ Namespace HashMaps
         ''' </summary>
         ''' <param name="KeyByte"></param>
         ''' <returns></returns>
-        Public Function HashDJB(KeyByte() As Byte) As UInt64
+        Public Function HashDJB(KeyByte() As Byte) As ULong
             Dim hash As UncheckedUInt64 = 5381
             Dim L As Int32 = KeyByte.Length - 1
 
@@ -78,7 +82,7 @@ Namespace HashMaps
         ''' <param name="Key"></param>
         ''' <param name="seed">种子.最好是使用质数.</param>
         ''' <returns></returns>
-        Public Function HashBKDR(Key As String, Optional seed As Long = 131) As UInt64
+        Public Function HashBKDR(Key As String, Optional seed As Long = 131) As ULong
             Dim hash As UncheckedUInt64 = 0
             Dim L As Int32 = Key.Length - 1
             Dim KeyCharArr() As Char = Key.ToArray
@@ -95,7 +99,7 @@ Namespace HashMaps
         ''' <param name="KeyByte"></param>
         ''' <param name="seed">种子数</param>
         ''' <returns></returns>
-        Public Function HashBKDR(KeyByte() As Byte, Optional seed As Long = 131) As UInt64
+        Public Function HashBKDR(KeyByte() As Byte, Optional seed As Long = 131) As ULong
             Dim hash As UncheckedUInt64 = 0
             Dim L As Int32 = KeyByte.Length - 1
             For i As Int32 = 0 To L - 1
@@ -105,10 +109,10 @@ Namespace HashMaps
             Return (hash And &H7FFFFFFF)
         End Function
 
-        Public Function HashRS(Key As String, Optional seed As Long = 131) As UInt64
+        Public Function HashRS(Key As String, Optional seed As Long = 131) As ULong
             Dim hash As UncheckedUInt64 = 0
-            Dim b As UInt64 = 378551
-            Dim a As UInt64 = 63689
+            Dim b As ULong = 378551
+            Dim a As ULong = 63689
             Dim L As Int32 = Key.Length - 1
             Dim KeyCharArr() As Char = Key.ToArray
             For i As Int32 = 0 To L - 1
@@ -119,10 +123,10 @@ Namespace HashMaps
             Return (hash And &H7FFFFFFF)
         End Function
 
-        Public Function HashRS(KeyByte() As Byte, Optional seed As Long = 131) As UInt64
+        Public Function HashRS(KeyByte() As Byte, Optional seed As Long = 131) As ULong
             Dim hash As UncheckedUInt64 = 0
-            Dim b As UInt64 = 378551
-            Dim a As UInt64 = 63689
+            Dim b As ULong = 378551
+            Dim a As ULong = 63689
             Dim L As Int32 = KeyByte.Length - 1
 
             For i As Int32 = 0 To L - 1
@@ -133,7 +137,7 @@ Namespace HashMaps
             Return (hash And &H7FFFFFFF)
         End Function
 
-        Public Function HashSDBM(Key As String) As UInt64
+        Public Function HashSDBM(Key As String) As ULong
             Dim hash As UncheckedUInt64 = 0
             Dim L As Int32 = Key.Length - 1
             Dim KeyCharArr() As Char = Key.ToArray
@@ -144,7 +148,7 @@ Namespace HashMaps
             Return (hash And &H7FFFFFFF)
         End Function
 
-        Public Function HashSDBM(KeyByte() As Byte) As UInt64
+        Public Function HashSDBM(KeyByte() As Byte) As ULong
             Dim hash As UncheckedUInt64 = 0
             Dim L As Int32 = KeyByte.Length - 1
 
@@ -155,7 +159,7 @@ Namespace HashMaps
             Return (hash And &H7FFFFFFF)
         End Function
 
-        Public Function HashJS(Key As String) As UInt64
+        Public Function HashJS(Key As String) As ULong
             Dim hash As UncheckedUInt64 = 1315423911
             Dim L As Int32 = Key.Length - 1
             Dim KeyCharArr() As Char = Key.ToArray
@@ -165,7 +169,7 @@ Namespace HashMaps
             Return hash
         End Function
 
-        Public Function HashJS(KeyByte() As Byte) As UInt64
+        Public Function HashJS(KeyByte() As Byte) As ULong
             Dim hash As UncheckedUInt64 = 1315423911
             Dim L As Int32 = KeyByte.Length - 1
 
@@ -175,13 +179,13 @@ Namespace HashMaps
             Return hash
         End Function
 
-        Public Function HashPJW(Key As String) As UInt64
-            Dim BitsInUnsignedInt As UInt64 = CLng(4 * 8)
-            Dim ThreeQuarters As UInt64 = CLng((BitsInUnsignedInt * 3) / 4)
-            Dim OneEighth As UInt64 = CLng(BitsInUnsignedInt / 8)
-            Dim HighBits As UInt64 = CLng(&HFFFFFFFF) << (BitsInUnsignedInt - OneEighth)
+        Public Function HashPJW(Key As String) As ULong
+            Dim BitsInUnsignedInt As ULong = CLng(4 * 8)
+            Dim ThreeQuarters As ULong = CLng((BitsInUnsignedInt * 3) / 4)
+            Dim OneEighth As ULong = CLng(BitsInUnsignedInt / 8)
+            Dim HighBits As ULong = CLng(&HFFFFFFFF) << (BitsInUnsignedInt - OneEighth)
             Dim hash As UncheckedUInt64 = 0
-            Dim test As UInt64 = 0
+            Dim test As ULong = 0
             Dim L As Int32 = Key.Length - 1
             Dim KeyCharArr() As Char = Key.ToArray
 
@@ -196,13 +200,13 @@ Namespace HashMaps
             Return hash
         End Function
 
-        Public Function HashPJW(KeyByte() As Byte) As UInt64
-            Dim BitsInUnsignedInt As UInt64 = CLng(4 * 8)
-            Dim ThreeQuarters As UInt64 = CLng((BitsInUnsignedInt * 3) / 4)
-            Dim OneEighth As UInt64 = CLng(BitsInUnsignedInt / 8)
-            Dim HighBits As UInt64 = CLng(&HFFFFFFFF) << (BitsInUnsignedInt - OneEighth)
+        Public Function HashPJW(KeyByte() As Byte) As ULong
+            Dim BitsInUnsignedInt As ULong = CLng(4 * 8)
+            Dim ThreeQuarters As ULong = CLng((BitsInUnsignedInt * 3) / 4)
+            Dim OneEighth As ULong = CLng(BitsInUnsignedInt / 8)
+            Dim HighBits As ULong = CLng(&HFFFFFFFF) << (BitsInUnsignedInt - OneEighth)
             Dim hash As UncheckedUInt64 = 0
-            Dim test As UInt64 = 0
+            Dim test As ULong = 0
             Dim L As Int32 = KeyByte.Length - 1
 
             For I As Int32 = 0 To L
@@ -218,7 +222,7 @@ Namespace HashMaps
 
         ReadOnly __hashAP As Long = &HAAAAAAAA
 
-        Public Function HashAP(Key As String) As UInt64
+        Public Function HashAP(Key As String) As ULong
             Dim hash As New UncheckedUInt64(__hashAP)
             Dim L As Int32 = Key.Length - 1
             Dim KeyCharArr() As Char = Key.ToArray
@@ -234,7 +238,7 @@ Namespace HashMaps
             Return hash
         End Function
 
-        Public Function HashAP(KeyByte() As Byte) As UInt64
+        Public Function HashAP(KeyByte() As Byte) As ULong
             Dim hash As New UncheckedUInt64(__hashAP)
             Dim L As Int32 = KeyByte.Length - 1
 
@@ -248,7 +252,7 @@ Namespace HashMaps
             Return hash
         End Function
 
-        Public Function HashDEK(Key As String) As UInt64
+        Public Function HashDEK(Key As String) As ULong
             Dim L As Int32 = Key.Length - 1
             Dim KeyCharArr() As Char = Key.ToArray
             Dim hash As UncheckedUInt64 = L + 1
@@ -258,7 +262,7 @@ Namespace HashMaps
             Return hash
         End Function
 
-        Public Function HashDEK(KeyByte() As Byte) As UInt64
+        Public Function HashDEK(KeyByte() As Byte) As ULong
             Dim L As Int32 = KeyByte.Length - 1
             Dim hash As UncheckedUInt64 = L + 1
             For i As Int32 = 0 To L
@@ -267,7 +271,7 @@ Namespace HashMaps
             Return hash
         End Function
 
-        Public Function HashELF(key$) As UInt64
+        Public Function HashELF(key$) As ULong
             Dim L As Int32 = key.Length - 1
             Dim KeyCharArr() As Char = key.ToArray
             Dim hash As UncheckedUInt64 = 0
@@ -284,7 +288,7 @@ Namespace HashMaps
             Return hash
         End Function
 
-        Public Function HashELF(KeyByte() As Byte) As UInt64
+        Public Function HashELF(KeyByte() As Byte) As ULong
             Dim L As Int32 = KeyByte.Length - 1
             Dim hash As UncheckedUInt64 = 0
             Dim x As Long = 0
@@ -307,7 +311,7 @@ Namespace HashMaps
         ''' </summary>
         ''' <param name="Key"></param>
         ''' <returns></returns>
-        Public Function HashCMyMap(key$) As UInt64
+        Public Function HashCMyMap(key$) As ULong
             Dim nHash As UncheckedUInt64 = 0
             Dim L As Int32 = key.Length - 1
             Dim KeyCharArr() As Char = key.ToArray
@@ -327,7 +331,7 @@ Namespace HashMaps
         ''' </summary>
         ''' <param name="KeyByte"></param>
         ''' <returns></returns>
-        Public Function HashCMyMap(KeyByte() As Byte) As UInt64
+        Public Function HashCMyMap(KeyByte() As Byte) As ULong
             Dim nHash As UncheckedUInt64 = 0
             Dim L As Int32 = KeyByte.Length - 1
             Dim I As Int32 = 0
@@ -348,7 +352,7 @@ Namespace HashMaps
         ''' <param name="Key"></param>
         ''' <param name="seed">种子数。 31，33，37 。。。</param>
         ''' <returns></returns>
-        Public Function HashTimeMap(key$, seed As Int16) As UInt64
+        Public Function HashTimeMap(key$, seed As Int16) As ULong
             Dim nHash As UncheckedUInt64 = 0
             Dim L As Int32 = key.Length - 1
             Dim KeyCharArr() As Char = key.ToArray
@@ -370,7 +374,7 @@ Namespace HashMaps
         ''' <param name="KeyByte"></param>
         ''' <param name="seed">种子质数。 31，33，37 。。。</param>
         ''' <returns></returns>
-        Public Function HashTimeMap(KeyByte() As Byte, seed As UInt32) As UInt64
+        Public Function HashTimeMap(KeyByte() As Byte, seed As UInt32) As ULong
             Dim nHash As UncheckedUInt64 = 0
             Dim L As Int32 = KeyByte.Length - 1
             Dim I As Int32 = 0

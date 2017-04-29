@@ -31,10 +31,58 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Mathematical.Quantile
 Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
+Imports System.Numerics
+Imports Microsoft.VisualBasic.Mathematical.HashMaps
+Imports Microsoft.VisualBasic.Language
 
 Module Program
 
     Sub Main()
+
+        Const ConstantMax% = Integer.MaxValue
+
+        Dim int1%
+        Dim int2%
+        Dim variableMax As Integer = 2147483647
+
+        int1 = (unchecked(variableMax) + 10).uncheckedInteger
+
+        '  Pause()
+
+        Dim blizzard As New HashMaps.HashBlizzard
+        Dim l1 As New List(Of ULong)
+        Dim l2 As New List(Of ULong)
+        Dim l3 As New List(Of ULong)
+        Dim uid As New Uid
+
+
+        Call blizzard.HashBlizzard("XC_1183").ToString.__INFO_ECHO
+        Call blizzard.HashBlizzard("XC_1184").ToString.__INFO_ECHO
+        Call blizzard.HashBlizzard("XC_2252").ToString.__INFO_ECHO
+
+        Pause()
+
+
+        For i As Integer = 0 To 200000
+            Dim ID = "C" & i.FormatZero("00000")
+            l1.Add(blizzard.HashBlizzard(ID, HashBlizzard.dwHashTypes.Position))
+            l2.Add(blizzard.HashBlizzard(ID, HashBlizzard.dwHashTypes.Validate1))
+            l3.Add(blizzard.HashBlizzard(ID, HashBlizzard.dwHashTypes.Validate2))
+        Next
+
+
+        Dim g1 = l1.GroupBy(Function(u) u).Where(Function(gg) gg.Count > 1).ToArray
+        Dim g2 = l2.GroupBy(Function(u) u).Where(Function(gg) gg.Count > 1).ToArray
+        Dim g3 = l3.GroupBy(Function(u) u).Where(Function(gg) gg.Count > 1).ToArray
+
+        Pause()
+
+        Dim hash = blizzard.HashBlizzard("unitneutralacritter.grp")
+
+        Call unchecked(&HA26067F3).uncheckedULong.ToString.__INFO_ECHO
+        Call hash.ToString.__INFO_ECHO
+
+        Pause()
 
         Call (0#, 100000.0#).DoubleRange.rand(2000).Summary.EchoLine
         Call {0#, 569.0#, 63.0#, 59, 345.0#, 456, 423}.Summary.EchoLine
