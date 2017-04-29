@@ -149,8 +149,8 @@ Public Module EnrichPlot
         If showBubbleBorder Then
             bubbleBorder = New Stroke With {
                 .dash = DashStyle.Solid,
-                .fill = "black",
-                .width = 2
+                .fill = "white",
+                .width = 2.5
             }
         End If
 

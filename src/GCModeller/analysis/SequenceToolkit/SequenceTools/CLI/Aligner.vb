@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::eb9518fe89c62cb30101e5db71626d48, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Aligner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
@@ -88,7 +89,7 @@ Partial Module Utilities
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
         Dim blosum As String = args("/blosum")
-        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & basename(subject) & ".xml")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & BaseName(subject) & ".xml")
         Dim queryFa As New FASTA.FastaToken(query)
         Dim subjectFa As New FASTA.FastaToken(subject)
         Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, SequenceTools.Blosum.LoadMatrix(blosum))
@@ -132,7 +133,7 @@ Partial Module Utilities
             For Each result As AlignmentResult In alignSet
                 Dim path As String =
                     outDIR & $"/Views/{result.Reference.Split.First.NormalizePathString(False)}_vs_{result.Hypotheses.Split.First.NormalizePathString(False)}.html"
-                Call result.Visualize.SaveTo(path)
+                Call result.HTMLVisualize.SaveTo(path)
             Next
 
             Call queryToken.Title.__DEBUG_ECHO
@@ -232,39 +233,5 @@ Partial Module Utilities
         Dim outFile As String =
             args.GetValue("/out", aln.FilePath.TrimSuffix & $"{leftOffset}-{rightOffset}.fasta")
         Return out.Save(-1, outFile, Encodings.ASCII).CLICode
-    End Function
-
-    <ExportAPI("/gwANI", Usage:="/gwANI /in <in.fasta> [/fast /out <out.Csv>]")>
-    <Group(CLIGrouping.Aligner)>
-    Public Function gwANI(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gwANI.Csv")
-        Dim fast As Boolean = args.GetBoolean("/fast")
-
-        Call gwANIExtensions.Evaluate([in], out, fast)
-        Return 0
-    End Function
-
-    <ExportAPI("/Sigma",
-               Usage:="/Sigma /in <in.fasta> [/out <out.Csv> /simple /round <-1>]")>
-    <Group(CLIGrouping.Aligner)>
-    Public Function Sigma(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Sigma.Csv")
-        Dim fasta As New FastaFile([in])
-        Dim simple As Boolean = args.GetBoolean("/simple")
-        Dim round As Integer = args.GetValue("/round", -1)
-        Dim keys As String() =
-            If(simple,
-            fasta.ToArray(AddressOf IdentityResult.SimpleTag),
-            fasta.ToArray(Function(x) x.Title))
-
-        Using writer As New WriteStream(Of IdentityResult)(out, metaKeys:=keys)
-            For Each x As IdentityResult In IdentityResult.SigmaMatrix(fasta, round, simple)
-                Call writer.Flush(x)
-            Next
-
-            Return 0
-        End Using
     End Function
 End Module

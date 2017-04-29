@@ -276,7 +276,7 @@ Namespace Analysis
                    In buf
                    Where locus.Count > 1 OrElse
                        (locus.Count = 1 AndAlso Array.IndexOf(unConserved, locus.First) = -1)
-                   Select locus).ToList '删除不保守的位点
+                   Select locus).AsList '删除不保守的位点
 
             Return buf
         End Function
@@ -389,7 +389,7 @@ Namespace Analysis
 
             hits = InternalSort(TrimNull).ToArray
             hits = (From item In hits Select nnn = item Order By nnn.QueryName Ascending).ToArray  '对Query的蛋白质编号进行排序
-            index = index.Distinct.ToList
+            index = index.Distinct.AsList
 
             On Error Resume Next
 

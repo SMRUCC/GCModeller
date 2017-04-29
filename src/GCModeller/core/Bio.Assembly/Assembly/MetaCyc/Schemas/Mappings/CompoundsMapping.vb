@@ -27,11 +27,8 @@
 #End Region
 
 Imports System.Text
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.Similarity
+Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Assembly.MetaCyc.File
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.ComponentModel.EquaionModel

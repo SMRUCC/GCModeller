@@ -226,7 +226,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Slots
 
         '    NewObj.UnmodifiedForm = StringQuery(NewObj.Object, "UNMODIFIED-FORM( \d+)?")
         '    NewObj.GoTerms = StringQuery(NewObj.Object, "GO-TERMS( \d+)?")
-        '    NewObj.Regulates = StringQuery(NewObj.Object, "REGULATES( \d+)?").ToList
+        '    NewObj.Regulates = StringQuery(NewObj.Object, "REGULATES( \d+)?").AsList
         '    NewObj.DBLinks = StringQuery(NewObj.Object, "DBLINKS( \d+)?")
         '    NewObj.Features = StringQuery(NewObj.Object, "FEATURES( \d+)?")
         '    NewObj.ComponentOf = StringQuery(NewObj.Object, "COMPONENT-OF( \d+)?")

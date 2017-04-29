@@ -98,7 +98,7 @@ Namespace EngineSystem.Services.DataAcquisition
             Public Sub WriteDumpData()
                 For Each [Interface] In ManageSystem.DataAcquisitionServices
                     Dim [Handles] = [Interface].GetDefinitions
-                    Dim Stream = New DataSerializer.Csv(String.Format("{0}/{1}.csv", Me._DumpFile, [Interface].TableName)) With {._DataFlows = ChunkBuffer([Interface].TableName).ToList}
+                    Dim Stream = New DataSerializer.Csv(String.Format("{0}/{1}.csv", Me._DumpFile, [Interface].TableName)) With {._DataFlows = ChunkBuffer([Interface].TableName).AsList}
                     Call Stream.CreateHandle([Handles], [Interface].TableName)
                     Call Stream.Close("")
                 Next

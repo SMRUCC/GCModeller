@@ -53,7 +53,7 @@ Module _DEBUG_MAIN
                     Call list.AddRange(LQuery)
                 Next
 
-                list = (From iiii In list Where Not String.IsNullOrEmpty(iiii.Trim) Select iiii Distinct Order By iiii).ToList
+                list = (From iiii In list Where Not String.IsNullOrEmpty(iiii.Trim) Select iiii Distinct Order By iiii).AsList
 
                 Dim matchedList = New List(Of String)
                 For Each fjfj In list
@@ -61,7 +61,7 @@ Module _DEBUG_MAIN
                     Call matchedList.AddRange(collection)
                 Next
 
-                matchedList = (From fff In matchedList Select fff Distinct Order By fff Ascending).ToList
+                matchedList = (From fff In matchedList Select fff Distinct Order By fff Ascending).AsList
 
                 Call matchedfile.Add(New Microsoft.VisualBasic.ComponentModel.Key_strArrayValuePair With {.Key = _id, .Value = matchedList.ToArray})
             Else

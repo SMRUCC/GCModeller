@@ -1,69 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::c96ac3720a3bea0293b5503e115b2466, ..\core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.ComponentModel
 Imports System.Text
-Imports SMRUCC.genomics.SequenceModel.ISequenceModel
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace SequenceModel.NucleotideModels
-
-    ''' <summary>
-    ''' Deoxyribonucleotides NT base which consist of the DNA sequence.(枚举所有的脱氧核糖核苷酸)
-    ''' </summary>
-    ''' <remarks></remarks>
-    <Description("Deoxyribonucleotides")> Public Enum DNA As SByte
-        ''' <summary>
-        ''' Gaps/Rare bases(空格或者其他的稀有碱基)
-        ''' </summary>
-        ''' <remarks></remarks>
-        NA = -1
-        ''' <summary>
-        ''' Adenine, paired with <see cref="DNA.dTMP"/>(A, 腺嘌呤)
-        ''' </summary>
-        dAMP = 0
-        ''' <summary>
-        ''' Guanine, paired with <see cref="DNA.dCMP"/>(G, 鸟嘌呤)
-        ''' </summary>
-        dGMP = 1
-        ''' <summary>
-        ''' Cytosine, paired with <see cref="DNA.dGMP"/>(C, 胞嘧啶)
-        ''' </summary>
-        dCMP = 2
-        ''' <summary>
-        ''' Thymine, paired with <see cref="DNA.dAMP"/>(T, 胸腺嘧啶)
-        ''' </summary>
-        dTMP = 3
-    End Enum
 
     ''' <summary>
     ''' The nucleotide sequence object.(核酸序列对象)
@@ -71,39 +39,6 @@ Namespace SequenceModel.NucleotideModels
     ''' <remarks></remarks>
     Public Class NucleicAcid : Inherits ISequenceModel
         Implements IEnumerable(Of DNA)
-
-        ''' <summary>
-        ''' 大小写不敏感
-        ''' </summary>
-        Protected Friend Shared ReadOnly Property NucleotideConvert As Dictionary(Of Char, DNA) =
-            New Dictionary(Of Char, DNA) From {
- _
-                {"A"c, DNA.dAMP},
-                {"T"c, DNA.dTMP},
-                {"G"c, DNA.dGMP},
-                {"C"c, DNA.dCMP},
-                {"a"c, DNA.dAMP},
-                {"t"c, DNA.dTMP},
-                {"g"c, DNA.dGMP},
-                {"c"c, DNA.dCMP}
-        }
-
-        ''' <summary>
-        '''
-        ''' </summary>
-        Protected Friend Shared ReadOnly __nucleotideAsChar As Dictionary(Of DNA, Char) =
-            New Dictionary(Of DNA, Char) From {
- _
-                {DNA.dAMP, "A"c},
-                {DNA.dCMP, "C"c},
-                {DNA.dGMP, "G"c},
-                {DNA.dTMP, "T"c},
-                {DNA.NA, "-"c}
-        }
-
-        Public Shared Function ToChar(base As DNA) As Char
-            Return __nucleotideAsChar(base)
-        End Function
 
         ''' <summary>
         ''' Cache data for maintaining the high performance on sequence operation.
@@ -114,6 +49,25 @@ Namespace SequenceModel.NucleotideModels
 
         Public Function ToArray() As DNA()
             Return _innerSeqModel.ToArray
+        End Function
+
+        ''' <summary>
+        ''' 计算某一种碱基在序列之中的出现频率
+        ''' </summary>
+        ''' <param name="base">只允许``ATGC``</param>
+        ''' <returns>因为可能还存在简并碱基字符，所以在这里返回一个小数</returns>
+        Public Function Counts(base As DNA) As Double
+            Dim n# = _innerSeqModel.Where(Function(b) b = base).Count
+            Dim dbEntries = Conversion.BaseDegenerateEntries(base)
+
+            For Each dgBase As DNA In dbEntries
+                Dim cd% = _innerSeqModel.Where(Function(b) b = dgBase).Count
+                Dim l = 1 / Conversion.DegenerateBases(dgBase).Length
+                n += cd * l  ' 因为计算简并碱基的时候，是平均分配的，所以在这里就除以该简并碱基的可替换的碱基数量
+            Next
+
+            ' 故而包含有简并碱基的计算结果应该是带有小数的
+            Return n
         End Function
 
         ''' <summary>
@@ -149,13 +103,15 @@ Namespace SequenceModel.NucleotideModels
 
             Public Function __getList() As List(Of DNA)
                 Return LinqAPI.MakeList(Of DNA) <=
+ _
                     From ch As Char
                     In value
-                    Let __getNA =
-                        If(NucleotideConvert.ContainsKey(ch),
-                        NucleotideConvert(ch),
+                    Let __getNA As DNA = If(
+                        Conversion.NucleotideConvert.ContainsKey(ch),
+                        Conversion.NucleotideConvert(ch),
                         DNA.NA)
-                    Select __getNA
+                    Select __getNA '
+
             End Function
         End Structure
 
@@ -180,7 +136,7 @@ Namespace SequenceModel.NucleotideModels
         End Property
 
         Sub New(Sequence As IEnumerable(Of DNA))
-            Call __convertSequence(ToString(Sequence))
+            Call __convertSequence(ToString(Sequence), True)
         End Sub
 
         ''' <summary>
@@ -188,7 +144,7 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <param name="SequenceData"></param>
         Sub New(SequenceData As IPolymerSequenceModel)
-            Call __convertSequence(SequenceData.SequenceData)
+            Call __convertSequence(SequenceData.SequenceData, True)
         End Sub
 
         Sub New()
@@ -200,7 +156,7 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <param name="SequenceData">This sequence data can be user input from the interface or sequence data from the <see cref="FASTA.FastaToken"/> object.</param>
         Sub New(SequenceData As String)
-            Call __convertSequence(SequenceData)
+            Call __convertSequence(SequenceData, True)
         End Sub
 
         ''' <summary>
@@ -208,27 +164,49 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <param name="SequenceData"></param>
         Sub New(SequenceData As ISequenceModel)
-            Call __convertSequence(SequenceData.SequenceData)
+            Call __convertSequence(SequenceData.SequenceData, True)
         End Sub
 
-        Sub New(SequenceData As FASTA.FastaToken)
-            Call __convertSequence(SequenceData.SequenceData)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="nt"></param>
+        ''' <param name="strict">默认参数表示当核酸序列之中存在非法字符的时候会直接抛出错误</param>
+        Sub New(nt As FASTA.FastaToken, Optional strict As Boolean = True)
+            Try
+                Call __convertSequence(nt.SequenceData, strict)
+            Catch ex As Exception
+                ex = New Exception(nt.Title, ex)
+                Throw ex
+            End Try
         End Sub
 
         ''' <summary>
         ''' 检查序列的可用性
         ''' </summary>
         ''' <param name="seq"></param>
-        Private Sub __convertSequence(seq As String)
+        Private Sub __convertSequence(seq$, strict As Boolean)
             Dim nt As String = seq.ToUpper.Replace("N", "-").Replace(".", "-")
             Dim invalids As Char() = InvalidForNt(nt)
 
+            ' 大写字母的
             seq = nt
 
             If invalids.Length > 0 Then  ' 有非法字符
-                Dim ex As Exception = New DataException(InvalidNotAllowed)
-                ex = New Exception(invalids.GetJson, ex)
-                Throw ex
+                If strict Then
+                    Dim ex As Exception = New DataException(InvalidNotAllowed)
+                    ex = New Exception(invalids.GetJson, ex)
+                    Throw ex
+                Else
+                    ' 非严格模式下，会将这些非法字符替换为-空格
+                    Dim sb As New StringBuilder(seq)
+
+                    For Each c As Char In invalids
+                        Call sb.Replace(c, "-")
+                    Next
+
+                    Me.SequenceData = sb.ToString
+                End If
             Else
                 Me.SequenceData = seq
             End If
@@ -238,7 +216,7 @@ Namespace SequenceModel.NucleotideModels
             Dim LQuery As Char() =
                 LinqAPI.Exec(Of Char) <= From c As Char
                                          In seq
-                                         Where ISequenceModel.AA_CHARS_ALL.IndexOf(c) > -1
+                                         Where Not Conversion.IsAValidDNAChar(c)
                                          Select c
                                          Distinct
             Return LQuery
@@ -283,24 +261,24 @@ Namespace SequenceModel.NucleotideModels
         ''' <summary>
         ''' 分割得到的小片段的长度
         ''' </summary>
-        ''' <param name="SegmentLength"></param>
+        ''' <param name="segmentLen"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Split(SegmentLength As Integer) As SegmentObject()
-            Dim SegmentList As List(Of SegmentObject) = New List(Of SegmentObject)
-            SegmentLength -= 1
+        Public Function Split(segmentLen%) As SegmentObject()
+            Dim list As New List(Of SegmentObject)
+            segmentLen -= 1
 
-            For i As Integer = 1 To Me.Length Step SegmentLength + 1
-                Dim strSegmentData As String = Mid(Me.SequenceData, i, SegmentLength)
+            For i As Integer = 1 To Me.Length Step segmentLen + 1
+                Dim strSegmentData As String = Mid(Me.SequenceData, i, segmentLen)
 
-                SegmentList += New SegmentObject With {
+                list += New SegmentObject With {
                     .SequenceData = strSegmentData,
                     .Left = i,
                     .Right = i + Len(strSegmentData)
                 }
             Next
 
-            Return SegmentList
+            Return list
         End Function
 
         Public Overrides ReadOnly Property Length As Integer
@@ -348,7 +326,9 @@ Namespace SequenceModel.NucleotideModels
         End Function
 
         Public Shared Function CreateObject(strSeq As String) As NucleicAcid
-            Return New NucleicAcid With {.SequenceData = strSeq}
+            Return New NucleicAcid With {
+                .SequenceData = strSeq
+            }
         End Function
 
         ''' <summary>
@@ -382,11 +362,11 @@ Namespace SequenceModel.NucleotideModels
         End Function
 
         Public Overloads Shared Function ToString(nn As DNA) As String
-            Return __nucleotideAsChar(nn).ToString
+            Return Conversion.NucleotideAsChar(nn).ToString
         End Function
 
         Public Overloads Shared Function ToString(nt As IEnumerable(Of DNA)) As String
-            Dim array As Char() = nt.ToArray(Function(x) __nucleotideAsChar(x))
+            Dim array As Char() = nt.ToArray(Function(x) Conversion.NucleotideAsChar(x))
             Return New String(array)
         End Function
 

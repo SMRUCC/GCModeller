@@ -311,7 +311,7 @@ Public Module DomainAnalysis
         Loop
 
         Call ChunkBuffer.AddRange(Domains)
-        ChunkBuffer = (From item In ChunkBuffer Select item Order By item.Position.Left Ascending).ToList
+        ChunkBuffer = (From item In ChunkBuffer Select item Order By item.Position.Left Ascending).AsList
         describ.PfamString = (From item In ChunkBuffer Select PfamString.ToPfamStringToken(item)).ToArray
 
         Return describ

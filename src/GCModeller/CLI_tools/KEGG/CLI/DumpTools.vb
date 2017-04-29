@@ -116,7 +116,7 @@ Partial Module CLI
 
     Private Sub __queryKO2(infile As String, out As String, evalue As Double)
         Dim inHits = infile.LoadCsv(Of SSDB.BlastnHit)
-        inHits = (From x In inHits Where x.Eval <= evalue Select x).ToList
+        inHits = (From x In inHits Where x.Eval <= evalue Select x).AsList
         Dim KO As String() = inHits _
             .ToArray([CType]:=Function(x) x.KO,
                      where:=Function(s) Not String.IsNullOrWhiteSpace(s.KO)) _
@@ -224,7 +224,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     Public Function DumpOrganisms(args As CommandLine) As Integer
         Dim res As String = args.GetValue("/res", "http://www.kegg.jp/kegg/catalog/org_list.html")
         Dim result As KEGGOrganism = EntryAPI.FromResource(res)
-        Dim table As List(Of Prokaryote) = result.Prokaryote.ToList + result.Eukaryotes.ToArray(Function(x) New Prokaryote(x))
+        Dim table As List(Of Prokaryote) = result.Prokaryote.AsList + result.Eukaryotes.ToArray(Function(x) New Prokaryote(x))
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/KEGG_Organism.csv")
         Return table.SaveTo(out)
     End Function

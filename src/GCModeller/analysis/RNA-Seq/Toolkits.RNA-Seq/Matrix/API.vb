@@ -263,7 +263,7 @@ Namespace dataExprMAT
                 Dim lst As String() = (From brief In Item Select brief.sId).ToArray
                 Call lstLocus.AddRange(lst)
             Next
-            lstLocus = (From sId As String In lstLocus Select sId Distinct).ToList
+            lstLocus = (From sId As String In lstLocus Select sId Distinct).AsList
 
             Dim lstBriefs = LQuery.Unlist
             Dim DictPathwayBrief As Dictionary(Of String, String) = New Dictionary(Of String, String)

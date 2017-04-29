@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports ProteinTools.SMART.Common.Extensions
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.Xfam
@@ -84,7 +85,7 @@ Partial Module CLI
             resultSet += alignInvoke
 
             For Each paired In alignInvoke
-                Dim html As String = paired.Visualize
+                Dim html As String = paired.htmlVisualize
                 Dim path As String = outHTML & $"/{paired.QueryPfam.ProteinId.NormalizePathString}_vs.{paired.SubjectPfam.ProteinId.NormalizePathString}.html"
                 Call html.SaveTo(path)
             Next
@@ -109,7 +110,7 @@ Partial Module CLI
         out = $"{out}/{query.ProteinId.NormalizePathString}_vs.{subject.ProteinId.NormalizePathString}"
 
         Call result.GetXml.SaveTo($"{out}/MPAlignment.xml")
-        Call result.Visualize.SaveTo(out & "/MPAlignment.html")
+        Call result.htmlVisualize.SaveTo(out & "/MPAlignment.html")
 
         Dim outTxt As String = result.ToString
         Call Console.WriteLine(outTxt)

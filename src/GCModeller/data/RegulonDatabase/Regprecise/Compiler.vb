@@ -249,7 +249,7 @@ Namespace Regprecise
             Dim genomes = (From site As FastaReaders.Site
                            In sites
                            Select site
-                           Group site By site.Bacteria Into Group).ToList
+                           Group site By site.Bacteria Into Group).AsList
 
             Do While genomes.Count > 0
                 i += 1

@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Data.Xfam
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment
@@ -214,7 +215,7 @@ Default is not, default checks right side and left side.")>
         Dim subjectPfam = Pfam.PfamString.CLIParser(subject)
         Dim outAlign = PfamStringEquals(queryPfam, subjectPfam, mpCutoff, args.GetBoolean("/parts"))
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & $"/{queryPfam.ProteinId}_.{subjectPfam.ProteinId}/")
-        Call outAlign.Visualize.SaveTo(out & "/LevAlign.html")
+        Call outAlign.HTMLVisualize.SaveTo(out & "/LevAlign.html")
         Call outAlign.SaveAsXml(out & "/mpl.Xml")
         Call {outAlign.ToRow}.SaveTo(out & "/mpl.Csv")
         Return 0

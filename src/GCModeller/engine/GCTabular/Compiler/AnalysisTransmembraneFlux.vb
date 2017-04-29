@@ -56,7 +56,7 @@ Namespace Compiler.Components
                                   Select New With {.Matched = Match.ProteinId, .Entries = Entries}).ToArray
             '查找出可能的过程，然后执行插入操作
             Dim TransmembraneTransportation = New List(Of FileStream.MetabolismFlux)
-            Dim CpdEntries = New EntryViews(FullFliedModel.MetabolitesModel.Values.ToList)
+            Dim CpdEntries = New EntryViews(FullFliedModel.MetabolitesModel.Values.AsList)
             Dim MetaCycCompounds = _MetaCyc.GetCompounds
 
             For Each Entry In GetEntryLQuery
@@ -75,7 +75,7 @@ Namespace Compiler.Components
                         Next
                     Else
                         If Array.IndexOf(Item.Enzymes, Entry.Matched) = -1 Then '存在该酶分子的记录则跳过该项目否则添加一个新的记录
-                            Dim IdList = Item.Enzymes.ToList
+                            Dim IdList = Item.Enzymes.AsList
                             Call IdList.Add(Entry.Matched)
                             Item.Enzymes = IdList.ToArray
                         End If

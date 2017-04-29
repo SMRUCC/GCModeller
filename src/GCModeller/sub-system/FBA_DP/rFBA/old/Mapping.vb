@@ -177,7 +177,7 @@ Public Class Mapping
                 End If
             Next
         Next
-        Effectors = (From strData As String In NewList Where Not (String.IsNullOrEmpty(strData) OrElse String.Equals(strData, "-")) Let strLine As String = strData.Trim Select strLine Distinct Order By strLine Ascending).ToList
+        Effectors = (From strData As String In NewList Where Not (String.IsNullOrEmpty(strData) OrElse String.Equals(strData, "-")) Let strLine As String = strData.Trim Select strLine Distinct Order By strLine Ascending).AsList
 
         Return Effectors.ToArray
     End Function

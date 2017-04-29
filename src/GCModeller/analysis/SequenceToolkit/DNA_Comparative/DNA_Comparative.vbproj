@@ -158,6 +158,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -175,11 +178,14 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeltaSimilarity1998\CAI\CodonBiasVector.vb" />
+    <Compile Include="DeltaSimilarity1998\ReferenceRule.vb" />
+    <Compile Include="DeltaSimilarity1998\SimilarDiscriptions.vb" />
     <Compile Include="IdentityResult.vb" />
     <Compile Include="GCOutlier.vb" />
-    <Compile Include="Sigma\CAI\CAITable.vb" />
-    <Compile Include="Sigma\CAI\CodonFrequency.vb" />
-    <Compile Include="Sigma\CAI\CodonFrequencyCAI.vb" />
+    <Compile Include="DeltaSimilarity1998\CAI\XML\CodonAdaptationIndex.vb" />
+    <Compile Include="DeltaSimilarity1998\CAI\CodonFrequency.vb" />
+    <Compile Include="DeltaSimilarity1998\CAI\XML\CodonFrequency.vb" />
     <Compile Include="gwANI\gwANI.vb" />
     <Compile Include="gwANI\Const.vb" />
     <Compile Include="gwANI\gwANIExtensions.vb" />
@@ -187,11 +193,11 @@
     <Compile Include="ToolsAPI\SegmentRenderData.vb" />
     <Compile Include="ToolsAPI\SiteSigma.vb" />
     <Compile Include="ToolsAPI\PartitioningData.vb" />
-    <Compile Include="Sigma\NucleicAcid.vb" />
-    <Compile Include="Sigma\PlasmidComparative.vb" />
-    <Compile Include="Sigma\GenomeSignatures.vb" />
-    <Compile Include="Sigma\DifferenceMeasurement.vb" />
-    <Compile Include="Sigma\CAI\RelativeCodonBiases.vb" />
+    <Compile Include="DeltaSimilarity1998\NucleicAcid.vb" />
+    <Compile Include="ToolsAPI\PlasmidComparative.vb" />
+    <Compile Include="DeltaSimilarity1998\GenomeSignatures.vb" />
+    <Compile Include="DeltaSimilarity1998\DifferenceMeasurement.vb" />
+    <Compile Include="DeltaSimilarity1998\CAI\RelativeCodonBiases.vb" />
     <Compile Include="ToolsAPI\ToolsAPI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -227,6 +233,7 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">

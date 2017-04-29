@@ -301,11 +301,19 @@ Public Module CatalogPlots
                                                                            Optional size As Size = Nothing,
                                                                            Optional tick# = 1,
                                                                            Optional gray As Boolean = False,
-                                                                           Optional labelRightAlignment As Boolean = False) As GraphicsData
+                                                                           Optional labelRightAlignment As Boolean = False,
+                                                                           Optional usingCorrected As Boolean = False) As GraphicsData
 
         Dim profile As New Dictionary(Of String, List(Of NamedValue(Of Double)))
 
-        For Each term As EnrichmentTerm In data.Where(Function(x) GO_terms.ContainsKey(x.Go_ID) AndAlso x.Pvalue <= pvalue#)
+        For Each term As EnrichmentTerm In data.Where(
+            Function(x)
+                Return GO_terms.ContainsKey(x.Go_ID) AndAlso
+                    If(usingCorrected,
+                    x.CorrectedPvalue,
+                    x.Pvalue) <= pvalue#
+            End Function)
+
             With GO_terms(term.Go_ID)
                 Dim namespace$ = .namespace
 

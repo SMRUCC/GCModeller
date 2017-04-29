@@ -182,7 +182,7 @@ Namespace Workflows.PromoterParser
 
         'Public Shared Function FilledPretents(list As Generic.IEnumerable(Of FastaToken)) _
         '    As FastaFile
-        '    Return __filledPretents(list.ToList, Scan0)
+        '    Return __filledPretents(list.AsList, Scan0)
         'End Function
 
     End Class

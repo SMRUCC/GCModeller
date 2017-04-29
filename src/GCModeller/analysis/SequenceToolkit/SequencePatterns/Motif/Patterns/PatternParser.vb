@@ -67,7 +67,7 @@ Namespace Motif.Patterns
         End Function
 
         Public Function ExpressionParser(pattern As String) As PatternExpression
-            Dim tokens As List(Of Token(Of Tokens)) = TokenIcer(pattern).ToList
+            Dim tokens As List(Of Token(Of Tokens)) = TokenIcer(pattern).AsList
             Dim motif As New PatternExpression With {
                 .RangeExpr = (From x In tokens Where x.Type = Patterns.Tokens.Expression Select x).ToArray
             }

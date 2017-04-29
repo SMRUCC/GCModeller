@@ -23,7 +23,7 @@ Namespace Runtime.DeviceDriver
             End If
 
             Dim LQuery = (From hwnd In _HwndTrace
-                          Select $"     ----> [{HandleEntryToString(hwnd.Key)}] Mount at ""{hwnd.Value}""" & vbCrLf).ToList
+                          Select $"     ----> [{HandleEntryToString(hwnd.Key)}] Mount at ""{hwnd.Value}""" & vbCrLf).AsList
             Call LQuery.Insert(0, "Device TYPE_ID is " & Me.GetType.FullName & vbCrLf)
             Return LQuery.ToArray
         End Function

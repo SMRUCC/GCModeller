@@ -246,7 +246,7 @@ Public Module GenesCOExpr
         For Each File As File In DataFiles
             Call IdList.AddRange((From row In File.Skip(1) Select row(IdCol)).ToArray)
         Next
-        IdList = IdList.Distinct.ToList()
+        IdList = IdList.Distinct.AsList()
         Call IdList.Sort()
 
         Dim Table = New RowObject(IdList.Count) {}

@@ -111,7 +111,7 @@ Public Module CLI
         VBDebugger.Mute = False
 
         Dim parallel As Boolean = args.GetBoolean("/parallel")
-        Dim result As List(Of EntityLDM) = Entity.TreeCluster(parallel).ToList
+        Dim result As List(Of EntityLDM) = Entity.TreeCluster(parallel).AsList
         Return result > out
     End Function
 
@@ -187,7 +187,7 @@ Public Module CLI
         For Each part As Partition In partitions
             Dim myvaCogs = (From x As MyvaCOG In COGs
                             Where Array.IndexOf(part.uids, x.QueryName) > -1
-                            Select x).ToList
+                            Select x).AsList
             Dim func As COG.Function = COG.Function.Default
             Dim stst = COGFunction.GetClass(myvaCogs, func)
             Dim out As String = EXPORT & $"/COGs-{part.Tag}.Csv"

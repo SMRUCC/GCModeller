@@ -88,7 +88,7 @@
 '                          Let Value As String = Mid(strData, Len(PropertyName) + 4)
 '                          Let Item = New KeyValuePair(Of String, String)(PropertyName, Value)
 '                          Select Item
-'                          Order By Item.Key Ascending).ToList
+'                          Order By Item.Key Ascending).AsList
 '            Return LQuery
 '        End Function
 

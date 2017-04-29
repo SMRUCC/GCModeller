@@ -66,7 +66,7 @@ Namespace Builder
                 .Metabolism = New GCML_Documents.XmlElements.Metabolism.Metabolism With {
                     .Compartments = (From Handle As Integer
                                      In SBML.Model.listOfCompartments.Sequence
-                                     Select GCML_Documents.ComponentModels.Compartment.CastTo(SBML.Model.listOfCompartments(Handle))).ToList
+                                     Select GCML_Documents.ComponentModels.Compartment.CastTo(SBML.Model.listOfCompartments(Handle))).AsList
                 }
             }
 
@@ -79,7 +79,7 @@ Namespace Builder
             For i As Integer = 0 To MyBase.CompiledModel.Metabolism.Metabolites.Count - 1
                 MyBase.CompiledModel.Metabolism.Metabolites(i).Compartment = Compartments(MyBase.CompiledModel.Metabolism.Metabolites(i).Compartment)
             Next
-            MyBase.CompiledModel.Metabolism.MetabolismNetwork = (From e In SBML.Model.listOfReactions.AsParallel Select GCML_Documents.XmlElements.Metabolism.Reaction.CastTo(e, MyBase.CompiledModel)).ToList
+            MyBase.CompiledModel.Metabolism.MetabolismNetwork = (From e In SBML.Model.listOfReactions.AsParallel Select GCML_Documents.XmlElements.Metabolism.Reaction.CastTo(e, MyBase.CompiledModel)).AsList
             MyClass.MetaCyc = DatabaseLoadder.CreateInstance(MetaCycDir:=Path.CLICommandArgvs)
 
             Call Trim(Model:=MyBase.CompiledModel, StringList:=Me.StringReplacements)

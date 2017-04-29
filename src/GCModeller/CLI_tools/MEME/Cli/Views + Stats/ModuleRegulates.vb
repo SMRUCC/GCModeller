@@ -53,12 +53,12 @@ Partial Module CLI
         Dim raw = inFile.LoadCsv(Of PredictedRegulationFootprint)
 
         Dim Total As Integer = raw.Count
-        raw = (From site In raw.AsParallel Where Not String.IsNullOrEmpty(site.Regulator) Select site).ToList
+        raw = (From site In raw.AsParallel Where Not String.IsNullOrEmpty(site.Regulator) Select site).AsList
         Dim Regulates As Integer = raw.Count
         Dim dict As SortedDictionary(Of Double, PredictedRegulationFootprint()) =
             New SortedDictionary(Of Double, PredictedRegulationFootprint())
 
-        raw = (From site In raw.AsParallel Where site.Pcc <> 1.0R Select site).ToList
+        raw = (From site In raw.AsParallel Where site.Pcc <> 1.0R Select site).AsList
 
         For p As Double = 0.6 To 1 Step 0.05
             Dim nex = p + 0.05
@@ -132,7 +132,7 @@ Partial Module CLI
 
         If modsDIR.DirectoryExists Then
             Dim modsInfo = BriteHEntry.ModuleClassAPI.FromModules(modsDIR)
-            regulations = modsInfo.Fill(regulations).ToList
+            regulations = modsInfo.Fill(regulations).AsList
         End If
 
         Dim Types = (From row As PredictedRegulationFootprint
@@ -163,7 +163,7 @@ Partial Module CLI
                 Next
             Next
 
-            Call modRegulators.Add(cls.Type, lstRegulators.Distinct.ToList)
+            Call modRegulators.Add(cls.Type, lstRegulators.Distinct.AsList)
         Next
 
         Dim removes = (From x In modRegulators Where StringHelpers.IsNullOrEmpty(x.Value) Select x.Key)

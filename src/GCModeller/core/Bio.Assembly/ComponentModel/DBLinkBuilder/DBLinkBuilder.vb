@@ -51,7 +51,7 @@ Namespace ComponentModel.DBLinkBuilder
         End Sub
 
         Private Sub Initialize(objects As IEnumerable(Of DBLink))
-            _DBLinkObjects = objects.ToList
+            _DBLinkObjects = objects.AsList
             Call LoadData(_DBLinkObjects, New KeyValuePair(Of String, Action(Of DBLink))() {
                           New KeyValuePair(Of String, Action(Of DBLink))("3DMET", Sub(DBLink As DBLink) Me.__3DMET = DBLink),
                           New KeyValuePair(Of String, Action(Of DBLink))("HMDB", Sub(DBLink As DBLink) Me._HMDB = DBLink),

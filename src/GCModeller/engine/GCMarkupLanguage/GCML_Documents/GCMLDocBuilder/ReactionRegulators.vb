@@ -52,7 +52,7 @@ Namespace Builder
                     '                       In LQuery
                     '                       Let Regulator = CreateRegulator(regr, Metabolites)
                     '                       Where Not Regulator Is Nothing
-                    '                       Select Regulator).ToList
+                    '                       Select Regulator).AsList
                 End If
             Next
 

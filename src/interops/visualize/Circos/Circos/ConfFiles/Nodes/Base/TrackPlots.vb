@@ -211,7 +211,7 @@ Namespace Configurations.Nodes.Plots
 
         Protected Overridable Function GeneratePlotsElementListChunk() As Dictionary(Of String, List(Of CircosDocument))
             If Not Rules.IsNullOrEmpty Then
-                Return New Dictionary(Of String, List(Of CircosDocument)) From {{"rules", (From item In Rules Select DirectCast(item, CircosDocument)).ToList}}
+                Return New Dictionary(Of String, List(Of CircosDocument)) From {{"rules", (From item In Rules Select DirectCast(item, CircosDocument)).AsList}}
             Else
                 Return Nothing
             End If

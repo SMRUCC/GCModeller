@@ -87,7 +87,7 @@ Namespace dataExprMAT
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function CreateFile(DataSet As IEnumerable(Of ExprSamples)) As File
-            Dim Table As List(Of RowObject) = (From item As ExprSamples In DataSet Select item.ToRow).ToList
+            Dim Table As List(Of RowObject) = (From item As ExprSamples In DataSet Select item.ToRow).AsList
             Dim FirstRow As RowObject = New RowObject((From item As ExprSamples In DataSet Select item.locusId).ToArray)
             Dim File As File = New File(FirstRow + Table)
             Return File

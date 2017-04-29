@@ -107,40 +107,44 @@ Namespace Assembly.NCBI.GenBank.CsvExports
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function DumpEXPORT(obj As CDS) As GeneDumpInfo
-            Dim GeneObject As GeneDumpInfo = New GeneDumpInfo
+            Dim gene As GeneDumpInfo = New GeneDumpInfo
 
-            Call obj.TryGetValue("product", GeneObject.CommonName)
-            Call obj.TryGetValue("locus_tag", GeneObject.LocusID)
-            Call obj.TryGetValue("protein_id", GeneObject.ProteinId)
-            Call obj.TryGetValue("gene", GeneObject.GeneName)
-            Call obj.TryGetValue("translation", GeneObject.Translation)
-            Call obj.TryGetValue("function", GeneObject.Function)
-            Call obj.TryGetValue("transl_table", GeneObject.Transl_Table)
+            Call obj.TryGetValue("product", gene.CommonName)
+            Call obj.TryGetValue("locus_tag", gene.LocusID)
+            Call obj.TryGetValue("protein_id", gene.ProteinId)
+            Call obj.TryGetValue("gene", gene.GeneName)
+            Call obj.TryGetValue("translation", gene.Translation)
+            Call obj.TryGetValue("function", gene.Function)
+            Call obj.TryGetValue("transl_table", gene.Transl_Table)
 
-            If String.IsNullOrEmpty(GeneObject.LocusID) Then
-                GeneObject.LocusID = GeneObject.ProteinId
+            If String.IsNullOrEmpty(gene.LocusID) Then
+                gene.LocusID = gene.ProteinId
             End If
-            If String.IsNullOrEmpty(GeneObject.LocusID) Then
-                GeneObject.LocusID = (From ref As String
-                                      In obj.QueryDuplicated("db_xref")
-                                      Let Tokens As String() = ref.Split(CChar(":"))
-                                      Where String.Equals(Tokens.First, "PSEUDO")
-                                      Select Tokens.Last).FirstOrDefault
+            If String.IsNullOrEmpty(gene.LocusID) Then
+                gene.LocusID = (From ref As String
+                                In obj.QueryDuplicated("db_xref")
+                                Let Tokens As String() = ref.Split(CChar(":"))
+                                Where String.Equals(Tokens.First, "PSEUDO")
+                                Select Tokens.Last).FirstOrDefault
             End If
 
-            GeneObject.GI = obj.db_xref_GI
-            GeneObject.UniprotSwissProt = obj.db_xref_UniprotKBSwissProt
-            GeneObject.UniprotTrEMBL = obj.db_xref_UniprotKBTrEMBL
-            GeneObject.InterPro = obj.db_xref_InterPro
-            GeneObject.GO = obj.db_xref_GO
-            GeneObject.Species = obj.gb.Definition.Value
-            GeneObject.EC_Number = obj.Query(FeatureQualifiers.EC_number)
-            GeneObject.SpeciesAccessionID = obj.gb.Locus.AccessionID
+            gene.GI = obj.db_xref_GI
+            gene.UniprotSwissProt = obj.db_xref_UniprotKBSwissProt
+            gene.UniprotTrEMBL = obj.db_xref_UniprotKBTrEMBL
+            gene.InterPro = obj.db_xref_InterPro
+            gene.GO = obj.db_xref_GO
+            gene.Species = obj.gb.Definition.Value
+            gene.EC_Number = obj.Query(FeatureQualifiers.EC_number)
+            gene.SpeciesAccessionID = obj.gb.Locus.AccessionID
+
+            'If gene.Function.StringEmpty Then
+
+            'End If
 
             Try
-                GeneObject.Left = obj.Location.ContiguousRegion.Left
-                GeneObject.Right = obj.Location.ContiguousRegion.Right
-                GeneObject.Strand = If(obj.Location.Complement, "-", "+")
+                gene.Left = obj.Location.ContiguousRegion.Left
+                gene.Right = obj.Location.ContiguousRegion.Right
+                gene.Strand = If(obj.Location.Complement, "-", "+")
             Catch ex As Exception
                 Dim msg As String = $"{obj.gb.Accession.AccessionId} location data is null!"
                 ex = New Exception(msg)
@@ -148,7 +152,7 @@ Namespace Assembly.NCBI.GenBank.CsvExports
                 Call App.LogException(ex)
             End Try
 
-            Return GeneObject
+            Return gene
         End Function
     End Class
 End Namespace

@@ -116,7 +116,7 @@ Namespace Compiler.Components
 
             Call Console.WriteLine(Me._ModelLoader.ToString)
 
-            Me._EntryViews = New EntryViews(_ModelLoader.MetabolitesModel.Values.ToList)
+            Me._EntryViews = New EntryViews(_ModelLoader.MetabolitesModel.Values.AsList)
 
             For Each item In scpd
                 If item.GetDBLinkManager Is Nothing OrElse item.GetDBLinkManager.IsEmpty Then

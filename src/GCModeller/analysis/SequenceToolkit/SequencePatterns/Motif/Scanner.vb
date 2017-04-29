@@ -131,7 +131,7 @@ Namespace Motif
         End Sub
 
         Public Overrides Function Scan(pattern As String) As SimpleSegment()
-            Return (Scan(__nt, pattern, "+"c).ToList + Scan(__nt, Complement(pattern), "-"c)).OrderBy(Function(x) x.Start).ToArray
+            Return (Scan(__nt, pattern, "+"c).AsList + Scan(__nt, Complement(pattern), "-"c)).OrderBy(Function(x) x.Start).ToArray
         End Function
 
         Public Overloads Shared Function Scan(nt As String, pattern As String, strand As Char) As SimpleSegment()

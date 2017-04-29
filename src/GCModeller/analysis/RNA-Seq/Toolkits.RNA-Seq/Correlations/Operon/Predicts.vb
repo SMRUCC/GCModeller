@@ -68,7 +68,7 @@ Namespace Operon
             Dim LQuery = (From g As DOOR.OperonGene In source.AsParallel
                           Where g.Location.Strand = strand
                           Select g
-                          Order By g.Synonym Ascending).ToList
+                          Order By g.Synonym Ascending).AsList
             Return LQuery
         End Function
 

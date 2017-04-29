@@ -188,7 +188,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
         End Function
 
         Private Function __assignRNA(source As Transcript()) As Transcript()
-            Dim list = source.ToList
+            Dim list = source.AsList
 
             source = (From x In source Where Not String.IsNullOrEmpty(x.TSS_ID) Select x).ToArray
             source = (From x In source Where x.IsPossibleRNA Select x).ToArray
@@ -392,18 +392,18 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
                 Trim = (From obj In Transcripts.AsParallel
                         Where obj.SharedMinus >= sharedReads OrElse obj.SharedPlus >= sharedReads
                         Select obj
-                        Order By obj.Index Ascending).ToList
+                        Order By obj.Index Ascending).AsList
             Else 'siRNA一般情况下都是低表达量的
                 Call $"Filtering lower expression sites ({NameOf(sharedReads)} <= {sharedReads}) for predicts siRNA...".__DEBUG_ECHO
 
                 Trim = (From obj In Transcripts.AsParallel
                         Where obj.ReadsPlus <= sharedReads AndAlso obj.ReadsMinus <= sharedReads AndAlso (obj.SharedPlus > sharedReadsMin OrElse obj.SharedMinus > sharedReadsMin)
                         Select obj
-                        Order By obj.Index Ascending).ToList
+                        Order By obj.Index Ascending).AsList
             End If
 
             Dim Partitions As List(Of DocumentFormat.Transcript) = (From x As ReadsCount In Trim.AsParallel Select __site(x, readsLen, sharedReads)).Unlist
-            Partitions = (From x In Partitions Where Not x Is Nothing Select x).ToList
+            Partitions = (From x In Partitions Where Not x Is Nothing Select x).AsList
             Dim genomeSeeds = __genomeAssumption(Partitions, genomeSize)
             Return genomeSeeds
         End Function

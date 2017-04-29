@@ -192,6 +192,8 @@
     <Compile Include="API\utils\write.vb" />
     <Compile Include="API\utils\install.vb" />
     <Compile Include="API\utils\utils.vb" />
+    <Compile Include="ScriptBuilder\EscapingHelper.vb" />
+    <Compile Include="ScriptBuilder\ScriptBuilder.vb" />
     <Compile Include="userFunctions\Tools.vb" />
     <Compile Include="var.vb" />
     <Compile Include="Extensions\out.vb" />
@@ -228,7 +230,6 @@
     <Compile Include="ScriptBuilder\RPackage\stats\kmeans.vb" />
     <Compile Include="ScriptBuilder\RPackage\utils\writeTable.vb" />
     <Compile Include="ScriptBuilder\RPackage\utils\combn.vb" />
-    <Compile Include="ScriptBuilder\ScriptBuilder.vb" />
     <Compile Include="ScriptBuilder\Helpers\RTypes.vb" />
     <Compile Include="ScriptBuilder\Helpers\Decorates.vb" />
     <Compile Include="ScriptBuilder\Abstract\IScriptProvider.vb" />

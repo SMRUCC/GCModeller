@@ -149,7 +149,7 @@ Namespace EngineSystem.ObjectModels.Module.CentralDogmaInstance
 
             Dim RegulationConstraint As [Module].EquationModel.CompoundSpecieReference = New EquationModel.CompoundSpecieReference With {.Stoichiometry = 1, .Identifier = UniqueId,
                                                                                                                                          .EntityCompound = Entity.Compound.CreateObject(UniqueId, 0, 1)}
-            Dim Reactants = ConstraintFlux._Reactants.ToList
+            Dim Reactants = ConstraintFlux._Reactants.AsList
             Call Reactants.Add(RegulationConstraint)
             ConstraintFlux._Reactants = Reactants.ToArray
 

@@ -57,7 +57,7 @@ Namespace Assembly.DOMINE
 
         Private Function Interaction(Tokens As String()) As DOMINE.Tables.Interaction
             Dim vec As List(Of Integer) = (From str As String In Tokens.Skip(2).Take(15)
-                                           Select CType(Val(str), Integer)).ToList _
+                                           Select CType(Val(str), Integer)).AsList _
                                                  .Join({CType(Val(Tokens.Last), Integer)})
             Dim Db As New DOMINE.Tables.Interaction With {
                 .Domain1 = Tokens(0),

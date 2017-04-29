@@ -87,7 +87,7 @@ Namespace FileSystem
                                             In Families
                                             Where InStr(fm, "-like") > 0
                                             Select fm
-                                            Distinct).ToList
+                                            Distinct).AsList
             Dim isFamily As String() = (From fm As String
                                         In Families
                                         Where InStr(fm, "-like") = 0

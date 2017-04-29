@@ -147,7 +147,7 @@ Namespace hmmscan
                                       In s.Split
                                       Where Not String.IsNullOrEmpty(l)
                                       Select l).ToArray
-            tokens = tokens.Take(9).ToList +
+            tokens = tokens.Take(9).AsList +
                 s.Substring(fields.Take(fields.Length - 1).Sum).Trim
             Return tokens
         End Function

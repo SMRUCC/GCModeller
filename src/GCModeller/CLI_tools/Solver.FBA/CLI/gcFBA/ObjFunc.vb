@@ -173,7 +173,7 @@ Partial Module CLI
                 Function(x) Not String.IsNullOrEmpty(x.Regulator)).Distinct.ToArray
             RPKMs = (From x As RPKMStat In RPKMs
                      Where Array.IndexOf(TF, x.Locus) > -1
-                     Select x).ToList
+                     Select x).AsList
         End If
 
         Return phenos.Coefficient(RPKMs, Not spcc).SaveTo(out, Encodings.ASCII).CLICode

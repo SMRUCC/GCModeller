@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::d85fc9b2c304ad82676249bb66c09ac5, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,12 +31,11 @@ Imports System.Net.Sockets
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.FileIO.FileSystem
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Parallel.Tasks
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text
 
 Namespace Core
 
@@ -59,7 +58,7 @@ Namespace Core
         ''' {url, mapping path}
         ''' </summary>
         ReadOnly _virtualMappings As Dictionary(Of String, String)
-        ReadOnly _nullExists As Boolean
+        ReadOnly _nullAsExists As Boolean
         ReadOnly _cache As Dictionary(Of String, CachedFile)
         ReadOnly _cacheMode As Boolean
         ReadOnly _cacheUpdate As UpdateThread
@@ -94,7 +93,7 @@ Namespace Core
                 Call FileIO.FileSystem.CreateDirectory(root)
             End If
 
-            _nullExists = nullExists
+            _nullAsExists = nullExists
             wwwroot = FileIO.FileSystem.GetDirectoryInfo(root)
             FileIO.FileSystem.CurrentDirectory = root
             _virtualMappings = New Dictionary(Of String, String)
@@ -172,7 +171,7 @@ Namespace Core
         ''' </summary>
         ''' <param name="res"></param>
         ''' <returns></returns>
-        Public Function GetResource(ByRef res As String) As Byte()
+        Public Function GetResource(ByRef res$) As Byte()
             Dim file$
 
             Try
@@ -187,14 +186,20 @@ Namespace Core
             End If
 
             If file.FileExists Then
-                Return IO.File.ReadAllBytes(file)
+                ' 判断是否为vbhtml文件？
+                If file.ExtensionSuffix.TextEquals("vbhtml") Then
+                    Dim html$ = Scripting.ReadHTML(file)
+                    Return Encoding.UTF8.GetBytes(html)
+                Else
+                    Return IO.File.ReadAllBytes(file)
+                End If
             Else
-                If _nullExists Then
+                If _nullAsExists Then
                     Call $"{NoData} {file.ToFileURL}".__DEBUG_ECHO
                     Return New Byte() {}
                 Else
-                    Dim url As String = (New String() {res, file}).GetJson
-                    Throw New NullReferenceException(url)
+                    Dim message$ = New String() {res, file}.GetJson
+                    Throw New NullReferenceException(message)
                 End If
             End If
         End Function
@@ -284,22 +289,21 @@ Namespace Core
 
         Private Function __handleFileGET(res As String, p As HttpProcessor) As Boolean
             Dim buf As Byte() = RequestStream(res) ' 由于子文件夹可能会是以/的方式请求index.html，所以在这里res的值可能会变化，文件拓展名放在变化之后再解析
+            Dim ext As String = GetFileInfo(res).Extension.ToLower
 
-            If buf.Length = 0 Then Return False
+            If ext.TextEquals(".html") OrElse ext.TextEquals(".htm") Then ' Transfer HTML document.
 
-            Dim ext As String = FileIO.FileSystem.GetFileInfo(res).Extension.ToLower
-
-            If String.Equals(ext, ".html", StringComparison.OrdinalIgnoreCase) OrElse
-                String.Equals(ext, ".htm", StringComparison.OrdinalIgnoreCase) Then ' Transfer HTML document.
-
-                If String.IsNullOrEmpty(buf.Length = 0) Then
+                If buf.Length = 0 Then
                     Dim html$ = __request404()
                     html = html.Replace("%EXCEPTION%", res)
                     buf = Encoding.UTF8.GetBytes(html)
                 End If
 
+                ' response的头部默认是html文件类型
                 Call p.writeSuccess(buf.Length,)
                 Call p.outputStream.BaseStream.Write(buf, Scan0, buf.Length)
+            ElseIf buf.Length = 0 Then
+                Return False
             Else
                 Call __transferData(p, ext, buf, res.BaseName)
             End If
@@ -312,24 +316,7 @@ Namespace Core
         ''' </summary>
         ''' <param name="p"></param>
         Protected Overridable Sub __handleREST(p As HttpProcessor)
-            Dim pos As Integer = InStr(p.http_url, "?")
-            If pos <= 0 Then
-                Call p.writeFailure($"{p.http_url} have no parameter!")
-                Return
-            End If
-
-            ' Gets the argument value, value is after the API name from the ? character
-            ' Actually the Reflection operations method can be used at here to calling 
-            ' the different API 
-            Dim args As String = Mid(p.http_url, pos + 1)
-            Dim Tokens = args.RequestParser
-            Dim query As String = Tokens("query")
-            Dim subject As String = Tokens("subject")
-            Dim result = LevenshteinDistance.ComputeDistance(query, subject)
-
-            ' write API compute result to the browser
-            Call p.writeSuccess(0)
-            Call p.outputStream.WriteLine(result.Visualize)
+            ' Do Nothing
         End Sub
 
         ''' <summary>

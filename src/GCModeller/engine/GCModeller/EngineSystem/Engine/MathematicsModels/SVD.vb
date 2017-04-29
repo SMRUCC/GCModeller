@@ -133,7 +133,7 @@
 '                End If
 '            Next
 
-'            ChunkBuffer = (From item In ChunkBuffer Select item Distinct).ToList
+'            ChunkBuffer = (From item In ChunkBuffer Select item Distinct).AsList
 
 '            Dim GetValue = Function(GeneId As String) As KeyValuePair(Of String, EngineSystem.ObjectModels.Entity.Compound())
 '                               Dim GetCplxLQuery = (From item In ChunkBuffer Where InStr(item.UniqueID, GeneId, CompareMethod.Text) > 0 Select item).ToArray

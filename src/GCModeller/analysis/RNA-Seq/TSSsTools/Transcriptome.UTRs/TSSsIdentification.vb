@@ -82,7 +82,7 @@ and the shared number of the start site just lets you have a simple glimp on you
         Call $"Create transcript object....".__DEBUG_ECHO
         Dim CreateObjectLQuery = (From obj In ForwardGroup.AsParallel
                                   Let array = obj.Group.ToArray
-                                  Select __createObjectLeft(array, [shared], array.Length)).ToList
+                                  Select __createObjectLeft(array, [shared], array.Length)).AsList
         Call CreateObjectLQuery.AddRange((From obj In ReversedGroup.AsParallel
                                           Let array = obj.Group.ToArray
                                           Select __createObjectRight(array, [shared], array.Length)).ToArray)

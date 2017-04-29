@@ -52,7 +52,8 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
 
 <ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
 <PackageNamespace("NCBI.LocalBlast", Category:=APICategories.CLI_MAN,
-                  Description:="Wrapper tools for the ncbi blast+ program and the blast output data analysis program.",
+                  Description:="Wrapper tools for the ncbi blast+ program and the blast output data analysis program. 
+                  For running a large scale parallel alignment task, using ``/venn.BlastAll`` command for ``blastp`` and ``/blastn.Query.All`` command for ``blastn``.",
                   Publisher:="amethyst.asuka@gcmodeller.org")>
 Module CLI
 
@@ -92,7 +93,7 @@ Module CLI
         Next
 
         If Merge Then
-            MergeList = (From x In MergeList Select x Order By x.evalue Ascending).ToList
+            MergeList = (From x In MergeList Select x Order By x.evalue Ascending).AsList
             Call MergeList.SaveTo(out & "/" & FileIO.FileSystem.GetDirectoryInfo(inDIR).Name & ".Merge.Csv")
         End If
 
@@ -118,7 +119,7 @@ Module CLI
                                  outDIR As String) As Integer
         Dim Parser As __bbhParser = [If](Of __bbhParser)(isAll, AddressOf ParseAllbbhhits, AddressOf ParsebbhBesthit)  ' 导出方法
         Dim ParsingTask = (From entry As Entry
-                           In entries.AsParallel
+                           In entries
                            Let fileEntry As KeyValuePair(Of String, String) = __orderEntry(entry, singleQuery)
                            Select entry,
                                bbh = Parser(fileEntry.Key, fileEntry.Value, coverage, identities)).ToArray

@@ -63,7 +63,7 @@ Namespace Assembly.DOMINE
         End Operator
 
         Public Function GetInteractionDomains(DomainId As String) As String()
-            Dim LQuery = (From itr In Interaction Where String.Equals(itr.Domain1, DomainId) Select itr.Domain2).ToList
+            Dim LQuery = (From itr In Interaction Where String.Equals(itr.Domain1, DomainId) Select itr.Domain2).AsList
             LQuery += From itr In Interaction Where String.Equals(itr.Domain2, DomainId) Select itr.Domain1
             Return LQuery.ToArray
         End Function

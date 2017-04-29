@@ -30,7 +30,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.ListExtensions
-Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
+Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MAST.HTML
@@ -79,7 +79,7 @@ Namespace Analysis.MotifScans
             Dim Seeds = (From site In SlideWindows.AsParallel
                          Let delta As Double = Similarity.Sigma(MotifSite.PspMatrix, Similarity.PWM(site.Elements))
                          Where delta <= Me.Delta
-                         Select delta, site, complements = False).ToList
+                         Select delta, site, complements = False).AsList
             Dim revNT As New NucleotideModels.NucleicAcid(New String(NucleotideModels.NucleicAcid.Complement(Nt.SequenceData).Reverse.ToArray))
             SlideWindows = revNT.ToArray.CreateSlideWindows(MotifSite.PspMatrix.Length + OffSet * 2)
             Call Seeds.AddRange((From site In SlideWindows.AsParallel
@@ -108,7 +108,7 @@ Namespace Analysis.MotifScans
                                PWMDelta As Double,
                                complement As Boolean,
                                NtLen As Long) As MatchedSite
-            Dim NT As List(Of DNA) = sequence.ToList
+            Dim NT As List(Of DNA) = sequence.AsList
 
             For i As Integer = 0 To OffSet - 1
                 Call NT.RemoveAt(Scan0)

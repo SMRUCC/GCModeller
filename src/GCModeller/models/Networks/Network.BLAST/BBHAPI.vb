@@ -135,10 +135,10 @@ Public Module BBHAPI
                                                        Select xx
                                                        Group xx By xx.HitName Into Group) _
                                                             .ToDictionary(Function(xx) xx.HitName,
-                                                                          Function(xx) xx.Group.ToList))
+                                                                          Function(xx) xx.Group.AsList))
 
             Call "Dictionary hash table created done!".__DEBUG_ECHO
-            partitions = sbh.Split(102400).ToArray(Function(x) x.ToList, Parallel:=True)
+            partitions = sbh.Split(102400).ToArray(Function(x) x.AsList, Parallel:=True)
             Call $"{partitions.Length} partitions...".__DEBUG_ECHO
         End Sub
 

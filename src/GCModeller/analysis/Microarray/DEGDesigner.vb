@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::199f789b9bebbd880717bf13001ccc88, ..\GCModeller\analysis\Microarray\DEGDesigner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -96,7 +97,7 @@ Public Module DEGDesigner
     End Function
 
     ''' <summary>
-    ''' 
+    ''' 合并实验数据矩阵，可以使用这个函数用来生成诸如heatmap或者vennDiagram的绘图数据
     ''' </summary>
     ''' <param name="DIR$"></param>
     ''' <param name="name$">进行文件搜索的通配符</param>
@@ -107,31 +108,69 @@ Public Module DEGDesigner
     ''' 假若是使用默认值0的话，由于任何实数都大于0，所以就不会进行差异基因的筛选，即函数会返回所有的基因列表
     ''' </param>
     ''' <returns></returns>
-    Public Function MergeMatrix(DIR$, name$, Optional DEG# = 0, Optional Pvalue# = Integer.MaxValue, Optional fieldFC$ = "logFC", Optional FCdown# = Integer.MinValue, Optional fieldPvalue$ = "PValue") As gene()
+    Public Function MergeMatrix(DIR$, name$, Optional DEG# = 0, Optional Pvalue# = Integer.MaxValue, Optional fieldFC$ = "logFC", Optional FCdown# = Integer.MinValue, Optional fieldPvalue$ = "PValue", Optional nonDEP_blank As Boolean = True) As gene()
         Dim samples As New Dictionary(Of String, gene())
         Dim test As Func(Of gene, Boolean)
 
         If FCdown <> Integer.MinValue Then
             test = Function(gene)
                        Dim FC# = gene(fieldFC).ParseNumeric
-                       Return (FC >= DEG OrElse FC <= FCdown) AndAlso gene(fieldPvalue).ParseNumeric <= Pvalue
+                       Return (FC >= DEG OrElse FC <= FCdown) AndAlso
+                           gene(fieldPvalue).ParseNumeric <= Pvalue
                    End Function
         Else
-            test = Function(gene) Math.Abs(gene(fieldFC).ParseNumeric) >= DEG AndAlso gene(fieldPvalue).ParseNumeric <= Pvalue
+            test = Function(gene)
+                       Return Math.Abs(gene(fieldFC).ParseNumeric) >= DEG AndAlso
+                           gene(fieldPvalue).ParseNumeric <= Pvalue
+                   End Function
         End If
 
-        For Each file As String In (ls - l - r - name <= DIR).Distinct
-            Dim DEGs As gene() = gene _
-                .LoadDataSet(file) _
-                .Where(test) _
-                .ToArray
-            Dim sample As String = file.ParentDirName & "-" & file.BaseName
+        If nonDEP_blank Then
+            For Each file As String In (ls - l - r - name <= DIR).Distinct
+                Dim sample As String = file.ParentDirName & "-" & file.BaseName
+                Dim DEGs As gene() = gene _
+                    .LoadDataSet(file) _
+                    .Where(test) _
+                    .ToArray
 
-            Call samples.Add(sample, DEGs)
-        Next
+                Call samples.Add(sample, DEGs)
+            Next
+        Else
+            ' 先得到所有的DEP编号，再取出FC值就行了
+            Dim datasets = (ls - l - r - name <= DIR) _
+                .Distinct _
+                .Select(Function(file$)
+                            Return New NamedValue(Of gene()) With {
+                                .Name = file.ParentDirName & "-" & file.BaseName,
+                                .Value = EntityObject.LoadDataSet(file).ToArray
+                            }
+                        End Function).ToArray
+            Dim allDEPs$() = datasets _
+                .Values _
+                .IteratesALL _
+                .Where(test) _
+                .Keys _
+                .Distinct _
+                .ToArray
+            Dim index As New IndexOf(Of String)(allDEPs)
+
+            For Each file In datasets
+                Call samples.Add(
+                    file.Name,
+                    file.Value.Where(Function(g) index.IndexOf(g.ID) > -1).ToArray)
+            Next
+        End If
 
         Dim genes = samples _
-            .Select(Function(x) x.Value.Select(Function(g) New NamedValue(Of gene)(x.Key, g))) _
+            .Select(Function(x)
+                        Return x.Value.Select(
+                            Function(g)
+                                Return New NamedValue(Of gene) With {
+                                    .Name = x.Key,
+                                    .Value = g
+                                }
+                            End Function)
+                    End Function) _
             .Unlist _
             .GroupBy(Function(gene) gene.Value.ID) _
             .ToDictionary(Function(id) id.Key,

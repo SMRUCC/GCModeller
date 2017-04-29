@@ -93,7 +93,7 @@ Public Class ProtInDb
                                              Return sBuilder.ToString
                                          End Function Let row As String = String.Format("{0},{1},""{2}""", item.PdbId, item.ChainId, Interactions())
                       Select row
-                      Order By row Ascending).ToList
+                      Order By row Ascending).AsList
         Call LQuery.Insert(0, "PdbId,ChainId,InteractionChainId")
         Call IO.File.WriteAllLines(String.Format("{0}/ProtInDb_Complexes-Assembly.csv", ExportedDir), LQuery.ToArray)
     End Sub

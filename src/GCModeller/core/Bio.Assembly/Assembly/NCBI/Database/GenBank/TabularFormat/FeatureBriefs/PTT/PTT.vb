@@ -105,7 +105,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' {<see cref="ComponentModels.GeneBrief.Synonym"/>, <see cref="ComponentModels.GeneBrief"/>}
         ''' </summary>
         Dim __innerTable As Dictionary(Of String, GeneBrief)
-        Dim _innerList As GeneBrief()
+        Protected Friend _innerList As GeneBrief()
 
         Public Function ToDictionary() As Dictionary(Of String, GeneBrief)
             Return __innerTable
@@ -165,25 +165,30 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' <param name="Name">基因名称，而非基因号</param>
         ''' <returns></returns>
         Public Function GetGeneByName(Name As String) As GeneBrief Implements IGenomicsContextProvider(Of GeneBrief).GetByName
-            Dim found As GeneBrief = Me(Name)
+            Dim found As GeneBrief = Me(Name)  ' 先假设这个Name值为基因号
 
             If Not found Is Nothing Then
                 Return found
             End If
 
-            Dim LQuery As GeneBrief =
-                LinqAPI.DefaultFirst(Of GeneBrief) <= From gene As GeneBrief
-                                                      In Me._innerList
-                                                      Where String.Equals(gene.Gene, Name,
-                                                          StringComparison.OrdinalIgnoreCase)
-                                                      Select gene
-            Return LQuery
+            Return LinqAPI.DefaultFirst(Of GeneBrief) <=
+ _
+                From gene As GeneBrief
+                In Me._innerList  ' 尝试进行字符串大小写不敏感的非严格匹配
+                Where String.Equals(gene.Gene, Name, StringComparison.OrdinalIgnoreCase)
+                Select gene
+
         End Function
 
-        Public Iterator Function GetGeneByDescription(Matches As Func(Of String, Boolean)) As IEnumerable(Of GeneBrief)
+        ''' <summary>
+        ''' String fuzzy match on the gene ``product`` value
+        ''' </summary>
+        ''' <param name="matches"></param>
+        ''' <returns></returns>
+        Public Iterator Function GetGeneByDescription(matches As Func(Of String, Boolean)) As IEnumerable(Of GeneBrief)
             For Each result As GeneBrief In From gene As GeneBrief
                                             In Me._innerList
-                                            Where Matches(gene.Product)
+                                            Where matches(gene.Product)
                                             Select gene
                 Yield result
             Next

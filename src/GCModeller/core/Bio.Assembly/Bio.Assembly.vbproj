@@ -272,6 +272,7 @@
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Compound.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Extensions.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Tables.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Web\REST.vb" />
     <Compile Include="Assembly\Expasy\API.vb" />
     <Compile Include="Assembly\Expasy\csv\SwissProt.vb" />
     <Compile Include="Assembly\Expasy\csv\Enzyme.vb" />
@@ -291,6 +292,7 @@
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadAPI.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Disease\DownloadWorker.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\CompleteUsingChEBI.vb" />
+    <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Module\ModuleDBGet.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\PathwayEntry.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\MetabolitesDBGet.vb" />
     <Compile Include="Assembly\KEGG\DBGET\Objects\Pathway\ReactionWebAPI.vb" />
@@ -452,7 +454,7 @@
     <Compile Include="ComponentModel\Equations\EquationBuilder.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\StreamProvider.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\TSV.vb" />
-    <Compile Include="Assembly\EBI.ChEBI\WebServices.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\Web\WebServices.vb" />
     <Compile Include="Assembly\Expasy\EnzymeClass.vb" />
     <Compile Include="Assembly\KEGG\Web\Form\WebForm.vb" />
     <Compile Include="Assembly\MetaCyc\Schemas\PropertyAttributes.vb" />
@@ -472,13 +474,14 @@
     <Compile Include="Assembly\NCBI\Database\Genbank\TabularFormat\FeatureBriefs\PTT\PTT.vb" />
     <Compile Include="Assembly\NCBI\SeqDump\nt.vb" />
     <Compile Include="BioAssemblyExtensions.vb" />
-    <Compile Include="IQueryExtensions.vb" />
+    <Compile Include="Query\IQueryExtensions.vb" />
     <Compile Include="Metagenomics\BIOMTaxonomy.vb" />
     <Compile Include="Metagenomics\OTUData.vb" />
     <Compile Include="ProteinModel\Abstract.vb" />
     <Compile Include="ProteinModel\DomainObject.vb" />
     <Compile Include="ProteinModel\DomainModels.vb" />
     <Compile Include="ProteinModel\Extensions.vb" />
+    <Compile Include="Query\MatchContext.vb" />
     <Compile Include="SequenceModel\Abstract.vb" />
     <Compile Include="SequenceModel\CutSequence.vb" />
     <Compile Include="SequenceModel\FASTA\Abstract.vb" />
@@ -486,7 +489,10 @@
     <Compile Include="SequenceModel\FASTA\IO\KSeq.vb" />
     <Compile Include="SequenceModel\FASTA\IO\StreamIterator.vb" />
     <Compile Include="SequenceModel\ISequenceModel.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\Conversion.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\DegenerateBases.vb" />
     <Compile Include="SequenceModel\NucleicAcid\mRNA.vb" />
+    <Compile Include="SequenceModel\NucleicAcid\Objects\DNA.vb" />
     <Compile Include="SequenceModel\Patterns\Variation.vb" />
     <Compile Include="SequenceModel\Patterns\Clustal\SRChain.vb" />
     <Compile Include="SequenceModel\Patterns\Clustal\Residue.vb" />
@@ -511,6 +517,7 @@
     <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleBetaSheet.vb" />
     <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleAlphaHelix.vb" />
     <Compile Include="SequenceModel\Polypeptides\Chou-Fasman\Rules\RuleOverlap.vb" />
+    <Compile Include="SequenceModel\Polypeptides\AminoAcid.vb" />
     <Compile Include="SequenceModel\Polypeptides\Polypeptides.vb" />
     <Compile Include="Assembly\Uniprot\Web\Uniprot.vb" />
     <Compile Include="Assembly\NCBI\Database\CDD\CDD.vb" />
@@ -655,7 +662,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Assembly\EBI.ChEBI\EntityModel\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\br08901.txt" />
   </ItemGroup>

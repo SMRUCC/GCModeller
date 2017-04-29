@@ -55,7 +55,7 @@ Partial Module CLI
 
         Footprints = (From x In Footprints
                       Where Not String.IsNullOrEmpty(x.Regulator)
-                      Select x).ToList
+                      Select x).AsList
 
         For Each pathway As bGetObject.Pathway In Pathways
             Dim pwyBrite As BriteHEntry.Pathway = PathwayBrites(pathway.BriteId)
@@ -93,7 +93,7 @@ Partial Module CLI
         Next
 
         For Each type In modRegulators.ToArray
-            Dim lst = modRegulators(type.Key).Distinct.ToList
+            Dim lst = modRegulators(type.Key).Distinct.AsList
             If lst.IsNullOrEmpty OrElse StringHelpers.IsNullOrEmpty(lst) Then
                 Call modRegulators.Remove(type.Key)
             Else

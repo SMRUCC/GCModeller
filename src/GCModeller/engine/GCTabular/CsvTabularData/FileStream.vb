@@ -263,8 +263,8 @@ Namespace FileStream
             Dim FluxObject As DataModel.FluxObject =
                 EquationBuilder.CreateObject(Of MetaCyc.Schema.Metabolism.Compound, DataModel.FluxObject)(Equation)
 
-            Call Metabolites.AddRange((From item In FluxObject.LeftSides Select item.Identifier).ToList)
-            Call Metabolites.AddRange((From item In FluxObject.RightSide Select item.Identifier).ToList)
+            Call Metabolites.AddRange((From item In FluxObject.LeftSides Select item.Identifier).AsList)
+            Call Metabolites.AddRange((From item In FluxObject.RightSide Select item.Identifier).AsList)
 
             Return Metabolites.ToArray
         End Function
@@ -323,7 +323,7 @@ Namespace FileStream
 
             Dim FluxObject As List(Of MetabolismFlux) = (From MetabolismFlux As SBML.Level2.Elements.Reaction
                                                          In SBML.Model.listOfReactions.AsParallel
-                                                         Select CreateObject(MetabolismFlux, MetaCycReactions, MetabolismEnzymeLink)).ToList
+                                                         Select CreateObject(MetabolismFlux, MetaCycReactions, MetabolismEnzymeLink)).AsList
             Return FluxObject
         End Function
 

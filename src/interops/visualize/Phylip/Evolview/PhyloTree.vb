@@ -1832,7 +1832,7 @@ Namespace Evolview
                             Dim nhxAttributes As New Dictionary(Of String, String)()
                             For Each keyvaluepair As String In Strings.Split(nhx, ":")
                                 If InStr(keyvaluepair, "=") > 0 Then
-                                    Dim keyvalue As List(Of String) = Strings.Split(keyvaluepair, "=").ToList
+                                    Dim keyvalue As List(Of String) = Strings.Split(keyvaluepair, "=").AsList
 
                                     Dim k As String = keyvalue(0)
                                     Dim v As String = keyvalue(1)
@@ -1937,7 +1937,7 @@ Namespace Evolview
                     bTranslate = False
                 ElseIf bBeginTrees AndAlso bTranslate Then
                     ' split the translate part:
-                    Dim parts As List(Of String) = line.Split.ToList
+                    Dim parts As List(Of String) = line.Split.AsList
                     If parts.Count >= 2 Then
                         Dim trans_str As String = ""
                         For i As Integer = 1 To parts.Count - 1
