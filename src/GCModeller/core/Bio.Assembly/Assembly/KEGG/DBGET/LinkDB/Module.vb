@@ -50,7 +50,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
 
             For i As Integer = 0 To Modules.Length - 1
                 Dim url = "http://www.genome.jp" & Entries(i).href
-                Modules(i) = [Module].Download(url)
+                Modules(i) = [ModuleDBGet].Download(url)
             Next
 
             Return Modules
@@ -86,7 +86,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                     Dim SaveFile As String = String.Format("{0}/Webpages/{1}.html", EXPORT, Entry)
 
                     Call ObjUrl.GET.SaveTo(SaveFile)
-                    Call ModuleList.Add([Module].Download(SaveFile))
+                    Call ModuleList.Add([ModuleDBGet].Download(SaveFile))
                     Call ModuleList.Last.GetXml.SaveTo(String.Format("{0}/{1}.xml", EXPORT, Entry))
                     Call Downloader.DownloadFile(ImageUrl, String.Format("{0}/{1}.png", EXPORT, Entry))
                 Catch ex As Exception

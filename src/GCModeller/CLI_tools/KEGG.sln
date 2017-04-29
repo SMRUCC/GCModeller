@@ -15,7 +15,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LibMySQL", "..\..\runtime\V
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bio.Assembly", "..\core\Bio.Assembly\Bio.Assembly.vbproj", "{C699D311-9923-4C19-BF70-5048D0E2CF5D}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Microsoft.VisualBasic.DataMining.Framework", "..\..\runtime\sciBASIC#\Data_science\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj", "{4B877AB2-E15F-4AA9-B7D6-7C11B2213F10}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Microsoft.VisualBasic.DataMining.Framework", "..\..\runtime\sciBASIC#\Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj", "{4B877AB2-E15F-4AA9-B7D6-7C11B2213F10}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Datavisualization.Network", "..\..\runtime\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj", "{076315EE-B598-40DC-9280-C71CDF9B6A48}"
 EndProject
