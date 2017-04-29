@@ -333,6 +333,11 @@ Namespace Core
             Call srv.handlePOSTRequest(Me, ms)
         End Sub
 
+        ''' <summary>
+        ''' 默认是html文件类型
+        ''' </summary>
+        ''' <param name="len"></param>
+        ''' <param name="content_type"></param>
         Public Sub writeSuccess(len&, Optional content_type As String = "text/html")
             Try
                 Call __writeSuccess(

@@ -213,7 +213,7 @@
     <Compile Include="Core\HttpFileSystem.vb" />
     <Compile Include="Core\HttpProcessor.vb" />
     <Compile Include="Core\HttpServer.vb" />
-    <Compile Include="HtmlPage.vb" />
+    <Compile Include="Scripting\vbhtml.vb" />
     <Compile Include="DebuggerAPI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -240,6 +240,7 @@
     <Compile Include="AppEngine\POSTReader\HttpPostedFile.vb" />
     <Compile Include="AppEngine\POSTReader\PostReader.vb" />
     <Compile Include="AppEngine\POSTReader\ReadSubStream.vb" />
+    <Compile Include="Scripting\Interpolate.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
