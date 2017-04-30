@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -42,9 +43,22 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.ProteinModel
 
 Partial Module CLI
+
+    <ExportAPI("/Organism.Table",
+               Usage:="/Organism.Table /in <br08601-htext.keg> [/out <out.csv>]")>
+    Public Function KEGGOrganismTable(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".table.csv")
+        Dim htext As htext = BriteHEntry.htext.StreamParser([in])
+        Dim table As Taxonomy() = htext.FillTaxonomyTable
+        Return table _
+            .SaveTo(out) _
+            .CLICode
+    End Function
 
     <ExportAPI("/Cut_sequence.upstream", Usage:="/Cut_sequence.upstream /in <list.txt> /PTT <genome.ptt> /org <kegg_sp> [/len <100bp> /overrides /out <outDIR>]")>
     Public Function CutSequence_Upstream(args As CommandLine) As Integer

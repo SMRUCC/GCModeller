@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8A02381A-18E7-44CD-9A5A-F67310864C3D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Reflector.CLIProgram</StartupObject>
+    <StartupObject>Sub Main</StartupObject>
     <RootNamespace>Reflector</RootNamespace>
     <AssemblyName>Reflector</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -117,7 +117,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CLIProgram.vb" />
+    <Compile Include="CLI\CLIProgram.vb" />
+    <Compile Include="CLI\docs.vb" />
+    <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
