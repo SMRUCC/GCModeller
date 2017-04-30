@@ -66,6 +66,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -84,20 +85,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LocalMySQL\disease.vb" />
-    <Compile Include="LocalMySQL\genes.vb" />
-    <Compile Include="LocalMySQL\module.vb" />
-    <Compile Include="LocalMySQL\orthology.vb" />
-    <Compile Include="LocalMySQL\orthology_diseases.vb" />
-    <Compile Include="LocalMySQL\orthology_genes.vb" />
-    <Compile Include="LocalMySQL\orthology_modules.vb" />
-    <Compile Include="LocalMySQL\orthology_pathways.vb" />
-    <Compile Include="LocalMySQL\orthology_references.vb" />
-    <Compile Include="LocalMySQL\pathway.vb" />
-    <Compile Include="LocalMySQL\reference.vb" />
-    <Compile Include="LocalMySQL\xref_ko2cog.vb" />
-    <Compile Include="LocalMySQL\xref_ko2go.vb" />
-    <Compile Include="LocalMySQL\xref_ko2rn.vb" />
+    <Compile Include="Extensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -113,9 +101,24 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Procedures\jp_kegg2.vb" />
-    <Compile Include="Procedures\Orthology.vb" />
-    <Compile Include="Procedures\SeuqneceDownloader.vb" />
+    <Compile Include="jp_kegg2\class_ko00001_orthology.vb" />
+    <Compile Include="jp_kegg2\class_ko00001_pathway.vb" />
+    <Compile Include="jp_kegg2\class_orthology_genes.vb" />
+    <Compile Include="jp_kegg2\data_compounds.vb" />
+    <Compile Include="jp_kegg2\data_enzyme.vb" />
+    <Compile Include="jp_kegg2\data_modules.vb" />
+    <Compile Include="jp_kegg2\data_organisms.vb" />
+    <Compile Include="jp_kegg2\data_orthology.vb" />
+    <Compile Include="jp_kegg2\data_pathway.vb" />
+    <Compile Include="jp_kegg2\data_reactions.vb" />
+    <Compile Include="jp_kegg2\data_references.vb" />
+    <Compile Include="jp_kegg2\link_enzymes.vb" />
+    <Compile Include="jp_kegg2\xref_module_reactions.vb" />
+    <Compile Include="jp_kegg2\xref_pathway_compounds.vb" />
+    <Compile Include="jp_kegg2\xref_pathway_genes.vb" />
+    <Compile Include="jp_kegg2\xref_pathway_modules.vb" />
+    <Compile Include="jp_kegg2\xref_pathway_references.vb" />
+    <Compile Include="Procedures\DumpProcedures.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

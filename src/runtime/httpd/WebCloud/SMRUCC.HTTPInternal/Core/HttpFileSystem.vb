@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.WebCloud.HTTPInternal.Scripting
 
 Namespace Core
 
@@ -152,11 +153,17 @@ Namespace Core
                     If index.FileExists Then
                         res = file
                         file = index
+                    Else
+                        index = file & "/index.vbhtml"
+                        If index.FileExists Then
+                            res = file
+                            file = index
+                        End If
                     End If
                 End If
             End If
 
-            file = FileIO.FileSystem.GetFileInfo(file).FullName
+            file = GetFileInfo(file).FullName
 
             Return file
         End Function
@@ -167,7 +174,7 @@ Namespace Core
         Const NoData As String = "[ERR_EMPTY_RESPONSE::No data send]"
 
         ''' <summary>
-        ''' 默认是获取文件数据
+        ''' 默认的资源获取函数:<see cref="HttpFileSystem.GetResource(ByRef String)"/>.(默认是获取文件数据)
         ''' </summary>
         ''' <param name="res"></param>
         ''' <returns></returns>
@@ -176,6 +183,7 @@ Namespace Core
 
             Try
                 file = MapPath(res)
+                res = file
             Catch ex As Exception
                 ex = New Exception(res, ex)
                 Throw ex
@@ -188,7 +196,7 @@ Namespace Core
             If file.FileExists Then
                 ' 判断是否为vbhtml文件？
                 If file.ExtensionSuffix.TextEquals("vbhtml") Then
-                    Dim html$ = Scripting.ReadHTML(file)
+                    Dim html$ = Scripting.ReadHTML(wwwroot.FullName, file)
                     Return Encoding.UTF8.GetBytes(html)
                 Else
                     Return IO.File.ReadAllBytes(file)
@@ -226,14 +234,12 @@ Namespace Core
         ''' <param name="res"></param>
         ''' <returns></returns>
         Private Function __getMapDIR(ByRef res As String) As String
-            Dim rm As String = Regex.Match(res, ".+?\/[~]\/").Value
-
-            If Not String.IsNullOrEmpty(rm) Then
-                res = res.Replace(rm, "")
-                Return wwwroot.FullName
+            If res = "/" OrElse res = "\" Then
+                res = wwwroot.FullName
             End If
 
-            Dim mapDIR As String = FileIO.FileSystem.GetParentPath(res).ToLower.Replace("\", "/")
+            Dim mapDIR As String = GetParentPath(res).ToLower.Replace("\", "/")
+
             If _virtualMappings.ContainsKey(mapDIR) Then
                 res = Mid(res, mapDIR.Length + 1)
                 mapDIR = _virtualMappings(mapDIR)
@@ -248,6 +254,12 @@ Namespace Core
                 Next
                 mapDIR = wwwroot.FullName
             End If
+
+            ' 2017-4-30 这里还需要替换回去，否则会出现两个wwwroot连接在一起的情况
+            If res = wwwroot.FullName Then
+                res = "/"
+            End If
+
             Return mapDIR
         End Function
 
@@ -268,19 +280,11 @@ Namespace Core
         Public Overrides Sub handleGETRequest(p As HttpProcessor)
             Dim res As String = p.http_url
 
-            If String.Equals(res, "/") Then   ' 在这里首先会检查是否是以/符号结束的，假若是，则可能是暗指该文件夹之下的index.html主页文件
-                res = "index.html"
-            End If
-
             ' The file content is null or not exists, that possible means this is a GET REST request not a Get file request.
             ' This if statement makes the file GET request compatible with the REST API
             If res.PathIllegal Then
                 Call __handleREST(p)
             Else
-                If res.Last = "\"c OrElse res.Last = "/"c Then
-                    res = res & "index.html"
-                End If
-
                 If Not __handleFileGET(res, p) Then
                     Call __handleREST(p)
                 End If
@@ -291,11 +295,13 @@ Namespace Core
             Dim buf As Byte() = RequestStream(res) ' 由于子文件夹可能会是以/的方式请求index.html，所以在这里res的值可能会变化，文件拓展名放在变化之后再解析
             Dim ext As String = GetFileInfo(res).Extension.ToLower
 
-            If ext.TextEquals(".html") OrElse ext.TextEquals(".htm") Then ' Transfer HTML document.
+            If ext.TextEquals(".html") OrElse
+               ext.TextEquals(".htm") OrElse
+               ext.TextEquals(".vbhtml") Then ' Transfer HTML document.
 
                 If buf.Length = 0 Then
                     Dim html$ = __request404()
-                    html = html.Replace("%EXCEPTION%", res)
+                    html = html.Replace("%404%", res)
                     buf = Encoding.UTF8.GetBytes(html)
                 End If
 
@@ -349,11 +355,15 @@ Namespace Core
 
         End Sub
 
+        ''' <summary>
+        ''' 页面之中必须要有一个``%404%``占位符来让服务器放置错误信息
+        ''' </summary>
+        ''' <returns></returns>
         Private Function __request404() As String
-            Dim _404 As String = wwwroot.FullName & "/404.html"
+            Dim _404 As String = (wwwroot.FullName & "/404.vbhtml")
 
-            If _404.FileExists Then
-                _404 = FileIO.FileSystem.ReadAllText(_404)
+            If _404.FileExists(True) Then
+                _404 = wwwroot.FullName.ReadHTML(path:=_404)
             Else
                 _404 = ""
             End If
@@ -373,7 +383,7 @@ Namespace Core
 
         Protected Overrides Function __httpProcessor(client As TcpClient) As HttpProcessor
             Return New HttpProcessor(client, Me) With {
-                ._404Page = __request404()
+                ._404Page = AddressOf __request404
             }
         End Function
 

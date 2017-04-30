@@ -40,10 +40,6 @@ Imports Oracle.LinuxCompatibility.MySQL.CodeSolution
                   Description:="Tools for convert the mysql schema dump sql script into VisualBasic classes source code.")>
 Module CLIProgram
 
-    Public Function Main() As Integer
-        Return GetType(CLIProgram).RunCLI(args:=App.CommandLine)
-    End Function
-
     Const InputsNotFound As String = "The required input parameter ""/sql"" is not specified!"
 
     <ExportAPI("--reflects",

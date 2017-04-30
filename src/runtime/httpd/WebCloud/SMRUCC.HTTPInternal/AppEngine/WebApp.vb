@@ -56,12 +56,6 @@ Namespace AppEngine
                 .ToDictionary(Function(m) m.Name)
         End Sub
 
-        ''' <summary>
-        ''' 通过复写这个方法可以使用自定义的404模板
-        ''' </summary>
-        ''' <returns></returns>
-        Public MustOverride Function Page404() As String
-
         Public Overrides Function ToString() As String
             Return $"{PlatformEngine.ToString} ==> {Me.GetType.Name}"
         End Function

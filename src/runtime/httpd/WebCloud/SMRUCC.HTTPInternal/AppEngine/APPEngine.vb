@@ -1,41 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::634fa633656048de96199055d7c3fec1, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\APPEngine.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.IO
 Imports System.Reflection
-Imports System.Text
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Win32
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
 
 Namespace AppEngine
 
@@ -186,12 +182,11 @@ Namespace AppEngine
                           Where Not attrs.IsNullOrEmpty
                           Let API As ExportAPIAttribute =
                               DirectCast(attrs(Scan0), ExportAPIAttribute)
-                          Select entryPoint,
-                              API
+                          Select (entryPoint:=entryPoint, API:=API)
 
             Dim LQuery As APIInvoker() = LinqAPI.Exec(Of APIInvoker) <=
  _
-                From m
+                From m As (entryPoint As MethodInfo, API As ExportAPIAttribute)
                 In listAPI
                 Let entryPoint As MethodInfo = m.entryPoint
                 Let api As ExportAPIAttribute = m.API
@@ -206,8 +201,7 @@ Namespace AppEngine
                 Let invoke = New APIInvoker With {
                     .Name = api.Name.ToLower,
                     .EntryPoint = entryPoint,
-                    .Help = api.PrintView(HTML:=True) & $"<br /><div>{httpMethod.GetMethodHelp(entryPoint)}</div>",
-                    .Error404 = obj.Page404
+                    .Help = api.PrintView(HTML:=True) & $"<br /><div>{httpMethod.GetMethodHelp(entryPoint)}</div>"
                 }
                 Select invoke
                 Order By Len(invoke.Name) Descending
