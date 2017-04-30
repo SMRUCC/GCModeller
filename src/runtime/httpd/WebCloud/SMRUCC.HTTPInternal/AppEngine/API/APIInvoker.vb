@@ -65,7 +65,6 @@ Namespace AppEngine.APIMethods
         Public Property EntryPoint As MethodInfo
         Public Property Help As String
         Public Property Method As APIMethod
-        Public Property Error404 As String
 
         Public Overrides Function ToString() As String
             Return Name
@@ -102,15 +101,9 @@ Namespace AppEngine.APIMethods
 #Else
             result = Fakes(ex.ToString)
 #End If
-            If Not String.IsNullOrEmpty(Error404) Then
-                result = result.Replace("--->", "<br />--->")
-                result = result.lTokens.JoinBy(vbCrLf & "<br />")
-                result = Error404.Replace("%EXCEPTION%", $"<table><tr><td><font size=""2"">{result}</font></td></tr></table>")
-            End If
-
             Call App.LogException(ex)
             Call ex.PrintException
-            Call response.WriteHTML(result)
+            Call response.Write404(result)
 
             Return False
         End Function

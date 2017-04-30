@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.WebCloud.HTTPInternal.Scripting
 
 Namespace Core
 
@@ -300,7 +301,7 @@ Namespace Core
 
                 If buf.Length = 0 Then
                     Dim html$ = __request404()
-                    html = html.Replace("%EXCEPTION%", res)
+                    html = html.Replace("%404%", res)
                     buf = Encoding.UTF8.GetBytes(html)
                 End If
 
@@ -354,11 +355,15 @@ Namespace Core
 
         End Sub
 
+        ''' <summary>
+        ''' 页面之中必须要有一个``%404%``占位符来让服务器放置错误信息
+        ''' </summary>
+        ''' <returns></returns>
         Private Function __request404() As String
-            Dim _404 As String = wwwroot.FullName & "/404.html"
+            Dim _404 As String = (wwwroot.FullName & "/404.vbhtml")
 
-            If _404.FileExists Then
-                _404 = FileIO.FileSystem.ReadAllText(_404)
+            If _404.FileExists(True) Then
+                _404 = wwwroot.FullName.ReadHTML(path:=_404)
             Else
                 _404 = ""
             End If
@@ -378,7 +383,7 @@ Namespace Core
 
         Protected Overrides Function __httpProcessor(client As TcpClient) As HttpProcessor
             Return New HttpProcessor(client, Me) With {
-                ._404Page = __request404()
+                ._404Page = AddressOf __request404
             }
         End Function
 
