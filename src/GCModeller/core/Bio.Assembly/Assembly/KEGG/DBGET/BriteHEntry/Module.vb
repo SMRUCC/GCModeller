@@ -1,35 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::9984d11aa308e18fe39db1ff2bd8bf56, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Module.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
@@ -100,7 +100,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         Private Shared Function Build(Model As BriteHText) As [Module]()
-            Dim ModuleList As New List(Of [Module])
+            Dim list As New List(Of [Module])
 
             For Each item In Model.CategoryItems.Where(Function(t) Not t.CategoryItems Is Nothing)
                 For Each CategoryItem In item.CategoryItems.Where(Function(t) Not t.CategoryItems Is Nothing)
@@ -118,12 +118,12 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                                              .Category = CategoryItem.ClassLabel,
                                                              .SubCategory = SubCategory.ClassLabel
                                                          }
-                        ModuleList += mods
+                        list += mods
                     Next
                 Next
             Next
 
-            Return ModuleList.ToArray
+            Return list.ToArray
         End Function
 
         Public Shared Function LoadFile(path As String) As [Module]()
@@ -133,50 +133,65 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <summary>
         ''' 会按照分类来组织文件夹结构
         ''' </summary>
-        ''' <param name="SpeciesCode"></param>
-        ''' <param name="Export"></param>
+        ''' <param name="sp">KEGG organism species code</param>
+        ''' <param name="EXPORT"></param>
         ''' <returns>返回成功下载的代谢途径的数目</returns>
         ''' <remarks></remarks>
-        Public Shared Function DownloadModules(SpeciesCode As String, Export As String, Optional BriefFile As String = "") As Integer
+        Public Shared Function DownloadModules(sp$, EXPORT$, Optional BriefFile As String = "") As String()
             Dim BriefEntries As [Module]() =
                 If(String.IsNullOrEmpty(BriefFile),
                 LoadFromResource(),
                 LoadFile(BriefFile))
+            Dim failes As New List(Of String)
 
-            For Each Entry As [Module] In BriefEntries
-                Call __downloadModules(SpeciesCode, Export, Entry)
+            For Each entry As [Module] In BriefEntries
+                If Not __downloadModules(sp, EXPORT, entry) Then
+                    failes += entry.EntryId
+                End If
             Next
 
-            Return 0
+            Return failes
         End Function
 
-        Private Shared Sub __downloadModules(sp As String, EXPORT As String, Entry As [Module])
-            Dim EntryId As String = String.Format("{0}{1}", sp, Entry.Entry.Key)
-            Dim SaveToDir As String = $"{EXPORT}/{TrimPath(Entry.Class)}/{TrimPath(Entry.Category)}/{TrimPath(Entry.SubCategory)}"
-            Dim XmlFile As String = String.Format("{0}/{1}.xml", SaveToDir, EntryId)
+        ''' <summary>
+        ''' 下载特定物种的模块数据
+        ''' </summary>
+        ''' <param name="sp"></param>
+        ''' <param name="EXPORT"></param>
+        ''' <param name="entry"></param>
+        Private Shared Function __downloadModules(sp$, EXPORT$, entry As [Module]) As Boolean
+            Dim entryId$ = $"{sp}{entry.Entry.Key}"
+            Dim t$() = EXPORT + {
+                entry.Class,
+                entry.Category,
+                entry.SubCategory
+            }.Select(AddressOf TrimPath) _
+             .AsList
 
-            If FileIO.FileSystem.FileExists(XmlFile) Then
-                If FileIO.FileSystem.GetFileInfo(XmlFile).Length > 0 Then
-                    Return
-                End If
+            Dim DIR As String = t.JoinBy("/")
+            Dim xml As String = String.Format("{0}/{1}.xml", DIR, entryId)
+
+            If xml.FileLength > 0 Then
+                Return True
             End If
 
-            Dim url As String = $"http://www.genome.jp/dbget-bin/www_bget?md:{sp}_{Entry.Entry.Key}"
-            Dim [Module] As bGetObject.Module = KEGG.DBGET.bGetObject.Module.Download(url)
+            Dim url As String = $"http://www.genome.jp/dbget-bin/www_bget?md:{sp}_{entry.Entry.Key}"
+            Dim [module] As bGetObject.Module = ModuleDBGet.Download(url)
 
-            If [Module] Is Nothing Then
-                Call $"[{sp}] {Entry.ToString} is not exists in KEGG!".__DEBUG_ECHO
+            If [module] Is Nothing Then
+                Call $"[{sp}] {entry.ToString} is not exists in KEGG!".Warning
+                Return False
             Else
-                Call [Module].GetXml.SaveTo(XmlFile)
+                Return [module].SaveAsXml(xml)
             End If
-        End Sub
+        End Function
 
         ''' <summary>
         ''' 防止文件夹的名称过长而出错
         ''' </summary>
         ''' <param name="pathToken"></param>
         ''' <returns></returns>
-        Public Shared Function TrimPath(pathToken As String) As String
+        Friend Shared Function TrimPath(pathToken As String) As String
             If Len(pathToken) > 56 Then
                 pathToken = Mid(pathToken, 1, 50) & "~"
             End If
