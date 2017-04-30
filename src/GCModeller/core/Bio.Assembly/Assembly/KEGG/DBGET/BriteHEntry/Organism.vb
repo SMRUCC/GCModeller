@@ -11,26 +11,33 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         <Extension> Public Function FillTaxonomyTable(organisms As htext) As Taxonomy()
             Dim out As New List(Of Taxonomy)
-            Dim levels As New List(Of String)
+            Dim levels As New Dictionary(Of Char, String)
             Dim h As BriteHText
+            Dim sp$
 
-            For Each htext In organisms.Hierarchical.EnumerateEntries
+            For Each htext As BriteHText In organisms _
+                .Hierarchical _
+                .EnumerateEntries _
+                .Where(Function(hE) hE.CategoryLevel = "E"c)
+
                 h = htext
 
-                Do While h.CategoryLevel <> "/"
+                Do While h.CategoryLevel <> "/"c
                     h = h.Parent
-                    levels += h.ClassLabel
+                    levels(h.CategoryLevel) = h.ClassLabel
                 Loop
 
+                sp = htext.ClassLabel
+                sp = sp.Split.First
                 out += New Taxonomy With {
-                    .scientificName = htext.ClassLabel,
-                    .species = .scientificName.Split.First,
-                    .genus = levels(0),
-                    .family = levels(1),
-                    .order = levels(2),
-                    .class = levels(3)
+                    .scientificName = Mid(htext.ClassLabel, sp.Length + 1).Trim,
+                    .species = sp,
+                    .genus = levels.TryGetValue("D"c),
+                    .family = levels.TryGetValue("C"c),
+                    .order = levels.TryGetValue("B"c),
+                    .class = levels.TryGetValue("A"c)
                 }
-                levels *= 0
+                Call levels.Clear()
             Next
 
             Return out
