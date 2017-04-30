@@ -404,10 +404,14 @@ Module CLI
 
     <ExportAPI("/Imports.KO",
                Info:="Imports the KEGG reference pathway map and KEGG orthology data as mysql dumps.",
-               Usage:="/Imports.KO /in <DIR> [/save <DIR>]")>
+               Usage:="/Imports.KO /pathways <DIR> /KO <DIR> [/save <DIR>]")>
     Public Function ImportsKODatabase(args As CommandLine) As Integer
-        Dim DIR$ = args <= "/in"
-        Dim save$ = args.GetValue("/save", DIR & ".Dumps/")
+        Dim pathway$ = args <= "/pathways"
+        Dim KO$ = args <= "/KO"
+        Dim save$ = args.GetValue("/save", pathway & "-" & KO.BaseName & ".Dumps/")
+
+        Call DumpProcedures.DumpReferencePathwayMap(pathway, save)
+        Call DumpProcedures.DumpKO(KO, save)
 
         Return 0
     End Function
