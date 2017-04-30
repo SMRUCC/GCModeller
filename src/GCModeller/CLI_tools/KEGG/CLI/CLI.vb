@@ -410,7 +410,7 @@ Module CLI
         Dim KO$ = args <= "/KO"
         Dim save$ = args.GetValue("/save", pathway & "-" & KO.BaseName & ".Dumps/")
 
-        Call DumpProcedures.DumpReferencePathwayMap(pathway, save)
+        '  Call DumpProcedures.DumpReferencePathwayMap(pathway, save)
         Call DumpProcedures.DumpKO(KO, save)
 
         Return 0

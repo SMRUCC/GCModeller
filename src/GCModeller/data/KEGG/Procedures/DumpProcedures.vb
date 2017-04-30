@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 Public Module DumpProcedures
@@ -36,9 +37,9 @@ Public Module DumpProcedures
             data_pathways += New mysql.data_pathway With {
                 .map = image,
                 .KO = "ko" & map.BriteId,
-                .name = map.Name,
+                .name = MySqlEscaping(map.Name),
                 .uid = Val(map.BriteId),
-                .description = map.Description
+                .description = MySqlEscaping(map.Description)
             }
 
             Dim pathway& = data_pathways.Last.uid
@@ -57,10 +58,10 @@ Public Module DumpProcedures
 
             For Each O In map.KEGGOrthology.SafeQuery
                 orthologyClass += New mysql.class_ko00001_orthology With {
-                    .function = O.Value,
+                    .function = MySqlEscaping(O.Value),
                     .KEGG = O.Key,
                     .Orthology = O.Key.Trim("K"c),
-                    .name = .function.Split(";"c).First,
+                    .name = MySqlEscaping(.function.Split(";"c).First),
                     .level_C = h?.ClassLabel,
                     .level_B = h?.Parent?.ClassLabel,
                     .level_A = h?.Parent?.Parent?.ClassLabel
@@ -82,6 +83,36 @@ Public Module DumpProcedures
     End Sub
 
     Public Sub DumpKO(DIR$, save$)
+        Dim data_orthology As New List(Of mysql.data_orthology)
+        Dim KOgenes As New List(Of mysql.class_orthology_genes)
 
+        For Each xml As String In ls - l - r - "*.XML" <= DIR
+            Dim orthology As Orthology = xml.LoadXml(Of Orthology)
+
+            data_orthology += New mysql.data_orthology With {
+                .uid = orthology.Entry.Trim("K"c),
+                .KEGG = orthology.Entry,
+                .name = MySqlEscaping(orthology.Name),
+                .definition = MySqlEscaping(orthology.Definition)
+            }
+
+            Dim KO = data_orthology.Last.uid
+
+            For Each gene In orthology.Genes
+                KOgenes += New mysql.class_orthology_genes With {
+                    .orthology = KO,
+                    .locus_tag = gene.LocusId,
+                    .organism = gene.SpeciesId,
+                    .geneName = gene.Description,
+                    .uid = LocusTagGuid(.organism, .locus_tag)
+                }
+            Next
+        Next
+
+        Call data_orthology.DumpTransaction(save)
+        Call KOgenes.DumpTransaction(save)
+
+        Call data_orthology.DumpToTable(save)
+        Call KOgenes.DumpToTable(save)
     End Sub
 End Module
