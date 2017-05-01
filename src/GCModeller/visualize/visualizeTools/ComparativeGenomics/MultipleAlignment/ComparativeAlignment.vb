@@ -103,7 +103,7 @@ Namespace ComparativeAlignment
 
                 RegionLeft = GeneObjectModel.InvokeDrawing(Device.Graphics, New Point(RegionLeft, Height),
                                                        NextLeft:=NextGeneObject.Left,
-                                                       ConvertFactor:=ConvertFactor,
+                                                       convertFactor:=ConvertFactor,
                                                        Region:=rtvlRegion,
                                                        IdGrawingPositionDown:=True,
                                                        Font:=Font,
@@ -119,7 +119,7 @@ Namespace ComparativeAlignment
             End If
 
             Call LastModel.InvokeDrawing(Device.Graphics, New Point(RegionLeft, Height), NextLeft:=Models.Length,
-                                     ConvertFactor:=ConvertFactor,
+                                     convertFactor:=ConvertFactor,
                                      Region:=rtvlRegion, IdGrawingPositionDown:=True,
                                      Font:=Font, AlternativeArrowStyle:=Type2Arrow,
                                      IDConflictedRegion:=IDConflictedRegion)
