@@ -68,14 +68,14 @@ Namespace ComparativeGenomics
                                           gene.Height = gDrawHeight
                                           Dim nextGene As GeneObject = Models(i + 1)
                                           Dim r As Rectangle
-                                          Left = gene.InvokeDrawing(gdi.Graphics, New Point(Left, Height), NextLeft:=nextGene.Left, ConvertFactor:=cF, Region:=r,
+                                          Left = gene.InvokeDrawing(gdi.Graphics, New Point(Left, Height), NextLeft:=nextGene.Left, convertFactor:=cF, Region:=r,
                                                                           IdGrawingPositionDown:=IDDown, Font:=Font,
                                                                           AlternativeArrowStyle:=Type2Arrow, IDConflictedRegion:=ID_ConflictedRegion)
                                           Call gDrawRECT.Add(gene.locus_tag, r)
                                       Next
 
                                       Dim rr As Rectangle
-                                      Call Models.Last.InvokeDrawing(gdi.Graphics, New Point(Left, Height), NextLeft:=Models.Length, ConvertFactor:=cF,
+                                      Call Models.Last.InvokeDrawing(gdi.Graphics, New Point(Left, Height), NextLeft:=Models.Length, convertFactor:=cF,
                                                                            Region:=rr, IdGrawingPositionDown:=IDDown,
                                                                            Font:=Font, AlternativeArrowStyle:=Type2Arrow,
                                                                            IDConflictedRegion:=ID_ConflictedRegion)

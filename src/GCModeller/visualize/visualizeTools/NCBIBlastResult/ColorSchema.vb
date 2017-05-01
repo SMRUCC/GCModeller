@@ -45,6 +45,8 @@ Namespace NCBIBlastResult
         ''' </summary>
         ''' <param name="scores">需要从这里得到分数</param>
         ''' <returns></returns>
+        ''' 
+        <Extension>
         Public Function IdentitiesBrush(scores As Func(Of Analysis.Hit, Double)) As ICOGsBrush
             Return AddressOf New __brushHelper With {
                 .scores = scores,
@@ -86,10 +88,6 @@ Namespace NCBIBlastResult
         <Extension> Public Function GetBlastnIdentitiesColor(schema As RangeList(Of Double, NamedValue(Of Color)), p As Double) As Color
             Dim success As Boolean = False
             Dim cl As NamedValue(Of Color) = schema.SelectValue(p, [throw]:=False, success:=success)
-
-#If DEBUG Then
-            ' Call $"{p} --> {cl.GetJson}".__DEBUG_ECHO
-#End If
 
             If Not success Then
                 If p <= 0 Then

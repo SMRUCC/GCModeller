@@ -3,6 +3,34 @@ Mysql database field attributes notes:
 
 > AI: Auto Increment; B: Binary; NN: Not Null; PK: Primary Key; UQ: Unique; UN: Unsigned; ZF: Zero Fill
 
+## class_br08201_reaction
+KEGG enzymic reaction catagory
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|uid|Int64 (11)|``NN``||
+|rn|VarChar (45)|||
+|name|VarChar (45)|||
+|EC|VarChar (45)||level4|
+|level1|VarChar (45)|||
+|level2|VarChar (45)|||
+|level3|VarChar (45)|||
+
+```SQL
+CREATE TABLE `class_br08201_reaction` (
+  `uid` int(11) NOT NULL,
+  `rn` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `EC` varchar(45) DEFAULT NULL COMMENT 'level4',
+  `level1` varchar(45) DEFAULT NULL,
+  `level2` varchar(45) DEFAULT NULL,
+  `level3` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='KEGG enzymic reaction catagory';
+```
+
+
+
 ## class_ko00001_orthology
 KEGG的基因同源分类
 
@@ -209,14 +237,14 @@ KEGG基因直系同源数据
 |field|type|attributes|description|
 |-----|----|----------|-----------|
 |uid|Int64 (11)|``NN``||
-|KEGG|VarChar (45)||KO编号|
+|KEGG|VarChar (45)|``NN``|KO编号|
 |name|VarChar (45)|||
 |definition|VarChar (45)|||
 
 ```SQL
 CREATE TABLE `data_orthology` (
   `uid` int(11) NOT NULL,
-  `KEGG` varchar(45) DEFAULT NULL COMMENT 'KO编号',
+  `KEGG` varchar(45) NOT NULL COMMENT 'KO编号',
   `name` varchar(45) DEFAULT NULL,
   `definition` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`uid`),
@@ -253,25 +281,32 @@ CREATE TABLE `data_pathway` (
 
 
 ## data_reactions
-
+KEGG之中的生物代谢反应的定义数据，这个表会包括非酶促反应过程和酶促反应过程
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
 |uid|Int64 (11)|``NN``||
-|KEGG|VarChar (45)|||
+|KEGG|VarChar (45)|``NN``|rn:R.... KEGG reaction id|
+|EC|VarChar (45)|||
 |name|VarChar (45)|||
 |definition|VarChar (45)|||
+|substrates|VarChar (45)||KEGG compounds uid list, in long array formats, like: 1, 2, 3, 4,   ``data_compounds.uid``|
+|products|VarChar (45)||KEGG compounds uid list, in long array formats, like: 1, 2, 3, 4|
 |comment|VarChar (45)|||
 
 ```SQL
 CREATE TABLE `data_reactions` (
   `uid` int(11) NOT NULL,
-  `KEGG` varchar(45) DEFAULT NULL,
+  `KEGG` varchar(45) NOT NULL COMMENT 'rn:R.... KEGG reaction id',
+  `EC` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `definition` varchar(45) DEFAULT NULL,
+  `substrates` varchar(45) DEFAULT NULL COMMENT 'KEGG compounds uid list, in long array formats, like: 1, 2, 3, 4,   ``data_compounds.uid``',
+  `products` varchar(45) DEFAULT NULL COMMENT 'KEGG compounds uid list, in long array formats, like: 1, 2, 3, 4',
   `comment` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='KEGG之中的生物代谢反应的定义数据，这个表会包括非酶促反应过程和酶促反应过程';
 ```
 
 
@@ -301,7 +336,7 @@ CREATE TABLE `data_references` (
 
 
 ## link_enzymes
-
+Enzyme in other external database
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
@@ -317,7 +352,53 @@ CREATE TABLE `link_enzymes` (
   `database` varchar(45) DEFAULT NULL,
   `ID` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`enzyme`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enzyme in other external database';
+```
+
+
+
+## meta_class_br08201
+
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|uid|Int64 (11)|``NN``||
+|EC|VarChar (45)|||
+|level1|VarChar (45)|||
+|level2|VarChar (45)|||
+|level3|VarChar (45)|||
+
+```SQL
+CREATE TABLE `meta_class_br08201` (
+  `uid` int(11) NOT NULL,
+  `EC` varchar(45) DEFAULT NULL,
+  `level1` varchar(45) DEFAULT NULL,
+  `level2` varchar(45) DEFAULT NULL,
+  `level3` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+
+## xref_ko_reactions
+KEGG orthology links with reactions
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|KO_uid|Int64 (11)|``NN``||
+|rn|Int64 (11)|``NN``||
+|KO|VarChar (45)|``NN``||
+|name|VarChar (45)||KO orthology gene full name|
+
+```SQL
+CREATE TABLE `xref_ko_reactions` (
+  `KO_uid` int(11) NOT NULL,
+  `rn` int(11) NOT NULL,
+  `KO` varchar(45) NOT NULL,
+  `name` varchar(45) DEFAULT NULL COMMENT 'KO orthology gene full name',
+  PRIMARY KEY (`KO_uid`,`rn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='KEGG orthology links with reactions';
 ```
 
 
