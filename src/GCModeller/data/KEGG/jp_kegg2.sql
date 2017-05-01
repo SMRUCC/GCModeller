@@ -18,6 +18,25 @@ USE `jp_kegg2`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `class_br08201_reaction`
+--
+
+DROP TABLE IF EXISTS `class_br08201_reaction`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `class_br08201_reaction` (
+  `uid` int(11) NOT NULL,
+  `rn` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `EC` varchar(45) DEFAULT NULL COMMENT 'level4',
+  `level1` varchar(45) DEFAULT NULL,
+  `level2` varchar(45) DEFAULT NULL,
+  `level3` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='KEGG enzymic reaction catagory';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `class_ko00001_orthology`
 --
 
@@ -163,7 +182,7 @@ DROP TABLE IF EXISTS `data_orthology`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `data_orthology` (
   `uid` int(11) NOT NULL,
-  `KEGG` varchar(45) DEFAULT NULL COMMENT 'KO编号',
+  `KEGG` varchar(45) NOT NULL COMMENT 'KO编号',
   `name` varchar(45) DEFAULT NULL,
   `definition` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`uid`),
@@ -199,12 +218,16 @@ DROP TABLE IF EXISTS `data_reactions`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `data_reactions` (
   `uid` int(11) NOT NULL,
-  `KEGG` varchar(45) DEFAULT NULL,
+  `KEGG` varchar(45) NOT NULL COMMENT 'rn:R.... KEGG reaction id',
+  `EC` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `definition` varchar(45) DEFAULT NULL,
+  `substrates` varchar(45) DEFAULT NULL COMMENT 'KEGG compounds uid list, in long array formats, like: 1, 2, 3, 4,   ``data_compounds.uid``',
+  `products` varchar(45) DEFAULT NULL COMMENT 'KEGG compounds uid list, in long array formats, like: 1, 2, 3, 4',
   `comment` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='KEGG之中的生物代谢反应的定义数据，这个表会包括非酶促反应过程和酶促反应过程';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,7 +260,40 @@ CREATE TABLE `link_enzymes` (
   `database` varchar(45) DEFAULT NULL,
   `ID` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`enzyme`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enzyme in other external database';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `meta_class_br08201`
+--
+
+DROP TABLE IF EXISTS `meta_class_br08201`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `meta_class_br08201` (
+  `uid` int(11) NOT NULL,
+  `EC` varchar(45) DEFAULT NULL,
+  `level1` varchar(45) DEFAULT NULL,
+  `level2` varchar(45) DEFAULT NULL,
+  `level3` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `xref_ko_reactions`
+--
+
+DROP TABLE IF EXISTS `xref_ko_reactions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `xref_ko_reactions` (
+  `KO_uid` int(11) NOT NULL,
+  `rn` int(11) NOT NULL,
+  `KO` varchar(45) NOT NULL,
+  `name` varchar(45) DEFAULT NULL COMMENT 'KO orthology gene full name',
+  PRIMARY KEY (`KO_uid`,`rn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='KEGG orthology links with reactions';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -336,4 +392,4 @@ CREATE TABLE `xref_pathway_references` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-30 12:56:55
+-- Dump completed on 2017-05-01 13:11:10

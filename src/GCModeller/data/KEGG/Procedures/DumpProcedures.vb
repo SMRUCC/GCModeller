@@ -115,4 +115,43 @@ Public Module DumpProcedures
         Call data_orthology.DumpToTable(save)
         Call KOgenes.DumpToTable(save)
     End Sub
+
+    Public Sub DumpReactions(DIR$, save$)
+
+        Dim data_reactions As New List(Of mysql.data_reactions)
+        Dim rnOrthology As New List(Of mysql.xref_ko_reactions)
+
+        For Each xml As String In ls - l - r - "*.XML" <= DIR
+            Dim rn As Reaction = xml.LoadXml(Of Reaction)
+
+            data_reactions += New mysql.data_reactions With {
+                .uid = Mid(rn.Entry, 2),
+                .definition = rn.Definition,
+                .comment = rn.Comments,
+                .name = rn.CommonNames.JoinBy("; "),
+                .KEGG = rn.Entry
+            }
+
+            Dim rnUid = data_reactions.Last.uid
+
+            For Each KO In rn.Orthology.SafeQuery
+                rnOrthology += New mysql.xref_ko_reactions With {
+                    .KO = KO.Key,
+                    .KO_uid = .KO.Trim("K"c),
+                    .name = KO.Value2,
+                    .rn = rnUid
+                }
+            Next
+        Next
+
+        Call data_reactions.DumpToTable(save)
+        Call rnOrthology.DumpToTable(save)
+
+        Call data_reactions.DumpTransaction(save)
+        Call rnOrthology.DumpTransaction(save)
+    End Sub
+
+    Public Sub DumpCompounds(DIR$, save$)
+
+    End Sub
 End Module
