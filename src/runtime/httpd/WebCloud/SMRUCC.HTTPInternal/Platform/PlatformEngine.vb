@@ -27,13 +27,10 @@
 #End Region
 
 Imports System.IO
-Imports System.Net.Sockets
 Imports System.Reflection
-Imports System.Text
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
-Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.POSTParser
 Imports SMRUCC.WebCloud.HTTPInternal.Core
 Imports SMRUCC.WebCloud.HTTPInternal.Platform.Plugins
 
@@ -130,7 +127,7 @@ Namespace Platform
 
         Public Overrides Sub handlePOSTRequest(p As HttpProcessor, inputData As MemoryStream)
             Dim request As New HttpPOSTRequest(p, inputData)
-            Dim response As New HttpResponse(p.outputStream)
+            Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure)
             Dim success As Boolean = AppManager.InvokePOST(request, response)
 
             Call __finally(request, success)
@@ -142,7 +139,7 @@ Namespace Platform
         ''' <param name="p"></param>
         Protected Overrides Sub __handleREST(p As HttpProcessor)
             Dim request As New HttpRequest(p)
-            Dim response As New HttpResponse(p.outputStream)
+            Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure)
             Dim success As Boolean = AppManager.Invoke(request, response)
             Call __finally(request, success)
         End Sub

@@ -159,6 +159,10 @@ Namespace Reflection.DbAttributes
             Me._typeCastingHandle = _typeCasting(DataType)
         End Sub
 
+        ''' <summary>
+        ''' 显示mysql数据库之中的数据类型的定义字符串
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
             Return _Type.ToString & IIf(String.IsNullOrEmpty(_argvs), String.Empty, String.Format(" ({0})", _argvs))
         End Function

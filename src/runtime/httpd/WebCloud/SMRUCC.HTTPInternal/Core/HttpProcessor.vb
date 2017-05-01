@@ -379,7 +379,12 @@ Namespace Core
         ''' You can customize your 404 error page at here.
         ''' </summary>
         ''' <returns></returns>
-        Public Property _404Page As String
+        ''' <remarks>
+        ''' 因为并不是每一次请求都会产生404错误的，并且由于404页面是需要通过vbhtml脚本来实现的，
+        ''' 所以在这里使用函数指针，仅在发生错误的时候才会调用404的页面构造的过程，以提高网页
+        ''' 服务器的性能
+        ''' </remarks>
+        Public Property _404Page As Func(Of String)
 
         ''' <summary>
         ''' 404
@@ -399,23 +404,24 @@ Namespace Core
             ' this is an http 404 failure response
             Call outputStream.WriteLine("HTTP/1.0 404 Not Found")
             ' these are the HTTP headers
-            '   Call outputStream.WriteLine("Connection: close")
+            outputStream.WriteLine("Content-Type: text/html")
+            Call outputStream.WriteLine("Connection: close")
             ' ..add your own headers here
+            Call outputStream.WriteLine("")         ' this terminates the HTTP headers.
 
-            Dim _404 As String
+            Dim _404$ = __404Page()
 
-            If String.IsNullOrEmpty(_404Page) Then
+            If String.IsNullOrEmpty(_404) Then
                 _404 = ex
             Else
                 ' 404 page html file usually located in the root directory of the site, 
                 ' If the Then file exists the read the page And replace the 
                 ' Exception message With the Placeholder %Exception%
 
-                _404 = Me._404Page.Replace("%EXCEPTION%", ex)
+                _404 = _404.Replace("%404%", ex)
             End If
 
             Call outputStream.WriteLine(_404)
-            Call outputStream.WriteLine("")         ' this terminates the HTTP headers.
         End Sub
 
 #Region "IDisposable Support"
