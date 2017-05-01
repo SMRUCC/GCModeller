@@ -1,32 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::c65c2179c0ac1df31f961e0ed41acc02, ..\interops\meme_suite\MEME\Programs\MAST.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports CLIApp = Microsoft.VisualBasic.CommandLine.InteropService.InteropService
 
 Namespace Programs
 
@@ -34,7 +37,7 @@ Namespace Programs
     ''' MAST: Motif Alignment and Search Tool
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class MAST : Inherits Microsoft.VisualBasic.CommandLine.InteropService
+    Public Class MAST : Inherits CLIApp
         ' ## inputs
         ''' <summary>
         ''' read background frequencies from file
@@ -234,8 +237,8 @@ Namespace Programs
         ''' <param name="SequenceFile">search sequences in FASTA-formatted database with motifs</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Invoke(motifFile As String, SequenceFile As String) As Microsoft.VisualBasic.CommandLine.IORedirect
-            Dim OptionalArguments As String = Microsoft.VisualBasic.CommandLine.CLIBuildMethod.GetCLI(Me)
+        Public Function Invoke(motifFile As String, SequenceFile As String) As IORedirect
+            Dim OptionalArguments As String = CLIBuildMethod.GetCLI(Me)
             Return String.Format(MAST_COMMANDLINES, MyBase._executableAssembly, motifFile, SequenceFile, OptionalArguments)
         End Function
 

@@ -958,7 +958,7 @@ Namespace Interpreter
         Private Sub TryGetParameters(Tokens As Token(), ByRef parameters As Dictionary(Of ParameterName, InternalExpression), ByRef bools As String())
             Dim Temp As String() = (From obj In Tokens Select obj.GetTokenValue).ToArray
             Dim SingleParameter As String = ""
-            Dim Parser As String() = GetLogicSWs(Temp, SingleParameter)
+            Dim Parser As String() = GetLogicalArguments(Temp, SingleParameter)
             Dim params = CreateParameterValues(Temp, True)
 
             parameters = New Dictionary(Of ParameterName, InternalExpression)

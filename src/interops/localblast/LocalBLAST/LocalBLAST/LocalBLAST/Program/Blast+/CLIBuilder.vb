@@ -27,10 +27,11 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports CLI = Microsoft.VisualBasic.CommandLine.InteropService.InteropService
 
 Namespace LocalBLAST.Programs.CLIArgumentsBuilder
 
-    Public Class BlastpOptionalArguments : Inherits Microsoft.VisualBasic.CommandLine.InteropService
+    Public Class BlastpOptionalArguments : Inherits CLI
 
 #Region "*** Input query options"
         ''' <summary>
@@ -482,7 +483,7 @@ Namespace LocalBLAST.Programs.CLIArgumentsBuilder
 #End Region
     End Class
 
-    Public Class BlastnOptionalArguments : Inherits Microsoft.VisualBasic.CommandLine.InteropService
+    Public Class BlastnOptionalArguments : Inherits CLI
 #Region "*** Input query options"
         ''' <summary>
         ''' Location on the query sequence in 1-based offsets (Format: start-stop)

@@ -1,47 +1,45 @@
 ﻿#Region "Microsoft.VisualBasic::ef5b2f0a91c7e55fae42a4c7e761988c, ..\GCModeller\analysis\SequenceToolkit\SmithWaterman\Extension\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Data.Linq
 Imports System.Linq
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
-Public Module Extensions
+Public Module Coverage
 
     ''' <summary>
     ''' 可能会有重叠或者不连续，这个函数是为了计算高分区的Coverage而创建的
     ''' </summary>
     ''' <param name="regions"></param>
     ''' <returns></returns>
-    Public Function Length(regions As IEnumerable(Of Coords)) As Integer
+    Public Function Length(regions As IEnumerable(Of Coordinate)) As Integer
         Dim points As New List(Of Integer)
 
         For Each x In regions
@@ -53,14 +51,14 @@ Public Module Extensions
     End Function
 
     <Extension> Public Function QueryLength(source As IEnumerable(Of HSP)) As Integer
-        Dim nlst As Coords() =
-            source.ToArray(Function(x) New Coords With {.X = x.FromA, .Y = x.ToA})
+        Dim nlst As Coordinate() =
+            source.ToArray(Function(x) New Coordinate With {.X = x.FromA, .Y = x.ToA})
         Return Length(nlst)
     End Function
 
     <Extension> Public Function SubjectLength(source As IEnumerable(Of HSP)) As Integer
-        Dim nlst As Coords() =
-            source.ToArray(Function(x) New Coords With {.X = x.FromB, .Y = x.ToB})
+        Dim nlst As Coordinate() =
+            source.ToArray(Function(x) New Coordinate With {.X = x.FromB, .Y = x.ToB})
         Return Length(nlst)
     End Function
 End Module
