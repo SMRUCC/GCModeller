@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Text.Levenshtein.LevenshteinDistance
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 <XmlType("GSW", [Namespace]:="http://gcmodeller.org")>
 Public Class Output
@@ -63,7 +64,7 @@ Public Class Output
 
     Public Property Query As String
     Public Property Subject As String
-    Public Property Traceback As Coords()
+    Public Property Traceback As Coordinate()
 
     Public Function ContainsPoint(i As Integer, j As Integer) As Boolean
         Dim LQuery = (From x In Traceback Where x.X = i AndAlso x.Y = j Select 100).FirstOrDefault
@@ -74,7 +75,7 @@ Public Class Output
         Dim edits As String = ""
         Dim pre = Traceback.First
 
-        For Each cd As Coords In Traceback.Skip(1)
+        For Each cd As Coordinate In Traceback.Skip(1)
             If cd.X - pre.X = -1 AndAlso cd.Y - pre.Y = -1 Then
                 edits &= "m" '  match 和 substitute应该如何进行判断？？？
             End If

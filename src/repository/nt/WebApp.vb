@@ -90,8 +90,4 @@ Public Class RepositoryWebApp : Inherits WebApp
 
         Return True
     End Function
-
-    Public Overrides Function Page404() As String
-        Return ""
-    End Function
 End Class

@@ -54,10 +54,10 @@ Public Module RelativeStatics
                 .Samples = x.Data.ToDictionary(
                     Function(o) o.Key,
                     Function(o) o.Value * 100),
-                .TaxonTree = New Taxonomy(x.Taxonomy.Split(";"c))
+                .TaxonTree = New gast.Taxonomy(x.Taxonomy.Split(";"c))
             }
 
-        For Each rank As SeqValue(Of String) In Taxonomy.ranks.SeqIterator   ' 按照rank层次进行计算
+        For Each rank As SeqValue(Of String) In gast.Taxonomy.ranks.SeqIterator   ' 按照rank层次进行计算
             Dim out As String = $"{EXPORT}/{rank.value}.Csv"
             Dim Groups = (From x As View
                           In samples
@@ -106,7 +106,7 @@ Public Module RelativeStatics
 
     Public Class View
 
-        Public Property TaxonTree As Taxonomy
+        Public Property TaxonTree As gast.Taxonomy
         Public Property Samples As Dictionary(Of String, Double)
         Public Property OTU As String
 

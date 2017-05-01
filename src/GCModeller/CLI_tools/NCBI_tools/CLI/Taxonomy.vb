@@ -45,6 +45,7 @@ Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Levenshtein
+Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
@@ -191,7 +192,7 @@ Partial Module CLI
         End If
 
         Dim taxids As BucketDictionary(Of Integer, Integer) =
-            Taxonomy.AcquireAuto(gi2taxid)
+            NCBI.Taxonomy.AcquireAuto(gi2taxid)
         Dim output As New Dictionary(Of Integer, StreamWriter)
 
         For Each fa As FastaToken In New StreamIterator([in]).ReadStream
@@ -440,7 +441,7 @@ Partial Module CLI
                 {giFieldName, NameOf(EntityObject.ID)}
             })
         Dim giMapTaxid As BucketDictionary(Of Integer, Integer) =
-            Taxonomy.AcquireAuto(gi2taxid)
+            NCBI.Taxonomy.AcquireAuto(gi2taxid)
         Dim taxTree As New NcbiTaxonomyTree(tax)
 
         For Each x As EntityObject In data
