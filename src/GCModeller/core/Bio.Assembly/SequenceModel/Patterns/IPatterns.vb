@@ -95,9 +95,6 @@ Namespace SequenceModel.Patterns
         Public Function EnumerateValues() As IEnumerable(Of Double) Implements IPatternSite.EnumerateValues
             Return Alphabets.Values
         End Function
-
-        Public Sub Dispose() Implements IDisposable.Dispose
-        End Sub
     End Structure
 
     ''' <summary>
