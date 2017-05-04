@@ -39,8 +39,7 @@ Namespace AppEngine
     ''' <summary>
     ''' Help document developer user manual page
     ''' </summary>
-    <[Namespace]("dashboard")>
-    Public Class APPManager : Inherits WebApp
+    <[Namespace]("dashboard")> Public Class APPManager : Inherits WebApp
         Implements IEnumerable(Of APPEngine)
 
         ''' <summary>
@@ -86,7 +85,6 @@ Namespace AppEngine
         Public Sub Join(url$, method As APIMethod, API As MethodInfo, Optional APP As Object = Nothing, Optional help$ = "No help info...")
             dynamics(url.ToLower) = (APP, New APIInvoker With {
                 .EntryPoint = API,
-                .Error404 = "",
                 .Help = help,
                 .Method = method,
                 .Name = url
@@ -189,6 +187,12 @@ Namespace AppEngine
             Return True
         End Function
 
+        <ExportAPI("/dashboard/404_test.vbs")>
+        <[GET](GetType(String))>
+        Public Function Test404(request As HttpRequest, response As HttpResponse) As Boolean
+            Throw New StackOverflowException(PlatformEngine._threadPool.GetStatus.GetJson(indent:=True))
+        End Function
+
         ''' <summary>
         ''' 向开放平台之中注册API接口
         ''' </summary>
@@ -214,10 +218,6 @@ Namespace AppEngine
 
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
             Yield GetEnumerator()
-        End Function
-
-        Public Overrides Function Page404() As String
-            Return ""
         End Function
     End Class
 End Namespace

@@ -106,13 +106,23 @@ Namespace AppEngine.APIMethods.Arguments
         Implements IDisposable
 
         ReadOnly response As StreamWriter
+        ReadOnly writeFailed As Action(Of String)
 
-        Sub New(rep As StreamWriter)
+        Sub New(rep As StreamWriter, write404 As Action(Of String))
             response = rep
+            writeFailed = write404
         End Sub
 
         Dim __writeHTML As Boolean = False
         Dim __writeData As Boolean = False
+
+        ''' <summary>
+        ''' 在这里只需要将错误消息放进来就行了，页面使用自定义的模板
+        ''' </summary>
+        ''' <param name="message$"></param>
+        Public Sub Write404(message$)
+            Call writeFailed(message)
+        End Sub
 
         Public Sub Redirect(url As String)
             Call WriteHTML(<script>window.location='%s';</script>, url)

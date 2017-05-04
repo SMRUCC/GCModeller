@@ -311,18 +311,6 @@ Module CLI
         Call Settings.Session.Initialize()
     End Sub
 
-    <ExportAPI("/Pull.Seq", Info:="Downloads the missing sequence in the local KEGG database from the KEGG database server.")>
-    Public Function PullSequence(args As CommandLine) As Integer
-        Dim donwloader As New SeuqneceDownloader(MySQLExtensions.GetURI)
-        Call donwloader.RunTask()
-        Return 0
-    End Function
-
-    Private Sub __fillMissing()
-        Dim LocalMySQL As New Procedures.Orthology(MySQL)
-        Call LocalMySQL.FillMissing()
-    End Sub
-
     <ExportAPI("--Export.KO")>
     Public Function ExportKO(args As CommandLine) As Integer
 
@@ -414,35 +402,16 @@ Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Imports.KO", Usage:="/Imports.KO /in <DIR>")>
+    <ExportAPI("/Imports.KO",
+               Info:="Imports the KEGG reference pathway map and KEGG orthology data as mysql dumps.",
+               Usage:="/Imports.KO /pathways <DIR> /KO <DIR> [/save <DIR>]")>
     Public Function ImportsKODatabase(args As CommandLine) As Integer
-        Dim DIR As String = args("/in")
-        Dim mysql As New ConnectionUri With {
-            .Database = "jp_kegg2",
-            .IPAddress = "localhost",
-            .Password = 1234,
-            .User = "root",
-            .ServicesPort = 3306
-        }
-        Dim LocalMySQL As New Procedures.Orthology(mysql)
-        Dim files = FileIO.FileSystem.GetDirectoryInfo(DIR).GetFiles("*.*").Length
+        Dim pathway$ = args <= "/pathways"
+        Dim KO$ = args <= "/KO"
+        Dim save$ = args.GetValue("/save", pathway & "-" & KO.BaseName & ".Dumps/")
 
-        Using progress As New Terminal.ProgressBar("Imports KO database...",, True)
-            Dim tick As New Terminal.ProgressProvider(files)
-
-            For Each xml As String In ls - l - r - "*.xml" <= DIR
-                Try
-                    Dim o = xml.LoadXml(Of bGetObject.SSDB.Orthology)
-                    Call LocalMySQL.Update(o)
-                Catch ex As Exception
-                    Call ex.PrintException
-                End Try
-
-                Call progress.SetProgress(
-                    tick.StepProgress(),
-                    "ETA " & tick.ETA(progress.ElapsedMilliseconds).FormatTime)
-            Next
-        End Using
+        '  Call DumpProcedures.DumpReferencePathwayMap(pathway, save)
+        Call DumpProcedures.DumpKO(KO, save)
 
         Return 0
     End Function

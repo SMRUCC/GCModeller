@@ -66,6 +66,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -84,20 +85,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LocalMySQL\disease.vb" />
-    <Compile Include="LocalMySQL\genes.vb" />
-    <Compile Include="LocalMySQL\module.vb" />
-    <Compile Include="LocalMySQL\orthology.vb" />
-    <Compile Include="LocalMySQL\orthology_diseases.vb" />
-    <Compile Include="LocalMySQL\orthology_genes.vb" />
-    <Compile Include="LocalMySQL\orthology_modules.vb" />
-    <Compile Include="LocalMySQL\orthology_pathways.vb" />
-    <Compile Include="LocalMySQL\orthology_references.vb" />
-    <Compile Include="LocalMySQL\pathway.vb" />
-    <Compile Include="LocalMySQL\reference.vb" />
-    <Compile Include="LocalMySQL\xref_ko2cog.vb" />
-    <Compile Include="LocalMySQL\xref_ko2go.vb" />
-    <Compile Include="LocalMySQL\xref_ko2rn.vb" />
+    <Compile Include="Extensions.vb" />
+    <Compile Include="jp_kegg2\class_br08201_reaction.vb" />
+    <Compile Include="jp_kegg2\meta_class_br08201.vb" />
+    <Compile Include="jp_kegg2\xref_ko_reactions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -113,9 +104,24 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Procedures\jp_kegg2.vb" />
-    <Compile Include="Procedures\Orthology.vb" />
-    <Compile Include="Procedures\SeuqneceDownloader.vb" />
+    <Compile Include="jp_kegg2\class_ko00001_orthology.vb" />
+    <Compile Include="jp_kegg2\class_ko00001_pathway.vb" />
+    <Compile Include="jp_kegg2\class_orthology_genes.vb" />
+    <Compile Include="jp_kegg2\data_compounds.vb" />
+    <Compile Include="jp_kegg2\data_enzyme.vb" />
+    <Compile Include="jp_kegg2\data_modules.vb" />
+    <Compile Include="jp_kegg2\data_organisms.vb" />
+    <Compile Include="jp_kegg2\data_orthology.vb" />
+    <Compile Include="jp_kegg2\data_pathway.vb" />
+    <Compile Include="jp_kegg2\data_reactions.vb" />
+    <Compile Include="jp_kegg2\data_references.vb" />
+    <Compile Include="jp_kegg2\link_enzymes.vb" />
+    <Compile Include="jp_kegg2\xref_module_reactions.vb" />
+    <Compile Include="jp_kegg2\xref_pathway_compounds.vb" />
+    <Compile Include="jp_kegg2\xref_pathway_genes.vb" />
+    <Compile Include="jp_kegg2\xref_pathway_modules.vb" />
+    <Compile Include="jp_kegg2\xref_pathway_references.vb" />
+    <Compile Include="Procedures\DumpProcedures.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -140,6 +146,10 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematical\Math\Microsoft.VisualBasic.Mathematical.vbproj">
+      <Project>{E3367B88-5D0C-495A-8273-331656D4B5AA}</Project>
+      <Name>Microsoft.VisualBasic.Mathematical</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
