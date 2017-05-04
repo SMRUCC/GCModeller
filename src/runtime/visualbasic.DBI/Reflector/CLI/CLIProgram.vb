@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::6764b110a41e488a643ac5ba98ab085c, ..\visualbasic.DBI\Reflector\CLIProgram.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -44,7 +44,7 @@ Module CLIProgram
 
     <ExportAPI("--reflects",
                Info:="Automatically generates visualbasic source code from the MySQL database schema dump.",
-               Usage:="--reflects /sql <sql_path/std_in> [-o <output_path> /namespace <namespace> --language <php/visualbasic, default=visualbasic> /split]",
+               Usage:="--reflects /sql <sql_path/std_in> [-o <output_path> /namespace <namespace> --language <php/visualbasic, default=visualbasic> /split /auto_increment.disable]",
                Example:="--reflects /sql ./test.sql /split /namespace ExampleNamespace")>
     <Argument("/sql", False,
                    AcceptTypes:={GetType(String)},
@@ -58,11 +58,15 @@ Module CLIProgram
     <Argument("/split", True,
                    AcceptTypes:={GetType(Boolean)},
                    Description:="Split the source code into sevral files and named by table name?")>
+    <Argument("/auto_increment.disable", True,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="Enable output the auto increment field in the mysql table instead of auto increment in the process of mysql inserts.")>
     Public Function ReflectsConvert(args As CommandLine) As Integer
         Dim split As Boolean = args.GetBoolean("/split")
         Dim SQL As String = args("/sql"), out As String = args("-o")
         Dim ns As String = args("/namespace")
         Dim language$ = args.GetValue("/language", "visualbasic")
+        Dim AI As Boolean = args.GetBoolean("/auto_increment.disable")
 
         If Not SQL.FileExists Then  ' 当文件不存在的时候可能是std_in，则判断是否存在out并且是split状态
             If split AndAlso String.IsNullOrEmpty(out) Then
@@ -76,7 +80,11 @@ Module CLIProgram
             If Not split Then
                 writer = args.OpenStreamOutput("-o")
             End If
-            Return __EXPORT(SQL, args.OpenStreamInput("/sql"), ns, out, writer, split)
+            Return __EXPORT(
+                SQL, args.OpenStreamInput("/sql"),
+                ns,
+                out, writer,
+                split, AI)
         Else
             Dim msg As String = $"The target schema sql dump file ""{SQL}"" is not exists on your file system!"
             Call VBDebugger.PrintException(msg)
@@ -96,8 +104,10 @@ Module CLIProgram
     ''' <param name="output"></param>
     ''' <param name="split"></param>
     ''' <returns></returns>
-    Private Function __EXPORT(SQL As String, file As StreamReader, ns As String, out As String, output As StreamWriter, split As Boolean) As Integer
+    Private Function __EXPORT%(SQL$, file As StreamReader, ns$, out$, output As StreamWriter, split As Boolean, AI As Boolean)
         If split Then ' 分开文档的输出形式，则不能够使用stream了
+            Dim codes As Dictionary(Of String, String) = VisualBasic.GenerateCodeSplit(file, ns, SQL, AI)
+
             If String.IsNullOrEmpty(out) Then
                 out = FileIO.FileSystem.GetParentPath(SQL)
                 out = $"{out}/{IO.Path.GetFileNameWithoutExtension(SQL)}/"
@@ -105,7 +115,7 @@ Module CLIProgram
 
             Call FileIO.FileSystem.CreateDirectory(out)
 
-            For Each doc As KeyValuePair(Of String, String) In VisualBasic.CodeGenerator.GenerateCodeSplit(file, ns, SQL)
+            For Each doc As KeyValuePair(Of String, String) In codes
                 Call doc.Value.SaveTo($"{out}/{doc.Key}.vb", Encoding.Unicode)
             Next
         Else ' 整个的文档形式
