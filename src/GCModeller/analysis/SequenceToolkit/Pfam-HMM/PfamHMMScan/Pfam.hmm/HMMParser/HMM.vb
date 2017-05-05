@@ -50,7 +50,7 @@ End Class
 ''' The remainder of the model has three lines per node, for M nodes (where M is the number of match
 ''' states, As given by the LENG line). These three lines are (K Is the alphabet size In residues)
 ''' </summary>
-Public Structure Node : Implements IAddressHandle
+Public Structure Node : Implements IAddressOf
 
     ''' <summary>
     ''' [Match emission line] 
@@ -97,12 +97,10 @@ Public Structure Node : Implements IAddressHandle
     ''' 残基编号
     ''' </summary>
     ''' <returns></returns>
-    Public Property Address As Integer Implements IAddressHandle.Address
+    Public Property Address As Integer Implements IAddressOf.Address
 
     Public Overrides Function ToString() As String
         Return Me.GetJson
     End Function
-
-    Public Sub Dispose() Implements IDisposable.Dispose
-    End Sub
+   
 End Structure

@@ -141,7 +141,7 @@ Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
                 Call EventTranscriptionList.AddRange(item.Transcriptions)
             Next
 
-            Me._InternalEvent_Transcriptions = EventTranscriptionList.AddHandle.ToArray
+            Me._InternalEvent_Transcriptions = EventTranscriptionList.WriteAddress.ToArray
 
             Me._InternalTranscriptDisposableSystem = New DisposerSystem(Of Entity.Transcript)(Me._InternalTranscriptsPool, Me._CellSystem.Metabolism, Entity.IDisposableCompound.DisposableCompoundTypes.Transcripts)
             Call Me._InternalTranscriptDisposableSystem.Initialize()

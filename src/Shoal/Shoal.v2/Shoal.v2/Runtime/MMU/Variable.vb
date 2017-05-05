@@ -4,13 +4,13 @@ Imports Microsoft.VisualBasic.ComponentModel
 Namespace Runtime.MMU
 
     <Serializable> Public Class Variable
-        Implements IPageUnit, IAddressHandle
+        Implements IPageUnit, IAddressOf
 
         ''' <summary>
         ''' 内存之中的位置指针，使用 *p 来表示
         ''' </summary>
         ''' <returns></returns>
-        Public Property Address As Integer Implements IAddressHandle.Address
+        Public Property Address As Integer Implements IAddressof.Address
         Public Overridable ReadOnly Property Name As String Implements IPageUnit.Name
             Get
                 Return _Name
@@ -89,38 +89,6 @@ Namespace Runtime.MMU
             End Try
             Return $"{If([ReadOnly], "[ReadOnly] ", "")}({NameOf(Address)}-> &{Address}) ""{Name}"" As {Type} = {value}"
         End Function
-
-#Region "IDisposable Support"
-        Private disposedValue As Boolean ' To detect redundant calls
-
-        ' IDisposable
-        Protected Overridable Sub Dispose(disposing As Boolean)
-            If Not Me.disposedValue Then
-                If disposing Then
-                    ' TODO: dispose managed state (managed objects).
-                End If
-
-                ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
-                ' TODO: set large fields to null.
-            End If
-            Me.disposedValue = True
-        End Sub
-
-        ' TODO: override Finalize() only if Dispose(disposing As Boolean) above has code to free unmanaged resources.
-        'Protected Overrides Sub Finalize()
-        '    ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
-        '    Dispose(False)
-        '    MyBase.Finalize()
-        'End Sub
-
-        ' This code added by Visual Basic to correctly implement the disposable pattern.
-        Public Sub Dispose() Implements IDisposable.Dispose
-            ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
-            Dispose(True)
-            ' TODO: uncomment the following line if Finalize() is overridden above.
-            ' GC.SuppressFinalize(Me)
-        End Sub
-#End Region
 
         Public Function View() As String Implements IPageUnit.View
             Return MMU.PageUnitView.View(Me)

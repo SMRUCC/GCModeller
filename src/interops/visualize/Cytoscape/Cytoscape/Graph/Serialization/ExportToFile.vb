@@ -266,7 +266,7 @@ Namespace CytoscapeGraphView.Serialization
             Return LQuery _
                 .Select(Function(x) x.Group) _
                 .ToArray(AddressOf DefaultFirst) _
-                .AddHandle  ' 生成节点数据并去除重复
+                .WriteAddress  ' 生成节点数据并去除重复
         End Function
 
         Private Function __exportNode(dict As Dictionary(Of String, String), __getType As Func(Of String, String)) As XGMML.Node
@@ -313,7 +313,7 @@ Namespace CytoscapeGraphView.Serialization
                 __createTypeMapping(EdgeTypeMapping)
             Dim LQuery As XGMML.Edge() =
                 buf.ToArray(Function(x) x.__exportEdge(Nodes, typeMapping)) _
-                .AddHandle(offset:=Nodes.Count)
+                .WriteAddress(offset:=Nodes.Count)
             Return LQuery
         End Function
 

@@ -163,7 +163,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                 Call ChunkList.AddRange(Enz)
             Next
 
-            Me._MetabolismEnzymes = (From Enz In ChunkList Select Enz Order By Enz.ReferenceTag Ascending).ToArray.AddHandle.ToArray
+            Me._MetabolismEnzymes = (From Enz In ChunkList Select Enz Order By Enz.ReferenceTag Ascending).ToArray.WriteAddress.ToArray
 
             Call _CellSystem._InternalEventDriver.JoinEvents(DelegateSystem.NetworkComponents)
 
@@ -174,7 +174,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             Dim LQuery = (From Compound As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite In DataModels.AsParallel
                           Let Metabolite As ObjectModels.Entity.Compound = ObjectModels.Entity.Compound.CreateObject(Metabolite:=Compound, TagId:=TagId)
                           Select Metabolite).ToArray
-            Return LQuery.AddHandle
+            Return LQuery.WriteAddress
         End Function
 
         ''' <summary>
@@ -183,7 +183,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
         ''' <remarks></remarks>
         Protected Friend Sub InitalizeTrimedHandles()
             Me.TrimMetabolism = IRuntimeContainer.ConfigurationData.TrimMetabolism
-            Me.Metabolites = Me.Metabolites.AddHandle.ToArray
+            Me.Metabolites = Me.Metabolites.WriteAddress.ToArray
             If Me.TrimMetabolism Then
                 Call SystemLogging.WriteLine("   Trim the protein & transcripts metabolite handle from the metabolism system...")
 
