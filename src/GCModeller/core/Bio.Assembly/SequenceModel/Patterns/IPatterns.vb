@@ -43,7 +43,7 @@ Namespace SequenceModel.Patterns
         Function PWM() As IEnumerable(Of IPatternSite)
     End Interface
 
-    Public Interface IPatternSite : Inherits IAddressHandle
+    Public Interface IPatternSite : Inherits IAddressOf
         Default ReadOnly Property Probability(c As Char) As Double
 
         Function EnumerateKeys() As IEnumerable(Of Char)
@@ -77,7 +77,7 @@ Namespace SequenceModel.Patterns
             End Get
         End Property
 
-        Public Property Address As Integer Implements IAddressHandle.Address
+        Public Property Address As Integer Implements IAddressOf.Address
 
         Sub New(f As Dictionary(Of Char, Double), i As Integer)
             Alphabets = f
@@ -95,9 +95,6 @@ Namespace SequenceModel.Patterns
         Public Function EnumerateValues() As IEnumerable(Of Double) Implements IPatternSite.EnumerateValues
             Return Alphabets.Values
         End Function
-
-        Public Sub Dispose() Implements IDisposable.Dispose
-        End Sub
     End Structure
 
     ''' <summary>
