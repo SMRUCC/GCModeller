@@ -104,7 +104,7 @@ Public Class ConnectionUri
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <XmlAttribute> Public Property ServicesPort As UInteger
+    <XmlAttribute> Public Property Port As UInteger
 
     ''' <summary>
     ''' ``Using &lt;database_name>``.(数据库的名称)
@@ -141,7 +141,7 @@ Public Class ConnectionUri
             String.IsNullOrEmpty(DbName), o.Database, DbName)
         Me.IPAddress = o.IPAddress
         Me.Password = o.Password
-        Me.ServicesPort = o.ServicesPort
+        Me.Port = o.Port
         Me.TimeOut = o.TimeOut
         Me.User = o.User
     End Sub
@@ -161,9 +161,9 @@ Public Class ConnectionUri
         Dim ServicesPort = Regex.Match(cnn, "Port=\d+", RegexOptions.IgnoreCase).Value
 
         If Not String.IsNullOrEmpty(ServicesPort) Then
-            Uri.ServicesPort = CUInt(Val(ServicesPort.Split("="c).Last))
+            Uri.Port = CUInt(Val(ServicesPort.Split("="c).Last))
         Else
-            Uri.ServicesPort = 3306
+            Uri.Port = 3306
         End If
 
         User = Regex.Replace(User, "User Id=", "", RegexOptions.IgnoreCase)
@@ -203,7 +203,7 @@ Public Class ConnectionUri
     End Function
 
     Public Function GetDisplayUri() As String
-        Return $"https://{Me.IPAddress}:{Me.ServicesPort}/mysql/db_{Me.Database}/user_{Me.User}"
+        Return $"https://{Me.IPAddress}:{Me.Port}/mysql/db_{Me.Database}/user_{Me.User}"
     End Function
 
     Public Overrides Function ToString() As String
@@ -223,9 +223,9 @@ Public Class ConnectionUri
     ''' <returns></returns>
     Private Function __basicllyConfig() As String
         If String.IsNullOrEmpty(Database) Then
-            Return $"Data Source={IPAddress}; User Id={User}; Password={Password}; Port={ServicesPort};"
+            Return $"Data Source={IPAddress}; User Id={User}; Password={Password}; Port={Port};"
         Else
-            Return String.Format(MYSQL_CONNECTION, Database, IPAddress, User, Password, ServicesPort)
+            Return String.Format(MYSQL_CONNECTION, Database, IPAddress, User, Password, Port)
         End If
     End Function
 
@@ -287,7 +287,7 @@ Public Class ConnectionUri
         Call Debug.Write(String.Join("; ", Profiles))
         Dim newURI As New ConnectionUri With {
             .IPAddress = Server.First,
-            .ServicesPort = CInt(Val(Server.Last))
+            .Port = CInt(Val(Server.Last))
         }
         Dim fieldHash As Dictionary(Of String, String) = (From s As String
                                                           In Profiles
@@ -327,7 +327,7 @@ Public Class ConnectionUri
         Dim usr As String = passwordEncryption(Me.User)
         Dim pwd As String = passwordEncryption(Password)
         Dim dbn As String = passwordEncryption(Database)
-        Dim uri As String = $"https://{IPAddress}:{ServicesPort}/client?user={usr}%password={pwd}%database={dbn}"
+        Dim uri As String = $"https://{IPAddress}:{Port}/client?user={usr}%password={pwd}%database={dbn}"
         Return uri
     End Function
 

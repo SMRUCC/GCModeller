@@ -64,7 +64,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                              In CellSystem.DataModel.ProteinAssemblies
                              Let rxnList As ObjectModels.Module.MetabolismFlux = CreateDelegate(assembly, CellSystem.Metabolism.EnzymeKinetics, CellSystem.Metabolism.Metabolites, CellSystem.Metabolism.DelegateSystem.MetabolismEnzymes, SystemLogging)
                              Select rxnList '
-                MyBase._DynamicsExprs = LQuery.ToArray.AddHandle.ToArray
+                MyBase._DynamicsExprs = LQuery.ToArray.WriteAddress.ToArray
                 Call _SystemLogging.WriteLine("Protein assembly object model create job done!")
                 Call _SystemLogging.WriteLine("start to initialize these equation model!")
 
@@ -113,7 +113,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             Dim CellSystem = DirectCast(Me._CellComponentContainer, SubSystem.MetabolismCompartment)._CellSystem
             Dim Metabolites = CellSystem.Metabolism.Metabolites
             Dim LQuery = From Protein In CellSystem.DataModel.Polypeptides Select ___createPolypeptideObject(Protein, Metabolites.GetItem(Protein.Identifier)) '
-            Return LQuery.ToArray.AddHandle.ToArray
+            Return LQuery.ToArray.WriteAddress.ToArray
         End Function
 
         Public Overrides Function CreateServiceSerials() As Services.MySQL.IDataAcquisitionService()
@@ -148,7 +148,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                              In CellSystem.DataModel.RibosomeAssembly
                              Let rxn As ObjectModels.Module.MetabolismFlux = CreateDelegate(model, CellSystem.Metabolism.EnzymeKinetics, CellSystem.Metabolism.Metabolites, CellSystem.Metabolism.DelegateSystem.MetabolismEnzymes, SystemLogging)
                              Select rxn '
-                MyBase._DynamicsExprs = LQuery.ToArray.AddHandle.ToArray
+                MyBase._DynamicsExprs = LQuery.ToArray.WriteAddress.ToArray
                 Dim InitLQuery = (From idx As Integer In NetworkComponents.Sequence.AsParallel Select NetworkComponents(idx).Initialize(CellSystem.Metabolism.Metabolites, SystemLogging)).ToArray 'link the flux object with the delegate system
 
                 Me.RibosomalComplexes = (From strId As String In (From item In CellSystem.DataModel.RibosomeAssembly Select item.Products.First.Identifier Distinct).ToArray Select CellSystem.Metabolism.Metabolites.GetItem(strId)).ToArray
@@ -182,7 +182,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                              In CellSystem.DataModel.RNAPolymerase
                              Let rxn As ObjectModels.Module.MetabolismFlux = CreateDelegate(model, CellSystem.Metabolism.EnzymeKinetics, CellSystem.Metabolism.Metabolites, CellSystem.Metabolism.DelegateSystem.MetabolismEnzymes, SystemLogging)
                              Select rxn '
-                MyBase._DynamicsExprs = LQuery.ToArray.AddHandle.ToArray
+                MyBase._DynamicsExprs = LQuery.ToArray.WriteAddress.ToArray
                 Dim InitLQuery = (From idx As Integer In NetworkComponents.Sequence.AsParallel Select NetworkComponents(idx).Initialize(CellSystem.Metabolism.Metabolites, SystemLogging)).ToArray 'link the flux object with the delegate system
 
                 Me.RNAPolymerase = (From strId As String

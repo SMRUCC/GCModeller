@@ -48,9 +48,9 @@ Namespace EngineSystem.Services.DataAcquisition.Services
         ReadOnly Property SerialsHandle As HandleF
     End Interface
 
-    Public Structure DataSource : Implements IAddressHandle
+    Public Structure DataSource : Implements IAddressOf
 
-        Public Property Address As Integer Implements IAddressHandle.Address
+        Public Property Address As Integer Implements IAddressOf.Address
         Public Property value As Double
 
         Sub New(raw As KeyValuePair(Of Long, Double))
@@ -61,9 +61,6 @@ Namespace EngineSystem.Services.DataAcquisition.Services
         Sub New(i As Long, value As Double)
             Me.Address = i
             Me.value = value
-        End Sub
-
-        Public Sub Dispose() Implements IDisposable.Dispose
         End Sub
     End Structure
 End Namespace

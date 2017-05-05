@@ -172,7 +172,7 @@ Partial Module Utilities
                 cost As Double)
             Dim result = LevenshteinDistance.ComputeDistance(queryArray, subject.SequenceData, cost)
 
-            Me.CSS = result.CSS
+            Me.Path = result.Path
             Me.DistEdits = result.DistEdits
             Me.DistTable = result.TrimMatrix(1)
             Me.Hypotheses = subject.Title

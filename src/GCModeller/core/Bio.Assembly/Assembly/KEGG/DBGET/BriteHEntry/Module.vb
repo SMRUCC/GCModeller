@@ -191,7 +191,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <param name="pathToken"></param>
         ''' <returns></returns>
-        Friend Shared Function TrimPath(pathToken As String) As String
+        Public Shared Function TrimPath(pathToken As String) As String
             If Len(pathToken) > 56 Then
                 pathToken = Mid(pathToken, 1, 50) & "~"
             End If

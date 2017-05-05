@@ -276,6 +276,7 @@ Public Module ProgramPathSearchTool
 
     ''' <summary>
     ''' Gets the file length, if the path is not exists, then returns -1.
+    ''' (安全的获取文件的大小，如果目标文件不存在的话会返回-1)
     ''' </summary>
     ''' <param name="path"></param>
     ''' <returns></returns>
@@ -545,7 +546,7 @@ Public Module ProgramPathSearchTool
 
         Dim LQuery = (From path As String
                       In If(topLevel, ls - l, ls - l - r) - wildcards(ext) <= source
-                      Select ID = basename(path),
+                      Select ID = BaseName(path),
                           path
                       Group By ID Into Group).ToArray
 
@@ -608,7 +609,7 @@ Public Module ProgramPathSearchTool
     <Extension> Public Function LoadEntryList(<Parameter("Dir.Source")> DIR As String, ParamArray exts As String()) As NamedValue(Of String)()
         Dim LQuery As NamedValue(Of String)() =
             LinqAPI.Exec(Of NamedValue(Of String)) <= From path As String
-                                                      In ls - l - r - wildcards(exts) <= DIR
+                                                      In ls - l - ShellSyntax.r - wildcards(exts) <= DIR
                                                       Select New NamedValue(Of String)(path.BaseName, path)
         Return LQuery
     End Function

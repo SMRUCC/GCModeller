@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
-Public Interface IObjectStatus : Inherits IAddressHandle
+Public Interface IObjectStatus : Inherits IAddressOf
 
     ReadOnly Property Status As Boolean
     Property locusId As String
@@ -47,7 +47,7 @@ End Class
 ''' (只能取值基本的数值类型(<see cref="Integer"></see>, <see cref="Double"></see>, <see cref="Long"></see>, <see cref="Boolean"></see>))</typeparam>
 ''' <remarks></remarks>
 Public Interface IDynamicsExpression(Of DataType)
-    Inherits IAddressHandle, INamedValue
+    Inherits IAddressOf, INamedValue
 
 #Region "Interface"
     ''' <summary>

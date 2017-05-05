@@ -28,11 +28,12 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports CLI = Microsoft.VisualBasic.CommandLine.InteropService.InteropService
 Imports File = System.String
 
 Namespace LocalBLAST.InteropService
 
-    Public MustInherit Class LocalBlastProgramGroup : Inherits Microsoft.VisualBasic.CommandLine.InteropService
+    Public MustInherit Class LocalBlastProgramGroup : Inherits CLI
         Implements System.IDisposable
 
         ''' <summary>

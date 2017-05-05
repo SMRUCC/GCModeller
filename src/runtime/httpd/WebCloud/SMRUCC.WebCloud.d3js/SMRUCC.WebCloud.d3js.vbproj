@@ -88,6 +88,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -106,6 +107,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Network\Json.vb" />
+    <Compile Include="Network\NetworkGenerator.vb" />
     <Compile Include="Scatter.vb" />
     <Compile Include="PieChart.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -152,6 +155,10 @@
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>Microsoft.VisualBasic.Mathematical</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
+      <Name>Datavisualization.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
       <Project>{85e71b4b-9276-4ec8-aadc-c849205f1ea8}</Project>
       <Name>Microsoft.VisualBasic.Imaging</Name>
@@ -160,9 +167,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
+    <ProjectReference Include="..\..\..\sciBASIC#\mime\text%25html\MIME-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>MIME_Markups</Name>
+      <Name>MIME-htmls</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

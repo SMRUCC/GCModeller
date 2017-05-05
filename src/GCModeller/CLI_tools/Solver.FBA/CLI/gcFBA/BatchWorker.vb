@@ -28,6 +28,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.CommandLine.InteropService
 
 Partial Module CLI
 
@@ -87,6 +88,6 @@ Partial Module CLI
             {"/sample", samples}, ' /sample <sampleTable.csv>
             {"/modify", modifier} ' /modify <locus_modify.csv>
         }
-        Return SimpleBuilder("/Analysis.Phenotype", args)
+        Return CLIBuildMethod.SimpleBuilder("/Analysis.Phenotype", args)
     End Function
 End Module

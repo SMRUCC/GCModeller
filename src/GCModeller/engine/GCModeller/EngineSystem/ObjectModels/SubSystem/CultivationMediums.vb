@@ -257,7 +257,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             Call _TransmembraneFluxes.AddRange(LQuery)
             NewCellObject.Metabolism.TransmembraneFluxs = LQuery.ToArray
             Call NewCellObject.Metabolism.Pathways.Initialize()
-            _DynamicsExprs = _TransmembraneFluxes.AddHandle.ToArray
+            _DynamicsExprs = _TransmembraneFluxes.WriteAddress.ToArray
 
             If IRuntimeContainer.ConfigurationData.ATP_Compensate Then
                 Call _SystemLogging.WriteLine("[DEBUG!!!!!] Setup ATP compensation...")

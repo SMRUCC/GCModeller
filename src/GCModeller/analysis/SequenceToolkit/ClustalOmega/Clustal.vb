@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports CLI = Microsoft.VisualBasic.CommandLine.InteropService.InteropService
 
 ''' <summary>
 ''' Clustal Omega(多序列比对工具)
@@ -86,7 +87,7 @@ The accuracy of the package on smaller test cases is similar to that of the high
 Clustal Omega also has powerful features for adding sequences to and exploiting information in existing alignments, making use of the vast amount of precomputed information in public databases like Pfam.",
       AuthorAddress:="School of Medicine and Medical Science, UCD Conway Institute of Biomolecular and Biomedical Research, University College Dublin, Dublin, Ireland.",
       PubMed:=21988835)>
-Public Class Clustal : Inherits InteropService
+Public Class Clustal : Inherits CLI
 
     ''' <summary>
     ''' 

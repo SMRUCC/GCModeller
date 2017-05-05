@@ -87,7 +87,7 @@ Namespace Analysis.MotifScans
         Public Function Complement() As AnnotationModel
             Dim motif = PWM.ToArray(Function(x) x.Complement)
             Call Array.Reverse(motif)
-            Call motif.AddHandle
+            Call motif.WriteAddress
 
             Dim LDM As New AnnotationModel With {
                 .Evalue = Evalue,

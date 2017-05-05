@@ -42,7 +42,7 @@ Namespace EngineSystem.ObjectModels.PoolMappings
         Sub New(ReactionModels As Generic.IEnumerable(Of GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction),
                 Enzymes As Generic.IEnumerable(Of EngineSystem.ObjectModels.Feature.MetabolismEnzyme))
 
-            Me._MappingHandlers = (From strId As String In (From item In ReactionModels Select item.EC Distinct).ToArray.AsParallel Select New PoolMappings.EnzymeClass(strId)).ToArray.AddHandle
+            Me._MappingHandlers = (From strId As String In (From item In ReactionModels Select item.EC Distinct).ToArray.AsParallel Select New PoolMappings.EnzymeClass(strId)).ToArray.WriteAddress
             Me.__mappingPool = New Dictionary(Of String, List(Of Feature.MetabolismEnzyme))
             For Each Item As PoolMappings.EnzymeClass In _MappingHandlers
                 Call __mappingPool.Add(Item.ECNumber, New List(Of EngineSystem.ObjectModels.Feature.MetabolismEnzyme))
