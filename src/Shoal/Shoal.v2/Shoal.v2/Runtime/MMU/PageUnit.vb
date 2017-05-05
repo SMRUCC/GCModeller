@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter
 
 Namespace Runtime.MMU
 
-    Public Interface IPageUnit : Inherits IAddressHandle
+    Public Interface IPageUnit : Inherits IAddressOf
 
         ReadOnly Property PageType As IPAGE_TYPES
         ReadOnly Property Name As String

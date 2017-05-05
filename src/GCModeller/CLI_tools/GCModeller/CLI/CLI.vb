@@ -168,7 +168,7 @@ Public Module CLI
             .Database = DbName,
             .IPAddress = IPAddress,
             .Password = pass,
-            .ServicesPort = Port,
+            .Port = Port,
             .User = user
         }
         MySQLExtensions.MySQL = uri

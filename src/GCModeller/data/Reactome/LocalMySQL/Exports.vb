@@ -1,32 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::2c61c9e8d3dc70fded6437f354ab4a39, ..\GCModeller\data\Reactome\LocalMySQL\Exports.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic
+Imports Oracle.LinuxCompatibility.MySQL
+Imports Oracle.LinuxCompatibility.MySQL.Reflection
 
 Namespace LocalMySQL.ExportServices
 
@@ -137,9 +139,9 @@ Namespace LocalMySQL.ExportServices
                 Optional DbName As String = "reactome",
                 Optional Port As Integer = 3306)
 
-            MySQL = New Oracle.LinuxCompatibility.MySQL.ConnectionUri With {
+            MySQL = New ConnectionUri With {
                 .Database = DbName,
-                .ServicesPort = Port,
+                .Port = Port,
                 .Password = Password,
                 .IPAddress = DbServer,
                 .User = UserName
@@ -154,7 +156,7 @@ Namespace LocalMySQL.ExportServices
 
         Public Function ExportReactionInformation() As ObjectModels.Reaction()
             Dim ReactionEntries As List(Of Tables.gk_current.reaction) =
-                CType(MySQL.UriMySQL, Oracle.LinuxCompatibility.MySQL.Reflection.DataTable(Of Tables.gk_current.reaction)).Query("SELECT * FROM gk_current.reaction;")
+                CType(MySQL.UriMySQL, DataTable(Of Tables.gk_current.reaction)).Query("SELECT * FROM gk_current.reaction;")
             Throw New NotImplementedException
         End Function
     End Class

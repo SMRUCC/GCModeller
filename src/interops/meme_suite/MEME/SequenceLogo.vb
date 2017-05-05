@@ -45,7 +45,7 @@ Public Module SequenceLogoAPI
         Dim residues As Residue() = LDM.PspMatrix.ToArray(AddressOf DrawingModel.NTResidue)
         Dim model As DrawingModel = New DrawingModel With {
                 .ModelsId = LDM.ToString,
-                .Residues = residues.AddHandle.ToArray
+                .Residues = residues.WriteAddress.ToArray
             }
         Return model
     End Function
@@ -57,7 +57,7 @@ Public Module SequenceLogoAPI
         Dim En As Double = E(s:=Alphabets.Count, n:=Motif.Sites.Length)
         Dim rsd = (From residue As MotifPM
                        In Motif.PspMatrix
-                   Select DrawingModel.NTResidue(residue)).ToArray.AddHandle.ToArray
+                   Select DrawingModel.NTResidue(residue)).ToArray.WriteAddress.ToArray
         Dim Model As DrawingModel = New DrawingModel With {
                 .Residues = rsd,
                 .En = En,

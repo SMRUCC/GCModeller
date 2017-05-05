@@ -88,7 +88,7 @@ Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
             Dim ExpressionObjectInitializeLQuery = (From ExpressionObject As [Module].CentralDogmaInstance.CentralDogma
                                                     In _ExpressionRegulationNetwork.NetworkComponents.AsParallel
                                                     Select ExpressionObject.Initialize(CellSystem)).ToArray
-            ExpressionObjectInitializeLQuery = ExpressionObjectInitializeLQuery.AddHandle.ToArray
+            ExpressionObjectInitializeLQuery = ExpressionObjectInitializeLQuery.WriteAddress.ToArray
 
             Call _ExpressionRegulationNetwork.SystemLogging.WriteLine(String.Format("Initialization time using {0} ms", stw.ElapsedMilliseconds))
             Call _ExpressionRegulationNetwork.SystemLogging.WriteLine("End of expression regulation network initialize...", "SVD", Logging.MSG_TYPES.INF)
