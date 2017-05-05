@@ -29,15 +29,17 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace IO
 
     <PackageNamespace("Csv.HTML.Writer")>
     Public Module HTMLWriter
 
-        <Extension> Public Function ToHTML(Of T As Class)(source As Generic.IEnumerable(Of T), Optional Title As String = "", Optional describ As String = "", Optional css As String = "") As String
+        <Extension> Public Function ToHTML(Of T As Class)(source As IEnumerable(Of T), Optional Title As String = "", Optional describ As String = "", Optional css As String = "") As String
             Dim csv As IO.File = source.ToCsvDoc(False)
 
             If String.IsNullOrEmpty(describ) Then
@@ -68,9 +70,15 @@ Namespace IO
             Return html.ToString
         End Function
 
-        <Extension> Public Function ToHTMLTable(Of T As Class)(source As IEnumerable(Of T), Optional className As String = "", Optional width As String = "") As String
-            Dim csv As IO.File = source.ToCsvDoc(False)
-            Return csv.ToHTMLTable(className, width)
+        <Extension> Public Function ToHTMLTable(Of T As Class)(
+            source As IEnumerable(Of T),
+            Optional className As String = "",
+            Optional width As String = "",
+            Optional removes$() = Nothing,
+            Optional theadSpace As Boolean = False) As String
+
+            Dim csv As File = source.ToCsvDoc(False)
+            Return csv.ToHTMLTable(className, width, removes, theadSpace)
         End Function
 
         ''' <summary>
@@ -81,8 +89,15 @@ Namespace IO
         ''' <returns></returns>
         ''' 
         <ExportAPI("ToHTML.Table")>
-        <Extension> Public Function ToHTMLTable(doc As IO.File, Optional className As String = "", Optional width As String = "") As String
+        <Extension> Public Function ToHTMLTable(doc As IO.File, Optional className As String = "", Optional width As String = "", Optional removes$() = Nothing, Optional theadSpace As Boolean = False) As String
             Dim innerDoc As New StringBuilder("<table", 4096)
+            Dim removeList As New IndexOf(Of String)(removes)
+            Dim removeIndex As New IndexOf(Of Integer)(
+                removes _
+                .SafeQuery _
+                .Select(Function(name)
+                            Return doc.Headers.IndexOf(name)
+                        End Function))
 
             If Not String.IsNullOrEmpty(className) Then
                 Call innerDoc.Append($" class=""{className}""")
@@ -92,28 +107,39 @@ Namespace IO
             End If
 
             Call innerDoc.Append(">")
-            Call innerDoc.AppendLine(doc.First.__titleRow)
+            Call innerDoc.AppendLine(doc.Headers.__titleRow(removeList, theadSpace))
+            Call innerDoc.AppendLine("<hr />")
             For Each row As RowObject In doc.Skip(1)
-                Call row.__contentRow(innerDoc)
+                Call row.__contentRow(innerDoc, removeIndex)
             Next
             Call innerDoc.AppendLine("</table>")
 
             Return innerDoc.ToString
         End Function
 
-        <Extension> Private Function __titleRow(row As RowObject) As String
-            Dim doc As StringBuilder = New StringBuilder
+        <Extension> Private Function __titleRow(row As RowObject, removes As IndexOf(Of String), theadSpace As Boolean) As String
+            Dim doc As New StringBuilder
+            Dim rowText$ = row _
+                .Where(Function(t) removes(t) = -1) _
+                .ToArray(Function(x) $"<td><strong>{If(theadSpace, x & "&nbsp;&nbsp;", x)}</strong></td>") _
+                .JoinBy("")
 
-            Call doc.Append("<tr>")
-            Call doc.AppendLine(row.ToArray(Function(x) $"<td><strong>{x}</strong></td>").JoinBy(""))
-            Call doc.Append("</tr>")
+            Call doc.Append("<thead>")
+            Call doc.AppendLine(rowText)
+            Call doc.Append("</thead>")
 
             Return doc.ToString
         End Function
 
-        <Extension> Private Sub __contentRow(row As RowObject, ByRef doc As StringBuilder)
+        <Extension> Private Sub __contentRow(row As RowObject, ByRef doc As StringBuilder, removes As IndexOf(Of Integer))
+            Dim rowText$ = row.ToArray _
+                .SeqIterator _
+                .Where(Function(i) removes(i.i) = -1) _
+                .Select(Function(x) $"<td>{+x}</td>") _
+                .JoinBy("")
+
             Call doc.Append("<tr>")
-            Call doc.AppendLine(row.ToArray(Function(x) $"<td>{x}</td>").JoinBy(""))
+            Call doc.AppendLine(rowText)
             Call doc.Append("</tr>")
         End Sub
     End Module
