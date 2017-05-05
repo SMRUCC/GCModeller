@@ -234,7 +234,7 @@ Namespace VisualBasic
         ''' <param name="DefSql"></param>
         ''' <returns></returns>
         ''' <remarks><see cref="SQLComments"/></remarks>
-        Public Function GenerateTableClass(Table As Reflection.Schema.Table, DefSql As String, Optional trimAutoIncrement As Boolean = True) As String
+        <Extension> Public Function GenerateTableClass(Table As Table, DefSql$, Optional trimAutoIncrement As Boolean = True) As String
             Dim tokens As String() = Strings.Split(DefSql.Replace(vbLf, ""), vbCr)
             Dim codeGenerator As New StringBuilder("''' <summary>" & vbCrLf)
             Dim DBName As String = Table.Database
@@ -607,9 +607,13 @@ NO_KEY:
         ''' <returns></returns>
         ''' <param name="file">The SQL dumping file path.(Dump sql文件的文件路径)</param>
         ''' <param name="ns">The namespace of the source code classes</param>
-        Public Function GenerateCodeSplit(file As StreamReader, Optional ns As String = "", Optional path As String = Nothing) As Dictionary(Of String, String)
+        Public Function GenerateCodeSplit(file As StreamReader,
+                                          Optional ns$ = "",
+                                          Optional path$ = Nothing,
+                                          Optional AI As Boolean = False) As Dictionary(Of String, String)
+
             Dim sqlDump As String = Nothing
-            Dim Schema As Reflection.Schema.Table() = SQLParser.LoadSQLDoc(file, sqlDump)
+            Dim Schema As Table() = SQLParser.LoadSQLDoc(file, sqlDump)
             Dim CreateTables As String() = Regex.Split(sqlDump, SCHEMA_SECTIONS)
             Dim SchemaSQLLQuery = From tbl As String
                                   In CreateTables.Skip(1)          ' The first block of the text splits is the SQL comments from the MySQL data exporter. 
@@ -632,7 +636,7 @@ NO_KEY:
                 Head:=CreateTables.First,
                 FileName:=If(path.FileExists, FileIO.FileSystem.GetFileInfo(path).Name, ""),
                 TableSql:=SchemaSQL,
-                [Namespace]:=ns)
+                [Namespace]:=ns, AI:=AI)
         End Function
 
         ''' <summary>
@@ -643,11 +647,11 @@ NO_KEY:
         ''' <param name="FileName"></param>
         ''' <param name="TableSql"></param>
         ''' <returns></returns>
-        Private Function __generateCodeSplit(SqlDoc As IEnumerable(Of Reflection.Schema.Table),
-                                             Head As String,
-                                             FileName As String,
+        Private Function __generateCodeSplit(SqlDoc As IEnumerable(Of Table),
+                                             Head$, FileName$,
                                              TableSql As Dictionary(Of String, String),
-                                             [Namespace] As String) As Dictionary(Of String, String)
+                                             Namespace$,
+                                             AI As Boolean) As Dictionary(Of String, String)
 
             Dim haveNamespace As Boolean = Not String.IsNullOrEmpty([Namespace])
 
@@ -655,15 +659,19 @@ NO_KEY:
                 TableSql = New Dictionary(Of String, String)
             End If
 
-            Dim ClassList = (From Table As Table
+            Dim classList = (From Table As Table
                              In SqlDoc
-                             Let SqlDef As String = If(TableSql.ContainsKey(Table.TableName), TableSql(Table.TableName), "")
-                             Select ClassDef = GenerateTableClass(Table, SqlDef),
+                             Let SqlDef As String = If(
+                                 TableSql.ContainsKey(Table.TableName),
+                                 TableSql(Table.TableName),
+                                 "")
+                             Let vbClass As String = Table.GenerateTableClass(SqlDef, trimAutoIncrement:=Not AI)
+                             Select classDef = vbClass,
                                  Table).ToArray
             Dim LQuery = (From table
-                          In ClassList
+                          In classList
                           Select table.Table,
-                              doc = GenerateSingleDocument(haveNamespace, [Namespace], table.ClassDef)).ToArray
+                              doc = GenerateSingleDocument(haveNamespace, [Namespace], table.classDef)).ToArray
             Return LQuery.ToDictionary(
                 Function(x) x.Table.TableName,
                 Function(x) x.doc)
