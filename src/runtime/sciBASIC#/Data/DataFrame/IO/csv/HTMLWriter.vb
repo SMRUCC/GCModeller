@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::e3c083c7adb19571cc01940f95e6c755, ..\sciBASIC#\Data\DataFrame\IO\csv\HTMLWriter.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -68,9 +68,9 @@ Namespace IO
             Return html.ToString
         End Function
 
-        <Extension> Public Function ToHTMLTable(Of T As Class)(source As Generic.IEnumerable(Of T), Optional className As String = "", Optional width As String = "") As String
-            Dim Csv As IO.File = source.ToCsvDoc(False)
-            Return Csv.ToHTMLTable(className, width)
+        <Extension> Public Function ToHTMLTable(Of T As Class)(source As IEnumerable(Of T), Optional className As String = "", Optional width As String = "") As String
+            Dim csv As IO.File = source.ToCsvDoc(False)
+            Return csv.ToHTMLTable(className, width)
         End Function
 
         ''' <summary>
@@ -104,17 +104,17 @@ Namespace IO
         <Extension> Private Function __titleRow(row As RowObject) As String
             Dim doc As StringBuilder = New StringBuilder
 
-            Call doc.AppendLine("<tr>")
-            Call doc.AppendLine(row.ToArray(Function(x) $"<td><strong>{x}</strong></td>").JoinBy(vbCrLf))
-            Call doc.AppendLine("</tr>")
+            Call doc.Append("<tr>")
+            Call doc.AppendLine(row.ToArray(Function(x) $"<td><strong>{x}</strong></td>").JoinBy(""))
+            Call doc.Append("</tr>")
 
             Return doc.ToString
         End Function
 
         <Extension> Private Sub __contentRow(row As RowObject, ByRef doc As StringBuilder)
-            Call doc.AppendLine("<tr>")
-            Call doc.AppendLine(row.ToArray(Function(x) $"<td>{x}</td>").JoinBy(vbCrLf))
-            Call doc.AppendLine("</tr>")
+            Call doc.Append("<tr>")
+            Call doc.AppendLine(row.ToArray(Function(x) $"<td>{x}</td>").JoinBy(""))
+            Call doc.Append("</tr>")
         End Sub
     End Module
 End Namespace
