@@ -214,9 +214,17 @@ Partial Module Utilities
         Return New FastaFile(LQuery).Save(out, Encodings.ASCII)
     End Function
 
-    <ExportAPI("/To_Fasta",
-               Usage:="/To_Fasta /in <anno.csv> [/out <out.fasta> /attrs <gene;locus_tag;gi;location,...> /seq <Sequence>]",
+    ''' <summary>
+    ''' 将Excel表格之中的序列数据提取出来
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Excel.2Fasta",
+               Usage:="/Excel.2Fasta /in <anno.csv> [/out <out.fasta> /attrs <gene;locus_tag;gi;location,...> /seq <Sequence>]",
                Info:="Convert the sequence data in a excel annotation file into a fasta sequence file.")>
+    <Argument("/in", Description:="Excel csv table file.")>
+    <Argument("/attrs", Description:="Excel header fields name as the fasta sequence header.")>
+    <Argument("/seq", Description:="Excel header field name for reading the sequence data.")>
     <Group(CLIGrouping.FastaTools)>
     Public Function ToFasta(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
