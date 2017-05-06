@@ -8,8 +8,8 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("GCModeller chromosome map plot tool")>
-<Assembly: AssemblyDescription("GCModeller chromosome map plot tool")>
+<Assembly: AssemblyTitle("GCModeller chromosome map and alignment map plot tool")>
+<Assembly: AssemblyDescription("GCModeller chromosome map and alignment map plot tool")>
 <Assembly: AssemblyCompany("SMRUCC genomics institute")>
 <Assembly: AssemblyProduct("GCModeller")>
 <Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2017")>

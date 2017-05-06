@@ -250,7 +250,8 @@ Partial Module Utilities
                 .Attributes = attributes,
                 .SequenceData = seqData
             }
-            Select seqFa
+            Select seqFa 
+            Order By seqFa .Title Ascending 
         Dim Fasta As New FASTA.FastaFile(Fa)
         Return Fasta.Save(out, Encodings.ASCII).CLICode
     End Function
