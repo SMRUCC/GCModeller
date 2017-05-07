@@ -644,11 +644,11 @@ CONTINUTE:
                         Left = .InvokeDrawing(
                             device.Graphics,
                             New Point(Left, Height), NextLeft:=next_gene.Left, convertFactor:=cfactor,
-                            Region:=Nothing,
+                            arrowRect:=Nothing,
                             IdGrawingPositionDown:=False,
                             Font:=Font,
                             AlternativeArrowStyle:=ArrowAlternativeStyle,
-                            ID_conflictLayout:=IDConflictedRegion)
+                            ID_conflictLayout:=IDConflictedRegion, drawConflictLine:=True)
 
                     End With
                 Next
@@ -660,11 +660,11 @@ CONTINUTE:
                 Call models.Last.InvokeDrawing(
                     device.Graphics,
                     New Point(Left, Height), NextLeft:=models.Length, convertFactor:=cfactor,
-                    Region:=Nothing,
+                    arrowRect:=Nothing,
                     IdGrawingPositionDown:=False,
                     Font:=Font,
                     AlternativeArrowStyle:=ArrowAlternativeStyle,
-                    ID_conflictLayout:=IDConflictedRegion)
+                    ID_conflictLayout:=IDConflictedRegion, drawConflictLine:=True)
 
                 Dim titleDrawingFont As New Font("Microsoft YaHei", 20)
                 Dim titleFontSize = device.MeasureString(models.Title, titleDrawingFont)

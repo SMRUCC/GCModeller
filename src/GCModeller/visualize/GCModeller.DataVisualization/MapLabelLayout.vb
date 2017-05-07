@@ -24,7 +24,7 @@ Public Structure MapLabelLayout
     ''' </summary>
     ''' <param name="rect"></param>
     ''' <returns></returns>
-    Public Function ForceNextLocation(rect As Rectangle) As Rectangle
+    Public Function ForceNextLocation(rect As Rectangle, Optional ByRef conflict As Boolean = False) As Rectangle
         Dim ptr As Point = rect.Location
         Dim size As Size = rect.Size
 
@@ -41,7 +41,10 @@ Public Structure MapLabelLayout
                     .Location = New Point(ptr.X, ConflictRegion.Top - size.Height),
                     .Size = New Size(size.Width, size.Height)
                 }
+                conflict = True
             End If
+        Else
+            conflict = False
         End If
 
         Return rect

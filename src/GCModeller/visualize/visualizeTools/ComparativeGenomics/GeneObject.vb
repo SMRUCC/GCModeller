@@ -53,16 +53,17 @@ Namespace ComparativeGenomics
         ''' <param name="g"></param>
         ''' <param name="RefPoint"></param>
         ''' <param name="IdGrawingPositionDown">基因标号是否绘制与基因图形的下方</param>
-        ''' <param name="Region">当前的基因对象所绘制的区域从这个参数进行返回</param>
+        ''' <param name="arrowRect">当前的基因对象所绘制的区域从这个参数进行返回</param>
         ''' <returns>函数返回下一个基因对象的左端的坐标的<see cref="Point.X"></see></returns>
         ''' <remarks></remarks> 
         Public Function InvokeDrawing(g As Graphics, RefPoint As Point, NextLeft As Integer,
                                       convertFactor As Double,
-                                      ByRef Region As Rectangle,
+                                      ByRef arrowRect As Rectangle,
                                       IdGrawingPositionDown As Boolean,
                                       Font As Font,
                                       AlternativeArrowStyle As Boolean,
-                                      ByRef ID_conflictLayout As MapLabelLayout) As Integer
+                                      ByRef ID_conflictLayout As MapLabelLayout,
+                                      Optional drawConflictLine As Boolean = False) As Integer
             Dim path As GraphicsPath
             Dim Right As Integer = __nextLeft(Left, RefPoint, NextLeft, convertFactor)
 
@@ -91,13 +92,13 @@ Namespace ComparativeGenomics
             Dim RegionSiz = New Point((From n In path.PathPoints Select n.X).Max, (From n In path.PathPoints Select n.Y).Max)
 
             If Direction > 0 Then
-                Region = New Rectangle(
+                arrowRect = New Rectangle(
                     rectLocation, New Size With {
                         .Width = RegionSiz.X - rectLocation.X - HeadLength,
                         .Height = RegionSiz.Y - rectLocation.Y
                     })
             ElseIf Direction < 0 Then
-                Region = New Rectangle With {
+                arrowRect = New Rectangle With {
                     .Location = New Point(rectLocation.X + HeadLength, rectLocation.Y),
                     .Size = New Size With {
                         .Width = RegionSiz.X - rectLocation.X - HeadLength,
@@ -107,13 +108,14 @@ Namespace ComparativeGenomics
             End If
 
             Dim size = g.MeasureString(Me.locus_tag, Font)
-            Dim fleft As Integer = (Region.Width - size.Width) / 2 + Region.Left
+            Dim fleft As Integer = (arrowRect.Width - size.Width) / 2 + arrowRect.Left
             Dim ptr As Point
+            Dim conflicts As Boolean = False
 
             If IdGrawingPositionDown Then
-                ptr = New Point(fleft, Region.Bottom + offsets)
+                ptr = New Point(fleft, arrowRect.Bottom + offsets)
             Else
-                ptr = New Point(fleft, Region.Top - offsets - size.Height)
+                ptr = New Point(fleft, arrowRect.Top - offsets - size.Height)
             End If
 
             ID_conflictLayout = New MapLabelLayout With {
@@ -121,10 +123,39 @@ Namespace ComparativeGenomics
                 .ForceNextLocation(New Rectangle With {
                     .Location = ptr,
                     .Size = New Size(size.Width, size.Height)
-                })
+                }, conflicts)
             }
             With ID_conflictLayout.ConflictRegion.Location
                 Call g.DrawString(locus_tag, Font, brush:=Brushes.Black, x:= .X, y:= .Y)
+
+                If conflicts AndAlso drawConflictLine Then ' 在label的文和箭头之间画一条连线
+                    Dim a, b As Point
+                    Dim textRect = ID_conflictLayout.ConflictRegion
+
+                    If IdGrawingPositionDown Then
+                        ' 则连线在文本上方和箭头矩形的下方
+                        a = New Point With {
+                            .X = arrowRect.Left + arrowRect.Width / 2,
+                            .Y = arrowRect.Bottom
+                        }
+                        b = New Point With {
+                            .X = textRect.Left + textRect.Width / 2,
+                            .Y = textRect.Top
+                        }
+                    Else
+                        ' 连线在文本的下方和箭头矩形的上方
+                        a = New Point With {
+                            .X = arrowRect.Left + arrowRect.Width / 2,
+                            .Y = arrowRect.Top
+                        }
+                        b = New Point With {
+                            .X = textRect.Left + textRect.Width / 2,
+                            .Y = textRect.Bottom
+                        }
+                    End If
+
+                    Call g.DrawLine(Pens.Gray, a, b)
+                End If
             End With
 
             Return Right
