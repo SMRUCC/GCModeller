@@ -585,13 +585,14 @@ CONTINUTE:
                 End If
 
                 If queryBrush Is Nothing Then
-                    queryBrush = __COGsBrush(queryNoColor:=QueryNoColor,
-                                             COGTextureMappings:=COGTextureMappings,
-                                             Device:=device,
-                                             MaxIDLength:=MaxIDLength.Height,
-                                             refQuery:=refQuery,
-                                             ResourceIDMapping:=ResourceIDMapping,
-                                             TextureSource:=TextureSource)
+                    queryBrush = __COGsBrush(
+                        queryNoColor:=QueryNoColor,
+                        COGTextureMappings:=COGTextureMappings,
+                        Device:=device,
+                        MaxIDLength:=MaxIDLength.Height,
+                        refQuery:=refQuery,
+                        ResourceIDMapping:=ResourceIDMapping,
+                        TextureSource:=TextureSource)
                 End If
 
                 Dim models As GenomeModel = ModelAPI.CreateObject(
@@ -698,7 +699,7 @@ CONTINUTE:
                     Dim p_ID As Integer = 1
 
                     For Each hit In spList
-                        Call proc.SetProgress(pp.StepProgress)
+                        Call proc.SetProgress(pp.StepProgress, detail:=hit.SubjectIDs)
 
                         X = margin
                         Y += BlockHeight + 4

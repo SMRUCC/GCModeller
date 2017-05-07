@@ -3,6 +3,10 @@
 Public Structure MapLabelLayout
 
     Dim ConflictRegion As Rectangle
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
     Dim baseY!
 
     Sub New(text$, font As Font, g As Graphics, location As Point, Optional baseY! = 0!)
@@ -26,8 +30,13 @@ Public Structure MapLabelLayout
 
         ' 有冲突
         If ConflictRegion.Right >= rect.Left Then
+            Dim yconflicts As Boolean
 
-            If baseY <> 0! AndAlso ConflictRegion.Bottom >= rect.Top Then
+            With ConflictRegion
+                yconflicts = rect.Top.InRange(.Top, .Bottom) OrElse rect.Bottom.InRange(.Top, .Bottom)
+            End With
+
+            If yconflicts Then
                 rect = New Rectangle With {
                     .Location = New Point(ptr.X, ConflictRegion.Top - size.Height),
                     .Size = New Size(size.Width, size.Height)
