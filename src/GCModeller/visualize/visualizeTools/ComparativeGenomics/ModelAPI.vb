@@ -142,11 +142,14 @@ Namespace ComparativeGenomics
         ''' <param name="title"></param>
         ''' <param name="COGsColor"></param>
         ''' <param name="__getId">Public Delegate Function GetDrawingID(Gene As <see cref="GeneBrief"/>) As <see cref="String"/></param>
+        ''' <param name="region">Region of a gene cluster in a large genome.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function CreateObject(PTT As GeneBrief(), len As Integer, title As String, __getId As GetDrawingID,
                                      Optional DefaultWhite As Boolean = False,
-                                     Optional COGsColor As ICOGsBrush = Nothing) As GenomeModel
+                                     Optional COGsColor As ICOGsBrush = Nothing,
+                                     Optional region As Loci.Location = Nothing) As GenomeModel
+
             If COGsColor Is Nothing Then
                 COGsColor = PTT.COGsColorBrush(False, Nothing)
             End If
