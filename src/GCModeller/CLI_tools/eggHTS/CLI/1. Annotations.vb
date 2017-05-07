@@ -68,6 +68,17 @@ Partial Module CLI
         Return list.SaveTo(out, Encodings.ASCII.CodePage).CLICode
     End Function
 
+    <ExportAPI("/Fasta.IDlist", Usage:="/Fasta.IDlist /in <prot.fasta> [/out <geneIDs.txt>]")>
+    Public Function GetFastaIDlist(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".geneIDs.txt")
+        Dim fasta As New FastaFile([in])
+        Dim list$() = fasta _
+            .Select(Function(fa) fa.Title.Split.First) _
+            .ToArray
+        Return list.SaveTo(out).CLICode
+    End Function
+
     ''' <summary>
     ''' 1. 总蛋白注释
     ''' </summary>

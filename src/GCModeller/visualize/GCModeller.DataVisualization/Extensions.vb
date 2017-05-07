@@ -36,15 +36,15 @@ Imports SMRUCC.genomics.ComponentModel
 
 Public Module Extensions
 
-    Const COGNotAssign As String = "COG_NOT_ASSIGN"
+    Public Const COGNotAssign As String = "COG_NOT_ASSIGN"
 
     ''' <summary>
     ''' 绘制COG分类的颜色，请注意，对于没有COG颜色分类的，情使用空字符串来替代
     ''' </summary>
-    ''' <param name="g">gdi/svg graphics engine</param>
+    ''' <param name="dev">gdi/svg graphics engine</param>
     ''' <remarks></remarks>
     ''' 
-    <Extension> Public Sub DrawingCOGColors(ByRef g As IGraphics,
+    <Extension> Public Sub DrawingCOGColors(ByRef dev As IGraphics,
                                             COGsColor As Dictionary(Of String, Brush),
                                             ref As Point,
                                             legendFont As Font,
@@ -54,7 +54,7 @@ Public Module Extensions
         Dim top As Integer = ref.Y - 100
         Dim left As Integer = ref.X
         Dim legendHeight As Integer = 20
-        Dim FontHeight As Single = g.MeasureString("COG", legendFont).Height
+        Dim FontHeight As Single = dev.MeasureString("COG", legendFont).Height
         Dim d As Single = (legendHeight - FontHeight) / 2
         Dim colors = LinqAPI.MakeList(Of KeyValuePair(Of String, Brush)) <=
  _
@@ -64,33 +64,43 @@ Public Module Extensions
             Select x
             Order By x.Key Ascending
 
+        Dim notAssigned As Brush = Nothing
+
         If COGsColor.ContainsKey("") Then
-            Dim Cl As Brush = COGsColor("")
-            Call colors.Add(COGNotAssign, Cl)
+            notAssigned = COGsColor("")
+        ElseIf COGsColor.ContainsKey(COGNotAssign) Then
+            notAssigned = COGsColor(COGNotAssign)
+        Else
+            notAssigned = Brushes.Brown
         End If
 
-        Dim regn As Region
         Dim rect As Rectangle
+        Dim location As Point
+        Dim g = dev
+        Dim plot = Sub(category$, color As Brush)
+                       location = New Point(left + 110, top + d)
+                       rect = New Rectangle With {
+                           .Location = New Point(left, top),
+                           .Size = New Size(100, legendHeight)
+                       }
 
-        For Each color As KeyValuePair(Of String, Brush) In colors
+                       Call g.FillRectangle(color, rect)
+                       Call g.DrawString(category, legendFont, Brushes.Black, location)
 
-            rect = New Rectangle(New Point(left, top),
-                                 New Size(100, legendHeight))
-            regn = New Region(rect)
+                       left += 120 + g.MeasureString(category, legendFont).Width
 
-            Call g.FillRegion(color.Value, regn)
-            Call g.DrawString(color.Key,
-                                legendFont,
-                                Brushes.Black,
-                                New Point(left + 110, top + d))
+                       If left >= width - margin Then
+                           left = margin
+                           top += 2 * legendHeight
+                       End If
+                   End Sub
 
-            left += 120 + g.MeasureString(color.Key, legendFont).Width
-
-            If left >= width - margin Then
-                left = margin
-                top += 2 * legendHeight
-            End If
+        ' 不会绘制空名称以及未赋值的分类的颜色
+        For Each color As KeyValuePair(Of String, Brush) In colors.Where(Function(k) Not k.Key.StringEmpty AndAlso k.Key <> COGNotAssign)
+            Call plot(category:=color.Key, color:=color.Value)
         Next
+
+        Call plot(category:=COGNotAssign, color:=notAssigned)
     End Sub
 
     <Extension>

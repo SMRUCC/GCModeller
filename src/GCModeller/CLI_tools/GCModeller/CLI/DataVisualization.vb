@@ -115,44 +115,6 @@ Partial Module CLI
         Return LQuery.FlushAllLines(path, Encodings.ASCII).CLICode
     End Function
 
-    <ExportAPI("/Visual.BBH",
-               Usage:="/Visual.BBH /in <bbh.Xml> /PTT <genome.PTT> /density <genomes.density.DIR> [/limits <sp-list.txt> /out <image.png>]")>
-    <Argument("/PTT", False,
-                   Description:="A directory which contains all of the information data files for the reference genome, 
-                   this directory would includes *.gb, *.ptt, *.gff, *.fna, *.faa, etc.")>
-    <Group(CLIGrouping.DataVisualizeTools)>
-    Public Function BBHVisual(args As CommandLine) As Integer
-        Dim [in] As String = args - "/in"
-        Dim PTT As String = args("/PTT")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".visualize.png")
-        Dim meta As Analysis.BestHit = [in].LoadXml(Of Analysis.BestHit)
-        Dim limits As String() = args("/limits").ReadAllLines
-        Dim density As String = args("/density")
-
-        If Not limits.IsNullOrEmpty Then
-            meta = meta.Take(limits)
-        End If
-
-        Dim scores As Func(Of Analysis.Hit, Double) =
-            BBHMetaAPI.DensityScore(density, scale:=20)
-        Dim PTTdb As PTT = TabularFormat.PTT.Load(PTT)
-        Dim table As AlignmentTable =
-            BBHMetaAPI.DataParser(meta,
-                                  PTTdb,
-                                  visualGroup:=True,
-                                  scoreMaps:=scores)
-
-        Call $"Min:={table.Hits.Min(Function(x) x.Identity)}, Max:={table.Hits.Max(Function(x) x.Identity)}".__DEBUG_ECHO
-
-        Dim densityQuery As ICOGsBrush = ColorSchema.IdentitiesBrush(scores)
-        Dim res As Image = BlastVisualize.InvokeDrawing(table,
-                                                        PTTdb,
-                                                        AlignmentColorSchema:="identities",
-                                                        IdentityNoColor:=False,
-                                                        queryBrush:=densityQuery)
-        Return res.SaveAs(out, ImageFormats.Png).CLICode
-    End Function
-
     <ExportAPI("/Plot.GC", Usage:="/Plot.GC /in <mal.fasta> [/plot <gcskew/gccontent> /colors <Jet> /out <out.png>]")>
     <Group(CLIGrouping.DataVisualizeTools)>
     Public Function PlotGC(args As CommandLine) As Integer

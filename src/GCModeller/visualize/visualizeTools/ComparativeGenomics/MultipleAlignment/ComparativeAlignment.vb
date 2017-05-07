@@ -90,7 +90,7 @@ Namespace ComparativeAlignment
                 cO = True
             End If
 
-            Dim IDConflictedRegion As Rectangle
+            Dim IDConflictedRegion As MapLabelLayout
 
             For i As Integer = 0 To Models.Count - 2   '绘制基本图形
                 Dim GeneObjectModel As ComparativeGenomics.GeneObject = Models(i)
@@ -104,10 +104,10 @@ Namespace ComparativeAlignment
                 RegionLeft = GeneObjectModel.InvokeDrawing(Device.Graphics, New Point(RegionLeft, Height),
                                                        NextLeft:=NextGeneObject.Left,
                                                        convertFactor:=ConvertFactor,
-                                                       Region:=rtvlRegion,
+                                                       arrowrect:=rtvlRegion,
                                                        IdGrawingPositionDown:=True,
                                                        Font:=Font,
-                                                       AlternativeArrowStyle:=Type2Arrow, IDConflictedRegion:=IDConflictedRegion)
+                                                       AlternativeArrowStyle:=Type2Arrow, ID_conflictLayout:=IDConflictedRegion)
 
                 Call GeneObjectDrawingRegions.Add(GeneObjectModel.locus_tag, rtvlRegion)
             Next
@@ -120,9 +120,9 @@ Namespace ComparativeAlignment
 
             Call LastModel.InvokeDrawing(Device.Graphics, New Point(RegionLeft, Height), NextLeft:=Models.Length,
                                      convertFactor:=ConvertFactor,
-                                     Region:=rtvlRegion, IdGrawingPositionDown:=True,
+                                     arrowRect:=rtvlRegion, IdGrawingPositionDown:=True,
                                      Font:=Font, AlternativeArrowStyle:=Type2Arrow,
-                                     IDConflictedRegion:=IDConflictedRegion)
+                                     ID_conflictLayout:=IDConflictedRegion)
             Call GeneObjectDrawingRegions.Add(Models.Last.locus_tag, rtvlRegion)
             Call Device.Graphics.DrawString(Models.Title, TitleDrawingFont, Brushes.Black, New Point(Margin, Height))
 

@@ -1,35 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::6ca80fa897555761f43a8ed987b4dc60, ..\interops\localblast\LocalBLAST\Web\Hit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 
@@ -121,7 +119,6 @@ Namespace NCBIBlastResult
                 .BitScore = x.BitScore
                 .DebugTag = x.DebugTag
                 .EValue = x.EValue
-                .Data = New Dictionary(Of String, String)(x.Data)
                 .GapOpens = x.GapOpens
                 .Identity = x.Identity
                 .MisMatches = x.MisMatches
@@ -133,9 +130,17 @@ Namespace NCBIBlastResult
                 .SubjectEnd = x.SubjectEnd
                 .SubjectIDs = x.SubjectIDs
                 .SubjectStart = x.SubjectStart
+
+                If Not x.Data Is Nothing Then
+                    .Data = New Dictionary(Of String, String)(x.Data)
+                End If
             End With
         End Sub
 
+        ''' <summary>
+        ''' 当<see cref="SubjectIDs"/>之中包含有多个比对结果序列的时候，使用分号``;``作为分隔符将表头分开
+        ''' </summary>
+        ''' <returns></returns>
         Public Function SplitByHeaders() As HitRecord()
             Dim tokens$() = SubjectIDs.Split(";"c)
             Dim out As New List(Of HitRecord)

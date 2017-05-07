@@ -88,7 +88,7 @@ Namespace NCBIBlastResult
         Public Function DensityScore(DIR As String, Optional scale As Double = 1) As Func(Of Analysis.Hit, Double)
             Dim datas As IEnumerable(Of Density) =
                 LinqAPI.Exec(Of Density) <= From path As String
-                                            In ls - l - r - wildcards("*.csv") <= DIR
+                                            In ls - l - r - "*.csv" <= DIR
                                             Select path.LoadCsv(Of Density)
             Dim hash As Dictionary(Of String, Density) =
                 (From x As Density
