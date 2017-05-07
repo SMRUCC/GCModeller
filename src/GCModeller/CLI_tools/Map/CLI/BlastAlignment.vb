@@ -17,13 +17,13 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Visual.BBH",
+               Info:="Visualize the blastp result.",
                Usage:="/Visual.BBH /in <bbh.Xml> /PTT <genome.PTT> /density <genomes.density.DIR> [/limits <sp-list.txt> /out <image.png>]")>
     <Argument("/PTT", False,
-                   Description:="A directory which contains all of the information data files for the reference genome, 
-                   this directory would includes *.gb, *.ptt, *.gff, *.fna, *.faa, etc.")>
+              Description:="A directory which contains all of the information data files for the reference genome, this directory would includes *.gb, *.ptt, *.gff, *.fna, *.faa, etc.")>
     Public Function BBHVisual(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim PTT As String = args("/PTT")
+        Dim PTTfile As String = args("/PTT")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".visualize.png")
         Dim meta As Analysis.BestHit = [in].LoadXml(Of Analysis.BestHit)
         Dim limits As String() = args("/limits").ReadAllLines
@@ -34,17 +34,17 @@ Partial Module CLI
         End If
 
         Dim scores As Func(Of Analysis.Hit, Double) = BBHMetaAPI.DensityScore(density, scale:=20)
-        Dim PTTdb As PTT = TabularFormat.PTT.Load(PTT)
+        Dim PTT As PTT = TabularFormat.PTT.Load(PTTfile)
         Dim table As AlignmentTable = BBHMetaAPI.DataParser(
-            meta, PTTdb,
+            meta, PTT,
             visualGroup:=True,
             scoreMaps:=scores)
 
         Call $"Min:={table.Hits.Min(Function(x) x.Identity)}, Max:={table.Hits.Max(Function(x) x.Identity)}".__DEBUG_ECHO
 
         Dim densityQuery As ICOGsBrush = ColorSchema.IdentitiesBrush(scores)
-        Dim res As Image = BlastVisualize.InvokeDrawing(
-            table, PTTdb,
+        Dim res As Image = BlastVisualize.PlotMap(
+            table, PTT,
             AlignmentColorSchema:="identities",
             IdentityNoColor:=False,
             queryBrush:=densityQuery)
@@ -70,11 +70,16 @@ Partial Module CLI
             alignments = AlignmentTableParserAPI.CreateFromBlastnFile([in])
         Else
             alignments = AlignmentTableParserAPI.LoadTable(
-                [in], 
+                [in],
                 headerSplit:=True)
         End If
 
         Dim PTT As PTT = genbank.GbffToORF_PTT
+        Dim plot As Image = BlastVisualize.PlotMap(
+            alignments, PTT,
+            AlignmentColorSchema:="identities",
+            IdentityNoColor:=False)
 
+        Return plot.SaveAs(out, ImageFormats.Png).CLICode
     End Function
 End Module

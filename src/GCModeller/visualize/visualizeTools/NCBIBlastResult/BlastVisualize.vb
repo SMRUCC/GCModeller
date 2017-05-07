@@ -503,11 +503,12 @@ CONTINUTE:
         ''' <param name="alignment"></param>
         ''' <param name="refQuery"></param>
         ''' <param name="AlignmentColorSchema">bit_scores, identities</param>
+        ''' <param name="queryBrush">query基因组上面的基因的颜色画刷的来源，默认是使用内部的COG颜色</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("invoke.drawing",
                    Info:="You can using the custom_order parameter to specific the order of the genome drawing on the visualized image. idType: 1 -> locusID; 2 -> geneName + id_number")>
-        Public Function InvokeDrawing(<Parameter("align.tab", "Blast result that you can download from NCBI blast website, or you also can generates from GCModeller.")> alignment As AlignmentTable,
+        Public Function PlotMap(<Parameter("align.tab", "Blast result that you can download from NCBI blast website, or you also can generates from GCModeller.")> alignment As AlignmentTable,
                                       <Parameter("query.info", "The genome brief information of the query species.")> refQuery As PTT,
                                       <Parameter("custom.orders", "The custom order of the blast hits show on the graphics.")> Optional CustomOrder$() = Nothing,
                                       <Parameter("using.id.type.alt", "idType: 1 -> locusID; 2 -> geneName + id_number; 3 -> only display gene name, default value is 1 (locusID)")> Optional idType% = 1,
