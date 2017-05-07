@@ -777,10 +777,14 @@ CONTINUTE:
                         Dim hhh As Single = DeltaHeight + titleFontSize.Height + 30
 
                         Call g.DrawImage(device.ImageResource, 0, DeltaHeight, device.Width, device.Height)
-                        Call g.FillRectangle(Brushes.White, New Rectangle(New Point(), New Size(device.Width, hhh)))       '覆盖掉标题
-                        Call GCSkew.InvokeDrawingGCContent(g.ImageResource, QueryNT, New Point(margin, 0.95 * hhh), Width:=QueryGenomeDrawingLength)
+                        Call g.FillRectangle(Brushes.White, New Rectangle(New Point(), New Size(device.Width, hhh)))  ' 覆盖掉标题
 
-                        Return g.ImageResource
+                        ' 由于在绘图函数之中克隆了原来的图像，所以这里返回函数的结果，否则直接返回gdi设备之中的图形任然会缺失掉histogram图形的
+                        Return GCSkew.InvokeDrawingGCContent(
+                            g.ImageResource,
+                            QueryNT, 
+                            New Point(margin, 0.95 * hhh), 
+                            Width:=QueryGenomeDrawingLength)
                     End Using
                 End If
 
