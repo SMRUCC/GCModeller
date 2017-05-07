@@ -238,6 +238,10 @@ Namespace ComponentModel.Loci
             End Get
         End Property
 
+        ''' <summary>
+        ''' ``|<see cref="Left"/> ==> <see cref="Right"/>|``
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
             Return String.Format("|{0} ==> {1}|", Left, Right)
         End Function

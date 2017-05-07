@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -90,6 +91,7 @@ Partial Module CLI
         If region.Length <= PTT.Size / 10 Then
             ' 这个比对结果是一个基因簇，则需要剪裁操作
             alignments = alignments.Offset(region)
+            PTT = PTT.RangeSelection(region, offset:=True)
         End If
 
         If cata.FileLength() > 0 Then
