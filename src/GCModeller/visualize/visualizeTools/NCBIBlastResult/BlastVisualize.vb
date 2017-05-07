@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::439397fdf80b3d9df6f581dfc36797de, ..\visualize\visualizeTools\NCBIBlastResult\BlastVisualize.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -506,46 +506,46 @@ CONTINUTE:
         ''' <param name="queryBrush">query基因组上面的基因的颜色画刷的来源，默认是使用内部的COG颜色</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <ExportAPI("invoke.drawing",
+        <ExportAPI("Map.drawing",
                    Info:="You can using the custom_order parameter to specific the order of the genome drawing on the visualized image. idType: 1 -> locusID; 2 -> geneName + id_number")>
         Public Function PlotMap(<Parameter("align.tab", "Blast result that you can download from NCBI blast website, or you also can generates from GCModeller.")> alignment As AlignmentTable,
-                                      <Parameter("query.info", "The genome brief information of the query species.")> refQuery As PTT,
-                                      <Parameter("custom.orders", "The custom order of the blast hits show on the graphics.")> Optional CustomOrder$() = Nothing,
-                                      <Parameter("using.id.type.alt", "idType: 1 -> locusID; 2 -> geneName + id_number; 3 -> only display gene name, default value is 1 (locusID)")> Optional idType% = 1,
-                                      <Parameter("using.arrow.type.alt")> Optional ArrowAlternativeStyle As Boolean = False,
-                                      <Parameter("align.color.schema", "The alignment hit bar color.")> Optional AlignmentColorSchema$ = "bit_scores",
-                                      <Parameter("fasta.nt.query", "The genome sequence fasta object data of the query.")> Optional QueryNT As FASTA.FastaToken = Nothing,
-                                      <Parameter("using.id.anno.alt")> Optional AltIDAnnotation As Boolean = False,
-                                      <Parameter("query.color.none")> Optional QueryNoColor As Boolean = False,
-                                      <Parameter("identity.color.none")> Optional IdentityNoColor As Boolean = True,
-                                      <Parameter("hit.height.equals.to.query")> Optional HitHeightEqualsToQuery As Boolean = False,
-                                      <Parameter("using.cog.texture.mappings", "If this parameter is TRUE, then the texture will be using for the cog class value instead of ORF cog color.")> Optional COGTextureMappings As Boolean = False,
-                                      <Parameter("mapping.texture.source", "This value is the directory which contains the texture image " &
-                                                                           "to mapping the cog, if this value is null then the default texture " &
-                                                                           "resource in this programs resource package will be using.")> Optional TextureSource$ = "",
-                                      <Parameter("Mapping.Texture.ID")> Optional ResourceIDMapping As Boolean = True,
-                                      <Parameter("scale.factor")> Optional ScaleFactor As Double = 1.0R,
-                                      <Parameter("ref.Brush")> Optional queryBrush As ICOGsBrush = Nothing) As Image
+                                <Parameter("query.info", "The genome brief information of the query species.")> refQuery As PTT,
+                                <Parameter("custom.orders", "The custom order of the blast hits show on the graphics.")> Optional CustomOrder$() = Nothing,
+                                <Parameter("using.id.type.alt", "idType: 1 -> locusID; 2 -> geneName + id_number; 3 -> only display gene name, default value is 1 (locusID)")> Optional idType% = 1,
+                                <Parameter("using.arrow.type.alt")> Optional ArrowAlternativeStyle As Boolean = False,
+                                <Parameter("align.color.schema", "The alignment hit bar color.")> Optional AlignmentColorSchema$ = "bit_scores",
+                                <Parameter("fasta.nt.query", "The genome sequence fasta object data of the query.")> Optional QueryNT As FASTA.FastaToken = Nothing,
+                                <Parameter("using.id.anno.alt")> Optional AltIDAnnotation As Boolean = False,
+                                <Parameter("query.color.none")> Optional QueryNoColor As Boolean = False,
+                                <Parameter("identity.color.none")> Optional IdentityNoColor As Boolean = True,
+                                <Parameter("hit.height.equals.to.query")> Optional HitHeightEqualsToQuery As Boolean = False,
+                                <Parameter("using.cog.texture.mappings", "If this parameter is TRUE, then the texture will be using for the cog class value instead of ORF cog color.")> Optional COGTextureMappings As Boolean = False,
+                                <Parameter("mapping.texture.source", "This value is the directory which contains the texture image " &
+                                                                     "to mapping the cog, if this value is null then the default texture " &
+                                                                     "resource in this programs resource package will be using.")> Optional TextureSource$ = "",
+                                <Parameter("Mapping.Texture.ID")> Optional ResourceIDMapping As Boolean = True,
+                                <Parameter("scale.factor")> Optional ScaleFactor As Double = 1.0R,
+                                <Parameter("ref.Brush")> Optional queryBrush As ICOGsBrush = Nothing, Optional margin% = 300) As Image
 
             If ScaleFactor <= 0 Then
                 Call VBDebugger.Warning($"The page scale factor value ""{ScaleFactor}"" is Zero or negative, reset to normal scale_factor=1")
                 ScaleFactor = 1.0R
             End If
 
-            Dim QueryLength As Integer = refQuery.Size
+            Dim queryLength As Integer = refQuery.Size
             Dim spList = (From hitData As HitRecord
                           In alignment.Hits
                           Select hitData
                           Group By hitData.SubjectIDs Into Group).ToArray ' 为了保持原有的顺序，在这里不需要并行化拓展
-            Dim DrawingFont As Font = New Font(FontFace.Ubuntu, FontSize)
+            Dim drawingFont As Font = New Font(FontFace.Ubuntu, FontSize)
             Dim MaxIDLength As Size = spList _
                 .MaxLengthString(Function(sp) sp.SubjectIDs) _
-                .MeasureString(DrawingFont, ScaleFactor, ScaleFactor)
-            Dim MappingLength As Integer = QueryLength * ConvertFactor
+                .MeasureString(drawingFont, ScaleFactor, ScaleFactor)
+            Dim MappingLength As Integer = queryLength * ConvertFactor
             Dim BlockSize As New Size(100, MaxIDLength.Height + 20)
-            Dim dSize As New Size((Margin * 2 + MappingLength + MaxIDLength.Width) * ScaleFactor,
-                                  (If(AltIDAnnotation, ("0".MeasureString(DrawingFont, ScaleFactor, ScaleFactor).Height + 3) * (spList.Length + 5), 0) +
-                                  Margin * 4 + spList.Length * (MaxIDLength.Height + 5) + 10 * (BlockSize.Height + 8)) * ScaleFactor)
+            Dim dSize As New Size((margin * 2 + MappingLength + MaxIDLength.Width) * ScaleFactor,
+                                  (If(AltIDAnnotation, ("0".MeasureString(drawingFont, ScaleFactor, ScaleFactor).Height + 3) * (spList.Length + 5), 0) +
+                                  margin * 4 + spList.Length * (MaxIDLength.Height + 5) + 10 * (BlockSize.Height + 8)) * ScaleFactor)
             Dim X, Y As Integer
             Dim ColorSchema As RangeList(Of Double, NamedValue(Of Color))
             Dim getScore As Func(Of HitRecord, Double)
@@ -562,7 +562,9 @@ CONTINUTE:
                 Else
                     ColorSchema = NCBIBlastResult.ColorSchema.IdentitiesColors
                 End If
+
                 getScore = Function(subjectHit As HitRecord) subjectHit.Identity
+
                 If String.Equals(alignment.Program, "blastn", StringComparison.OrdinalIgnoreCase) Then
                     getSubjectHitColor = Function(p, Colors) Colors.GetColor(p)
                 Else
@@ -570,8 +572,8 @@ CONTINUTE:
                 End If
             End If
 
-            Y = Margin
-            X = Margin
+            Y = margin
+            X = margin
             Y += BlockSize.Height + 10
 
             Dim IDMethod As GetDrawingID = ModelAPI.GetMethod(idType)
@@ -600,7 +602,7 @@ CONTINUTE:
                     DefaultWhite:=True,
                     COGsColor:=queryBrush)
 
-                Dim Left As Integer = Margin, Height As Integer = Margin + 20
+                Dim Left As Integer = margin, Height As Integer = margin + 20
 
                 With models
                     .genes = LinqAPI.Exec(Of GeneObject) <=
@@ -612,21 +614,21 @@ CONTINUTE:
 
                 End With
 
-                Dim QueryGenomeDrawingLength As Integer = device.Width - 2 * Margin - MaxIDLength.Width
+                Dim QueryGenomeDrawingLength As Integer = device.Width - 2 * margin - MaxIDLength.Width
                 Dim sz As New Size(QueryGenomeDrawingLength, GeneObjectDrawingHeight - 0.4 * GeneObjectDrawingHeight)
-                Dim rect As New Rectangle(New Point(Margin, Height + 0.2 * GeneObjectDrawingHeight), sz)
+                Dim rect As New Rectangle(New Point(margin, Height + 0.2 * GeneObjectDrawingHeight), sz)
 
                 Call device.FillRectangle(New SolidBrush(Color.FromArgb(20, Color.LightGray)), rect)
 
-                Dim cfactor As Double = (device.Width - 2 * Margin - MaxIDLength.Width) / models.Length
+                Dim cfactor As Double = (device.Width - 2 * margin - MaxIDLength.Width) / models.Length
                 Dim Font As Font = New Font(FontFace.Ubuntu, FontSize)
 
                 Left += models.First.Left * cfactor
 
                 Dim IDConflictedRegion As Rectangle
 
-                ' 绘制基本图形
-                For i As Integer = 0 To models.Count - 2
+                ' 绘制query对象的基因组的基因map的基本图形
+                For i As Integer = 0 To models.genes.Length - 2
                     Dim gene As GeneObject = models(i)
                     Dim next_gene As GeneObject = models(i + 1)
 
@@ -683,103 +685,83 @@ CONTINUTE:
                 Dim LinePen As New Pen(New SolidBrush(Color.FromArgb(alpha:=100, baseColor:=Color.Brown)))
 
                 If Not CustomOrder.IsNullOrEmpty Then '使用自定义的排序
-                    Dim ls = spList.AsList
-                    Dim ls2 = spList.AsList
-                    Dim internalGet_geneObj =
-                        Function(id As String)
-                            Dim query = From gene
-                                        In ls.AsParallel
-                                        Where String.Equals(id, gene.SubjectIDs, StringComparison.OrdinalIgnoreCase) OrElse
-                                            InStr(gene.SubjectIDs, id, CompareMethod.Text) > 0
-                                        Select gene '
-                            Return query.FirstOrDefault
-                        End Function
-
-                    Call ls2.Clear() '复制匿名对象的信息并构建一个用于排序的空的列表
-
-                    For Each ID As String In CustomOrder
-                        Dim selectedItem = internalGet_geneObj(ID)
-                        If Not selectedItem Is Nothing Then '由于是倒序的，故而将对象移动到最后一个元素即可
-                            Call ls2.Add(selectedItem)
-                            Call ls.Remove(selectedItem)
-                        End If
-                    Next
-
-                    Call ls2.AddRange(ls) ' 添加剩余的数据
-
-                    spList = ls2.ToArray
+                    spList = spList _
+                        .ReorderByKeys(Function(g) g.SubjectIDs, CustomOrder) _
+                        .ToArray
                 End If
 
                 Dim internalGetColor = Function(hit As HitRecord) getSubjectHitColor(arg1:=getScore(hit), arg2:=ColorSchema)
                 Dim IDannos As New Dictionary(Of Integer, String)
-                Dim p_ID As Integer = 1
-                Dim proc As New ProgressBar("Drawing alignment hit regions...")
-                Dim pp As New ProgressProvider(spList.Length)
 
-                For Each hit In spList
-                    Call proc.SetProgress(pp.StepProgress)
+                Using proc As New ProgressBar("Drawing alignment hit regions...", cls:=True)
+                    Dim pp As New ProgressProvider(spList.Length)
+                    Dim p_ID As Integer = 1
 
-                    X = Margin
-                    Y += BlockHeight + 4
+                    For Each hit In spList
+                        Call proc.SetProgress(pp.StepProgress)
 
-                    Call device.DrawLine(LinePen, X, Y, X + MappingLength, Y)
-                    If AltIDAnnotation Then '在hit的开始位置的前面使用数字进行标识，然后在最下面写上编号
-                        Call device.DrawString(p_ID, DrawingFont, Brushes.Black, x:=10, y:=Y - MaxIDLength.Height / 2)
-                        Call IDannos.Add(p_ID, hit.SubjectIDs)
+                        X = margin
+                        Y += BlockHeight + 4
 
-                        p_ID += 1
-                    Else
-                        Call device.DrawString(hit.SubjectIDs,
-                                                         DrawingFont,
-                                                         Brushes.Black,
-                                                         X + MappingLength + 10,
-                                                         Y - MaxIDLength.Height / 2)
-                    End If
+                        Call device.DrawLine(LinePen, X, Y, X + MappingLength, Y)
+                        If AltIDAnnotation Then '在hit的开始位置的前面使用数字进行标识，然后在最下面写上编号
+                            Call device.DrawString(p_ID, drawingFont, Brushes.Black, x:=10, y:=Y - MaxIDLength.Height / 2)
+                            Call IDannos.Add(p_ID, hit.SubjectIDs)
 
-                    For Each Segment As HitRecord In hit.Group
-                        Left = Segment.QueryStart
-                        Dim Right As Integer = Segment.QueryEnd
-
-                        If Left > Right Then
-                            Call Left.SwapWith(Right)
+                            p_ID += 1
+                        Else
+                            Call device.DrawString(
+                                hit.SubjectIDs, drawingFont,
+                                Brushes.Black,
+                                X + MappingLength + 10,
+                                Y - MaxIDLength.Height / 2)
                         End If
 
-                        Dim Loci As Point = New Point(Margin + Left * ConvertFactor, Y)
-                        Dim Block As Size = New Size(ConvertFactor * (Right - Left), BlockHeight)
-                        Dim hitColor As New SolidBrush(internalGetColor(Segment))
+                        For Each Segment As HitRecord In hit.Group
+                            Left = Segment.QueryStart
+                            Dim Right As Integer = Segment.QueryEnd
 
-                        Call device.FillRectangle(hitColor, New Rectangle(Loci, Block))
+                            If Left > Right Then
+                                Call Left.SwapWith(Right)
+                            End If
+
+                            Dim Loci As Point = New Point(margin + Left * ConvertFactor, Y)
+                            Dim Block As Size = New Size(ConvertFactor * (Right - Left), BlockHeight)
+                            Dim hitColor As New SolidBrush(internalGetColor(Segment))
+
+                            Call device.FillRectangle(hitColor, New Rectangle(Loci, Block))
+                        Next
                     Next
-                Next
+                End Using
 
-                X = Margin + 30
+                X = margin + 30
                 Y += BlockHeight * 5
                 Dim YT = Y
 
-                Call device.DrawString("Color key for " & AlignmentColorSchema, DrawingFont, Brushes.Black, New Point(Margin, Y - MaxIDLength.Height * 2))
+                Call device.DrawString("Color key for " & AlignmentColorSchema, drawingFont, Brushes.Black, New Point(margin, Y - MaxIDLength.Height * 2))
 
                 For Each Line As NamedValue(Of Color) In ColorSchema.Values
                     Call device.FillRectangle(New SolidBrush(Line.Value), New Rectangle(New Point(X, Y), BlockSize))
-                    Call device.DrawString(Line.Name, DrawingFont, Brushes.Black, X + BlockSize.Width + 10, Y + 3)
+                    Call device.DrawString(Line.Name, drawingFont, Brushes.Black, X + BlockSize.Width + 10, Y + 3)
                     Y += BlockSize.Height + 5
                 Next
 
                 Y += 3 * BlockSize.Height
 
-                Call device.DrawString("Window Size   =   " & GCSkew.WindowSize, DrawingFont, Brushes.Black, New Point(X, Y))
-                Call device.DrawString("Steps         =   " & GCSkew.Steps, DrawingFont, Brushes.Black, New Point(X, Y + 10 + "0".MeasureString(DrawingFont, ScaleFactor, ScaleFactor).Height))
+                Call device.DrawString("Window Size   =   " & GCSkew.WindowSize, drawingFont, Brushes.Black, New Point(X, Y))
+                Call device.DrawString("Steps         =   " & GCSkew.Steps, drawingFont, Brushes.Black, New Point(X, Y + 10 + "0".MeasureString(drawingFont, ScaleFactor, ScaleFactor).Height))
 
                 Dim n As Integer
 
                 If AltIDAnnotation Then
 
-                    n = (IDannos.First.Value.MeasureString(DrawingFont, ScaleFactor, ScaleFactor).Height + 2)
-                    X = device.Width - IDannos.MaxLengthString(Function(k) k.Value).MeasureString(DrawingFont, ScaleFactor, ScaleFactor).Width * 3 - Margin
+                    n = (IDannos.First.Value.MeasureString(drawingFont, ScaleFactor, ScaleFactor).Height + 2)
+                    X = device.Width - IDannos.MaxLengthString(Function(k) k.Value).MeasureString(drawingFont, ScaleFactor, ScaleFactor).Width * 3 - margin
                     Y = YT
 
                     '在下面标出物种编号
                     For Each ID In IDannos
-                        Call device.DrawString(String.Format("{0}.  {1}", ID.Key, ID.Value), DrawingFont, Brushes.Black, New Point(X, Y))
+                        Call device.DrawString(String.Format("{0}.  {1}", ID.Key, ID.Value), drawingFont, Brushes.Black, New Point(X, Y))
                         Y += n
                     Next
                 End If
@@ -793,7 +775,7 @@ CONTINUTE:
 
                         Call g.DrawImage(device.ImageResource, 0, DeltaHeight, device.Width, device.Height)
                         Call g.FillRectangle(Brushes.White, New Rectangle(New Point(), New Size(device.Width, hhh)))       '覆盖掉标题
-                        Call GCSkew.InvokeDrawingGCContent(g.ImageResource, QueryNT, New Point(Margin, 0.95 * hhh), Width:=QueryGenomeDrawingLength)
+                        Call GCSkew.InvokeDrawingGCContent(g.ImageResource, QueryNT, New Point(margin, 0.95 * hhh), Width:=QueryGenomeDrawingLength)
 
                         Return g.ImageResource
                     End Using
