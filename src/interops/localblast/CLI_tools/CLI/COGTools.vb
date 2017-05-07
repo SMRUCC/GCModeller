@@ -46,6 +46,13 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
+    <ExportAPI("/Whog.XML", Usage:="/Whog.XML /in <whog> [/out <whog.XML>]")>
+    Public Function WhogXML(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".XML")
+        Return Whog.Whog.Imports([in]).Save(out).CLICode
+    End Function
+
     <ExportAPI("/COG.Statics",
                Usage:="/COG.Statics /in <myva_cogs.csv> [/locus <locus.txt/csv> /locuMap <Gene> /out <out.csv>]")>
     <Group(CLIGrouping.COGTools)>
@@ -201,7 +208,7 @@ Partial Module CLI
         Dim names$ = args.GetValue("/cog.name", GCModeller.FileSystem.FileSystem.COGs & "/cognames2003-2014.tab")
         Dim cogs As COGTable() = COGTable.LoadCsv(cog)
         Dim sbh As IEnumerable(Of BestHit) = [in].LoadCsv(Of BestHit)
-        Dim result As MyvaCOG() = sbh.COG2014_result(COGs)
+        Dim result As MyvaCOG() = sbh.COG2014_result(cogs)
 
         If names.FileExists(True) Then
             Dim cogNames As COGName() = COGName.LoadTable(names)
