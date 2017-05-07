@@ -68,6 +68,7 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
         Dim _IdList As NamedValue()
         Dim IdTokens As NamedCollection(Of String)()
 
+        <XmlIgnore>
         Public ReadOnly Property locus_tags As IndexOf(Of String)
 
         Const REGX_CATAGORY As String = "\[[^]]+\]"
@@ -82,7 +83,7 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
         End Function
 
         Protected Friend Shared Function Parse(srcText$()) As Category
-            Dim list As NamedValue() = __parseList(srcText.Skip(1))
+            Dim list As NamedValue() = __parseList(srcText.Skip(1).ToArray)
             Dim description As String = srcText(Scan0)
             Dim cat$ = Regex.Match(description, REGX_CATAGORY).Value
             Dim item As New Category With {

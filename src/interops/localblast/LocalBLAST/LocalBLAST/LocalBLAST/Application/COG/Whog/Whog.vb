@@ -79,7 +79,7 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
         Public Shared Function [Imports](path As String) As Whog
             Dim tokens As IEnumerable(Of String()) = path _
                 .ReadAllLines _
-                .Split("^[-]+$", True, RegexICMul) _
+                .Split("^[_]+$", True, RegexICMul) _
                 .ToArray
             Dim LQuery = LinqAPI.Exec(Of Category) <=
  _
