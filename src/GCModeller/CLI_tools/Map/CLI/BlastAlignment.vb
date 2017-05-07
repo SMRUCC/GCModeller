@@ -1,9 +1,12 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -64,6 +67,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim gb$ = args <= "/genbank"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".blastn.visualize.png")
+        Dim cata$ = args <= "/ORF.catagory"
         Dim local As Boolean = args.GetBoolean("/local")
         Dim genbank As GBFF.File = GBFF.File.Load(gb)
         Dim alignments As AlignmentTable
@@ -80,6 +84,20 @@ Partial Module CLI
 
         Dim nt As FastaToken = genbank.Origin.ToFasta
         Dim PTT As PTT = genbank.GbffToORF_PTT
+
+        If cata.FileLength() > 0 Then
+            Dim category As Dictionary(Of NamedValue(Of String)) =
+                cata _
+                .ReadAllLines _
+                .Select(Function(s) s.Split(ASCII.TAB)) _
+                .Select(Function(g) New NamedValue(Of String)(g(0), g(1))) _
+                .ToDictionary()
+
+            For Each gene As GeneBrief In PTT
+                gene.COG = category(gene.Synonym).Value
+            Next
+        End If
+
         Dim plot As Image = BlastVisualize.PlotMap(
             alignments, PTT,
             AlignmentColorSchema:="identities",
