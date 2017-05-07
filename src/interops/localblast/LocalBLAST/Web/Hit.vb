@@ -28,8 +28,6 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 
@@ -136,6 +134,10 @@ Namespace NCBIBlastResult
             End With
         End Sub
 
+        ''' <summary>
+        ''' 当<see cref="SubjectIDs"/>之中包含有多个比对结果序列的时候，使用分号``;``作为分隔符将表头分开
+        ''' </summary>
+        ''' <returns></returns>
         Public Function SplitByHeaders() As HitRecord()
             Dim tokens$() = SubjectIDs.Split(";"c)
             Dim out As New List(Of HitRecord)

@@ -126,12 +126,12 @@ Namespace NCBIBlastResult
 
         <ExportAPI("alignment_dump.from.blastx")>
         Public Function AlignmentTableFromBlastX(<Parameter("dir.source", "The directory which contains the blastx output data.")> source As String) As AlignmentTable
-            Return ParserAPI.CreateFromBlastX(source)
+            Return AlignmentTableParserAPI.CreateFromBlastX(source)
         End Function
 
         <ExportAPI("alignment_dump.from.blastn")>
         Public Function AlignmentTableFromBlastn(<Parameter("dir.source", "The directory which contains the blastn output data.")> source As String) As AlignmentTable
-            Return ParserAPI.CreateFromBlastn(source)
+            Return AlignmentTableParserAPI.CreateFromBlastn(source)
         End Function
 
         Private Function InternalShortID_s(srcFasta As FASTA.FastaToken) As String
@@ -226,7 +226,7 @@ Namespace NCBIBlastResult
 
         <ExportAPI("read.txt.blast_result", Info:="Read the blast output table result text file which was download from the NCBI blast website.")>
         Public Function LoadResult(path As String) As AlignmentTable
-            Return ParserAPI.LoadDocument(path)
+            Return AlignmentTableParserAPI.LoadTable(path)
         End Function
 
         ''' <summary>

@@ -28,7 +28,6 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -41,20 +40,24 @@ Namespace NCBIBlastResult
     ''' <summary>
     ''' 从NCBI网站之中下载的比对结果的表格文本文件之中进行数据的解析操作
     ''' </summary>
-    Public Module ParserAPI
+    Public Module AlignmentTableParserAPI
 
         ''' <summary>
         ''' 适用于一个文件只有一个表的时候
         ''' </summary>
-        ''' <param name="path"></param>
+        ''' <param name="path">使用NCBI的web blast的结果输出表的默认格式的文件</param>
+        ''' <param name="headerSplit">
+        ''' 当<see cref="HitRecord.SubjectIDs"/>之中包含有多个比对结果序列的时候，是否使用分号``;``作为分隔符将表头分开？默认不分开
+        ''' </param>
         ''' <returns></returns>
-        Public Function LoadDocument(path As String, Optional headerSplit As Boolean = False) As AlignmentTable
+        Public Function LoadTable(path$, Optional headerSplit As Boolean = False) As AlignmentTable
             Dim lines$() = LinqAPI.Exec(Of String) <=
  _
                 From s As String
                 In path.ReadAllLines
                 Where Not String.IsNullOrEmpty(s)
                 Select s
+
             Dim header$() = LinqAPI.Exec(Of String) <=
  _
                 From s As String
@@ -146,24 +149,52 @@ Namespace NCBIBlastResult
  _
                 From hspNT As SubjectHit
                 In hits
-                Let row As HitRecord = New HitRecord With {
-                    .Identity = hspNT.Score.Identities.Value,
+                Let identity As Double = hspNT.Score.Identities.Value
+                Let bits As Double = hspNT.Score.RawScore
+                Let left As Integer = hspNT.QueryLocation.Left
+                Let right As Integer = hspNT.QueryLocation.Right
+                Select New HitRecord With {
+                    .Identity = identity,
                     .DebugTag = hspNT.Name,
                     .SubjectIDs = sId,
-                    .BitScore = hspNT.Score.RawScore,
-                    .QueryStart = hspNT.QueryLocation.Left,
-                    .QueryEnd = hspNT.QueryLocation.Right
+                    .BitScore = bits,
+                    .QueryStart = left,
+                    .QueryEnd = right
                 }
-                Select row
 
             Return LQuery
         End Function
 
-        Public Function CreateFromBlastn(sourceDIR As String) As AlignmentTable
+        ''' <summary>
+        ''' 从一个包含有blastn结果的文件夹之中构建出比对的结果表
+        ''' </summary>
+        ''' <param name="sourceDIR$"></param>
+        ''' <returns></returns>
+        Public Function CreateFromBlastn(sourceDIR$) As AlignmentTable
+            Return (ls - l - r - "*.txt" <= sourceDIR).CreateFromBlastnFiles(sourceDIR.BaseName)
+        End Function
+
+        ''' <summary>
+        ''' 从单个blastn结果输出文件之中构建出比对结果表
+        ''' </summary>
+        ''' <param name="file$"></param>
+        ''' <returns></returns>
+        Public Function CreateFromBlastnFile(file$) As AlignmentTable
+            Return {file}.CreateFromBlastnFiles(file.BaseName)
+        End Function
+
+        ''' <summary>
+        ''' 从一组blastn数据的结果文件之中构建出比对结果表
+        ''' </summary>
+        ''' <param name="source"></param>
+        ''' <param name="database$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function CreateFromBlastnFiles(source As IEnumerable(Of String), database$) As AlignmentTable
             Dim Files = LinqAPI.Exec(Of NamedValue(Of v228)) <=
  _
                 From path As String
-                In ls - l - r - "*.txt" <= sourceDIR
+                In source
                 Let XOutput As v228 = Parser.LoadBlastOutput(path)
                 Where Not XOutput Is Nothing AndAlso
                     Not XOutput.Queries.IsNullOrEmpty
@@ -175,27 +206,30 @@ Namespace NCBIBlastResult
             Dim LQuery As HitRecord() = (From file In Files Select __createFromBlastn(file.Name, file.Value)).ToVector
             Dim Tab As New AlignmentTable With {
                 .Hits = LQuery,
-                .Query = (From file As NamedValue(Of v228)
-                          In Files
-                          Let Q As Query() = file.Value.Queries
-                          Where Not Q.IsNullOrEmpty
-                          Select Q.First.QueryName).FirstOrDefault,
                 .RID = Now.ToShortDateString,
                 .Program = "BLASTN",
-                .Database = sourceDIR
+                .Database = database,
+                .Query = LinqAPI.DefaultFirst(Of String) <=
+ _
+                    From file As NamedValue(Of v228)
+                    In Files
+                    Let Q As Query() = file.Value.Queries
+                    Where Not Q.IsNullOrEmpty
+                    Select Q.First.QueryName
             }
             Return Tab
         End Function
 
         Public Function CreateFromBlastX(source As String) As AlignmentTable
             Dim Files = (From path As String
-                         In ls - l - r - wildcards("*.txt") <= source
+                         In ls - l - r - "*.txt" <= source
                          Select ID = path.BaseName,
                              XOutput = OutputReader.TryParseOutput(path)).ToArray
             Dim LQuery As HitRecord() = (From file In Files Select file.ID.__hits(file.XOutput)).ToVector
+            Dim q$ = Files.First.XOutput.Queries.First.QueryName
             Dim tab As New AlignmentTable With {
                 .Hits = LQuery,
-                .Query = Files.First.XOutput.Queries.First.QueryName,
+                .Query = q,
                 .RID = Now.ToShortDateString,
                 .Program = "BlastX",
                 .Database = source

@@ -44,27 +44,33 @@ Partial Module CLI
         Call $"Min:={table.Hits.Min(Function(x) x.Identity)}, Max:={table.Hits.Max(Function(x) x.Identity)}".__DEBUG_ECHO
 
         Dim densityQuery As ICOGsBrush = ColorSchema.IdentitiesBrush(scores)
-        Dim res As Image = BlastVisualize.InvokeDrawing(table,
-                                                        PTTdb,
-                                                        AlignmentColorSchema:="identities",
-                                                        IdentityNoColor:=False,
-                                                        queryBrush:=densityQuery)
+        Dim res As Image = BlastVisualize.InvokeDrawing(
+            table, PTTdb,
+            AlignmentColorSchema:="identities",
+            IdentityNoColor:=False,
+            queryBrush:=densityQuery)
+
         Return res.SaveAs(out, ImageFormats.Png).CLICode
     End Function
 
     <ExportAPI("/Visualize.blastn.alignment",
-               Usage:="/Visualize.blastn.alignment /in <alignmentTable.txt> /PTT <genome.PTT> [/local /out <image.png>]",
-               Info:="Blastn result alignment visualization from the NCBI web blast.")>
+               Info:="Blastn result alignment visualization from the NCBI web blast. This tools is only works for a plasmid blastn search result or a small gene cluster region in a large genome.",
+               Usage:="/Visualize.blastn.alignment /in <alignmentTable.txt> /genbank <genome.gb> [/ORF.catagory <catagory.tsv> /local /out <image.png>]")>
+    <Argument("/genbank", Description:="Provides the target genome coordinates for the blastn map plots.")>
     <Argument("/local", Description:="The file for ``/in`` parameter is a local blastn output result file?")>
+    <Argument("/ORF.catagory", Description:="Using for the ORF shape color render, in a text file and each line its text format like: ``geneID``<TAB>``COG/KOG/GO/KO``")>
     Public Function BlastnVisualizeWebResult(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim PTT$ = args <= "/PTT"
+        Dim gb$ = args <= "/genbank"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".blastn.visualize.png")
         Dim local As Boolean = args.GetBoolean("/local")
+        Dim genbank As GBFF.File = GBFF.File.Load(gb)
+        Dim alignments As AlignmentTable
 
         If local Then
+            alignments = AlignmentTableParserAPI.CreateFromBlastnFile([in])
         Else
-
+            alignments = AlignmentTableParserAPI.LoadTable([in])
         End If
     End Function
 End Module
