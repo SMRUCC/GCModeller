@@ -46,7 +46,7 @@ Namespace ComparativeGenomics
                 Call Console.WriteLine()
             End If
 
-            Dim ID_ConflictedRegion As Rectangle
+            Dim ID_ConflictedRegion As MapLabelLayout
             Dim Font As Font = New Font("Ubuntu", 12, FontStyle.Bold)
             Dim IDDown As Boolean = False
             Dim __invokeDrawing = Function(Models As GenomeModel) As Dictionary(Of String, Rectangle)
@@ -70,7 +70,7 @@ Namespace ComparativeGenomics
                                           Dim r As Rectangle
                                           Left = gene.InvokeDrawing(gdi.Graphics, New Point(Left, Height), NextLeft:=nextGene.Left, convertFactor:=cF, Region:=r,
                                                                           IdGrawingPositionDown:=IDDown, Font:=Font,
-                                                                          AlternativeArrowStyle:=Type2Arrow, IDConflictedRegion:=ID_ConflictedRegion)
+                                                                          AlternativeArrowStyle:=Type2Arrow, ID_conflictLayout:=ID_ConflictedRegion)
                                           Call gDrawRECT.Add(gene.locus_tag, r)
                                       Next
 
@@ -78,7 +78,7 @@ Namespace ComparativeGenomics
                                       Call Models.Last.InvokeDrawing(gdi.Graphics, New Point(Left, Height), NextLeft:=Models.Length, convertFactor:=cF,
                                                                            Region:=rr, IdGrawingPositionDown:=IDDown,
                                                                            Font:=Font, AlternativeArrowStyle:=Type2Arrow,
-                                                                           IDConflictedRegion:=ID_ConflictedRegion)
+                                                                           ID_conflictLayout:=ID_ConflictedRegion)
                                       Call gDrawRECT.Add(Models.Last.locus_tag, rr)
 
                                       Return gDrawRECT

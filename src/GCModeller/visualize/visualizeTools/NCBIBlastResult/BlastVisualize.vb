@@ -625,7 +625,7 @@ CONTINUTE:
 
                 Left += models.First.Left * cfactor
 
-                Dim IDConflictedRegion As Rectangle
+                Dim IDConflictedRegion As MapLabelLayout
 
                 ' 绘制query对象的基因组的基因map的基本图形
                 For i As Integer = 0 To models.genes.Length - 2
@@ -647,7 +647,7 @@ CONTINUTE:
                             IdGrawingPositionDown:=False,
                             Font:=Font,
                             AlternativeArrowStyle:=ArrowAlternativeStyle,
-                            IDConflictedRegion:=IDConflictedRegion)
+                            ID_conflictLayout:=IDConflictedRegion)
 
                     End With
                 Next
@@ -663,7 +663,7 @@ CONTINUTE:
                     IdGrawingPositionDown:=False,
                     Font:=Font,
                     AlternativeArrowStyle:=ArrowAlternativeStyle,
-                    IDConflictedRegion:=IDConflictedRegion)
+                    ID_conflictLayout:=IDConflictedRegion)
 
                 Dim titleDrawingFont As New Font("Microsoft YaHei", 20)
                 Dim titleFontSize = device.MeasureString(models.Title, titleDrawingFont)
