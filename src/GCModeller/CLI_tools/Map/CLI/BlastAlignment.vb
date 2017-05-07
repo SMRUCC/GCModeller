@@ -108,7 +108,7 @@ Partial Module CLI
             QueryNT:=nt)
 
         Return plot _
-            .CorpBlank(blankColor:=Color.White) _
+            .CorpBlank(margin:=120, blankColor:=Color.White) _
             .SaveAs(out, ImageFormats.Png) _
             .CLICode
     End Function
