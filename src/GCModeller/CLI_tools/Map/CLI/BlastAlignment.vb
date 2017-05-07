@@ -90,6 +90,8 @@ Partial Module CLI
 
         If region.Length <= PTT.Size / 10 Then
             ' 这个比对结果是一个基因簇，则需要剪裁操作
+            Call $"{[in].BaseName} probably is a cluster in genome {PTT.Title}.".__INFO_ECHO 
+
             alignments = alignments.Offset(region)
             PTT = PTT.RangeSelection(region, offset:=True)
         End If
