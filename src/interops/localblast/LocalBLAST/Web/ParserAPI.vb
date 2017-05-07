@@ -148,6 +148,7 @@ Namespace NCBIBlastResult
             Return LQuery
         End Function
 
+        <Extension>
         Private Function __createFromBlastn(sId As String, hits As SubjectHit()) As HitRecord()
             Dim LQuery As HitRecord() = LinqAPI.Exec(Of HitRecord) <=
  _
@@ -181,10 +182,26 @@ Namespace NCBIBlastResult
         ''' <summary>
         ''' 从单个blastn结果输出文件之中构建出比对结果表
         ''' </summary>
-        ''' <param name="file$"></param>
+        ''' <param name="file$">query vs multiple subjects</param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 因为只是一条query比对多条序列，所以所输出的blastn结果之中只有一个query
+        ''' </remarks>
         Public Function CreateFromBlastnFile(file$) As AlignmentTable
-            Return {file}.CreateFromBlastnFiles(file.BaseName)
+            Dim blastn As v228 = Parser.LoadBlastOutput(file)
+            Dim query As Query = blastn.Queries.First
+            Dim hits = query.SubjectHits _
+                .GroupBy(Function(h) h.Name) _
+                .Select(Function(g) g.Key.__createFromBlastn(hits:=g.ToArray)) _
+                .ToVector
+            Dim Tab As New AlignmentTable With {
+                .Hits = hits,
+                .RID = Now.ToShortDateString,
+                .Program = "BLASTN",
+                .Database = blastn.Database,
+                .Query = file.BaseName
+            }
+            Return Tab
         End Function
 
         ''' <summary>
