@@ -89,8 +89,9 @@ Partial Module CLI
 
         Dim nt As FastaToken = genbank.Origin.ToFasta
         Dim PTT As PTT = genbank.GbffToORF_PTT
+        Dim region As Location = alignments.GetAlignmentRegion
 
-        If alignments.GetAlignmentRegion.Length <= PTT.Size / 5 Then
+        If region.Length <= PTT.Size / 5 Then
             ' 这个比对结果是一个基因簇，则需要剪裁操作
             Call $"{[in].BaseName} probably is a cluster in genome {PTT.Title}.".__INFO_ECHO
 
@@ -101,9 +102,8 @@ Partial Module CLI
             ' 由于使用一个cluster片段直接比对的话，因为没有直接的位置信息，所以querystart是从1开始的
             ' 直接从比对结果之中解析出region，是从1开始的，不正确的
             ' 所以对于cluster类型而言需要使用手工的region范围输入
-            Dim region As New Location(CType(regionValue, IntRange))
-
-            alignments = alignments.Offset(region)
+            region = New Location(CType(regionValue, IntRange))
+            ' alignments = alignments.Offset(region)
             PTT = PTT.RangeSelection(region, offset:=True)
             nt = New FastaToken({PTT.Title}, nt.CutSequenceLinear(region))
         End If
