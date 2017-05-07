@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
@@ -51,6 +52,28 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".XML")
         Return Whog.Whog.Imports([in]).Save(out).CLICode
+    End Function
+
+    <ExportAPI("/COG.myva",
+               Usage:="/COG.myva /blastp <blastp.myva.txt> /whog <whog.XML> [/simple /out <out.csv/txt>]")>
+    Public Function COG_myva(args As CommandLine) As Integer
+        Dim in$ = args <= "/blastp"
+        Dim whog$ = args <= "/whog"
+        Dim simple As Boolean = args.GetBoolean("/simple")
+        Dim result = COGsUtils.MyvaCOGCatalog(in$, whog,,, Nothing)
+
+        If simple Then
+            Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".myva_COG.txt")
+            Return result _
+                .Select(Function(prot) $"{prot.QueryName}{ASCII.TAB}{prot.COG}") _
+                .SaveTo(out) _
+                .CLICode
+        Else
+            Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".myva_COG.csv")
+            Return result _
+                .SaveTo(out) _
+                .CLICode
+        End If
     End Function
 
     <ExportAPI("/COG.Statics",
