@@ -514,7 +514,7 @@ CONTINUTE:
                                 <Parameter("using.id.type.alt", "idType: 1 -> locusID; 2 -> geneName + id_number; 3 -> only display gene name, default value is 1 (locusID)")> Optional idType% = 1,
                                 <Parameter("using.arrow.type.alt")> Optional ArrowAlternativeStyle As Boolean = False,
                                 <Parameter("align.color.schema", "The alignment hit bar color.")> Optional AlignmentColorSchema$ = "bit_scores",
-                                <Parameter("fasta.nt.query", "The genome sequence fasta object data of the query.")> Optional QueryNT As FASTA.FastaToken = Nothing,
+                                <Parameter("fasta.nt.query", "The genome sequence fasta object data of the query.")> Optional QueryNT As FastaToken = Nothing,
                                 <Parameter("using.id.anno.alt")> Optional AltIDAnnotation As Boolean = False,
                                 <Parameter("query.color.none")> Optional QueryNoColor As Boolean = False,
                                 <Parameter("identity.color.none")> Optional IdentityNoColor As Boolean = True,
@@ -749,8 +749,10 @@ CONTINUTE:
 
                 Y += 3 * BlockSize.Height
 
-                Call device.DrawString("Window Size   =   " & GCSkew.WindowSize, drawingFont, Brushes.Black, New Point(X, Y))
-                Call device.DrawString("Steps         =   " & GCSkew.Steps, drawingFont, Brushes.Black, New Point(X, Y + 10 + "0".MeasureString(drawingFont, ScaleFactor, ScaleFactor).Height))
+                If Not QueryNT Is Nothing Then
+                    Call device.DrawString("Window Size   =   " & GCSkew.WindowSize, drawingFont, Brushes.Black, New Point(X, Y))
+                    Call device.DrawString("Steps         =   " & GCSkew.Steps, drawingFont, Brushes.Black, New Point(X, Y + 10 + "0".MeasureString(drawingFont, ScaleFactor, ScaleFactor).Height))
+                End If
 
                 Dim n As Integer
 
@@ -768,9 +770,9 @@ CONTINUTE:
                 End If
 
                 If Not QueryNT Is Nothing Then
-
                     Dim DeltaHeight% = 1000
 
+                    ' 如果目标基因组序列存在的话，还会在顶端绘制GCSkew的histgram图表
                     Using g As Graphics2D = New Size(device.Width, device.Height + DeltaHeight).CreateGDIDevice
                         Dim hhh As Single = DeltaHeight + titleFontSize.Height + 30
 
