@@ -444,10 +444,10 @@ CONTINUTE:
         Private Function __COGsBrush(queryNoColor As Boolean,
                                      refQuery As PTT,
                                      COGTextureMappings As Boolean,
-                                     TextureSource As String,
+                                     TextureSource$,
                                      ResourceIDMapping As Boolean,
-                                     Device As Graphics2D,
-                                     MaxIDLength As Integer) As ICOGsBrush
+                                     g As Graphics2D,
+                                     MaxIDLength%) As ICOGsBrush
 
             Dim COGsColor As Dictionary(Of String, Brush) = Nothing
 
@@ -462,10 +462,14 @@ CONTINUTE:
                         Dim TextureList As Image() = TextureResourceLoader.LoadInternalDefaultResource.Shuffles
                         COGsColor = RenderingColor.CategoryMapsTextures(categories:=CogCategory, textures:=TextureList)
                     Else
-                        Dim TextureList As NamedValue(Of Image)() =
-                            LinqAPI.Exec(Of NamedValue(Of Image)) <= From path As String
-                                                                   In ls - l - r - wildcards("*.bmp", "*.jpg", "*.png") <= TextureSource
-                                                                     Select New NamedValue(Of Image)(path.BaseName, path.LoadImage)
+                        Dim TextureList = LinqAPI.Exec(Of NamedValue(Of Image)) <=
+ _
+                            From path As String
+                            In ls - l - r - {"*.bmp", "*.jpg", "*.png"} <= TextureSource
+                            Select New NamedValue(Of Image) With {
+                                .Name = path.BaseName,
+                                .Value = path.LoadImage
+                            }
 
                         If ResourceIDMapping Then
                             COGsColor = TextureList.ToDictionary(
@@ -483,14 +487,13 @@ CONTINUTE:
                     COGsColor = RenderingColor.InitCOGColors(categories:=CogCategory) _
                         .ToDictionary(Function(obj) obj.Key,
                                       Function(cl) CType(New SolidBrush(cl.Value), Brush))
-                    Call COGsColor.Add("", New SolidBrush(Color.Brown))
-                    Call COGsColor.Remove("")
-                    Call COGsColor.Add("COG_NOT_ASSIGN", Brushes.Brown)
-                    Call Device.DrawingCOGColors(COGsColor,
-                                                           ref:=New Point(Margin, Device.Height - MaxIDLength * 3),
-                                                           legendFont:=New Font(FontFace.Ubuntu, 8),
-                                                           width:=Device.Width,
-                                                           margin:=Margin)
+                    Call COGsColor.Add("", New SolidBrush(Color.Brown))                    
+                    Call g.DrawingCOGColors(
+                        COGsColor,
+                        ref:=New Point(Margin, g.Height - MaxIDLength * 3),
+                        legendFont:=New Font(FontFace.Ubuntu, 8),
+                        width:=g.Width,
+                        margin:=Margin)
                 End If
             End If
 
@@ -525,7 +528,7 @@ CONTINUTE:
                                                                      "resource in this programs resource package will be using.")> Optional TextureSource$ = "",
                                 <Parameter("Mapping.Texture.ID")> Optional ResourceIDMapping As Boolean = True,
                                 <Parameter("scale.factor")> Optional ScaleFactor As Double = 1.0R,
-                                <Parameter("ref.Brush")> Optional queryBrush As ICOGsBrush = Nothing, Optional margin% = 300) As Image
+                                <Parameter("ref.Brush")> Optional queryBrush As ICOGsBrush = Nothing, Optional margin% = 200) As Image
 
             If ScaleFactor <= 0 Then
                 Call VBDebugger.Warning($"The page scale factor value ""{ScaleFactor}"" is Zero or negative, reset to normal scale_factor=1")
@@ -543,9 +546,11 @@ CONTINUTE:
                 .MeasureString(drawingFont, ScaleFactor, ScaleFactor)
             Dim MappingLength As Integer = queryLength * ConvertFactor
             Dim BlockSize As New Size(100, MaxIDLength.Height + 20)
-            Dim dSize As New Size((margin * 2 + MappingLength + MaxIDLength.Width) * ScaleFactor,
-                                  (If(AltIDAnnotation, ("0".MeasureString(drawingFont, ScaleFactor, ScaleFactor).Height + 3) * (spList.Length + 5), 0) +
-                                  margin * 4 + spList.Length * (MaxIDLength.Height + 5) + 10 * (BlockSize.Height + 8)) * ScaleFactor)
+            Dim dSize As New Size With {
+                .Width = (margin * 2 + MappingLength + MaxIDLength.Width) * ScaleFactor,
+                .Height = (If(AltIDAnnotation,
+                    ("0".MeasureString(drawingFont, ScaleFactor, ScaleFactor).Height + 3) * (spList.Length + 5), 0) + margin + spList.Length * (MaxIDLength.Height + 5) + 10 * (BlockSize.Height + 8)) * ScaleFactor
+            }
             Dim X, Y As Integer
             Dim ColorSchema As RangeList(Of Double, NamedValue(Of Color))
             Dim getScore As Func(Of HitRecord, Double)
@@ -585,10 +590,12 @@ CONTINUTE:
                 End If
 
                 If queryBrush Is Nothing Then
+
+                    ' 绘制COG分类的颜色legend
                     queryBrush = __COGsBrush(
                         queryNoColor:=QueryNoColor,
                         COGTextureMappings:=COGTextureMappings,
-                        Device:=device,
+                        g:=device,
                         MaxIDLength:=MaxIDLength.Height,
                         refQuery:=refQuery,
                         ResourceIDMapping:=ResourceIDMapping,
@@ -736,7 +743,7 @@ CONTINUTE:
                 End Using
 
                 X = margin + 30
-                Y += BlockHeight * 5
+                Y += BlockHeight * 10
                 Dim YT = Y
 
                 Call device.DrawString("Color key for " & AlignmentColorSchema, drawingFont, Brushes.Black, New Point(margin, Y - MaxIDLength.Height * 2))
@@ -770,7 +777,7 @@ CONTINUTE:
                 End If
 
                 If Not QueryNT Is Nothing Then
-                    Dim DeltaHeight% = 1000
+                    Dim DeltaHeight% = 500
 
                     ' 如果目标基因组序列存在的话，还会在顶端绘制GCSkew的histgram图表
                     Using g As Graphics2D = New Size(device.Width, device.Height + DeltaHeight).CreateGDIDevice
@@ -782,8 +789,8 @@ CONTINUTE:
                         ' 由于在绘图函数之中克隆了原来的图像，所以这里返回函数的结果，否则直接返回gdi设备之中的图形任然会缺失掉histogram图形的
                         Return GCSkew.InvokeDrawingGCContent(
                             g.ImageResource,
-                            QueryNT, 
-                            New Point(margin, 0.95 * hhh), 
+                            QueryNT,
+                            New Point(margin, 0.95 * hhh),
                             Width:=QueryGenomeDrawingLength)
                     End Using
                 End If

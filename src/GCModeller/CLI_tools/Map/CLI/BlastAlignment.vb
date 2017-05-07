@@ -7,6 +7,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ComparativeGenomics.ModelAPI
 Imports SMRUCC.genomics.Visualize.NCBIBlastResult
 
@@ -74,6 +75,8 @@ Partial Module CLI
                 [in],
                 headerSplit:=True)
         End If
+
+        GCSkew.Steps = 250
 
         Dim nt As FastaToken = genbank.Origin.ToFasta
         Dim PTT As PTT = genbank.GbffToORF_PTT

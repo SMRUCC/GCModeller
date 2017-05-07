@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::198c3cb84145097545902437786121d5, ..\visualize\GCModeller.DataVisualization\GCSkew.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -103,18 +103,16 @@ Public Module GCSkew
     ''' <param name="tagFont"></param>
     Public Sub DrawAixs(g As IGraphics, location As Point, size As Size, tagFont As Font, min As Double, max As Double)
         Dim aixsSize As Size = "0".MeasureString(tagFont)
-        Dim vertex As Point = New Point(location.X, location.Y - size.Height)
-        Dim tmpLoci As New Point(location.X - YValueOffset,
-                                 location.Y - aixsSize.Height / 2)
+        Dim vertex As New Point(location.X, location.Y - size.Height)
+        Dim tmpLoci As New Point With {
+            .X = location.X - YValueOffset,
+            .Y = location.Y - aixsSize.Height / 2
+        }
+        Dim minLab$ = min.ToString("F2")
+        Dim maxLab$ = max.ToString("F2")
 
-        Call g.DrawString(Mid(min.ToString, 1, 5),
-                          font:=tagFont,
-                          brush:=Brushes.Black,
-                          point:=tmpLoci)
-        Call g.DrawString(Mid(max.ToString, 1, 5),
-                          tagFont,
-                          Brushes.Black,
-                          New Point(vertex.X - YValueOffset, vertex.Y - aixsSize.Height / 2))
+        Call g.DrawString(minLab, font:=tagFont, brush:=Brushes.Black, point:=tmpLoci)
+        Call g.DrawString(maxLab, tagFont, Brushes.Black, New Point(vertex.X - YValueOffset, vertex.Y - aixsSize.Height / 2))
     End Sub
 
     <ExportAPI("Curve.Drawing")>

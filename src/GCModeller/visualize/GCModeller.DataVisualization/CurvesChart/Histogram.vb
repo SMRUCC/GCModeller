@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::0f480f2095b29fd5c2d7895a9cd81045, ..\visualize\GCModeller.DataVisualization\CurvesChart\Histogram.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Public Class Histogram : Inherits CurvesModel
 
     Public Property TokenWidth As Integer = 6
-    Public Property Lines As Integer = 20
+    Public Property Lines As Integer = 10
 
     Sub New()
         MyBase.PlotBrush = New SolidBrush(Color.DarkCyan)
@@ -53,7 +53,7 @@ Public Class Histogram : Inherits CurvesModel
     End Function
 
     Protected Overrides Sub Draw(ByRef g As IGraphics, data As DataSample(Of Double), location As Point, size As Size)
-        data = __trimData(data, size)
+        ' data = __trimData(data, size)
 
         'Y箭头向上
         'Call Gr.Gr_Device.DrawLine(LinePen, Vertex, New Point(Vertex.X - 5, Vertex.Y + 20))
@@ -88,27 +88,28 @@ Public Class Histogram : Inherits CurvesModel
 
         If ShowAverageLine Then  ' 绘制中间的平均线
             Call g.DrawLine(New Pen(Brushes.LightGray, 3), New Point(location.X, Y_avg), New Point(location.X + size.Width, Y_avg))
-            Call g.DrawString(Mid(data.Average, 1, 5), tagFont, Brushes.Black, New Point(location.X - YValueOffset, Y_avg - "0".MeasureString(tagFont).Height / 2))
+            Call g.DrawString(data.Average.ToString("F2"), tagFont, Brushes.Black, New Point(location.X - YValueOffset, Y_avg - "0".MeasureString(tagFont).Height / 2))
         End If
 
-        Dim Region As Rectangle
+        Dim rect As Rectangle
 
         For Each n As Double In data.data
             Y = location.Y - (n - data.Min) * Y_ScaleFactor
 
             If Y > Y_avg Then '小于平均值，则Y颠倒过来
                 Dim pt As New Point(X, Y_avg)
-                Region = New Rectangle(pt, New Size(X_ScaleFactor, Y - Y_avg))
-                pt = New Point(X + 0.5 * X_ScaleFactor, Region.Bottom)
+                rect = New Rectangle(pt, New Size(X_ScaleFactor, Y - Y_avg))
+                pt = New Point(X + 0.5 * X_ScaleFactor, rect.Bottom)
                 prePt = pt
             Else
                 Dim pt As New Point(X, Y)
-                Region = New Rectangle(pt, New Size(X_ScaleFactor, Y_avg - Y))
-                pt = New Point(X + 0.5 * X_ScaleFactor, Region.Top)
+                rect = New Rectangle(pt, New Size(X_ScaleFactor, Y_avg - Y))
+                pt = New Point(X + 0.5 * X_ScaleFactor, rect.Top)
                 prePt = pt
             End If
 
-            Call g.FillRectangle(PlotBrush, Region)
+            Call g.FillRectangle(PlotBrush, rect)
+            Call g.DrawRectangle(Pens.White, rect)
 
             X += X_ScaleFactor
         Next
