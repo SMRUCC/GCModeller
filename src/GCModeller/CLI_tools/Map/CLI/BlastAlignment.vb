@@ -35,11 +35,10 @@ Partial Module CLI
 
         Dim scores As Func(Of Analysis.Hit, Double) = BBHMetaAPI.DensityScore(density, scale:=20)
         Dim PTTdb As PTT = TabularFormat.PTT.Load(PTT)
-        Dim table As AlignmentTable =
-            BBHMetaAPI.DataParser(meta,
-                                  PTTdb,
-                                  visualGroup:=True,
-                                  scoreMaps:=scores)
+        Dim table As AlignmentTable = BBHMetaAPI.DataParser(
+            meta, PTTdb,
+            visualGroup:=True,
+            scoreMaps:=scores)
 
         Call $"Min:={table.Hits.Min(Function(x) x.Identity)}, Max:={table.Hits.Max(Function(x) x.Identity)}".__DEBUG_ECHO
 
@@ -70,7 +69,12 @@ Partial Module CLI
         If local Then
             alignments = AlignmentTableParserAPI.CreateFromBlastnFile([in])
         Else
-            alignments = AlignmentTableParserAPI.LoadTable([in])
+            alignments = AlignmentTableParserAPI.LoadTable(
+                [in], 
+                headerSplit:=True)
         End If
+
+        Dim PTT As PTT = genbank.GbffToORF_PTT
+
     End Function
 End Module

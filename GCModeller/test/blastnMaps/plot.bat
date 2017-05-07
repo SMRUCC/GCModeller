@@ -1,1 +1,1 @@
-mapplot /Visualize.blastn.alignment /in "./alignmentTable.txt" /genbank "./pXOCgx01.txt" /ORF.catagory "./COG.tsv"
+mapplot /Visualize.blastn.alignment /in "./GX6RZ7BK014-Alignment.txt" /genbank "./pXOCgx01.txt" /ORF.catagory "./COG.tsv"

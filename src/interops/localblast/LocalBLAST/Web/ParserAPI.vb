@@ -65,6 +65,10 @@ Namespace NCBIBlastResult
                 Where InStr(s, "# ") = 1
                 Select s
 
+            If lines.IsNullOrEmpty Then
+                Throw New InvalidExpressionException($"Target alignment table file ""{path}"" have no data!")
+            End If
+
             Return lines _
                 .Skip(header.Length) _
                 .ToArray _
