@@ -85,6 +85,13 @@ Partial Module CLI
         Dim nt As FastaToken = genbank.Origin.ToFasta
         Dim PTT As PTT = genbank.GbffToORF_PTT
 
+        Dim region = alignments.GetAlignmentRegion
+
+        If region.Length <= PTT.Size / 10 Then
+            ' 这个比对结果是一个基因簇，则需要剪裁操作
+            alignments = alignments.Offset(region)
+        End If
+
         If cata.FileLength() > 0 Then
             Dim category As Dictionary(Of NamedValue(Of String)) =
                 cata _

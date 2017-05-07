@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::d5c0889e90fdca6930d80283b451b99d, ..\interops\localblast\LocalBLAST\Web\MetaAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,8 +30,10 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 
 Namespace NCBIBlastResult
@@ -40,6 +42,30 @@ Namespace NCBIBlastResult
     ''' <see cref="Analysis.BestHit"/> -> <see cref="AlignmentTable"/>
     ''' </summary>
     Public Module BBHMetaAPI
+
+        <Extension>
+        Public Function GetAlignmentRegion(table As AlignmentTable) As Location
+            Dim locations%() = table.Hits _
+                .Select(Function(hit) {hit.QueryStart, hit.QueryEnd}) _
+                .IteratesALL _
+                .ToArray
+            Dim region As New Location(locations.Min, locations.Max)
+            Return region
+        End Function
+
+        <Extension>
+        Public Function Offset(table As AlignmentTable, region As Location) As AlignmentTable
+            Dim left% = region.Left
+
+            For Each hit As HitRecord In table.Hits
+                With hit
+                    .QueryStart -= left
+                    .QueryEnd -= left
+                End With
+            Next
+
+            Return table
+        End Function
 
         ''' <summary>
         ''' 
