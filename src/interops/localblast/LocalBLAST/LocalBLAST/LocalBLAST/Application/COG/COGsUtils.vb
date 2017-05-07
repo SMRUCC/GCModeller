@@ -51,11 +51,15 @@ Namespace LocalBLAST.Application.RpsBLAST
         Public Function MyvaCOGCatalog(blastp$, whogXml$,
                                        Optional identities# = 0.15,
                                        Optional coverage# = 0.5,
-                                       Optional descriptParser As TextGrepMethod = Nothing) As MyvaCOG()
+                                       Optional descriptParser As TextGrepMethod = Nothing,
+                                       Optional ALL As Boolean = False) As MyvaCOG()
             If blastp.FileExists Then
 
                 Dim outputRaw As v228 = Parser.TryParse(blastp)
-                Dim bbh As BestHit() = outputRaw.ExportAllBestHist(coverage, identities)
+                Dim bbh As BestHit() = If(
+                    ALL, 
+                    outputRaw.ExportAllBestHist(coverage, identities), 
+                    outputRaw.ExportBestHit(coverage, identities))
                 Dim myvaCOG = bbh.MyvaCOGCatalog(whogXml, descriptParser)
 
                 Return myvaCOG

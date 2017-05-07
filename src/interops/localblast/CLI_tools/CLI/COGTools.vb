@@ -60,12 +60,12 @@ Partial Module CLI
         Dim in$ = args <= "/blastp"
         Dim whog$ = args <= "/whog"
         Dim simple As Boolean = args.GetBoolean("/simple")
-        Dim result = COGsUtils.MyvaCOGCatalog(in$, whog,,, Nothing)
+        Dim result = COGsUtils.MyvaCOGCatalog(in$, whog,,, Nothing, ALL:=Not simple)
 
         If simple Then
             Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".myva_COG.txt")
             Return result _
-                .Select(Function(prot) $"{prot.QueryName}{ASCII.TAB}{prot.COG}") _
+                .Select(Function(prot) $"{prot.QueryName}{ASCII.TAB}{prot.Category}{ASCII.TAB}{prot.COG}") _
                 .SaveTo(out) _
                 .CLICode
         Else
