@@ -90,11 +90,14 @@ Partial Module CLI
                 cata _
                 .ReadAllLines _
                 .Select(Function(s) s.Split(ASCII.TAB)) _
-                .Select(Function(g) New NamedValue(Of String)(g(0), g(1))) _
+                .Select(Function(g) New NamedValue(Of String)(g(0), g.Get(1))) _
                 .ToDictionary()
 
             For Each gene As GeneBrief In PTT
                 gene.COG = category(gene.Synonym).Value
+                If gene.COG Is Nothing Then
+                    gene.COG = ""
+                End If
             Next
         End If
 

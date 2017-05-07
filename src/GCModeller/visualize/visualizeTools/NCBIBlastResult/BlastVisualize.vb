@@ -521,6 +521,7 @@ CONTINUTE:
         ''' <param name="refQuery"></param>
         ''' <param name="AlignmentColorSchema">bit_scores, identities</param>
         ''' <param name="queryBrush">query基因组上面的基因的颜色画刷的来源，默认是使用内部的COG颜色</param>
+        ''' <param name="QueryNoColor">如果这个参数为真，那么query的基因箭头矩形对象将不会有任何颜色</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Map.drawing",
@@ -621,7 +622,7 @@ CONTINUTE:
                     refQuery.Size,
                     alignment.ToString,
                     IDMethod,
-                    DefaultWhite:=True,
+                    DefaultWhite:=False,
                     COGsColor:=queryBrush)
 
                 Dim Left As Integer = margin, Height As Integer = margin + 20
