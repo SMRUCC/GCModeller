@@ -2,13 +2,17 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ComparativeGenomics.ModelAPI
@@ -59,7 +63,7 @@ Partial Module CLI
 
     <ExportAPI("/Visualize.blastn.alignment",
                Info:="Blastn result alignment visualization from the NCBI web blast. This tools is only works for a plasmid blastn search result or a small gene cluster region in a large genome.",
-               Usage:="/Visualize.blastn.alignment /in <alignmentTable.txt> /genbank <genome.gb> [/ORF.catagory <catagory.tsv> /local /out <image.png>]")>
+               Usage:="/Visualize.blastn.alignment /in <alignmentTable.txt> /genbank <genome.gb> [/ORF.catagory <catagory.tsv> /region <left,right> /local /out <image.png>]")>
     <Argument("/genbank", Description:="Provides the target genome coordinates for the blastn map plots.")>
     <Argument("/local", Description:="The file for ``/in`` parameter is a local blastn output result file?")>
     <Argument("/ORF.catagory", Description:="Using for the ORF shape color render, in a text file and each line its text format like: ``geneID``<TAB>``COG/KOG/GO/KO``")>
@@ -70,6 +74,7 @@ Partial Module CLI
         Dim cata$ = args <= "/ORF.catagory"
         Dim local As Boolean = args.GetBoolean("/local")
         Dim genbank As GBFF.File = GBFF.File.Load(gb)
+        Dim regionValue$ = args <= "/region"
         Dim alignments As AlignmentTable
 
         If local Then
@@ -84,6 +89,24 @@ Partial Module CLI
 
         Dim nt As FastaToken = genbank.Origin.ToFasta
         Dim PTT As PTT = genbank.GbffToORF_PTT
+        Dim region As Location = alignments.GetAlignmentRegion
+
+        If region.Length <= PTT.Size / 5 Then
+            ' 这个比对结果是一个基因簇，则需要剪裁操作
+            Call $"{[in].BaseName} probably is a cluster in genome {PTT.Title}.".__INFO_ECHO
+
+            If regionValue.StringEmpty OrElse regionValue.IndexOf(","c) = -1 Then
+                Throw New InvalidExpressionException("Gene cluster region range value is invalid! Please set /region value in format: (left,right).")
+            End If
+
+            ' 由于使用一个cluster片段直接比对的话，因为没有直接的位置信息，所以querystart是从1开始的
+            ' 直接从比对结果之中解析出region，是从1开始的，不正确的
+            ' 所以对于cluster类型而言需要使用手工的region范围输入
+            region = New Location(CType(regionValue, IntRange))
+            ' alignments = alignments.Offset(region)
+            PTT = PTT.RangeSelection(region, offset:=True)
+            nt = New FastaToken({PTT.Title}, nt.CutSequenceLinear(region))
+        End If
 
         If cata.FileLength() > 0 Then
             Dim category As Dictionary(Of NamedValue(Of String)) =
