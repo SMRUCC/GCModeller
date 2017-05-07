@@ -28,10 +28,10 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace LocalBLAST.Application.RpsBLAST.Whog
@@ -61,14 +61,14 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
 
                 _IdList = value
                 IdTokens = LQuery
-                _locus_tags = (From item In LQuery Let IdList As String() = item.Value Select IdList).ToVector
+                _locus_tags = New IndexOf(Of String)((From item In LQuery Let IdList As String() = item.Value Select IdList).IteratesALL)
             End Set
         End Property
 
         Dim _IdList As NamedValue()
         Dim IdTokens As NamedCollection(Of String)()
 
-        Public ReadOnly Property locus_tags As String()
+        Public ReadOnly Property locus_tags As IndexOf(Of String)
 
         Const REGX_CATAGORY As String = "\[[^]]+\]"
         Const REGX_COG_ID As String = "COG\d+"
@@ -78,17 +78,11 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
         End Function
 
         Public Function ContainsGene(id As String) As Boolean
-            Return Array.IndexOf(locus_tags, id) > -1
+            Return locus_tags.IndexOf(id) > -1
         End Function
 
         Protected Friend Shared Function Parse(srcText$()) As Category
-            Dim list As NamedValue() = srcText _
-                .Skip(1) _
-                .Select(Function(line) line.GetTagValue(":", trim:=True)) _
-                .Select(Function(l) New NamedValue With {
-                    .name = l.Name.Trim,
-                    .text = l.Value
-                }).ToArray
+            Dim list As NamedValue() = __parseList(srcText.Skip(1))
             Dim description As String = srcText(Scan0)
             Dim cat$ = Regex.Match(description, REGX_CATAGORY).Value
             Dim item As New Category With {
@@ -100,16 +94,38 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
             Return item
         End Function
 
-        Public Function Find(Id As String) As String
+        Private Shared Function __parseList(lines As IEnumerable(Of String)) As NamedValue()
+            Dim list As New List(Of NamedValue)
+
+            For Each line As String In lines
+                Dim nid As NamedValue(Of String) = line.GetTagValue(":", trim:=True)
+                Dim genome$ = nid.Name.Trim
+
+                If Not String.IsNullOrEmpty(genome) Then
+                    list += New NamedValue With {
+                        .name = genome,
+                        .text = nid.Value
+                    }
+                Else
+                    list.Last = New NamedValue With {
+                        .name = list.Last.name,
+                        .text = list.Last.text & " " & Trim(nid.Value)
+                    }
+                End If
+            Next
+
+            Return list
+        End Function
+
+        Public Function Find(Id$) As String
             If IdTokens Is Nothing Then
                 Return ""
             End If
 
-            Dim LQuery As String =
-                LinqAPI.DefaultFirst(Of String) <= From item
-                                                   In IdTokens
-                                                   Where Array.IndexOf(item.Value, Id) > -1
-                                                   Select item.Name
+            Dim LQuery$ = LinqAPI.DefaultFirst(Of String) <= From item
+                                                             In IdTokens
+                                                             Where Array.IndexOf(item.Value, Id) > -1
+                                                             Select item.Name
             Return LQuery
         End Function
     End Class
