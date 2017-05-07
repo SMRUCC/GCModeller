@@ -107,6 +107,9 @@ Partial Module CLI
             IdentityNoColor:=False,
             QueryNT:=nt)
 
-        Return plot.SaveAs(out, ImageFormats.Png).CLICode
+        Return plot _
+            .CorpBlank(blankColor:=Color.White) _
+            .SaveAs(out, ImageFormats.Png) _
+            .CLICode
     End Function
 End Module
