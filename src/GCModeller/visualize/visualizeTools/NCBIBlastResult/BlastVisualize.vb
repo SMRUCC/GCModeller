@@ -441,6 +441,17 @@ CONTINUTE:
             Next
         End Sub
 
+        ''' <summary>
+        ''' 这个函数使用的是<see cref="GeneBrief.COG"/>属性来获取分类值
+        ''' </summary>
+        ''' <param name="queryNoColor"></param>
+        ''' <param name="refQuery"></param>
+        ''' <param name="COGTextureMappings"></param>
+        ''' <param name="TextureSource$"></param>
+        ''' <param name="ResourceIDMapping"></param>
+        ''' <param name="g"></param>
+        ''' <param name="MaxIDLength%"></param>
+        ''' <returns></returns>
         Private Function __COGsBrush(queryNoColor As Boolean,
                                      refQuery As PTT,
                                      COGTextureMappings As Boolean,
@@ -452,15 +463,18 @@ CONTINUTE:
             Dim COGsColor As Dictionary(Of String, Brush) = Nothing
 
             If Not queryNoColor Then
-                Dim CogCategory As String() = (From gene As GeneBrief
-                                               In refQuery.GeneObjects
-                                               Where Not String.IsNullOrEmpty(gene.COG)
-                                               Select gene.COG Distinct).ToArray
+                Dim COGs$() = LinqAPI.Exec(Of String) <=
+ _
+                    From gene As GeneBrief
+                    In refQuery.GeneObjects
+                    Where Not String.IsNullOrEmpty(gene.COG)
+                    Select gene.COG
+                    Distinct
 
                 If COGTextureMappings Then    ' 使用材质映射，假若没有设置资源文件夹，则使用系统默认的材质进行绘图
                     If String.IsNullOrEmpty(TextureSource) Then
                         Dim TextureList As Image() = TextureResourceLoader.LoadInternalDefaultResource.Shuffles
-                        COGsColor = RenderingColor.CategoryMapsTextures(categories:=CogCategory, textures:=TextureList)
+                        COGsColor = RenderingColor.CategoryMapsTextures(categories:=COGs, textures:=TextureList)
                     Else
                         Dim TextureList = LinqAPI.Exec(Of NamedValue(Of Image)) <=
  _
@@ -477,17 +491,17 @@ CONTINUTE:
                                 Function(obj) DirectCast(New TextureBrush(obj.Value), Brush))
                         Else
                             COGsColor = RenderingColor.CategoryMapsTextures(
-                                categories:=CogCategory,
+                                categories:=COGs,
                                 textures:=TextureList.ToArray(Function(obj) obj.Value))
                         End If
                     End If
 
                     Call COGsColor.Add("", Brushes.White)
                 Else
-                    COGsColor = RenderingColor.InitCOGColors(categories:=CogCategory) _
+                    COGsColor = RenderingColor.InitCOGColors(categories:=COGs) _
                         .ToDictionary(Function(obj) obj.Key,
                                       Function(cl) CType(New SolidBrush(cl.Value), Brush))
-                    Call COGsColor.Add("", New SolidBrush(Color.Brown))                    
+                    Call COGsColor.Add("", New SolidBrush(Color.Brown))
                     Call g.DrawingCOGColors(
                         COGsColor,
                         ref:=New Point(Margin, g.Height - MaxIDLength * 3),
