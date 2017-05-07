@@ -6,6 +6,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize.ComparativeGenomics.ModelAPI
 Imports SMRUCC.genomics.Visualize.NCBIBlastResult
 
@@ -67,18 +68,20 @@ Partial Module CLI
         Dim alignments As AlignmentTable
 
         If local Then
-            alignments = AlignmentTableParserAPI.CreateFromBlastnFile([in])
+            alignments = AlignmentTableParserAPI.CreateFromBlastnFile([in], 120)
         Else
             alignments = AlignmentTableParserAPI.LoadTable(
                 [in],
                 headerSplit:=True)
         End If
 
+        Dim nt As FastaToken = genbank.Origin.ToFasta
         Dim PTT As PTT = genbank.GbffToORF_PTT
         Dim plot As Image = BlastVisualize.PlotMap(
             alignments, PTT,
             AlignmentColorSchema:="identities",
-            IdentityNoColor:=False)
+            IdentityNoColor:=False,
+            QueryNT:=nt)
 
         Return plot.SaveAs(out, ImageFormats.Png).CLICode
     End Function

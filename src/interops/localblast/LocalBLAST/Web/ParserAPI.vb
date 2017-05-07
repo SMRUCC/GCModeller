@@ -187,12 +187,20 @@ Namespace NCBIBlastResult
         ''' <remarks>
         ''' 因为只是一条query比对多条序列，所以所输出的blastn结果之中只有一个query
         ''' </remarks>
-        Public Function CreateFromBlastnFile(file$) As AlignmentTable
+        Public Function CreateFromBlastnFile(file$, Optional stripNameLength% = -1) As AlignmentTable
             Dim blastn As v228 = Parser.LoadBlastOutput(file)
             Dim query As Query = blastn.Queries.First
             Dim hits = query.SubjectHits _
                 .GroupBy(Function(h) h.Name) _
-                .Select(Function(g) g.Key.__createFromBlastn(hits:=g.ToArray)) _
+                .Select(Function(g)
+                            Dim name$ = g.Key
+
+                            If stripNameLength > 0 Then
+                                name = Mid(name, 1, stripNameLength)
+                            End If
+
+                            Return name.__createFromBlastn(hits:=g.ToArray)
+                        End Function) _
                 .ToVector
             Dim Tab As New AlignmentTable With {
                 .Hits = hits,
