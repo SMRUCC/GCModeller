@@ -223,7 +223,7 @@ Namespace TRN
             '            Dim NetworkInitialization = (From Gene In GenerateSites.AsParallel
             '                                         Select Gene.Expression.InvokeSet(NameOf(Gene.Expression.RegulatorySites), Gene.rs)).ToArray
 
-            '            Dim Model = New BinaryNetwork With {._DynamicsExpressions = NetworkInitialization.OrderBy(Function(GeneObject) GeneObject.UniqueId).ToArray.AddHandle, .InitCache = Inits}
+            '            Dim Model = New BinaryNetwork With {._DynamicsExpressions = NetworkInitialization.OrderBy(Function(GeneObject) GeneObject.UniqueId).ToArray.WriteAddress, .InitCache = Inits}
 
             '            Dim RegulatorIdList As String() = (From item In footprints Where Not item.Regulators.IsNullOrEmpty Select item.Regulators).ToArray.MatrixToVector.Distinct.ToArray
             '            Call Console.WriteLine("[DEBUG] Initialization for the regulators....")

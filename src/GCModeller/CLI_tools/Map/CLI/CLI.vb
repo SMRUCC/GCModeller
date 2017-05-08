@@ -14,6 +14,7 @@ Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 Imports SMRUCC.genomics.Visualize.Extensions
 
+<ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
 Public Module CLI
 
     <ExportAPI("--Draw.ChromosomeMap",

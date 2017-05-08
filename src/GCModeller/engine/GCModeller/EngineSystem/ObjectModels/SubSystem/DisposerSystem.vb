@@ -119,7 +119,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
 #Else
             Dim LQuery = (From item In DisposibleMetabolites.AsParallel Select CreationMethod(item, Metabolism, Model, ProductMetabolites, EnzymeIdList)).ToArray
 #End If
-            MyBase._DynamicsExprs = LQuery.AddHandle.ToArray
+            MyBase._DynamicsExprs = LQuery.WriteAddress.ToArray
 
             If Type = Entity.IDisposableCompound.DisposableCompoundTypes.Transcripts Then
                 Dim WeightVector As Dictionary(Of GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME.Transcript.TranscriptTypes, Double) =

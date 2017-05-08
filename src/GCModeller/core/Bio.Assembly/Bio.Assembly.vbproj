@@ -405,6 +405,7 @@
     <Compile Include="ContextModel\Algorithm\Operon.vb" />
     <Compile Include="ContextModel\Algorithm\ContextProvider.vb" />
     <Compile Include="ContextModel\Algorithm\TFDensity.vb" />
+    <Compile Include="ContextModel\Extensions.vb" />
     <Compile Include="ContextModel\PromoterRegionParser.vb" />
     <Compile Include="LICENSE.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\DBLink.vb" />

@@ -50,7 +50,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                           Let rxn As ObjectModels.Module.MetabolismFlux = CreateDelegate(model, CellSystem.Metabolism.EnzymeKinetics, Metabolites, MetabolismEnzymes, SystemLogging)
                           Select rxn).ToArray  'generate the flux object
 
-            MyBase._DynamicsExprs = LQuery.AddHandle.ToArray
+            MyBase._DynamicsExprs = LQuery.WriteAddress.ToArray
 #If DEBUG Then
             Dim InitQuery = (From idx As Integer In _DynamicsExprs.Sequence Let FluxObject = _DynamicsExprs(idx)
                              Select FluxObject.Initialize(CellSystem.Metabolism.Metabolites, SystemLogging)).ToArray 'link the flux object with the delegate system

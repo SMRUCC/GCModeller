@@ -1,39 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::45a3c948bce5804e9dff9aad0524bd8c, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\v228.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.Similarity
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
@@ -100,28 +97,35 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <param name="identities"></param>
         ''' <returns></returns>
         Private Shared Function __generateLine(query As Query, coverage As Double, identities As Double) As BestHit
-            Dim BestHit As SubjectHit = query.GetBestHit(coverage, identities)
-            Dim row As New BestHit With {
-                .QueryName = query.QueryName
+            Dim topHit As SubjectHit = query.GetBestHit(coverage, identities)
+            Dim locusId As String = query.QueryName.Split.First
+            Dim def As String = Mid(query.QueryName, Len(locusId) + 1).Trim
+            Dim besthit As New BestHit With {
+                .QueryName = locusId,
+                .description = def
             }
 
-            If BestHit Is Nothing Then
-                row.HitName = HITS_NOT_FOUND
+            If topHit Is Nothing Then
+                besthit.HitName = HITS_NOT_FOUND
             Else
-                Dim Score As Score = BestHit.Score
-                row.HitName = BestHit.Name.Trim
-                row.query_length = query.QueryLength
-                row.hit_length = BestHit.Length
-                row.Score = Score.RawScore
-                row.evalue = Score.Expect
-                row.identities = Score.Identities.Value
-                row.Positive = Score.Positives.Value
-                row.length_hit = BestHit.LengthHit
-                row.length_query = BestHit.LengthQuery
-                row.length_hsp = BestHit.Score.Gaps.Denominator
+                Dim Score As Score = topHit.Score
+                
+                With besthit
+                    .QueryName = locusId
+                    .HitName = topHit.Name.Trim
+                    .query_length = query.QueryLength
+                    .hit_length = topHit.Length
+                    .Score = Score.RawScore
+                    .evalue = Score.Expect
+                    .identities = Score.Identities.Value
+                    .Positive = Score.Positives.Value
+                    .length_hit = topHit.LengthHit
+                    .length_query = topHit.LengthQuery
+                    .length_hsp = topHit.Score.Gaps.Denominator
+                End With
             End If
 
-            Return row
+            Return besthit
         End Function
 
         ''' <summary>

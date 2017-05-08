@@ -159,7 +159,7 @@ Public Module CLI
     Public Function AlignmentTableDump(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".Xml")
-        Dim tbl As AlignmentTable = ParserAPI.CreateFromBlastn(inDIR)
+        Dim tbl As AlignmentTable = AlignmentTableParserAPI.CreateFromBlastn(inDIR)
         Return tbl.Save(out).CLICode
     End Function
 

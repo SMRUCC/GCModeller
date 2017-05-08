@@ -1,114 +1,132 @@
 ﻿#Region "Microsoft.VisualBasic::ea52479d60c212e329f3643567c9911d, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\COG\Whog\Category.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace LocalBLAST.Application.RpsBLAST.Whog
 
     Public Class Category
 
-        <XmlAttribute> Public Property CategoryId As String
-        <XmlAttribute> Public Property CogId As String
-        <XmlElement> Public Property Description As String
-
-        <XmlElement> Public Property IdList As KeyValuePair()
+        <XmlAttribute> Public Property Category As String
+        <XmlAttribute> Public Property COG_id As String
+        <XmlElement("description")> Public Property Description As String
+        <XmlElement("geneID")> Public Property IdList As NamedValue()
             Get
                 Return _IdList
             End Get
-            Set(value As KeyValuePair())
+            Set(value As NamedValue())
                 If value Is Nothing Then
                     Return
                 End If
 
-                Dim LQuery = (From item In value Select New KeyValuePair(Of String, String())(item.Key, item.Value.Split)).ToArray
+                Dim LQuery = LinqAPI.Exec(Of NamedCollection(Of String)) <=
+                    From item In value
+                    Let list As String() = item.text.Split
+                    Select New NamedCollection(Of String) With {
+                        .Name = item.name,
+                        .Value = list,
+                        .Description = item.text
+                    }
+
                 _IdList = value
                 IdTokens = LQuery
-                _lstLocus = (From item In LQuery Let IdList As String() = item.Value Select IdList).ToArray.ToVector
+                _locus_tags = New IndexOf(Of String)((From item In LQuery Let IdList As String() = item.Value Select IdList).IteratesALL)
             End Set
         End Property
 
-        Dim _IdList As KeyValuePair()
-        Dim IdTokens As KeyValuePair(Of String, String())()
-        Dim _lstLocus As String()
+        Dim _IdList As NamedValue()
+        Dim IdTokens As NamedCollection(Of String)()
+
+        <XmlIgnore>
+        Public ReadOnly Property locus_tags As IndexOf(Of String)
 
         Const REGX_CATAGORY As String = "\[[^]]+\]"
         Const REGX_COG_ID As String = "COG\d+"
 
         Public Overrides Function ToString() As String
-            Return String.Format("[{0}] {1} --> {2}", CategoryId, CogId, Description)
+            Return String.Format("[{0}] {1} --> {2}", Category, COG_id, Description)
         End Function
 
         Public Function ContainsGene(id As String) As Boolean
-            Return Array.IndexOf(_lstLocus, id) > -1
+            Return locus_tags.IndexOf(id) > -1
         End Function
 
-        Protected Friend Shared Function Parse(srcText As String) As Category
-            Dim item As Category = New Category
-            Dim Tokens As String() = Strings.Split(srcText, vbLf)
-            Dim description As String = Tokens.First
-
-            item.CategoryId = Regex.Match(description, REGX_CATAGORY).Value
-            item.CategoryId = Mid(item.CategoryId, 2, Len(item.CategoryId) - 2)
-            item.CogId = Regex.Match(description, REGX_COG_ID).Value
-            item.Description = Mid(description, Len(item.CategoryId) + Len(item.CogId) + 4).Trim
-            Dim list As List(Of KeyValuePair) = New List(Of KeyValuePair)
-
-            For Each line As String In Tokens.Skip(1)
-                Dim sss = Strings.Split(line, ":")
-                If sss.Count = 2 Then
-                    list += New KeyValuePair With {
-                        .Key = sss(0).TrimNewLine,
-                        .Value = sss(1).Trim
-                    }
-                Else
-                    list.Last.Value &= " " & Trim(line)
-                End If
-            Next
-
-            item.IdList = list.ToArray
-
+        Protected Friend Shared Function Parse(srcText$()) As Category
+            Dim list As NamedValue() = __parseList(srcText.Skip(1).ToArray)
+            Dim description As String = srcText(Scan0)
+            Dim cat$ = Regex.Match(description, REGX_CATAGORY).Value
+            Dim item As New Category With {
+                .Category = Mid(cat, 2, Len(cat) - 2),
+                .COG_id = Regex.Match(description, REGX_COG_ID).Value,
+                .Description = Mid(description, Len(.Category) + Len(.COG_id) + 4).Trim,
+                .IdList = list
+            }
             Return item
         End Function
 
-        Public Function Find(Id As String) As String
+        Private Shared Function __parseList(lines As IEnumerable(Of String)) As NamedValue()
+            Dim list As New List(Of NamedValue)
+
+            For Each line As String In lines
+                Dim nid As NamedValue(Of String) = line.GetTagValue(":", trim:=True)
+                Dim genome$ = nid.Name.Trim
+
+                If Not String.IsNullOrEmpty(genome) Then
+                    list += New NamedValue With {
+                        .name = genome,
+                        .text = nid.Value
+                    }
+                Else
+                    list.Last = New NamedValue With {
+                        .name = list.Last.name,
+                        .text = list.Last.text & " " & Trim(nid.Value)
+                    }
+                End If
+            Next
+
+            Return list
+        End Function
+
+        Public Function Find(Id$) As String
             If IdTokens Is Nothing Then
                 Return ""
             End If
 
-            Dim LQuery As String =
-                LinqAPI.DefaultFirst(Of String) <= From item
-                                                   In IdTokens
-                                                   Where Array.IndexOf(item.Value, Id) > -1
-                                                   Select item.Key
+            Dim LQuery$ = LinqAPI.DefaultFirst(Of String) <= From item
+                                                             In IdTokens
+                                                             Where Array.IndexOf(item.Value, Id) > -1
+                                                             Select item.Name
             Return LQuery
         End Function
     End Class

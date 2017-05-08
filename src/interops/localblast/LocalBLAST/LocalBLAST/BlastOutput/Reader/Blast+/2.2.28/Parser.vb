@@ -46,8 +46,14 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             s = Regex.Match(s, "Database: .+?\s+\d+\s+sequences;", RegexOptions.Singleline).Value
             s = s.Replace("Database:", "").Replace(vbLf, "").Replace(vbCr, "")
             s = Regex.Replace(s, "\d+\s+sequences;", "").Trim
-            s = basename(s)
-            Return s
+
+            ' 这个database属性只是调试之类使用的，好像也没有太多用途，空下来也无所谓
+            If s.StringEmpty Then
+                Return ""
+            Else
+                s = BaseName(s)
+                Return s
+            End If
         End Function
 
         ''' <summary>

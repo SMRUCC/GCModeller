@@ -109,7 +109,7 @@ Namespace EngineSystem.Services.DataAcquisition.DataSerializer
     End Structure
 
     Public Structure HandleF
-        Implements INamedValue, IAddressHandle
+        Implements INamedValue, IAddressOf
 
         Const CREATE_TABLE_SQL As String = "CREATE TABLE `%s_handles` (`Handle` BIGINT NOT NULL, `unique_Id` LONGTEXT NOT NULL, PRIMARY KEY (`Handle`), UNIQUE INDEX `Handle_UNIQUE` (`Handle` ASC));"
         Const INSERT_INTO_SQL As String = "INSERT INTO `%s_handles` (`Handle`, `unique_Id`) VALUES ('{0}', '{1}');"
@@ -137,10 +137,7 @@ Namespace EngineSystem.Services.DataAcquisition.DataSerializer
         End Function
 
         Public Property Identifier As String Implements INamedValue.Key
-        Public Property Handle As Integer Implements IAddressHandle.Address
+        Public Property Handle As Integer Implements IAddressOf.Address
 
-        Public Sub Dispose() Implements IDisposable.Dispose
-
-        End Sub
     End Structure
 End Namespace

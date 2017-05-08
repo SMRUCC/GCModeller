@@ -162,7 +162,7 @@ Public Module ShellScriptAPI
                        Select New XGMML.Node With {
                            .label = rxn.ID,
                            .Attributes = InternalAttr
-                           }).ToArray.AddHandle
+                           }).ToArray.WriteAddress
 
         Graph.Edges = (From rxn In Reaction
                        Let Edges = (From target In Reaction
@@ -174,7 +174,7 @@ Public Module ShellScriptAPI
                                         .source = Graph.GetNode(rxn.ID).id,
                                         .target = Graph.GetNode(target.ID).id,
                                         .Label = Compound.First}).ToArray
-                       Select Edges).ToArray.ToVector.AddHandle '从rxn的右边到target的左边形成一条边
+                       Select Edges).ToArray.ToVector.WriteAddress '从rxn的右边到target的左边形成一条边
         Return Graph
     End Function
 
