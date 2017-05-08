@@ -4,7 +4,7 @@
 
 Typing this command in your commandline console, and then the GCModeller **MapPlot** tool will output such commandline help information:
 
-```python
+```bash
 mapplot ? /Visualize.blastn.alignment
 
 #  Help for command '/Visualize.blastn.alignment':
@@ -104,6 +104,7 @@ localblast /COG.myva /blastp "./pXOCgx01-myva.txt" /whog "whog.XML" /simple /out
 Here is a example for plots the blastn alignment result in commandline:
 
 ```bash
+# Visualize the plasmid small genome: pXOCgx01
 MapPlot /Visualize.blastn.alignment /in "./blastn.txt" /genbank "./pXOCgx01.txt" /ORF.catagory "./pXOCgx01-myva.myva_COG.txt" /local
 ```
 
@@ -111,7 +112,9 @@ MapPlot /Visualize.blastn.alignment /in "./blastn.txt" /genbank "./pXOCgx01.txt"
 
 You can found two demo in this folder:
 
-+ ``./demo/`` for plasmid small genome blastn visualize. Genbank data can be download from: 
++ ``./demo/`` for plasmid(**small genome**) blastn visualize. Genbank data can be download from: 
   > https://www.ncbi.nlm.nih.gov/nuccore/KR071788
 + ``./cluster_demo/`` for visualize a gene cluster in a large genome. Genbank data can be download from: 
   > https://www.ncbi.nlm.nih.gov/nuccore/CP000050.1
+
+All of these two demo commandline usage example can be found from the ``plot.bat`` script file in each demo folder.
