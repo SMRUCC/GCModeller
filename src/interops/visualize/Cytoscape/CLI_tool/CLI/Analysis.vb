@@ -8,6 +8,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Mathematical.Correlations
+Imports SMRUCC.genomics.Visualize
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network
 
 Partial Module CLI
@@ -92,14 +93,41 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in])
         Dim network As NetGraph = NetGraph.Load([in])
+        Dim data As NamedValue(Of Integer)()
+        Dim nodeTable = network.Nodes.ToDictionary
 
-        Call network.GetDegrees.NamedValues.SaveTo(out & "/degrees.csv")
-        Call network.NodesGroupCount.NamedValues.SaveTo(out & "/group_counts.csv")
+        ' 画图
+        ' degrees使用catagory profiling图
+        ' groups_count使用饼图
+
+        data = network.GetDegrees.NamedValues
+
+        Call data.SaveTo(out & "/degrees.csv")
+        Call data.Select(Function(x) (group:=nodeTable(x.Name).ID, x)) _
+            .GroupBy(Function(n) n.group) _
+            .ToDictionary(Function(k) k.Key,
+                          Function(g) g _
+                              .Select(Function(x)
+                                          Return New NamedValue(Of Double) With {
+                                              .Name = x.Item2.Name,
+                                              .Value = x.Item2.Value
+                                          }
+                                      End Function) _
+                              .ToArray) _
+            .ProfilesPlot() _
+            .Save(out & "/degrees.csv")
+
+        data = network.NodesGroupCount.NamedValues
+
+        Call data.SaveTo(out & "/group_counts.csv")
+        Call PieChart.Plot(data.FromData(schema:="")).Save(out & "/group_counts.png")
         Call {
             ("nodes", network.Nodes.Length),
             ("edges", network.Edges.Length)
            }.Select(Function(t) New NamedValue(Of Integer)(t.Item1, t.Item2)) _
             .ToArray _
             .SaveTo(out & "/stat.csv")
+
+        Return 0
     End Function
 End Module
