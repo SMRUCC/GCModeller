@@ -28,9 +28,11 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -153,6 +155,15 @@ Partial Module CLI
             Dim data As File = File.Load([in])
             network = LinkageNetwork.BuildNetwork(data, typePrefix, schema)
         End If
+
+        Call network.GetDegrees.NamedValues.SaveTo(out & "/degrees.csv")
+        Call network.NodesGroupCount.NamedValues.SaveTo(out & "/group_counts.csv")
+        Call {
+            ("nodes", network.Nodes.Length), 
+            ("edges", network.Edges.Length)
+           }.Select(Function(t) New NamedValue(Of Integer)(t.Item1, t.Item2)) _
+            .ToArray _
+            .SaveTo(out & "/stat.csv")
 
         Return network.Save(out, Encodings.ASCII)
     End Function
