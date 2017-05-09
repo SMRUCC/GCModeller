@@ -156,15 +156,6 @@ Partial Module CLI
             network = LinkageNetwork.BuildNetwork(data, typePrefix, schema)
         End If
 
-        Call network.GetDegrees.NamedValues.SaveTo(out & "/degrees.csv")
-        Call network.NodesGroupCount.NamedValues.SaveTo(out & "/group_counts.csv")
-        Call {
-            ("nodes", network.Nodes.Length), 
-            ("edges", network.Edges.Length)
-           }.Select(Function(t) New NamedValue(Of Integer)(t.Item1, t.Item2)) _
-            .ToArray _
-            .SaveTo(out & "/stat.csv")
-
         Return network.Save(out, Encodings.ASCII)
     End Function
 End Module

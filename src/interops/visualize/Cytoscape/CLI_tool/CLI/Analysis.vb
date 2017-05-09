@@ -85,4 +85,21 @@ Partial Module CLI
 
         Return 0
     End Function
+
+    <ExportAPI("/Analysis.Graph.Properties",
+               Usage:="/Analysis.Graph.Properties /in <net.DIR> [/out <out.DIR>]")>
+    Public Function AnalysisNetworkProperty(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in])
+        Dim network As NetGraph = NetGraph.Load([in])
+
+        Call network.GetDegrees.NamedValues.SaveTo(out & "/degrees.csv")
+        Call network.NodesGroupCount.NamedValues.SaveTo(out & "/group_counts.csv")
+        Call {
+            ("nodes", network.Nodes.Length),
+            ("edges", network.Edges.Length)
+           }.Select(Function(t) New NamedValue(Of Integer)(t.Item1, t.Item2)) _
+            .ToArray _
+            .SaveTo(out & "/stat.csv")
+    End Function
 End Module
