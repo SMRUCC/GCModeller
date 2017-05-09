@@ -241,18 +241,18 @@ Partial Module Utilities
         Dim readers As DynamicObjectLoader() = csv.CreateDataSource
         Dim attrSchema = (From x In csv.GetOrdinalSchema(lstAttrs) Where x > -1 Select x).ToArray
         Dim seqOrd As Integer = csv.GetOrdinal(seq)
-        Dim Fa As IEnumerable(Of FastaToken) =
-            From row As DynamicObjectLoader
-            In readers.AsParallel
-            Let attributes As String() = row.GetValues(attrSchema)
-            Let seqData As String = row.GetValue(seqOrd)
-            Let seqFa As FASTA.FastaToken = New FASTA.FastaToken With {
-                .Attributes = attributes,
-                .SequenceData = seqData
-            }
-            Select seqFa 
-            Order By seqFa .Title Ascending 
-        Dim Fasta As New FASTA.FastaFile(Fa)
+        Dim Fa = From row As DynamicObjectLoader
+                 In readers.AsParallel
+                 Let attributes As String() = row.GetValues(attrSchema)
+                 Let seqData As String = Regex.Replace(row.GetValue(seqOrd), "\s*", "")
+                 Let seqFa As FastaToken = New FastaToken With {
+                     .Attributes = attributes,
+                     .SequenceData = seqData
+                 }
+                 Select seqFa
+                 Order By seqFa.Title Ascending
+
+        Dim Fasta As New FastaFile(Fa)
         Return Fasta.Save(out, Encodings.ASCII).CLICode
     End Function
 
