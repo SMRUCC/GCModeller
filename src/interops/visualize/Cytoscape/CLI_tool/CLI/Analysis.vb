@@ -90,7 +90,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Analysis.Graph.Properties",
-               Usage:="/Analysis.Graph.Properties /in <net.DIR> [/colors <Paired:c12> /ignores <fields> /out <out.DIR>]")>
+               Usage:="/Analysis.Graph.Properties /in <net.DIR> [/colors <Paired:c12> /ignores <fields> /tick 5 /out <out.DIR>]")>
     Public Function AnalysisNetworkProperty(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in])
@@ -102,6 +102,7 @@ Partial Module CLI
             .Nodes _
             .Where(Function(n) ignores.IndexOf(n.NodeType) = -1) _
             .ToDictionary
+        Dim tick% = args.GetValue("/tick", 5)
 
         ' 画图
         ' degrees使用catagory profiling图
@@ -134,7 +135,7 @@ Partial Module CLI
             .ProfilesPlot(size:=New Size(2400, 1900),
                           title:="Network Connection Degrees",
                           axisTitle:="Node Degrees",
-                          tick:=5) _
+                          tick:=tick) _
             .Save(out & "/degrees.png")
 
         data = network _
@@ -146,7 +147,7 @@ Partial Module CLI
 
         Call data.SaveTo(out & "/group_counts.csv")
         Call PieChart.Plot(
-                data.FromData(schema:=schema), 
+                data.FromData(schema:=schema),
                 size:=New Size(2600, 2000),
                 valueLabelStyle:=CSSFont.Win7Large) _
             .Save(out & "/group_counts.png")
