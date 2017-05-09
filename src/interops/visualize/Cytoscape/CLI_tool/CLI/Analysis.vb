@@ -31,7 +31,7 @@ Partial Module CLI
 
         For Each node$ In nodes$
             Dim data As New Dictionary(Of String, Double)
-            Dim apply =
+            Dim lapply =
                 Sub(index As IndexOf(Of String))
                     If Not index Is Nothing Then
                         For Each x$ In nodes$
@@ -46,8 +46,8 @@ Partial Module CLI
                     End If
                 End Sub
 
-            Call apply(from.TryGetValue(node))
-            Call apply([to].TryGetValue(node))
+            Call lapply(from.TryGetValue(node))
+            Call lapply([to].TryGetValue(node))
 
             objects += New DataSet With {
                 .ID = node,
