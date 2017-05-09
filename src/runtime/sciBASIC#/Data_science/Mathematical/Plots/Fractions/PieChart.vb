@@ -99,7 +99,7 @@ Public Module PieChart
         Dim __plot As Action(Of IGraphics) =
             Sub(g As IGraphics)
                 Dim r# = (Math.Min(size.Width, size.Height) - margin.LayoutVector.Max) / 2 - 15 ' 最大的半径值
-                Dim topLeft As New Point(size.Width / 2 - r, size.Height / 2 - r)
+                Dim topLeft As New Point(margin.Left, size.Height / 2 - r)
                 Dim valueLabelFont As Font = CSSFont.TryParse(valueLabelStyle)
 
                 If minRadius <= 0 OrElse CDbl(minRadius) >= r Then  ' 半径固定不变的样式
@@ -175,21 +175,24 @@ Public Module PieChart
                 End If
 
                 If legendAlt Then
-                    Dim maxL = data.Select(Function(x) g.MeasureString(x.Name, font).Width).Max
+                    Dim maxL = g.MeasureString(data.MaxLengthString(Function(x) x.Name), font).Width
                     Dim left = size.Width - (margin.Horizontal) - maxL
-                    Dim top = margin.Top
                     Dim legends As New List(Of Legend)
+                    Dim d = font.Size
+                    Dim height! = (d + g.MeasureString("1", font).Height) * data.Count
+                    ' Excel之中的饼图的示例样式位置为默认右居中的
+                    Dim top = (size.Height - height) / 2 - margin.Top
 
                     For Each x As Fractions In data
                         legends += New Legend With {
-                                .color = x.Color.RGBExpression,
-                                .style = LegendStyles.Square,
-                                .title = x.Name,
-                                .fontstyle = legendFont
-                             }
+                            .color = x.Color.RGBExpression,
+                            .style = LegendStyles.Square,
+                            .title = x.Name,
+                            .fontstyle = legendFont
+                        }
                     Next
 
-                    Call g.DrawLegends(New Point(left, top), legends, ,, legendBorder)
+                    Call g.DrawLegends(New Point(left, top), legends, , d, legendBorder)
                 End If
             End Sub
 
