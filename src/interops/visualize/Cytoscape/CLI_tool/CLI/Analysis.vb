@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -120,7 +121,7 @@ Partial Module CLI
                           Function(g) g _
                               .Select(Function(t) t.Item2) _
                               .OrderByDescending(Function(x) x.Value) _
-                              .Take(10) _
+                              .Take(7) _
                               .OrderBy(Function(o) o.Name) _
                               .Select(Function(x)
                                           Return New NamedValue(Of Double) With {
@@ -129,7 +130,10 @@ Partial Module CLI
                                           }
                                       End Function) _
                               .ToArray) _
-            .ProfilesPlot() _
+            .ProfilesPlot(size:=New Size(2400, 1900), 
+                          title:="Network Connection Degrees", 
+                          axisTitle:="Node Degrees", 
+                          tick:=5) _
             .Save(out & "/degrees.png")
 
         data = network _
