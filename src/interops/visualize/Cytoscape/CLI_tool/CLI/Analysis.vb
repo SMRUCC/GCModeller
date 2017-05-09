@@ -9,6 +9,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Mathematical.Correlations
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Visualize
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network
 
@@ -130,9 +131,9 @@ Partial Module CLI
                                           }
                                       End Function) _
                               .ToArray) _
-            .ProfilesPlot(size:=New Size(2400, 1900), 
-                          title:="Network Connection Degrees", 
-                          axisTitle:="Node Degrees", 
+            .ProfilesPlot(size:=New Size(2400, 1900),
+                          title:="Network Connection Degrees",
+                          axisTitle:="Node Degrees",
                           tick:=5) _
             .Save(out & "/degrees.png")
 
@@ -144,13 +145,17 @@ Partial Module CLI
             .ToArray
 
         Call data.SaveTo(out & "/group_counts.csv")
-        Call PieChart.Plot(data.FromData(schema:=schema)).Save(out & "/group_counts.png")
+        Call PieChart.Plot(
+                data.FromData(schema:=schema),
+                valueLabelStyle:=CSSFont.Win7Large) _
+            .Save(out & "/group_counts.png")
         Call {
-            ("nodes", network.Nodes.Length),
-            ("edges", network.Edges.Length)
-           }.Select(Function(t) New NamedValue(Of Integer)(t.Item1, t.Item2)) _
-            .ToArray _
-            .SaveTo(out & "/stat.csv")
+                 ("nodes", network.Nodes.Length),
+                 ("edges", network.Edges.Length)
+             } _
+              .Select(Function(t) New NamedValue(Of Integer)(t.Item1, t.Item2)) _
+              .ToArray _
+              .SaveTo(out & "/stat.csv")
 
         Return 0
     End Function
