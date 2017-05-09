@@ -88,13 +88,14 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Analysis.Graph.Properties",
-               Usage:="/Analysis.Graph.Properties /in <net.DIR> [/out <out.DIR>]")>
+               Usage:="/Analysis.Graph.Properties /in <net.DIR> [/colors <Paired:c12> /out <out.DIR>]")>
     Public Function AnalysisNetworkProperty(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in])
         Dim network As NetGraph = NetGraph.Load([in])
         Dim data As NamedValue(Of Integer)()
         Dim nodeTable = network.Nodes.ToDictionary
+        Dim schema$ = args.GetValue("/colors", "Paired:12")
 
         ' 画图
         ' degrees使用catagory profiling图
@@ -103,24 +104,30 @@ Partial Module CLI
         data = network.GetDegrees.NamedValues
 
         Call data.SaveTo(out & "/degrees.csv")
-        Call data.Select(Function(x) (group:=nodeTable(x.Name).ID, x)) _
+        Call data.Select(Function(x) (group:=nodeTable(x.Name).NodeType, x)) _
             .GroupBy(Function(n) n.group) _
+            .OrderByDescending(Function(g) g.Sum(Function(x) x.Item2.Value)) _
+            .Take(6) _
             .ToDictionary(Function(k) k.Key,
                           Function(g) g _
+                              .Select(Function(t) t.Item2) _
+                              .OrderByDescending(Function(x) x.Value) _
+                              .Take(10) _
+                              .OrderBy(Function(o) o.Name) _
                               .Select(Function(x)
                                           Return New NamedValue(Of Double) With {
-                                              .Name = x.Item2.Name,
-                                              .Value = x.Item2.Value
+                                              .Name = x.Name,
+                                              .Value = x.Value
                                           }
                                       End Function) _
                               .ToArray) _
             .ProfilesPlot() _
-            .Save(out & "/degrees.csv")
+            .Save(out & "/degrees.png")
 
         data = network.NodesGroupCount.NamedValues
 
         Call data.SaveTo(out & "/group_counts.csv")
-        Call PieChart.Plot(data.FromData(schema:="")).Save(out & "/group_counts.png")
+        Call PieChart.Plot(data.FromData(schema:=schema)).Save(out & "/group_counts.png")
         Call {
             ("nodes", network.Nodes.Length),
             ("edges", network.Edges.Length)
