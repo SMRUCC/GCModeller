@@ -88,20 +88,28 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Analysis.Graph.Properties",
-               Usage:="/Analysis.Graph.Properties /in <net.DIR> [/colors <Paired:c12> /out <out.DIR>]")>
+               Usage:="/Analysis.Graph.Properties /in <net.DIR> [/colors <Paired:c12> /ignores <fields> /out <out.DIR>]")>
     Public Function AnalysisNetworkProperty(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in])
         Dim network As NetGraph = NetGraph.Load([in])
         Dim data As NamedValue(Of Integer)()
-        Dim nodeTable = network.Nodes.ToDictionary
         Dim schema$ = args.GetValue("/colors", "Paired:12")
+        Dim ignores As New IndexOf(Of String)((args <= "/ignores").StringSplit(",", True))
+        Dim nodeTable = network _
+            .Nodes _
+            .Where(Function(n) ignores.IndexOf(n.NodeType) = -1) _
+            .ToDictionary
 
         ' 画图
         ' degrees使用catagory profiling图
         ' groups_count使用饼图
 
-        data = network.GetDegrees.NamedValues
+        data = network _
+            .GetDegrees _
+            .NamedValues _
+            .Where(Function(x) nodeTable.ContainsKey(x.Name)) _
+            .ToArray
 
         Call data.SaveTo(out & "/degrees.csv")
         Call data.Select(Function(x) (group:=nodeTable(x.Name).NodeType, x)) _
@@ -124,7 +132,12 @@ Partial Module CLI
             .ProfilesPlot() _
             .Save(out & "/degrees.png")
 
-        data = network.NodesGroupCount.NamedValues
+        data = network _
+            .NodesGroupCount _
+            .NamedValues _
+            .OrderByDescending(Function(x) x.Value) _
+            .Where(Function(x) ignores.NotExists(x.Name)) _
+            .ToArray
 
         Call data.SaveTo(out & "/group_counts.csv")
         Call PieChart.Plot(data.FromData(schema:=schema)).Save(out & "/group_counts.png")
