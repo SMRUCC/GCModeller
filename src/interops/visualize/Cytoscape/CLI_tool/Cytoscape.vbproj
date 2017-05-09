@@ -204,6 +204,7 @@
     <Compile Include="CLI\Metagenomics.vb" />
     <Compile Include="CLI\MetaCyc.vb" />
     <Compile Include="CLI\Module1.vb" />
+    <Compile Include="CLI\Analysis.vb" />
     <Compile Include="CLI\Phenotype.vb" />
     <Compile Include="CLI\SimpleRegulations.vb" />
     <Compile Include="CLI\KEGG.vb" />
@@ -283,6 +284,10 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\Network\Microsoft.VisualBasic.DataMining.Model.Network.vbproj">
       <Project>{3a114030-d9fd-4913-8e85-a78c032e9000}</Project>
       <Name>Microsoft.VisualBasic.DataMining.Model.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematical\Plots\Plots.vbproj">
+      <Project>{17f8e821-0a01-4975-9caa-ac95251226d5}</Project>
+      <Name>Plots</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
