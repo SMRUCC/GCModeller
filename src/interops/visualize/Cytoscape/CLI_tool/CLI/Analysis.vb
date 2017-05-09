@@ -18,7 +18,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Analysis.Node.Clusters",
-               Usage:="/Analysis.Node.Clusters /in <network.DIR> [/spcc /out <DIR>]")>
+               Usage:="/Analysis.Node.Clusters /in <network.DIR> [/spcc /size ""10000,10000"" /schema <YlGn:c8> /out <DIR>]")>
     Public Function NodeCluster(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in])
@@ -28,6 +28,8 @@ Partial Module CLI
         Dim [to] = net.SearchIndex(from:=False)
         Dim objects As New List(Of DataSet)
         Dim spcc As Boolean = args.GetBoolean("/spcc")
+        Dim size$ = args.GetValue("/size", "10000,10000")
+        Dim colors$ = args.GetValue("/schema", "YlGn:c8")
 
         For Each node$ In nodes$
             Dim data As New Dictionary(Of String, Double)
@@ -66,7 +68,7 @@ Partial Module CLI
                             .Value = x.Value.Values.ToArray
                         }
                     End Function) _
-            .ToArray      
+            .ToArray
         Dim matrix As NamedValue(Of Dictionary(Of String, Double))()
 
         If spcc Then
@@ -77,7 +79,9 @@ Partial Module CLI
 
         Call objects.SaveTo(out & "/links.csv")
         Call matrix.SaveTo(out & "/matrix.csv")
-        Call HeatmapTable.Plot(matrix).Save(out & "/heatmap.png")
+        Call HeatmapTable _
+            .Plot(matrix, size:=size, mapName:=colors) _
+            .Save(out & "/heatmap.png")
 
         Return 0
     End Function
