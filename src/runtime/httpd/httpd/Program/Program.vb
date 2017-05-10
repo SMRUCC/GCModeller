@@ -28,8 +28,7 @@
 
 Module Program
 
-    Public Function Main() As Integer
-        Call TestCookies 
+    Public Function Main() As Integer  
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
 End Module

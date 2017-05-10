@@ -213,6 +213,8 @@
     <Compile Include="Core\HttpFileSystem.vb" />
     <Compile Include="Core\HttpProcessor.vb" />
     <Compile Include="Core\HttpServer.vb" />
+    <Compile Include="Platform\Task\TaskModel.vb" />
+    <Compile Include="Platform\Task\TaskProgress.vb" />
     <Compile Include="Scripting\vbhtml.vb" />
     <Compile Include="DebuggerAPI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

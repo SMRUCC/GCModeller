@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.Parallel
 
 Namespace Platform
 
-    Public Class Task : Implements System.IDisposable
+    Public Class Task : Implements IDisposable
         Implements IReadOnlyId
 
         Protected Friend _innerTaskPool As TaskPool
@@ -106,6 +106,5 @@ Namespace Platform
             ' GC.SuppressFinalize(Me)
         End Sub
 #End Region
-
     End Class
 End Namespace
