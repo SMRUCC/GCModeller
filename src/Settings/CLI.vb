@@ -25,8 +25,10 @@
 
 #End Region
 
+Imports System.Reflection
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
 <PackageNamespace("GCModeller.Configuration.CLI",
@@ -72,6 +74,18 @@ Public Module CLI
 
             Return 0
         End Using
+    End Function
+
+    <ExportAPI("/dev", Usage:="/dev [/out <DIR>]")>
+    Public Function CLIDevelopment(args As CommandLine) As Integer
+        Dim out$ = args.GetValue("/out", "./Apps/")
+
+        For Each file$ In ls - l - "*.exe" <= App.HOME
+            Dim assembly As Assembly = Assembly.LoadFile(file)
+
+        Next
+
+        Return 0
     End Function
 End Module
 
