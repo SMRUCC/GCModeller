@@ -211,7 +211,7 @@
     <Compile Include="CLI\Phenotype.vb" />
     <Compile Include="CLI\SimpleRegulations.vb" />
     <Compile Include="CLI\KEGG.vb" />
-    <Compile Include="CLI\Cli.vb" />
+    <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLI\TCS.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
