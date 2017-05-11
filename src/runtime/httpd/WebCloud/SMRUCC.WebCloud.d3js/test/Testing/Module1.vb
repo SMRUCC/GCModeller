@@ -1,7 +1,7 @@
 ﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
-Imports Microsoft.VisualBasic.Data.visualize.Network.Visualize
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 
 Module Module1
@@ -13,6 +13,9 @@ Module Module1
         Call graph.doRandomLayout
         Call graph.doForceLayout(showProgress:=True, iterations:=50)
         Call graph.Tabular.Save("./test")
-        Call graph.DrawImage(New Size(2000, 2000), scale:=4).Save("../../..\/viewer.png")
+        Call graph.DrawImage(
+            New Size(2000, 2000),
+            scale:=4, 
+            labelColorAsNodeColor:=True).Save("../../..\/viewer.png")
     End Sub
 End Module
