@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{A298B539-BE81-4A66-AFC1-014D449E4887}"
 EndProject
@@ -424,6 +424,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "hierarchical-clustering", "runtime\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\hierarchical-clustering.vbproj", "{6CA54AF6-CADC-457E-94B9-384F2990F07E}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "yaml", "runtime\sciBASIC#\mime\text%yaml\yaml\yaml.vbproj", "{FB637DE6-6BEB-4722-968A-F76DEB851DFC}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Visualizer", "runtime\sciBASIC#\gr\Datavisualization.Network\Visualizer\Visualizer.vbproj", "{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -5369,6 +5371,36 @@ Global
 		{FB637DE6-6BEB-4722-968A-F76DEB851DFC}.Release2|x64.Build.0 = Release|x64
 		{FB637DE6-6BEB-4722-968A-F76DEB851DFC}.Release2|x86.ActiveCfg = Release|Any CPU
 		{FB637DE6-6BEB-4722-968A-F76DEB851DFC}.Release2|x86.Build.0 = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Debug|x64.Build.0 = Debug|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Debug|x86.Build.0 = Debug|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.docs|x64.ActiveCfg = Debug|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.docs|x64.Build.0 = Debug|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.docs|x86.ActiveCfg = Debug|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.docs|x86.Build.0 = Debug|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Publish|x64.ActiveCfg = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Publish|x64.Build.0 = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Publish|x86.ActiveCfg = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Publish|x86.Build.0 = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Release|x64.ActiveCfg = Release|x64
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Release|x64.Build.0 = Release|x64
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Release|x86.ActiveCfg = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Release|x86.Build.0 = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Release2|Any CPU.ActiveCfg = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Release2|Any CPU.Build.0 = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Release2|x64.ActiveCfg = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Release2|x64.Build.0 = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Release2|x86.ActiveCfg = Release|Any CPU
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}.Release2|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -5579,5 +5611,6 @@ Global
 		{A43EC013-2B55-4D25-B9F1-96BD5FB1E577} = {852FA545-CC24-443C-8991-B82EF14FA61D}
 		{6CA54AF6-CADC-457E-94B9-384F2990F07E} = {852FA545-CC24-443C-8991-B82EF14FA61D}
 		{FB637DE6-6BEB-4722-968A-F76DEB851DFC} = {551D0368-1396-4BA4-9A3E-95C2874A4024}
+		{45B726AC-D3B8-476D-89EA-1FF7243A4FA5} = {3B172EB1-A2DA-4EC7-850F-F6DE3E1D0A5F}
 	EndGlobalSection
 EndGlobal
