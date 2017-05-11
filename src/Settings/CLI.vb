@@ -38,6 +38,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
                   Description:="GCModeller configuration console.",
                   Publisher:="xie.guigang@gcmodeller.org",
                   Revision:=215)>
+<ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
 <CLI> Public Module CLI
 
     Sub New()

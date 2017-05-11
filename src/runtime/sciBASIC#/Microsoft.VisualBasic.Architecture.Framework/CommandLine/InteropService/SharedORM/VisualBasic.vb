@@ -43,9 +43,14 @@ Namespace CommandLine.InteropService.SharedORM
         End Function
 
         Private Shared Function __xmlComments(description$) As String
+            description = description _
+                .lTokens _
+                .Select(Function(s) "'''" & s) _
+                .JoinBy(vbCrLf)
+
             Return $"
 ''' <summary>
-''' {description}
+{description}
 ''' </summary>
 '''"
         End Function
