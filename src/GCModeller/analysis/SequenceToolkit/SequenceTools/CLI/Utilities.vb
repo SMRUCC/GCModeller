@@ -27,9 +27,8 @@
 #End Region
 
 Imports System.Drawing
-Imports System.IO
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
@@ -59,7 +58,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
                Debugging:="http://gcmodeller.org")>
 <GroupingDefine(CLIGrouping.FastaTools, Description:=CLIGrouping.FastaToolsDescription)>
 <GroupingDefine(CLIGrouping.PalindromeTools, Description:=CLIGrouping.PalindromeToolsDescription)>
-Public Module Utilities
+<CLI> Public Module Utilities
 
     <ExportAPI("-321",
                Info:="Polypeptide sequence 3 letters to 1 lettes sequence.",

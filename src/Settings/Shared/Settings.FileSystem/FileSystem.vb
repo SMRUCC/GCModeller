@@ -177,6 +177,10 @@ Namespace GCModeller.FileSystem
             End Get
         End Property
 
+        ''' <summary>
+        ''' COG数据库文件夹
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property COGs As String
             Get
                 Return RepositoryRoot & "/COGs/"

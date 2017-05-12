@@ -18,6 +18,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\SMART.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\Programs\STAMP.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\Apps.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\Cytoscape.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\eggHTS.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\localblast.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\MapPlot.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\VennDiagram.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Session\Session.vb" />
   </ItemGroup>
