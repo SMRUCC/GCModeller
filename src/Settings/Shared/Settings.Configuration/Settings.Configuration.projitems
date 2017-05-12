@@ -22,6 +22,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\eggHTS.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\localblast.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\MapPlot.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\MEME.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\NCBI_tools.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\seqtools.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\VennDiagram.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Session\Session.vb" />
   </ItemGroup>
