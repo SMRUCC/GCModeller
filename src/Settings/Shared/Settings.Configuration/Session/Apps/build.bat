@@ -1,0 +1,1 @@
+"../../../../../../GCModeller/bin/Settings" /dev /out "./"
