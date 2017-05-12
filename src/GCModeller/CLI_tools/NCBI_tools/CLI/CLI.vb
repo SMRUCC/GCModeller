@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::5763e86c8cbfa6d6755a478221ce4660, ..\GCModeller\CLI_tools\NCBI_tools\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -53,7 +54,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                   Description:="Tools collection for handling NCBI data, includes: nt/nr database, NCBI taxonomy analysis, OTU taxonomy analysis, genbank database, and sequence query tools.",
                   Publisher:="xie.guigang@gcmodeller.org")>
 <GroupingDefine(CLIGrouping.GITools, Description:=CLIGrouping.GIWasObsoleted)>
-Public Module CLI
+<ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
+<CLI> Public Module CLI
 
     <ExportAPI("/Build_gi2taxi",
                Usage:="/Build_gi2taxi /in <gi2taxi.dmp> [/out <out.dat>]")>
@@ -106,7 +108,7 @@ Public Module CLI
             TaxiValue.BuildHash(ref.LoadCsv(Of TaxiValue)),
             New Dictionary(Of String, String))
 
-        For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+        For Each file As String In ls - l - R - wildcards("*.Csv") <= [in]
             Dim data As IEnumerable(Of TaxiValue) = file.LoadCsv(Of TaxiValue)
             Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
             Dim LQuery = (From x As TaxiValue
@@ -222,7 +224,7 @@ Public Module CLI
             Taxonomy.AcquireAuto(gi2taxi)
         Dim getGI = Taxono.Parser_gi(regexp)
 
-        For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+        For Each file As String In ls - l - R - wildcards("*.Csv") <= [in]
             Dim data = Taxono.Load(file, index)
             Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
 
@@ -270,7 +272,7 @@ Public Module CLI
                                .ToDictionary(Function(x) x.sid,
                                              Function(x) x.Group.First.Title.Replace(x.sid, "").Trim)
 
-        For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]
+        For Each file As String In ls - l - R - wildcards("*.Csv") <= [in]
             Dim data = Taxono.Load(file, index)
             Dim out As String = EXPORT & "/" & file.BaseName & ".Csv"
 
@@ -328,7 +330,7 @@ Public Module CLI
             tax(uid) = title
         Next
 
-        For Each file As String In ls - l - r - wildcards("*.csv") <= [in]
+        For Each file As String In ls - l - R - wildcards("*.csv") <= [in]
             Dim data = Taxono.Load(file, index)
             Dim out As String = outDIR & "/" & file.BaseName & ".Csv"
 
@@ -358,7 +360,7 @@ Public Module CLI
             args.GetValue("/index", NameOf(NamedValue(Of Object).Name))
 
         Using output As StreamWriter = outDIR.OpenWriter(Encodings.ASCII)
-            For Each file As String In ls - l - r - wildcards("*.csv") <= [in]
+            For Each file As String In ls - l - R - wildcards("*.csv") <= [in]
                 Dim data = Taxono.Load(file, index)
                 Dim out As String = outDIR & "/" & file.BaseName & ".Csv"
 
@@ -557,7 +559,7 @@ Public Module CLI
         End If
 
         Dim tasks$() =
-            (ls - l - r - wildcards("*.fasta") <= [in]).ToArray(CLI)
+            (ls - l - R - wildcards("*.fasta") <= [in]).ToArray(CLI)
 
         Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
     End Function

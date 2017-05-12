@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::6daf7a85374ac4d88d40378e4284e98a, ..\GCModeller\CLI_tools\MEME\Cli\Cli.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
@@ -37,7 +38,6 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
 
@@ -45,7 +45,8 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
                   Description:="A wrapper tools for the NCBR meme tools, this is a powerfull tools for reconstruct the regulation in the bacterial genome.",
                   Category:=APICategories.CLI_MAN,
                   Publisher:="xie.guigang@gcmodeller.org")>
-Module CLI
+<ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
+<CLI> Module CLI
 
     <ExportAPI("VirtualFootprint.DIP",
                Info:="Associate the dip information with the Sigma 70 virtual footprints.",
@@ -90,10 +91,10 @@ Module CLI
         Dim query = (From x In args("/query").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
         Dim subject = (From x In args("/subject").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
         Dim LQuery = (From x In query Where subject.ContainsKey(x.Key) Select __diff(x.Value, subject(x.Key))).ToArray.Unlist
-        Dim path As String = args("/query").TrimSuffix & $".diff__{basename(args("/subject"))}.csv"
+        Dim path As String = args("/query").TrimSuffix & $".diff__{BaseName(args("/subject"))}.csv"
         Dim exclude = (From x In query Where Not subject.ContainsKey(x.Key) Select x.Value).ToArray.Unlist
         Call LQuery.SaveTo(path)
-        path = args("/query").TrimSuffix & $".excludes__{basename(args("/subject"))}.csv"
+        path = args("/query").TrimSuffix & $".excludes__{BaseName(args("/subject"))}.csv"
         Return exclude.SaveTo(path).CLICode
     End Function
 
@@ -114,7 +115,7 @@ Module CLI
                       Let intr = Interacts(x.Value, subject(x.Key))
                       Select intr
                       Order By intr.Length Descending).ToArray
-        Dim path As String = args("/query").TrimSuffix & $".Intersect.Max.{basename(args("/subject"))}.csv"
+        Dim path As String = args("/query").TrimSuffix & $".Intersect.Max.{BaseName(args("/subject"))}.csv"
         Return LQuery.First.SaveTo(path).CLICode
     End Function
 
