@@ -2,7 +2,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/localblast.exe
+' assembly: G:/GCModeller/GCModeller/bin/localblast.exe
 
 Namespace GCModellerApps
 
@@ -673,7 +673,7 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''In order to draw as venn diagram for a specific set of genome and study the diferrence and consists between these genomes, you should do the blast operation from the protein amino aciad sequence first. The blastp operation can be performenced by the blast+ program which you can download from the NCBI website, this command is a interop service for the NCBI blast program£¬ you should install the blast+ program at first.
+'''In order to draw as venn diagram for a specific set of genome and study the diferrence and consists between these genomes, you should do the blast operation from the protein amino aciad sequence first. The blastp operation can be performenced by the blast+ program which you can download from the NCBI website, this command is a interop service for the NCBI blast program, you should install the blast+ program at first.
 ''' </summary>
 '''
 Public Function blast(_i As String, _blast_bin As String, _program As String, Optional _ld As String = "", Optional _xld As String = "") As Integer
