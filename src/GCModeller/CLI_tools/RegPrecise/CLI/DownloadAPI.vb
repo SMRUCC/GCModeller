@@ -27,6 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -44,7 +45,7 @@ Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.SequenceModel
 
 <PackageNamespace("RegPrecise.CLI", Category:=APICategories.CLI_MAN)>
-Public Module CLI
+<CLI> Public Module CLI
 
     <ExportAPI("/Repository.Fetch",
                Usage:="/Repository.Fetch /imports <RegPrecise.Xml> /genbank <NCBI_Genbank_DIR> [/full /out <outDIR>]")>

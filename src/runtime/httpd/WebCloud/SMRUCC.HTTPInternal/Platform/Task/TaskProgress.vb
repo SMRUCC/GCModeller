@@ -5,7 +5,7 @@ Namespace Platform
     ''' <summary>
     ''' 用于在网页上面显示任务进度的返回值
     ''' </summary>
-    Public Structure TaskProgress
+    Public Class TaskProgress
 
         ''' <summary>
         ''' 当前的任务至今阶段的编号
@@ -18,8 +18,15 @@ Namespace Platform
         ''' <returns></returns>
         Public Property progress As String()
 
+        Sub New()
+        End Sub
+
+        Sub New(current%)
+            Me.current = current
+        End Sub
+
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
-    End Structure
+    End Class
 End Namespace

@@ -204,7 +204,7 @@ Namespace AppEngine.APIMethods.Arguments
                 Call WriteHeader(MIME.Json, bytes.Length)
             End If
 
-            Call response.WriteLine(obj.GetJson)
+            Call response.WriteLine(json)
         End Sub
 
         Public Sub WriteXML(Of T)(obj As T)

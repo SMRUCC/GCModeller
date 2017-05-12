@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::65c16ee2012c9af5ba2e05be4eac6ffc, ..\GCModeller\CLI_tools\MEME\Cli\Regprecise.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -199,11 +199,11 @@ Partial Module CLI
     End Function
 
     <ExportAPI("Regprecise.Compile",
-               Usage:="Regprecise.Compile [<repository>]",
+               Usage:="Regprecise.Compile [/src <repository>]",
                Info:="The repository parameter is a directory path which is the regprecise database root directory in the GCModeller directory, if you didn't know how to set this value, please leave it blank.")>
     <Group(CLIGrouping.RegPreciseTools)>
     Public Function CompileRegprecise(args As CommandLine) As Integer
-        Dim repository As String = args.Tokens.Get(1)
+        Dim repository As String = args <= "/src"
         If String.IsNullOrEmpty(repository) Then
             Call Settings.Session.Initialize()
             repository = RegpreciseRoot
@@ -477,7 +477,9 @@ Partial Module CLI
         End Try
     End Function
 
-    <ExportAPI("regulators.compile", Info:="Regprecise regulators data source compiler.")>
+    <ExportAPI("/regulators.compile",
+               Info:="Regprecise regulators data source compiler.",
+               Usage:="/regulators.compile")>
     <Group(CLIGrouping.RegPreciseTools)>
     Public Function RegulatorsCompile() As Integer
         Dim regulatorsRepository As String = RegpreciseRoot & "/Fasta/Regulators/"

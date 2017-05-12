@@ -80,14 +80,18 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
     Const GCModellerApps$ = NameOf(GCModellerApps)
 
-    <ExportAPI("/dev", 
-               Info:="Generates Apps CLI visualbasic reference source code.", 
+    <ExportAPI("/dev",
+               Info:="Generates Apps CLI visualbasic reference source code.",
                Usage:="/dev [/out <DIR>]")>
     Public Function CLIDevelopment(args As CommandLine) As Integer
         Dim out$ = args.GetValue("/out", "./Apps/")
         Dim CLI As New Value(Of Type)
 
         For Each file$ In ls - l - "*.exe" <= App.HOME
+            If IO.Path.GetFullPath(file) = IO.Path.GetFullPath(App.ExecutablePath) Then
+                Continue For
+            End If
+
             If Not (CLI = CLIAttribute.ParseAssembly(dll:=file)) Is Nothing Then
                 Call New VisualBasic(CLI, GCModellerApps) _
                     .GetSourceCode _
