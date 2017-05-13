@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::5641da2bf2a93e183767d13c2cc2e7a7, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\Task\TaskPool.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -38,7 +38,73 @@ Namespace Platform
     ''' </summary>
     Public Class TaskPool : Implements IDisposable
 
-        Protected Friend ReadOnly _taskQueue As New Queue(Of Task)
+        ''' <summary>
+        ''' 处于排队状态的用户任务队列
+        ''' </summary>
+        Private Class __internalQueue
+            Implements IEnumerable(Of Task)
+
+            ''' <summary>
+            ''' 处于排队状态的用户任务队列
+            ''' </summary>
+            ReadOnly _taskQueue As New Queue(Of Task)
+            ''' <summary>
+            ''' 这个字典表对象的作用主要是用于获取任务在队列之中的位置
+            ''' </summary>
+            ReadOnly _taskTable As New Dictionary(Of String, Task)
+
+            ''' <summary>
+            ''' 用户使用uid查询任务在队列之中的位置，返回-1表示不在任务队列之中
+            ''' </summary>
+            ''' <param name="uid$"></param>
+            ''' <returns></returns>
+            Public Function GetQueuePosition(uid$) As Integer
+                If _taskTable.ContainsKey(uid) Then
+                    Return _taskQueue.IndexOf(_taskTable(uid))
+                Else
+                    Return -1
+                End If
+            End Function
+
+            ''' <summary>
+            ''' 这个函数是线程安全的
+            ''' </summary>
+            ''' <returns></returns>
+            Public Function Dequeue() As Task
+                SyncLock _taskQueue
+                    Dim task As Task = _taskQueue.Dequeue
+
+                    SyncLock _taskTable
+                        Call _taskTable.Remove(task.uid)
+                    End SyncLock
+
+                    Return task
+                End SyncLock
+            End Function
+
+            ''' <summary>
+            ''' 这个函数是线程安全的
+            ''' </summary>
+            ''' <param name="task"></param>
+            Public Sub Enqueue(task As Task)
+                SyncLock _taskQueue
+                    Call _taskQueue.Enqueue(task)
+                    SyncLock _taskTable
+                        Call _taskTable.Add(task.uid, task)
+                    End SyncLock
+                End SyncLock
+            End Sub
+
+            Public Iterator Function GetEnumerator() As IEnumerator(Of Task) Implements IEnumerable(Of Task).GetEnumerator
+                For Each task As Task In _taskTable.Values
+                    Yield task
+                Next
+            End Function
+
+            Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+                Yield GetEnumerator()
+            End Function
+        End Class
 
         ''' <summary>
         ''' 允许同时运行的任务的数量
@@ -49,13 +115,14 @@ Namespace Platform
 
         ReadOnly TaskPool As New List(Of AsyncHandle(Of Task))
         ReadOnly _runningTask As New List(Of Task)
+        ReadOnly _taskQueue As New __internalQueue
 
         ''' <summary>
         ''' 当不存在的时候，说明正在运行，或者已经运行完毕了
         ''' </summary>
         ''' <param name="uid"></param>
         ''' <returns></returns>
-        Public Function GetTask(uid As String) As Task
+        Public Function GetQueueTask(uid As String) As Task
             Dim LQuery As Task =
                 LinqAPI.DefaultFirst(Of Task) <=
  _
@@ -67,14 +134,37 @@ Namespace Platform
             Return LQuery
         End Function
 
-        Public Function TaskRunning(uid As String) As Boolean
-            Dim task As Task =
-                LinqAPI.DefaultFirst(Of Task) <=
+        ''' <summary>
+        ''' 获取正在执行的用户任务
+        ''' </summary>
+        ''' <param name="uid$"></param>
+        ''' <returns></returns>
+        Public Function GetRunningTask(uid$) As Task
+            Return LinqAPI.DefaultFirst(Of Task) <=
  _
                 From x As Task
                 In _runningTask
-                Where String.Equals(uid, x.uid, StringComparison.OrdinalIgnoreCase)
+                Where uid.TextEquals(x.uid)
                 Select x
+
+        End Function
+
+        ''' <summary>
+        ''' 返回-1表示不在等待队列之中，但是不保证是处于运行状态，因为完成状态的任务也是返回-1值的
+        ''' </summary>
+        ''' <param name="uid$"></param>
+        ''' <returns></returns>
+        Public Function GetTaskQueuePosition(uid$) As Integer
+            Return _taskQueue.GetQueuePosition(uid)
+        End Function
+
+        ''' <summary>
+        ''' 任务还处在运行的状态？
+        ''' </summary>
+        ''' <param name="uid"></param>
+        ''' <returns></returns>
+        Public Function TaskRunning(uid As String) As Boolean
+            Dim task As Task = GetRunningTask(uid)
 
             If task Is Nothing Then
                 Return False

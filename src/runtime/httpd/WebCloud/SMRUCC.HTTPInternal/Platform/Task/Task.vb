@@ -64,6 +64,10 @@ Namespace Platform
         ''' </summary>
         Public MustOverride Sub RunTask()
 
+        ''' <summary>
+        ''' 获取任务的执行状态
+        ''' </summary>
+        ''' <returns></returns>
         Public Function GetProgress() As TaskProgress
             Dim o As New TaskProgress With {
                 .current = current,

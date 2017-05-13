@@ -521,6 +521,12 @@ Namespace AppEngine.APIMethods.Arguments
             Return response.WriteLineAsync(buffer, index, count)
         End Function
 
+        ''' <summary>
+        ''' url重定向跳转操作
+        ''' </summary>
+        ''' <param name="rep"></param>
+        ''' <param name="url"></param>
+        ''' <returns></returns>
         Public Shared Operator <=(rep As HttpResponse, url As String) As Boolean
             Call rep.Redirect(url)
             Return True
