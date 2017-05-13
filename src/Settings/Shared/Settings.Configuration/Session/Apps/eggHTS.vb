@@ -14,6 +14,7 @@ Namespace GCModellerApps
 '''
 Public Class eggHTS : Inherits InteropService
 
+Public Const App$ = "eggHTS.exe"
 
 Sub New(App$)
 MyBase._executableAssembly = App$

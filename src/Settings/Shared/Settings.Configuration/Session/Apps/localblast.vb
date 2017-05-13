@@ -15,6 +15,7 @@ Namespace GCModellerApps
 '''
 Public Class localblast : Inherits InteropService
 
+Public Const App$ = "localblast.exe"
 
 Sub New(App$)
 MyBase._executableAssembly = App$

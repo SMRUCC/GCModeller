@@ -14,6 +14,7 @@ Namespace GCModellerApps
 '''
 Public Class MEME : Inherits InteropService
 
+Public Const App$ = "MEME.exe"
 
 Sub New(App$)
 MyBase._executableAssembly = App$

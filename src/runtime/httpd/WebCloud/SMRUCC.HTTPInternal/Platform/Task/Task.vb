@@ -36,7 +36,9 @@ Namespace Platform
         Protected Friend _innerTaskPool As TaskPool
         Protected current As Integer
 
-        Dim _callback As Action
+        Dim _callback As Callback
+
+        Public Delegate Sub Callback(success As Boolean)
 
         ''' <summary>
         ''' 任务的编号
@@ -45,7 +47,7 @@ Namespace Platform
         Public Property uid As String Implements IReadOnlyId.Identity
         Public ReadOnly Property Complete As Boolean
 
-        Sub New(callback As Action)
+        Sub New(callback As Callback)
             _callback = callback
             Complete = False
         End Sub
@@ -75,9 +77,18 @@ Namespace Platform
         End Function
 
         Public Function Start() As Task
+            Dim success As Boolean
+
             _Complete = False
-            Call RunTask()
-            Call _callback()
+            Try
+                Call RunTask()
+                success = True
+            Catch ex As Exception
+                success = False
+                Call ex.PrintException
+                Call App.LogException(ex)
+            End Try
+            Call _callback(success)
             _Complete = True
             Return Me
         End Function

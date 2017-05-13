@@ -14,6 +14,7 @@ Namespace GCModellerApps
 '''
 Public Class NCBI_tools : Inherits InteropService
 
+Public Const App$ = "NCBI_tools.exe"
 
 Sub New(App$)
 MyBase._executableAssembly = App$

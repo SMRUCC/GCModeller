@@ -14,6 +14,7 @@ Namespace GCModellerApps
 '''
 Public Class RegPrecise : Inherits InteropService
 
+Public Const App$ = "RegPrecise.exe"
 
 Sub New(App$)
 MyBase._executableAssembly = App$
