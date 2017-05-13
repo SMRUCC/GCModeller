@@ -42,12 +42,15 @@ Imports SMRUCC.genomics.Assembly.NCBI.COG.COGs
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
-    <ExportAPI("/Whog.XML", Usage:="/Whog.XML /in <whog> [/out <whog.XML>]")>
+    <ExportAPI("/Whog.XML",
+               Info:="Converts the whog text file into a XML data file.",
+               Usage:="/Whog.XML /in <whog> [/out <whog.XML>]")>
     Public Function WhogXML(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".XML")
@@ -55,12 +58,22 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/COG.myva",
-               Usage:="/COG.myva /blastp <blastp.myva.txt> /whog <whog.XML> [/simple /out <out.csv/txt>]")>
+               Info:="COG myva annotation using blastp raw output or exports sbh/bbh table result.",
+               Usage:="/COG.myva /blastp <blastp.myva.txt/sbh.csv> /whog <whog.XML> [/simple /out <out.csv/txt>]")>
     Public Function COG_myva(args As CommandLine) As Integer
         Dim in$ = args <= "/blastp"
         Dim whog$ = args <= "/whog"
         Dim simple As Boolean = args.GetBoolean("/simple")
-        Dim result = COGsUtils.MyvaCOGCatalog(in$, whog,,, Nothing, ALL:=Not simple)
+        Dim result As MyvaCOG()
+
+        If Parser.IsBlastOut(in$) Then
+            result = COGsUtils.MyvaCOGCatalog(in$, whog,,, Nothing, ALL:=Not simple)
+        Else
+            Dim table As BestHit() = [in].LoadCsv(Of BestHit)
+            result = COGsUtils.MyvaCOGCatalog(
+                table, whog,
+                Function(query$) query.Trim.GetTagValue(" ").Value)
+        End If
 
         If simple Then
             Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".myva_COG.txt")
@@ -77,6 +90,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/COG.Statics",
+               Info:="Statics the COG profiling in your analysised genome.",
                Usage:="/COG.Statics /in <myva_cogs.csv> [/locus <locus.txt/csv> /locuMap <Gene> /out <out.csv>]")>
     <Group(CLIGrouping.COGTools)>
     Public Function COGStatics(args As CommandLine) As Integer

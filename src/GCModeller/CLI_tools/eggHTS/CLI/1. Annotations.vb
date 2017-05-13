@@ -363,7 +363,8 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/COG.profiling.plot",
-               Usage:="/COG.profiling.plot /in <myvacog.csv> [/size <1800,1200> /out <out.png>]")>
+               Info:="Plots the COGs category statics profiling of the target genome from the COG annotation file.",
+               Usage:="/COG.profiling.plot /in <myvacog.csv> [/size <image_size, default=1800,1200> /out <out.png>]")>
     Public Function COGCatalogProfilingPlot(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim size As Size = args.GetValue("/size", New Size(1800, 1200))

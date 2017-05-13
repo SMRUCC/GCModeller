@@ -69,7 +69,8 @@ Namespace LocalBLAST.Application.RpsBLAST
         End Function
 
         ''' <summary>
-        ''' <see cref="MyvaCOG.CreateObject"/>
+        ''' <see cref="MyvaCOG.CreateObject"/>.
+        ''' (因为所输入进来的函数参数<paramref name="bbh"/>是已经通过参数筛选之后的结果，所以这个函数就不需要再使用参数筛选了。)
         ''' </summary>
         ''' <param name="bbh"></param>
         ''' <param name="whogXml"></param>
@@ -77,7 +78,6 @@ Namespace LocalBLAST.Application.RpsBLAST
         ''' 解析出來的是query protein的fasta標題裏面的功能注釋信息
         ''' </param>
         ''' <returns></returns>
-        ''' 
         <Extension>
         Public Function MyvaCOGCatalog(bbh As IEnumerable(Of BestHit), whogXml As String, Optional descriptParser As TextGrepMethod = Nothing) As MyvaCOG()
             Dim source As BestHit() = bbh.ToArray
