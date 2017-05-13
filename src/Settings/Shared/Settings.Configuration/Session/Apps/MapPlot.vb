@@ -1,3 +1,4 @@
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
 
@@ -23,8 +24,13 @@ End Sub
 ''' </summary>
 '''
 Public Function Config_Template(Optional _out As String = "") As Integer
-Dim CLI$ = $"/Config.Template /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Config.Template")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -33,8 +39,19 @@ End Function
 ''' </summary>
 '''
 Public Function Visual_BBH(_in As String, _PTT As String, _density As String, Optional _limits As String = "", Optional _out As String = "") As Integer
-Dim CLI$ = $"/Visual.BBH /in ""{_in}"" /PTT ""{_PTT}"" /density ""{_density}"" /limits ""{_limits}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Visual.BBH")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+Call CLI.Append("/density " & """" & _density & """ ")
+If Not _limits.StringEmpty Then
+Call CLI.Append("/limits " & """" & _limits & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -43,8 +60,24 @@ End Function
 ''' </summary>
 '''
 Public Function Visualize_blastn_alignment(_in As String, _genbank As String, Optional _orf_catagory As String = "", Optional _region As String = "", Optional _out As String = "", Optional _local As Boolean = False) As Integer
-Dim CLI$ = $"/Visualize.blastn.alignment /in ""{_in}"" /genbank ""{_genbank}"" /orf.catagory ""{_orf_catagory}"" /region ""{_region}"" /out ""{_out}"" {If(_local, "/local", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Visualize.blastn.alignment")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/genbank " & """" & _genbank & """ ")
+If Not _orf_catagory.StringEmpty Then
+Call CLI.Append("/orf.catagory " & """" & _orf_catagory & """ ")
+End If
+If Not _region.StringEmpty Then
+Call CLI.Append("/region " & """" & _region & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _local Then
+Call CLI.Append("/local ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -53,8 +86,20 @@ End Function
 ''' </summary>
 '''
 Public Function Draw_ChromosomeMap(_ptt As String, Optional _conf As String = "", Optional _out As String = "", Optional _cog As String = "") As Integer
-Dim CLI$ = $"--Draw.ChromosomeMap /ptt ""{_ptt}"" /conf ""{_conf}"" /out ""{_out}"" /cog ""{_cog}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--Draw.ChromosomeMap")
+Call CLI.Append("/ptt " & """" & _ptt & """ ")
+If Not _conf.StringEmpty Then
+Call CLI.Append("/conf " & """" & _conf & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _cog.StringEmpty Then
+Call CLI.Append("/cog " & """" & _cog & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -63,8 +108,20 @@ End Function
 ''' </summary>
 '''
 Public Function Draw_ChromosomeMap_genbank(_gb As String, Optional _conf As String = "", Optional _out As String = "", Optional _cog As String = "") As Integer
-Dim CLI$ = $"--Draw.ChromosomeMap.genbank /gb ""{_gb}"" /conf ""{_conf}"" /out ""{_out}"" /cog ""{_cog}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--Draw.ChromosomeMap.genbank")
+Call CLI.Append("/gb " & """" & _gb & """ ")
+If Not _conf.StringEmpty Then
+Call CLI.Append("/conf " & """" & _conf & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _cog.StringEmpty Then
+Call CLI.Append("/cog " & """" & _cog & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 End Class

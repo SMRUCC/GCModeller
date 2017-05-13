@@ -1,3 +1,4 @@
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
 
@@ -23,8 +24,15 @@ End Sub
 ''' </summary>
 '''
 Public Function BBH_Select_Regulators(_in As String, _db As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/BBH.Select.Regulators /in ""{_in}"" /db ""{_db}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/BBH.Select.Regulators")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/db " & """" & _db & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -33,8 +41,15 @@ End Function
 ''' </summary>
 '''
 Public Function Build_FamilyDb(_prot As String, _pfam As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/Build.FamilyDb /prot ""{_prot}"" /pfam ""{_pfam}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Build.FamilyDb")
+Call CLI.Append("/prot " & """" & _prot & """ ")
+Call CLI.Append("/pfam " & """" & _pfam & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -43,8 +58,17 @@ End Function
 ''' </summary>
 '''
 Public Function Copys(_in As String, Optional _out As String = "", Optional _file As String = "") As Integer
-Dim CLI$ = $"/Copys /in ""{_in}"" /out ""{_out}"" /file ""{_file}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Copys")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _file.StringEmpty Then
+Call CLI.Append("/file " & """" & _file & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -53,8 +77,12 @@ End Function
 ''' </summary>
 '''
 Public Function Copys_DIR(_in As String, _out As String) As Integer
-Dim CLI$ = $"/Copys.DIR /in ""{_in}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Copys.DIR")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/out " & """" & _out & """ ")
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -63,8 +91,16 @@ End Function
 ''' </summary>
 '''
 Public Function CORN(_in As String, _mast As String, _PTT As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/CORN /in ""{_in}"" /mast ""{_mast}"" /PTT ""{_PTT}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/CORN")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/mast " & """" & _mast & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -73,8 +109,19 @@ End Function
 ''' </summary>
 '''
 Public Function EXPORT_MotifDraws(_in As String, _MEME As String, _KEGG As String, Optional _out As String = "", Optional _pathway As Boolean = False) As Integer
-Dim CLI$ = $"/EXPORT.MotifDraws /in ""{_in}"" /MEME ""{_MEME}"" /KEGG ""{_KEGG}"" /out ""{_out}"" {If(_pathway, "/pathway", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/EXPORT.MotifDraws")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/MEME " & """" & _MEME & """ ")
+Call CLI.Append("/KEGG " & """" & _KEGG & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _pathway Then
+Call CLI.Append("/pathway ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -83,8 +130,17 @@ End Function
 ''' </summary>
 '''
 Public Function Export_MotifSites(_in As String, Optional _out As String = "", Optional _batch As Boolean = False) As Integer
-Dim CLI$ = $"/Export.MotifSites /in ""{_in}"" /out ""{_out}"" {If(_batch, "/batch", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Export.MotifSites")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _batch Then
+Call CLI.Append("/batch ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -93,8 +149,10 @@ End Function
 ''' </summary>
 '''
 Public Function Export_Regprecise_Motifs() As Integer
-Dim CLI$ = $"/Export.Regprecise.Motifs "
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Export.Regprecise.Motifs")
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -103,8 +161,14 @@ End Function
 ''' </summary>
 '''
 Public Function Export_Similarity_Hits(_in As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/Export.Similarity.Hits /in ""{_in}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Export.Similarity.Hits")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -113,8 +177,23 @@ End Function
 ''' </summary>
 '''
 Public Function Footprints(_footprints As String, _coor As String, _DOOR As String, _maps As String, Optional _out As String = "", Optional _cuts As String = "", Optional _extract As Boolean = False) As Integer
-Dim CLI$ = $"/Footprints /footprints ""{_footprints}"" /coor ""{_coor}"" /DOOR ""{_DOOR}"" /maps ""{_maps}"" /out ""{_out}"" /cuts ""{_cuts}"" {If(_extract, "/extract", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Footprints")
+Call CLI.Append("/footprints " & """" & _footprints & """ ")
+Call CLI.Append("/coor " & """" & _coor & """ ")
+Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
+Call CLI.Append("/maps " & """" & _maps & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _cuts.StringEmpty Then
+Call CLI.Append("/cuts " & """" & _cuts & """ ")
+End If
+If _extract Then
+Call CLI.Append("/extract ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -123,8 +202,18 @@ End Function
 ''' </summary>
 '''
 Public Function Hits_Context(_footprints As String, _PTT As String, Optional _out As String = "", Optional _regprecise As String = "") As Integer
-Dim CLI$ = $"/Hits.Context /footprints ""{_footprints}"" /PTT ""{_PTT}"" /out ""{_out}"" /regprecise ""{_regprecise}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Hits.Context")
+Call CLI.Append("/footprints " & """" & _footprints & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _regprecise.StringEmpty Then
+Call CLI.Append("/regprecise " & """" & _regprecise & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -133,8 +222,15 @@ End Function
 ''' </summary>
 '''
 Public Function LDM_Compares(_query As String, _sub As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/LDM.Compares /query ""{_query}"" /sub ""{_sub}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/LDM.Compares")
+Call CLI.Append("/query " & """" & _query & """ ")
+Call CLI.Append("/sub " & """" & _sub & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -143,8 +239,13 @@ End Function
 ''' </summary>
 '''
 Public Function LDM_MaxW(Optional _in As String = "") As Integer
-Dim CLI$ = $"/LDM.MaxW /in ""{_in}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/LDM.MaxW")
+If Not _in.StringEmpty Then
+Call CLI.Append("/in " & """" & _in & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -153,8 +254,18 @@ End Function
 ''' </summary>
 '''
 Public Function LDM_Selects(_trace As String, _meme As String, Optional _out As String = "", Optional _named As Boolean = False) As Integer
-Dim CLI$ = $"/LDM.Selects /trace ""{_trace}"" /meme ""{_meme}"" /out ""{_out}"" {If(_named, "/named", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/LDM.Selects")
+Call CLI.Append("/trace " & """" & _trace & """ ")
+Call CLI.Append("/meme " & """" & _meme & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _named Then
+Call CLI.Append("/named ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -163,8 +274,15 @@ End Function
 ''' </summary>
 '''
 Public Function MAST_MotifMatches(_meme As String, _mast As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/MAST.MotifMatches /meme ""{_meme}"" /mast ""{_mast}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/MAST.MotifMatches")
+Call CLI.Append("/meme " & """" & _meme & """ ")
+Call CLI.Append("/mast " & """" & _mast & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -173,8 +291,15 @@ End Function
 ''' </summary>
 '''
 Public Function MAST_MotifMatchs_Family(_meme As String, _mast As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/MAST.MotifMatchs.Family /meme ""{_meme}"" /mast ""{_mast}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/MAST.MotifMatchs.Family")
+Call CLI.Append("/meme " & """" & _meme & """ ")
+Call CLI.Append("/mast " & """" & _mast & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -183,8 +308,19 @@ End Function
 ''' </summary>
 '''
 Public Function mast_Regulations(_in As String, _correlation As String, _DOOR As String, Optional _out As String = "", Optional _cut As String = "") As Integer
-Dim CLI$ = $"/mast.Regulations /in ""{_in}"" /correlation ""{_correlation}"" /DOOR ""{_DOOR}"" /out ""{_out}"" /cut ""{_cut}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/mast.Regulations")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/correlation " & """" & _correlation & """ ")
+Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _cut.StringEmpty Then
+Call CLI.Append("/cut " & """" & _cut & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -193,8 +329,17 @@ End Function
 ''' </summary>
 '''
 Public Function MAST_LDM_Build(_source As String, Optional _out As String = "", Optional _evalue As String = "") As Integer
-Dim CLI$ = $"/MAST_LDM.Build /source ""{_source}"" /out ""{_out}"" /evalue ""{_evalue}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/MAST_LDM.Build")
+Call CLI.Append("/source " & """" & _source & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _evalue.StringEmpty Then
+Call CLI.Append("/evalue " & """" & _evalue & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -203,8 +348,26 @@ End Function
 ''' </summary>
 '''
 Public Function MEME_Batch(_in As String, Optional _out As String = "", Optional _evalue As String = "", Optional _nmotifs As String = "", Optional _mod As String = "", Optional _maxw As String = "") As Integer
-Dim CLI$ = $"/MEME.Batch /in ""{_in}"" /out ""{_out}"" /evalue ""{_evalue}"" /nmotifs ""{_nmotifs}"" /mod ""{_mod}"" /maxw ""{_maxw}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/MEME.Batch")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _evalue.StringEmpty Then
+Call CLI.Append("/evalue " & """" & _evalue & """ ")
+End If
+If Not _nmotifs.StringEmpty Then
+Call CLI.Append("/nmotifs " & """" & _nmotifs & """ ")
+End If
+If Not _mod.StringEmpty Then
+Call CLI.Append("/mod " & """" & _mod & """ ")
+End If
+If Not _maxw.StringEmpty Then
+Call CLI.Append("/maxw " & """" & _maxw & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -213,8 +376,14 @@ End Function
 ''' </summary>
 '''
 Public Function MEME_LDMs(_in As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/MEME.LDMs /in ""{_in}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/MEME.LDMs")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -223,8 +392,21 @@ End Function
 ''' </summary>
 '''
 Public Function Motif_BuildRegulons(_meme As String, _model As String, _DOOR As String, _maps As String, _corrs As String, Optional _cut As String = "", Optional _out As String = "") As Integer
-Dim CLI$ = $"/Motif.BuildRegulons /meme ""{_meme}"" /model ""{_model}"" /DOOR ""{_DOOR}"" /maps ""{_maps}"" /corrs ""{_corrs}"" /cut ""{_cut}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Motif.BuildRegulons")
+Call CLI.Append("/meme " & """" & _meme & """ ")
+Call CLI.Append("/model " & """" & _model & """ ")
+Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
+Call CLI.Append("/maps " & """" & _maps & """ ")
+Call CLI.Append("/corrs " & """" & _corrs & """ ")
+If Not _cut.StringEmpty Then
+Call CLI.Append("/cut " & """" & _cut & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -233,8 +415,23 @@ End Function
 ''' </summary>
 '''
 Public Function Motif_Info(_loci As String, Optional _motifs As String = "", Optional _gff As String = "", Optional _atg_dist As String = "", Optional _out As String = "") As Integer
-Dim CLI$ = $"/Motif.Info /loci ""{_loci}"" /motifs ""{_motifs}"" /gff ""{_gff}"" /atg-dist ""{_atg_dist}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Motif.Info")
+Call CLI.Append("/loci " & """" & _loci & """ ")
+If Not _motifs.StringEmpty Then
+Call CLI.Append("/motifs " & """" & _motifs & """ ")
+End If
+If Not _gff.StringEmpty Then
+Call CLI.Append("/gff " & """" & _gff & """ ")
+End If
+If Not _atg_dist.StringEmpty Then
+Call CLI.Append("/atg-dist " & """" & _atg_dist & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -243,8 +440,24 @@ End Function
 ''' </summary>
 '''
 Public Function Motif_Info_Batch(_in As String, _gffs As String, Optional _motifs As String = "", Optional _num_threads As String = "", Optional _atg_dist As String = "", Optional _out As String = "") As Integer
-Dim CLI$ = $"/Motif.Info.Batch /in ""{_in}"" /gffs ""{_gffs}"" /motifs ""{_motifs}"" /num_threads ""{_num_threads}"" /atg-dist ""{_atg_dist}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Motif.Info.Batch")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/gffs " & """" & _gffs & """ ")
+If Not _motifs.StringEmpty Then
+Call CLI.Append("/motifs " & """" & _motifs & """ ")
+End If
+If Not _num_threads.StringEmpty Then
+Call CLI.Append("/num_threads " & """" & _num_threads & """ ")
+End If
+If Not _atg_dist.StringEmpty Then
+Call CLI.Append("/atg-dist " & """" & _atg_dist & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -253,8 +466,18 @@ End Function
 ''' </summary>
 '''
 Public Function Motif_Similarity(_in As String, _motifs As String, Optional _out As String = "", Optional _bp_var As Boolean = False) As Integer
-Dim CLI$ = $"/Motif.Similarity /in ""{_in}"" /motifs ""{_motifs}"" /out ""{_out}"" {If(_bp_var, "/bp.var", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Motif.Similarity")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/motifs " & """" & _motifs & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _bp_var Then
+Call CLI.Append("/bp.var ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -263,8 +486,18 @@ End Function
 ''' </summary>
 '''
 Public Function MotifHits_Regulation(_hits As String, _source As String, _PTT As String, _correlates As String, _bbh As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/MotifHits.Regulation /hits ""{_hits}"" /source ""{_source}"" /PTT ""{_PTT}"" /correlates ""{_correlates}"" /bbh ""{_bbh}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/MotifHits.Regulation")
+Call CLI.Append("/hits " & """" & _hits & """ ")
+Call CLI.Append("/source " & """" & _source & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+Call CLI.Append("/correlates " & """" & _correlates & """ ")
+Call CLI.Append("/bbh " & """" & _bbh & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -273,8 +506,14 @@ End Function
 ''' </summary>
 '''
 Public Function MotifSites_Fasta(_in As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/MotifSites.Fasta /in ""{_in}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/MotifSites.Fasta")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -283,8 +522,17 @@ End Function
 ''' </summary>
 '''
 Public Function Parser_DEGs(_degs As String, _PTT As String, _door As String, _out As String, Optional _log_fold As String = "") As Integer
-Dim CLI$ = $"/Parser.DEGs /degs ""{_degs}"" /PTT ""{_PTT}"" /door ""{_door}"" /out ""{_out}"" /log-fold ""{_log_fold}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Parser.DEGs")
+Call CLI.Append("/degs " & """" & _degs & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+Call CLI.Append("/door " & """" & _door & """ ")
+Call CLI.Append("/out " & """" & _out & """ ")
+If Not _log_fold.StringEmpty Then
+Call CLI.Append("/log-fold " & """" & _log_fold & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -293,8 +541,16 @@ End Function
 ''' </summary>
 '''
 Public Function Parser_Locus(_locus As String, _PTT As String, _DOOR As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/Parser.Locus /locus ""{_locus}"" /PTT ""{_PTT}"" /DOOR ""{_DOOR}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Parser.Locus")
+Call CLI.Append("/locus " & """" & _locus & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -303,8 +559,19 @@ End Function
 ''' </summary>
 '''
 Public Function Parser_Log2(_in As String, _PTT As String, _DOOR As String, Optional _factor As String = "", Optional _out As String = "") As Integer
-Dim CLI$ = $"/Parser.Log2 /in ""{_in}"" /PTT ""{_PTT}"" /DOOR ""{_DOOR}"" /factor ""{_factor}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Parser.Log2")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
+If Not _factor.StringEmpty Then
+Call CLI.Append("/factor " & """" & _factor & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -313,8 +580,16 @@ End Function
 ''' </summary>
 '''
 Public Function Parser_MAST(_sites As String, _ptt As String, _door As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/Parser.MAST /sites ""{_sites}"" /ptt ""{_ptt}"" /door ""{_door}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Parser.MAST")
+Call CLI.Append("/sites " & """" & _sites & """ ")
+Call CLI.Append("/ptt " & """" & _ptt & """ ")
+Call CLI.Append("/door " & """" & _door & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -323,8 +598,19 @@ End Function
 ''' </summary>
 '''
 Public Function Parser_Modules(_KEGG_Modules As String, _PTT As String, _DOOR As String, Optional _locus As String = "", Optional _out As String = "") As Integer
-Dim CLI$ = $"/Parser.Modules /KEGG.Modules ""{_KEGG_Modules}"" /PTT ""{_PTT}"" /DOOR ""{_DOOR}"" /locus ""{_locus}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Parser.Modules")
+Call CLI.Append("/KEGG.Modules " & """" & _KEGG_Modules & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
+If Not _locus.StringEmpty Then
+Call CLI.Append("/locus " & """" & _locus & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -333,8 +619,24 @@ End Function
 ''' </summary>
 '''
 Public Function Parser_Operon(_in As String, _PTT As String, Optional _out As String = "", Optional _offset As String = "", Optional _family As Boolean = False, Optional _all As Boolean = False) As Integer
-Dim CLI$ = $"/Parser.Operon /in ""{_in}"" /PTT ""{_PTT}"" /out ""{_out}"" /offset ""{_offset}"" {If(_family, "/family", "")} {If(_all, "/all", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Parser.Operon")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _offset.StringEmpty Then
+Call CLI.Append("/offset " & """" & _offset & """ ")
+End If
+If _family Then
+Call CLI.Append("/family ")
+End If
+If _all Then
+Call CLI.Append("/all ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -343,8 +645,19 @@ End Function
 ''' </summary>
 '''
 Public Function Parser_Pathway(_KEGG_Pathways As String, _PTT As String, _DOOR As String, Optional _locus As String = "", Optional _out As String = "") As Integer
-Dim CLI$ = $"/Parser.Pathway /KEGG.Pathways ""{_KEGG_Pathways}"" /PTT ""{_PTT}"" /DOOR ""{_DOOR}"" /locus ""{_locus}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Parser.Pathway")
+Call CLI.Append("/KEGG.Pathways " & """" & _KEGG_Pathways & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
+If Not _locus.StringEmpty Then
+Call CLI.Append("/locus " & """" & _locus & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -353,8 +666,27 @@ End Function
 ''' </summary>
 '''
 Public Function Parser_RegPrecise_Operons(_operon As String, _PTT As String, Optional _door As String = "", Optional _id As String = "", Optional _locus As String = "", Optional _out As String = "", Optional _corn As Boolean = False) As Integer
-Dim CLI$ = $"/Parser.RegPrecise.Operons /operon ""{_operon}"" /PTT ""{_PTT}"" /door ""{_door}"" /id ""{_id}"" /locus ""{_locus}"" /out ""{_out}"" {If(_corn, "/corn", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Parser.RegPrecise.Operons")
+Call CLI.Append("/operon " & """" & _operon & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+If Not _door.StringEmpty Then
+Call CLI.Append("/door " & """" & _door & """ ")
+End If
+If Not _id.StringEmpty Then
+Call CLI.Append("/id " & """" & _id & """ ")
+End If
+If Not _locus.StringEmpty Then
+Call CLI.Append("/locus " & """" & _locus & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _corn Then
+Call CLI.Append("/corn ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -363,8 +695,16 @@ End Function
 ''' </summary>
 '''
 Public Function Parser_Regulon(_inDIR As String, _out As String, _PTT As String, Optional _door As String = "") As Integer
-Dim CLI$ = $"/Parser.Regulon /inDIR ""{_inDIR}"" /out ""{_out}"" /PTT ""{_PTT}"" /door ""{_door}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Parser.Regulon")
+Call CLI.Append("/inDIR " & """" & _inDIR & """ ")
+Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+If Not _door.StringEmpty Then
+Call CLI.Append("/door " & """" & _door & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -373,8 +713,16 @@ End Function
 ''' </summary>
 '''
 Public Function Parser_Regulon_gb(_inDIR As String, _out As String, _gb As String, Optional _door As String = "") As Integer
-Dim CLI$ = $"/Parser.Regulon.gb /inDIR ""{_inDIR}"" /out ""{_out}"" /gb ""{_gb}"" /door ""{_door}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Parser.Regulon.gb")
+Call CLI.Append("/inDIR " & """" & _inDIR & """ ")
+Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/gb " & """" & _gb & """ ")
+If Not _door.StringEmpty Then
+Call CLI.Append("/door " & """" & _door & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -383,8 +731,16 @@ End Function
 ''' </summary>
 '''
 Public Function Parser_Regulon_Merged(_in As String, _out As String, _PTT As String, Optional _door As String = "") As Integer
-Dim CLI$ = $"/Parser.Regulon.Merged /in ""{_in}"" /out ""{_out}"" /PTT ""{_PTT}"" /door ""{_door}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Parser.Regulon.Merged")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+If Not _door.StringEmpty Then
+Call CLI.Append("/door " & """" & _door & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -393,8 +749,15 @@ End Function
 ''' </summary>
 '''
 Public Function Regulator_Motifs(_bbh As String, _regprecise As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/Regulator.Motifs /bbh ""{_bbh}"" /regprecise ""{_regprecise}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Regulator.Motifs")
+Call CLI.Append("/bbh " & """" & _bbh & """ ")
+Call CLI.Append("/regprecise " & """" & _regprecise & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -403,8 +766,15 @@ End Function
 ''' </summary>
 '''
 Public Function Regulator_Motifs_Test(_hits As String, _motifs As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/Regulator.Motifs.Test /hits ""{_hits}"" /motifs ""{_motifs}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Regulator.Motifs.Test")
+Call CLI.Append("/hits " & """" & _hits & """ ")
+Call CLI.Append("/motifs " & """" & _motifs & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -413,8 +783,10 @@ End Function
 ''' </summary>
 '''
 Public Function regulators_compile() As Integer
-Dim CLI$ = $"/regulators.compile "
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/regulators.compile")
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -423,8 +795,15 @@ End Function
 ''' </summary>
 '''
 Public Function regulon_export(_in As String, _ref As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/regulon.export /in ""{_in}"" /ref ""{_ref}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/regulon.export")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/ref " & """" & _ref & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -433,8 +812,16 @@ End Function
 ''' </summary>
 '''
 Public Function Regulon_Reconstruct(_bbh As String, _genome As String, _door As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/Regulon.Reconstruct /bbh ""{_bbh}"" /genome ""{_genome}"" /door ""{_door}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Regulon.Reconstruct")
+Call CLI.Append("/bbh " & """" & _bbh & """ ")
+Call CLI.Append("/genome " & """" & _genome & """ ")
+Call CLI.Append("/door " & """" & _door & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -443,8 +830,16 @@ End Function
 ''' </summary>
 '''
 Public Function Regulon_Reconstruct2(_bbh As String, _genome As String, _door As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/Regulon.Reconstruct2 /bbh ""{_bbh}"" /genome ""{_genome}"" /door ""{_door}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Regulon.Reconstruct2")
+Call CLI.Append("/bbh " & """" & _bbh & """ ")
+Call CLI.Append("/genome " & """" & _genome & """ ")
+Call CLI.Append("/door " & """" & _door & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -453,8 +848,18 @@ End Function
 ''' </summary>
 '''
 Public Function Regulon_Reconstructs(_bbh As String, _genome As String, Optional _door As String = "", Optional _out As String = "") As Integer
-Dim CLI$ = $"/Regulon.Reconstructs /bbh ""{_bbh}"" /genome ""{_genome}"" /door ""{_door}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Regulon.Reconstructs")
+Call CLI.Append("/bbh " & """" & _bbh & """ ")
+Call CLI.Append("/genome " & """" & _genome & """ ")
+If Not _door.StringEmpty Then
+Call CLI.Append("/door " & """" & _door & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -463,8 +868,13 @@ End Function
 ''' </summary>
 '''
 Public Function Regulon_Test(_in As String, _reg As String, _bbh As String) As Integer
-Dim CLI$ = $"/Regulon.Test /in ""{_in}"" /reg ""{_reg}"" /bbh ""{_bbh}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Regulon.Test")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/reg " & """" & _reg & """ ")
+Call CLI.Append("/bbh " & """" & _bbh & """ ")
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -473,8 +883,14 @@ End Function
 ''' </summary>
 '''
 Public Function RfamSites(_source As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/RfamSites /source ""{_source}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/RfamSites")
+Call CLI.Append("/source " & """" & _source & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -483,8 +899,14 @@ End Function
 ''' </summary>
 '''
 Public Function seq_logo(_in As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/seq.logo /in ""{_in}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/seq.logo")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -493,8 +915,16 @@ End Function
 ''' </summary>
 '''
 Public Function Similarity_Union(_in As String, _meme As String, _hits As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/Similarity.Union /in ""{_in}"" /meme ""{_meme}"" /hits ""{_hits}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Similarity.Union")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/meme " & """" & _meme & """ ")
+Call CLI.Append("/hits " & """" & _hits & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -503,8 +933,17 @@ End Function
 ''' </summary>
 '''
 Public Function Site_MAST_Scan(_mast As String, Optional _out As String = "", Optional _batch As Boolean = False) As Integer
-Dim CLI$ = $"/Site.MAST_Scan /mast ""{_mast}"" /out ""{_out}"" {If(_batch, "/batch", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Site.MAST_Scan")
+Call CLI.Append("/mast " & """" & _mast & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _batch Then
+Call CLI.Append("/batch ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -513,8 +952,17 @@ End Function
 ''' </summary>
 '''
 Public Function Site_MAST_Scan_Batch(_mast As String, Optional _out As String = "", Optional _num_threads As String = "") As Integer
-Dim CLI$ = $"/Site.MAST_Scan /mast ""{_mast}"" /out ""{_out}"" /num_threads ""{_num_threads}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Site.MAST_Scan.Batch")
+Call CLI.Append("/mast " & """" & _mast & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _num_threads.StringEmpty Then
+Call CLI.Append("/num_threads " & """" & _num_threads & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -523,8 +971,18 @@ End Function
 ''' </summary>
 '''
 Public Function Site_RegexScan(_meme As String, _nt As String, Optional _out As String = "", Optional _batch As Boolean = False) As Integer
-Dim CLI$ = $"/Site.RegexScan /meme ""{_meme}"" /nt ""{_nt}"" /out ""{_out}"" {If(_batch, "/batch", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Site.RegexScan")
+Call CLI.Append("/meme " & """" & _meme & """ ")
+Call CLI.Append("/nt " & """" & _nt & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _batch Then
+Call CLI.Append("/batch ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -533,8 +991,15 @@ End Function
 ''' </summary>
 '''
 Public Function site_scan(_query As String, _subject As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/site.scan /query ""{_query}"" /subject ""{_subject}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/site.scan")
+Call CLI.Append("/query " & """" & _query & """ ")
+Call CLI.Append("/subject " & """" & _subject & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -543,8 +1008,21 @@ End Function
 ''' </summary>
 '''
 Public Function SiteHits_Footprints(_sites As String, _bbh As String, _meme As String, _PTT As String, _DOOR As String, Optional _out As String = "", Optional _queryhash As Boolean = False) As Integer
-Dim CLI$ = $"/SiteHits.Footprints /sites ""{_sites}"" /bbh ""{_bbh}"" /meme ""{_meme}"" /PTT ""{_PTT}"" /DOOR ""{_DOOR}"" /out ""{_out}"" {If(_queryhash, "/queryhash", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/SiteHits.Footprints")
+Call CLI.Append("/sites " & """" & _sites & """ ")
+Call CLI.Append("/bbh " & """" & _bbh & """ ")
+Call CLI.Append("/meme " & """" & _meme & """ ")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _queryhash Then
+Call CLI.Append("/queryhash ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -553,8 +1031,18 @@ End Function
 ''' </summary>
 '''
 Public Function SWTOM_Compares(_query As String, _subject As String, Optional _out As String = "", Optional _no_html As Boolean = False) As Integer
-Dim CLI$ = $"/SWTOM.Compares /query ""{_query}"" /subject ""{_subject}"" /out ""{_out}"" {If(_no_html, "/no-html", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/SWTOM.Compares")
+Call CLI.Append("/query " & """" & _query & """ ")
+Call CLI.Append("/subject " & """" & _subject & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _no_html Then
+Call CLI.Append("/no-html ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -563,8 +1051,18 @@ End Function
 ''' </summary>
 '''
 Public Function SWTOM_Compares_Batch(_query As String, _subject As String, Optional _out As String = "", Optional _no_html As Boolean = False) As Integer
-Dim CLI$ = $"/SWTOM.Compares.Batch /query ""{_query}"" /subject ""{_subject}"" /out ""{_out}"" {If(_no_html, "/no-html", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/SWTOM.Compares.Batch")
+Call CLI.Append("/query " & """" & _query & """ ")
+Call CLI.Append("/subject " & """" & _subject & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _no_html Then
+Call CLI.Append("/no-html ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -573,8 +1071,18 @@ End Function
 ''' </summary>
 '''
 Public Function SWTOM_LDM(_query As String, _subject As String, Optional _out As String = "", Optional _method As String = "") As Integer
-Dim CLI$ = $"/SWTOM.LDM /query ""{_query}"" /subject ""{_subject}"" /out ""{_out}"" /method ""{_method}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/SWTOM.LDM")
+Call CLI.Append("/query " & """" & _query & """ ")
+Call CLI.Append("/subject " & """" & _subject & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _method.StringEmpty Then
+Call CLI.Append("/method " & """" & _method & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -583,8 +1091,26 @@ End Function
 ''' </summary>
 '''
 Public Function SWTOM_Query(_query As String, Optional _out As String = "", Optional _method As String = "", Optional _bits_level As String = "", Optional _minw As String = "", Optional _no_html As Boolean = False) As Integer
-Dim CLI$ = $"/SWTOM.Query /query ""{_query}"" /out ""{_out}"" /method ""{_method}"" /bits.level ""{_bits_level}"" /minw ""{_minw}"" {If(_no_html, "/no-html", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/SWTOM.Query")
+Call CLI.Append("/query " & """" & _query & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _method.StringEmpty Then
+Call CLI.Append("/method " & """" & _method & """ ")
+End If
+If Not _bits_level.StringEmpty Then
+Call CLI.Append("/bits.level " & """" & _bits_level & """ ")
+End If
+If Not _minw.StringEmpty Then
+Call CLI.Append("/minw " & """" & _minw & """ ")
+End If
+If _no_html Then
+Call CLI.Append("/no-html ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -593,8 +1119,35 @@ End Function
 ''' </summary>
 '''
 Public Function SWTOM_Query_Batch(_query As String, Optional _out As String = "", Optional _sw_offset As String = "", Optional _method As String = "", Optional _bits_level As String = "", Optional _minw As String = "", Optional _sw_threshold As String = "", Optional _tom_threshold As String = "", Optional _no_html As Boolean = False) As Integer
-Dim CLI$ = $"/SWTOM.Query.Batch /query ""{_query}"" /out ""{_out}"" /sw-offset ""{_sw_offset}"" /method ""{_method}"" /bits.level ""{_bits_level}"" /minw ""{_minw}"" /sw-threshold ""{_sw_threshold}"" /tom-threshold ""{_tom_threshold}"" {If(_no_html, "/no-html", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/SWTOM.Query.Batch")
+Call CLI.Append("/query " & """" & _query & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _sw_offset.StringEmpty Then
+Call CLI.Append("/sw-offset " & """" & _sw_offset & """ ")
+End If
+If Not _method.StringEmpty Then
+Call CLI.Append("/method " & """" & _method & """ ")
+End If
+If Not _bits_level.StringEmpty Then
+Call CLI.Append("/bits.level " & """" & _bits_level & """ ")
+End If
+If Not _minw.StringEmpty Then
+Call CLI.Append("/minw " & """" & _minw & """ ")
+End If
+If Not _sw_threshold.StringEmpty Then
+Call CLI.Append("/sw-threshold " & """" & _sw_threshold & """ ")
+End If
+If Not _tom_threshold.StringEmpty Then
+Call CLI.Append("/tom-threshold " & """" & _tom_threshold & """ ")
+End If
+If _no_html Then
+Call CLI.Append("/no-html ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -603,8 +1156,26 @@ End Function
 ''' </summary>
 '''
 Public Function Tom_Query(_query As String, Optional _out As String = "", Optional _method As String = "", Optional _cost As String = "", Optional _threshold As String = "", Optional _meme As Boolean = False) As Integer
-Dim CLI$ = $"/Tom.Query /query ""{_query}"" /out ""{_out}"" /method ""{_method}"" /cost ""{_cost}"" /threshold ""{_threshold}"" {If(_meme, "/meme", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Tom.Query")
+Call CLI.Append("/query " & """" & _query & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _method.StringEmpty Then
+Call CLI.Append("/method " & """" & _method & """ ")
+End If
+If Not _cost.StringEmpty Then
+Call CLI.Append("/cost " & """" & _cost & """ ")
+End If
+If Not _threshold.StringEmpty Then
+Call CLI.Append("/threshold " & """" & _threshold & """ ")
+End If
+If _meme Then
+Call CLI.Append("/meme ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -613,8 +1184,23 @@ End Function
 ''' </summary>
 '''
 Public Function Tom_Query_Batch(_query As String, Optional _out As String = "", Optional _method As String = "", Optional _cost As String = "", Optional _threshold As String = "") As Integer
-Dim CLI$ = $"/Tom.Query.Batch /query ""{_query}"" /out ""{_out}"" /method ""{_method}"" /cost ""{_cost}"" /threshold ""{_threshold}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Tom.Query.Batch")
+Call CLI.Append("/query " & """" & _query & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _method.StringEmpty Then
+Call CLI.Append("/method " & """" & _method & """ ")
+End If
+If Not _cost.StringEmpty Then
+Call CLI.Append("/cost " & """" & _cost & """ ")
+End If
+If Not _threshold.StringEmpty Then
+Call CLI.Append("/threshold " & """" & _threshold & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -623,8 +1209,24 @@ End Function
 ''' </summary>
 '''
 Public Function TomTOM(_query As String, _subject As String, Optional _out As String = "", Optional _method As String = "", Optional _cost As String = "", Optional _threshold As String = "") As Integer
-Dim CLI$ = $"/TomTOM /query ""{_query}"" /subject ""{_subject}"" /out ""{_out}"" /method ""{_method}"" /cost ""{_cost}"" /threshold ""{_threshold}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/TomTOM")
+Call CLI.Append("/query " & """" & _query & """ ")
+Call CLI.Append("/subject " & """" & _subject & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _method.StringEmpty Then
+Call CLI.Append("/method " & """" & _method & """ ")
+End If
+If Not _cost.StringEmpty Then
+Call CLI.Append("/cost " & """" & _cost & """ ")
+End If
+If Not _threshold.StringEmpty Then
+Call CLI.Append("/threshold " & """" & _threshold & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -633,8 +1235,24 @@ End Function
 ''' </summary>
 '''
 Public Function TomTom_LDM(_query As String, _subject As String, Optional _out As String = "", Optional _method As String = "", Optional _cost As String = "", Optional _threshold As String = "") As Integer
-Dim CLI$ = $"/TomTom.LDM /query ""{_query}"" /subject ""{_subject}"" /out ""{_out}"" /method ""{_method}"" /cost ""{_cost}"" /threshold ""{_threshold}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/TomTom.LDM")
+Call CLI.Append("/query " & """" & _query & """ ")
+Call CLI.Append("/subject " & """" & _subject & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _method.StringEmpty Then
+Call CLI.Append("/method " & """" & _method & """ ")
+End If
+If Not _cost.StringEmpty Then
+Call CLI.Append("/cost " & """" & _cost & """ ")
+End If
+If Not _threshold.StringEmpty Then
+Call CLI.Append("/threshold " & """" & _threshold & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -643,8 +1261,14 @@ End Function
 ''' </summary>
 '''
 Public Function TomTOM_Similarity(_in As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/TomTOM.Similarity /in ""{_in}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/TomTOM.Similarity")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -653,8 +1277,14 @@ End Function
 ''' </summary>
 '''
 Public Function TOMTOM_Similarity_Batch(_in As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"/TOMTOM.Similarity.Batch /in ""{_in}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/TOMTOM.Similarity.Batch")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -663,8 +1293,18 @@ End Function
 ''' </summary>
 '''
 Public Function TomTom_Sites_Groups(_in As String, _meme As String, Optional _grep As String = "", Optional _out As String = "") As Integer
-Dim CLI$ = $"/TomTom.Sites.Groups /in ""{_in}"" /meme ""{_meme}"" /grep ""{_grep}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/TomTom.Sites.Groups")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/meme " & """" & _meme & """ ")
+If Not _grep.StringEmpty Then
+Call CLI.Append("/grep " & """" & _grep & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -673,8 +1313,19 @@ End Function
 ''' </summary>
 '''
 Public Function Trim_MastSite(_in As String, _locus As String, _correlations As String, Optional _out As String = "", Optional _cut As String = "") As Integer
-Dim CLI$ = $"/Trim.MastSite /in ""{_in}"" /locus ""{_locus}"" /correlations ""{_correlations}"" /out ""{_out}"" /cut ""{_cut}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Trim.MastSite")
+Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/locus " & """" & _locus & """ ")
+Call CLI.Append("/correlations " & """" & _correlations & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _cut.StringEmpty Then
+Call CLI.Append("/cut " & """" & _cut & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -683,8 +1334,20 @@ End Function
 ''' </summary>
 '''
 Public Function Trim_MEME_Dataset(_in As String, Optional _out As String = "", Optional _minl As String = "", Optional _distinct As Boolean = False) As Integer
-Dim CLI$ = $"/Trim.MEME.Dataset /in ""{_in}"" /out ""{_out}"" /minl ""{_minl}"" {If(_distinct, "/distinct", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("/Trim.MEME.Dataset")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _minl.StringEmpty Then
+Call CLI.Append("/minl " & """" & _minl & """ ")
+End If
+If _distinct Then
+Call CLI.Append("/distinct ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -693,8 +1356,27 @@ End Function
 ''' </summary>
 '''
 Public Function build_Regulations(_bbh As String, _mast As String, Optional _cutoff As String = "", Optional _out As String = "", Optional _sp As String = "", Optional _door As String = "", Optional _door_extract As Boolean = False) As Integer
-Dim CLI$ = $"--build.Regulations /bbh ""{_bbh}"" /mast ""{_mast}"" /cutoff ""{_cutoff}"" /out ""{_out}"" /sp ""{_sp}"" /door ""{_door}"" {If(_door_extract, "/door.extract", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--build.Regulations")
+Call CLI.Append("/bbh " & """" & _bbh & """ ")
+Call CLI.Append("/mast " & """" & _mast & """ ")
+If Not _cutoff.StringEmpty Then
+Call CLI.Append("/cutoff " & """" & _cutoff & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _sp.StringEmpty Then
+Call CLI.Append("/sp " & """" & _sp & """ ")
+End If
+If Not _door.StringEmpty Then
+Call CLI.Append("/door " & """" & _door & """ ")
+End If
+If _door_extract Then
+Call CLI.Append("/door.extract ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -703,8 +1385,21 @@ End Function
 ''' </summary>
 '''
 Public Function build_Regulations_From_Motifs(_bbh As String, _motifs As String, Optional _cutoff As String = "", Optional _sp As String = "", Optional _out As String = "") As Integer
-Dim CLI$ = $"--build.Regulations.From.Motifs /bbh ""{_bbh}"" /motifs ""{_motifs}"" /cutoff ""{_cutoff}"" /sp ""{_sp}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--build.Regulations.From.Motifs")
+Call CLI.Append("/bbh " & """" & _bbh & """ ")
+Call CLI.Append("/motifs " & """" & _motifs & """ ")
+If Not _cutoff.StringEmpty Then
+Call CLI.Append("/cutoff " & """" & _cutoff & """ ")
+End If
+If Not _sp.StringEmpty Then
+Call CLI.Append("/sp " & """" & _sp & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -713,8 +1408,13 @@ End Function
 ''' </summary>
 '''
 Public Function CExpr_WGCNA(_mods As String, _genome As String, _out As String) As Integer
-Dim CLI$ = $"--CExpr.WGCNA /mods ""{_mods}"" /genome ""{_genome}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--CExpr.WGCNA")
+Call CLI.Append("/mods " & """" & _mods & """ ")
+Call CLI.Append("/genome " & """" & _genome & """ ")
+Call CLI.Append("/out " & """" & _out & """ ")
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -723,8 +1423,16 @@ End Function
 ''' </summary>
 '''
 Public Function Download_Regprecise(Optional _work As String = "", Optional _save As String = "") As Integer
-Dim CLI$ = $"Download.Regprecise /work ""{_work}"" /save ""{_save}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("Download.Regprecise")
+If Not _work.StringEmpty Then
+Call CLI.Append("/work " & """" & _work & """ ")
+End If
+If Not _save.StringEmpty Then
+Call CLI.Append("/save " & """" & _save & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -733,8 +1441,14 @@ End Function
 ''' </summary>
 '''
 Public Function Dump_KEGG_Family(_in As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"--Dump.KEGG.Family /in ""{_in}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--Dump.KEGG.Family")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -743,8 +1457,12 @@ End Function
 ''' </summary>
 '''
 Public Function family_statics(_sites As String, _mods As String) As Integer
-Dim CLI$ = $"--family.statics /sites ""{_sites}"" /mods ""{_mods}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--family.statics")
+Call CLI.Append("/sites " & """" & _sites & """ ")
+Call CLI.Append("/mods " & """" & _mods & """ ")
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -753,8 +1471,21 @@ End Function
 ''' </summary>
 '''
 Public Function Get_Intergenic(_PTT As String, _nt As String, Optional _o As String = "", Optional _len As String = "", Optional _strict As Boolean = False) As Integer
-Dim CLI$ = $"--Get.Intergenic /PTT ""{_PTT}"" /nt ""{_nt}"" /o ""{_o}"" /len ""{_len}"" {If(_strict, "/strict", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--Get.Intergenic")
+Call CLI.Append("/PTT " & """" & _PTT & """ ")
+Call CLI.Append("/nt " & """" & _nt & """ ")
+If Not _o.StringEmpty Then
+Call CLI.Append("/o " & """" & _o & """ ")
+End If
+If Not _len.StringEmpty Then
+Call CLI.Append("/len " & """" & _len & """ ")
+End If
+If _strict Then
+Call CLI.Append("/strict ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -763,8 +1494,13 @@ End Function
 ''' </summary>
 '''
 Public Function GetFasta(_bbh As String, _id As String, _regprecise As String) As Integer
-Dim CLI$ = $"--GetFasta /bbh ""{_bbh}"" /id ""{_id}"" /regprecise ""{_regprecise}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--GetFasta")
+Call CLI.Append("/bbh " & """" & _bbh & """ ")
+Call CLI.Append("/id " & """" & _id & """ ")
+Call CLI.Append("/regprecise " & """" & _regprecise & """ ")
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -773,8 +1509,15 @@ End Function
 ''' </summary>
 '''
 Public Function hits_diff(_query As String, _subject As String, Optional _reverse As Boolean = False) As Integer
-Dim CLI$ = $"--hits.diff /query ""{_query}"" /subject ""{_subject}"" {If(_reverse, "/reverse", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--hits.diff")
+Call CLI.Append("/query " & """" & _query & """ ")
+Call CLI.Append("/subject " & """" & _subject & """ ")
+If _reverse Then
+Call CLI.Append("/reverse ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -783,8 +1526,12 @@ End Function
 ''' </summary>
 '''
 Public Function Intersect_Max(_query As String, _subject As String) As Integer
-Dim CLI$ = $"--Intersect.Max /query ""{_query}"" /subject ""{_subject}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--Intersect.Max")
+Call CLI.Append("/query " & """" & _query & """ ")
+Call CLI.Append("/subject " & """" & _subject & """ ")
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -793,8 +1540,14 @@ End Function
 ''' </summary>
 '''
 Public Function logo_Batch(_in As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"--logo.Batch -in ""{_in}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--logo.Batch")
+Call CLI.Append("-in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -803,8 +1556,22 @@ End Function
 ''' </summary>
 '''
 Public Function mapped_Back(_meme As String, _mast As String, _ptt As String, Optional _out As String = "", Optional _offset As String = "", Optional _atg_dist As String = "") As Integer
-Dim CLI$ = $"--mapped-Back /meme ""{_meme}"" /mast ""{_mast}"" /ptt ""{_ptt}"" /out ""{_out}"" /offset ""{_offset}"" /atg-dist ""{_atg_dist}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--mapped-Back")
+Call CLI.Append("/meme " & """" & _meme & """ ")
+Call CLI.Append("/mast " & """" & _mast & """ ")
+Call CLI.Append("/ptt " & """" & _ptt & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _offset.StringEmpty Then
+Call CLI.Append("/offset " & """" & _offset & """ ")
+End If
+If Not _atg_dist.StringEmpty Then
+Call CLI.Append("/atg-dist " & """" & _atg_dist & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -813,8 +1580,27 @@ End Function
 ''' </summary>
 '''
 Public Function mast_compile(_mast As String, _ptt As String, Optional _p_value As String = "", Optional _mast_ldm As String = "", Optional _atg_dist As String = "", Optional _no_meme As Boolean = False, Optional _no_reginfo As Boolean = False) As Integer
-Dim CLI$ = $"mast.compile /mast ""{_mast}"" /ptt ""{_ptt}"" /p-value ""{_p_value}"" /mast-ldm ""{_mast_ldm}"" /atg-dist ""{_atg_dist}"" {If(_no_meme, "/no-meme", "")} {If(_no_reginfo, "/no-reginfo", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("mast.compile")
+Call CLI.Append("/mast " & """" & _mast & """ ")
+Call CLI.Append("/ptt " & """" & _ptt & """ ")
+If Not _p_value.StringEmpty Then
+Call CLI.Append("/p-value " & """" & _p_value & """ ")
+End If
+If Not _mast_ldm.StringEmpty Then
+Call CLI.Append("/mast-ldm " & """" & _mast_ldm & """ ")
+End If
+If Not _atg_dist.StringEmpty Then
+Call CLI.Append("/atg-dist " & """" & _atg_dist & """ ")
+End If
+If _no_meme Then
+Call CLI.Append("/no-meme ")
+End If
+If _no_reginfo Then
+Call CLI.Append("/no-reginfo ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -823,8 +1609,32 @@ End Function
 ''' </summary>
 '''
 Public Function mast_compile_bulk(_source As String, Optional _ptt As String = "", Optional _atg_dist As String = "", Optional _p_value As String = "", Optional _mast_ldm As String = "", Optional _no_meme As Boolean = False, Optional _no_reginfo As Boolean = False, Optional _related_all As Boolean = False) As Integer
-Dim CLI$ = $"mast.compile.bulk /source ""{_source}"" /ptt ""{_ptt}"" /atg-dist ""{_atg_dist}"" /p-value ""{_p_value}"" /mast-ldm ""{_mast_ldm}"" {If(_no_meme, "/no-meme", "")} {If(_no_reginfo, "/no-reginfo", "")} {If(_related_all, "/related.all", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("mast.compile.bulk")
+Call CLI.Append("/source " & """" & _source & """ ")
+If Not _ptt.StringEmpty Then
+Call CLI.Append("/ptt " & """" & _ptt & """ ")
+End If
+If Not _atg_dist.StringEmpty Then
+Call CLI.Append("/atg-dist " & """" & _atg_dist & """ ")
+End If
+If Not _p_value.StringEmpty Then
+Call CLI.Append("/p-value " & """" & _p_value & """ ")
+End If
+If Not _mast_ldm.StringEmpty Then
+Call CLI.Append("/mast-ldm " & """" & _mast_ldm & """ ")
+End If
+If _no_meme Then
+Call CLI.Append("/no-meme ")
+End If
+If _no_reginfo Then
+Call CLI.Append("/no-reginfo ")
+End If
+If _related_all Then
+Call CLI.Append("/related.all ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -833,8 +1643,17 @@ End Function
 ''' </summary>
 '''
 Public Function modules_regulates(_in As String, Optional _out As String = "", Optional _mods As String = "") As Integer
-Dim CLI$ = $"--modules.regulates /in ""{_in}"" /out ""{_out}"" /mods ""{_mods}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--modules.regulates")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _mods.StringEmpty Then
+Call CLI.Append("/mods " & """" & _mods & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -843,8 +1662,15 @@ End Function
 ''' </summary>
 '''
 Public Function Motif_Locates(_ptt As String, _meme As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"Motif.Locates -ptt ""{_ptt}"" -meme ""{_meme}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("Motif.Locates")
+Call CLI.Append("-ptt " & """" & _ptt & """ ")
+Call CLI.Append("-meme " & """" & _meme & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -853,8 +1679,24 @@ End Function
 ''' </summary>
 '''
 Public Function MotifScan(_nt As String, _motif As String, Optional _delta As String = "", Optional _delta2 As String = "", Optional _offset As String = "", Optional _out As String = "") As Integer
-Dim CLI$ = $"MotifScan -nt ""{_nt}"" /motif ""{_motif}"" /delta ""{_delta}"" /delta2 ""{_delta2}"" /offset ""{_offset}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("MotifScan")
+Call CLI.Append("-nt " & """" & _nt & """ ")
+Call CLI.Append("/motif " & """" & _motif & """ ")
+If Not _delta.StringEmpty Then
+Call CLI.Append("/delta " & """" & _delta & """ ")
+End If
+If Not _delta2.StringEmpty Then
+Call CLI.Append("/delta2 " & """" & _delta2 & """ ")
+End If
+If Not _offset.StringEmpty Then
+Call CLI.Append("/offset " & """" & _offset & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -863,8 +1705,15 @@ End Function
 ''' </summary>
 '''
 Public Function pathway_regulates(_footprints As String, _pathway As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"--pathway.regulates -footprints ""{_footprints}"" /pathway ""{_pathway}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--pathway.regulates")
+Call CLI.Append("-footprints " & """" & _footprints & """ ")
+Call CLI.Append("/pathway " & """" & _pathway & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -873,8 +1722,13 @@ End Function
 ''' </summary>
 '''
 Public Function Regprecise_Compile(Optional _src As String = "") As Integer
-Dim CLI$ = $"Regprecise.Compile /src ""{_src}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("Regprecise.Compile")
+If Not _src.StringEmpty Then
+Call CLI.Append("/src " & """" & _src & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -883,8 +1737,23 @@ End Function
 ''' </summary>
 '''
 Public Function regulators_bbh(_bbh As String, Optional _save As String = "", Optional _maps As String = "", Optional _direct As Boolean = False, Optional _regulons As Boolean = False) As Integer
-Dim CLI$ = $"regulators.bbh /bbh ""{_bbh}"" /save ""{_save}"" /maps ""{_maps}"" {If(_direct, "/direct", "")} {If(_regulons, "/regulons", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("regulators.bbh")
+Call CLI.Append("/bbh " & """" & _bbh & """ ")
+If Not _save.StringEmpty Then
+Call CLI.Append("/save " & """" & _save & """ ")
+End If
+If Not _maps.StringEmpty Then
+Call CLI.Append("/maps " & """" & _maps & """ ")
+End If
+If _direct Then
+Call CLI.Append("/direct ")
+End If
+If _regulons Then
+Call CLI.Append("/regulons ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -893,8 +1762,19 @@ End Function
 ''' </summary>
 '''
 Public Function site_Match(_meme As String, _mast As String, _out As String, Optional _ptt As String = "", Optional _len As String = "") As Integer
-Dim CLI$ = $"--site.Match /meme ""{_meme}"" /mast ""{_mast}"" /out ""{_out}"" /ptt ""{_ptt}"" /len ""{_len}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--site.Match")
+Call CLI.Append("/meme " & """" & _meme & """ ")
+Call CLI.Append("/mast " & """" & _mast & """ ")
+Call CLI.Append("/out " & """" & _out & """ ")
+If Not _ptt.StringEmpty Then
+Call CLI.Append("/ptt " & """" & _ptt & """ ")
+End If
+If Not _len.StringEmpty Then
+Call CLI.Append("/len " & """" & _len & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -903,8 +1783,16 @@ End Function
 ''' </summary>
 '''
 Public Function site_Matches(_meme As String, _mast As String, _out As String, Optional _ptt As String = "") As Integer
-Dim CLI$ = $"--site.Matches /meme ""{_meme}"" /mast ""{_mast}"" /out ""{_out}"" /ptt ""{_ptt}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--site.Matches")
+Call CLI.Append("/meme " & """" & _meme & """ ")
+Call CLI.Append("/mast " & """" & _mast & """ ")
+Call CLI.Append("/out " & """" & _out & """ ")
+If Not _ptt.StringEmpty Then
+Call CLI.Append("/ptt " & """" & _ptt & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -913,8 +1801,19 @@ End Function
 ''' </summary>
 '''
 Public Function site_Matches_text(_meme As String, _mast As String, _out As String, Optional _ptt As String = "", Optional _fasta As String = "") As Integer
-Dim CLI$ = $"--site.Matches.text /meme ""{_meme}"" /mast ""{_mast}"" /out ""{_out}"" /ptt ""{_ptt}"" /fasta ""{_fasta}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--site.Matches.text")
+Call CLI.Append("/meme " & """" & _meme & """ ")
+Call CLI.Append("/mast " & """" & _mast & """ ")
+Call CLI.Append("/out " & """" & _out & """ ")
+If Not _ptt.StringEmpty Then
+Call CLI.Append("/ptt " & """" & _ptt & """ ")
+End If
+If Not _fasta.StringEmpty Then
+Call CLI.Append("/fasta " & """" & _fasta & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -923,8 +1822,14 @@ End Function
 ''' </summary>
 '''
 Public Function site_stat(_in As String, Optional _out As String = "") As Integer
-Dim CLI$ = $"--site.stat /in ""{_in}"" /out ""{_out}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--site.stat")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -933,8 +1838,13 @@ End Function
 ''' </summary>
 '''
 Public Function TCS_Module_Regulations(_MiST2 As String, _footprint As String, _Pathways As String) As Integer
-Dim CLI$ = $"--TCS.Module.Regulations /MiST2 ""{_MiST2}"" /footprint ""{_footprint}"" /Pathways ""{_Pathways}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--TCS.Module.Regulations")
+Call CLI.Append("/MiST2 " & """" & _MiST2 & """ ")
+Call CLI.Append("/footprint " & """" & _footprint & """ ")
+Call CLI.Append("/Pathways " & """" & _Pathways & """ ")
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -943,8 +1853,13 @@ End Function
 ''' </summary>
 '''
 Public Function TCS_Regulations(_TCS As String, _modules As String, _regulations As String) As Integer
-Dim CLI$ = $"--TCS.Regulations /TCS ""{_TCS}"" /modules ""{_modules}"" /regulations ""{_regulations}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("--TCS.Regulations")
+Call CLI.Append("/TCS " & """" & _TCS & """ ")
+Call CLI.Append("/modules " & """" & _modules & """ ")
+Call CLI.Append("/regulations " & """" & _regulations & """ ")
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -953,8 +1868,12 @@ End Function
 ''' </summary>
 '''
 Public Function VirtualFootprint_DIP(vf_csv As String, dip_csv As String) As Integer
-Dim CLI$ = $"VirtualFootprint.DIP vf.csv ""{vf_csv}"" dip.csv ""{dip_csv}"""
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("VirtualFootprint.DIP")
+Call CLI.Append("vf.csv " & """" & vf_csv & """ ")
+Call CLI.Append("dip.csv " & """" & dip_csv & """ ")
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 
@@ -963,8 +1882,16 @@ End Function
 ''' </summary>
 '''
 Public Function wGet_Regprecise(Optional _repository_export As String = "", Optional _updates As Boolean = False) As Integer
-Dim CLI$ = $"wGet.Regprecise /repository-export ""{_repository_export}"" {If(_updates, "/updates", "")}"
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI$)
+Dim CLI As New StringBuilder("wGet.Regprecise")
+If Not _repository_export.StringEmpty Then
+Call CLI.Append("/repository-export " & """" & _repository_export & """ ")
+End If
+If _updates Then
+Call CLI.Append("/updates ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
 Return proc.Run()
 End Function
 End Class
