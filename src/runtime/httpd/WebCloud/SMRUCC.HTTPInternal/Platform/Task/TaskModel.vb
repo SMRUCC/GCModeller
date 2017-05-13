@@ -9,19 +9,18 @@
         ''' <summary>
         ''' Public interface for invoke this task
         ''' </summary>
-        ''' <returns></returns>
-        Public MustOverride Function GetTask() As Action
+        Public MustOverride Sub RunTask()
 
         Public Function GetProgress() As TaskProgress
             Dim o As New TaskProgress With {
-                .progress = contents(),
-                .current = current
+                .current = current,
+                .progress = contents()
             }
             Return o
         End Function
 
         Public Overrides Function ToString() As String
-            Return $" --> [{contents(current)}]"
+            Return $" -> [{contents(current)}]"
         End Function
     End Class
 End Namespace
