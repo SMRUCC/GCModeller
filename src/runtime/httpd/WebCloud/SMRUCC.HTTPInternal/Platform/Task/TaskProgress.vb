@@ -3,7 +3,7 @@
 Namespace Platform
 
     ''' <summary>
-    ''' 用于在网页上面显示任务进度的返回值
+    ''' JSON result data of the task progress.(用于在网页上面显示任务进度的返回值)
     ''' </summary>
     Public Class TaskProgress
 

@@ -9,8 +9,10 @@ Public NotInheritable Class Apps
     Public Shared ReadOnly Property KEGG_tools As String
     Public Shared ReadOnly Property seqtools As GCModellerApps.seqtools
     Public Shared ReadOnly Property VennDiagram As GCModellerApps.VennDiagram
+    Public Shared ReadOnly Property eggHTS As GCModellerApps.eggHTS
 
     Shared Sub New()
+        eggHTS = New GCModellerApps.eggHTS(App.HOME & "/eggHTS.exe")
         NCBI_tools = New GCModellerApps.NCBI_tools(App.HOME & "/NCBI_tools.exe")
         localblast = New GCModellerApps.localblast(App.HOME & "/localblast.exe")
         MEME = New GCModellerApps.meme(App.HOME & "/MEME.exe")

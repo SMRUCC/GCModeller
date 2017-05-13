@@ -129,6 +129,10 @@ Namespace Core
             Return 0
         End Function
 
+        ''' <summary>
+        ''' 向网页服务器内部的线程池之中添加执行任务
+        ''' </summary>
+        ''' <param name="task"></param>
         Public Sub RunTask(task As Action)
             Call _threadPool.RunTask(task)
         End Sub
