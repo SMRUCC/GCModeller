@@ -9,7 +9,7 @@ Namespace GCModellerApps
 
 
 ''' <summary>
-'''Cytoscape model generator and visualization tools utils for GCModeller
+''' Cytoscape model generator and visualization tools utils for GCModeller
 ''' </summary>
 '''
 Public Class Cytoscape : Inherits InteropService
@@ -20,11 +20,13 @@ MyBase._executableAssembly = App$
 End Sub
 
 ''' <summary>
-'''
+''' ```
+''' /Analysis.Graph.Properties /in &lt;net.DIR> [/colors &lt;Paired:c12> /ignores &lt;fields> /tick 5 /out &lt;out.DIR>]
+''' ```
 ''' </summary>
 '''
-Public Function Analysis_Graph_Properties(_in As String, Optional _colors As String = "", Optional _ignores As String = "", Optional _tick As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Analysis.Graph.Properties")
+Public Function AnalysisNetworkProperty(_in As String, Optional _colors As String = "", Optional _ignores As String = "", Optional _tick As String = "", Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("AnalysisNetworkProperty")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _colors.StringEmpty Then
 Call CLI.Append("/colors " & """" & _colors & """ ")
@@ -45,11 +47,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Analysis.Node.Clusters /in &lt;network.DIR> [/spcc /size "10000,10000" /schema &lt;YlGn:c8> /out &lt;DIR>]
+''' ```
 ''' </summary>
 '''
-Public Function Analysis_Node_Clusters(_in As String, Optional _size As String = "10000,10000", Optional _schema As String = "", Optional _out As String = "", Optional _spcc As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Analysis.Node.Clusters")
+Public Function NodeCluster(_in As String, Optional _size As String = "10000,10000", Optional _schema As String = "", Optional _out As String = "", Optional _spcc As Boolean = False) As Integer
+Dim CLI As New StringBuilder("NodeCluster")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _size.StringEmpty Then
 Call CLI.Append("/size " & """" & _size & """ ")
@@ -70,11 +74,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /associate /in &lt;net.csv> /nodes &lt;nodes.csv> [/out &lt;out.net.DIR>]
+''' ```
 ''' </summary>
 '''
-Public Function associate(_in As String, _nodes As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/associate")
+Public Function Assciates(_in As String, _nodes As String, Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("Assciates")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/nodes " & """" & _nodes & """ ")
 If Not _out.StringEmpty Then
@@ -87,11 +93,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /BBH.Simple /in &lt;sbh.csv> [/evalue &lt;evalue: 1e-5> /out &lt;out.bbh.csv>]
+''' ```
 ''' </summary>
 '''
-Public Function BBH_Simple(_in As String, Optional _evalue As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/BBH.Simple")
+Public Function SimpleBBH(_in As String, Optional _evalue As String = "", Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("SimpleBBH")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _evalue.StringEmpty Then
 Call CLI.Append("/evalue " & """" & _evalue & """ ")
@@ -106,11 +114,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /bbh.Trim.Indeitites /in &lt;bbh.csv> [/identities &lt;0.3> /out &lt;out.csv>]
+''' ```
 ''' </summary>
 '''
-Public Function bbh_Trim_Indeitites(_in As String, Optional _identities As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/bbh.Trim.Indeitites")
+Public Function BBHTrimIdentities(_in As String, Optional _identities As String = "", Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("BBHTrimIdentities")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _identities.StringEmpty Then
 Call CLI.Append("/identities " & """" & _identities & """ ")
@@ -125,11 +135,14 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''> Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28
+''' ```
+''' /BLAST.Metagenome.SSU.Network /net &lt;blastn.self.txt/blastnmapping.csv> /tax &lt;ssu-nt.blastnMaps.csv> /taxonomy &lt;ncbi_taxonomy:names,nodes> [/x2taxid &lt;x2taxid.dmp/DIR> /tax-build-in /skip-exists /gi2taxid /parallel /theme-color &lt;default='Paired:c12'> /identities &lt;default:0.3> /coverage &lt;default:0.3> /out &lt;out-net.DIR>]
+''' ```
+''' > Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28
 ''' </summary>
 '''
-Public Function BLAST_Metagenome_SSU_Network(_net As String, _tax As String, _taxonomy As String, Optional _x2taxid As String = "", Optional _theme_color As String = "'Paired:c12'", Optional _identities As String = "", Optional _coverage As String = "", Optional _out As String = "", Optional _tax_build_in As Boolean = False, Optional _skip_exists As Boolean = False, Optional _gi2taxid As Boolean = False, Optional _parallel As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/BLAST.Metagenome.SSU.Network")
+Public Function SSU_MetagenomeNetwork(_net As String, _tax As String, _taxonomy As String, Optional _x2taxid As String = "", Optional _theme_color As String = "'Paired:c12'", Optional _identities As String = "", Optional _coverage As String = "", Optional _out As String = "", Optional _tax_build_in As Boolean = False, Optional _skip_exists As Boolean = False, Optional _gi2taxid As Boolean = False, Optional _parallel As Boolean = False) As Integer
+Dim CLI As New StringBuilder("SSU_MetagenomeNetwork")
 Call CLI.Append("/net " & """" & _net & """ ")
 Call CLI.Append("/tax " & """" & _tax & """ ")
 Call CLI.Append("/taxonomy " & """" & _taxonomy & """ ")
@@ -167,11 +180,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /BLAST.Network /in &lt;inFile> [/out &lt;outDIR> /type &lt;default:blast_out; values: blast_out, sbh, bbh> /dict &lt;dict.xml>]
+''' ```
 ''' </summary>
 '''
-Public Function BLAST_Network(_in As String, Optional _out As String = "", Optional _type As String = "", Optional _dict As String = "") As Integer
-Dim CLI As New StringBuilder("/BLAST.Network")
+Public Function GenerateBlastNetwork(_in As String, Optional _out As String = "", Optional _type As String = "", Optional _dict As String = "") As Integer
+Dim CLI As New StringBuilder("GenerateBlastNetwork")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -189,11 +204,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /BLAST.Network.MetaBuild /in &lt;inDIR> [/out &lt;outDIR> /dict &lt;dict.xml>]
+''' ```
 ''' </summary>
 '''
-Public Function BLAST_Network_MetaBuild(_in As String, Optional _out As String = "", Optional _dict As String = "") As Integer
-Dim CLI As New StringBuilder("/BLAST.Network.MetaBuild")
+Public Function MetaBuildBLAST(_in As String, Optional _out As String = "", Optional _dict As String = "") As Integer
+Dim CLI As New StringBuilder("MetaBuildBLAST")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -208,11 +225,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Build.Tree.NET /in &lt;cluster.csv> [/out &lt;outDIR> /brief /FamilyInfo &lt;regulons.DIR>]
+''' ```
 ''' </summary>
 '''
-Public Function Build_Tree_NET(_in As String, Optional _out As String = "", Optional _familyinfo As String = "", Optional _brief As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET")
+Public Function BuildTreeNET(_in As String, Optional _out As String = "", Optional _familyinfo As String = "", Optional _brief As Boolean = False) As Integer
+Dim CLI As New StringBuilder("BuildTreeNET")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -230,11 +249,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Build.Tree.NET.COGs /cluster &lt;cluster.csv> /COGs &lt;myvacog.csv> [/out &lt;outDIR>]
+''' ```
 ''' </summary>
 '''
-Public Function Build_Tree_NET_COGs(_cluster As String, _COGs As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET.COGs")
+Public Function BuildTreeNETCOGs(_cluster As String, _COGs As String, Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("BuildTreeNETCOGs")
 Call CLI.Append("/cluster " & """" & _cluster & """ ")
 Call CLI.Append("/COGs " & """" & _COGs & """ ")
 If Not _out.StringEmpty Then
@@ -247,11 +268,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Build.Tree.NET.DEGs /in &lt;cluster.csv> /up &lt;locus.txt> /down &lt;locus.txt> [/out &lt;outDIR> /brief]
+''' ```
 ''' </summary>
 '''
-Public Function Build_Tree_NET_DEGs(_in As String, _up As String, _down As String, Optional _out As String = "", Optional _brief As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET.DEGs")
+Public Function BuildTreeNET_DEGs(_in As String, _up As String, _down As String, Optional _out As String = "", Optional _brief As Boolean = False) As Integer
+Dim CLI As New StringBuilder("BuildTreeNET_DEGs")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/up " & """" & _up & """ ")
 Call CLI.Append("/down " & """" & _down & """ ")
@@ -268,11 +291,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Build.Tree.NET.KEGG_Modules /in &lt;cluster.csv> /mods &lt;modules.XML.DIR> [/out &lt;outDIR> /brief /trim]
+''' ```
 ''' </summary>
 '''
-Public Function Build_Tree_NET_KEGG_Modules(_in As String, _mods As String, Optional _out As String = "", Optional _brief As Boolean = False, Optional _trim As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET.KEGG_Modules")
+Public Function BuildTreeNET_KEGGModules(_in As String, _mods As String, Optional _out As String = "", Optional _brief As Boolean = False, Optional _trim As Boolean = False) As Integer
+Dim CLI As New StringBuilder("BuildTreeNET_KEGGModules")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/mods " & """" & _mods & """ ")
 If Not _out.StringEmpty Then
@@ -291,11 +316,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Build.Tree.NET.KEGG_Pathways /in &lt;cluster.csv> /mods &lt;pathways.XML.DIR> [/out &lt;outDIR> /brief /trim]
+''' ```
 ''' </summary>
 '''
-Public Function Build_Tree_NET_KEGG_Pathways(_in As String, _mods As String, Optional _out As String = "", Optional _brief As Boolean = False, Optional _trim As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET.KEGG_Pathways")
+Public Function BuildTreeNET_KEGGPathways(_in As String, _mods As String, Optional _out As String = "", Optional _brief As Boolean = False, Optional _trim As Boolean = False) As Integer
+Dim CLI As New StringBuilder("BuildTreeNET_KEGGPathways")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/mods " & """" & _mods & """ ")
 If Not _out.StringEmpty Then
@@ -314,11 +341,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Build.Tree.NET.Merged_Regulons /in &lt;cluster.csv> /family &lt;family_Hits.Csv> [/out &lt;outDIR> /brief]
+''' ```
 ''' </summary>
 '''
-Public Function Build_Tree_NET_Merged_Regulons(_in As String, _family As String, Optional _out As String = "", Optional _brief As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET.Merged_Regulons")
+Public Function BuildTreeNET_MergeRegulons(_in As String, _family As String, Optional _out As String = "", Optional _brief As Boolean = False) As Integer
+Dim CLI As New StringBuilder("BuildTreeNET_MergeRegulons")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/family " & """" & _family & """ ")
 If Not _out.StringEmpty Then
@@ -334,11 +363,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Build.Tree.NET.TF /in &lt;cluster.csv> /maps &lt;TF.Regprecise.maps.Csv> /map &lt;keyvaluepair.xml> /mods &lt;kegg_modules.DIR> [/out &lt;outDIR> /brief /cuts 0.8]
+''' ```
 ''' </summary>
 '''
-Public Function Build_Tree_NET_TF(_in As String, _maps As String, _map As String, _mods As String, Optional _out As String = "", Optional _cuts As String = "", Optional _brief As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Build.Tree.NET.TF")
+Public Function BuildTreeNetTF(_in As String, _maps As String, _map As String, _mods As String, Optional _out As String = "", Optional _cuts As String = "", Optional _brief As Boolean = False) As Integer
+Dim CLI As New StringBuilder("BuildTreeNetTF")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/maps " & """" & _maps & """ ")
 Call CLI.Append("/map " & """" & _map & """ ")
@@ -359,11 +390,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /KEGG.Mods.NET /in &lt;mods.xml.DIR> [/out &lt;outDIR> /pathway /footprints &lt;footprints.Csv> /brief /cut 0 /pcc 0]
+''' ```
 ''' </summary>
 '''
-Public Function KEGG_Mods_NET(_in As String, Optional _out As String = "", Optional _footprints As String = "", Optional _cut As String = "", Optional _pcc As String = "", Optional _pathway As Boolean = False, Optional _brief As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/KEGG.Mods.NET")
+Public Function ModsNET(_in As String, Optional _out As String = "", Optional _footprints As String = "", Optional _cut As String = "", Optional _pcc As String = "", Optional _pathway As Boolean = False, Optional _brief As Boolean = False) As Integer
+Dim CLI As New StringBuilder("ModsNET")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -390,11 +423,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /linkage.knowledge.network /in &lt;knowledge.network.csv/DIR> [/schema &lt;material> /no-type_prefix /out &lt;out.network.DIR>]
+''' ```
 ''' </summary>
 '''
-Public Function linkage_knowledge_network(_in As String, Optional _schema As String = "", Optional _out As String = "", Optional _no_type_prefix As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/linkage.knowledge.network")
+Public Function LinkageKnowledgeNetwork(_in As String, Optional _schema As String = "", Optional _out As String = "", Optional _no_type_prefix As Boolean = False) As Integer
+Dim CLI As New StringBuilder("LinkageKnowledgeNetwork")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _schema.StringEmpty Then
 Call CLI.Append("/schema " & """" & _schema & """ ")
@@ -412,11 +447,14 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''Converts a generic distance matrix or kmeans clustering result to network model.
+''' ```
+''' /Matrix.NET /in &lt;kmeans-out.csv> [/out &lt;net.DIR> /generic /colors &lt;clusters> /cutoff 0 /cutoff.paired]
+''' ```
+''' Converts a generic distance matrix or kmeans clustering result to network model.
 ''' </summary>
 '''
-Public Function Matrix_NET(_in As String, Optional _out As String = "", Optional _colors As String = "", Optional _cutoff As String = "", Optional _generic As Boolean = False, Optional _cutoff_paired As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Matrix.NET")
+Public Function MatrixToNetwork(_in As String, Optional _out As String = "", Optional _colors As String = "", Optional _cutoff As String = "", Optional _generic As Boolean = False, Optional _cutoff_paired As Boolean = False) As Integer
+Dim CLI As New StringBuilder("MatrixToNetwork")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -440,11 +478,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /modNET.Simple /in &lt;mods/pathway_DIR> [/out &lt;outDIR> /pathway]
+''' ```
 ''' </summary>
 '''
-Public Function modNET_Simple(_in As String, Optional _out As String = "", Optional _pathway As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/modNET.Simple")
+Public Function SimpleModesNET(_in As String, Optional _out As String = "", Optional _pathway As Boolean = False) As Integer
+Dim CLI As New StringBuilder("SimpleModesNET")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -459,11 +499,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Motif.Cluster /query &lt;meme.txt/MEME_OUT.DIR> /LDM &lt;LDM-name/xml.path> [/clusters &lt;3> /out &lt;outCsv>]
+''' ```
 ''' </summary>
 '''
-Public Function Motif_Cluster(_query As String, _LDM As String, Optional _clusters As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Motif.Cluster")
+Public Function MotifCluster(_query As String, _LDM As String, Optional _clusters As String = "", Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("MotifCluster")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/LDM " & """" & _LDM & """ ")
 If Not _clusters.StringEmpty Then
@@ -479,11 +521,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Motif.Cluster.Fast /query &lt;meme_OUT.DIR> [/LDM &lt;ldm-DIR> /out &lt;outDIR> /map &lt;gb.gbk> /maxw -1 /ldm_loads]
+''' ```
 ''' </summary>
 '''
-Public Function Motif_Cluster_Fast(_query As String, Optional _ldm As String = "", Optional _out As String = "", Optional _map As String = "", Optional _maxw As String = "", Optional _ldm_loads As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Motif.Cluster.Fast")
+Public Function FastCluster(_query As String, Optional _ldm As String = "", Optional _out As String = "", Optional _map As String = "", Optional _maxw As String = "", Optional _ldm_loads As Boolean = False) As Integer
+Dim CLI As New StringBuilder("FastCluster")
 Call CLI.Append("/query " & """" & _query & """ ")
 If Not _ldm.StringEmpty Then
 Call CLI.Append("/ldm " & """" & _ldm & """ ")
@@ -507,11 +551,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Motif.Cluster.Fast.Sites /in &lt;meme.txt.DIR> [/out &lt;outDIR> /LDM &lt;ldm-DIR>]
+''' ```
 ''' </summary>
 '''
-Public Function Motif_Cluster_Fast_Sites(_in As String, Optional _out As String = "", Optional _ldm As String = "") As Integer
-Dim CLI As New StringBuilder("/Motif.Cluster.Fast.Sites")
+Public Function MotifClusterSites(_in As String, Optional _out As String = "", Optional _ldm As String = "") As Integer
+Dim CLI As New StringBuilder("MotifClusterSites")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -526,11 +572,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Motif.Cluster.MAT /query &lt;meme_OUT.DIR> [/LDM &lt;ldm-DIR> /clusters 5 /out &lt;outDIR>]
+''' ```
 ''' </summary>
 '''
-Public Function Motif_Cluster_MAT(_query As String, Optional _ldm As String = "", Optional _clusters As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Motif.Cluster.MAT")
+Public Function ClusterMatrix(_query As String, Optional _ldm As String = "", Optional _clusters As String = "", Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("ClusterMatrix")
 Call CLI.Append("/query " & """" & _query & """ ")
 If Not _ldm.StringEmpty Then
 Call CLI.Append("/ldm " & """" & _ldm & """ ")
@@ -548,11 +596,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /net.model /model &lt;kegg.xmlModel.xml> [/out &lt;outDIR> /not-trim]
+''' ```
 ''' </summary>
 '''
-Public Function net_model(_model As String, Optional _out As String = "", Optional _not_trim As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/net.model")
+Public Function BuildModelNet(_model As String, Optional _out As String = "", Optional _not_trim As Boolean = False) As Integer
+Dim CLI As New StringBuilder("BuildModelNet")
 Call CLI.Append("/model " & """" & _model & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -567,11 +617,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /net.pathway /model &lt;kegg.pathway.xml> [/out &lt;outDIR> /trim]
+''' ```
 ''' </summary>
 '''
-Public Function net_pathway(_model As String, Optional _out As String = "", Optional _trim As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/net.pathway")
+Public Function PathwayNet(_model As String, Optional _out As String = "", Optional _trim As Boolean = False) As Integer
+Dim CLI As New StringBuilder("PathwayNet")
 Call CLI.Append("/model " & """" & _model & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -586,11 +638,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Net.rFBA /in &lt;metacyc.sbml> /fba.out &lt;flux.Csv> [/out &lt;outDIR>]
+''' ```
 ''' </summary>
 '''
-Public Function Net_rFBA(_in As String, _fba_out As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Net.rFBA")
+Public Function net_rFBA(_in As String, _fba_out As String, Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("net_rFBA")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/fba.out " & """" & _fba_out & """ ")
 If Not _out.StringEmpty Then
@@ -603,11 +657,14 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''Builds the regulation network between the TF.
+''' ```
+''' /NetModel.TF_regulates /in &lt;footprints.csv> [/out &lt;outDIR> /cut 0.45]
+''' ```
+''' Builds the regulation network between the TF.
 ''' </summary>
 '''
-Public Function NetModel_TF_regulates(_in As String, Optional _out As String = "", Optional _cut As String = "") As Integer
-Dim CLI As New StringBuilder("/NetModel.TF_regulates")
+Public Function TFNet(_in As String, Optional _out As String = "", Optional _cut As String = "") As Integer
+Dim CLI As New StringBuilder("TFNet")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -622,11 +679,14 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''Regulator phenotype relationship cluster from virtual footprints.
+''' ```
+''' /Phenotypes.KEGG /mods &lt;KEGG_Modules/Pathways.DIR> /in &lt;VirtualFootprints.csv> [/pathway /out &lt;outCluster.csv>]
+''' ```
+''' Regulator phenotype relationship cluster from virtual footprints.
 ''' </summary>
 '''
-Public Function Phenotypes_KEGG(_mods As String, _in As String, Optional _out As String = "", Optional _pathway As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Phenotypes.KEGG")
+Public Function KEGGModulesPhenotypeRegulates(_mods As String, _in As String, Optional _out As String = "", Optional _pathway As Boolean = False) As Integer
+Dim CLI As New StringBuilder("KEGGModulesPhenotypeRegulates")
 Call CLI.Append("/mods " & """" & _mods & """ ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
@@ -642,11 +702,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /reaction.NET [/model &lt;xmlModel.xml> /source &lt;rxn.DIR> /out &lt;outDIR>]
+''' ```
 ''' </summary>
 '''
-Public Function reaction_NET(Optional _model As String = "", Optional _source As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/reaction.NET")
+Public Function ReactionNET(Optional _model As String = "", Optional _source As String = "", Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("ReactionNET")
 If Not _model.StringEmpty Then
 Call CLI.Append("/model " & """" & _model & """ ")
 End If
@@ -663,11 +725,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /replace /in &lt;net.csv> /nodes &lt;nodes.Csv> /out &lt;out.Csv>
+''' ```
 ''' </summary>
 '''
-Public Function replace(_in As String, _nodes As String, _out As String) As Integer
-Dim CLI As New StringBuilder("/replace")
+Public Function replaceName(_in As String, _nodes As String, _out As String) As Integer
+Dim CLI As New StringBuilder("replaceName")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/nodes " & """" & _nodes & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -678,11 +742,14 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''This method is not recommended.
+''' ```
+''' /Tree.Cluster /in &lt;in.MAT.csv> [/out &lt;out.cluster.csv> /Locus.Map &lt;Name>]
+''' ```
+''' This method is not recommended.
 ''' </summary>
 '''
-Public Function Tree_Cluster(_in As String, Optional _out As String = "", Optional _locus_map As String = "") As Integer
-Dim CLI As New StringBuilder("/Tree.Cluster")
+Public Function TreeCluster(_in As String, Optional _out As String = "", Optional _locus_map As String = "") As Integer
+Dim CLI As New StringBuilder("TreeCluster")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -697,11 +764,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Tree.Cluster.rFBA /in &lt;in.flux.pheno_OUT.Csv> [/out &lt;out.cluster.csv>]
+''' ```
 ''' </summary>
 '''
-Public Function Tree_Cluster_rFBA(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Tree.Cluster.rFBA")
+Public Function rFBATreeCluster(_in As String, Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("rFBATreeCluster")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -713,11 +782,14 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''Drawing a network image visualization based on the generate network layout from the officials cytoscape software.
+''' ```
+''' -draw /network &lt;net_file> /parser &lt;xgmml/cyjs> [-size &lt;width,height> -out &lt;out_image> /style &lt;style_file> /style_parser &lt;vizmap/json>]
+''' ```
+''' Drawing a network image visualization based on the generate network layout from the officials cytoscape software.
 ''' </summary>
 '''
-Public Function Draw(_network As String, _parser As String, Optional _size As String = "", Optional _out As String = "", Optional _style As String = "", Optional _style_parser As String = "") As Integer
-Dim CLI As New StringBuilder("-Draw")
+Public Function DrawingInvoke(_network As String, _parser As String, Optional _size As String = "", Optional _out As String = "", Optional _style As String = "", Optional _style_parser As String = "") As Integer
+Dim CLI As New StringBuilder("DrawingInvoke")
 Call CLI.Append("/network " & """" & _network & """ ")
 Call CLI.Append("/parser " & """" & _parser & """ ")
 If Not _size.StringEmpty Then
@@ -739,11 +811,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' --graph.regulates /footprint &lt;footprints.csv> [/trim]
+''' ```
 ''' </summary>
 '''
-Public Function graph_regulates(_footprint As String, Optional _trim As Boolean = False) As Integer
-Dim CLI As New StringBuilder("--graph.regulates")
+Public Function SimpleRegulation(_footprint As String, Optional _trim As Boolean = False) As Integer
+Dim CLI As New StringBuilder("SimpleRegulation")
 Call CLI.Append("/footprint " & """" & _footprint & """ ")
 If _trim Then
 Call CLI.Append("/trim ")
@@ -755,11 +829,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' --mod.regulations /model &lt;KEGG.xml> /footprints &lt;footprints.csv> /out &lt;outDIR> [/pathway /class /type]
+''' ```
 ''' </summary>
 '''
-Public Function mod_regulations(_model As String, _footprints As String, _out As String, Optional _pathway As Boolean = False, Optional _class As Boolean = False, Optional _type As Boolean = False) As Integer
-Dim CLI As New StringBuilder("--mod.regulations")
+Public Function ModuleRegulations(_model As String, _footprints As String, _out As String, Optional _pathway As Boolean = False, Optional _class As Boolean = False, Optional _type As Boolean = False) As Integer
+Dim CLI As New StringBuilder("ModuleRegulations")
 Call CLI.Append("/model " & """" & _model & """ ")
 Call CLI.Append("/footprints " & """" & _footprints & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -779,11 +855,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' --TCS /in &lt;TCS.csv.DIR> /regulations &lt;TCS.virtualfootprints> /out &lt;outForCytoscape.xml> [/Fill-pcc]
+''' ```
 ''' </summary>
 '''
 Public Function TCS(_in As String, _regulations As String, _out As String, Optional _Fill_pcc As Boolean = False) As Integer
-Dim CLI As New StringBuilder("--TCS")
+Dim CLI As New StringBuilder("TCS")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/regulations " & """" & _regulations & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")

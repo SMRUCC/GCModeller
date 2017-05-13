@@ -20,11 +20,13 @@ MyBase._executableAssembly = App$
 End Sub
 
 ''' <summary>
-'''
+''' ```
+''' /Analysis.Phenotype /in &lt;MetaCyc.Sbml> /reg &lt;footprints.csv> /obj &lt;list/path/module-xml> [/obj-type &lt;lst/pathway/module> /params &lt;rfba.parameters.xml> /stat &lt;stat.Csv> /sample &lt;sampleTable.csv> /modify &lt;locus_modify.csv> /out &lt;outDIR>]
+''' ```
 ''' </summary>
 '''
-Public Function Analysis_Phenotype(_in As String, _reg As String, _obj As String, Optional _obj_type As String = "", Optional _params As String = "", Optional _stat As String = "", Optional _sample As String = "", Optional _modify As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Analysis.Phenotype")
+Public Function rFBABatch(_in As String, _reg As String, _obj As String, Optional _obj_type As String = "", Optional _params As String = "", Optional _stat As String = "", Optional _sample As String = "", Optional _modify As String = "", Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("rFBABatch")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/reg " & """" & _reg & """ ")
 Call CLI.Append("/obj " & """" & _obj & """ ")
@@ -53,11 +55,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' export -i &lt;fba_model> -o &lt;r_script>
+''' ```
 ''' </summary>
 '''
 Public Function Export(_i As String, _o As String) As Integer
-Dim CLI As New StringBuilder("/Export")
+Dim CLI As New StringBuilder("Export")
 Call CLI.Append("-i " & """" & _i & """ ")
 Call CLI.Append("-o " & """" & _o & """ ")
 
@@ -67,11 +71,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Flux.Coefficient /in &lt;rFBA.result_dumpDIR> [/footprints &lt;footprints.csv> /out &lt;outCsv> /spcc /KEGG]
+''' ```
 ''' </summary>
 '''
-Public Function Flux_Coefficient(_in As String, Optional _footprints As String = "", Optional _out As String = "", Optional _spcc As Boolean = False, Optional _kegg As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Flux.Coefficient")
+Public Function FluxCoefficient(_in As String, Optional _footprints As String = "", Optional _out As String = "", Optional _spcc As Boolean = False, Optional _kegg As Boolean = False) As Integer
+Dim CLI As New StringBuilder("FluxCoefficient")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _footprints.StringEmpty Then
 Call CLI.Append("/footprints " & """" & _footprints & """ ")
@@ -92,11 +98,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Flux.KEGG.Filter /in &lt;flux.csv> /model &lt;MetaCyc.sbml> [/out &lt;out.csv>]
+''' ```
 ''' </summary>
 '''
-Public Function Flux_KEGG_Filter(_in As String, _model As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Flux.KEGG.Filter")
+Public Function KEGGFilter(_in As String, _model As String, Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("KEGGFilter")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/model " & """" & _model & """ ")
 If Not _out.StringEmpty Then
@@ -109,11 +117,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Func.Coefficient /func &lt;objfunc_matrix.csv> /in &lt;rFBA.result_dumpDIR> [/footprints &lt;footprints.csv> /out &lt;outCsv> /spcc]
+''' ```
 ''' </summary>
 '''
-Public Function Func_Coefficient(_func As String, _in As String, Optional _footprints As String = "", Optional _out As String = "", Optional _spcc As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/Func.Coefficient")
+Public Function FuncCoefficient(_func As String, _in As String, Optional _footprints As String = "", Optional _out As String = "", Optional _spcc As Boolean = False) As Integer
+Dim CLI As New StringBuilder("FuncCoefficient")
 Call CLI.Append("/func " & """" & _func & """ ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _footprints.StringEmpty Then
@@ -132,11 +142,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /gcFBA.Batch /model &lt;model.sbml> /phenotypes &lt;KEGG_modules/pathways.DIR> /footprints &lt;footprints.csv> [/obj-type &lt;pathway/module> /params &lt;rfba.parameters.xml> /stat &lt;RPKM-stat.Csv> /sample &lt;sampleTable.csv> /modify &lt;locus_modify.csv> /out &lt;outDIR> /parallel &lt;2>]
+''' ```
 ''' </summary>
 '''
-Public Function gcFBA_Batch(_model As String, _phenotypes As String, _footprints As String, Optional _obj_type As String = "", Optional _params As String = "", Optional _stat As String = "", Optional _sample As String = "", Optional _modify As String = "", Optional _out As String = "", Optional _parallel As String = "") As Integer
-Dim CLI As New StringBuilder("/gcFBA.Batch")
+Public Function PhenotypeAnalysisBatch(_model As String, _phenotypes As String, _footprints As String, Optional _obj_type As String = "", Optional _params As String = "", Optional _stat As String = "", Optional _sample As String = "", Optional _modify As String = "", Optional _out As String = "", Optional _parallel As String = "") As Integer
+Dim CLI As New StringBuilder("PhenotypeAnalysisBatch")
 Call CLI.Append("/model " & """" & _model & """ ")
 Call CLI.Append("/phenotypes " & """" & _phenotypes & """ ")
 Call CLI.Append("/footprints " & """" & _footprints & """ ")
@@ -168,11 +180,14 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''Draw heatmap from the correlations between the genes and the metabolism flux.
+''' ```
+''' /heatmap /x &lt;matrix.csv> [/out &lt;out.tiff> /name &lt;Name> /width &lt;8000> /height &lt;6000>]
+''' ```
+''' Draw heatmap from the correlations between the genes and the metabolism flux.
 ''' </summary>
 '''
-Public Function heatmap(_x As String, Optional _out As String = "", Optional _name As String = "", Optional _width As String = "", Optional _height As String = "") As Integer
-Dim CLI As New StringBuilder("/heatmap")
+Public Function Heatmap(_x As String, Optional _out As String = "", Optional _name As String = "", Optional _width As String = "", Optional _height As String = "") As Integer
+Dim CLI As New StringBuilder("Heatmap")
 Call CLI.Append("/x " & """" & _x & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -193,11 +208,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /heatmap.scale /x &lt;matrix.csv> [/factor 30 /out &lt;out.csv>]
+''' ```
 ''' </summary>
 '''
-Public Function heatmap_scale(_x As String, Optional _factor As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/heatmap.scale")
+Public Function ScaleHeatmap(_x As String, Optional _factor As String = "", Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("ScaleHeatmap")
 Call CLI.Append("/x " & """" & _x & """ ")
 If Not _factor.StringEmpty Then
 Call CLI.Append("/factor " & """" & _factor & """ ")
@@ -212,11 +229,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Imports /in &lt;sbml.xml>
+''' ```
 ''' </summary>
 '''
-Public Function [Imports](_in As String) As Integer
-Dim CLI As New StringBuilder("/Imports")
+Public Function ImportsRxns(_in As String) As Integer
+Dim CLI As New StringBuilder("ImportsRxns")
 Call CLI.Append("/in " & """" & _in & """ ")
 
 
@@ -225,11 +244,14 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''Merges the objective function result as a Matrix. For calculation the coefficient of the genes with the phenotype objective function.
+''' ```
+''' /phenos.MAT /in &lt;inDIR> [/out &lt;outcsv>]
+''' ```
+''' Merges the objective function result as a Matrix. For calculation the coefficient of the genes with the phenotype objective function.
 ''' </summary>
 '''
-Public Function phenos_MAT(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/phenos.MAT")
+Public Function ObjMAT(_in As String, Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("ObjMAT")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -241,11 +263,14 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''2. Coefficient of the genes with the metabolism fluxs from the batch analysis result.
+''' ```
+''' /phenos.out.Coefficient /gene &lt;samplesCopy.RPKM.csv> /pheno &lt;samples.phenos_out.csv> [/footprints &lt;footprints.csv> /out &lt;out.csv> /spcc]
+''' ```
+''' 2. Coefficient of the genes with the metabolism fluxs from the batch analysis result.
 ''' </summary>
 '''
-Public Function phenos_out_Coefficient(_gene As String, _pheno As String, Optional _footprints As String = "", Optional _out As String = "", Optional _spcc As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/phenos.out.Coefficient")
+Public Function PhenosOUTCoefficient(_gene As String, _pheno As String, Optional _footprints As String = "", Optional _out As String = "", Optional _spcc As Boolean = False) As Integer
+Dim CLI As New StringBuilder("PhenosOUTCoefficient")
 Call CLI.Append("/gene " & """" & _gene & """ ")
 Call CLI.Append("/pheno " & """" & _pheno & """ ")
 If Not _footprints.StringEmpty Then
@@ -264,11 +289,14 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''1. Merge flux.csv result as a Matrix, for the calculation of the coefficient of the genes with the metabolism flux.
+''' ```
+''' /phenos.out.MAT /in &lt;inDIR> /samples &lt;sampleTable.csv> [/out &lt;outcsv> /model &lt;MetaCyc.sbml>]
+''' ```
+''' 1. Merge flux.csv result as a Matrix, for the calculation of the coefficient of the genes with the metabolism flux.
 ''' </summary>
 '''
-Public Function phenos_out_MAT(_in As String, _samples As String, Optional _out As String = "", Optional _model As String = "") As Integer
-Dim CLI As New StringBuilder("/phenos.out.MAT")
+Public Function PhenoOUT_MAT(_in As String, _samples As String, Optional _out As String = "", Optional _model As String = "") As Integer
+Dim CLI As New StringBuilder("PhenoOUT_MAT")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/samples " & """" & _samples & """ ")
 If Not _out.StringEmpty Then
@@ -284,11 +312,14 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''solve a FBA model from a specific (SBML) model file.
+''' ```
+''' /solve -i &lt;sbml_file> -o &lt;output_result_dir> -d &lt;max/min> [-m &lt;sbml/model> -f &lt;object_function> -knock_out &lt;gene_id_list>]
+''' ```
+''' solve a FBA model from a specific (SBML) model file.
 ''' </summary>
 '''
 Public Function Solve(_i As String, _o As String, _d As String, Optional _m As String = "", Optional _f As String = "", Optional _knock_out As String = "") As Integer
-Dim CLI As New StringBuilder("/Solve")
+Dim CLI As New StringBuilder("Solve")
 Call CLI.Append("-i " & """" & _i & """ ")
 Call CLI.Append("-o " & """" & _o & """ ")
 Call CLI.Append("-d " & """" & _d & """ ")
@@ -308,11 +339,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Solver.KEGG /in &lt;model.xml> /objs &lt;locus.txt> [/out &lt;outDIR>]
+''' ```
 ''' </summary>
 '''
-Public Function Solver_KEGG(_in As String, _objs As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Solver.KEGG")
+Public Function KEGGSolver(_in As String, _objs As String, Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("KEGGSolver")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/objs " & """" & _objs & """ ")
 If Not _out.StringEmpty Then
@@ -325,11 +358,13 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''
+''' ```
+''' /Solver.rFBA /in &lt;MetaCyc.Sbml> /reg &lt;footprints.csv> /obj &lt;object_function.txt/xml> [/obj-type &lt;lst/pathway/module> /params &lt;rfba.parameters.xml> /stat &lt;stat.Csv> /sample &lt;sampleName> /modify &lt;locus_modify.csv> /out &lt;outDIR>]
+''' ```
 ''' </summary>
 '''
-Public Function Solver_rFBA(_in As String, _reg As String, _obj As String, Optional _obj_type As String = "", Optional _params As String = "", Optional _stat As String = "", Optional _sample As String = "", Optional _modify As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Solver.rFBA")
+Public Function AnalysisPhenotype(_in As String, _reg As String, _obj As String, Optional _obj_type As String = "", Optional _params As String = "", Optional _stat As String = "", Optional _sample As String = "", Optional _modify As String = "", Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("AnalysisPhenotype")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/reg " & """" & _reg & """ ")
 Call CLI.Append("/obj " & """" & _obj & """ ")
@@ -358,11 +393,14 @@ Return proc.Run()
 End Function
 
 ''' <summary>
-'''Compile data source into a model file so that the fba program can using the data to performing the simulation calculation.
+''' ```
+''' compile -i &lt;input_file> -o &lt;output_file>[ -if &lt;sbml/metacyc> -of &lt;fba/fba2> -f &lt;objective_function> -d &lt;max/min>]
+''' ```
+''' Compile data source into a model file so that the fba program can using the data to performing the simulation calculation.
 ''' </summary>
 '''
-Public Function compile(_i As String, _o As String, Optional _if As String = "", Optional _of As String = "", Optional _f As String = "", Optional _d As String = "") As Integer
-Dim CLI As New StringBuilder("compile")
+Public Function Compile(_i As String, _o As String, Optional _if As String = "", Optional _of As String = "", Optional _f As String = "", Optional _d As String = "") As Integer
+Dim CLI As New StringBuilder("Compile")
 Call CLI.Append("-i " & """" & _i & """ ")
 Call CLI.Append("-o " & """" & _o & """ ")
 If Not _if.StringEmpty Then
