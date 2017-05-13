@@ -27,7 +27,8 @@ End Sub
 ''' </summary>
 '''
 Public Function SelectRegulatorsBBH(_in As String, _db As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("SelectRegulatorsBBH")
+Dim CLI As New StringBuilder("/BBH.Select.Regulators")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/db " & """" & _db & """ ")
 If Not _out.StringEmpty Then
@@ -46,7 +47,8 @@ End Function
 ''' </summary>
 '''
 Public Function BuildFamilyDb(_prot As String, _pfam As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("BuildFamilyDb")
+Dim CLI As New StringBuilder("/Build.FamilyDb")
+Call CLI.Append(" ")
 Call CLI.Append("/prot " & """" & _prot & """ ")
 Call CLI.Append("/pfam " & """" & _pfam & """ ")
 If Not _out.StringEmpty Then
@@ -65,7 +67,8 @@ End Function
 ''' </summary>
 '''
 Public Function BatchCopy(_in As String, Optional _out As String = "", Optional _file As String = "") As Integer
-Dim CLI As New StringBuilder("BatchCopy")
+Dim CLI As New StringBuilder("/Copys")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -86,7 +89,8 @@ End Function
 ''' </summary>
 '''
 Public Function BatchCopyDIR(_in As String, _out As String) As Integer
-Dim CLI As New StringBuilder("BatchCopyDIR")
+Dim CLI As New StringBuilder("/Copys.DIR")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
 
@@ -102,7 +106,8 @@ End Function
 ''' </summary>
 '''
 Public Function CORN(_in As String, _mast As String, _PTT As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("CORN")
+Dim CLI As New StringBuilder("/CORN")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/mast " & """" & _mast & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
@@ -122,7 +127,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportMotifDraw(_in As String, _MEME As String, _KEGG As String, Optional _out As String = "", Optional _pathway As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportMotifDraw")
+Dim CLI As New StringBuilder("/EXPORT.MotifDraws")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/MEME " & """" & _MEME & """ ")
 Call CLI.Append("/KEGG " & """" & _KEGG & """ ")
@@ -146,7 +152,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportTestMotifs(_in As String, Optional _out As String = "", Optional _batch As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportTestMotifs")
+Dim CLI As New StringBuilder("/Export.MotifSites")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -168,7 +175,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportRegpreciseMotifs() As Integer
-Dim CLI As New StringBuilder("ExportRegpreciseMotifs")
+Dim CLI As New StringBuilder("/Export.Regprecise.Motifs")
+Call CLI.Append(" ")
 
 
 Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -183,7 +191,8 @@ End Function
 ''' </summary>
 '''
 Public Function LoadSimilarityHits(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("LoadSimilarityHits")
+Dim CLI As New StringBuilder("/Export.Similarity.Hits")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -202,7 +211,8 @@ End Function
 ''' </summary>
 '''
 Public Function ToFootprints(_footprints As String, _coor As String, _DOOR As String, _maps As String, Optional _out As String = "", Optional _cuts As String = "", Optional _extract As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ToFootprints")
+Dim CLI As New StringBuilder("/Footprints")
+Call CLI.Append(" ")
 Call CLI.Append("/footprints " & """" & _footprints & """ ")
 Call CLI.Append("/coor " & """" & _coor & """ ")
 Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
@@ -230,7 +240,8 @@ End Function
 ''' </summary>
 '''
 Public Function HitContext(_footprints As String, _PTT As String, Optional _out As String = "", Optional _regprecise As String = "") As Integer
-Dim CLI As New StringBuilder("HitContext")
+Dim CLI As New StringBuilder("/Hits.Context")
+Call CLI.Append(" ")
 Call CLI.Append("/footprints " & """" & _footprints & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 If Not _out.StringEmpty Then
@@ -252,7 +263,8 @@ End Function
 ''' </summary>
 '''
 Public Function CompareMotif(_query As String, _sub As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("CompareMotif")
+Dim CLI As New StringBuilder("/LDM.Compares")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/sub " & """" & _sub & """ ")
 If Not _out.StringEmpty Then
@@ -271,7 +283,8 @@ End Function
 ''' </summary>
 '''
 Public Function LDMMaxLen(Optional _in As String = "") As Integer
-Dim CLI As New StringBuilder("LDMMaxLen")
+Dim CLI As New StringBuilder("/LDM.MaxW")
+Call CLI.Append(" ")
 If Not _in.StringEmpty Then
 Call CLI.Append("/in " & """" & _in & """ ")
 End If
@@ -288,7 +301,8 @@ End Function
 ''' </summary>
 '''
 Public Function Selectes(_trace As String, _meme As String, Optional _out As String = "", Optional _named As Boolean = False) As Integer
-Dim CLI As New StringBuilder("Selectes")
+Dim CLI As New StringBuilder("/LDM.Selects")
+Call CLI.Append(" ")
 Call CLI.Append("/trace " & """" & _trace & """ ")
 Call CLI.Append("/meme " & """" & _meme & """ ")
 If Not _out.StringEmpty Then
@@ -310,7 +324,8 @@ End Function
 ''' </summary>
 '''
 Public Function MotifMatch2(_meme As String, _mast As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MotifMatch2")
+Dim CLI As New StringBuilder("/MAST.MotifMatches")
+Call CLI.Append(" ")
 Call CLI.Append("/meme " & """" & _meme & """ ")
 Call CLI.Append("/mast " & """" & _mast & """ ")
 If Not _out.StringEmpty Then
@@ -330,7 +345,8 @@ End Function
 ''' </summary>
 '''
 Public Function MotifMatch(_meme As String, _mast As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MotifMatch")
+Dim CLI As New StringBuilder("/MAST.MotifMatchs.Family")
+Call CLI.Append(" ")
 Call CLI.Append("/meme " & """" & _meme & """ ")
 Call CLI.Append("/mast " & """" & _mast & """ ")
 If Not _out.StringEmpty Then
@@ -349,7 +365,8 @@ End Function
 ''' </summary>
 '''
 Public Function MastRegulations(_in As String, _correlation As String, _DOOR As String, Optional _out As String = "", Optional _cut As String = "") As Integer
-Dim CLI As New StringBuilder("MastRegulations")
+Dim CLI As New StringBuilder("/mast.Regulations")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/correlation " & """" & _correlation & """ ")
 Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
@@ -372,7 +389,8 @@ End Function
 ''' </summary>
 '''
 Public Function BuildPWMDb(_source As String, Optional _out As String = "", Optional _evalue As String = "") As Integer
-Dim CLI As New StringBuilder("BuildPWMDb")
+Dim CLI As New StringBuilder("/MAST_LDM.Build")
+Call CLI.Append(" ")
 Call CLI.Append("/source " & """" & _source & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -394,7 +412,8 @@ End Function
 ''' </summary>
 '''
 Public Function MEMEBatch(_in As String, Optional _out As String = "", Optional _evalue As String = "", Optional _nmotifs As String = "", Optional _mod As String = "", Optional _maxw As String = "") As Integer
-Dim CLI As New StringBuilder("MEMEBatch")
+Dim CLI As New StringBuilder("/MEME.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -424,7 +443,8 @@ End Function
 ''' </summary>
 '''
 Public Function MEME2LDM(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MEME2LDM")
+Dim CLI As New StringBuilder("/MEME.LDMs")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -442,7 +462,8 @@ End Function
 ''' </summary>
 '''
 Public Function BuildRegulons(_meme As String, _model As String, _DOOR As String, _maps As String, _corrs As String, Optional _cut As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("BuildRegulons")
+Dim CLI As New StringBuilder("/Motif.BuildRegulons")
+Call CLI.Append(" ")
 Call CLI.Append("/meme " & """" & _meme & """ ")
 Call CLI.Append("/model " & """" & _model & """ ")
 Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
@@ -468,7 +489,8 @@ End Function
 ''' </summary>
 '''
 Public Function MotifInfo(_loci As String, Optional _motifs As String = "", Optional _gff As String = "", Optional _atg_dist As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MotifInfo")
+Dim CLI As New StringBuilder("/Motif.Info")
+Call CLI.Append(" ")
 Call CLI.Append("/loci " & """" & _loci & """ ")
 If Not _motifs.StringEmpty Then
 Call CLI.Append("/motifs " & """" & _motifs & """ ")
@@ -496,7 +518,8 @@ End Function
 ''' </summary>
 '''
 Public Function MotifInfoBatch(_in As String, _gffs As String, Optional _motifs As String = "", Optional _num_threads As String = "", Optional _atg_dist As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MotifInfoBatch")
+Dim CLI As New StringBuilder("/Motif.Info.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/gffs " & """" & _gffs & """ ")
 If Not _motifs.StringEmpty Then
@@ -525,7 +548,8 @@ End Function
 ''' </summary>
 '''
 Public Function MEMETOM_MotifSimilarity(_in As String, _motifs As String, Optional _out As String = "", Optional _bp_var As Boolean = False) As Integer
-Dim CLI As New StringBuilder("MEMETOM_MotifSimilarity")
+Dim CLI As New StringBuilder("/Motif.Similarity")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/motifs " & """" & _motifs & """ ")
 If Not _out.StringEmpty Then
@@ -547,7 +571,8 @@ End Function
 ''' </summary>
 '''
 Public Function HitsRegulation(_hits As String, _source As String, _PTT As String, _correlates As String, _bbh As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("HitsRegulation")
+Dim CLI As New StringBuilder("/MotifHits.Regulation")
+Call CLI.Append(" ")
 Call CLI.Append("/hits " & """" & _hits & """ ")
 Call CLI.Append("/source " & """" & _source & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
@@ -569,7 +594,8 @@ End Function
 ''' </summary>
 '''
 Public Function MotifSites2Fasta(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MotifSites2Fasta")
+Dim CLI As New StringBuilder("/MotifSites.Fasta")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -587,7 +613,8 @@ End Function
 ''' </summary>
 '''
 Public Function ParserDEGs(_degs As String, _PTT As String, _door As String, _out As String, Optional _log_fold As String = "") As Integer
-Dim CLI As New StringBuilder("ParserDEGs")
+Dim CLI As New StringBuilder("/Parser.DEGs")
+Call CLI.Append(" ")
 Call CLI.Append("/degs " & """" & _degs & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 Call CLI.Append("/door " & """" & _door & """ ")
@@ -608,7 +635,8 @@ End Function
 ''' </summary>
 '''
 Public Function ParserLocus(_locus As String, _PTT As String, _DOOR As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ParserLocus")
+Dim CLI As New StringBuilder("/Parser.Locus")
+Call CLI.Append(" ")
 Call CLI.Append("/locus " & """" & _locus & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
@@ -628,7 +656,8 @@ End Function
 ''' </summary>
 '''
 Public Function ParserLog2(_in As String, _PTT As String, _DOOR As String, Optional _factor As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ParserLog2")
+Dim CLI As New StringBuilder("/Parser.Log2")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
@@ -651,7 +680,8 @@ End Function
 ''' </summary>
 '''
 Public Function ParserMAST(_sites As String, _ptt As String, _door As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ParserMAST")
+Dim CLI As New StringBuilder("/Parser.MAST")
+Call CLI.Append(" ")
 Call CLI.Append("/sites " & """" & _sites & """ ")
 Call CLI.Append("/ptt " & """" & _ptt & """ ")
 Call CLI.Append("/door " & """" & _door & """ ")
@@ -671,7 +701,8 @@ End Function
 ''' </summary>
 '''
 Public Function ModuleParser(_KEGG_Modules As String, _PTT As String, _DOOR As String, Optional _locus As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ModuleParser")
+Dim CLI As New StringBuilder("/Parser.Modules")
+Call CLI.Append(" ")
 Call CLI.Append("/KEGG.Modules " & """" & _KEGG_Modules & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
@@ -694,7 +725,8 @@ End Function
 ''' </summary>
 '''
 Public Function ParserNextIterator(_in As String, _PTT As String, Optional _out As String = "", Optional _offset As String = "", Optional _family As Boolean = False, Optional _all As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ParserNextIterator")
+Dim CLI As New StringBuilder("/Parser.Operon")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 If Not _out.StringEmpty Then
@@ -722,7 +754,8 @@ End Function
 ''' </summary>
 '''
 Public Function PathwayParser(_KEGG_Pathways As String, _PTT As String, _DOOR As String, Optional _locus As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("PathwayParser")
+Dim CLI As New StringBuilder("/Parser.Pathway")
+Call CLI.Append(" ")
 Call CLI.Append("/KEGG.Pathways " & """" & _KEGG_Pathways & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
@@ -745,7 +778,8 @@ End Function
 ''' </summary>
 '''
 Public Function ParserRegPreciseOperon(_operon As String, _PTT As String, Optional _door As String = "", Optional _id As String = "", Optional _locus As String = "", Optional _out As String = "", Optional _corn As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ParserRegPreciseOperon")
+Dim CLI As New StringBuilder("/Parser.RegPrecise.Operons")
+Call CLI.Append(" ")
 Call CLI.Append("/operon " & """" & _operon & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 If Not _door.StringEmpty Then
@@ -776,7 +810,8 @@ End Function
 ''' </summary>
 '''
 Public Function RegulonParser(_inDIR As String, _out As String, _PTT As String, Optional _door As String = "") As Integer
-Dim CLI As New StringBuilder("RegulonParser")
+Dim CLI As New StringBuilder("/Parser.Regulon")
+Call CLI.Append(" ")
 Call CLI.Append("/inDIR " & """" & _inDIR & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
@@ -796,7 +831,8 @@ End Function
 ''' </summary>
 '''
 Public Function RegulonParser2(_inDIR As String, _out As String, _gb As String, Optional _door As String = "") As Integer
-Dim CLI As New StringBuilder("RegulonParser2")
+Dim CLI As New StringBuilder("/Parser.Regulon.gb")
+Call CLI.Append(" ")
 Call CLI.Append("/inDIR " & """" & _inDIR & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
 Call CLI.Append("/gb " & """" & _gb & """ ")
@@ -816,7 +852,8 @@ End Function
 ''' </summary>
 '''
 Public Function RegulonParser3(_in As String, _out As String, _PTT As String, Optional _door As String = "") As Integer
-Dim CLI As New StringBuilder("RegulonParser3")
+Dim CLI As New StringBuilder("/Parser.Regulon.Merged")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
@@ -836,7 +873,8 @@ End Function
 ''' </summary>
 '''
 Public Function RegulatorMotifs(_bbh As String, _regprecise As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("RegulatorMotifs")
+Dim CLI As New StringBuilder("/Regulator.Motifs")
+Call CLI.Append(" ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 Call CLI.Append("/regprecise " & """" & _regprecise & """ ")
 If Not _out.StringEmpty Then
@@ -855,7 +893,8 @@ End Function
 ''' </summary>
 '''
 Public Function TestRegulatorMotifs(_hits As String, _motifs As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("TestRegulatorMotifs")
+Dim CLI As New StringBuilder("/Regulator.Motifs.Test")
+Call CLI.Append(" ")
 Call CLI.Append("/hits " & """" & _hits & """ ")
 Call CLI.Append("/motifs " & """" & _motifs & """ ")
 If Not _out.StringEmpty Then
@@ -875,7 +914,8 @@ End Function
 ''' </summary>
 '''
 Public Function RegulatorsCompile() As Integer
-Dim CLI As New StringBuilder("RegulatorsCompile")
+Dim CLI As New StringBuilder("/regulators.compile")
+Call CLI.Append(" ")
 
 
 Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -889,7 +929,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportRegulon(_in As String, _ref As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ExportRegulon")
+Dim CLI As New StringBuilder("/regulon.export")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/ref " & """" & _ref & """ ")
 If Not _out.StringEmpty Then
@@ -908,7 +949,8 @@ End Function
 ''' </summary>
 '''
 Public Function RegulonReconstruct(_bbh As String, _genome As String, _door As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("RegulonReconstruct")
+Dim CLI As New StringBuilder("/Regulon.Reconstruct")
+Call CLI.Append(" ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 Call CLI.Append("/genome " & """" & _genome & """ ")
 Call CLI.Append("/door " & """" & _door & """ ")
@@ -928,7 +970,8 @@ End Function
 ''' </summary>
 '''
 Public Function RegulonReconstructs2(_bbh As String, _genome As String, _door As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("RegulonReconstructs2")
+Dim CLI As New StringBuilder("/Regulon.Reconstruct2")
+Call CLI.Append(" ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 Call CLI.Append("/genome " & """" & _genome & """ ")
 Call CLI.Append("/door " & """" & _door & """ ")
@@ -949,7 +992,8 @@ End Function
 ''' </summary>
 '''
 Public Function RegulonReconstructs(_bbh As String, _genome As String, Optional _door As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("RegulonReconstructs")
+Dim CLI As New StringBuilder("/Regulon.Reconstructs")
+Call CLI.Append(" ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 Call CLI.Append("/genome " & """" & _genome & """ ")
 If Not _door.StringEmpty Then
@@ -971,7 +1015,8 @@ End Function
 ''' </summary>
 '''
 Public Function RegulonTest(_in As String, _reg As String, _bbh As String) As Integer
-Dim CLI As New StringBuilder("RegulonTest")
+Dim CLI As New StringBuilder("/Regulon.Test")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/reg " & """" & _reg & """ ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
@@ -988,7 +1033,8 @@ End Function
 ''' </summary>
 '''
 Public Function RfamSites(_source As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("RfamSites")
+Dim CLI As New StringBuilder("/RfamSites")
+Call CLI.Append(" ")
 Call CLI.Append("/source " & """" & _source & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1006,7 +1052,8 @@ End Function
 ''' </summary>
 '''
 Public Function SequenceLogoTask(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("SequenceLogoTask")
+Dim CLI As New StringBuilder("/seq.logo")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1025,7 +1072,8 @@ End Function
 ''' </summary>
 '''
 Public Function UnionSimilarity(_in As String, _meme As String, _hits As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("UnionSimilarity")
+Dim CLI As New StringBuilder("/Similarity.Union")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/meme " & """" & _meme & """ ")
 Call CLI.Append("/hits " & """" & _hits & """ ")
@@ -1046,7 +1094,8 @@ End Function
 ''' </summary>
 '''
 Public Function SiteMASTScan(_mast As String, Optional _out As String = "", Optional _batch As Boolean = False) As Integer
-Dim CLI As New StringBuilder("SiteMASTScan")
+Dim CLI As New StringBuilder("/Site.MAST_Scan")
+Call CLI.Append(" ")
 Call CLI.Append("/mast " & """" & _mast & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1068,7 +1117,8 @@ End Function
 ''' </summary>
 '''
 Public Function SiteMASTScanBatch(_mast As String, Optional _out As String = "", Optional _num_threads As String = "") As Integer
-Dim CLI As New StringBuilder("SiteMASTScanBatch")
+Dim CLI As New StringBuilder("/Site.MAST_Scan")
+Call CLI.Append(" ")
 Call CLI.Append("/mast " & """" & _mast & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1089,7 +1139,8 @@ End Function
 ''' </summary>
 '''
 Public Function SiteRegexScan(_meme As String, _nt As String, Optional _out As String = "", Optional _batch As Boolean = False) As Integer
-Dim CLI As New StringBuilder("SiteRegexScan")
+Dim CLI As New StringBuilder("/Site.RegexScan")
+Call CLI.Append(" ")
 Call CLI.Append("/meme " & """" & _meme & """ ")
 Call CLI.Append("/nt " & """" & _nt & """ ")
 If Not _out.StringEmpty Then
@@ -1111,7 +1162,8 @@ End Function
 ''' </summary>
 '''
 Public Function SiteScan(_query As String, _subject As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("SiteScan")
+Dim CLI As New StringBuilder("/site.scan")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/subject " & """" & _subject & """ ")
 If Not _out.StringEmpty Then
@@ -1131,7 +1183,8 @@ End Function
 ''' </summary>
 '''
 Public Function SiteHitsToFootprints(_sites As String, _bbh As String, _meme As String, _PTT As String, _DOOR As String, Optional _out As String = "", Optional _queryhash As Boolean = False) As Integer
-Dim CLI As New StringBuilder("SiteHitsToFootprints")
+Dim CLI As New StringBuilder("/SiteHits.Footprints")
+Call CLI.Append(" ")
 Call CLI.Append("/sites " & """" & _sites & """ ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 Call CLI.Append("/meme " & """" & _meme & """ ")
@@ -1156,7 +1209,8 @@ End Function
 ''' </summary>
 '''
 Public Function SWTomCompares(_query As String, _subject As String, Optional _out As String = "", Optional _no_html As Boolean = False) As Integer
-Dim CLI As New StringBuilder("SWTomCompares")
+Dim CLI As New StringBuilder("/SWTOM.Compares")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/subject " & """" & _subject & """ ")
 If Not _out.StringEmpty Then
@@ -1178,7 +1232,8 @@ End Function
 ''' </summary>
 '''
 Public Function SWTomComparesBatch(_query As String, _subject As String, Optional _out As String = "", Optional _no_html As Boolean = False) As Integer
-Dim CLI As New StringBuilder("SWTomComparesBatch")
+Dim CLI As New StringBuilder("/SWTOM.Compares.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/subject " & """" & _subject & """ ")
 If Not _out.StringEmpty Then
@@ -1200,7 +1255,8 @@ End Function
 ''' </summary>
 '''
 Public Function SWTomLDM(_query As String, _subject As String, Optional _out As String = "", Optional _method As String = "") As Integer
-Dim CLI As New StringBuilder("SWTomLDM")
+Dim CLI As New StringBuilder("/SWTOM.LDM")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/subject " & """" & _subject & """ ")
 If Not _out.StringEmpty Then
@@ -1222,7 +1278,8 @@ End Function
 ''' </summary>
 '''
 Public Function SWTomQuery(_query As String, Optional _out As String = "", Optional _method As String = "", Optional _bits_level As String = "", Optional _minw As String = "", Optional _no_html As Boolean = False) As Integer
-Dim CLI As New StringBuilder("SWTomQuery")
+Dim CLI As New StringBuilder("/SWTOM.Query")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1252,7 +1309,8 @@ End Function
 ''' </summary>
 '''
 Public Function SWTomQueryBatch(_query As String, Optional _out As String = "", Optional _sw_offset As String = "", Optional _method As String = "", Optional _bits_level As String = "", Optional _minw As String = "", Optional _sw_threshold As String = "", Optional _tom_threshold As String = "", Optional _no_html As Boolean = False) As Integer
-Dim CLI As New StringBuilder("SWTomQueryBatch")
+Dim CLI As New StringBuilder("/SWTOM.Query.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1291,7 +1349,8 @@ End Function
 ''' </summary>
 '''
 Public Function TomQuery(_query As String, Optional _out As String = "", Optional _method As String = "", Optional _cost As String = "", Optional _threshold As String = "", Optional _meme As Boolean = False) As Integer
-Dim CLI As New StringBuilder("TomQuery")
+Dim CLI As New StringBuilder("/Tom.Query")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1321,7 +1380,8 @@ End Function
 ''' </summary>
 '''
 Public Function TomQueryBatch(_query As String, Optional _out As String = "", Optional _method As String = "", Optional _cost As String = "", Optional _threshold As String = "") As Integer
-Dim CLI As New StringBuilder("TomQueryBatch")
+Dim CLI As New StringBuilder("/Tom.Query.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1348,7 +1408,8 @@ End Function
 ''' </summary>
 '''
 Public Function TomTOMMethod(_query As String, _subject As String, Optional _out As String = "", Optional _method As String = "", Optional _cost As String = "", Optional _threshold As String = "") As Integer
-Dim CLI As New StringBuilder("TomTOMMethod")
+Dim CLI As New StringBuilder("/TomTOM")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/subject " & """" & _subject & """ ")
 If Not _out.StringEmpty Then
@@ -1376,7 +1437,8 @@ End Function
 ''' </summary>
 '''
 Public Function LDMTomTom(_query As String, _subject As String, Optional _out As String = "", Optional _method As String = "", Optional _cost As String = "", Optional _threshold As String = "") As Integer
-Dim CLI As New StringBuilder("LDMTomTom")
+Dim CLI As New StringBuilder("/TomTom.LDM")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/subject " & """" & _subject & """ ")
 If Not _out.StringEmpty Then
@@ -1404,7 +1466,8 @@ End Function
 ''' </summary>
 '''
 Public Function MEMEPlantSimilarity(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MEMEPlantSimilarity")
+Dim CLI As New StringBuilder("/TomTOM.Similarity")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1422,7 +1485,8 @@ End Function
 ''' </summary>
 '''
 Public Function MEMEPlantSimilarityBatch(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MEMEPlantSimilarityBatch")
+Dim CLI As New StringBuilder("/TOMTOM.Similarity.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1440,7 +1504,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportTOMSites(_in As String, _meme As String, Optional _grep As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ExportTOMSites")
+Dim CLI As New StringBuilder("/TomTom.Sites.Groups")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/meme " & """" & _meme & """ ")
 If Not _grep.StringEmpty Then
@@ -1462,7 +1527,8 @@ End Function
 ''' </summary>
 '''
 Public Function Trim(_in As String, _locus As String, _correlations As String, Optional _out As String = "", Optional _cut As String = "") As Integer
-Dim CLI As New StringBuilder("Trim")
+Dim CLI As New StringBuilder("/Trim.MastSite")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/locus " & """" & _locus & """ ")
 Call CLI.Append("/correlations " & """" & _correlations & """ ")
@@ -1486,7 +1552,8 @@ End Function
 ''' </summary>
 '''
 Public Function TrimInputs(_in As String, Optional _out As String = "", Optional _minl As String = "", Optional _distinct As Boolean = False) As Integer
-Dim CLI As New StringBuilder("TrimInputs")
+Dim CLI As New StringBuilder("/Trim.MEME.Dataset")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1511,7 +1578,8 @@ End Function
 ''' </summary>
 '''
 Public Function Build(_bbh As String, _mast As String, Optional _cutoff As String = "", Optional _out As String = "", Optional _sp As String = "", Optional _door As String = "", Optional _door_extract As Boolean = False) As Integer
-Dim CLI As New StringBuilder("Build")
+Dim CLI As New StringBuilder("--build.Regulations")
+Call CLI.Append(" ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 Call CLI.Append("/mast " & """" & _mast & """ ")
 If Not _cutoff.StringEmpty Then
@@ -1542,7 +1610,8 @@ End Function
 ''' </summary>
 '''
 Public Function BuildFromMotifSites(_bbh As String, _motifs As String, Optional _cutoff As String = "", Optional _sp As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("BuildFromMotifSites")
+Dim CLI As New StringBuilder("--build.Regulations.From.Motifs")
+Call CLI.Append(" ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 Call CLI.Append("/motifs " & """" & _motifs & """ ")
 If Not _cutoff.StringEmpty Then
@@ -1567,7 +1636,8 @@ End Function
 ''' </summary>
 '''
 Public Function WGCNAModsCExpr(_mods As String, _genome As String, _out As String) As Integer
-Dim CLI As New StringBuilder("WGCNAModsCExpr")
+Dim CLI As New StringBuilder("--CExpr.WGCNA")
+Call CLI.Append(" ")
 Call CLI.Append("/mods " & """" & _mods & """ ")
 Call CLI.Append("/genome " & """" & _genome & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1585,7 +1655,8 @@ End Function
 ''' </summary>
 '''
 Public Function DownloadRegprecise2(Optional _work As String = "", Optional _save As String = "") As Integer
-Dim CLI As New StringBuilder("DownloadRegprecise2")
+Dim CLI As New StringBuilder("Download.Regprecise")
+Call CLI.Append(" ")
 If Not _work.StringEmpty Then
 Call CLI.Append("/work " & """" & _work & """ ")
 End If
@@ -1605,7 +1676,8 @@ End Function
 ''' </summary>
 '''
 Public Function KEGGFamilyDump(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("KEGGFamilyDump")
+Dim CLI As New StringBuilder("--Dump.KEGG.Family")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1623,7 +1695,8 @@ End Function
 ''' </summary>
 '''
 Public Function FamilyStatics(_sites As String, _mods As String) As Integer
-Dim CLI As New StringBuilder("FamilyStatics")
+Dim CLI As New StringBuilder("--family.statics")
+Call CLI.Append(" ")
 Call CLI.Append("/sites " & """" & _sites & """ ")
 Call CLI.Append("/mods " & """" & _mods & """ ")
 
@@ -1639,7 +1712,8 @@ End Function
 ''' </summary>
 '''
 Public Function GetIntergenic(_PTT As String, _nt As String, Optional _o As String = "", Optional _len As String = "", Optional _strict As Boolean = False) As Integer
-Dim CLI As New StringBuilder("GetIntergenic")
+Dim CLI As New StringBuilder("--Get.Intergenic")
+Call CLI.Append(" ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 Call CLI.Append("/nt " & """" & _nt & """ ")
 If Not _o.StringEmpty Then
@@ -1664,7 +1738,8 @@ End Function
 ''' </summary>
 '''
 Public Function GetFasta(_bbh As String, _id As String, _regprecise As String) As Integer
-Dim CLI As New StringBuilder("GetFasta")
+Dim CLI As New StringBuilder("--GetFasta")
+Call CLI.Append(" ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 Call CLI.Append("/id " & """" & _id & """ ")
 Call CLI.Append("/regprecise " & """" & _regprecise & """ ")
@@ -1681,7 +1756,8 @@ End Function
 ''' </summary>
 '''
 Public Function DiffHits(_query As String, _subject As String, Optional _reverse As Boolean = False) As Integer
-Dim CLI As New StringBuilder("DiffHits")
+Dim CLI As New StringBuilder("--hits.diff")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/subject " & """" & _subject & """ ")
 If _reverse Then
@@ -1700,7 +1776,8 @@ End Function
 ''' </summary>
 '''
 Public Function MaxIntersection(_query As String, _subject As String) As Integer
-Dim CLI As New StringBuilder("MaxIntersection")
+Dim CLI As New StringBuilder("--Intersect.Max")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/subject " & """" & _subject & """ ")
 
@@ -1716,7 +1793,8 @@ End Function
 ''' </summary>
 '''
 Public Function LogoBatch(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("LogoBatch")
+Dim CLI As New StringBuilder("--logo.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("-in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1734,7 +1812,8 @@ End Function
 ''' </summary>
 '''
 Public Function SiteMappedBack(_meme As String, _mast As String, _ptt As String, Optional _out As String = "", Optional _offset As String = "", Optional _atg_dist As String = "") As Integer
-Dim CLI As New StringBuilder("SiteMappedBack")
+Dim CLI As New StringBuilder("--mapped-Back")
+Call CLI.Append(" ")
 Call CLI.Append("/meme " & """" & _meme & """ ")
 Call CLI.Append("/mast " & """" & _mast & """ ")
 Call CLI.Append("/ptt " & """" & _ptt & """ ")
@@ -1760,7 +1839,8 @@ End Function
 ''' </summary>
 '''
 Public Function CompileMast(_mast As String, _ptt As String, Optional _p_value As String = "", Optional _mast_ldm As String = "", Optional _atg_dist As String = "", Optional _no_meme As Boolean = False, Optional _no_reginfo As Boolean = False) As Integer
-Dim CLI As New StringBuilder("CompileMast")
+Dim CLI As New StringBuilder("mast.compile")
+Call CLI.Append(" ")
 Call CLI.Append("/mast " & """" & _mast & """ ")
 Call CLI.Append("/ptt " & """" & _ptt & """ ")
 If Not _p_value.StringEmpty Then
@@ -1792,7 +1872,8 @@ End Function
 ''' </summary>
 '''
 Public Function CompileMastBuck(_source As String, Optional _ptt As String = "", Optional _atg_dist As String = "", Optional _p_value As String = "", Optional _mast_ldm As String = "", Optional _no_meme As Boolean = False, Optional _no_reginfo As Boolean = False, Optional _related_all As Boolean = False) As Integer
-Dim CLI As New StringBuilder("CompileMastBuck")
+Dim CLI As New StringBuilder("mast.compile.bulk")
+Call CLI.Append(" ")
 Call CLI.Append("/source " & """" & _source & """ ")
 If Not _ptt.StringEmpty Then
 Call CLI.Append("/ptt " & """" & _ptt & """ ")
@@ -1829,7 +1910,8 @@ End Function
 ''' </summary>
 '''
 Public Function ModuleRegulates(_in As String, Optional _out As String = "", Optional _mods As String = "") As Integer
-Dim CLI As New StringBuilder("ModuleRegulates")
+Dim CLI As New StringBuilder("--modules.regulates")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1850,7 +1932,8 @@ End Function
 ''' </summary>
 '''
 Public Function MotifLocites(_ptt As String, _meme As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MotifLocites")
+Dim CLI As New StringBuilder("Motif.Locates")
+Call CLI.Append(" ")
 Call CLI.Append("-ptt " & """" & _ptt & """ ")
 Call CLI.Append("-meme " & """" & _meme & """ ")
 If Not _out.StringEmpty Then
@@ -1871,6 +1954,7 @@ End Function
 '''
 Public Function MotifScan(_nt As String, _motif As String, Optional _delta As String = "", Optional _delta2 As String = "", Optional _offset As String = "", Optional _out As String = "") As Integer
 Dim CLI As New StringBuilder("MotifScan")
+Call CLI.Append(" ")
 Call CLI.Append("-nt " & """" & _nt & """ ")
 Call CLI.Append("/motif " & """" & _motif & """ ")
 If Not _delta.StringEmpty Then
@@ -1899,7 +1983,8 @@ End Function
 ''' </summary>
 '''
 Public Function PathwayRegulations(_footprints As String, _pathway As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("PathwayRegulations")
+Dim CLI As New StringBuilder("--pathway.regulates")
+Call CLI.Append(" ")
 Call CLI.Append("-footprints " & """" & _footprints & """ ")
 Call CLI.Append("/pathway " & """" & _pathway & """ ")
 If Not _out.StringEmpty Then
@@ -1919,7 +2004,8 @@ End Function
 ''' </summary>
 '''
 Public Function CompileRegprecise(Optional _src As String = "") As Integer
-Dim CLI As New StringBuilder("CompileRegprecise")
+Dim CLI As New StringBuilder("Regprecise.Compile")
+Call CLI.Append(" ")
 If Not _src.StringEmpty Then
 Call CLI.Append("/src " & """" & _src & """ ")
 End If
@@ -1937,7 +2023,8 @@ End Function
 ''' </summary>
 '''
 Public Function RegulatorsBBh(_bbh As String, Optional _save As String = "", Optional _maps As String = "", Optional _direct As Boolean = False, Optional _regulons As Boolean = False) As Integer
-Dim CLI As New StringBuilder("RegulatorsBBh")
+Dim CLI As New StringBuilder("regulators.bbh")
+Call CLI.Append(" ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 If Not _save.StringEmpty Then
 Call CLI.Append("/save " & """" & _save & """ ")
@@ -1964,7 +2051,8 @@ End Function
 ''' </summary>
 '''
 Public Function SiteMatch(_meme As String, _mast As String, _out As String, Optional _ptt As String = "", Optional _len As String = "") As Integer
-Dim CLI As New StringBuilder("SiteMatch")
+Dim CLI As New StringBuilder("--site.Match")
+Call CLI.Append(" ")
 Call CLI.Append("/meme " & """" & _meme & """ ")
 Call CLI.Append("/mast " & """" & _mast & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1987,7 +2075,8 @@ End Function
 ''' </summary>
 '''
 Public Function SiteMatches(_meme As String, _mast As String, _out As String, Optional _ptt As String = "") As Integer
-Dim CLI As New StringBuilder("SiteMatches")
+Dim CLI As New StringBuilder("--site.Matches")
+Call CLI.Append(" ")
 Call CLI.Append("/meme " & """" & _meme & """ ")
 Call CLI.Append("/mast " & """" & _mast & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -2008,7 +2097,8 @@ End Function
 ''' </summary>
 '''
 Public Function SiteMatchesText(_meme As String, _mast As String, _out As String, Optional _ptt As String = "", Optional _fasta As String = "") As Integer
-Dim CLI As New StringBuilder("SiteMatchesText")
+Dim CLI As New StringBuilder("--site.Matches.text")
+Call CLI.Append(" ")
 Call CLI.Append("/meme " & """" & _meme & """ ")
 Call CLI.Append("/mast " & """" & _mast & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -2032,7 +2122,8 @@ End Function
 ''' </summary>
 '''
 Public Function SiteStat(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("SiteStat")
+Dim CLI As New StringBuilder("--site.stat")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -2050,7 +2141,8 @@ End Function
 ''' </summary>
 '''
 Public Function TCSRegulateModule(_MiST2 As String, _footprint As String, _Pathways As String) As Integer
-Dim CLI As New StringBuilder("TCSRegulateModule")
+Dim CLI As New StringBuilder("--TCS.Module.Regulations")
+Call CLI.Append(" ")
 Call CLI.Append("/MiST2 " & """" & _MiST2 & """ ")
 Call CLI.Append("/footprint " & """" & _footprint & """ ")
 Call CLI.Append("/Pathways " & """" & _Pathways & """ ")
@@ -2067,7 +2159,8 @@ End Function
 ''' </summary>
 '''
 Public Function TCSRegulations(_TCS As String, _modules As String, _regulations As String) As Integer
-Dim CLI As New StringBuilder("TCSRegulations")
+Dim CLI As New StringBuilder("--TCS.Regulations")
+Call CLI.Append(" ")
 Call CLI.Append("/TCS " & """" & _TCS & """ ")
 Call CLI.Append("/modules " & """" & _modules & """ ")
 Call CLI.Append("/regulations " & """" & _regulations & """ ")
@@ -2085,7 +2178,8 @@ End Function
 ''' </summary>
 '''
 Public Function VirtualFootprintDIP(vf_csv As String, dip_csv As String) As Integer
-Dim CLI As New StringBuilder("VirtualFootprintDIP")
+Dim CLI As New StringBuilder("VirtualFootprint.DIP")
+Call CLI.Append(" ")
 Call CLI.Append("vf.csv " & """" & vf_csv & """ ")
 Call CLI.Append("dip.csv " & """" & dip_csv & """ ")
 
@@ -2102,7 +2196,8 @@ End Function
 ''' </summary>
 '''
 Public Function DownloadRegprecise(Optional _repository_export As String = "", Optional _updates As Boolean = False) As Integer
-Dim CLI As New StringBuilder("DownloadRegprecise")
+Dim CLI As New StringBuilder("wGet.Regprecise")
+Call CLI.Append(" ")
 If Not _repository_export.StringEmpty Then
 Call CLI.Append("/repository-export " & """" & _repository_export & """ ")
 End If

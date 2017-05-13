@@ -26,7 +26,8 @@ End Sub
 ''' </summary>
 '''
 Public Function rFBABatch(_in As String, _reg As String, _obj As String, Optional _obj_type As String = "", Optional _params As String = "", Optional _stat As String = "", Optional _sample As String = "", Optional _modify As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("rFBABatch")
+Dim CLI As New StringBuilder("/Analysis.Phenotype")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/reg " & """" & _reg & """ ")
 Call CLI.Append("/obj " & """" & _obj & """ ")
@@ -61,7 +62,8 @@ End Function
 ''' </summary>
 '''
 Public Function Export(_i As String, _o As String) As Integer
-Dim CLI As New StringBuilder("Export")
+Dim CLI As New StringBuilder("export")
+Call CLI.Append(" ")
 Call CLI.Append("-i " & """" & _i & """ ")
 Call CLI.Append("-o " & """" & _o & """ ")
 
@@ -77,7 +79,8 @@ End Function
 ''' </summary>
 '''
 Public Function FluxCoefficient(_in As String, Optional _footprints As String = "", Optional _out As String = "", Optional _spcc As Boolean = False, Optional _kegg As Boolean = False) As Integer
-Dim CLI As New StringBuilder("FluxCoefficient")
+Dim CLI As New StringBuilder("/Flux.Coefficient")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _footprints.StringEmpty Then
 Call CLI.Append("/footprints " & """" & _footprints & """ ")
@@ -104,7 +107,8 @@ End Function
 ''' </summary>
 '''
 Public Function KEGGFilter(_in As String, _model As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("KEGGFilter")
+Dim CLI As New StringBuilder("/Flux.KEGG.Filter")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/model " & """" & _model & """ ")
 If Not _out.StringEmpty Then
@@ -123,7 +127,8 @@ End Function
 ''' </summary>
 '''
 Public Function FuncCoefficient(_func As String, _in As String, Optional _footprints As String = "", Optional _out As String = "", Optional _spcc As Boolean = False) As Integer
-Dim CLI As New StringBuilder("FuncCoefficient")
+Dim CLI As New StringBuilder("/Func.Coefficient")
+Call CLI.Append(" ")
 Call CLI.Append("/func " & """" & _func & """ ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _footprints.StringEmpty Then
@@ -148,7 +153,8 @@ End Function
 ''' </summary>
 '''
 Public Function PhenotypeAnalysisBatch(_model As String, _phenotypes As String, _footprints As String, Optional _obj_type As String = "", Optional _params As String = "", Optional _stat As String = "", Optional _sample As String = "", Optional _modify As String = "", Optional _out As String = "", Optional _parallel As String = "") As Integer
-Dim CLI As New StringBuilder("PhenotypeAnalysisBatch")
+Dim CLI As New StringBuilder("/gcFBA.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/model " & """" & _model & """ ")
 Call CLI.Append("/phenotypes " & """" & _phenotypes & """ ")
 Call CLI.Append("/footprints " & """" & _footprints & """ ")
@@ -187,7 +193,8 @@ End Function
 ''' </summary>
 '''
 Public Function Heatmap(_x As String, Optional _out As String = "", Optional _name As String = "", Optional _width As String = "", Optional _height As String = "") As Integer
-Dim CLI As New StringBuilder("Heatmap")
+Dim CLI As New StringBuilder("/heatmap")
+Call CLI.Append(" ")
 Call CLI.Append("/x " & """" & _x & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -214,7 +221,8 @@ End Function
 ''' </summary>
 '''
 Public Function ScaleHeatmap(_x As String, Optional _factor As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ScaleHeatmap")
+Dim CLI As New StringBuilder("/heatmap.scale")
+Call CLI.Append(" ")
 Call CLI.Append("/x " & """" & _x & """ ")
 If Not _factor.StringEmpty Then
 Call CLI.Append("/factor " & """" & _factor & """ ")
@@ -235,7 +243,8 @@ End Function
 ''' </summary>
 '''
 Public Function ImportsRxns(_in As String) As Integer
-Dim CLI As New StringBuilder("ImportsRxns")
+Dim CLI As New StringBuilder("/Imports")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 
 
@@ -251,7 +260,8 @@ End Function
 ''' </summary>
 '''
 Public Function ObjMAT(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ObjMAT")
+Dim CLI As New StringBuilder("/phenos.MAT")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -270,7 +280,8 @@ End Function
 ''' </summary>
 '''
 Public Function PhenosOUTCoefficient(_gene As String, _pheno As String, Optional _footprints As String = "", Optional _out As String = "", Optional _spcc As Boolean = False) As Integer
-Dim CLI As New StringBuilder("PhenosOUTCoefficient")
+Dim CLI As New StringBuilder("/phenos.out.Coefficient")
+Call CLI.Append(" ")
 Call CLI.Append("/gene " & """" & _gene & """ ")
 Call CLI.Append("/pheno " & """" & _pheno & """ ")
 If Not _footprints.StringEmpty Then
@@ -296,7 +307,8 @@ End Function
 ''' </summary>
 '''
 Public Function PhenoOUT_MAT(_in As String, _samples As String, Optional _out As String = "", Optional _model As String = "") As Integer
-Dim CLI As New StringBuilder("PhenoOUT_MAT")
+Dim CLI As New StringBuilder("/phenos.out.MAT")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/samples " & """" & _samples & """ ")
 If Not _out.StringEmpty Then
@@ -319,7 +331,8 @@ End Function
 ''' </summary>
 '''
 Public Function Solve(_i As String, _o As String, _d As String, Optional _m As String = "", Optional _f As String = "", Optional _knock_out As String = "") As Integer
-Dim CLI As New StringBuilder("Solve")
+Dim CLI As New StringBuilder("/solve")
+Call CLI.Append(" ")
 Call CLI.Append("-i " & """" & _i & """ ")
 Call CLI.Append("-o " & """" & _o & """ ")
 Call CLI.Append("-d " & """" & _d & """ ")
@@ -345,7 +358,8 @@ End Function
 ''' </summary>
 '''
 Public Function KEGGSolver(_in As String, _objs As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("KEGGSolver")
+Dim CLI As New StringBuilder("/Solver.KEGG")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/objs " & """" & _objs & """ ")
 If Not _out.StringEmpty Then
@@ -364,7 +378,8 @@ End Function
 ''' </summary>
 '''
 Public Function AnalysisPhenotype(_in As String, _reg As String, _obj As String, Optional _obj_type As String = "", Optional _params As String = "", Optional _stat As String = "", Optional _sample As String = "", Optional _modify As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("AnalysisPhenotype")
+Dim CLI As New StringBuilder("/Solver.rFBA")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/reg " & """" & _reg & """ ")
 Call CLI.Append("/obj " & """" & _obj & """ ")
@@ -400,7 +415,8 @@ End Function
 ''' </summary>
 '''
 Public Function Compile(_i As String, _o As String, Optional _if As String = "", Optional _of As String = "", Optional _f As String = "", Optional _d As String = "") As Integer
-Dim CLI As New StringBuilder("Compile")
+Dim CLI As New StringBuilder("compile")
+Call CLI.Append(" ")
 Call CLI.Append("-i " & """" & _i & """ ")
 Call CLI.Append("-o " & """" & _o & """ ")
 If Not _if.StringEmpty Then

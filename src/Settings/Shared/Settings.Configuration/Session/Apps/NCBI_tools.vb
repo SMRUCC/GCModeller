@@ -26,7 +26,8 @@ End Sub
 ''' </summary>
 '''
 Public Function accidMatch(_in As String, _acc2taxid As String, Optional _out As String = "", Optional _gb_priority As Boolean = False) As Integer
-Dim CLI As New StringBuilder("accidMatch")
+Dim CLI As New StringBuilder("/accid2taxid.Match")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/acc2taxid " & """" & _acc2taxid & """ ")
 If Not _out.StringEmpty Then
@@ -48,7 +49,8 @@ End Function
 ''' </summary>
 '''
 Public Function AssignTaxonomy(_in As String, _gi As String, _index As String, _tax As String, _gi2taxi As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("AssignTaxonomy")
+Dim CLI As New StringBuilder("/Assign.Taxonomy")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/gi " & """" & _gi & """ ")
 Call CLI.Append("/index " & """" & _index & """ ")
@@ -70,7 +72,8 @@ End Function
 ''' </summary>
 '''
 Public Function AssignTaxonomyFromRef(_in As String, _ref As String, Optional _index As String = "", Optional _out As String = "", Optional _non_biom As Boolean = False) As Integer
-Dim CLI As New StringBuilder("AssignTaxonomyFromRef")
+Dim CLI As New StringBuilder("/Assign.Taxonomy.From.Ref")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/ref " & """" & _ref & """ ")
 If Not _index.StringEmpty Then
@@ -95,7 +98,8 @@ End Function
 ''' </summary>
 '''
 Public Function AssignTaxonomy2(_in As String, _index As String, _ref As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("AssignTaxonomy2")
+Dim CLI As New StringBuilder("/Assign.Taxonomy.SSU")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/index " & """" & _index & """ ")
 Call CLI.Append("/ref " & """" & _ref & """ ")
@@ -115,7 +119,8 @@ End Function
 ''' </summary>
 '''
 Public Function AssociateTaxonomy(_in As String, _tax As String, _gi2taxi As String, Optional _gi As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("AssociateTaxonomy")
+Dim CLI As New StringBuilder("/Associate.Taxonomy")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/tax " & """" & _tax & """ ")
 Call CLI.Append("/gi2taxi " & """" & _gi2taxi & """ ")
@@ -138,7 +143,8 @@ End Function
 ''' </summary>
 '''
 Public Function Associates(_in As String, _ls As String, Optional _index As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("Associates")
+Dim CLI As New StringBuilder("/Associates.Brief")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/ls " & """" & _ls & """ ")
 If Not _index.StringEmpty Then
@@ -160,7 +166,8 @@ End Function
 ''' </summary>
 '''
 Public Function Build_gi2taxi(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("Build_gi2taxi")
+Dim CLI As New StringBuilder("/Build_gi2taxi")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -178,7 +185,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportGI(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ExportGI")
+Dim CLI As New StringBuilder("/Export.GI")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -197,7 +205,8 @@ End Function
 ''' </summary>
 '''
 Public Function FilterExports(_in As String, _tax As String, _gi2taxid As String, _words As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("FilterExports")
+Dim CLI As New StringBuilder("/Filter.Exports")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/tax " & """" & _tax & """ ")
 Call CLI.Append("/gi2taxid " & """" & _gi2taxid & """ ")
@@ -218,7 +227,8 @@ End Function
 ''' </summary>
 '''
 Public Function giMatch(_in As String, _gi2taxid As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("giMatch")
+Dim CLI As New StringBuilder("/gi.Match")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/gi2taxid " & """" & _gi2taxid & """ ")
 If Not _out.StringEmpty Then
@@ -237,7 +247,8 @@ End Function
 ''' </summary>
 '''
 Public Function giMatchs(_in As String, _gi2taxid As String, Optional _out As String = "", Optional _num_threads As String = "") As Integer
-Dim CLI As New StringBuilder("giMatchs")
+Dim CLI As New StringBuilder("/gi.Matchs")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/gi2taxid " & """" & _gi2taxid & """ ")
 If Not _out.StringEmpty Then
@@ -259,7 +270,8 @@ End Function
 ''' </summary>
 '''
 Public Function GetMapHitsList(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("GetMapHitsList")
+Dim CLI As New StringBuilder("/MapHits.list")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -277,7 +289,8 @@ End Function
 ''' </summary>
 '''
 Public Function NtKeyMatches(_in As String, _list As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("NtKeyMatches")
+Dim CLI As New StringBuilder("/nt.matches.key")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/list " & """" & _list & """ ")
 If Not _out.StringEmpty Then
@@ -296,7 +309,8 @@ End Function
 ''' </summary>
 '''
 Public Function NtNameMatches(_in As String, _list As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("NtNameMatches")
+Dim CLI As New StringBuilder("/nt.matches.name")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/list " & """" & _list & """ ")
 If Not _out.StringEmpty Then
@@ -315,7 +329,8 @@ End Function
 ''' </summary>
 '''
 Public Function NtTaxonomy(_in As String, _gi2taxi As String, _tax As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("NtTaxonomy")
+Dim CLI As New StringBuilder("/Nt.Taxonomy")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/gi2taxi " & """" & _gi2taxi & """ ")
 Call CLI.Append("/tax " & """" & _tax & """ ")
@@ -335,7 +350,8 @@ End Function
 ''' </summary>
 '''
 Public Function OTUAssociated(_in As String, _maps As String, Optional _rawmap As String = "", Optional _otu_field As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("OTUAssociated")
+Dim CLI As New StringBuilder("/OTU.associated")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/maps " & """" & _maps & """ ")
 If Not _rawmap.StringEmpty Then
@@ -360,7 +376,8 @@ End Function
 ''' </summary>
 '''
 Public Function OTUDiff(_ref As String, _parts As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("OTUDiff")
+Dim CLI As New StringBuilder("/OTU.diff")
+Call CLI.Append(" ")
 Call CLI.Append("/ref " & """" & _ref & """ ")
 Call CLI.Append("/parts " & """" & _parts & """ ")
 If Not _out.StringEmpty Then
@@ -379,7 +396,8 @@ End Function
 ''' </summary>
 '''
 Public Function OTU_Taxonomy(_in As String, _maps As String, _tax As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("OTU_Taxonomy")
+Dim CLI As New StringBuilder("/OTU.Taxonomy")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/maps " & """" & _maps & """ ")
 Call CLI.Append("/tax " & """" & _tax & """ ")
@@ -400,7 +418,8 @@ End Function
 ''' </summary>
 '''
 Public Function OTUTaxonomyReplace(_in As String, _maps As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("OTUTaxonomyReplace")
+Dim CLI As New StringBuilder("/OTU.Taxonomy.Replace")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/maps " & """" & _maps & """ ")
 If Not _out.StringEmpty Then
@@ -419,7 +438,8 @@ End Function
 ''' </summary>
 '''
 Public Function SearchTaxonomy(_in As String, _ncbi_taxonomy As String, Optional _top As String = "", Optional _cut As String = "", Optional _out As String = "", Optional _expression As Boolean = False) As Integer
-Dim CLI As New StringBuilder("SearchTaxonomy")
+Dim CLI As New StringBuilder("/Search.Taxonomy")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/ncbi_taxonomy " & """" & _ncbi_taxonomy & """ ")
 If Not _top.StringEmpty Then
@@ -448,7 +468,8 @@ End Function
 ''' </summary>
 '''
 Public Function SplitByTaxid(_in As String, Optional _gi2taxid As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("SplitByTaxid")
+Dim CLI As New StringBuilder("/Split.By.Taxid")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _gi2taxid.StringEmpty Then
 Call CLI.Append("/gi2taxid " & """" & _gi2taxid & """ ")
@@ -469,7 +490,8 @@ End Function
 ''' </summary>
 '''
 Public Function SplitByTaxidBatch(_in As String, Optional _num_threads As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("SplitByTaxidBatch")
+Dim CLI As New StringBuilder("/Split.By.Taxid.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _num_threads.StringEmpty Then
 Call CLI.Append("/num_threads " & """" & _num_threads & """ ")
@@ -490,7 +512,8 @@ End Function
 ''' </summary>
 '''
 Public Function TaxonomyTreeData(_data As String, _field_gi As String, _gi2taxid As String, _tax As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("TaxonomyTreeData")
+Dim CLI As New StringBuilder("/Taxonomy.Data")
+Call CLI.Append(" ")
 Call CLI.Append("/data " & """" & _data & """ ")
 Call CLI.Append("/field.gi " & """" & _field_gi & """ ")
 Call CLI.Append("/gi2taxid " & """" & _gi2taxid & """ ")
@@ -511,7 +534,8 @@ End Function
 ''' </summary>
 '''
 Public Function TaxidMapHitViews(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("TaxidMapHitViews")
+Dim CLI As New StringBuilder("/Taxonomy.Maphits.Overview")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -530,7 +554,8 @@ End Function
 ''' </summary>
 '''
 Public Function TaxonomyTree(_taxid As String, _tax As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("TaxonomyTree")
+Dim CLI As New StringBuilder("/Taxonomy.Tree")
+Call CLI.Append(" ")
 Call CLI.Append("/taxid " & """" & _taxid & """ ")
 Call CLI.Append("/tax " & """" & _tax & """ ")
 If Not _out.StringEmpty Then
@@ -549,7 +574,8 @@ End Function
 ''' </summary>
 '''
 Public Function GetWordTokens(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("GetWordTokens")
+Dim CLI As New StringBuilder("/word.tokens")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")

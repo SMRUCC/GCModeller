@@ -26,7 +26,8 @@ End Sub
 ''' </summary>
 '''
 Public Function WriteConfigTemplate(Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("WriteConfigTemplate")
+Dim CLI As New StringBuilder("/Config.Template")
+Call CLI.Append(" ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
 End If
@@ -44,7 +45,8 @@ End Function
 ''' </summary>
 '''
 Public Function BBHVisual(_in As String, _PTT As String, _density As String, Optional _limits As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("BBHVisual")
+Dim CLI As New StringBuilder("/Visual.BBH")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 Call CLI.Append("/density " & """" & _density & """ ")
@@ -68,7 +70,8 @@ End Function
 ''' </summary>
 '''
 Public Function BlastnVisualizeWebResult(_in As String, _genbank As String, Optional _orf_catagory As String = "", Optional _region As String = "", Optional _out As String = "", Optional _local As Boolean = False) As Integer
-Dim CLI As New StringBuilder("BlastnVisualizeWebResult")
+Dim CLI As New StringBuilder("/Visualize.blastn.alignment")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/genbank " & """" & _genbank & """ ")
 If Not _orf_catagory.StringEmpty Then
@@ -97,7 +100,8 @@ End Function
 ''' </summary>
 '''
 Public Function DrawingChrMap(_ptt As String, Optional _conf As String = "", Optional _out As String = "", Optional _cog As String = "") As Integer
-Dim CLI As New StringBuilder("DrawingChrMap")
+Dim CLI As New StringBuilder("--Draw.ChromosomeMap")
+Call CLI.Append(" ")
 Call CLI.Append("/ptt " & """" & _ptt & """ ")
 If Not _conf.StringEmpty Then
 Call CLI.Append("/conf " & """" & _conf & """ ")
@@ -121,7 +125,8 @@ End Function
 ''' </summary>
 '''
 Public Function DrawGenbank(_gb As String, Optional _conf As String = "", Optional _out As String = "", Optional _cog As String = "") As Integer
-Dim CLI As New StringBuilder("DrawGenbank")
+Dim CLI As New StringBuilder("--Draw.ChromosomeMap.genbank")
+Call CLI.Append(" ")
 Call CLI.Append("/gb " & """" & _gb & """ ")
 If Not _conf.StringEmpty Then
 Call CLI.Append("/conf " & """" & _conf & """ ")

@@ -27,7 +27,8 @@ End Sub
 ''' </summary>
 '''
 Public Function OperonBuilder(_bbh As String, _PTT As String, _TF_bbh As String, Optional _out As String = "", Optional _regprecise As String = "", Optional _tfhit_hash As Boolean = False) As Integer
-Dim CLI As New StringBuilder("OperonBuilder")
+Dim CLI As New StringBuilder("/Build.Operons")
+Call CLI.Append(" ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 Call CLI.Append("/TF-bbh " & """" & _TF_bbh & """ ")
@@ -53,7 +54,8 @@ End Function
 ''' </summary>
 '''
 Public Function RegulonBatchBuilder(_bbh As String, _PTT As String, _tf_bbh As String, _regprecise As String, Optional _num_threads As String = "", Optional _out As String = "", Optional _hits_hash As Boolean = False) As Integer
-Dim CLI As New StringBuilder("RegulonBatchBuilder")
+Dim CLI As New StringBuilder("/Build.Regulons.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 Call CLI.Append("/tf-bbh " & """" & _tf_bbh & """ ")
@@ -84,7 +86,8 @@ End Function
 ''' </summary>
 '''
 Public Function CORN(_in As String, _motif_sites As String, _sites As String, _ref As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("CORN")
+Dim CLI As New StringBuilder("/CORN")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/motif-sites " & """" & _motif_sites & """ ")
 Call CLI.Append("/sites " & """" & _sites & """ ")
@@ -105,7 +108,8 @@ End Function
 ''' </summary>
 '''
 Public Function CORNBatch(_sites As String, _regulons As String, Optional _name As String = "", Optional _out As String = "", Optional _num_threads As String = "", Optional _null_regprecise As Boolean = False) As Integer
-Dim CLI As New StringBuilder("CORNBatch")
+Dim CLI As New StringBuilder("/CORN.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/sites " & """" & _sites & """ ")
 Call CLI.Append("/regulons " & """" & _regulons & """ ")
 If Not _name.StringEmpty Then
@@ -133,7 +137,8 @@ End Function
 ''' </summary>
 '''
 Public Function CORNSingleThread(_hit As String, _hit_sites As String, _sites As String, _ref As String, Optional _out As String = "", Optional _null_regprecise As Boolean = False) As Integer
-Dim CLI As New StringBuilder("CORNSingleThread")
+Dim CLI As New StringBuilder("/CORN.thread")
+Call CLI.Append(" ")
 Call CLI.Append("/hit " & """" & _hit & """ ")
 Call CLI.Append("/hit-sites " & """" & _hit_sites & """ ")
 Call CLI.Append("/sites " & """" & _sites & """ ")
@@ -157,7 +162,8 @@ End Function
 ''' </summary>
 '''
 Public Function MergeDOOR(_in As String, _DOOR As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MergeDOOR")
+Dim CLI As New StringBuilder("/DOOR.Merge")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/DOOR " & """" & _DOOR & """ ")
 If Not _out.StringEmpty Then
@@ -176,7 +182,8 @@ End Function
 ''' </summary>
 '''
 Public Function DownloadMotifSites(_imports As String, Optional _export As String = "") As Integer
-Dim CLI As New StringBuilder("DownloadMotifSites")
+Dim CLI As New StringBuilder("/Download.Motifs")
+Call CLI.Append(" ")
 Call CLI.Append("/imports " & """" & _imports & """ ")
 If Not _export.StringEmpty Then
 Call CLI.Append("/export " & """" & _export & """ ")
@@ -195,7 +202,8 @@ End Function
 ''' </summary>
 '''
 Public Function DownloadRegprecise2(Optional _work As String = "", Optional _save As String = "") As Integer
-Dim CLI As New StringBuilder("DownloadRegprecise2")
+Dim CLI As New StringBuilder("Download.Regprecise")
+Call CLI.Append(" ")
 If Not _work.StringEmpty Then
 Call CLI.Append("/work " & """" & _work & """ ")
 End If
@@ -215,7 +223,8 @@ End Function
 ''' </summary>
 '''
 Public Function EffectorFillNames(_in As String, _compounds As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("EffectorFillNames")
+Dim CLI As New StringBuilder("/Effector.FillNames")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/compounds " & """" & _compounds & """ ")
 If Not _out.StringEmpty Then
@@ -235,7 +244,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportRegulators(_imports As String, _Fasta As String, Optional _out As String = "", Optional _locus_out As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportRegulators")
+Dim CLI As New StringBuilder("/Export.Regulators")
+Call CLI.Append(" ")
 Call CLI.Append("/imports " & """" & _imports & """ ")
 Call CLI.Append("/Fasta " & """" & _Fasta & """ ")
 If Not _out.StringEmpty Then
@@ -257,7 +267,8 @@ End Function
 ''' </summary>
 '''
 Public Function FamilyHits(_bbh As String, Optional _regprecise As String = "", Optional _pfamkey As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("FamilyHits")
+Dim CLI As New StringBuilder("/Family.Hits")
+Call CLI.Append(" ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 If Not _regprecise.StringEmpty Then
 Call CLI.Append("/regprecise " & """" & _regprecise & """ ")
@@ -282,7 +293,8 @@ End Function
 ''' </summary>
 '''
 Public Function DownloadFasta(_source As String, Optional _out As String = "", Optional _keggtools As String = "") As Integer
-Dim CLI As New StringBuilder("DownloadFasta")
+Dim CLI As New StringBuilder("Fasta.Downloads")
+Call CLI.Append(" ")
 Call CLI.Append("/source " & """" & _source & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -303,7 +315,8 @@ End Function
 ''' </summary>
 '''
 Public Function Fetch(_ncbi As String, _imports As String, _out As String) As Integer
-Dim CLI As New StringBuilder("Fetch")
+Dim CLI As New StringBuilder("/Fetches")
+Call CLI.Append(" ")
 Call CLI.Append("/ncbi " & """" & _ncbi & """ ")
 Call CLI.Append("/imports " & """" & _imports & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -320,7 +333,8 @@ End Function
 ''' </summary>
 '''
 Public Function FetchThread(_gbk As String, _query As String, _out As String) As Integer
-Dim CLI As New StringBuilder("FetchThread")
+Dim CLI As New StringBuilder("/Fetches.Thread")
+Call CLI.Append(" ")
 Call CLI.Append("/gbk " & """" & _gbk & """ ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -337,7 +351,8 @@ End Function
 ''' </summary>
 '''
 Public Function GetSites(_in As String, _sites As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("GetSites")
+Dim CLI As New StringBuilder("/Gets.Sites.Genes")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/sites " & """" & _sites & """ ")
 If Not _out.StringEmpty Then
@@ -356,7 +371,8 @@ End Function
 ''' </summary>
 '''
 Public Function Supports(_in As String, Optional _out As String = "", Optional _t As Boolean = False, Optional _l As Boolean = False) As Integer
-Dim CLI As New StringBuilder("Supports")
+Dim CLI As New StringBuilder("/heap.supports")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -380,7 +396,8 @@ End Function
 ''' </summary>
 '''
 Public Function InstallRegPreciseMotifs(_imports As String) As Integer
-Dim CLI As New StringBuilder("InstallRegPreciseMotifs")
+Dim CLI As New StringBuilder("/install.motifs")
+Call CLI.Append(" ")
 Call CLI.Append("/imports " & """" & _imports & """ ")
 
 
@@ -395,7 +412,8 @@ End Function
 ''' </summary>
 '''
 Public Function Effectors(_imports As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("Effectors")
+Dim CLI As New StringBuilder("/Maps.Effector")
+Call CLI.Append(" ")
 Call CLI.Append("/imports " & """" & _imports & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -413,7 +431,8 @@ End Function
 ''' </summary>
 '''
 Public Function MergeCORN(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MergeCORN")
+Dim CLI As New StringBuilder("/Merge.CORN")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -431,7 +450,8 @@ End Function
 ''' </summary>
 '''
 Public Function MergeDownload(Optional _in As String = "", Optional _out As String = "", Optional _offline As Boolean = False) As Integer
-Dim CLI As New StringBuilder("MergeDownload")
+Dim CLI As New StringBuilder("/Merge.RegPrecise.Fasta")
+Call CLI.Append(" ")
 If Not _in.StringEmpty Then
 Call CLI.Append("/in " & """" & _in & """ ")
 End If
@@ -454,7 +474,8 @@ End Function
 ''' </summary>
 '''
 Public Function ProteinMotifsEXPORT(_in As String, _PTT As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ProteinMotifsEXPORT")
+Dim CLI As New StringBuilder("/Prot_Motifs.EXPORT.pfamString")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/PTT " & """" & _PTT & """ ")
 If Not _out.StringEmpty Then
@@ -473,7 +494,8 @@ End Function
 ''' </summary>
 '''
 Public Function ProtMotifToPfamString(_in As String, Optional _fasta As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ProtMotifToPfamString")
+Dim CLI As New StringBuilder("/Prot_Motifs.PfamString")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _fasta.StringEmpty Then
 Call CLI.Append("/fasta " & """" & _fasta & """ ")
@@ -495,7 +517,8 @@ End Function
 ''' </summary>
 '''
 Public Function DownloadProteinMotifs(_source As String, Optional _kegg_tools As String = "") As Integer
-Dim CLI As New StringBuilder("DownloadProteinMotifs")
+Dim CLI As New StringBuilder("/ProtMotifs.Downloads")
+Call CLI.Append(" ")
 Call CLI.Append("/source " & """" & _source & """ ")
 If Not _kegg_tools.StringEmpty Then
 Call CLI.Append("/kegg.tools " & """" & _kegg_tools & """ ")
@@ -513,7 +536,8 @@ End Function
 ''' </summary>
 '''
 Public Function FetchRepostiory(_imports As String, _genbank As String, Optional _out As String = "", Optional _full As Boolean = False) As Integer
-Dim CLI As New StringBuilder("FetchRepostiory")
+Dim CLI As New StringBuilder("/Repository.Fetch")
+Call CLI.Append(" ")
 Call CLI.Append("/imports " & """" & _imports & """ ")
 Call CLI.Append("/genbank " & """" & _genbank & """ ")
 If Not _out.StringEmpty Then
@@ -535,7 +559,8 @@ End Function
 ''' </summary>
 '''
 Public Function RfamRegulates(_in As String, _rfam As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("RfamRegulates")
+Dim CLI As New StringBuilder("/Rfam.Regulates")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/rfam " & """" & _rfam & """ ")
 If Not _out.StringEmpty Then
@@ -554,7 +579,8 @@ End Function
 ''' </summary>
 '''
 Public Function SelectTFBBH(_bbh As String, _imports As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("SelectTFBBH")
+Dim CLI As New StringBuilder("/Select.TF.BBH")
+Call CLI.Append(" ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 Call CLI.Append("/imports " & """" & _imports & """ ")
 If Not _out.StringEmpty Then
@@ -573,7 +599,8 @@ End Function
 ''' </summary>
 '''
 Public Function SelectTFPfams(_pfam_string As String, _imports As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("SelectTFPfams")
+Dim CLI As New StringBuilder("/Select.TF.Pfam-String")
+Call CLI.Append(" ")
 Call CLI.Append("/pfam-string " & """" & _pfam_string & """ ")
 Call CLI.Append("/imports " & """" & _imports & """ ")
 If Not _out.StringEmpty Then
@@ -592,7 +619,8 @@ End Function
 ''' </summary>
 '''
 Public Function siRNAMaps(_in As String, _hits As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("siRNAMaps")
+Dim CLI As New StringBuilder("/siRNA.Maps")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/hits " & """" & _hits & """ ")
 If Not _out.StringEmpty Then

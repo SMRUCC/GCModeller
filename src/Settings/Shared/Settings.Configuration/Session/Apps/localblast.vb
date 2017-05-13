@@ -28,7 +28,8 @@ End Sub
 ''' </summary>
 '''
 Public Function AddLocusTag(_gb As String, _prefix As String, Optional _out As String = "", Optional _add_gene As Boolean = False) As Integer
-Dim CLI As New StringBuilder("AddLocusTag")
+Dim CLI As New StringBuilder("/add.locus_tag")
+Call CLI.Append(" ")
 Call CLI.Append("/gb " & """" & _gb & """ ")
 Call CLI.Append("/prefix " & """" & _prefix & """ ")
 If Not _out.StringEmpty Then
@@ -50,7 +51,8 @@ End Function
 ''' </summary>
 '''
 Public Function AddNames(_anno As String, _gb As String, Optional _out As String = "", Optional _tag As String = "") As Integer
-Dim CLI As New StringBuilder("AddNames")
+Dim CLI As New StringBuilder("/add.names")
+Call CLI.Append(" ")
 Call CLI.Append("/anno " & """" & _anno & """ ")
 Call CLI.Append("/gb " & """" & _gb & """ ")
 If Not _out.StringEmpty Then
@@ -72,7 +74,8 @@ End Function
 ''' </summary>
 '''
 Public Function AlignmentTableTopBest(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("AlignmentTableTopBest")
+Dim CLI As New StringBuilder("/AlignmentTable.TopBest")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -90,7 +93,8 @@ End Function
 ''' </summary>
 '''
 Public Function BashShell(_blast As String, _inDIR As String, _inRef As String, Optional _out As String = "", Optional _evalue As String = "") As Integer
-Dim CLI As New StringBuilder("BashShell")
+Dim CLI As New StringBuilder("/Bash.Venn")
+Call CLI.Append(" ")
 Call CLI.Append("/blast " & """" & _blast & """ ")
 Call CLI.Append("/inDIR " & """" & _inDIR & """ ")
 Call CLI.Append("/inRef " & """" & _inRef & """ ")
@@ -114,7 +118,8 @@ End Function
 ''' </summary>
 '''
 Public Function BBHExportFile(_query As String, _subject As String, Optional _out As String = "", Optional _evalue As String = "", Optional _coverage As String = "", Optional _identities As String = "", Optional _trim As Boolean = False) As Integer
-Dim CLI As New StringBuilder("BBHExportFile")
+Dim CLI As New StringBuilder("/bbh.EXPORT")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/subject " & """" & _subject & """ ")
 If Not _out.StringEmpty Then
@@ -145,7 +150,8 @@ End Function
 ''' </summary>
 '''
 Public Function MergeBBH(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MergeBBH")
+Dim CLI As New StringBuilder("/BBH.Merge")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -163,7 +169,8 @@ End Function
 ''' </summary>
 '''
 Public Function BestHitFiltering(_in As String, _sp As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("BestHitFiltering")
+Dim CLI As New StringBuilder("/BestHits.Filtering")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/sp " & """" & _sp & """ ")
 If Not _out.StringEmpty Then
@@ -182,7 +189,8 @@ End Function
 ''' </summary>
 '''
 Public Function BlastnMapsTaxonomy(_in As String, _2taxid As String, Optional _tax As String = "", Optional _out As String = "", Optional _gi2taxid As Boolean = False, Optional _trim As Boolean = False) As Integer
-Dim CLI As New StringBuilder("BlastnMapsTaxonomy")
+Dim CLI As New StringBuilder("/Blastn.Maps.Taxid")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/2taxid " & """" & _2taxid & """ ")
 If Not _tax.StringEmpty Then
@@ -211,7 +219,8 @@ End Function
 ''' </summary>
 '''
 Public Function BlastnQuery(_query As String, _db As String, Optional _evalue As String = "", Optional _word_size As String = "", Optional _out As String = "", Optional _thread As Boolean = False) As Integer
-Dim CLI As New StringBuilder("BlastnQuery")
+Dim CLI As New StringBuilder("/blastn.Query")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/db " & """" & _db & """ ")
 If Not _evalue.StringEmpty Then
@@ -240,7 +249,8 @@ End Function
 ''' </summary>
 '''
 Public Function BlastnQueryAll(_query As String, _db As String, Optional _evalue As String = "", Optional _word_size As String = "", Optional _out As String = "", Optional _penalty As String = "", Optional _reward As String = "", Optional _skip_format As Boolean = False, Optional _parallel As Boolean = False) As Integer
-Dim CLI As New StringBuilder("BlastnQueryAll")
+Dim CLI As New StringBuilder("/blastn.Query.All")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/db " & """" & _db & """ ")
 If Not _evalue.StringEmpty Then
@@ -277,7 +287,8 @@ End Function
 ''' </summary>
 '''
 Public Function MatchTaxid(_in As String, _acc2taxid As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MatchTaxid")
+Dim CLI As New StringBuilder("/BlastnMaps.Match.Taxid")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/acc2taxid " & """" & _acc2taxid & """ ")
 If Not _out.StringEmpty Then
@@ -296,7 +307,8 @@ End Function
 ''' </summary>
 '''
 Public Function SelectMaps(_in As String, _data As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("SelectMaps")
+Dim CLI As New StringBuilder("/BlastnMaps.Select")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/data " & """" & _data & """ ")
 If Not _out.StringEmpty Then
@@ -315,7 +327,8 @@ End Function
 ''' </summary>
 '''
 Public Function TopBlastnMapReads(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("TopBlastnMapReads")
+Dim CLI As New StringBuilder("/BlastnMaps.Select.Top")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -333,7 +346,8 @@ End Function
 ''' </summary>
 '''
 Public Function BlastnMapsSummery(_in As String, Optional _split As String = "-", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("BlastnMapsSummery")
+Dim CLI As New StringBuilder("/BlastnMaps.Summery")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _split.StringEmpty Then
 Call CLI.Append("/split " & """" & _split & """ ")
@@ -356,7 +370,8 @@ End Function
 ''' </summary>
 '''
 Public Function BlastpBBHQuery(_query As String, _hit As String, Optional _out As String = "", Optional _num_threads As String = "", Optional _overrides As Boolean = False) As Integer
-Dim CLI As New StringBuilder("BlastpBBHQuery")
+Dim CLI As New StringBuilder("/Blastp.BBH.Query")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/hit " & """" & _hit & """ ")
 If Not _out.StringEmpty Then
@@ -381,7 +396,8 @@ End Function
 ''' </summary>
 '''
 Public Function ChromosomesBlastnResult(_reads As String, _maps As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ChromosomesBlastnResult")
+Dim CLI As New StringBuilder("/Chromosomes.Export")
+Call CLI.Append(" ")
 Call CLI.Append("/reads " & """" & _reads & """ ")
 Call CLI.Append("/maps " & """" & _maps & """ ")
 If Not _out.StringEmpty Then
@@ -401,7 +417,8 @@ End Function
 ''' </summary>
 '''
 Public Function COG_myva(_blastp As String, _whog As String, Optional _out As String = "", Optional _simple As Boolean = False) As Integer
-Dim CLI As New StringBuilder("COG_myva")
+Dim CLI As New StringBuilder("/COG.myva")
+Call CLI.Append(" ")
 Call CLI.Append("/blastp " & """" & _blastp & """ ")
 Call CLI.Append("/whog " & """" & _whog & """ ")
 If Not _out.StringEmpty Then
@@ -424,7 +441,8 @@ End Function
 ''' </summary>
 '''
 Public Function COGStatics(_in As String, Optional _locus As String = "", Optional _locumap As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("COGStatics")
+Dim CLI As New StringBuilder("/COG.Statics")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _locus.StringEmpty Then
 Call CLI.Append("/locus " & """" & _locus & """ ")
@@ -448,7 +466,8 @@ End Function
 ''' </summary>
 '''
 Public Function COG2014_result(_sbh As String, _cog As String, Optional _cog_names As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("COG2014_result")
+Dim CLI As New StringBuilder("/COG2014.result")
+Call CLI.Append(" ")
 Call CLI.Append("/sbh " & """" & _sbh & """ ")
 Call CLI.Append("/cog " & """" & _cog & """ ")
 If Not _cog_names.StringEmpty Then
@@ -471,7 +490,8 @@ End Function
 ''' </summary>
 '''
 Public Function CopyFasta(_imports As String, Optional _type As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("CopyFasta")
+Dim CLI As New StringBuilder("/Copy.Fasta")
+Call CLI.Append(" ")
 Call CLI.Append("/imports " & """" & _imports & """ ")
 If Not _type.StringEmpty Then
 Call CLI.Append("/type " & """" & _type & """ ")
@@ -492,7 +512,8 @@ End Function
 ''' </summary>
 '''
 Public Function CopyPTT(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("CopyPTT")
+Dim CLI As New StringBuilder("/Copy.PTT")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -510,7 +531,8 @@ End Function
 ''' </summary>
 '''
 Public Function Copys(_imports As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("Copys")
+Dim CLI As New StringBuilder("/Copys")
+Call CLI.Append(" ")
 Call CLI.Append("/imports " & """" & _imports & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -528,7 +550,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportWebAlignmentTable(_in As String, Optional _out As String = "", Optional _split As Boolean = False, Optional _header_split As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportWebAlignmentTable")
+Dim CLI As New StringBuilder("/Export.AlignmentTable")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -552,7 +575,8 @@ End Function
 ''' </summary>
 '''
 Public Function ParseAlignmentTableGIlist(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ParseAlignmentTableGIlist")
+Dim CLI As New StringBuilder("/Export.AlignmentTable.giList")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -570,7 +594,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportBlastn(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ExportBlastn")
+Dim CLI As New StringBuilder("/Export.Blastn")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -588,7 +613,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportBlastnMaps(_in As String, Optional _out As String = "", Optional _best As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportBlastnMaps")
+Dim CLI As New StringBuilder("/Export.blastnMaps")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -610,7 +636,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportBlastnMapsBatch(_in As String, Optional _out As String = "", Optional _num_threads As String = "", Optional _best As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportBlastnMapsBatch")
+Dim CLI As New StringBuilder("/Export.blastnMaps.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -634,7 +661,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportBlastnMapsSmall(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ExportBlastnMapsSmall")
+Dim CLI As New StringBuilder("/Export.blastnMaps.littles")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -653,7 +681,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportBlastnMapsBatchWrite(_in As String, Optional _out As String = "", Optional _best As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportBlastnMapsBatchWrite")
+Dim CLI As New StringBuilder("/Export.blastnMaps.Write")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -674,7 +703,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportBlastX(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ExportBlastX")
+Dim CLI As New StringBuilder("/Export.BlastX")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -692,7 +722,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportDOORCogs(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ExportDOORCogs")
+Dim CLI As New StringBuilder("/EXPORT.COGs.from.DOOR")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -711,7 +742,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportPTTDb(_gb As String, Optional _out As String = "", Optional _simple As Boolean = False, Optional _batch As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportPTTDb")
+Dim CLI As New StringBuilder("/Export.gb")
+Call CLI.Append(" ")
 Call CLI.Append("/gb " & """" & _gb & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -735,7 +767,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportGenesFasta(_gb As String, Optional _out As String = "", Optional _genename As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportGenesFasta")
+Dim CLI As New StringBuilder("/Export.gb.genes")
+Call CLI.Append(" ")
 Call CLI.Append("/gb " & """" & _gb & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -756,7 +789,8 @@ End Function
 ''' </summary>
 '''
 Public Function EXPORTgpff(_in As String, _gff As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("EXPORTgpff")
+Dim CLI As New StringBuilder("/Export.gpff")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/gff " & """" & _gff & """ ")
 If Not _out.StringEmpty Then
@@ -775,7 +809,8 @@ End Function
 ''' </summary>
 '''
 Public Function EXPORTgpffs(Optional _in As String = "") As Integer
-Dim CLI As New StringBuilder("EXPORTgpffs")
+Dim CLI As New StringBuilder("/Export.gpffs")
+Call CLI.Append(" ")
 If Not _in.StringEmpty Then
 Call CLI.Append("/in " & """" & _in & """ ")
 End If
@@ -792,7 +827,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportLocus(_in As String, Optional _out As String = "", Optional _hit As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportLocus")
+Dim CLI As New StringBuilder("/Export.Locus")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -814,7 +850,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportProt(_gb As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ExportProt")
+Dim CLI As New StringBuilder("/Export.Protein")
+Call CLI.Append(" ")
 Call CLI.Append("/gb " & """" & _gb & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -833,7 +870,8 @@ End Function
 ''' </summary>
 '''
 Public Function Filter(_in As String, _key As String, Optional _out As String = "", Optional _tokens As Boolean = False, Optional _p As Boolean = False) As Integer
-Dim CLI As New StringBuilder("Filter")
+Dim CLI As New StringBuilder("/Fasta.Filters")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/key " & """" & _key & """ ")
 If Not _out.StringEmpty Then
@@ -858,7 +896,8 @@ End Function
 ''' </summary>
 '''
 Public Function IdentitiesMAT(_hit As String, Optional _out As String = "", Optional _cut As String = "") As Integer
-Dim CLI As New StringBuilder("IdentitiesMAT")
+Dim CLI As New StringBuilder("/Identities.Matrix")
+Call CLI.Append(" ")
 Call CLI.Append("/hit " & """" & _hit & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -881,7 +920,8 @@ End Function
 ''' </summary>
 '''
 Public Function InstallCOGDatabase(_db As String) As Integer
-Dim CLI As New StringBuilder("InstallCOGDatabase")
+Dim CLI As New StringBuilder("/install.cog2003-2014")
+Call CLI.Append(" ")
 Call CLI.Append("/db " & """" & _db & """ ")
 
 
@@ -896,7 +936,8 @@ End Function
 ''' </summary>
 '''
 Public Function LocusSelects(_locus As String, _bh As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("LocusSelects")
+Dim CLI As New StringBuilder("/locus.Selects")
+Call CLI.Append(" ")
 Call CLI.Append("/locus " & """" & _locus & """ ")
 Call CLI.Append("/bh " & """" & _bh & """ ")
 If Not _out.StringEmpty Then
@@ -915,7 +956,8 @@ End Function
 ''' </summary>
 '''
 Public Function EvalueMatrix(_in As String, Optional _out As String = "", Optional _flip As Boolean = False) As Integer
-Dim CLI As New StringBuilder("EvalueMatrix")
+Dim CLI As New StringBuilder("/MAT.evalue")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -936,7 +978,8 @@ End Function
 ''' </summary>
 '''
 Public Function MergeFaa(_in As String, _out As String) As Integer
-Dim CLI As New StringBuilder("MergeFaa")
+Dim CLI As New StringBuilder("/Merge.faa")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
 
@@ -952,7 +995,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportParalog(_blastp As String, Optional _coverage As String = "", Optional _identities As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ExportParalog")
+Dim CLI As New StringBuilder("/Paralog")
+Call CLI.Append(" ")
 Call CLI.Append("/blastp " & """" & _blastp & """ ")
 If Not _coverage.StringEmpty Then
 Call CLI.Append("/coverage " & """" & _coverage & """ ")
@@ -976,7 +1020,8 @@ End Function
 ''' </summary>
 '''
 Public Function Print(_in As String, Optional _ext As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("Print")
+Dim CLI As New StringBuilder("/Print")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _ext.StringEmpty Then
 Call CLI.Append("/ext " & """" & _ext & """ ")
@@ -998,7 +1043,8 @@ End Function
 ''' </summary>
 '''
 Public Function COG2003_2014(_query As String, Optional _evalue As String = "", Optional _coverage As String = "", Optional _identities As String = "", Optional _out As String = "", Optional _db As String = "", Optional _blast_ As String = "", Optional _all As Boolean = False) As Integer
-Dim CLI As New StringBuilder("COG2003_2014")
+Dim CLI As New StringBuilder("/query.cog2003-2014")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 If Not _evalue.StringEmpty Then
 Call CLI.Append("/evalue " & """" & _evalue & """ ")
@@ -1035,7 +1081,8 @@ End Function
 ''' </summary>
 '''
 Public Function ReadsOTU_Taxonomy(_in As String, _OTU As String, _tax As String, Optional _out As String = "", Optional _fill_empty As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ReadsOTU_Taxonomy")
+Dim CLI As New StringBuilder("/Reads.OTU.Taxonomy")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/OTU " & """" & _OTU & """ ")
 Call CLI.Append("/tax " & """" & _tax & """ ")
@@ -1058,7 +1105,8 @@ End Function
 ''' </summary>
 '''
 Public Function AccessionList(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("AccessionList")
+Dim CLI As New StringBuilder("/ref.acc.list")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1076,7 +1124,8 @@ End Function
 ''' </summary>
 '''
 Public Function GiList(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("GiList")
+Dim CLI As New StringBuilder("/ref.gi.list")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1094,7 +1143,8 @@ End Function
 ''' </summary>
 '''
 Public Function SBH_BBH_Batch(_in As String, Optional _identities As String = "", Optional _coverage As String = "", Optional _out As String = "", Optional _num_threads As String = "", Optional _all As Boolean = False) As Integer
-Dim CLI As New StringBuilder("SBH_BBH_Batch")
+Dim CLI As New StringBuilder("/SBH.BBH.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _identities.StringEmpty Then
 Call CLI.Append("/identities " & """" & _identities & """ ")
@@ -1125,7 +1175,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportBBHLarge(_in As String, Optional _out As String = "", Optional _identities As String = "", Optional _coverage As String = "", Optional _trim_kegg As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportBBHLarge")
+Dim CLI As New StringBuilder("/SBH.Export.Large")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1152,7 +1203,8 @@ End Function
 ''' </summary>
 '''
 Public Function SBHTrim(_in As String, _evalue As String, Optional _identities As String = "", Optional _coverage As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("SBHTrim")
+Dim CLI As New StringBuilder("/SBH.Trim")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/evalue " & """" & _evalue & """ ")
 If Not _identities.StringEmpty Then
@@ -1178,7 +1230,8 @@ End Function
 ''' </summary>
 '''
 Public Function BBHExport2(_qvs As String, _svq As String, Optional _identities As String = "", Optional _coverage As String = "", Optional _out As String = "", Optional _trim As Boolean = False, Optional _all As Boolean = False) As Integer
-Dim CLI As New StringBuilder("BBHExport2")
+Dim CLI As New StringBuilder("/sbh2bbh")
+Call CLI.Append(" ")
 Call CLI.Append("/qvs " & """" & _qvs & """ ")
 Call CLI.Append("/svq " & """" & _svq & """ ")
 If Not _identities.StringEmpty Then
@@ -1209,7 +1262,8 @@ End Function
 ''' </summary>
 '''
 Public Function SelectsMeta(_in As String, _bbh As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("SelectsMeta")
+Dim CLI As New StringBuilder("/Select.Meta")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/bbh " & """" & _bbh & """ ")
 If Not _out.StringEmpty Then
@@ -1228,7 +1282,8 @@ End Function
 ''' </summary>
 '''
 Public Function KEGGSSOrtholog2Bh(_in As String, Optional _coverage As String = "", Optional _identities As String = "", Optional _out As String = "", Optional _xml As Boolean = False) As Integer
-Dim CLI As New StringBuilder("KEGGSSOrtholog2Bh")
+Dim CLI As New StringBuilder("/SSBH2BH_LDM")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _coverage.StringEmpty Then
 Call CLI.Append("/coverage " & """" & _coverage & """ ")
@@ -1255,7 +1310,8 @@ End Function
 ''' </summary>
 '''
 Public Function KEGGSSDBExport(_in As String, Optional _coverage As String = "", Optional _identities As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("KEGGSSDBExport")
+Dim CLI As New StringBuilder("/SSDB.Export")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _coverage.StringEmpty Then
 Call CLI.Append("/coverage " & """" & _coverage & """ ")
@@ -1280,7 +1336,8 @@ End Function
 ''' </summary>
 '''
 Public Function FetchTaxnData(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("FetchTaxnData")
+Dim CLI As New StringBuilder("/Taxonomy.efetch")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1298,7 +1355,8 @@ End Function
 ''' </summary>
 '''
 Public Function MergeFetchTaxonData(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("MergeFetchTaxonData")
+Dim CLI As New StringBuilder("/Taxonomy.efetch.Merge")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1317,7 +1375,8 @@ End Function
 ''' </summary>
 '''
 Public Function VennBBH(_imports As String, Optional _query As String = "", Optional _coverage As String = "", Optional _identities As String = "", Optional _out As String = "", Optional _skip_load As Boolean = False, Optional _all As Boolean = False) As Integer
-Dim CLI As New StringBuilder("VennBBH")
+Dim CLI As New StringBuilder("/venn.BBH")
+Call CLI.Append(" ")
 Call CLI.Append("/imports " & """" & _imports & """ ")
 If Not _query.StringEmpty Then
 Call CLI.Append("/query " & """" & _query & """ ")
@@ -1351,7 +1410,8 @@ End Function
 ''' </summary>
 '''
 Public Function vennBlastAll(_query As String, Optional _out As String = "", Optional _num_threads As String = "", Optional _evalue As String = "", Optional _coverage As String = "", Optional _identities As String = "", Optional _overrides As Boolean = False, Optional _all As Boolean = False) As Integer
-Dim CLI As New StringBuilder("vennBlastAll")
+Dim CLI As New StringBuilder("/venn.BlastAll")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1389,7 +1449,8 @@ End Function
 ''' </summary>
 '''
 Public Function VennCache(_imports As String, Optional _out As String = "", Optional _coverage As String = "", Optional _identities As String = "", Optional _num_threads As String = "", Optional _overrides As Boolean = False) As Integer
-Dim CLI As New StringBuilder("VennCache")
+Dim CLI As New StringBuilder("/venn.cache")
+Call CLI.Append(" ")
 Call CLI.Append("/imports " & """" & _imports & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1419,7 +1480,8 @@ End Function
 ''' </summary>
 '''
 Public Function SBHThread(_in As String, Optional _out As String = "", Optional _coverage As String = "", Optional _identities As String = "", Optional _overrides As Boolean = False) As Integer
-Dim CLI As New StringBuilder("SBHThread")
+Dim CLI As New StringBuilder("/venn.sbh.thread")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1446,7 +1508,8 @@ End Function
 ''' </summary>
 '''
 Public Function VennSingle(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("VennSingle")
+Dim CLI As New StringBuilder("/Venn.Single")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1465,7 +1528,8 @@ End Function
 ''' </summary>
 '''
 Public Function WhogXML(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("WhogXML")
+Dim CLI As New StringBuilder("/Whog.XML")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1484,7 +1548,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportBBH(_in As String, Optional _out As String = "", Optional _single_query As String = "", Optional _coverage As String = "", Optional _identities As String = "", Optional _all As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportBBH")
+Dim CLI As New StringBuilder("--bbh.export")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1515,7 +1580,8 @@ End Function
 ''' </summary>
 '''
 Public Function BLASTA(_i As String, _blast_bin As String, _program As String, Optional _ld As String = "", Optional _xld As String = "") As Integer
-Dim CLI As New StringBuilder("BLASTA")
+Dim CLI As New StringBuilder("blast")
+Call CLI.Append(" ")
 Call CLI.Append("-i " & """" & _i & """ ")
 Call CLI.Append("-blast_bin " & """" & _blast_bin & """ ")
 Call CLI.Append("-program " & """" & _program & """ ")
@@ -1539,7 +1605,8 @@ End Function
 ''' </summary>
 '''
 Public Function SelfBlast(_query As String, Optional _blast As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("SelfBlast")
+Dim CLI As New StringBuilder("--blast.self")
+Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & _query & """ ")
 If Not _blast.StringEmpty Then
 Call CLI.Append("/blast " & """" & _blast & """ ")
@@ -1560,7 +1627,8 @@ End Function
 ''' </summary>
 '''
 Public Function Copy(_i As String, _os As String, Optional _osidx As String = "", Optional _os_skip_first As String = "") As Integer
-Dim CLI As New StringBuilder("Copy")
+Dim CLI As New StringBuilder("-copy")
+Call CLI.Append(" ")
 Call CLI.Append("-i " & """" & _i & """ ")
 Call CLI.Append("-os " & """" & _os & """ ")
 If Not _osidx.StringEmpty Then
@@ -1582,7 +1650,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportFasta(_hits As String, _query As String, _subject As String) As Integer
-Dim CLI As New StringBuilder("ExportFasta")
+Dim CLI As New StringBuilder("--Export.Fasta")
+Call CLI.Append(" ")
 Call CLI.Append("/hits " & """" & _hits & """ ")
 Call CLI.Append("/query " & """" & _query & """ ")
 Call CLI.Append("/subject " & """" & _subject & """ ")
@@ -1599,7 +1668,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportOverviews(_blast As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("ExportOverviews")
+Dim CLI As New StringBuilder("--Export.Overviews")
+Call CLI.Append(" ")
 Call CLI.Append("/blast " & """" & _blast & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1617,7 +1687,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportSBH(_in As String, _prefix As String, _out As String, Optional _txt As Boolean = False) As Integer
-Dim CLI As New StringBuilder("ExportSBH")
+Dim CLI As New StringBuilder("--Export.SBH")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/prefix " & """" & _prefix & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1637,7 +1708,8 @@ End Function
 ''' </summary>
 '''
 Public Function ExportBestHit(_i As String, _o As String) As Integer
-Dim CLI As New StringBuilder("ExportBestHit")
+Dim CLI As New StringBuilder("-export_besthit")
+Call CLI.Append(" ")
 Call CLI.Append("-i " & """" & _i & """ ")
 Call CLI.Append("-o " & """" & _o & """ ")
 
@@ -1654,7 +1726,8 @@ End Function
 ''' </summary>
 '''
 Public Function Grep(_i As String, _q As String, _h As String) As Integer
-Dim CLI As New StringBuilder("Grep")
+Dim CLI As New StringBuilder("grep")
+Call CLI.Append(" ")
 Call CLI.Append("-i " & """" & _i & """ ")
 Call CLI.Append("-q " & """" & _q & """ ")
 Call CLI.Append("-h " & """" & _h & """ ")
@@ -1672,7 +1745,8 @@ End Function
 ''' </summary>
 '''
 Public Function bLogAnalysis(_d As String, _export As String) As Integer
-Dim CLI As New StringBuilder("bLogAnalysis")
+Dim CLI As New StringBuilder("logs_analysis")
+Call CLI.Append(" ")
 Call CLI.Append("-d " & """" & _d & """ ")
 Call CLI.Append("-export " & """" & _export & """ ")
 
@@ -1689,7 +1763,8 @@ End Function
 ''' </summary>
 '''
 Public Function Merge(_d As String, _o As String) As Integer
-Dim CLI As New StringBuilder("Merge")
+Dim CLI As New StringBuilder("merge")
+Call CLI.Append(" ")
 Call CLI.Append("-d " & """" & _d & """ ")
 Call CLI.Append("-o " & """" & _o & """ ")
 
@@ -1705,7 +1780,8 @@ End Function
 ''' </summary>
 '''
 Public Function MergeBestHits(_i As String, _o As String, _os As String, Optional _osidx As String = "", Optional _os_skip_first As String = "") As Integer
-Dim CLI As New StringBuilder("MergeBestHits")
+Dim CLI As New StringBuilder("-merge_besthit")
+Call CLI.Append(" ")
 Call CLI.Append("-i " & """" & _i & """ ")
 Call CLI.Append("-o " & """" & _o & """ ")
 Call CLI.Append("-os " & """" & _os & """ ")
@@ -1728,7 +1804,8 @@ End Function
 ''' </summary>
 '''
 Public Function XmlToExcel(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("XmlToExcel")
+Dim CLI As New StringBuilder("--Xml2Excel")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
@@ -1746,7 +1823,8 @@ End Function
 ''' </summary>
 '''
 Public Function XmlToExcelBatch(_in As String, Optional _out As String = "", Optional _merge As Boolean = False) As Integer
-Dim CLI As New StringBuilder("XmlToExcelBatch")
+Dim CLI As New StringBuilder("--Xml2Excel.Batch")
+Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
