@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::301026cf7221fbd2fea79f8ba26ebcb7, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\POSTReader\HttpPostedFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -97,15 +97,30 @@ Namespace AppEngine.POSTParser
             End Get
         End Property
 
+        ''' <summary>
+        ''' 将用户上传的文件保存到指定的目标文件<paramref name="filename"/>之中
+        ''' </summary>
+        ''' <param name="filename"></param>
         Public Sub SaveAs(filename As String)
             Dim buffer As Byte() = New Byte(16 * 1024 - 1) {}
             Dim old_post As Long = stream.Position
 
             Try
-                File.Delete(filename)
+                If filename.FileExists Then
+                    Call File.Delete(filename)
+                End If
+            Catch ex As Exception
+            Finally
+                ' 当目标文件不存在的时候，可能文件夹也是不存在的
+                ' 需要提前创建好文件夹，否则后面的文件保存会出错
+                Call filename.ParentPath.MkDIR
+            End Try
+
+            Try
                 Using fs As FileStream = File.Create(filename)
+                    Dim n As int = Scan0
+
                     stream.Position = 0
-                    Dim n As New int
 
                     While (n = stream.Read(buffer, 0, 16 * 1024)) <> 0
                         fs.Write(buffer, 0, n.value)

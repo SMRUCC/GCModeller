@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::26b40332255239bee1ef2a564c64338d, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\Task\Task.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Parallel
 
 Namespace Platform
 
-    Public Class Task : Implements IDisposable
+    Public MustInherit Class Task : Implements IDisposable
         Implements IReadOnlyId
 
         Protected Friend _innerTaskPool As TaskPool
+        Protected current As Integer
 
-        Dim _task As Action
-        Dim _callback As Action
+        Dim _callback As Callback
+
+        Public Delegate Sub Callback(success As Boolean)
 
         ''' <summary>
         ''' 任务的编号
@@ -47,16 +47,48 @@ Namespace Platform
         Public Property uid As String Implements IReadOnlyId.Identity
         Public ReadOnly Property Complete As Boolean
 
-        Sub New(task As Action, callback As Action)
-            _task = task
+        Sub New(callback As Callback)
             _callback = callback
-            Complete = True
+            Complete = False
         End Sub
 
+        ''' <summary>
+        ''' 提供了对任务执行过程<see cref="RunTask"/>之中的任务内容的描述
+        ''' </summary>
+        ''' <returns></returns>
+        Protected MustOverride Function contents() As String()
+
+        ''' <summary>
+        ''' Public interface for invoke this task.
+        ''' (需要在这个过程对象之中实现具体的任务过程)
+        ''' </summary>
+        Public MustOverride Sub RunTask()
+
+        Public Function GetProgress() As TaskProgress
+            Dim o As New TaskProgress With {
+                .current = current,
+                .progress = contents()
+            }
+            Return o
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return $" {uid} -> [{contents(current)}]"
+        End Function
+
         Public Function Start() As Task
+            Dim success As Boolean
+
             _Complete = False
-            Call _task()
-            Call _callback()
+            Try
+                Call RunTask()
+                success = True
+            Catch ex As Exception
+                success = False
+                Call ex.PrintException
+                Call App.LogException(ex)
+            End Try
+            Call _callback(success)
             _Complete = True
             Return Me
         End Function
@@ -69,10 +101,6 @@ Namespace Platform
             Return _innerTaskPool._taskQueue.IndexOf(Me)
         End Function
 
-        Public Overrides Function ToString() As String
-            Return uid
-        End Function
-
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' To detect redundant calls
 
@@ -80,8 +108,7 @@ Namespace Platform
         Protected Overridable Sub Dispose(disposing As Boolean)
             If Not Me.disposedValue Then
                 If disposing Then
-                    ' TODO: dispose managed state (managed objects).
-                    _task = Nothing
+                    ' TODO: dispose managed state (managed objects).                   
                     _callback = Nothing
                 End If
 

@@ -26,9 +26,6 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
@@ -36,7 +33,10 @@ Imports Microsoft.VisualBasic.Parallel.Tasks
 
 Namespace Platform
 
-    Public Class TaskPool : Implements System.IDisposable
+    ''' <summary>
+    ''' 用户任务池
+    ''' </summary>
+    Public Class TaskPool : Implements IDisposable
 
         Protected Friend ReadOnly _taskQueue As New Queue(Of Task)
 
@@ -87,6 +87,11 @@ Namespace Platform
             Call RunTask(AddressOf __taskInvoke)
         End Sub
 
+        ''' <summary>
+        ''' 将用户任务添加到任务执行队列之中
+        ''' </summary>
+        ''' <param name="task"></param>
+        ''' <returns></returns>
         Public Function Queue(task As Task) As Integer
             Call _taskQueue.Enqueue(task)
             task._innerTaskPool = Me
