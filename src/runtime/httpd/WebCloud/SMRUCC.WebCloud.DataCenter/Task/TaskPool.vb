@@ -30,6 +30,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Parallel.Tasks
+Imports Microsoft.VisualBasic.SecurityString
 
 Namespace Platform
 
@@ -114,7 +115,21 @@ Namespace Platform
 
         ReadOnly TaskPool As New List(Of AsyncHandle(Of Task))
         ReadOnly _runningTask As New List(Of Task)
+        ReadOnly _hashProvider As New Md5HashProvider
+
         Friend ReadOnly _taskQueue As New __internalQueue
+
+        ''' <summary>
+        ''' Assign the task uid: <see cref="Task.uid"/>
+        ''' </summary>
+        ''' <param name="task"></param>
+        ''' <param name="url$"></param>
+        Public Sub Assign(ByRef task As Task, url$)
+            Dim uid$ = _hashProvider.GetMd5Hash(Now.ToString & App.NextTempName & url)
+            SyncLock task
+                task.uid = uid
+            End SyncLock
+        End Sub
 
         ''' <summary>
         ''' 当不存在的时候，说明正在运行，或者已经运行完毕了
