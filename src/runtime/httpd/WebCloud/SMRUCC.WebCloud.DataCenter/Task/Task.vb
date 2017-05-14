@@ -96,15 +96,7 @@ Namespace Platform
             _Complete = True
             Return Me
         End Function
-
-        ''' <summary>
-        ''' 获取当前的这个任务对象在队列之中的等待位置
-        ''' </summary>
-        ''' <returns></returns>
-        Public Function GetQueuePos() As Integer
-            Return _innerTaskPool._taskQueue.IndexOf(Me)
-        End Function
-
+        
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' To detect redundant calls
 

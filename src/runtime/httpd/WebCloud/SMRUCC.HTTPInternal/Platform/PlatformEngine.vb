@@ -42,11 +42,6 @@ Namespace Platform
     Public Class PlatformEngine : Inherits HttpFileSystem
 
         Public ReadOnly Property AppManager As AppEngine.APPManager
-        ''' <summary>
-        ''' 用户任务池，排队队列
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property TaskPool As New TaskPool
         Public ReadOnly Property EnginePlugins As Plugins.PluginBase()
 
         ''' <summary>

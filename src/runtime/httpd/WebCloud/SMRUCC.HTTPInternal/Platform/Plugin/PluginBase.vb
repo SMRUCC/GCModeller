@@ -31,7 +31,7 @@ Imports SMRUCC.WebCloud.HTTPInternal.Core
 
 Namespace Platform.Plugins
 
-    Public MustInherit Class PluginBase : Inherits PlatformSub
+    Public MustInherit Class PluginBase : Inherits Submodule
         Implements System.IDisposable
 
         Sub New(main As PlatformEngine)

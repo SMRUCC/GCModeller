@@ -41,8 +41,7 @@ Namespace Platform
         ''' <summary>
         ''' 处于排队状态的用户任务队列
         ''' </summary>
-        Private Class __internalQueue
-            Implements IEnumerable(Of Task)
+        Friend Class __internalQueue : Implements IEnumerable(Of Task)
 
             ''' <summary>
             ''' 处于排队状态的用户任务队列
@@ -115,7 +114,7 @@ Namespace Platform
 
         ReadOnly TaskPool As New List(Of AsyncHandle(Of Task))
         ReadOnly _runningTask As New List(Of Task)
-        ReadOnly _taskQueue As New __internalQueue
+        Friend ReadOnly _taskQueue As New __internalQueue
 
         ''' <summary>
         ''' 当不存在的时候，说明正在运行，或者已经运行完毕了
