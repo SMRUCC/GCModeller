@@ -213,7 +213,6 @@
     <Compile Include="Core\HttpFileSystem.vb" />
     <Compile Include="Core\HttpProcessor.vb" />
     <Compile Include="Core\HttpServer.vb" />
-    <Compile Include="Platform\Task\TaskProgress.vb" />
     <Compile Include="DebuggerAPI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -231,11 +230,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Platform\PlatformEngine.vb" />
-    <Compile Include="Platform\PlatformSub.vb" />
+    <Compile Include="Platform\Submodule.vb" />
     <Compile Include="Platform\Plugin\ExternalCall.vb" />
     <Compile Include="Platform\Plugin\PluginBase.vb" />
-    <Compile Include="Platform\Task\Task.vb" />
-    <Compile Include="Platform\Task\TaskPool.vb" />
     <Compile Include="AppEngine\POSTReader\HttpMultipart.vb" />
     <Compile Include="AppEngine\POSTReader\HttpPostedFile.vb" />
     <Compile Include="AppEngine\POSTReader\PostReader.vb" />

@@ -27,6 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports TaskData = SMRUCC.WebCloud.DataCenter.mysql.task_pool
 
 Namespace Platform
 
@@ -38,14 +39,32 @@ Namespace Platform
 
         Dim _callback As Callback
 
-        Public Delegate Sub Callback(success As Boolean)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="success"></param>
+        ''' <param name="task">可能是写数据库所需要的</param>
+        Public Delegate Sub Callback(success As Boolean, task As TaskData)
 
         ''' <summary>
         ''' 任务的编号
         ''' </summary>
         ''' <returns></returns>
         Public Property uid As String Implements IReadOnlyId.Identity
+            Get
+                Return TaskData.md5
+            End Get
+            Set(value As String)
+                With TaskData
+                    .md5 = value
+                    .uid = .md5.StringHash
+                End With
+            End Set
+        End Property
+
         Public ReadOnly Property Complete As Boolean
+        Public Property TaskData As TaskData
+        Public MustOverride ReadOnly Property Workspace As String
 
         Sub New(callback As Callback)
             _callback = callback
@@ -64,6 +83,10 @@ Namespace Platform
         ''' </summary>
         Public MustOverride Sub RunTask()
 
+        ''' <summary>
+        ''' 获取任务的执行状态
+        ''' </summary>
+        ''' <returns></returns>
         Public Function GetProgress() As TaskProgress
             Dim o As New TaskProgress With {
                 .current = current,
@@ -77,28 +100,28 @@ Namespace Platform
         End Function
 
         Public Function Start() As Task
-            Dim success As Boolean
-
             _Complete = False
-            Try
-                Call RunTask()
-                success = True
-            Catch ex As Exception
-                success = False
-                Call ex.PrintException
-                Call App.LogException(ex)
-            End Try
-            Call _callback(success)
+
+            With TaskData
+                Dim success As Boolean
+                Try
+                    Call RunTask()
+                    .status = 1
+                Catch ex As Exception
+                    success = False
+                    .status = -100
+                    Call ex.PrintException
+                    Call App.LogException(ex)
+                Finally
+                    .time_complete = Now
+                    .workspace = Workspace
+                End Try
+
+                Call _callback(success, TaskData)
+            End With
+
             _Complete = True
             Return Me
-        End Function
-
-        ''' <summary>
-        ''' 获取当前的这个任务对象在队列之中的等待位置
-        ''' </summary>
-        ''' <returns></returns>
-        Public Function GetQueuePos() As Integer
-            Return _innerTaskPool._taskQueue.IndexOf(Me)
         End Function
 
 #Region "IDisposable Support"
