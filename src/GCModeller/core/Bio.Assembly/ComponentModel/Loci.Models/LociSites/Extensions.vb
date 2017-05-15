@@ -65,7 +65,7 @@ Namespace ComponentModel.Loci
 
             For Each x As IMotifSite In sitesData
                 x.Site.Extension = New ExtendedProps
-                x.Site.Extension.DynamicHash(motif) = x
+                x.Site.Extension.DynamicHashTable(motif) = x
                 locations.Add(x.Site)
             Next
 
@@ -74,10 +74,10 @@ Namespace ComponentModel.Loci
                 .FragmentAssembly(gapOffset)
 
             For Each x As Location In assm
-                Dim o As IMotifSite = DirectCast(x.Extension.DynamicHash(motif), IMotifSite)
+                Dim o As IMotifSite = DirectCast(x.Extension.DynamicHashTable(motif), IMotifSite)
 
                 Call x.Extension _
-                    .DynamicHash _
+                    .DynamicHashTable _
                     .Properties _
                     .Remove(motif)
                 out += New MotifSite With {
@@ -87,12 +87,12 @@ Namespace ComponentModel.Loci
                         o.Type
                     } _
                     .Join(x.Extension _
-                           .DynamicHash _
+                           .DynamicHashTable _
                            .Properties _
                            .Values _
                            .Select(Function(s) DirectCast(DirectCast(s, Location) _
                            .Extension _
-                           .DynamicHash _
+                           .DynamicHashTable _
                            .Properties(motif), IMotifSite).Type)) _
                     .JoinBy("+")  ' 这里不进行Distinct了，因为这些重复的类型可能还有别的用途，例如数量上面的统计之类的
                 }
