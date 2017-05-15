@@ -66,7 +66,7 @@ Namespace DataVisualization
 
             Interactions = List.ToArray
             For i As Integer = 0 To Interactions.Count - 1
-                Interactions(i).Confidence = 1
+                Interactions(i).value = 1
             Next
             NodeAttributes = TrimNodeAttributes(ListOfNodeAttributes)
 
@@ -153,19 +153,19 @@ Namespace DataVisualization
 #Region "CreateNodeInteractions() As DataVisualization.Interactions()"
 
         Private Shared Function CreateNodeInteractions(stringNodes As PitrNode()) As DataVisualization.Interactions()
-            Dim LQuery = (From item In stringNodes Select New Interactions With {.FromNode = item.FromNode, .ToNode = item.ToNode, .InteractionType = "Protein Interactions"}).AsList
-            Call LQuery.AddRange((From item In stringNodes Select New Interactions With {.FromNode = item.ToNode, .ToNode = item.FromNode, .InteractionType = "Protein Interactions"}).ToArray)
+            Dim LQuery = (From item In stringNodes Select New Interactions With {.FromNode = item.FromNode, .ToNode = item.ToNode, .Interaction = "Protein Interactions"}).AsList
+            Call LQuery.AddRange((From item In stringNodes Select New Interactions With {.FromNode = item.ToNode, .ToNode = item.FromNode, .Interaction = "Protein Interactions"}).ToArray)
             Return LQuery.ToArray
         End Function
 
         Private Shared Function CreateNodeInteractions(ProteinAssembly As FileStream.ProteinAssembly()) As DataVisualization.Interactions()
-            Dim LQuery = (From item In ProteinAssembly.AsParallel Select (From id As String In item.ProteinComponents Select New Interactions With {.FromNode = id, .ToNode = item.ProteinComplexes, .InteractionType = "ProteinComplexes Assembly"}).ToArray).ToArray
+            Dim LQuery = (From item In ProteinAssembly.AsParallel Select (From id As String In item.ProteinComponents Select New Interactions With {.FromNode = id, .ToNode = item.ProteinComplexes, .Interaction = "ProteinComplexes Assembly"}).ToArray).ToArray
             Dim List As List(Of Interactions) = New List(Of Interactions)
             For Each item In LQuery
                 Call List.AddRange(item)
             Next
 
-            LQuery = (From item In ProteinAssembly.AsParallel Select (From id As String In item.ProteinComponents Select New Interactions With {.ToNode = id, .FromNode = item.ProteinComplexes, .InteractionType = "ProteinComplexes Assembly"}).ToArray).ToArray
+            LQuery = (From item In ProteinAssembly.AsParallel Select (From id As String In item.ProteinComponents Select New Interactions With {.ToNode = id, .FromNode = item.ProteinComplexes, .Interaction = "ProteinComplexes Assembly"}).ToArray).ToArray
             For Each item In LQuery
                 Call List.AddRange(item)
             Next
@@ -183,18 +183,18 @@ Namespace DataVisualization
             Dim FluxModel = EquationBuilder.CreateObject(Of DefaultTypes.CompoundSpecieReference, DefaultTypes.Equation)(MetabolismModel.Equation)
 
             If Not MetabolismModel.Enzymes.IsNullOrEmpty Then
-                Call List.AddRange((From strId As String In MetabolismModel.Enzymes Select New DataVisualization.Interactions With {.FromNode = strId, .ToNode = MetabolismModel.Identifier, .InteractionType = "Enzyme Catalysts"}).ToArray)
+                Call List.AddRange((From strId As String In MetabolismModel.Enzymes Select New DataVisualization.Interactions With {.FromNode = strId, .ToNode = MetabolismModel.Identifier, .Interaction = "Enzyme Catalysts"}).ToArray)
             End If
 
             If MetabolismModel.Reversible Then
-                Call List.AddRange((From item In FluxModel.Reactants Select New DataVisualization.Interactions With {.FromNode = MetabolismModel.Identifier, .ToNode = item.ID, .InteractionType = "MetabolismFlux Substrates"}).ToArray)
-                Call List.AddRange((From item In FluxModel.Products Select New DataVisualization.Interactions With {.FromNode = item.ID, .ToNode = MetabolismModel.Identifier, .InteractionType = "MetabolismFlux Substrates"}).ToArray)
+                Call List.AddRange((From item In FluxModel.Reactants Select New DataVisualization.Interactions With {.FromNode = MetabolismModel.Identifier, .ToNode = item.ID, .Interaction = "MetabolismFlux Substrates"}).ToArray)
+                Call List.AddRange((From item In FluxModel.Products Select New DataVisualization.Interactions With {.FromNode = item.ID, .ToNode = MetabolismModel.Identifier, .Interaction = "MetabolismFlux Substrates"}).ToArray)
                 '处于路径搜索的查找方向以及整个网络的连通性考虑，在这里添加冗余数据
-                Call List.AddRange((From item In FluxModel.Reactants Select New DataVisualization.Interactions With {.FromNode = item.ID, .ToNode = MetabolismModel.Identifier, .InteractionType = "MetabolismFlux Substrates"}).ToArray)
-                Call List.AddRange((From item In FluxModel.Products Select New DataVisualization.Interactions With {.FromNode = MetabolismModel.Identifier, .ToNode = item.ID, .InteractionType = "MetabolismFlux Substrates"}).ToArray)
+                Call List.AddRange((From item In FluxModel.Reactants Select New DataVisualization.Interactions With {.FromNode = item.ID, .ToNode = MetabolismModel.Identifier, .Interaction = "MetabolismFlux Substrates"}).ToArray)
+                Call List.AddRange((From item In FluxModel.Products Select New DataVisualization.Interactions With {.FromNode = MetabolismModel.Identifier, .ToNode = item.ID, .Interaction = "MetabolismFlux Substrates"}).ToArray)
             Else
-                Call List.AddRange((From item In FluxModel.Reactants Select New DataVisualization.Interactions With {.FromNode = item.ID, .ToNode = MetabolismModel.Identifier, .InteractionType = "MetabolismFlux Reactants"}).ToArray)
-                Call List.AddRange((From item In FluxModel.Products Select New DataVisualization.Interactions With {.FromNode = MetabolismModel.Identifier, .ToNode = item.ID, .InteractionType = "MetabolismFlux Products"}).ToArray)
+                Call List.AddRange((From item In FluxModel.Reactants Select New DataVisualization.Interactions With {.FromNode = item.ID, .ToNode = MetabolismModel.Identifier, .Interaction = "MetabolismFlux Reactants"}).ToArray)
+                Call List.AddRange((From item In FluxModel.Products Select New DataVisualization.Interactions With {.FromNode = MetabolismModel.Identifier, .ToNode = item.ID, .Interaction = "MetabolismFlux Products"}).ToArray)
             End If
             Return 0
         End Function

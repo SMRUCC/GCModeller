@@ -149,8 +149,8 @@ Namespace NetworkModel.KEGG
                           Select New FileStream.NetworkEdge With {
                               .FromNode = from,
                               .ToNode = toNode,
-                              .InteractionType = itr,
-                              .Confidence = s,
+                              .Interaction = itr,
+                              .value = s,
                               .Properties = New Dictionary(Of String, String) From {{"def", x.Equation}}}).ToArray
             Return LQuery
         End Function

@@ -26,7 +26,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 
 Namespace DataVisualization
 

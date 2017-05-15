@@ -80,7 +80,7 @@ Public Class Assembler
         Dim TCSSensorList As List(Of TCS.TCS) = New List(Of TCS.TCS)
 
         For Each Id In RR '得到HK
-            Dim RRTFConfidence As Double = GetEdge(Id, TF).Confidence
+            Dim RRTFConfidence As Double = GetEdge(Id, TF).value
             Dim HK = GetProteins(Id, Function(str_id As String) IsHK(str_id) OrElse IsHHK(str_id))
             Dim GetSTrP = (From HK_id In HK
                            Let CheList = GetProteins(HK_id, AddressOf IsChemotaxis)
@@ -88,9 +88,9 @@ Public Class Assembler
                                                 Dim ChunkBuffer As TCS.TCS() = New TCS.TCS(CheList.Count - 1) {}
                                                 For i As Integer = 0 To ChunkBuffer.Count - 1
                                                     ChunkBuffer(i) = New TCS.TCS With {.Chemotaxis = CheList(i),
-                                                                                              .ChemotaxisHKConfidence = GetEdge(CheList(i), HK_id).Confidence,
+                                                                                              .ChemotaxisHKConfidence = GetEdge(CheList(i), HK_id).value,
                                                                                               .HK = HK_id,
-                                                                                              .HKRRConfidence = GetEdge(HK_id, Id).Confidence, .RR = Id, .RRTFConfidence = RRTFConfidence}
+                                                                                              .HKRRConfidence = GetEdge(HK_id, Id).value, .RR = Id, .RRTFConfidence = RRTFConfidence}
                                                 Next
 
                                                 Return ChunkBuffer
@@ -100,7 +100,7 @@ Public Class Assembler
             Next
         Next
 
-        STrP.OCS = (From strId In OCS Let Confidence = GetEdge(TF, strId).Confidence Select New KeyValuePair With {.Key = strId, .Value = Confidence}).ToArray
+        STrP.OCS = (From strId In OCS Let Confidence = GetEdge(TF, strId).value Select New KeyValuePair With {.Key = strId, .Value = Confidence}).ToArray
 
         If IsRR(TF) OrElse IsHRR(TF) Then
             STrP.TF_MiST2Type = Pathway.TFSignalTypes.TwoComponentType

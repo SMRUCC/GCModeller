@@ -88,7 +88,7 @@ Namespace NetworkModel
                                In Pwy.InPathway
                                Select New FileStream.NetworkEdge With {
                                    .FromNode = Id.ToUpper,
-                                   .InteractionType = "Contains",
+                                   .Interaction = "Contains",
                                    .ToNode = Pwy.Identifier
                                }
                 End If
@@ -140,7 +140,7 @@ Namespace NetworkModel
                                   item.LinkType.ToString)
                             Select New FileStream.NetworkEdge With {
                                 .FromNode = UniqueId,
-                                .InteractionType = iter,
+                                .Interaction = iter,
                                 .ToNode = item.Id.Replace("|", "").ToUpper
                             }
             Next

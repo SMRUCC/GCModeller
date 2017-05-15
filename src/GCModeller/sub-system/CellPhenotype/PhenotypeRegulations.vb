@@ -409,7 +409,7 @@ Public Module PhenotypeRegulations
     End Function
 
     <ExportAPI("binary_network.empty_input.create_all_regulators")>
-    Public Function CreateInput_AllRegulators(model As Generic.IEnumerable(Of RegulatesFootprints), saveto As String) As Boolean
+    Public Function CreateInput_AllRegulators(model As IEnumerable(Of RegulatesFootprints), saveto As String) As Boolean
         Dim Nodes = BinaryNetwork.AnalysisMonteCarloTopLevelInput(model)
         Dim ChunkBuffer = (From id As String In Nodes.AsParallel Select New NetworkInput With {
                                                                      .locusId = id, .Level = True, .InitQuantity = 1, .NoneRegulation = True}).ToArray
@@ -471,7 +471,7 @@ Public Module PhenotypeRegulations
                                                               """MonteCarlo.sh"" for invoke this calculation experiment.")> Export As String,
                                 <Parameter("Kel.Cycles", "The total kernel runtime ticks, default is 3000 cycles.")> Optional KernelCycles As Integer = 3000,
                                 <Parameter("Monte_Carlo.Repeats", "The repeats number of the Monte carlo experiment will running.")> Optional Repeats As Integer = 20,
-                                <Parameter("List.Gene.ID", "A string collection of the gene will be mutation in this experiment.")> Optional GeneIDList As Generic.IEnumerable(Of String) = Nothing,
+                                <Parameter("List.Gene.ID", "A string collection of the gene will be mutation in this experiment.")> Optional GeneIDList As IEnumerable(Of String) = Nothing,
                                 <Parameter("Mutation.Factor", "The mutation factor of the gene in the id list parameter, 0 for deletion mutation, " &
                                                                    "value greater than 1 will be mutation as overexpression, and any value smaller " &
                                                                    "than 0 will be treat as normal state.")> Optional Factor As Double = -1)

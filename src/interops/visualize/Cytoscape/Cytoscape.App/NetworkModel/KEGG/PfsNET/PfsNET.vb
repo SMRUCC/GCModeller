@@ -84,10 +84,10 @@ Namespace NetworkModel.PfsNET
                 edgesBuffer += From strId As String
                                In SubNET.SignificantGeneObjects
                                Select New NetworkEdge With {
-                                   .Confidence = 1,
+                                   .value = 1,
                                    .FromNode = strId,
                                    .ToNode = SubNET.UniqueId,
-                                   .InteractionType = SubNET.PhenotypePair
+                                   .Interaction = SubNET.PhenotypePair
                                }
                 nodesBuffer += From strId As String
                                In SubNET.SignificantGeneObjects
@@ -201,7 +201,7 @@ Namespace NetworkModel.PfsNET
                 End If
 
                 Dim GeneIdlist = CatalystsList(Reaction.Identifier)
-                Call EdgeList.AddRange((From strId As String In GeneIdlist Select New NetworkModel.Edge With {.FromNode = strId, .ToNode = Reaction.Identifier, .InteractionType = "Enzyme_Catalyst"}).ToArray)
+                Call EdgeList.AddRange((From strId As String In GeneIdlist Select New NetworkModel.Edge With {.FromNode = strId, .ToNode = Reaction.Identifier, .Interaction = "Enzyme_Catalyst"}).ToArray)
             Next
 
             Return New KeyValuePair(Of NetworkModel.Edge(), NetworkModel.Node())(EdgeList.ToArray, NodeList.ToArray)
@@ -237,18 +237,18 @@ Namespace NetworkModel.PfsNET
                     For Each connected In LQuery
                         If connected.Coefficient > 0 Then  '在右端
                             If coefficient > 0 Then
-                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = reaction.Identifier, .ToNode = Substrate, .InteractionType = "Confluence"})
-                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = connected.Reaction, .ToNode = Substrate, .InteractionType = "Confluence"})
+                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = reaction.Identifier, .ToNode = Substrate, .Interaction = "Confluence"})
+                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = connected.Reaction, .ToNode = Substrate, .Interaction = "Confluence"})
                                 Call NodeList.Add(New NetworkModel.Node With {.ID = Substrate, .NodeType = "Metabolite"})
                             Else
-                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = connected.Reaction, .ToNode = reaction.Identifier, .InteractionType = "Metabolite_Flux_Flow"})
+                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = connected.Reaction, .ToNode = reaction.Identifier, .Interaction = "Metabolite_Flux_Flow"})
                             End If
                         Else '在左端
                             If coefficient > 0 Then
-                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = reaction.Identifier, .ToNode = connected.Reaction, .InteractionType = "Metabolite_Flux_Flow"})
+                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = reaction.Identifier, .ToNode = connected.Reaction, .Interaction = "Metabolite_Flux_Flow"})
                             Else
-                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Substrate, .ToNode = connected.Reaction, .InteractionType = "Diffluence"})
-                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Substrate, .ToNode = reaction.Identifier, .InteractionType = "Diffluence"})
+                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Substrate, .ToNode = connected.Reaction, .Interaction = "Diffluence"})
+                                Call EdgeList.Add(New NetworkModel.Edge With {.FromNode = Substrate, .ToNode = reaction.Identifier, .Interaction = "Diffluence"})
                                 Call NodeList.Add(New NetworkModel.Node With {.ID = Substrate, .NodeType = "Metabolite"})
                             End If
                         End If

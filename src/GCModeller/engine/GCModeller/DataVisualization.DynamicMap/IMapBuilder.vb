@@ -55,16 +55,16 @@ Namespace DataVisualization.DynamicMap
             End Get
             Set(value As InteractionTypes)
                 _InteractionType = value
-                MyBase.InteractionType = value.ToString
+                MyBase.Interaction = value.ToString
             End Set
         End Property
 
-        <Column("FluxValue")> Public Overrides Property Confidence As Double
+        <Column("FluxValue")> Public Overrides Property value As Double
             Get
-                Return MyBase.Confidence
+                Return MyBase.value
             End Get
             Set(value As Double)
-                MyBase.Confidence = value
+                MyBase.value = value
             End Set
         End Property
 
