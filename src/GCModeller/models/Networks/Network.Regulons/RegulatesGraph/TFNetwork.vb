@@ -77,7 +77,7 @@ Public Module NetAPI
         Dim regulates As NetworkEdge() = (From x As PredictedRegulationFootprint
                                           In LQuery.AsParallel
                                           Let edge As NetworkEdge = x.__netEdge
-                                          Where edge.Confidence >= cut
+                                          Where edge.value >= cut
                                           Select edge).ToArray
         Return New FileStream.Network(TF, regulates)
     End Function
@@ -93,8 +93,8 @@ Public Module NetAPI
         Return New NetworkEdge With {
             .FromNode = x.Regulator,
             .ToNode = x.ORF,
-            .Confidence = Math.Abs(0.5 * (x.Pcc + x.sPcc)),
-            .InteractionType = "Regulation",
+            .value = Math.Abs(0.5 * (x.Pcc + x.sPcc)),
+            .Interaction = "Regulation",
             .Properties = prop
         }
     End Function

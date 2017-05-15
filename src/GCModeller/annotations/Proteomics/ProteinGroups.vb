@@ -546,7 +546,7 @@ Public Module ProteinGroups
 
                 With annotation(gene.ID)
                     For Each k As String In getAnnotations
-                        Call annotations.Add(k, .Value(k))
+                        Call annotations.Add(k, .ItemValue(k))
                     Next
                 End With
 
