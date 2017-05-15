@@ -55,8 +55,8 @@ Namespace Network.htmlwidget
                 edges += New NetworkEdge With {
                     .FromNode = src, 
                     .ToNode = tar, 
-                    .Confidence = 1, 
-                    .InteractionType = type
+                    .value = 1, 
+                    .Interaction = type
                 }
             Next
 

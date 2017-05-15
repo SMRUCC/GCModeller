@@ -42,18 +42,18 @@ Namespace FileStream.Generic
         ''' </summary>
         Public Const REFLECTION_ID_MAPPING_TO_NODE As String = "toNode"
         ''' <summary>
-        ''' <see cref="NetworkEdge.Confidence"/>
+        ''' <see cref="NetworkEdge.value"/>
         ''' </summary>
         Public Const REFLECTION_ID_MAPPING_CONFIDENCE As String = "confidence"
         ''' <summary>
-        ''' <see cref="NetworkEdge.InteractionType"/>
+        ''' <see cref="NetworkEdge.Interaction"/>
         ''' </summary>
         Public Const REFLECTION_ID_MAPPING_INTERACTION_TYPE As String = "InteractionType"
 
         ''' <summary>
         ''' <see cref="Node.ID"/>
         ''' </summary>
-        Public Const REFLECTION_ID_MAPPING_IDENTIFIER As String = "Identifier"
+        Public Const REFLECTION_ID_MAPPING_IDENTIFIER As String = "ID"
         ''' <summary>
         ''' <see cref="Node.NodeType"/>
         ''' </summary>

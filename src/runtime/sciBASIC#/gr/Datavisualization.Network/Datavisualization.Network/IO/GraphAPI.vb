@@ -96,7 +96,7 @@ Namespace FileStream
                 edges += New NetworkEdge With {
                     .FromNode = l.Source.ID,
                     .ToNode = l.Target.ID,
-                    .InteractionType = l.Data(NameOf(Type))
+                    .Interaction = l.Data(NameOf(Type))
                 }
             Next
 
@@ -156,7 +156,7 @@ Namespace FileStream
                                          Let id = edge.GetNullDirectedGuid
                                          Let data As EdgeData = New EdgeData With {
                                              .Properties = New Dictionary(Of String, String) From {
-                                                 {NameOf(Type), edge.InteractionType}
+                                                 {NameOf(Type), edge.Interaction}
                                              }
                                          }
                                          Select New Edge(id, a, b, data)
