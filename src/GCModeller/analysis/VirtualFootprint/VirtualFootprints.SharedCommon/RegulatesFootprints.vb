@@ -26,8 +26,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
 Namespace DocumentFormat
@@ -84,7 +84,7 @@ Namespace DocumentFormat
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Pcc As Double Implements INetworkEdge.Confidence
+        Public Property Pcc As Double Implements INetworkEdge.value
         Public Property sPcc As Double
         Public Property WGCNA As Double
 
@@ -109,7 +109,7 @@ Namespace DocumentFormat
         ''' <remarks></remarks>
         Public Property Category As String
 
-        Private Property InteractionType As String Implements INetworkEdge.InteractionType
+        Private Property InteractionType As String Implements INetworkEdge.Interaction
             Get
                 If InitX.getBoolean Then
                     Return $"[Operon] TF Regulation"
