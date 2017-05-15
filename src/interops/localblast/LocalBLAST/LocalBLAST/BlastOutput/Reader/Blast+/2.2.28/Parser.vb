@@ -34,9 +34,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Reflection
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 
@@ -179,6 +177,17 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             BLASTN
             BLASTX
         End Enum
+
+        ''' <summary>
+        ''' 判断目标文件是否为一个blast+的原始输出的结果文件
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <returns></returns>
+        Public Function IsBlastOut(path$) As Boolean
+            Dim firstLine$ = path.ReadFirstLine
+            Dim result As Boolean = Regex.Match(firstLine, "BLAST.+?\d(\.\d)+", RegexICSng).Success
+            Return result
+        End Function
 
         Public ReadOnly Property DefaultEncoding As Encoding = Encoding.UTF8
 
