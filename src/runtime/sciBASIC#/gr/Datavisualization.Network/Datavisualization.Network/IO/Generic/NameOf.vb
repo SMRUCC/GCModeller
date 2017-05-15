@@ -29,7 +29,7 @@
 Namespace FileStream.Generic
 
     ''' <summary>
-    ''' The names value for edge type <see cref="NetworkEdge"/> and node type <see cref="Node"/>
+    ''' The preset names value for edge type <see cref="NetworkEdge"/> and node type <see cref="Node"/>
     ''' </summary>
     Public Module [NameOf]
 
@@ -48,7 +48,7 @@ Namespace FileStream.Generic
         ''' <summary>
         ''' <see cref="NetworkEdge.Interaction"/>
         ''' </summary>
-        Public Const REFLECTION_ID_MAPPING_INTERACTION_TYPE As String = "InteractionType"
+        Public Const REFLECTION_ID_MAPPING_INTERACTION_TYPE As String = "interaction_type"
 
         ''' <summary>
         ''' <see cref="Node.ID"/>
@@ -57,6 +57,6 @@ Namespace FileStream.Generic
         ''' <summary>
         ''' <see cref="Node.NodeType"/>
         ''' </summary>
-        Public Const REFLECTION_ID_MAPPING_NODETYPE As String = "NodeType"
+        Public Const REFLECTION_ID_MAPPING_NODETYPE As String = "nodeType"
     End Module
 End Namespace
