@@ -42,7 +42,6 @@ Namespace Platform
     Public Class PlatformEngine : Inherits HttpFileSystem
 
         Public ReadOnly Property AppManager As AppEngine.APPManager
-        Public ReadOnly Property TaskPool As New TaskPool
         Public ReadOnly Property EnginePlugins As Plugins.PluginBase()
 
         ''' <summary>

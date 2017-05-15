@@ -204,7 +204,7 @@ Namespace AppEngine.APIMethods.Arguments
                 Call WriteHeader(MIME.Json, bytes.Length)
             End If
 
-            Call response.WriteLine(obj.GetJson)
+            Call response.WriteLine(json)
         End Sub
 
         Public Sub WriteXML(Of T)(obj As T)
@@ -521,6 +521,12 @@ Namespace AppEngine.APIMethods.Arguments
             Return response.WriteLineAsync(buffer, index, count)
         End Function
 
+        ''' <summary>
+        ''' url重定向跳转操作
+        ''' </summary>
+        ''' <param name="rep"></param>
+        ''' <param name="url"></param>
+        ''' <returns></returns>
         Public Shared Operator <=(rep As HttpResponse, url As String) As Boolean
             Call rep.Redirect(url)
             Return True

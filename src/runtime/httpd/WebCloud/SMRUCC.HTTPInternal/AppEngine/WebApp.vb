@@ -38,7 +38,7 @@ Namespace AppEngine
     ''' API interface description: <see cref="IGET"/>, <see cref="IPOST"/>.
     ''' (外部对象需要继承这个基类才可以在App引擎之中注册自身为服务)
     ''' </summary>
-    Public MustInherit Class WebApp : Inherits PlatformSub
+    Public MustInherit Class WebApp : Inherits Submodule
 
         Public ReadOnly Property wwwroot As String
             Get

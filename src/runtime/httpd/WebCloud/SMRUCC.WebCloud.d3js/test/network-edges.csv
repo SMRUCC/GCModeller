@@ -1,230 +1,2502 @@
 ﻿fromNode,toNode,Confidence,InteractionType
-Maltose,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
-Caffeic acid,3-trans-Caffeoylquinic acid,0,#666
-Arabinose,4-amino Butyric acid,0,#666
-Gluconic acid,4-amino Butyric acid,0,#666
-Asparagine,4-amino Butyric acid,0,#666
-Leucine,4-amino Butyric acid,0,#666
-Eicosanoic acid,9-(Z)-Octadecenoic acid,0,#666
-Docosanol,9-(Z)-Octadecenoic acid,0,#666
-Octadecanoic acid,9-(Z)-Octadecenoic acid,0,#666
-Heptadecanoic acid,9-(Z)-Octadecenoic acid,0,#666
-Docosanoic acid,9-(Z)-Octadecenoic acid,0,#666
-Nonadecanoic acid,9-(Z)-Octadecenoic acid,0,#666
-Tetracosanoic acid,9-(Z)-Octadecenoic acid,0,#666
-Shikimic acid,9-(Z)-Octadecenoic acid,0,#666
-Glutaric acid,Adipic acid,0,#666
-Phosphoric acid,Adipic acid,0,#666
-Glucaric acid,Adipic acid,0,#666
-Serine,Alanine,0,#666
-Threonine,Alanine,0,#666
-Succinic acid,Alanine,0,#666
-Citric acid,Alanine,0,#666
-Glycine,Alanine,0,#666
-Isoleucine,Arabinose,0,#666
-Leucine,Arabinose,0,#666
-Pyroglutamate,Arabinose,0,#666
-Asparagine,Arabinose,0,#666
-Pyroglutamate,Asparagine,0,#666
-Isoleucine,Asparagine,0,#666
-Leucine,Asparagine,0,#666
-Phosphoric acid,Aspartic acid,0,#666
-Fumaric acid,Aspartic acid,0,#666
-Glutaric acid,Aspartic acid,0,#666
-Serine,Citric acid,0,#666
-Succinic acid,Citric acid,0,#666
-Quinic acid,Dehydroascorbic acid dimer,0,#666
-Fumaric acid,Docosanoic acid,0,#666
-Eicosanoic acid,Docosanoic acid,0,#666
-Shikimic acid,Docosanoic acid,0,#666
-Glutaric acid,Docosanoic acid,0,#666
-Octadecanoic acid,Docosanoic acid,0,#666
-Phosphoric acid,Docosanoic acid,0,#666
-Heptadecanoic acid,Docosanoic acid,0,#666
-Adipic acid,Docosanoic acid,0,#666
-Docosanol,Docosanoic acid,0,#666
-Glucaric acid,Docosanoic acid,0,#666
-Aspartic acid,Docosanoic acid,0,#666
-Ethanolamine,Docosanoic acid,0,#666
-Glucaric acid,Docosanol,0,#666
-Phosphoric acid,Docosanol,0,#666
-Fumaric acid,Docosanol,0,#666
-Eicosanoic acid,Docosanol,0,#666
-Octadecanoic acid,Docosanol,0,#666
-Aspartic acid,Docosanol,0,#666
-Adipic acid,Docosanol,0,#666
-Heptadecanoic acid,Docosanol,0,#666
-Ethanolamine,Docosanol,0,#666
-Glutaric acid,Docosanol,0,#666
-Heptadecanoic acid,Eicosanoic acid,0,#666
-Shikimic acid,Eicosanoic acid,0,#666
-Octadecanoic acid,Eicosanoic acid,0,#666
-Phosphoric acid,Eicosanoic acid,0,#666
-Glutaric acid,Eicosanoic acid,0,#666
-Fumaric acid,Eicosanoic acid,0,#666
-Aspartic acid,Eicosanoic acid,0,#666
-Ethanolamine,Eicosanoic acid,0,#666
-Glucaric acid,Eicosanoic acid,0,#666
-Aspartic acid,Ethanolamine,0,#666
-Phosphoric acid,Ethanolamine,0,#666
-Glucaric acid,Ethanolamine,0,#666
-Glutamate,Ethanolamine,0,#666
-Glutaric acid,Ethanolamine,0,#666
-Ribonic acid ,Fructose,0,#666
-Phosphoric acid,Fumaric acid,0,#666
-Glutaric acid,Fumaric acid,0,#666
-Fructose,Galactose,0,#666
-Glucose,Galactose,0,#666
-Citric acid,Galactose,0,#666
-Aspartic acid,Glucaric acid,0,#666
-Glutaric acid,Glucaric acid,0,#666
-Fumaric acid,Glucaric acid,0,#666
-Phosphoric acid,Glucaric acid,0,#666
-Threonine,Glucaric acid,0,#666
-Glutamate,Glucaric acid,0,#666
-Ribonic acid ,Glucaric acid,0,#666
-Leucine,Gluconic acid,0,#666
-Glutamine,Gluconic acid,0,#666
-Arabinose,Gluconic acid,0,#666
-Lysine,Gluconic acid,0,#666
-Asparagine,Gluconic acid,0,#666
-Citric acid,Glucose,0,#666
-Fructose,Glucose,0,#666
-Glutaric acid,Glutamate,0,#666
-Threonine,Glutamate,0,#666
-Fumaric acid,Glutamate,0,#666
-Aspartic acid,Glutamate,0,#666
-Pyroglutamate,Glutamine,0,#666
-Isoleucine,Glutamine,0,#666
-Leucine,Glutamine,0,#666
-Asparagine,Glutamine,0,#666
+Heptanoic acid,1-Monohexadecanoylglycerol,0,#666
+Glycerol,1-Monohexadecanoylglycerol,0,#666
+Glyceric acid-3-phosphate,1-Monohexadecanoylglycerol,0,#666
+glyceric acid,1-Monohexadecanoylglycerol,0,#666
+Octadecanoic acid,1-Monohexadecanoylglycerol,0,#666
+Succinic acid,1-Monohexadecanoylglycerol,0,#666
+Mannose,1-Monohexadecanoylglycerol,0,#666
+Glycolic acid,1-Monohexadecanoylglycerol,0,#666
+serine,1-Monohexadecanoylglycerol,0,#666
+Malic acid,1-Monohexadecanoylglycerol,0,#666
+Dehydroascorbic acid dimer,1-Monohexadecanoylglycerol,0,#666
+Ribitol,1-Monohexadecanoylglycerol,0,#666
+Hypoxanthine,1-Monohexadecanoylglycerol,0,#666
+gamma-linolenic acid,1-Monohexadecanoylglycerol,0,#666
+ornithine,1-Monohexadecanoylglycerol,0,#666
+Glutamic acid,1-Monohexadecanoylglycerol,0,#666
+"Fumaric acid, 2-methyl-",1-Monohexadecanoylglycerol,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",1-Monohexadecanoylglycerol,0,#666
+Glucose-6-phosphate,1-Monohexadecanoylglycerol,0,#666
+aspartic acid,1-Monohexadecanoylglycerol,0,#666
+2-amino-Butyric acid,1-Monohexadecanoylglycerol,0,#666
+Uridine,1-Monohexadecanoylglycerol,0,#666
+Oxalic acid,1-Monohexadecanoylglycerol,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",1-Monohexadecanoylglycerol,0,#666
+frucose-6-phosphate,1-Monohexadecanoylglycerol,0,#666
+N-Acetylglutamic acid,1-Monohexadecanoylglycerol,0,#666
+Guanine,1-Monohexadecanoylglycerol,0,#666
+"1,3-Di-tert-butylbenzene",1-Monohexadecanoylglycerol,0,#666
+Valine,1-Monohexadecanoylglycerol,0,#666
+9-(Z)-Octadecenoic acid,1-Monohexadecanoylglycerol,0,#666
+Ethanolamine,1-Monohexadecanoylglycerol,0,#666
+Pantothenic acid,1-Monohexadecanoylglycerol,0,#666
+Methionine,1-Monohexadecanoylglycerol,0,#666
+fumaric acid,1-Monohexadecanoylglycerol,0,#666
+Monomethylphosphate,1-Monohexadecanoylglycerol,0,#666
+Tetradecanoic acid,1-Monohexadecanoylglycerol,0,#666
+Glycerol-2-phosphate,1-Monohexadecanoylglycerol,0,#666
+Ribonic acid,1-Monohexadecanoylglycerol,0,#666
+homoserine,1-Monohexadecanoylglycerol,0,#666
+Proline,1-Monohexadecanoylglycerol,0,#666
+Arabitol,1-Monohexadecanoylglycerol,0,#666
+Cystathionine,1-Monohexadecanoylglycerol,0,#666
+Mannose-6-phosphate,1-Monohexadecanoylglycerol,0,#666
+threonic acid,1-Monohexadecanoylglycerol,0,#666
+Glutamine,1-Monohexadecanoylglycerol,0,#666
+isoleucine,1-Monohexadecanoylglycerol,0,#666
+maleic acid,1-Monohexadecanoylglycerol,0,#666
+2-Hydroxyglutaric acid,1-Monohexadecanoylglycerol,0,#666
+"Butanedioic acid, 2-methyl-",1-Monohexadecanoylglycerol,0,#666
+beta-Alanine,1-Monohexadecanoylglycerol,0,#666
+Lysine,1-Monohexadecanoylglycerol,0,#666
+Pyroglutamic acid,1-Monohexadecanoylglycerol,0,#666
+Phenylalanine,1-Monohexadecanoylglycerol,0,#666
+Fructose,1-Monohexadecanoylglycerol,0,#666
+myo-Inositol-1-phosphate,1-Monohexadecanoylglycerol,0,#666
+9-(Z)-Hexadecenoic acid,1-Monohexadecanoylglycerol,0,#666
+uracil,1-Monohexadecanoylglycerol,0,#666
+Arachidonic acid,1-Monohexadecanoylglycerol,0,#666
+Glutaric acid,1-Monohexadecanoylglycerol,0,#666
+Alanine,1-Monohexadecanoylglycerol,0,#666
+phosphoric acid,1-Monohexadecanoylglycerol,0,#666
+Arabinose,1-Monohexadecanoylglycerol,0,#666
+Sorbitol-6-phosphate,1-Monohexadecanoylglycerol,0,#666
+uric acid,1-Monohexadecanoylglycerol,0,#666
+Threonine,1-Monohexadecanoylglycerol,0,#666
+Oxalic acid,"1,3-Di-tert-butylbenzene",0,#666
+Glycolic acid,"1,3-Di-tert-butylbenzene",0,#666
+Alanine,"1,3-Di-tert-butylbenzene",0,#666
+Valine,"1,3-Di-tert-butylbenzene",0,#666
+2-amino-Butyric acid,"1,3-Di-tert-butylbenzene",0,#666
+Monomethylphosphate,"1,3-Di-tert-butylbenzene",0,#666
+Heptanoic acid,"1,3-Di-tert-butylbenzene",0,#666
+Heptanoic acid,2-amino-Butyric acid,0,#666
+Oxalic acid,2-amino-Butyric acid,0,#666
+Alanine,2-amino-Butyric acid,0,#666
+Glycolic acid,2-amino-Butyric acid,0,#666
+Glycine,2-Aminoadipic acid,0,#666
+Dehydroascorbic acid dimer,2-Aminoadipic acid,0,#666
+threonic acid,2-Aminoadipic acid,0,#666
+Pyroglutamic acid,2-Aminoadipic acid,0,#666
+Glutamine,2-Aminoadipic acid,0,#666
+leucine,2-Aminoadipic acid,0,#666
+myo-inositol,2-Aminoadipic acid,0,#666
+alpha-Tocopherol,2-Aminoadipic acid,0,#666
+Succinic acid,2-Hydroxyglutaric acid,0,#666
+glyceric acid,2-Hydroxyglutaric acid,0,#666
+fumaric acid,2-Hydroxyglutaric acid,0,#666
+2-amino-Butyric acid,2-Hydroxyglutaric acid,0,#666
+isoleucine,2-Hydroxyglutaric acid,0,#666
+Oxalic acid,2-Hydroxyglutaric acid,0,#666
+phosphoric acid,2-Hydroxyglutaric acid,0,#666
+beta-Alanine,2-Hydroxyglutaric acid,0,#666
+threonic acid,2-Hydroxyglutaric acid,0,#666
+Methionine,2-Hydroxyglutaric acid,0,#666
+Alanine,2-Hydroxyglutaric acid,0,#666
+uracil,2-Hydroxyglutaric acid,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",2-Hydroxyglutaric acid,0,#666
+Glycerol,2-Hydroxyglutaric acid,0,#666
+"Butanedioic acid, 2-methyl-",2-Hydroxyglutaric acid,0,#666
+aspartic acid,2-Hydroxyglutaric acid,0,#666
+Monomethylphosphate,2-Hydroxyglutaric acid,0,#666
+Heptanoic acid,2-Hydroxyglutaric acid,0,#666
+"1,3-Di-tert-butylbenzene",2-Hydroxyglutaric acid,0,#666
+Ethanolamine,2-Hydroxyglutaric acid,0,#666
+Glutaric acid,2-Hydroxyglutaric acid,0,#666
+Malic acid,2-Hydroxyglutaric acid,0,#666
+Proline,2-Hydroxyglutaric acid,0,#666
+homoserine,2-Hydroxyglutaric acid,0,#666
+maleic acid,2-Hydroxyglutaric acid,0,#666
+N-Acetylglutamic acid,2-Hydroxyglutaric acid,0,#666
+serine,2-Hydroxyglutaric acid,0,#666
+"Fumaric acid, 2-methyl-",2-Hydroxyglutaric acid,0,#666
+Glycolic acid,2-Hydroxyglutaric acid,0,#666
+Threonine,2-Hydroxyglutaric acid,0,#666
+Valine,2-Hydroxyglutaric acid,0,#666
+Pyroglutamic acid,2-Hydroxyglutaric acid,0,#666
+phosphoric acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+isoleucine,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Monomethylphosphate,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+"Fumaric acid, 2-methyl-","2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+glyceric acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Glutaric acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+homoserine,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Malic acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Glycolic acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+fumaric acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Threonine,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Ethanolamine,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+maleic acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Heptanoic acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Proline,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+N-Acetylglutamic acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+serine,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Valine,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Succinic acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+"Butanedioic acid, 2-methyl-","2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+2-amino-Butyric acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Methionine,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Pyroglutamic acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Glycerol,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+Oxalic acid,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+uracil,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+beta-Alanine,"2,4,6-Tri-tert.-butylbenzenethiol",0,#666
+9-(Z)-Octadecenoic acid,4-hydroxy-Proline,0,#666
+Sorbitol-6-phosphate,4-hydroxy-Proline,0,#666
+Pantothenic acid,4-hydroxy-Proline,0,#666
+Succinic acid,4-hydroxy-Proline,0,#666
+Arabinose,4-hydroxy-Proline,0,#666
+Hypoxanthine,9-(Z)-Hexadecenoic acid,0,#666
+Arabitol,9-(Z)-Hexadecenoic acid,0,#666
+serine,9-(Z)-Hexadecenoic acid,0,#666
+Ethanolamine,9-(Z)-Hexadecenoic acid,0,#666
+Heptanoic acid,9-(Z)-Hexadecenoic acid,0,#666
+Mannose,9-(Z)-Hexadecenoic acid,0,#666
+Tetradecanoic acid,9-(Z)-Hexadecenoic acid,0,#666
+Glycolic acid,9-(Z)-Hexadecenoic acid,0,#666
+Succinic acid,9-(Z)-Hexadecenoic acid,0,#666
+Glutamic acid,9-(Z)-Hexadecenoic acid,0,#666
+Glutamine,9-(Z)-Hexadecenoic acid,0,#666
+Fructose,9-(Z)-Hexadecenoic acid,0,#666
+Proline,9-(Z)-Hexadecenoic acid,0,#666
+Glyceric acid-3-phosphate,9-(Z)-Hexadecenoic acid,0,#666
+Phenylalanine,9-(Z)-Hexadecenoic acid,0,#666
+glyceric acid,9-(Z)-Hexadecenoic acid,0,#666
+Threonine,9-(Z)-Hexadecenoic acid,0,#666
+Glutaric acid,9-(Z)-Hexadecenoic acid,0,#666
+2-amino-Butyric acid,9-(Z)-Hexadecenoic acid,0,#666
+ornithine,9-(Z)-Hexadecenoic acid,0,#666
+maleic acid,9-(Z)-Hexadecenoic acid,0,#666
+Valine,9-(Z)-Hexadecenoic acid,0,#666
+Ribitol,9-(Z)-Hexadecenoic acid,0,#666
+Alanine,9-(Z)-Hexadecenoic acid,0,#666
+N-Acetylglutamic acid,9-(Z)-Hexadecenoic acid,0,#666
+fumaric acid,9-(Z)-Hexadecenoic acid,0,#666
+aspartic acid,9-(Z)-Hexadecenoic acid,0,#666
+Monomethylphosphate,9-(Z)-Hexadecenoic acid,0,#666
+Arabinose,9-(Z)-Hexadecenoic acid,0,#666
+Methionine,9-(Z)-Hexadecenoic acid,0,#666
+beta-Alanine,9-(Z)-Hexadecenoic acid,0,#666
+Oxalic acid,9-(Z)-Hexadecenoic acid,0,#666
+Glycerol-2-phosphate,9-(Z)-Hexadecenoic acid,0,#666
+isoleucine,9-(Z)-Hexadecenoic acid,0,#666
+Pantothenic acid,9-(Z)-Hexadecenoic acid,0,#666
+2-Hydroxyglutaric acid,9-(Z)-Hexadecenoic acid,0,#666
+uracil,9-(Z)-Hexadecenoic acid,0,#666
+Ribonic acid,9-(Z)-Hexadecenoic acid,0,#666
+"Fumaric acid, 2-methyl-",9-(Z)-Hexadecenoic acid,0,#666
+homoserine,9-(Z)-Hexadecenoic acid,0,#666
+"1,3-Di-tert-butylbenzene",9-(Z)-Hexadecenoic acid,0,#666
+Pyroglutamic acid,9-(Z)-Hexadecenoic acid,0,#666
+Lysine,9-(Z)-Hexadecenoic acid,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",9-(Z)-Hexadecenoic acid,0,#666
+Glycerol,9-(Z)-Hexadecenoic acid,0,#666
+phosphoric acid,9-(Z)-Hexadecenoic acid,0,#666
+"Butanedioic acid, 2-methyl-",9-(Z)-Hexadecenoic acid,0,#666
+threonic acid,9-(Z)-Hexadecenoic acid,0,#666
+Glycerol-2-phosphate,9-(Z)-Octadecenoic acid,0,#666
+Alanine,9-(Z)-Octadecenoic acid,0,#666
+Hypoxanthine,9-(Z)-Octadecenoic acid,0,#666
+Glutamic acid,9-(Z)-Octadecenoic acid,0,#666
+Glutaric acid,9-(Z)-Octadecenoic acid,0,#666
+Valine,9-(Z)-Octadecenoic acid,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",9-(Z)-Octadecenoic acid,0,#666
+uracil,9-(Z)-Octadecenoic acid,0,#666
+Arabitol,9-(Z)-Octadecenoic acid,0,#666
+Monomethylphosphate,9-(Z)-Octadecenoic acid,0,#666
+Threonine,9-(Z)-Octadecenoic acid,0,#666
+fumaric acid,9-(Z)-Octadecenoic acid,0,#666
+Oxalic acid,9-(Z)-Octadecenoic acid,0,#666
+Tetradecanoic acid,9-(Z)-Octadecenoic acid,0,#666
+Fructose,9-(Z)-Octadecenoic acid,0,#666
+glyceric acid,9-(Z)-Octadecenoic acid,0,#666
+Mannose,9-(Z)-Octadecenoic acid,0,#666
+9-(Z)-Hexadecenoic acid,9-(Z)-Octadecenoic acid,0,#666
+Ethanolamine,9-(Z)-Octadecenoic acid,0,#666
+isoleucine,9-(Z)-Octadecenoic acid,0,#666
+Lysine,9-(Z)-Octadecenoic acid,0,#666
+Phenylalanine,9-(Z)-Octadecenoic acid,0,#666
+Proline,9-(Z)-Octadecenoic acid,0,#666
+N-Acetylglutamic acid,9-(Z)-Octadecenoic acid,0,#666
+Guanine,9-(Z)-Octadecenoic acid,0,#666
+aspartic acid,9-(Z)-Octadecenoic acid,0,#666
+"Butanedioic acid, 2-methyl-",9-(Z)-Octadecenoic acid,0,#666
+phosphoric acid,9-(Z)-Octadecenoic acid,0,#666
+homoserine,9-(Z)-Octadecenoic acid,0,#666
+Arabinose,9-(Z)-Octadecenoic acid,0,#666
+2-amino-Butyric acid,9-(Z)-Octadecenoic acid,0,#666
+Glycolic acid,9-(Z)-Octadecenoic acid,0,#666
+Heptanoic acid,9-(Z)-Octadecenoic acid,0,#666
+Glyceric acid-3-phosphate,9-(Z)-Octadecenoic acid,0,#666
+Glutamine,9-(Z)-Octadecenoic acid,0,#666
+"Fumaric acid, 2-methyl-",9-(Z)-Octadecenoic acid,0,#666
+Glycerol,9-(Z)-Octadecenoic acid,0,#666
+Ribonic acid,9-(Z)-Octadecenoic acid,0,#666
+Methionine,9-(Z)-Octadecenoic acid,0,#666
+uric acid,9-(Z)-Octadecenoic acid,0,#666
+Pantothenic acid,9-(Z)-Octadecenoic acid,0,#666
+threonic acid,9-(Z)-Octadecenoic acid,0,#666
+2-Hydroxyglutaric acid,9-(Z)-Octadecenoic acid,0,#666
+beta-Alanine,9-(Z)-Octadecenoic acid,0,#666
+"1,3-Di-tert-butylbenzene",9-(Z)-Octadecenoic acid,0,#666
+Ribitol,9-(Z)-Octadecenoic acid,0,#666
+serine,9-(Z)-Octadecenoic acid,0,#666
+Succinic acid,9-(Z)-Octadecenoic acid,0,#666
+glyceric acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Glycerol-2-phosphate,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Tetradecanoic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Hypoxanthine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+uric acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+uracil,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Mannose,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Arabitol,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol","9,12-(Z,Z)-Octadecadienoic acid",0,#666
+ornithine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Malic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Arabinose,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Proline,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Glutamic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Alanine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Monomethylphosphate,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+homoserine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Oxalic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+N-Acetylglutamic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+isoleucine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+maleic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+2-amino-Butyric acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Fructose,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Valine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+2-Hydroxyglutaric acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+fumaric acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Glycerol,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Phenylalanine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+aspartic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+gamma-linolenic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Glutaric acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Threonine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+beta-Alanine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Glutamine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+"Butanedioic acid, 2-methyl-","9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Pantothenic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Ethanolamine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Glycolic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Guanine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+9-(Z)-Hexadecenoic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Methionine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+"Fumaric acid, 2-methyl-","9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Pyroglutamic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+"1,3-Di-tert-butylbenzene","9,12-(Z,Z)-Octadecadienoic acid",0,#666
+phosphoric acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Ribitol,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Heptanoic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Glyceric acid-3-phosphate,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+serine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Ribonic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+threonic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Lysine,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Succinic acid,"9,12-(Z,Z)-Octadecadienoic acid",0,#666
+Heptanoic acid,Adenosine,0,#666
+frucose-6-phosphate,Adenosine,0,#666
+glyceric acid,Adenosine,0,#666
+Threonine,Adenosine,0,#666
+Glycerol-2-phosphate,Adenosine,0,#666
+Inosine,Adenosine,0,#666
+Glycerol,Adenosine,0,#666
+Mannose,Adenosine,0,#666
+isoleucine,Adenosine,0,#666
+Arabinose,Adenosine,0,#666
+Succinic acid,Adenosine,0,#666
+Ribitol,Adenosine,0,#666
+Glycolic acid,Adenosine,0,#666
+Monomethylphosphate,Adenosine,0,#666
+9-(Z)-Hexadecenoic acid,Adenosine,0,#666
+uracil,Adenosine,0,#666
+2-amino-Butyric acid,Adenosine,0,#666
+Glutamine,Adenosine,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",Adenosine,0,#666
+serine,Adenosine,0,#666
+N-Acetylglutamic acid,Adenosine,0,#666
+Sorbitol-6-phosphate,Adenosine,0,#666
+Ribonic acid,Adenosine,0,#666
+Alanine,Adenosine,0,#666
+Dehydroascorbic acid dimer,Adenosine,0,#666
+Hypoxanthine,Adenosine,0,#666
+Arabitol,Adenosine,0,#666
+gamma-linolenic acid,Adenosine,0,#666
+Pantothenic acid,Adenosine,0,#666
+Pyroglutamic acid,Adenosine,0,#666
+ornithine,Adenosine,0,#666
+phosphoric acid,Adenosine,0,#666
+Glyceric acid-3-phosphate,Adenosine,0,#666
+9-(Z)-Octadecenoic acid,Adenosine,0,#666
+Methionine,Adenosine,0,#666
+1-Monohexadecanoylglycerol,Adenosine,0,#666
+Oxalic acid,Adenosine,0,#666
+Malic acid,Adenosine,0,#666
+Uridine,Adenosine,0,#666
+fumaric acid,Adenosine,0,#666
+Octadecanoic acid,Adenosine,0,#666
+Fructose,Adenosine,0,#666
+homoserine,Adenosine,0,#666
+Proline,Adenosine,0,#666
+threonic acid,Adenosine,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Adenosine,0,#666
+"Butanedioic acid, 2-methyl-",Adenosine,0,#666
+maleic acid,Adenosine,0,#666
+2-Hydroxyglutaric acid,Adenosine,0,#666
+Glutamic acid,Adenosine,0,#666
+Glutaric acid,Adenosine,0,#666
+uric acid,Adenosine,0,#666
+beta-Alanine,Adenosine,0,#666
+aspartic acid,Adenosine,0,#666
+Cystathionine,Adenosine,0,#666
+Lysine,Adenosine,0,#666
+Ethanolamine,Adenosine,0,#666
+Tetradecanoic acid,Adenosine,0,#666
+"Fumaric acid, 2-methyl-",Adenosine,0,#666
+Guanine,Adenosine,0,#666
+Valine,Adenosine,0,#666
+myo-Inositol-1-phosphate,Adenosine,0,#666
+Glucose-6-phosphate,Adenosine,0,#666
+Phenylalanine,Adenosine,0,#666
+Mannose-6-phosphate,Adenosine,0,#666
+Glycolic acid,Alanine,0,#666
+Uridine,alpha-Tocopherol,0,#666
+Oxalic acid,alpha-Tocopherol,0,#666
+Inosine,alpha-Tocopherol,0,#666
+Hypoxanthine,alpha-Tocopherol,0,#666
+Adenosine,alpha-Tocopherol,0,#666
+Heptanoic acid,alpha-Tocopherol,0,#666
+glyceric acid,alpha-Tocopherol,0,#666
+Ribitol,alpha-Tocopherol,0,#666
+Glycolic acid,alpha-Tocopherol,0,#666
+Octadecanoic acid,alpha-Tocopherol,0,#666
+Dehydroascorbic acid dimer,alpha-Tocopherol,0,#666
+Glycerol-2-phosphate,alpha-Tocopherol,0,#666
+Threonine,alpha-Tocopherol,0,#666
+"Butanedioic acid, 2-methyl-",alpha-Tocopherol,0,#666
+Malic acid,alpha-Tocopherol,0,#666
+Succinic acid,alpha-Tocopherol,0,#666
+9-(Z)-Hexadecenoic acid,alpha-Tocopherol,0,#666
+Monomethylphosphate,alpha-Tocopherol,0,#666
+uracil,alpha-Tocopherol,0,#666
+Mannose,alpha-Tocopherol,0,#666
+phosphoric acid,alpha-Tocopherol,0,#666
+Glyceric acid-3-phosphate,alpha-Tocopherol,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",alpha-Tocopherol,0,#666
+Glutaric acid,alpha-Tocopherol,0,#666
+serine,alpha-Tocopherol,0,#666
+"Fumaric acid, 2-methyl-",alpha-Tocopherol,0,#666
+1-Monohexadecanoylglycerol,alpha-Tocopherol,0,#666
+Arabinose,alpha-Tocopherol,0,#666
+fumaric acid,alpha-Tocopherol,0,#666
+Alanine,alpha-Tocopherol,0,#666
+isoleucine,alpha-Tocopherol,0,#666
+Arabitol,alpha-Tocopherol,0,#666
+frucose-6-phosphate,alpha-Tocopherol,0,#666
+Phenylalanine,alpha-Tocopherol,0,#666
+Cystathionine,alpha-Tocopherol,0,#666
+Ribonic acid,alpha-Tocopherol,0,#666
+Ethanolamine,alpha-Tocopherol,0,#666
+Arachidonic acid,alpha-Tocopherol,0,#666
+uric acid,alpha-Tocopherol,0,#666
+Glutamine,alpha-Tocopherol,0,#666
+2-amino-Butyric acid,alpha-Tocopherol,0,#666
+Glucose-6-phosphate,alpha-Tocopherol,0,#666
+beta-Alanine,alpha-Tocopherol,0,#666
+Methionine,alpha-Tocopherol,0,#666
+ornithine,alpha-Tocopherol,0,#666
+Proline,alpha-Tocopherol,0,#666
+N-Acetylglutamic acid,alpha-Tocopherol,0,#666
+threonic acid,alpha-Tocopherol,0,#666
+maleic acid,alpha-Tocopherol,0,#666
+2-Hydroxyglutaric acid,alpha-Tocopherol,0,#666
+9-(Z)-Octadecenoic acid,alpha-Tocopherol,0,#666
+Glycerol,alpha-Tocopherol,0,#666
+Lysine,alpha-Tocopherol,0,#666
+Guanine,alpha-Tocopherol,0,#666
+Glutamic acid,alpha-Tocopherol,0,#666
+Pantothenic acid,alpha-Tocopherol,0,#666
+Mannose-6-phosphate,alpha-Tocopherol,0,#666
+"1,3-Di-tert-butylbenzene",alpha-Tocopherol,0,#666
+homoserine,alpha-Tocopherol,0,#666
+Fructose,alpha-Tocopherol,0,#666
+aspartic acid,alpha-Tocopherol,0,#666
+Tetradecanoic acid,alpha-Tocopherol,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",alpha-Tocopherol,0,#666
+Sorbitol-6-phosphate,alpha-Tocopherol,0,#666
+gamma-linolenic acid,alpha-Tocopherol,0,#666
+Valine,alpha-Tocopherol,0,#666
+myo-Inositol-1-phosphate,alpha-Tocopherol,0,#666
+Pyroglutamic acid,alpha-Tocopherol,0,#666
+Threonine,Arabinose,0,#666
+"Fumaric acid, 2-methyl-",Arabinose,0,#666
+Oxalic acid,Arabinose,0,#666
+beta-Alanine,Arabinose,0,#666
+fumaric acid,Arabinose,0,#666
+2-Hydroxyglutaric acid,Arabinose,0,#666
+uracil,Arabinose,0,#666
+Methionine,Arabinose,0,#666
+2-amino-Butyric acid,Arabinose,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Arabinose,0,#666
+Monomethylphosphate,Arabinose,0,#666
+"1,3-Di-tert-butylbenzene",Arabinose,0,#666
+Valine,Arabinose,0,#666
+Alanine,Arabinose,0,#666
+N-Acetylglutamic acid,Arabinose,0,#666
+Glutamic acid,Arabinose,0,#666
+Ethanolamine,Arabinose,0,#666
+Proline,Arabinose,0,#666
+aspartic acid,Arabinose,0,#666
+Glutaric acid,Arabinose,0,#666
+"Butanedioic acid, 2-methyl-",Arabinose,0,#666
+phosphoric acid,Arabinose,0,#666
+isoleucine,Arabinose,0,#666
+Succinic acid,Arabinose,0,#666
+Heptanoic acid,Arabinose,0,#666
+Phenylalanine,Arabinose,0,#666
+homoserine,Arabinose,0,#666
+threonic acid,Arabinose,0,#666
+Glycerol,Arabinose,0,#666
+glyceric acid,Arabinose,0,#666
+Glycolic acid,Arabinose,0,#666
+serine,Arabinose,0,#666
+2-Hydroxyglutaric acid,Arabitol,0,#666
+Heptanoic acid,Arabitol,0,#666
+"Butanedioic acid, 2-methyl-",Arabitol,0,#666
+"Fumaric acid, 2-methyl-",Arabitol,0,#666
+Malic acid,Arabitol,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Arabitol,0,#666
+Oxalic acid,Arabitol,0,#666
+Glutamic acid,Arabitol,0,#666
+threonic acid,Arabitol,0,#666
+Methionine,Arabitol,0,#666
+Ethanolamine,Arabitol,0,#666
+isoleucine,Arabitol,0,#666
+glyceric acid,Arabitol,0,#666
+Threonine,Arabitol,0,#666
+maleic acid,Arabitol,0,#666
+2-amino-Butyric acid,Arabitol,0,#666
+Glycerol,Arabitol,0,#666
+Valine,Arabitol,0,#666
+Pyroglutamic acid,Arabitol,0,#666
+uracil,Arabitol,0,#666
+homoserine,Arabitol,0,#666
+fumaric acid,Arabitol,0,#666
+N-Acetylglutamic acid,Arabitol,0,#666
+beta-Alanine,Arabitol,0,#666
+Phenylalanine,Arabitol,0,#666
+Monomethylphosphate,Arabitol,0,#666
+Succinic acid,Arabitol,0,#666
+Glutaric acid,Arabitol,0,#666
+Arabinose,Arabitol,0,#666
+phosphoric acid,Arabitol,0,#666
+Alanine,Arabitol,0,#666
+Proline,Arabitol,0,#666
+"1,3-Di-tert-butylbenzene",Arabitol,0,#666
+Glycolic acid,Arabitol,0,#666
+serine,Arabitol,0,#666
+2-amino-Butyric acid,Arachidonic acid,0,#666
+Valine,Arachidonic acid,0,#666
+N-Acetylglutamic acid,Arachidonic acid,0,#666
+Arabinose,Arachidonic acid,0,#666
+Oxalic acid,Arachidonic acid,0,#666
+phosphoric acid,Arachidonic acid,0,#666
+gamma-linolenic acid,Arachidonic acid,0,#666
+uric acid,Arachidonic acid,0,#666
+Fructose,Arachidonic acid,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Arachidonic acid,0,#666
+serine,Arachidonic acid,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",Arachidonic acid,0,#666
+Glutamic acid,Arachidonic acid,0,#666
+Glycolic acid,Arachidonic acid,0,#666
+Glutaric acid,Arachidonic acid,0,#666
+Proline,Arachidonic acid,0,#666
+Cystathionine,Arachidonic acid,0,#666
+Hypoxanthine,Arachidonic acid,0,#666
+Ribitol,Arachidonic acid,0,#666
+threonic acid,Arachidonic acid,0,#666
+beta-Alanine,Arachidonic acid,0,#666
+Lysine,Arachidonic acid,0,#666
+Methionine,Arachidonic acid,0,#666
+"Butanedioic acid, 2-methyl-",Arachidonic acid,0,#666
+Ribonic acid,Arachidonic acid,0,#666
+9-(Z)-Octadecenoic acid,Arachidonic acid,0,#666
+frucose-6-phosphate,Arachidonic acid,0,#666
+Mannose,Arachidonic acid,0,#666
+"1,3-Di-tert-butylbenzene",Arachidonic acid,0,#666
+Succinic acid,Arachidonic acid,0,#666
+"Fumaric acid, 2-methyl-",Arachidonic acid,0,#666
+Monomethylphosphate,Arachidonic acid,0,#666
+isoleucine,Arachidonic acid,0,#666
+9-(Z)-Hexadecenoic acid,Arachidonic acid,0,#666
+Ethanolamine,Arachidonic acid,0,#666
+Octadecanoic acid,Arachidonic acid,0,#666
+glyceric acid,Asparagine,0,#666
+Heptanoic acid,Asparagine,0,#666
+fumaric acid,Asparagine,0,#666
+Glutaric acid,Asparagine,0,#666
+Glycolic acid,Asparagine,0,#666
+uracil,Asparagine,0,#666
+uric acid,Asparagine,0,#666
+Glutamine,Asparagine,0,#666
+2-Hydroxyglutaric acid,Asparagine,0,#666
+Guanine,Asparagine,0,#666
+Ribitol,Asparagine,0,#666
+"Butanedioic acid, 2-methyl-",Asparagine,0,#666
+Phenylalanine,Asparagine,0,#666
+alpha-Tocopherol,Asparagine,0,#666
+Pyroglutamic acid,Asparagine,0,#666
+Adenosine,Asparagine,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Asparagine,0,#666
+homoserine,Asparagine,0,#666
+maleic acid,Asparagine,0,#666
+"1,3-Di-tert-butylbenzene",aspartic acid,0,#666
+Alanine,aspartic acid,0,#666
+Glycolic acid,aspartic acid,0,#666
+Succinic acid,aspartic acid,0,#666
+fumaric acid,aspartic acid,0,#666
+beta-Alanine,aspartic acid,0,#666
+"Fumaric acid, 2-methyl-",aspartic acid,0,#666
+phosphoric acid,aspartic acid,0,#666
+Oxalic acid,aspartic acid,0,#666
+isoleucine,aspartic acid,0,#666
+homoserine,aspartic acid,0,#666
+Glutaric acid,aspartic acid,0,#666
+Monomethylphosphate,aspartic acid,0,#666
+Methionine,aspartic acid,0,#666
+Proline,aspartic acid,0,#666
+2-amino-Butyric acid,aspartic acid,0,#666
+Glycerol,aspartic acid,0,#666
+"Butanedioic acid, 2-methyl-",aspartic acid,0,#666
+uracil,aspartic acid,0,#666
+serine,aspartic acid,0,#666
+Threonine,aspartic acid,0,#666
+Valine,aspartic acid,0,#666
+Heptanoic acid,aspartic acid,0,#666
+Ethanolamine,aspartic acid,0,#666
+glyceric acid,aspartic acid,0,#666
+Glutaric acid,beta-Alanine,0,#666
+Glycerol,beta-Alanine,0,#666
+glyceric acid,beta-Alanine,0,#666
+Oxalic acid,beta-Alanine,0,#666
+maleic acid,beta-Alanine,0,#666
+Valine,beta-Alanine,0,#666
+isoleucine,beta-Alanine,0,#666
+uracil,beta-Alanine,0,#666
+Alanine,beta-Alanine,0,#666
+Proline,beta-Alanine,0,#666
+"Butanedioic acid, 2-methyl-",beta-Alanine,0,#666
+Ethanolamine,beta-Alanine,0,#666
+Threonine,beta-Alanine,0,#666
+Heptanoic acid,beta-Alanine,0,#666
+Succinic acid,beta-Alanine,0,#666
+Glycolic acid,beta-Alanine,0,#666
+2-amino-Butyric acid,beta-Alanine,0,#666
+"Fumaric acid, 2-methyl-",beta-Alanine,0,#666
+serine,beta-Alanine,0,#666
+Monomethylphosphate,beta-Alanine,0,#666
+fumaric acid,beta-Alanine,0,#666
+phosphoric acid,beta-Alanine,0,#666
+"1,3-Di-tert-butylbenzene",beta-Alanine,0,#666
+Ethanolamine,"Butanedioic acid, 2-methyl-",0,#666
+"1,3-Di-tert-butylbenzene","Butanedioic acid, 2-methyl-",0,#666
+phosphoric acid,"Butanedioic acid, 2-methyl-",0,#666
+Monomethylphosphate,"Butanedioic acid, 2-methyl-",0,#666
+Succinic acid,"Butanedioic acid, 2-methyl-",0,#666
+maleic acid,"Butanedioic acid, 2-methyl-",0,#666
+2-amino-Butyric acid,"Butanedioic acid, 2-methyl-",0,#666
+Oxalic acid,"Butanedioic acid, 2-methyl-",0,#666
+isoleucine,"Butanedioic acid, 2-methyl-",0,#666
+Glycolic acid,"Butanedioic acid, 2-methyl-",0,#666
+Heptanoic acid,"Butanedioic acid, 2-methyl-",0,#666
+Proline,"Butanedioic acid, 2-methyl-",0,#666
+Alanine,"Butanedioic acid, 2-methyl-",0,#666
+Glycerol,"Butanedioic acid, 2-methyl-",0,#666
+Valine,"Butanedioic acid, 2-methyl-",0,#666
+9-(Z)-Hexadecenoic acid,Cholesterol,0,#666
+Malic acid,Cholesterol,0,#666
+Heptanoic acid,Cholesterol,0,#666
+Hypoxanthine,Cholesterol,0,#666
+Alanine,Cholesterol,0,#666
+Ribitol,Cholesterol,0,#666
+Uridine,Cholesterol,0,#666
+Succinic acid,Cholesterol,0,#666
+Glutaric acid,Cholesterol,0,#666
+fumaric acid,Cholesterol,0,#666
+1-Monohexadecanoylglycerol,Cholesterol,0,#666
+Octadecanoic acid,Cholesterol,0,#666
+glyceric acid,Cholesterol,0,#666
+Glycolic acid,Cholesterol,0,#666
+phosphoric acid,Cholesterol,0,#666
+Arachidonic acid,Cholesterol,0,#666
+Oxalic acid,Cholesterol,0,#666
+isoleucine,Cholesterol,0,#666
+Glucose-6-phosphate,Cholesterol,0,#666
+Glycerol-2-phosphate,Cholesterol,0,#666
+Mannose-6-phosphate,Cholesterol,0,#666
+Monomethylphosphate,Cholesterol,0,#666
+Adenosine,Cholesterol,0,#666
+Glutamic acid,Cholesterol,0,#666
+frucose-6-phosphate,Cholesterol,0,#666
+"Butanedioic acid, 2-methyl-",Cholesterol,0,#666
+Ribonic acid,Cholesterol,0,#666
+Mannose,Cholesterol,0,#666
+"Fumaric acid, 2-methyl-",Cholesterol,0,#666
+threonic acid,Cholesterol,0,#666
+Dehydroascorbic acid dimer,Cholesterol,0,#666
+maleic acid,Cholesterol,0,#666
+beta-Alanine,Cholesterol,0,#666
+Glyceric acid-3-phosphate,Cholesterol,0,#666
+uric acid,Cholesterol,0,#666
+uracil,Cholesterol,0,#666
+Glycerol,Cholesterol,0,#666
+"1,3-Di-tert-butylbenzene",Cholesterol,0,#666
+2-amino-Butyric acid,Cholesterol,0,#666
+Threonine,Cholesterol,0,#666
+Arabinose,Cholesterol,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Cholesterol,0,#666
+Methionine,Cholesterol,0,#666
+alpha-Tocopherol,Cholesterol,0,#666
+serine,Cholesterol,0,#666
+Phenylalanine,Cholesterol,0,#666
+Valine,Cholesterol,0,#666
+Sorbitol-6-phosphate,Cholesterol,0,#666
+2-Hydroxyglutaric acid,Cholesterol,0,#666
+Guanine,Cholesterol,0,#666
+Cystathionine,Cholesterol,0,#666
+Tetradecanoic acid,Cholesterol,0,#666
+Lysine,Cholesterol,0,#666
+Inosine,Cholesterol,0,#666
+Pyroglutamic acid,Cholesterol,0,#666
+ornithine,Cholesterol,0,#666
+Ethanolamine,Cholesterol,0,#666
+Pantothenic acid,Cholesterol,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",Cholesterol,0,#666
+Arabitol,Cholesterol,0,#666
+aspartic acid,Cholesterol,0,#666
+Glutamine,Cholesterol,0,#666
+9-(Z)-Octadecenoic acid,Cholesterol,0,#666
+myo-Inositol-1-phosphate,Cholesterol,0,#666
+N-Acetylglutamic acid,Cholesterol,0,#666
+homoserine,Cholesterol,0,#666
+gamma-linolenic acid,Cholesterol,0,#666
+Proline,Cholesterol,0,#666
+Fructose,Cholesterol,0,#666
+Glutamine,Citric acid,0,#666
+Glutamine,Cystathionine,0,#666
+ornithine,Cystathionine,0,#666
+9-(Z)-Octadecenoic acid,Cystathionine,0,#666
+Ethanolamine,Cystathionine,0,#666
+Fructose,Cystathionine,0,#666
+threonic acid,Cystathionine,0,#666
+Glutamic acid,Cystathionine,0,#666
+Tetradecanoic acid,Cystathionine,0,#666
+Glyceric acid-3-phosphate,Cystathionine,0,#666
+Lysine,Cystathionine,0,#666
+glyceric acid,Cystathionine,0,#666
+Ribonic acid,Cystathionine,0,#666
+N-Acetylglutamic acid,Cystathionine,0,#666
+"Fumaric acid, 2-methyl-",Cystathionine,0,#666
+Guanine,Cystathionine,0,#666
+Arabitol,Cystathionine,0,#666
+Methionine,Cystathionine,0,#666
+Malic acid,Cystathionine,0,#666
+maleic acid,Cystathionine,0,#666
+Phenylalanine,Cystathionine,0,#666
+Glycolic acid,Cystathionine,0,#666
+serine,Cystathionine,0,#666
+Ribitol,Cystathionine,0,#666
+isoleucine,Cystathionine,0,#666
+gamma-linolenic acid,Cystathionine,0,#666
+Pyroglutamic acid,Cystathionine,0,#666
+Oxalic acid,Cystathionine,0,#666
+Monomethylphosphate,Cystathionine,0,#666
+Threonine,Cystathionine,0,#666
+Glycerol-2-phosphate,Cystathionine,0,#666
+Hypoxanthine,Cystathionine,0,#666
+Alanine,Cystathionine,0,#666
+phosphoric acid,Cystathionine,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",Cystathionine,0,#666
+2-amino-Butyric acid,Cystathionine,0,#666
+Heptanoic acid,Cystathionine,0,#666
+beta-Alanine,Cystathionine,0,#666
+uracil,Cystathionine,0,#666
+Dehydroascorbic acid dimer,Cystathionine,0,#666
+Valine,Cystathionine,0,#666
+uric acid,Cystathionine,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Cystathionine,0,#666
+2-Hydroxyglutaric acid,Cystathionine,0,#666
+Succinic acid,Cystathionine,0,#666
+fumaric acid,Cystathionine,0,#666
+Proline,Cystathionine,0,#666
+"Butanedioic acid, 2-methyl-",Cystathionine,0,#666
+homoserine,Cystathionine,0,#666
+Glutaric acid,Cystathionine,0,#666
+Glycerol,Cystathionine,0,#666
+Arabinose,Cystathionine,0,#666
+Mannose,Cystathionine,0,#666
+9-(Z)-Hexadecenoic acid,Cystathionine,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",Cysteine,0,#666
+Arabitol,Cysteine,0,#666
+Nicotinamide,Cysteine,0,#666
+"1,3-Di-tert-butylbenzene",Cysteine,0,#666
+"Fumaric acid, 2-methyl-",Cysteine,0,#666
+Ribonic acid,Dehydroascorbic acid dimer,0,#666
+Malic acid,Dehydroascorbic acid dimer,0,#666
+Valine,Dehydroascorbic acid dimer,0,#666
+threonic acid,Dehydroascorbic acid dimer,0,#666
+"Butanedioic acid, 2-methyl-",Dehydroascorbic acid dimer,0,#666
+Glycolic acid,Dehydroascorbic acid dimer,0,#666
+Proline,Dehydroascorbic acid dimer,0,#666
+serine,Dehydroascorbic acid dimer,0,#666
+isoleucine,Dehydroascorbic acid dimer,0,#666
+beta-Alanine,Dehydroascorbic acid dimer,0,#666
+Ribitol,Dehydroascorbic acid dimer,0,#666
+homoserine,Dehydroascorbic acid dimer,0,#666
+Glutamine,Dehydroascorbic acid dimer,0,#666
+Glutaric acid,Dehydroascorbic acid dimer,0,#666
+uracil,Dehydroascorbic acid dimer,0,#666
+Glyceric acid-3-phosphate,Dehydroascorbic acid dimer,0,#666
+2-Hydroxyglutaric acid,Dehydroascorbic acid dimer,0,#666
+Heptanoic acid,Dehydroascorbic acid dimer,0,#666
+Methionine,Dehydroascorbic acid dimer,0,#666
+N-Acetylglutamic acid,Dehydroascorbic acid dimer,0,#666
+Ethanolamine,Dehydroascorbic acid dimer,0,#666
+Hypoxanthine,Dehydroascorbic acid dimer,0,#666
+fumaric acid,Dehydroascorbic acid dimer,0,#666
+phosphoric acid,Dehydroascorbic acid dimer,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Dehydroascorbic acid dimer,0,#666
+Phenylalanine,Dehydroascorbic acid dimer,0,#666
+glyceric acid,Dehydroascorbic acid dimer,0,#666
+Pyroglutamic acid,Dehydroascorbic acid dimer,0,#666
+Tetradecanoic acid,Dehydroascorbic acid dimer,0,#666
+Heptanoic acid,Ethanolamine,0,#666
+Oxalic acid,Ethanolamine,0,#666
+Valine,Ethanolamine,0,#666
+Alanine,Ethanolamine,0,#666
+Monomethylphosphate,Ethanolamine,0,#666
+"1,3-Di-tert-butylbenzene",Ethanolamine,0,#666
+2-amino-Butyric acid,Ethanolamine,0,#666
+Glycolic acid,Ethanolamine,0,#666
+Glutamic acid,frucose-6-phosphate,0,#666
+threonic acid,frucose-6-phosphate,0,#666
+Guanine,frucose-6-phosphate,0,#666
+Glutamine,frucose-6-phosphate,0,#666
+2-Hydroxyglutaric acid,frucose-6-phosphate,0,#666
+Arabitol,frucose-6-phosphate,0,#666
+Glutaric acid,frucose-6-phosphate,0,#666
+Glycerol-2-phosphate,frucose-6-phosphate,0,#666
+Monomethylphosphate,frucose-6-phosphate,0,#666
+Malic acid,frucose-6-phosphate,0,#666
+Valine,frucose-6-phosphate,0,#666
+9-(Z)-Octadecenoic acid,frucose-6-phosphate,0,#666
+phosphoric acid,frucose-6-phosphate,0,#666
+Phenylalanine,frucose-6-phosphate,0,#666
+Pyroglutamic acid,frucose-6-phosphate,0,#666
+Oxalic acid,frucose-6-phosphate,0,#666
+9-(Z)-Hexadecenoic acid,frucose-6-phosphate,0,#666
+Mannose-6-phosphate,frucose-6-phosphate,0,#666
+Methionine,frucose-6-phosphate,0,#666
+Dehydroascorbic acid dimer,frucose-6-phosphate,0,#666
+gamma-linolenic acid,frucose-6-phosphate,0,#666
+uracil,frucose-6-phosphate,0,#666
+"1,3-Di-tert-butylbenzene",frucose-6-phosphate,0,#666
+Fructose,frucose-6-phosphate,0,#666
+homoserine,frucose-6-phosphate,0,#666
+Tetradecanoic acid,frucose-6-phosphate,0,#666
+Glycolic acid,frucose-6-phosphate,0,#666
+N-Acetylglutamic acid,frucose-6-phosphate,0,#666
+Proline,frucose-6-phosphate,0,#666
+Heptanoic acid,frucose-6-phosphate,0,#666
+isoleucine,frucose-6-phosphate,0,#666
+serine,frucose-6-phosphate,0,#666
+Alanine,frucose-6-phosphate,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",frucose-6-phosphate,0,#666
+Glycerol,frucose-6-phosphate,0,#666
+Ribonic acid,frucose-6-phosphate,0,#666
+aspartic acid,frucose-6-phosphate,0,#666
+2-amino-Butyric acid,frucose-6-phosphate,0,#666
+Pantothenic acid,frucose-6-phosphate,0,#666
+uric acid,frucose-6-phosphate,0,#666
+"Butanedioic acid, 2-methyl-",frucose-6-phosphate,0,#666
+ornithine,frucose-6-phosphate,0,#666
+beta-Alanine,frucose-6-phosphate,0,#666
+Cystathionine,frucose-6-phosphate,0,#666
+Succinic acid,frucose-6-phosphate,0,#666
+Arabinose,frucose-6-phosphate,0,#666
+Ethanolamine,frucose-6-phosphate,0,#666
+Octadecanoic acid,frucose-6-phosphate,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",frucose-6-phosphate,0,#666
+Lysine,frucose-6-phosphate,0,#666
+Hypoxanthine,frucose-6-phosphate,0,#666
+Threonine,frucose-6-phosphate,0,#666
+Ribitol,frucose-6-phosphate,0,#666
+maleic acid,frucose-6-phosphate,0,#666
+Mannose,frucose-6-phosphate,0,#666
+glyceric acid,frucose-6-phosphate,0,#666
+fumaric acid,frucose-6-phosphate,0,#666
+Glyceric acid-3-phosphate,frucose-6-phosphate,0,#666
+"Fumaric acid, 2-methyl-",frucose-6-phosphate,0,#666
+Glutaric acid,Fructose,0,#666
+fumaric acid,Fructose,0,#666
+maleic acid,Fructose,0,#666
+"Butanedioic acid, 2-methyl-",Fructose,0,#666
+Hypoxanthine,Fructose,0,#666
+Ribonic acid,Fructose,0,#666
+isoleucine,Fructose,0,#666
+aspartic acid,Fructose,0,#666
+Glutamine,Fructose,0,#666
+Heptanoic acid,Fructose,0,#666
+Tetradecanoic acid,Fructose,0,#666
+beta-Alanine,Fructose,0,#666
+Glyceric acid-3-phosphate,Fructose,0,#666
+Succinic acid,Fructose,0,#666
+Threonine,Fructose,0,#666
+Arabinose,Fructose,0,#666
+2-Hydroxyglutaric acid,Fructose,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Fructose,0,#666
+Ethanolamine,Fructose,0,#666
+Ribitol,Fructose,0,#666
+phosphoric acid,Fructose,0,#666
+Glycolic acid,Fructose,0,#666
+glyceric acid,Fructose,0,#666
+Alanine,Fructose,0,#666
+Malic acid,Fructose,0,#666
+threonic acid,Fructose,0,#666
+Glutamic acid,Fructose,0,#666
+ornithine,Fructose,0,#666
+Monomethylphosphate,Fructose,0,#666
+Methionine,Fructose,0,#666
+uracil,Fructose,0,#666
+2-amino-Butyric acid,Fructose,0,#666
+Arabitol,Fructose,0,#666
+Valine,Fructose,0,#666
+Glycerol-2-phosphate,Fructose,0,#666
+serine,Fructose,0,#666
+Oxalic acid,Fructose,0,#666
+Phenylalanine,Fructose,0,#666
+"Fumaric acid, 2-methyl-",Fructose,0,#666
+Glycerol,Fructose,0,#666
+homoserine,Fructose,0,#666
+Proline,Fructose,0,#666
+N-Acetylglutamic acid,Fructose,0,#666
+"1,3-Di-tert-butylbenzene",Fructose,0,#666
+phosphoric acid,fumaric acid,0,#666
+Succinic acid,fumaric acid,0,#666
+uracil,fumaric acid,0,#666
+Valine,fumaric acid,0,#666
+Ethanolamine,fumaric acid,0,#666
+maleic acid,fumaric acid,0,#666
+Alanine,fumaric acid,0,#666
+"1,3-Di-tert-butylbenzene",fumaric acid,0,#666
+Glycolic acid,fumaric acid,0,#666
+Heptanoic acid,fumaric acid,0,#666
+Oxalic acid,fumaric acid,0,#666
+"Butanedioic acid, 2-methyl-",fumaric acid,0,#666
+Monomethylphosphate,fumaric acid,0,#666
+glyceric acid,fumaric acid,0,#666
+Glycerol,fumaric acid,0,#666
+2-amino-Butyric acid,fumaric acid,0,#666
+Proline,fumaric acid,0,#666
+isoleucine,fumaric acid,0,#666
+Threonine,"Fumaric acid, 2-methyl-",0,#666
+Proline,"Fumaric acid, 2-methyl-",0,#666
+maleic acid,"Fumaric acid, 2-methyl-",0,#666
+Glycolic acid,"Fumaric acid, 2-methyl-",0,#666
+Alanine,"Fumaric acid, 2-methyl-",0,#666
+Oxalic acid,"Fumaric acid, 2-methyl-",0,#666
+fumaric acid,"Fumaric acid, 2-methyl-",0,#666
+isoleucine,"Fumaric acid, 2-methyl-",0,#666
+uracil,"Fumaric acid, 2-methyl-",0,#666
+glyceric acid,"Fumaric acid, 2-methyl-",0,#666
+serine,"Fumaric acid, 2-methyl-",0,#666
+Valine,"Fumaric acid, 2-methyl-",0,#666
+Heptanoic acid,"Fumaric acid, 2-methyl-",0,#666
+phosphoric acid,"Fumaric acid, 2-methyl-",0,#666
+Monomethylphosphate,"Fumaric acid, 2-methyl-",0,#666
+Ethanolamine,"Fumaric acid, 2-methyl-",0,#666
+Succinic acid,"Fumaric acid, 2-methyl-",0,#666
+Glycerol,"Fumaric acid, 2-methyl-",0,#666
+"Butanedioic acid, 2-methyl-","Fumaric acid, 2-methyl-",0,#666
+"1,3-Di-tert-butylbenzene","Fumaric acid, 2-methyl-",0,#666
+2-amino-Butyric acid,"Fumaric acid, 2-methyl-",0,#666
+2-amino-Butyric acid,gamma-linolenic acid,0,#666
+Methionine,gamma-linolenic acid,0,#666
+2-Hydroxyglutaric acid,gamma-linolenic acid,0,#666
+Glutamine,gamma-linolenic acid,0,#666
+beta-Alanine,gamma-linolenic acid,0,#666
+N-Acetylglutamic acid,gamma-linolenic acid,0,#666
+uric acid,gamma-linolenic acid,0,#666
+Threonine,gamma-linolenic acid,0,#666
+serine,gamma-linolenic acid,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",gamma-linolenic acid,0,#666
+fumaric acid,gamma-linolenic acid,0,#666
+Ethanolamine,gamma-linolenic acid,0,#666
+Arabitol,gamma-linolenic acid,0,#666
+ornithine,gamma-linolenic acid,0,#666
+Glutamic acid,gamma-linolenic acid,0,#666
+maleic acid,gamma-linolenic acid,0,#666
+Glutaric acid,gamma-linolenic acid,0,#666
+Heptanoic acid,gamma-linolenic acid,0,#666
+isoleucine,gamma-linolenic acid,0,#666
+threonic acid,gamma-linolenic acid,0,#666
+Phenylalanine,gamma-linolenic acid,0,#666
+Glycerol-2-phosphate,gamma-linolenic acid,0,#666
+Ribitol,gamma-linolenic acid,0,#666
+Valine,gamma-linolenic acid,0,#666
+Malic acid,gamma-linolenic acid,0,#666
+Tetradecanoic acid,gamma-linolenic acid,0,#666
+Pyroglutamic acid,gamma-linolenic acid,0,#666
+Hypoxanthine,gamma-linolenic acid,0,#666
+Glycerol,gamma-linolenic acid,0,#666
+Mannose,gamma-linolenic acid,0,#666
+Guanine,gamma-linolenic acid,0,#666
+"Butanedioic acid, 2-methyl-",gamma-linolenic acid,0,#666
+uracil,gamma-linolenic acid,0,#666
+Glyceric acid-3-phosphate,gamma-linolenic acid,0,#666
+glyceric acid,gamma-linolenic acid,0,#666
+Fructose,gamma-linolenic acid,0,#666
+Ribonic acid,gamma-linolenic acid,0,#666
+Lysine,gamma-linolenic acid,0,#666
+"Fumaric acid, 2-methyl-",gamma-linolenic acid,0,#666
+homoserine,gamma-linolenic acid,0,#666
+Proline,gamma-linolenic acid,0,#666
+9-(Z)-Hexadecenoic acid,gamma-linolenic acid,0,#666
+phosphoric acid,gamma-linolenic acid,0,#666
+Oxalic acid,gamma-linolenic acid,0,#666
+Monomethylphosphate,gamma-linolenic acid,0,#666
+Glycolic acid,gamma-linolenic acid,0,#666
+Succinic acid,gamma-linolenic acid,0,#666
+Docosahexaenoic acid,Glucopyranose,0,#666
+Hypoxanthine,Glucopyranose,0,#666
+Pantothenic acid,Glucose-6-phosphate,0,#666
+2-Hydroxyglutaric acid,Glucose-6-phosphate,0,#666
+Glutamic acid,Glucose-6-phosphate,0,#666
+beta-Alanine,Glucose-6-phosphate,0,#666
+threonic acid,Glucose-6-phosphate,0,#666
+Tetradecanoic acid,Glucose-6-phosphate,0,#666
+9-(Z)-Octadecenoic acid,Glucose-6-phosphate,0,#666
+Guanine,Glucose-6-phosphate,0,#666
+2-amino-Butyric acid,Glucose-6-phosphate,0,#666
+aspartic acid,Glucose-6-phosphate,0,#666
+Phenylalanine,Glucose-6-phosphate,0,#666
+Cystathionine,Glucose-6-phosphate,0,#666
+Arabitol,Glucose-6-phosphate,0,#666
+Glutamine,Glucose-6-phosphate,0,#666
+ornithine,Glucose-6-phosphate,0,#666
+Proline,Glucose-6-phosphate,0,#666
+Valine,Glucose-6-phosphate,0,#666
+Methionine,Glucose-6-phosphate,0,#666
+Fructose,Glucose-6-phosphate,0,#666
+N-Acetylglutamic acid,Glucose-6-phosphate,0,#666
+Alanine,Glucose-6-phosphate,0,#666
+Glycerol-2-phosphate,Glucose-6-phosphate,0,#666
+9-(Z)-Hexadecenoic acid,Glucose-6-phosphate,0,#666
+Oxalic acid,Glucose-6-phosphate,0,#666
+isoleucine,Glucose-6-phosphate,0,#666
+"1,3-Di-tert-butylbenzene",Glucose-6-phosphate,0,#666
+homoserine,Glucose-6-phosphate,0,#666
+gamma-linolenic acid,Glucose-6-phosphate,0,#666
+uric acid,Glucose-6-phosphate,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",Glucose-6-phosphate,0,#666
+Glutaric acid,Glucose-6-phosphate,0,#666
+serine,Glucose-6-phosphate,0,#666
+Malic acid,Glucose-6-phosphate,0,#666
+"Fumaric acid, 2-methyl-",Glucose-6-phosphate,0,#666
+"Butanedioic acid, 2-methyl-",Glucose-6-phosphate,0,#666
+phosphoric acid,Glucose-6-phosphate,0,#666
+Glycolic acid,Glucose-6-phosphate,0,#666
+Ethanolamine,Glucose-6-phosphate,0,#666
+Lysine,Glucose-6-phosphate,0,#666
+Glycerol,Glucose-6-phosphate,0,#666
+Arabinose,Glucose-6-phosphate,0,#666
+Ribonic acid,Glucose-6-phosphate,0,#666
+Succinic acid,Glucose-6-phosphate,0,#666
+Heptanoic acid,Glucose-6-phosphate,0,#666
+Threonine,Glucose-6-phosphate,0,#666
+glyceric acid,Glucose-6-phosphate,0,#666
+Ribitol,Glucose-6-phosphate,0,#666
+Octadecanoic acid,Glucose-6-phosphate,0,#666
+uracil,Glucose-6-phosphate,0,#666
+Hypoxanthine,Glucose-6-phosphate,0,#666
+fumaric acid,Glucose-6-phosphate,0,#666
+Glyceric acid-3-phosphate,Glucose-6-phosphate,0,#666
+frucose-6-phosphate,Glucose-6-phosphate,0,#666
+Mannose,Glucose-6-phosphate,0,#666
+Monomethylphosphate,Glucose-6-phosphate,0,#666
+glyceric acid,Glutamic acid,0,#666
+Monomethylphosphate,Glutamic acid,0,#666
+2-amino-Butyric acid,Glutamic acid,0,#666
+"1,3-Di-tert-butylbenzene",Glutamic acid,0,#666
+"Butanedioic acid, 2-methyl-",Glutamic acid,0,#666
+Methionine,Glutamic acid,0,#666
+Glycolic acid,Glutamic acid,0,#666
+Alanine,Glutamic acid,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Glutamic acid,0,#666
+uracil,Glutamic acid,0,#666
+isoleucine,Glutamic acid,0,#666
+Malic acid,Glutamic acid,0,#666
+Heptanoic acid,Glutamic acid,0,#666
+Glutaric acid,Glutamic acid,0,#666
+beta-Alanine,Glutamic acid,0,#666
+"Fumaric acid, 2-methyl-",Glutamic acid,0,#666
+Threonine,Glutamic acid,0,#666
+fumaric acid,Glutamic acid,0,#666
+2-Hydroxyglutaric acid,Glutamic acid,0,#666
+Valine,Glutamic acid,0,#666
+maleic acid,Glutamic acid,0,#666
+aspartic acid,Glutamic acid,0,#666
+Pyroglutamic acid,Glutamic acid,0,#666
+Ethanolamine,Glutamic acid,0,#666
+phosphoric acid,Glutamic acid,0,#666
+Succinic acid,Glutamic acid,0,#666
+Proline,Glutamic acid,0,#666
+Oxalic acid,Glutamic acid,0,#666
+Glycerol,Glutamic acid,0,#666
+serine,Glutamic acid,0,#666
+threonic acid,Glutamic acid,0,#666
+N-Acetylglutamic acid,Glutamic acid,0,#666
+homoserine,Glutamic acid,0,#666
+"Fumaric acid, 2-methyl-",Glutamine,0,#666
+Glutamic acid,Glutamine,0,#666
+threonic acid,Glutamine,0,#666
+Alanine,Glutamine,0,#666
+N-Acetylglutamic acid,Glutamine,0,#666
+Methionine,Glutamine,0,#666
+Glutaric acid,Glutamine,0,#666
+2-Hydroxyglutaric acid,Glutamine,0,#666
+Glycolic acid,Glutamine,0,#666
+Arabitol,Glutamine,0,#666
+Phenylalanine,Glutamine,0,#666
+maleic acid,Glutamine,0,#666
+isoleucine,Glutamine,0,#666
+Threonine,Glutamine,0,#666
+glyceric acid,Glutamine,0,#666
+Glycerol-2-phosphate,Glutamine,0,#666
+uracil,Glutamine,0,#666
+beta-Alanine,Glutamine,0,#666
+Pyroglutamic acid,Glutamine,0,#666
+phosphoric acid,Glutamine,0,#666
+Succinic acid,Glutamine,0,#666
+Proline,Glutamine,0,#666
+Malic acid,Glutamine,0,#666
+Monomethylphosphate,Glutamine,0,#666
+Oxalic acid,Glutamine,0,#666
+Valine,Glutamine,0,#666
+fumaric acid,Glutamine,0,#666
+"Butanedioic acid, 2-methyl-",Glutamine,0,#666
+Ethanolamine,Glutamine,0,#666
 Arabinose,Glutamine,0,#666
-Glutamate,Glyceric acid,0,#666
-Glucaric acid,Glyceric acid,0,#666
-Fumaric acid,Glyceric acid,0,#666
-Ethanolamine,Glyceric acid,0,#666
-Aspartic acid,Glyceric acid,0,#666
-Glycine,Glycolic acid,0,#666
-Fumaric acid,Heptadecanoic acid,0,#666
-Phosphoric acid,Heptadecanoic acid,0,#666
-Ethanolamine,Heptadecanoic acid,0,#666
-Glucaric acid,Heptadecanoic acid,0,#666
-Glutaric acid,Heptadecanoic acid,0,#666
-Aspartic acid,Heptadecanoic acid,0,#666
-Fumaric acid,Heptanoic acid,0,#666
-Ribonic acid ,Heptanoic acid,0,#666
-Glutamate,Heptanoic acid,0,#666
-Glucaric acid,Heptanoic acid,0,#666
-Aspartic acid,Heptanoic acid,0,#666
-Phosphoric acid,Heptanoic acid,0,#666
-Citric acid,Heptanoic acid,0,#666
-Docosanol,Hexadecanoic acid,0,#666
-Glucaric acid,Hexadecanoic acid,0,#666
-Tetracosanoic acid,Hexadecanoic acid,0,#666
-Glutaric acid,Hexadecanoic acid,0,#666
+Glycerol,Glutamine,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Glutamine,0,#666
+serine,Glutamine,0,#666
+Heptanoic acid,Glutamine,0,#666
+Ribitol,Glutamine,0,#666
+homoserine,Glutamine,0,#666
+2-amino-Butyric acid,Glutamine,0,#666
+Heptanoic acid,Glutaric acid,0,#666
+Threonine,Glutaric acid,0,#666
+maleic acid,Glutaric acid,0,#666
+Glycolic acid,Glutaric acid,0,#666
+Succinic acid,Glutaric acid,0,#666
+Alanine,Glutaric acid,0,#666
+glyceric acid,Glutaric acid,0,#666
+Glycerol,Glutaric acid,0,#666
+Oxalic acid,Glutaric acid,0,#666
+"Fumaric acid, 2-methyl-",Glutaric acid,0,#666
+isoleucine,Glutaric acid,0,#666
+uracil,Glutaric acid,0,#666
+Valine,Glutaric acid,0,#666
+Proline,Glutaric acid,0,#666
+phosphoric acid,Glutaric acid,0,#666
+"1,3-Di-tert-butylbenzene",Glutaric acid,0,#666
+fumaric acid,Glutaric acid,0,#666
+serine,Glutaric acid,0,#666
+Monomethylphosphate,Glutaric acid,0,#666
+Ethanolamine,Glutaric acid,0,#666
+"Butanedioic acid, 2-methyl-",Glutaric acid,0,#666
+2-amino-Butyric acid,Glutaric acid,0,#666
+Heptanoic acid,glyceric acid,0,#666
+"1,3-Di-tert-butylbenzene",glyceric acid,0,#666
+Ethanolamine,glyceric acid,0,#666
+Monomethylphosphate,glyceric acid,0,#666
+Succinic acid,glyceric acid,0,#666
+isoleucine,glyceric acid,0,#666
+phosphoric acid,glyceric acid,0,#666
+"Butanedioic acid, 2-methyl-",glyceric acid,0,#666
+Valine,glyceric acid,0,#666
+2-amino-Butyric acid,glyceric acid,0,#666
+Oxalic acid,glyceric acid,0,#666
+Alanine,glyceric acid,0,#666
+Glycerol,glyceric acid,0,#666
+Glycolic acid,glyceric acid,0,#666
+Proline,glyceric acid,0,#666
+maleic acid,glyceric acid,0,#666
+"Fumaric acid, 2-methyl-",Glyceric acid-3-phosphate,0,#666
+Glycolic acid,Glyceric acid-3-phosphate,0,#666
+"Butanedioic acid, 2-methyl-",Glyceric acid-3-phosphate,0,#666
+Arabitol,Glyceric acid-3-phosphate,0,#666
+Methionine,Glyceric acid-3-phosphate,0,#666
+Succinic acid,Glyceric acid-3-phosphate,0,#666
+Malic acid,Glyceric acid-3-phosphate,0,#666
+maleic acid,Glyceric acid-3-phosphate,0,#666
+Glycerol-2-phosphate,Glyceric acid-3-phosphate,0,#666
+serine,Glyceric acid-3-phosphate,0,#666
+Oxalic acid,Glyceric acid-3-phosphate,0,#666
+Ethanolamine,Glyceric acid-3-phosphate,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Glyceric acid-3-phosphate,0,#666
+phosphoric acid,Glyceric acid-3-phosphate,0,#666
+Alanine,Glyceric acid-3-phosphate,0,#666
+fumaric acid,Glyceric acid-3-phosphate,0,#666
+Proline,Glyceric acid-3-phosphate,0,#666
+beta-Alanine,Glyceric acid-3-phosphate,0,#666
+2-Hydroxyglutaric acid,Glyceric acid-3-phosphate,0,#666
+Valine,Glyceric acid-3-phosphate,0,#666
+glyceric acid,Glyceric acid-3-phosphate,0,#666
+Pyroglutamic acid,Glyceric acid-3-phosphate,0,#666
+isoleucine,Glyceric acid-3-phosphate,0,#666
+2-amino-Butyric acid,Glyceric acid-3-phosphate,0,#666
+Heptanoic acid,Glyceric acid-3-phosphate,0,#666
+Ribonic acid,Glyceric acid-3-phosphate,0,#666
+threonic acid,Glyceric acid-3-phosphate,0,#666
+Threonine,Glyceric acid-3-phosphate,0,#666
+Ribitol,Glyceric acid-3-phosphate,0,#666
+uracil,Glyceric acid-3-phosphate,0,#666
+Hypoxanthine,Glyceric acid-3-phosphate,0,#666
+Glutamine,Glyceric acid-3-phosphate,0,#666
+Glutamic acid,Glyceric acid-3-phosphate,0,#666
+Phenylalanine,Glyceric acid-3-phosphate,0,#666
+N-Acetylglutamic acid,Glyceric acid-3-phosphate,0,#666
+Monomethylphosphate,Glyceric acid-3-phosphate,0,#666
+Glutaric acid,Glyceric acid-3-phosphate,0,#666
+"1,3-Di-tert-butylbenzene",Glyceric acid-3-phosphate,0,#666
+homoserine,Glyceric acid-3-phosphate,0,#666
+Glycerol,Glyceric acid-3-phosphate,0,#666
+Oxalic acid,Glycerol,0,#666
+"1,3-Di-tert-butylbenzene",Glycerol,0,#666
+Monomethylphosphate,Glycerol,0,#666
+Heptanoic acid,Glycerol,0,#666
+Alanine,Glycerol,0,#666
+Valine,Glycerol,0,#666
+Ethanolamine,Glycerol,0,#666
+2-amino-Butyric acid,Glycerol,0,#666
+Glycolic acid,Glycerol,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Glycerol-2-phosphate,0,#666
+Methionine,Glycerol-2-phosphate,0,#666
+"Butanedioic acid, 2-methyl-",Glycerol-2-phosphate,0,#666
+"Fumaric acid, 2-methyl-",Glycerol-2-phosphate,0,#666
+uracil,Glycerol-2-phosphate,0,#666
+"1,3-Di-tert-butylbenzene",Glycerol-2-phosphate,0,#666
+fumaric acid,Glycerol-2-phosphate,0,#666
+Glutamic acid,Glycerol-2-phosphate,0,#666
+Glycolic acid,Glycerol-2-phosphate,0,#666
+2-Hydroxyglutaric acid,Glycerol-2-phosphate,0,#666
+glyceric acid,Glycerol-2-phosphate,0,#666
+phosphoric acid,Glycerol-2-phosphate,0,#666
+Succinic acid,Glycerol-2-phosphate,0,#666
+maleic acid,Glycerol-2-phosphate,0,#666
+Arabitol,Glycerol-2-phosphate,0,#666
+Arabinose,Glycerol-2-phosphate,0,#666
+Valine,Glycerol-2-phosphate,0,#666
+beta-Alanine,Glycerol-2-phosphate,0,#666
+aspartic acid,Glycerol-2-phosphate,0,#666
+Oxalic acid,Glycerol-2-phosphate,0,#666
+Monomethylphosphate,Glycerol-2-phosphate,0,#666
+isoleucine,Glycerol-2-phosphate,0,#666
+2-amino-Butyric acid,Glycerol-2-phosphate,0,#666
+Phenylalanine,Glycerol-2-phosphate,0,#666
+threonic acid,Glycerol-2-phosphate,0,#666
+Threonine,Glycerol-2-phosphate,0,#666
+Glycerol,Glycerol-2-phosphate,0,#666
+Ethanolamine,Glycerol-2-phosphate,0,#666
+Proline,Glycerol-2-phosphate,0,#666
+N-Acetylglutamic acid,Glycerol-2-phosphate,0,#666
+serine,Glycerol-2-phosphate,0,#666
+Alanine,Glycerol-2-phosphate,0,#666
+Ribitol,Glycerol-2-phosphate,0,#666
+Glutaric acid,Glycerol-2-phosphate,0,#666
+Heptanoic acid,Glycerol-2-phosphate,0,#666
+homoserine,Glycerol-2-phosphate,0,#666
+Dehydroascorbic acid dimer,Glycerol-3-phosphate,0,#666
+2-Hydroxyglutaric acid,Glycerol-3-phosphate,0,#666
+glyceric acid,Glycerol-3-phosphate,0,#666
+Mannose-6-phosphate,Glycerol-3-phosphate,0,#666
+Guanine,Glycerol-3-phosphate,0,#666
+uracil,Glycerol-3-phosphate,0,#666
+Glutaric acid,Glycerol-3-phosphate,0,#666
+Inosine,Glycerol-3-phosphate,0,#666
+Glycolic acid,Glycerol-3-phosphate,0,#666
+threonic acid,Glycerol-3-phosphate,0,#666
+fumaric acid,Glycerol-3-phosphate,0,#666
+Phenylalanine,Glycerol-3-phosphate,0,#666
+myo-Inositol-1-phosphate,Glycerol-3-phosphate,0,#666
+Glutamine,Glycerol-3-phosphate,0,#666
+Cystathionine,Glycerol-3-phosphate,0,#666
+"Butanedioic acid, 2-methyl-",Glycerol-3-phosphate,0,#666
+maleic acid,Glycerol-3-phosphate,0,#666
+Ethanolamine,Glycerol-3-phosphate,0,#666
+1-Monohexadecanoylglycerol,Glycerol-3-phosphate,0,#666
+homoserine,Glycerol-3-phosphate,0,#666
+alpha-Tocopherol,Glycerol-3-phosphate,0,#666
+Ribitol,Glycerol-3-phosphate,0,#666
+Adenosine,Glycerol-3-phosphate,0,#666
+Pyroglutamic acid,Glycerol-3-phosphate,0,#666
+Arachidonic acid,Glycerol-3-phosphate,0,#666
+N-Acetylglutamic acid,Glycerol-3-phosphate,0,#666
+Malic acid,Glycerol-3-phosphate,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Glycerol-3-phosphate,0,#666
+Heptanoic acid,Glycerol-3-phosphate,0,#666
+ornithine,Glycerol-3-phosphate,0,#666
+uric acid,Glycerol-3-phosphate,0,#666
+gamma-linolenic acid,Glycerol-3-phosphate,0,#666
+Glyceric acid-3-phosphate,Glycerol-3-phosphate,0,#666
+leucine,Glycine,0,#666
+myo-inositol,Glycine,0,#666
+Pyroglutamic acid,Glycine,0,#666
+Glutamine,Glycine,0,#666
+Glycerol-3-phosphate,Glycine,0,#666
+Malic acid,Glycine,0,#666
+Glutamine,Guanine,0,#666
+serine,Guanine,0,#666
+Glutamic acid,Guanine,0,#666
+N-Acetylglutamic acid,Guanine,0,#666
+glyceric acid,Guanine,0,#666
+Ribitol,Guanine,0,#666
+Ethanolamine,Guanine,0,#666
+Methionine,Guanine,0,#666
+aspartic acid,Guanine,0,#666
+uracil,Guanine,0,#666
+threonic acid,Guanine,0,#666
+Alanine,Guanine,0,#666
+isoleucine,Guanine,0,#666
+fumaric acid,Guanine,0,#666
+Mannose,Guanine,0,#666
+beta-Alanine,Guanine,0,#666
+2-Hydroxyglutaric acid,Guanine,0,#666
+Arabitol,Guanine,0,#666
+Fructose,Guanine,0,#666
+Proline,Guanine,0,#666
+Malic acid,Guanine,0,#666
+Glycerol-2-phosphate,Guanine,0,#666
+Glutaric acid,Guanine,0,#666
+Hypoxanthine,Guanine,0,#666
+Heptanoic acid,Guanine,0,#666
+Pyroglutamic acid,Guanine,0,#666
+Phenylalanine,Guanine,0,#666
+Tetradecanoic acid,Guanine,0,#666
+2-amino-Butyric acid,Guanine,0,#666
+ornithine,Guanine,0,#666
+maleic acid,Guanine,0,#666
+Dehydroascorbic acid dimer,Guanine,0,#666
+Valine,Guanine,0,#666
+Pantothenic acid,Guanine,0,#666
+uric acid,Guanine,0,#666
+homoserine,Guanine,0,#666
+Succinic acid,Guanine,0,#666
+Glyceric acid-3-phosphate,Guanine,0,#666
+Ribonic acid,Guanine,0,#666
+Lysine,Guanine,0,#666
+Threonine,Guanine,0,#666
+phosphoric acid,Guanine,0,#666
+9-(Z)-Hexadecenoic acid,Guanine,0,#666
+Arabinose,Guanine,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Guanine,0,#666
+Glycolic acid,Guanine,0,#666
+Monomethylphosphate,Guanine,0,#666
+Oxalic acid,Guanine,0,#666
+Glycerol,Guanine,0,#666
+"Fumaric acid, 2-methyl-",Guanine,0,#666
+"Butanedioic acid, 2-methyl-",Guanine,0,#666
+Alanine,Heptanoic acid,0,#666
+Oxalic acid,Heptanoic acid,0,#666
+Glycolic acid,Heptanoic acid,0,#666
+Succinic acid,Hexadecanoic acid,0,#666
+Glucose-6-phosphate,Hexadecanoic acid,0,#666
+Alanine,Hexadecanoic acid,0,#666
+aspartic acid,Hexadecanoic acid,0,#666
+Oxalic acid,Hexadecanoic acid,0,#666
+Threonine,Hexadecanoic acid,0,#666
+Arabinose,Hexadecanoic acid,0,#666
+9-(Z)-Octadecenoic acid,Hexadecanoic acid,0,#666
+Sorbitol-6-phosphate,Hexadecanoic acid,0,#666
+"1,3-Di-tert-butylbenzene",Hexadecanoic acid,0,#666
+Lysine,Hexadecanoic acid,0,#666
 Glycerol,Hexadecanoic acid,0,#666
-Docosanoic acid,Hexadecanoic acid,0,#666
-Eicosanoic acid,Hexadecanoic acid,0,#666
-Octadecanoic acid,Hexadecanoic acid,0,#666
-Phosphoric acid,Hexadecanoic acid,0,#666
-Fumaric acid,Hexadecanoic acid,0,#666
-Aspartic acid,Hexadecanoic acid,0,#666
-Heptadecanoic acid,Hexadecanoic acid,0,#666
-Glutaric acid,Hydroxylamine,0,#666
-Glyceric acid,IS,0,#666
-Ethanolamine,IS,0,#666
-Leucine,Isoleucine,0,#666
+Glycerol-2-phosphate,Hexadecanoic acid,0,#666
+Pantothenic acid,Hexadecanoic acid,0,#666
+Proline,homoserine,0,#666
+Succinic acid,homoserine,0,#666
+maleic acid,homoserine,0,#666
+Oxalic acid,homoserine,0,#666
+Valine,homoserine,0,#666
+uracil,homoserine,0,#666
+Glutaric acid,homoserine,0,#666
+glyceric acid,homoserine,0,#666
+Alanine,homoserine,0,#666
+"1,3-Di-tert-butylbenzene",homoserine,0,#666
+2-amino-Butyric acid,homoserine,0,#666
+isoleucine,homoserine,0,#666
+serine,homoserine,0,#666
+"Fumaric acid, 2-methyl-",homoserine,0,#666
+Glycolic acid,homoserine,0,#666
+beta-Alanine,homoserine,0,#666
+"Butanedioic acid, 2-methyl-",homoserine,0,#666
+Monomethylphosphate,homoserine,0,#666
+Heptanoic acid,homoserine,0,#666
+fumaric acid,homoserine,0,#666
+Threonine,homoserine,0,#666
+Glycerol,homoserine,0,#666
+phosphoric acid,homoserine,0,#666
+Ethanolamine,homoserine,0,#666
+phosphoric acid,Hypoxanthine,0,#666
+fumaric acid,Hypoxanthine,0,#666
+Ribonic acid,Hypoxanthine,0,#666
+Glycerol-2-phosphate,Hypoxanthine,0,#666
+"Fumaric acid, 2-methyl-",Hypoxanthine,0,#666
+isoleucine,Hypoxanthine,0,#666
+maleic acid,Hypoxanthine,0,#666
+"Butanedioic acid, 2-methyl-",Hypoxanthine,0,#666
+Glutamic acid,Hypoxanthine,0,#666
+"1,3-Di-tert-butylbenzene",Hypoxanthine,0,#666
+Glycolic acid,Hypoxanthine,0,#666
+Malic acid,Hypoxanthine,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Hypoxanthine,0,#666
+Methionine,Hypoxanthine,0,#666
+Threonine,Hypoxanthine,0,#666
+Glutaric acid,Hypoxanthine,0,#666
+Arabinose,Hypoxanthine,0,#666
+Alanine,Hypoxanthine,0,#666
+Valine,Hypoxanthine,0,#666
+uracil,Hypoxanthine,0,#666
+beta-Alanine,Hypoxanthine,0,#666
+2-Hydroxyglutaric acid,Hypoxanthine,0,#666
+threonic acid,Hypoxanthine,0,#666
+Ethanolamine,Hypoxanthine,0,#666
+2-amino-Butyric acid,Hypoxanthine,0,#666
+Phenylalanine,Hypoxanthine,0,#666
+Ribitol,Hypoxanthine,0,#666
+Heptanoic acid,Hypoxanthine,0,#666
+Oxalic acid,Hypoxanthine,0,#666
+Glycerol,Hypoxanthine,0,#666
+Succinic acid,Hypoxanthine,0,#666
+serine,Hypoxanthine,0,#666
+Proline,Hypoxanthine,0,#666
+Glutamine,Hypoxanthine,0,#666
+N-Acetylglutamic acid,Hypoxanthine,0,#666
+homoserine,Hypoxanthine,0,#666
+glyceric acid,Hypoxanthine,0,#666
+Arabitol,Hypoxanthine,0,#666
+Monomethylphosphate,Hypoxanthine,0,#666
+Pyroglutamic acid,Hypoxanthine,0,#666
+"Butanedioic acid, 2-methyl-",Inosine,0,#666
+Arachidonic acid,Inosine,0,#666
+Threonine,Inosine,0,#666
+gamma-linolenic acid,Inosine,0,#666
+Arabitol,Inosine,0,#666
+Glutamine,Inosine,0,#666
+"1,3-Di-tert-butylbenzene",Inosine,0,#666
+Ribonic acid,Inosine,0,#666
+Succinic acid,Inosine,0,#666
+Heptanoic acid,Inosine,0,#666
+Tetradecanoic acid,Inosine,0,#666
+Hypoxanthine,Inosine,0,#666
+Glycolic acid,Inosine,0,#666
+Oxalic acid,Inosine,0,#666
+Pantothenic acid,Inosine,0,#666
+Mannose,Inosine,0,#666
+Arabinose,Inosine,0,#666
+Glycerol-2-phosphate,Inosine,0,#666
+Glutamic acid,Inosine,0,#666
+Ribitol,Inosine,0,#666
+Glycerol,Inosine,0,#666
+frucose-6-phosphate,Inosine,0,#666
+myo-Inositol-1-phosphate,Inosine,0,#666
+fumaric acid,Inosine,0,#666
+aspartic acid,Inosine,0,#666
+"Fumaric acid, 2-methyl-",Inosine,0,#666
+9-(Z)-Hexadecenoic acid,Inosine,0,#666
+isoleucine,Inosine,0,#666
+Glyceric acid-3-phosphate,Inosine,0,#666
+1-Monohexadecanoylglycerol,Inosine,0,#666
+phosphoric acid,Inosine,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",Inosine,0,#666
+Ethanolamine,Inosine,0,#666
+Malic acid,Inosine,0,#666
+maleic acid,Inosine,0,#666
+Alanine,Inosine,0,#666
+Valine,Inosine,0,#666
+Uridine,Inosine,0,#666
+Monomethylphosphate,Inosine,0,#666
+Guanine,Inosine,0,#666
+homoserine,Inosine,0,#666
+Phenylalanine,Inosine,0,#666
+threonic acid,Inosine,0,#666
+Methionine,Inosine,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Inosine,0,#666
+2-Hydroxyglutaric acid,Inosine,0,#666
+Dehydroascorbic acid dimer,Inosine,0,#666
+9-(Z)-Octadecenoic acid,Inosine,0,#666
+Glucose-6-phosphate,Inosine,0,#666
+uric acid,Inosine,0,#666
+Fructose,Inosine,0,#666
+N-Acetylglutamic acid,Inosine,0,#666
+glyceric acid,Inosine,0,#666
+Sorbitol-6-phosphate,Inosine,0,#666
+Proline,Inosine,0,#666
+serine,Inosine,0,#666
+Mannose-6-phosphate,Inosine,0,#666
+ornithine,Inosine,0,#666
+Cystathionine,Inosine,0,#666
+Pyroglutamic acid,Inosine,0,#666
+Octadecanoic acid,Inosine,0,#666
+uracil,Inosine,0,#666
+Glutaric acid,Inosine,0,#666
+2-amino-Butyric acid,Inosine,0,#666
+Lysine,Inosine,0,#666
+beta-Alanine,Inosine,0,#666
+Ethanolamine,isoleucine,0,#666
+2-amino-Butyric acid,isoleucine,0,#666
+phosphoric acid,isoleucine,0,#666
+Glycolic acid,isoleucine,0,#666
+Heptanoic acid,isoleucine,0,#666
+Oxalic acid,isoleucine,0,#666
+Glycerol,isoleucine,0,#666
+"1,3-Di-tert-butylbenzene",isoleucine,0,#666
+Monomethylphosphate,isoleucine,0,#666
+Valine,isoleucine,0,#666
+Alanine,isoleucine,0,#666
+1-Monohexadecanoylglycerol,Lactic acid,0,#666
+2-Hydroxyglutaric acid,Lactic acid,0,#666
+Glutamine,Lactic acid,0,#666
+"Butanedioic acid, 2-methyl-",Lactic acid,0,#666
+Arabitol,Lactic acid,0,#666
+Uridine,Lactic acid,0,#666
+"1,3-Di-tert-butylbenzene",Lactic acid,0,#666
+uracil,Lactic acid,0,#666
+aspartic acid,Lactic acid,0,#666
+"Fumaric acid, 2-methyl-",Lactic acid,0,#666
+ornithine,Lactic acid,0,#666
+Valine,Lactic acid,0,#666
+Tetradecanoic acid,Lactic acid,0,#666
+Fructose,Lactic acid,0,#666
+Arabinose,Lactic acid,0,#666
+Glycerol,Lactic acid,0,#666
+Mannose-6-phosphate,Lactic acid,0,#666
+Proline,Lactic acid,0,#666
+2-amino-Butyric acid,Lactic acid,0,#666
+gamma-linolenic acid,Lactic acid,0,#666
+Pantothenic acid,Lactic acid,0,#666
+Cholesterol,Lactic acid,0,#666
+Cystathionine,Lactic acid,0,#666
+uric acid,Lactic acid,0,#666
+Alanine,Lactic acid,0,#666
+Glycolic acid,Lactic acid,0,#666
+Inosine,Lactic acid,0,#666
+myo-Inositol-1-phosphate,Lactic acid,0,#666
+homoserine,Lactic acid,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Lactic acid,0,#666
+Ribonic acid,Lactic acid,0,#666
+Sorbitol-6-phosphate,Lactic acid,0,#666
+isoleucine,Lactic acid,0,#666
+Glycerol-2-phosphate,Lactic acid,0,#666
+Mannose,Lactic acid,0,#666
+Pyroglutamic acid,Lactic acid,0,#666
+Glucose-6-phosphate,Lactic acid,0,#666
+Arachidonic acid,Lactic acid,0,#666
+Glutaric acid,Lactic acid,0,#666
+Phenylalanine,Lactic acid,0,#666
+Threonine,Lactic acid,0,#666
+Monomethylphosphate,Lactic acid,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",Lactic acid,0,#666
+frucose-6-phosphate,Lactic acid,0,#666
+9-(Z)-Hexadecenoic acid,Lactic acid,0,#666
+Malic acid,Lactic acid,0,#666
+Glutamic acid,Lactic acid,0,#666
+serine,Lactic acid,0,#666
+alpha-Tocopherol,Lactic acid,0,#666
+glyceric acid,Lactic acid,0,#666
+N-Acetylglutamic acid,Lactic acid,0,#666
+9-(Z)-Octadecenoic acid,Lactic acid,0,#666
+beta-Alanine,Lactic acid,0,#666
+Lysine,Lactic acid,0,#666
+phosphoric acid,Lactic acid,0,#666
+Octadecanoic acid,Lactic acid,0,#666
+Succinic acid,Lactic acid,0,#666
+Ethanolamine,Lactic acid,0,#666
+Guanine,Lactic acid,0,#666
+Adenosine,Lactic acid,0,#666
+threonic acid,Lactic acid,0,#666
+Hypoxanthine,Lactic acid,0,#666
+Ribitol,Lactic acid,0,#666
+Methionine,Lactic acid,0,#666
+Oxalic acid,Lactic acid,0,#666
+maleic acid,Lactic acid,0,#666
+Glyceric acid-3-phosphate,Lactic acid,0,#666
+Dehydroascorbic acid dimer,Lactic acid,0,#666
+Heptanoic acid,Lactic acid,0,#666
+fumaric acid,Lactic acid,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",leucine,0,#666
+Glyceric acid-3-phosphate,leucine,0,#666
+maleic acid,leucine,0,#666
+Guanine,leucine,0,#666
+uric acid,leucine,0,#666
+fumaric acid,leucine,0,#666
+Glycerol-3-phosphate,leucine,0,#666
+homoserine,leucine,0,#666
+ornithine,leucine,0,#666
+Adenosine,leucine,0,#666
+threonic acid,leucine,0,#666
+Pyroglutamic acid,leucine,0,#666
+2-Hydroxyglutaric acid,leucine,0,#666
+myo-inositol,leucine,0,#666
+glyceric acid,leucine,0,#666
+Heptanoic acid,leucine,0,#666
+Glutamine,leucine,0,#666
+Phenylalanine,leucine,0,#666
+Dehydroascorbic acid dimer,leucine,0,#666
+Malic acid,leucine,0,#666
+Asparagine,leucine,0,#666
+uracil,leucine,0,#666
+Ethanolamine,Lysine,0,#666
+2-amino-Butyric acid,Lysine,0,#666
+Mannose,Lysine,0,#666
 Glutamine,Lysine,0,#666
-Leucine,Lysine,0,#666
+Tetradecanoic acid,Lysine,0,#666
+2-Hydroxyglutaric acid,Lysine,0,#666
+Heptanoic acid,Lysine,0,#666
+uracil,Lysine,0,#666
+Hypoxanthine,Lysine,0,#666
+glyceric acid,Lysine,0,#666
+Succinic acid,Lysine,0,#666
+aspartic acid,Lysine,0,#666
+Glycerol-2-phosphate,Lysine,0,#666
+Phenylalanine,Lysine,0,#666
+ornithine,Lysine,0,#666
+Glyceric acid-3-phosphate,Lysine,0,#666
+Glycerol,Lysine,0,#666
+Valine,Lysine,0,#666
+fumaric acid,Lysine,0,#666
+Malic acid,Lysine,0,#666
+Monomethylphosphate,Lysine,0,#666
+Oxalic acid,Lysine,0,#666
+threonic acid,Lysine,0,#666
+Threonine,Lysine,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Lysine,0,#666
+Ribitol,Lysine,0,#666
+Ribonic acid,Lysine,0,#666
+isoleucine,Lysine,0,#666
+phosphoric acid,Lysine,0,#666
+maleic acid,Lysine,0,#666
+serine,Lysine,0,#666
+homoserine,Lysine,0,#666
+Glutaric acid,Lysine,0,#666
+Proline,Lysine,0,#666
+beta-Alanine,Lysine,0,#666
+Arabitol,Lysine,0,#666
+Alanine,Lysine,0,#666
+Methionine,Lysine,0,#666
+Fructose,Lysine,0,#666
+"Butanedioic acid, 2-methyl-",Lysine,0,#666
+Glutamic acid,Lysine,0,#666
 Arabinose,Lysine,0,#666
-Asparagine,Lysine,0,#666
-Pyroglutamate,Lysine,0,#666
-Isoleucine,Lysine,0,#666
-Citric acid,Maleic acid,0,#666
-9-(Z)-Octadecenoic acid,Malic acid,0,#666
-Quinic acid,Malic acid,0,#666
-Glyceric acid,Monomethyl phosphate,0,#666
-Aspartic acid,Monomethyl phosphate,0,#666
-Adipic acid,Monomethyl phosphate,0,#666
-Glucaric acid,Monomethyl phosphate,0,#666
-Glutamate,Monomethyl phosphate,0,#666
-Ethanolamine,Monomethyl phosphate,0,#666
-Glycerol,Monomethyl phosphate,0,#666
-Fumaric acid,Monomethyl phosphate,0,#666
-Phosphoric acid,Monomethyl phosphate,0,#666
-Glutaric acid,Monomethyl phosphate,0,#666
-Glutaric acid,Nonadecanoic acid,0,#666
-Eicosanoic acid,Nonadecanoic acid,0,#666
-Octadecanoic acid,Nonadecanoic acid,0,#666
-Docosanol,Nonadecanoic acid,0,#666
-Docosanoic acid,Nonadecanoic acid,0,#666
-Hexadecanoic acid,Nonadecanoic acid,0,#666
-Tetracosanoic acid,Nonadecanoic acid,0,#666
-Heptadecanoic acid,Nonadecanoic acid,0,#666
-beta-Alanine,Nonanoic acid,0,#666
-Heptadecanoic acid,Octadecanoic acid,0,#666
+"Fumaric acid, 2-methyl-",Lysine,0,#666
+Glycolic acid,Lysine,0,#666
+N-Acetylglutamic acid,Lysine,0,#666
+"1,3-Di-tert-butylbenzene",Lysine,0,#666
+Monomethylphosphate,maleic acid,0,#666
+Proline,maleic acid,0,#666
+2-amino-Butyric acid,maleic acid,0,#666
+Alanine,maleic acid,0,#666
+Heptanoic acid,maleic acid,0,#666
+Valine,maleic acid,0,#666
+Oxalic acid,maleic acid,0,#666
+phosphoric acid,maleic acid,0,#666
+Ethanolamine,maleic acid,0,#666
+Glycerol,maleic acid,0,#666
+Glycolic acid,maleic acid,0,#666
+isoleucine,maleic acid,0,#666
+Proline,Malic acid,0,#666
+homoserine,Malic acid,0,#666
+glyceric acid,Malic acid,0,#666
+Heptanoic acid,Malic acid,0,#666
+isoleucine,Malic acid,0,#666
+Alanine,Malic acid,0,#666
+Glycolic acid,Malic acid,0,#666
+maleic acid,Malic acid,0,#666
+phosphoric acid,Malic acid,0,#666
+Monomethylphosphate,Malic acid,0,#666
+fumaric acid,Malic acid,0,#666
+2-amino-Butyric acid,Malic acid,0,#666
+Glutaric acid,Malic acid,0,#666
+Glycerol,Malic acid,0,#666
+serine,Malic acid,0,#666
+Oxalic acid,Malic acid,0,#666
+Threonine,Malic acid,0,#666
+beta-Alanine,Malic acid,0,#666
+uracil,Malic acid,0,#666
+"Fumaric acid, 2-methyl-",Malic acid,0,#666
+"Butanedioic acid, 2-methyl-",Malic acid,0,#666
+Ethanolamine,Malic acid,0,#666
+Valine,Malic acid,0,#666
+Alanine,Mannose,0,#666
+isoleucine,Mannose,0,#666
+maleic acid,Mannose,0,#666
+glyceric acid,Mannose,0,#666
+Fructose,Mannose,0,#666
+Heptanoic acid,Mannose,0,#666
+Malic acid,Mannose,0,#666
+Glutaric acid,Mannose,0,#666
+Tetradecanoic acid,Mannose,0,#666
+Hypoxanthine,Mannose,0,#666
+Dehydroascorbic acid dimer,Mannose,0,#666
+Threonine,Mannose,0,#666
+aspartic acid,Mannose,0,#666
+Ethanolamine,Mannose,0,#666
+Ribitol,Mannose,0,#666
+Methionine,Mannose,0,#666
+fumaric acid,Mannose,0,#666
+phosphoric acid,Mannose,0,#666
+homoserine,Mannose,0,#666
+Succinic acid,Mannose,0,#666
+Glutamine,Mannose,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Mannose,0,#666
+2-Hydroxyglutaric acid,Mannose,0,#666
+Oxalic acid,Mannose,0,#666
+Glycerol,Mannose,0,#666
+"Fumaric acid, 2-methyl-",Mannose,0,#666
+serine,Mannose,0,#666
+Phenylalanine,Mannose,0,#666
+Arabinose,Mannose,0,#666
+threonic acid,Mannose,0,#666
+Monomethylphosphate,Mannose,0,#666
+"1,3-Di-tert-butylbenzene",Mannose,0,#666
+Proline,Mannose,0,#666
+uracil,Mannose,0,#666
+Glutamic acid,Mannose,0,#666
+Arabitol,Mannose,0,#666
+Glyceric acid-3-phosphate,Mannose,0,#666
+beta-Alanine,Mannose,0,#666
+Valine,Mannose,0,#666
+Ribonic acid,Mannose,0,#666
+N-Acetylglutamic acid,Mannose,0,#666
+2-amino-Butyric acid,Mannose,0,#666
+ornithine,Mannose,0,#666
+Glycolic acid,Mannose,0,#666
+Glycerol-2-phosphate,Mannose,0,#666
+Pyroglutamic acid,Mannose,0,#666
+"Butanedioic acid, 2-methyl-",Mannose,0,#666
+Monomethylphosphate,Mannose-6-phosphate,0,#666
+homoserine,Mannose-6-phosphate,0,#666
+Guanine,Mannose-6-phosphate,0,#666
+Phenylalanine,Mannose-6-phosphate,0,#666
+Cystathionine,Mannose-6-phosphate,0,#666
+fumaric acid,Mannose-6-phosphate,0,#666
+Valine,Mannose-6-phosphate,0,#666
+Glutamine,Mannose-6-phosphate,0,#666
+N-Acetylglutamic acid,Mannose-6-phosphate,0,#666
+"Butanedioic acid, 2-methyl-",Mannose-6-phosphate,0,#666
+uracil,Mannose-6-phosphate,0,#666
+Ribonic acid,Mannose-6-phosphate,0,#666
+phosphoric acid,Mannose-6-phosphate,0,#666
+threonic acid,Mannose-6-phosphate,0,#666
+Glycolic acid,Mannose-6-phosphate,0,#666
+isoleucine,Mannose-6-phosphate,0,#666
+Proline,Mannose-6-phosphate,0,#666
+Ethanolamine,Mannose-6-phosphate,0,#666
+Pyroglutamic acid,Mannose-6-phosphate,0,#666
+serine,Mannose-6-phosphate,0,#666
+Tetradecanoic acid,Mannose-6-phosphate,0,#666
+Glutaric acid,Mannose-6-phosphate,0,#666
+glyceric acid,Mannose-6-phosphate,0,#666
+Ribitol,Mannose-6-phosphate,0,#666
+Mannose,Mannose-6-phosphate,0,#666
+Glutamic acid,Mannose-6-phosphate,0,#666
+Heptanoic acid,Mannose-6-phosphate,0,#666
+uric acid,Mannose-6-phosphate,0,#666
+9-(Z)-Octadecenoic acid,Mannose-6-phosphate,0,#666
+9-(Z)-Hexadecenoic acid,Mannose-6-phosphate,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Mannose-6-phosphate,0,#666
+"Fumaric acid, 2-methyl-",Mannose-6-phosphate,0,#666
+Hypoxanthine,Mannose-6-phosphate,0,#666
+Dehydroascorbic acid dimer,Mannose-6-phosphate,0,#666
+2-Hydroxyglutaric acid,Mannose-6-phosphate,0,#666
+Succinic acid,Methionine,0,#666
+isoleucine,Methionine,0,#666
+Glycolic acid,Methionine,0,#666
+Oxalic acid,Methionine,0,#666
+Valine,Methionine,0,#666
+Glutaric acid,Methionine,0,#666
+"Fumaric acid, 2-methyl-",Methionine,0,#666
+fumaric acid,Methionine,0,#666
+Malic acid,Methionine,0,#666
+phosphoric acid,Methionine,0,#666
+Alanine,Methionine,0,#666
+"1,3-Di-tert-butylbenzene",Methionine,0,#666
+Monomethylphosphate,Methionine,0,#666
+"Butanedioic acid, 2-methyl-",Methionine,0,#666
+uracil,Methionine,0,#666
+Glycerol,Methionine,0,#666
+Ethanolamine,Methionine,0,#666
+beta-Alanine,Methionine,0,#666
+Proline,Methionine,0,#666
+Threonine,Methionine,0,#666
+maleic acid,Methionine,0,#666
+homoserine,Methionine,0,#666
+2-amino-Butyric acid,Methionine,0,#666
+Heptanoic acid,Methionine,0,#666
+serine,Methionine,0,#666
+glyceric acid,Methionine,0,#666
+Glycolic acid,Monomethylphosphate,0,#666
+Alanine,Monomethylphosphate,0,#666
+Oxalic acid,Monomethylphosphate,0,#666
+2-amino-Butyric acid,Monomethylphosphate,0,#666
+Heptanoic acid,Monomethylphosphate,0,#666
+maleic acid,myo-inositol,0,#666
+myo-Inositol-1-phosphate,myo-inositol,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",myo-inositol,0,#666
+Glyceric acid-3-phosphate,myo-inositol,0,#666
+Ribitol,myo-inositol,0,#666
+Cystathionine,myo-inositol,0,#666
+2-Hydroxyglutaric acid,myo-inositol,0,#666
+Glycerol-3-phosphate,myo-inositol,0,#666
+Glycolic acid,myo-inositol,0,#666
+uric acid,myo-inositol,0,#666
+Glutaric acid,myo-inositol,0,#666
+Pyroglutamic acid,myo-inositol,0,#666
+Asparagine,myo-inositol,0,#666
+Phenylalanine,myo-inositol,0,#666
+alpha-Tocopherol,myo-inositol,0,#666
+Guanine,myo-inositol,0,#666
+uracil,myo-inositol,0,#666
+Inosine,myo-inositol,0,#666
+fumaric acid,myo-inositol,0,#666
+Malic acid,myo-inositol,0,#666
+gamma-linolenic acid,myo-inositol,0,#666
+homoserine,myo-inositol,0,#666
+ornithine,myo-inositol,0,#666
+threonic acid,myo-inositol,0,#666
+"Butanedioic acid, 2-methyl-",myo-inositol,0,#666
+Adenosine,myo-inositol,0,#666
+Glutamine,myo-inositol,0,#666
+Heptanoic acid,myo-inositol,0,#666
+glyceric acid,myo-inositol,0,#666
+Dehydroascorbic acid dimer,myo-inositol,0,#666
+Dehydroascorbic acid dimer,myo-Inositol-1-phosphate,0,#666
+Pyroglutamic acid,myo-Inositol-1-phosphate,0,#666
+"1,3-Di-tert-butylbenzene",myo-Inositol-1-phosphate,0,#666
+Oxalic acid,myo-Inositol-1-phosphate,0,#666
+Lysine,myo-Inositol-1-phosphate,0,#666
+9-(Z)-Octadecenoic acid,myo-Inositol-1-phosphate,0,#666
+Glucose-6-phosphate,myo-Inositol-1-phosphate,0,#666
+Glycerol,myo-Inositol-1-phosphate,0,#666
+Ribitol,myo-Inositol-1-phosphate,0,#666
+Glycolic acid,myo-Inositol-1-phosphate,0,#666
+aspartic acid,myo-Inositol-1-phosphate,0,#666
+Glutamine,myo-Inositol-1-phosphate,0,#666
+Arabitol,myo-Inositol-1-phosphate,0,#666
+frucose-6-phosphate,myo-Inositol-1-phosphate,0,#666
+Mannose,myo-Inositol-1-phosphate,0,#666
+Heptanoic acid,myo-Inositol-1-phosphate,0,#666
+Glyceric acid-3-phosphate,myo-Inositol-1-phosphate,0,#666
+beta-Alanine,myo-Inositol-1-phosphate,0,#666
+uric acid,myo-Inositol-1-phosphate,0,#666
+phosphoric acid,myo-Inositol-1-phosphate,0,#666
+Malic acid,myo-Inositol-1-phosphate,0,#666
+Tetradecanoic acid,myo-Inositol-1-phosphate,0,#666
+Cystathionine,myo-Inositol-1-phosphate,0,#666
+Arabinose,myo-Inositol-1-phosphate,0,#666
+Phenylalanine,myo-Inositol-1-phosphate,0,#666
+glyceric acid,myo-Inositol-1-phosphate,0,#666
+2-Hydroxyglutaric acid,myo-Inositol-1-phosphate,0,#666
+Ethanolamine,myo-Inositol-1-phosphate,0,#666
+Succinic acid,myo-Inositol-1-phosphate,0,#666
+Methionine,myo-Inositol-1-phosphate,0,#666
+Glutamic acid,myo-Inositol-1-phosphate,0,#666
+"Fumaric acid, 2-methyl-",myo-Inositol-1-phosphate,0,#666
+2-amino-Butyric acid,myo-Inositol-1-phosphate,0,#666
+fumaric acid,myo-Inositol-1-phosphate,0,#666
+Fructose,myo-Inositol-1-phosphate,0,#666
+Pantothenic acid,myo-Inositol-1-phosphate,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",myo-Inositol-1-phosphate,0,#666
+Ribonic acid,myo-Inositol-1-phosphate,0,#666
+Mannose-6-phosphate,myo-Inositol-1-phosphate,0,#666
+Proline,myo-Inositol-1-phosphate,0,#666
+Sorbitol-6-phosphate,myo-Inositol-1-phosphate,0,#666
+Guanine,myo-Inositol-1-phosphate,0,#666
+serine,myo-Inositol-1-phosphate,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",myo-Inositol-1-phosphate,0,#666
+Threonine,myo-Inositol-1-phosphate,0,#666
+Hypoxanthine,myo-Inositol-1-phosphate,0,#666
+Valine,myo-Inositol-1-phosphate,0,#666
+Glycerol-2-phosphate,myo-Inositol-1-phosphate,0,#666
+"Butanedioic acid, 2-methyl-",myo-Inositol-1-phosphate,0,#666
+N-Acetylglutamic acid,myo-Inositol-1-phosphate,0,#666
+gamma-linolenic acid,myo-Inositol-1-phosphate,0,#666
+ornithine,myo-Inositol-1-phosphate,0,#666
+Alanine,myo-Inositol-1-phosphate,0,#666
+uracil,myo-Inositol-1-phosphate,0,#666
+maleic acid,myo-Inositol-1-phosphate,0,#666
+threonic acid,myo-Inositol-1-phosphate,0,#666
+Octadecanoic acid,myo-Inositol-1-phosphate,0,#666
+Glutaric acid,myo-Inositol-1-phosphate,0,#666
+homoserine,myo-Inositol-1-phosphate,0,#666
+isoleucine,myo-Inositol-1-phosphate,0,#666
+Monomethylphosphate,myo-Inositol-1-phosphate,0,#666
+Arachidonic acid,myo-Inositol-1-phosphate,0,#666
+9-(Z)-Hexadecenoic acid,myo-Inositol-1-phosphate,0,#666
+Succinic acid,N-Acetylglutamic acid,0,#666
+Heptanoic acid,N-Acetylglutamic acid,0,#666
+Alanine,N-Acetylglutamic acid,0,#666
+glyceric acid,N-Acetylglutamic acid,0,#666
+Ethanolamine,N-Acetylglutamic acid,0,#666
+Glutaric acid,N-Acetylglutamic acid,0,#666
+maleic acid,N-Acetylglutamic acid,0,#666
+isoleucine,N-Acetylglutamic acid,0,#666
+Malic acid,N-Acetylglutamic acid,0,#666
+phosphoric acid,N-Acetylglutamic acid,0,#666
+Proline,N-Acetylglutamic acid,0,#666
+serine,N-Acetylglutamic acid,0,#666
+uracil,N-Acetylglutamic acid,0,#666
+Valine,N-Acetylglutamic acid,0,#666
+Glycerol,N-Acetylglutamic acid,0,#666
+Methionine,N-Acetylglutamic acid,0,#666
+Monomethylphosphate,N-Acetylglutamic acid,0,#666
+Pyroglutamic acid,N-Acetylglutamic acid,0,#666
+2-amino-Butyric acid,N-Acetylglutamic acid,0,#666
+beta-Alanine,N-Acetylglutamic acid,0,#666
+Oxalic acid,N-Acetylglutamic acid,0,#666
+Threonine,N-Acetylglutamic acid,0,#666
+Glycolic acid,N-Acetylglutamic acid,0,#666
+aspartic acid,N-Acetylglutamic acid,0,#666
+"1,3-Di-tert-butylbenzene",N-Acetylglutamic acid,0,#666
+"Butanedioic acid, 2-methyl-",N-Acetylglutamic acid,0,#666
+fumaric acid,N-Acetylglutamic acid,0,#666
+"Fumaric acid, 2-methyl-",N-Acetylglutamic acid,0,#666
+homoserine,N-Acetylglutamic acid,0,#666
+"1,3-Di-tert-butylbenzene",Nicotinamide,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",Nicotinamide,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Octadecanoic acid,0,#666
+uracil,Octadecanoic acid,0,#666
+N-Acetylglutamic acid,Octadecanoic acid,0,#666
+Arabitol,Octadecanoic acid,0,#666
+Pantothenic acid,Octadecanoic acid,0,#666
+2-Hydroxyglutaric acid,Octadecanoic acid,0,#666
+maleic acid,Octadecanoic acid,0,#666
+Monomethylphosphate,Octadecanoic acid,0,#666
+Proline,Octadecanoic acid,0,#666
+gamma-linolenic acid,Octadecanoic acid,0,#666
+Glutamine,Octadecanoic acid,0,#666
+Alanine,Octadecanoic acid,0,#666
+Oxalic acid,Octadecanoic acid,0,#666
+Arabinose,Octadecanoic acid,0,#666
+Valine,Octadecanoic acid,0,#666
+Malic acid,Octadecanoic acid,0,#666
+glyceric acid,Octadecanoic acid,0,#666
 Glutaric acid,Octadecanoic acid,0,#666
-Fumaric acid,Octadecanoic acid,0,#666
-Aspartic acid,Octadecanoic acid,0,#666
+Fructose,Octadecanoic acid,0,#666
+Glycolic acid,Octadecanoic acid,0,#666
+9-(Z)-Hexadecenoic acid,Octadecanoic acid,0,#666
+Threonine,Octadecanoic acid,0,#666
+ornithine,Octadecanoic acid,0,#666
+Pyroglutamic acid,Octadecanoic acid,0,#666
+2-amino-Butyric acid,Octadecanoic acid,0,#666
+Phenylalanine,Octadecanoic acid,0,#666
+Glycerol,Octadecanoic acid,0,#666
+Glycerol-2-phosphate,Octadecanoic acid,0,#666
+"Fumaric acid, 2-methyl-",Octadecanoic acid,0,#666
+Tetradecanoic acid,Octadecanoic acid,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",Octadecanoic acid,0,#666
+threonic acid,Octadecanoic acid,0,#666
+Cystathionine,Octadecanoic acid,0,#666
+Ribonic acid,Octadecanoic acid,0,#666
+isoleucine,Octadecanoic acid,0,#666
+Methionine,Octadecanoic acid,0,#666
+9-(Z)-Octadecenoic acid,Octadecanoic acid,0,#666
+"1,3-Di-tert-butylbenzene",Octadecanoic acid,0,#666
+aspartic acid,Octadecanoic acid,0,#666
 Ethanolamine,Octadecanoic acid,0,#666
-Phosphoric acid,Octadecanoic acid,0,#666
-Glucaric acid,Octadecanoic acid,0,#666
-Adipic acid,Octadecanoic acid,0,#666
-Glutaric acid,Phosphoric acid,0,#666
-Glucose,Proline,0,#666
-Sucrose,Proline,0,#666
-Galactose,Proline,0,#666
-Fructose,Proline,0,#666
-beta-Alanine,Putrescine,0,#666
-Isoleucine,Pyroglutamate,0,#666
-Leucine,Pyroglutamate,0,#666
-Citric acid,Pyroglutamate,0,#666
-Aspartic acid,Ribonic acid ,0,#666
-Glutamate,Ribonic acid ,0,#666
-Citric acid,Ribonic acid ,0,#666
-Fumaric acid,Ribonic acid ,0,#666
-Succinic acid,Serine,0,#666
-Glycine,Serine,0,#666
-Glucaric acid,Shikimic acid,0,#666
-Ethanolamine,Shikimic acid,0,#666
-Glutaric acid,Shikimic acid,0,#666
-Glyceric acid,Shikimic acid,0,#666
-IS,Shikimic acid,0,#666
-Glycine,Succinic acid,0,#666
-Fructose,Sucrose,0,#666
-Glucose,Sucrose,0,#666
-Galactose,Sucrose,0,#666
-Docosanoic acid,Tetracosanoic acid,0,#666
-Glutaric acid,Tetracosanoic acid,0,#666
-Eicosanoic acid,Tetracosanoic acid,0,#666
-Ethanolamine,Tetracosanoic acid,0,#666
-Adipic acid,Tetracosanoic acid,0,#666
-Phosphoric acid,Tetracosanoic acid,0,#666
-Octadecanoic acid,Tetracosanoic acid,0,#666
-Heptadecanoic acid,Tetracosanoic acid,0,#666
-Docosanol,Tetracosanoic acid,0,#666
-Glucaric acid,Tetracosanoic acid,0,#666
-Aspartic acid,Tetracosanoic acid,0,#666
-Glycine,Threonine,0,#666
-Serine,Threonine,0,#666
+Glutamic acid,Octadecanoic acid,0,#666
+"Butanedioic acid, 2-methyl-",Octadecanoic acid,0,#666
+Lysine,Octadecanoic acid,0,#666
+Glyceric acid-3-phosphate,Octadecanoic acid,0,#666
+beta-Alanine,Octadecanoic acid,0,#666
+uric acid,Octadecanoic acid,0,#666
+Heptanoic acid,Octadecanoic acid,0,#666
+phosphoric acid,Octadecanoic acid,0,#666
+fumaric acid,Octadecanoic acid,0,#666
+homoserine,Octadecanoic acid,0,#666
+Ribitol,Octadecanoic acid,0,#666
+Mannose,Octadecanoic acid,0,#666
+Succinic acid,Octadecanoic acid,0,#666
+serine,Octadecanoic acid,0,#666
+Hypoxanthine,Octadecanoic acid,0,#666
+fumaric acid,ornithine,0,#666
+Glyceric acid-3-phosphate,ornithine,0,#666
+Glutamine,ornithine,0,#666
+isoleucine,ornithine,0,#666
+Alanine,ornithine,0,#666
+Threonine,ornithine,0,#666
+Ethanolamine,ornithine,0,#666
+Valine,ornithine,0,#666
+"Fumaric acid, 2-methyl-",ornithine,0,#666
+homoserine,ornithine,0,#666
+N-Acetylglutamic acid,ornithine,0,#666
+threonic acid,ornithine,0,#666
+Malic acid,ornithine,0,#666
+Ribonic acid,ornithine,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",ornithine,0,#666
+beta-Alanine,ornithine,0,#666
+Monomethylphosphate,ornithine,0,#666
+Methionine,ornithine,0,#666
+Glutaric acid,ornithine,0,#666
+"Butanedioic acid, 2-methyl-",ornithine,0,#666
+phosphoric acid,ornithine,0,#666
+Oxalic acid,ornithine,0,#666
+Phenylalanine,ornithine,0,#666
+2-Hydroxyglutaric acid,ornithine,0,#666
+uracil,ornithine,0,#666
+Arabitol,ornithine,0,#666
+Heptanoic acid,ornithine,0,#666
+Glycerol,ornithine,0,#666
+Pyroglutamic acid,ornithine,0,#666
+Proline,ornithine,0,#666
+Ribitol,ornithine,0,#666
+Glycolic acid,ornithine,0,#666
+glyceric acid,ornithine,0,#666
+Hypoxanthine,ornithine,0,#666
+Glycerol-2-phosphate,ornithine,0,#666
+2-amino-Butyric acid,ornithine,0,#666
+Glutamic acid,ornithine,0,#666
+serine,ornithine,0,#666
+maleic acid,ornithine,0,#666
+Alanine,Oxalic acid,0,#666
+Glycolic acid,Oxalic acid,0,#666
+Arabitol,Pantothenic acid,0,#666
+Ethanolamine,Pantothenic acid,0,#666
+Heptanoic acid,Pantothenic acid,0,#666
+Fructose,Pantothenic acid,0,#666
+Lysine,Pantothenic acid,0,#666
+serine,Pantothenic acid,0,#666
+Hypoxanthine,Pantothenic acid,0,#666
+Mannose,Pantothenic acid,0,#666
+aspartic acid,Pantothenic acid,0,#666
+Arabinose,Pantothenic acid,0,#666
+Tetradecanoic acid,Pantothenic acid,0,#666
+2-amino-Butyric acid,Pantothenic acid,0,#666
+Glyceric acid-3-phosphate,Pantothenic acid,0,#666
+glyceric acid,Pantothenic acid,0,#666
+Glutamic acid,Pantothenic acid,0,#666
+Ribitol,Pantothenic acid,0,#666
+Glutamine,Pantothenic acid,0,#666
+Succinic acid,Pantothenic acid,0,#666
+Valine,Pantothenic acid,0,#666
+Monomethylphosphate,Pantothenic acid,0,#666
+Glycerol-2-phosphate,Pantothenic acid,0,#666
+Phenylalanine,Pantothenic acid,0,#666
+phosphoric acid,Pantothenic acid,0,#666
+N-Acetylglutamic acid,Pantothenic acid,0,#666
+Proline,Pantothenic acid,0,#666
+Glycerol,Pantothenic acid,0,#666
+fumaric acid,Pantothenic acid,0,#666
+Threonine,Pantothenic acid,0,#666
+threonic acid,Pantothenic acid,0,#666
+beta-Alanine,Pantothenic acid,0,#666
+"Butanedioic acid, 2-methyl-",Pantothenic acid,0,#666
+Glutaric acid,Pantothenic acid,0,#666
+Alanine,Pantothenic acid,0,#666
+uracil,Pantothenic acid,0,#666
+Glycolic acid,Pantothenic acid,0,#666
+isoleucine,Pantothenic acid,0,#666
+"1,3-Di-tert-butylbenzene",Pantothenic acid,0,#666
+Oxalic acid,Pantothenic acid,0,#666
+2-Hydroxyglutaric acid,Pantothenic acid,0,#666
+"Fumaric acid, 2-methyl-",Pantothenic acid,0,#666
+Methionine,Pantothenic acid,0,#666
+Ribonic acid,Pantothenic acid,0,#666
+homoserine,Pantothenic acid,0,#666
+Heptanoic acid,Phenylalanine,0,#666
+beta-Alanine,Phenylalanine,0,#666
+Glutamic acid,Phenylalanine,0,#666
+2-amino-Butyric acid,Phenylalanine,0,#666
+uracil,Phenylalanine,0,#666
+"Butanedioic acid, 2-methyl-",Phenylalanine,0,#666
+"Fumaric acid, 2-methyl-",Phenylalanine,0,#666
+aspartic acid,Phenylalanine,0,#666
+fumaric acid,Phenylalanine,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Phenylalanine,0,#666
+glyceric acid,Phenylalanine,0,#666
+Monomethylphosphate,Phenylalanine,0,#666
+isoleucine,Phenylalanine,0,#666
+Malic acid,Phenylalanine,0,#666
+Pyroglutamic acid,Phenylalanine,0,#666
+Ethanolamine,Phenylalanine,0,#666
+Methionine,Phenylalanine,0,#666
+Oxalic acid,Phenylalanine,0,#666
+maleic acid,Phenylalanine,0,#666
+Glutaric acid,Phenylalanine,0,#666
+Glycerol,Phenylalanine,0,#666
+serine,Phenylalanine,0,#666
+threonic acid,Phenylalanine,0,#666
+homoserine,Phenylalanine,0,#666
+Alanine,Phenylalanine,0,#666
+phosphoric acid,Phenylalanine,0,#666
+Succinic acid,Phenylalanine,0,#666
+Proline,Phenylalanine,0,#666
+2-Hydroxyglutaric acid,Phenylalanine,0,#666
+Valine,Phenylalanine,0,#666
+Threonine,Phenylalanine,0,#666
+Glycolic acid,Phenylalanine,0,#666
+N-Acetylglutamic acid,Phenylalanine,0,#666
+2-amino-Butyric acid,phosphoric acid,0,#666
+Ethanolamine,phosphoric acid,0,#666
+Heptanoic acid,phosphoric acid,0,#666
+Valine,phosphoric acid,0,#666
+Alanine,phosphoric acid,0,#666
+Oxalic acid,phosphoric acid,0,#666
+"1,3-Di-tert-butylbenzene",phosphoric acid,0,#666
+Monomethylphosphate,phosphoric acid,0,#666
+Glycerol,phosphoric acid,0,#666
+Glycolic acid,phosphoric acid,0,#666
+2-amino-Butyric acid,Proline,0,#666
+Monomethylphosphate,Proline,0,#666
+Oxalic acid,Proline,0,#666
+Ethanolamine,Proline,0,#666
+"1,3-Di-tert-butylbenzene",Proline,0,#666
+Glycolic acid,Proline,0,#666
+Heptanoic acid,Proline,0,#666
+Valine,Proline,0,#666
+Glycerol,Proline,0,#666
+Alanine,Proline,0,#666
+isoleucine,Proline,0,#666
+phosphoric acid,Proline,0,#666
+Hexadecanoic acid,Putrescine,0,#666
+homoserine,Pyroglutamic acid,0,#666
+Threonine,Pyroglutamic acid,0,#666
+Proline,Pyroglutamic acid,0,#666
+maleic acid,Pyroglutamic acid,0,#666
+Malic acid,Pyroglutamic acid,0,#666
+Heptanoic acid,Pyroglutamic acid,0,#666
+fumaric acid,Pyroglutamic acid,0,#666
+2-amino-Butyric acid,Pyroglutamic acid,0,#666
+Glycolic acid,Pyroglutamic acid,0,#666
+serine,Pyroglutamic acid,0,#666
+isoleucine,Pyroglutamic acid,0,#666
+"Butanedioic acid, 2-methyl-",Pyroglutamic acid,0,#666
+phosphoric acid,Pyroglutamic acid,0,#666
+Methionine,Pyroglutamic acid,0,#666
+glyceric acid,Pyroglutamic acid,0,#666
+Valine,Pyroglutamic acid,0,#666
+Glutaric acid,Pyroglutamic acid,0,#666
+uracil,Pyroglutamic acid,0,#666
+Ethanolamine,Pyroglutamic acid,0,#666
+beta-Alanine,Pyroglutamic acid,0,#666
+"Fumaric acid, 2-methyl-",Pyroglutamic acid,0,#666
+isoleucine,Ribitol,0,#666
+"Fumaric acid, 2-methyl-",Ribitol,0,#666
+Oxalic acid,Ribitol,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Ribitol,0,#666
+Heptanoic acid,Ribitol,0,#666
+Glutamic acid,Ribitol,0,#666
+beta-Alanine,Ribitol,0,#666
+glyceric acid,Ribitol,0,#666
+uracil,Ribitol,0,#666
+"1,3-Di-tert-butylbenzene",Ribitol,0,#666
+Succinic acid,Ribitol,0,#666
+"Butanedioic acid, 2-methyl-",Ribitol,0,#666
+Methionine,Ribitol,0,#666
+2-amino-Butyric acid,Ribitol,0,#666
+Ethanolamine,Ribitol,0,#666
+Pyroglutamic acid,Ribitol,0,#666
+Alanine,Ribitol,0,#666
+2-Hydroxyglutaric acid,Ribitol,0,#666
+Arabitol,Ribitol,0,#666
+maleic acid,Ribitol,0,#666
+homoserine,Ribitol,0,#666
+threonic acid,Ribitol,0,#666
+Malic acid,Ribitol,0,#666
+Glycolic acid,Ribitol,0,#666
+N-Acetylglutamic acid,Ribitol,0,#666
+Threonine,Ribitol,0,#666
+aspartic acid,Ribitol,0,#666
+Phenylalanine,Ribitol,0,#666
+Arabinose,Ribitol,0,#666
+Proline,Ribitol,0,#666
+Glycerol,Ribitol,0,#666
+Glutaric acid,Ribitol,0,#666
+Monomethylphosphate,Ribitol,0,#666
+fumaric acid,Ribitol,0,#666
+Valine,Ribitol,0,#666
+serine,Ribitol,0,#666
+phosphoric acid,Ribitol,0,#666
+aspartic acid,Ribonic acid,0,#666
+"Butanedioic acid, 2-methyl-",Ribonic acid,0,#666
+beta-Alanine,Ribonic acid,0,#666
+isoleucine,Ribonic acid,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Ribonic acid,0,#666
+maleic acid,Ribonic acid,0,#666
+"Fumaric acid, 2-methyl-",Ribonic acid,0,#666
+Methionine,Ribonic acid,0,#666
+Glycolic acid,Ribonic acid,0,#666
+Glutamine,Ribonic acid,0,#666
+Glutaric acid,Ribonic acid,0,#666
+fumaric acid,Ribonic acid,0,#666
+Oxalic acid,Ribonic acid,0,#666
+Ribitol,Ribonic acid,0,#666
+Pyroglutamic acid,Ribonic acid,0,#666
+Glycerol-2-phosphate,Ribonic acid,0,#666
+phosphoric acid,Ribonic acid,0,#666
+Succinic acid,Ribonic acid,0,#666
+Threonine,Ribonic acid,0,#666
+uracil,Ribonic acid,0,#666
+2-amino-Butyric acid,Ribonic acid,0,#666
+2-Hydroxyglutaric acid,Ribonic acid,0,#666
+Glutamic acid,Ribonic acid,0,#666
+Arabitol,Ribonic acid,0,#666
+Arabinose,Ribonic acid,0,#666
+serine,Ribonic acid,0,#666
+Proline,Ribonic acid,0,#666
+Alanine,Ribonic acid,0,#666
+homoserine,Ribonic acid,0,#666
+Malic acid,Ribonic acid,0,#666
+N-Acetylglutamic acid,Ribonic acid,0,#666
+threonic acid,Ribonic acid,0,#666
+"1,3-Di-tert-butylbenzene",Ribonic acid,0,#666
+Ethanolamine,Ribonic acid,0,#666
+Heptanoic acid,Ribonic acid,0,#666
+Monomethylphosphate,Ribonic acid,0,#666
+glyceric acid,Ribonic acid,0,#666
+Glycerol,Ribonic acid,0,#666
+Valine,Ribonic acid,0,#666
+Phenylalanine,Ribonic acid,0,#666
+Monomethylphosphate,serine,0,#666
+Succinic acid,serine,0,#666
+phosphoric acid,serine,0,#666
+Glycolic acid,serine,0,#666
+Valine,serine,0,#666
+maleic acid,serine,0,#666
+isoleucine,serine,0,#666
+"Butanedioic acid, 2-methyl-",serine,0,#666
+Oxalic acid,serine,0,#666
+uracil,serine,0,#666
+Ethanolamine,serine,0,#666
+Heptanoic acid,serine,0,#666
+Proline,serine,0,#666
+glyceric acid,serine,0,#666
+Glycerol,serine,0,#666
+2-amino-Butyric acid,serine,0,#666
+"1,3-Di-tert-butylbenzene",serine,0,#666
+fumaric acid,serine,0,#666
+Alanine,serine,0,#666
+Glutamine,Sorbitol-6-phosphate,0,#666
+homoserine,Sorbitol-6-phosphate,0,#666
+Alanine,Sorbitol-6-phosphate,0,#666
+Cystathionine,Sorbitol-6-phosphate,0,#666
+gamma-linolenic acid,Sorbitol-6-phosphate,0,#666
+Glycerol-2-phosphate,Sorbitol-6-phosphate,0,#666
+Glycerol,Sorbitol-6-phosphate,0,#666
+phosphoric acid,Sorbitol-6-phosphate,0,#666
+2-Hydroxyglutaric acid,Sorbitol-6-phosphate,0,#666
+Fructose,Sorbitol-6-phosphate,0,#666
+Phenylalanine,Sorbitol-6-phosphate,0,#666
+Pantothenic acid,Sorbitol-6-phosphate,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",Sorbitol-6-phosphate,0,#666
+Ethanolamine,Sorbitol-6-phosphate,0,#666
+Arabinose,Sorbitol-6-phosphate,0,#666
+Guanine,Sorbitol-6-phosphate,0,#666
+ornithine,Sorbitol-6-phosphate,0,#666
+"1,3-Di-tert-butylbenzene",Sorbitol-6-phosphate,0,#666
+aspartic acid,Sorbitol-6-phosphate,0,#666
+Glycolic acid,Sorbitol-6-phosphate,0,#666
+serine,Sorbitol-6-phosphate,0,#666
+Methionine,Sorbitol-6-phosphate,0,#666
+Glyceric acid-3-phosphate,Sorbitol-6-phosphate,0,#666
+N-Acetylglutamic acid,Sorbitol-6-phosphate,0,#666
+Pyroglutamic acid,Sorbitol-6-phosphate,0,#666
+Lysine,Sorbitol-6-phosphate,0,#666
+2-amino-Butyric acid,Sorbitol-6-phosphate,0,#666
+beta-Alanine,Sorbitol-6-phosphate,0,#666
+Arabitol,Sorbitol-6-phosphate,0,#666
+Tetradecanoic acid,Sorbitol-6-phosphate,0,#666
+Heptanoic acid,Sorbitol-6-phosphate,0,#666
+Malic acid,Sorbitol-6-phosphate,0,#666
+Dehydroascorbic acid dimer,Sorbitol-6-phosphate,0,#666
+Succinic acid,Sorbitol-6-phosphate,0,#666
+Glucose-6-phosphate,Sorbitol-6-phosphate,0,#666
+9-(Z)-Octadecenoic acid,Sorbitol-6-phosphate,0,#666
+Mannose,Sorbitol-6-phosphate,0,#666
+Ribitol,Sorbitol-6-phosphate,0,#666
+Arachidonic acid,Sorbitol-6-phosphate,0,#666
+Valine,Sorbitol-6-phosphate,0,#666
+"Fumaric acid, 2-methyl-",Sorbitol-6-phosphate,0,#666
+Proline,Sorbitol-6-phosphate,0,#666
+threonic acid,Sorbitol-6-phosphate,0,#666
+fumaric acid,Sorbitol-6-phosphate,0,#666
+Mannose-6-phosphate,Sorbitol-6-phosphate,0,#666
+Octadecanoic acid,Sorbitol-6-phosphate,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Sorbitol-6-phosphate,0,#666
+Ribonic acid,Sorbitol-6-phosphate,0,#666
+Hypoxanthine,Sorbitol-6-phosphate,0,#666
+Glutamic acid,Sorbitol-6-phosphate,0,#666
+Glutaric acid,Sorbitol-6-phosphate,0,#666
+Oxalic acid,Sorbitol-6-phosphate,0,#666
+uric acid,Sorbitol-6-phosphate,0,#666
+maleic acid,Sorbitol-6-phosphate,0,#666
+uracil,Sorbitol-6-phosphate,0,#666
+frucose-6-phosphate,Sorbitol-6-phosphate,0,#666
+9-(Z)-Hexadecenoic acid,Sorbitol-6-phosphate,0,#666
+"Butanedioic acid, 2-methyl-",Sorbitol-6-phosphate,0,#666
+Threonine,Sorbitol-6-phosphate,0,#666
+Monomethylphosphate,Sorbitol-6-phosphate,0,#666
+glyceric acid,Sorbitol-6-phosphate,0,#666
+isoleucine,Sorbitol-6-phosphate,0,#666
+Ethanolamine,Succinic acid,0,#666
+Heptanoic acid,Succinic acid,0,#666
+Oxalic acid,Succinic acid,0,#666
+phosphoric acid,Succinic acid,0,#666
+isoleucine,Succinic acid,0,#666
+"1,3-Di-tert-butylbenzene",Succinic acid,0,#666
+Monomethylphosphate,Succinic acid,0,#666
+2-amino-Butyric acid,Succinic acid,0,#666
+Proline,Succinic acid,0,#666
+Valine,Succinic acid,0,#666
+Glycolic acid,Succinic acid,0,#666
+Glycerol,Succinic acid,0,#666
+Alanine,Succinic acid,0,#666
+maleic acid,Tetradecanoic acid,0,#666
+Ribonic acid,Tetradecanoic acid,0,#666
+"Butanedioic acid, 2-methyl-",Tetradecanoic acid,0,#666
+Arabinose,Tetradecanoic acid,0,#666
+Glyceric acid-3-phosphate,Tetradecanoic acid,0,#666
+Glycolic acid,Tetradecanoic acid,0,#666
+Malic acid,Tetradecanoic acid,0,#666
+Methionine,Tetradecanoic acid,0,#666
+Ribitol,Tetradecanoic acid,0,#666
+Heptanoic acid,Tetradecanoic acid,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Tetradecanoic acid,0,#666
+Glutaric acid,Tetradecanoic acid,0,#666
+Ethanolamine,Tetradecanoic acid,0,#666
+phosphoric acid,Tetradecanoic acid,0,#666
+Hypoxanthine,Tetradecanoic acid,0,#666
+"Fumaric acid, 2-methyl-",Tetradecanoic acid,0,#666
+Alanine,Tetradecanoic acid,0,#666
+Pyroglutamic acid,Tetradecanoic acid,0,#666
+isoleucine,Tetradecanoic acid,0,#666
+2-Hydroxyglutaric acid,Tetradecanoic acid,0,#666
+Glycerol,Tetradecanoic acid,0,#666
+ornithine,Tetradecanoic acid,0,#666
+Glycerol-2-phosphate,Tetradecanoic acid,0,#666
+Succinic acid,Tetradecanoic acid,0,#666
+Glutamine,Tetradecanoic acid,0,#666
+glyceric acid,Tetradecanoic acid,0,#666
+beta-Alanine,Tetradecanoic acid,0,#666
+fumaric acid,Tetradecanoic acid,0,#666
+Threonine,Tetradecanoic acid,0,#666
+Phenylalanine,Tetradecanoic acid,0,#666
+"1,3-Di-tert-butylbenzene",Tetradecanoic acid,0,#666
+N-Acetylglutamic acid,Tetradecanoic acid,0,#666
+2-amino-Butyric acid,Tetradecanoic acid,0,#666
+aspartic acid,Tetradecanoic acid,0,#666
+Proline,Tetradecanoic acid,0,#666
+Valine,Tetradecanoic acid,0,#666
+uracil,Tetradecanoic acid,0,#666
+Glutamic acid,Tetradecanoic acid,0,#666
+Oxalic acid,Tetradecanoic acid,0,#666
+threonic acid,Tetradecanoic acid,0,#666
+homoserine,Tetradecanoic acid,0,#666
+serine,Tetradecanoic acid,0,#666
+Monomethylphosphate,Tetradecanoic acid,0,#666
+Arabitol,Tetradecanoic acid,0,#666
+uracil,threonic acid,0,#666
+Threonine,threonic acid,0,#666
+Oxalic acid,threonic acid,0,#666
+Glycolic acid,threonic acid,0,#666
+glyceric acid,threonic acid,0,#666
+Glutaric acid,threonic acid,0,#666
+2-amino-Butyric acid,threonic acid,0,#666
+maleic acid,threonic acid,0,#666
+Heptanoic acid,threonic acid,0,#666
+fumaric acid,threonic acid,0,#666
+Glycerol,threonic acid,0,#666
+phosphoric acid,threonic acid,0,#666
+Ethanolamine,threonic acid,0,#666
+Succinic acid,threonic acid,0,#666
+Alanine,threonic acid,0,#666
+Monomethylphosphate,threonic acid,0,#666
+serine,threonic acid,0,#666
+homoserine,threonic acid,0,#666
+isoleucine,threonic acid,0,#666
+Proline,threonic acid,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",threonic acid,0,#666
+Methionine,threonic acid,0,#666
+N-Acetylglutamic acid,threonic acid,0,#666
+Pyroglutamic acid,threonic acid,0,#666
+aspartic acid,threonic acid,0,#666
+"Fumaric acid, 2-methyl-",threonic acid,0,#666
+beta-Alanine,threonic acid,0,#666
+Valine,threonic acid,0,#666
+"Butanedioic acid, 2-methyl-",threonic acid,0,#666
+Malic acid,threonic acid,0,#666
+glyceric acid,Threonine,0,#666
+Glycolic acid,Threonine,0,#666
+Ethanolamine,Threonine,0,#666
+Proline,Threonine,0,#666
+maleic acid,Threonine,0,#666
+uracil,Threonine,0,#666
 Succinic acid,Threonine,0,#666
-Arabinose,Tyrosine,0,#666
-Leucine,Tyrosine,0,#666
-Pyroglutamate,Tyrosine,0,#666
-Asparagine,Tyrosine,0,#666
-Isoleucine,Tyrosine,0,#666
-Glutamine,Tyrosine,0,#666
-Lysine,Tyrosine,0,#666
-3-trans-Caffeoylquinic acid,Urea,0,#666
-Caffeic acid,Urea,0,#666
-Glutamine,Valine,0,#666
-Isoleucine,Valine,0,#666
-Citric acid,Valine,0,#666
-Serine,Valine,0,#666
-Lysine,Valine,0,#666
-Leucine,Valine,0,#666
-Tyrosine,Valine,0,#666
-Asparagine,Valine,0,#666
-Gluconic acid,Valine,0,#666
-Arabinose,Valine,0,#666
-Pyroglutamate,Valine,0,#666
+Heptanoic acid,Threonine,0,#666
+Glycerol,Threonine,0,#666
+Monomethylphosphate,Threonine,0,#666
+isoleucine,Threonine,0,#666
+Alanine,Threonine,0,#666
+Oxalic acid,Threonine,0,#666
+2-amino-Butyric acid,Threonine,0,#666
+phosphoric acid,Threonine,0,#666
+serine,Threonine,0,#666
+Valine,Threonine,0,#666
+fumaric acid,Threonine,0,#666
+"Butanedioic acid, 2-methyl-",Threonine,0,#666
+"1,3-Di-tert-butylbenzene",Threonine,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Tyrosine,0,#666
+Glyceric acid-3-phosphate,Tyrosine,0,#666
+Cystathionine,Tyrosine,0,#666
+ornithine,Tyrosine,0,#666
+Arabitol,Tyrosine,0,#666
+gamma-linolenic acid,Tyrosine,0,#666
+Ethanolamine,uracil,0,#666
+2-amino-Butyric acid,uracil,0,#666
+phosphoric acid,uracil,0,#666
+"1,3-Di-tert-butylbenzene",uracil,0,#666
+Monomethylphosphate,uracil,0,#666
+Valine,uracil,0,#666
+"Butanedioic acid, 2-methyl-",uracil,0,#666
+Succinic acid,uracil,0,#666
+glyceric acid,uracil,0,#666
+Oxalic acid,uracil,0,#666
+maleic acid,uracil,0,#666
+Alanine,uracil,0,#666
+Glycerol,uracil,0,#666
+isoleucine,uracil,0,#666
+Proline,uracil,0,#666
+Heptanoic acid,uracil,0,#666
+Glycolic acid,uracil,0,#666
+Docosahexaenoic acid,Urea,0,#666
+serine,uric acid,0,#666
+Mannose,uric acid,0,#666
+Glycolic acid,uric acid,0,#666
+maleic acid,uric acid,0,#666
+Hypoxanthine,uric acid,0,#666
+Ribitol,uric acid,0,#666
+glyceric acid,uric acid,0,#666
+Heptanoic acid,uric acid,0,#666
+Ethanolamine,uric acid,0,#666
+Arabitol,uric acid,0,#666
+uracil,uric acid,0,#666
+ornithine,uric acid,0,#666
+2-Hydroxyglutaric acid,uric acid,0,#666
+Valine,uric acid,0,#666
+Fructose,uric acid,0,#666
+Oxalic acid,uric acid,0,#666
+Glycerol-2-phosphate,uric acid,0,#666
+Glutamine,uric acid,0,#666
+isoleucine,uric acid,0,#666
+Monomethylphosphate,uric acid,0,#666
+Phenylalanine,uric acid,0,#666
+Proline,uric acid,0,#666
+Succinic acid,uric acid,0,#666
+beta-Alanine,uric acid,0,#666
+Glutamic acid,uric acid,0,#666
+N-Acetylglutamic acid,uric acid,0,#666
+Arabinose,uric acid,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",uric acid,0,#666
+threonic acid,uric acid,0,#666
+2-amino-Butyric acid,uric acid,0,#666
+Dehydroascorbic acid dimer,uric acid,0,#666
+Threonine,uric acid,0,#666
+fumaric acid,uric acid,0,#666
+Alanine,uric acid,0,#666
+Glutaric acid,uric acid,0,#666
+Glyceric acid-3-phosphate,uric acid,0,#666
+Pantothenic acid,uric acid,0,#666
+9-(Z)-Hexadecenoic acid,uric acid,0,#666
+Glycerol,uric acid,0,#666
+Ribonic acid,uric acid,0,#666
+homoserine,uric acid,0,#666
+Methionine,uric acid,0,#666
+Tetradecanoic acid,uric acid,0,#666
+"1,3-Di-tert-butylbenzene",uric acid,0,#666
+phosphoric acid,uric acid,0,#666
+Malic acid,uric acid,0,#666
+Lysine,uric acid,0,#666
+"Fumaric acid, 2-methyl-",uric acid,0,#666
+Pyroglutamic acid,uric acid,0,#666
+"Butanedioic acid, 2-methyl-",uric acid,0,#666
+"9,12-(Z,Z)-Octadecadienoic acid",Uridine,0,#666
+Glycerol,Uridine,0,#666
+Ribitol,Uridine,0,#666
+"1,3-Di-tert-butylbenzene",Uridine,0,#666
+Mannose,Uridine,0,#666
+serine,Uridine,0,#666
+Phenylalanine,Uridine,0,#666
+Glyceric acid-3-phosphate,Uridine,0,#666
+"2,4,6-Tri-tert.-butylbenzenethiol",Uridine,0,#666
+Pyroglutamic acid,Uridine,0,#666
+"Butanedioic acid, 2-methyl-",Uridine,0,#666
+Succinic acid,Uridine,0,#666
+2-Hydroxyglutaric acid,Uridine,0,#666
+Methionine,Uridine,0,#666
+Glycolic acid,Uridine,0,#666
+Glucose-6-phosphate,Uridine,0,#666
+frucose-6-phosphate,Uridine,0,#666
+Malic acid,Uridine,0,#666
+Glutamic acid,Uridine,0,#666
+Proline,Uridine,0,#666
+Heptanoic acid,Uridine,0,#666
+homoserine,Uridine,0,#666
+Octadecanoic acid,Uridine,0,#666
+fumaric acid,Uridine,0,#666
+Pantothenic acid,Uridine,0,#666
+Ethanolamine,Uridine,0,#666
+9-(Z)-Octadecenoic acid,Uridine,0,#666
+Guanine,Uridine,0,#666
+"Fumaric acid, 2-methyl-",Uridine,0,#666
+beta-Alanine,Uridine,0,#666
+Monomethylphosphate,Uridine,0,#666
+2-amino-Butyric acid,Uridine,0,#666
+glyceric acid,Uridine,0,#666
+ornithine,Uridine,0,#666
+phosphoric acid,Uridine,0,#666
+Valine,Uridine,0,#666
+Glutamine,Uridine,0,#666
+N-Acetylglutamic acid,Uridine,0,#666
+Arabinose,Uridine,0,#666
+Dehydroascorbic acid dimer,Uridine,0,#666
+threonic acid,Uridine,0,#666
+uric acid,Uridine,0,#666
+gamma-linolenic acid,Uridine,0,#666
+myo-Inositol-1-phosphate,Uridine,0,#666
+Fructose,Uridine,0,#666
+Arabitol,Uridine,0,#666
+Cystathionine,Uridine,0,#666
+Sorbitol-6-phosphate,Uridine,0,#666
+Oxalic acid,Uridine,0,#666
+uracil,Uridine,0,#666
+Alanine,Uridine,0,#666
+Ribonic acid,Uridine,0,#666
+Lysine,Uridine,0,#666
+maleic acid,Uridine,0,#666
+Hypoxanthine,Uridine,0,#666
+Tetradecanoic acid,Uridine,0,#666
+Threonine,Uridine,0,#666
+9-(Z)-Hexadecenoic acid,Uridine,0,#666
+Arachidonic acid,Uridine,0,#666
+isoleucine,Uridine,0,#666
+Glutaric acid,Uridine,0,#666
+Glycerol-2-phosphate,Uridine,0,#666
+2-amino-Butyric acid,Valine,0,#666
+Monomethylphosphate,Valine,0,#666
+Alanine,Valine,0,#666
+Oxalic acid,Valine,0,#666
+Heptanoic acid,Valine,0,#666
+Glycolic acid,Valine,0,#666
