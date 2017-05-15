@@ -158,6 +158,11 @@ Namespace ComponentModel.Ranges
             Return r
         End Operator
 
+        ''' <summary>
+        ''' 这个函数需要通过一个返回结果的元素个数参数来计算出step步长
+        ''' </summary>
+        ''' <param name="n%">所返回来的数组的元素的个数</param>
+        ''' <returns></returns>
         Public Function Enumerate(n%) As Double()
             Dim delta# = Length / n
             Dim out As New List(Of Double)
