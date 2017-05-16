@@ -330,9 +330,9 @@ Namespace Metagenome
                 edges += New NetworkEdge With {
                     .FromNode = ssu.ID,
                     .ToNode = hit.Key,
-                    .Confidence = hit.Value,
+                    .value = hit.Value,
                     .Properties = New Dictionary(Of String, String),
-                    .InteractionType = interacts
+                    .Interaction = interacts
                 }
             Next
 
@@ -363,7 +363,7 @@ Namespace Metagenome
             Dim color As (r#, g#, b#)
 
             For Each edge As NetworkEdge In edges
-                taxids = edge.InteractionType.Split("-"c)
+                taxids = edge.Interaction.Split("-"c)
                 colorPaired = taxids _
                     .ToArray(Function(t) colors(t)) _
                     .Select(AddressOf ColorTranslator.FromHtml) _

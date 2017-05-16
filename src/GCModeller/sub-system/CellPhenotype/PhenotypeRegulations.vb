@@ -28,15 +28,17 @@
 
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET
@@ -49,7 +51,6 @@ Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel.Extensions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO
-Imports SMRUCC.genomics.InteractionModel
 Imports SMRUCC.genomics.InteractionModel.Regulon
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.Visualize.Cytoscape.API.ImportantNodes
@@ -58,8 +59,6 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports KernelDriver = SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.KernelDriver(Of Integer,
                        SMRUCC.genomics.Analysis.CellPhenotype.TRN.KineticsModel.BinaryExpression,
                        SMRUCC.genomics.Analysis.CellPhenotype.TRN.BinaryNetwork)
-Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
 ''' 将MEME所分析出来的调控信息附加到代谢途径的网络图之中
@@ -167,7 +166,7 @@ Public Module PhenotypeRegulations
     End Function
 
     Private Function __exportTCS_CrossTalks(TAG As String, Data As Dictionary(Of String, Double), Network As CrossTalks()) As Graph
-        Dim Edges = (From item In Network Select New CrossTalk With {.FromNode = item.Kinase, .ToNode = item.Regulator, .Confidence = Math.Min(Data(item.Kinase), Data(item.Regulator)) * item.Probability}).ToArray
+        Dim Edges = (From item In Network Select New CrossTalk With {.FromNode = item.Kinase, .ToNode = item.Regulator, .value = Math.Min(Data(item.Kinase), Data(item.Regulator)) * item.Probability}).ToArray
         Dim Nodes = (From item In Network Select {New CrossTalk.TCS_GeneObject With {.ID = item.Kinase, .Quantity = Data(item.Kinase), .NodeType = "Kinase"},
                                                   New CrossTalk.TCS_GeneObject With {.ID = item.Regulator, .NodeType = "RR", .Quantity = Data(item.Regulator)}}).ToArray.ToVector
 
@@ -409,7 +408,7 @@ Public Module PhenotypeRegulations
     End Function
 
     <ExportAPI("binary_network.empty_input.create_all_regulators")>
-    Public Function CreateInput_AllRegulators(model As Generic.IEnumerable(Of RegulatesFootprints), saveto As String) As Boolean
+    Public Function CreateInput_AllRegulators(model As IEnumerable(Of RegulatesFootprints), saveto As String) As Boolean
         Dim Nodes = BinaryNetwork.AnalysisMonteCarloTopLevelInput(model)
         Dim ChunkBuffer = (From id As String In Nodes.AsParallel Select New NetworkInput With {
                                                                      .locusId = id, .Level = True, .InitQuantity = 1, .NoneRegulation = True}).ToArray
@@ -471,7 +470,7 @@ Public Module PhenotypeRegulations
                                                               """MonteCarlo.sh"" for invoke this calculation experiment.")> Export As String,
                                 <Parameter("Kel.Cycles", "The total kernel runtime ticks, default is 3000 cycles.")> Optional KernelCycles As Integer = 3000,
                                 <Parameter("Monte_Carlo.Repeats", "The repeats number of the Monte carlo experiment will running.")> Optional Repeats As Integer = 20,
-                                <Parameter("List.Gene.ID", "A string collection of the gene will be mutation in this experiment.")> Optional GeneIDList As Generic.IEnumerable(Of String) = Nothing,
+                                <Parameter("List.Gene.ID", "A string collection of the gene will be mutation in this experiment.")> Optional GeneIDList As IEnumerable(Of String) = Nothing,
                                 <Parameter("Mutation.Factor", "The mutation factor of the gene in the id list parameter, 0 for deletion mutation, " &
                                                                    "value greater than 1 will be mutation as overexpression, and any value smaller " &
                                                                    "than 0 will be treat as normal state.")> Optional Factor As Double = -1)
@@ -713,7 +712,7 @@ Public Module PhenotypeRegulations
                           Let PhenoTypeRegulators = (From GeneId As String In PhenotypeRelateGene Let GeneRegulators = (From item In RegulationData Where String.Equals(item.LocusId, GeneId) Let RegulatorIdColection = item.Regulators Select RegulatorIdColection).ToArray.ToVector Select GeneRegulators).ToArray.ToVector
                           Select Phenotype = strPhenotype, PhenotypeRelateGene, RegulatorCounts = PhenoTypeRegulators.Count, PhenoTypeRegulators).ToArray
         Dim LQuery = (From phenotype In Phenotypes
-                      Select (From RegulatorId As String In phenotype.PhenoTypeRegulators Select New NetworkEdge With {.FromNode = RegulatorId, .InteractionType = "PhenotypeRegulation", .ToNode = phenotype.Phenotype}).ToArray).ToArray.ToVector
+                      Select (From RegulatorId As String In phenotype.PhenoTypeRegulators Select New NetworkEdge With {.FromNode = RegulatorId, .Interaction = "PhenotypeRegulation", .ToNode = phenotype.Phenotype}).ToArray).ToArray.ToVector
         Dim RegulatorNodes = (From RegulatorId As String In Regulators Select New FileStream.Node With {.ID = RegulatorId, .NodeType = "Regulator"}).ToArray
         Dim PhenotypeNodes = (From phenotype In Phenotypes Select New FileStream.Node With {.ID = phenotype.Phenotype, .NodeType = "Cell.Phenotype"}).ToArray
 
@@ -763,8 +762,8 @@ Public Module PhenotypeRegulations
                                             Select New FileStream.NetworkEdge With {
                                                 .FromNode = Regulator.Regulator,
                                                 .ToNode = Phenotype.Phenotype,
-                                                .Confidence = Regulator.RankedScore,
-                                                .InteractionType = "Phenotype.Regulations"}).ToArray).ToArray.ToVector
+                                                .value = Regulator.RankedScore,
+                                                .Interaction = "Phenotype.Regulations"})).ToVector
         Dim PhenotypeNodes = (From Phenotype
                               In EvaluateRanks
                               Select New FileStream.Node With {
@@ -857,8 +856,8 @@ Public Module PhenotypeRegulations
                                                  Select New NetworkEdge With {
                                                      .FromNode = Regulator.Regulator,
                                                      .ToNode = Phenotype.Phenotype,
-                                                     .InteractionType = "PhenotypeRegulation",
-                                                     .Confidence = Regulator.Score}).ToArray).ToArray.ToVector
+                                                     .Interaction = "PhenotypeRegulation",
+                                                     .value = Regulator.Score}).ToArray).ToArray.ToVector
 
         Call PhenotypeRegulationsEdges.SaveTo(String.Format("{0}/Edges.csv", ExportDIR), False)
         Call {Phenotypes, PhenotypeSignificantRegulators}.ToVector.SaveTo(ExportDIR & "/Nodes.csv", False)

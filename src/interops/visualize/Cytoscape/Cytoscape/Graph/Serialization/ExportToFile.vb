@@ -31,10 +31,11 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection.Reflector
 Imports Microsoft.VisualBasic.Data.visualize.Network
-Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.NameOf
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.NameOf
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
@@ -107,7 +108,7 @@ Namespace CytoscapeGraphView.Serialization
 
         Public Function Export(Of Node As FileStream.Node,
                                   Edge As FileStream.NetworkEdge)(
-                               network As FileStream.Network(Of Node, Edge),
+                               network As Network(Of Node, Edge),
                                Optional title$ = "NULL") As Graph
 
             Return Export(network.Nodes, network.Edges, title)
@@ -201,11 +202,11 @@ Namespace CytoscapeGraphView.Serialization
 
             Call maps.Add(
                 REFLECTION_ID_MAPPING_CONFIDENCE,
-                __getMap((map = edgeMaps(NameOf(INetworkEdge.Confidence))).interface, (+map).mMethod, schema))
+                __getMap((map = edgeMaps(NameOf(INetworkEdge.value))).interface, (+map).mMethod, schema))
 
             Call maps.Add(
                 REFLECTION_ID_MAPPING_INTERACTION_TYPE,
-                __getMap((map = edgeMaps(NameOf(INetworkEdge.InteractionType))).interface, (+map).mMethod, schema))
+                __getMap((map = edgeMaps(NameOf(INetworkEdge.Interaction))).interface, (+map).mMethod, schema))
 
             Return maps
         End Function

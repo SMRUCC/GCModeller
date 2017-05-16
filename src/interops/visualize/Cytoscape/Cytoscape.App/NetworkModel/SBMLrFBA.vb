@@ -83,13 +83,13 @@ Namespace NetworkModel
             Dim from As NetworkEdge() = flux.Reactants.ToArray(
                 Function(x) New NetworkEdge With {
                     .FromNode = x.species,
-                    .InteractionType = "Reactant",
+                    .Interaction = "Reactant",
                     .ToNode = flux.id})
             Dim toEdges As NetworkEdge() = flux.Products.ToArray(
                 Function(x) New NetworkEdge With {
                     .FromNode = flux.id,
                     .ToNode = x.species,
-                    .InteractionType = "Product"})
+                    .Interaction = "Product"})
             Return from.Join(toEdges).ToArray
         End Function
 

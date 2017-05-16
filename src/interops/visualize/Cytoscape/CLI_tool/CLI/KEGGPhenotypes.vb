@@ -167,10 +167,10 @@ Partial Module CLI
 
                 If Not common.IsNullOrEmpty Then
                     net += New FileStream.NetworkEdge With {
-                        .Confidence = common.Length,
+                        .value = common.Length,
                         .FromNode = a.EntryId,
                         .ToNode = b.EntryId,
-                        .InteractionType = "Interact",
+                        .Interaction = "Interact",
                         .Properties = New Dictionary(Of String, String) From {
                             {"Genes", common.JoinBy("; ")}
                         }

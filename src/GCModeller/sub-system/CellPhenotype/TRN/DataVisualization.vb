@@ -60,9 +60,9 @@ Public Module DataVisualization
                                      Select New Edge With {
                                          .FromNode = node.FromNode,
                                          .ToNode = node.ToNode,
-                                         .InteractionType = node.InteractionType,
-                                         .Confidence = node.Confidence,
-                                         .InteractValue = Math.Min([from], [to]) * node.Confidence
+                                         .Interaction = node.Interaction,
+                                         .value = node.value,
+                                         .InteractValue = Math.Min([from], [to]) * node.value
                                      }
         Return LQuery
     End Function

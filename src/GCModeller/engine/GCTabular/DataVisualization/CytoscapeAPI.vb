@@ -87,7 +87,7 @@ Namespace DataVisualization
                 CsvData += New String() {String.Format("Path contains {0} nodes", line.Key)}
 
                 For Each item As Interactions In line.Value
-                    CsvData += New String() {item.FromNode, item.ToNode, item.InteractionType}
+                    CsvData += New String() {item.FromNode, item.ToNode, item.Interaction}
                 Next
                 CsvData += New String() {"</>"}
             Next

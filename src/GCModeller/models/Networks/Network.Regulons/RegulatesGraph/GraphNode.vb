@@ -26,14 +26,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
-Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 
 Namespace RegulatesGraph
 
@@ -56,7 +49,7 @@ Namespace RegulatesGraph
         Public Property Regulates As String
 
         Sub New()
-            Me.InteractionType = "regulates"
+            Me.Interaction = "regulates"
         End Sub
     End Class
 End Namespace

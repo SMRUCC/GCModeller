@@ -45,7 +45,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.FileStream.IO
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
-Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network(Of
+Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.Network(Of
     SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Enzyme,
     SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Interaction)
 

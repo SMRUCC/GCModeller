@@ -29,7 +29,7 @@
 Imports System.Text
 Imports System.Web.Script.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -150,9 +150,9 @@ Namespace CytoscapeGraphView.Cyjs
 
         Public Property source As String Implements IInteraction.source
         Public Property target As String Implements IInteraction.target
-        Public Property Confidence As Double Implements INetworkEdge.Confidence
+        Public Property Confidence As Double Implements INetworkEdge.value
         Public Property EdgeBetweenness As Double
-        Public Property interaction As String Implements INetworkEdge.InteractionType
+        Public Property interaction As String Implements INetworkEdge.Interaction
         Public Property shared_interaction As String
         Public Property SelfLoop As Boolean
     End Class
@@ -185,7 +185,7 @@ Namespace CytoscapeGraphView.Cyjs
         Public Property ClusteringCoefficient As Double
         Public Property Size As Integer
 
-        Public Property Identifer As String Implements INode.Identifier
+        Public Property Identifer As String Implements INode.ID
             Get
                 Return name
             End Get

@@ -27,13 +27,12 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
-Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Serialization
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 
@@ -82,8 +81,8 @@ Namespace RegulatesGraph
                 .FromNode = obj,
                 .Regulates = target.Distinct.ToArray.JoinBy(", "),
                 .ToNode = obj,
-                .Confidence = target.Length,
-                .InteractionType = "regulates"
+                .value = target.Length,
+                .Interaction = "regulates"
             }
         End Function
 

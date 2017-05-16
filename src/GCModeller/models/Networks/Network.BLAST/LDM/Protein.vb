@@ -26,7 +26,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 
 Namespace LDM
 
@@ -35,7 +35,7 @@ Namespace LDM
     ''' </summary>
     Public Class Protein : Implements INode
 
-        Public Property LocusId As String Implements INode.Identifier
+        Public Property LocusId As String Implements INode.ID
         ''' <summary>
         ''' 家族分类
         ''' </summary>

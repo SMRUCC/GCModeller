@@ -168,8 +168,8 @@ Namespace ComponentModel.Loci
                         current.Right = (+n).Right
                     End If
 
-                    current.Extension.DynamicHash(
-                        current.Extension.DynamicHash _
+                    current.Extension.DynamicHashTable(
+                        current.Extension.DynamicHashTable _
                         .Properties _
                         .Count) = +n
 

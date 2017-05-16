@@ -70,18 +70,18 @@ Public Module API
         Return New NetworkEdge With {
             .FromNode = RR,
             .ToNode = TF,
-            .InteractionType = "ProteinComplexAssembly",
-            .Confidence = Confidence
+            .Interaction = "ProteinComplexAssembly",
+            .value = Confidence
         }
     End Function
 
     Private Function ChemotaxisInduction(Sensor As String, Inducers As String()) As NetworkEdge()
-        Dim LQuery = (From Inducer As String In Inducers Select New NetworkEdge With {.FromNode = Inducer, .ToNode = Sensor, .InteractionType = "ChemotaxisInduction", .Confidence = 1}).ToArray
+        Dim LQuery = (From Inducer As String In Inducers Select New NetworkEdge With {.FromNode = Inducer, .ToNode = Sensor, .Interaction = "ChemotaxisInduction", .value = 1}).ToArray
         Return LQuery
     End Function
 
     Private Function PhosphoTransfer(Donor As String, Reciever As String, Confidence As Double) As NetworkEdge
-        Return New NetworkEdge With {.FromNode = Donor, .ToNode = Reciever, .InteractionType = "PhosphoTransfer", .Confidence = Confidence}
+        Return New NetworkEdge With {.FromNode = Donor, .ToNode = Reciever, .Interaction = "PhosphoTransfer", .value = Confidence}
     End Function
 
     Private Function Regulation(TFRegulations As TFRegulation()) As NetworkEdge()
@@ -93,8 +93,8 @@ Public Module API
                                      Select New NetworkEdge With {
                                          .FromNode = TFRegulation.Regulator,
                                          .ToNode = GeneId,
-                                         .InteractionType = RegulationEffect,
-                                         .Confidence = TFRegulation.TFPcc}).ToArray)
+                                         .Interaction = RegulationEffect,
+                                         .value = TFRegulation.TFPcc}).ToArray)
         Next
 
         Return ChunkList.ToArray

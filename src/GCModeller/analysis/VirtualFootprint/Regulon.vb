@@ -87,7 +87,7 @@ Public Class RegPreciseRegulon
                 Dim edge As New NetworkEdge With {
                     .FromNode = xGroup.Regulator,
                     .ToNode = member,
-                    .InteractionType = "Regulates"
+                    .Interaction = "Regulates"
                 }
                 Call edges.Add(edge)
             Next

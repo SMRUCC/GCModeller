@@ -26,7 +26,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 
 Namespace Regulon
 
@@ -101,7 +101,7 @@ Namespace Regulon
         Implements IInteraction
         Implements INetworkEdge
 
-        Public Property Type As String Implements INetworkEdge.InteractionType
+        Public Property Type As String Implements INetworkEdge.Interaction
 
         ''' <summary>
         ''' 通常为Regulator
@@ -117,7 +117,7 @@ Namespace Regulon
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property InteractorB As String Implements IInteraction.target
-        Public Property Score As Double Implements INetworkEdge.Confidence
+        Public Property Score As Double Implements INetworkEdge.value
 
         Public Function GetConnectedId(Id As String) As String
             If String.Equals(InteractorA, Id) Then
