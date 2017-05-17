@@ -2,14 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\GCModeller\\annotations",
-    "\\src\\GCModeller\\annotations\\Proteomics",
-    "\\src\\interops",
     "\\src\\interops\\localblast",
     "\\src\\interops\\localblast\\CLI_tools",
-    "\\src\\interops\\localblast\\CLI_tools\\CLI",
-    "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Architecture.Framework",
-    "\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Architecture.Framework\\Extensions"
+    "\\src\\interops\\localblast\\CLI_tools\\CLI"
   ],
+  "SelectedNode": "\\src\\GCModeller.sln",
   "PreviewInSolutionExplorer": false
 }
