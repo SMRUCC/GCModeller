@@ -92,9 +92,9 @@ Module Module1
 
         Call net.ApplyAnalysis
 
-        Dim ress As Image = net.DrawImage(New Size(1024, 768), displayId:=False)
+        Dim ress = net.DrawImage("1024,768", displayId:=False)
 
-        Call ress.SaveAs("x:\gggg.bmp",)
+        Call ress.Save("x:\gggg.bmp")
 
         ' Dim m_fdgRenderer As New IRenderer(m_fdgPhysics)
 

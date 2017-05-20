@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -58,29 +59,28 @@ Namespace Styling
 
         Public Shared Function FromJSON(json As StyleJSON) As StyleMapper
             Return New StyleMapper With {
-                .edgeStyles = StyleMapper.__createSelector(json.edge),
-                .labelStyles = StyleMapper.__createSelector(json.labels),
                 .nodeStyles = StyleMapper.__createSelector(json.nodes)
             }
         End Function
 
-        Private Shared Function __createSelector(styles As Dictionary(Of String, Style)) As StyleCreator()
+        Private Shared Function __createSelector(styles As Dictionary(Of String, NodeStyle)) As StyleCreator()
             Return styles _
                 .Select(Function(x) __createSelector(x.Key, x.Value)) _
                 .ToArray
         End Function
 
-        Private Shared Function __createSelector(selector$, style As Style) As StyleCreator
+        Private Shared Function __createSelector(selector$, style As NodeStyle) As StyleCreator
             Dim mapper As New StyleCreator With {
                 .selector = selector,
                 .fill = style.fill.GetBrush,
-                .font = CSSFont.TryParse(style.fontCSS),
                 .stroke = Stroke.TryParse(style.stroke)
             }
 
+            With mapper
+                .size = Styling.NodeStyles.SizeExpression(style.size)
+            End With
 
-
-            Return mapper 
+            Return mapper
         End Function
     End Structure
 
@@ -89,7 +89,7 @@ Namespace Styling
         Dim stroke As Pen
         Dim font As Font
         Dim fill As Brush
-        Dim size As Func(Of Object, Single)
+        Dim size As Func(Of Node(), Map(Of Node, Double)())
         Dim label As Func(Of Object, String)
     End Structure
 End Namespace
