@@ -226,3 +226,4 @@ pip-log.txt
 .mr.developer.cfg
 /src/runtime/GCModeller/GCModeller
 /src/runtime/httpd/httpd/ftp_publish
+/.vs/GCModeller/v15

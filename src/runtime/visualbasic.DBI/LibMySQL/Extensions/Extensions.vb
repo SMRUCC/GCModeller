@@ -204,6 +204,34 @@ Public Module Extensions
         End If
     End Function
 
+    Const OptionsTempChange$ = "-- MySQL dump 1.00  Distrib 5.7.12, for Microsoft VisualBasic ORM (x86_64)
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+"
+    Const OptionsRestore$ = "
+
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on {0}"
+
     ''' <summary>
     ''' 生成用于将数据集合批量导入数据库的INSERT SQL事务
     ''' </summary>
@@ -241,6 +269,8 @@ Public Module Extensions
         Dim tableName$ = schemaTable.TableName
         Dim sb As New StringBuilder()
 
+        Call sb.AppendLine(OptionsTempChange)
+
         Call sb.AppendLine("--")
         Call sb.AppendLine($"-- Dumping data for table `{tableName}`")
         Call sb.AppendLine("--")
@@ -270,6 +300,7 @@ Public Module Extensions
 
         Call sb.AppendLine($"/*!40000 ALTER TABLE `{tableName}` ENABLE KEYS */;")
         Call sb.AppendLine("UNLOCK TABLES;")
+        Call sb.AppendFormat(OptionsRestore, Now.ToString)
 
         Return sb.ToString
     End Function
