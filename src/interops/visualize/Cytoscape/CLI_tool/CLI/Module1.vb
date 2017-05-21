@@ -32,8 +32,11 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Cytoscape
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -159,9 +162,16 @@ Partial Module CLI
         Return network.Save(out, Encodings.ASCII)
     End Function
 
-    <ExportAPI("/Plot.Cytoscape.Table", Usage:="/Plot.Cytoscape.Table /in <table.csv> [/out <out.DIR>]")>
+    <ExportAPI("/Plot.Cytoscape.Table",
+               Usage:="/Plot.Cytoscape.Table /in <table.csv> [/out <out.DIR>]")>
     Public Function PlotCytoscapeTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".visualize/")
+        Dim network = [in].LoadCsv(Of Edges).CytoscapeNetworkFromEdgeTable
+
+        Call network.doRandomLayout
+        Call network.doForceLayout
+        Call network.ComputeNodeDegrees
+        Call network.DrawImage.Save(out & "/network.png")
     End Function
 End Module
