@@ -158,4 +158,10 @@ Partial Module CLI
 
         Return network.Save(out, Encodings.ASCII)
     End Function
+
+    <ExportAPI("/Plot.Cytoscape.Table", Usage:="/Plot.Cytoscape.Table /in <table.csv> [/out <out.DIR>]")>
+    Public Function PlotCytoscapeTable(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".visualize/")
+    End Function
 End Module
