@@ -26,12 +26,11 @@
 
 #End Region
 
-Imports SMRUCC.genomics.ComponentModel.Loci.Location
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.ComponentModel.Loci.Location
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace ComponentModel.Loci
 

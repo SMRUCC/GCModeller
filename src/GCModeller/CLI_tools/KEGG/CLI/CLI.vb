@@ -436,11 +436,15 @@ Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/16S_rRNA", Usage:="/16s_rna [/out <outDIR>]")>
+    <ExportAPI("/16S_rRNA", 
+               Info:="Download 16S rRNA data from KEGG.", 
+               Usage:="/16s_rna [/out <outDIR>]")>
     Public Function Download16SRNA(args As CommandLine) As Integer
         Dim outDIR As String = args.GetValue("/out", App.CurrentDirectory & "/")
-        Dim fasta As FASTA.FastaFile = Download16S_rRNA(outDIR)
-        Return fasta.Save($"{outDIR}/16S_rRNA.fasta", Encoding.ASCII).CLICode
+        Dim fasta As FastaFile = Download16S_rRNA(outDIR)
+        Return fasta _
+            .Save($"{outDIR}/16S_rRNA.fasta", Encoding.ASCII) _
+            .CLICode
     End Function
 
     <ExportAPI("/Fasta.By.Sp",

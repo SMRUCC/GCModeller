@@ -301,18 +301,17 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25JSON\JSON.vbproj">
-      <Project>{32228818-26f1-44df-8d40-347136c743cd}</Project>
-      <Name>JSON</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25rdf+xml\RDF.vbproj">
+      <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
+      <Name>RDF</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>mime_markups</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25RDF+xml\RDF.vbproj">
-      <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
-      <Name>RDF</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
