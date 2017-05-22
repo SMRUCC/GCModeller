@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::4a58c55e2db8955bfef4e7f91cbb5c37, ..\core\Bio.Assembly\Assembly\EBI.ChEBI\Database\IO.StreamProviders\Tables.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -68,6 +68,19 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 
         Public Property CHEMICAL_DATA As String
 
+        ''' <summary>
+        ''' 分子量差值
+        ''' </summary>
+        ''' <param name="measured#"></param>
+        ''' <param name="actualValue#"></param>
+        ''' <returns></returns>
+        Public Shared Function ppm(measured#, actualValue#) As Double
+            ' （测量值-实际分子量）/实际分子量
+            ' |(实验数据 - 数据库结果)| / 实验数据 * 1000000
+            Dim ppmd# = Math.Abs(measured - actualValue) / actualValue
+            ppmd = ppmd * 1000000
+            Return ppmd
+        End Function
     End Class
 
     Public Class Names : Inherits Entity
