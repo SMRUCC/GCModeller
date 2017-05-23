@@ -36,8 +36,17 @@ Module Module1
 
     Sub Main()
 
+        Dim my As User = WebAPI.Users.GetUserData("xieguigang")
+
         ' WebAPI.Proxy = "http://127.0.0.1:8087"
 
+        '   Call "xieguigang".GetUserContributions .GetJson .SaveTo ("x:\xieguigang_contributions.json")
+
+        Call IsometricContributions.Plot(
+            "xieguigang".GetUserContributions,
+            schema:="Spectral:c8", user:=my).Save("G:\GCModeller\src\runtime\sciBASIC#\www\data\github\xieguigang_contributions.png")
+
+        Pause()
 
         Call IsometricContributions.Plot("xieguigang").Save("x:\text.png")
 
