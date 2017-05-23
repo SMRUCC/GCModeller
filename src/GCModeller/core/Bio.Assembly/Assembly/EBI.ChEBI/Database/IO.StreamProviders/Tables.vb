@@ -81,6 +81,10 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
             ppmd = ppmd * 1000000
             Return ppmd
         End Function
+
+        Public Overrides Function ToString() As String
+            Return $"[{COMPOUND_ID}] {TYPE}  {CHEMICAL_DATA}"
+        End Function
     End Class
 
     Public Class Names : Inherits Entity
