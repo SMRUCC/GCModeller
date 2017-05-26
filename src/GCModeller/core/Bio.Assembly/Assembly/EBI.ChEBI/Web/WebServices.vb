@@ -67,21 +67,30 @@ Namespace Assembly.EBI.ChEBI.WebServices
         ''' <summary>
         ''' 查询在线数据或者读取本地的缓存数据
         ''' </summary>
-        ''' <param name="chebiID$"></param>
-        ''' <param name="localCache$"></param>
+        ''' <param name="chebiID$">纯数字的编号，不能够带有``chebi:``前缀</param>
+        ''' <param name="localCache$">函数会分别使用主ID和二级ID构建缓存数据</param>
         ''' <returns></returns>
         <Extension>
-        Public Function QueryChEBI(chebiID$, localCache$) As ChEBIEntity()
+        Public Function QueryChEBI(chebiID$, localCache$, Optional ByRef hitCache As Boolean = False) As ChEBIEntity()
             Dim path = localCache.TheFile($"{chebiID}.XML", SearchOption.SearchAllSubDirectories)
             If path Is Nothing Then
                 path = localCache & $"/{chebiID}.XML"
             End If
             If path.FileExists(ZERO_Nonexists:=True) Then
+                hitCache = True
                 Return path.LoadXml(Of ChEBIEntity())
             Else
                 Dim data = GetCompleteEntity(chebiID)
-                Call data.GetXml.SaveTo(path)
+                hitCache = False
+                For Each compound As ChEBIEntity In data
+                    For Each id In compound.IDlist
+                        path = localCache & $"/{id}.XML"
+                        data.GetXml.SaveTo(path)
+                    Next
+                Next
+
                 Call Thread.Sleep(2000)
+
                 Return data
             End If
         End Function
