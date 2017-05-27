@@ -103,6 +103,7 @@
     </Compile>
     <Compile Include="mysql\app.vb" />
     <Compile Include="mysql\subscription.vb" />
+    <Compile Include="mysql\task_errors.vb" />
     <Compile Include="mysql\task_pool.vb" />
     <Compile Include="mysql\visitor_stat.vb" />
     <Compile Include="Task\Task.vb" />
