@@ -27,6 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.WebCloud.DataCenter.mysql
 Imports TaskData = SMRUCC.WebCloud.DataCenter.mysql.task_pool
 
 Namespace Platform
@@ -81,7 +82,7 @@ Namespace Platform
         ''' Public interface for invoke this task.
         ''' (需要在这个过程对象之中实现具体的任务过程)
         ''' </summary>
-        Public MustOverride Sub RunTask()
+        Protected MustOverride Sub runTask()
 
         ''' <summary>
         ''' 获取任务的执行状态
@@ -105,13 +106,23 @@ Namespace Platform
             With TaskData
                 Dim success As Boolean
                 Try
-                    Call RunTask()
+                    Call runTask()
                     .status = 1
                 Catch ex As Exception
                     success = False
                     .status = -100
-                    Call ex.PrintException
-                    Call App.LogException(ex)
+
+                    ' 将错误写入数据库之中
+                    Dim err As New task_errors With {
+                        .app = TaskData.app,
+                        .exception = ex.Message,
+                        .solved = 0,
+                        .stack_trace = ex.StackTrace,
+                        .task = TaskData.uid,
+                        .type = ex.GetType.FullName
+                    }
+                    Call _innerTaskPool.WriteFailure(err)
+
                 Finally
                     .time_complete = Now
                     .workspace = Workspace

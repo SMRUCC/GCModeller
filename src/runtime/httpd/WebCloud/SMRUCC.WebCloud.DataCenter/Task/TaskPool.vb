@@ -31,6 +31,9 @@ Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.SecurityString
+Imports Oracle.LinuxCompatibility.MySQL
+Imports err = SMRUCC.WebCloud.DataCenter.mysql.task_errors
+Imports mysqlClient = Oracle.LinuxCompatibility.MySQL.MySQL
 
 Namespace Platform
 
@@ -118,6 +121,7 @@ Namespace Platform
         ReadOnly _hashProvider As New Md5HashProvider
 
         Friend ReadOnly _taskQueue As New __internalQueue
+        Friend _mysql As mysqlClient
 
         ''' <summary>
         ''' Assign the task uid: <see cref="Task.uid"/>
@@ -130,6 +134,29 @@ Namespace Platform
                 task.uid = uid
             End SyncLock
         End Sub
+
+        ''' <summary>
+        ''' Write the exception information into database
+        ''' </summary>
+        ''' <param name="ex"></param>
+        Public Sub WriteFailure(ex As err)
+            If Not _mysql Is Nothing Then
+                SyncLock _mysql
+                    Call _mysql.ExecInsert(ex)
+                End SyncLock
+            Else
+                Dim err As New Exception(ex.exception) With {
+                    .Source = ex.stack_trace
+                }
+                Call err.PrintException
+                Call App.LogException(err)
+            End If
+        End Sub
+
+        Public Function Connect(mysql As ConnectionUri) As Double
+            _mysql = New mysqlClient
+            Return _mysql <= mysql
+        End Function
 
         ''' <summary>
         ''' 当不存在的时候，说明正在运行，或者已经运行完毕了
