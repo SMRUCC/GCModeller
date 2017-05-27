@@ -32,6 +32,9 @@ Imports TaskData = SMRUCC.WebCloud.DataCenter.mysql.task_pool
 
 Namespace Platform
 
+    ''' <summary>
+    ''' 用户任务的模板，必须要继承这个模板来构建出具体的用户任务
+    ''' </summary>
     Public MustInherit Class Task : Implements IDisposable
         Implements IReadOnlyId
 

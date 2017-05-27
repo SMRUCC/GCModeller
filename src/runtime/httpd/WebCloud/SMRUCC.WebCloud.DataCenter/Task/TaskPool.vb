@@ -219,13 +219,23 @@ Namespace Platform
         End Sub
 
         ''' <summary>
-        ''' 将用户任务添加到任务执行队列之中
+        ''' 将用户任务添加到任务执行队列之中，在这个函数之中已经包含有了任务写入数据库的语句了
         ''' </summary>
         ''' <param name="task"></param>
         ''' <returns></returns>
         Public Function Queue(task As Task) As Integer
             Call _taskQueue.Enqueue(task)
-            task._innerTaskPool = Me
+
+            With task
+                ._innerTaskPool = Me
+
+                If Not _mysql Is Nothing AndAlso Not .TaskData Is Nothing Then
+                    .TaskData.status = 0
+
+                    Call _mysql.ExecInsert(.TaskData)
+                End If
+            End With
+
             Return _taskQueue.Count
         End Function
 
