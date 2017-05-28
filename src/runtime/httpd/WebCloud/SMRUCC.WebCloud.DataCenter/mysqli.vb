@@ -32,12 +32,32 @@ Imports mysqliEnd = Oracle.LinuxCompatibility.MySQL.MySQL
     End Sub
 
     Public Sub RunConfig()
-        Dim database$ = STDIO.Read(Of String)(
-            "Please input the database name:",
-            Function(s$, ByRef result$)
-                result = s
-                Return Not s.StringEmpty
-            End Function, "smrucc-webcloud")
+        Dim readString = Function(s$, ByRef result$)
+                             result = s
+                             Return Not s.StringEmpty
+                         End Function
+        Dim readInteger = Function(s$, ByRef i%)
+                              i = Val(s)
+                              Return i.ToString = s
+                          End Function
+        Dim database$ = STDIO.Read(Of String)("Please input the database name", readString, "smrucc-webcloud")
+        Dim hostName$ = STDIO.Read(Of String)("Please input the host name", readString, "localhost")
+        Dim port% = STDIO.Read(Of Integer)("Please input the port", readInteger, 3306)
+        Dim user$ = STDIO.Read(Of String)("Enter your user name", readString, "root")
+        Dim password$ = STDIO.InputPassword
+        Dim mysqli As New ConnectionUri With {
+            .Database = database,
+            .IPAddress = hostName,
+            .Password = password,
+            .Port = port,
+            .User = user
+        }
+        Dim confirm = STDIO.MsgBox("MySQLi Manager will update your connection with these information: " & mysqli.GetDisplayUri)
 
+        If confirm = MsgBoxResult.No Then
+            Call "User cancel update config...".__INFO_ECHO
+        Else
+            ' 更新到配置文件
+        End If
     End Sub
 End Module
