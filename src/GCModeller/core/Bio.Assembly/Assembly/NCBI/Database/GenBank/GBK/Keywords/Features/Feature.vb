@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::a6854046c281828ea595b700c937843c, ..\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -181,19 +182,23 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         End Function
 
         Private Shared Function __parser(s As String) As NamedValue(Of String)
-            Dim Name As String = s.Split(CChar("=")).First
-            Dim Value As String = Mid(s, Len(Name) + 2)
+            Dim value = s.GetTagValue("=")
+            Dim str$ = value.Value
 
-            If (Not String.IsNullOrEmpty(Value)) AndAlso
-                (Value.First = QUOT_CHAR AndAlso Value.Last = QUOT_CHAR) Then
-                Value = Mid(Value, 2, Len(Value) - 2)
+            If (Not String.IsNullOrEmpty(str)) AndAlso
+                str.First = ASCII.Quot AndAlso
+                str.Last = ASCII.Quot Then
+                str = Mid(str, 2, Len(str) - 2)
             End If
 
-            If String.Equals(Name, "translation") Then
-                Value = Value.Replace(" ", String.Empty)
+            If String.Equals(value.Name, "translation") Then
+                str = str.Replace(" ", String.Empty)
             End If
 
-            Return New NamedValue(Of String)(Name, Value)
+            Return New NamedValue(Of String) With {
+                .Name = value.Name,
+                .Value = str
+            }
         End Function
 
         Protected Friend Sub CopyTo(ByRef InternalList As List(Of NamedValue(Of String)))

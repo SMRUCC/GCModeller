@@ -1,11 +1,13 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Terminal
 Imports Oracle.LinuxCompatibility.MySQL
 Imports mysqliEnd = Oracle.LinuxCompatibility.MySQL.MySQL
 
 ''' <summary>
 ''' 一些比较常用的mysql连接拓展
 ''' </summary>
-Public Module mysqli
+<RunDllEntryPoint(NameOf(mysqli))> Public Module mysqli
 
     ''' <summary>
     ''' Initializes MySQLi and returns a resource for use with <see cref="mysqliEnd"/>
@@ -24,10 +26,18 @@ Public Module mysqli
 #If Not DEBUG Then
             Throw New Exception("No MySQL database connection!")
 #Else
-            call "No mysqli database connection!".warning
+            Call "No mysqli database connection!".Warning
 #End If
         End If
+    End Sub
 
+    Public Sub RunConfig()
+        Dim database$ = STDIO.Read(Of String)(
+            "Please input the database name:",
+            Function(s$, ByRef result$)
+                result = s
+                Return Not s.StringEmpty
+            End Function, "smrucc-webcloud")
 
     End Sub
 End Module
