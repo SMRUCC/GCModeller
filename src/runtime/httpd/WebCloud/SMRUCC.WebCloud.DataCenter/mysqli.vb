@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.SecurityString
 Imports Microsoft.VisualBasic.Terminal
 Imports Oracle.LinuxCompatibility.MySQL
 Imports mysqliEnd = Oracle.LinuxCompatibility.MySQL.MySQL
@@ -23,6 +25,16 @@ Imports mysqliEnd = Oracle.LinuxCompatibility.MySQL.MySQL
             .User = App.GetVariable("user")
         } = -1.0R Then
 
+#If Not DEBUG Then
+            Throw New Exception("No MySQL database connection!")
+#Else
+            Call "No mysqli database connection!".Warning
+#End If
+        End If
+    End Sub
+
+    <Extension> Public Sub init(ByRef mysql As mysqliEnd)
+        If mysql <= mysqli.LoadConfig = -1.0R Then
 #If Not DEBUG Then
             Throw New Exception("No MySQL database connection!")
 #Else
@@ -58,6 +70,20 @@ Imports mysqliEnd = Oracle.LinuxCompatibility.MySQL.MySQL
             Call "User cancel update config...".__INFO_ECHO
         Else
             ' 更新到配置文件
+            Dim key = Rnd().ToString("F5")
+            Dim encrypt As New SHA256(key, 12345678)
+            Dim encrypted = mysqli.GenerateUri(AddressOf encrypt.EncryptData)
+            encrypted = encrypted & "|" & key
+            Call encrypted.SaveTo(App.LocalData & "/mysqli.dat", Encoding.ASCII)
         End If
     End Sub
+
+    Public Function LoadConfig() As ConnectionUri
+        Dim encrypted$ = (App.LocalData & "/mysqli.dat").ReadAllText
+        Dim key = encrypted.Split("|"c).Last
+        encrypted = encrypted.Replace("|" & key, "")
+        Dim descrypt As New SHA256(key, 12345678)
+        Dim uri As ConnectionUri = ConnectionUri.CreateObject(encrypted, AddressOf descrypt.DecryptString)
+        Return uri
+    End Function
 End Module

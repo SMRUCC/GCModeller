@@ -290,7 +290,7 @@ Namespace Terminal
                 Call Console.Write(msg)
 
                 If Not _default.StringEmpty Then
-                    Call Console.Write($"<default={_default}>")
+                    Call Console.Write($" <default={_default}>")
                 End If
 
                 Call Console.Write(": ")
@@ -330,9 +330,9 @@ Namespace Terminal
             End If
         End Sub
 
-        Public Function InputPassword(Optional prompt$ = "Please input your password:", Optional maxLength% = 20) As String
+        Public Function InputPassword(Optional prompt$ = "input your password", Optional maxLength% = 20) As String
             Dim pass$ = Nothing
-            Call Console.WriteLine(prompt)
+            Call Console.Write(prompt & ": ")
             Call New ConsolePasswordInput().PasswordInput(pass, maxLength)
             Return pass
         End Function
