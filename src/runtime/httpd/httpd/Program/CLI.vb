@@ -1,41 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::70724f99bda8818bffdc912e415d0d1f, ..\httpd\httpd\Program\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.IO
+Imports System.Reflection
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.WebCloud.HTTPInternal.Platform
 
 <GroupingDefine(CLI.httpdServerCLI, Description:="Server CLI for running this httpd web server.")>
-Module CLI
+<CLI> Module CLI
 
     Public Const httpdServerCLI$ = NameOf(httpdServerCLI)
     Public Const Utility$ = NameOf(Utility)
@@ -142,4 +144,32 @@ Module CLI
             End Try
         End Function
     End Structure
+
+    ''' <summary>
+    ''' 可以使用这个API来运行内部的配置API，例如调用内部的函数配置mysql链接
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/run.dll", Usage:="/run.dll /api <namespace::apiName> [....]")>
+    Public Function RunDll(args As CommandLine) As Integer
+        Dim api$ = args <= "/api"
+        Dim run As Boolean = False
+
+        For Each dll As String In ls - l - r - "*.dll" <= App.HOME
+            Dim method As MethodInfo = RunDllEntryPoint.GetDllMethod(Assembly.LoadFile(dll), api)
+#If DEBUG Then
+            Call dll.__INFO_ECHO
+#End If
+            If Not method Is Nothing Then
+                run = True
+                Call method.Invoke(Nothing, Nothing)
+            End If
+        Next
+
+        If Not run Then
+            Call $"No dll api which is named {api} was found!".Warning
+        End If
+
+        Return 0
+    End Function
 End Module
