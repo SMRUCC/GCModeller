@@ -138,6 +138,11 @@ Public Module __DEBUG_MAIN
 
     Function Main() As Integer
 
+        Dim nnnnn = New List(Of NamedValue(Of String)) From {
+            {"1", "1", "1"}, 
+            {"22", "33"}
+        }
+
 
         Dim s1 = "1234567"
         Dim s2 As LevenshteinString = "456"
