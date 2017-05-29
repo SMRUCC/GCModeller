@@ -2,3 +2,6 @@
 	path = src/runtime/mysqli
 	url = https://github.com/xieguigang/VisualBasic.DBI.git
 	branch = master
+[submodule "sciBASIC.ComputingServices"]
+	path = sciBASIC.ComputingServices
+	url = https://github.com/xieguigang/sciBASIC.ComputingServices.git
