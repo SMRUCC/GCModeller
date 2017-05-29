@@ -181,7 +181,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Visualize", "Visualize", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vb_DBI", "vb_DBI", "{9A0017AB-DBC9-45C1-B64C-38412550F93B}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LibMySQL", "runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj", "{2C34A044-1BDE-44E8-A86E-E9971C87DA21}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LibMySQL", "runtime\mysqli\LibMySQL\LibMySQL.vbproj", "{2C34A044-1BDE-44E8-A86E-E9971C87DA21}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "interops", "interops", "{7EC745C0-7D53-4BAE-962D-6E92C3F109EE}"
 EndProject
@@ -229,7 +229,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RDotNET.Extensions.VisualBa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "networks", "networks", "{E841C8AE-8CC3-4BA9-8D39-42E15C6D6635}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SQLite_Interface", "runtime\visualbasic.DBI\SQLite_Interface\SQLite_Interface.vbproj", "{67EAFC15-2237-494E-85D9-206E5BF71EF4}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SQLite_Interface", "runtime\mysqli\SQLite_Interface\SQLite_Interface.vbproj", "{67EAFC15-2237-494E-85D9-206E5BF71EF4}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "alglibnet2", "runtime\alglib-3.9.0.vbnet.gpl\vbnet\alglibnet2\alglibnet2.vbproj", "{EEA01916-0334-4293-B284-C8B0D9D3EF63}"
 EndProject

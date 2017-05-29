@@ -243,7 +243,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\runtime\visualbasic.DBI\SQLite_Interface\SQLite_Interface.vbproj">
+    <ProjectReference Include="..\..\runtime\mysqli\SQLite_Interface\SQLite_Interface.vbproj">
       <Project>{67EAFC15-2237-494E-85D9-206E5BF71EF4}</Project>
       <Name>SQLite_Interface</Name>
     </ProjectReference>

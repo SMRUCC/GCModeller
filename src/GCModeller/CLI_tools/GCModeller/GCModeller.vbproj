@@ -335,7 +335,7 @@
       <Project>{abdce82b-700e-4f70-a2f1-86b8054d0c8e}</Project>
       <Name>SequencePatterns</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
+    <ProjectReference Include="..\..\..\runtime\mysqli\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>
