@@ -66,7 +66,7 @@ Module Program
         Dim l1 As New List(Of ULong)
         Dim l2 As New List(Of ULong)
         Dim l3 As New List(Of ULong)
-        Dim uid As New Uid
+       ' Dim uid As New Uid
 
 
         Call blizzard.HashBlizzard("XC_1183").ToString.__INFO_ECHO
@@ -97,7 +97,7 @@ Module Program
 
         Pause()
 
-        Dim g1 = l.GroupBy(Function(u) u).Where(Function(gg) gg.Count > 1).Select(Function(x) (x.Key, x.ToArray)).ToArray
+      '  Dim g1 = l.GroupBy(Function(u) u).Where(Function(gg) gg.Count > 1).Select(Function(x) (x.Key, x.ToArray)).ToArray
 
 
         Pause()
