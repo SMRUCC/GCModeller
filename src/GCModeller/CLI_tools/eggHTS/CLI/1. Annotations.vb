@@ -85,13 +85,15 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/protein.annotations",
                Info:="Total proteins functional annotation by using uniprot database.",
-               Usage:="/protein.annotations /uniprot <uniprot.XML> [/accession.ID /iTraq /list <uniprot.id.list.txt/rawtable.csv> /out <out.csv>]")>
+               Usage:="/protein.annotations /uniprot <uniprot.XML> [/accession.ID /iTraq /list <uniprot.id.list.txt/rawtable.csv> /mapping <mappings.tab/tsv> /out <out.csv>]")>
     <Argument("/list", True, CLITypes.File,
               AcceptTypes:={GetType(String())},
               Description:="Using for the iTraq method result.")>
     <Argument("/iTraq", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Using for the iTraq method result.")>
+    <Argument("/mapping",
+              Description:="The id mapping table, only works when the argument ``/list`` is presented.")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function SampleAnnotations(args As CommandLine) As Integer
         Dim list As String = args("/list")
@@ -102,6 +104,8 @@ Partial Module CLI
 
         If list.FileExists(True) Then
             Dim geneIDs$()
+            Dim mapping$ = args <= "/mapping"
+            Dim mappings As Dictionary(Of String, String()) = Nothing
 
             out = args.GetValue("/out", list.TrimSuffix & "-proteins-uniprot-annotations.csv")
 
@@ -113,12 +117,16 @@ Partial Module CLI
             Else
                 geneIDs = list.ReadAllLines
             End If
+            If mapping.FileExists Then
+                mappings = Retrieve_IDmapping.MappingReader(mapping)
+            End If
 
             Return geneIDs _
-                .GenerateAnnotations(uniprot, iTraq, accID) _
+                .GenerateAnnotations(uniprot, iTraq, accID, mappings:=mappings) _
                 .Select(Function(x) x.Item1) _
                 .ToArray _
-                .SaveDataSet(out).CLICode
+                .SaveDataSet(out) _
+                .CLICode
         Else
             out = args.GetValue("/out", uniprot.ParentPath & "/proteins-uniprot-annotations.csv")
 
@@ -126,7 +134,8 @@ Partial Module CLI
                 .ExportAnnotations(iTraq:=iTraq, accID:=accID) _
                 .Select(Function(x) x.Item1) _
                 .ToArray _
-                .SaveDataSet(out).CLICode
+                .SaveDataSet(out) _
+                .CLICode
         End If
     End Function
 

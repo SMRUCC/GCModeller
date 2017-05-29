@@ -75,12 +75,16 @@ Public Module ProteinGroups
     Public Function GenerateAnnotations(ID As IEnumerable(Of String),
                                         uniprotXML$,
                                         Optional iTraq As Boolean = False,
-                                        Optional accID As Boolean = False) As IEnumerable(Of (protein, String()))
+                                        Optional accID As Boolean = False,
+                                        Optional mappings As Dictionary(Of String, String()) = Nothing) As IEnumerable(Of (protein, String()))
         Dim list$() = ID.ToArray
-        Dim mappings As Dictionary(Of String, String()) = list _
-            .ToDictionary(
+
+        If mappings.IsNullOrEmpty Then
+            mappings = list.ToDictionary(
                 Function(x) x,
                 Function(x) {x})
+        End If
+
         Return list.GenerateAnnotations(mappings, uniprotXML, "uniprot",, iTraq:=iTraq, accID:=accID)
     End Function
 
