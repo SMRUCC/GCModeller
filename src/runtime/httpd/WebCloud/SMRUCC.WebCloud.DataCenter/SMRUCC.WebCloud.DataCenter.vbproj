@@ -86,6 +86,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="mysqli.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -103,8 +104,12 @@
     </Compile>
     <Compile Include="mysql\app.vb" />
     <Compile Include="mysql\subscription.vb" />
+    <Compile Include="mysql\sys_config.vb" />
+    <Compile Include="mysql\sys_updates.vb" />
+    <Compile Include="mysql\task_errors.vb" />
     <Compile Include="mysql\task_pool.vb" />
     <Compile Include="mysql\visitor_stat.vb" />
+    <Compile Include="Task\Extensions.vb" />
     <Compile Include="Task\Task.vb" />
     <Compile Include="Task\TaskPool.vb" />
     <Compile Include="Task\TaskProgress.vb" />
@@ -134,7 +139,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
+    <ProjectReference Include="..\..\..\mysqli\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>
