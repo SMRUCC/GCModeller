@@ -78,14 +78,20 @@ Public Module ProteinGroups
                                         Optional accID As Boolean = False,
                                         Optional mappings As Dictionary(Of String, String()) = Nothing) As IEnumerable(Of (protein, String()))
         Dim list$() = ID.ToArray
+        Dim prefix$
 
+        If mappings.IsNullOrEmpty Then
+            prefix = "uniprot"
+        Else
+            prefix = ""
+        End If
         If mappings.IsNullOrEmpty Then
             mappings = list.ToDictionary(
                 Function(x) x,
                 Function(x) {x})
         End If
 
-        Return list.GenerateAnnotations(mappings, uniprotXML, "uniprot",, iTraq:=iTraq, accID:=accID)
+        Return list.GenerateAnnotations(mappings, uniprotXML, prefix,, iTraq:=iTraq, accID:=accID)
     End Function
 
     ''' <summary>
