@@ -1,0 +1,4 @@
+[submodule "VisualBasic.DBI"]
+	path = VisualBasic.DBI
+	url = https://github.com/xieguigang/VisualBasic.DBI.git
+	branch = master
