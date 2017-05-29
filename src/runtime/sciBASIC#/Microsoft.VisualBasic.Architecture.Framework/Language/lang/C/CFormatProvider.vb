@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c9dc66d17a5e21bfe6f8f53e99c2d99, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Terminal\STDIO__\CFormatProvider.vb"
+﻿#Region "Microsoft.VisualBasic::1d2d58edd1b3aaa31d36841ce95334dd, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\lang\C\CFormatProvider.vb"
 
     ' Author:
     ' 

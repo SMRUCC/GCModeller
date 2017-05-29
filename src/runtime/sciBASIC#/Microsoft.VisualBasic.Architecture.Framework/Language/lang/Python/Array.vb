@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::446508712398d6c99193d23c063b824e, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\Python\Array.vb"
+﻿#Region "Microsoft.VisualBasic::446508712398d6c99193d23c063b824e, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\lang\Python\Array.vb"
 
     ' Author:
     ' 

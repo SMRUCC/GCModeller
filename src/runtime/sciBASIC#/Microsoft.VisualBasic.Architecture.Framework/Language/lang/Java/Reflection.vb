@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20be5e5db69eaa44a3037b9727dc487a, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\Java\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::20be5e5db69eaa44a3037b9727dc487a, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\lang\Java\Reflection.vb"
 
     ' Author:
     ' 
