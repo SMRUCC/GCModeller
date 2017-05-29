@@ -5,3 +5,4 @@
 [submodule "sciBASIC.ComputingServices"]
 	path = src/runtime/sciBASIC.ComputingServices
 	url = https://github.com/xieguigang/sciBASIC.ComputingServices.git
+	branch = master
