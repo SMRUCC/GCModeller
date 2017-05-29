@@ -243,10 +243,6 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\runtime\visualbasic.DBI\SQLite_Interface\SQLite_Interface.vbproj">
-      <Project>{67EAFC15-2237-494E-85D9-206E5BF71EF4}</Project>
-      <Name>SQLite_Interface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>

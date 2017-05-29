@@ -299,7 +299,7 @@ Namespace Interpreter
             Dim Expr = New Source(Expression) With {
                 .LeftAssigned = New LeftAssignedVariable(Tokens(Scan0).GetTokenValue),
                 .Path = New InternalExpression(args.Name),
-                .args = args.GetValueArray.ToArray(AddressOf __arg)
+                .args = args.ToArgumentVector.ToArray(AddressOf __arg)
             }
 
             Return Expr
