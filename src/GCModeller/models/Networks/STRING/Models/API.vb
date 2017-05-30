@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::3b9f18ea0a7a7922daf9dde5a33ba017, ..\GCModeller\models\Networks\STRING\LDM\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -36,6 +36,8 @@ Imports Microsoft.VisualBasic.Extensions
 Imports SMRUCC.genomics.Model.Network.STRING.TCS
 Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
+Imports SMRUCC.genomics.Model.Network.STRING.Models
+Imports STRING_NetGraph = SMRUCC.genomics.Model.Network.STRING.Models.Network
 
 <PackageNamespace("StrPNet.API", Description:="Bacterial signal transduction network based on the string-db")>
 Public Module API
@@ -109,7 +111,7 @@ Public Module API
     ''' <remarks></remarks>
     ''' 
     <ExportAPI("Extract.Flux"), Extension>
-    Public Function CreateFluxObject(Network As Network, Inducers As SensorInducers(), Optional Pi As String = "PI") As Level2.Elements.Reaction()
+    Public Function CreateFluxObject(Network As STRING_NetGraph, Inducers As SensorInducers(), Optional Pi As String = "PI") As Level2.Elements.Reaction()
         Dim ChunkList As New List(Of Level2.Elements.Reaction)
 
         For Each item In Network.Pathway

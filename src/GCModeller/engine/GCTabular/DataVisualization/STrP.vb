@@ -26,11 +26,10 @@
 
 #End Region
 
-Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports SMRUCC.genomics.Model.Network.STRING
+Imports SMRUCC.genomics.Model.Network.STRING.Models
 
 Namespace DataVisualization
 
