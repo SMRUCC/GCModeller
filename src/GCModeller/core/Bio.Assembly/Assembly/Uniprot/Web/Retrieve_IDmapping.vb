@@ -194,7 +194,7 @@ Namespace Assembly.Uniprot.Web
         ''' <param name="initials">Q开头的编号一般都是reviewed状态的蛋白数据</param>
         ''' <returns></returns>
         <Extension>
-        Public Function UniprotIDFilter(mappings As Dictionary(Of String, String()), Optional initials$ = "QP") As Dictionary(Of String, String)
+        Public Function UniprotIDFilter(mappings As Dictionary(Of String, String()), Optional initials$ = "QPO") As Dictionary(Of String, String)
             Dim table As New Dictionary(Of String, String)
 
             For Each idMaps In mappings
