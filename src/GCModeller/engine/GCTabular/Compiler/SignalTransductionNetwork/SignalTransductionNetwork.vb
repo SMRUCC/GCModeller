@@ -26,18 +26,15 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Logging
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.Model.Network.STRING.Pathway
-Imports SMRUCC.genomics.Data.STRING.SimpleCsv
+Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Metabolite
 Imports SMRUCC.genomics.Model.Network.STRING
-Imports SMRUCC.genomics.Data.STRING
+Imports SMRUCC.genomics.Model.Network.STRING.Models.Pathway
 
 Namespace Compiler.Components
 

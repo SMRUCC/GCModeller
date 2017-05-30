@@ -1,34 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::13678893f77d0c818c074a6641638fe9, ..\GCModeller\models\Networks\STRING\Assembler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.STRING.SimpleCsv
+Imports SMRUCC.genomics.Model.Network.STRING.Models
+Imports STRING_netGraph = SMRUCC.genomics.Model.Network.STRING.Models.Network
 
 ''' <summary>
 ''' 
@@ -121,10 +123,10 @@ Public Class Assembler
         Return STrP
     End Function
 
-    Public Function CompileAssembly(Mapping As EffectorMap()) As Network
+    Public Function CompileAssembly(Mapping As EffectorMap()) As STRING_netGraph
         Dim TF As String() = (From item In Me.TF Select item.QueryName Distinct Order By QueryName Ascending).ToArray
         Dim LQuery = (From tf_id As String In TF.AsParallel Let result = Assembly(tf_id, Mapping) Select result Order By result.TF Ascending).ToArray
-        Return New Network With {.Pathway = LQuery}
+        Return New STRING_netGraph With {.Pathway = LQuery}
     End Function
 
     Private Function GetEffectors(TF As String) As String()
@@ -137,10 +139,10 @@ Public Class Assembler
         Return (From strData As String In EffectorList Where Not String.IsNullOrEmpty(strData) Select strData Distinct Order By strData Ascending).ToArray
     End Function
 
-    Public Function CompileAssembly() As Network
+    Public Function CompileAssembly() As STRING_netGraph
         Dim TF As String() = (From item In Me.TF Select item.QueryName Distinct Order By QueryName Ascending).ToArray
         Dim LQuery = (From tf_id As String In TF.AsParallel Let result = Assembly(tf_id) Select result Order By result.TF Ascending).ToArray
-        Return New Network With {.Pathway = LQuery}
+        Return New STRING_netGraph With {.Pathway = LQuery}
     End Function
 
     Private Function GetProteins(fromNode As String, Predication As Func(Of String, Boolean)) As String()

@@ -36,11 +36,11 @@ Imports SMRUCC.genomics.Assembly.MiST2
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
 Imports SMRUCC.genomics.Data.STRING
-Imports SMRUCC.genomics.Model.Network.STRING.TCS
-Imports SMRUCC.genomics.Model.Network.STRING
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.Compiler.Components
+Imports SMRUCC.genomics.Model.Network.STRING.Models
+Imports SMRUCC.genomics.Model.Network.STRING.TCS
 
 Namespace FileStream.IO
 
