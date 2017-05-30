@@ -40,6 +40,7 @@ Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports protein = Microsoft.VisualBasic.Data.csv.IO.EntityObject
+Imports uniprotProteomics = SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML
 
 Public Module ProteinGroups
 
@@ -71,13 +72,26 @@ Public Module ProteinGroups
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function GenerateAnnotations(ID As IEnumerable(Of String), uniprotXML$, Optional iTraq As Boolean = False) As IEnumerable(Of (protein, String()))
+    Public Function GenerateAnnotations(ID As IEnumerable(Of String),
+                                        uniprotXML$,
+                                        Optional iTraq As Boolean = False,
+                                        Optional accID As Boolean = False,
+                                        Optional mappings As Dictionary(Of String, String()) = Nothing) As IEnumerable(Of (protein, String()))
         Dim list$() = ID.ToArray
-        Dim mappings As Dictionary(Of String, String()) =
-            list.ToDictionary(
-            Function(x) x,
-            Function(x) {x})
-        Return list.GenerateAnnotations(mappings, uniprotXML, "uniprot",, iTraq:=iTraq)
+        Dim prefix$
+
+        If mappings.IsNullOrEmpty Then
+            prefix = "uniprot"
+        Else
+            prefix = ""
+        End If
+        If mappings.IsNullOrEmpty Then
+            mappings = list.ToDictionary(
+                Function(x) x,
+                Function(x) {x})
+        End If
+
+        Return list.GenerateAnnotations(mappings, uniprotXML, prefix,, iTraq:=iTraq, accID:=accID)
     End Function
 
     ''' <summary>
@@ -109,20 +123,27 @@ Public Module ProteinGroups
                                                  Optional prefix$ = "",
                                                  Optional deli As Char = ";"c,
                                                  Optional scientifcName$ = Nothing,
-                                                 Optional iTraq As Boolean = False) As IEnumerable(Of (protein, String()))
+                                                 Optional iTraq As Boolean = False,
+                                                 Optional accID As Boolean = False) As IEnumerable(Of (protein, String()))
 
         Dim uniprot As Dictionary(Of Uniprot.XML.entry) =
-            SMRUCC.genomics.Assembly.Uniprot.XML _
-            .UniprotXML _
+            uniprotProteomics _
             .LoadDictionary(uniprotXML)
+        Dim geneID$
 
         For Each Idtags As SeqValue(Of String) In ID.SeqIterator
             Dim list$() = (+Idtags).Split(deli)
             Dim i As Integer = Idtags.i + 1
 
+            If accID Then
+                geneID = +Idtags
+            Else
+                geneID = i
+            End If
+
             Yield list.__applyInternal(
                 New Dictionary(Of String, String),
-                mappings, uniprot, prefix, i,
+                mappings, uniprot, prefix, geneID,
                 scientifcName,
                 iTraq)
         Next
@@ -133,7 +154,9 @@ Public Module ProteinGroups
                                                  uniprot As Dictionary(Of Uniprot.XML.entry),
                                                  Optional prefix$ = "",
                                                  Optional scientifcName$ = Nothing,
-                                                 Optional iTraq As Boolean = False) As IEnumerable(Of (protein, String()))
+                                                 Optional iTraq As Boolean = False,
+                                                 Optional accID As Boolean = False) As IEnumerable(Of (protein, String()))
+        Dim geneID$
 
         For Each Idtags As SeqValue(Of Perseus) In proteinGroups.SeqIterator
             Dim list$() = (+Idtags).ProteinIDs _
@@ -142,6 +165,12 @@ Public Module ProteinGroups
                 .ToArray
             Dim i As Integer = Idtags.i + 1
             Dim mappings = list.ToDictionary(Function(id) id, Function(id) {id})
+
+            If accID Then
+                geneID = (+Idtags).ProteinIDs.JoinBy("; ")
+            Else
+                geneID = i
+            End If
 
             Yield list.__applyInternal(
                 New Dictionary(Of String, String),
@@ -164,10 +193,12 @@ Public Module ProteinGroups
                                                Optional prefix$ = "",
                                                Optional deli As Char = ";"c,
                                                Optional scientifcName$ = Nothing,
-                                               Optional iTraq As Boolean = False) As IEnumerable(Of (protein, String()))
+                                               Optional iTraq As Boolean = False,
+                                               Optional accID As Boolean = False) As IEnumerable(Of (protein, String()))
 
-        Dim uniprot As Dictionary(Of Uniprot.XML.entry) = SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML.LoadDictionary(uniprotXML)
+        Dim uniprot As Dictionary(Of Uniprot.XML.entry) = uniprotProteomics.LoadDictionary(uniprotXML)
         Dim ID As IEnumerable(Of String) = uniprot.Keys
+        Dim geneID$
         Dim mappings As Dictionary(Of String, String()) =
             ID.ToDictionary(
             Function(s) s,
@@ -177,9 +208,15 @@ Public Module ProteinGroups
             Dim list$() = (+Idtags).Split(deli)
             Dim i As Integer = Idtags.i + 1
 
+            If accID Then
+                geneID = +Idtags
+            Else
+                geneID = i
+            End If
+
             Yield list.__applyInternal(
                 New Dictionary(Of String, String),
-                mappings, uniprot, prefix, i,
+                mappings, uniprot, prefix, geneID,
                 scientifcName,
                 iTraq)
         Next
@@ -193,7 +230,6 @@ Public Module ProteinGroups
     ''' <param name="mappings"></param>
     ''' <param name="uniprot"></param>
     ''' <param name="prefix$"></param>
-    ''' <param name="i%"></param>
     ''' <param name="scientifcName">假若这个参数不为空，则会优先考虑该物种的基因注释信息，假若找不到，才会找其他的基因的信息</param>
     ''' <returns></returns>
     <Extension>
@@ -201,7 +237,7 @@ Public Module ProteinGroups
                                      annotations As Dictionary(Of String, String),
                                      mappings As Dictionary(Of String, String()),
                                      uniprot As Dictionary(Of Uniprot.XML.entry),
-                                     prefix$, i%,
+                                     prefix$, geneID$,
                                      scientifcName$,
                                      iTraq As Boolean) As (protein As protein, mapsId As String())
 
@@ -309,9 +345,7 @@ Public Module ProteinGroups
         'Dim pathways = getKeyValue("pathway")
 
         'Call annotations.Add("functions", functions.JoinBy("; "))
-        'Call annotations.Add("pathways", pathways.JoinBy("; "))
-
-        Dim geneID As String = i
+        'Call annotations.Add("pathways", pathways.JoinBy("; "))      
 
         If Not String.IsNullOrEmpty(prefix) Then
             geneID = prefix & "_" & geneID.FormatZero("0000")

@@ -197,9 +197,8 @@
     <Reference Include="System.Data.SqlXml" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Dynamic" />
-    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.ValueTuple.4.4.0-preview1-25305-02\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -287,7 +286,7 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
+    <ProjectReference Include="..\..\..\runtime\mysqli\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>

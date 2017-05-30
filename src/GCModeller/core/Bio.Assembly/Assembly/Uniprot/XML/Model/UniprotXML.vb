@@ -34,6 +34,9 @@ Imports Microsoft.VisualBasic.Text.Xml
 
 Namespace Assembly.Uniprot.XML
 
+    ''' <summary>
+    ''' Download from the uniprot database id mappings result
+    ''' </summary>
     <XmlType("uniprot")> Public Class UniprotXML
 
         Const ns$ = "xmlns=""http://uniprot.org/uniprot"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniprot http://www.uniprot.org/support/docs/uniprot.xsd"""

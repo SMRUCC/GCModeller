@@ -89,9 +89,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.ValueTuple.4.4.0-preview1-25305-02\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -174,7 +173,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>mime_markups</Name>
+      <Name>mime-htmls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\analysis\Microarray\Microarray.vbproj">
       <Project>{64384e97-d1c6-410c-bff7-43392d994050}</Project>

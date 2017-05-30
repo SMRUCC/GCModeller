@@ -30,6 +30,9 @@ Imports Microsoft.VisualBasic.Net.Protocols.Reflection
 
 Namespace FileSystem.Protocols
 
+    ''' <summary>
+    ''' 文件系统协议
+    ''' </summary>
     Public Enum FileSystemAPI As Long
 
         ''' <summary>

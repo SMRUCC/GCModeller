@@ -98,5 +98,19 @@ re0:            Dim comfirm As New List(Of String)
 
             Return False
         End Function
+
+        ''' <summary>
+        ''' 这个函数会返回主ID和副ID，都是纯数字形式的编号，没有``chebi:``前缀的
+        ''' </summary>
+        ''' <param name="compound"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function IDlist(compound As ChEBIEntity) As IEnumerable(Of String)
+            Yield compound.chebiId.Split(":"c).Last
+
+            For Each id As String In compound.SecondaryChEBIIds.SafeQuery
+                Yield id.Split(":"c).Last
+            Next
+        End Function
     End Module
 End Namespace

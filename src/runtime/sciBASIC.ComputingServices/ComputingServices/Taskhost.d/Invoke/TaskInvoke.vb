@@ -66,6 +66,10 @@ Namespace TaskHost
             End Get
         End Property
 
+        ''' <summary>
+        ''' 远程文件系统
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property FileSystem As FileSystemHost Implements IRemoteSupport.FileSystem
         Public ReadOnly Property LinqProvider As LinqPool = New LinqPool
 
