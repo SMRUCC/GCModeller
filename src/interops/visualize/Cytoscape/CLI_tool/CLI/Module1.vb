@@ -31,9 +31,14 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Cytoscape
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 
@@ -155,5 +160,25 @@ Partial Module CLI
         End If
 
         Return network.Save(out, Encodings.ASCII)
+    End Function
+
+    <ExportAPI("/Plot.Cytoscape.Table",
+               Usage:="/Plot.Cytoscape.Table /in <table.csv> [/size <default=1600,1440> /out <out.DIR>]")>
+    Public Function PlotCytoscapeTable(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".visualize/")
+        Dim network = [in].LoadCsv(Of Edges).CytoscapeNetworkFromEdgeTable
+        Dim size$ = args.GetValue("/size", "1600,1440")
+
+        Call network.doRandomLayout
+        Call network.doForceLayout
+        Call network.ComputeNodeDegrees
+        Call network _
+            .DrawImage(canvasSize:=size,
+                       scale:=network.AutoScaler(size.SizeParser).Expression,
+                       labelColorAsNodeColor:=True) _
+            .Save(out & "/network.png")
+
+        Return network.Tabular.Save(out & "/").CLICode
     End Function
 End Module

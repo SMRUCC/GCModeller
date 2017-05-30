@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8dbf65943d91096cfcad9f36f4e09d5, ..\sciBASIC#\Data\DataFrame\Extensions\StreamIOHandler.vb"
+﻿#Region "Microsoft.VisualBasic::02700616d800c8c723ba8f090cf88d17, ..\sciBASIC#\Data\DataFrame\Extensions\StreamIOHandler.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@ Module StreamIOHandler
     ''' </summary>
     Public Sub __initStreamIO_pointer()
         Call CollectionIO.SetHandle(AddressOf ISaveCsv)
-        Call VBDebugger.Warning($"Default IO handle has been changes to {DefaultSaveDescription}...")
+        Call $"Default IO handle has been changes to {DefaultSaveDescription}...".__INFO_ECHO
     End Sub
 
     Public Function ISaveCsv(source As IEnumerable, path As String, encoding As Encoding) As Boolean

@@ -124,11 +124,11 @@
     </Compile>
     <Compile Include="Assembler.vb" />
     <Compile Include="EffectorMap.vb" />
-    <Compile Include="LDM\API.vb" />
-    <Compile Include="LDM\Interaction.vb" />
-    <Compile Include="LDM\Network.vb" />
-    <Compile Include="LDM\Pathway.vb" />
-    <Compile Include="LDM\Regulation.vb" />
+    <Compile Include="Models\API.vb" />
+    <Compile Include="Models\Interaction.vb" />
+    <Compile Include="Models\Network.vb" />
+    <Compile Include="Models\Pathway.vb" />
+    <Compile Include="Models\Regulation.vb" />
     <Compile Include="TCS\SensorInducers.vb" />
     <Compile Include="TCS\TCS.vb" />
   </ItemGroup>

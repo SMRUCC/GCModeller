@@ -27,10 +27,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -54,11 +51,15 @@ Namespace LocalBLAST.Application.RpsBLAST
         Public Function MyvaCOGCatalog(blastp$, whogXml$,
                                        Optional identities# = 0.15,
                                        Optional coverage# = 0.5,
-                                       Optional descriptParser As TextGrepMethod = Nothing) As MyvaCOG()
+                                       Optional descriptParser As TextGrepMethod = Nothing,
+                                       Optional ALL As Boolean = False) As MyvaCOG()
             If blastp.FileExists Then
 
                 Dim outputRaw As v228 = Parser.TryParse(blastp)
-                Dim bbh As BestHit() = outputRaw.ExportAllBestHist(coverage, identities)
+                Dim bbh As BestHit() = If(
+                    ALL, 
+                    outputRaw.ExportAllBestHist(coverage, identities), 
+                    outputRaw.ExportBestHit(coverage, identities))
                 Dim myvaCOG = bbh.MyvaCOGCatalog(whogXml, descriptParser)
 
                 Return myvaCOG
@@ -68,7 +69,8 @@ Namespace LocalBLAST.Application.RpsBLAST
         End Function
 
         ''' <summary>
-        ''' <see cref="MyvaCOG.CreateObject"/>
+        ''' <see cref="MyvaCOG.CreateObject"/>.
+        ''' (因为所输入进来的函数参数<paramref name="bbh"/>是已经通过参数筛选之后的结果，所以这个函数就不需要再使用参数筛选了。)
         ''' </summary>
         ''' <param name="bbh"></param>
         ''' <param name="whogXml"></param>
@@ -76,7 +78,6 @@ Namespace LocalBLAST.Application.RpsBLAST
         ''' 解析出來的是query protein的fasta標題裏面的功能注釋信息
         ''' </param>
         ''' <returns></returns>
-        ''' 
         <Extension>
         Public Function MyvaCOGCatalog(bbh As IEnumerable(Of BestHit), whogXml As String, Optional descriptParser As TextGrepMethod = Nothing) As MyvaCOG()
             Dim source As BestHit() = bbh.ToArray

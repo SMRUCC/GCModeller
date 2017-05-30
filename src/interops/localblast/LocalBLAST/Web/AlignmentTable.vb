@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::7c5235d2b3d0803d42bde2124b0c8b32, ..\interops\localblast\LocalBLAST\Web\AlignmentTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
@@ -40,9 +41,11 @@ Namespace NCBIBlastResult
     Public Class AlignmentTable : Inherits ITextFile
         Implements ISaveHandle
 
-        <XmlAttribute> Public Property Program As String
+        <XmlAttribute>
+        Public Property Program As String
         Public Property Query As String
-        <XmlAttribute> Public Property RID As String
+        <XmlAttribute>
+        Public Property RID As String
         Public Property Database As String
         Public Property Hits As HitRecord()
 
@@ -57,7 +60,7 @@ Namespace NCBIBlastResult
         End Property
 
         Public Overrides Function ToString() As String
-            Return $"[{RID}]  {Program} -query {Query} -database {Database}  // {Hits.Count} hits found."
+            Return $"[{RID}]  {Program} -query {Query} -database {Database}  // {Hits.Length} hits found."
         End Function
 
         Const LOCUS_ID As String = "(emb|gb|dbj)\|[a-z]+\d+"
@@ -81,17 +84,24 @@ Namespace NCBIBlastResult
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function DescriptionSubstituted(Info As gbEntryBrief()) As Integer
-            Dim GiDict = Info.ToDictionary(Function(item) item.GI)
-            Dim LQuery = (From hitEntry As HitRecord In Hits Select __substituted(hitEntry, GiDict)).ToArray
+            Dim giTable = Info.ToDictionary(Function(item) item.GI)
+            Dim LQuery = (From entry As HitRecord In Hits Select __substituted(entry, giTable)).ToArray
             Hits = LQuery
             Return Hits.Length
         End Function
 
-        Private Shared Function __substituted(hitEntry As HitRecord, dictGI As Dictionary(Of String, gbEntryBrief)) As HitRecord
-            Dim GetEntry = (From id As String In hitEntry.GI Where dictGI.ContainsKey(id) Select dictGI(id)).ToArray
-            If Not GetEntry.IsNullOrEmpty Then
-                hitEntry.SubjectIDs = String.Format("gi|{0}|{1}", GetEntry.First.GI, GetEntry.First.Definition)
+        Private Shared Function __substituted(hitEntry As HitRecord, giTable As Dictionary(Of String, gbEntryBrief)) As HitRecord
+            Dim entry = LinqAPI.DefaultFirst(Of gbEntryBrief) <=
+ _
+                From id As String
+                In hitEntry.GI
+                Where giTable.ContainsKey(id)
+                Select giTable(id)
+
+            If Not entry Is Nothing Then
+                hitEntry.SubjectIDs = String.Format("gi|{0}|{1}", entry.GI, entry.Definition)
             End If
+
             Return hitEntry
         End Function
 
@@ -138,7 +148,7 @@ Namespace NCBIBlastResult
         ''' <param name="Path"></param>
         ''' <param name="encoding"></param>
         ''' <returns></returns>
-        Public Overrides Function Save(Optional Path As String = "", Optional encoding As System.Text.Encoding = Nothing) As Boolean Implements ISaveHandle.Save
+        Public Overrides Function Save(Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean Implements ISaveHandle.Save
             Return Me.GetXml.SaveTo(Path, encoding)
         End Function
 

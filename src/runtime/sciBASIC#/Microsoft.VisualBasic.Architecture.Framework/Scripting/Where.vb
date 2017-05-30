@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c9e6c05b7436ede16356d355d182fdf, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Scripting\Where.vb"
+﻿#Region "Microsoft.VisualBasic::303780a03b9eaad95a2e6b9932c7c5c9, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Scripting\Where.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,31 @@ Imports System.Runtime.CompilerServices
 Namespace Scripting
 
     Public Enum Logics
+
+        ''' <summary>
+        ''' 两边的逻辑表达式都会被计算
+        ''' </summary>
         [And]
+        ''' <summary>
+        ''' 两边的逻辑表达式都会被计算
+        ''' </summary>
         [Or]
+        ''' <summary>
+        ''' 相比于<see cref="Logics.And"/>，这个逻辑运算是会短路的
+        ''' </summary>
         [AndAlso]
+        ''' <summary>
+        ''' 相比于<see cref="Logics.Or"/>，这个逻辑运算是会短路的
+        ''' </summary>
         [OrElse]
         [Not]
         [XOr]
+
     End Enum
 
+    ''' <summary>
+    ''' Merge the logical lambda into one lambda function by a specifc logical operation in <see cref="Logics"/>.
+    ''' </summary>
     Public Module [Where]
 
         ''' <summary>

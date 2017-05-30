@@ -71,7 +71,7 @@ Namespace NetworkModel
                                    Select New FileStream.NetworkEdge With {
                                        .FromNode = Line.TF,
                                        .ToNode = Pathway.Identifier,
-                                       .InteractionType = "Regulates"}).ToArray
+                                       .Interaction = "Regulates"}).ToArray
 
                 If Not Regulations.IsNullOrEmpty Then
                     Call Network.AddRange(Regulations)

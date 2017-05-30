@@ -34,9 +34,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Reflection
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 
@@ -46,8 +44,14 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             s = Regex.Match(s, "Database: .+?\s+\d+\s+sequences;", RegexOptions.Singleline).Value
             s = s.Replace("Database:", "").Replace(vbLf, "").Replace(vbCr, "")
             s = Regex.Replace(s, "\d+\s+sequences;", "").Trim
-            s = basename(s)
-            Return s
+
+            ' 这个database属性只是调试之类使用的，好像也没有太多用途，空下来也无所谓
+            If s.StringEmpty Then
+                Return ""
+            Else
+                s = BaseName(s)
+                Return s
+            End If
         End Function
 
         ''' <summary>
@@ -173,6 +177,17 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             BLASTN
             BLASTX
         End Enum
+
+        ''' <summary>
+        ''' 判断目标文件是否为一个blast+的原始输出的结果文件
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <returns></returns>
+        Public Function IsBlastOut(path$) As Boolean
+            Dim firstLine$ = path.ReadFirstLine
+            Dim result As Boolean = Regex.Match(firstLine, "BLAST.+?\d(\.\d)+", RegexICSng).Success
+            Return result
+        End Function
 
         Public ReadOnly Property DefaultEncoding As Encoding = Encoding.UTF8
 

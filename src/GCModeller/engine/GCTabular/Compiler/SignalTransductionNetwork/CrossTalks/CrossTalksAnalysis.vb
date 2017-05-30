@@ -53,8 +53,8 @@ Namespace Compiler.Components
             Dim Edges = (From item In data Select New NetworkEdge With {
                                                .FromNode = item.Kinase,
                                                .ToNode = item.Regulator,
-                                               .Confidence = item.Probability,
-                                               .InteractionType = "CrossTalk"}).ToArray
+                                               .value = item.Probability,
+                                               .Interaction = "CrossTalk"}).ToArray
             Dim Network As Network = New Network With {
                 .Nodes = Nodes.ToArray,
                 .Edges = Edges

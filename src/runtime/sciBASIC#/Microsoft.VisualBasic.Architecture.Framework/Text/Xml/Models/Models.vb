@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7fbe3dfbfd095b27066f8f752dc3e4d, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Text\Xml\Models.vb"
+﻿#Region "Microsoft.VisualBasic::6532973b948b93261cdb52cc4b601fb6, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Text\Xml\Models\Models.vb"
 
     ' Author:
     ' 
@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Text.Xml.Models
 
@@ -38,4 +39,14 @@ Namespace Text.Xml.Models
             Return value
         End Function
     End Class
+
+    Public Structure NamedValue
+
+        <XmlAttribute> Public Property name As String
+        <XmlText> Public Property text As String
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+    End Structure
 End Namespace

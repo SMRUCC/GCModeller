@@ -46,7 +46,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
 Imports xCytoscape.GCModeller.FileSystem
 Imports xCytoscape.GCModeller.FileSystem.KEGG.Directories
 
-Imports ______NETWORK__ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network(Of
+Imports ______NETWORK__ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.Network(Of
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node,
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge)
 
@@ -72,10 +72,10 @@ Partial Module CLI
             })
         Dim regulations = (From x In Footprints
                            Let regulation = New FileStream.NetworkEdge With {
-                               .Confidence = x.Pcc,
+                               .value = x.Pcc,
                                .FromNode = x.Regulator,
                                .ToNode = x.ORF,
-                               .InteractionType = "Regulation"
+                               .Interaction = "Regulation"
                            }
                            Select regulation
                            Group regulation By regulation.ToNode Into Group) _
@@ -156,7 +156,7 @@ Partial Module CLI
         Return dict
     End Function
 
-    Private Function __mergeCommon(source As Generic.IEnumerable(Of ______NETWORK__)) As ______NETWORK__
+    Private Function __mergeCommon(source As IEnumerable(Of ______NETWORK__)) As ______NETWORK__
         Dim Nods = source.ToArray(Function(x) x.Nodes, where:=Function(x) Not x Is Nothing).Unlist
         Dim Edges As List(Of FileStream.NetworkEdge) =
             source.ToArray(Function(x) x.Edges, where:=Function(x) Not x Is Nothing).Unlist
@@ -267,7 +267,7 @@ Partial Module CLI
             If brief Then
                 Dim LQuery = (From x As FileStream.NetworkEdge
                               In net.Edges
-                              Where String.Equals(x.InteractionType, PathwayGene)
+                              Where String.Equals(x.Interaction, PathwayGene)
                               Select x
                               Group x By x.FromNode Into Group)  ' 代谢途径基因按照模块分组
                 Dim rhaves As String() = footprints.ToArray(Function(x) x.ORF).Distinct.ToArray
@@ -287,7 +287,7 @@ Partial Module CLI
             net.Edges =
                 LinqAPI.Exec(Of NetworkEdge) <= From x As NetworkEdge
                                                 In net.Edges
-                                                Where Math.Abs(x.Confidence) >= cut
+                                                Where Math.Abs(x.value) >= cut
                                                 Select x
             out = out & "." & cut
         End If

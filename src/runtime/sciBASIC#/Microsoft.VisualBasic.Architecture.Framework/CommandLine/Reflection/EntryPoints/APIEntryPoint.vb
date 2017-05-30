@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::847bfbb5fb4c8a85db3584cb0402b2c4, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\Reflection\EntryPoints\APIEntryPoint.vb"
+﻿#Region "Microsoft.VisualBasic::9fa86dbe3ec0223446212b99b1f55e1e, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\Reflection\EntryPoints\APIEntryPoint.vb"
 
     ' Author:
     ' 
@@ -215,6 +215,7 @@ Namespace CommandLine.Reflection.EntryPoints
 
                 Call App.LogException(ex, MethodBase.GetCurrentMethod.GetFullName)
                 Call DebuggerArgs.SaveErrorLog(App.BugsFormatter(ex))
+                Call VBDebugger.WaitOutput()
 
                 If [Throw] Then
                     Throw ex

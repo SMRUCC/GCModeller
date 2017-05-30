@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4bf45c69190e0612bddcb090f9f570a, ..\sciBASIC#\Data\DataFrame\StorageProvider\Reflection\StorageProviders\TypeSchemaProvider.vb"
+﻿#Region "Microsoft.VisualBasic::6d781e6dfbc21cb83bdaf3a78157ff22, ..\sciBASIC#\Data\DataFrame\StorageProvider\Reflection\StorageProviders\TypeSchemaProvider.vb"
 
     ' Author:
     ' 
@@ -28,30 +28,41 @@
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv.DataImports
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
 Imports Microsoft.VisualBasic.Language
 
 Namespace StorageProvider.Reflection
 
     Public Module TypeSchemaProvider
 
+        ReadOnly ignored As Type = GetType(Reflection.Ignored)
+        ReadOnly dataIgnores As Type = GetType(DataIgnoredAttribute)
+
+        ''' <summary>
+        ''' 当忽略的标志不为空的时候，说明这个属性是被忽略掉的
+        ''' </summary>
+        ''' <param name="[property]"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function IsDataIgnored([property] As PropertyInfo) As Boolean
+            Return Not [property].GetCustomAttributes(attributeType:=ignored, inherit:=True).IsNullOrEmpty OrElse
+                   Not [property].GetCustomAttributes(attributeType:=dataIgnores, inherit:=True).IsNullOrEmpty  
+        End Function
+
         ''' <summary>
         ''' 返回的字典对象之中的Value部分是自定义属性
         ''' </summary>
         ''' <returns></returns>
         Public Function GetProperties(type As Type, Explicit As Boolean) As Dictionary(Of PropertyInfo, ComponentModels.StorageProvider)
-            Dim ignored As Type = GetType(Reflection.Ignored)
             Dim Properties As PropertyInfo() = type.GetProperties(BindingFlags.Public Or BindingFlags.Instance)
 
             Properties = LinqAPI.Exec(Of PropertyInfo) <=
  _
                 From prop As PropertyInfo
                 In Properties
-                Let isIgnored As Boolean =
-                    Not prop.GetCustomAttributes(attributeType:=ignored, inherit:=True).IsNullOrEmpty ' 当忽略的标志不为空的时候，说明这个属性是被忽略掉的
+                Let isIgnored As Boolean = prop.IsDataIgnored
                 Where Not isIgnored AndAlso
-                    prop.GetIndexParameters.IsNullOrEmpty                                             ' 从这里筛选掉需要被忽略掉的属性以及有参数的属性
+                    prop.GetIndexParameters.IsNullOrEmpty  ' 从这里筛选掉需要被忽略掉的属性以及有参数的属性
                 Select prop
 
             Dim hash As Dictionary(Of PropertyInfo, ComponentModels.StorageProvider) =

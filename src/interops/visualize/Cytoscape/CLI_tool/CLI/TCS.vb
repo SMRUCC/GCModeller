@@ -82,18 +82,18 @@ Partial Module CLI
                                                   End Function
 
         Call Edges.Add(TCSProfiles.ToArray(Function(cTk) New Interaction With {
-                                               .Confidence = cTk.Probability,
+                                               .value = cTk.Probability,
                                                .FromNode = cTk.Kinase,
                                                .ToNode = cTk.Regulator,
-                                               .InteractionType = "CrossTalk",
+                                               .Interaction = "CrossTalk",
                                                .Family = ""}).ToArray)
         Call Edges.Add((From regulation In virtualFootprints
                         Where Not (String.IsNullOrEmpty(regulation.Regulator) OrElse String.IsNullOrEmpty(regulation.ORF))
                         Select New Interaction With {
-                                    .Confidence = __getPCC(regulation.Pcc),
+                                    .value = __getPCC(regulation.Pcc),
                                     .FromNode = regulation.Regulator,
                                     .ToNode = regulation.ORF,
-                                    .InteractionType = "Regulates",
+                                    .Interaction = "Regulates",
                                     .Family = regulation.MotifId}).ToArray)
         Dim doc As Graph = ExportToFile.Export(Nodes.ToArray, Edges.ToArray, "TCS Crosstalks and Regulations")
         Return doc.Save(out)

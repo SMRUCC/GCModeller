@@ -1,33 +1,34 @@
-﻿#Region "Microsoft.VisualBasic::4517300726090b063413dc244e9e8fd7, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e33a3586a2558a9eaa0ada6e2de0b238, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.ComponentModel
 Imports System.Drawing
+Imports System.Globalization
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
@@ -39,6 +40,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.C
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -48,6 +50,7 @@ Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports Microsoft.VisualBasic.Text.Similarity
+Imports v = System.Array
 
 #Const FRAMEWORD_CORE = 1
 #Const Yes = 1
@@ -73,6 +76,19 @@ Imports Microsoft.VisualBasic.Text.Similarity
 ''' <remarks></remarks>
 Public Module Extensions
 #End If
+
+    ''' <summary>
+    ''' 将16进制的数字转换为10进制数
+    ''' </summary>
+    ''' <param name="hex$"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 因为直接使用vb的<see cref="Val"/>函数转换，在Linux上面可能会出错，所以需要在这里用.NET自己的方法来转换
+    ''' </remarks>
+    Public Function GetHexInteger(hex$) As Integer
+        Dim num% = Integer.Parse(hex, NumberStyles.HexNumber)
+        Return num
+    End Function
 
     <Extension>
     Public Function SaveAsTabularMapping(source As IEnumerable(Of NamedValue(Of String)), path$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
@@ -296,10 +312,32 @@ Public Module Extensions
     ''' <param name="array"></param>
     ''' <param name="value"></param>
     <Extension> Public Sub Add(Of T)(ByRef array As T(), value As T)
-        Dim chunkBuffer As T() = New T(array.Length) {}
-        Call System.Array.ConstrainedCopy(array, Scan0, chunkBuffer, Scan0, array.Length)
-        chunkBuffer(array.Length) = value
-        array = chunkBuffer
+        Dim appendBuffer As T() = New T(array.Length) {}
+        Call v.ConstrainedCopy(array, Scan0, appendBuffer, Scan0, array.Length)
+        appendBuffer(array.Length) = value
+        array = appendBuffer
+    End Sub
+
+    ''' <summary>
+    ''' Append value collection to the end of the target <paramref name="array"/>
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="array"></param>
+    ''' <param name="values"></param>
+    <Extension> Public Sub Add(Of T)(ByRef array As T(), values As IEnumerable(Of T))
+        Dim data = values.SafeQuery.ToArray
+        Dim appendBuffer As T() = New T(array.Length + data.Length - 1) {}
+
+        With array
+            Call v.ConstrainedCopy(
+                array, Scan0, appendBuffer, Scan0, .Length)
+
+            For Each x As SeqValue(Of T) In data.SeqIterator
+                appendBuffer(.Length + x.i) = x.value
+            Next
+        End With
+
+        array = appendBuffer
     End Sub
 
     ''' <summary>

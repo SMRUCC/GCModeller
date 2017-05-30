@@ -26,11 +26,10 @@
 
 #End Region
 
-Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports SMRUCC.genomics.Model.Network.STRING
+Imports SMRUCC.genomics.Model.Network.STRING.Models
 
 Namespace DataVisualization
 
@@ -129,19 +128,19 @@ Namespace DataVisualization
         End Function
 
         Private Shared Function GenerateNetwork(Regulation As FileStream.TranscriptUnit) As Interactions()
-            Dim LQuery = (From Id As String In Regulation.OperonGenes Select (From motif As String In Regulation.Motifs Select New Interactions With {.FromNode = motif, .ToNode = Id, .InteractionType = "Regulates"}).ToArray).ToArray.ToVector
+            Dim LQuery = (From Id As String In Regulation.OperonGenes Select (From motif As String In Regulation.Motifs Select New Interactions With {.FromNode = motif, .ToNode = Id, .Interaction = "Regulates"}).ToArray).ToArray.ToVector
             Return LQuery
         End Function
 
         Private Shared Function GenerateNetwork(objStrP As Pathway) As Interactions()
             Dim List As List(Of Interactions) = New List(Of Interactions)
             Dim CreateOCSNetwork = Sub(ocs)
-                                       Call List.Add(New Interactions With {.FromNode = ocs.Key, .ToNode = objStrP.TF, .InteractionType = "Signal Transduct"})
+                                       Call List.Add(New Interactions With {.FromNode = ocs.Key, .ToNode = objStrP.TF, .Interaction = "Signal Transduct"})
                                    End Sub
             Dim CreateTCSNetwork = Sub(tcs As TCS.TCS)
-                                       Call List.Add(New Interactions With {.FromNode = tcs.Chemotaxis, .ToNode = tcs.HK, .InteractionType = "Phosphorylate Sensing"})
-                                       Call List.Add(New Interactions With {.FromNode = tcs.HK, .ToNode = tcs.RR, .InteractionType = "Cross Talk"})
-                                       Call List.Add(New Interactions With {.FromNode = tcs.RR, .ToNode = objStrP.TF, .InteractionType = "Signal Transduct"})
+                                       Call List.Add(New Interactions With {.FromNode = tcs.Chemotaxis, .ToNode = tcs.HK, .Interaction = "Phosphorylate Sensing"})
+                                       Call List.Add(New Interactions With {.FromNode = tcs.HK, .ToNode = tcs.RR, .Interaction = "Cross Talk"})
+                                       Call List.Add(New Interactions With {.FromNode = tcs.RR, .ToNode = objStrP.TF, .Interaction = "Signal Transduct"})
                                    End Sub
             If Not objStrP.OCS.IsNullOrEmpty Then
                 For Each item In objStrP.OCS

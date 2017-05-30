@@ -455,7 +455,7 @@
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
+    <ProjectReference Include="..\..\..\runtime\mysqli\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>

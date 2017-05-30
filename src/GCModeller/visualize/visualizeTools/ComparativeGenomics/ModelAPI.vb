@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::ee271504dde940ac167ee26dcc6a2530, ..\visualize\visualizeTools\ComparativeGenomics\ModelAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -142,32 +142,46 @@ Namespace ComparativeGenomics
         ''' <param name="title"></param>
         ''' <param name="COGsColor"></param>
         ''' <param name="__getId">Public Delegate Function GetDrawingID(Gene As <see cref="GeneBrief"/>) As <see cref="String"/></param>
+        ''' <param name="region">Region of a gene cluster in a large genome.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function CreateObject(PTT As GeneBrief(), len As Integer, title As String, __getId As GetDrawingID,
                                      Optional DefaultWhite As Boolean = False,
-                                     Optional COGsColor As ICOGsBrush = Nothing) As GenomeModel
+                                     Optional COGsColor As ICOGsBrush = Nothing,
+                                     Optional region As Loci.Location = Nothing) As GenomeModel
+
             If COGsColor Is Nothing Then
                 COGsColor = PTT.COGsColorBrush(False, Nothing)
             End If
 
             Dim [default] As SolidBrush = If(DefaultWhite, Brushes.White, Brushes.Brown)
+            Dim getColor = Function(gene As GeneBrief)
+                               If gene.COG.StringEmpty Then
+                                   If DefaultWhite Then
+                                       Return Brushes.White
+                                   Else
+                                       Return COGsColor(gene)
+                                   End If
+                               Else
+                                   Return COGsColor(gene)
+                               End If
+                           End Function
 
             Return New GenomeModel With {
                 .Length = len,
                 .Title = title,
-                .genes =
-                    LinqAPI.Exec(Of GeneObject) <= From gene As GeneBrief
-                                                   In PTT
-                                                   Select New GeneObject With {
-                                                        .Color = If(String.IsNullOrEmpty(gene.COG), [default], COGsColor(gene)),
-                                                        .Direction = gene.Location.Strand,
-                                                        .locus_tag = __getId(gene),
-                                                        .geneName = gene.Product,
-                                                        .Left = gene.Location.Left,
-                                                        .Right = gene.Location.Right
-                                                   }
-                                                       }
+                .genes = LinqAPI.Exec(Of GeneObject) <= From gene As GeneBrief
+                                                        In PTT
+                                                        Let c As Brush = getColor(gene)
+                                                        Select New GeneObject With {
+                                                             .Color = c,
+                                                             .Direction = gene.Location.Strand,
+                                                             .locus_tag = __getId(gene),
+                                                             .geneName = gene.Product,
+                                                             .Left = gene.Location.Left,
+                                                             .Right = gene.Location.Right
+                                                        }
+            }
         End Function
 
         Public Delegate Function ICOGsBrush(gene As GeneBrief) As Brush
@@ -182,8 +196,8 @@ Namespace ComparativeGenomics
                                    Return ""
                                Else
                                    Return If(CustomCOGMapping,
-                                   gene.COG,
-                                   Regex.Match(gene.COG, "COG\d+", RegexOptions.IgnoreCase).Value)
+                                       gene.COG,
+                                       Regex.Match(gene.COG, "COG\d+", RegexOptions.IgnoreCase).Value)
                                End If
                            End Function
 

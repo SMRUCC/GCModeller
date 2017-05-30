@@ -18,7 +18,13 @@ Namespace Assembly.EBI.ChEBI.WebServices
 
             For Each node As XmlNode In nodes
                 result = node.InnerXml
-                out += result.CreateObjectFromXmlFragment(Of REST).return
+                Try
+                    out += result _
+                        .CreateObjectFromXmlFragment(Of REST) _
+                        .return
+                Catch ex As Exception
+                    Throw New Exception(node.InnerText)
+                End Try
             Next
 
             Return out

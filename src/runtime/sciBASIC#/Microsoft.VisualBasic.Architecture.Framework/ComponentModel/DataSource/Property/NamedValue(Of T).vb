@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4a67917c087ba2cea8bfbbef389712b, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\DataSource\Property\NamedValue(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::ba8f93c2f1fc78a3954bc754dec5dfcd, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\DataSource\Property\NamedValue(Of T).vb"
 
     ' Author:
     ' 
@@ -64,7 +64,8 @@ Namespace ComponentModel.DataSourceModel
         ''' Does this object have value?
         ''' </summary>
         ''' <returns></returns>
-        <ScriptIgnore> Public ReadOnly Property IsEmpty As Boolean
+        <XmlIgnore, ScriptIgnore, DataIgnored>
+        Public ReadOnly Property IsEmpty As Boolean
             Get
                 Return String.IsNullOrEmpty(Name) AndAlso Value Is Nothing
             End Get
@@ -86,7 +87,11 @@ Namespace ComponentModel.DataSourceModel
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return $"{Name} --> {Value.GetJson}"
+            Try
+                Return $"{Name} --> {Value.GetJson}"
+            Catch ex As Exception
+                Return Name
+            End Try
         End Function
 
         Public Function FixValue(h As Func(Of T, T)) As NamedValue(Of T)

@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::0e48dab570ea1bcf0c796e5fc71bcfe5, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Debugger\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::83877ce9e6078f7ba2b5496f9d4e34fa, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Debugger\Debugger.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Debugging
+Imports Microsoft.VisualBasic.Language.Perl
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Logging
 Imports Microsoft.VisualBasic.Terminal
@@ -39,6 +40,22 @@ Imports Microsoft.VisualBasic.Terminal.Utility
 ''' Debugger helper module for VisualBasic Enterprises System.
 ''' </summary>
 Public Module VBDebugger
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="message$">The exception message</param>
+    ''' <param name="failure">If this expression test is True, then die expression will raise an exception</param>
+    ''' <returns></returns>
+    Public Function die(message$, Optional failure As Func(Of Object, Boolean) = Nothing, <CallerMemberName> Optional caller$ = Nothing) As ExceptionHandler
+        If failure Is Nothing Then
+            failure = Function(o) o Is Nothing
+        End If
+        Return New ExceptionHandler With {
+            .Message = message,
+            .failure = failure
+        }
+    End Function
 
     ''' <summary>
     ''' 当在执行大型的数据集合的时候怀疑linq里面的某一个任务进入了死循环状态，可以使用这个方法来检查是否如此
@@ -295,15 +312,13 @@ Public Module VBDebugger
     ''' <param name="test"></param>
     ''' <param name="msg"></param>
     Public Sub Assertion(test As Boolean, msg As String, <CallerMemberName> Optional calls As String = "")
-        If False = test Then
-            Throw VisualBasicAppException.Creates(msg, calls)
-        End If
+        Dim null = test Or die(message:=msg, caller:=calls)
     End Sub
 
     Public Function Assert(test As Boolean,
                            failed$,
                            Optional success$ = Nothing,
-                           Optional failedLevel As Logging.MSG_TYPES = Logging.MSG_TYPES.ERR,
+                           Optional failedLevel As MSG_TYPES = MSG_TYPES.ERR,
                            <CallerMemberName> Optional calls As String = "") As Boolean
         If test Then
             If Not String.IsNullOrEmpty(success) Then

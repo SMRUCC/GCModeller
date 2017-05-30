@@ -1,10 +1,39 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::bcdeddae476c92fc4895b5b6129797a8, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\InteropService\SharedORM\API.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Text
 
 Namespace CommandLine.InteropService.SharedORM
 
@@ -93,6 +122,10 @@ Namespace CommandLine.InteropService.SharedORM
 
         ''' <summary>
         ''' 使用空格分隔，但是需要对value额外注意
+        ''' 
+        ''' + 在这里面分隔符为空格
+        ''' + 可以使用双引号包裹值，则双引号之中的字符串在可选参数之中都被看作为可选参数值
+        ''' + 可以使用尖括号包裹值，则尖括号之中的default=表达式则是可选参数之中的默认参数值
         ''' </summary>
         ''' <param name="s$"></param>
         ''' <returns></returns>
@@ -102,6 +135,13 @@ Namespace CommandLine.InteropService.SharedORM
             Dim valueEscape As Boolean = False
             Dim tmp As New List(Of Char)
             Dim out As New List(Of String)
+            Dim escapeType As Char ' 转义的起始只有双引号或者左边的尖括号
+            Dim isValueEnd =
+                Function()
+                    Dim last As Char = tmp.LastOrDefault
+                    Return (escapeType = "<"c AndAlso last = ">"c) OrElse
+                    (escapeType = ASCII.Quot AndAlso last = ASCII.Quot)
+                End Function
 
             Do While Not t.EndRead
                 c = +t
@@ -112,20 +152,24 @@ Namespace CommandLine.InteropService.SharedORM
                         tmp *= 0
                     Else
                         ' 检查上一个字符是不是value的结束符号: >
-                        If tmp.Last = ">"c Then
+                        If isValueEnd() Then
+
                             ' 则这个空格表示value的结束
                             out += New String(tmp)
                             valueEscape = False
                             tmp *= 0
+                            escapeType = " "c ' 重置转义类型
+
                         Else
                             ' 这个空格是value值之中的一部分，则添加到临时列表
                             tmp += c
                         End If
                     End If
                 Else
-                    ' 检查是否是value的开始符号: <
-                    If c = "<"c AndAlso tmp.Count = 0 Then
+                    ' 检查是否是value的开始符号: <或者双引号
+                    If (c = "<"c OrElse c = ASCII.Quot) AndAlso tmp.Count = 0 Then
                         valueEscape = True
+                        escapeType = c
                     End If
 
                     tmp += c

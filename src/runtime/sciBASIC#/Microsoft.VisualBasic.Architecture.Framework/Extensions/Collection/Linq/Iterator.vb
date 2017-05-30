@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e8834e8230661102662b6c7c387833f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\Linq\Iterator.vb"
+﻿#Region "Microsoft.VisualBasic::b7172bdd6aebd1396a765edd95c0952f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\Linq\Iterator.vb"
 
     ' Author:
     ' 
@@ -182,6 +182,10 @@ Namespace Linq
         Public Shared Operator +(list As System.Collections.Generic.List(Of T), x As SeqValue(Of T)) As System.Collections.Generic.List(Of T)
             Call list.Add(x.value)
             Return list
+        End Operator
+
+        Public Shared Operator Mod(i As SeqValue(Of T), n%) As Integer
+            Return i.i Mod n
         End Operator
 
         ''' <summary>

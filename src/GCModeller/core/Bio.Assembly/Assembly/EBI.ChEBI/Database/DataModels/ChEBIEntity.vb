@@ -42,6 +42,10 @@ Namespace Assembly.EBI.ChEBI
     ''' </remarks>
     Public Class ChEBIEntity : Implements INamedValue
 
+        ''' <summary>
+        ''' Chebi的主ID
+        ''' </summary>
+        ''' <returns></returns>
         Public Property chebiId As String Implements INamedValue.Key
         Public Property chebiAsciiName As String
         Public Property definition As String
@@ -59,6 +63,10 @@ Namespace Assembly.EBI.ChEBI
         <XmlElement>
         Public Property Citations As Synonyms()
         Public Property Formulae As Formulae
+        ''' <summary>
+        ''' 次级编号，和主编号都代表同一样物质
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement>
         Public Property SecondaryChEBIIds As String()
         <XmlElement>

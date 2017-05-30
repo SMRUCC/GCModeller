@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0f1f858d6aa1c7ac5c47bf5dbe85ba4, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
+﻿#Region "Microsoft.VisualBasic::55ccb9e661e6c44992394360c6fa21ce, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
 
     ' Author:
     ' 
@@ -88,6 +88,10 @@ Namespace Drawing2D.Colors
             Color.Violet
         }
 
+        ''' <summary>
+        ''' 10 category colors for the data object cluster result
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property ClusterColour As Color() = {
             Color.FromArgb(128, 200, 180),
             Color.FromArgb(135, 70, 194),
@@ -167,6 +171,10 @@ Namespace Drawing2D.Colors
             ColorMap.PatternWinter
         }.ToArray(AddressOf LCase)
 
+        ''' <summary>
+        ''' Google material design colors
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property MaterialPalette As Color() = {
             Color.Red, Color.Pink, Color.Black, Color.Purple, Color.DarkViolet,
             Color.Indigo, Color.Blue, Color.LightBlue, Color.Cyan, Color.Teal,
@@ -222,6 +230,17 @@ Namespace Drawing2D.Colors
                 Return ChartColors
             ElseIf term.TextEquals("clusters") Then
                 Return ClusterColour
+            End If
+
+            ' d3.js colors
+            If term.TextEquals("d3.scale.category10()") Then
+                Return d3js.category10
+            ElseIf term.TextEquals("d3.scale.category20()") Then
+                Return d3js.category20
+            ElseIf term.TextEquals("d3.scale.category20b()") Then
+                Return d3js.category20b
+            ElseIf term.TextEquals("d3.scale.category20c()") Then
+                Return d3js.category20c
             End If
 
             Return OfficeColorThemes.GetAccentColors(term)

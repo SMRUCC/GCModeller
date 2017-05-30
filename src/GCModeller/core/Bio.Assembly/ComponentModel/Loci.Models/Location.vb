@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::2f479c25914afcc5b24544f6c9028c6d, ..\core\Bio.Assembly\ComponentModel\Loci.Models\Location.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -101,6 +101,10 @@ Namespace ComponentModel.Loci
 
         Sub New(loci As Location)
             Call Me.New(loci.Left, loci.Right)
+        End Sub
+
+        Sub New(base As IntRange)
+            Call Me.New(base.Min, base.Max)
         End Sub
 
         ''' <summary>
@@ -238,6 +242,10 @@ Namespace ComponentModel.Loci
             End Get
         End Property
 
+        ''' <summary>
+        ''' ``|<see cref="Left"/> ==> <see cref="Right"/>|``
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
             Return String.Format("|{0} ==> {1}|", Left, Right)
         End Function

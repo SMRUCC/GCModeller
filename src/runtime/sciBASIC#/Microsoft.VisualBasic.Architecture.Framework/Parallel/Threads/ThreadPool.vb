@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97dec99b68ef318017993afcd211cb89, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Parallel\Threads\ThreadPool.vb"
+﻿#Region "Microsoft.VisualBasic::a5ec81b965bf4ec1da8247b0da47999b, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Parallel\Threads\ThreadPool.vb"
 
     ' Author:
     ' 
@@ -71,6 +71,20 @@ Namespace Parallel.Threads
                 Next
 
                 Return n
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Returns the server load.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property ServerLoad As Double
+            Get
+                Dim works# = WorkingThreads / NumOfThreads
+                Dim CPU_load# = Win32.TaskManager.ProcessUsage
+                Dim load# = works * CPU_load
+
+                Return load
             End Get
         End Property
 

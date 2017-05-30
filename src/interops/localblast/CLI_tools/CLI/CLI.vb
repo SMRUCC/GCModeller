@@ -28,11 +28,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -55,7 +54,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
                   Description:="Wrapper tools for the ncbi blast+ program and the blast output data analysis program. 
                   For running a large scale parallel alignment task, using ``/venn.BlastAll`` command for ``blastp`` and ``/blastn.Query.All`` command for ``blastn``.",
                   Publisher:="amethyst.asuka@gcmodeller.org")>
-Module CLI
+<CLI> Module CLI
 
     <ExportAPI("/Bash.Venn", Usage:="/Bash.Venn /blast <blastDIR> /inDIR <fasta.DIR> /inRef <inRefAs.DIR> [/out <outDIR> /evalue <evalue:10>]")>
     Public Function BashShell(args As CommandLine) As Integer
@@ -85,7 +84,7 @@ Module CLI
         Dim MergeList As New List(Of BestHit)
 
         For Each inXml As String In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
-            Dim outCsv As String = out & "/" & basename(inXml) & ".Csv"
+            Dim outCsv As String = out & "/" & BaseName(inXml) & ".Csv"
             Dim blastOut = inXml.LoadXml(Of XmlFile.BlastOutput)
             Dim hits = blastOut.ExportOverview.GetExcelData
             Call hits.SaveTo(outCsv)
@@ -312,7 +311,7 @@ Module CLI
             Call prot.Save(path)
         Next
 
-        For Each fasta As String In ls - l - r - wildcards("*.fasta", "*.fsa", "*.faa", "*.fa") <= inDIR
+        For Each fasta As String In ls - l - R - wildcards("*.fasta", "*.fsa", "*.faa", "*.fa") <= inDIR
             Dim fa As FastaFile = FastaFile.Read(fasta, True)
             fa = New FastaFile((From x As FastaToken
                                 In fa

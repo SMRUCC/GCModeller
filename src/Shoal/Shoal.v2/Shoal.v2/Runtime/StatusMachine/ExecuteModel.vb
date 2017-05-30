@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.LDM.Expressions
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.Linker.APIHandler
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.Linker.APIHandler.Alignment
+Imports Microsoft.VisualBasic.Scripting.ShoalShell.Interpreter.Parser.Tokens
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Runtime.Exceptions
 Imports arg = System.Collections.Generic.KeyValuePair(Of String, Object)
 
@@ -473,7 +474,7 @@ Namespace Runtime
             Dim Collection = Expr.Collection.As(Of Interpreter.LDM.Expressions.ControlFlows.ForLoopStatus.ForEach).ToArray
             Dim i As Integer
 
-            For Each Expression In Collection
+            For Each Expression As InternalExpression In Collection
                 Dim value = Exec(Expression.Expression)
                 Call ScriptEngine.MMUDevice.Update(Expr.LoopVariable, value)
                 Call New FSMMachine(ScriptEngine, Expr.Invoke).Execute()
@@ -632,7 +633,7 @@ Namespace Runtime
             If String.IsNullOrEmpty(Expr.Assembly) Then
                 Return __libraries()
 
-            ElseIf String.Equals(Expr.Assembly, "/index")
+            ElseIf String.Equals(Expr.Assembly, "/index") Then
                 Dim html As String = ShoalShell.HTML.RequestHtml("index")
                 html = Microsoft.VisualBasic.FileIO.FileSystem.GetFileInfo(html).FullName
                 Call Process.Start(html)

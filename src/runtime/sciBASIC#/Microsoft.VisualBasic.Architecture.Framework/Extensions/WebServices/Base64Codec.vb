@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17b968357faf5c82a34668e83990f17c, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\WebServices\Base64Codec.vb"
+﻿#Region "Microsoft.VisualBasic::94721e54d1409343e4209f049bee9bc5, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\WebServices\Base64Codec.vb"
 
     ' Author:
     ' 
@@ -38,6 +38,11 @@ Namespace Net.Http
     ''' Tools API for encoded the image into a base64 string.
     ''' </summary>
     Public Module Base64Codec
+
+        <Extension>
+        Public Function ToBase64String(byts As IEnumerable(Of Byte)) As String
+            Return Convert.ToBase64String(byts.ToArray)
+        End Function
 
         ''' <summary>
         ''' Function to Get Image from Base64 Encoded String

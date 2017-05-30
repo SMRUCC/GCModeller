@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::b338578528e12af237e2ca02cba04650, ..\core\Bio.Assembly\Assembly\EBI.ChEBI\Database\DataModels\NameOf.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -249,17 +249,27 @@ Namespace Assembly.EBI.ChEBI
         ''' </summary>
         ''' <param name="ID$"></param>
         ''' <param name="type"></param>
-        ''' <returns></returns>
-        Public Function MatchByID(ID$, type As AccessionTypes) As Tables.Accession()
+        ''' <returns>
+        ''' 这个函数会返回所有和目标ID能够关联上的编号列表，假若只想要得到chebi编号，
+        ''' 则可以通过<paramref name="chebi"/>函数参数来获得
+        ''' </returns>
+        Public Function MatchByID(ID$, type As AccessionTypes, Optional ByRef chebi$ = Nothing) As Tables.Accession()
             Dim list As Tables.Accession() = DbXrefs(type)
+
+            If ID.StringEmpty Then
+                ' 空的编号字符串，则肯定没有结果
+                Return {}
+            End If
+
             For Each accID As Tables.Accession In list
                 If ID.TextEquals(accID.ACCESSION_NUMBER) Then
-                    Dim chebi As String = accID.COMPOUND_ID
-                    Dim result = chebiXrefs(chebi)
-
-                    Return result _
-                        .Values _
-                        .ToArray
+                    With accID
+                        Dim result = chebiXrefs(.COMPOUND_ID)
+                        chebi = .COMPOUND_ID
+                        Return result _
+                            .Values _
+                            .ToArray
+                    End With
                 End If
             Next
             Return {}

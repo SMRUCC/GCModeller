@@ -85,10 +85,10 @@ Namespace NetworkModel.KEGG
                     Group x By x.g Into Group) _
                          .ToArray(Function(x) (From edge In x.Group
                                                Select New NetworkEdge With {
-                                                   .Confidence = 1,
+                                                   .value = 1,
                                                    .FromNode = edge.__mod.EntryId,
                                                    .ToNode = edge.g,
-                                                   .InteractionType = PathwayGene})).IteratesALL
+                                                   .Interaction = PathwayGene})).IteratesALL
             net += net.__modProperty(net.Edges)
 
             Return net
@@ -166,8 +166,8 @@ Namespace NetworkModel.KEGG
                         Function(x) New NetworkEdge With {
                             .FromNode = x.Group.First.Regulator,
                             .ToNode = x.Group.First.ORF,
-                            .InteractionType = "Regulates",
-                            .Confidence = x.Group.First.c})
+                            .Interaction = "Regulates",
+                            .value = x.Group.First.c})
             Return net
         End Function
 

@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
@@ -41,12 +42,55 @@ Imports SMRUCC.genomics.Assembly.NCBI.COG.COGs
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
+    <ExportAPI("/Whog.XML",
+               Info:="Converts the whog text file into a XML data file.",
+               Usage:="/Whog.XML /in <whog> [/out <whog.XML>]")>
+    Public Function WhogXML(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".XML")
+        Return Whog.Whog.Imports([in]).Save(out).CLICode
+    End Function
+
+    <ExportAPI("/COG.myva",
+               Info:="COG myva annotation using blastp raw output or exports sbh/bbh table result.",
+               Usage:="/COG.myva /blastp <blastp.myva.txt/sbh.csv> /whog <whog.XML> [/simple /out <out.csv/txt>]")>
+    Public Function COG_myva(args As CommandLine) As Integer
+        Dim in$ = args <= "/blastp"
+        Dim whog$ = args <= "/whog"
+        Dim simple As Boolean = args.GetBoolean("/simple")
+        Dim result As MyvaCOG()
+
+        If Parser.IsBlastOut(in$) Then
+            result = COGsUtils.MyvaCOGCatalog(in$, whog,,, Nothing, ALL:=Not simple)
+        Else
+            Dim table As BestHit() = [in].LoadCsv(Of BestHit)
+            result = COGsUtils.MyvaCOGCatalog(
+                table, whog,
+                Function(query$) query.Trim.GetTagValue(" ").Value)
+        End If
+
+        If simple Then
+            Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".myva_COG.txt")
+            Return result _
+                .Select(Function(prot) $"{prot.QueryName}{ASCII.TAB}{prot.Category}{ASCII.TAB}{prot.COG}") _
+                .SaveTo(out) _
+                .CLICode
+        Else
+            Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".myva_COG.csv")
+            Return result _
+                .SaveTo(out) _
+                .CLICode
+        End If
+    End Function
+
     <ExportAPI("/COG.Statics",
+               Info:="Statics the COG profiling in your analysised genome.",
                Usage:="/COG.Statics /in <myva_cogs.csv> [/locus <locus.txt/csv> /locuMap <Gene> /out <out.csv>]")>
     <Group(CLIGrouping.COGTools)>
     Public Function COGStatics(args As CommandLine) As Integer
@@ -201,7 +245,7 @@ Partial Module CLI
         Dim names$ = args.GetValue("/cog.name", GCModeller.FileSystem.FileSystem.COGs & "/cognames2003-2014.tab")
         Dim cogs As COGTable() = COGTable.LoadCsv(cog)
         Dim sbh As IEnumerable(Of BestHit) = [in].LoadCsv(Of BestHit)
-        Dim result As MyvaCOG() = sbh.COG2014_result(COGs)
+        Dim result As MyvaCOG() = sbh.COG2014_result(cogs)
 
         If names.FileExists(True) Then
             Dim cogNames As COGName() = COGName.LoadTable(names)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e00c7047e7cbdbcc8be00776f3cd8f17, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\DataSource\DataFramework.vb"
+﻿#Region "Microsoft.VisualBasic::2291ca4bb50dcdbe7e64acc4e4b82796, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\DataSource\DataFramework.vb"
 
     ' Author:
     ' 
@@ -57,6 +57,13 @@ Namespace ComponentModel.DataSourceModel
             Writeable = 4
             ReadWrite = Readable And Writeable
         End Enum
+
+        ''' <summary>
+        ''' 在数据框数据映射操作之中是否忽略掉这个属性或者方法？
+        ''' </summary>
+        <AttributeUsage(AttributeTargets.Property Or AttributeTargets.Method, AllowMultiple:=False, Inherited:=True)>
+        Public Class DataIgnoredAttribute : Inherits Attribute
+        End Class
 
         ''' <summary>
         ''' Controls for <see cref="PropertyAccess"/> on <see cref="PropertyInfo"/>

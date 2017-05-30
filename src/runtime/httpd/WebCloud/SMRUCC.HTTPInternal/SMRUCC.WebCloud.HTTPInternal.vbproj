@@ -175,9 +175,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.ValueTuple">
+      <HintPath>..\..\..\..\packages\System.ValueTuple.4.4.0-preview1-25305-02\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -213,7 +212,6 @@
     <Compile Include="Core\HttpFileSystem.vb" />
     <Compile Include="Core\HttpProcessor.vb" />
     <Compile Include="Core\HttpServer.vb" />
-    <Compile Include="Scripting\vbhtml.vb" />
     <Compile Include="DebuggerAPI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -231,16 +229,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Platform\PlatformEngine.vb" />
-    <Compile Include="Platform\PlatformSub.vb" />
+    <Compile Include="Platform\Submodule.vb" />
     <Compile Include="Platform\Plugin\ExternalCall.vb" />
     <Compile Include="Platform\Plugin\PluginBase.vb" />
-    <Compile Include="Platform\Task\Task.vb" />
-    <Compile Include="Platform\Task\TaskPool.vb" />
     <Compile Include="AppEngine\POSTReader\HttpMultipart.vb" />
     <Compile Include="AppEngine\POSTReader\HttpPostedFile.vb" />
     <Compile Include="AppEngine\POSTReader\PostReader.vb" />
     <Compile Include="AppEngine\POSTReader\ReadSubStream.vb" />
-    <Compile Include="Scripting\Interpolate.vb" />
+    <Compile Include="Scripting\vbhtml.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

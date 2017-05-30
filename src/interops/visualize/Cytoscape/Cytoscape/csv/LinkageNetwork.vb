@@ -99,7 +99,7 @@ Namespace Tables
                             edges += New NetworkEdge With {
                                 .FromNode = If(typePrefix, aID.__addPrefix(typeA), aID),
                                 .ToNode = If(typePrefix, bID.__addPrefix(type2), bID),
-                                .InteractionType = $"{typeA} --- {type2}"
+                                .Interaction = $"{typeA} --- {type2}"
                             }
                         Next
                     Next

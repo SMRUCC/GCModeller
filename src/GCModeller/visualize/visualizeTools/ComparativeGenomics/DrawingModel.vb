@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::66bf88df6f1a3c291e3d97eb511a6195, ..\visualize\visualizeTools\ComparativeGenomics\DrawingModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -41,7 +41,15 @@ Namespace ComparativeGenomics
     Public Class GenomeModel : Implements IEnumerable(Of GeneObject)
 
         Public Property genes As GeneObject()
+        ''' <summary>
+        ''' 基因组的nt长度
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Length As Integer
+        ''' <summary>
+        ''' 基因组的名称
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Title As String
 
         ''' <summary>
@@ -57,8 +65,8 @@ Namespace ComparativeGenomics
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of GeneObject) Implements IEnumerable(Of GeneObject).GetEnumerator
-            For Each item In genes
-                Yield item
+            For Each gene As GeneObject In genes
+                Yield gene
             Next
         End Function
 

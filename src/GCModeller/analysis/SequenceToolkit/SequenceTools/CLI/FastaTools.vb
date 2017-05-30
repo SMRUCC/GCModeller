@@ -214,9 +214,17 @@ Partial Module Utilities
         Return New FastaFile(LQuery).Save(out, Encodings.ASCII)
     End Function
 
-    <ExportAPI("/To_Fasta",
-               Usage:="/To_Fasta /in <anno.csv> [/out <out.fasta> /attrs <gene;locus_tag;gi;location,...> /seq <Sequence>]",
+    ''' <summary>
+    ''' 将Excel表格之中的序列数据提取出来
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Excel.2Fasta",
+               Usage:="/Excel.2Fasta /in <anno.csv> [/out <out.fasta> /attrs <gene;locus_tag;gi;location,...> /seq <Sequence>]",
                Info:="Convert the sequence data in a excel annotation file into a fasta sequence file.")>
+    <Argument("/in", Description:="Excel csv table file.")>
+    <Argument("/attrs", Description:="Excel header fields name as the fasta sequence header.")>
+    <Argument("/seq", Description:="Excel header field name for reading the sequence data.")>
     <Group(CLIGrouping.FastaTools)>
     Public Function ToFasta(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
@@ -233,17 +241,18 @@ Partial Module Utilities
         Dim readers As DynamicObjectLoader() = csv.CreateDataSource
         Dim attrSchema = (From x In csv.GetOrdinalSchema(lstAttrs) Where x > -1 Select x).ToArray
         Dim seqOrd As Integer = csv.GetOrdinal(seq)
-        Dim Fa As IEnumerable(Of FastaToken) =
-            From row As DynamicObjectLoader
-            In readers.AsParallel
-            Let attributes As String() = row.GetValues(attrSchema)
-            Let seqData As String = row.GetValue(seqOrd)
-            Let seqFa As FASTA.FastaToken = New FASTA.FastaToken With {
-                .Attributes = attributes,
-                .SequenceData = seqData
-            }
-            Select seqFa
-        Dim Fasta As New FASTA.FastaFile(Fa)
+        Dim Fa = From row As DynamicObjectLoader
+                 In readers.AsParallel
+                 Let attributes As String() = row.GetValues(attrSchema)
+                 Let seqData As String = Regex.Replace(row.GetValue(seqOrd), "\s*", "")
+                 Let seqFa As FastaToken = New FastaToken With {
+                     .Attributes = attributes,
+                     .SequenceData = seqData
+                 }
+                 Select seqFa
+                 Order By seqFa.Title Ascending
+
+        Dim Fasta As New FastaFile(Fa)
         Return Fasta.Save(out, Encodings.ASCII).CLICode
     End Function
 

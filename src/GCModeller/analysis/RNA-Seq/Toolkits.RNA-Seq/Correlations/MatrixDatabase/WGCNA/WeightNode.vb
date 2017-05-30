@@ -26,9 +26,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 
 Namespace WGCNA
 

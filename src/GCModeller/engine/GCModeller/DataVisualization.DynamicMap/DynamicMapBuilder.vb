@@ -121,14 +121,14 @@ Namespace DataVisualization.DynamicMap
                 Call NewComponentsList.Add(New Component With {.ID = Id, .NodeType = Type, .Quantity = Items.First.Quantity})
             Next
 
-            Return New KeyValuePairObject(Of Component(), ComponentInteraction()) With {.Key = NewComponentsList.ToArray, .Value = (From item In Network Where item.Confidence > 0 Select item).ToArray}
+            Return New KeyValuePairObject(Of Component(), ComponentInteraction()) With {.Key = NewComponentsList.ToArray, .Value = (From item In Network Where item.value > 0 Select item).ToArray}
         End Function
 
         Private Function BuildCentralDogmaRegulations(CentrolDogma As CentralDogma) As KeyValuePairObject(Of Component(), ComponentInteraction())
             Dim Transcripts = (From Transcript In CentrolDogma.Transcripts Select New Component With {.ID = Transcript._TranscriptModelBase.Template, .NodeType = "Protein", .Quantity = Transcript.Quantity}).ToArray
             Dim Regulators = (From Regulator In CentrolDogma.get_Regulators Select New Component With {.ID = Regulator.Identifier, .NodeType = "TranscriptRegulator", .Quantity = Regulator.Quantity}).ToArray
-            Dim Regulations = (From Regulator In CentrolDogma.get_Regulators Select New ComponentInteraction With {.Confidence = CentrolDogma.ExpressionActivity, .FromNode = Regulator.Identifier, .InteractionType = InteractionTypes.TranscriptionRegulation, .ToNode = CentrolDogma.Identifier}).ToArray
-            Dim TranscriptUnit = (From Transcript In CentrolDogma.Transcripts Select New ComponentInteraction With {.Confidence = CentrolDogma.FluxValue, .FromNode = CentrolDogma.Identifier, .ToNode = Transcript.Identifier, .InteractionType = InteractionTypes.OperonConsists}).ToArray
+            Dim Regulations = (From Regulator In CentrolDogma.get_Regulators Select New ComponentInteraction With {.value = CentrolDogma.ExpressionActivity, .FromNode = Regulator.Identifier, .InteractionType = InteractionTypes.TranscriptionRegulation, .ToNode = CentrolDogma.Identifier}).ToArray
+            Dim TranscriptUnit = (From Transcript In CentrolDogma.Transcripts Select New ComponentInteraction With {.value = CentrolDogma.FluxValue, .FromNode = CentrolDogma.Identifier, .ToNode = Transcript.Identifier, .InteractionType = InteractionTypes.OperonConsists}).ToArray
 
             Dim Components As List(Of Component) = New List(Of Component)
             Call Components.AddRange(Transcripts)
@@ -160,7 +160,7 @@ Namespace DataVisualization.DynamicMap
                                               .FromNode = Enzyme.Identifier,
                                               .ToNode = Model.Identifier,
                                               .InteractionType = InteractionTypes.ReactionEnzyme,
-                                              .Confidence = Enzyme.EnzymeActivity}).ToArray)
+                                              .value = Enzyme.EnzymeActivity}).ToArray)
             Call Components.AddRange((From Enzyme In Model.Enzymes
                                       Where Enzyme.Quantity > 1
                                       Select New Component With
@@ -187,7 +187,7 @@ Namespace DataVisualization.DynamicMap
                                        In Line.Regulators
                                        Select New ComponentInteraction With
                                               {
-                                                  .Confidence = Regulator.Quantity,
+                                                  .value = Regulator.Quantity,
                                                   .FromNode = Regulator.Identifier,
                                                   .ToNode = Line.EnzymeId.Identifier,
                                                   .InteractionType = InteractionTypes.TranscriptionRegulation}))
@@ -211,14 +211,14 @@ Namespace DataVisualization.DynamicMap
                                                 {
                                                     .FromNode = Reactant.Identifier, .ToNode = Model.Identifier,
                                                     .InteractionType = InteractionTypes.ReactionReactants,
-                                                    .Confidence = Model.FluxValue * Reactant.Stoichiometry}).ToArray)
+                                                    .value = Model.FluxValue * Reactant.Stoichiometry}).ToArray)
                 Call ChunkList.AddRange((From Product As EngineSystem.ObjectModels.Module.EquationModel.CompoundSpecieReference
                                          In Model._Products
                                          Select New ComponentInteraction With
                                                 {
                                                     .ToNode = Product.Identifier, .FromNode = Model.Identifier,
                                                     .InteractionType = InteractionTypes.ReactionProducts,
-                                                    .Confidence = Model.FluxValue * Product.Stoichiometry}).ToArray)
+                                                    .value = Model.FluxValue * Product.Stoichiometry}).ToArray)
             Else
                 Call ChunkList.AddRange((From Reactant As EngineSystem.ObjectModels.Module.EquationModel.CompoundSpecieReference
                                          In Model._Reactants
@@ -226,14 +226,14 @@ Namespace DataVisualization.DynamicMap
                                                 {
                                                     .ToNode = Reactant.Identifier, .FromNode = Model.Identifier,
                                                     .InteractionType = InteractionTypes.ReactionProducts,
-                                                    .Confidence = System.Math.Abs(Model.FluxValue) * Reactant.Stoichiometry}).ToArray)
+                                                    .value = Math.Abs(Model.FluxValue) * Reactant.Stoichiometry}).ToArray)
                 Call ChunkList.AddRange((From Product As EngineSystem.ObjectModels.Module.EquationModel.CompoundSpecieReference
                                          In Model._Products
                                          Select New ComponentInteraction With
                                                 {
                                                     .FromNode = Product.Identifier, .ToNode = Model.Identifier,
                                                     .InteractionType = InteractionTypes.ReactionReactants,
-                                                    .Confidence = System.Math.Abs(Model.FluxValue) * Product.Stoichiometry}).ToArray)
+                                                    .value = Math.Abs(Model.FluxValue) * Product.Stoichiometry}).ToArray)
             End If
 
             Call NodeList.AddRange((From item In Model._Reactants Select New Component With {.ID = item.Identifier, .Quantity = item.EntityCompound.DataSource.value, .NodeType = "Metabolite"}).ToArray)

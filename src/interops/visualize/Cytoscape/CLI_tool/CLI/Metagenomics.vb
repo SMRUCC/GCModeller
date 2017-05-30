@@ -216,7 +216,7 @@ Partial Module CLI
             If skipExists Then
                 ' 已经存在数据了，则直接忽略掉
             Else
-                Call New IORedirectFile(Apps.NCBI_tools, CLI).Run()
+                Call New IORedirectFile(Apps.NCBI_tools.Path, CLI).Run()
             End If
         Else
             If taxBuildin Then
@@ -224,10 +224,10 @@ Partial Module CLI
                 If taxdata(Scan0).Extensions.ContainsKey("taxid") Then
                     Call taxdata.Dump_x2taxid(gi2taxid).FlushAllLines(out)
                 Else
-                    Call New IORedirectFile(Apps.NCBI_tools, CLI).Run()
+                    Call New IORedirectFile(Apps.NCBI_tools.Path, CLI).Run()
                 End If
             Else
-                Call New IORedirectFile(Apps.NCBI_tools, CLI).Run()
+                Call New IORedirectFile(Apps.NCBI_tools.Path, CLI).Run()
             End If
         End If
 

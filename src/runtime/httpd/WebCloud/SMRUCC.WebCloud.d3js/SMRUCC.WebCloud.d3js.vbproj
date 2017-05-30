@@ -107,6 +107,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Network\htmlwidget\JSON.vb" />
+    <Compile Include="Network\htmlwidget\BuildData.vb" />
     <Compile Include="Network\Json.vb" />
     <Compile Include="Network\NetworkGenerator.vb" />
     <Compile Include="Scatter.vb" />
@@ -167,9 +169,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\sciBASIC#\mime\text%25html\MIME-htmls.vbproj">
+    <ProjectReference Include="..\..\..\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>MIME-htmls</Name>
+      <Name>mime-htmls</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

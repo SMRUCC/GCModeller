@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aff3a8427eedbaf7ef54c8387249a08c, ..\sciBASIC#\mime\MIME_Markups\HTML\CSS\Padding.vb"
+﻿#Region "Microsoft.VisualBasic::26369ced001a4aa3fc23fed542123c46, ..\sciBASIC#\mime\text%html\HTML\CSS\Padding.vb"
 
     ' Author:
     ' 
@@ -195,6 +195,10 @@ Namespace HTML.CSS
         ''' <param name="css$"></param>
         ''' <returns></returns>
         Public Shared Widening Operator CType(css$) As Padding
+            Return Padding.TryParse(css)
+        End Operator
+
+        Public Shared Function TryParse(css$, Optional [default] As Padding = Nothing) As Padding
             Dim value As NamedValue(Of String) = css _
                 .GetTagValue(":", trim:=True)
 
@@ -213,7 +217,7 @@ Namespace HTML.CSS
             Else
                 Return New Padding(vector)
             End If
-        End Operator
+        End Function
 
         '
         ' Summary:

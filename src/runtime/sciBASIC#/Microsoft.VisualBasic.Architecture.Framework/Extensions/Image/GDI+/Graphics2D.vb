@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::4e9aba58ed1ccc47a93e7e1bd8388226, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\Graphics.vb"
+﻿#Region "Microsoft.VisualBasic::cf3c21e38c7c9a644c86a8735311e1df, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\Graphics2D.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -1656,32 +1656,18 @@ Namespace Imaging
         Public Overrides Sub DrawImage(image As Image, x As Integer, y As Integer, srcRect As Rectangle, srcUnit As GraphicsUnit)
 
         End Sub
-        '
-        ' Summary:
-        '     Draws the specified System.Drawing.Image at the specified location and with the
-        '     specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   x:
-        '     The x-coordinate of the upper-left corner of the drawn image.
-        '
-        '   y:
-        '     The y-coordinate of the upper-left corner of the drawn image.
-        '
-        '   width:
-        '     Width of the drawn image.
-        '
-        '   height:
-        '     Height of the drawn image.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        Public Overrides Sub DrawImage(image As Image, x As Integer, y As Integer, width As Integer, height As Integer)
 
+        ''' <summary>
+        ''' Draws the specified System.Drawing.Image at the specified location and with the
+        ''' specified size.
+        ''' </summary>
+        ''' <param name="image">System.Drawing.Image to draw.</param>
+        ''' <param name="x">The x-coordinate of the upper-left corner of the drawn image.</param>
+        ''' <param name="y">The y-coordinate of the upper-left corner of the drawn image.</param>
+        ''' <param name="width">Width of the drawn image.</param>
+        ''' <param name="height">Height of the drawn image.</param>
+        Public Overrides Sub DrawImage(image As Image, x As Integer, y As Integer, width As Integer, height As Integer)
+            Call Graphics.DrawImage(image, x, y, width, height)
         End Sub
         '
         ' Summary:
@@ -4344,20 +4330,12 @@ Namespace Imaging
         Public Overrides Sub FillPolygon(brush As Brush, points() As PointF, fillMode As FillMode)
             Call Graphics.FillPolygon(brush, points, fillMode)
         End Sub
-        '
-        ' Summary:
-        '     Fills the interior of a rectangle specified by a System.Drawing.Rectangle structure.
-        '
-        ' Parameters:
-        '   brush:
-        '     System.Drawing.Brush that determines the characteristics of the fill.
-        '
-        '   rect:
-        '     System.Drawing.Rectangle structure that represents the rectangle to fill.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     brush is null.
+
+        ''' <summary>
+        ''' Fills the interior of a rectangle specified by a System.Drawing.Rectangle structure.
+        ''' </summary>
+        ''' <param name="brush">System.Drawing.Brush that determines the characteristics of the fill.</param>
+        ''' <param name="rect">System.Drawing.Rectangle structure that represents the rectangle to fill.</param>
         Public Overrides Sub FillRectangle(brush As Brush, rect As Rectangle)
             Call Graphics.FillRectangle(brush, rect)
         End Sub

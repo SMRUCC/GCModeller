@@ -77,7 +77,7 @@ Namespace Network
                 Select New link With {
                     .source = nodeTable(edge.FromNode).Address,
                     .target = nodeTable(edge.ToNode).Address,
-                    .value = edge.Confidence
+                    .value = edge.value
                 }
 
             Dim JSON$ = New out With {

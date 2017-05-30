@@ -26,7 +26,10 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
 <PackageNamespace("GCModeller.Configuration.CLI",
@@ -35,7 +38,8 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
                   Description:="GCModeller configuration console.",
                   Publisher:="xie.guigang@gcmodeller.org",
                   Revision:=215)>
-Public Module CLI
+<ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
+<CLI> Public Module CLI
 
     Sub New()
         Settings.Session.Initialize()
@@ -72,6 +76,30 @@ Public Module CLI
 
             Return 0
         End Using
+    End Function
+
+    Const GCModellerApps$ = NameOf(GCModellerApps)
+
+    <ExportAPI("/dev",
+               Info:="Generates Apps CLI visualbasic reference source code.",
+               Usage:="/dev [/out <DIR>]")>
+    Public Function CLIDevelopment(args As CommandLine) As Integer
+        Dim out$ = args.GetValue("/out", "./Apps/")
+        Dim CLI As New Value(Of Type)
+
+        For Each file$ In ls - l - "*.exe" <= App.HOME
+            If IO.Path.GetFullPath(file) = IO.Path.GetFullPath(App.ExecutablePath) Then
+                Continue For
+            End If
+
+            If Not (CLI = CLIAttribute.ParseAssembly(dll:=file)) Is Nothing Then
+                Call New VisualBasic(CLI, GCModellerApps) _
+                    .GetSourceCode _
+                    .SaveTo($"{out}/{file.BaseName}.vb")
+            End If
+        Next
+
+        Return 0
     End Function
 End Module
 

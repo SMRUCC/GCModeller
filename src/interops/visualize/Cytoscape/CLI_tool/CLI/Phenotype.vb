@@ -533,7 +533,7 @@ Partial Module CLI
             Dim depth As Integer = edge.FromNode.Split("."c).Length
             Call edge.Properties.Add(NameOf(depth), depth)
 
-            If InStr(edge.InteractionType, "Leaf") = 0 Then
+            If InStr(edge.Interaction, "Leaf") = 0 Then
                 Continue For
             End If
 
@@ -611,7 +611,7 @@ Partial Module CLI
             Dim depth As Integer = edge.FromNode.Split("."c).Length
             Call edge.Properties.Add(NameOf(depth), depth)
 
-            If InStr(edge.InteractionType, "Leaf") = 0 Then
+            If InStr(edge.Interaction, "Leaf") = 0 Then
                 Continue For
             End If
 
@@ -670,7 +670,7 @@ Partial Module CLI
             Dim depth As Integer = edge.FromNode.Split("."c).Length
             Call edge.Properties.Add(NameOf(depth), depth)
 
-            If InStr(edge.InteractionType, "Leaf") = 0 Then
+            If InStr(edge.Interaction, "Leaf") = 0 Then
                 Continue For
             End If
 
@@ -741,7 +741,7 @@ Partial Module CLI
             Dim depth As Integer = edge.FromNode.Split("."c).Length
             Call edge.Properties.Add(NameOf(depth), depth)
 
-            If InStr(edge.InteractionType, "Leaf") = 0 Then
+            If InStr(edge.Interaction, "Leaf") = 0 Then
                 Continue For
             End If
 
@@ -810,7 +810,7 @@ Partial Module CLI
             Dim depth As Integer = edge.FromNode.Split("."c).Length
             Call edge.Properties.Add(NameOf(depth), depth)
 
-            If InStr(edge.InteractionType, "Leaf") = 0 Then
+            If InStr(edge.Interaction, "Leaf") = 0 Then
                 Continue For
             End If
 

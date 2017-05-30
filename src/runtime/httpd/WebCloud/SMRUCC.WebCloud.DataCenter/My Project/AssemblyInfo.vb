@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 '查看程序集特性的值
 
 <Assembly: AssemblyTitle("SMRUCC.WebCloud.DataCenter")> 
-<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyDescription("Server Database & User Data Tasks")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("SMRUCC.WebCloud.DataCenter")> 
 <Assembly: AssemblyCopyright("Copyright ©  2016")> 

@@ -26,13 +26,8 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.visualize.Network.Abstract
-Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 
 Namespace SwissTCS
 
@@ -43,8 +38,8 @@ Namespace SwissTCS
     Public Class CrossTalks : Implements IInteraction, INetworkEdge
         <Column("kinase")> Public Property Kinase As String Implements IInteraction.target
         <Column("regulator")> Public Property Regulator As String Implements IInteraction.source
-        <Column("probability")> Public Property Probability As Double Implements INetworkEdge.Confidence
-        Public Property InteractionType As String Implements INetworkEdge.InteractionType
+        <Column("probability")> Public Property Probability As Double Implements INetworkEdge.value
+        Public Property InteractionType As String Implements INetworkEdge.Interaction
 
         Public Shared Function Trim(sId As String) As String
             Dim p As Integer = InStr(sId, "(")

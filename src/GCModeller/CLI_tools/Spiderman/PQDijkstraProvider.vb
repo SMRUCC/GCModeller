@@ -86,7 +86,7 @@ Namespace PathRoutes
 
             Dim sBuilder As StringBuilder = New StringBuilder(1024)
             For Each node In Path
-                Call sBuilder.AppendLine(String.Format("{0}  {1} --> {2}", String.Format("[{0}  ""{1}""]", node.UniqueId, node.InteractionType.ToString), node.FromNode, node.ToNode))
+                Call sBuilder.AppendLine(String.Format("{0}  {1} --> {2}", String.Format("[{0}  ""{1}""]", node.UniqueId, node.Interaction), node.FromNode, node.ToNode))
             Next
 
             Call Console.WriteLine(sBuilder.ToString)

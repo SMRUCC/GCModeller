@@ -1,30 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::2739486ac2fdea68803bda58d63ce823, ..\visualize\visualizeTools\ComparativeGenomics\GeneObject.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
+
+Imports System.Drawing.Drawing2D
 
 Namespace ComparativeGenomics
 
@@ -48,72 +50,113 @@ Namespace ComparativeGenomics
         ''' <summary>
         ''' 对于两个没有交叉的基因，不做任何附加处理。对于两个有相交部分的基因，则前一个基因会缩短以防止重叠，假若某一个基因完全的包裹另外一个基因，则也将不会做任何处理
         ''' </summary>
-        ''' <param name="Gr"></param>
+        ''' <param name="g"></param>
         ''' <param name="RefPoint"></param>
         ''' <param name="IdGrawingPositionDown">基因标号是否绘制与基因图形的下方</param>
-        ''' <param name="Region">当前的基因对象所绘制的区域从这个参数进行返回</param>
+        ''' <param name="arrowRect">当前的基因对象所绘制的区域从这个参数进行返回</param>
         ''' <returns>函数返回下一个基因对象的左端的坐标的<see cref="Point.X"></see></returns>
         ''' <remarks></remarks> 
-        Public Function InvokeDrawing(Gr As Graphics, RefPoint As Point, NextLeft As Integer,
+        Public Function InvokeDrawing(g As Graphics, RefPoint As Point, NextLeft As Integer,
                                       convertFactor As Double,
-                                      ByRef Region As Rectangle,
+                                      ByRef arrowRect As Rectangle,
                                       IdGrawingPositionDown As Boolean,
                                       Font As Font,
                                       AlternativeArrowStyle As Boolean,
-                                      ByRef IDConflictedRegion As Rectangle) As Integer
-            Dim GraphicPath As Drawing2D.GraphicsPath
+                                      ByRef ID_conflictLayout As MapLabelLayout,
+                                      Optional drawConflictLine As Boolean = False) As Integer
+            Dim path As GraphicsPath
             Dim Right As Integer = __nextLeft(Left, RefPoint, NextLeft, convertFactor)
 
             Me.ConvertFactor = convertFactor
 
             If Direction < 0 Then
                 If AlternativeArrowStyle Then
-                    GraphicPath = MyBase.CreateBackwardModel(RefPoint, Right)
+                    path = MyBase.CreateBackwardModel(RefPoint, Right)
                 Else
-                    GraphicPath = CreateBackwardModel(RefPoint, Right)
+                    path = CreateBackwardModel(RefPoint, Right)
                 End If
             ElseIf Direction > 0 Then
                 If AlternativeArrowStyle Then
-                    GraphicPath = MyBase.CreateForwardModel(RefPoint, Right)
+                    path = MyBase.CreateForwardModel(RefPoint, Right)
                 Else
-                    GraphicPath = CreateForwardModel(RefPoint, RightLimit:=Right)
+                    path = CreateForwardModel(RefPoint, RightLimit:=Right)
                 End If
             Else
-                GraphicPath = CreateNoneDirectionModel(RefPoint, RightLimit:=Right)
+                path = CreateNoneDirectionModel(RefPoint, RightLimit:=Right)
             End If
 
-            Call Gr.DrawPath(New System.Drawing.Pen(System.Drawing.Brushes.Black, 2), GraphicPath)
-            Call Gr.FillPath(If(Me.Color Is Nothing, Brushes.Brown, Color), GraphicPath)
+            Call g.DrawPath(New Pen(Brushes.Black, 2), path)
+            Call g.FillPath(If(Me.Color Is Nothing, Brushes.Brown, Color), path)
 
-            Dim RegionLoc = New Point((From n In GraphicPath.PathPoints Select n.X).ToArray.Min, (From n In GraphicPath.PathPoints Select n.Y).ToArray.Min)
-            Dim RegionSiz = New Point((From n In GraphicPath.PathPoints Select n.X).ToArray.Max, (From n In GraphicPath.PathPoints Select n.Y).ToArray.Max)
+            Dim rectLocation = New Point((From n In path.PathPoints Select n.X).Min, (From n In path.PathPoints Select n.Y).Min)
+            Dim RegionSiz = New Point((From n In path.PathPoints Select n.X).Max, (From n In path.PathPoints Select n.Y).Max)
 
             If Direction > 0 Then
-                Region = New Rectangle(RegionLoc, New Size With {.Width = RegionSiz.X - RegionLoc.X - HeadLength, .Height = RegionSiz.Y - RegionLoc.Y})
+                arrowRect = New Rectangle(
+                    rectLocation, New Size With {
+                        .Width = RegionSiz.X - rectLocation.X - HeadLength,
+                        .Height = RegionSiz.Y - rectLocation.Y
+                    })
             ElseIf Direction < 0 Then
-                Region = New Rectangle(New Point(RegionLoc.X + HeadLength, RegionLoc.Y), New Size With {.Width = RegionSiz.X - RegionLoc.X - HeadLength, .Height = RegionSiz.Y - RegionLoc.Y})
+                arrowRect = New Rectangle With {
+                    .Location = New Point(rectLocation.X + HeadLength, rectLocation.Y),
+                    .Size = New Size With {
+                        .Width = RegionSiz.X - rectLocation.X - HeadLength,
+                        .Height = RegionSiz.Y - rectLocation.Y
+                    }
+                }
             End If
 
-            Dim size = Gr.MeasureString(Me.locus_tag, Font)
-            Dim fleft As Integer = (Region.Width - size.Width) / 2 + Region.Left
-            Dim Ptr As Point
+            Dim size = g.MeasureString(Me.locus_tag, Font)
+            Dim fleft As Integer = (arrowRect.Width - size.Width) / 2 + arrowRect.Left
+            Dim ptr As Point
+            Dim conflicts As Boolean = False
 
             If IdGrawingPositionDown Then
-                Ptr = New Point(fleft, Region.Bottom + offsets)
+                ptr = New Point(fleft, arrowRect.Bottom + offsets)
             Else
-                Ptr = New Point(fleft, Region.Top - offsets - size.Height)
+                ptr = New Point(fleft, arrowRect.Top - offsets - size.Height)
             End If
 
-            Dim ThisIDRegion = New Rectangle(Ptr, New Size(size.Width, size.Height))
-            If IDConflictedRegion.Right > ThisIDRegion.Left Then
-                ThisIDRegion = New Rectangle(New Point(Ptr.X, IDConflictedRegion.Top - size.Height), New Size(size.Width, size.Height))
-            Else
+            ID_conflictLayout = New MapLabelLayout With {
+                .ConflictRegion = ID_conflictLayout _
+                .ForceNextLocation(New Rectangle With {
+                    .Location = ptr,
+                    .Size = New Size(size.Width, size.Height)
+                }, conflicts)
+            }
+            With ID_conflictLayout.ConflictRegion.Location
+                Call g.DrawString(locus_tag, Font, brush:=Brushes.Black, x:= .X, y:= .Y)
 
-            End If
+                If conflicts AndAlso drawConflictLine Then ' 在label的文和箭头之间画一条连线
+                    Dim a, b As Point
+                    Dim textRect = ID_conflictLayout.ConflictRegion
 
-            IDConflictedRegion = ThisIDRegion
+                    If IdGrawingPositionDown Then
+                        ' 则连线在文本上方和箭头矩形的下方
+                        a = New Point With {
+                            .X = arrowRect.Left + arrowRect.Width / 2,
+                            .Y = arrowRect.Bottom
+                        }
+                        b = New Point With {
+                            .X = textRect.Left + textRect.Width / 2,
+                            .Y = textRect.Top
+                        }
+                    Else
+                        ' 连线在文本的下方和箭头矩形的上方
+                        a = New Point With {
+                            .X = arrowRect.Left + arrowRect.Width / 2,
+                            .Y = arrowRect.Top
+                        }
+                        b = New Point With {
+                            .X = textRect.Left + textRect.Width / 2,
+                            .Y = textRect.Bottom
+                        }
+                    End If
 
-            Call Gr.DrawString(locus_tag, Font, brush:=Brushes.Black, x:=ThisIDRegion.X, y:=ThisIDRegion.Y)
+                    Call g.DrawLine(Pens.Gray, a, b)
+                End If
+            End With
 
             Return Right
         End Function

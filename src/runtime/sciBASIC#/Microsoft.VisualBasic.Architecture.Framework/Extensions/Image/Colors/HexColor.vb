@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5bac4f09d224e6588cb0ce8b51acfe82, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\HexColor.vb"
+﻿#Region "Microsoft.VisualBasic::e1ff24b418575501b12d1ffc74ea9174, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\HexColor.vb"
 
     ' Author:
     ' 
@@ -43,10 +43,11 @@ Namespace Imaging
             Dim Green As String
             Dim Blue As String
             HexColor = Replace(HexColor, "#", "")
-            Red = Val("&H" & Mid(HexColor, 1, 2))
-            Green = Val("&H" & Mid(HexColor, 3, 2))
-            Blue = Val("&H" & Mid(HexColor, 5, 2))
-            Return Color.FromArgb(Red, Green, Blue)
+            '"&H" &
+            Red = GetHexInteger(Mid(HexColor, 1, 2))
+            Green = GetHexInteger(Mid(HexColor, 3, 2))
+            Blue = GetHexInteger(Mid(HexColor, 5, 2))
+            Return Color.FromArgb(Integer.Parse(Red), Integer.Parse(Green), Integer.Parse(Blue))
         End Function
 
         Public Function HexToColor(hexColor As String) As Color

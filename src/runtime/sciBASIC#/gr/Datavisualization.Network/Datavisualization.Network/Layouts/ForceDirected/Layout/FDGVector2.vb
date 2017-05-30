@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4bbea9990e61198cfc2482ba80f2492, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Layouts\ForceDirected\Layout\FDGVector2.vb"
+﻿#Region "Microsoft.VisualBasic::aa69da7c158d752957a1a74fe579a249, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Layouts\ForceDirected\Layout\FDGVector2.vb"
 
     ' Author:
     ' 
@@ -72,8 +72,7 @@ Imports Microsoft.VisualBasic.Mathematical
 
 Namespace Layouts
 
-    Public Class FDGVector2
-        Inherits AbstractVector
+    Public Class FDGVector2 : Inherits AbstractVector
 
         Public Sub New()
             MyBase.New()
@@ -81,6 +80,7 @@ Namespace Layouts
             y = 0F
             z = 0F
         End Sub
+
         Public Sub New(iX As Single, iY As Single)
             MyBase.New()
             x = iX
@@ -96,6 +96,7 @@ Namespace Layouts
         Public Overrides Function GetHashCode() As Integer
             Return CInt(Math.Truncate(x)) Xor CInt(Math.Truncate(y))
         End Function
+
         Public Overrides Function Equals(obj As System.Object) As Boolean
             ' If parameter is null return false.
             If obj Is Nothing Then

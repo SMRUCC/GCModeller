@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46f89fcd593d9663e5b6da1f21047c39, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\KeyValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::d8714067ba1a2e49af6a8c4635342bca, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\KeyValuePair.vb"
 
     ' Author:
     ' 
@@ -175,6 +175,24 @@ Public Module KeyValuePairExtensions
         Return maps _
             .Select(Function(m) New NamedValue(Of String)(m.Key, m.Maps)) _
             .ToArray
+    End Function
+
+    ''' <summary>
+    ''' 将目标字典之中的键值对转换为被命名为的变量值
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="table"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function NamedValues(Of T)(table As Dictionary(Of String, T)) As NamedValue(Of T)()
+        Return table _
+            .Select(Function(k)
+                        Return New NamedValue(Of T) With {
+                            .Name = k.Key, 
+                            .Value = k.Value
+                        }
+                    End Function) _
+            .ToArray 
     End Function
 
     <Extension>

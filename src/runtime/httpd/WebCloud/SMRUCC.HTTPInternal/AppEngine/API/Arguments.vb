@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::8c722b2a8ff75afa33041a5cb274fa4c, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\API\Arguments.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -149,6 +149,14 @@ Namespace AppEngine.APIMethods.Arguments
             Return True
         End Function
 
+        ''' <summary>
+        ''' 将需要保存到浏览器的数据通过response header的形式返回
+        ''' </summary>
+        ''' <param name="cookies"></param>
+        Public Sub SetCookies(cookies As Dictionary(Of String, String))
+
+        End Sub
+
         Public Sub WriteHeader(content_type$, Length&)
             ' this is the successful HTTP response line
             response.WriteLine("HTTP/1.0 200 OK")
@@ -196,7 +204,7 @@ Namespace AppEngine.APIMethods.Arguments
                 Call WriteHeader(MIME.Json, bytes.Length)
             End If
 
-            Call response.WriteLine(obj.GetJson)
+            Call response.WriteLine(json)
         End Sub
 
         Public Sub WriteXML(Of T)(obj As T)
@@ -513,6 +521,12 @@ Namespace AppEngine.APIMethods.Arguments
             Return response.WriteLineAsync(buffer, index, count)
         End Function
 
+        ''' <summary>
+        ''' url重定向跳转操作
+        ''' </summary>
+        ''' <param name="rep"></param>
+        ''' <param name="url"></param>
+        ''' <returns></returns>
         Public Shared Operator <=(rep As HttpResponse, url As String) As Boolean
             Call rep.Redirect(url)
             Return True

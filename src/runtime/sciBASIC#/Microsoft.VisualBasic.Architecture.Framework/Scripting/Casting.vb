@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2ac82bd916b995c57d272a1b1e7af61, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Scripting\Casting.vb"
+﻿#Region "Microsoft.VisualBasic::c646f7593584b80ac439ca3b457dbf76, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Scripting\Casting.vb"
 
     ' Author:
     ' 
@@ -43,6 +43,20 @@ Namespace Scripting
     ''' </summary>
     Public Module Casting
 
+        <Extension>
+        Public Function Expression(size As Size) As String
+            With size
+                Return $"{ .Width},{ .Height}"
+            End With
+        End Function
+
+        <Extension>
+        Public Function Expression(size As SizeF) As String
+            With size
+                Return $"{ .Width},{ .Height}"
+            End With
+        End Function
+
         Public Function PointParser(pt$) As Point
             Dim x, y As Double
             Call Ranges.Parser(pt, x, y)
@@ -61,6 +75,7 @@ Namespace Scripting
             Return New Size(x, y)
         End Function
 
+        <Extension>
         Public Function FloatSizeParser(pt$) As SizeF
             Dim x, y As Double
             Call Ranges.Parser(pt, x, y)

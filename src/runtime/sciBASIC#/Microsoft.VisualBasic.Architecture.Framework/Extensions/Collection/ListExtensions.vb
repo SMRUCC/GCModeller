@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::539e328230a368e9eaccaba5fd82920f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\ListExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::c9b7bfe47a9a0edb8e9bfba67f713c04, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\ListExtensions.vb"
 
     ' Author:
     ' 
@@ -38,6 +38,61 @@ Imports Microsoft.VisualBasic.Linq
 ''' to accommodate the number of elements copied.
 ''' </summary>
 Public Module ListExtensions
+
+    Private Function rand(min%, max%) As Integer
+        Static rnd As New Random
+        SyncLock rnd
+            Return rnd.Next(min, max)
+        End SyncLock
+    End Function
+
+    ''' <summary>
+    ''' 返回数组集合之中的一个随机位置的元素
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="v"></param>
+    ''' <returns></returns>
+    <Extension> Public Function Random(Of T)(v As T()) As T
+        Dim l% = rand(0, v.Length)
+        Return v(l)
+    End Function
+
+    ''' <summary>
+    ''' 根据对象的键名来进行重排序，请注意，要确保对象<paramref name="getKey"/>能够从泛型对象之中获取得到唯一的键名
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="list"></param>
+    ''' <param name="getKey"></param>
+    ''' <param name="customOrder">可能会出现大小写不对的情况？</param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ReorderByKeys(Of T)(list As IEnumerable(Of T), getKey As Func(Of T, String), customOrder$()) As List(Of T)
+        Dim ls As List(Of T) = list.AsList
+        Dim list2 As New List(Of T)
+        Dim internalGet_geneObj =
+            Function(id As String)
+                Dim query = From x
+                            In ls.AsParallel
+                            Let key As String = getKey(x)
+                            Where key.TextEquals(id) OrElse
+                                InStr(key, id, CompareMethod.Text) > 0 ' 假若是对基因组进行排序，可能getkey函数只获取得到的是编号，而customOrder之中还会包含有全称，所以用InStr判断一下？
+                            Select x '
+                Return query.FirstOrDefault
+            End Function
+
+        For Each ID As String In customOrder
+            Dim selectedItem As T = internalGet_geneObj(ID)
+
+            If Not selectedItem Is Nothing Then ' 由于是倒序的，故而将对象移动到最后一个元素即可
+                Call list2.Add(selectedItem)
+                Call ls.Remove(selectedItem)
+            End If
+        Next
+
+        Call list2.AddRange(ls) ' 添加剩余的没有在customOrder之中找到的数据
+
+        Return list2
+    End Function
 
     ''' <summary>
     '''

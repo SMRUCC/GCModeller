@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b5c9290f6fc5d69ac95ed45bdb92405d, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Math\Random\RandomExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::edb96e14230cf0f8836aff3dd04d614d, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Math\Random\RandomExtensions.vb"
 
     ' Author:
     ' 
@@ -69,12 +69,18 @@ Namespace Mathematical
             Return CInt(seeds)
         End Function
 
+        ''' <summary>
+        ''' 返回<paramref name="min"/>到<paramref name="max"/>区间之内的一个和实数
+        ''' </summary>
+        ''' <param name="min"></param>
+        ''' <param name="max"></param>
+        ''' <returns></returns>
         Public Function randf(min As Double, max As Double) As Double
-            Dim minInteger As Integer = CInt(Math.Truncate(min * 10000))
-            Dim maxInteger As Integer = CInt(Math.Truncate(max * 10000))
-            Dim randInteger As Integer = RandomNumbers.rand() * RandomNumbers.rand()
-            Dim diffInteger As Integer = maxInteger - minInteger
-            Dim resultInteger As Integer = randInteger Mod diffInteger + minInteger
+            Dim minInteger& = CLng(Math.Truncate(min * 10000))
+            Dim maxInteger& = CLng(Math.Truncate(max * 10000))
+            Dim randInteger& = CLng(RandomNumbers.rand()) * CLng(RandomNumbers.rand())
+            Dim diffInteger& = maxInteger - minInteger
+            Dim resultInteger& = randInteger Mod diffInteger + minInteger
             Return resultInteger / 10000.0
         End Function
 

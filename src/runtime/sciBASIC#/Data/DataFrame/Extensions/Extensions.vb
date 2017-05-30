@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::baddd1cf128745180a85040ca7de20c1, ..\sciBASIC#\Data\DataFrame\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::7d0bec86b429fbdef91556138a3ea3a1, ..\sciBASIC#\Data\DataFrame\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -433,18 +433,20 @@ Load {bufs.Count} lines of data from ""{path.ToFileURL}""! ...................{f
     End Function
 
     ''' <summary>
-    ''' Generate a csv document from a object collection.(从一个特定类型的数据集合之中生成一个Csv文件，非并行化的以保持数据原有的顺序)
+    ''' Generate a csv document from a object collection.
+    ''' (从一个特定类型的数据集合之中生成一个Csv文件，非并行化的以保持数据原有的顺序)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
     ''' <param name="explicit">默认导出所有的可用属性</param>
+    ''' <param name="metaBlank">对于字典对象之中，空缺下来的域键名的值使用什么来替代？默认使用空白字符串</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function ToCsvDoc(Of T As Class)(source As IEnumerable(Of T),
-                                                        Optional explicit As Boolean = False,
-                                                        Optional maps As Dictionary(Of String, String) = Nothing,
-                                                        Optional metaBlank As String = "",
-                                                        Optional reorderKeys As Integer = 0) As IO.File
+    <Extension> Public Function ToCsvDoc(Of T)(source As IEnumerable(Of T),
+                                               Optional explicit As Boolean = False,
+                                               Optional maps As Dictionary(Of String, String) = Nothing,
+                                               Optional metaBlank$ = "",
+                                               Optional reorderKeys% = 0) As IO.File
         Return Reflector.Save(
             source, explicit,
             maps:=maps,

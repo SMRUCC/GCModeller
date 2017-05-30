@@ -27,8 +27,8 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 
 Namespace SimpleCsv
@@ -43,10 +43,10 @@ Namespace SimpleCsv
         <XmlAttribute("Node_b")> <Column("toNode")>
         Public Overrides Property ToNode As String
         <XmlAttribute("confidence")> <Column("confidence")>
-        Public Overrides Property Confidence As Double
+        Public Overrides Property value As Double
 
         Public Overrides Function ToString() As String
-            Return $"{FromNode} <---> {ToNode}; {Confidence}"
+            Return $"{FromNode} <---> {ToNode}; {value}"
         End Function
 
         ''' <summary>
@@ -82,7 +82,7 @@ Namespace SimpleCsv
             If LQuery Is Nothing Then
                 Return 0
             Else
-                Return LQuery.Confidence
+                Return LQuery.value
             End If
         End Function
 

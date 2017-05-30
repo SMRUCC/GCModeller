@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -14,7 +15,8 @@ Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 Imports SMRUCC.genomics.Visualize.Extensions
 
-Public Module CLI
+<ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
+<CLI> Public Module CLI
 
     <ExportAPI("--Draw.ChromosomeMap",
                Info:="Drawing the chromosomes map from the PTT object as the basically genome information source.",

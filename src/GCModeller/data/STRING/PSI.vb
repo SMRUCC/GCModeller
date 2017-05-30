@@ -60,7 +60,7 @@ Public Module PSI
     <Extension>
     Private Function __extractEdge(mif25 As EntrySet, Interaction As Interaction) As PitrNode
         Dim Node As New PitrNode
-        Node.Confidence = Interaction.ConfidenceList.First.value
+        Node.value = Interaction.ConfidenceList.First.value
         Node.FromNode = mif25.GetInteractor(Interaction.ParticipantList.First.InteractorRef).Xref.primaryRef.id
         Node.ToNode = mif25.GetInteractor(Interaction.ParticipantList.Last.InteractorRef).Xref.primaryRef.id
         Return Node

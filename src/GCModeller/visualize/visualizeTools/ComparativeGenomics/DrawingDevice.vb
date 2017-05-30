@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::a1017c856332f5c6952d315aec3c6435, ..\visualize\visualizeTools\ComparativeGenomics\DrawingDevice.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -46,7 +46,7 @@ Namespace ComparativeGenomics
                 Call Console.WriteLine()
             End If
 
-            Dim ID_ConflictedRegion As Rectangle
+            Dim ID_ConflictedRegion As MapLabelLayout
             Dim Font As Font = New Font("Ubuntu", 12, FontStyle.Bold)
             Dim IDDown As Boolean = False
             Dim __invokeDrawing = Function(Models As GenomeModel) As Dictionary(Of String, Rectangle)
@@ -56,29 +56,38 @@ Namespace ComparativeGenomics
                                                             In Models.genes
                                                       Select gene
                                                       Order By gene.Left Ascending).ToArray
-                                      Dim rect As New Rectangle(New Point(Margin, Height + 0.2 * gDrawHeight),
-                                                                      New Size(gdi.Width - 2 * Margin, gDrawHeight - 0.4 * gDrawHeight))
+                                      Dim rect As New Rectangle With {
+                                          .Location = New Point(Margin, Height + 0.2 * gDrawHeight),
+                                          .Size = New Size(gdi.Width - 2 * Margin, gDrawHeight - 0.4 * gDrawHeight)
+                                      }
 
                                       Call gdi.Graphics.FillRectangle(Brushes.LightGray, rect)
                                       Dim cF As Double = (gdi.Width - 2 * Margin) / Models.Length
                                       Left += Models.First.Left * cF
+
                                       '绘制基本图形
                                       For i As Integer = 0 To Models.Count - 2
                                           Dim gene As GeneObject = Models(i)
                                           gene.Height = gDrawHeight
                                           Dim nextGene As GeneObject = Models(i + 1)
                                           Dim r As Rectangle
-                                          Left = gene.InvokeDrawing(gdi.Graphics, New Point(Left, Height), NextLeft:=nextGene.Left, convertFactor:=cF, Region:=r,
-                                                                          IdGrawingPositionDown:=IDDown, Font:=Font,
-                                                                          AlternativeArrowStyle:=Type2Arrow, IDConflictedRegion:=ID_ConflictedRegion)
+
+                                          Left = gene.InvokeDrawing(
+                                            gdi.Graphics, New Point(Left, Height), 
+                                            NextLeft:=nextGene.Left, 
+                                            convertFactor:=cF, 
+                                            arrowRect:=r,
+                                            IdGrawingPositionDown:=IDDown, Font:=Font,
+                                            AlternativeArrowStyle:=Type2Arrow, ID_conflictLayout:=ID_ConflictedRegion)
+
                                           Call gDrawRECT.Add(gene.locus_tag, r)
                                       Next
 
                                       Dim rr As Rectangle
                                       Call Models.Last.InvokeDrawing(gdi.Graphics, New Point(Left, Height), NextLeft:=Models.Length, convertFactor:=cF,
-                                                                           Region:=rr, IdGrawingPositionDown:=IDDown,
+                                                                           arrowRect:=rr, IdGrawingPositionDown:=IDDown,
                                                                            Font:=Font, AlternativeArrowStyle:=Type2Arrow,
-                                                                           IDConflictedRegion:=ID_ConflictedRegion)
+                                                                           ID_conflictLayout:=ID_ConflictedRegion)
                                       Call gDrawRECT.Add(Models.Last.locus_tag, rr)
 
                                       Return gDrawRECT

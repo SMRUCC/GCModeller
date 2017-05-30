@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df2d4bc3fe32a6785edd77d07334ad26, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::44aad776ffc1cd8473882bdf1130f9fa, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Reflection.vb"
 
     ' Author:
     ' 
@@ -258,6 +258,11 @@ NULL:       If Not strict Then
 #End If
     End Function
 
+    ''' <summary>
+    ''' 目标类型是不是VisualBasic之中的``Module``模块类型？
+    ''' </summary>
+    ''' <param name="typeDef"></param>
+    ''' <returns></returns>
     <ExportAPI("Is.Module")>
     <Extension> Public Function IsModule(typeDef As Type) As Boolean
         If typeDef.Name.IndexOf("$") > -1 OrElse typeDef.Name.IndexOf("`") > -1 Then

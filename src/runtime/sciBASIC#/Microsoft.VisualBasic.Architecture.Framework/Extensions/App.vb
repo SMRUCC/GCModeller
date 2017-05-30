@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a140200366deed9bfc782f1ced33be0, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\App.vb"
+﻿#Region "Microsoft.VisualBasic::f6f6385ee5ba7943985a3d6e0dd5dd97, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\App.vb"
 
     ' Author:
     ' 
@@ -332,13 +332,17 @@ Public Module App
     End Sub
 
     ''' <summary>
-    ''' 这个函数只是会从设置的变量之中查找，本模块之中的变量请直接从属性进行引用
+    ''' If the parameter <paramref name="name"/> is ignored, then the value from <see cref="CallerMemberNameAttribute"/> 
+    ''' will be used as variable name.
+    ''' (这个函数只是会从设置的变量之中查找，本模块之中的变量请直接从属性进行引用，对于查找失败的变量，这个函数会返回空值
+    ''' 假若忽略掉<paramref name="name"/>参数的话，则这个函数会使用<see cref="CallerMemberNameAttribute"/>来获取变量
+    ''' 的名称)
     ''' </summary>
     ''' <param name="name$">
     ''' 因为由于是从命令行之中输入进来的，所以可能有些时候大小写会影响直接字典查找，在这里需要用字符串手工查找
     ''' </param>
     ''' <returns>当没有查找到相对应的环境变量的时候会返回空值</returns>
-    Public Function GetVariable(name$) As String
+    Public Function GetVariable(<CallerMemberName> Optional name$ = Nothing) As String
         If __joinedVariables.ContainsKey(name) Then
             Return __joinedVariables(name).Value
         Else

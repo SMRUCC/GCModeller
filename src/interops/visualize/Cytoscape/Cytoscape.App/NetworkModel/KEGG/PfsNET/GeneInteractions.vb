@@ -26,7 +26,6 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.visualize.Network
@@ -34,16 +33,14 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.PfsNET.TabularArchives
-Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
-Imports ______NETWORK__ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network(Of
+Imports ______NETWORK__ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.Network(Of
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node,
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge)
-Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network(Of
+Imports __KEGG_NETWORK_ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.Network(Of
     Global.SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Enzyme,
     SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET.Interaction)
 
@@ -68,7 +65,7 @@ Namespace NetworkModel.PfsNET
                                              Function(sId) New NetworkEdge With {
                                              .FromNode = locus,
                                              .ToNode = sId,
-                                             .InteractionType = "EnzymeRelated"
+                                             .Interaction = "EnzymeRelated"
                                          })
                                          Select reactions).ToVector
             Return rels
@@ -113,7 +110,7 @@ Namespace NetworkModel.PfsNET
                                                         Select New NetworkEdge With {
                                                             .FromNode = rxn.Entry,
                                                             .ToNode = r.Entry,
-                                                            .InteractionType = "Flux"}).ToArray
+                                                            .Interaction = "Flux"}).ToArray
                            Select flux).ToVector
             Return New ______NETWORK__ With {
                 .Nodes = nodes,
@@ -193,7 +190,7 @@ Namespace NetworkModel.PfsNET
                 Call Edges.AddRange((From item In Line.Value.Edges Select New Interaction With {
                                                                        .FromNode = item.FromNode,
                                                                        .ToNode = item.ToNode,
-                                                                       .InteractionType = item.InteractionType,
+                                                                       .Interaction = item.Interaction,
                                                                        .Modules = {Line.Key}}).ToArray)
             Next
 
@@ -216,7 +213,7 @@ Namespace NetworkModel.PfsNET
                          .ToNode = instance.item.ToNode,
                          .Pathways = pathwaycollection,
                          .Modules = modules,
-                         .InteractionType = instance.item.InteractionType,
+                         .Interaction = instance.item.Interaction,
                          .Reactions = coeffectReactions}).AsList
 
             Dim Network As __KEGG_NETWORK_ = New __KEGG_NETWORK_ With {
@@ -277,7 +274,7 @@ Namespace NetworkModel.PfsNET
                                                         Select r.Reactions.ToArray(Function(x) New NetworkEdge With {
                                                             .FromNode = ezMap.locusId,
                                                             .ToNode = x,
-                                                            .InteractionType = "EnzymeRelated"}))).Unlist.ToVector
+                                                            .Interaction = "EnzymeRelated"}))).Unlist.ToVector
             Dim rxnRels As NetworkEdge() = (From rxn As bGetObject.Reaction
                                             In FromPathway.Metabolome.AsParallel
                                             Let NextRxn = (From r In FromPathway.Metabolome Where rxn.IsConnectWith(r) Select r).ToArray
@@ -286,7 +283,7 @@ Namespace NetworkModel.PfsNET
                                                     Select New NetworkEdge With {
                                                         .FromNode = rxn.Entry,
                                                         .ToNode = r.Entry,
-                                                        .InteractionType = "Flux"}).ToArray).ToArray.ToVector
+                                                        .Interaction = "Flux"}).ToArray).ToArray.ToVector
 
             Dim List As Dictionary(Of String, ______NETWORK__) =
                 (From kNod As bGetObject.Module In FromPathway.Modules.AsParallel
@@ -351,7 +348,7 @@ Namespace NetworkModel.PfsNET
                                                Select New NetworkEdge With {
                                                    .FromNode = id,
                                                    .ToNode = id2,
-                                                   .InteractionType = "Coeffect"}).ToArray).ToArray.ToVector)
+                                                   .Interaction = "Coeffect"}).ToArray).ToArray.ToVector)
             End If
             If [to].Length > 1 Then
                 Call ListDDD.AddRange((From id As String In [to]
@@ -359,7 +356,7 @@ Namespace NetworkModel.PfsNET
                                                Select New NetworkEdge With {
                                                    .FromNode = id,
                                                    .ToNode = id2,
-                                                   .InteractionType = "Coeffect"}).ToArray).ToArray.ToVector)
+                                                   .Interaction = "Coeffect"}).ToArray).ToArray.ToVector)
             End If
 
             Call ListDDD.AddRange((From id As String
@@ -369,7 +366,7 @@ Namespace NetworkModel.PfsNET
                                            Select New NetworkEdge With {
                                                .FromNode = id,
                                                .ToNode = id2,
-                                               .InteractionType = "Flux"}).ToArray).ToVector)
+                                               .Interaction = "Flux"}).ToArray).ToVector)
 
             Return ListDDD.ToArray
         End Function

@@ -1,33 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::61509c89c2fcf062e4c2bca4172d983a, ..\core\Bio.Assembly\ComponentModel\Loci.Models\LociSites\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 
 Namespace ComponentModel.Loci
@@ -65,7 +65,7 @@ Namespace ComponentModel.Loci
 
             For Each x As IMotifSite In sitesData
                 x.Site.Extension = New ExtendedProps
-                x.Site.Extension.DynamicHash(motif) = x
+                x.Site.Extension.DynamicHashTable(motif) = x
                 locations.Add(x.Site)
             Next
 
@@ -74,10 +74,10 @@ Namespace ComponentModel.Loci
                 .FragmentAssembly(gapOffset)
 
             For Each x As Location In assm
-                Dim o As IMotifSite = DirectCast(x.Extension.DynamicHash(motif), IMotifSite)
+                Dim o As IMotifSite = DirectCast(x.Extension.DynamicHashTable(motif), IMotifSite)
 
                 Call x.Extension _
-                    .DynamicHash _
+                    .DynamicHashTable _
                     .Properties _
                     .Remove(motif)
                 out += New MotifSite With {
@@ -87,12 +87,12 @@ Namespace ComponentModel.Loci
                         o.Type
                     } _
                     .Join(x.Extension _
-                           .DynamicHash _
+                           .DynamicHashTable _
                            .Properties _
                            .Values _
                            .Select(Function(s) DirectCast(DirectCast(s, Location) _
                            .Extension _
-                           .DynamicHash _
+                           .DynamicHashTable _
                            .Properties(motif), IMotifSite).Type)) _
                     .JoinBy("+")  ' 这里不进行Distinct了，因为这些重复的类型可能还有别的用途，例如数量上面的统计之类的
                 }
