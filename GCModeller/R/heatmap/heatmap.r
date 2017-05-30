@@ -30,7 +30,8 @@ plotDEPs <- function(csv,
 					 title         = NA, 
 					 plot.margin   = c(4, 3), 
 					 l.width       = c(1.5, 2), 
-					 l.height      = c(0.4, 2)) {
+					 l.height      = c(0.4, 2), 
+					 t.log2 = FALSE) {
 
 	#########################################################
 	### B) Reading in data and transform it into matrix format
@@ -41,6 +42,10 @@ plotDEPs <- function(csv,
 	mat_data           <- data.matrix(data[,2:ncol(data)])  # transform column 2-5 into a matrix
 	rownames(mat_data) <- rnames                            # assign row names
 
+	if (t.log2) {
+		mat_data <- log(mat_data, 2);
+	}
+	
 	#########################################################
 	### C) Customizing and plotting the heat map
 	#########################################################
