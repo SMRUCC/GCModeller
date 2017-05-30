@@ -39,11 +39,13 @@ Partial Module CLI
         Dim mapping$ = args <= "/mapping"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".uniprotID.csv")
         Dim proteins = EntityObject.LoadDataSet([in])
-        Dim mappings = Retrieve_IDmapping.MappingReader(mapping)
+        Dim mappings = Retrieve_IDmapping _
+            .MappingReader(mapping) _
+            .UniprotIDFilter
 
         For Each prot In proteins
             If mappings.ContainsKey(prot.ID) Then
-                prot.ID = mappings(prot.ID).JoinBy("; ")
+                prot.ID = mappings(prot.ID)
             End If
         Next
 

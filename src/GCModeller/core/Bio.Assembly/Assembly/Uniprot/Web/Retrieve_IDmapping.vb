@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Collections.Specialized
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.Linq
@@ -184,6 +185,39 @@ Namespace Assembly.Uniprot.Web
                                       .ToArray
                               End Function)
             Return maps
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="mappings"></param>
+        ''' <param name="initials">Q开头的编号一般都是reviewed状态的蛋白数据</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function UniprotIDFilter(mappings As Dictionary(Of String, String()), Optional initials$ = "QP") As Dictionary(Of String, String)
+            Dim table As New Dictionary(Of String, String)
+
+            For Each idMaps In mappings
+                If idMaps.Value.Length = 1 Then
+                    table(idMaps.Key) = idMaps.Value.First
+                ElseIf idMaps.Value.IsNullOrEmpty Then
+                    ' Do Nothing
+                Else ' > 1
+                    For Each init As Char In initials
+                        Dim id = idMaps.Value.Where(Function(s) s.First = init).FirstOrDefault
+                        If Not id.StringEmpty Then
+                            table(idMaps.Key) = id
+                            Exit For
+                        End If
+                    Next
+
+                    If Not table.ContainsKey(idMaps.Key) Then
+                        table(idMaps.Key) = idMaps.Value.First
+                    End If
+                End If
+            Next
+
+            Return table
         End Function
 
         ''' <summary>
