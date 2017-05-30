@@ -32,7 +32,7 @@ Imports SMRUCC.genomics.Visualize
 Partial Module CLI
 
     <ExportAPI("/update.uniprot.mapped",
-               Usage:="/update.uniprot.mapped /in <table.csv> /mapping <mapping.tsv/tab> [/out <out.csv>]")>
+               Usage:="/update.uniprot.mapped /in <table.csv> /mapping <mapping.tsv/tab> [/source /out <out.csv>]")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function Update2UniprotMappedID(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -42,8 +42,12 @@ Partial Module CLI
         Dim mappings = Retrieve_IDmapping _
             .MappingReader(mapping) _
             .UniprotIDFilter
+        Dim source As Boolean = args.GetBoolean("/source")
 
         For Each prot In proteins
+            If source Then
+                prot.Properties.Add(NameOf(source), prot.ID)
+            End If
             If mappings.ContainsKey(prot.ID) Then
                 prot.ID = mappings(prot.ID)
             End If
