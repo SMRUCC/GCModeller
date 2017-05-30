@@ -321,6 +321,10 @@ Public Module ProteinGroups
             .IteratesALL _
             .Distinct _
             .FirstOrDefault
+        Dim orgNames$ = uniprots _
+            .Select(Function(prot) prot.OrganismScientificName) _
+            .Distinct _
+            .JoinBy("; ")
 
         Call annotations.Add("geneName", geneNames)
         Call annotations.Add("ORF", ORF)
@@ -329,7 +333,7 @@ Public Module ProteinGroups
         Call annotations.Add("GO", GO.JoinBy("; "))
         Call annotations.Add("EC", EC.JoinBy("; "))
         Call annotations.Add("KO", KO.JoinBy("; "))
-        Call annotations.Add("organism", uniprots.Select(Function(prot) prot.OrganismScientificName).JoinBy("; "))
+        Call annotations.Add("organism", orgNames)
 
         'getKeyValue = Function(key)
         '                  Return uniprots _
