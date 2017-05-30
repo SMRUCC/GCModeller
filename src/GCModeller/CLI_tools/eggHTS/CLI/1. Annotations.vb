@@ -31,6 +31,33 @@ Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
 
+    <ExportAPI("/update.uniprot.mapped",
+               Usage:="/update.uniprot.mapped /in <table.csv> /mapping <mapping.tsv/tab> [/source /out <out.csv>]")>
+    <Group(CLIGroups.Annotation_CLI)>
+    Public Function Update2UniprotMappedID(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim mapping$ = args <= "/mapping"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".uniprotID.csv")
+        Dim proteins = EntityObject.LoadDataSet([in])
+        Dim mappings = Retrieve_IDmapping _
+            .MappingReader(mapping) _
+            .UniprotIDFilter
+        Dim source As Boolean = args.GetBoolean("/source")
+
+        For Each prot In proteins
+            If source Then
+                prot.Properties.Add(NameOf(source), prot.ID)
+            End If
+            If mappings.ContainsKey(prot.ID) Then
+                prot.ID = mappings(prot.ID)
+            End If
+        Next
+
+        Return proteins _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
     <ExportAPI("/Samples.IDlist",
                Info:="Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.",
                Usage:="/Samples.IDlist /in <samples.csv> [/Perseus /shotgun /pair <samples2.csv> /out <out.list.txt>]")>
