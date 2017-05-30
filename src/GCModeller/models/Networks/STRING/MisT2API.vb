@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::e3128df7ff7b6c0e1d7d05e2a5364283, ..\GCModeller\models\Networks\STRING\MisT2API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,8 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.Data.STRING.SimpleCsv
+Imports SMRUCC.genomics.Model.Network.STRING.Models
+Imports STRING_netGraph = SMRUCC.genomics.Model.Network.STRING.Models.Network
 
 <[PackageNamespace]("MiST2.STrP_Network", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gmail.com")>
 Public Module MisT2API
@@ -40,7 +42,7 @@ Public Module MisT2API
                    Info:="Assemble the signal transduction network from string-db protein interaction data and MiST2 annotations.")>
     Public Function AssemblySignalTransductionNetwork(stringDB As IEnumerable(Of PitrNode),
                                                           MiST2 As String,
-                                                          Regulators As IEnumerable(Of RegpreciseMPBBH)) As Network
+                                                          Regulators As IEnumerable(Of RegpreciseMPBBH)) As STRING_netGraph
         Dim Assembler As New Assembler(stringDB, MiST2, Regulators)
         Return Assembler.CompileAssembly()
     End Function
@@ -54,13 +56,13 @@ Public Module MisT2API
     Public Function AssemblySignalTransductionNetwork(stringDB As PitrNode(),
                                                           MiST2 As String,
                                                           Regulators As RegpreciseMPBBH(),
-                                                          Mapping As EffectorMap()) As Network
+                                                          Mapping As EffectorMap()) As STRING_netGraph
         Dim Assembler As New Assembler(stringDB, MiST2, Regulators)
         Return Assembler.CompileAssembly(Mapping)
     End Function
 
     <ExportAPI("Write.Xml.STrP", Info:="Save the signal transduction network model file.")>
-    Public Function SaveNetwork(Network As Network, <Parameter("Save.Path")> file As String) As Boolean
+    Public Function SaveNetwork(Network As STRING_netGraph, <Parameter("Save.Path")> file As String) As Boolean
         Return Network.GetXml.SaveTo(file)
     End Function
 
