@@ -26,10 +26,16 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
 
 Namespace Assembly.EBI.ChEBI
 
+    ''' <summary>
+    ''' Chebi <see cref="ChEBIEntity"/> model extensions
+    ''' </summary>
     Public Module DATA
 
         ''' <summary>
@@ -48,6 +54,87 @@ Namespace Assembly.EBI.ChEBI
         ''' <returns></returns>
         Public Function LoadNameOfDatabaseFromTsv(DIR$) As [NameOf]
             Return New [NameOf](New TSVTables(DIR))
+        End Function
+
+        ''' <summary>
+        ''' Using the **IUPAC** name as the ``Systematic Name``.
+        ''' </summary>
+        ''' <param name="chebi"></param>
+        ''' <returns></returns>
+        <Extension> Public Function SystematicName(chebi As ChEBIEntity) As String
+            Dim IUPAC = chebi.IupacNames
+
+            If IUPAC.IsNullOrEmpty Then
+                Return Nothing
+            End If
+
+            For Each name As Synonyms In IUPAC
+                If name.type.TextEquals("IUPAC NAME") AndAlso name.source.TextEquals("IUPAC") Then
+                    Return name.data
+                End If
+            Next
+
+            Return IUPAC.First.data
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="chebi"></param>
+        ''' <param name="type$">
+        ''' See the constant string values in <see cref="RegistryNumbers"/> or <see cref="AccessionTypeNames"/>
+        ''' </param>
+        ''' <returns></returns>
+        <Extension> Public Function GetXrefID(chebi As ChEBIEntity, type$) As NamedValue(Of String)()
+            Dim registryNumbers = chebi.RegistryNumbersSearchModel
+
+            If registryNumbers.ContainsKey(type) Then
+                Return registryNumbers(type)
+            Else
+                Return Nothing
+            End If
+        End Function
+
+        Public ReadOnly Property AccessionTypeNames As Dictionary(Of AccessionTypes, String) =
+            Enums(Of AccessionTypes) _
+            .ToDictionary(Function(key) key,
+                          Function(t)
+                              Return t.Description
+                          End Function)
+
+        <Extension>
+        Public Function RegistryNumbersSearchModel(chebi As ChEBIEntity) As Dictionary(Of String, NamedValue(Of String)())
+            Dim registryNumbers = chebi.RegistryNumbers _
+                .SafeQuery _
+                .GroupBy(Function(id) id.type) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(values)
+                                  Return values.Select(Function(id)
+                                                           Return New NamedValue(Of String) With {
+                                                               .Name = id.source,
+                                                               .Value = id.data
+                                                           }
+                                                       End Function) _
+                                               .ToArray
+                              End Function)
+            Dim links = chebi.DatabaseLinks _
+                .SafeQuery _
+                .GroupBy(Function(id) id.type)
+
+            For Each type In links
+                Dim g As NamedValue(Of String)() =
+                    type _
+                    .Select(Function(id)
+                                Return New NamedValue(Of String) With {
+                                    .Name = "",
+                                    .Value = id.data
+                                }
+                            End Function) _
+                    .ToArray
+                Call registryNumbers.Add(type.Key, g)
+            Next
+
+            Return registryNumbers
         End Function
     End Module
 End Namespace

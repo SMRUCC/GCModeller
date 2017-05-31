@@ -182,12 +182,17 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
         Return plot.Save(out).CLICode
     End Function
 
+    ''' <summary>
+    ''' ``/ORF``参数是表示使用uniprot注释数据库之中的ORF值来作为查找的键名
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Enrichments.ORF.info",
                Info:="Retrive KEGG/GO info for the genes in the enrichment result.",
                Usage:="/Enrichments.ORF.info /in <enrichment.csv> /proteins <uniprot-genome.XML> [/nocut /ORF /out <out.csv>]")>
     <Argument("/ORF", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
-              Description:="If this argument presented, then the program will using the ORF value in uniprot.xml as the record identifier, 
+              Description:="If this argument presented, then the program will using the ORF value in ``uniprot.xml`` as the record identifier, 
               default is using uniprotID in the accessions fields of the uniprot.XML records.")>
     <Argument("/nocut", True,
               Description:="Default is using pvalue < 0.05 as term cutoff, if this argument presented, then will no pavlue cutoff for the terms input.")>
@@ -217,7 +222,7 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
                 .ToDictionary(Function(x) DirectCast(x, INamedValue).Key)
         End If
 
-        For Each term As EnrichmentTerm In [in].LoadCsv(Of EnrichmentTerm).Where(Function(t) t.Pvalue < pvalue)
+        For Each term As EnrichmentTerm In [in].LoadCsv(Of EnrichmentTerm).Where(Function(t) t.Pvalue <= pvalue)
             csv += New RowObject From {
                 "#term-ID=" & term.ID,
                 "term=" & term.Term,
