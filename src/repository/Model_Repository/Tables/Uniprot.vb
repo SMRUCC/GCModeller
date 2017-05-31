@@ -27,7 +27,7 @@
 #End Region
 
 Imports System.Data.Linq.Mapping
-Imports System.Data.SQLite.Linq.QueryBuilder
+' Imports System.Data.SQLite.Linq.QueryBuilder
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.Uniprot
 
