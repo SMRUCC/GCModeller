@@ -57,6 +57,27 @@ Namespace Assembly.EBI.ChEBI
         End Function
 
         ''' <summary>
+        ''' Using the **IUPAC** name as the ``Systematic Name``.
+        ''' </summary>
+        ''' <param name="chebi"></param>
+        ''' <returns></returns>
+        <Extension> Public Function SystematicName(chebi As ChEBIEntity) As String
+            Dim IUPAC = chebi.IupacNames
+
+            If IUPAC.IsNullOrEmpty Then
+                Return Nothing
+            End If
+
+            For Each name As Synonyms In IUPAC
+                If name.type.TextEquals("IUPAC NAME") AndAlso name.source.TextEquals("IUPAC") Then
+                    Return name.data
+                End If
+            Next
+
+            Return IUPAC.First.data
+        End Function
+
+        ''' <summary>
         ''' 
         ''' </summary>
         ''' <param name="chebi"></param>
