@@ -27,8 +27,8 @@
 #End Region
 
 Imports System.Data.Linq.Mapping
-Imports System.Data.SQLite.Linq
-Imports System.Data.SQLite.Linq.Reflector
+' Imports System.Data.SQLite.Linq
+' Imports System.Data.SQLite.Linq.Reflector
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
 Namespace Tables

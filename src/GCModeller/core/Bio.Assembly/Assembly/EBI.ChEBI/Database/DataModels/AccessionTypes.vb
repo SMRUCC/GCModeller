@@ -30,6 +30,9 @@ Imports System.ComponentModel
 
 Namespace Assembly.EBI.ChEBI
 
+    ''' <summary>
+    ''' Chebi accession types, table key name in <see cref="RegistryNumbers"/>
+    ''' </summary>
     Public Enum AccessionTypes As Byte
 
         ''' <summary>
