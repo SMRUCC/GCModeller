@@ -45,8 +45,8 @@ Namespace Core
             Dim ext As String = "." & Me.Path.Split("."c).Last
 
             Me.content = If(
-                MIME.ExtDict.ContainsKey(ext),
-                MIME.ExtDict(ext),
+                MIME.SuffixTable.ContainsKey(ext),
+                MIME.SuffixTable(ext),
                 MIME.UnknownType)
         End Sub
 

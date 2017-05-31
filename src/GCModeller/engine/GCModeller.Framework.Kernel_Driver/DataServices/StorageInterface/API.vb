@@ -103,7 +103,7 @@ Namespace DataStorage.FileModel
             If data.IsNullOrEmpty Then
                 Return 0
             End If
-            Return data.First.Samples.GetElementCounts
+            Return data.First.Samples.DataCounts
         End Function
     End Module
 End Namespace
