@@ -61,7 +61,7 @@ Namespace Assembly.EBI.ChEBI
         ''' </summary>
         ''' <param name="chebi"></param>
         ''' <param name="type$">
-        ''' See the constant string values in <see cref="RegistryNumbers"/> or <see cref="accessionTypes"/>
+        ''' See the constant string values in <see cref="RegistryNumbers"/> or <see cref="AccessionTypeNames"/>
         ''' </param>
         ''' <returns></returns>
         <Extension> Public Function GetXrefID(chebi As ChEBIEntity, type$) As NamedValue(Of String)()
@@ -74,9 +74,10 @@ Namespace Assembly.EBI.ChEBI
             End If
         End Function
 
-        Public ReadOnly Property accessionTypes As Dictionary(Of String, AccessionTypes) =
+        Public ReadOnly Property AccessionTypeNames As Dictionary(Of AccessionTypes, String) =
             Enums(Of AccessionTypes) _
-            .ToDictionary(Function(t)
+            .ToDictionary(Function(key) key,
+                          Function(t)
                               Return t.Description
                           End Function)
 
