@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports vbList = Microsoft.VisualBasic.Language.List(Of String)
@@ -283,13 +284,13 @@ l;
     ''' <param name="df"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function WriteDataFrame(Of T)(df As IEnumerable(Of T)) As String
+    Public Function WriteDataFrame(Of T)(df As IEnumerable(Of T), Optional encoding As Encodings = Encodings.UTF8) As String
         Dim tmp$ = App.GetAppSysTempFile(sessionID:=App.PID).UnixPath
         Dim var$ = App.NextTempName
 
         SyncLock R
             With R
-                df.SaveTo(tmp)
+                df.SaveTo(tmp,, encoding.CodePage)
                 .call = $"{var} <- read.csv({Rstring(tmp)})"
             End With
         End SyncLock
