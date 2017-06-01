@@ -1,5 +1,0 @@
-Imports GCModeller.RQL
-
-var value = From x As Integer in $source let a As "Double" =CDbl(x) Where a <> 0 Select x, n =a/3, g=Max(x,n) Group By n Into Group
-
-Return $value
