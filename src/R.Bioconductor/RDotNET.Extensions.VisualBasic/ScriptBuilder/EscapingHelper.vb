@@ -2,6 +2,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Text
 
 Namespace SymbolBuilder
 
@@ -27,7 +28,7 @@ Namespace SymbolBuilder
 
                 For Each [property] As PropertyInfo In props
                     s = Scripting.CStrSafe([property].GetValue(o))
-                    s = EscapingHelper.MySqlDeEscaping(s)
+                    s = EscapingHelper.R_Escaping(s)
                     Call [property].SetValue(o, value:=s)
                 Next
             Next
@@ -35,12 +36,15 @@ Namespace SymbolBuilder
             Return source
         End Function
 
+        Const R_quot$ = "\"""
+        Const R_quot_escape$ = "\R.quot;"
+
         ''' <summary>
         ''' MySQL和R之间的转移符不兼容，所以在这里需要将mysql之中的不兼容的转移符取消掉，否则自动生成的R脚本会出现语法错误
         ''' </summary>
         ''' <param name="value$"></param>
         ''' <returns></returns>
-        Public Function MySqlDeEscaping(value$) As String
+        <Extension> Public Function R_Escaping(value$) As String
             If value.StringEmpty Then
                 Return ""
             Else
@@ -50,6 +54,10 @@ Namespace SymbolBuilder
                 Call sb.Replace("\'", "'")
                 Call sb.Replace("\Z", "[Z]")
                 Call sb.Replace("\0", "")
+
+                Call sb.Replace(R_quot, R_quot_escape)
+                Call sb.Replace(ASCII.Quot, R_quot)
+                Call sb.Replace(R_quot_escape, R_quot)
 
                 Return sb.ToString
             End If
