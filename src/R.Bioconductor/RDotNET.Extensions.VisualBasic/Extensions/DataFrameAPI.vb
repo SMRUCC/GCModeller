@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports vbList = Microsoft.VisualBasic.Language.List(Of String)
@@ -100,6 +101,8 @@ Public Module DataFrameAPI
     ''' # 2 3 bb FALSE
     ''' # 3 5 cc  TRUE
     ''' ```
+    ''' 
+    ''' (这个函数是不经过文件过程的，故而对于大csv文件而言，不适合。只推荐小csv文件使用)
     ''' </summary>
     ''' <param name="df"></param>
     ''' <param name="var"></param>
@@ -118,6 +121,11 @@ Public Module DataFrameAPI
 
         SyncLock R
             With R
+                Dim ref$ = App.NextTempName
+                Dim refNames$() = New String(names.Length - 1) {}
+
+                .call = $"{ref} <- list();"
+
                 For Each col As SeqValue(Of String()) In df.Columns.SeqIterator
                     Dim name As String = names(col.i)
                     Dim type As Type = If(
@@ -137,10 +145,13 @@ Public Module DataFrameAPI
                             cc = RScripts.c(col.value.ToArray(Function(x) DirectCast(x, Object)))
                     End Select
 
+                    refNames(col.i) = $"{ref}$""{name}"""
+                    name = refNames(col.i)
                     .call = $"{name} <- {cc}"   ' x <- c(....)
                 Next
 
-                .call = $"{var} <- data.frame({names.JoinBy(", ")})"
+                .call = $"{var} <- data.frame({refNames.JoinBy(", ")})"
+                .call = $"colnames({var}) <- {base.c(names, stringVector:=True)}"
 
                 If rowNames IsNot Nothing Then
                     Dim rows As String() = rowNames.ToArray
@@ -248,5 +259,42 @@ l;
                 Return csv
             End With
         End SyncLock
+    End Function
+
+    ''' <summary>
+    ''' 将一个R变量转换为数据框对象
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="var"></param>
+    ''' <returns></returns>
+    <Extension> Public Function AsDataFrame(Of T As Class)(var As var) As T()
+        Dim tmp$ = App.GetAppSysTempFile
+        Dim out As T()
+
+        utils.write.csv(x:=var.Name, file:=tmp, rowNames:=False)
+        out = tmp.LoadCsv(Of T)
+
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Write the ``vb.net`` csv dataframe into the R server memory through file IO.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="df"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function WriteDataFrame(Of T)(df As IEnumerable(Of T), Optional encoding As Encodings = Encodings.UTF8) As String
+        Dim tmp$ = App.GetAppSysTempFile(sessionID:=App.PID).UnixPath
+        Dim var$ = App.NextTempName
+
+        SyncLock R
+            With R
+                df.SaveTo(tmp,, encoding.CodePage)
+                .call = $"{var} <- read.csv({Rstring(tmp)})"
+            End With
+        End SyncLock
+
+        Return var
     End Function
 End Module

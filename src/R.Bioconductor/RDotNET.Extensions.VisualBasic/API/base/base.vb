@@ -94,7 +94,7 @@ Namespace API
         ''' 
         ''' Reload Saved Datasets, Reload datasets written with the function <see cref="save"/>.
         ''' 
-        ''' 
+        ''' (这个函数返回所加载的rda文件数据集之中的所存储的对象的列表)
         ''' </summary>
         ''' <param name="file$">
         ''' a (readable binary-mode) connection or a character string giving the name of the file to load (when tilde expansion is done).
@@ -283,7 +283,9 @@ Namespace API
         End Function
 
         ''' <summary>
-        ''' 默认为生成字符串数组，这个函数是针对于R字符串而言的，<paramref name="list"/>参数之中的字符串的值都会被转义为字符串
+        ''' Execute a ``c()`` vector api and returns a tmp variable name.
+        ''' (默认为生成字符串数组，这个函数是针对于R字符串而言的，
+        ''' <paramref name="list"/>参数之中的字符串的值都会被转义为字符串)
         ''' </summary>
         ''' <param name="list">
         ''' 所需要生成集合的对象列表，这个参数所代表的含义会依据<paramref name="stringVector"/>的值而变化
