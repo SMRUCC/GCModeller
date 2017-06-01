@@ -100,6 +100,8 @@ Public Module DataFrameAPI
     ''' # 2 3 bb FALSE
     ''' # 3 5 cc  TRUE
     ''' ```
+    ''' 
+    ''' (这个函数是不经过文件过程的，故而对于大csv文件而言，不适合。只推荐小csv文件使用)
     ''' </summary>
     ''' <param name="df"></param>
     ''' <param name="var"></param>
@@ -272,5 +274,26 @@ l;
         out = tmp.LoadCsv(Of T)
 
         Return out
+    End Function
+
+    ''' <summary>
+    ''' Write the ``vb.net`` csv dataframe into the R server memory through file IO.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="df"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function WriteDataFrame(Of T)(df As IEnumerable(Of T)) As String
+        Dim tmp$ = App.GetAppSysTempFile(sessionID:=App.PID).UnixPath
+        Dim var$ = App.NextTempName
+
+        SyncLock R
+            With R
+                df.SaveTo(tmp)
+                .call = $"{var} <- read.csv({Rstring(tmp)})"
+            End With
+        End SyncLock
+
+        Return var
     End Function
 End Module
