@@ -249,4 +249,20 @@ l;
             End With
         End SyncLock
     End Function
+
+    ''' <summary>
+    ''' 将一个R变量转换为数据框对象
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="var"></param>
+    ''' <returns></returns>
+    <Extension> Public Function AsDataFrame(Of T As Class)(var As var) As T()
+        Dim tmp$ = App.GetAppSysTempFile
+        Dim out As T()
+
+        utils.write.csv(x:=var.Name, file:=tmp, rowNames:=False)
+        out = tmp.LoadCsv(Of T)
+
+        Return out
+    End Function
 End Module

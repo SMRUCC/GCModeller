@@ -94,7 +94,7 @@ Namespace API
         ''' 
         ''' Reload Saved Datasets, Reload datasets written with the function <see cref="save"/>.
         ''' 
-        ''' 
+        ''' (这个函数返回所加载的rda文件数据集之中的所存储的对象的列表)
         ''' </summary>
         ''' <param name="file$">
         ''' a (readable binary-mode) connection or a character string giving the name of the file to load (when tilde expansion is done).
