@@ -334,10 +334,10 @@ Namespace Core
         Private Sub __transferData(p As HttpProcessor, ext As String, buf As Byte(), name As String)
             Dim type As ContentType
 
-            If Not ContentTypes.ExtDict.ContainsKey(ext) Then
-                type = ContentTypes.ExtDict(".bin")
+            If Not ContentTypes.SuffixTable.ContainsKey(ext) Then
+                type = ContentTypes.SuffixTable(".bin")
             Else
-                type = ContentTypes.ExtDict(ext)
+                type = ContentTypes.SuffixTable(ext)
             End If
 
             'Dim chead As New Content With {
