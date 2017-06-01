@@ -2,11 +2,13 @@
 Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Emit.Delegates
 
     ''' <summary>
-    ''' 将属性的<see cref="PropertyInfo.SetValue(Object, Object)"/>编译为方法调用
+    ''' .NET object collection data property value ``get/set`` helper.
+    ''' (将属性的<see cref="PropertyInfo.SetValue(Object, Object)"/>编译为方法调用)
     ''' </summary>
     Public Class DataValue(Of T)
 
@@ -98,5 +100,14 @@ Namespace Emit.Delegates
         Public Overrides Function ToString() As String
             Return type.FullName
         End Function
+
+        Private Shared Sub TestDEMO()
+            Dim vector As NamedValue(Of String)() = {}
+            Dim previousData As String() = Linq.DATA(vector).Evaluate("Value")
+
+            Linq.DATA(vector).Evaluate("Value") = {} ' set all value property to nothing
+            Linq.DATA(vector).Evaluate("Value") = {"1"} ' set all value property to a specifc value "1"
+            Linq.DATA(vector).Evaluate("Value") = {"1", "2", "3"}
+        End Sub
     End Class
 End Namespace
