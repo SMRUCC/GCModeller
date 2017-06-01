@@ -118,6 +118,11 @@ Public Module DataFrameAPI
 
         SyncLock R
             With R
+                Dim ref$ = App.NextTempName
+                Dim refNames$() = New String(names.Length - 1) {}
+
+                .call = $"{ref} <- list();"
+
                 For Each col As SeqValue(Of String()) In df.Columns.SeqIterator
                     Dim name As String = names(col.i)
                     Dim type As Type = If(
@@ -137,10 +142,13 @@ Public Module DataFrameAPI
                             cc = RScripts.c(col.value.ToArray(Function(x) DirectCast(x, Object)))
                     End Select
 
+                    refNames(col.i) = $"{ref}$""{name}"""
+                    name = refNames(col.i)
                     .call = $"{name} <- {cc}"   ' x <- c(....)
                 Next
 
-                .call = $"{var} <- data.frame({names.JoinBy(", ")})"
+                .call = $"{var} <- data.frame({refNames.JoinBy(", ")})"
+                .call = $"colnames({var}) <- {base.c(names, stringVector:=True)}"
 
                 If rowNames IsNot Nothing Then
                     Dim rows As String() = rowNames.ToArray
