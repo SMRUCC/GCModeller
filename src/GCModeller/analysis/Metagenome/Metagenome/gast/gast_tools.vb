@@ -225,12 +225,14 @@ Namespace gast
     Public Class Names : Implements INamedValue
 
         Public Property Unique As String Implements INamedValue.Key
-        <Ignored> Public Property members As String()
+        <Ignored>
+        Public Property members As String()
         Public Property NumOfSeqs As Integer
         Public Property taxonomy As String
         Public Property distance As Double
         Public Property refs As String
-        <Meta> Public Property Composition As Dictionary(Of String, String)
+        <Meta>
+        Public Property Composition As Dictionary(Of String, String)
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
