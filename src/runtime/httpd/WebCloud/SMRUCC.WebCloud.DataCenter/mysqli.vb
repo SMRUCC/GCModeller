@@ -43,6 +43,22 @@ Imports mysqliEnd = Oracle.LinuxCompatibility.MySQL.MySQL
         End If
     End Sub
 
+    ''' <summary>
+    ''' 使用``httpd``的``run.dll``命令行进行测试
+    ''' 
+    ''' ```
+    ''' mysqli::TestMySQLi
+    ''' ```
+    ''' </summary>
+    Public Sub TestMySQLi()
+        Try
+            Call New mysqliEnd().init
+            Call "Mysqli connection config test success!".__INFO_ECHO
+        Catch ex As Exception
+            Call "Mysqli connection config test failure!".PrintException
+        End Try
+    End Sub
+
     Public Sub RunConfig()
         Dim readString = Function(s$, ByRef result$)
                              result = s
