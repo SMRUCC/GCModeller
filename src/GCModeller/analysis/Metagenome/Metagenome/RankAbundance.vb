@@ -1,4 +1,7 @@
-﻿''' <summary>
+﻿Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Analysis.Metagenome.gast
+
+''' <summary>
 ''' ``Rank Abundance``曲线
 ''' </summary>
 Public Module RankAbundance
@@ -15,7 +18,7 @@ Public Module RankAbundance
     ''' <remarks>
     ''' > Scott T Bates, Jose C Clemente, et al. Global biogeography of highly diverse protistan communities in soil. The ISME Journal (2013) 7, 652–659; doi:10.1038/ismej.2012.147.
     ''' </remarks>
-    Public Function Plot()
+    <Extension> Public Function Plot(otus As IEnumerable(Of Names))
 
     End Function
 End Module
