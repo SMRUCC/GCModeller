@@ -17,7 +17,7 @@ Namespace Assembly.EBI.ChEBI
         Public Function SearchByNameAndFormula(chebi As Dictionary(Of Long, ChEBIEntity),
                                                name$,
                                                formula$,
-                                               Optional parallel As Boolean = True) As ChEBIEntity
+                                               Optional parallel As Boolean = True) As IEnumerable(Of ChEBIEntity)
 
             Dim source As IEnumerable(Of ChEBIEntity)
             Dim nameString As New LevenshteinString(name.ToLower)
@@ -28,14 +28,14 @@ Namespace Assembly.EBI.ChEBI
                 source = chebi.Values
             End If
 
-            Dim LQuery = LinqAPI.DefaultFirst(Of ChEBIEntity) <=
- _
-                From metabolite As ChEBIEntity
-                In source
-                Where metabolite.Formulae.data.TextEquals(formula)
-                Let match = nameString Like LCase(metabolite.chebiAsciiName)
-                Where Not match Is Nothing AndAlso match.MatchSimilarity >= 0.75
-                Select metabolite
+            Dim LQuery = From metabolite As ChEBIEntity
+                         In source
+                         Where Not metabolite.Formulae Is Nothing AndAlso
+                             metabolite.Formulae.data.TextEquals(formula)
+                         Let match = nameString Like LCase(metabolite.chebiAsciiName)
+                         Where Not match Is Nothing AndAlso
+                             match.MatchSimilarity >= 0.75
+                         Select metabolite
 
             Return LQuery
         End Function
