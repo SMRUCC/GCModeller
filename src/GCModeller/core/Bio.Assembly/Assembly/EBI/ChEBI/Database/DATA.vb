@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
+Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
 
 Namespace Assembly.EBI.ChEBI
 

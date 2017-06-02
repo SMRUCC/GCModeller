@@ -3,10 +3,21 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Expressions
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
+Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
 
 Namespace Assembly.EBI.ChEBI
 
     Public Module Extensions
+
+        ''' <summary>
+        ''' Gets the numeirc chebi main ID
+        ''' </summary>
+        ''' <param name="chebi"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function MainID(chebi As ChEBIEntity) As Long
+            Return CLng(Val(chebi.chebiId.Split(":"c).Last))
+        End Function
 
         ''' <summary>
         ''' 从用户所提供的有限的信息之中获取得到chebi编号结果

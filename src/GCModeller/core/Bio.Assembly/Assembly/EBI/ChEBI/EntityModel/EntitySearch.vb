@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Levenshtein
+Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
 
 Namespace Assembly.EBI.ChEBI
 
