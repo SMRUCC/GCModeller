@@ -118,6 +118,10 @@ Namespace Assembly.EBI.ChEBI
             End If
         End Function
 
+        <Extension> Public Function GetXrefID(chebi As ChEBIEntity, type As AccessionTypes) As NamedValue(Of String)()
+            Return chebi.GetXrefID(AccessionTypeNames(type))
+        End Function
+
         Public ReadOnly Property AccessionTypeNames As Dictionary(Of AccessionTypes, String) =
             Enums(Of AccessionTypes) _
             .ToDictionary(Function(key) key,
