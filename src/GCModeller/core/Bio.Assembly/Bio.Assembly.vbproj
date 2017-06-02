@@ -273,6 +273,7 @@
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Extensions.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Database\IO.StreamProviders\Tables.vb" />
     <Compile Include="Assembly\EBI.ChEBI\EntityModel\Extensions.vb" />
+    <Compile Include="Assembly\EBI.ChEBI\EntityModel\EntitySearch.vb" />
     <Compile Include="Assembly\EBI.ChEBI\Web\REST.vb" />
     <Compile Include="Assembly\Expasy\API.vb" />
     <Compile Include="Assembly\Expasy\csv\SwissProt.vb" />
