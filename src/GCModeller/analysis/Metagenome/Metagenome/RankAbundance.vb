@@ -23,13 +23,21 @@ Public Module RankAbundance
     ''' > Scott T Bates, Jose C Clemente, et al. Global biogeography of highly diverse protistan communities in soil. The ISME Journal (2013) 7, 652–659; doi:10.1038/ismej.2012.147.
     ''' </remarks>
     <Extension> Public Function RankAbundance(otus As IEnumerable(Of OTUTable)) As OTUTable()
-        Dim OTU_seqs = otus _
+        Dim vector = otus.ToArray
+        Dim OTU_seqs = vector _
             .Select(Function(OTU)
                         Dim currentTotal = Aggregate sample In OTU.Properties Into Sum(sample.Value)
                         Return (ID:=OTU.ID, sum:=currentTotal, OTU:=OTU)
                     End Function) _
             .ToArray                                            ' 每一个OTU所含的序列的数量
-        Dim all% = Aggregate OTU In OTU_seqs Into Sum(OTU.sum)  ' 计算出测序得到序列总数
+        Dim all = OTU_seqs.First _
+            .OTU _
+            .Properties _
+            .Keys _
+            .ToDictionary(Function(sample) sample,
+                          Function(allOTU)
+                              Return vector.DATA(allOTU).Sum
+                          End Function)  ' 计算出每一个sample样本测序得到序列总数
         Dim ranks#() = OTU_seqs _
             .Select(Function(OTU) OTU.sum) _
             .OrdinalRanking(desc:=True)            ' 从大到小降序排序得到ranking结果
@@ -44,7 +52,7 @@ Public Module RankAbundance
                 .Properties = seq.Properties _
                     .ToDictionary(Function(sample) sample.Key,
                                   Function(percent)
-                                      Return percent.Value / all * 100  ' 计算出每一个样品的丰度
+                                      Return percent.Value / all(percent.Key) * 100  ' 计算出每一个样品的丰度
                                   End Function)
             }
         Next
