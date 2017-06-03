@@ -56,8 +56,9 @@ Public Module RankAbundance
     ''' 对样本结果进行实验内合并
     ''' </summary>
     ''' <param name="otus"></param>
+    ''' <param name="sampleGroups">样品的分组信息</param>
     ''' <returns></returns>
-    <Extension> Public Function GroupValue(otus As IEnumerable(Of OTUTable)) As OTUTable()
+    <Extension> Public Function GroupValue(otus As IEnumerable(Of OTUTable), sampleGroups As Dictionary(Of String, String())) As OTUTable()
 
     End Function
 End Module

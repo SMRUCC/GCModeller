@@ -1,6 +1,8 @@
 ﻿Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
+Imports SMRUCC.genomics.Analysis.Metagenome
 
 Partial Module CLI
 
@@ -12,5 +14,11 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim schema$ = args.GetValue("/schema", "Rainbow")
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".Rank_Abundance/")
+        Dim OTUs As OTUTable() = OTUTable.LoadSample([in])
+        Dim rankAbundance = OTUs.RankAbundance
+
+        Call rankAbundance.SaveTo(out & "/Rank_Abundance.csv")
+
+        Return 0
     End Function
 End Module
