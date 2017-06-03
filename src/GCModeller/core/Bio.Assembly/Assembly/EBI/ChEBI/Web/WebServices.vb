@@ -29,6 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.FileIO
+Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
 
 Namespace Assembly.EBI.ChEBI.WebServices
 
@@ -72,7 +73,7 @@ Namespace Assembly.EBI.ChEBI.WebServices
         ''' <returns></returns>
         <Extension>
         Public Function QueryChEBI(chebiID$, localCache$, Optional ByRef hitCache As Boolean = False) As ChEBIEntity()
-            Dim path$ = 
+            Dim path$ =
                 localCache _
                 .TheFile($"{chebiID}.XML", SearchOption.SearchAllSubDirectories) ' 因为后面如果下载数据的话，保存文件的时候是按照前三位生成文件夹的，所以在这里使用文件名进行所有文件夹的扫描
 

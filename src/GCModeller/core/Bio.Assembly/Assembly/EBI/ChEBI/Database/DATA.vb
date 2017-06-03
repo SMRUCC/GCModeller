@@ -28,8 +28,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
+Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
 
 Namespace Assembly.EBI.ChEBI
 
@@ -37,6 +39,28 @@ Namespace Assembly.EBI.ChEBI
     ''' Chebi <see cref="ChEBIEntity"/> model extensions
     ''' </summary>
     Public Module DATA
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="DIR$">``*.xml`` chebi online data cache</param>
+        ''' <returns></returns>
+        Public Function ScanLoad(DIR$) As Dictionary(Of Long, ChEBIEntity)
+            Dim list As New Dictionary(Of Long, ChEBIEntity)
+
+            For Each path As String In (ls - l - r - "*.xml" <= DIR)
+                Dim data = path.LoadXml(Of ChEBIEntity())
+
+                For Each x As ChEBIEntity In data.SafeQuery
+                    Dim id = CLng(Val(x.chebiId.Split(":"c).Last))
+                    If Not list.ContainsKey(id) Then
+                        list.Add(id, x)
+                    End If
+                Next
+            Next
+
+            Return list
+        End Function
 
         ''' <summary>
         ''' 读取从ChEBI的ftp服务器之上所下载的tsv数据表格文件然后通过链接构建出完整的分子数据模型<see cref="ChEBIEntity"/>.
@@ -93,6 +117,10 @@ Namespace Assembly.EBI.ChEBI
             Else
                 Return Nothing
             End If
+        End Function
+
+        <Extension> Public Function GetXrefID(chebi As ChEBIEntity, type As AccessionTypes) As NamedValue(Of String)()
+            Return chebi.GetXrefID(AccessionTypeNames(type))
         End Function
 
         Public ReadOnly Property AccessionTypeNames As Dictionary(Of AccessionTypes, String) =

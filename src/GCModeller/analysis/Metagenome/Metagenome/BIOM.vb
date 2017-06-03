@@ -1,45 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::7d3a4263ea2ac02a1ab6538964e8e5c4, ..\GCModeller\analysis\Metagenome\Metagenome\BIOM.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.foundation.BIOM.v10
 Imports SMRUCC.genomics.Metagenomics
 
+''' <summary>
+''' 生成BIOM数据模型
+''' </summary>
 Public Module BIOM
 
+    ''' <summary>
+    ''' 按照OTU的序列数量进行降序排序之后，所取出来的OTU的数量，默认只截取前100个OTU
+    ''' </summary>
+    ''' <param name="source"></param>
+    ''' <param name="takes%"></param>
+    ''' <param name="cut%"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function [Imports](source As IEnumerable(Of Names), Optional takes As Integer = 100, Optional cut As Integer = 50) As Json
+    Public Function [Imports](source As IEnumerable(Of Names), Optional takes% = 100, Optional cut% = 50) As Json
         Dim array As Names() = LinqAPI.Exec(Of Names) <=
+ _
             From x As Names
             In source
             Where x.NumOfSeqs >= cut
@@ -49,6 +58,7 @@ Public Module BIOM
         array = array.Take(takes).ToArray
 
         Dim rows As row() = LinqAPI.Exec(Of row) <=
+ _
             From x As Names
             In array
             Where Not x.taxonomy.StringEmpty AndAlso x.Composition IsNot Nothing
@@ -58,6 +68,7 @@ Public Module BIOM
                     .taxonomy = x.taxonomy.Split(";"c)
                 }
             }
+
         Dim names As column() = LinqAPI.Exec(Of column) <=
             From sid As String
             In array _
@@ -68,13 +79,17 @@ Public Module BIOM
             Select New column With {
                 .id = sid
             }
+
         Dim data As New List(Of Integer())
         Dim nameIndex = names.SeqIterator.ToDictionary(
             Function(x) x.value.id,
             Function(x) x.i)
 
-        For Each x As SeqValue(Of Names) In array.Where(Function(xx) xx.Composition IsNot Nothing).SeqIterator
-            Dim n As Integer = x.value.NumOfSeqs
+        For Each x As SeqValue(Of Names) In array _
+            .Where(Function(xx) xx.Composition IsNot Nothing) _
+            .SeqIterator
+
+            Dim n% = x.value.NumOfSeqs
 
             For Each cpi In x.value.Composition
                 data += {x.i, nameIndex(cpi.Key), CInt(n * Val(cpi.Value) / 100) + 1}

@@ -35,11 +35,9 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -225,12 +223,14 @@ Namespace gast
     Public Class Names : Implements INamedValue
 
         Public Property Unique As String Implements INamedValue.Key
-        <Ignored> Public Property members As String()
+        <Ignored>
+        Public Property members As String()
         Public Property NumOfSeqs As Integer
         Public Property taxonomy As String
         Public Property distance As Double
         Public Property refs As String
-        <Meta> Public Property Composition As Dictionary(Of String, String)
+        <Meta>
+        Public Property Composition As Dictionary(Of String, String)
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
