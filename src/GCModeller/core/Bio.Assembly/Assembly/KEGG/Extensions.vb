@@ -211,7 +211,7 @@ Namespace Assembly.KEGG
 
                 For Each levelACatalog As BriteHText In [class].CategoryItems
                     ' 在这里统计levelA的分布情况
-                    Dim KO As IndexOf(Of String) = levelACatalog _
+                    Dim KO As Index(Of String) = levelACatalog _
                         .GetEntries _
                         .Where(Function(s) Not s.StringEmpty) _
                         .Indexing

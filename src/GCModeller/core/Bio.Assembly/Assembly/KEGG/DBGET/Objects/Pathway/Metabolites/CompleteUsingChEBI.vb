@@ -56,7 +56,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .IteratesALL _
                 .ToArray
             ' 这里是已经下载的文件列表
-            Dim downloads As New IndexOf(Of String)((ls - l - r - "*.xml" <= DIR).Select(AddressOf BaseName))
+            Dim downloads As New Index(Of String)((ls - l - r - "*.xml" <= DIR).Select(AddressOf BaseName))
             Dim path$
             Dim failures As New List(Of String)
             Dim ETA$

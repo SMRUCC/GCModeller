@@ -199,7 +199,7 @@ Partial Module Utilities
                 Where seqHash.ContainsKey(sId)
                 Select seqHash(sId)
         Else
-            Dim index As New IndexOf(Of String)(locus_tag)
+            Dim index As New Index(Of String)(locus_tag)
 
             LQuery = New List(Of FastaToken)
 

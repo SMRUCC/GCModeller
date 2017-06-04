@@ -52,7 +52,7 @@ Namespace ContextModel
         Public Shared ReadOnly Property PrefixLength As IReadOnlyList(Of Integer) = {100, 150, 200, 250, 300, 400, 500}
 
         Public ReadOnly Property PromoterRegions As IntegerTagged(Of Dictionary(Of String, FastaToken))()
-        ReadOnly lengthIndex As New IndexOf(Of Integer)(PrefixLength)
+        ReadOnly lengthIndex As New Index(Of Integer)(PrefixLength)
 
         ''' <summary>
         ''' 基因组的Fasta核酸序列
