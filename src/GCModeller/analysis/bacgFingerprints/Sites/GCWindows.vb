@@ -55,7 +55,7 @@ Public Module GCWindows
         Dim right As Integer
 
         For Each win In gc.SlideWindows(slideWin / 2, steps / 2)
-            Dim d As Double = win.Elements.Average
+            Dim d As Double = win.Average
 
             If Not range.IsInside(d) Then
                 If Math.Sign(d - avg) = Math.Sign(pre - avg) Then  ' 任然是在一起的，因为方向相同并且大于阈值
