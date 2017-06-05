@@ -164,7 +164,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim source As BriteHEntry.Pathway() = __source(briefFile)
             Dim failures As New List(Of String)
 
-            Using progress As New ProgressBar("Download KEGG pathway data for " & sp,, cls:=True)
+            Using progress As New ProgressBar("Download KEGG pathway data for " & sp,, CLS:=True)
                 Dim tick As New ProgressProvider(source.Length)
                 Dim ETA$
 

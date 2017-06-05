@@ -205,7 +205,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         Private Shared Sub __downloadsInternal(key$, briteEntry As Compound(), ByRef failures As List(Of String), EXPORT$, DirectoryOrganized As Boolean, forceUpdate As Boolean)
-            Dim progress As New ProgressBar("Downloads " & key, cls:=True)
+            Dim progress As New ProgressBar("Downloads " & key, CLS:=True)
             Dim tick As New ProgressProvider(briteEntry.Length)
 
             ' 2017-3-12
