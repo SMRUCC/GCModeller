@@ -68,7 +68,7 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
         End Function
 
         Public Shared Function Load(path$) As Compound()
-            Dim index As IndexOf(Of String) = path.TsvHeaders
+            Dim index As Index(Of String) = path.TsvHeaders
             Dim out As New List(Of Compound)
 
             For Each line As String In path.IterateAllLines.Skip(1)

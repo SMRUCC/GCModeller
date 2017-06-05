@@ -14,7 +14,7 @@ Namespace SequenceModel.NucleotideModels
         Public Shared ReadOnly Property DegenerateBases As Dictionary(Of DNA, DNA())
         Public Shared ReadOnly Property BaseDegenerateEntries As Dictionary(Of DNA, DNA())
 
-        Shared ReadOnly validsChars As IndexOf(Of Char)
+        Shared ReadOnly validsChars As Index(Of Char)
 
         Public Overloads Shared Function Equals(a As DNA, b As DNA) As Boolean
             If a = b Then
@@ -74,7 +74,7 @@ Namespace SequenceModel.NucleotideModels
                 End If
             Next
 
-            validsChars = New IndexOf(Of Char)(NucleotideConvert.Keys)
+            validsChars = New Index(Of Char)(NucleotideConvert.Keys)
 
             With New DegenerateBasesExtensions
                 DegenerateBases = .DegenerateBases _

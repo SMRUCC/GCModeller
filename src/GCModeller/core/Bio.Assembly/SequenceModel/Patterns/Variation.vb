@@ -76,7 +76,7 @@ Namespace SequenceModel.Patterns
 
             For Each x In blocks
                 Dim type = (From v As Variations
-                            In x.Elements
+                            In x.Items
                             Select v
                             Group v By v Into Count
                             Order By Count Descending).Last.v
