@@ -41,6 +41,12 @@ Namespace Assembly.EBI.ChEBI
             Return LQuery
         End Function
 
+        ''' <summary>
+        ''' 进行<see cref="ChEBIEntity.chebiAsciiName"/>和他的同义词的精确匹配
+        ''' </summary>
+        ''' <param name="chebi"></param>
+        ''' <param name="name$"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function SearchByNameEqualsAny(chebi As Dictionary(Of Long, ChEBIEntity), name$) As ChEBIEntity
             For Each metabolite As ChEBIEntity In chebi.Values
