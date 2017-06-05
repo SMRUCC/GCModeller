@@ -26,7 +26,9 @@ Public Module RankAbundance
         Dim vector = otus.ToArray
         Dim OTU_seqs = vector _
             .Select(Function(OTU)
-                        Dim currentTotal = Aggregate sample In OTU.Properties Into Sum(sample.Value)
+                        Dim currentTotal As Double = Aggregate sample 
+                                                     In OTU.Properties 
+                                                     Into Sum(sample.Value)
                         Return (ID:=OTU.ID, sum:=currentTotal, OTU:=OTU)
                     End Function) _
             .ToArray                                            ' 每一个OTU所含的序列的数量

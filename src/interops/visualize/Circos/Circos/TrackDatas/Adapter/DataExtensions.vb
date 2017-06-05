@@ -74,7 +74,7 @@ Namespace TrackDatas
 
                 For Each chunk In slides
                     Dim n As Integer =
-                        CInt(chunk.Elements.Select(Function(x) x.value.value).Average)
+                        CInt(chunk.Items.Select(Function(x) x.value.value).Average)
 
                     tmp += New SeqValue(Of Value(Of Integer)) With {
                         .i = chunk.Left,
@@ -144,7 +144,7 @@ Namespace TrackDatas
                     tmp += New SeqValue(Of List(Of Double)) With {
                         .i = chunk.Left,
                         .value = LinqAPI.MakeList(Of Double) <= From x As SeqValue(Of List(Of Double))
-                                                              In chunk.Elements
+                                                                In chunk.Items
                                                                 Let bufs As IEnumerable(Of Double) = x.value
                                                                 Select bufs.Average
                     }

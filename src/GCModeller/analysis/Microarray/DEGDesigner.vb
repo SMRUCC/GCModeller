@@ -152,7 +152,7 @@ Public Module DEGDesigner
                 .Keys _
                 .Distinct _
                 .ToArray
-            Dim index As New IndexOf(Of String)(allDEPs)
+            Dim index As New Index(Of String)(allDEPs)
 
             For Each file In datasets
                 Call samples.Add(

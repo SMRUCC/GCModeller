@@ -124,15 +124,15 @@ Public Module CLI
         Dim parts As Partition() = net.BuildTree.CutTrees(quantile).ToArray
         Dim json = parts.PartionTable
         Dim colors As Color() = Designer.GetColors("vb.chart", json.Count + 1)
-        Dim memberColors = LinqAPI.Exec(Of Map(Of IndexOf(Of String), String)) <=
+        Dim memberColors = LinqAPI.Exec(Of Map(Of Index(Of String), String)) <=
  _
             From cluster
             In json.SeqIterator
             Let i = cluster.i
             Let members = cluster.value.Value
             Let color As Color = colors(i)
-            Let index = New IndexOf(Of String)(members.Select(Function(x) x.Name))
-            Select New Map(Of IndexOf(Of String), String) With {
+            Let index = New Index(Of String)(members.Select(Function(x) x.Name))
+            Select New Map(Of Index(Of String), String) With {
                 .Key = index,
                 .Maps = color.RGB2Hexadecimal
             }

@@ -310,12 +310,12 @@ Namespace SequenceModel.NucleotideModels.Translation
         Public Function ToCodonCollection(SequenceData As NucleicAcid) As Codon()
             Dim Codons = SequenceData.ToArray.CreateSlideWindows(3, offset:=3)
             Dim AA As Codon() =
-                LinqAPI.Exec(Of Codon) <= From Codon As SlideWindowHandle(Of DNA)
+                LinqAPI.Exec(Of Codon) <= From Codon As SlideWindow(Of DNA)
                                           In Codons
                                           Let aac As Codon = New Codon With {
-                                              .X = Codon.Elements(0),
-                                              .Y = Codon.Elements(1),
-                                              .Z = Codon.Elements(2)
+                                              .X = Codon.Items(0),
+                                              .Y = Codon.Items(1),
+                                              .Z = Codon.Items(2)
                                           }
                                           Select aac
             AA = (From codon As Codon

@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::dd33396be1186f81240853641bc5d519, ..\visualize\GCModeller.DataVisualization\RenderingColor.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -86,16 +86,16 @@ Public Module RenderingColor
 
         '剩余的使用颜色
         Dim ColorList As New List(Of Color)(AllDotNetPrefixColors)
-        Dim wins As SlideWindowHandle(Of String)() = categories _
+        Dim wins As SlideWindow(Of String)() = categories _
             .Skip(tmpBuf.Length) _
             .CreateSlideWindows(Textures.Length, Textures.Length)
         Dim J As Integer = 0
 
         Do While True
-            For Each cats As SlideWindowHandle(Of String) In wins
+            For Each cats As SlideWindow(Of String) In wins
                 Dim Color As Color = ColorList(J)
 
-                For i As Integer = 0 To cats.Elements.Length - 1
+                For i As Integer = 0 To cats.Items.Length - 1
                     Dim res As Image = TextureResourceLoader.AdjustColor(Textures(i), Color)
                     Call hash.Add(cats(i), New TextureBrush(res))
                 Next

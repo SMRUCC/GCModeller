@@ -134,7 +134,7 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
         ''' </param>
         ''' <returns></returns>
         Public Shared Function Load(path$, Optional type$ = Nothing) As Dictionary(Of NamedCollection(Of Accession))
-            Dim index As IndexOf(Of String) = path.TsvHeaders
+            Dim index As Index(Of String) = path.TsvHeaders
             Dim table As New List(Of Accession)
             Dim IDtype As New Value(Of String)
 

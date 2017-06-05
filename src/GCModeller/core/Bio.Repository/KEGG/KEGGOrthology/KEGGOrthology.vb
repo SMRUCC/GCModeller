@@ -163,7 +163,7 @@ Public Class KEGGOrthology
                 .Select(Function(h) h.Maps.ToLower) _
                 .Distinct _
                 .ToArray
-            Dim maps As New IndexOf(Of String)(kegg_locus)
+            Dim maps As New Index(Of String)(kegg_locus)
             Dim i As Integer
 
             For Each gene As KO_gene In reader.AsLinq(Of KO_gene)

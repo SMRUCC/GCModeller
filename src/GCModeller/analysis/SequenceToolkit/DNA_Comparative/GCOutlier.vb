@@ -88,7 +88,7 @@ Public Module GCOutlier
             seq(i) = a
         Next
 
-        For Each index As SlideWindowHandle(Of Integer) In iSeq.SlideWindows(slideSize)
+        For Each index As SlideWindow(Of Integer) In iSeq.SlideWindows(slideSize)
             Dim tmp As New List(Of lociX)
 
             For Each i In index.SeqIterator ' index里面的数据是fasta序列上面的位点坐标
