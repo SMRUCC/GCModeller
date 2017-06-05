@@ -75,9 +75,12 @@ where fX denotes the frequency of the nucleotide X and fXY is the frequency of t
         ''' <remarks></remarks>
         ''' 
         <Extension>
-        Private Function __counts(nt As SlideWindowHandle(Of DNA)(), dpair As DNA()) As Integer
+        Private Function __counts(nt As SlideWindow(Of DNA)(), dpair As DNA()) As Integer
+            Dim equals = Function(n As SlideWindow(Of DNA))
+                             Return DegenerateBasesExtensions.Equals(n.Items, dpair)
+                         End Function
             Dim c% = nt _
-                .Where(Function(npair) DegenerateBasesExtensions.Equals(npair.Elements, dpair)) _
+                .Where(predicate:=equals) _
                 .Count
             Return c
         End Function
@@ -113,10 +116,10 @@ where fX denotes the frequency of the nucleotide X and fXY is the frequency of t
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Extension>
-        Private Function __counts_p(nt As SlideWindowHandle(Of DNA)(), dpair As DNA()) As Integer
+        Private Function __counts_p(nt As SlideWindow(Of DNA)(), dpair As DNA()) As Integer
             Dim c As Integer = nt _
                 .AsParallel _
-                .Where(Function(npair) DegenerateBasesExtensions.Equals(dpair, npair.Elements)) _
+                .Where(Function(npair) DegenerateBasesExtensions.Equals(dpair, npair.Items)) _
                 .Count
             Return c
         End Function

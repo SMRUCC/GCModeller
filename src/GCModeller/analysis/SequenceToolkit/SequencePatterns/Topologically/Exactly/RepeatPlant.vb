@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::4765305de18e2dd008c6543107898a24, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatPlant.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -160,9 +160,9 @@ Namespace Topologically
                                 Order By n Ascending).CreateSlideWindows(2)
                 Dim avgDist As Double = ordLocis.ToArray(
                     Function(loci) _
-                        If(loci.Elements.IsNullOrEmpty OrElse
-                        loci.Elements.Length = 1, 1,
-                        loci.Elements.Last - loci.Elements.First)).Average
+                        If(loci.Items.IsNullOrEmpty OrElse
+                        loci.Items.Length = 1, 1,
+                        loci.Items.Last - loci.Items.First)).Average
                 avgDist = Len(SequenceData) / avgDist  ' 表达式的含义： 片段越长，热度越高，  平均距离越短，热度越高
                 Dim lociCounts As Double = LociProvider.Length
                 lociCounts = lociCounts / 10
@@ -238,9 +238,9 @@ Namespace Topologically
                             Order By n Ascending).CreateSlideWindows(2)
                 Dim avgDist As Double = loci.ToArray(
                     Function(lo) _
-                        If(lo.Elements.IsNullOrEmpty OrElse
-                        lo.Elements.Length = 1,
-                        1, lo.Elements.Last - lo.Elements.First)).Average
+                        If(lo.Items.IsNullOrEmpty OrElse
+                        lo.Items.Length = 1,
+                        1, lo.Items.Last - lo.Items.First)).Average
                 Return MyBase.Hot + Len(RevSegment) / avgDist
             End Get
         End Property

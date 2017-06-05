@@ -203,7 +203,7 @@ Namespace ExpressionMatrix
                 Dim prefix As String = ""
 
                 For i As Integer = 0 To ChunkBuffer.Count - 1
-                    dat = ChunkBuffer(i).Elements
+                    dat = ChunkBuffer(i).Items
                     Call list.AddRange((From j As Integer In dat.Sequence Let s As String = dat(j) Select New KeyValuePair(Of String, String)(s, prefix & ALPHABET(j).ToString)).ToArray)
                     prefix &= ALPHABET(i)
                 Next

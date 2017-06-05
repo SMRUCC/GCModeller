@@ -45,7 +45,7 @@ Namespace DeltaSimilarity1998
         ''' <summary>
         ''' 为了防止反复重新创建划窗而构建出来的计算数据缓存
         ''' </summary>
-        Protected Friend __DNA_segments As SlideWindowHandle(Of DNA)()
+        Protected Friend __DNA_segments As SlideWindow(Of DNA)()
 
         ''' <summary>
         ''' Get value by using a paired of base.

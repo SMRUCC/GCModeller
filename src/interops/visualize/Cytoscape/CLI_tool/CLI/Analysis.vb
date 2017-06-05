@@ -37,7 +37,7 @@ Partial Module CLI
         For Each node$ In nodes$
             Dim data As New Dictionary(Of String, Double)
             Dim lapply =
-                Sub(index As IndexOf(Of String))
+                Sub(index As Index(Of String))
                     If Not index Is Nothing Then
                         For Each x$ In nodes$
                             If index.IndexOf(x) > -1 Then
@@ -97,7 +97,7 @@ Partial Module CLI
         Dim network As NetGraph = NetGraph.Load([in])
         Dim data As NamedValue(Of Integer)()
         Dim schema$ = args.GetValue("/colors", "Paired:12")
-        Dim ignores As New IndexOf(Of String)((args <= "/ignores").StringSplit(",", True))
+        Dim ignores As New Index(Of String)((args <= "/ignores").StringSplit(",", True))
         Dim nodeTable = network _
             .Nodes _
             .Where(Function(n) ignores.IndexOf(n.NodeType) = -1) _

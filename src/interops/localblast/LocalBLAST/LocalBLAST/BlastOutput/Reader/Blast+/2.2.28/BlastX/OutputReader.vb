@@ -166,7 +166,7 @@ ENTRY_INFO_PARSER:
                 .Where(Function(ss) Not String.IsNullOrEmpty(ss)) _
                 .CreateSlideWindows(3, offset:=3)
             Dim LQuery As HitSegment() =
-                hsp.ToArray(Function(x) HitSegment.TryParse(x.Elements))
+                hsp.ToArray(Function(x) HitSegment.TryParse(x.Items))
 
             Return New Components.HitFragment With {
                 .Score = __scoreParser(Score),

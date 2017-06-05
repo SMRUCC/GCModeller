@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::2ac6cc4806d84e58bb134135ea3c1807, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\NtProps\GC.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -71,11 +71,10 @@ Namespace TrackDatas.NtProps
         <ExportAPI("Get.Genome.GC")>
         Public Function GetGCContentForGENOME(FASTA As FastaToken, winSize As Integer, steps As Integer) As NASegment_GC()
             Dim NT As DNA() = NucleicAcid.CreateObject(FASTA.SequenceData).ToArray
-            Dim slideWins As SlideWindowHandle(Of DNA)() =
-                NT.CreateSlideWindows(slideWindowSize:=winSize, offset:=steps)
+            Dim slideWins = NT.CreateSlideWindows(slideWindowSize:=winSize, offset:=steps)
             Dim LQuery As List(Of NASegment_GC) = LinqAPI.MakeList(Of NASegment_GC) <=
  _
-                From seg As SlideWindowHandle(Of DNA)
+                From seg As SlideWindow(Of DNA)
                 In slideWins
                 Let gc As Double = seg.GC_Content
                 Let at As Double = 1 - gc
@@ -88,7 +87,7 @@ Namespace TrackDatas.NtProps
                     .GC_AT = (gc / at)
                 }
 
-            Dim LastSegment As New List(Of DNA)(slideWins.Last.Elements)
+            Dim LastSegment As New List(Of DNA)(slideWins.Last.Items)
             Dim tmp As List(Of DNA)
             Dim p As Integer = LQuery.Last.start
 

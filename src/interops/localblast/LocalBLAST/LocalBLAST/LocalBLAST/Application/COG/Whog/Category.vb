@@ -61,7 +61,7 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
 
                 _IdList = value
                 IdTokens = LQuery
-                _locus_tags = New IndexOf(Of String)((From item In LQuery Let IdList As String() = item.Value Select IdList).IteratesALL)
+                _locus_tags = New Index(Of String)((From item In LQuery Let IdList As String() = item.Value Select IdList).IteratesALL)
             End Set
         End Property
 
@@ -69,7 +69,7 @@ Namespace LocalBLAST.Application.RpsBLAST.Whog
         Dim IdTokens As NamedCollection(Of String)()
 
         <XmlIgnore>
-        Public ReadOnly Property locus_tags As IndexOf(Of String)
+        Public ReadOnly Property locus_tags As Index(Of String)
 
         Const REGX_CATAGORY As String = "\[[^]]+\]"
         Const REGX_COG_ID As String = "COG\d+"

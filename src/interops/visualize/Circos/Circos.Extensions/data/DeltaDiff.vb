@@ -46,10 +46,10 @@ Namespace Documents.Karyotype.NtProps
             Dim NT_Cache = New NucleicAcid(NT.ToArray)
             Dim ChunkBuffer = (From n In SW.AsParallel
                                Select n.Left,
-                                   d = Sigma(NT_Cache, New NucleotideModels.NucleicAcid(n.Elements))
+                                   d = Sigma(NT_Cache, New NucleotideModels.NucleicAcid(n.Items))
                                Order By Left Ascending).ToArray
 
-            Dim LastSegment = SW.Last.Elements.AsList
+            Dim LastSegment = SW.Last.Items.AsList
             Dim TempChunk As List(Of NucleotideModels.DNA)
             Dim p As Long = SW.Last.Left
             Dim NT_Array = NT.ToArray

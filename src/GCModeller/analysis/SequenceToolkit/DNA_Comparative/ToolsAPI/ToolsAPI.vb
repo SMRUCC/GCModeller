@@ -512,7 +512,7 @@ Public Module ToolsAPI
     Private Function __query(querySource As PartitioningData, subject As Dictionary(Of String, PartitioningData), windowsSize As Integer, EXPORT As String, ptag As String) As Boolean
         Dim Windows = New NucleotideModels.NucleicAcid(querySource.SequenceData).ToArray.CreateSlideWindows(windowsSize)
         Dim InternalCache As Cache() = (From Window In Windows
-                                        Let cacheData = New DeltaSimilarity1998.NucleicAcid(Window.Elements)
+                                        Let cacheData = New DeltaSimilarity1998.NucleicAcid(Window.Items)
                                         Select New Cache With {
                                             .Cache = cacheData,
                                             .SlideWindow = Window}).ToArray 'Internal create cache data.
@@ -729,7 +729,7 @@ Public Module ToolsAPI
 
         Using pb As New CBusyIndicator(_start:=True)
             Dim LQuery = (From segment In Windows.AsParallel
-                          Let x = New NucleotideModels.NucleicAcid(segment.Elements)
+                          Let x = New NucleotideModels.NucleicAcid(segment.Items)
                           Let y = New NucleotideModels.NucleicAcid(compare)
                           Let Sigma = DifferenceMeasurement.Sigma(x, y)
                           Let p = New SiteSigma With {
@@ -744,9 +744,9 @@ Public Module ToolsAPI
         End Using
     End Function
 
-    Private Function __echo(segment As SlideWindowHandle(Of DNA), numWins As Integer) As Integer
-        Call $"{100 * segment.p / numWins}%".__DEBUG_ECHO
-        Return segment.p
+    Private Function __echo(segment As SlideWindow(Of DNA), numWins As Integer) As Integer
+        Call $"{100 * segment.Index / numWins}%".__DEBUG_ECHO
+        Return segment.Index
     End Function
 
     ''' <summary>
@@ -763,14 +763,14 @@ Public Module ToolsAPI
         Dim LQuery = (From segment As Cache In cache
                       Let Sigma = DifferenceMeasurement.Sigma(segment.Cache, CompareCache)
                       Select New SiteSigma With {
-                          .Site = segment.SlideWindow.p,
+                          .Site = segment.SlideWindow.Index,
                           .Sigma = Sigma,
                           .Similarity = DifferenceMeasurement.SimilarDescription(Sigma)}).ToArray
         Return LQuery
     End Function
 
     Private Structure Cache
-        Dim SlideWindow As SlideWindowHandle(Of DNA)
+        Dim SlideWindow As SlideWindow(Of DNA)
         Dim Cache As DeltaSimilarity1998.NucleicAcid
     End Structure
 
@@ -899,7 +899,7 @@ Public Module ToolsAPI
         Dim QueryFasta = FastaToken.LoadNucleotideData(query)
         Dim Windows = New NucleotideModels.NucleicAcid(QueryFasta).ToArray.CreateSlideWindows(windowsSize)
         Dim InternalCache = (From Window In Windows.AsParallel
-                             Let cacheData = New DeltaSimilarity1998.NucleicAcid(Window.Elements)
+                             Let cacheData = New DeltaSimilarity1998.NucleicAcid(Window.Items)
                              Select New Cache With {
                                  .Cache = cacheData,
                                  .SlideWindow = Window}).ToArray 'Internal create cache data.

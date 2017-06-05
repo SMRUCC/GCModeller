@@ -50,7 +50,7 @@ Public Module SSDB
     Public Sub CutSequence_Upstream(genome As PTT, geneIDs As IEnumerable(Of String), len%, save$, code$, Optional [overrides] As Boolean = False)
         Dim genes = genome.ToDictionary
         Dim cuts As New FastaFile(save, throwEx:=False)
-        Dim titles As New IndexOf(Of String)(cuts.Select(Function(f) f.Title))
+        Dim titles As New Index(Of String)(cuts.Select(Function(f) f.Title))
 
         Using write As StreamWriter = save.OpenWriter(Encodings.ASCII)
             For Each fa In cuts
