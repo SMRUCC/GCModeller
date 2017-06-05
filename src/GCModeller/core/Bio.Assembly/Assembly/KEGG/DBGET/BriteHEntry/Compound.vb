@@ -248,7 +248,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
                 Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
                 Call Thread.Sleep(1000)
-                Call progress.SetProgress(tick.StepProgress, detail:=ETA)
+                Call progress.SetProgress(tick.StepProgress, details:=ETA)
             Next
 
             Call progress.Dispose()

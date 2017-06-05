@@ -98,7 +98,7 @@ EXIT_LOOP:
                     ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
                     Call progress.SetProgress(
                         tick.StepProgress,
-                        detail:=ETA)
+                        details:=ETA)
                 Next
             End Using
 

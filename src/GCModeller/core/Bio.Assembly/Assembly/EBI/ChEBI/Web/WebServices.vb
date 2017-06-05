@@ -29,6 +29,9 @@
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.FileIO
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Terminal
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
 
 Namespace Assembly.EBI.ChEBI.WebServices
@@ -97,6 +100,48 @@ Namespace Assembly.EBI.ChEBI.WebServices
 
                 Return data
             End If
+        End Function
+
+        ''' <summary>
+        ''' 执行批量数据查询
+        ''' </summary>
+        ''' <param name="chebiIDlist$"></param>
+        ''' <param name="localCache$"></param>
+        ''' <param name="failures$"></param>
+        ''' <returns></returns>
+        Public Function BatchQuery(chebiIDlist$(), localCache$, Optional failures$() = Nothing, Optional sleepInterval% = 2000) As ChEBIEntity()
+            Dim failureList As New List(Of String)
+            Dim out As New List(Of ChEBIEntity)
+
+            Using progress As New ProgressBar("Downloading ChEBI data...")
+                Dim tick As New ProgressProvider(chebiIDlist.Length)
+                Dim ETA$
+
+                For Each id As String In chebiIDlist
+                    Dim hitCache As Boolean = False
+                    Dim result = QueryChEBI(id, localCache, hitCache)
+
+                    If Not result.IsNullOrEmpty Then
+                        out += result
+                    Else
+                        failureList += id
+                    End If
+
+                    If Not hitCache Then
+                        Call Thread.Sleep(sleepInterval)
+                    End If
+
+                    ETA = $"ETA=" & tick _
+                        .ETA(progress.ElapsedMilliseconds) _
+                        .FormatTime
+                    progress.SetProgress(tick.StepProgress, ETA)
+                Next
+            End Using
+
+            failures = failureList
+            failures.SaveTo(localCache & $"/failures/{chebiIDlist.GetJson.MD5}.csv")
+
+            Return out
         End Function
     End Module
 End Namespace
