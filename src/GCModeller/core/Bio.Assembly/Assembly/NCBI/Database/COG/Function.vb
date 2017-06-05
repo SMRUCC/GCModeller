@@ -222,7 +222,7 @@ Namespace Assembly.NCBI.COG
 
             Dim list As New List(Of COGCategories)
 
-            For Each cat In Me.Catalogs
+            For Each cat As Catalog In Me.Catalogs
                 If category Or cat.Class Then
                     Call list.Add(cat.Class)
                 End If
@@ -260,7 +260,7 @@ Namespace Assembly.NCBI.COG
         ''' <param name="source"></param>
         ''' <returns></returns>
         Public Overloads Function ClassCategory(Of T As ICOGDigest)(source As IEnumerable(Of T)) As Dictionary(Of COGCategories, String())
-            Dim hash As New Dictionary(Of COGCategories, String()) From {  '主要是为了填满所有分类，因为source之中可能并不包含有所有的cog分类
+            Dim table As New Dictionary(Of COGCategories, String()) From {  '主要是为了填满所有分类，因为source之中可能并不包含有所有的cog分类
                 {COGCategories.Genetics, New String() {}},
                 {COGCategories.Metabolism, New String() {}},
                 {COGCategories.NotAssigned, New String() {}},
@@ -275,14 +275,13 @@ Namespace Assembly.NCBI.COG
                           Select geneid = x.geneId,
                               category = x.category
                           Group By category Into Group).ToArray
-            For Each cat In LQuery
-                If hash.ContainsKey(cat.category) Then
-                    Call hash.Remove(cat.category)
-                End If
-                Call hash.Add(cat.category, cat.Group.ToArray(Of String)(Function(obj) obj.geneid))
+            For Each [class] In LQuery
+                table([class].category) = [class] _
+                    .Group _
+                    .ToArray(Function(obj) obj.geneid)
             Next
 
-            Return hash
+            Return table
         End Function
 
         Protected Sub New()
