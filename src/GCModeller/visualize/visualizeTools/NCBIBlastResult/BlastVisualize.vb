@@ -735,7 +735,7 @@ CONTINUTE:
                     Dim p_ID As Integer = 1
 
                     For Each hit In spList
-                        Call proc.SetProgress(pp.StepProgress, detail:=hit.SubjectIDs)
+                        Call proc.SetProgress(pp.StepProgress, details:=hit.SubjectIDs)
 
                         X = margin
                         Y += BlockHeight + 4

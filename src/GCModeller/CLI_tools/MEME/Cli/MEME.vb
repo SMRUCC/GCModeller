@@ -1,44 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::06fb717607a7668b0878bb47b7a45bf5, ..\GCModeller\CLI_tools\MEME\Cli\MEME.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports MEME.Analysis
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.Analysis
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
+Imports SMRUCC.genomics.Data.Regtransbase.WebServices
 Imports SMRUCC.genomics.Interops.NBCR
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
@@ -46,7 +45,6 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.LDM
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Programs
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -133,7 +131,7 @@ Partial Module CLI
                       Select MotifSites.Mast(NtSequence)).Unlist
         Dim Out As String = args("/out")
         If String.IsNullOrEmpty(Out) Then
-            Out = $"{Nt}.{basename(Motif)}.csv"
+            Out = $"{Nt}.{BaseName(Motif)}.csv"
         End If
         Return LQuery.SaveTo(Out, False).CLICode
     End Function
@@ -255,7 +253,7 @@ Partial Module CLI
                                FastaDIR,
                                FileIO.SearchOption.SearchAllSubDirectories,
                                "*.fasta", "*.fa", "*.fsa")
-                           Let id As String = FileIO.FileSystem.GetParentPath(file).Replace(FastaDIR, "") & "\" & basename(file) & ".txt"
+                           Let id As String = FileIO.FileSystem.GetParentPath(file).Replace(FastaDIR, "") & "\" & BaseName(file) & ".txt"
                            Select id, file) _
                                 .ToDictionary(Function(file) file.id,
                                               Function(file) file.file)
@@ -419,14 +417,14 @@ Partial Module CLI
                        In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
                        Select file.LoadXml(Of BacteriaGenome)
         Dim RfamSitesLQuery = (From x In loadFile.AsParallel
-                               Let rfam = (From regulator In x.Regulons.Regulators Where regulator.Type = Regulator.Types.RNA Select regulator)
+                               Let rfam = (From regulator In x.Regulons.Regulators Where regulator.Type = regulator.Types.RNA Select regulator)
                                Select (From rna In rfam Select rna.Family, rna.RegulatorySites).ToArray).Unlist
         Dim RfamCategory = (From x In RfamSitesLQuery
                             Select x
                             Group x By x.Family Into Group) _
                                  .ToDictionary(Function(x) x.Family,
                                                Function(x) x.Group.ToArray(Function(xx) xx.RegulatorySites).Unlist)
-        For Each cat In RfamCategory
+        For Each cat As KeyValuePair(Of String, List(Of FastaObject)) In RfamCategory
             Dim path As String = $"{out}/{cat.Key}.fasta"
             Dim fa As New FastaFile(cat.Value)
             Call fa.Save(path)

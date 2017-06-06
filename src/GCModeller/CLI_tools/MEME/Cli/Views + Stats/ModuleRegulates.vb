@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::d58642612cafae37f4567dc60c7bf153, ..\GCModeller\CLI_tools\MEME\Cli\Views + Stats\ModuleRegulates.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Mathematical
-Imports RDotNet.Extensions.Bioinformatics.VennDiagram.ModelAPI
+Imports RDotNET.Extensions.Bioinformatics.VennDiagram.ModelAPI
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
@@ -156,10 +156,13 @@ Partial Module CLI
 
             For Each ccls In cls.classes
                 Dim DIR As String = path & $"/{BriteHEntry.Module.TrimPath(ccls.cls)}/"
-                For Each cat In (From row In ccls.Group Select row Group row By row.Category Into Group)
-                    Dim file As String = DIR & $"/{BriteHEntry.Module.TrimPath(cat.Category)}.csv"
-                    Call cat.Group.SaveTo(file)
-                    Call lstRegulators.Add(cat.Group.ToArray(Function(x) x.Regulator))
+                Dim groups = ccls.Group.GroupBy(Function(row) row.Category)
+                For Each cat As IGrouping(Of String, PredictedRegulationFootprint) In groups
+                    Dim file As String = DIR & $"/{BriteHEntry.Module.TrimPath(cat.Key)}.csv"
+                    Dim group = cat.ToArray
+
+                    Call group.SaveTo(file)
+                    Call lstRegulators.Add(group.ToArray(Function(x) x.Regulator))
                 Next
             Next
 
