@@ -113,7 +113,7 @@ Public Class Engine : Implements IDisposable
             From t As Token(Of Tokens)
             In tokens
             Where t.Type = Mathematical.Scripting.Tokens.UNDEFINE
-            Select t.TokenValue
+            Select t.Value
             Distinct
 
         Return LinqAPI.Exec(Of Edge) <= From t As String
