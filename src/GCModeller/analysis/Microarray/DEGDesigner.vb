@@ -223,31 +223,34 @@ Public Module DEGDesigner
         Return samples
     End Function
 
-    Public Structure Designer
+    ''' <summary>
+    ''' DEG/DEP计算的设计方法
+    ''' </summary>
+    Public Class Designer
 
         ''' <summary>
         ''' 分子
         ''' </summary>
-        Dim Experiment$
+        Public Property Experiment As String
         ''' <summary>
         ''' 分母
         ''' </summary>
-        Dim Control$
+        Public Property Control As String
 
         ''' <summary>
         ''' 具有相同的这个属性的标签值的都是生物学重复
         ''' </summary>
-        Dim GroupLabel$
+        Public Property GroupLabel As String
 
         Public Overrides Function ToString() As String
             Return $"{Experiment}/{Control}"
         End Function
 
-        Public Function GetLabel(Optional label$ = Nothing) As (exp$, control$)
-            If label Is Nothing Then
+        Public Function GetLabel(Optional label$ = Nothing, Optional delimiter$ = "-") As (exp$, control$)
+            If label.StringEmpty Then
                 Return (Experiment, Control)
             Else
-                Return (label & "." & Experiment, label & "." & Control)
+                Return (label & delimiter & Experiment, label & delimiter & Control)
             End If
         End Function
 
@@ -258,26 +261,25 @@ Public Module DEGDesigner
             Dim out As Double = Math.Log(A / B, 2)
             Return out
         End Function
-    End Structure
+    End Class
 
     ''' <summary>
     ''' 从矩阵之中导出edgeR分析所需要的文本数据
     ''' </summary>
-    ''' <param name="path$"></param>
+    ''' <param name="path$">proteinGroups.xlsx所导出来的csv文件</param>
     ''' <param name="designers"></param>
     ''' <param name="label$"></param>
     ''' <param name="workDIR$"></param>
-    Public Sub EdgeR_rawDesigner(path$, designers As Designer(), Optional label$ = Nothing, Optional workDIR$ = "./")
+    Public Sub EdgeR_rawDesigner(path$, designers As Designer(), Optional label As (label$, delimiter$) = Nothing, Optional workDIR$ = "./")
         Dim genes As gene() = gene.LoadDataSet(path).ToArray
         Dim groups As Dictionary(Of String, Designer()) = designers _
             .GroupBy(Function(x) x.GroupLabel) _
             .ToDictionary(Function(k) k.Key,
                           Function(repeats) repeats.ToArray)
-        ' Dim idmaps As New Dictionary(Of String, String)
         Dim name$ = path.BaseName
 
         For Each group In groups
-            Dim labels = group.Value.ToArray(Function(l) l.GetLabel(label))
+            Dim labels = group.Value.ToArray(Function(l) l.GetLabel(label.label, label.delimiter))
             Dim file As New StringBuilder
             Dim experiments = labels.ToArray(Function(l) l.exp)
             Dim controls = labels.ToArray(Function(l) l.control)

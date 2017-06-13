@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\RegPrecise.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\seqtools.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Session\Apps\VennDiagram.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session\Templates.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Session\Session.vb" />
   </ItemGroup>
 </Project>

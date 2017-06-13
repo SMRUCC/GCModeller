@@ -123,6 +123,7 @@
     <Compile Include="CLI\3. EnrichmentAnalysis.vb" />
     <Compile Include="CLIGroups.vb" />
     <Compile Include="CLI\0. Samples.vb" />
+    <Compile Include="CLI\CLI.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
