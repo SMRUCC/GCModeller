@@ -1,4 +1,5 @@
-﻿Imports System.Drawing
+﻿Imports System.ComponentModel
+Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -16,6 +17,7 @@ Imports SMRUCC.genomics.Visualize
 Partial Module CLI
 
     <ExportAPI("/edgeR.Designer")>
+    <Description("Generates the edgeR inputs table")>
     <Usage("/edgeR.Designer /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
     Public Function edgeRDesigner(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
