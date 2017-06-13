@@ -159,7 +159,7 @@ Partial Module CLI
                 plot = enrichments.EnrichmentPlot(
                     terms, pvalue, size.SizeParser,
                     tick,
-                    gray, labelRight, 
+                    gray, labelRight,
                     top:=displays)
             End If
         End If
@@ -270,17 +270,24 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/KEGG.Enrichment.PathwayMap",
                Info:="Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.",
-               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/out <DIR>]")>
+               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/pvalue <default=0.05> /out <DIR>]")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGGEnrichmentPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-KEGG_enrichment_pathwayMaps/")
+        Dim pvalue# = args.GetValue("/pvalue", 0.05)
         Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
-        For Each term As EnrichmentTerm In data
-            Dim path$ = out & "/" & term.ID & "-" & term.Term.NormalizePathString & $"-pvalue={term.Pvalue}" & ".png"
-            Call PathwayMapping.ShowEnrichmentPathway(term.link, save:=path)
-            Call Thread.Sleep(2000)
+
+        For Each term As EnrichmentTerm In data.Where(Function(t) t.Pvalue <= pvalue)
+            Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
+            Dim path$ = out & "/" & pngName & $"-pvalue={term.Pvalue}" & ".png"
+
+            If Not (path.FileLength > 0) Then
+                Call PathwayMapping.ShowEnrichmentPathway(term.link, save:=path)
+                Call Thread.Sleep(2000)
+            End If
         Next
+
         Return 0
     End Function
 
