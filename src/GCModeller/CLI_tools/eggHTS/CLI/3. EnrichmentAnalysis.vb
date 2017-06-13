@@ -28,7 +28,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
-<CLI> Module CLI
+Partial Module CLI
 
     ''' <summary>
     ''' 绘制GO分析之中的亚细胞定位结果的饼图
