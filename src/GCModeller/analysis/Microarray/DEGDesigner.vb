@@ -28,6 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
@@ -299,6 +300,92 @@ Public Module DEGDesigner
                 ' EdgeR的实验的计算顺序是这样子的
                 Call line.AddRange(controls.Select(Function(t) gene(t)))
                 Call line.AddRange(experiments.Select(Function(t) gene(t)))
+                Call appendLine()
+            Next
+
+            path = workDIR & "/" & name & "-" & group.Key.NormalizePathString(False) & ".txt"
+            file.SaveTo(path, Encoding.ASCII)
+        Next
+    End Sub
+
+    Public Delegate Sub doSymbol(gene As gene, experiments$(), controls$(), fillRowData As Action(Of String()))
+    Public Delegate Sub DataOutput(data$(), name$, group$)
+
+    Public Sub GeneralDesigner(path$, designers As Designer(), label As (label$, delimiter$), doSymbol As doSymbol, output As DataOutput)
+        Dim genes As gene() = gene.LoadDataSet(path).ToArray
+        Dim groups As Dictionary(Of String, Designer()) = designers _
+            .GroupBy(Function(x) x.GroupLabel) _
+            .ToDictionary(Function(k) k.Key,
+                          Function(repeats) repeats.ToArray)
+        Dim name$ = path.BaseName
+
+        For Each group In groups
+            Dim labels = group.Value.ToArray(Function(l) l.GetLabel(label.label, label.delimiter))
+            Dim file As New List(Of String)
+            Dim experiments = labels.ToArray(Function(l) l.exp)
+            Dim controls = labels.ToArray(Function(l) l.control)
+            Dim line As New List(Of String)
+
+            ' 生成表头
+            Call line.Add("ID")
+            Call line.AddRange(controls)
+            Call line.AddRange(experiments)
+            Call file.Add(line.JoinBy(vbTab))
+            Call line.Clear()
+
+            For Each gene As gene In genes
+                Call doSymbol(
+                    gene, experiments, controls,
+                    Sub(values)
+                        Call line.AddRange(values)
+                    End Sub)
+                Call file.Add(line.JoinBy(vbTab))
+                Call line.Clear()
+            Next
+
+            Call output(file, name, group:=group.Key)
+        Next
+    End Sub
+
+    Public Sub TtestDesigner(path$, designers As Designer(), Optional label As (label$, delimiter$) = Nothing, Optional workDIR$ = "./")
+        Dim genes As gene() = gene.LoadDataSet(path).ToArray
+        Dim groups As Dictionary(Of String, Designer()) = designers _
+            .GroupBy(Function(x) x.GroupLabel) _
+            .ToDictionary(Function(k) k.Key,
+                          Function(repeats) repeats.ToArray)
+        Dim name$ = path.BaseName
+
+        For Each group In groups
+            Dim labels = group.Value.ToArray(Function(l) l.GetLabel(label.label, label.delimiter))
+            Dim file As New StringBuilder
+            Dim experiments = labels.ToArray(Function(l) l.exp)
+            Dim controls = labels.ToArray(Function(l) l.control)
+            Dim line As New List(Of String)
+            Dim appendLine = Sub()
+                                 Call file.AppendLine(line.JoinBy(vbTab))
+                                 Call line.Clear()
+                             End Sub
+
+            ' 生成表头
+            Call line.Add("ID")
+            Call line.AddRange(controls)
+            Call line.AddRange(experiments)
+            Call appendLine()
+
+            For Each gene As gene In genes
+                Dim experimentValues#() = experiments _
+                    .Select(Function(t) Val(gene(t))) _
+                    .ToArray
+                Dim controlValues#() = controls _
+                    .Select(Function(t) Val(gene(t))) _
+                    .ToArray
+
+                ' experiment/controls
+                Dim combos = Combination.CreateCombos(experiments, controls).ToArray
+                Dim foldChanges = combos.Select(Function(c) CStr(c.Item1 / c.Item2))
+
+                Call line.Add(gene.ID)
+                Call line.AddRange(foldChanges)
                 Call appendLine()
             Next
 
