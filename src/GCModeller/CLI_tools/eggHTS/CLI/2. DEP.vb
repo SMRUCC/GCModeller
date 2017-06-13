@@ -1,4 +1,5 @@
-﻿Imports System.Drawing
+﻿Imports System.ComponentModel
+Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -16,7 +17,9 @@ Imports SMRUCC.genomics.Visualize
 Partial Module CLI
 
     <ExportAPI("/edgeR.Designer")>
+    <Description("Generates the edgeR inputs table")>
     <Usage("/edgeR.Designer /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function edgeRDesigner(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim designer = args <= "/designer"
@@ -26,6 +29,23 @@ Partial Module CLI
         Dim deli$ = args.GetValue("/deli", "-")
 
         Call EdgeR_rawDesigner([in], designers, (label, deli), workDIR:=out)
+
+        Return 0
+    End Function
+
+    <ExportAPI("/T.test.Designer")>
+    <Description("Generates the t.test DEP method inputs table")>
+    <Usage("/T.test.Designer /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
+    <Group(CLIGroups.DEP_CLI)>
+    Public Function TtestDesigner(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim designer = args <= "/designer"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & $"-{designer.BaseName}-edgeR/")
+        Dim designers As Designer() = designer.LoadCsv(Of Designer)
+        Dim label$ = args.GetValue("/label", "")
+        Dim deli$ = args.GetValue("/deli", "-")
+
+        Call DEGDesigner.TtestDesigner([in], designers, (label, deli), workDIR:=out)
 
         Return 0
     End Function

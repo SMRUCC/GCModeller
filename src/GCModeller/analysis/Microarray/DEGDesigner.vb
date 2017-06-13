@@ -28,6 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
@@ -305,6 +306,118 @@ Public Module DEGDesigner
             path = workDIR & "/" & name & "-" & group.Key.NormalizePathString(False) & ".txt"
             file.SaveTo(path, Encoding.ASCII)
         Next
+    End Sub
+
+    Public Delegate Sub doSymbol(gene As gene, experiments$(), controls$(), fillRowData As Action(Of String()))
+    Public Delegate Sub DataOutput(data$(), name$, group$)
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <param name="designers"></param>
+    ''' <param name="label"></param>
+    ''' <param name="doSymbol"></param>
+    ''' <param name="doHeaders">基因参数是Nothing空值</param>
+    ''' <param name="output"></param>
+    Public Sub GeneralDesigner(path$, designers As Designer(),
+                               label As (label$, delimiter$),
+                               doSymbol As doSymbol,
+                               doHeaders As doSymbol,
+                               output As DataOutput)
+
+        Dim genes As gene() = gene.LoadDataSet(path).ToArray
+        Dim groups As Dictionary(Of String, Designer()) = designers _
+            .GroupBy(Function(x) x.GroupLabel) _
+            .ToDictionary(Function(k) k.Key,
+                          Function(repeats) repeats.ToArray)
+        Dim name$ = path.BaseName
+
+        For Each group In groups
+            Dim labels = group _
+                .Value _
+                .Select(Function(l)
+                            Return l.GetLabel(label.label, label.delimiter)
+                        End Function) _
+                .ToArray
+            Dim file As New List(Of String)
+            Dim experiments = labels.ToArray(Function(l) l.exp)
+            Dim controls = labels.ToArray(Function(l) l.control)
+            Dim line As New List(Of String)
+
+            ' 生成表头
+            Call line.Add("ID")
+            Call doHeaders(
+                Nothing,
+                experiments, controls,
+                Sub(values)
+                    Call line.AddRange(values)
+                End Sub)
+            Call file.Add(line.JoinBy(vbTab))
+            Call line.Clear()
+
+            For Each gene As gene In genes
+                Call doSymbol(
+                    gene, experiments, controls,
+                    Sub(values)
+                        Call line.AddRange(values)
+                    End Sub)
+                Call file.Add(line.JoinBy(vbTab))
+                Call line.Clear()
+            Next
+
+            Call output(file, name, group:=group.Key)
+        Next
+    End Sub
+
+    Public Sub TtestDesigner(path$, designers As Designer(), Optional label As (label$, delimiter$) = Nothing, Optional workDIR$ = "./")
+        Dim output As DataOutput =
+            Sub(data, name, group)
+                Dim outName$ = name & "-" & group.NormalizePathString(False)
+                Dim out$ = workDIR & "/" & outName & ".txt"
+
+                Call data.SaveTo(out, Encoding.ASCII)
+            End Sub
+        Dim doSymbol As doSymbol =
+            Sub(gene, experiments, controls, fillRowData)
+                Dim experimentValues#() = experiments _
+                    .Select(Function(t) Val(gene(t))) _
+                    .ToArray
+                Dim controlValues#() = controls _
+                    .Select(Function(t) Val(gene(t))) _
+                    .ToArray
+
+                ' experiment/controls
+                Dim combos = Combination _
+                    .CreateCombos(experimentValues, controlValues) _
+                    .ToArray
+                Dim foldChanges = combos _
+                    .Select(Function(c)
+                                If c.Item2 = 0R Then
+                                    Return "NA"
+                                Else
+                                    Return (c.Item1 / c.Item2).SafeToString("NA")
+                                End If
+                            End Function) _
+                    .ToArray
+
+                Call fillRowData({gene.ID})
+                Call fillRowData(foldChanges)
+            End Sub
+        Dim doHeaders As doSymbol =
+            Sub(gene, experiments, controls, fillRowData)
+                Dim list$() = Combination _
+                    .CreateCombos(experiments, controls) _
+                    .Select(Function(c) $"{c.Item1}/{c.Item2}") _
+                    .ToArray
+                Call fillRowData(list)
+            End Sub
+
+        Call DEGDesigner.GeneralDesigner(
+            path, designers, label,
+            doSymbol,
+            doHeaders,
+            output)
     End Sub
 End Module
 

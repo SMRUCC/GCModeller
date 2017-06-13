@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::ef49e9c5dd3533fb8d0f86761904d9a2, ..\GCModeller\analysis\Microarray\Enrichment\KOBAS.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -71,14 +71,18 @@ Namespace KOBAS
                 .Where(Function(s) Not s.StringEmpty AndAlso Not Regex.Match(s, "[-]+").Value = s) _
                 .Skip(3) _
                 .ToArray
-            Dim terms = csv.ImportsTsv(Of EnrichmentTerm)(lines).GroupBy(Function(t) t.Database)
+            Dim terms = csv _
+                .ImportsTsv(Of EnrichmentTerm)(lines) _
+                .GroupBy(Function(t) t.Database) _
+                .Where(Function(g) Not g.Key.TextEquals("Database"))
 
             If EXPORT.StringEmpty Then
                 EXPORT = path.TrimSuffix
             End If
 
             For Each d In terms
-                Dim file$ = EXPORT & "/" & path.BaseName & "-" & d.Key.NormalizePathString(False) & ".csv"
+                Dim outName$ = path.BaseName & "-" & d.Key.NormalizePathString(False)
+                Dim file$ = EXPORT & $"/{outName}.csv"
                 Call d.ToArray.SaveTo(file)
             Next
         End Sub
