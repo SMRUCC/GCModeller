@@ -353,7 +353,7 @@ Public Module DEGDesigner
                 Dim outName$ = name & "-" & group.NormalizePathString(False)
                 Dim out$ = workDIR & "/" & outName & ".txt"
 
-                Call data.SaveTo(path, Encoding.ASCII)
+                Call data.SaveTo(out, Encoding.ASCII)
             End Sub
         Dim doSymbol As doSymbol =
             Sub(gene, experiments, controls, fillRowData)
