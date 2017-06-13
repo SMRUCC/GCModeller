@@ -223,21 +223,24 @@ Public Module DEGDesigner
         Return samples
     End Function
 
-    Public Structure Designer
+    ''' <summary>
+    ''' DEG/DEP计算的设计方法
+    ''' </summary>
+    Public Class Designer
 
         ''' <summary>
         ''' 分子
         ''' </summary>
-        Dim Experiment$
+        Public Property Experiment As String
         ''' <summary>
         ''' 分母
         ''' </summary>
-        Dim Control$
+        Public Property Control As String
 
         ''' <summary>
         ''' 具有相同的这个属性的标签值的都是生物学重复
         ''' </summary>
-        Dim GroupLabel$
+        Public Property GroupLabel As String
 
         Public Overrides Function ToString() As String
             Return $"{Experiment}/{Control}"
@@ -258,12 +261,12 @@ Public Module DEGDesigner
             Dim out As Double = Math.Log(A / B, 2)
             Return out
         End Function
-    End Structure
+    End Class
 
     ''' <summary>
     ''' 从矩阵之中导出edgeR分析所需要的文本数据
     ''' </summary>
-    ''' <param name="path$"></param>
+    ''' <param name="path$">proteinGroups.xlsx所导出来的csv文件</param>
     ''' <param name="designers"></param>
     ''' <param name="label$"></param>
     ''' <param name="workDIR$"></param>
@@ -273,7 +276,6 @@ Public Module DEGDesigner
             .GroupBy(Function(x) x.GroupLabel) _
             .ToDictionary(Function(k) k.Key,
                           Function(repeats) repeats.ToArray)
-        ' Dim idmaps As New Dictionary(Of String, String)
         Dim name$ = path.BaseName
 
         For Each group In groups

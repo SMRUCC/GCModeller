@@ -15,6 +15,19 @@ Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
 
+    <ExportAPI("/edgeR.Designer")>
+    <Usage("/edgeR.Designer /in <proteinGroups.csv> /designer <designer.csv> [/out <out.DIR>]")>
+    Public Function edgeRDesigner(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim designer = args <= "/designer"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & $"-{designer.BaseName}-edgeR/")
+        Dim designers As Designer() = designer.LoadCsv(Of Designer)
+
+        Call EdgeR_rawDesigner([in], designers,, workDIR:=out)
+
+        Return 0
+    End Function
+
     ''' <summary>
     ''' 使用这个函数来处理iTraq实验结果之中与分析需求单的FC比对方式颠倒的情况
     ''' 
