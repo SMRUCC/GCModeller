@@ -393,7 +393,11 @@ Public Module DEGDesigner
                     .ToArray
                 Dim foldChanges = combos _
                     .Select(Function(c)
-                                Return (c.Item1 / c.Item2).SafeToString("NA")
+                                If c.Item2 = 0R Then
+                                    Return "NA"
+                                Else
+                                    Return (c.Item1 / c.Item2).SafeToString("NA")
+                                End If
                             End Function) _
                     .ToArray
 
