@@ -311,7 +311,21 @@ Public Module DEGDesigner
     Public Delegate Sub doSymbol(gene As gene, experiments$(), controls$(), fillRowData As Action(Of String()))
     Public Delegate Sub DataOutput(data$(), name$, group$)
 
-    Public Sub GeneralDesigner(path$, designers As Designer(), label As (label$, delimiter$), doSymbol As doSymbol, output As DataOutput)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <param name="designers"></param>
+    ''' <param name="label"></param>
+    ''' <param name="doSymbol"></param>
+    ''' <param name="doHeaders">基因参数是Nothing空值</param>
+    ''' <param name="output"></param>
+    Public Sub GeneralDesigner(path$, designers As Designer(),
+                               label As (label$, delimiter$),
+                               doSymbol As doSymbol,
+                               doHeaders As doSymbol,
+                               output As DataOutput)
+
         Dim genes As gene() = gene.LoadDataSet(path).ToArray
         Dim groups As Dictionary(Of String, Designer()) = designers _
             .GroupBy(Function(x) x.GroupLabel) _
@@ -328,8 +342,12 @@ Public Module DEGDesigner
 
             ' 生成表头
             Call line.Add("ID")
-            Call line.AddRange(controls)
-            Call line.AddRange(experiments)
+            Call doHeaders(
+                Nothing,
+                experiments, controls,
+                Sub(values)
+                    Call line.AddRange(values)
+                End Sub)
             Call file.Add(line.JoinBy(vbTab))
             Call line.Clear()
 
@@ -375,8 +393,20 @@ Public Module DEGDesigner
                 Call fillRowData({gene.ID})
                 Call fillRowData(foldChanges)
             End Sub
+        Dim doHeaders As doSymbol =
+            Sub(gene, experiments, controls, fillRowData)
+                Dim list$() = Combination _
+                    .CreateCombos(experiments, controls) _
+                    .Select(Function(c) $"{c.Item1}/{c.Item2}") _
+                    .ToArray
+                Call fillRowData(list)
+            End Sub
 
-        Call DEGDesigner.GeneralDesigner(path, designers, label, doSymbol, output)
+        Call DEGDesigner.GeneralDesigner(
+            path, designers, label,
+            doSymbol,
+            doHeaders,
+            output)
     End Sub
 End Module
 
