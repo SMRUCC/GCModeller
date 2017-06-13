@@ -334,7 +334,12 @@ Public Module DEGDesigner
         Dim name$ = path.BaseName
 
         For Each group In groups
-            Dim labels = group.Value.ToArray(Function(l) l.GetLabel(label.label, label.delimiter))
+            Dim labels = group _
+                .Value _
+                .Select(Function(l)
+                            Return l.GetLabel(label.label, label.delimiter)
+                        End Function) _
+                .ToArray
             Dim file As New List(Of String)
             Dim experiments = labels.ToArray(Function(l) l.exp)
             Dim controls = labels.ToArray(Function(l) l.control)
