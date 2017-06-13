@@ -1,4 +1,5 @@
-﻿Imports System.Drawing
+﻿Imports System.ComponentModel
+Imports System.Drawing
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
@@ -112,10 +113,15 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Go.enrichment.plot",
-               Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays 10 /PlantRegMap /label.right /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
+               Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays <default=10> /PlantRegMap /label.right /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
+    <Description("Go enrichment plot base on the KOBAS enrichment analysis result.")>
     <Argument("/bubble", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Visuallize the GO enrichment analysis result using bubble plot, not the bar plot.")>
+    <Argument("/displays", True, CLITypes.Integer,
+              AcceptTypes:={GetType(Integer)},
+              Description:="If the ``/bubble`` argument is not presented, then this will means the top number of the enriched term will plot on the barplot, else it is the term label display number in the bubble plot mode. 
+              Set this argument value to -1 for display all terms.")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function GO_enrichmentPlot(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
@@ -139,10 +145,10 @@ Partial Module CLI
             enrichments.ToArray.SaveTo([in].TrimSuffix & ".csv")
         Else
             Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
+            Dim displays% = args.GetValue("/displays", 10)  ' The term/label display number
 
             If bubbleStyle Then
-                Dim R$ = args.GetValue("/r", "log(x,1.5)")
-                Dim displays% = args.GetValue("/displays", 10)
+                Dim R$ = args.GetValue("/r", "log(x,1.5)")  ' 获取半径的计算公式              
 
                 plot = enrichments.BubblePlot(GO_terms:=terms,
                                               pvalue:=pvalue,
@@ -153,7 +159,8 @@ Partial Module CLI
                 plot = enrichments.EnrichmentPlot(
                     terms, pvalue, size.SizeParser,
                     tick,
-                    gray, labelRight)
+                    gray, labelRight, 
+                    top:=displays)
             End If
         End If
 

@@ -302,7 +302,8 @@ Public Module CatalogPlots
                                                                            Optional tick# = 1,
                                                                            Optional gray As Boolean = False,
                                                                            Optional labelRightAlignment As Boolean = False,
-                                                                           Optional usingCorrected As Boolean = False) As GraphicsData
+                                                                           Optional usingCorrected As Boolean = False,
+                                                                           Optional top% = -1) As GraphicsData
 
         Dim profile As New Dictionary(Of String, List(Of NamedValue(Of Double)))
 
@@ -324,6 +325,18 @@ Public Module CatalogPlots
                 Call profile([namespace]).Add(New NamedValue(Of Double)(.name, term.P))
             End With
         Next
+
+        If top > 0 Then
+            For Each ns In profile.ToArray
+                Dim name$ = ns.Key
+                Dim terms = ns.Value _
+                    .OrderByDescending(Function(t) t.Value) _
+                    .Take(top) _
+                    .AsList   ' 已经转换为P值了，直接降序排序
+
+                profile(name) = terms
+            Next
+        End If
 
         Return profile.ToDictionary(
             Function(x) x.Key,
