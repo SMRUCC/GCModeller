@@ -366,7 +366,7 @@ Public Module DEGDesigner
 
                 ' experiment/controls
                 Dim combos = Combination _
-                    .CreateCombos(experiments, controls) _
+                    .CreateCombos(experimentValues, controlValues) _
                     .ToArray
                 Dim foldChanges = combos _
                     .Select(Function(c) CStr(c.Item1 / c.Item2)) _
