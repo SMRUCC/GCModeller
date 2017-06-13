@@ -392,7 +392,9 @@ Public Module DEGDesigner
                     .CreateCombos(experimentValues, controlValues) _
                     .ToArray
                 Dim foldChanges = combos _
-                    .Select(Function(c) CStr(c.Item1 / c.Item2)) _
+                    .Select(Function(c)
+                                Return (c.Item1 / c.Item2).SafeToString("NA")
+                            End Function) _
                     .ToArray
 
                 Call fillRowData({gene.ID})
