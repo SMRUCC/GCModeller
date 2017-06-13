@@ -246,11 +246,11 @@ Public Module DEGDesigner
             Return $"{Experiment}/{Control}"
         End Function
 
-        Public Function GetLabel(Optional label$ = Nothing) As (exp$, control$)
-            If label Is Nothing Then
+        Public Function GetLabel(Optional label$ = Nothing, Optional delimiter$ = "-") As (exp$, control$)
+            If label.StringEmpty Then
                 Return (Experiment, Control)
             Else
-                Return (label & "." & Experiment, label & "." & Control)
+                Return (label & delimiter & Experiment, label & delimiter & Control)
             End If
         End Function
 
@@ -270,7 +270,7 @@ Public Module DEGDesigner
     ''' <param name="designers"></param>
     ''' <param name="label$"></param>
     ''' <param name="workDIR$"></param>
-    Public Sub EdgeR_rawDesigner(path$, designers As Designer(), Optional label$ = Nothing, Optional workDIR$ = "./")
+    Public Sub EdgeR_rawDesigner(path$, designers As Designer(), Optional label As (label$, delimiter$) = Nothing, Optional workDIR$ = "./")
         Dim genes As gene() = gene.LoadDataSet(path).ToArray
         Dim groups As Dictionary(Of String, Designer()) = designers _
             .GroupBy(Function(x) x.GroupLabel) _
@@ -279,7 +279,7 @@ Public Module DEGDesigner
         Dim name$ = path.BaseName
 
         For Each group In groups
-            Dim labels = group.Value.ToArray(Function(l) l.GetLabel(label))
+            Dim labels = group.Value.ToArray(Function(l) l.GetLabel(label.label, label.delimiter))
             Dim file As New StringBuilder
             Dim experiments = labels.ToArray(Function(l) l.exp)
             Dim controls = labels.ToArray(Function(l) l.control)
