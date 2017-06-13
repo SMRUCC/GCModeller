@@ -348,31 +348,15 @@ Public Module DEGDesigner
     End Sub
 
     Public Sub TtestDesigner(path$, designers As Designer(), Optional label As (label$, delimiter$) = Nothing, Optional workDIR$ = "./")
-        Dim genes As gene() = gene.LoadDataSet(path).ToArray
-        Dim groups As Dictionary(Of String, Designer()) = designers _
-            .GroupBy(Function(x) x.GroupLabel) _
-            .ToDictionary(Function(k) k.Key,
-                          Function(repeats) repeats.ToArray)
-        Dim name$ = path.BaseName
+        Dim output As DataOutput =
+            Sub(data, name, group)
+                Dim outName$ = name & "-" & group.NormalizePathString(False)
+                Dim out$ = workDIR & "/" & outName & ".txt"
 
-        For Each group In groups
-            Dim labels = group.Value.ToArray(Function(l) l.GetLabel(label.label, label.delimiter))
-            Dim file As New StringBuilder
-            Dim experiments = labels.ToArray(Function(l) l.exp)
-            Dim controls = labels.ToArray(Function(l) l.control)
-            Dim line As New List(Of String)
-            Dim appendLine = Sub()
-                                 Call file.AppendLine(line.JoinBy(vbTab))
-                                 Call line.Clear()
-                             End Sub
-
-            ' 生成表头
-            Call line.Add("ID")
-            Call line.AddRange(controls)
-            Call line.AddRange(experiments)
-            Call appendLine()
-
-            For Each gene As gene In genes
+                Call data.SaveTo(path, Encoding.ASCII)
+            End Sub
+        Dim doSymbol As doSymbol =
+            Sub(gene, experiments, controls, fillRowData)
                 Dim experimentValues#() = experiments _
                     .Select(Function(t) Val(gene(t))) _
                     .ToArray
@@ -381,17 +365,18 @@ Public Module DEGDesigner
                     .ToArray
 
                 ' experiment/controls
-                Dim combos = Combination.CreateCombos(experiments, controls).ToArray
-                Dim foldChanges = combos.Select(Function(c) CStr(c.Item1 / c.Item2))
+                Dim combos = Combination _
+                    .CreateCombos(experiments, controls) _
+                    .ToArray
+                Dim foldChanges = combos _
+                    .Select(Function(c) CStr(c.Item1 / c.Item2)) _
+                    .ToArray
 
-                Call line.Add(gene.ID)
-                Call line.AddRange(foldChanges)
-                Call appendLine()
-            Next
+                Call fillRowData({gene.ID})
+                Call fillRowData(foldChanges)
+            End Sub
 
-            path = workDIR & "/" & name & "-" & group.Key.NormalizePathString(False) & ".txt"
-            file.SaveTo(path, Encoding.ASCII)
-        Next
+        Call DEGDesigner.GeneralDesigner(path, designers, label, doSymbol, output)
     End Sub
 End Module
 
