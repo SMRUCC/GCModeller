@@ -107,7 +107,7 @@ Public Module DEGDesigner
             .Keys _
             .Distinct _
             .Indexing
-        Dim rawValues As gene() = gene.LoadDataSet(raw)
+        Dim rawValues As gene() = gene.LoadDataSet(raw).ToArray
         Dim allDataFields$() = allGenes _
             .Select(Function(gene) gene.Properties.Keys) _
             .IteratesALL _
@@ -120,9 +120,9 @@ Public Module DEGDesigner
                    End Function) _
             .Select(Function(gene)
                         Return New gene With {
-                            .ID = gene.ID, 
+                            .ID = gene.ID,
                             .Properties = allDataFields _
-                                .ToDictionary(Function(key) key, 
+                                .ToDictionary(Function(key) key,
                                               Function(field) gene(field))
                         }
                     End Function) _
