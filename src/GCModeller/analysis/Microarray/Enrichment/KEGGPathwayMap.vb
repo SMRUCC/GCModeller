@@ -19,17 +19,19 @@ Public Module KEGGPathwayMap
         Dim all As EnrichmentTerm() = kobas.ToArray
         Dim failures As New List(Of String)
 
+        If pvalue <= 0 Then
+            ' 不筛选
+        Else
+            all = all _
+                .Where(Function(t) t.Pvalue <= pvalue) _
+                .ToArray
+        End If
+
         Using progress As New ProgressBar("KEGG pathway map visualization....",, CLS:=True)
             Dim tick As New ProgressProvider(all.Length)
-            Dim source As IEnumerable(Of EnrichmentTerm)
-
-            If pvalue <= 0 Then
-                source = all       ' 不筛选
-            Else
-                source = all.Where(Function(t) t.Pvalue <= pvalue)
-            End If
-
-            For Each term As EnrichmentTerm In source
+            Dim ETA$
+            
+            For Each term As EnrichmentTerm In all
                 Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
                 Dim path$ = EXPORT & "/" & pngName & $"-pvalue={term.Pvalue}" & ".png"
 
@@ -39,6 +41,9 @@ Public Module KEGGPathwayMap
                 Else
                     failures += term.ID
                 End If
+
+                ETA = $"{term.ID}  ETA={tick.ETA(progress.ElapsedMilliseconds).FormatTime}"
+                progress.SetProgress(tick.StepProgress, details:=ETA)
             Next
         End Using
 
@@ -66,6 +71,8 @@ Public Module KEGGPathwayMap
                         If DEPs.ContainsKey(.Name) Then
                             genes(i) = New NamedValue(Of String)(.Name, DEPs(.Name))
                         Else
+                            ' 可能会因为uniprot对KEGG数据库之间的同步不一致
+                            ' 所以有些uniprot基因没有kegg编号的mapping，这个时候使用默认的绿色表示
                             genes(i) = New NamedValue(Of String)(.Name, "green")
                         End If
                     End With
@@ -76,6 +83,7 @@ Public Module KEGGPathwayMap
                     .Value = genes
                 }.KEGGURLEncode
             End Sub)
+
         Return terms.KOBAS_visualize(EXPORT, pvalue)
     End Function
 End Module

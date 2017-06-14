@@ -227,14 +227,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="KO_maps">``{geneID -> KO}`` map data collection.</param>
         ''' <returns></returns>
         <Extension>
-        Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String))) As NamedValue(Of Dictionary(Of String, String))()
-            Dim KO_htext As Dictionary(Of String, BriteHText) = BriteHText _
-                .Load_ko00001 _
-                .EnumerateEntries _
-                .Where(Function(x) Not x.EntryId Is Nothing) _
-                .GroupBy(Function(x) x.EntryId) _
-                .ToDictionary(Function(x) x.Key,
-                              Function(x) x.First)
+        Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String)), KO_htext As Dictionary(Of String, BriteHText)) As NamedValue(Of Dictionary(Of String, String))()
             Dim pathways = LinqAPI.Exec(Of NamedValue(Of Dictionary(Of String, String))) <=
  _
                 From x As NamedValue(Of String)
@@ -258,6 +251,50 @@ Namespace Assembly.KEGG.WebServices
                 }
 
             Return pathways
+        End Function
+
+        ''' <summary>
+        ''' KEGG直系同源分类统计
+        ''' </summary>
+        ''' <param name="KO_maps">``{geneID -> KO}`` map data collection.</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String))) As NamedValue(Of Dictionary(Of String, String))()
+            Dim KO_htext As Dictionary(Of String, BriteHText) = BriteHText _
+                .Load_ko00001 _
+                .EnumerateEntries _
+                .Where(Function(x) Not x.EntryId Is Nothing) _
+                .GroupBy(Function(x) x.EntryId) _
+                .ToDictionary(Function(x) x.Key,
+                              Function(x) x.First)
+            Return KO_maps.KOCatalog(KO_htext)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="KO_maps"></param>
+        ''' <param name="ko00001$">User custom classification database</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String)), ko00001$) As NamedValue(Of Dictionary(Of String, String))()
+            Dim KO_htext = BriteHText _
+                .Load(ko00001.SolveStream) _
+                .EnumerateEntries _
+                .Where(Function(x) Not x.EntryId Is Nothing) _
+                .Select(Function(x)
+                            Return New With {
+                                .EntryID = x.Description _
+                                    .Match("\sK\d{5}\s") _
+                                    .Trim, 
+                                .KO = x
+                            }
+                        End Function) _
+                .Where(Function(x) Not x.EntryID.StringEmpty) _
+                .GroupBy(Function(x) x.EntryID) _
+                .ToDictionary(Function(x) x.Key,
+                              Function(x) x.First.KO)
+            Return KO_maps.KOCatalog(KO_htext)
         End Function
 
         Public Const KEGG_show_pathway$ = "http://www.genome.jp/kegg-bin/show_pathway?"
