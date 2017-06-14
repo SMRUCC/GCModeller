@@ -19,18 +19,19 @@ Public Module KEGGPathwayMap
         Dim all As EnrichmentTerm() = kobas.ToArray
         Dim failures As New List(Of String)
 
+        If pvalue <= 0 Then
+            ' 不筛选
+        Else
+            all = all _
+                .Where(Function(t) t.Pvalue <= pvalue) _
+                .ToArray
+        End If
+
         Using progress As New ProgressBar("KEGG pathway map visualization....",, CLS:=True)
             Dim tick As New ProgressProvider(all.Length)
             Dim ETA$
-            Dim source As IEnumerable(Of EnrichmentTerm)
-
-            If pvalue <= 0 Then
-                source = all       ' 不筛选
-            Else
-                source = all.Where(Function(t) t.Pvalue <= pvalue)
-            End If
-
-            For Each term As EnrichmentTerm In source
+            
+            For Each term As EnrichmentTerm In all
                 Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
                 Dim path$ = EXPORT & "/" & pngName & $"-pvalue={term.Pvalue}" & ".png"
 
