@@ -66,6 +66,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Dim Tokens As String = ClassLabel.Split.First
                     If Regex.Match(Tokens, "[a-z]\d{5}", RegexOptions.IgnoreCase).Success Then
                         _EntryId = Tokens
+                    ElseIf Tokens.IsPattern("\d+") Then
+                        _EntryId = Tokens
                     End If
                 End If
 
