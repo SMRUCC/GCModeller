@@ -50,11 +50,15 @@ Public Module FunctionalEnrichmentPlot
                           End Function)
         Dim nodes = stringUniprot _
             .Select(Function(protein)
+                        Dim meta = protein.Value
                         Dim type = KOCatagory _
-                            .TryGetValue(protein.Value.KO.FirstOrDefault, [default]:=Nothing) _
+                            .TryGetValue(meta.KO.FirstOrDefault, [default]:=Nothing) _
                             ?.Parent _
                             ?.Description
                         Dim values As New Dictionary(Of String, String)
+
+                        values("KO") = meta.KO.JoinBy("; ")
+
 
                         Return New Node With {
                             .ID = protein.Key,
