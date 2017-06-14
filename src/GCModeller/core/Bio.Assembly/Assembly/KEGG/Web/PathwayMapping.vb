@@ -282,9 +282,18 @@ Namespace Assembly.KEGG.WebServices
                 .Load(ko00001.SolveStream) _
                 .EnumerateEntries _
                 .Where(Function(x) Not x.EntryId Is Nothing) _
-                .GroupBy(Function(x) x.EntryId) _
+                .Select(Function(x)
+                            Return New With {
+                                .EntryID = x.Description _
+                                    .Match("\sK\d+\s") _
+                                    .Trim, 
+                                .KO = x
+                            }
+                        End Function) _
+                .Where(Function(x) Not x.EntryID.StringEmpty) _
+                .GroupBy(Function(x) x.EntryID) _
                 .ToDictionary(Function(x) x.Key,
-                              Function(x) x.First)
+                              Function(x) x.First.KO)
             Return KO_maps.KOCatalog(KO_htext)
         End Function
 
