@@ -12,6 +12,7 @@ Public Module KEGGPathwayMap
     ''' </summary>
     ''' <param name="kobas"></param>
     ''' <param name="EXPORT">代谢途径的绘图结果的保存文件夹</param>
+    ''' <param name="pvalue">-1表示不筛选</param>
     ''' <returns></returns>
     <Extension> Public Function KOBAS_visualize(kobas As IEnumerable(Of EnrichmentTerm), EXPORT$, Optional pvalue# = 0.05) As String()
         Dim all As EnrichmentTerm() = kobas.ToArray
@@ -19,8 +20,15 @@ Public Module KEGGPathwayMap
 
         Using progress As New ProgressBar("KEGG pathway map visualization....",, CLS:=True)
             Dim tick As New ProgressProvider(all.Length)
+            Dim source As IEnumerable(Of EnrichmentTerm)
 
-            For Each term As EnrichmentTerm In all.Where(Function(t) t.Pvalue <= pvalue)
+            If pvalue <= 0 Then
+                source = all       ' 不筛选
+            Else
+                source = all.Where(Function(t) t.Pvalue <= pvalue)
+            End If
+
+            For Each term As EnrichmentTerm In source
                 Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
                 Dim path$ = EXPORT & "/" & pngName & $"-pvalue={term.Pvalue}" & ".png"
 
