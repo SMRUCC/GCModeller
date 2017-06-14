@@ -21,6 +21,7 @@ Public Module KEGGPathwayMap
 
         Using progress As New ProgressBar("KEGG pathway map visualization....",, CLS:=True)
             Dim tick As New ProgressProvider(all.Length)
+            Dim ETA$
             Dim source As IEnumerable(Of EnrichmentTerm)
 
             If pvalue <= 0 Then
@@ -39,6 +40,9 @@ Public Module KEGGPathwayMap
                 Else
                     failures += term.ID
                 End If
+
+                ETA = $"{term.ID}  ETA={tick.ETA(progress.ElapsedMilliseconds).FormatTime}"
+                progress.SetProgress(tick.StepProgress, details:=ETA)
             Next
         End Using
 
