@@ -193,6 +193,26 @@ Partial Module CLI
             .SaveDataSet(dataOUT, blank:=1)
     End Function
 
+    ''' <summary>
+    ''' 获取DEPs的原始数据的热图数据
+    ''' </summary>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/DEP.heatmap.raw")>
+    <Usage("/DEP.heatmap.raw /DEPs <DEPs.csv.folder> /raw <proteinGroups.csv> [/DEP.tag <default=is.DEP> /out <out.csv>]")>
+    Public Function DEPsHeatmapRaw(args As CommandLine) As Integer
+        Dim in$ = args <= "/DEPs"
+        Dim raw$ = args <= "/raw"
+        Dim DEPTag$ = args.GetValue("/DEP.tag", "is.DEP")
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".heatmap.raw/")
+        Dim dataOUT = out & "/DEP.heatmap.raw.csv"
+
+        Return DEGDesigner _
+            .GetDEPsRawValues([in], raw, DEPTag) _
+            .SaveDataSet(dataOUT) _
+            .CLICode
+    End Function
+
     <ExportAPI("/Venn.Functions",
                Usage:="/Venn.Functions /venn <venn.csv> /anno <annotations.csv> [/out <out.csv>]")>
     Public Function VennFunctions(args As CommandLine) As Integer

@@ -97,6 +97,40 @@ Public Module DEGDesigner
         Return MergeMatrix(DIR, name, DEG:=Math.Log(1.5, 2), Pvalue:=0.05)
     End Function
 
+    Public Function GetDEPsRawValues(DEPsDIR$, raw$, Optional DEPstag$ = "is.DEP") As gene()
+        Dim allGenes As gene() = (ls - l - r - "*.csv" <= DEPsDIR) _
+            .Select(Function(csv) gene.LoadDataSet(csv)) _
+            .IteratesALL _
+            .ToArray
+        Dim allDEPs As Index(Of String) = allGenes _
+            .Where(Function(gene) gene(DEPstag).TextEquals("TRUE")) _
+            .Keys _
+            .Distinct _
+            .Indexing
+        Dim rawValues As gene() = gene.LoadDataSet(raw)
+        Dim allDataFields$() = allGenes _
+            .Select(Function(gene) gene.Properties.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .OrderBy(Function(s) s) _
+            .ToArray
+        Dim out = rawValues _
+            .Where(Function(gene)
+                       Return allDEPs.IndexOf(gene.ID) > -1
+                   End Function) _
+            .Select(Function(gene)
+                        Return New gene With {
+                            .ID = gene.ID, 
+                            .Properties = allDataFields _
+                                .ToDictionary(Function(key) key, 
+                                              Function(field) gene(field))
+                        }
+                    End Function) _
+            .ToArray
+
+        Return out
+    End Function
+
     ''' <summary>
     ''' 合并实验数据矩阵，可以使用这个函数用来生成诸如heatmap或者vennDiagram的绘图数据
     ''' </summary>
