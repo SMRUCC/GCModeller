@@ -106,7 +106,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MisT2API.vb" />
+    <Compile Include="TCS\MisT2API.vb" />
+    <Compile Include="FunctionalEnrichmentPlot.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -122,8 +123,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Assembler.vb" />
-    <Compile Include="EffectorMap.vb" />
+    <Compile Include="TCS\Assembler.vb" />
+    <Compile Include="TCS\EffectorMap.vb" />
     <Compile Include="Models\API.vb" />
     <Compile Include="Models\Interaction.vb" />
     <Compile Include="Models\Network.vb" />
