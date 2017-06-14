@@ -70,6 +70,8 @@ Public Module KEGGPathwayMap
                         If DEPs.ContainsKey(.Name) Then
                             genes(i) = New NamedValue(Of String)(.Name, DEPs(.Name))
                         Else
+                            ' 可能会因为uniprot对KEGG数据库之间的同步不一致
+                            ' 所以有些uniprot基因没有kegg编号的mapping，这个时候使用默认的绿色表示
                             genes(i) = New NamedValue(Of String)(.Name, "green")
                         End If
                     End With
@@ -80,6 +82,7 @@ Public Module KEGGPathwayMap
                     .Value = genes
                 }.KEGGURLEncode
             End Sub)
+
         Return terms.KOBAS_visualize(EXPORT, pvalue)
     End Function
 End Module
