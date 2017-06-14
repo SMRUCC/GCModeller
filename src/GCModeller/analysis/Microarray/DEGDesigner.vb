@@ -97,7 +97,7 @@ Public Module DEGDesigner
         Return MergeMatrix(DIR, name, DEG:=Math.Log(1.5, 2), Pvalue:=0.05)
     End Function
 
-    Public Function GetDEPsRawValues(DEPsDIR$, raw$, Optional DEPstag$ = "is.DEP") As gene()
+    Public Function GetDEPsRawValues(DEPsDIR$, Optional DEPstag$ = "is.DEP") As gene()
         Dim allGenes As gene() = (ls - l - r - "*.csv" <= DEPsDIR) _
             .Select(Function(csv) gene.LoadDataSet(csv)) _
             .IteratesALL _
@@ -107,7 +107,25 @@ Public Module DEGDesigner
             .Keys _
             .Distinct _
             .Indexing
-        Dim rawValues As gene() = gene.LoadDataSet(raw).ToArray
+        ' 这里应该是allgenes，因为取的是实验的DEPs的并集
+        Dim rawValues As gene() = allGenes _
+            .GroupBy(Function(gene) gene.ID) _
+            .Select(Function(g)
+                        Return New gene With {
+                            .ID = g.Key,
+                            .Properties = g _
+                                .Select(Function(x) x.Properties) _
+                                .IteratesALL _
+                                .GroupBy(Function(k) k.Key) _
+                                .ToDictionary(Function(k) k.Key, 
+                                              Function(v)
+                                                  ' 对于T-test脚本的输出，这些DEP文件都共同含有一个
+                                                  ' avg.FC和is.DEP字段，在这里直接通过group去重了
+                                                  Return v.First.Value
+                                              End Function)
+                        }
+                    End Function) _
+            .ToArray
         Dim allDataFields$() = allGenes _
             .Select(Function(gene) gene.Properties.Keys) _
             .IteratesALL _

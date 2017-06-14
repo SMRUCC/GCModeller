@@ -199,7 +199,7 @@ Partial Module CLI
     ''' <returns></returns>
     ''' 
     <ExportAPI("/DEP.heatmap.raw")>
-    <Usage("/DEP.heatmap.raw /DEPs <DEPs.csv.folder> /raw <proteinGroups.csv> [/DEP.tag <default=is.DEP> /out <out.csv>]")>
+    <Usage("/DEP.heatmap.raw /DEPs <DEPs.csv.folder> [/DEP.tag <default=is.DEP> /out <out.csv>]")>
     Public Function DEPsHeatmapRaw(args As CommandLine) As Integer
         Dim in$ = args <= "/DEPs"
         Dim raw$ = args <= "/raw"
@@ -208,7 +208,7 @@ Partial Module CLI
         Dim dataOUT = out & "/DEP.heatmap.raw.csv"
 
         Return DEGDesigner _
-            .GetDEPsRawValues([in], raw, DEPTag) _
+            .GetDEPsRawValues([in], DEPTag) _
             .SaveDataSet(dataOUT) _
             .CLICode
     End Function
