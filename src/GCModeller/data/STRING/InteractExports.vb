@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv
 
 ''' <summary>
@@ -9,12 +10,26 @@ Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv
 ''' </summary>
 Public Class InteractExports
 
+    ''' <summary>
+    ''' <see cref="UniprotXML"/>之中的外部数据库的编号引用
+    ''' </summary>
+    Public Const STRING$ = NameOf(InteractExports.[STRING])
+
     <Column("#node1")>
     Public Property node1 As String
     Public Property node2 As String
     Public Property node1_string_internal_id As String
     Public Property node2_string_internal_id As String
+
+    ''' <summary>
+    ''' 可以在uniprot注释数据之中的<see cref="entry.dbReferences"/>找得到``STRING``编号
+    ''' </summary>
+    ''' <returns></returns>
     Public Property node1_external_id As String
+    ''' <summary>
+    ''' 可以在uniprot注释数据之中的<see cref="entry.dbReferences"/>找得到``STRING``编号
+    ''' </summary>
+    ''' <returns></returns>
     Public Property node2_external_id As String
     Public Property neighborhood_on_chromosome As String
     Public Property gene_fusion As String
@@ -24,7 +39,7 @@ Public Class InteractExports
     Public Property experimentally_determined_interaction As String
     Public Property database_annotated As String
     Public Property automated_textmining As String
-    Public Property combined_score As String
+    Public Property combined_score As Double
 
     Public Overrides Function ToString() As String
         Return Me.GetJson

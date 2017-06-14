@@ -260,14 +260,23 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         <Extension>
         Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String))) As NamedValue(Of Dictionary(Of String, String))()
-            Dim KO_htext As Dictionary(Of String, BriteHText) = BriteHText _
+            Dim ko_htext As Dictionary(Of String, BriteHText) = DefaultKOTable()
+            Return KO_maps.KOCatalog(ko_htext)
+        End Function
+
+        ''' <summary>
+        ''' Build default from <see cref="BriteHText.Load_ko00001"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function DefaultKOTable() As Dictionary(Of String, BriteHText)
+            Dim KO_htext = BriteHText _
                 .Load_ko00001 _
                 .EnumerateEntries _
                 .Where(Function(x) Not x.EntryId Is Nothing) _
                 .GroupBy(Function(x) x.EntryId) _
                 .ToDictionary(Function(x) x.Key,
                               Function(x) x.First)
-            Return KO_maps.KOCatalog(KO_htext)
+            Return KO_htext
         End Function
 
         ''' <summary>
@@ -286,7 +295,7 @@ Namespace Assembly.KEGG.WebServices
                             Return New With {
                                 .EntryID = x.Description _
                                     .Match("\sK\d{5}\s") _
-                                    .Trim, 
+                                    .Trim,
                                 .KO = x
                             }
                         End Function) _

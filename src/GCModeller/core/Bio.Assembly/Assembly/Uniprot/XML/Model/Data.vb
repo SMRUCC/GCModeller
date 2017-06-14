@@ -263,11 +263,21 @@ Namespace Assembly.Uniprot.XML
     End Class
 
     Public Class dbReference
+
+        ''' <summary>
+        ''' 外部数据库的名称
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property type As String
+        ''' <summary>
+        ''' 外部数据库的编号
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property id As String
         <XmlElement("property")>
         Public Property properties As [property]()
         Public Property molecule As molecule
+
     End Class
 
     Public Structure molecule
