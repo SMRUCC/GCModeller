@@ -72,7 +72,7 @@ Public Module DEGDesigner
     <Extension>
     Public Iterator Function StudentTtest(data As IEnumerable(Of EntityObject), designers As Dictionary(Of String, Designer()), Optional label$ = Nothing) As IEnumerable(Of EntityObject)
         For Each gene As EntityObject In data
-            For Each group In designers
+            For Each group As KeyValuePair(Of String, Designer()) In designers
                 Dim a#() = New Double(group.Value.Length - 1) {}
                 Dim b#() = New Double(group.Value.Length - 1) {}
 
@@ -279,7 +279,7 @@ Public Module DEGDesigner
                           Function(repeats) repeats.ToArray)
         Dim name$ = path.BaseName
 
-        For Each group In groups
+        For Each group As KeyValuePair(Of String, Designer()) In groups
             Dim labels = group.Value.ToArray(Function(l) l.GetLabel(label.label, label.delimiter))
             Dim file As New StringBuilder
             Dim experiments = labels.ToArray(Function(l) l.exp)
@@ -333,7 +333,7 @@ Public Module DEGDesigner
                           Function(repeats) repeats.ToArray)
         Dim name$ = path.BaseName
 
-        For Each group In groups
+        For Each group As KeyValuePair(Of String, Designer()) In groups
             Dim labels = group _
                 .Value _
                 .Select(Function(l)

@@ -22,6 +22,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.GO.PlantRegMap
 Imports SMRUCC.genomics.Analysis.KEGG
+Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -270,23 +271,39 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/KEGG.Enrichment.PathwayMap",
                Info:="Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.",
-               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/pvalue <default=0.05> /out <DIR>]")>
+               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/DEPs <deps.csv> /colors <default=red,blue,green> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>
+    <Argument("/colors", AcceptTypes:={GetType(String())},
+              Description:="A string vector that setups the DEPs' color profiles, if the argument ``/DEPs`` is presented. value format is ``up,down,present``")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGGEnrichmentPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-KEGG_enrichment_pathwayMaps/")
         Dim pvalue# = args.GetValue("/pvalue", 0.05)
         Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
+        Dim DEPs$ = args <= "/DEPs"
 
-        For Each term As EnrichmentTerm In data.Where(Function(t) t.Pvalue <= pvalue)
-            Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
-            Dim path$ = out & "/" & pngName & $"-pvalue={term.Pvalue}" & ".png"
+        If Not DEPs.FileExists(True) Then
+            Call KEGGPathwayMap.KOBAS_visualize(
+                data,
+                EXPORT:=out,
+                pvalue:=pvalue)
+        Else
+            Dim DEPgenes = EntityObject.LoadDataSet(DEPs).ToArray
+            ' 假设这里的编号都是uniprot编号，还需要转换为KEGG基因编号
+            Dim uniprot = UniprotXML.LoadDictionary(args <= "/uniprot")
+            Dim mapID = uniprot _
+                .Where(Function(gene) gene.Value.Xrefs.ContainsKey("KEGG")) _
+                .ToDictionary(Function(gene) gene.Key,
+                              Function(gene) gene.Value.Xrefs("KEGG").First.id)
+            Dim isDEP As Func(Of EntityObject, Boolean) =
+                Function(gene)
+                    Return gene("is.DEP").TextEquals("TRUE")
+                End Function
+            Dim threshold = (1.25, 1 / 1.25)
+            Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, threshold, "FC.avg", mapID)
 
-            If Not (path.FileLength > 0) Then
-                Call PathwayMapping.ShowEnrichmentPathway(term.link, save:=path)
-                Call Thread.Sleep(2000)
-            End If
-        Next
+            Call data.KOBAS_DEPs(colors, EXPORT:=out, pvalue:=pvalue)
+        End If
 
         Return 0
     End Function
