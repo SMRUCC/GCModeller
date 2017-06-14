@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
@@ -53,6 +54,28 @@ Public Module KEGGPathwayMap
     ''' <param name="pvalue#"></param>
     ''' <returns></returns>
     <Extension> Public Function KOBAS_DEPs(kobas As IEnumerable(Of EnrichmentTerm), DEPs As Dictionary(Of String, String), EXPORT$, Optional pvalue# = 0.05) As String()
+        Dim terms = kobas.ToArray
 
+        Call terms.DoEach(
+            Sub(term)
+                Dim data As NamedCollection(Of NamedValue(Of String)) = URLEncoder.URLParser(term.link)
+                Dim genes = data.ToArray
+
+                For i As Integer = 0 To genes.Length - 1
+                    With genes(i)
+                        If DEPs.ContainsKey(.Name) Then
+                            genes(i) = New NamedValue(Of String)(.Name, DEPs(.Name))
+                        Else
+                            genes(i) = New NamedValue(Of String)(.Name, "green")
+                        End If
+                    End With
+                Next
+
+                term.link = New NamedCollection(Of NamedValue(Of String)) With {
+                    .Name = data.Name,
+                    .Value = genes
+                }.KEGGURLEncode
+            End Sub)
+        Return terms.KOBAS_visualize(EXPORT, pvalue)
     End Function
 End Module
