@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::a14e2ebed336aa2ca35f5b3a4d178fb5, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -65,6 +65,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 If String.IsNullOrEmpty(_EntryId) Then
                     Dim Tokens As String = ClassLabel.Split.First
                     If Regex.Match(Tokens, "[a-z]\d{5}", RegexOptions.IgnoreCase).Success Then
+                        _EntryId = Tokens
+                    ElseIf Tokens.IsPattern("\d+") Then
                         _EntryId = Tokens
                     End If
                 End If
@@ -163,16 +165,21 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             End If
         End Function
 
-        Public Shared Function Load(strData As String) As BriteHText
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="data$">文本内容或者文件的路径</param>
+        ''' <returns></returns>
+        Public Shared Function Load(data$) As BriteHText
             Dim lines As String() = LinqAPI.Exec(Of String) <=
  _
                 From s As String
-                In strData.Replace("<b>", "").Replace("</b>", "").lTokens
+                In data.Replace("<b>", "").Replace("</b>", "").lTokens
                 Where Not String.IsNullOrEmpty(s) AndAlso
                     (Array.IndexOf(ClassLevels, s.First) > -1 AndAlso Len(s) > 1)
                 Select s
 
-            Return Load(lines, strData(1))
+            Return Load(lines, data(1))
         End Function
 
         Public Shared Function Load(lines$(), Optional depth$ = "Z"c) As BriteHText
@@ -252,7 +259,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         Public Shared Function Load_ko00002() As BriteHText
-            Return Load(strData:=My.Resources.ko00002_keg)
+            Return Load(data:=My.Resources.ko00002_keg)
         End Function
 
         ''' <summary>
@@ -260,7 +267,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function Load_ko00001() As BriteHText
-            Return Load(strData:=My.Resources.ko00001)
+            Return Load(data:=My.Resources.ko00001)
         End Function
 
         ''' <summary>

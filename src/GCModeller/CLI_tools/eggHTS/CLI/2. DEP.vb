@@ -1,4 +1,5 @@
-﻿Imports System.Drawing
+﻿Imports System.ComponentModel
+Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -14,6 +15,40 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
+
+    <ExportAPI("/edgeR.Designer")>
+    <Description("Generates the edgeR inputs table")>
+    <Usage("/edgeR.Designer /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
+    <Group(CLIGroups.DEP_CLI)>
+    Public Function edgeRDesigner(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim designer = args <= "/designer"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & $"-{designer.BaseName}-edgeR/")
+        Dim designers As Designer() = designer.LoadCsv(Of Designer)
+        Dim label$ = args.GetValue("/label", "")
+        Dim deli$ = args.GetValue("/deli", "-")
+
+        Call EdgeR_rawDesigner([in], designers, (label, deli), workDIR:=out)
+
+        Return 0
+    End Function
+
+    <ExportAPI("/T.test.Designer")>
+    <Description("Generates the t.test DEP method inputs table")>
+    <Usage("/T.test.Designer /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
+    <Group(CLIGroups.DEP_CLI)>
+    Public Function TtestDesigner(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim designer = args <= "/designer"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & $"-{designer.BaseName}-edgeR/")
+        Dim designers As Designer() = designer.LoadCsv(Of Designer)
+        Dim label$ = args.GetValue("/label", "")
+        Dim deli$ = args.GetValue("/deli", "-")
+
+        Call DEGDesigner.TtestDesigner([in], designers, (label, deli), workDIR:=out)
+
+        Return 0
+    End Function
 
     ''' <summary>
     ''' 使用这个函数来处理iTraq实验结果之中与分析需求单的FC比对方式颠倒的情况
@@ -156,6 +191,26 @@ Partial Module CLI
         Return DEGDesigner _
             .MergeMatrix(DIR, "*.csv", level, Val(pvalue.Value), FCtag, 1 / level, pvalue.Name, nonDEP_blank:=nonDEP_blank) _
             .SaveDataSet(dataOUT, blank:=1)
+    End Function
+
+    ''' <summary>
+    ''' 获取DEPs的原始数据的热图数据
+    ''' </summary>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/DEP.heatmap.raw")>
+    <Usage("/DEP.heatmap.raw /DEPs <DEPs.csv.folder> [/DEP.tag <default=is.DEP> /out <out.csv>]")>
+    Public Function DEPsHeatmapRaw(args As CommandLine) As Integer
+        Dim in$ = args <= "/DEPs"
+        Dim raw$ = args <= "/raw"
+        Dim DEPTag$ = args.GetValue("/DEP.tag", "is.DEP")
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".heatmap.raw/")
+        Dim dataOUT = out & "/DEP.heatmap.raw.csv"
+
+        Return DEGDesigner _
+            .GetDEPsRawValues([in], DEPTag) _
+            .SaveDataSet(dataOUT) _
+            .CLICode
     End Function
 
     <ExportAPI("/Venn.Functions",

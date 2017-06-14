@@ -127,7 +127,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         Public Shared Function LoadFile(path As String) As [Module]()
-            Return Build(Model:=BriteHText.Load(strData:=FileIO.FileSystem.ReadAllText(path)))
+            Return Build(Model:=BriteHText.Load(data:=FileIO.FileSystem.ReadAllText(path)))
         End Function
 
         ''' <summary>
