@@ -270,7 +270,9 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/KEGG.Enrichment.PathwayMap",
                Info:="Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.",
-               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/pvalue <default=0.05> /out <DIR>]")>
+               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/DEPs <deps.csv> /colors <default=red,blue,green> /pvalue <default=0.05> /out <DIR>]")>
+    <Argument("/colors", AcceptTypes:={GetType(String())},
+              Description:="A string vector that setups the DEPs' color profiles, if the argument ``/DEPs`` is presented. value format is ``up,down,present``")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGGEnrichmentPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
