@@ -262,7 +262,12 @@ Partial Module CLI
         ' 绘制GO图
         Dim goTerms As Dictionary(Of String, Term) = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
         Dim sample = [in].LoadSample
-        Dim selector = Function(x As IO.EntityObject) x("GO").Split(";"c).Select(AddressOf Trim).ToArray
+        Dim selector = Function(x As EntityObject)
+                           Return x("GO") _
+                               .Split(";"c) _
+                               .Select(AddressOf Trim) _
+                               .ToArray
+                       End Function
         Dim data As Dictionary(Of String, NamedValue(Of Integer)()) =
             sample.CountStat(selector, goTerms)
 

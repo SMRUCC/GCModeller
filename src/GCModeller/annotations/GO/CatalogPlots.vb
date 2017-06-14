@@ -177,7 +177,7 @@ Public Module CatalogPlots
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Catalog profiling plot for ``GO``.
     ''' </summary>
     ''' <param name="profile">原始的计数</param>
     ''' <param name="title$"></param>
@@ -215,11 +215,11 @@ Public Module CatalogPlots
             Dim x As NamedValue(Of Integer)() = k.Value
 
             If orderTakes > 0 Then
-                Dim orders As NamedValue(Of Double)() = x _
+                Dim top As NamedValue(Of Double)() = x _
                     .OrderByDescending(Function(o) o.Value) _
                     .Take(orderTakes) _
                     .ToArray(Function(o) New NamedValue(Of Double)(o.Description, o.Value))
-                Call data.Add(k.Key, orders)
+                Call data.Add(k.Key, top)
             Else
                 Call data.Add(
                     k.Key,
@@ -243,7 +243,13 @@ Public Module CatalogPlots
             Next
         Next
 
-        Return data.ProfilesPlot(
+        Dim orders As New Dictionary(Of String, NamedValue(Of Double)())
+
+        orders("biological_process") = data("biological_process")
+        orders("cellular_component") = data("cellular_component")
+        orders("molecular_function") = data("molecular_function")
+
+        Return orders.ProfilesPlot(
             title, axisTitle, colorSchema,
             bg, size, padding,
             classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
@@ -338,9 +344,13 @@ Public Module CatalogPlots
             Next
         End If
 
-        Return profile.ToDictionary(
-            Function(x) x.Key,
-            Function(x) x.Value.ToArray) _
+        Dim orders As New Dictionary(Of String, NamedValue(Of Double)())
+
+        orders("biological_process") = profile("biological_process")
+        orders("cellular_component") = profile("cellular_component")
+        orders("molecular_function") = profile("molecular_function")
+
+        Return orders _
             .ProfilesPlot(
                 "GO enrichment",
                 size:=size,
