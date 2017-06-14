@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::330b691ec66c512c29fbb85d022f918e, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\stats\stats.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -178,6 +178,45 @@ Namespace API
             End SyncLock
 
             Return tmp
+        End Function
+
+        ''' <summary>
+        ''' ``p.adjust.methods``
+        ''' </summary>
+        Public Enum padjusts
+            holm
+            hochberg
+            hommel
+            bonferroni
+            BH
+            BY
+            fdr
+            none
+        End Enum
+
+        ''' <summary>
+        ''' ###### Adjust P-values for Multiple Comparisons
+        ''' 
+        ''' Given a set of p-values, returns p-values adjusted using one of several methods.
+        ''' </summary>
+        ''' <param name="p#">numeric vector of p-values (possibly with NAs). Any other R is coerced by as.numeric.</param>
+        ''' <param name="method">correction method. Can be abbreviated.</param>
+        ''' <param name="n$">
+        ''' number of comparisons, must be at least length(p); only set this (to non-default) when you know what you are doing!
+        ''' </param>
+        ''' <returns>函数返回来的是变量名，这个变量的值类型为一个Double数组向量</returns>
+        Public Function padjust(p#(), Optional method As padjusts = padjusts.fdr, Optional n$ = "length(p)") As String
+            Dim v$ = base.c(p, recursive:=False)
+
+            SyncLock R
+                With R
+                    Dim x$ = App.NextTempName
+
+                    .call = $"{x} <- p.adjust({v}, method = {Rstring(method.Description)}, n = length({v}));"
+
+                    Return x
+                End With
+            End SyncLock
         End Function
     End Module
 End Namespace
