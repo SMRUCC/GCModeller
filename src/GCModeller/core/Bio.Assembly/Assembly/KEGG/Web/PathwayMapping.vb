@@ -285,7 +285,7 @@ Namespace Assembly.KEGG.WebServices
                 .Select(Function(x)
                             Return New With {
                                 .EntryID = x.Description _
-                                    .Match("\sK\d+\s") _
+                                    .Match("\sK\d{5}\s") _
                                     .Trim, 
                                 .KO = x
                             }
