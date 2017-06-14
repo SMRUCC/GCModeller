@@ -35,4 +35,16 @@ Public Module KEGGPathwayMap
 
         Return failures
     End Function
+
+    ''' <summary>
+    ''' Associate the KOBAS analysis result with DEPs analysis result
+    ''' </summary>
+    ''' <param name="kobas"></param>
+    ''' <param name="DEPs">{geneID, color}</param>
+    ''' <param name="EXPORT$"></param>
+    ''' <param name="pvalue#"></param>
+    ''' <returns></returns>
+    <Extension> Public Function KOBAS_DEPs(kobas As IEnumerable(Of EnrichmentTerm), DEPs As Dictionary(Of String, String), EXPORT$, Optional pvalue# = 0.05) As String()
+
+    End Function
 End Module
