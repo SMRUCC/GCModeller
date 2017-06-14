@@ -22,6 +22,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.GO.PlantRegMap
 Imports SMRUCC.genomics.Analysis.KEGG
+Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -280,15 +281,10 @@ Partial Module CLI
         Dim pvalue# = args.GetValue("/pvalue", 0.05)
         Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
 
-        For Each term As EnrichmentTerm In data.Where(Function(t) t.Pvalue <= pvalue)
-            Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
-            Dim path$ = out & "/" & pngName & $"-pvalue={term.Pvalue}" & ".png"
-
-            If Not (path.FileLength > 0) Then
-                Call PathwayMapping.ShowEnrichmentPathway(term.link, save:=path)
-                Call Thread.Sleep(2000)
-            End If
-        Next
+        Call KEGGPathwayMap.KOBAS_visualize(
+            data,
+            EXPORT:=out, 
+            pvalue:=pvalue)
 
         Return 0
     End Function

@@ -114,6 +114,7 @@
     <Compile Include="Enrichment\IGO_term.vb" />
     <Compile Include="Enrichment\KOBAS\EnrichmentTerm.vb" />
     <Compile Include="Enrichment\KOBAS\KOBAS.vb" />
+    <Compile Include="Enrichment\KEGGPathwayMap.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -166,6 +167,10 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
+      <Project>{C699D311-9923-4C19-BF70-5048D0E2CF5D}</Project>
+      <Name>Bio.Assembly</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
