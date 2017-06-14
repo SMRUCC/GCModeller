@@ -1,4 +1,5 @@
-﻿Imports System.Drawing
+﻿Imports System.ComponentModel
+Imports System.Drawing
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -279,8 +280,11 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/proteins.KEGG.plot",
-               Usage:="/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/size <2000,4000> /tick 20 /out <out.DIR>]")>
+    <ExportAPI("/proteins.KEGG.plot")>
+    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/custom <sp00001.keg> /size <2000,4000> /tick 20 /out <out.DIR>]")>
+    <Description("KEGG function catalog profiling plot of the TP sample.")>
+    <Argument("/custom",
+              Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg")>
     Public Function proteinsKEGGPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim size As Size = args.GetValue("/size", New Size(2000, 4000))
@@ -298,9 +302,19 @@ Partial Module CLI
                     End Function) _
             .IteratesALL _
             .ToArray
-        Dim catalogs = maps.KOCatalog
+
         Dim KO_counts As KOCatalog() = Nothing
         Dim profile = maps.LevelAKOStatics(KO_counts).AsDouble
+        Dim catalogs As NamedValue(Of Dictionary(Of String, String))()
+
+        With args <= "/custom"
+            If .FileExists(True) Then
+                catalogs = maps.KOCatalog(.ref)   ' 如果自定义的KO分类数据文件存在的话，则使用自定义库
+            Else
+                ' 直接使用系统库进行分析
+                catalogs = maps.KOCatalog
+            End If
+        End With
 
         profile.ProfilesPlot("KEGG Orthology Profiling", size:=size, tick:=tick).Save(out & "/plot.png")
         KO_counts.SaveTo(out & "/KO_counts.csv")
