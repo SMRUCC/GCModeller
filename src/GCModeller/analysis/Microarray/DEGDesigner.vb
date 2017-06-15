@@ -129,7 +129,7 @@ Public Module DEGDesigner
                                                   ' 对于T-test脚本的输出，这些DEP文件都共同含有一个
                                                   ' avg.FC和is.DEP字段，在这里直接通过group去重了
                                                   With v.First.Value
-                                                      If .TextEquals("NA") Then
+                                                      If .ref = "0" OrElse .TextEquals("NA") Then
                                                           Return NA_replaced
                                                       Else
                                                           Return .ref
