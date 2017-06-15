@@ -129,18 +129,22 @@ Partial Module CLI
         Call groupLabels.GetJson(True).__DEBUG_ECHO
 
         ' 每一个实验的平均值表达量的所有蛋白的和
-        Dim totals As Dictionary(Of String, Double) =
+        Dim totals As Dictionary(Of String, (total#, proteins As Dictionary(Of String, Double))) =
             groupLabels _
             .ToDictionary(Function(g) g.Key,
                           Function(labels)
-                              Return labels.Value _
-                                  .Select(Function(label)
-                                              Return Aggregate protein
-                                                     In proteins
-                                                     Into Average(Val(protein(label)))
-                                          End Function) _
-                                  .Sum
+                              Dim proteinAverages = proteins _
+                                  .ToDictionary(Function(protein) protein.ID,
+                                                Function(protein)
+                                                    Return protein _
+                                                        .TakeValues(labels.Value) _
+                                                        .Select(AddressOf Val) _
+                                                        .Average
+                                                End Function)
+                              Return (proteinAverages.Values.Sum, proteinAverages)
                           End Function)
+
+        Call totals.GetJson(True).__DEBUG_ECHO
 
         For Each protein In proteins
             Dim x As New DataSet(protein.ID)  ' 将uniprotID转换为基因名称
@@ -148,17 +152,14 @@ Partial Module CLI
             ' 先遍历每一个蛋白
             ' 再遍历每一个实验设计
             ' 如果实验重复超过半数以上都是零，则为空
-            For Each group As KeyValuePair(Of String, String()) In groupLabels
-                Dim vals#() = group.Value _
-                    .Select(Function(l) Val(protein(l))) _
-                    .Where(Function(v) Not v.IsNaNImaginary) _
-                    .ToArray
-                Dim relative# = vals.Average / totals(group.Key)
-
-                x(group.Key) = relative
+            For Each group As String In groupLabels.Keys
+                With totals(group)
+                    Dim relative# = .proteins(protein.ID) / .total
+                    x(group) = relative
+                End With
             Next
 
-            x!SUM = x.Properties.Values.Sum
+            x!SUM = x.Properties.Values.Average
             relativeAmounts += x
         Next
 
