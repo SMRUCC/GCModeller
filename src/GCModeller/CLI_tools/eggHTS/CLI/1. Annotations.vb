@@ -91,16 +91,16 @@ Partial Module CLI
                 Dim vals#() = group.Value _
                     .Select(Function(l) Val(protein(l))) _
                     .Where(Function(v)
-                               Return Not v.IsNaNImaginary AndAlso Not v = 0R
+                               Return (Not v.IsNaNImaginary) AndAlso (Not v = 0R)
                            End Function) _
                     .ToArray
                 Dim n% = Fix(group.Value.Length / 2)
 
                 If vals.Length >= n Then
                     ' 超过半数，没有表达
-                    x.Properties.Add(group.Key, 0)
-                Else
                     x.Properties.Add(group.Key, vals.Average)
+                Else
+                    x.Properties.Add(group.Key, 0)
                 End If
             Next
         Next
