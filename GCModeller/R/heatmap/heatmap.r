@@ -17,6 +17,13 @@ if (!require("RColorBrewer")) {
 
 ## colorsPalette=brewer.pal(11,"RdYlBu")
 
+# DEP的热图绘制示例
+#
+# plotDEPs(
+# 	csv, t.log2=T, size = c(1600,2600), plot.margin=c(13,3), l.height = c(1,8), 
+#   fontsize.col = 2, 
+#   colorsPalette = rev(brewer.pal(9, "RdYlBu")))
+
 ### 这个脚本比较适合蛋白比较少的，会显示出基因的label
 ### 所输入的数据文件的要求：
 ### 1. 第一列数据为基因的编号
@@ -24,7 +31,7 @@ if (!require("RColorBrewer")) {
 ### @size: (width, height)
 plotDEPs <- function(csv, 
 					 size          = c(5*300, 5*300), 
-					 colorsPalette = c("darkblue", "green", "red"), 
+					 colorsPalette = c("green", "black", "red"), 
 					 fontsize.row  = 0.35, 
 					 fontsize.col  = 1.5, 
 					 title         = NA, 
