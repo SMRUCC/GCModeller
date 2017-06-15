@@ -1,4 +1,5 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.ComponentModel
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -115,6 +116,7 @@ Partial Module CLI
 
     <ExportAPI("/Relative.amount")>
     <Usage("/Relative.amount /in <proteinGroups.csv> /designer <designer.csv> [/uniprot <annotations.csv> /label <tag label> /deli <delimiter, default=_> /out <out.csv>]")>
+    <Description("")>
     <Group(CLIGroups.SamplesExpressions_CLI)>
     Public Function RelativeAmount(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -168,16 +170,17 @@ Partial Module CLI
                     .ref(group) = relative
                 Next
 
-                !AVERAGE = Aggregate s In .Properties.Values Into Average(Val(s))
+                !AVERAGE = (Aggregate s In .Properties.Values Into Average(Val(s))) * 100%
                 !uniprotID = protein.ID
-                !fullName = uniprots(protein.ID)!fullName
+                !fullName = uniprots(protein.ID) _
+                !fullName
 
                 relativeAmounts += .ref
             End With
         Next
 
         Return relativeAmounts _
-            .OrderByDescending(Function(protein) protein!AVERAGE) _
+            .OrderByDescending(Function(protein) Val(protein!AVERAGE)) _
             .SaveTo(out & "/relative_amount.csv") _
             .CLICode
     End Function
