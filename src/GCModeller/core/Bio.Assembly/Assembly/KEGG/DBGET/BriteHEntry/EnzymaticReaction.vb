@@ -135,7 +135,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim sources As EnzymaticReaction() = __source(briefFile)
             Dim failures As New List(Of String)
 
-            Using progress As New ProgressBar("Download KEGG Reactions...", cls:=True)
+            Using progress As New ProgressBar("Download KEGG Reactions...", CLS:=True)
                 Dim tick As New ProgressProvider(sources.Length)
                 Dim ETA$
                 Dim __tick = Sub()

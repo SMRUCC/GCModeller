@@ -153,9 +153,14 @@ Namespace Platform
             End If
         End Sub
 
-        Public Function Connect(mysql As ConnectionUri) As Double
+        ''' <summary>
+        ''' Set up mysql connection uri 
+        ''' </summary>
+        ''' <param name="mysql"></param>
+        ''' <returns></returns>
+        Public Function Connect(mysql As ConnectionUri) As Boolean
             _mysql = New mysqlClient
-            Return _mysql <= mysql
+            Return (_mysql <= mysql) > -1
         End Function
 
         ''' <summary>
@@ -219,7 +224,9 @@ Namespace Platform
         End Sub
 
         ''' <summary>
-        ''' 将用户任务添加到任务执行队列之中，在这个函数之中已经包含有了任务写入数据库的语句了
+        ''' If this task pool object is already connect to the mysql throught <see cref="Connect"/> function, 
+        ''' then this function is also commit an INSERT task into the mysql.
+        ''' (将用户任务添加到任务执行队列之中，在这个函数之中已经包含有了任务写入数据库的语句了)
         ''' </summary>
         ''' <param name="task"></param>
         ''' <returns></returns>
@@ -239,12 +246,19 @@ Namespace Platform
             Return _taskQueue.Count
         End Function
 
+        ''' <summary>
+        ''' View how much task in queue.
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
             Dim s As String = _taskQueue.Count & " tasks in queue..."
             Call s.__DEBUG_ECHO
             Return s
         End Function
 
+        ''' <summary>
+        ''' Internal run task in the queue.
+        ''' </summary>
         Private Sub __taskInvoke()
             If NumThreads <= 0 Then
                 NumThreads = LQuerySchedule.CPU_NUMBER * 2

@@ -1,43 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::45bdd2239a7db2540e62c4483c533f83, ..\core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Net
-Imports System.IO
-Imports System.Text.RegularExpressions
-Imports System.Text
-Imports System.Windows.Forms
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
+Imports System.Windows.Forms
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.KEGG.WebServices
@@ -95,7 +91,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="url"></param>
         ''' <returns></returns>
         Private Function GetPageContent(url As String) As String
-            Dim browser As WebBrowser = New WebBrowser
+            Dim browser As New WebBrowser
             Dim LoadComplete As Boolean = False
 
             If String.IsNullOrEmpty(url) Then Return ""
@@ -235,7 +231,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Query", Info:="Get an entry list from a keyword throught the KEGG database web request.{(speciesId:AccessionId), entry_description}")>
-        Public Function HandleQuery(keyword As String, Page As Integer) As KEGG.WebServices.QueryEntry()
+        Public Function HandleQuery(keyword As String, Page As Integer) As QueryEntry()
             Dim pageContent As String = String.Format(KEGG_DBGET_WWW_QUERY & Page, keyword).GET
             Return __queryEntryParser(pageContent)
         End Function
@@ -243,7 +239,9 @@ Namespace Assembly.KEGG.WebServices
         Friend Function __queryEntryParser(PageContent As String) As QueryEntry()
             Dim matches = Regex.Matches(PageContent, QUERY_RESULT_LINK_ITEM)
 
-            If matches.Count = 0 Then Return New QueryEntry() {}
+            If matches.Count = 0 Then
+                Return New QueryEntry() {}
+            End If
 
             Dim Result As QueryEntry() = New QueryEntry(matches.Count - 1) {}
 
@@ -273,9 +271,9 @@ Namespace Assembly.KEGG.WebServices
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Query.Batch", Info:="Batch query protein sequence fasta data from the KEGG server.")>
-        Public Function BatchQuery(keyword As String,
+        Public Function BatchQuery(keyword$,
                                    <Parameter("Limited.Counts")>
-                                   Optional LimitCount As UInteger = 30) As FASTA.FastaFile
+                                   Optional LimitCount As UInteger = 30) As FastaFile
             Dim EntryList As QueryEntry() = HandleQuery(keyword)
 
             Call $"KEGG DBGET Service return {EntryList.Length} records...".__DEBUG_ECHO
@@ -284,7 +282,7 @@ Namespace Assembly.KEGG.WebServices
                 LimitCount = EntryList.Length
             End If
 
-            Dim LQuery = (From entry As KEGG.WebServices.QueryEntry
+            Dim LQuery = (From entry As QueryEntry
                           In EntryList.Take(LimitCount)
                           Select FetchSeq(entry)).ToArray '使用DBGET服务执行对KEGG数据库服务器的数据查询
             Return LQuery
@@ -323,16 +321,18 @@ Namespace Assembly.KEGG.WebServices
                                        In EntryList
                                        Where String.Equals(locusId, queryEntry.LocusId, StringComparison.OrdinalIgnoreCase)
                                        Select queryEntry).FirstOrDefault
-            If Entry Is Nothing Then Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locusId}]".__DEBUG_ECHO
+            If Entry Is Nothing Then
+                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locusId}]".__DEBUG_ECHO
+            End If
             Return Entry
         End Function
 
         <ExportAPI("Fasta.Download")>
-        Public Function Downloads(DIR As String, sId As String) As FASTA.FastaToken
+        Public Function Downloads(DIR As String, sId As String) As FastaToken
             Dim path As String = $"{DIR}/Downloaded/{sId}.fasta"
 
             If path.FileExists Then
-                Return FASTA.FastaToken.Load(path)
+                Return FastaToken.Load(path)
             Else
                 Try
                     Return __downloads(path, sId)
@@ -343,9 +343,11 @@ Namespace Assembly.KEGG.WebServices
             End If
         End Function
 
-        Private Function __downloads(fa As String, sId As String) As FASTA.FastaToken
-            Dim Fasta As FASTA.FastaToken = WebRequest.DownloadSequence(sId)
-            If Not Fasta Is Nothing Then Call Fasta.SaveTo(fa)
+        Private Function __downloads(fa As String, sId As String) As FastaToken
+            Dim Fasta As FastaToken = WebRequest.DownloadSequence(sId)
+            If Not Fasta Is Nothing Then
+                Call Fasta.SaveTo(fa)
+            End If
             Return Fasta
         End Function
 
@@ -356,32 +358,39 @@ Namespace Assembly.KEGG.WebServices
         ''' 
         <ExportAPI("Downloads.Batch",
                    Info:="It is recommended using this method for the batch downloaded of the protein sequence from the KEGG server when the protein is in the same genome.")>
-        Public Function DownloadsBatch(DIR As String, lstId As IEnumerable(Of String)) As FASTA.FastaFile
+        Public Function DownloadsBatch(DIR$, list As IEnumerable(Of String)) As FastaFile
             Dim LQuery = (From sId As String
-                          In lstId
+                          In list
                           Let Entry As QueryEntry = GetQueryEntry(sId)
                           Where Not Entry Is Nothing
                           Select Entry).FirstOrDefault
+
             If LQuery Is Nothing Then ' 找不到记录
-                Call $"Could not found any record from KEGG database for {lstId.Take(5).ToArray.JoinBy("; ")}!!!".__DEBUG_ECHO
+                Call $"Could not found any record from KEGG database for {list.Take(5).ToArray.JoinBy("; ")}!!!".__DEBUG_ECHO
                 Return Nothing
             End If
 
             Dim sp As String = LQuery.SpeciesId
-            Dim Downloads = (From sId As String In lstId Select __downloadDirect(DIR, sId, sp)).ToArray
-            Return New FASTA.FastaFile(Downloads)
+            Dim batchDownloads = (From sId As String In list Select __downloadDirect(DIR, sId, sp)).ToArray ' invoke the batch downloads task
+
+            Return New FastaFile(batchDownloads)
         End Function
 
         Private Function __downloadDirect(DIR As String, sId As String, sp As String) As FASTA.FastaToken
             Dim path As String = $"{DIR}/Downloaded/{sId}.fasta"
 
             If path.FileExists Then
-                Return FASTA.FastaToken.Load(path)
+                Return FastaToken.Load(path)
             Else
                 Try
-                    Dim Entry As New QueryEntry With {.SpeciesId = sp, .LocusId = sId}
-                    Dim fa As FASTA.FastaToken = WebRequest.FetchSeq(Entry)
-                    If Not fa Is Nothing Then Call fa.SaveTo(path)
+                    Dim entry As New QueryEntry With {
+                        .SpeciesId = sp,
+                        .LocusId = sId
+                    }
+                    Dim fa As FastaToken = WebRequest.FetchSeq(entry)
+                    If Not fa Is Nothing Then
+                        Call fa.SaveTo(path)
+                    End If
                     Return fa
                 Catch ex As Exception
                     Call App.LogException(ex)
@@ -402,22 +411,23 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         ''' 
         <ExportAPI("Download.16S_rRNA")>
-        Public Function Download16S_rRNA(outDIR As String) As SequenceModel.FASTA.FastaFile
+        Public Function Download16S_rRNA(outDIR As String) As FastaFile
             Dim ortholog = DBGET.bGetObject.SSDB.API.QueryURL(_16S_rRNA)
-            Dim lstFa As New List(Of FastaToken)
+            Dim out As New List(Of FastaToken)
 
-            For Each gene In ortholog.Genes
+            For Each gene As QueryEntry In ortholog.Genes
                 Dim fa As FastaToken = KEGG.WebServices.FetchNt(gene.SpeciesId, gene.LocusId)
+
                 If Not fa Is Nothing Then
                     Dim path As String = $"{outDIR}/{gene.SpeciesId}_{gene.LocusId}.fasta"
                     Call fa.SaveTo(path)
-                    Call lstFa.Add(fa)
+                    Call out.Add(fa)
                 Else
                     Call $"{gene.SpeciesId}:{gene.LocusId} Download failure!".__DEBUG_ECHO
                 End If
             Next
 
-            Return New SequenceModel.FASTA.FastaFile(lstFa)
+            Return New FastaFile(out)
         End Function
 
         ''' <summary>
@@ -436,6 +446,7 @@ Namespace Assembly.KEGG.WebServices
             Dim LQuery = (From x As QueryEntry In query
                           Where String.Equals(locusId, x.LocusId, StringComparison.OrdinalIgnoreCase)
                           Select x).FirstOrDefault
+
             If LQuery Is Nothing Then
                 Return ""
             Else

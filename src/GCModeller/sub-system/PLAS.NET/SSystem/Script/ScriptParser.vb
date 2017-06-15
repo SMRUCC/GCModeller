@@ -45,7 +45,7 @@ Namespace Script
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function sEquationParser(x As Token(Of Tokens)) As SEquation
-            Dim value = x.TokenValue.GetTagValue("=")
+            Dim value = x.Value.GetTagValue("=")
             Return New SEquation With {
                 .x = value.Name,
                 .Expression = value.Value

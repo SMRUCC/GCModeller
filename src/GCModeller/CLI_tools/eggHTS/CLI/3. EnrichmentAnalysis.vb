@@ -1,8 +1,7 @@
-﻿Imports System.Drawing
+﻿Imports System.ComponentModel
+Imports System.Drawing
 Imports System.Text.RegularExpressions
-Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -21,14 +20,14 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.GO.PlantRegMap
 Imports SMRUCC.genomics.Analysis.KEGG
+Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
-<CLI> Module CLI
+Partial Module CLI
 
     ''' <summary>
     ''' 绘制GO分析之中的亚细胞定位结果的饼图
@@ -112,10 +111,15 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/Go.enrichment.plot",
-               Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays 10 /PlantRegMap /label.right /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
+               Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays <default=10> /PlantRegMap /label.right /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
+    <Description("Go enrichment plot base on the KOBAS enrichment analysis result.")>
     <Argument("/bubble", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Visuallize the GO enrichment analysis result using bubble plot, not the bar plot.")>
+    <Argument("/displays", True, CLITypes.Integer,
+              AcceptTypes:={GetType(Integer)},
+              Description:="If the ``/bubble`` argument is not presented, then this will means the top number of the enriched term will plot on the barplot, else it is the term label display number in the bubble plot mode. 
+              Set this argument value to -1 for display all terms.")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function GO_enrichmentPlot(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
@@ -139,10 +143,10 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
             enrichments.ToArray.SaveTo([in].TrimSuffix & ".csv")
         Else
             Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
+            Dim displays% = args.GetValue("/displays", 10)  ' The term/label display number
 
             If bubbleStyle Then
-                Dim R$ = args.GetValue("/r", "log(x,1.5)")
-                Dim displays% = args.GetValue("/displays", 10)
+                Dim R$ = args.GetValue("/r", "log(x,1.5)")  ' 获取半径的计算公式              
 
                 plot = enrichments.BubblePlot(GO_terms:=terms,
                                               pvalue:=pvalue,
@@ -153,7 +157,8 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
                 plot = enrichments.EnrichmentPlot(
                     terms, pvalue, size.SizeParser,
                     tick,
-                    gray, labelRight)
+                    gray, labelRight,
+                    top:=displays)
             End If
         End If
 
@@ -182,12 +187,17 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
         Return plot.Save(out).CLICode
     End Function
 
+    ''' <summary>
+    ''' ``/ORF``参数是表示使用uniprot注释数据库之中的ORF值来作为查找的键名
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Enrichments.ORF.info",
                Info:="Retrive KEGG/GO info for the genes in the enrichment result.",
                Usage:="/Enrichments.ORF.info /in <enrichment.csv> /proteins <uniprot-genome.XML> [/nocut /ORF /out <out.csv>]")>
     <Argument("/ORF", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
-              Description:="If this argument presented, then the program will using the ORF value in uniprot.xml as the record identifier, 
+              Description:="If this argument presented, then the program will using the ORF value in ``uniprot.xml`` as the record identifier, 
               default is using uniprotID in the accessions fields of the uniprot.XML records.")>
     <Argument("/nocut", True,
               Description:="Default is using pvalue < 0.05 as term cutoff, if this argument presented, then will no pavlue cutoff for the terms input.")>
@@ -217,7 +227,7 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
                 .ToDictionary(Function(x) DirectCast(x, INamedValue).Key)
         End If
 
-        For Each term As EnrichmentTerm In [in].LoadCsv(Of EnrichmentTerm).Where(Function(t) t.Pvalue < pvalue)
+        For Each term As EnrichmentTerm In [in].LoadCsv(Of EnrichmentTerm).Where(Function(t) t.Pvalue <= pvalue)
             csv += New RowObject From {
                 "#term-ID=" & term.ID,
                 "term=" & term.Term,
@@ -258,17 +268,40 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
     ''' <returns></returns>
     <ExportAPI("/KEGG.Enrichment.PathwayMap",
                Info:="Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.",
-               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/out <DIR>]")>
+               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/DEPs <deps.csv> /colors <default=red,blue,green> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>
+    <Argument("/colors", AcceptTypes:={GetType(String())},
+              Description:="A string vector that setups the DEPs' color profiles, if the argument ``/DEPs`` is presented. value format is ``up,down,present``")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGGEnrichmentPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-KEGG_enrichment_pathwayMaps/")
+        Dim pvalue# = args.GetValue("/pvalue", 0.05)
         Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
-        For Each term As EnrichmentTerm In data
-            Dim path$ = out & "/" & term.ID & "-" & term.Term.NormalizePathString & $"-pvalue={term.Pvalue}" & ".png"
-            Call PathwayMapping.ShowEnrichmentPathway(term.link, save:=path)
-            Call Thread.Sleep(2000)
-        Next
+        Dim DEPs$ = args <= "/DEPs"
+
+        If Not DEPs.FileExists(True) Then
+            Call KEGGPathwayMap.KOBAS_visualize(
+                data,
+                EXPORT:=out,
+                pvalue:=pvalue)
+        Else
+            Dim DEPgenes = EntityObject.LoadDataSet(DEPs).ToArray
+            ' 假设这里的编号都是uniprot编号，还需要转换为KEGG基因编号
+            Dim uniprot = UniprotXML.LoadDictionary(args <= "/uniprot")
+            Dim mapID = uniprot _
+                .Where(Function(gene) gene.Value.Xrefs.ContainsKey("KEGG")) _
+                .ToDictionary(Function(gene) gene.Key,
+                              Function(gene) gene.Value.Xrefs("KEGG").First.id)
+            Dim isDEP As Func(Of EntityObject, Boolean) =
+                Function(gene)
+                    Return gene("is.DEP").TextEquals("TRUE")
+                End Function
+            Dim threshold = (1.25, 1 / 1.25)
+            Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, threshold, "FC.avg", mapID)
+
+            Call data.KOBAS_DEPs(colors, EXPORT:=out, pvalue:=pvalue)
+        End If
+
         Return 0
     End Function
 

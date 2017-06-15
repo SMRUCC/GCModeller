@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::3f673e74c955ccb21817e240fc06e6a6, ..\core\Bio.Assembly\Assembly\Uniprot\XML\Model\Data.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -263,11 +263,32 @@ Namespace Assembly.Uniprot.XML
     End Class
 
     Public Class dbReference
+
+        ''' <summary>
+        ''' 外部数据库的名称
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property type As String
+        ''' <summary>
+        ''' 外部数据库的编号
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property id As String
         <XmlElement("property")>
         Public Property properties As [property]()
+        Public Property molecule As molecule
+
     End Class
+
+    Public Structure molecule
+
+        <XmlAttribute>
+        Public Property id As String
+
+        Public Overrides Function ToString() As String
+            Return id
+        End Function
+    End Structure
 
     Public Class [property]
 

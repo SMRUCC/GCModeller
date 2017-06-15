@@ -171,7 +171,7 @@
       <Project>{a60240d1-e78b-4b96-85e3-45256571c2cb}</Project>
       <Name>Microsoft.VisualBasic.Network</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
+    <ProjectReference Include="..\..\..\mysqli\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>

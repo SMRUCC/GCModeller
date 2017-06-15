@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::efd7e363c55fc604aaaf7fe5321e4100, ..\core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -227,14 +227,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="KO_maps">``{geneID -> KO}`` map data collection.</param>
         ''' <returns></returns>
         <Extension>
-        Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String))) As NamedValue(Of Dictionary(Of String, String))()
-            Dim KO_htext As Dictionary(Of String, BriteHText) = BriteHText _
-                .Load_ko00001 _
-                .EnumerateEntries _
-                .Where(Function(x) Not x.EntryId Is Nothing) _
-                .GroupBy(Function(x) x.EntryId) _
-                .ToDictionary(Function(x) x.Key,
-                              Function(x) x.First)
+        Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String)), KO_htext As Dictionary(Of String, BriteHText)) As NamedValue(Of Dictionary(Of String, String))()
             Dim pathways = LinqAPI.Exec(Of NamedValue(Of Dictionary(Of String, String))) <=
  _
                 From x As NamedValue(Of String)
@@ -261,7 +254,62 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         ''' <summary>
+        ''' KEGG直系同源分类统计
+        ''' </summary>
+        ''' <param name="KO_maps">``{geneID -> KO}`` map data collection.</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String))) As NamedValue(Of Dictionary(Of String, String))()
+            Dim ko_htext As Dictionary(Of String, BriteHText) = DefaultKOTable()
+            Return KO_maps.KOCatalog(ko_htext)
+        End Function
+
+        ''' <summary>
+        ''' Build default from <see cref="BriteHText.Load_ko00001"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function DefaultKOTable() As Dictionary(Of String, BriteHText)
+            Dim KO_htext = BriteHText _
+                .Load_ko00001 _
+                .EnumerateEntries _
+                .Where(Function(x) Not x.EntryId Is Nothing) _
+                .GroupBy(Function(x) x.EntryId) _
+                .ToDictionary(Function(x) x.Key,
+                              Function(x) x.First)
+            Return KO_htext
+        End Function
+
+        ''' <summary>
         ''' 
+        ''' </summary>
+        ''' <param name="KO_maps"></param>
+        ''' <param name="ko00001$">User custom classification database</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function KOCatalog(KO_maps As IEnumerable(Of NamedValue(Of String)), ko00001$) As NamedValue(Of Dictionary(Of String, String))()
+            Dim KO_htext = BriteHText _
+                .Load(ko00001.SolveStream) _
+                .EnumerateEntries _
+                .Where(Function(x) Not x.EntryId Is Nothing) _
+                .Select(Function(x)
+                            Return New With {
+                                .EntryID = x.Description _
+                                    .Match("\sK\d{5}\s") _
+                                    .Trim,
+                                .KO = x
+                            }
+                        End Function) _
+                .Where(Function(x) Not x.EntryID.StringEmpty) _
+                .GroupBy(Function(x) x.EntryID) _
+                .ToDictionary(Function(x) x.Key,
+                              Function(x) x.First.KO)
+            Return KO_maps.KOCatalog(KO_htext)
+        End Function
+
+        Public Const KEGG_show_pathway$ = "http://www.genome.jp/kegg-bin/show_pathway?"
+
+        ''' <summary>
+        ''' url can be encoding by <see cref="URLEncoder"/>
         ''' </summary>
         ''' <param name="url$">
         ''' Example as: http://www.genome.jp/kegg-bin/show_pathway?aor01100/aor:AOR_1_348154%09red/aor:AOR_1_1018164%09red/aor:AOR_1_46074%09red/aor:AOR_1_1132054%09red/aor:AOR_1_1796154%09red/aor:AOR_1_724024%09red/aor:AOR_1_980074%09red/aor:AOR_1_132064%09red/aor:AOR_1_936184%09red/aor:AOR_1_750024%09red/aor:AOR_1_858084%09red/aor:AOR_1_920184%09red/aor:AOR_1_1152144%09red/aor:AOR_1_1464054%09red/aor:AOR_1_506014%09red/aor:AOR_1_26114%09red/aor:AOR_1_654074%09red/aor:AOR_1_336094%09red/aor:AOR_1_700094%09red/aor:AOR_1_2326154%09red/aor:AOR_1_448144%09red/aor:AOR_1_1152014%09red/aor:AOR_1_964164%09red/aor:AOR_1_556094%09red/aor:AOR_1_76084%09red/aor:AOR_1_2070174%09red/aor:AOR_1_664034%09red/aor:AOR_1_890144%09red/aor:AOR_1_1888174%09red/aor:AOR_1_2198154%09red/aor:AOR_1_598144%09red/aor:AOR_1_1676014%09red/aor:AOR_1_1160154%09red/aor:AOR_1_362184%09red/aor:AOR_1_236174%09red/aor:AOR_1_514024%09red/aor:AOR_1_1554054%09red/aor:AOR_1_2706174%09red/aor:AOR_1_1692144%09red/aor:AOR_1_1046084%09red/aor:AOR_1_340154%09red/aor:AOR_1_968134%09red/aor:AOR_1_562034%09red/aor:AOR_1_1214024%09red/aor:AOR_1_1124054%09red/aor:AOR_1_988014%09red/aor:AOR_1_780164%09red/aor:AOR_1_622134%09red/aor:AOR_1_284154%09red/aor:AOR_1_968024%09red/aor:AOR_1_1062184%09red/aor:AOR_1_1274164%09red/aor:AOR_1_1272164%09red/aor:AOR_1_1114084%09red/aor:AOR_1_990184%09red/aor:AOR_1_2146154%09red/aor:AOR_1_1074144%09red/aor:AOR_1_1056134%09red/aor:AOR_1_504114%09red/aor:AOR_1_560024%09red/aor:AOR_1_462144%09red/aor:AOR_1_858054%09red/aor:AOR_1_2842174%09red

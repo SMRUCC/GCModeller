@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="Extensions.vb" />
     <Compile Include="jp_kegg2\class_br08201_reaction.vb" />
+    <Compile Include="jp_kegg2\map_pathway.vb" />
     <Compile Include="jp_kegg2\meta_class_br08201.vb" />
     <Compile Include="jp_kegg2\xref_ko_reactions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -122,6 +123,7 @@
     <Compile Include="jp_kegg2\xref_pathway_modules.vb" />
     <Compile Include="jp_kegg2\xref_pathway_references.vb" />
     <Compile Include="Procedures\DumpProcedures.vb" />
+    <Compile Include="Procedures\DumpUniprot.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

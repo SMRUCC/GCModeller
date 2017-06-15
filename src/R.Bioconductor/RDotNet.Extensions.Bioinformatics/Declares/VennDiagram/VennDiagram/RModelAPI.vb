@@ -26,17 +26,12 @@
 
 #End Region
 
-Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports System.Text
-Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports RDotNET.Extensions.VisualBasic
 
 Namespace VennDiagram.ModelAPI
 
@@ -65,18 +60,19 @@ Namespace VennDiagram.ModelAPI
             Dim Vector = (From name As String
                           In source.First
                           Select k = name,
-                              lst = New List(Of String)).ToArray
+                              list = New List(Of String)).ToArray
 
             For row As Integer = 1 To source.RowNumbers - 1
                 Dim Line As RowObject = source(row)
                 For colums As Integer = 0 To Width - 1
                     If Not String.IsNullOrEmpty(Line.Column(colums).Trim) Then
-                        Call Vector(colums).lst.Add(CStr(row))
+                        Call Vector(colums).list.Add(CStr(row))
                     End If
                 Next
             Next
 
-            Return Vector.ToDictionary(Function(x) x.k, Function(x) x.lst.ToArray)
+            Return Vector.ToDictionary(Function(x) x.k, 
+                                       Function(x) x.list.ToArray)
         End Function
 
         ''' <summary>

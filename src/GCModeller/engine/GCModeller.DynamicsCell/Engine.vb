@@ -79,7 +79,7 @@ Public Class Engine : Implements IDisposable
             From x As Script.SEquation
             In model.sEquations
             Where nodeTbl & x.x
-            Let tokens As List(Of Token(Of Tokens)) =
+            Let tokens As List(Of Token(Of ExpressionTokens)) =
                 ExpressionParser.GetTokens(x.Expression)
             Select __innerNET(x.x, tokens, nodeTbl)
 
@@ -107,13 +107,13 @@ Public Class Engine : Implements IDisposable
     ''' <param name="x"></param>
     ''' <param name="tokens">右边的表达式</param>
     ''' <returns></returns>
-    Private Shared Function __innerNET(x As String, tokens As List(Of Token(Of Tokens)), nodes As Dictionary(Of Node)) As Edge()
+    Private Shared Function __innerNET(x As String, tokens As List(Of Token(Of ExpressionTokens)), nodes As Dictionary(Of Node)) As Edge()
         Dim xlst As String() = LinqAPI.Exec(Of String) <=
  _
-            From t As Token(Of Tokens)
+            From t As Token(Of ExpressionTokens)
             In tokens
-            Where t.Type = Mathematical.Scripting.Tokens.UNDEFINE
-            Select t.TokenValue
+            Where t.Type = ExpressionTokens.UNDEFINE
+            Select t.Value
             Distinct
 
         Return LinqAPI.Exec(Of Edge) <= From t As String

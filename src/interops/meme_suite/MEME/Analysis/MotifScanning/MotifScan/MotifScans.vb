@@ -77,13 +77,13 @@ Namespace Analysis.MotifScans
                 .CreateSlideWindows(MotifSite.PspMatrix.Length + OffSet * 2)
             Dim NtLen As Long = Nt.Length
             Dim Seeds = (From site In SlideWindows.AsParallel
-                         Let delta As Double = Similarity.Sigma(MotifSite.PspMatrix, Similarity.PWM(site.Elements))
+                         Let delta As Double = Similarity.Sigma(MotifSite.PspMatrix, Similarity.PWM(site.Items))
                          Where delta <= Me.Delta
                          Select delta, site, complements = False).AsList
             Dim revNT As New NucleotideModels.NucleicAcid(New String(NucleotideModels.NucleicAcid.Complement(Nt.SequenceData).Reverse.ToArray))
             SlideWindows = revNT.ToArray.CreateSlideWindows(MotifSite.PspMatrix.Length + OffSet * 2)
             Call Seeds.AddRange((From site In SlideWindows.AsParallel
-                                 Let delta As Double = Similarity.Sigma(MotifSite.PspMatrix, Similarity.PWM(site.Elements))
+                                 Let delta As Double = Similarity.Sigma(MotifSite.PspMatrix, Similarity.PWM(site.Items))
                                  Where delta <= Me.Delta
                                  Select delta, site, complements = True).ToArray)
             Dim LQuery = (From site In Seeds.AsParallel
@@ -104,7 +104,7 @@ Namespace Analysis.MotifScans
         ''' <param name="PWMDelta"></param>
         ''' <param name="complement"></param>
         ''' <returns></returns>
-        Private Function Match(sequence As SlideWindowHandle(Of DNA),
+        Private Function Match(sequence As SlideWindow(Of DNA),
                                PWMDelta As Double,
                                complement As Boolean,
                                NtLen As Long) As MatchedSite

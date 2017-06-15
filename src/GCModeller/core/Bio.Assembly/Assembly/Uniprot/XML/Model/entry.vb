@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::408d70dbfdead386172860620d8f661e, ..\core\Bio.Assembly\Assembly\Uniprot\XML\Model\entry.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -86,6 +86,10 @@ Namespace Assembly.Uniprot.XML
             End Set
         End Property
 
+        ''' <summary>
+        ''' Dictionary table can be read from <see cref="Xrefs"/> property
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement("dbReference")> Public Property dbReferences As dbReference()
             Get
                 Return Xrefs.Values.ToVector
@@ -106,6 +110,10 @@ Namespace Assembly.Uniprot.XML
 
         <XmlIgnore>
         Public ReadOnly Property CommentList As Dictionary(Of String, comment())
+        ''' <summary>
+        ''' <see cref="dbReferences"/> table
+        ''' </summary>
+        ''' <returns></returns>
         <XmlIgnore>
         Public ReadOnly Property Xrefs As Dictionary(Of String, dbReference())
 

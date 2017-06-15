@@ -83,7 +83,7 @@ Public Module MotifCluster
             If d = 0 Then
                 Continue For
             End If
-            Dim v As Double() = NullSite.CopyVector(d)
+            Dim v As Double() = NullSite.Repeats(d)
             x.Properties = x.Properties.Join(v).ToArray
         Next
 

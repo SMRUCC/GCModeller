@@ -1,4 +1,5 @@
-﻿Imports System.Drawing
+﻿Imports System.ComponentModel
+Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -14,6 +15,40 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
+
+    <ExportAPI("/edgeR.Designer")>
+    <Description("Generates the edgeR inputs table")>
+    <Usage("/edgeR.Designer /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
+    <Group(CLIGroups.DEP_CLI)>
+    Public Function edgeRDesigner(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim designer = args <= "/designer"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & $"-{designer.BaseName}-edgeR/")
+        Dim designers As Designer() = designer.LoadCsv(Of Designer)
+        Dim label$ = args.GetValue("/label", "")
+        Dim deli$ = args.GetValue("/deli", "-")
+
+        Call EdgeR_rawDesigner([in], designers, (label, deli), workDIR:=out)
+
+        Return 0
+    End Function
+
+    <ExportAPI("/T.test.Designer")>
+    <Description("Generates the t.test DEP method inputs table")>
+    <Usage("/T.test.Designer /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
+    <Group(CLIGroups.DEP_CLI)>
+    Public Function TtestDesigner(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim designer = args <= "/designer"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & $"-{designer.BaseName}-edgeR/")
+        Dim designers As Designer() = designer.LoadCsv(Of Designer)
+        Dim label$ = args.GetValue("/label", "")
+        Dim deli$ = args.GetValue("/deli", "-")
+
+        Call DEGDesigner.TtestDesigner([in], designers, (label, deli), workDIR:=out)
+
+        Return 0
+    End Function
 
     ''' <summary>
     ''' 使用这个函数来处理iTraq实验结果之中与分析需求单的FC比对方式颠倒的情况
@@ -61,8 +96,8 @@ Partial Module CLI
         Dim DEP As String = args("/DEP")
         Dim sample As String = args("/sample")
         Dim out As String = args.GetValue("/out", DEP.TrimSuffix & "-uniprot.ID.list.txt")
-        Dim DEP_data As IEnumerable(Of DEP) = EntityObject _
-            .LoadDataSet(Of DEP)(path:=DEP) _
+        Dim DEP_data As IEnumerable(Of DEP_iTraq) = EntityObject _
+            .LoadDataSet(Of DEP_iTraq)(path:=DEP) _
             .Where(Function(d) d.isDEP) _
             .ToArray
         Dim sampleData As Dictionary(Of String, String()) =
@@ -138,25 +173,51 @@ Partial Module CLI
 
     <ExportAPI("/DEP.heatmap",
                Info:="Generates the heatmap plot input data. The default label profile is using for the iTraq result.",
-               Usage:="/DEP.heatmap /data <Directory> [/non_DEP.blank /level 1.25 /FC.tag <FC.avg> /pvalue <p.value> /out <out.csv>]")>
+               Usage:="/DEP.heatmap /data <Directory> [/iTraq /non_DEP.blank /level 1.25 /FC.tag <FC.avg> /pvalue <p.value=0.05> /out <out.csv>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set merge, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
         Dim FCtag$ = args.GetValue("/FC.tag", "FC.avg")
-        Dim pvalue$ = args.GetValue("/pvalue", "p.value")
+        Dim pvalue = args _
+            .GetValue("/pvalue", "p.value=0.05") _
+            .GetTagValue("=", trim:=True)
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
         Dim level# = args.GetValue("/level", 1.25)
         Dim nonDEP_blank As Boolean = args.GetBoolean("/non_DEP.blank")
 
         Return DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue, nonDEP_blank:=nonDEP_blank) _
+            .MergeMatrix(DIR, "*.csv", level, Val(pvalue.Value), FCtag, 1 / level, pvalue.Name, nonDEP_blank:=nonDEP_blank) _
             .SaveDataSet(dataOUT, blank:=1)
     End Function
 
-    <ExportAPI("/Venn.Functions", Usage:="/Venn.Functions /venn <venn.csv> /anno <annotations.csv> [/out <out.csv>]")>
+    ''' <summary>
+    ''' 获取DEPs的原始数据的热图数据
+    ''' </summary>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/DEP.heatmap.raw")>
+    <Description("All of the NA value was replaced by value ``1``, as the FC value when it equals 1, then ``log2(1) = 0``, which means it has no changes.")>
+    <Usage("/DEP.heatmap.raw /DEPs <DEPs.csv.folder> [/DEP.tag <default=is.DEP> /out <out.csv>]")>
+    <Group(CLIGroups.DEP_CLI)>
+    Public Function DEPsHeatmapRaw(args As CommandLine) As Integer
+        Dim in$ = args <= "/DEPs"
+        Dim raw$ = args <= "/raw"
+        Dim DEPTag$ = args.GetValue("/DEP.tag", "is.DEP")
+        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".heatmap.raw/")
+        Dim dataOUT = out & "/DEP.heatmap.raw.csv"
+
+        Return DEGDesigner _
+            .GetDEPsRawValues([in], DEPTag) _
+            .SaveDataSet(dataOUT) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/Venn.Functions",
+               Usage:="/Venn.Functions /venn <venn.csv> /anno <annotations.csv> [/out <out.csv>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function VennFunctions(args As CommandLine) As Integer
         Dim in$ = args <= "/venn"
         Dim anno$ = args <= "/anno"
@@ -294,5 +355,36 @@ Partial Module CLI
                                 size:=size) _
             .Save(out) _
             .CLICode
+    End Function
+
+    <ExportAPI("/DEPs.stat.iTraq",
+               Info:="https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/iTraq.log2_t-test.R",
+               Usage:="/DEPs.stat.iTraq /in <log2.test.csv> [/level <default=1.5> /out <out.stat.csv>]")>
+    <Group(CLIGroups.DEP_CLI)>
+    Public Function DEPStatics(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim level# = args.GetValue("/level", 1.5R)
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEPs.stat.csv")
+        Dim DEPs As DEP_iTraq() = EntityObject _
+           .LoadDataSet(Of DEP_iTraq)(path:=in$) _
+           .Where(Function(d) d.isDEP) _
+           .ToArray
+        Dim result As New File
+        Dim levelDown = 1 / level
+
+        result += {"上调", "下调", "总数"}
+        result += {
+            DEPs _
+                .Where(Function(prot) prot.FCavg >= level) _
+                .Count _
+                .ToString,
+            DEPs _
+                .Where(Function(prot) prot.FCavg <= levelDown) _
+                .Count _
+                .ToString,
+            CStr(DEPs.Length)
+        }
+
+        Return result.Save(out).CLICode
     End Function
 End Module

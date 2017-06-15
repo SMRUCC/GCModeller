@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::b1905c60ccf01f9e5b66ea8c19f9fcc9, ..\core\Bio.Assembly\Assembly\Uniprot\Web\Retrieve_IDmapping.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Collections.Specialized
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.Linq
@@ -155,7 +156,15 @@ Namespace Assembly.Uniprot.Web
             Dim lines = path.ReadAllLines.Skip(1)
             Dim maps As Dictionary(Of String, String()) = lines _
                 .Select(Function(l) l.Split(ASCII.TAB)) _
-                .Select(Function(t) New KeyValuePair(Of String, String())(t(0), t(1).Split(","c))) _
+                .Select(Function(t)
+                            Dim mapped$() = t(1).Split(","c)
+                            Return t(0) _
+                                .Split _
+                                .Select(Function(k)
+                                            Return New KeyValuePair(Of String, String())(k, mapped)
+                                        End Function)
+                        End Function) _
+                .IteratesALL _
                 .GroupBy(Function(x) x.Key) _
                 .Select(Function(k)
                             Dim values$() = k.Select(Function(v) v.Value) _
@@ -172,9 +181,43 @@ Namespace Assembly.Uniprot.Web
                                   Return g.Select(Function(v) v.Value) _
                                       .IteratesALL _
                                       .Distinct _
+                                      .OrderBy(Function(id) id) _
                                       .ToArray
                               End Function)
             Return maps
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="mappings"></param>
+        ''' <param name="initials">Q开头的编号一般都是reviewed状态的蛋白数据</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function UniprotIDFilter(mappings As Dictionary(Of String, String()), Optional initials$ = "QPO") As Dictionary(Of String, String)
+            Dim table As New Dictionary(Of String, String)
+
+            For Each idMaps In mappings
+                If idMaps.Value.Length = 1 Then
+                    table(idMaps.Key) = idMaps.Value.First
+                ElseIf idMaps.Value.IsNullOrEmpty Then
+                    ' Do Nothing
+                Else ' > 1
+                    For Each init As Char In initials
+                        Dim id = idMaps.Value.Where(Function(s) s.First = init).FirstOrDefault
+                        If Not id.StringEmpty Then
+                            table(idMaps.Key) = id
+                            Exit For
+                        End If
+                    Next
+
+                    If Not table.ContainsKey(idMaps.Key) Then
+                        table(idMaps.Key) = idMaps.Value.First
+                    End If
+                End If
+            Next
+
+            Return table
         End Function
 
         ''' <summary>

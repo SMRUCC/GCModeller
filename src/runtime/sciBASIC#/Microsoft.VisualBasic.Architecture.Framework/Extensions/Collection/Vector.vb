@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::46b13b2abf82831ddbb8a0a1f43ee057, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\Vector.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -34,6 +34,47 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Linq.IteratorExtensions
 
 Public Module VectorExtensions
+
+    <Extension> Public Function GetRange(Of T)(vector As T(), index%, count%) As T()
+        Dim fill As T() = New T(count - 1) {}
+        Dim ends% = index + count - 1
+
+        For i As Integer = index To ends
+            fill(i - index) = vector(i)
+        Next
+
+        Return fill
+    End Function
+
+    ''' <summary>
+    ''' 对目标序列进行排序生成新的序列
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="source"></param>
+    ''' <param name="desc"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function Sort(Of T)(source As IEnumerable(Of T), Optional by As Func(Of T, IComparable) = Nothing, Optional desc As Boolean = False) As IEnumerable(Of T)
+        If by Is Nothing Then
+            If Not desc Then
+                Return From x As T
+                       In source
+                       Select x
+                       Order By x Ascending
+            Else
+                Return From x As T
+                       In source
+                       Select x
+                       Order By x Descending
+            End If
+        Else
+            If Not desc Then
+                Return source.OrderBy(by)
+            Else
+                Return source.OrderByDescending(by)
+            End If
+        End If
+    End Function
 
     ''' <summary>
     ''' Returns the collection element its index where the test expression <paramref name="predicate"/> result is TRUE
@@ -70,8 +111,8 @@ Public Module VectorExtensions
     End Function
 
     ''' <summary>
-    ''' + False: 测试失败，不会满足<see cref="PairData(Of T)(T(), T())"/>的条件
-    ''' + True: 可以使用<see cref="PairData(Of T)(T(), T())"/>来生成Mapping匹配
+    ''' + False: 测试失败，不会满足<see cref="MappingData(Of T)(T(), T())"/>的条件
+    ''' + True: 可以使用<see cref="MappingData(Of T)(T(), T())"/>来生成Mapping匹配
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="a"></param>
@@ -85,6 +126,8 @@ Public Module VectorExtensions
         End If
     End Function
 
+    Const DimNotAgree$ = "Both a and b their length should be equals or one of them should be length=1!"
+
     ''' <summary>
     ''' 用来生成map数据的，
     ''' + 当两个向量长度相同，会不进行任何处理，即两个向量之间，元素都可以一一对应，
@@ -95,16 +138,16 @@ Public Module VectorExtensions
     ''' <param name="b"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function PairData(Of T)(a As T(), b As T()) As IEnumerable(Of Map(Of T, T))
+    Public Iterator Function MappingData(Of T)(a As T(), b As T()) As IEnumerable(Of Map(Of T, T))
         If a.Length = 1 AndAlso b.Length > 1 Then
             ' 补齐a
-            a = a(0).CopyVector(b.Length)
+            a = a(0).Repeats(b.Length)
         ElseIf a.Length > 1 AndAlso b.Length = 1 Then
             ' 补齐b
-            b = b(0).CopyVector(a.Length)
+            b = b(0).Repeats(a.Length)
         ElseIf a.Length <> b.Length Then
             ' 无法计算
-            Throw New Exception("Both a and b their length should be equals or one of them should be length=1!")
+            Throw New ArgumentException(DimNotAgree)
         End If
 
         For i As Integer = 0 To a.Length - 1
@@ -142,12 +185,11 @@ Public Module VectorExtensions
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Any of the element in source <paramref name="sites"/> is in a specific <paramref name="range"/>??
     ''' </summary>
     ''' <param name="range"></param>
     ''' <param name="sites"></param>
     ''' <returns></returns>
-    ''' 
     <Extension>
     Public Function InsideAny(range As IntRange, sites As IEnumerable(Of Integer)) As Boolean
         For Each x% In sites
@@ -184,7 +226,8 @@ Public Module VectorExtensions
     End Function
 
     ''' <summary>
-    ''' Returns all of the elements which is after the element that detected by a specific evaluation function <paramref name="predicate"/>.
+    ''' Returns all of the elements which is after the element that detected by a specific 
+    ''' evaluation function <paramref name="predicate"/>.
     ''' (取出在判定条件成立的元素之后的所有元素)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
@@ -236,14 +279,14 @@ Public Module VectorExtensions
     End Sub
 
     ''' <summary>
-    ''' String mid function like operation on any type collection data.
+    ''' <see cref="Strings.Mid"/> function like operation on any type collection data.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
     ''' <param name="start">0 base</param>
     ''' <param name="length"></param>
     ''' <returns></returns>
-    <Extension> Public Function Midv(Of T)(source As IEnumerable(Of T), start As Integer, length As Integer) As T()
+    <Extension> Public Function Midv(Of T)(source As IEnumerable(Of T), start%, length%) As T()
         If source.IsNullOrEmpty Then
             Return New T() {}
         ElseIf source.Count < length Then
@@ -339,21 +382,5 @@ Public Module VectorExtensions
         ''' 包含在下一个分块之中的最开始的位置
         ''' </summary>
         NextFirst
-    End Enum
-
-    ''' <summary>
-    ''' 查找出列表之中符合条件的所有的索引编号
-    ''' </summary>
-    ''' <typeparam name="T"></typeparam>
-    ''' <param name="array"></param>
-    ''' <param name="condi"></param>
-    ''' <returns></returns>
-    <Extension>
-    Public Iterator Function GetIndexes(Of T)(array As T(), condi As Func(Of T, Boolean)) As IEnumerable(Of Integer)
-        For i As Integer = 0 To array.Length - 1
-            If condi(array(i)) Then
-                Yield i
-            End If
-        Next
-    End Function
+    End Enum     
 End Module

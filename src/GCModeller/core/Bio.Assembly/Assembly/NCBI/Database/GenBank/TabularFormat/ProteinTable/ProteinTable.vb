@@ -45,7 +45,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 
         Public Shared Function Load(Path As String) As ProteinTable
             Dim bufs As String() = IO.File.ReadAllLines(Path)
-            Dim schema As New IndexOf(Of String)(bufs.First.Split(ASCII.TAB))
+            Dim schema As New Index(Of String)(bufs.First.Split(ASCII.TAB))
             Dim LQuery = LinqAPI.Exec(Of ProteinDescription) <=
  _
                 From str As String
@@ -59,7 +59,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             }
         End Function
 
-        Public Overloads Shared Function CreateObject(str$, schema As IndexOf(Of String)) As ProteinDescription
+        Public Overloads Shared Function CreateObject(str$, schema As Index(Of String)) As ProteinDescription
             Dim tokens As String() = Strings.Split(str, vbTab)
             Dim getValue = Function(key$)
                                Dim i% = schema(key)

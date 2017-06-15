@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -48,6 +49,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ComparativeGenomics
+Imports VBLinq = Microsoft.VisualBasic.Linq
 
 Namespace NCBIBlastResult
 
@@ -72,47 +74,47 @@ Namespace NCBIBlastResult
         End Function
 
         <ExportAPI("Invoke.Drawing")>
-        Public Function InvokeDrawing(Query As Query) As Image
-            Dim Gr = New Size(Margin * 3 + Query.QueryLength, 2 * Margin + 100).CreateGDIDevice
+        <Extension> Public Function InvokeDrawing(query As Query) As Image
+            Dim g = New Size(Margin * 3 + query.QueryLength, 2 * Margin + 100).CreateGDIDevice
             Dim Y As Integer = Margin / 2
-            Dim rect As Rectangle = New Rectangle(New Point(Margin, Y), New Size(Query.QueryLength, 10))
+            Dim rect As New Rectangle(New Point(Margin, Y), New Size(query.QueryLength, 10))
             Y += rect.Height
             Dim font As New Font(FontFace.Ubuntu, 6, FontStyle.Regular)
 
-            Call Gr.Graphics.FillRectangle(Brushes.Black, rect)
+            Call g.Graphics.FillRectangle(Brushes.Black, rect)
 
-            Dim sz = Gr.Graphics.MeasureString("0", font)
+            Dim sz = g.Graphics.MeasureString("0", font)
 
-            For i As Integer = 0 To Query.QueryLength Step 10
+            For i As Integer = 0 To query.QueryLength Step 10
                 If i Mod 50 = 0 Then
                     Dim YY As Integer = Y + 5
-                    Call Gr.Graphics.DrawLine(New Pen(Color.Black, 2), New Point(i + Margin, YY), New Point(i + Margin, Y))   ' 大标尺
-                    sz = Gr.Graphics.MeasureString(i, font)
-                    Call Gr.Graphics.DrawString(i, font, Brushes.Black, New Point(sz.Width / 2 + i + Margin, YY))
+                    Call g.Graphics.DrawLine(New Pen(Color.Black, 2), New Point(i + Margin, YY), New Point(i + Margin, Y))   ' 大标尺
+                    sz = g.Graphics.MeasureString(i, font)
+                    Call g.Graphics.DrawString(i, font, Brushes.Black, New Point(sz.Width / 2 + i + Margin, YY))
                 Else
-                    Call Gr.Graphics.DrawLine(New Pen(Color.Gray, 1), New Point(i + Margin, Y + 3), New Point(i + Margin, Y)) ' 小标尺
+                    Call g.Graphics.DrawLine(New Pen(Color.Gray, 1), New Point(i + Margin, Y + 3), New Point(i + Margin, Y)) ' 小标尺
                 End If
             Next
 
-            Call Gr.Graphics.DrawString($"({Query.QueryLength})", font, Brushes.Black, New Point(Query.QueryLength + Margin + 5, Y + 5))
+            Call g.Graphics.DrawString($"({query.QueryLength})", font, Brushes.Black, New Point(query.QueryLength + Margin + 5, Y + 5))
 
             Y += (10 + sz.Height)
             font = New Font(FontFace.Ubuntu, 8, FontStyle.Regular)
 
-            For Each hit In Query.SubjectHits
+            For Each hit In query.SubjectHits
                 Dim loci = hit.QueryLocation
 #If DEBUG Then
                 Call loci.__DEBUG_ECHO
 #End If
                 rect = New Rectangle(New Point(Margin + loci.Left, Y), New Size(loci.FragmentSize, 10))
-                Call Gr.Graphics.FillRectangle(Brushes.Blue, rect)
-                Dim x As Integer = Gr.Graphics.MeasureString(hit.Name, font).Width
+                Call g.Graphics.FillRectangle(Brushes.Blue, rect)
+                Dim x As Integer = g.Graphics.MeasureString(hit.Name, font).Width
                 x = rect.Left + (rect.Width - x) / 2
-                Call Gr.Graphics.DrawString(hit.Name, font, brush:=Brushes.Gray, point:=New PointF(x, rect.Bottom + 2))
+                Call g.Graphics.DrawString(hit.Name, font, brush:=Brushes.Gray, point:=New PointF(x, rect.Bottom + 2))
                 Y += 32
             Next
 
-            Return Gr.ImageResource
+            Return g.ImageResource
         End Function
 
         <DataFrameColumn("margin")> Dim Margin As Integer = 100
@@ -153,33 +155,45 @@ Namespace NCBIBlastResult
         ''' <remarks></remarks>
         <ExportAPI("alignment_dump.def2id",
                    Info:="if the export parameter is not empty then the function will export the entry information into the target directory.")>
-        Public Function ShortID(<Parameter("data.fasta")> data As FASTA.FastaFile,
+        Public Function ShortID(<Parameter("data.fasta")> data As FastaFile,
                                 <Parameter("dir.export",
                                            "if this dir path parameter is not empty then the function will export the entry information into the directory that this parameter specificed.")>
-                                Optional EXPORT$ = "") As FASTA.FastaFile
+                                Optional EXPORT$ = "") As FastaFile
 
-            Dim setValue = New SetValue(Of FastaToken) <= NameOf(FastaToken.Attributes)
-            Dim LQuery = (From srcFasta As FASTA.FastaToken
+            Dim LQuery = (From fa As FastaToken
                           In data
-                          Let ShortID_s As String = InternalShortID_s(srcFasta)
+                          Let ShortID_s As String = InternalShortID_s(fa)
                           Select ShortID_s,
-                              srcFasta.Title,
-                              Fasta = setValue(srcFasta, New String() {ShortID_s})).ToArray
-            Dim FastaData As New FASTA.FastaFile(From ShortIDFasta In LQuery Select ShortIDFasta.Fasta)
+                              fa.Title,
+                              Fasta = fa).ToArray
 
-            If String.IsNullOrEmpty(EXPORT) Then Return FastaData
+            Const attrs$ = NameOf(FastaToken.Attributes)
+
+            With LQuery
+                VBLinq _
+                    .DATA(.Select(Function(x) x.Fasta)) _
+                    .Evaluate(attrs) = .Select(Function(x) {x.ShortID_s}) _
+                                       .ToArray
+            End With
+
+            Dim fastaFile As New FastaFile(From ShortIDFasta In LQuery Select ShortIDFasta.Fasta)
+
+            If String.IsNullOrEmpty(EXPORT) Then
+                Return fastaFile
+            End If
+
             Dim TableGrouped = (From title In LQuery Select title.ShortID_s, title.Title Group By ShortID_s Into Group).ToArray
-            Dim TableDistinct = (From srcFasta In TableGrouped Select srcFasta.ShortID_s, Title = srcFasta.Group.First).ToArray
+            Dim TableDistinct = (From fa In TableGrouped Select fa.ShortID_s, Title = fa.Group.First).ToArray
 
-            Call TableDistinct.SaveTo(EXPORT, explicit:=False)
+            Call TableDistinct.SaveTo(EXPORT, strict:=False)
 
-            EXPORT = FileIO.FileSystem.GetParentPath(EXPORT) & "/" & BaseName(EXPORT) & "/"
+            EXPORT = EXPORT.ParentPath & "/" & BaseName(EXPORT) & "/"
 
             For Each fa In LQuery
                 Call fa.Fasta.SaveTo(EXPORT & fa.ShortID_s & ".fasta")
             Next
 
-            Return FastaData
+            Return fastaFile
         End Function
 
         <ExportAPI("export.order.gi", Info:="Export the drawing order of the species hits on the graphics.")>
@@ -197,9 +211,9 @@ Namespace NCBIBlastResult
         <ExportAPI("alignment_table.gi2def")>
         Public Function ApplyDescription(Table As AlignmentTable,
                                          info As IEnumerable(Of gbEntryBrief),
-                                         Optional MaxLength As Integer = 0) As AlignmentTable
+                                         Optional maxLength% = 0) As AlignmentTable
             Call Table.DescriptionSubstituted(info.ToArray)
-            Call Table.TrimLength(MaxLength)
+            Call Table.TrimLength(maxLength)
             Return Table
         End Function
 
@@ -721,7 +735,7 @@ CONTINUTE:
                     Dim p_ID As Integer = 1
 
                     For Each hit In spList
-                        Call proc.SetProgress(pp.StepProgress, detail:=hit.SubjectIDs)
+                        Call proc.SetProgress(pp.StepProgress, details:=hit.SubjectIDs)
 
                         X = margin
                         Y += BlockHeight + 4

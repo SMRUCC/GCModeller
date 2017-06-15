@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::0e46f2e8f72af3721b60956c8c6ad026, ..\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -104,7 +104,7 @@ Namespace ComparativeAlignment
                 RegionLeft = GeneObjectModel.InvokeDrawing(Device.Graphics, New Point(RegionLeft, Height),
                                                        NextLeft:=NextGeneObject.Left,
                                                        convertFactor:=ConvertFactor,
-                                                       arrowrect:=rtvlRegion,
+                                                       arrowRect:=rtvlRegion,
                                                        IdGrawingPositionDown:=True,
                                                        Font:=Font,
                                                        AlternativeArrowStyle:=Type2Arrow, ID_conflictLayout:=IDConflictedRegion)
@@ -284,7 +284,7 @@ Namespace ComparativeAlignment
                                BBH = path.Value.LoadCsv(Of BestHit)(False)).ToArray
                             Select item).ToArray
             If FileIO.FileSystem.FileExists(Query) Then
-                Query = basename(Query)
+                Query = BaseName(Query)
             End If
             Dim hitsID = (From path As String In FileIO.FileSystem.GetFiles(Subject_Fasta, FileIO.SearchOption.SearchTopLevelOnly, "*.txt", "*.fasta", "*.fsa")
                           Select (From fsa In FASTA.FastaFile.Read(path) Select fsa.Attributes.First).ToArray).ToVector
@@ -402,10 +402,10 @@ Namespace ComparativeAlignment
                 End If
             Next
 
-            Dim Direction As Integer() = (From n In IndexList.CreateSlideWindows(2) Select n.Elements.First - n.Elements.Last).ToArray
+            Dim Direction As Integer() = (From n In IndexList.CreateSlideWindows(2) Select n.Items.First - n.Items.Last).ToArray
 
             If (From nnn In Direction Where nnn > 0 Select nnn).ToArray.Count >= (subject.genes.Count - 1) / 2 OrElse
-           (Direction.Count = 1 AndAlso (subject.genes.First.Direction = -1 OrElse subject.genes.Last.Direction = -1)) Then
+                (Direction.Count = 1 AndAlso (subject.genes.First.Direction = -1 OrElse subject.genes.Last.Direction = -1)) Then
 
                 '反向的   '假设所有的基因都是挨在一起的
                 '则尝试将所有基因进行反向映射

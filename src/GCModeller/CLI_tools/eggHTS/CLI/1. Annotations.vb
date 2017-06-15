@@ -1,4 +1,5 @@
-﻿Imports System.Drawing
+﻿Imports System.ComponentModel
+Imports System.Drawing
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -10,11 +11,14 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.KEGG.KEGGOrthology
+Imports SMRUCC.genomics.Analysis.Microarray
+Imports SMRUCC.genomics.Analysis.Microarray.DEGDesigner
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
@@ -29,7 +33,34 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 
-Partial Module CLI
+Partial Module CLI     
+
+    <ExportAPI("/update.uniprot.mapped",
+               Usage:="/update.uniprot.mapped /in <table.csv> /mapping <mapping.tsv/tab> [/source /out <out.csv>]")>
+    <Group(CLIGroups.Annotation_CLI)>
+    Public Function Update2UniprotMappedID(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim mapping$ = args <= "/mapping"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".uniprotID.csv")
+        Dim proteins = EntityObject.LoadDataSet([in])
+        Dim mappings = Retrieve_IDmapping _
+            .MappingReader(mapping) _
+            .UniprotIDFilter
+        Dim source As Boolean = args.GetBoolean("/source")
+
+        For Each prot In proteins
+            If source Then
+                prot.Properties.Add(NameOf(source), prot.ID)
+            End If
+            If mappings.ContainsKey(prot.ID) Then
+                prot.ID = mappings(prot.ID)
+            End If
+        Next
+
+        Return proteins _
+            .SaveTo(out) _
+            .CLICode
+    End Function
 
     <ExportAPI("/Samples.IDlist",
                Info:="Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.",
@@ -234,7 +265,12 @@ Partial Module CLI
         ' 绘制GO图
         Dim goTerms As Dictionary(Of String, Term) = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
         Dim sample = [in].LoadSample
-        Dim selector = Function(x As IO.EntityObject) x("GO").Split(";"c).Select(AddressOf Trim).ToArray
+        Dim selector = Function(x As EntityObject)
+                           Return x("GO") _
+                               .Split(";"c) _
+                               .Select(AddressOf Trim) _
+                               .ToArray
+                       End Function
         Dim data As Dictionary(Of String, NamedValue(Of Integer)()) =
             sample.CountStat(selector, goTerms)
 
@@ -252,8 +288,11 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/proteins.KEGG.plot",
-               Usage:="/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/size <2000,4000> /tick 20 /out <out.DIR>]")>
+    <ExportAPI("/proteins.KEGG.plot")>
+    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/custom <sp00001.keg> /size <2000,4000> /tick 20 /out <out.DIR>]")>
+    <Description("KEGG function catalog profiling plot of the TP sample.")>
+    <Argument("/custom",
+              Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg")>
     Public Function proteinsKEGGPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim size As Size = args.GetValue("/size", New Size(2000, 4000))
@@ -271,9 +310,19 @@ Partial Module CLI
                     End Function) _
             .IteratesALL _
             .ToArray
-        Dim catalogs = maps.KOCatalog
+
         Dim KO_counts As KOCatalog() = Nothing
         Dim profile = maps.LevelAKOStatics(KO_counts).AsDouble
+        Dim catalogs As NamedValue(Of Dictionary(Of String, String))()
+
+        With args <= "/custom"
+            If .FileExists(True) Then
+                catalogs = maps.KOCatalog(.ref)   ' 如果自定义的KO分类数据文件存在的话，则使用自定义库
+            Else
+                ' 直接使用系统库进行分析
+                catalogs = maps.KOCatalog
+            End If
+        End With
 
         profile.ProfilesPlot("KEGG Orthology Profiling", size:=size, tick:=tick).Save(out & "/plot.png")
         KO_counts.SaveTo(out & "/KO_counts.csv")

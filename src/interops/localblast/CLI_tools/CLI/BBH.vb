@@ -379,7 +379,7 @@ Partial Module CLI
         Dim bh As String = args("/bh")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-{bh.BaseName}.selects.Csv")
         Dim bbh As IEnumerable(Of BBHIndex) = bh.LoadCsv(Of BBHIndex)
-        Dim locus As New IndexOf(Of String)([in].ReadAllLines)
+        Dim locus As New Index(Of String)([in].ReadAllLines)
         Dim LQuery = (From x In bbh.AsParallel Where locus.IndexOf(x.QueryName) > -1 Select x).ToArray
         Return LQuery.SaveTo(out).CLICode
     End Function

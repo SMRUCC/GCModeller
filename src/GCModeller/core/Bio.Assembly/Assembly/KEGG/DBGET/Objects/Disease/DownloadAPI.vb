@@ -92,7 +92,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim slides = lines.SlideWindows(2, offset:=2)
             Dim out As New List(Of KeyValuePair)
 
-            For Each s As SlideWindowHandle(Of String) In slides
+            For Each s As SlideWindow(Of String) In slides
                 out += New KeyValuePair With {
                     .Key = s(Scan0).Trim(":"c),
                     .Value = s(1)

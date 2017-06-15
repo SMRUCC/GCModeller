@@ -1,36 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::25d1843e427dcd0e48ca7a63f195f8dc, ..\core\Bio.Assembly\Assembly\NCBI\Database\COG\Function.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.ComponentModel
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel
@@ -222,7 +219,7 @@ Namespace Assembly.NCBI.COG
 
             Dim list As New List(Of COGCategories)
 
-            For Each cat In Me.Catalogs
+            For Each cat As Catalog In Me.Catalogs
                 If category Or cat.Class Then
                     Call list.Add(cat.Class)
                 End If
@@ -260,7 +257,7 @@ Namespace Assembly.NCBI.COG
         ''' <param name="source"></param>
         ''' <returns></returns>
         Public Overloads Function ClassCategory(Of T As ICOGDigest)(source As IEnumerable(Of T)) As Dictionary(Of COGCategories, String())
-            Dim hash As New Dictionary(Of COGCategories, String()) From {  '主要是为了填满所有分类，因为source之中可能并不包含有所有的cog分类
+            Dim table As New Dictionary(Of COGCategories, String()) From {  '主要是为了填满所有分类，因为source之中可能并不包含有所有的cog分类
                 {COGCategories.Genetics, New String() {}},
                 {COGCategories.Metabolism, New String() {}},
                 {COGCategories.NotAssigned, New String() {}},
@@ -275,14 +272,13 @@ Namespace Assembly.NCBI.COG
                           Select geneid = x.geneId,
                               category = x.category
                           Group By category Into Group).ToArray
-            For Each cat In LQuery
-                If hash.ContainsKey(cat.category) Then
-                    Call hash.Remove(cat.category)
-                End If
-                Call hash.Add(cat.category, cat.Group.ToArray(Of String)(Function(obj) obj.geneid))
+            For Each [class] In LQuery
+                table([class].category) = [class] _
+                    .Group _
+                    .ToArray(Function(obj) obj.geneid)
             Next
 
-            Return hash
+            Return table
         End Function
 
         Protected Sub New()

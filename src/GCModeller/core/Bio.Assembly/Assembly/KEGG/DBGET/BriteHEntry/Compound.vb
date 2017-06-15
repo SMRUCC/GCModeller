@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::959483555f906ed084e03c2b347c4485, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Compound.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -162,17 +162,27 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         ''' <summary>
+        ''' KEGG BRITE contains a classification of lipids
+        ''' 
+        ''' > http://www.kegg.jp/kegg-bin/get_htext?br08002.keg
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function Lipids() As Compound()
+            Return Compound.Build(BriteHText.Load(My.Resources.br08002))
+        End Function
+
+        ''' <summary>
         ''' 请注意，这个函数只能够下载包含有分类信息的化合物，假若代谢物还没有分类信息的话，则无法利用这个函数进行下载
         ''' 
-        '''  br08001  Compounds with biological roles
-        '''  br08002  Lipids
-        '''  br08003  Phytochemical compounds
-        '''  br08005  Bioactive peptides
-        '''  br08006  Endocrine disrupting compounds
-        '''  br08007  Pesticides
-        '''  br08008  Carcinogens
-        '''  br08009  Natural toxins
-        '''  br08010  Target-based classification of compounds
+        ''' + ``br08001``  Compounds with biological roles
+        ''' + ``br08002``  Lipids
+        ''' + ``br08003``  Phytochemical compounds
+        ''' + ``br08005``  Bioactive peptides
+        ''' + ``br08006``  Endocrine disrupting compounds
+        ''' + ``br08007``  Pesticides
+        ''' + ``br08008``  Carcinogens
+        ''' + ``br08009``  Natural toxins
+        ''' + ``br08010``  Target-based classification of compounds
         ''' </summary>
         ''' <param name="EXPORT"></param>
         ''' <param name="DirectoryOrganized"></param>
@@ -205,7 +215,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         Private Shared Sub __downloadsInternal(key$, briteEntry As Compound(), ByRef failures As List(Of String), EXPORT$, DirectoryOrganized As Boolean, forceUpdate As Boolean)
-            Dim progress As New ProgressBar("Downloads " & key, cls:=True)
+            Dim progress As New ProgressBar("Downloads " & key, CLS:=True)
             Dim tick As New ProgressProvider(briteEntry.Length)
 
             ' 2017-3-12
@@ -248,7 +258,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
                 Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
                 Call Thread.Sleep(1000)
-                Call progress.SetProgress(tick.StepProgress, detail:=ETA)
+                Call progress.SetProgress(tick.StepProgress, details:=ETA)
             Next
 
             Call progress.Dispose()

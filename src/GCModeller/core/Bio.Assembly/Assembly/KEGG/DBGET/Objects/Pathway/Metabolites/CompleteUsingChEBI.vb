@@ -56,14 +56,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .IteratesALL _
                 .ToArray
             ' 这里是已经下载的文件列表
-            Dim downloads As New IndexOf(Of String)((ls - l - r - "*.xml" <= DIR).Select(AddressOf BaseName))
+            Dim downloads As New Index(Of String)((ls - l - r - "*.xml" <= DIR).Select(AddressOf BaseName))
             Dim path$
             Dim failures As New List(Of String)
             Dim ETA$
 
             DIR = DIR & "/" & ChEBI
 
-            Using progress As New ProgressBar("Download missing ChEBI compounds data...", cls:=True)
+            Using progress As New ProgressBar("Download missing ChEBI compounds data...", CLS:=True)
                 Dim tick As New ProgressProvider(accs.Length)
 
                 Call $"Have {downloads.Count} compounds have been downloaded...".__DEBUG_ECHO
@@ -98,7 +98,7 @@ EXIT_LOOP:
                     ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
                     Call progress.SetProgress(
                         tick.StepProgress,
-                        detail:=ETA)
+                        details:=ETA)
                 Next
             End Using
 

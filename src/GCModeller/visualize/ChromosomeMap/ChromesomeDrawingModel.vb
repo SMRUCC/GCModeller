@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::9a0f11782bfb66ca78311e1eb8bd74af, ..\visualize\ChromosomeMap\ChromesomeDrawingModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -96,11 +96,11 @@ Namespace DrawingModels
             Dim sb As New StringBuilder
 
             Call sb.AppendLine("Drawing Model Brief Information:" & vbCrLf)
-            Call sb.AppendLine($"GeneObject Segments:  {GeneObjects.GetElementCounts}")
-            Call sb.AppendLine($"Mutation Sites Data:  {MutationDatas.GetElementCounts}")
-            Call sb.AppendLine($"Motif Sites:          {MotifSites.GetElementCounts}")
-            Call sb.AppendLine($"Loci Sites:           {Loci.GetElementCounts}")
-            Call sb.AppendLine($"TSSs Sites:           {TSSs.GetElementCounts}")
+            Call sb.AppendLine($"GeneObject Segments:  {GeneObjects.DataCounts}")
+            Call sb.AppendLine($"Mutation Sites Data:  {MutationDatas.DataCounts}")
+            Call sb.AppendLine($"Motif Sites:          {MotifSites.DataCounts}")
+            Call sb.AppendLine($"Loci Sites:           {Loci.DataCounts}")
+            Call sb.AppendLine($"TSSs Sites:           {TSSs.DataCounts}")
 
             Return sb.ToString
         End Function

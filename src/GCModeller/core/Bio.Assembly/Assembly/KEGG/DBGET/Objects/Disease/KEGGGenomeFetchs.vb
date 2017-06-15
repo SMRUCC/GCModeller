@@ -141,7 +141,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                     End If
 
                     ETA = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
-                    progress.SetProgress(tick.StepProgress, detail:=ETA)
+                    progress.SetProgress(tick.StepProgress, details:=ETA)
                 Next
             End Using
 
