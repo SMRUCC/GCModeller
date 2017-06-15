@@ -33,11 +33,26 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/T.test.Designer")>
-    <Description("Generates the t.test DEP method inputs table")>
-    <Usage("/T.test.Designer /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
+    <ExportAPI("/T.test.Designer.iTraq")>
+    <Description("Generates the iTraq data t.test DEP method inputs table")>
+    <Usage("/T.test.Designer.iTraq /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function TtestDesigner(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim designer = args <= "/designer"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & $"-{designer.BaseName}-edgeR/")
+        Dim designers As Designer() = designer.LoadCsv(Of Designer)
+        Dim label$ = args.GetValue("/label", "")
+        Dim deli$ = args.GetValue("/deli", "-")
+
+        Call DEGDesigner.TtestDesigner([in], designers, (label, deli), workDIR:=out)
+
+        Return 0
+    End Function
+
+    <ExportAPI("/T.test.Designer.LFQ")>
+    <Usage("/T.test.Designer.LFQ /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
+    Public Function TtestDesignerLFQ(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim designer = args <= "/designer"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & $"-{designer.BaseName}-edgeR/")
