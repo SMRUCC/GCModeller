@@ -6,6 +6,9 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network
 
+''' <summary>
+''' 功能富集网络
+''' </summary>
 Public Module FunctionalEnrichmentPlot
 
     <Extension>
