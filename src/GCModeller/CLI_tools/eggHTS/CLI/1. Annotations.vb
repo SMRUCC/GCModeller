@@ -16,6 +16,8 @@ Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.KEGG.KEGGOrthology
+Imports SMRUCC.genomics.Analysis.Microarray
+Imports SMRUCC.genomics.Analysis.Microarray.DEGDesigner
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
@@ -31,6 +33,69 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
+
+    ''' <summary>
+    ''' 生成总蛋白的表达状况的文氏图，主要统计的是蛋白表达与否？
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/proteinGroups.venn")>
+    <Usage("/proteinGroups.venn /in <proteinGroups.csv> /designer <designer.csv> [/label <tag label> /deli <delimiter, default=_> /out <out.venn.DIR>]")>
+    Public Function proteinGroupsVenn(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim designer$ = args <= "/designer"
+        Dim label$ = args <= "/label"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".venn/")
+        Dim proteins = EntityObject.LoadDataSet([in])
+        Dim designers As Designer() = designer.LoadCsv(Of Designer)
+        Dim groups = designers _
+            .GroupBy(Function(d) d.GroupLabel) _
+            .ToArray
+        Dim venn As New List(Of EntityObject)
+        Dim delimiter$ = args.GetValue("/deli", "_")
+        Dim groupLabels As New Dictionary(Of String, String())
+        Dim gl$, labels$()
+
+        For Each group In groups
+            gl = $"{group.Key}.{NameOf(DEGDesigner.Designer.Experiment)}"
+            labels = group _
+                .Select(Function(l)
+                            If label.StringEmpty Then
+                                Return l
+                            Else
+                                Return $"{label}{delimiter}{l}"
+                            End If
+                        End Function) _
+                .ToArray
+            groupLabels.Add(gl, labels)
+        Next
+
+        For Each protein As EntityObject In proteins
+            Dim x As New EntityObject(protein.ID)
+
+            ' 先遍历每一个蛋白
+            ' 再遍历每一个实验设计
+            ' 如果实验重复超过半数以上都是零，则为空
+            For Each group As KeyValuePair(Of String, String()) In groupLabels
+                Dim vals#() = group.Value _
+                    .Select(Function(l) Val(protein(l))) _
+                    .Where(Function(v)
+                               Return Not v.IsNaNImaginary AndAlso Not v = 0R
+                           End Function) _
+                    .ToArray
+                Dim n% = Fix(group.Value.Length / 2)
+
+                If vals.Length >= n Then
+                    ' 超过半数，没有表达
+                    x.Properties.Add(group.Value.First, 0)
+                Else
+                    x.Properties.Add(group.Value.First, vals.Average)
+                End If
+            Next
+        Next
+
+        Return venn.SaveTo(out & "/proteinGroups.venn.csv").CLICode
+    End Function
 
     <ExportAPI("/update.uniprot.mapped",
                Usage:="/update.uniprot.mapped /in <table.csv> /mapping <mapping.tsv/tab> [/source /out <out.csv>]")>
