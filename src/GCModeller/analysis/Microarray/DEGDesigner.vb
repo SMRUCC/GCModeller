@@ -97,7 +97,14 @@ Public Module DEGDesigner
         Return MergeMatrix(DIR, name, DEG:=Math.Log(1.5, 2), Pvalue:=0.05)
     End Function
 
-    Public Function GetDEPsRawValues(DEPsDIR$, Optional DEPstag$ = "is.DEP") As gene()
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="DEPsDIR$"></param>
+    ''' <param name="DEPstag$"></param>
+    ''' <param name="NA_replaced#">FC值之中的1表示无变化，因为``log2(1) = 0``</param>
+    ''' <returns></returns>
+    Public Function GetDEPsRawValues(DEPsDIR$, Optional DEPstag$ = "is.DEP", Optional NA_replaced$ = "1") As gene()
         Dim allGenes As gene() = (ls - l - r - "*.csv" <= DEPsDIR) _
             .Select(Function(csv) gene.LoadDataSet(csv)) _
             .IteratesALL _
@@ -117,11 +124,17 @@ Public Module DEGDesigner
                                 .Select(Function(x) x.Properties) _
                                 .IteratesALL _
                                 .GroupBy(Function(k) k.Key) _
-                                .ToDictionary(Function(k) k.Key, 
+                                .ToDictionary(Function(k) k.Key,
                                               Function(v)
                                                   ' 对于T-test脚本的输出，这些DEP文件都共同含有一个
                                                   ' avg.FC和is.DEP字段，在这里直接通过group去重了
-                                                  Return v.First.Value
+                                                  With v.First.Value
+                                                      If .ref = "0" OrElse .TextEquals("NA") Then
+                                                          Return NA_replaced
+                                                      Else
+                                                          Return .ref
+                                                      End If
+                                                  End With
                                               End Function)
                         }
                     End Function) _

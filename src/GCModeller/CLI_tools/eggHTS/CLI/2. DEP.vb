@@ -199,7 +199,9 @@ Partial Module CLI
     ''' <returns></returns>
     ''' 
     <ExportAPI("/DEP.heatmap.raw")>
+    <Description("All of the NA value was replaced by value ``1``, as the FC value when it equals 1, then ``log2(1) = 0``, which means it has no changes.")>
     <Usage("/DEP.heatmap.raw /DEPs <DEPs.csv.folder> [/DEP.tag <default=is.DEP> /out <out.csv>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function DEPsHeatmapRaw(args As CommandLine) As Integer
         Dim in$ = args <= "/DEPs"
         Dim raw$ = args <= "/raw"
@@ -215,6 +217,7 @@ Partial Module CLI
 
     <ExportAPI("/Venn.Functions",
                Usage:="/Venn.Functions /venn <venn.csv> /anno <annotations.csv> [/out <out.csv>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function VennFunctions(args As CommandLine) As Integer
         Dim in$ = args <= "/venn"
         Dim anno$ = args <= "/anno"
@@ -355,6 +358,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/DEPs.stat.iTraq",
+               Info:="https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/iTraq.log2_t-test.R",
                Usage:="/DEPs.stat.iTraq /in <log2.test.csv> [/level <default=1.5> /out <out.stat.csv>]")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function DEPStatics(args As CommandLine) As Integer
