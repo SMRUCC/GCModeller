@@ -94,7 +94,15 @@ Partial Module CLI
             Next
         Next
 
-        Return venn.SaveTo(out & "/proteinGroups.venn.csv").CLICode
+        Dim dataOUT$ = out & "/proteinGroups.venn.csv"
+
+        Call venn.SaveTo(dataOUT)
+        Call Apps.VennDiagram.Draw(
+            dataOUT,
+            "proteinGroups.venn",
+            out:=out & "/venn.tiff")
+
+        Return 0
     End Function
 
     <ExportAPI("/update.uniprot.mapped",
