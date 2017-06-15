@@ -119,7 +119,7 @@ Partial Module CLI
 
         Dim n As Integer = CInt(category.Signature.Length / 2) - 1
         Dim source = (From x In category.Signature Select New FASTA.FastaToken(x)).AsList
-        Call source.Add(seq.CopyVector(n))
+        Call source.Add(seq.Repeats(n))
         Dim tmp = App.GetAppSysTempFile(".fasta")
         Call New FASTA.FastaFile(source).Save(tmp)
         Dim aln = clustal.MultipleAlignment(tmp)
