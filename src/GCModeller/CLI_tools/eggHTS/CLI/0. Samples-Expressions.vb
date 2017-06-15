@@ -114,7 +114,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Relative.amount")>
-    <Usage("/Relative.amount /in <proteinGroups.csv> /designer <designer.csv> [/label <tag label> /deli <delimiter, default=_> /out <out.csv>]")>
+    <Usage("/Relative.amount /in <proteinGroups.csv> /designer <designer.csv> [/uniprot <annotations.csv> /label <tag label> /deli <delimiter, default=_> /out <out.csv>]")>
     <Group(CLIGroups.SamplesExpressions_CLI)>
     Public Function RelativeAmount(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -125,6 +125,7 @@ Partial Module CLI
         Dim relativeAmounts As New List(Of DataSet)
         Dim delimiter$ = args.GetValue("/deli", "_")
         Dim groupLabels = designers.GetExperimentGroupLabels(args <= "/label", delimiter)
+        Dim uniprots = EntityObject.LoadDataSet(args <= "/uniprot").ToDictionary
 
         Call groupLabels.GetJson(True).__DEBUG_ECHO
 
@@ -143,27 +144,36 @@ Partial Module CLI
                                                 End Function)
                               Return (proteinAverages.Values.Sum, proteinAverages)
                           End Function)
-
-        Call totals.GetJson(True).__DEBUG_ECHO
+        Dim name$ = Nothing
 
         For Each protein In proteins
-            Dim x As New DataSet(protein.ID)  ' 将uniprotID转换为基因名称
+            If uniprots.ContainsKey(protein.ID) Then
+                name = uniprots(protein.ID)!geneName
+                If name.StringEmpty Then
+                    name = protein.ID
+                End If
+            Else
+                name = protein.ID
+            End If
+            
+            Dim x As New DataSet(name)  ' 将uniprotID转换为基因名称
 
             ' 先遍历每一个蛋白
             ' 再遍历每一个实验设计
             ' 如果实验重复超过半数以上都是零，则为空
             For Each group As String In groupLabels.Keys
                 With totals(group)
-                    Dim relative# = .proteins(protein.ID) / .total
+                    Dim relative# = .proteins(protein.ID) / .total * 100%
                     x(group) = relative
                 End With
             Next
 
-            x!SUM = x.Properties.Values.Average
+            x!AVERAGE = x.Properties.Values.Average
             relativeAmounts += x
         Next
 
         Return relativeAmounts _
+            .OrderByDescending(Function(protein) protein!AVERAGE) _
             .SaveTo(out & "/relative_amount.csv") _
             .CLICode
     End Function
