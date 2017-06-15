@@ -358,6 +358,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/DEPs.stat.iTraq",
+               Info:="https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/iTraq.log2_t-test.R",
                Usage:="/DEPs.stat.iTraq /in <log2.test.csv> [/level <default=1.5> /out <out.stat.csv>]")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function DEPStatics(args As CommandLine) As Integer
