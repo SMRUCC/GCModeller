@@ -494,6 +494,12 @@ Namespace LinearAlgebra
             Return New BooleanVector(From d As Double In x Select d <> n)
         End Operator
 
+        ''' <summary>
+        ''' Power
+        ''' </summary>
+        ''' <param name="v"></param>
+        ''' <param name="n"></param>
+        ''' <returns></returns>
         Public Overloads Shared Operator ^(v As Vector, n As Integer) As Vector
             Return New Vector(From d As Double In v Select d ^ n)
         End Operator
