@@ -16,6 +16,8 @@ Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
 
+#Region "DEG data experiment designer"
+
     <ExportAPI("/edgeR.Designer")>
     <Description("Generates the edgeR inputs table")>
     <Usage("/edgeR.Designer /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
@@ -40,7 +42,7 @@ Partial Module CLI
     Public Function TtestDesigner(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim designer = args <= "/designer"
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & $"-{designer.BaseName}-edgeR/")
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & $"-{designer.BaseName}-iTraq_Ttest/")
         Dim designers As Designer() = designer.LoadCsv(Of Designer)
         Dim label$ = args.GetValue("/label", "")
         Dim deli$ = args.GetValue("/deli", "-")
@@ -50,20 +52,29 @@ Partial Module CLI
         Return 0
     End Function
 
+    ''' <summary>
+    ''' 独立实验变量的t检验构建工具
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/T.test.Designer.LFQ")>
+    <Description("Generates the LFQ data t.test DEP method inputs table")>
     <Usage("/T.test.Designer.LFQ /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function TtestDesignerLFQ(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim designer = args <= "/designer"
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & $"-{designer.BaseName}-edgeR/")
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & $"-{designer.BaseName}-LFQ_Ttest/")
         Dim designers As Designer() = designer.LoadCsv(Of Designer)
         Dim label$ = args.GetValue("/label", "")
         Dim deli$ = args.GetValue("/deli", "-")
 
-        Call DEGDesigner.TtestDesigner([in], designers, (label, deli), workDIR:=out)
+        Call DEGDesigner.TtestDesignerIndependent([in], designers, (label, deli), workDIR:=out)
 
         Return 0
     End Function
+
+#End Region
 
     ''' <summary>
     ''' 使用这个函数来处理iTraq实验结果之中与分析需求单的FC比对方式颠倒的情况
