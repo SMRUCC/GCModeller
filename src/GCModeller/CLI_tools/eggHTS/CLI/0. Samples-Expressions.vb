@@ -119,15 +119,48 @@ Partial Module CLI
     Public Function RelativeAmount(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim designer$ = args <= "/designer"
-        Dim label$ = args <= "/label"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".relative_amount/")
         Dim proteins = EntityObject.LoadDataSet([in])
         Dim designers As Designer() = designer.LoadCsv(Of Designer)
-        Dim relativeAmounts As New List(Of EntityObject)
+        Dim relativeAmounts As New List(Of DataSet)
         Dim delimiter$ = args.GetValue("/deli", "_")
-        Dim groupLabels = designers.GetExperimentGroupLabels(label, delimiter)
+        Dim groupLabels = designers.GetExperimentGroupLabels(args <= "/label", delimiter)
 
         Call groupLabels.GetJson(True).__DEBUG_ECHO
+
+        ' 每一个实验的平均值表达量的所有蛋白的和
+        Dim totals As Dictionary(Of String, Double) =
+            groupLabels _
+            .ToDictionary(Function(g) g.Key,
+                          Function(labels)
+                              Return labels.Value _
+                                  .Select(Function(label)
+                                              Return Aggregate protein
+                                                     In proteins
+                                                     Into Average(Val(protein(label)))
+                                          End Function) _
+                                  .Sum
+                          End Function)
+
+        For Each protein In proteins
+            Dim x As New DataSet(protein.ID)  ' 将uniprotID转换为基因名称
+
+            ' 先遍历每一个蛋白
+            ' 再遍历每一个实验设计
+            ' 如果实验重复超过半数以上都是零，则为空
+            For Each group As KeyValuePair(Of String, String()) In groupLabels
+                Dim vals#() = group.Value _
+                    .Select(Function(l) Val(protein(l))) _
+                    .Where(Function(v) Not v.IsNaNImaginary) _
+                    .ToArray
+                Dim relative# = vals.Average / totals(group.Key)
+
+                x(group.Key) = relative
+            Next
+
+            x!SUM = x.Properties.Values.Sum
+            relativeAmounts += x
+        Next
 
         Return relativeAmounts _
             .SaveTo(out & "/relative_amount.csv") _
