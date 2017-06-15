@@ -152,9 +152,10 @@ Public Module FunctionalEnrichmentPlot
     <Extension>
     Public Function VisualizeKEGG(model As NetGraph) As Image
         Dim graph = model.CreateGraph(nodeColor:=Function(n) (n!color).GetBrush)
-        ' 生成layout信息
+
+        ' 生成layout信息        
         Call graph.doRandomLayout
-        Call graph.doForceLayout
+        Call graph.doForceLayout(showProgress:=True, iterations:=200)
 
         Dim nodeGroups = model.Nodes _
             .Select(Function(n)
