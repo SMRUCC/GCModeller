@@ -43,13 +43,12 @@ Namespace Drawing2D
         End Function
 
         ''' <summary>
-        ''' 将一个多边形放大
+        ''' 将一个多边形放大指定的倍数<paramref name="scale"/>
         ''' </summary>
-        ''' <param name="shape"></param>
+        ''' <param name="shape">矢量图形的点集合</param>
         ''' <param name="scale#"></param>
         ''' <returns></returns>
-        <Extension>
-        Public Function Enlarge(shape As IEnumerable(Of Point), scale#) As Point()
+        <Extension> Public Function Enlarge(shape As IEnumerable(Of Point), scale#) As Point()
             Dim vector = shape.ToArray
             Dim center = vector.Centre
             Dim x As New Vec(vector.Select(Function(pt) pt.X))
@@ -65,6 +64,7 @@ Namespace Drawing2D
             x = x + dx
             y = y + dy
 
+            ' 返回放大之后的矢量图形向量
             Return vector _
                 .Sequence _
                 .Select(Function(i) New Point(x(i), y(i))) _
