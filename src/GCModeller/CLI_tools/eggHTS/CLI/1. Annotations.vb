@@ -11,6 +11,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
@@ -65,6 +66,7 @@ Partial Module CLI
                                                 Return $"{label}{delimiter}{l}"
                                             End If
                                         End Function) _
+                                .Select(Function(l) l.Replace("-", ".")) _
                                 .ToArray
                             gl = labels.LongestTag
                             groupLabels.Add(gl, labels)
@@ -80,6 +82,8 @@ Partial Module CLI
                 .ToArray
             addLabels()
         Next
+
+        Call groupLabels.GetJson(True).__DEBUG_ECHO
 
         For Each protein As EntityObject In proteins
             Dim x As New EntityObject(protein.ID)
@@ -100,9 +104,12 @@ Partial Module CLI
                     ' 超过半数，没有表达
                     x.Properties.Add(group.Key, vals.Average)
                 Else
-                    x.Properties.Add(group.Key, 0)
+                    ' 置为零的时候，venn模型任然会认为有数据，会出错，在这里置为空字符串
+                    x.Properties.Add(group.Key, "")
                 End If
             Next
+
+            venn += x
         Next
 
         Dim dataOUT$ = out & "/proteinGroups.venn.csv"
