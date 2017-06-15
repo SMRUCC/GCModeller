@@ -122,7 +122,7 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".relative_amount/")
         Dim proteins = EntityObject.LoadDataSet([in])
         Dim designers As Designer() = designer.LoadCsv(Of Designer)
-        Dim relativeAmounts As New List(Of DataSet)
+        Dim relativeAmounts As New List(Of EntityObject)
         Dim delimiter$ = args.GetValue("/deli", "_")
         Dim groupLabels = designers.GetExperimentGroupLabels(args <= "/label", delimiter)
         Dim uniprots = EntityObject.LoadDataSet(args <= "/uniprot").ToDictionary
@@ -146,7 +146,7 @@ Partial Module CLI
                           End Function)
         Dim name$ = Nothing
 
-        For Each protein In proteins
+        For Each protein As EntityObject In proteins
             If uniprots.ContainsKey(protein.ID) Then
                 name = uniprots(protein.ID)!geneName
                 If name.StringEmpty Then
@@ -155,21 +155,25 @@ Partial Module CLI
             Else
                 name = protein.ID
             End If
-            
-            Dim x As New DataSet(name)  ' 将uniprotID转换为基因名称
 
-            ' 先遍历每一个蛋白
-            ' 再遍历每一个实验设计
-            ' 如果实验重复超过半数以上都是零，则为空
-            For Each group As String In groupLabels.Keys
-                With totals(group)
-                    Dim relative# = .proteins(protein.ID) / .total * 100%
-                    x(group) = relative
-                End With
-            Next
+            With New EntityObject(name)  ' 将uniprotID转换为基因名称
 
-            x!AVERAGE = x.Properties.Values.Average
-            relativeAmounts += x
+                ' 先遍历每一个蛋白
+                ' 再遍历每一个实验设计
+                ' 如果实验重复超过半数以上都是零，则为空
+                For Each group As String In groupLabels.Keys
+                    Dim experiment = totals(group)
+                    Dim relative# = experiment.proteins(protein.ID) / experiment.total ' * 100%
+
+                    .ref(group) = relative
+                Next
+
+                !AVERAGE = Aggregate s In .Properties.Values Into Average(Val(s))
+                !uniprotID = protein.ID
+                !fullName = uniprots(protein.ID)!fullName
+
+                relativeAmounts += .ref
+            End With
         Next
 
         Return relativeAmounts _
