@@ -8,8 +8,6 @@ Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.csv
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -21,9 +19,10 @@ Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
-Partial Module CLI
+Partial Module CLI      
 
     <ExportAPI("/Shotgun.Data.Strip", Usage:="/Shotgun.Data.Strip /in <data.csv> [/out <output.csv>]")>
+    <Group(CLIGroups.Samples_CLI)>
     Public Function StripShotgunData(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Data.csv")
