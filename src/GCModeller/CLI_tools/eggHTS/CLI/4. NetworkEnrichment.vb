@@ -17,7 +17,7 @@ Partial Module CLI
         Dim DEP$ = args <= "/DEP"
         Dim fold# = args.GetValue("/fold", 1.5)
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-funrich_string/")
-        Dim annotations = UniprotXML.Load(uniprot)
+        Dim annotations = UniprotXML.Load(uniprot).StringUniprot
         Dim model = [in].LoadTsv(Of InteractExports).BuildModel(annotations)
 
         Return model.Save(out).CLICode
