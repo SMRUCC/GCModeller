@@ -57,7 +57,6 @@ Partial Module CLI
         Dim gl$, labels$()
 
         For Each group In groups
-            gl = $"{group.Key}.{NameOf(DEGDesigner.Designer.Experiment)}"
             labels = group _
                 .Select(Function(l)
                             If label.StringEmpty Then
@@ -67,6 +66,7 @@ Partial Module CLI
                             End If
                         End Function) _
                 .ToArray
+            gl = labels.LongestTag
             groupLabels.Add(gl, labels)
         Next
 
@@ -87,9 +87,9 @@ Partial Module CLI
 
                 If vals.Length >= n Then
                     ' 超过半数，没有表达
-                    x.Properties.Add(group.Value.First, 0)
+                    x.Properties.Add(group.Key, 0)
                 Else
-                    x.Properties.Add(group.Value.First, vals.Average)
+                    x.Properties.Add(group.Key, vals.Average)
                 End If
             Next
         Next
