@@ -54,20 +54,31 @@ Partial Module CLI
         Dim venn As New List(Of EntityObject)
         Dim delimiter$ = args.GetValue("/deli", "_")
         Dim groupLabels As New Dictionary(Of String, String())
-        Dim gl$, labels$()
+        Dim gl$
+        Dim labels$() = Nothing
+        Dim addLabels = Sub()
+                            labels = labels _
+                                .Select(Function(l)
+                                            If label.StringEmpty Then
+                                                Return l
+                                            Else
+                                                Return $"{label}{delimiter}{l}"
+                                            End If
+                                        End Function) _
+                                .ToArray
+                            gl = labels.LongestTag
+                            groupLabels.Add(gl, labels)
+                        End Sub
 
         For Each group In groups
             labels = group _
-                .Select(Function(l)
-                            If label.StringEmpty Then
-                                Return l
-                            Else
-                                Return $"{label}{delimiter}{l}"
-                            End If
-                        End Function) _
+                .Select(Function(d) d.Experiment) _
                 .ToArray
-            gl = labels.LongestTag
-            groupLabels.Add(gl, labels)
+            addLabels()
+            labels = group _
+                .Select(Function(d) d.Control) _
+                .ToArray
+            addLabels()
         Next
 
         For Each protein As EntityObject In proteins
