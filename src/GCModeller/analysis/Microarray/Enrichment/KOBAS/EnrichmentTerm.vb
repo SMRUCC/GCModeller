@@ -2,17 +2,18 @@
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace KOBAS
-    
+
     Public Class EnrichmentTerm
         Implements IGoTerm
         Implements IGoTermEnrichment
+        Implements IEnrichmentTerm
 
         ''' <summary>
         ''' #Term
         ''' </summary>
         ''' <returns></returns>
         <Column("#Term")>
-        Public Property Term As String
+        Public Property Term As String Implements IEnrichmentTerm.Term
         Public Property Database As String
         Public Property ID As String Implements IGoTerm.Go_ID
 
@@ -32,7 +33,7 @@ Namespace KOBAS
         ''' P-Value
         ''' </summary>
         ''' <returns></returns>
-        <Column("P-Value")> Public Property Pvalue As Double Implements IGoTermEnrichment.Pvalue
+        <Column("P-Value")> Public Property Pvalue As Double Implements IGoTermEnrichment.Pvalue, IEnrichmentTerm.Pvalue
 
         ''' <summary>
         ''' Corrected P-Value
@@ -45,7 +46,7 @@ Namespace KOBAS
         ''' </summary>
         ''' <returns></returns>
         Public Property Input As String
-        Public Property ORF As String()
+        Public Property ORF As String() Implements IEnrichmentTerm.ORF
 
         ''' <summary>
         ''' 用于一些可视化的超链接url

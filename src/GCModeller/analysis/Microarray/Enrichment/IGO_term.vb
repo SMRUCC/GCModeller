@@ -9,3 +9,11 @@ Public Interface IGoTermEnrichment : Inherits IGoTerm
     Property CorrectedPvalue As Double
 
 End Interface
+
+Public Interface IEnrichmentTerm
+
+    Property Term As String
+    Property ORF As String()
+    Property Pvalue As Double
+
+End Interface

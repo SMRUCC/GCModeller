@@ -73,14 +73,14 @@ Namespace DAVID
         End Function
     End Module
 
-    Public Class FunctionCluster
+    Public Class FunctionCluster : Implements IEnrichmentTerm
 
         Public Property Category As String
-        Public Property Term As String
+        Public Property Term As String Implements IEnrichmentTerm.Term
         Public Property Count As Integer
         <Column("%")> Public Property Percent As Double
-        Public Property PValue As Double
-        <Collection("Genes", ",")> Public Property Genes As String()
+        Public Property PValue As Double Implements IEnrichmentTerm.Pvalue
+        <Collection("Genes", ",")> Public Property ORFs As String() Implements IEnrichmentTerm.ORF
         <Column("List Total")> Public Property ListTotal As Integer
         <Column("Pop Hits")> Public Property PopHits As Integer
         <Column("Pop Total")> Public Property PopTotal As Integer

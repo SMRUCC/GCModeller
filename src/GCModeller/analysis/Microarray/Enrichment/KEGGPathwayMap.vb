@@ -30,7 +30,7 @@ Public Module KEGGPathwayMap
         Using progress As New ProgressBar("KEGG pathway map visualization....",, CLS:=True)
             Dim tick As New ProgressProvider(all.Length)
             Dim ETA$
-            
+
             For Each term As EnrichmentTerm In all
                 Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
                 Dim path$ = EXPORT & "/" & pngName & $"-pvalue={term.Pvalue}" & ".png"
@@ -62,7 +62,7 @@ Public Module KEGGPathwayMap
         Dim terms = kobas.ToArray
 
         Call terms.DoEach(
-            Sub(term)
+            Sub(term As EnrichmentTerm)
                 Dim data As NamedCollection(Of NamedValue(Of String)) = URLEncoder.URLParser(term.link)
                 Dim genes = data.ToArray
 
