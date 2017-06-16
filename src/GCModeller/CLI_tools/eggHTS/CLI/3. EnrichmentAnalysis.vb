@@ -57,7 +57,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/KEGG.enrichment.DAVID.pathwaymap")>
-    <Usage("/KEGG.enrichment.DAVID.pathwaymap /in <david.csv> /uniprot <uniprot.XML> [/tsv /DEPs <deps.csv> /colors <default=red,blue,green> /pvalue <default=0.05> /out <out.DIR>]")>
+    <Usage("/KEGG.enrichment.DAVID.pathwaymap /in <david.csv> /uniprot <uniprot.XML> [/tsv /DEPs <deps.csv> /colors <default=red,blue,green> /tag <default=logFC> /pvalue <default=0.05> /out <out.DIR>]")>
     Public Function DAVID_KEGGPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG/")
@@ -86,24 +86,24 @@ Partial Module CLI
             args.GetBoolean("/tsv"),
             DAVID.Load([in]),
             [in].LoadCsv(Of FunctionCluster).ToArray)
-        Dim KEGG = table.SelectKEGGPathway
-        Dim DEPs$ = args <= "/DEPs"
-        Dim DEPgenes = EntityObject.LoadDataSet(DEPs).ToArray
-        Dim isDEP As Func(Of EntityObject, Boolean) =
-            Function(gene)
-                Return gene("is.DEP").TextEquals("TRUE")
-            End Function
-        Dim threshold = (1.25, 1 / 1.25)
-        Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, threshold, "FC.avg", uniprot2KEGG)
+        Dim KEGG = table.SelectKEGGPathway(uniprot2KEGG)
 
-        Call table.KOBAS_DEPs(colors, EXPORT:=out, pvalue:=pvalue)
+        With args <= "/DEPs"
+            If .FileLength > 0 Then
+                Dim DEPgenes = EntityObject.LoadDataSet(.ref).ToArray
+                Dim isDEP As Func(Of EntityObject, Boolean) =
+                    Function(gene)
+                        Return gene("is.DEP").TextEquals("TRUE")
+                    End Function
+                Dim threshold = (1.25, 1 / 1.25)
+                Dim readTag$ = args.GetValue("/tag", "logFC")
+                Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, threshold, readTag, uniprot2KEGG)
 
-        For Each term As FunctionCluster In KEGG
-          
-            Dim save$ = out & $"/{term.Term.NormalizePathString(True)}-pvalue={term.PValue}.png"
-
-            Call PathwayMapping.ShowEnrichmentPathway(url, save)
-        Next
+                Call KEGG.KOBAS_DEPs(colors, EXPORT:=out, pvalue:=pvalue)
+            Else
+                Call KEGG.KOBAS_visualize(EXPORT:=out, pvalue:=pvalue)
+            End If
+        End With
 
         Return 0
     End Function

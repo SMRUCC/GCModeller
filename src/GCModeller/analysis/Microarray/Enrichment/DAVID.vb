@@ -81,21 +81,23 @@ Namespace DAVID
                 Select x
                 Order By x.Category Ascending
 
-            For Each term As FunctionCluster In KEGG
-                Dim profile As New NamedCollection(Of NamedValue(Of String)) With {
-                    .Name = term.Term.GetTagValue(":").Name,
-                    .Value = term.ORFs _
-                        .Select(AddressOf Trim) _
-                        .Where(Function(id) uniprot2KEGG.ContainsKey(id)) _
-                        .Select(Function(ID)
-                                    Return uniprot2KEGG(ID).Select(Function(kid) New NamedValue(Of String)(kid, "red"))
-                                End Function) _
-                        .IteratesALL _
-                        .ToArray
-                }
+            If Not uniprot2KEGG.IsNullOrEmpty Then
+                For Each term As FunctionCluster In KEGG
+                    Dim profile As New NamedCollection(Of NamedValue(Of String)) With {
+                        .Name = term.Term.GetTagValue(":").Name,
+                        .Value = term.ORFs _
+                            .Select(AddressOf Trim) _
+                            .Where(Function(id) uniprot2KEGG.ContainsKey(id)) _
+                            .Select(Function(ID)
+                                        Return uniprot2KEGG(ID).Select(Function(kid) New NamedValue(Of String)(kid, "red"))
+                                    End Function) _
+                            .IteratesALL _
+                            .ToArray
+                    }
 
-                term.Link = profile.KEGGURLEncode()
-            Next
+                    term.Link = profile.KEGGURLEncode()
+                Next
+            End If
 
             Return KEGG
         End Function
