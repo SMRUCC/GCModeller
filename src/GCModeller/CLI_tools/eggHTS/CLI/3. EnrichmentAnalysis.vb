@@ -405,7 +405,8 @@ Partial Module CLI
                                 Return Combination _
                                     .CreateCombos(protein.accessions, protein.GO) _
                                     .Select(Function(x)
-                                                Return {x.Item1, x.Item2}.JoinBy(ASCII.TAB)
+                                                ' term gene
+                                                Return {x.Item2, x.Item1}.JoinBy(ASCII.TAB)
                                             End Function)
                             End Function) _
                     .IteratesALL _
