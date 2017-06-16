@@ -174,15 +174,35 @@ Public Module DEGDesigner
     ''' 假若是使用默认值0的话，由于任何实数都大于0，所以就不会进行差异基因的筛选，即函数会返回所有的基因列表
     ''' </param>
     ''' <returns></returns>
-    Public Function MergeMatrix(DIR$, name$, Optional DEG# = 0, Optional Pvalue# = Integer.MaxValue, Optional fieldFC$ = "logFC", Optional FCdown# = Integer.MinValue, Optional fieldPvalue$ = "PValue", Optional nonDEP_blank As Boolean = True) As gene()
+    Public Function MergeMatrix(DIR$, name$,
+                                Optional DEG# = 0,
+                                Optional Pvalue# = Integer.MaxValue,
+                                Optional fieldFC$ = "logFC",
+                                Optional FCdown# = Integer.MinValue,
+                                Optional fieldPvalue$ = "PValue",
+                                Optional nonDEP_blank As Boolean = True,
+                                Optional log2t As Boolean = False) As gene()
+
         Dim samples As New Dictionary(Of String, gene())
-        Dim test As Func(Of gene, Boolean)
+        Dim test As Func(Of gene, Boolean) ' 监测目标是否是符合要求的？
 
         If FCdown <> Integer.MinValue Then
             test = Function(gene)
-                       Dim FC# = gene(fieldFC).ParseNumeric
-                       Return (FC >= DEG OrElse FC <= FCdown) AndAlso
-                           gene(fieldPvalue).ParseNumeric <= Pvalue
+                       If gene(fieldPvalue).ParseNumeric > Pvalue Then
+                           Return False
+                       End If
+
+                       Dim FC = gene(fieldFC)
+                       Dim value#
+
+                       If log2t Then
+                           If FC.TextEquals("Inf") Then
+
+                           End If
+                       Else
+                           value = Val(FC)
+                           Return (value >= DEG OrElse value <= FCdown)
+                       End If
                    End Function
         Else
             test = Function(gene)
