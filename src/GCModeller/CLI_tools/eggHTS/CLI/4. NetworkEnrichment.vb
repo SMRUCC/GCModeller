@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.Model.Network.STRING
@@ -19,6 +20,8 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-funrich_string/")
         Dim annotations = UniprotXML.Load(uniprot).StringUniprot
         Dim model = [in].LoadTsv(Of InteractExports).BuildModel(annotations)
+
+        Call model.VisualizeKEGG.SaveAs(out & "/network.png")
 
         Return model.Save(out).CLICode
     End Function

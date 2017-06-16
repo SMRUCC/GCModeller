@@ -435,6 +435,55 @@ Public Module DEGDesigner
         Next
     End Sub
 
+    ''' <summary>
+    ''' 两个独立实验进行相互比较的t检验分析
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <param name="designers"></param>
+    ''' <param name="label"></param>
+    ''' <param name="workDIR$"></param>
+    Public Sub TtestDesignerIndependent(path$, designers As Designer(), Optional label As (label$, delimiter$) = Nothing, Optional workDIR$ = "./")
+        Dim output As DataOutput =
+            Sub(data, name, group)
+                Dim outName$ = name & "-" & group.NormalizePathString(False)
+                Dim out$ = workDIR & "/" & outName & ".txt"
+
+                Call data.SaveTo(out, Encoding.ASCII)
+            End Sub
+        Dim doSymbol As doSymbol =
+            Sub(gene, experiments, controls, fillRowData)
+                ' 生成两个独立的实验向量
+                ' aaaaabbbbb
+
+                Dim experimentValues = experiments _
+                    .Select(Function(t) Val(gene(t)).SafeToString) _
+                    .AsList
+                Dim controlValues$() = controls _
+                    .Select(Function(t) Val(gene(t)).SafeToString) _
+                    .ToArray
+
+                Call fillRowData({gene.ID})
+                Call fillRowData(experimentValues + controlValues)
+            End Sub
+        Dim doHeaders As doSymbol =
+            Sub(gene, experiments, controls, fillRowData)
+                Call fillRowData(experiments.AsList + controls)
+            End Sub
+
+        Call DEGDesigner.GeneralDesigner(
+            path, designers, label,
+            doSymbol,
+            doHeaders,
+            output)
+    End Sub
+
+    ''' <summary>
+    ''' FC值向量和1向量进行t检验分析DEG
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <param name="designers"></param>
+    ''' <param name="label"></param>
+    ''' <param name="workDIR$"></param>
     Public Sub TtestDesigner(path$, designers As Designer(), Optional label As (label$, delimiter$) = Nothing, Optional workDIR$ = "./")
         Dim output As DataOutput =
             Sub(data, name, group)
