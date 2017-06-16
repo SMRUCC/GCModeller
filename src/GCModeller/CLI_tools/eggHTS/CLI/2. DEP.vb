@@ -215,6 +215,49 @@ Partial Module CLI
             .CLICode
     End Function
 
+    ''' <summary>
+    ''' 如果data参数不存在则默认只取出DEP的输入数据之中的is.DEP为真的部分
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/DEPs.takes.values")>
+    <Description("")>
+    <Usage("/DEPs.takes.values /in <DEPs.csv> [/boolean.tag <default=is.DEP> /by.FC <tag=value, default=logFC=log2(1.5)> /by.p.value <tag=value, p.value=0.05> /data <data.csv> /out <out.csv>]")>
+    Public Function TakeDEPsValues(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim isDEP$ = args.GetValue("/boolean.tag", "is.DEP")
+        Dim FC$ = args <= "/by.FC"
+        Dim pvalue = args <= "/by.p.value"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-DEPs.values.csv")
+        Dim data As Dictionary(Of EntityObject)
+        Dim source = EntityObject.LoadDataSet([in])
+        Dim DEPs = source _
+            .Where(Function(protein)
+                       Return protein(isDEP).TextEquals("True")
+                   End Function) _
+            .ToArray
+
+        With args <= "/data"
+            If .FileLength > 0 Then
+                data = EntityObject _
+                    .LoadDataSet(.ref) _
+                    .ToDictionary
+            Else
+                data = source.ToDictionary
+            End If
+        End With
+
+        Dim values = DEPs _
+            .Where(Function(protein)
+                       Return data.ContainsKey(protein.ID)
+                   End Function) _
+            .Select(Function(protein) data(protein.ID)) _
+            .ToArray
+        Return values _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
     <ExportAPI("/Venn.Functions",
                Usage:="/Venn.Functions /venn <venn.csv> /anno <annotations.csv> [/out <out.csv>]")>
     <Group(CLIGroups.DEP_CLI)>
