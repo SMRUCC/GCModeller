@@ -80,7 +80,8 @@ plotDEPs <- function(csv,
 
 	tryCatch({
 		heatmap.2(matrix.data,
-			labRow       = NULL,
+			scale        = "row",
+			labRow       = NA,
 			main         = title,            # heat map title
 			notecol      = "black",          # change font color of cell labels to black
 			density.info = "none",           # turns off density plot inside color legend
@@ -95,6 +96,7 @@ plotDEPs <- function(csv,
 			cexCol       = fontsize.col,
 			# breaks     = col_breaks,       # enable color transition at specified limits
 			dendrogram   = "row",            # only draw a row dendrogram
+			hclustfun       = hclust(method ="average"),
 			Colv         = "NA", 
 			srtCol       = 45); 
 	}, error = function(e) {
@@ -102,4 +104,30 @@ plotDEPs <- function(csv,
 	});		  
   
 	dev.off()                                  # close the PNG device
+}
+
+library(pheatmap)
+
+plot.pheatmap <- function(csv, size = c(2000,3000)) {
+
+	data <- read.csv(file=csv, comment.char="#", row.names=1);
+	
+	DIR <- dirname(csv)
+	DIR <- paste(DIR, file_path_sans_ext(basename(csv)), sep="/")
+	
+	png(paste(DIR, "heatmap.png", sep="-"),    # create PNG for the heat map        
+		width     = size[1],                   # 5 x 300 pixels
+		height    = size[2],
+		res       = 300,                       # 300 pixels per inch
+		pointsize = 8)                         # smaller font size
+		
+	tryCatch({
+	
+		pheatmap(raw,scale="row",show_rownames=F,cluster_cols=FALSE);
+		
+	}, error = function(e) {
+		print(e);
+	});
+	
+	dev.off();          	
 }

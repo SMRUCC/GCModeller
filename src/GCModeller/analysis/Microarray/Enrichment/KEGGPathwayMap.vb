@@ -3,7 +3,6 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
-Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 Public Module KEGGPathwayMap
@@ -15,8 +14,8 @@ Public Module KEGGPathwayMap
     ''' <param name="EXPORT">代谢途径的绘图结果的保存文件夹</param>
     ''' <param name="pvalue">-1表示不筛选</param>
     ''' <returns></returns>
-    <Extension> Public Function KOBAS_visualize(kobas As IEnumerable(Of EnrichmentTerm), EXPORT$, Optional pvalue# = 0.05) As String()
-        Dim all As EnrichmentTerm() = kobas.ToArray
+    <Extension> Public Function KOBAS_visualize(kobas As IEnumerable(Of IKEGGTerm), EXPORT$, Optional pvalue# = 0.05) As String()
+        Dim all As IKEGGTerm() = kobas.ToArray
         Dim failures As New List(Of String)
 
         If pvalue <= 0 Then
@@ -30,13 +29,13 @@ Public Module KEGGPathwayMap
         Using progress As New ProgressBar("KEGG pathway map visualization....",, CLS:=True)
             Dim tick As New ProgressProvider(all.Length)
             Dim ETA$
-            
-            For Each term As EnrichmentTerm In all
+
+            For Each term As IKEGGTerm In all
                 Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
                 Dim path$ = EXPORT & "/" & pngName & $"-pvalue={term.Pvalue}" & ".png"
 
                 If Not (path.FileLength > 0) Then
-                    Call PathwayMapping.ShowEnrichmentPathway(term.link, save:=path)
+                    Call PathwayMapping.ShowEnrichmentPathway(term.Link, save:=path)
                     Call Thread.Sleep(2000)
                 Else
                     failures += term.ID
@@ -58,12 +57,12 @@ Public Module KEGGPathwayMap
     ''' <param name="EXPORT$"></param>
     ''' <param name="pvalue#"></param>
     ''' <returns></returns>
-    <Extension> Public Function KOBAS_DEPs(kobas As IEnumerable(Of EnrichmentTerm), DEPs As Dictionary(Of String, String), EXPORT$, Optional pvalue# = 0.05) As String()
+    <Extension> Public Function KOBAS_DEPs(kobas As IEnumerable(Of IKEGGTerm), DEPs As Dictionary(Of String, String), EXPORT$, Optional pvalue# = 0.05) As String()
         Dim terms = kobas.ToArray
 
         Call terms.DoEach(
-            Sub(term)
-                Dim data As NamedCollection(Of NamedValue(Of String)) = URLEncoder.URLParser(term.link)
+            Sub(term As IKEGGTerm)
+                Dim data As NamedCollection(Of NamedValue(Of String)) = URLEncoder.URLParser(term.Link)
                 Dim genes = data.ToArray
 
                 For i As Integer = 0 To genes.Length - 1
@@ -78,7 +77,7 @@ Public Module KEGGPathwayMap
                     End With
                 Next
 
-                term.link = New NamedCollection(Of NamedValue(Of String)) With {
+                term.Link = New NamedCollection(Of NamedValue(Of String)) With {
                     .Name = data.Name,
                     .Value = genes
                 }.KEGGURLEncode
