@@ -426,29 +426,63 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/DEPs.stat.iTraq",
-               Info:="https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/iTraq.log2_t-test.R",
-               Usage:="/DEPs.stat.iTraq /in <log2.test.csv> [/level <default=1.5> /out <out.stat.csv>]")>
+    <ExportAPI("/DEPs.stat",
+               Info:="https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R",
+               Usage:="/DEPs.stat /in <log2.test.csv> [/iTraq /level <default=1.5> /out <out.stat.csv>]")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function DEPStatics(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim level# = args.GetValue("/level", 1.5R)
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEPs.stat.csv")
-        Dim DEPs As DEP_iTraq() = EntityObject _
-           .LoadDataSet(Of DEP_iTraq)(path:=in$) _
-           .Where(Function(d) d.isDEP) _
+        Dim iTraq As Boolean = args.GetBoolean("/iTraq")
+        Dim DEPs As EntityObject() = EntityObject _
+           .LoadDataSet(path:=in$) _
+           .Where(Function(d) d("is.DEP").TextEquals("TRUE")) _
            .ToArray
         Dim result As New File
         Dim levelDown = 1 / level
+        Dim getFoldChange = Function(protein As EntityObject)
+                                Dim s$
+
+                                If iTraq Then
+                                    s = protein("FC.avg")
+                                Else
+                                    s = protein("logFC")
+                                End If
+
+                                If s.TextEquals("Inf") Then
+                                    Return Double.MaxValue
+                                ElseIf s.TextEquals("-Inf") Then
+                                    Return Double.MinValue
+                                Else
+                                    If iTraq Then
+                                        Return Val(s)
+                                    Else
+                                        Return Math.Log(Val(s), 2)
+                                    End If
+                                End If
+                            End Function
+
+        If Not iTraq Then
+            level = Math.Log(level, 2)
+        End If
 
         result += {"上调", "下调", "总数"}
         result += {
             DEPs _
-                .Where(Function(prot) prot.FCavg >= level) _
+                .Where(Function(prot)
+                           Return getFoldChange(prot) >= level
+                       End Function) _
                 .Count _
                 .ToString,
             DEPs _
-                .Where(Function(prot) prot.FCavg <= levelDown) _
+                .Where(Function(prot)
+                           If iTraq Then
+                               Return getFoldChange(prot) <= levelDown
+                           Else
+                               Return -1 * getFoldChange(prot) >= level
+                           End If
+                       End Function) _
                 .Count _
                 .ToString,
             CStr(DEPs.Length)
