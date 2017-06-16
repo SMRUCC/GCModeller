@@ -57,7 +57,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/KEGG.enrichment.DAVID.pathwaymap")>
-    <Usage("/KEGG.enrichment.DAVID.pathwaymap /in <david.csv> /uniprot <uniprot.XML> [/tsv /out <out.DIR>]")>
+    <Usage("/KEGG.enrichment.DAVID.pathwaymap /in <david.csv> /uniprot <uniprot.XML> [/tsv /DEPs <deps.csv> /colors <default=red,blue,green> /pvalue <default=0.05> /out <out.DIR>]")>
     Public Function DAVID_KEGGPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG/")
@@ -79,6 +79,7 @@ Partial Module CLI
                                   .Distinct _
                                   .ToArray
                           End Function)
+        Dim pvalue# = args.GetValue("/pvalue", 0.05)
 
         ' 处理DAVID数据
         Dim table As FunctionCluster() = If(
@@ -86,20 +87,19 @@ Partial Module CLI
             DAVID.Load([in]),
             [in].LoadCsv(Of FunctionCluster).ToArray)
         Dim KEGG = table.SelectKEGGPathway
+        Dim DEPs$ = args <= "/DEPs"
+        Dim DEPgenes = EntityObject.LoadDataSet(DEPs).ToArray
+        Dim isDEP As Func(Of EntityObject, Boolean) =
+            Function(gene)
+                Return gene("is.DEP").TextEquals("TRUE")
+            End Function
+        Dim threshold = (1.25, 1 / 1.25)
+        Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, threshold, "FC.avg", uniprot2KEGG)
+
+        Call table.KOBAS_DEPs(colors, EXPORT:=out, pvalue:=pvalue)
 
         For Each term As FunctionCluster In KEGG
-            Dim profile As New NamedCollection(Of NamedValue(Of String)) With {
-                .Name = term.Term.GetTagValue(":").Name,
-                .Value = term.Genes _
-                    .Select(AddressOf Trim) _
-                    .Where(Function(id) uniprot2KEGG.ContainsKey(id)) _
-                    .Select(Function(ID)
-                                Return uniprot2KEGG(ID).Select(Function(kid) New NamedValue(Of String)(kid, "red"))
-                            End Function) _
-                    .IteratesALL _
-                    .ToArray
-            }
-            Dim url$ = profile.KEGGURLEncode()
+          
             Dim save$ = out & $"/{term.Term.NormalizePathString(True)}-pvalue={term.PValue}.png"
 
             Call PathwayMapping.ShowEnrichmentPathway(url, save)
@@ -370,7 +370,12 @@ Partial Module CLI
             Dim mapID = uniprot _
                 .Where(Function(gene) gene.Value.Xrefs.ContainsKey("KEGG")) _
                 .ToDictionary(Function(gene) gene.Key,
-                              Function(gene) gene.Value.Xrefs("KEGG").First.id)
+                              Function(gene)
+                                  Return gene.Value _
+                                      .Xrefs("KEGG") _
+                                      .Select(Function(x) x.id) _
+                                      .ToArray
+                              End Function)
             Dim isDEP As Func(Of EntityObject, Boolean) =
                 Function(gene)
                     Return gene("is.DEP").TextEquals("TRUE")

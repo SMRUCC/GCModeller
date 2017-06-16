@@ -27,10 +27,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
 Namespace DAVID
 
@@ -63,24 +66,49 @@ Namespace DAVID
                                                        Order By x.Category Ascending
         End Function
 
+        ''' <summary>
+        ''' 在选择了KEGG的term之后，在这个函数之中还会自动生成KEGG的pathwaymap的url，如果<paramref name="uniprot2KEGG"/>参数可以被使用的话
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <returns></returns>
         <Extension>
-        Public Function SelectKEGGPathway(data As IEnumerable(Of FunctionCluster)) As FunctionCluster()
-            Return LinqAPI.Exec(Of FunctionCluster) <= From x As FunctionCluster
-                                                       In data
-                                                       Where x.Category = "KEGG_PATHWAY"
-                                                       Select x
-                                                       Order By x.Category Ascending
+        Public Function SelectKEGGPathway(data As IEnumerable(Of FunctionCluster), Optional uniprot2KEGG As Dictionary(Of String, String()) = Nothing) As FunctionCluster()
+            Dim KEGG = LinqAPI.Exec(Of FunctionCluster) <=
+ _
+                From x As FunctionCluster
+                In data
+                Where x.Category = "KEGG_PATHWAY"
+                Select x
+                Order By x.Category Ascending
+
+            For Each term As FunctionCluster In KEGG
+                Dim profile As New NamedCollection(Of NamedValue(Of String)) With {
+                    .Name = term.Term.GetTagValue(":").Name,
+                    .Value = term.ORFs _
+                        .Select(AddressOf Trim) _
+                        .Where(Function(id) uniprot2KEGG.ContainsKey(id)) _
+                        .Select(Function(ID)
+                                    Return uniprot2KEGG(ID).Select(Function(kid) New NamedValue(Of String)(kid, "red"))
+                                End Function) _
+                        .IteratesALL _
+                        .ToArray
+                }
+
+                term.Link = profile.KEGGURLEncode()
+            Next
+
+            Return KEGG
         End Function
     End Module
 
-    Public Class FunctionCluster : Implements IEnrichmentTerm
+    Public Class FunctionCluster : Implements IKEGGTerm
 
-        Public Property Category As String
-        Public Property Term As String Implements IEnrichmentTerm.Term
+        Public Property Category As String Implements IKEGGTerm.ID
+        Public Property Term As String Implements IKEGGTerm.Term
         Public Property Count As Integer
         <Column("%")> Public Property Percent As Double
-        Public Property PValue As Double Implements IEnrichmentTerm.Pvalue
-        <Collection("Genes", ",")> Public Property ORFs As String() Implements IEnrichmentTerm.ORF
+        Public Property PValue As Double Implements IKEGGTerm.Pvalue
+        <Collection("Genes", ",")> Public Property ORFs As String() Implements IKEGGTerm.ORF
         <Column("List Total")> Public Property ListTotal As Integer
         <Column("Pop Hits")> Public Property PopHits As Integer
         <Column("Pop Total")> Public Property PopTotal As Integer
@@ -88,6 +116,7 @@ Namespace DAVID
         Public Property Bonferroni As Double
         Public Property Benjamini As Double
         Public Property FDR As Double
+        Public Property Link As String Implements IKEGGTerm.Link
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
