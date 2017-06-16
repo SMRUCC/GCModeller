@@ -387,7 +387,7 @@ Partial Module CLI
         Dim go As New List(Of (accessions As String(), GO As String()))
         Dim KEGG = go.AsList
 
-        For Each protein As entry In in$.LoadXmlDataSet(Of entry)
+        For Each protein As entry In in$.LoadXmlDataSet(Of entry)(xmlns:="http://uniprot.org/uniprot")
             Dim go_ref = protein.Xrefs.TryGetValue("GO")
             If Not go_ref.IsNullOrEmpty Then
                 go += (protein.accessions, go_ref.Select(Function(x) x.id).ToArray)
