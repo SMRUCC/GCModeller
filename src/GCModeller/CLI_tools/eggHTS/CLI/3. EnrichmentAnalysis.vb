@@ -23,13 +23,90 @@ Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.GO.PlantRegMap
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
+Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Partial Module CLI
+
+    <ExportAPI("/KEGG.enrichment.DAVID")>
+    <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /size <default=1200,1000> /out <out.png>]")>
+    Public Function DAVID_KEGGplot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG.plot.png")
+
+        ' 处理DAVID数据
+        Dim table As FunctionCluster() = If(
+            args.GetBoolean("/tsv"),
+            DAVID.Load([in]),
+            [in].LoadCsv(Of FunctionCluster).ToArray)
+        Dim KEGG = table.SelectKEGGPathway
+        Dim size$ = args.GetValue("/size", "1200,1000")
+
+        Return KEGG _
+            .KEGGEnrichmentPlot(size:=size.SizeParser) _
+            .Save(out) _
+            .CLICode
+    End Function
+
+    ''' <summary>
+    ''' 因为富集分析的输出列表都是uniprotID，所以还需要uniprot注释数据转换为KEGG编号
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/KEGG.enrichment.DAVID.pathwaymap")>
+    <Usage("/KEGG.enrichment.DAVID.pathwaymap /in <david.csv> /uniprot <uniprot.XML> [/tsv /out <out.DIR>]")>
+    Public Function DAVID_KEGGPathwayMap(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG/")
+        Dim uniprot$ = args <= "/uniprot"
+        Dim uniprot2KEGG = UniprotXML.Load(uniprot) _
+            .entries _
+            .Where(Function(x) x.Xrefs.ContainsKey("KEGG")) _
+            .Select(Function(protein)
+                        Return protein.accessions.Select(Function(uniprotID)
+                                                             Return (uniprotID, protein.Xrefs("KEGG").Select(Function(id) id.id).ToArray)
+                                                         End Function)
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(x) x.Item1) _
+            .ToDictionary(Function(id) id.Key,
+                          Function(x)
+                              Return x.Select(Function(o) o.Item2) _
+                                  .IteratesALL _
+                                  .Distinct _
+                                  .ToArray
+                          End Function)
+
+        ' 处理DAVID数据
+        Dim table As FunctionCluster() = If(
+            args.GetBoolean("/tsv"),
+            DAVID.Load([in]),
+            [in].LoadCsv(Of FunctionCluster).ToArray)
+        Dim KEGG = table.SelectKEGGPathway
+
+        For Each term As FunctionCluster In KEGG
+            Dim profile As New NamedCollection(Of NamedValue(Of String)) With {
+                .Name = term.Term.GetTagValue(":").Name,
+                .Value = term.Genes _
+                    .Select(AddressOf Trim) _
+                    .Where(Function(id) uniprot2KEGG.ContainsKey(id)) _
+                    .Select(Function(ID)
+                                Return uniprot2KEGG(ID).Select(Function(kid) New NamedValue(Of String)(kid, "red"))
+                            End Function) _
+                    .IteratesALL _
+                    .ToArray
+            }
+            Dim url$ = profile.KEGGURLEncode()
+            Dim save$ = out & $"/{term.Term.NormalizePathString(True)}-pvalue={term.PValue}.png"
+
+            Call PathwayMapping.ShowEnrichmentPathway(url, save)
+        Next
+
+        Return 0
+    End Function
 
     ''' <summary>
     ''' 绘制GO分析之中的亚细胞定位结果的饼图
