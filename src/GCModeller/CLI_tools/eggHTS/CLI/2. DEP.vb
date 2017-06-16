@@ -197,6 +197,51 @@ Partial Module CLI
         Return 0
     End Function
 
+    <ExportAPI("/DEPs.union", Usage:="/DEPs.union /in <csv.DIR> [/FC <default=logFC> /out <out.csv>]")>
+    Public Function DEPsUnion(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim FC$ = args.GetValue("/FC", "logFC")
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-" & FC.NormalizePathString & ".union.csv")
+        Dim datas = (ls - l - r - "*.csv" <= [in]) _
+            .ToDictionary(Function(csv) csv.BaseName,
+                          Function(csv)
+                              Return EntityObject _
+                                  .LoadDataSet(csv) _
+                                  .ToDictionary
+                          End Function)
+        Dim allIDs = datas.Values _
+            .Select(Function(sample) sample.Values) _
+            .IteratesALL _
+            .Select(Function(x) x.ID) _
+            .Distinct _
+            .ToArray
+        Dim union As New List(Of EntityObject)
+
+        For Each id As String In allIDs
+            Dim protein As New EntityObject(id)
+
+            For Each sample In datas
+                Dim value = sample.Value.TryGetValue(id)
+                If value Is Nothing Then
+                    protein.Properties.Add(sample.Key, 1)
+                Else
+                    protein.Properties.Add(sample.Key, value(FC))
+                End If
+            Next
+
+            union += protein
+        Next
+
+        Return union _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
+    ''' <summary>
+    ''' ``/iTraq``开关表示是够是iTraq的分析输出？
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/DEP.heatmap",
                Info:="Generates the heatmap plot input data. The default label profile is using for the iTraq result.",
                Usage:="/DEP.heatmap /data <Directory> [/iTraq /non_DEP.blank /level 1.25 /FC.tag <FC.avg> /pvalue <p.value=0.05> /out <out.csv>]")>
@@ -213,9 +258,10 @@ Partial Module CLI
         Dim dataOUT = out & "/DEP.heatmap.csv"
         Dim level# = args.GetValue("/level", 1.25)
         Dim nonDEP_blank As Boolean = args.GetBoolean("/non_DEP.blank")
+        Dim iTraq As Boolean = args.GetBoolean("/iTraq")
 
         Return DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", level, Val(pvalue.Value), FCtag, 1 / level, pvalue.Name, nonDEP_blank:=nonDEP_blank) _
+            .MergeMatrix(DIR, "*.csv", level, Val(pvalue.Value), FCtag, 1 / level, pvalue.Name, nonDEP_blank:=nonDEP_blank, log2t:=Not iTraq) _
             .SaveDataSet(dataOUT, blank:=1)
     End Function
 
@@ -238,6 +284,49 @@ Partial Module CLI
         Return DEGDesigner _
             .GetDEPsRawValues([in], DEPTag) _
             .SaveDataSet(dataOUT) _
+            .CLICode
+    End Function
+
+    ''' <summary>
+    ''' 如果data参数不存在则默认只取出DEP的输入数据之中的is.DEP为真的部分
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/DEPs.takes.values")>
+    <Description("")>
+    <Usage("/DEPs.takes.values /in <DEPs.csv> [/boolean.tag <default=is.DEP> /by.FC <tag=value, default=logFC=log2(1.5)> /by.p.value <tag=value, p.value=0.05> /data <data.csv> /out <out.csv>]")>
+    Public Function TakeDEPsValues(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim isDEP$ = args.GetValue("/boolean.tag", "is.DEP")
+        Dim FC$ = args <= "/by.FC"
+        Dim pvalue = args <= "/by.p.value"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-DEPs.values.csv")
+        Dim data As Dictionary(Of EntityObject)
+        Dim source = EntityObject.LoadDataSet([in])
+        Dim DEPs = source _
+            .Where(Function(protein)
+                       Return protein(isDEP).TextEquals("True")
+                   End Function) _
+            .ToArray
+
+        With args <= "/data"
+            If .FileLength > 0 Then
+                data = EntityObject _
+                    .LoadDataSet(.ref) _
+                    .ToDictionary
+            Else
+                data = source.ToDictionary
+            End If
+        End With
+
+        Dim values = DEPs _
+            .Where(Function(protein)
+                       Return data.ContainsKey(protein.ID)
+                   End Function) _
+            .Select(Function(protein) data(protein.ID)) _
+            .ToArray
+        Return values _
+            .SaveTo(out) _
             .CLICode
     End Function
 
@@ -383,29 +472,65 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/DEPs.stat.iTraq",
-               Info:="https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/iTraq.log2_t-test.R",
-               Usage:="/DEPs.stat.iTraq /in <log2.test.csv> [/level <default=1.5> /out <out.stat.csv>]")>
+    <ExportAPI("/DEPs.stat",
+               Info:="https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R",
+               Usage:="/DEPs.stat /in <log2.test.csv> [/iTraq /level <default=1.5> /out <out.stat.csv>]")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function DEPStatics(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim level# = args.GetValue("/level", 1.5R)
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEPs.stat.csv")
-        Dim DEPs As DEP_iTraq() = EntityObject _
-           .LoadDataSet(Of DEP_iTraq)(path:=in$) _
-           .Where(Function(d) d.isDEP) _
+        Dim iTraq As Boolean = args.GetBoolean("/iTraq")
+        Dim DEPs As EntityObject() = EntityObject _
+           .LoadDataSet(path:=in$) _
+           .Where(Function(d) d("is.DEP").TextEquals("TRUE")) _
            .ToArray
         Dim result As New File
         Dim levelDown = 1 / level
+        Dim getFoldChange = Function(protein As EntityObject)
+                                Dim s$
+
+                                If iTraq Then
+                                    s = protein("FC.avg")
+                                Else
+                                    s = protein("logFC")
+                                End If
+
+                                Return s
+                            End Function
+
+        If Not iTraq Then
+            level = Math.Log(level, 2)
+        End If
 
         result += {"上调", "下调", "总数"}
         result += {
             DEPs _
-                .Where(Function(prot) prot.FCavg >= level) _
+                .Where(Function(prot)
+                           If iTraq Then
+                               Return Val(getFoldChange(prot)) >= level
+                           Else
+                               Dim s = getFoldChange(prot)
+
+                               If s.TextEquals("Inf") Then
+                                   Return True
+                               ElseIf s.TextEquals("-Inf") Then
+                                   Return False
+                               Else
+                                   Return Val(getFoldChange(prot)).Log2 >= level
+                               End If
+                           End If
+                       End Function) _
                 .Count _
                 .ToString,
             DEPs _
-                .Where(Function(prot) prot.FCavg <= levelDown) _
+                .Where(Function(prot)
+                           If iTraq Then
+                               Return Val(getFoldChange(prot)) <= levelDown
+                           Else
+                               Return -1 * Val(getFoldChange(prot)).Log2 >= level
+                           End If
+                       End Function) _
                 .Count _
                 .ToString,
             CStr(DEPs.Length)

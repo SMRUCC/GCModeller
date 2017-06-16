@@ -4,6 +4,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots
@@ -17,6 +18,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.Quantile
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Linq
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.GO.PlantRegMap
 Imports SMRUCC.genomics.Analysis.KEGG
@@ -370,17 +372,51 @@ Partial Module CLI
         Return tsv.SaveTSV(out).CLICode
     End Function
 
+    ''' <summary>
+    ''' 生成背景基因列表
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/enricher.background",
-               Usage:="/enricher.background /in <genbank.gb> [/out <universe.txt>]")>
+               Usage:="/enricher.background /in <uniprot.XML> [/out <term2gene.txt.DIR>]")>
+    <Description("Create enrichment analysis background by using uniprot annotation data.")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function Backgrounds(args As CommandLine) As Integer
         Dim [in] = args <= "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".backgrounds.txt")
-        Dim gb As GBFF.File = GBFF.File.Load([in])
-        Dim PTT As PTT = gb.GbffToORF_PTT
-        Dim genes$() = PTT.GeneIDList.ToArray
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".t2g_backgrounds/")
+        Dim go As New List(Of (accessions As String(), GO As String()))
+        Dim KEGG = go.AsList
 
-        Return genes.SaveTo(out, Encodings.ASCII.CodePage).CLICode
+        For Each protein As entry In in$.LoadXmlDataSet(Of entry)
+            Dim go_ref = protein.Xrefs.TryGetValue("GO")
+            If Not go_ref.IsNullOrEmpty Then
+                go += (protein.accessions, go_ref.Select(Function(x) x.id).ToArray)
+            End If
+            Dim KO_ref = protein.Xrefs.TryGetValue("KO")
+            If Not KO_ref.IsNullOrEmpty Then
+                KEGG += (protein.accessions, KO_ref.Select(Function(x) x.id).ToArray)
+            End If
+        Next
+
+        Dim createBackground =
+            Function(data As (accessions As String(), GO As String())()) As String()
+                Return data _
+                    .Select(Function(protein)
+                                Return Combination _
+                                    .CreateCombos(protein.accessions, protein.GO) _
+                                    .Select(Function(x)
+                                                Return {x.Item1, x.Item2}.JoinBy(ASCII.TAB)
+                                            End Function)
+                            End Function) _
+                    .IteratesALL _
+                    .Distinct _
+                    .ToArray
+            End Function
+
+        Call createBackground(go).SaveTo(out & "/GO.txt")
+        Call createBackground(KEGG).SaveTo(out & "/KO.txt")
+
+        Return 0
     End Function
 
     <ExportAPI("/enrichment.go",

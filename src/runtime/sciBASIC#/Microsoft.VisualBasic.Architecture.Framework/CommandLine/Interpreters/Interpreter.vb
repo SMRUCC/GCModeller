@@ -241,7 +241,7 @@ Namespace CommandLine
                         Call Console.WriteLine(BAD_COMMAND_MAN, commandName)
 
                         For Each name As String In list
-                            Call Console.WriteLine("    " & name)
+                            Call Console.WriteLine("    " & name & ASCII.TAB & __API_table(name.ToLower).Info.TrimNewLine)
                         Next
                     End If
                 End If
@@ -676,7 +676,12 @@ Namespace CommandLine
                                   InStr(query, s, CompareMethod.Text) > 0
                        End Function)
 
-            Return levenshteins
+            Return levenshteins _
+                .Distinct _
+                .Select(Function(name)
+                            Return __API_table(name).Name
+                        End Function) _
+                .ToArray
         End Function
 
         ''' <summary>
