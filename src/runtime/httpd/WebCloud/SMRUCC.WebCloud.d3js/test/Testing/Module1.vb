@@ -1,11 +1,13 @@
 ﻿Imports System.Drawing
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Mathematical.Interpolation
 Imports names = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.NameOf
 
 Module Module1
@@ -21,7 +23,7 @@ Module Module1
         NetworkVisualizer.DefaultEdgeColor = Color.DimGray
 
         Call graph.doRandomLayout
-        Call graph.doForceLayout(showProgress:=True, Repulsion:=2000, Stiffness:=40, Damping:=0.5, iterations:=1500)
+        Call graph.doForceLayout(showProgress:=True, Repulsion:=2000, Stiffness:=40, Damping:=0.5, iterations:=500)
         Call graph.Tabular.Save("./test")
 
         Dim canvas As Image = graph _
@@ -45,21 +47,26 @@ Module Module1
                     .ToArray
 
                 ' 只有两个点或者一个点是无法计算凸包的，则跳过这些点
-                If polygon.Length < 3 Then
+                If polygon.Length <= 3 Then
                     Continue For
                 End If
 
                 ' 凸包算法计算出边界
-                polygon = ConvexHull.GrahamScan(polygon)
+                polygon = ConvexHull.JarvisMatch(polygon).Enlarge(1.5)
+
+                '' 凸包计算出来的多边形进行矢量放大1.5倍，并进行二次插值处理
+                'With polygon.Enlarge(scale:=2).AsList
+                '    Call .Add(.First)
+
+                '    polygon = .BSpline(2, RESOLUTION:=3).ToPoints
+                'End With
 
                 ' 描绘出边界
-                Dim color As SolidBrush = colors(CInt(group.Key))
+                Dim gcolor As SolidBrush = colors(CInt(group.Key))
+                Dim transparent = Color.FromArgb(30, gcolor.Color)
 
-                For Each line In polygon.SlideWindows(2)
-                    With line
-                        Call g.DrawLine(New Pen(color, 3), .First, .Last)
-                    End With
-                Next
+                Call g.DrawPolygon(New Pen(gcolor, 3), polygon)
+                Call g.FillPolygon(New SolidBrush(transparent), polygon)
             Next
         End Using
 
