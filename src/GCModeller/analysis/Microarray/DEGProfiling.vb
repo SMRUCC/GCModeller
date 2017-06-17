@@ -19,21 +19,21 @@ Public Module DEGProfiling
                                     isDEP As Func(Of gene, Boolean),
                                     threshold As (up#, down#),
                                     logFC$,
-                                    Optional IDMapping As Dictionary(Of String, String) = Nothing,
+                                    Optional IDMapping As Dictionary(Of String, String()) = Nothing,
                                     Optional upColor$ = "red",
                                     Optional downColor$ = "blue") As Dictionary(Of String, String)
 
         Dim DEGs As gene() = genes.Where(isDEP).ToArray
-        Dim mapID As Func(Of String, String)
+        Dim mapID As Func(Of String, String())
 
         If IDMapping.IsNullOrEmpty Then
-            mapID = Function(id) id
+            mapID = Function(id) {id}
         Else
             mapID = Function(id)
                         If IDMapping.ContainsKey(id) Then
                             Return IDMapping(id)
                         Else
-                            Return id
+                            Return {id}
                         End If
                     End Function
         End If
@@ -44,9 +44,13 @@ Public Module DEGProfiling
             Dim FC# = Val(gene(logFC))
 
             If FC >= threshold.up Then
-                profiles(mapID(gene.ID)) = upColor
+                For Each ID In mapID(gene.ID)
+                    profiles(ID) = upColor
+                Next
             ElseIf FC <= threshold.down Then
-                profiles(mapID(gene.ID)) = downColor
+                For Each ID In mapID(gene.ID)
+                    profiles(ID) = downColor
+                Next
             Else
                 ' 不添加
             End If

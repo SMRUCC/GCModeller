@@ -9,3 +9,18 @@ Public Interface IGoTermEnrichment : Inherits IGoTerm
     Property CorrectedPvalue As Double
 
 End Interface
+
+Public Interface IKEGGTerm
+
+    Property ID As String
+    Property Term As String
+    Property ORF As String()
+    Property Pvalue As Double
+
+    ''' <summary>
+    ''' KEGG link
+    ''' </summary>
+    ''' <returns></returns>
+    Property Link As String
+
+End Interface
