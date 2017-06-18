@@ -4,6 +4,9 @@ Imports Microsoft.VisualBasic.Text
 #End If
 Namespace Settings
 
+    ''' <summary>
+    ''' ``<see cref="App.HOME"/> & "/Templates/"``
+    ''' </summary>
     Module Templates
 
 #If Not DisableCsvTemplate Then
