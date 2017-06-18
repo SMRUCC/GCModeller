@@ -111,6 +111,8 @@ Public Module FunctionalEnrichmentPlot
     ''' <param name="DEGs">uniprot蛋白编号</param>
     ''' <param name="colors"></param>
     ''' <returns></returns>
+    ''' 
+    <Extension>
     Public Function RenderDEGsColor(model As NetGraph,
                                     DEGs As (up As String(), down As String()),
                                     colors As (up$, down$),
