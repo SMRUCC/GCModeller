@@ -155,7 +155,7 @@ Public Module FunctionalEnrichmentPlot
 
         ' 生成layout信息        
         Call graph.doRandomLayout
-        Call graph.doForceLayout(showProgress:=True, iterations:=200)
+        Call graph.doForceLayout(showProgress:=True, iterations:=1300, Damping:=0.5, Repulsion:=600, Stiffness:=85)
 
         Dim nodeGroups = model.Nodes _
             .Select(Function(n)
@@ -167,6 +167,8 @@ Public Module FunctionalEnrichmentPlot
             .GroupBy(Function(x) x.Item1) _
             .ToArray
 
-        Return graph.DrawImage.AsGDIImage
+        Return graph _
+            .DrawImage(canvasSize:="3000,2800", scale:=3) _
+            .AsGDIImage
     End Function
 End Module
