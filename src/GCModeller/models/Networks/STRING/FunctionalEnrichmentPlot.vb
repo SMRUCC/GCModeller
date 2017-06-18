@@ -177,6 +177,7 @@ Public Module FunctionalEnrichmentPlot
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(x) x.Item1) _
+            .Where(Function(g) g.Count > 3) _
             .ToDictionary(Function(g) g.Key,
                           Function(nodes)
                               Return nodes _
