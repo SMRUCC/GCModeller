@@ -5,11 +5,9 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
@@ -169,6 +167,7 @@ Public Module FunctionalEnrichmentPlot
         Call graph.doRandomLayout
         Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
 
+        Dim graphNodes = graph.nodes.ToDictionary
         Dim nodeGroups = model.Nodes _
             .Select(Function(n)
                         Return Strings _
@@ -179,7 +178,11 @@ Public Module FunctionalEnrichmentPlot
             .GroupBy(Function(x) x.Item1) _
             .ToDictionary(Function(g) g.Key,
                           Function(nodes)
-                              Return nodes.Select(Function(x) x.Item2).ToArray
+                              Return nodes _
+                                  .Select(Function(x)
+                                              Return graphNodes(x.Item2.ID)
+                                          End Function) _
+                                  .ToArray
                           End Function)
         Dim nodePoints As Dictionary(Of Graph.Node, Point) = Nothing
         Dim colors As Color() = GDIColors.ChartColors
