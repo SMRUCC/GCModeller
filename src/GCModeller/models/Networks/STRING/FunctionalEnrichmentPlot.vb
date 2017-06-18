@@ -182,7 +182,9 @@ Public Module FunctionalEnrichmentPlot
                               Return nodes.Select(Function(x) x.Item2).ToArray
                           End Function)
         Dim nodePoints As Dictionary(Of Graph.Node, Point) = Nothing
-        Dim colors As Color() = Designer.GetColors(colorSchema, nodeGroups.Count)
+        Dim colors As Color() = GDIColors.ChartColors
+
+        Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
 
         Using g As Graphics2D = graph _
             .DrawImage(canvasSize:="5000,4500", scale:=3, nodePoints:=nodePoints) _
