@@ -28,7 +28,7 @@ Partial Module CLI
         Dim iTraq As Boolean = args.GetBoolean("/iTraq")
         Dim logFC$ = args.GetValue("/logFC", NameOf(logFC))
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-funrich_string/")
-        Dim proteins As protein() = protein.LoadDataSet(DEP)
+        Dim proteins As protein() = protein.LoadDataSet(DEP).ToArray
         Dim annotations = UniprotXML.Load(uniprot).StringUniprot ' STRING -> uniprot
         Dim model = [in].LoadTsv(Of InteractExports).BuildModel(annotations)
         Dim threshold As (up#, down#)
