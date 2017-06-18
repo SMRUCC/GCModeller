@@ -29,6 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal
 
 Namespace Layouts
@@ -36,7 +37,21 @@ Namespace Layouts
     Public Module forceNetwork
 
         ''' <summary>
-        ''' Applies the force directed layout.
+        ''' <see cref="Parameters.Load"/>
+        ''' </summary>
+        ''' <param name="net"></param>
+        ''' <param name="parameters"></param>
+        ''' <param name="showProgress"></param>
+        <ExportAPI("Layout.ForceDirected")>
+        <Extension>
+        Public Sub doForceLayout(ByRef net As NetworkGraph, parameters As ForceDirectedArgs, Optional showProgress As Boolean = False)
+            With parameters
+                Call net.doForceLayout(.Stiffness, .Repulsion, .Damping, .Iterations, showProgress:=showProgress)
+            End With
+        End Sub
+
+        ''' <summary>
+        ''' Applies the force directed layout. Parameter can be read from a ``*.ini`` profile file by using <see cref="Parameters.Load"/>
         ''' (如果有些时候这个函数不起作用的话，考虑一下在调用这个函数之前，先使用<see cref="doRandomLayout"/>初始化随机位置)
         ''' </summary>
         ''' <param name="net"></param>
@@ -61,28 +76,36 @@ Namespace Layouts
                                  Optional showProgress As Boolean = False)
 
             Dim physicsEngine As New ForceDirected2D(net, Stiffness, Repulsion, Damping)
-            Dim tick As Action
+            Dim tick As Action(Of Integer)
             Dim progress As ProgressBar = Nothing
 
             If showProgress Then
                 Dim ticking As New ProgressProvider(iterations)
                 Dim ETA$
+                Dim details$
+                Dim args$ = New ForceDirectedArgs With {
+                    .Damping = Damping,
+                    .Iterations = iterations,
+                    .Repulsion = Repulsion,
+                    .Stiffness = Stiffness
+                }.GetJson
 
                 progress = New ProgressBar("Do Force Directed Layout...", CLS:=showProgress)
-                tick = Sub()
+                tick = Sub(i%)
                            ETA = "ETA=" & ticking _
                                .ETA(progress.ElapsedMilliseconds) _
                                .FormatTime
-                           progress.SetProgress(ticking.StepProgress, ETA)
+                           details = args & $" ({i}/{iterations}) " & ETA
+                           progress.SetProgress(ticking.StepProgress, details)
                        End Sub
             Else
-                tick = Sub()
+                tick = Sub(i%)
                        End Sub
             End If
 
             For i As Integer = 0 To iterations
                 Call physicsEngine.Calculate(0.05F)
-                Call tick()
+                Call tick(i)
             Next
 
             Call physicsEngine.EachNode(
