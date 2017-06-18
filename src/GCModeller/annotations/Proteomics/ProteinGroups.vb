@@ -493,7 +493,7 @@ Public Module ProteinGroups
     End Sub
 
     ''' <summary>
-    ''' <see cref="protein.LoadDataSet(String, String)"/>的快捷方式
+    ''' <see cref="protein.LoadDataSet"/>的快捷方式
     ''' </summary>
     ''' <param name="path$"></param>
     ''' <returns></returns>

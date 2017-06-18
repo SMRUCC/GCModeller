@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.Text
 Namespace Settings
 
     ''' <summary>
-    ''' ``<see cref="App.HOME"/> & "/Templates/"``
+    ''' ``<see cref="App.HOME"/> &amp; "/Templates/"``
     ''' </summary>
     Module Templates
 
