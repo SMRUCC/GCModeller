@@ -5,6 +5,9 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -158,7 +161,7 @@ Public Module FunctionalEnrichmentPlot
     ''' <param name="model"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function VisualizeKEGG(model As NetGraph) As Image
+    Public Function VisualizeKEGG(model As NetGraph, Optional colorSchema$ = "Set1:c10") As Image
         Dim graph = model.CreateGraph(nodeColor:=Function(n) (n!color).GetBrush)
         Dim parameters As ForceDirectedArgs = Layouts.Parameters.Load
 
@@ -174,10 +177,35 @@ Public Module FunctionalEnrichmentPlot
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(x) x.Item1) _
-            .ToArray
+            .ToDictionary(Function(g) g.Key,
+                          Function(nodes)
+                              Return nodes.Select(Function(x) x.Item2).ToArray
+                          End Function)
+        Dim nodePoints As Dictionary(Of Graph.Node, Point) = Nothing
+        Dim colors As Color() = Designer.GetColors(colorSchema, nodeGroups.Count)
 
-        Return graph _
-            .DrawImage(canvasSize:="3000,2800", scale:=3) _
-            .AsGDIImage
+        Using g As Graphics2D = graph _
+            .DrawImage(canvasSize:="5000,4500", scale:=3, nodePoints:=nodePoints) _
+            .AsGDIImage _
+            .CreateCanvas2D(directAccess:=True)
+
+            For Each pathway In nodeGroups.SeqIterator
+                Dim nodes = (+pathway).Value
+                Dim name$ = (+pathway).Key
+                Dim polygon As Point() = nodePoints.Selects(nodes)
+
+                polygon = ConvexHull.GrahamScan(polygon)
+
+                With colors(pathway)
+                    Dim pen As New Pen(.ref, 10)
+                    Dim fill As New SolidBrush(Color.FromArgb(40, .ref))
+
+                    Call g.DrawPolygon(pen, polygon)
+                    Call g.FillPolygon(fill, polygon)
+                End With
+            Next
+
+            Return g.ImageResource
+        End Using
     End Function
 End Module
