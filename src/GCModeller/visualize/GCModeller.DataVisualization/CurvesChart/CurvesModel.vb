@@ -49,7 +49,7 @@ Public MustInherit Class CurvesModel
     Public Function Draw(source As Image, buf As Double(), location As Point, size As Size) As Image
         Dim sample As DataSample(Of Double) = DataSampleAPI.DoubleSample(buf)
 
-        Using g As IGraphics = source.GdiFromImage
+        Using g As IGraphics = source.CreateCanvas2D
             Call Draw(g, sample, location, size)
             Return DirectCast(g, Graphics2D).ImageResource
         End Using
