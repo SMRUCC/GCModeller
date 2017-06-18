@@ -149,13 +149,19 @@ Public Module FunctionalEnrichmentPlot
         Return model
     End Function
 
+    ''' <summary>
+    ''' 这个函数需要编写一个网络布局生成函数的参数配置文件
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function VisualizeKEGG(model As NetGraph) As Image
         Dim graph = model.CreateGraph(nodeColor:=Function(n) (n!color).GetBrush)
+        Dim parameters As ForceDirectedArgs = Layouts.Parameters.Load
 
         ' 生成layout信息        
         Call graph.doRandomLayout
-        Call graph.doForceLayout(showProgress:=True, iterations:=1300, Damping:=0.5, Repulsion:=600, Stiffness:=85)
+        Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
 
         Dim nodeGroups = model.Nodes _
             .Select(Function(n)

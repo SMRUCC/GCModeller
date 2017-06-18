@@ -70,7 +70,7 @@ Namespace Layouts
         <DataFrameColumn> Public Property Stiffness As Single = 41.76!
         <DataFrameColumn> Public Property Repulsion As Single = 10000.0!
         <DataFrameColumn> Public Property Damping As Single = 0.4!
-        <DataFrameColumn> Public Property Interations As Integer = 1000%
+        <DataFrameColumn> Public Property Iterations As Integer = 1000%
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
