@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -185,7 +186,7 @@ Public Module FunctionalEnrichmentPlot
                                   .ToArray
                           End Function)
         Dim nodePoints As Dictionary(Of Graph.Node, Point) = Nothing
-        Dim colors As Color() = GDIColors.ChartColors
+        Dim colors As New LoopArray(Of Color)(GDIColors.ChartColors)
 
         Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
 
@@ -201,7 +202,7 @@ Public Module FunctionalEnrichmentPlot
 
                 polygon = ConvexHull.GrahamScan(polygon)
 
-                With colors(pathway)
+                With colors.Next
                     Dim pen As New Pen(.ref, 10)
                     Dim fill As New SolidBrush(Color.FromArgb(40, .ref))
 
