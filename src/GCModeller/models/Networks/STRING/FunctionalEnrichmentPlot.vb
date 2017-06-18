@@ -160,8 +160,7 @@ Public Module FunctionalEnrichmentPlot
         Dim graph = model.CreateGraph(nodeColor:=Function(n) (n!color).GetBrush)
         Dim parameters As ForceDirectedArgs = Layouts.Parameters.Load
 
-        ' 生成layout信息        
-        Call parameters.GetJson.__DEBUG_ECHO
+        ' 生成layout信息               
         Call graph.doRandomLayout
         Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
 

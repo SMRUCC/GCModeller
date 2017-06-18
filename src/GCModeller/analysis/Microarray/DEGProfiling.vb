@@ -1,7 +1,21 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
+Imports Microsoft.VisualBasic.Language
 
 Public Module DEGProfiling
+
+    <Extension>
+    Public Function GetDEGs(genes As IEnumerable(Of gene),
+                            isDEP As Func(Of gene, Boolean),
+                            threshold As (up#, down#),
+                            logFC$) As (UP As String(), DOWN As String())
+
+        Dim DEGs As gene() = genes.Where(isDEP).ToArray
+        Dim up = DEGs.Where(Function(gene) Val(gene(logFC)) >= threshold.up).Keys
+        Dim down = DEGs.Where(Function(gene) Val(gene(logFC)) <= threshold.down).Keys
+
+        Return (up, down)
+    End Function
 
     ''' <summary>
     ''' 生成DEG的颜色
@@ -23,7 +37,6 @@ Public Module DEGProfiling
                                     Optional upColor$ = "red",
                                     Optional downColor$ = "blue") As Dictionary(Of String, String)
 
-        Dim DEGs As gene() = genes.Where(isDEP).ToArray
         Dim mapID As Func(Of String, String())
 
         If IDMapping.IsNullOrEmpty Then
@@ -40,21 +53,18 @@ Public Module DEGProfiling
 
         Dim profiles As New Dictionary(Of String, String)
 
-        For Each gene As gene In DEGs
-            Dim FC# = Val(gene(logFC))
-
-            If FC >= threshold.up Then
-                For Each ID In mapID(gene.ID)
+        With genes.GetDEGs(isDEP, threshold, logFC)
+            For Each gene As String In .UP
+                For Each ID In mapID(gene)
                     profiles(ID) = upColor
                 Next
-            ElseIf FC <= threshold.down Then
-                For Each ID In mapID(gene.ID)
+            Next
+            For Each gene As String In .DOWN
+                For Each ID In mapID(gene)
                     profiles(ID) = downColor
                 Next
-            Else
-                ' 不添加
-            End If
-        Next
+            Next
+        End With      
 
         Return profiles
     End Function

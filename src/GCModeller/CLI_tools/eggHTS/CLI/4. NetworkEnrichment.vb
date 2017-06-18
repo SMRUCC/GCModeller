@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.Model.Network.STRING
+Imports protein = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 
 Partial Module CLI
 
@@ -15,7 +16,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/func.rich.string")>
-    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/fold <1.5> /out <out.network.DIR>]")>
+    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/fold <1.5> /logFC <logFC> /out <out.network.DIR>]")>
     <Description("DEPs' functional enrichment network based on string-db exports, and color by KEGG pathway.")>
     Public Function FunctionalNetworkEnrichment(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -23,6 +24,7 @@ Partial Module CLI
         Dim DEP$ = args <= "/DEP"
         Dim fold# = args.GetValue("/fold", 1.5)
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-funrich_string/")
+        Dim DEGs As protein() = protein.LoadDataSet(DEP)
         Dim annotations = UniprotXML.Load(uniprot).StringUniprot
         Dim model = [in].LoadTsv(Of InteractExports).BuildModel(annotations)
 
