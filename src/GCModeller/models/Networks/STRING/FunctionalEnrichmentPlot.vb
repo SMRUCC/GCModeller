@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
@@ -160,6 +161,7 @@ Public Module FunctionalEnrichmentPlot
         Dim parameters As ForceDirectedArgs = Layouts.Parameters.Load
 
         ' 生成layout信息        
+        Call parameters.GetJson.__DEBUG_ECHO
         Call graph.doRandomLayout
         Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
 
