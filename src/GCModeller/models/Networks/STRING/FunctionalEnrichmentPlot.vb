@@ -160,7 +160,7 @@ Public Module FunctionalEnrichmentPlot
     ''' <param name="model"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function VisualizeKEGG(model As NetGraph, Optional layouts As Coordinates() = Nothing, Optional size$ = "6000,5000", Optional colorSchema$ = "Set1:c10", Optional scale# = 4.5) As Image
+    Public Function VisualizeKEGG(model As NetGraph, Optional layouts As Coordinates() = Nothing, Optional size$ = "6000,5000", Optional colorSchema$ = "Set1:c9", Optional scale# = 4.5) As Image
         Dim graph = model.CreateGraph(nodeColor:=Function(n) (n!color).GetBrush)
 
         If layouts.IsNullOrEmpty Then
@@ -200,7 +200,7 @@ Public Module FunctionalEnrichmentPlot
                                   .ToArray
                           End Function)
         Dim nodePoints As Dictionary(Of Graph.Node, Point) = Nothing
-        Dim colors As New LoopArray(Of Color)(Designer.GetColors(colorSchema, nodeGroups.Count))
+        Dim colors As New LoopArray(Of Color)(Designer.GetColors(colorSchema))
 
         Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
 
@@ -214,7 +214,7 @@ Public Module FunctionalEnrichmentPlot
                 Dim name$ = (+pathway).Key
                 Dim polygon As Point() = nodePoints.Selects(nodes)
 
-                polygon = ConvexHull.GrahamScan(polygon)
+                polygon = ConvexHull.GrahamScan(polygon)  ' 计算出KEGG代谢途径簇的边界点
                 polygon = polygon.Enlarge(scale:=1.25)
 
                 With colors.Next

@@ -9,6 +9,7 @@ Imports SMRUCC.genomics.Model.Network.STRING
 Imports protein = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 Imports SMRUCC.genomics.Analysis.Microarray.DEGProfiling
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 
 Partial Module CLI
 
@@ -72,8 +73,9 @@ Partial Module CLI
             DEGs = (uniprot2STRING(.UP), uniprot2STRING(.DOWN))
         End With
 
+        Call model.ComputeNodeDegrees
         Call model.RenderDEGsColor(DEGs, (up:="red", down:="blue"),)
-        Call model.VisualizeKEGG(layouts) _
+        Call model.VisualizeKEGG(layouts, size:="4000,3000", scale:=2.5) _
             .SaveAs(out & "/network.png")
 
         Return model.Save(out).CLICode
