@@ -18,7 +18,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/func.rich.string")>
-    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/fold <1.5> /iTraq /logFC <logFC> /out <out.network.DIR>]")>
+    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/fold <1.5> /iTraq /logFC <logFC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
     <Description("DEPs' functional enrichment network based on string-db exports, and color by KEGG pathway.")>
     Public Function FunctionalNetworkEnrichment(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -32,6 +32,7 @@ Partial Module CLI
         Dim annotations = UniprotXML.Load(uniprot).StringUniprot ' STRING -> uniprot
         Dim model = [in].LoadTsv(Of InteractExports).BuildModel(annotations)
         Dim threshold As (up#, down#)
+        Dim layouts As Coordinates() = (args <= "/layout").LoadTsv(Of Coordinates)
 
         If iTraq Then
             threshold = (fold, 1 / fold)
@@ -72,7 +73,8 @@ Partial Module CLI
         End With
 
         Call model.RenderDEGsColor(DEGs, (up:="red", down:="blue"),)
-        Call model.VisualizeKEGG.SaveAs(out & "/network.png")
+        Call model.VisualizeKEGG(layouts) _
+            .SaveAs(out & "/network.png")
 
         Return model.Save(out).CLICode
     End Function

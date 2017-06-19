@@ -14,6 +14,7 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network
 Imports NetNode = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
+Imports GraphLayout = Microsoft.VisualBasic.Data.visualize.Network.Layouts
 
 ''' <summary>
 ''' 功能富集网络
@@ -115,7 +116,7 @@ Public Module FunctionalEnrichmentPlot
     ''' <returns></returns>
     ''' 
     <Extension>
-    Public Function RenderDEGsColor(model As NetGraph,
+    Public Function RenderDEGsColor(ByRef model As NetGraph,
                                     DEGs As (up As String(), down As String()),
                                     colors As (up$, down$),
                                     Optional nonDEPcolor$ = "gray") As NetGraph
@@ -160,13 +161,19 @@ Public Module FunctionalEnrichmentPlot
     ''' <param name="model"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function VisualizeKEGG(model As NetGraph, Optional colorSchema$ = "Set1:c10") As Image
+    Public Function VisualizeKEGG(model As NetGraph, Optional layouts As Coordinates() = Nothing, Optional colorSchema$ = "Set1:c10") As Image
         Dim graph = model.CreateGraph(nodeColor:=Function(n) (n!color).GetBrush)
-        Dim parameters As ForceDirectedArgs = Layouts.Parameters.Load
 
-        ' 生成layout信息               
-        Call graph.doRandomLayout
-        Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
+        If layouts.IsNullOrEmpty Then
+            Dim parameters As ForceDirectedArgs = GraphLayout.Parameters.Load
+
+            ' 生成layout信息               
+            Call graph.doRandomLayout
+            Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
+        Else
+            ' 直接使用所提供的布局信息
+
+        End If
 
         Dim graphNodes = graph.nodes.ToDictionary
         Dim nodeGroups = model.Nodes _

@@ -106,8 +106,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NewFolder1\Coordinates.vb" />
-    <Compile Include="NewFolder1\InteractExports.vb" />
+    <Compile Include="tsv\Coordinates.vb" />
+    <Compile Include="tsv\InteractExports.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
