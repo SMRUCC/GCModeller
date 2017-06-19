@@ -226,7 +226,7 @@ Public Module FunctionalEnrichmentPlot
                 End With
             Next
 
-            Return g.ImageResource
+            Return g.ImageResource.CorpBlank(100, blankColor:=Color.White)
         End Using
     End Function
 End Module
