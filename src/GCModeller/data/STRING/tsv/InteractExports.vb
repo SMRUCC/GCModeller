@@ -19,8 +19,8 @@ Public Class InteractExports
     Public Const STRING$ = NameOf(InteractExports.[STRING])
 
     <Column("#node1")>
-    Public Property node1 As String
-    Public Property node2 As String
+    Public Property node1 As String Implements IInteraction.source
+    Public Property node2 As String Implements IInteraction.target
     Public Property node1_string_internal_id As String
     Public Property node2_string_internal_id As String
 
@@ -28,12 +28,12 @@ Public Class InteractExports
     ''' 可以在uniprot注释数据之中的<see cref="entry.dbReferences"/>找得到``STRING``编号
     ''' </summary>
     ''' <returns></returns>
-    Public Property node1_external_id As String Implements IInteraction.source
+    Public Property node1_external_id As String
     ''' <summary>
     ''' 可以在uniprot注释数据之中的<see cref="entry.dbReferences"/>找得到``STRING``编号
     ''' </summary>
     ''' <returns></returns>
-    Public Property node2_external_id As String Implements IInteraction.target
+    Public Property node2_external_id As String
     Public Property neighborhood_on_chromosome As String
     Public Property gene_fusion As String
     Public Property phylogenetic_cooccurrence As String

@@ -9,7 +9,7 @@
 GCModeller: genomics CAD(Computer Assistant Design) Modeller system in .NET language
 
 > + HOME: http://gcmodeller.org
-> + Github: https://github.com/smrucc/GCModeller
+> + Github: https://github.com/SMRUCC/GCModeller
 > + SDK docs: http://docs.gcmodeller.org
 
 **Supported platform:** ``Microsoft Windows``, ``GNU Linux``, ``MAC``, ``Microsoft Azure Cloud`` <br />
@@ -90,6 +90,7 @@ Here listing the scientific paperworks that based on the analysis services of GC
 
 ## Gallery
 
+![](./images/KEGG-pathway-network-clusters.png)
 ![](./images/KOBAS-GeneOntology.GO_enrichment.bubble.png)
 <img src="./manual/KEGG/Unigenes.blast.m8.filter-KO.Catalogs/kegg-level-A.png" width=435 /><img src="/images/GO-enrichment.png" width=435 />
 ![](./images/FUR-lightbox.png)
@@ -119,7 +120,7 @@ PM>  Install-Package NCBI_localblast
 
 ## For User
 
-The GCModeller demo script and data for user tutorials can be download from these public data repository: 
+The GCModeller demo script and data for user tutorials can be download from these public data repository:
 + [[Xanthomonas campestris pv. campestris 8004] GCModeller genomics Modelling Project](https://github.com/SMRUCC/Xanthomonas_campestris_8004_uid15).
 
 ###### genome map plot of Xanthomonas campestris pv. campestris 8004
