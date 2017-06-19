@@ -85,6 +85,7 @@ Public Module FunctionalEnrichmentPlot
 
                         data!KO = KO.JoinBy("|")
                         data!uniprotID = uniprotID.JoinBy("|")
+                        data!STRING_ID = stringID
 
                         Return New NetNode(name) With {
                             .NodeType = pathways.JoinBy(FunctionalEnrichmentPlot.delimiter),
@@ -133,32 +134,16 @@ Public Module FunctionalEnrichmentPlot
                                     colors As (up$, down$),
                                     Optional nonDEPcolor$ = "gray") As NetGraph
 
+        Dim up = DEGs.up.Indexing
+        Dim down = DEGs.down.Indexing
+
         For Each node As NetNode In model.Nodes
-            Dim uniprot = node!uniprotID
+            Dim id$ = node!STRING_ID
 
-            If Not uniprot.StringEmpty Then
-                Dim notHit As Boolean = False
-
-                For Each id In uniprot.Split("|"c)
-                    notHit = False
-
-                    If DEGs.up.IndexOf(id) > -1 Then
-                        node!color = colors.up
-                    ElseIf DEGs.down.IndexOf(id) > -1 Then
-                        node!color = colors.down
-                    Else
-                        ' not hit
-                        notHit = True
-                    End If
-
-                    If Not notHit Then
-                        Exit For
-                    End If
-                Next
-
-                If notHit Then
-                    node!color = nonDEPcolor
-                End If
+            If up.IndexOf(id) > -1 Then
+                node!color = colors.up
+            ElseIf down.IndexOf(id) > -1 Then
+                node!color = colors.down
             Else
                 node!color = nonDEPcolor
             End If
@@ -184,7 +169,14 @@ Public Module FunctionalEnrichmentPlot
             Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
         Else
             ' 直接使用所提供的布局信息
+            Dim layoutTable = layouts.ToDictionary(Function(x) x.node)
 
+            For Each node In graph.nodes
+                With layoutTable(node.ID)
+                    Dim point As New FDGVector2(.x_position * 1000, .y_position * 1000)
+                    node.Data.initialPostion = point
+                End With
+            Next
         End If
 
         Dim graphNodes = graph.nodes.ToDictionary
@@ -196,7 +188,7 @@ Public Module FunctionalEnrichmentPlot
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(x) x.Item1) _
-            .Where(Function(g) g.Count > 3) _
+            .Where(Function(g) (Not g.Key.StringEmpty) AndAlso g.Count > 3) _
             .ToDictionary(Function(g) g.Key,
                           Function(nodes)
                               Return nodes _
