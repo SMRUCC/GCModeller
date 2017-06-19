@@ -1,10 +1,13 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -110,6 +113,8 @@ Public Module FunctionalEnrichmentPlot
     ''' <param name="DEGs">uniprot蛋白编号</param>
     ''' <param name="colors"></param>
     ''' <returns></returns>
+    ''' 
+    <Extension>
     Public Function RenderDEGsColor(model As NetGraph,
                                     DEGs As (up As String(), down As String()),
                                     colors As (up$, down$),
@@ -149,14 +154,21 @@ Public Module FunctionalEnrichmentPlot
         Return model
     End Function
 
+    ''' <summary>
+    ''' 这个函数需要编写一个网络布局生成函数的参数配置文件
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function VisualizeKEGG(model As NetGraph) As Image
+    Public Function VisualizeKEGG(model As NetGraph, Optional colorSchema$ = "Set1:c10") As Image
         Dim graph = model.CreateGraph(nodeColor:=Function(n) (n!color).GetBrush)
+        Dim parameters As ForceDirectedArgs = Layouts.Parameters.Load
 
-        ' 生成layout信息        
+        ' 生成layout信息               
         Call graph.doRandomLayout
-        Call graph.doForceLayout(showProgress:=True, iterations:=200)
+        Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
 
+        Dim graphNodes = graph.nodes.ToDictionary
         Dim nodeGroups = model.Nodes _
             .Select(Function(n)
                         Return Strings _
@@ -165,8 +177,42 @@ Public Module FunctionalEnrichmentPlot
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(x) x.Item1) _
-            .ToArray
+            .Where(Function(g) g.Count > 3) _
+            .ToDictionary(Function(g) g.Key,
+                          Function(nodes)
+                              Return nodes _
+                                  .Select(Function(x)
+                                              Return graphNodes(x.Item2.ID)
+                                          End Function) _
+                                  .ToArray
+                          End Function)
+        Dim nodePoints As Dictionary(Of Graph.Node, Point) = Nothing
+        Dim colors As New LoopArray(Of Color)(GDIColors.ChartColors)
 
-        Return graph.DrawImage.AsGDIImage
+        Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
+
+        Using g As Graphics2D = graph _
+            .DrawImage(canvasSize:="5000,4500", scale:=3, nodePoints:=nodePoints) _
+            .AsGDIImage _
+            .CreateCanvas2D(directAccess:=True)
+
+            For Each pathway In nodeGroups.SeqIterator
+                Dim nodes = (+pathway).Value
+                Dim name$ = (+pathway).Key
+                Dim polygon As Point() = nodePoints.Selects(nodes)
+
+                polygon = ConvexHull.GrahamScan(polygon)
+
+                With colors.Next
+                    Dim pen As New Pen(.ref, 10)
+                    Dim fill As New SolidBrush(Color.FromArgb(40, .ref))
+
+                    Call g.DrawPolygon(pen, polygon)
+                    Call g.FillPolygon(fill, polygon)
+                End With
+            Next
+
+            Return g.ImageResource
+        End Using
     End Function
 End Module
