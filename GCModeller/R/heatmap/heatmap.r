@@ -81,7 +81,8 @@ plotDEPs <- function(csv,
 	tryCatch({
 		heatmap.2(matrix.data,
 			scale        = "row",
-			labRow       = NA,
+			# labRow       = NA,
+			labCol       = NA,
 			main         = title,            # heat map title
 			notecol      = "black",          # change font color of cell labels to black
 			density.info = "none",           # turns off density plot inside color legend
@@ -96,7 +97,7 @@ plotDEPs <- function(csv,
 			cexCol       = fontsize.col,
 			# breaks     = col_breaks,       # enable color transition at specified limits
 			dendrogram   = "row",            # only draw a row dendrogram
-			hclustfun       = hclust(method ="average"),
+			# hclustfun       = hclust(method ="average"),
 			Colv         = "NA", 
 			srtCol       = 45); 
 	}, error = function(e) {
