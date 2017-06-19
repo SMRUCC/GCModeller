@@ -43,12 +43,24 @@ Public Module FunctionalEnrichmentPlot
     <Extension>
     Public Function BuildModel(interacts As IEnumerable(Of InteractExports), uniprot As Dictionary(Of String, entry)) As NetGraph
         Dim KOCatagory = PathwayMapping.DefaultKOTable
+        Dim name2STRING = interacts _
+            .Select(Function(x) {
+                (x.node1, x.node1_external_id),
+                (x.node2, x.node2_external_id)
+            }) _
+            .IteratesALL _
+            .GroupBy(Function(x) x.Item1) _
+            .ToDictionary(Function(x) x.Key,
+                          Function(stringID) stringID.First.Item2)
         Dim nodes = interacts _
             .NodesID _
             .Select(Function(stringID$)
                         Dim pathways$()
                         Dim KO$()
                         Dim uniprotID$()
+                        Dim name$ = stringID
+
+                        stringID = name2STRING(name)
 
                         If uniprot.ContainsKey(stringID) Then
                             With uniprot(stringID)
@@ -74,7 +86,7 @@ Public Module FunctionalEnrichmentPlot
                         data!KO = KO.JoinBy("|")
                         data!uniprotID = uniprotID.JoinBy("|")
 
-                        Return New NetNode(stringID) With {
+                        Return New NetNode(name) With {
                             .NodeType = pathways.JoinBy(FunctionalEnrichmentPlot.delimiter),
                             .Properties = data
                         }
@@ -82,8 +94,8 @@ Public Module FunctionalEnrichmentPlot
             .ToDictionary
         Dim links = interacts _
             .Select(Function(l)
-                        Dim a = nodes(l.node1_external_id)
-                        Dim b = nodes(l.node2_external_id)
+                        Dim a = nodes(l.node1)
+                        Dim b = nodes(l.node2)
                         Dim pa = Strings.Split(a.NodeType, FunctionalEnrichmentPlot.delimiter)
                         Dim pb = Strings.Split(b.NodeType, FunctionalEnrichmentPlot.delimiter)
                         Dim type$
@@ -97,8 +109,8 @@ Public Module FunctionalEnrichmentPlot
                         End If
 
                         Return New NetworkEdge With {
-                            .FromNode = l.node1_external_id,
-                            .ToNode = l.node2_external_id,
+                            .FromNode = l.node1,
+                            .ToNode = l.node2,
                             .Interaction = type,
                             .value = l.combined_score
                         }
