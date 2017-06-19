@@ -15,6 +15,8 @@ Imports SMRUCC.genomics.Data.STRING
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network
 Imports NetNode = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
 Imports GraphLayout = Microsoft.VisualBasic.Data.visualize.Network.Layouts
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 
 ''' <summary>
 ''' 功能富集网络
@@ -158,7 +160,7 @@ Public Module FunctionalEnrichmentPlot
     ''' <param name="model"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function VisualizeKEGG(model As NetGraph, Optional layouts As Coordinates() = Nothing, Optional colorSchema$ = "Set1:c10") As Image
+    Public Function VisualizeKEGG(model As NetGraph, Optional layouts As Coordinates() = Nothing, Optional size$ = "6000,5000", Optional colorSchema$ = "Set1:c10", Optional scale# = 4.5) As Image
         Dim graph = model.CreateGraph(nodeColor:=Function(n) (n!color).GetBrush)
 
         If layouts.IsNullOrEmpty Then
@@ -198,12 +200,12 @@ Public Module FunctionalEnrichmentPlot
                                   .ToArray
                           End Function)
         Dim nodePoints As Dictionary(Of Graph.Node, Point) = Nothing
-        Dim colors As New LoopArray(Of Color)(GDIColors.ChartColors)
+        Dim colors As New LoopArray(Of Color)(Designer.GetColors(colorSchema, nodeGroups.Count))
 
         Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
 
         Using g As Graphics2D = graph _
-            .DrawImage(canvasSize:="5000,4500", scale:=3, nodePoints:=nodePoints) _
+            .DrawImage(canvasSize:=size, scale:=scale, nodePoints:=nodePoints) _
             .AsGDIImage _
             .CreateCanvas2D(directAccess:=True)
 
@@ -213,6 +215,7 @@ Public Module FunctionalEnrichmentPlot
                 Dim polygon As Point() = nodePoints.Selects(nodes)
 
                 polygon = ConvexHull.GrahamScan(polygon)
+                polygon = polygon.Enlarge(scale:=1.25)
 
                 With colors.Next
                     Dim pen As New Pen(.ref, 10)
