@@ -116,6 +116,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloudPlot.vb" />
     <Compile Include="DATA\Shotgun_csvReader.vb" />
     <Compile Include="DATA\ShotgunReader.vb" />
     <Compile Include="DATA\Perseus.vb" />

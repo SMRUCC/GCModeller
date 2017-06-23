@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -75,6 +76,28 @@ Partial Module CLI
     End Function
 
 #End Region
+
+    ''' <summary>
+    ''' 因为绘制云图需要表达量的实际值，对于iTraq结果而言是没有表达量的，所以这里就仅限于iBAQ结果了
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/iBAQ.Cloud")>
+    <Usage("/iBAQ.Cloud /in <expression.csv> /annotations <annotations.csv> /DEPs <DEPs.csv> /tag <expression> [/out <out.png>]")>
+    <Description("Cloud plot of the iBAQ DEPs result.")>
+    <Argument("/tag", Description:="The field name in the ``/in`` matrix that using as the expression value.")>
+    Public Function DEPsCloudPlot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim annotations$ = args <= "/annotations"
+        Dim DEPs$ = args <= "/DEPs"
+        Dim tag$ = args <= "/tag"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-" & tag.NormalizePathString & ".csv")
+        Dim expressions = EntityObject.LoadDataSet([in])
+        Dim annotationData = annotations.LoadCsv(Of UniprotAnnotations)
+        Dim DEPsResult = EntityObject.LoadDataSet(DEPs)
+        Dim plot As GraphicsData = CloudPlot.Plot(expressions, annotationData, DEPsResult)
+        Return plot.Save(out).CLICode
+    End Function
 
     ''' <summary>
     ''' 使用这个函数来处理iTraq实验结果之中与分析需求单的FC比对方式颠倒的情况
