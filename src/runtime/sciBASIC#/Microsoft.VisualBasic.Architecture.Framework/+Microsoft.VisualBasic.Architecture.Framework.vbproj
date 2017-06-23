@@ -400,6 +400,7 @@
     <Compile Include="ComponentModel\Algorithm\base\Combination\Combination.vb" />
     <Compile Include="ComponentModel\Algorithm\base\DynamicProgramming.vb" />
     <Compile Include="ComponentModel\Algorithm\base\SlideWindow\Extensions.vb" />
+    <Compile Include="ComponentModel\DriverModel.vb" />
     <Compile Include="ComponentModel\DataSource\Tsv.vb" />
     <Compile Include="ComponentModel\DataSource\Property\NamedCollection%28Of T%29.vb" />
     <Compile Include="ComponentModel\DataSource\Property\PropertyValue.vb" />
@@ -422,7 +423,7 @@
     <Compile Include="ComponentModel\DataStructures\HandleList\HashHandle.vb" />
     <Compile Include="ComponentModel\DataStructures\Set\SetAPI.vb" />
     <Compile Include="ComponentModel\File\BufferedStream.vb" />
-    <Compile Include="ComponentModel\DataSource\DataSample.vb" />
+    <Compile Include="ComponentModel\Algorithm\DataSample.vb" />
     <Compile Include="ComponentModel\Ranges\Extensions.vb" />
     <Compile Include="ComponentModel\Ranges\RangeList.vb" />
     <Compile Include="ComponentModel\Ranges\IRanges.vb" />
