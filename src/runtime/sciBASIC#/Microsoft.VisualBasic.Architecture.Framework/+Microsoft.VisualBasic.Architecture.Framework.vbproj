@@ -40,7 +40,8 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
     <DefineConstants>FRAMEWORD_CORE=1</DefineConstants>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>Full</DebugType>
@@ -56,7 +57,8 @@
     <DefineConstants>FRAMEWORD_CORE=1</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
@@ -95,7 +97,8 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
@@ -109,7 +112,8 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>Full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -123,7 +127,8 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
@@ -137,7 +142,8 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>Full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -152,7 +158,8 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>Full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -167,7 +174,8 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>Full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -182,7 +190,8 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>Full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -197,7 +206,8 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>Full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -212,7 +222,8 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>Full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -227,23 +238,27 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>Full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|AnyCPU'">
     <OutputPath>bin\Release2\</OutputPath>
     <DocumentationFile>Microsoft.VisualBasic.Architecture.Framework_v3.0_22.0.76.201__8da45dcd8060cc9a.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|x64'">
     <OutputPath>bin\x64\Release2\</OutputPath>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>FRAMEWORD_CORE=1</DefineConstants>
     <DocumentationFile>Microsoft.VisualBasic.Architecture.Framework_v3.0_22.0.76.201__8da45dcd8060cc9a.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|x86'">
     <OutputPath>bin\x86\Release2\</OutputPath>
     <DocumentationFile>Microsoft.VisualBasic.Architecture.Framework_v3.0_22.0.76.201__8da45dcd8060cc9a.xml</DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DEMO|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -256,7 +271,8 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>Full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -270,7 +286,8 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>Full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -285,7 +302,8 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugType>Full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <WarningsAsErrors>42105,42106,42107</WarningsAsErrors>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
