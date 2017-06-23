@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
@@ -11,7 +12,7 @@ Public Module PseAA
     ''' </summary>
     ''' <param name="ALL">``{proteinID, GO-list}``</param>
     ''' <param name="threshold">``[0, 1]`` percentage</param>
-    Public Function Construct(ALL As IEnumerable(Of NamedValue(Of String())), Optional threshold# = 0.1) As NamedValue(Of Vector)()
+    <Extension> Public Function Construct(ALL As IEnumerable(Of NamedValue(Of String())), Optional threshold# = 0.1) As NamedValue(Of Vector)()
         Dim data = ALL.ToArray
         Dim n As Dictionary(Of String, Double) = data _
             .Values _

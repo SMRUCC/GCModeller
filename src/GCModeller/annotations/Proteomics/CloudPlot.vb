@@ -1,7 +1,10 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports SMRUCC.genomics.Data.GeneOntology
 
 ''' <summary>
 ''' X -> iBAQ表达量值
@@ -30,6 +33,23 @@ Public Module CloudPlot
                         }
                     End Function) _
             .ToArray
-
+        Dim PseAA = annotations _
+            .Select(Function(protein)
+                        Return New NamedValue(Of String()) With {
+                            .Name = protein.ID,
+                            .Value = protein.GO
+                        }
+                    End Function) _
+            .Construct
+        Dim colors As Color() = Designer.GetColors(schema, 125)
+        Dim foldChanges = DEPs _
+            .Select(Function(protein)
+                        Dim P# = -Math.Log10(Val(protein("p.value")))
+                        Return New NamedValue(Of (logFC#, P#)) With {
+                            .Name = protein.ID,
+                            .Value = (Val(protein("logFC")), P#)
+                        }
+                    End Function) _
+            .ToArray
     End Function
 End Module
