@@ -43,7 +43,7 @@ Public Module Coverage
         Dim points As New List(Of Integer)
 
         For Each x In regions
-            Call points.Add((x.Y - x.X).Sequence(offset:=x.X))
+            Call points.Add(CInt(x.Y - x.X).Sequence(offset:=x.X))
         Next
 
         Dim array = (From x As Integer In points Select x Distinct).ToArray
