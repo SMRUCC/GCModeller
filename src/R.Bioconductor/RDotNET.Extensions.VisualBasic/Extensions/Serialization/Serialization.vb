@@ -100,7 +100,7 @@ Public Module Serialization
             Dim RSlot As RDotNET.SymbolicExpression = RData.GetAttribute(slot.Field.Name)
             Dim value As Object = __loadFromStream(RSlot, slot.Type, DebugLevel)
 
-            Call __valueMapping(value, slot.Property, obj:=obj)
+            Call __valueMapping(value, slot.member, obj:=obj)
         Next
 
         Return obj
