@@ -14,6 +14,9 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network
 Imports NetNode = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
+Imports GraphLayout = Microsoft.VisualBasic.Data.visualize.Network.Layouts
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 
 ''' <summary>
 ''' 功能富集网络
@@ -42,12 +45,24 @@ Public Module FunctionalEnrichmentPlot
     <Extension>
     Public Function BuildModel(interacts As IEnumerable(Of InteractExports), uniprot As Dictionary(Of String, entry)) As NetGraph
         Dim KOCatagory = PathwayMapping.DefaultKOTable
+        Dim name2STRING = interacts _
+            .Select(Function(x) {
+                (x.node1, x.node1_external_id),
+                (x.node2, x.node2_external_id)
+            }) _
+            .IteratesALL _
+            .GroupBy(Function(x) x.Item1) _
+            .ToDictionary(Function(x) x.Key,
+                          Function(stringID) stringID.First.Item2)
         Dim nodes = interacts _
             .NodesID _
             .Select(Function(stringID$)
                         Dim pathways$()
                         Dim KO$()
                         Dim uniprotID$()
+                        Dim name$ = stringID
+
+                        stringID = name2STRING(name)
 
                         If uniprot.ContainsKey(stringID) Then
                             With uniprot(stringID)
@@ -72,8 +87,9 @@ Public Module FunctionalEnrichmentPlot
 
                         data!KO = KO.JoinBy("|")
                         data!uniprotID = uniprotID.JoinBy("|")
+                        data!STRING_ID = stringID
 
-                        Return New NetNode(stringID) With {
+                        Return New NetNode(name) With {
                             .NodeType = pathways.JoinBy(FunctionalEnrichmentPlot.delimiter),
                             .Properties = data
                         }
@@ -81,8 +97,8 @@ Public Module FunctionalEnrichmentPlot
             .ToDictionary
         Dim links = interacts _
             .Select(Function(l)
-                        Dim a = nodes(l.node1_external_id)
-                        Dim b = nodes(l.node2_external_id)
+                        Dim a = nodes(l.node1)
+                        Dim b = nodes(l.node2)
                         Dim pa = Strings.Split(a.NodeType, FunctionalEnrichmentPlot.delimiter)
                         Dim pb = Strings.Split(b.NodeType, FunctionalEnrichmentPlot.delimiter)
                         Dim type$
@@ -96,8 +112,8 @@ Public Module FunctionalEnrichmentPlot
                         End If
 
                         Return New NetworkEdge With {
-                            .FromNode = l.node1_external_id,
-                            .ToNode = l.node2_external_id,
+                            .FromNode = l.node1,
+                            .ToNode = l.node2,
                             .Interaction = type,
                             .value = l.combined_score
                         }
@@ -115,37 +131,21 @@ Public Module FunctionalEnrichmentPlot
     ''' <returns></returns>
     ''' 
     <Extension>
-    Public Function RenderDEGsColor(model As NetGraph,
+    Public Function RenderDEGsColor(ByRef model As NetGraph,
                                     DEGs As (up As String(), down As String()),
                                     colors As (up$, down$),
                                     Optional nonDEPcolor$ = "gray") As NetGraph
 
+        Dim up = DEGs.up.Indexing
+        Dim down = DEGs.down.Indexing
+
         For Each node As NetNode In model.Nodes
-            Dim uniprot = node!uniprotID
+            Dim id$ = node!STRING_ID
 
-            If Not uniprot.StringEmpty Then
-                Dim notHit As Boolean = False
-
-                For Each id In uniprot.Split("|"c)
-                    notHit = False
-
-                    If DEGs.up.IndexOf(id) > -1 Then
-                        node!color = colors.up
-                    ElseIf DEGs.down.IndexOf(id) > -1 Then
-                        node!color = colors.down
-                    Else
-                        ' not hit
-                        notHit = True
-                    End If
-
-                    If Not notHit Then
-                        Exit For
-                    End If
-                Next
-
-                If notHit Then
-                    node!color = nonDEPcolor
-                End If
+            If up.IndexOf(id) > -1 Then
+                node!color = colors.up
+            ElseIf down.IndexOf(id) > -1 Then
+                node!color = colors.down
             Else
                 node!color = nonDEPcolor
             End If
@@ -160,13 +160,26 @@ Public Module FunctionalEnrichmentPlot
     ''' <param name="model"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function VisualizeKEGG(model As NetGraph, Optional colorSchema$ = "Set1:c10") As Image
+    Public Function VisualizeKEGG(model As NetGraph, Optional layouts As Coordinates() = Nothing, Optional size$ = "6000,5000", Optional colorSchema$ = "Set1:c9", Optional scale# = 4.5) As Image
         Dim graph = model.CreateGraph(nodeColor:=Function(n) (n!color).GetBrush)
-        Dim parameters As ForceDirectedArgs = Layouts.Parameters.Load
 
-        ' 生成layout信息               
-        Call graph.doRandomLayout
-        Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
+        If layouts.IsNullOrEmpty Then
+            Dim parameters As ForceDirectedArgs = GraphLayout.Parameters.Load
+
+            ' 生成layout信息               
+            Call graph.doRandomLayout
+            Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
+        Else
+            ' 直接使用所提供的布局信息
+            Dim layoutTable = layouts.ToDictionary(Function(x) x.node)
+
+            For Each node In graph.nodes
+                With layoutTable(node.ID)
+                    Dim point As New FDGVector2(.x_position * 1000, .y_position * 1000)
+                    node.Data.initialPostion = point
+                End With
+            Next
+        End If
 
         Dim graphNodes = graph.nodes.ToDictionary
         Dim nodeGroups = model.Nodes _
@@ -177,7 +190,7 @@ Public Module FunctionalEnrichmentPlot
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(x) x.Item1) _
-            .Where(Function(g) g.Count > 3) _
+            .Where(Function(g) (Not g.Key.StringEmpty) AndAlso g.Count > 3) _
             .ToDictionary(Function(g) g.Key,
                           Function(nodes)
                               Return nodes _
@@ -187,12 +200,12 @@ Public Module FunctionalEnrichmentPlot
                                   .ToArray
                           End Function)
         Dim nodePoints As Dictionary(Of Graph.Node, Point) = Nothing
-        Dim colors As New LoopArray(Of Color)(GDIColors.ChartColors)
+        Dim colors As New LoopArray(Of Color)(Designer.GetColors(colorSchema))
 
         Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
 
         Using g As Graphics2D = graph _
-            .DrawImage(canvasSize:="5000,4500", scale:=3, nodePoints:=nodePoints) _
+            .DrawImage(canvasSize:=size, scale:=scale, nodePoints:=nodePoints) _
             .AsGDIImage _
             .CreateCanvas2D(directAccess:=True)
 
@@ -201,7 +214,8 @@ Public Module FunctionalEnrichmentPlot
                 Dim name$ = (+pathway).Key
                 Dim polygon As Point() = nodePoints.Selects(nodes)
 
-                polygon = ConvexHull.GrahamScan(polygon)
+                polygon = ConvexHull.GrahamScan(polygon)  ' 计算出KEGG代谢途径簇的边界点
+                polygon = polygon.Enlarge(scale:=1.25)
 
                 With colors.Next
                     Dim pen As New Pen(.ref, 10)
@@ -212,7 +226,7 @@ Public Module FunctionalEnrichmentPlot
                 End With
             Next
 
-            Return g.ImageResource
+            Return g.ImageResource.CorpBlank(100, blankColor:=Color.White)
         End Using
     End Function
 End Module
