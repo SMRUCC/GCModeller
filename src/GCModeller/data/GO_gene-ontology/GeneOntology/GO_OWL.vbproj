@@ -178,6 +178,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PseAA.vb" />
     <Compile Include="GoBriefTable.vb" />
     <Compile Include="GoStat.vb" />
     <Compile Include="DAG\Builder.vb" />
