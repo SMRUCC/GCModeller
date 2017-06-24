@@ -50,9 +50,14 @@ Public Module CloudPlot
 
         Dim Plevels%() = foldChanges _
             .Select(Function(protein)
-                        Return protein.Value.P
+                        Dim P# = protein.Value.P
+                        If P.IsNaNImaginary Then
+                            Return 0
+                        Else
+                            Return P
+                        End If
                     End Function) _
-            .RangeTransform($"0,{levels}") _
+            .RangeTransform($"0,{levels - 1}") _
             .Select(Function(x) CInt(x)) _
             .ToArray
         Dim radius#() = foldChanges _

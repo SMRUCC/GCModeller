@@ -33,6 +33,7 @@ Public Module PseAA
         Dim vectors = data _
             .Select(Function(protein)
                         Dim seq = protein.Value _
+                            .SafeQuery _
                             .Where(Function(id) categories.IndexOf(id) > -1) _
                             .Select(Function(id) categories.IndexOf(id)) _
                             .ToArray

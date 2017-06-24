@@ -91,11 +91,11 @@ Partial Module CLI
         Dim annotations$ = args <= "/annotations"
         Dim DEPs$ = args <= "/DEPs"
         Dim tag$ = args <= "/tag"
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-" & tag.NormalizePathString & ".csv")
-        Dim expressions = EntityObject.LoadDataSet([in])
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-" & tag.NormalizePathString & ".png")
+        Dim expressions = EntityObject.LoadDataSet([in]).ToArray
         Dim annotationData = annotations.LoadCsv(Of UniprotAnnotations)
-        Dim DEPsResult = EntityObject.LoadDataSet(DEPs)
-        Dim plot As GraphicsData = CloudPlot.Plot(expressions, annotationData, DEPsResult)
+        Dim DEPsResult = EntityObject.LoadDataSet(DEPs).ToArray
+        Dim plot As GraphicsData = CloudPlot.Plot(expressions, annotationData, DEPsResult, tag)
         Return plot.Save(out).CLICode
     End Function
 
