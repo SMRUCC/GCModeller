@@ -27,10 +27,8 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm
 Imports Microsoft.VisualBasic.Imaging
-Imports SMRUCC.genomics.ComponentModel.Loci
 
 Public Class Histogram : Inherits CurvesModel
 
