@@ -9,7 +9,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.Data.GeneOntology
 
 ''' <summary>
@@ -32,7 +32,10 @@ Public Module CloudPlot
     Public Function Plot(expression As EntityObject(), annotations As UniprotAnnotations(), DEPs As EntityObject(), tag$,
                          Optional schema$ = "Paired:c8",
                          Optional levels% = 125,
-                         Optional sizeRange$ = "5,125") As GraphicsData
+                         Optional sizeRange$ = "5,125",
+                         Optional size$ = "2000,1600",
+                         Optional margin$ = g.DefaultLargerPadding,
+                         Optional bg$ = "white") As GraphicsData
 
         Dim colors As Color() = Designer.GetColors(schema, levels)
         Dim foldChanges = DEPs _
@@ -83,7 +86,6 @@ Public Module CloudPlot
         Dim plotInternal =
             Sub(ByRef g As IGraphics, rect As GraphicsRegion)
 
-                Dim margin As Padding = rect.Padding
                 Dim pointsX = expressions _
                     .Values _
                     .RangeTransform(rect.XRange)
@@ -92,16 +94,16 @@ Public Module CloudPlot
                     .Select(Function(v) v.Mod) _
                     .RangeTransform(rect.YRange)
 
-                For Each protein As NamedValue(Of Vector) In PseAA.Where(Function(x)
-                                                                             Return proteinID.IndexOf(x.Name) > -1
-                                                                         End Function)
-                    Dim ID$ = protein.Name
-                    Dim i% = proteinID.IndexOf(ID) ' 将
+                For i As Integer = 0 To foldChanges.Length - 1
+                    Dim X = pointsX(i), Y = pointsY(i)
                     Dim r = radius(i)
-                    Dim level% = Plevels(i)
+                    Dim color As Color = colors(Plevels(i))
+                    Dim circle As New Rectangle(X - r, Y - r, r * 2, r * 2)
 
+                    Call g.FillPie(New SolidBrush(color), circle, 0, 360)
                 Next
             End Sub
 
+        Return GraphicsPlots(size.SizeParser, margin, bg, plotInternal)
     End Function
 End Module
