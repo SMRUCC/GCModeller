@@ -1,9 +1,15 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Data.GeneOntology
 
 ''' <summary>
@@ -23,25 +29,12 @@ Public Module CloudPlot
     ''' <param name="schema$"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function Plot(expression As EntityObject(), annotations As UniprotAnnotations(), DEPs As EntityObject(), tag$, Optional schema$ = "Paired:c8") As GraphicsData
-        Dim expressions =
-            expression _
-            .Select(Function(protein)
-                        Return New NamedValue(Of Double) With {
-                            .Name = protein.ID,
-                            .Value = Val(protein(tag))
-                        }
-                    End Function) _
-            .ToArray
-        Dim PseAA = annotations _
-            .Select(Function(protein)
-                        Return New NamedValue(Of String()) With {
-                            .Name = protein.ID,
-                            .Value = protein.GO
-                        }
-                    End Function) _
-            .Construct
-        Dim colors As Color() = Designer.GetColors(schema, 125)
+    Public Function Plot(expression As EntityObject(), annotations As UniprotAnnotations(), DEPs As EntityObject(), tag$,
+                         Optional schema$ = "Paired:c8",
+                         Optional levels% = 125,
+                         Optional sizeRange$ = "5,125") As GraphicsData
+
+        Dim colors As Color() = Designer.GetColors(schema, levels)
         Dim foldChanges = DEPs _
             .Select(Function(protein)
                         Dim P# = -Math.Log10(Val(protein("p.value")))
@@ -51,5 +44,64 @@ Public Module CloudPlot
                         }
                     End Function) _
             .ToArray
+
+        Dim Plevels%() = foldChanges _
+            .Select(Function(protein)
+                        Return protein.Value.P
+                    End Function) _
+            .RangeTransform($"0,{levels}") _
+            .Select(Function(x) CInt(x)) _
+            .ToArray
+        Dim radius#() = foldChanges _
+            .Select(Function(protein)
+                        Return protein.Value.logFC
+                    End Function) _
+            .RangeTransform(sizeRange)
+        Dim proteinID As Index(Of String) = foldChanges.Keys.Indexing
+        Dim expressions =
+            expression _
+            .Select(Function(protein)
+                        Return New NamedValue(Of Double) With {
+                            .Name = protein.ID,
+                            .Value = Val(protein(tag))
+                        }
+                    End Function) _
+            .Sort(by:=proteinID)
+        Dim PseAA As NamedValue(Of Vector)() =
+            annotations _
+            .Select(Function(protein)
+                        Return New NamedValue(Of String()) With {
+                            .Name = protein.ID,
+                            .Value = protein.GO
+                        }
+                    End Function) _
+            .Construct _
+            .Sort(by:=proteinID)
+
+        ' 表达数据和GO分类向量都是已经经过排序操作了的，可以直接使用
+
+        Dim plotInternal =
+            Sub(ByRef g As IGraphics, rect As GraphicsRegion)
+
+                Dim margin As Padding = rect.Padding
+                Dim pointsX = expressions _
+                    .Values _
+                    .RangeTransform(rect.XRange)
+                Dim pointsY = PseAA _
+                    .Values _
+                    .Select(Function(v) v.Mod) _
+                    .RangeTransform(rect.YRange)
+
+                For Each protein As NamedValue(Of Vector) In PseAA.Where(Function(x)
+                                                                             Return proteinID.IndexOf(x.Name) > -1
+                                                                         End Function)
+                    Dim ID$ = protein.Name
+                    Dim i% = proteinID.IndexOf(ID) ' 将
+                    Dim r = radius(i)
+                    Dim level% = Plevels(i)
+
+                Next
+            End Sub
+
     End Function
 End Module
