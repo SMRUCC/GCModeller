@@ -446,7 +446,8 @@
     <Compile Include="ComponentModel\DataSource\SchemaMaps\PropertyValue.vb" />
     <Compile Include="Extensions\Image\Colors\CytoscapeColor.vb" />
     <Compile Include="Extensions\Image\Colors\HSLColor.vb" />
-    <Compile Include="Extensions\Image\GDI+\LayoutedObject.vb" />
+    <Compile Include="Extensions\Image\GDI+\Layouts\LayoutedObject.vb" />
+    <Compile Include="Extensions\Image\GDI+\Layouts\mxRectangle.vb" />
     <Compile Include="Extensions\Image\PointF3D.vb" />
     <Compile Include="Extensions\Math\Correlations\Ranking.vb" />
     <Compile Include="Extensions\Math\Matrix.vb" />
@@ -458,6 +459,7 @@
     <Compile Include="Extensions\WebServices\GZStream.vb" />
     <Compile Include="Extensions\WebServices\sitemap.xml.vb" />
     <Compile Include="Language\lang\C\Vector.vb" />
+    <Compile Include="Language\lang\Java\Line2D.vb" />
     <Compile Include="Language\lang\Java\Collections.vb" />
     <Compile Include="Language\lang\Java\Reflection.vb" />
     <Compile Include="Language\Linq\List%28Of T%29.vb" />
