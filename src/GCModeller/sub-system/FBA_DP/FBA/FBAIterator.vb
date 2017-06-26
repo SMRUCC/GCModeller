@@ -27,9 +27,7 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
@@ -37,7 +35,7 @@ Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
 ''' <summary>
 ''' FBA状态迭代器
 ''' </summary>
-Public Class FBAIterator : Implements IObjectModel_Driver
+Public Class FBAIterator : Implements ITaskDriver
 
     ''' <summary>
     ''' FBA计算模型
@@ -95,7 +93,7 @@ Public Class FBAIterator : Implements IObjectModel_Driver
     ''' （假若FBA的代谢物的约束为等于0的话，则这个计算模型不可用，但是更改了约束条件还可以被称作为FBA么？）
     ''' </summary>
     ''' <returns></returns>
-    Public Function Run() As Integer Implements IObjectModel_Driver.Run
+    Public Function Run() As Integer Implements ITaskDriver.Run
         Dim script As String = ""
         Dim n As Integer = _iterates
         Dim ASCII As Encoding = Encodings.ASCII.CodePage

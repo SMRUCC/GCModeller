@@ -260,8 +260,7 @@ Public Module PhenotypeRegulations
 
         For i As Integer = 0 To counts
 
-            Using driver As Kernel_Driver.KernelDriver(Of Integer, KineticsModel.BinaryExpression, BinaryNetwork) =
-                New Kernel_Driver.KernelDriver(Of Integer, KineticsModel.BinaryExpression, BinaryNetwork)
+            Using driver As New Kernel_Driver.KernelDriver(Of Integer, KineticsModel.BinaryExpression, BinaryNetwork)
                 Call driver.LoadEngineKernel(Kernel:=network)
                 Call driver.SetFilterHandles(network.NonRegulationHandles)
                 Call driver.Run()
