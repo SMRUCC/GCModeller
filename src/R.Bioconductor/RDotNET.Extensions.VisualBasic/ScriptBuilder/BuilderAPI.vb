@@ -40,6 +40,15 @@ Namespace SymbolBuilder
     ''' </summary>
     Public Module BuilderAPI
 
+        ''' <summary>
+        ''' additional arguments to be passed to or from methods.
+        ''' </summary>
+        ''' <param name="parameters$"></param>
+        ''' <returns></returns>
+        Public Function list(ParamArray parameters$()) As ParameterList
+            Return New ParameterList(parameters)
+        End Function
+
         Const IsNotAFunc = "Target object is not a R function abstract!"
 
         ''' <summary>
