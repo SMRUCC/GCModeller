@@ -30,7 +30,10 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace API.as
 
-    Public Module [as]
+    Public NotInheritable Class [as]
+
+        Private Sub New()
+        End Sub
 
 #Region "stats"
 
@@ -71,6 +74,29 @@ Namespace API.as
 
             Return var
         End Function
+
+        ''' <summary>
+        ''' ``as.matrix`` attempts to turn its argument into a matrix.
+        ''' </summary>
+        ''' <param name="x$">an R object.</param>
+        ''' <param name="rownamesForce">
+        ''' logical indicating if the resulting matrix should have character (rather than NULL) rownames. 
+        ''' The default, NA, uses NULL rownames if the data frame has ‘automatic’ row.names or for a zero-row data frame.
+        ''' </param>
+        ''' <param name="list">
+        ''' using function <see cref="BuilderAPI.list(String())"/> for generates this additional arguments to be passed to or from methods.
+        ''' </param>
+        ''' <returns></returns>
+        Public Function matrix(x$, Optional rownamesForce As String = "NA", Optional list As ParameterList = Nothing) As String
+            SyncLock R
+                With R
+                    Dim var$ = App.NextTempName
+
+                    .call = $"{var} <- as.matrix({x}, rownames.force = {rownamesForce}, {list?.ToString})"
+                    Return var
+                End With
+            End SyncLock
+        End Function
 #End Region
-    End Module
+    End Class
 End Namespace

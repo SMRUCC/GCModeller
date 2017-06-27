@@ -192,6 +192,7 @@
     <Compile Include="API\utils\install.vb" />
     <Compile Include="API\utils\utils.vb" />
     <Compile Include="Extensions\Serialization\Vector.vb" />
+    <Compile Include="ScriptBuilder\ParameterList.vb" />
     <Compile Include="ScriptBuilder\EscapingHelper.vb" />
     <Compile Include="ScriptBuilder\ScriptBuilder.vb" />
     <Compile Include="userFunctions\Tools.vb" />
