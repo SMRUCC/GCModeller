@@ -30,25 +30,32 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace API.as
 
-    Public Module stats
+    Public Module [as]
+
+#Region "stats"
 
         ''' <summary>
         ''' as.ts and is.ts coerce an object to a time-series and test whether an object is a time series.
         ''' </summary>
         ''' <param name="x">an arbitrary R object.</param>
         ''' <param name="additionals">arguments passed to methods (unused for the default method).</param>
-        ''' <returns>as.ts is generic. Its default method will use the tsp attribute of the object if it has one to set the start and end times and frequency.</returns>
+        ''' <returns>
+        ''' ``as.ts`` is generic. Its default method will use the tsp attribute of the object 
+        ''' if it has one to set the start and end times and frequency.
+        ''' </returns>
         Public Function ts(x As String, ParamArray additionals As String()) As String
             Dim out As String = App.NextTempName
             Call $"{out} <- as.ts({x}, {String.Join(",", additionals)})".__call
             Return out
         End Function
-    End Module
+#End Region
 
-    Public Module [as]
+#Region "base"
 
         ''' <summary>
-        ''' as.vector, a generic, attempts to coerce its argument into a vector of mode mode (the default is to coerce to whichever vector mode is most convenient): if the result is atomic all attributes are removed.
+        ''' as.vector, a generic, attempts to coerce its argument into a vector of mode mode 
+        ''' (the default is to coerce to whichever vector mode is most convenient): 
+        ''' if the result is atomic all attributes are removed.
         ''' </summary>
         ''' <param name="x$"></param>
         ''' <param name="mode$"></param>
@@ -64,5 +71,6 @@ Namespace API.as
 
             Return var
         End Function
+#End Region
     End Module
 End Namespace

@@ -30,22 +30,28 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace API.is
 
-    Public Module stats
+    Public Module [is]
+
+#Region "stats"
 
         ''' <summary>
         ''' as.ts and is.ts coerce an object to a time-series and test whether an object is a time series.
         ''' </summary>
         ''' <param name="x">an arbitrary R object.</param>
-        ''' <returns>is.ts tests if an object is a time series. It is generic: you can write methods to handle specific classes of objects, see InternalMethods.</returns>
+        ''' <returns>
+        ''' ``is.ts`` tests if an object is a time series. It is generic: you can write methods to handle 
+        ''' specific classes of objects, see InternalMethods.
+        ''' </returns>
         Public Function ts(x As String) As Boolean
             Return $"is.ts({x})".__call.AsBoolean
         End Function
-    End Module
+#End Region
 
-    Public Module [is]
+#Region "base"
 
         ''' <summary>
-        ''' is.vector returns TRUE if x is a vector of the specified mode having no attributes other than names. It returns FALSE otherwise.
+        ''' is.vector returns TRUE if x is a vector of the specified mode having no attributes other than names. 
+        ''' It returns FALSE otherwise.
         ''' </summary>
         ''' <param name="x$"></param>
         ''' <param name="mode$"></param>
@@ -61,5 +67,7 @@ Namespace API.is
 
             Return var
         End Function
+
+#End Region
     End Module
 End Namespace
