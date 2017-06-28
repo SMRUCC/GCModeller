@@ -310,10 +310,19 @@ Namespace Assembly.KEGG.WebServices
             Dim KO_htext = BriteHText _
                .Load(ko00001.SolveStream) _
                .EnumerateEntries _
-               .Where(Function(x) Not x.Description.StringEmpty) _
                .Select(Function(x)
-                           Dim PATH = x.Description.Match("PATH[:]\S+").Trim("]"c).GetTagValue(":").Value
-                           Return New NamedValue(Of BriteHText)(PATH, x)
+                           With x.Parent
+                               If .ref Is Nothing Then
+                                   Return Nothing
+                               Else
+                                   Dim PATH As String = .ClassLabel _
+                                       .Match("PATH[:].+\d+") _
+                                       .Trim("]"c) _
+                                       .GetTagValue(":") _
+                                       .Value
+                                   Return New NamedValue(Of BriteHText)(PATH, .ref)
+                               End If
+                           End With
                        End Function) _
                .Where(Function(x) Not x.Name.StringEmpty) _
                .GroupBy(Function(x) x.Name) _

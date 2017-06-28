@@ -179,6 +179,8 @@ Public Module KEGGOrthology
             tickFontStyle, tick)
     End Function
 
+    Const Other$ = NameOf(Other)
+
     ''' <summary>
     ''' 进行DAVID分析结果的KEGG代谢途径富集的计算绘图
     ''' </summary>
@@ -188,7 +190,8 @@ Public Module KEGGOrthology
     <Extension>
     Public Function KEGGEnrichmentPlot(result As IEnumerable(Of FunctionCluster),
                                        Optional KEGG As Dictionary(Of String, BriteHText) = Nothing,
-                                       Optional size As Size = Nothing) As GraphicsData
+                                       Optional size As Size = Nothing,
+                                       Optional tick# = 1) As GraphicsData
 
         Dim data As New Dictionary(Of String, List(Of NamedValue(Of Double)))
 
@@ -206,11 +209,25 @@ Public Module KEGGOrthology
                     data([class]) +=
                         New NamedValue(Of Double)(.Value, P#)
                 Else
-                    data("KEGG pathway") +=
-                        New NamedValue(Of Double)(term.Term, P#)
+                    If Not data.ContainsKey(Other) Then
+                        data.Add(Other, New List(Of NamedValue(Of Double)))
+                    End If
+
+                    data!Other += New NamedValue(Of Double)(term.Term, P#)
                 End If
             End With
         Next
+
+        Dim colors$ = "Set1:c6"
+
+        If data.Count = 1 AndAlso data.Keys.First = Other Then
+            data.Add("KEGG pathway", data!Other)
+            data.Remove(Other)
+        Else
+            If data.Count > 6 Then
+                colors = "Set1:c8"
+            End If
+        End If
 
         Dim profile = data.ToDictionary(
             Function([class]) [class].Key,
@@ -224,7 +241,8 @@ Public Module KEGGOrthology
             title:="KEGG Pathway enrichment",
             size:=size,
             axisTitle:="-Log10(p-value)",
-            tick:=1)
+            tick:=tick,
+            colorSchema:=colors)
     End Function
 
     <Extension>

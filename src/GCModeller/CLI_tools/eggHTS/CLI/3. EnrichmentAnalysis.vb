@@ -33,7 +33,7 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Partial Module CLI
 
     <ExportAPI("/KEGG.enrichment.DAVID")>
-    <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /custom <ko00001.keg> /size <default=1200,1000> /out <out.png>]")>
+    <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /custom <ko00001.keg> /size <default=1200,1000> /tick 1 /out <out.png>]")>
     Public Function DAVID_KEGGplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG.plot.png")
@@ -54,7 +54,9 @@ Partial Module CLI
         End With
 
         Return KEGG _
-            .KEGGEnrichmentPlot(size:=size.SizeParser, KEGG:=KEGG_PATH) _
+            .KEGGEnrichmentPlot(size:=size.SizeParser,
+                                KEGG:=KEGG_PATH,
+                                tick:=args.GetValue("/tick", 1.0R)) _
             .Save(out) _
             .CLICode
     End Function
