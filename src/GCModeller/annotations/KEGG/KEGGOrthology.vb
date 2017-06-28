@@ -179,20 +179,70 @@ Public Module KEGGOrthology
             tickFontStyle, tick)
     End Function
 
+    Const Other$ = NameOf(Other)
+
+    ''' <summary>
+    ''' 进行DAVID分析结果的KEGG代谢途径富集的计算绘图
+    ''' </summary>
+    ''' <param name="result"></param>
+    ''' <param name="size"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function KEGGEnrichmentPlot(result As IEnumerable(Of FunctionCluster), Optional size As Size = Nothing) As GraphicsData
-        Dim data As NamedValue(Of Double)() = result _
-            .Select(Function(x) New NamedValue(Of Double) With {
-                .Name = x.Term.GetTagValue(":", trim:=True).Value,
-                .Value = -Math.Log10(x.PValue)
-            }).OrderByDescending(Function(x) x.Value) _
-              .ToArray
-        Return New Dictionary(Of String, NamedValue(Of Double)()) From {
-            {"KEGG Pathways", data}
-        }.ProfilesPlot(title:="KEGG Pathway enrichment",
-                       size:=size,
-                       axisTitle:="-Log10(p-value)",
-                       tick:=1)
+    Public Function KEGGEnrichmentPlot(result As IEnumerable(Of FunctionCluster),
+                                       Optional KEGG As Dictionary(Of String, BriteHText) = Nothing,
+                                       Optional size As Size = Nothing,
+                                       Optional tick# = 1) As GraphicsData
+
+        Dim data As New Dictionary(Of String, List(Of NamedValue(Of Double)))
+
+        For Each term As FunctionCluster In result
+            Dim P# = -Math.Log10(term.PValue)
+
+            With term.Term.GetTagValue(":", trim:=True)
+                If Not KEGG Is Nothing AndAlso KEGG.ContainsKey(.Name) Then
+                    Dim class$ = KEGG(.Name).Parent.Parent.Description
+
+                    If Not data.ContainsKey([class]) Then
+                        data.Add([class], New List(Of NamedValue(Of Double)))
+                    End If
+
+                    data([class]) +=
+                        New NamedValue(Of Double)(.Value, P#)
+                Else
+                    If Not data.ContainsKey(Other) Then
+                        data.Add(Other, New List(Of NamedValue(Of Double)))
+                    End If
+
+                    data!Other += New NamedValue(Of Double)(term.Term, P#)
+                End If
+            End With
+        Next
+
+        Dim colors$ = "Set1:c6"
+
+        If data.Count = 1 AndAlso data.Keys.First = Other Then
+            data.Add("KEGG pathway", data!Other)
+            data.Remove(Other)
+        Else
+            If data.Count > 6 Then
+                colors = "Set1:c8"
+            End If
+        End If
+
+        Dim profile = data.ToDictionary(
+            Function([class]) [class].Key,
+            Function(terms)
+                Return terms.Value _
+                    .OrderByDescending(Function(t) t.Value) _
+                    .ToArray
+            End Function)
+
+        Return profile.ProfilesPlot(
+            title:="KEGG Pathway enrichment",
+            size:=size,
+            axisTitle:="-Log10(p-value)",
+            tick:=tick,
+            colorSchema:=colors)
     End Function
 
     <Extension>

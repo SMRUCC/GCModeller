@@ -306,6 +306,31 @@ Namespace Assembly.KEGG.WebServices
             Return KO_maps.KOCatalog(KO_htext)
         End Function
 
+        Public Function CustomPathwayTable(ko00001$) As Dictionary(Of String, BriteHText)
+            Dim KO_htext = BriteHText _
+               .Load(ko00001.SolveStream) _
+               .EnumerateEntries _
+               .Select(Function(x)
+                           With x.Parent
+                               If .ref Is Nothing Then
+                                   Return Nothing
+                               Else
+                                   Dim PATH As String = .ClassLabel _
+                                       .Match("PATH[:].+\d+") _
+                                       .Trim("]"c) _
+                                       .GetTagValue(":") _
+                                       .Value
+                                   Return New NamedValue(Of BriteHText)(PATH, .ref)
+                               End If
+                           End With
+                       End Function) _
+               .Where(Function(x) Not x.Name.StringEmpty) _
+               .GroupBy(Function(x) x.Name) _
+               .ToDictionary(Function(x) x.Key,
+                             Function(x) x.First.Value)
+            Return KO_htext
+        End Function
+
         Public Const KEGG_show_pathway$ = "http://www.genome.jp/kegg-bin/show_pathway?"
 
         ''' <summary>
