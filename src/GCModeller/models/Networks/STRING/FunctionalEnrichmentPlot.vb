@@ -224,11 +224,15 @@ Public Module FunctionalEnrichmentPlot
         Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
 
         Dim KEGGColors As New Dictionary(Of String, (counts#, color As Color))
-        Dim dash As New Dictionary(Of String, DashStyle)
+        Dim dash As Dictionary(Of String, DashStyle)
 
-        dash("pathway_internal") = DashStyle.Solid
-        dash("Unknown") = DashStyle.Dash
-        dash("pathway_outbounds") = DashStyle.Dash
+        With New Dictionary(Of String, DashStyle)
+            !pathway_internal = DashStyle.Solid
+            !Unknown = DashStyle.Dash
+            !pathway_outbounds = DashStyle.Dash
+
+            dash = .ref
+        End With
 
         Using g As Graphics2D = graph _
             .DrawImage(canvasSize:=size,
@@ -286,6 +290,7 @@ Public Module FunctionalEnrichmentPlot
 
                 g.FillRectangle(b, New Rectangle(New Point(X, Y), rectSize))
                 g.DrawString(name, font, Brushes.Black, New PointF(X + dy + rectSize.Width, Y))
+
                 Y += dy + font.Height
             Next
         End Using
