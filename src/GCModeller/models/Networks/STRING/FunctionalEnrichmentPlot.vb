@@ -11,6 +11,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
@@ -165,7 +166,9 @@ Public Module FunctionalEnrichmentPlot
                                   Optional size$ = "6000,5000",
                                   Optional colorSchema$ = "Set1:c9",
                                   Optional scale# = 4.5,
-                                  Optional radius$ = "5,20") As Image
+                                  Optional radius$ = "5,20",
+                                  Optional KEGGNameFont$ = CSSFont.Win7LargerNormal,
+                                  Optional margin% = 100) As Image
 
         Dim graph As NetworkGraph = model _
             .CreateGraph(
@@ -201,7 +204,7 @@ Public Module FunctionalEnrichmentPlot
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(x) x.Item1) _
-            .Where(Function(g) (Not g.Key.StringEmpty) AndAlso g.Count > 3) _
+            .Where(Function(g) (Not g.Key.StringEmpty) AndAlso g.Count >= 3) _
             .ToDictionary(Function(g) g.Key,
                           Function(nodes)
                               Return nodes _
@@ -216,6 +219,8 @@ Public Module FunctionalEnrichmentPlot
 
         Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
 
+        Dim KEGGColors As New Dictionary(Of String, (counts#, color As Color))
+
         Using g As Graphics2D = graph _
             .DrawImage(canvasSize:=size, scale:=scale, nodePoints:=nodePoints) _
             .AsGDIImage _
@@ -226,8 +231,17 @@ Public Module FunctionalEnrichmentPlot
                 Dim name$ = (+pathway).Key
                 Dim polygon As Point() = nodePoints.Selects(nodes)
 
-                polygon = ConvexHull.GrahamScan(polygon)  ' 计算出KEGG代谢途径簇的边界点
-                polygon = polygon.Enlarge(scale:=1.25)
+                Try
+                    polygon = ConvexHull.GrahamScan(polygon)  ' 计算出KEGG代谢途径簇的边界点
+                Catch ex As Exception
+                    Continue For
+                End Try
+
+                If polygon.Length = 3 Then
+                    polygon = polygon.Enlarge(scale:=2)
+                Else
+                    polygon = polygon.Enlarge(scale:=1.25)
+                End If
 
                 With colors.Next
                     Dim pen As New Pen(.ref, 10)
@@ -235,15 +249,32 @@ Public Module FunctionalEnrichmentPlot
 
                     Call g.DrawPolygon(pen, polygon)
                     Call g.FillPolygon(fill, polygon)
+
+                    KEGGColors.Add(name, (nodes.Length, .ref))
                 End With
             Next
 
-            image = g.ImageResource.CorpBlank(100, blankColor:=Color.White)
+            image = g.ImageResource.CorpBlank(margin, blankColor:=Color.White)
         End Using
 
         ' 在图片的左下角加入代谢途径的名称
         Using g As Graphics2D = image.CreateCanvas2D(directAccess:=True)
+            Dim font As Font = CSSFont.TryParse(KEGGNameFont).GDIObject
+            Dim dy = 5
+            Dim X = margin
+            Dim Y = g.Height - (font.Height + dy) * KEGGColors.Count - margin
+            Dim rectSize As New Size(50, font.Height)
 
+            For Each PATH In KEGGColors
+                Dim name$ = PATH.Key.StringReplace("\[.+?\]", "")
+                Dim genes = PATH.Value.counts
+                Dim color As Color = PATH.Value.color
+                Dim b As New SolidBrush(color)
+
+                g.FillRectangle(b, New Rectangle(New Point(X, Y), rectSize))
+                g.DrawString(name, font, Brushes.Black, New PointF(X + dy + rectSize.Width, Y))
+                Y += dy + font.Height
+            Next
         End Using
 
         Return image
