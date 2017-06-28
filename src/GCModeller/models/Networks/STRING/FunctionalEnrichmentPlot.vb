@@ -169,7 +169,8 @@ Public Module FunctionalEnrichmentPlot
                                   Optional scale# = 4.5,
                                   Optional radius$ = "5,20",
                                   Optional KEGGNameFont$ = CSSFont.Win7LargerNormal,
-                                  Optional margin% = 100) As Image
+                                  Optional margin% = 100,
+                                  Optional groupLowerBounds% = 3) As Image
 
         Dim graph As NetworkGraph = model _
             .CreateGraph(
@@ -205,7 +206,9 @@ Public Module FunctionalEnrichmentPlot
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(x) x.Item1) _
-            .Where(Function(g) (Not g.Key.StringEmpty) AndAlso g.Count >= 3) _
+            .Where(Function(g)
+                       Return (Not g.Key.StringEmpty) AndAlso g.Count >= groupLowerBounds
+                   End Function) _
             .ToDictionary(Function(g) g.Key,
                           Function(nodes)
                               Return nodes _
@@ -231,7 +234,8 @@ Public Module FunctionalEnrichmentPlot
             .DrawImage(canvasSize:=size,
                        scale:=scale,
                        nodePoints:=nodePoints,
-                       edgeDashTypes:=dash) _
+                       edgeDashTypes:=dash,
+                       fontSizeFactor:=2.5) _
             .AsGDIImage _
             .CreateCanvas2D(directAccess:=True)
 
