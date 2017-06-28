@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network
@@ -220,9 +221,17 @@ Public Module FunctionalEnrichmentPlot
         Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
 
         Dim KEGGColors As New Dictionary(Of String, (counts#, color As Color))
+        Dim dash As New Dictionary(Of String, DashStyle)
+
+        dash("pathway_internal") = DashStyle.Solid
+        dash("Unknown") = DashStyle.Dash
+        dash("pathway_outbounds") = DashStyle.Dash
 
         Using g As Graphics2D = graph _
-            .DrawImage(canvasSize:=size, scale:=scale, nodePoints:=nodePoints) _
+            .DrawImage(canvasSize:=size,
+                       scale:=scale,
+                       nodePoints:=nodePoints,
+                       edgeDashTypes:=dash) _
             .AsGDIImage _
             .CreateCanvas2D(directAccess:=True)
 
