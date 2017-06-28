@@ -1,4 +1,4 @@
-﻿Imports RDotNET.Extensions.VisualBasic.API.as
+﻿Imports RDotNET.Extensions.VisualBasic.API
 
 Namespace Custom
 
