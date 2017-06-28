@@ -2,14 +2,14 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.Microarray.DEGProfiling
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.Model.Network.STRING
 Imports protein = Microsoft.VisualBasic.Data.csv.IO.EntityObject
-Imports SMRUCC.genomics.Analysis.Microarray.DEGProfiling
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 
 Partial Module CLI
 
@@ -19,7 +19,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/func.rich.string")>
-    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/fold <1.5> /iTraq /logFC <logFC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
+    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/r.range <default=5,20> /fold <1.5> /iTraq /logFC <logFC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
     <Description("DEPs' functional enrichment network based on string-db exports, and color by KEGG pathway.")>
     Public Function FunctionalNetworkEnrichment(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -73,9 +73,16 @@ Partial Module CLI
             DEGs = (uniprot2STRING(.UP), uniprot2STRING(.DOWN))
         End With
 
+        Dim radius = args.GetValue("/r.range", "12,30")
+
         Call model.ComputeNodeDegrees
-        Call model.RenderDEGsColor(DEGs, (up:="red", down:="blue"),)
-        Call model.VisualizeKEGG(layouts, size:="4000,3000", scale:=2.5) _
+        Call model.RenderDEGsColor(DEGs, (up:="brown", down:="skyblue"),)
+        Call model.VisualizeKEGG(
+                layouts,
+                size:="4000,3000",
+                scale:=2.5,
+                radius:=radius,
+                groupLowerBounds:=4) _
             .SaveAs(out & "/network.png")
 
         Return model.Save(out).CLICode
