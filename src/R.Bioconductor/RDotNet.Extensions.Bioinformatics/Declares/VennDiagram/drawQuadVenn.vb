@@ -212,7 +212,7 @@ Namespace VennDiagram
         ''' List of 4 vectors of length 2 indicating horizontal and vertical justification of each category name
         ''' </summary>
         ''' <returns></returns>
-        <Parameter("cat.just")> Public Property catJust As RExpression = rep(list(c(0.5, 0.5)), 4)
+        <Parameter("cat.just")> Public Property catJust As RExpression = rep(RScripts.list(c(0.5, 0.5)), 4)
         ''' <summary>
         ''' Number of degrees to rotate the entire diagram
         ''' </summary>
