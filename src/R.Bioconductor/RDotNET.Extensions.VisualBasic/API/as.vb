@@ -46,7 +46,7 @@ Namespace API.as
         ''' ``as.ts`` is generic. Its default method will use the tsp attribute of the object 
         ''' if it has one to set the start and end times and frequency.
         ''' </returns>
-        Public Function ts(x As String, ParamArray additionals As String()) As String
+        Public Shared Function ts(x As String, ParamArray additionals As String()) As String
             Dim out As String = App.NextTempName
             Call $"{out} <- as.ts({x}, {String.Join(",", additionals)})".__call
             Return out
@@ -63,7 +63,7 @@ Namespace API.as
         ''' <param name="x$"></param>
         ''' <param name="mode$"></param>
         ''' <returns></returns>
-        Public Function vector(x$, Optional mode$ = "any") As String
+        Public Shared Function vector(x$, Optional mode$ = "any") As String
             Dim var$ = App.NextTempName
 
             SyncLock R
@@ -87,7 +87,7 @@ Namespace API.as
         ''' using function <see cref="BuilderAPI.list(String())"/> for generates this additional arguments to be passed to or from methods.
         ''' </param>
         ''' <returns></returns>
-        Public Function matrix(x$, Optional rownamesForce As String = "NA", Optional list As ParameterList = Nothing) As String
+        Public Shared Function matrix(x$, Optional rownamesForce As String = "NA", Optional list As ParameterList = Nothing) As String
             SyncLock R
                 With R
                     Dim var$ = App.NextTempName
