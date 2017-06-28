@@ -25,6 +25,7 @@ Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -32,7 +33,7 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Partial Module CLI
 
     <ExportAPI("/KEGG.enrichment.DAVID")>
-    <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /size <default=1200,1000> /out <out.png>]")>
+    <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /custom <ko00001.keg> /size <default=1200,1000> /out <out.png>]")>
     Public Function DAVID_KEGGplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG.plot.png")
@@ -44,9 +45,16 @@ Partial Module CLI
             [in].LoadCsv(Of FunctionCluster).ToArray)
         Dim KEGG = table.SelectKEGGPathway
         Dim size$ = args.GetValue("/size", "1200,1000")
+        Dim KEGG_PATH As Dictionary(Of String, BriteHText) = Nothing
+
+        With args <= "/custom"
+            If .FileExists(True) Then
+                KEGG_PATH = PathwayMapping.CustomPathwayTable(ko00001:= .ref)
+            End If
+        End With
 
         Return KEGG _
-            .KEGGEnrichmentPlot(size:=size.SizeParser) _
+            .KEGGEnrichmentPlot(size:=size.SizeParser, KEGG:=KEGG_PATH) _
             .Save(out) _
             .CLICode
     End Function
