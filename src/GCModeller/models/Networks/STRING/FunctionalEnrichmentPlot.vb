@@ -6,17 +6,17 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
+Imports GraphLayout = Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network
 Imports NetNode = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
-Imports GraphLayout = Microsoft.VisualBasic.Data.visualize.Network.Layouts
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 
 ''' <summary>
 ''' 功能富集网络
@@ -160,8 +160,19 @@ Public Module FunctionalEnrichmentPlot
     ''' <param name="model"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function VisualizeKEGG(model As NetGraph, Optional layouts As Coordinates() = Nothing, Optional size$ = "6000,5000", Optional colorSchema$ = "Set1:c9", Optional scale# = 4.5) As Image
-        Dim graph = model.CreateGraph(nodeColor:=Function(n) (n!color).GetBrush)
+    Public Function VisualizeKEGG(model As NetGraph,
+                                  Optional layouts As Coordinates() = Nothing,
+                                  Optional size$ = "6000,5000",
+                                  Optional colorSchema$ = "Set1:c9",
+                                  Optional scale# = 4.5,
+                                  Optional radius$ = "5,20") As Image
+
+        Dim graph As NetworkGraph = model _
+            .CreateGraph(
+                nodeColor:=Function(n)
+                               Return (n!color).GetBrush
+                           End Function) _
+            .ScaleRadius(range:=radius)
 
         If layouts.IsNullOrEmpty Then
             Dim parameters As ForceDirectedArgs = GraphLayout.Parameters.Load
@@ -201,6 +212,7 @@ Public Module FunctionalEnrichmentPlot
                           End Function)
         Dim nodePoints As Dictionary(Of Graph.Node, Point) = Nothing
         Dim colors As New LoopArray(Of Color)(Designer.GetColors(colorSchema))
+        Dim image As Image
 
         Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
 
@@ -226,7 +238,14 @@ Public Module FunctionalEnrichmentPlot
                 End With
             Next
 
-            Return g.ImageResource.CorpBlank(100, blankColor:=Color.White)
+            image = g.ImageResource.CorpBlank(100, blankColor:=Color.White)
         End Using
+
+        ' 在图片的左下角加入代谢途径的名称
+        Using g As Graphics2D = image.CreateCanvas2D(directAccess:=True)
+
+        End Using
+
+        Return image
     End Function
 End Module
