@@ -164,7 +164,7 @@ Namespace Runtime
 #End Region
 
         Public Function ToBoolean(provider As IFormatProvider) As Boolean Implements IConvertible.ToBoolean
-            Return InputHandler.ToString(SysTopStack).getBoolean
+            Return InputHandler.ToString(SysTopStack).ParseBoolean
         End Function
 
         Public Function ToByte(provider As IFormatProvider) As Byte Implements IConvertible.ToByte

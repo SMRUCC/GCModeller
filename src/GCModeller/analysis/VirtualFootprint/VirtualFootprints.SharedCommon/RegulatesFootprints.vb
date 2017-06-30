@@ -111,7 +111,7 @@ Namespace DocumentFormat
 
         Private Property InteractionType As String Implements INetworkEdge.Interaction
             Get
-                If InitX.getBoolean Then
+                If InitX.ParseBoolean Then
                     Return $"[Operon] TF Regulation"
                 Else
                     Return "TF Regulation"

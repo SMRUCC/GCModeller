@@ -43,19 +43,19 @@ Namespace EngineSystem.Engine.Configuration
 
         Public ReadOnly Property SuppressErrorMessage As Boolean
             Get
-                Return _Configs.SuppressErrorMessage.getBoolean
+                Return _Configs.SuppressErrorMessage.ParseBoolean
             End Get
         End Property
 
         Public ReadOnly Property SuppressPeriodicMessage As Boolean
             Get
-                Return _Configs.SuppressPeriodicMessage.getBoolean
+                Return _Configs.SuppressPeriodicMessage.ParseBoolean
             End Get
         End Property
 
         Public ReadOnly Property SuppressWarnMessage As Boolean
             Get
-                Return _Configs.SuppressWarnMessage.getBoolean
+                Return _Configs.SuppressWarnMessage.ParseBoolean
             End Get
         End Property
 
@@ -91,7 +91,7 @@ Namespace EngineSystem.Engine.Configuration
 
         Public ReadOnly Property TrimMetabolism As Boolean
             Get
-                Return _Configs.TrimMetabolismMetabolites.getBoolean
+                Return _Configs.TrimMetabolismMetabolites.ParseBoolean
             End Get
         End Property
 

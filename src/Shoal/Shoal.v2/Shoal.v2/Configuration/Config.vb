@@ -51,7 +51,7 @@ Namespace Configuration
 #End Region
 
         Public Function EnableConsoleTitle() As Boolean
-            Return ConsoleTitleAutoDisplay.getBoolean
+            Return ConsoleTitleAutoDisplay.ParseBoolean
         End Function
 
         Public Function GetExtensionList() As String()
@@ -75,7 +75,7 @@ Namespace Configuration
         End Function
 
         Public Function PreferIndexingManual() As Boolean
-            Return ManualPreferIndexPages.getBoolean
+            Return ManualPreferIndexPages.ParseBoolean
         End Function
 
         Public Function PreLoadedModules() As String()
@@ -87,7 +87,7 @@ Namespace Configuration
         End Function
 
         Public Function LastDir_AsInit() As Boolean
-            Return LastDirAsInit.getBoolean
+            Return LastDirAsInit.ParseBoolean
         End Function
 
         Public Function InitDirectory() As String

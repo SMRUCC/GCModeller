@@ -173,7 +173,7 @@ Partial Module CLI
         Dim DEPFlag As String = args.GetValue("/DEP.flag", "is.DEP?")
         Dim uniprot As String = args.GetValue("/uniprot.Flag", "uniprot")
         Dim data = EntityObject.LoadDataSet([in])
-        Dim DEPs = data.Where(Function(prot) prot(DEPFlag).getBoolean).ToArray
+        Dim DEPs = data.Where(Function(prot) prot(DEPFlag).ParseBoolean).ToArray
         Dim uniprotIDs$() = DEPs _
             .Select(Function(prot) prot(uniprot).Split(";"c)) _
             .Unlist _
