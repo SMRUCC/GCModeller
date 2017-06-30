@@ -169,7 +169,8 @@ Public Module FunctionalEnrichmentPlot
                                   Optional scale# = 4.5,
                                   Optional radius$ = "5,20",
                                   Optional KEGGNameFont$ = CSSFont.Win7LargerNormal,
-                                  Optional margin% = 100) As Image
+                                  Optional margin% = 100,
+                                  Optional groupLowerBounds% = 3) As Image
 
         Dim graph As NetworkGraph = model _
             .CreateGraph(
@@ -205,7 +206,9 @@ Public Module FunctionalEnrichmentPlot
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(x) x.Item1) _
-            .Where(Function(g) (Not g.Key.StringEmpty) AndAlso g.Count >= 3) _
+            .Where(Function(g)
+                       Return (Not g.Key.StringEmpty) AndAlso g.Count >= groupLowerBounds
+                   End Function) _
             .ToDictionary(Function(g) g.Key,
                           Function(nodes)
                               Return nodes _
@@ -221,17 +224,22 @@ Public Module FunctionalEnrichmentPlot
         Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
 
         Dim KEGGColors As New Dictionary(Of String, (counts#, color As Color))
-        Dim dash As New Dictionary(Of String, DashStyle)
+        Dim dash As Dictionary(Of String, DashStyle)
 
-        dash("pathway_internal") = DashStyle.Solid
-        dash("Unknown") = DashStyle.Dash
-        dash("pathway_outbounds") = DashStyle.Dash
+        With New Dictionary(Of String, DashStyle)
+            !pathway_internal = DashStyle.Solid
+            !Unknown = DashStyle.Dash
+            !pathway_outbounds = DashStyle.Dash
+
+            dash = .ref
+        End With
 
         Using g As Graphics2D = graph _
             .DrawImage(canvasSize:=size,
                        scale:=scale,
                        nodePoints:=nodePoints,
-                       edgeDashTypes:=dash) _
+                       edgeDashTypes:=dash,
+                       fontSizeFactor:=2.5) _
             .AsGDIImage _
             .CreateCanvas2D(directAccess:=True)
 
@@ -282,6 +290,7 @@ Public Module FunctionalEnrichmentPlot
 
                 g.FillRectangle(b, New Rectangle(New Point(X, Y), rectSize))
                 g.DrawString(name, font, Brushes.Black, New PointF(X + dy + rectSize.Width, Y))
+
                 Y += dy + font.Height
             Next
         End Using

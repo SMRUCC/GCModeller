@@ -73,15 +73,16 @@ Partial Module CLI
             DEGs = (uniprot2STRING(.UP), uniprot2STRING(.DOWN))
         End With
 
-        Dim radius = args.GetValue("/r.range", "15,50")
+        Dim radius = args.GetValue("/r.range", "12,30")
 
         Call model.ComputeNodeDegrees
-        Call model.RenderDEGsColor(DEGs, (up:="red", down:="blue"),)
+        Call model.RenderDEGsColor(DEGs, (up:="brown", down:="skyblue"),)
         Call model.VisualizeKEGG(
                 layouts,
                 size:="4000,3000",
                 scale:=2.5,
-                radius:=radius) _
+                radius:=radius,
+                groupLowerBounds:=4) _
             .SaveAs(out & "/network.png")
 
         Return model.Save(out).CLICode
