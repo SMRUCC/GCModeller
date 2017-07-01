@@ -33,7 +33,7 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-funrich_string/")
         Dim proteins As protein() = protein.LoadDataSet(DEP).ToArray
         Dim annotations = UniprotXML.Load(uniprot).StringUniprot ' STRING -> uniprot
-        Dim model = [in].LoadTsv(Of InteractExports).BuildModel(annotations)
+        Dim model = [in].LoadTsv(Of InteractExports).BuildModel(annotations, groupValues:=FunctionalEnrichmentNetwork.KOGroupTable)
         Dim threshold As (up#, down#)
         Dim layouts As Coordinates() = (args <= "/layout").LoadTsv(Of Coordinates)
 
@@ -101,6 +101,7 @@ Partial Module CLI
     <Description("Using this command for generates the gene id list input for the STRING-db search.")>
     <Argument("/p.value", True, AcceptTypes:={GetType(Double)},
               Description:="Using for enrichment term result filters, default is p.value less than or equals to 1, means no cutoff.")>
+    <Group(CLIGroups.NetworkEnrichment_CLI)>
     Public Function GeneIDListFromKOBASResult(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim pvalue = args.GetValue("/p.value", 1.0R)
@@ -122,5 +123,13 @@ Partial Module CLI
             .ToArray _
             .SaveTo(out) _
             .CLICode
+    End Function
+
+    <ExportAPI("/richfun.KOBAS")>
+    <Usage("/richfun.KOBAS /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> /KOBAS <enrichment.csv> [/r.range <default=5,20> /fold <1.5> /iTraq /logFC <logFC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
+    <Argument("/KOBAS", Description:="The pvalue result in the enrichment term, will be using as the node radius size.")>
+    <Group(CLIGroups.NetworkEnrichment_CLI)>
+    Public Function KOBASNetwork(args As CommandLine) As Integer
+
     End Function
 End Module

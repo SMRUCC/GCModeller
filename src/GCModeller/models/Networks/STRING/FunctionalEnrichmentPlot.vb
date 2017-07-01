@@ -23,7 +23,7 @@ Imports NetNode = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
 ''' <summary>
 ''' 功能富集网络
 ''' </summary>
-Public Module FunctionalEnrichmentPlot
+Public Module FunctionalEnrichmentNetwork
 
     ''' <summary>
     ''' Using string-db ID as the uniprot data index key
@@ -44,9 +44,29 @@ Public Module FunctionalEnrichmentPlot
 
     Const delimiter$ = " === "
 
+    ''' <summary>
+    ''' Using for the group values inforamtion for <see cref="BuildModel"/> function.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function KOGroupTable() As Dictionary(Of String, String)
+        Return PathwayMapping _
+            .DefaultKOTable _
+            .ToDictionary(Function(KO) KO.Key,
+                          Function(KO) KO.Value.Parent.Description)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="interacts"></param>
+    ''' <param name="uniprot"></param>
+    ''' <param name="groupValues">进行Node分组所需要的group信息来源</param>
+    ''' <returns></returns>
     <Extension>
-    Public Function BuildModel(interacts As IEnumerable(Of InteractExports), uniprot As Dictionary(Of String, entry)) As NetGraph
-        Dim KOCatagory = PathwayMapping.DefaultKOTable
+    Public Function BuildModel(interacts As IEnumerable(Of InteractExports),
+                               uniprot As Dictionary(Of String, entry),
+                               groupValues As Dictionary(Of String, String)) As NetGraph
+
         Dim name2STRING = interacts _
             .Select(Function(x) {
                 (x.node1, x.node1_external_id),
@@ -73,8 +93,8 @@ Public Module FunctionalEnrichmentPlot
                                      .Select(Function(x) x.id) _
                                      .ToArray
                                 pathways = KO _
-                                    .Where(Function(ID) KOCatagory.ContainsKey(ID)) _
-                                    .Select(Function(ID) KOCatagory(ID).Parent.Description) _
+                                    .Where(Function(ID) groupValues.ContainsKey(ID)) _
+                                    .Select(Function(ID) groupValues(ID)) _
                                     .Distinct _
                                     .ToArray
                                 uniprotID = .accessions
@@ -92,7 +112,7 @@ Public Module FunctionalEnrichmentPlot
                         data!STRING_ID = stringID
 
                         Return New NetNode(name) With {
-                            .NodeType = pathways.JoinBy(FunctionalEnrichmentPlot.delimiter),
+                            .NodeType = pathways.JoinBy(FunctionalEnrichmentNetwork.delimiter),
                             .Properties = data
                         }
                     End Function) _
@@ -101,8 +121,8 @@ Public Module FunctionalEnrichmentPlot
             .Select(Function(l)
                         Dim a = nodes(l.node1)
                         Dim b = nodes(l.node2)
-                        Dim pa = Strings.Split(a.NodeType, FunctionalEnrichmentPlot.delimiter)
-                        Dim pb = Strings.Split(b.NodeType, FunctionalEnrichmentPlot.delimiter)
+                        Dim pa = Strings.Split(a.NodeType, FunctionalEnrichmentNetwork.delimiter)
+                        Dim pb = Strings.Split(b.NodeType, FunctionalEnrichmentNetwork.delimiter)
                         Dim type$
 
                         If pa.Where(Function(pathway) pb.IndexOf(pathway) > -1).Count > 0 Then
