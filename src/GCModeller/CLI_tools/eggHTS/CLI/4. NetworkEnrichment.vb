@@ -32,10 +32,10 @@ Partial Module CLI
         Dim logFC$ = args.GetValue("/logFC", NameOf(logFC))
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-funrich_string/")
         Dim proteins As protein() = protein.LoadDataSet(DEP).ToArray
-        Dim annotations = UniprotXML.Load(uniprot).StringUniprot ' STRING -> uniprot
-        Dim model = [in].LoadTsv(Of InteractExports).BuildModel(annotations, groupValues:=FunctionalEnrichmentNetwork.KOGroupTable)
+        Dim stringNetwork = [in].LoadTsv(Of InteractExports)
         Dim threshold As (up#, down#)
         Dim layouts As Coordinates() = (args <= "/layout").LoadTsv(Of Coordinates)
+        Dim annotations = UniprotXML.Load(uniprot).StringUniprot ' STRING -> uniprot
 
         If iTraq Then
             threshold = (fold, 1 / fold)
@@ -48,46 +48,27 @@ Partial Module CLI
                 Return gene("is.DEP").TextEquals("TRUE")
             End Function,
             threshold, logFC)
+        Dim Uniprot2STRING = annotations.Uniprot2STRING
 
         With DEGs
-            Dim uniprotSTRING = annotations.Values _
-                .Distinct _
-                .Select(Function(protein)
-                            Return protein.accessions.Select(Function(unid) (unid, protein))
-                        End Function) _
-                .IteratesALL _
-                .GroupBy(Function(x) x.Item1) _
-                .ToDictionary(Function(x) x.Key,
-                              Function(x)
-                                  Return x.First.Item2 _
-                                      .Xrefs(InteractExports.STRING) _
-                                      .Select(Function(link) link.id) _
-                                      .ToArray
-                              End Function)
-            Dim uniprot2STRING = Function(list As String())
-                                     Return list _
-                                         .Where(Function(id) uniprotSTRING.ContainsKey(id)) _
-                                         .Select(Function(id) uniprotSTRING(id)) _
-                                         .IteratesALL _
-                                         .Distinct _
-                                         .ToArray
-                                 End Function
-            DEGs = (uniprot2STRING(.UP), uniprot2STRING(.DOWN))
+            DEGs = (Uniprot2STRING(.UP), Uniprot2STRING(.DOWN))
         End With
 
         Dim radius = args.GetValue("/r.range", "12,30")
 
-        Call model.ComputeNodeDegrees
-        Call model.RenderDEGsColor(DEGs, (up:="brown", down:="skyblue"),)
-        Call model.VisualizeKEGG(
-                layouts,
-                size:="4000,3000",
-                scale:=2.5,
-                radius:=radius,
-                groupLowerBounds:=4) _
-            .SaveAs(out & "/network.png")
+        With stringNetwork.NetworkVisualize(
+            annotations:=annotations,
+            DEGs:=DEGs,
+            layouts:=layouts,
+            radius:=radius)
 
-        Return model.Save(out).CLICode
+            Call .image _
+                .SaveAs(out & "/network.png")
+
+            Return .model _
+                .Save(out) _
+                .CLICode
+        End With
     End Function
 
     ''' <summary>

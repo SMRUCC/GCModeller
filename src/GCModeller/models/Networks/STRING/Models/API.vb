@@ -30,13 +30,13 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Extensions
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Model.Network.STRING.Models
 Imports SMRUCC.genomics.Model.Network.STRING.TCS
 Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
-Imports SMRUCC.genomics.Model.Network.STRING.Models
 Imports STRING_NetGraph = SMRUCC.genomics.Model.Network.STRING.Models.Network
 
 <PackageNamespace("StrPNet.API", Description:="Bacterial signal transduction network based on the string-db")>
