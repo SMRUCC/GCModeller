@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.Microarray.DEGProfiling
+Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.Model.Network.STRING
@@ -21,6 +22,7 @@ Partial Module CLI
     <ExportAPI("/func.rich.string")>
     <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/r.range <default=5,20> /fold <1.5> /iTraq /logFC <logFC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
     <Description("DEPs' functional enrichment network based on string-db exports, and color by KEGG pathway.")>
+    <Group(CLIGroups.NetworkEnrichment_CLI)>
     Public Function FunctionalNetworkEnrichment(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim uniprot$ = args <= "/uniprot"
@@ -86,5 +88,39 @@ Partial Module CLI
             .SaveAs(out & "/network.png")
 
         Return model.Save(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' 将KOBAS富集得到的基因的编号列表写入到一个文本文件之中
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("/Gene.list.from.KOBAS")>
+    <Usage("/Gene.list.from.KOBAS /in <KOBAS.csv> [/p.value <default=1> /out <out.txt>]")>
+    <Description("Using this command for generates the gene id list input for the STRING-db search.")>
+    <Argument("/p.value", True, AcceptTypes:={GetType(Double)},
+              Description:="Using for enrichment term result filters, default is p.value less than or equals to 1, means no cutoff.")>
+    Public Function GeneIDListFromKOBASResult(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim pvalue = args.GetValue("/p.value", 1.0R)
+        Dim out$ = If(pvalue = 1.0R,
+            [in].TrimSuffix & ".gene.list.txt",
+            [in].TrimSuffix & $"_p.value={pvalue},gene.list.txt")
+
+        out = args.GetValue("/out", out)
+
+        Dim data As EnrichmentTerm() = [in].LoadCsv(Of EnrichmentTerm)
+        data = data _
+            .Where(Function(t) t.Pvalue <= pvalue) _
+            .ToArray
+
+        Return data _
+            .Select(Function(t) t.ORF) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray _
+            .SaveTo(out) _
+            .CLICode
     End Function
 End Module
