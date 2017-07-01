@@ -64,8 +64,8 @@ Namespace NetworkModel.KEGG
         End Function
 
         <ExportAPI("Build.NET")>
-        <Extension> Public Function BuildNET(Of T As PathwayBrief)(mods As IEnumerable(Of T)) As Network
-            Dim net As New Network
+        <Extension> Public Function BuildNET(Of T As PathwayBrief)(mods As IEnumerable(Of T)) As NetworkTables
+            Dim net As New NetworkTables
             Dim modType As String = GetType(T).Name
             Dim modHash = New ModsBrite(Of T)
             Dim netEdges = (From x As T In mods
@@ -105,7 +105,7 @@ Namespace NetworkModel.KEGG
         ''' <param name="edges">Mod -> Gene</param>
         ''' <returns></returns>
         <Extension>
-        Private Function __modProperty(net As Network, edges As NetworkEdge()) As IEnumerable(Of Node)
+        Private Function __modProperty(net As NetworkTables, edges As NetworkEdge()) As IEnumerable(Of Node)
             Dim LQuery = (From x As NetworkEdge In edges
                           Let mId As String = x.FromNode
                           Let mX As Node = net & mId
@@ -138,9 +138,9 @@ Namespace NetworkModel.KEGG
         ''' <returns></returns>
         <ExportAPI("NET.Add.Footprints")>
         <Extension>
-        Public Function AddFootprints(net As Network,
+        Public Function AddFootprints(net As NetworkTables,
                                       footprints As IEnumerable(Of RegulatesFootprints),
-                                      Optional brief As Boolean = False) As Network
+                                      Optional brief As Boolean = False) As NetworkTables
 
             footprints = (From x In footprints Where InStr(x.MotifTrace, "@") = 0 Select x).ToArray  ' 拓展的不需要，因为会让图太密了
 
@@ -179,17 +179,17 @@ Namespace NetworkModel.KEGG
         End Function
 
         <ExportAPI("Write.Csv.Network")>
-        Public Function SaveNetwork(net As Network, DIR As String) As Boolean
+        Public Function SaveNetwork(net As NetworkTables, DIR As String) As Boolean
             Return net.Save(DIR, Encodings.ASCII)
         End Function
 
         <ExportAPI("Build.NET")>
-        Public Function BuildNET(mods As IEnumerable(Of bGetObject.Pathway)) As Network
+        Public Function BuildNET(mods As IEnumerable(Of bGetObject.Pathway)) As NetworkTables
             Return mods.BuildNET
         End Function
 
         <ExportAPI("Build.NET")>
-        Public Function BuildNET(mods As IEnumerable(Of bGetObject.Module)) As Network
+        Public Function BuildNET(mods As IEnumerable(Of bGetObject.Module)) As NetworkTables
             Return mods.BuildNET
         End Function
     End Module

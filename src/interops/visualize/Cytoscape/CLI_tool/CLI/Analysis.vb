@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Mathematical.Correlations
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Visualize
-Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network
+Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
 
 Partial Module CLI
 

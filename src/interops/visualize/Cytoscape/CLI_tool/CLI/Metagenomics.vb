@@ -172,7 +172,7 @@ Partial Module CLI
             cut = Function(d) d > cutoff
         End If
 
-        Dim net As Network = data.ToNetwork(clusterColors, cut:=cut)
+        Dim net As NetworkTables = data.ToNetwork(clusterColors, cut:=cut)
         Return net.Save(out, Encodings.ASCII).CLICode
     End Function
 
@@ -252,7 +252,7 @@ Partial Module CLI
         End If
 
         ' step3
-        Dim network As Network = BuildNetwork(matrix, ssuTax, theme, parallel)
+        Dim network As NetworkTables = BuildNetwork(matrix, ssuTax, theme, parallel)
 
         ' 第一步的iterator直到第三布的时候才会被执行，所以这个列表要放在最后面保存，否则会没有数据
         Call notFound.FlushAllLines(EXPORT & "/taxonomy_notfound.txt")

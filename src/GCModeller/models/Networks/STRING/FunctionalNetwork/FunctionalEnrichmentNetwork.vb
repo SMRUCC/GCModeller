@@ -17,7 +17,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
 Imports GraphLayout = Microsoft.VisualBasic.Data.visualize.Network.Layouts
-Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network
+Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
 Imports NetNode = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
 
 ''' <summary>

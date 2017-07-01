@@ -48,7 +48,7 @@ Public Module PathwayMapVisualize
     ''' <param name="compounds"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function BuildModel(ref As PathwayMap, reaction As IRepositoryRead(Of String, Reaction), compounds As IRepositoryRead(Of String, Compound)) As Network
+    Public Function BuildModel(ref As PathwayMap, reaction As IRepositoryRead(Of String, Reaction), compounds As IRepositoryRead(Of String, Compound)) As NetworkTables
         If ref.KEGGReaction.IsNullOrEmpty Then
             Return Nothing
         End If

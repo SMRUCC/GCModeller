@@ -89,7 +89,7 @@ Namespace NetworkModel.KEGG
         ''' <returns></returns>
         ''' 
         <ExportAPI("NET.Build")>
-        Public Function BuildNET(source As String) As FileStream.Network
+        Public Function BuildNET(source As String) As FileStream.NetworkTables
             Return BuildNET(LoadObjects(source))
         End Function
 
@@ -100,7 +100,7 @@ Namespace NetworkModel.KEGG
         ''' <returns></returns>
         ''' 
         <ExportAPI("NET.Build")>
-        Public Function BuildNET(source As IEnumerable(Of bGetObject.Reaction)) As FileStream.Network
+        Public Function BuildNET(source As IEnumerable(Of bGetObject.Reaction)) As FileStream.NetworkTables
             Dim cpHash = BuildCompoundHash(source)
             Dim nodes As New List(Of FileStream.Node)
             Dim nodeTmp As FileStream.Node() = source.ToArray(Function(x) New FileStream.Node With {.ID = x.Entry, .NodeType = "Flux"})
@@ -113,14 +113,14 @@ Namespace NetworkModel.KEGG
 
             Dim edges As FileStream.NetworkEdge() = cpHash.ToArray(Function(x) __buildNET(x.Key, x.Value), Parallel:=True).ToVector
 
-            Return New FileStream.Network With {
+            Return New FileStream.NetworkTables With {
                 .Edges = edges.ToArray,
                 .Nodes = nodes.ToArray
             }
         End Function
 
         <ExportAPI("NET.Build")>
-        Public Function ModelNET(model As XmlModel, Optional sourceDIR As String = "") As FileStream.Network
+        Public Function ModelNET(model As XmlModel, Optional sourceDIR As String = "") As FileStream.NetworkTables
             Dim maps As EC_Mapping() = model.EC_Mappings
             Dim source As Dictionary(Of String, bGetObject.Reaction()) = (From x As bGetObject.Reaction
                                                                           In LoadObjects(sourceDIR)
@@ -135,7 +135,7 @@ Namespace NetworkModel.KEGG
             Dim rxns = (From x In source.Values.IteratesALL
                         Where StringHelpers.IsNullOrEmpty(x.ECNum)
                         Select x).Join(mapsSource).ToArray
-            Dim net As FileStream.Network = BuildNET(rxns)
+            Dim net As FileStream.NetworkTables = BuildNET(rxns)
             Return net
         End Function
 

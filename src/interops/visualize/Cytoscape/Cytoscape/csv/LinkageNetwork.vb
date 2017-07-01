@@ -22,7 +22,7 @@ Namespace Tables
         ''' <param name="source"></param>
         ''' <param name="schema$">The color schema name</param>
         ''' <returns></returns>
-        Public Function BuildNetwork(source As File, Optional typePrefix As Boolean = True, Optional schema$ = "material") As Network
+        Public Function BuildNetwork(source As File, Optional typePrefix As Boolean = True, Optional schema$ = "material") As NetworkTables
             source = source.Trim
 
             Dim types$() = source.Headers.ToArray ' 表头作为节点类型
@@ -110,7 +110,7 @@ Namespace Tables
                 node.Properties.Add("color", colors(node.NodeType))
             Next
 
-            Return New Network With {
+            Return New NetworkTables With {
                 .Edges = edges,
                 .Nodes = nodes
             }

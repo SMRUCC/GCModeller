@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
-Imports NetworkTables = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network
+Imports NetworkTables = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
 
 ''' <summary>
 ''' Functional network analysis based on the ``STRING-db``.
