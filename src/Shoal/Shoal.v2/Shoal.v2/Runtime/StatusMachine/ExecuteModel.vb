@@ -503,7 +503,7 @@ Namespace Runtime
 
         Public Function [If](Expression As Interpreter.LDM.Expressions.PrimaryExpression) As Object
             Dim Expr = Expression.As(Of Interpreter.LDM.Expressions.ControlFlows.If)
-            Dim BoolIf As Boolean = InputHandler.ToString(Exec(Expr.BooleanIf.Expression)).getBoolean
+            Dim BoolIf As Boolean = InputHandler.ToString(Exec(Expr.BooleanIf.Expression)).ParseBoolean
             Dim Stack = Me.Stack.Peek
             Dim value As Object
 
@@ -525,7 +525,7 @@ Namespace Runtime
 
             If Not Stack.If = True Then Return True
 
-            Dim BoolIf As Boolean = InputHandler.ToString(Exec(Expr.BooleanIf.Expression)).getBoolean
+            Dim BoolIf As Boolean = InputHandler.ToString(Exec(Expr.BooleanIf.Expression)).ParseBoolean
 
             If BoolIf = True Then
                 value = New Runtime.FSMMachine(ScriptEngine, Expr.Invoke).Execute
@@ -576,7 +576,7 @@ Namespace Runtime
 
         Private Function __getBoolean(Expr As Interpreter.Parser.Tokens.InternalExpression) As Boolean
             Dim __execed As Object = Exec(Expr.Expression)
-            Dim bool As Boolean = InputHandler.ToString(__execed).getBoolean
+            Dim bool As Boolean = InputHandler.ToString(__execed).ParseBoolean
             Return bool
         End Function
 
