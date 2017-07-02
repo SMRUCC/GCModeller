@@ -120,7 +120,7 @@ Public Module CLI
         Dim in$ = args("/in")
         Dim quantile = args.GetValue("/quantile", 0.99)
         Dim out = args.GetValue("/out", [in].TrimDIR & $".cuts,quantile={quantile}/")
-        Dim net As Network = Network.Load([in])
+        Dim net As NetworkTables = NetworkTables.Load([in])
         Dim parts As Partition() = net.BuildTree.CutTrees(quantile).ToArray
         Dim json = parts.PartionTable
         Dim colors As Color() = Designer.GetColors("vb.chart", json.Count + 1)

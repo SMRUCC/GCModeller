@@ -2,6 +2,7 @@
 Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
@@ -84,5 +85,30 @@ Public Module KEGGPathwayMap
             End Sub)
 
         Return terms.KOBAS_visualize(EXPORT, pvalue)
+    End Function
+
+    ''' <summary>
+    ''' 计算出每一个ORF的term的富集结果的P值的总和
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="terms"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function PSum(Of T As IKEGGTerm)(terms As IEnumerable(Of T)) As Dictionary(Of String, Double)
+        Dim ORFpvalues = terms _
+            .Select(Function(term)
+                        Dim P# = -Math.Log10(term.Pvalue)
+                        Return term.ORF _
+                            .Select(Function(id)
+                                        Return (ORF:=id, P:=P)
+                                    End Function)
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(uniprot) uniprot.ORF) _
+            .ToDictionary(Function(id) id.Key,
+                          Function(P)
+                              Return Aggregate term In P Into Sum(term.P)
+                          End Function)
+        Return ORFpvalues
     End Function
 End Module

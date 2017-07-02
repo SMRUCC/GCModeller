@@ -64,7 +64,7 @@ Partial Module CLI
         Dim cog As String = args - "/cogs"
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $"-{cog.BaseName}.bTree/")
         Dim clusters = inFile.LoadCsv(Of EntityLDM)
-        Dim bTree As Network = clusters.bTreeNET
+        Dim bTree As NetworkTables = clusters.bTreeNET
         Dim state = COGFunction.GetClass(cog.LoadCsv(Of MyvaCOG), func)
         Dim COGs = (From x As COGFunction
                     In state
@@ -396,7 +396,7 @@ Partial Module CLI
         Dim downFile As String = args("/down")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
         Dim MAT = inMAT.LoadCsv(Of EntityLDM)
-        Dim net As Network = MAT.bTreeNET
+        Dim net As NetworkTables = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
 
         If brief Then Call __briefTrim(net)
@@ -506,7 +506,7 @@ Partial Module CLI
         Dim maps As String = args("/maps")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
         Dim MAT = inMAT.LoadCsv(Of EntityLDM)
-        Dim net As Network = MAT.bTreeNET
+        Dim net As NetworkTables = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
         Dim cut As Double = args.GetValue("/cuts", 0.8)
         Dim mods As String = args("/mods")
@@ -598,7 +598,7 @@ Partial Module CLI
         Dim mods As String = args("/mods")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
         Dim MAT = inMAT.LoadCsv(Of EntityLDM)
-        Dim net As Network = MAT.bTreeNET
+        Dim net As NetworkTables = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
 
         If brief Then Call __briefTrim(net)
@@ -657,7 +657,7 @@ Partial Module CLI
         Dim mods As String = args("/mods")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
         Dim MAT = inMAT.LoadCsv(Of EntityLDM)
-        Dim net As Network = MAT.bTreeNET
+        Dim net As NetworkTables = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
 
         If brief Then Call __briefTrim(net)
@@ -712,7 +712,7 @@ Partial Module CLI
         Return net.Save(out, Encodings.ASCII).CLICode
     End Function
 
-    Private Sub __briefTrim(ByRef net As Network)
+    Private Sub __briefTrim(ByRef net As NetworkTables)
         For Each x In net.Nodes
             x.Properties = Nothing
         Next
@@ -726,7 +726,7 @@ Partial Module CLI
         Dim inMAT As String = args("/in")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
         Dim MAT = inMAT.LoadCsv(Of EntityLDM)
-        Dim net As Network = MAT.bTreeNET
+        Dim net As NetworkTables = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
 
         If brief Then Call __briefTrim(net)
@@ -782,7 +782,7 @@ Partial Module CLI
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Tree.NET/")
         Dim inData = inFile.LoadCsv(Of EntityLDM)
-        Dim net As Network = inData.bTreeNET
+        Dim net As NetworkTables = inData.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
 
         If brief Then Call __briefTrim(net)

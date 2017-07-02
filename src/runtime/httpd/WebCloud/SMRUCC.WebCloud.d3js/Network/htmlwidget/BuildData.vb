@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports NetGraphData = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network
+Imports NetGraphData = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
 
 Namespace Network.htmlwidget
 

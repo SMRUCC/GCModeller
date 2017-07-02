@@ -94,7 +94,7 @@ Partial Module CLI
         Dim inFile As String = args("/in")
         Dim footprints = inFile.LoadCsv(Of PredictedRegulationFootprint)
         Dim cut As Double = args.GetValue("/cut", 0.45)
-        Dim net As FileStream.Network = footprints.BuildNetwork(cut)
+        Dim net As FileStream.NetworkTables = footprints.BuildNetwork(cut)
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $".regulates-TF_NET,cut={cut}/")
         Return net.Save(out, Encodings.ASCII).CLICode
     End Function

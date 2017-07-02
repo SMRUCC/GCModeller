@@ -68,7 +68,7 @@ Partial Module CLI
         End If
 
         Dim clusters As EntityLDM() = BinaryKmeans(fa, cut, minw, parallelDepth)
-        Dim net As Network = clusters.bTreeNET(removesProperty:=True)
+        Dim net As NetworkTables = clusters.bTreeNET(removesProperty:=True)
 
         Call clusters.SaveTo(out & $"/{[in].BaseName}-kmeans.csv")
         Call net.Save(out & "/binary-net/")

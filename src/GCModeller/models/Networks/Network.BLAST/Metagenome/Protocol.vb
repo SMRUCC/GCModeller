@@ -213,7 +213,7 @@ Namespace Metagenome
         ''' <param name="theme">The network color theme, default using colorbrewer theme style: **Paired:c12**</param>
         ''' <returns>使用于``Cytoscape``进行绘图可视化的网络数据模型</returns>
         <Extension>
-        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of BlastnMapping), Optional theme$ = "Paired:c12", Optional parallel As Boolean = False) As FileStream.Network
+        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of BlastnMapping), Optional theme$ = "Paired:c12", Optional parallel As Boolean = False) As FileStream.NetworkTables
             Dim nodes As New List(Of Node)
             Dim edges As New List(Of NetworkEdge)
             Dim taxonomyTypes As New Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String))
@@ -230,7 +230,7 @@ Namespace Metagenome
         Private Function __buildNetwork(matrix As IEnumerable(Of DataSet),
                                         taxonomyTypes As Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String)),
                                         theme$,
-                                        parallel As Boolean) As FileStream.Network
+                                        parallel As Boolean) As FileStream.NetworkTables
 
             Dim nodes As New List(Of Node)
             Dim edges As New List(Of NetworkEdge)
@@ -258,7 +258,7 @@ Namespace Metagenome
 
             Call theme$.__styleNetwork(nodes, edges)
 
-            Return New FileStream.Network With {
+            Return New FileStream.NetworkTables With {
                 .Nodes = nodes,
                 .Edges = edges
             }
@@ -274,7 +274,7 @@ Namespace Metagenome
         ''' <param name="theme">The network color theme, default using colorbrewer theme style: **Paired:c12**</param>
         ''' <returns>使用于``Cytoscape``进行绘图可视化的网络数据模型</returns>
         <Extension>
-        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of OTUData), Optional theme$ = "Paired:c12", Optional parallel As Boolean = False) As FileStream.Network
+        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of OTUData), Optional theme$ = "Paired:c12", Optional parallel As Boolean = False) As FileStream.NetworkTables
             Dim taxonomyTypes As New Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String))
 
             For Each SSU As OTUData In taxid
