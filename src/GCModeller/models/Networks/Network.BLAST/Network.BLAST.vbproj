@@ -180,10 +180,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API.vb" />
-    <Compile Include="LDM\BLAST.vb" />
-    <Compile Include="LDM\LocusDict.vb" />
-    <Compile Include="LDM\Hit.vb" />
-    <Compile Include="LDM\Protein.vb" />
+    <Compile Include="DataModels\BLAST.vb" />
+    <Compile Include="DataModels\LocusDict.vb" />
+    <Compile Include="DataModels\Hit.vb" />
+    <Compile Include="DataModels\Protein.vb" />
     <Compile Include="BBHAPI.vb" />
     <Compile Include="Metagenome\Protocol.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
