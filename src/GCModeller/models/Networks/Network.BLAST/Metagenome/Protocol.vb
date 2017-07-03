@@ -376,7 +376,7 @@ Namespace Metagenome
 
             For Each node As Node In nodes
                 With node
-                    !display = $"({node.ID}) {node.Properties("taxonomyName")}"
+                    !display = $"({node.ID}) {node!taxonomyName}"
                     !color = colors(node.NodeType)
                 End With
             Next
