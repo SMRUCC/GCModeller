@@ -34,7 +34,8 @@ Namespace Assembly.EBI.ChEBI.XML
 
     ''' <summary>
     ''' The complete entity including synonyms, database links and chemical structures.
-    ''' (ChEBI数据库之中的一个对某种代谢物的完整的描述的数据模型)
+    ''' (ChEBI数据库之中的一个对某种代谢物的完整的描述的数据模型，
+    ''' <see cref="INamedValue"/>的主键为<see cref="chebiId"/>主ID)
     ''' </summary>
     ''' <remarks>
     ''' 这个对象的XML布局是根据ChEBI的Web Services来生成的，所以为了能够正确的读取ChEBI的数据，不能够再随意修改了
