@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.DBLinkBuilder
 
@@ -9,10 +10,14 @@ Namespace ComponentModel.DBLinkBuilder
     ''' </summary>
     Public Class SecondaryIDSolver
 
+#Region "这里需要特别的注意一下：都是小写的字符串"
         Dim mainID As Index(Of String)
         Dim secondaryIDs As Dictionary(Of String, String)
+#End Region
 
-        Private Sub New()
+        Sub New()
+            mainID = New Index(Of String)
+            secondaryIDs = New Dictionary(Of String, String)
         End Sub
 
         Public Function SolveIDMapping(id$) As String
@@ -29,14 +34,27 @@ Namespace ComponentModel.DBLinkBuilder
             End With
         End Function
 
+        ''' <summary>
+        ''' Add new 2nd to main mapping
+        ''' </summary>
+        ''' <param name="main$"></param>
+        ''' <param name="secondary"></param>
+        Public Sub Add(main$, secondary As IEnumerable(Of String))
+            mainID.Add(main.ToLower)
+
+            For Each id In secondary.SafeQuery
+                Call secondaryIDs.Add(id.ToLower, main.ToLower)
+            Next
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"Have {mainID.Count} main IDs"
         End Function
 
-        Public Shared Function Create(Of T)(source As IEnumerable(Of T),
-                                            mainID As Func(Of T, String),
-                                            secondaryID As Func(Of T, String())) As SecondaryIDSolver
+        Public Delegate Function GetKey(Of T)(o As T) As String
+        Public Delegate Function GetAllKeys(Of T)(o As T) As String()
 
+        Public Shared Function Create(Of T)(source As IEnumerable(Of T), mainID As GetKey(Of T), secondaryID As GetAllKeys(Of T)) As SecondaryIDSolver
             Dim mainIDs As New List(Of String)
             Dim secondaryIDs As New Dictionary(Of String, String)  ' 2nd -> main
 
