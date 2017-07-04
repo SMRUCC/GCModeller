@@ -222,11 +222,11 @@ Partial Module CLI
         If Not String.IsNullOrEmpty(model) Then
             out = model.TrimSuffix & ".ReactionNET/"
             Dim bMods As XmlModel = model.LoadXml(Of XmlModel)
-            Dim net As FileStream.Network = ModelNET(bMods, source)
+            Dim net As FileStream.NetworkTables = ModelNET(bMods, source)
             Return net.Save(out, Encodings.ASCII.CodePage).CLICode
         Else
             out = args.GetValue("/out", source & ".ReactionNET/")
-            Dim net As FileStream.Network = BuildNET(source)
+            Dim net As FileStream.NetworkTables = BuildNET(source)
             Return net.Save(out, Encodings.ASCII.CodePage).CLICode
         End If
     End Function
@@ -250,7 +250,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inDIR & ".modsNET/")
         Dim footprint As String = args("/footprints")
         Dim cut As Double = args.GetValue("/cut", 0.0R)
-        Dim nulls As FileStream.Network = Nothing
+        Dim nulls As FileStream.NetworkTables = Nothing
 
         If footprint.FileExists Then
             Dim brief As Boolean = args.GetBoolean("/brief")
@@ -276,7 +276,7 @@ Partial Module CLI
                                    Where Array.IndexOf(rhaves, x.ToNode) > -1
                                    Select x).FirstOrDefault Is Nothing
                             Select m).ToArray
-                nulls = New FileStream.Network + Trim.ToArray(Function(x) x.Group).IteratesALL ' 添加新的网络节点
+                nulls = New FileStream.NetworkTables + Trim.ToArray(Function(x) x.Group).IteratesALL ' 添加新的网络节点
                 net -= nulls.Edges  ' 删除旧的网络节点
                 nulls += net <= nulls.Edges.ToArray(Function(x) {x.FromNode, x.ToNode}).IteratesALL
                 net -= nulls.Nodes

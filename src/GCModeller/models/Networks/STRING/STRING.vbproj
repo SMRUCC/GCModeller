@@ -110,8 +110,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FunctionalNetwork\AnalysisAPI.vb" />
     <Compile Include="TCS\MisT2API.vb" />
-    <Compile Include="FunctionalEnrichmentPlot.vb" />
+    <Compile Include="FunctionalNetwork\FunctionalEnrichmentNetwork.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -170,9 +171,9 @@
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>Microsoft.VisualBasic.Mathematical</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Network.GraphTheory.vbproj">
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
-      <Name>Datavisualization.Network</Name>
+      <Name>Network.GraphTheory</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Datavisualization.Network\Visualizer\Visualizer.vbproj">
       <Project>{45b726ac-d3b8-476d-89ea-1ff7243a4fa5}</Project>
@@ -189,6 +190,10 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>mime-htmls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\analysis\Microarray\Microarray.vbproj">
+      <Project>{64384e97-d1c6-410c-bff7-43392d994050}</Project>
+      <Name>Microarray</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>

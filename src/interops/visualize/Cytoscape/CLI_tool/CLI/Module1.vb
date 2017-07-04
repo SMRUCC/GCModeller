@@ -151,7 +151,7 @@ Partial Module CLI
         Dim schema$ = args.GetValue("/schema", "material")
         Dim typePrefix As Boolean = Not args.GetBoolean("/no-type_prefix")
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/" & [in].BaseName & ".knowledge_network/")
-        Dim network As Network
+        Dim network As NetworkTables
 
         If [in].DirectoryExists Then
         Else

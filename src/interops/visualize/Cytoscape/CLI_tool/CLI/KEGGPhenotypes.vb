@@ -148,7 +148,7 @@ Partial Module CLI
                           x.EntryId,
                           x.BriteId,
                           x.GetPathwayGenes).ToArray
-        Dim net As New FileStream.Network
+        Dim net As New FileStream.NetworkTables
         net += From x In LQuery
                Let props = New Dictionary(Of String, String) From {
                     {"A", mods.GetA(x.x)},

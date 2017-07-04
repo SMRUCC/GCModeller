@@ -185,9 +185,9 @@
       <Project>{17F8E821-0A01-4975-9CAA-AC95251226D5}</Project>
       <Name>Plots</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Network.GraphTheory.vbproj">
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
-      <Name>Datavisualization.Network</Name>
+      <Name>Network.GraphTheory</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Datavisualization.Network\Visualizer\Visualizer.vbproj">
       <Project>{45b726ac-d3b8-476d-89ea-1ff7243a4fa5}</Project>

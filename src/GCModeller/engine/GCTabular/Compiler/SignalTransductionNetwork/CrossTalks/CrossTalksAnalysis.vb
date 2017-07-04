@@ -46,7 +46,7 @@ Namespace Compiler.Components
     Public Module CrossTalksAnalysis
 
         <ExportAPI("TCS.CrossTalks.Net")>
-        Public Function CreateNetwork(data As IEnumerable(Of CrossTalks)) As Network
+        Public Function CreateNetwork(data As IEnumerable(Of CrossTalks)) As NetworkTables
             Dim Nodes = (From item In data Select New Node With {
                                                .ID = item.Kinase,
                                                .NodeType = "Kinase"}).Join((From item In data Select New Node With {.ID = item.Regulator, .NodeType = "Response Regulator"}).ToArray)
@@ -55,7 +55,7 @@ Namespace Compiler.Components
                                                .ToNode = item.Regulator,
                                                .value = item.Probability,
                                                .Interaction = "CrossTalk"}).ToArray
-            Dim Network As Network = New Network With {
+            Dim Network As NetworkTables = New NetworkTables With {
                 .Nodes = Nodes.ToArray,
                 .Edges = Edges
             }

@@ -49,7 +49,7 @@ Namespace NetworkModel
         End Function
 
         <ExportAPI("NET.Generate")>
-        Public Function CreateNetwork(model As XmlFile, flux As IEnumerable(Of FBA_OUTPUT.TabularOUT)) As Network
+        Public Function CreateNetwork(model As XmlFile, flux As IEnumerable(Of FBA_OUTPUT.TabularOUT)) As NetworkTables
             Dim ZEROS As String() =
                 LinqAPI.Exec(Of String) <= From x As FBA_OUTPUT.TabularOUT
                                            In flux
@@ -73,7 +73,7 @@ Namespace NetworkModel
                     .NodeType = "Metabolite"})
             Dim fluxNodes As Node() = nZ.ToArray(Function(x) __flux2Node(x, fluxValue))
             Dim edges As NetworkEdge() = nZ.Select(AddressOf __flux2Edges).ToVector
-            Return New Network With {
+            Return New NetworkTables With {
                 .Edges = edges,
                 .Nodes = nodes.Join(fluxNodes).ToArray
             }
