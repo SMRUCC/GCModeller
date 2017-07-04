@@ -40,10 +40,19 @@ Namespace ComponentModel.DBLinkBuilder
         ''' <param name="main$"></param>
         ''' <param name="secondary"></param>
         Public Sub Add(main$, secondary As IEnumerable(Of String))
-            mainID.Add(main.ToLower)
+            main = main.ToLower
 
-            For Each id In secondary.SafeQuery
-                Call secondaryIDs.Add(id.ToLower, main.ToLower)
+            If mainID.IndexOf(main) = -1 Then
+                mainID.Add(main)
+            End If
+
+            For Each id As String In secondary _
+                .SafeQuery _
+                .Select(Function(s) s.ToLower)
+
+                If Not secondaryIDs.ContainsKey(id) Then
+                    Call secondaryIDs.Add(id, main)
+                End If
             Next
         End Sub
 
