@@ -13,6 +13,15 @@ Namespace ComponentModel.DBLinkBuilder
 #Region "这里需要特别的注意一下：都是小写的字符串"
         Dim mainID As Index(Of String)
         Dim secondaryIDs As Dictionary(Of String, String)
+
+        Public ReadOnly Property ALL As String()
+            Get
+                Return mainID.Objects _
+                    .JoinIterates(secondaryIDs.Keys) _
+                    .Distinct _
+                    .ToArray
+            End Get
+        End Property
 #End Region
 
         Sub New()
@@ -57,7 +66,7 @@ Namespace ComponentModel.DBLinkBuilder
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"Have {mainID.Count} main IDs"
+            Return $"Has {mainID.Count} main IDs, ALL {ALL.Length} in total."
         End Function
 
         Public Delegate Function GetKey(Of T)(o As T) As String
