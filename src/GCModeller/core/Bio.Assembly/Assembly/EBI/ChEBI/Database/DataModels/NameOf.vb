@@ -225,7 +225,11 @@ Namespace Assembly.EBI.ChEBI
                     Return out
                 End Function
 
-            name = name.ToLower
+            If name.StringEmpty Then
+                Return {}
+            Else
+                name = name.ToLower
+            End If
 
             If Me.names.ContainsKey(name) Then
                 Return getByNameKey(nameKey:=name)

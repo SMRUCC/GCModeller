@@ -29,6 +29,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Extensions
@@ -39,6 +40,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Model.Network.Regulons
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG.ReactionNET
@@ -296,5 +298,32 @@ Partial Module CLI
             Call nulls.Save(out & "/no-regs/", Encodings.ASCII)
         End If
         Return net.Save(out, Encodings.ASCII).CLICode
+    End Function
+
+    <ExportAPI("/KEGG.pathwayMap.Network")>
+    <Usage("/KEGG.pathwayMap.Network /in <br08901.DIR> [/node <nodes.data.csv> /out <out.DIR>]")>
+    <Group(CLIGrouping.KEGGTools)>
+    Public Function KEGGPathwayMapNetwork(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim node$ = args <= "/node"
+        Dim out$ = args.GetValue("/out", [in].TrimDIR & ".network/")
+        Dim graph As NetworkTables = PathwayMapNetwork.BuildModel([in])
+
+        If node.FileExists(True) Then
+            Dim data = EntityObject.LoadDataSet(node)
+            Dim nodes As New Dictionary(Of Node)(graph.Nodes)
+
+            For Each n As EntityObject In data
+                If nodes.ContainsKey(n.ID) Then
+                    With nodes(n.ID).Properties
+                        For Each p In n.Properties
+                            Call .Add(p.Key, p.Value)
+                        Next
+                    End With
+                End If
+            Next
+        End If
+
+        Return graph.Save(out, Encodings.ASCII).CLICode
     End Function
 End Module
