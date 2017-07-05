@@ -4,10 +4,19 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Expressions
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace Assembly.EBI.ChEBI
 
     Public Module Extensions
+
+        <Extension> Public Function RewriteMass(mass#, molecule As IMolecule) As Double
+            If Math.Abs(mass - 0) <= 0.00001 OrElse Math.Abs(mass - molecule.Mass) <= 0.5 Then
+                Return molecule.Mass
+            Else
+                Return mass
+            End If
+        End Function
 
         ''' <summary>
         ''' Gets the numeirc chebi main ID
@@ -38,7 +47,7 @@ Namespace Assembly.EBI.ChEBI
                 ' 则尝试按照名字和质量来模糊查找
                 acc = names _
                     .SafeQuery _
-                    .Select(Function(name) chebi.MatchByName(name, fuzzy:=True)) _
+                    .Select(Function(name) chebi.MatchByName(name, fuzzy:=False)) _
                     .IteratesALL _
                     .Distinct _
                     .ToArray
