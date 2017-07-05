@@ -29,6 +29,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace Assembly.EBI.ChEBI.XML
 
@@ -42,20 +43,21 @@ Namespace Assembly.EBI.ChEBI.XML
     ''' return节点之中的数据
     ''' </remarks>
     Public Class ChEBIEntity : Implements INamedValue
+        Implements IMolecule
 
         ''' <summary>
         ''' Chebi的主ID
         ''' </summary>
         ''' <returns></returns>
-        Public Property chebiId As String Implements INamedValue.Key
-        Public Property chebiAsciiName As String
+        Public Property chebiId As String Implements INamedValue.Key, IMolecule.ID
+        Public Property chebiAsciiName As String Implements IMolecule.Name
         Public Property definition As String
         Public Property status As String
         Public Property smiles As String
         Public Property inchi As String
         Public Property inchiKey As String
         Public Property charge As Integer
-        Public Property mass As Double
+        Public Property mass As Double Implements IMolecule.Mass
         Public Property entityStar As Integer
         <XmlElement>
         Public Property Synonyms As Synonyms()
@@ -82,6 +84,15 @@ Namespace Assembly.EBI.ChEBI.XML
         Public Property OntologyChildren As OntologyParents()
         <XmlElement>
         Public Property CompoundOrigins As CompoundOrigin()
+
+        Private Property Formula As String Implements IMolecule.Formula
+            Get
+                Return Formulae.data
+            End Get
+            Set(value As String)
+                Formulae.data = value
+            End Set
+        End Property
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

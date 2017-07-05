@@ -53,8 +53,24 @@ Namespace Assembly.EBI.ChEBI.XML
 
     End Class
 
+    ''' <summary>
+    ''' 分子式
+    ''' </summary>
     Public Class Formulae
+
+        ''' <summary>
+        ''' 分子式字符串
+        ''' </summary>
+        ''' <returns></returns>
         Public Property data As String
+        ''' <summary>
+        ''' 分子式的数据来源
+        ''' </summary>
+        ''' <returns></returns>
         Public Property source As String
+
+        Public Overrides Function ToString() As String
+            Return data
+        End Function
     End Class
 End Namespace
