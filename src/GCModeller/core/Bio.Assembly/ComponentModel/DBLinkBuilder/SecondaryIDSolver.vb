@@ -46,7 +46,7 @@ Namespace ComponentModel.DBLinkBuilder
         End Property
 
         ''' <summary>
-        ''' Add new 2nd to main mapping
+        ''' Add new 2nd to main mapping.(编号都被转换为小写形式了)
         ''' </summary>
         ''' <param name="main$"></param>
         ''' <param name="secondary"></param>
