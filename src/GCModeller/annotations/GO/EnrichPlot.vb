@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
@@ -9,6 +10,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Mathematical.Scripting
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting
@@ -60,9 +62,9 @@ Public Module EnrichPlot
 
         With New Dictionary(Of String, Color())
 
-            !cellular_component = Designer.GetColors("", alpha:=225)
-            !molecular_function = Designer.GetColors("", alpha:=225)
-            !biological_process = Designer.GetColors("", alpha:=225)
+            !cellular_component = Designer.GetColors("OrRd:c9", alpha:=225)
+            !molecular_function = Designer.GetColors("Blues:c9", alpha:=225)
+            !biological_process = Designer.GetColors("Greens:c9", alpha:=225)
 
             Return g.GraphicsPlots(
                 size.SizeParser, padding,
@@ -135,18 +137,16 @@ Public Module EnrichPlot
                                showBubbleBorder As Boolean)
 
         Dim serials As SerialData() = result _
-            .SeqIterator _
-            .Select(Function(cat) (+cat).Value.__createModel(
-                ns:=(+cat).Key,
-                color:=enrichColors(cat),
-                pvalue:=pvalue,
-                r:=r, displays:=displays)) _
-            .Join(
-            {
-                result.Values _
-                    .IteratesALL _
-                    .__unenrichSerial(pvalue, color:=unenrich, r:=r)
-            }) _
+            .Keys _
+            .Select(Function(category)
+                        Dim color As Color() = enrichColors(category)
+                        Dim terms = result(category).AsList
+                        Return terms.__createModel(category, color, pvalue, r, displays)
+                    End Function) _
+            .Join({
+                 result.Values _
+                     .IteratesALL _
+                     .__unenrichSerial(pvalue, color:=unenrich, r:=r)}) _
             .ToArray  ' 这些都是经过筛选的，pvalue阈值符合条件的，剩下的pvalue阈值不符合条件的都被当作为同一个serials
         Dim bubbleBorder As Stroke = Nothing
 
@@ -215,28 +215,43 @@ Public Module EnrichPlot
     ''' <param name="pvalue#"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function __createModel(catalog As EnrichmentTerm(), ns$, color As Color, pvalue#, r As Func(Of Double, Double), displays%) As SerialData
+    Private Function __createModel(catalog As List(Of EnrichmentTerm), ns$, color As Color(), pvalue#, r As Func(Of Double, Double), displays%) As SerialData
+        Dim pv = catalog.Select(Function(gene) gene.CorrectedPvalue).AsVector
+        Dim enrichResults = catalog(Which.IsTrue(pv <= pvalue))
+        Dim colorIndex%() = enrichResults _
+            .Select(Function(gene) gene.CorrectedPvalue) _
+            .RangeTransform($"0,{color.Length - 1}") _
+            .Select(Function(i) CInt(i)) _
+            .ToArray
         Dim s As New SerialData With {
-            .color = color,
             .title = ns,
-            .pts = catalog _
-                .Where(Function(gene) gene.CorrectedPvalue <= pvalue) _
-                .Select(Function(gene) New PointData With {
-                    .value = r(gene.number) + 1,
-                    .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P),
-                    .Tag = gene.Term
-                }).ToArray
-        }
+            .pts = enrichResults _
+                .SeqIterator _
+                .Select(Function(obj)
+                            Dim gene As EnrichmentTerm = obj
+                            Dim c As Color = color(colorIndex(obj))
 
-        ' 按照y倒序排序
-        s.pts = s.pts.OrderByDescending(Function(p) p.pt.Y).ToArray
+                            Return New PointData With {
+                                .value = r(gene.number) + 1,
+                                .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P),
+                                .Tag = gene.Term,
+                                .color = c.RGB2Hexadecimal
+                            }
+                        End Function) _
+                .OrderByDescending(Function(bubble)
+                                       ' 按照y也就是pvalue倒序排序
+                                       Return bubble.pt.Y
+                                   End Function) _
+                .ToArray
+        }
 
         For i As Integer = displays To s.pts.Length - 1
             Dim pt = s.pts(i)
             s.pts(i) = New PointData With {
                 .pt = pt.pt,
                 .Tag = Nothing,  ' 只显示前五个term的标签字符串，其余的term的标签字符串都设置为空值，就不会被显示出来了
-                .value = pt.value
+                .value = pt.value,
+                .color = pt.color
             }
         Next
 
