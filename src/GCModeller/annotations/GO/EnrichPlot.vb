@@ -48,7 +48,7 @@ Public Module EnrichPlot
                                Optional geneIDFont$ = CSSFont.Win10Normal,
                                Optional R$ = "log(x)",
                                Optional displays% = 10,
-                               Optional titleFontCSS$ = CSSFont.PlotTitle,
+                               Optional titleFontCSS$ = CSSFont.Win7Large,
                                Optional title$ = "GO enrichment",
                                Optional bubbleBorder As Boolean = True) As GraphicsData
 
@@ -139,7 +139,10 @@ Public Module EnrichPlot
         Dim serials As SerialData() = result _
             .Keys _
             .Select(Function(category)
-                        Dim color As Color() = enrichColors(category)
+                        Dim color As Color() = enrichColors(category) _
+                            .Skip(20) _
+                            .Alpha(250) _
+                            .ToArray
                         Dim terms = result(category).AsList
                         Return terms.__createModel(category, color, pvalue, r, displays)
                     End Function) _
@@ -153,8 +156,8 @@ Public Module EnrichPlot
         If showBubbleBorder Then
             bubbleBorder = New Stroke With {
                 .dash = DashStyle.Solid,
-                .fill = "white",
-                .width = 2.5
+                .fill = "lightgray",
+                .width = 1.5
             }
         End If
 
@@ -224,7 +227,7 @@ Public Module EnrichPlot
             .Select(Function(i) CInt(i)) _
             .ToArray
         Dim s As New SerialData With {
-            .color = Drawing.Color.Empty,
+            .color = color.Last,
             .title = ns,
             .pts = enrichResults _
                 .SeqIterator _
@@ -236,7 +239,7 @@ Public Module EnrichPlot
                                 .value = r(gene.number) + 1,
                                 .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P),
                                 .Tag = gene.Term,
-                                .color = c.RGB2Hexadecimal
+                                .color = c.ARGBExpression
                             }
                         End Function) _
                 .OrderByDescending(Function(bubble)
