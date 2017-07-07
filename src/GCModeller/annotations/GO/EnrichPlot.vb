@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
@@ -9,6 +10,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Mathematical.Scripting
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting
@@ -26,7 +28,6 @@ Public Module EnrichPlot
     ''' <param name="padding$">留白的大小</param>
     ''' <param name="bg$">背景色</param>
     ''' <param name="unenrichColor$">未被富集的go term的颜色，即那些pvalue值大于<paramref name="pvalue"/>参数值的go term的颜色，默认为浅灰色</param>
-    ''' <param name="enrichColorSchema$">颜色谱的名称</param>
     ''' <param name="pvalue#">pvalue阈值</param>
     ''' <param name="legendFont$">legend的字体CSS</param>
     ''' <param name="geneIDFont$">term标签的显示字体CSS</param>
@@ -41,19 +42,17 @@ Public Module EnrichPlot
                                Optional size$ = "1600,1200",
                                Optional padding$ = g.DefaultPadding,
                                Optional bg$ = "white",
-                               Optional unenrichColor$ = "gray",
-                               Optional enrichColorSchema$ = "Set1:c6",
+                               Optional unenrichColor$ = "gray", ' Optional enrichColorSchema$ = "Set1:c6",
                                Optional pvalue# = 0.01,
                                Optional legendFont$ = CSSFont.PlotSmallTitle,
                                Optional geneIDFont$ = CSSFont.Win10Normal,
                                Optional R$ = "log(x)",
                                Optional displays% = 10,
-                               Optional titleFontCSS$ = CSSFont.PlotTitle,
+                               Optional titleFontCSS$ = CSSFont.Win7Large,
                                Optional title$ = "GO enrichment",
                                Optional bubbleBorder As Boolean = True) As GraphicsData
 
         Dim enrichResult = data.EnrichResult(GO_terms)
-        Dim colors As Color() = Designer.GetColors(enrichColorSchema).Alpha(240)
         Dim unenrich As Color = unenrichColor.TranslateColor
         Dim math As New Expression
         Dim calcR = Function(x#)
@@ -61,26 +60,33 @@ Public Module EnrichPlot
                         Return math.Evaluation(R)
                     End Function
 
-        Return g.GraphicsPlots(
-            size.SizeParser, padding,
-            bg,
-            Sub(ByRef g, region)
-                Call g.__plotInternal(
-                    region, enrichResult, unenrich,
-                    colors, pvalue,
-                    legendFont,
-                    r:=calcR,
-                    displays:=displays,
-                    showBubbleBorder:=bubbleBorder)
+        With New Dictionary(Of String, Color())
 
-                Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject
-                Dim fsize As SizeF = g.MeasureString(title, titleFont)
-                Dim tloc As New PointF(
-                    (region.Size.Width - fsize.Width) / 2,
-                    (region.Padding.Top - fsize.Height) / 2)
+            !cellular_component = Designer.GetColors("OrRd:c9", alpha:=225)
+            !molecular_function = Designer.GetColors("Blues:c9", alpha:=225)
+            !biological_process = Designer.GetColors("Greens:c9", alpha:=225)
 
-                Call g.DrawString(title, titleFont, Brushes.Black, tloc)
-            End Sub)
+            Return g.GraphicsPlots(
+                size.SizeParser, padding,
+                bg,
+                Sub(ByRef g, region)
+                    Call g.__plotInternal(
+                        region, enrichResult, unenrich,
+                        .ref, pvalue,
+                        legendFont,
+                        r:=calcR,
+                        displays:=displays,
+                        showBubbleBorder:=bubbleBorder)
+
+                    Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject
+                    Dim fsize As SizeF = g.MeasureString(title, titleFont)
+                    Dim tloc As New PointF(
+                        (region.Size.Width - fsize.Width) / 2,
+                        (region.Padding.Top - fsize.Height) / 2)
+
+                    Call g.DrawString(title, titleFont, Brushes.Black, tloc)
+                End Sub)
+        End With
     End Function
 
     <Extension>
@@ -123,7 +129,7 @@ Public Module EnrichPlot
                                region As GraphicsRegion,
                                result As Dictionary(Of String, EnrichmentTerm()),
                                unenrich As Color,
-                               enrichColors As Color(),
+                               enrichColors As Dictionary(Of String, Color()),
                                pvalue#,
                                legendFontStyle$,
                                r As Func(Of Double, Double),
@@ -131,26 +137,27 @@ Public Module EnrichPlot
                                showBubbleBorder As Boolean)
 
         Dim serials As SerialData() = result _
-            .SeqIterator _
-            .Select(Function(cat) (+cat).Value.__createModel(
-                ns:=(+cat).Key,
-                color:=enrichColors(cat),
-                pvalue:=pvalue,
-                r:=r, displays:=displays)) _
-            .Join(
-            {
-                result.Values _
-                    .IteratesALL _
-                    .__unenrichSerial(pvalue, color:=unenrich, r:=r)
-            }) _
+            .Keys _
+            .Select(Function(category)
+                        Dim color As Color() = enrichColors(category) _
+                            .Skip(20) _
+                            .Alpha(250) _
+                            .ToArray
+                        Dim terms = result(category).AsList
+                        Return terms.__createModel(category, color, pvalue, r, displays)
+                    End Function) _
+            .Join({
+                 result.Values _
+                     .IteratesALL _
+                     .__unenrichSerial(pvalue, color:=unenrich, r:=r)}) _
             .ToArray  ' 这些都是经过筛选的，pvalue阈值符合条件的，剩下的pvalue阈值不符合条件的都被当作为同一个serials
         Dim bubbleBorder As Stroke = Nothing
 
         If showBubbleBorder Then
             bubbleBorder = New Stroke With {
                 .dash = DashStyle.Solid,
-                .fill = "white",
-                .width = 2.5
+                .fill = "lightgray",
+                .width = 1.5
             }
         End If
 
@@ -211,28 +218,44 @@ Public Module EnrichPlot
     ''' <param name="pvalue#"></param>
     ''' <returns></returns>
     <Extension>
-    Private Function __createModel(catalog As EnrichmentTerm(), ns$, color As Color, pvalue#, r As Func(Of Double, Double), displays%) As SerialData
+    Private Function __createModel(catalog As List(Of EnrichmentTerm), ns$, color As Color(), pvalue#, r As Func(Of Double, Double), displays%) As SerialData
+        Dim pv = catalog.Select(Function(gene) gene.CorrectedPvalue).AsVector
+        Dim enrichResults = catalog(Which.IsTrue(pv <= pvalue))
+        Dim colorIndex%() = enrichResults _
+            .Select(Function(gene) gene.P(correctedPvalue:=False)) _
+            .RangeTransform($"0,{color.Length - 1}") _
+            .Select(Function(i) CInt(i)) _
+            .ToArray
         Dim s As New SerialData With {
-            .color = color,
+            .color = color.Last,
             .title = ns,
-            .pts = catalog _
-                .Where(Function(gene) gene.CorrectedPvalue <= pvalue) _
-                .Select(Function(gene) New PointData With {
-                    .value = r(gene.number) + 1,
-                    .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P),
-                    .Tag = gene.Term
-                }).ToArray
-        }
+            .pts = enrichResults _
+                .SeqIterator _
+                .Select(Function(obj)
+                            Dim gene As EnrichmentTerm = obj
+                            Dim c As Color = color(colorIndex(obj))
 
-        ' 按照y倒序排序
-        s.pts = s.pts.OrderByDescending(Function(p) p.pt.Y).ToArray
+                            Return New PointData With {
+                                .value = r(gene.number) + 1,
+                                .pt = New PointF(x:=gene.number / gene.Backgrounds, y:=gene.P),
+                                .Tag = gene.Term,
+                                .color = c.ARGBExpression
+                            }
+                        End Function) _
+                .OrderByDescending(Function(bubble)
+                                       ' 按照y也就是pvalue倒序排序
+                                       Return bubble.pt.Y
+                                   End Function) _
+                .ToArray
+        }
 
         For i As Integer = displays To s.pts.Length - 1
             Dim pt = s.pts(i)
             s.pts(i) = New PointData With {
                 .pt = pt.pt,
                 .Tag = Nothing,  ' 只显示前五个term的标签字符串，其余的term的标签字符串都设置为空值，就不会被显示出来了
-                .value = pt.value
+                .value = pt.value,
+                .color = pt.color
             }
         Next
 
