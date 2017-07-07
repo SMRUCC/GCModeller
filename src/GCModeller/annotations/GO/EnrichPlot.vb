@@ -219,11 +219,12 @@ Public Module EnrichPlot
         Dim pv = catalog.Select(Function(gene) gene.CorrectedPvalue).AsVector
         Dim enrichResults = catalog(Which.IsTrue(pv <= pvalue))
         Dim colorIndex%() = enrichResults _
-            .Select(Function(gene) gene.CorrectedPvalue) _
+            .Select(Function(gene) gene.P(correctedPvalue:=False)) _
             .RangeTransform($"0,{color.Length - 1}") _
             .Select(Function(i) CInt(i)) _
             .ToArray
         Dim s As New SerialData With {
+            .color = Drawing.Color.Empty,
             .title = ns,
             .pts = enrichResults _
                 .SeqIterator _
