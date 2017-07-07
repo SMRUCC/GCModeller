@@ -26,7 +26,6 @@ Public Module EnrichPlot
     ''' <param name="padding$">留白的大小</param>
     ''' <param name="bg$">背景色</param>
     ''' <param name="unenrichColor$">未被富集的go term的颜色，即那些pvalue值大于<paramref name="pvalue"/>参数值的go term的颜色，默认为浅灰色</param>
-    ''' <param name="enrichColorSchema$">颜色谱的名称</param>
     ''' <param name="pvalue#">pvalue阈值</param>
     ''' <param name="legendFont$">legend的字体CSS</param>
     ''' <param name="geneIDFont$">term标签的显示字体CSS</param>
@@ -41,8 +40,7 @@ Public Module EnrichPlot
                                Optional size$ = "1600,1200",
                                Optional padding$ = g.DefaultPadding,
                                Optional bg$ = "white",
-                               Optional unenrichColor$ = "gray",
-                               Optional enrichColorSchema$ = "Set1:c6",
+                               Optional unenrichColor$ = "gray", ' Optional enrichColorSchema$ = "Set1:c6",
                                Optional pvalue# = 0.01,
                                Optional legendFont$ = CSSFont.PlotSmallTitle,
                                Optional geneIDFont$ = CSSFont.Win10Normal,
@@ -53,7 +51,6 @@ Public Module EnrichPlot
                                Optional bubbleBorder As Boolean = True) As GraphicsData
 
         Dim enrichResult = data.EnrichResult(GO_terms)
-        Dim colors As Color() = Designer.GetColors(enrichColorSchema).Alpha(240)
         Dim unenrich As Color = unenrichColor.TranslateColor
         Dim math As New Expression
         Dim calcR = Function(x#)
@@ -61,26 +58,33 @@ Public Module EnrichPlot
                         Return math.Evaluation(R)
                     End Function
 
-        Return g.GraphicsPlots(
-            size.SizeParser, padding,
-            bg,
-            Sub(ByRef g, region)
-                Call g.__plotInternal(
-                    region, enrichResult, unenrich,
-                    colors, pvalue,
-                    legendFont,
-                    r:=calcR,
-                    displays:=displays,
-                    showBubbleBorder:=bubbleBorder)
+        With New Dictionary(Of String, Color())
 
-                Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject
-                Dim fsize As SizeF = g.MeasureString(title, titleFont)
-                Dim tloc As New PointF(
-                    (region.Size.Width - fsize.Width) / 2,
-                    (region.Padding.Top - fsize.Height) / 2)
+            !cellular_component = Designer.GetColors("", alpha:=225)
+            !molecular_function = Designer.GetColors("", alpha:=225)
+            !biological_process = Designer.GetColors("", alpha:=225)
 
-                Call g.DrawString(title, titleFont, Brushes.Black, tloc)
-            End Sub)
+            Return g.GraphicsPlots(
+                size.SizeParser, padding,
+                bg,
+                Sub(ByRef g, region)
+                    Call g.__plotInternal(
+                        region, enrichResult, unenrich,
+                        .ref, pvalue,
+                        legendFont,
+                        r:=calcR,
+                        displays:=displays,
+                        showBubbleBorder:=bubbleBorder)
+
+                    Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject
+                    Dim fsize As SizeF = g.MeasureString(title, titleFont)
+                    Dim tloc As New PointF(
+                        (region.Size.Width - fsize.Width) / 2,
+                        (region.Padding.Top - fsize.Height) / 2)
+
+                    Call g.DrawString(title, titleFont, Brushes.Black, tloc)
+                End Sub)
+        End With
     End Function
 
     <Extension>
@@ -123,7 +127,7 @@ Public Module EnrichPlot
                                region As GraphicsRegion,
                                result As Dictionary(Of String, EnrichmentTerm()),
                                unenrich As Color,
-                               enrichColors As Color(),
+                               enrichColors As Dictionary(Of String, Color()),
                                pvalue#,
                                legendFontStyle$,
                                r As Func(Of Double, Double),
