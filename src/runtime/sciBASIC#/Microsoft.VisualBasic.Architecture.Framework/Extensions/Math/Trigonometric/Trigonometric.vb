@@ -85,7 +85,7 @@ Namespace Mathematical
         Public Function GetAngle(p1 As Point, p2 As Point) As Double
             Dim xDiff As Double = p2.X - p1.X
             Dim yDiff As Double = p2.Y - p1.Y
-            Return 180 - (toDegrees(Math.Atan2(yDiff, xDiff)) - 90)
+            Return 180 - (ToDegrees(Math.Atan2(yDiff, xDiff)) - 90)
         End Function
 
         <Extension>
@@ -106,7 +106,7 @@ Namespace Mathematical
         ''' <returns>  the measurement of the angle {@code angdeg}
         '''          in radians.
         ''' @since   1.2 </returns>
-        Public Function toRadians(angdeg As Double) As Double
+        <Extension> Public Function ToRadians(angdeg As Double) As Double
             Return angdeg / 180.0 * Math.PI
         End Function
 
@@ -121,7 +121,7 @@ Namespace Mathematical
         ''' <returns>  the measurement of the angle {@code angrad}
         '''          in degrees.
         ''' @since   1.2 </returns>
-        Public Function toDegrees(angrad As Double) As Double
+        <Extension> Public Function ToDegrees(angrad As Double) As Double
             Return angrad * 180.0 / Math.PI
         End Function
 

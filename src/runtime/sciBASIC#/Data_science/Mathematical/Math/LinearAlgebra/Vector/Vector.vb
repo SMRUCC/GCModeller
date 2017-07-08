@@ -391,6 +391,8 @@ Namespace LinearAlgebra
         End Operator
 
         ''' <summary>
+        ''' ``norm2()``
+        ''' 
         ''' 向量模的平方，``||x||``是向量``x=(x1，x2，…，xp)``的欧几里得范数
         ''' </summary>
         ''' <returns></returns>
@@ -408,12 +410,20 @@ Namespace LinearAlgebra
         End Property
 
         ''' <summary>
+        ''' ``norm()``
+        ''' 
         ''' http://math.stackexchange.com/questions/440320/what-is-magnitude-of-sum-of-two-vector
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property SumMagnitude As Double
             Get
                 Return Math.Sqrt(Me.Mod)
+            End Get
+        End Property
+
+        Public ReadOnly Property Unit As Vector
+            Get
+                Return Me / SumMagnitude
             End Get
         End Property
 
@@ -463,7 +473,13 @@ Namespace LinearAlgebra
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return Me.ToArray.GetJson
+            Return "[" & Me.ToString("F2").JoinBy(", ") & "]"
+        End Function
+
+        Public Overloads Function ToString(format$) As String()
+            Return Me _
+                .Select(Function(x) x.ToString(format)) _
+                .ToArray
         End Function
 
         ''' <summary>
@@ -516,6 +532,12 @@ Namespace LinearAlgebra
             Return New BooleanVector(From d As Double In x Select d < n)
         End Operator
 
+        ''' <summary>
+        ''' 返回一个逻辑向量，用来指示向量对象的每一个分量与目标比较的逻辑值结果
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="n"></param>
+        ''' <returns></returns>
         Public Shared Operator >=(x As Vector, n As Double) As BooleanVector
             Return New BooleanVector(From d As Double In x Select d >= n)
         End Operator
