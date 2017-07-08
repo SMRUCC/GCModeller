@@ -1,0 +1,1 @@
+eggHTS /Go.enrichment.plot /in "./KOBAS-Gene Ontology.csv" /bubble /r "x/2" /Corrected /displays 10 /pvalue 0.05 /size 2000,1600 /tick 1 /go "D:\smartnucl_integrative\DATA\go.obo"
