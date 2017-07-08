@@ -1,8 +1,8 @@
 ﻿Imports System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical
-Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports sys = System.Math
 
 ''' <summary>
@@ -82,6 +82,11 @@ Public Module Math
         }
     End Function
 
+    ''' <summary>
+    ''' 使用平行四边形法则计算出合力
+    ''' </summary>
+    ''' <param name="F">分力</param>
+    ''' <returns></returns>
     <Extension>
     Public Function Sum(F As IEnumerable(Of Force)) As Force
         Dim result As New Force
@@ -167,7 +172,7 @@ Public Module Math
     ''' <returns></returns>
     Public Function RepulsiveForce(strength#, a As Vector, b As Vector) As Force
         Dim d = a - b
-        Dim cosA = Math.Cos(a - b, {100, 0})  ' 两个向量的方向对X坐标轴的夹角才是力的方向
+        Dim cosA = Cos(a - b, {100, 0})  ' 两个向量的方向对X坐标轴的夹角才是力的方向
         Dim alpha = Arccos(cosA)
 
         If d(Y) < 0 Then

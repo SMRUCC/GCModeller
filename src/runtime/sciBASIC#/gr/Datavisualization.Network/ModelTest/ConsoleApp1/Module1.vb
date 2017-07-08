@@ -4,7 +4,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Physics
-Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Public Module Module1
 
@@ -141,7 +141,11 @@ Public Module Module1
                 cat("\n")
 
                 For Each u In V
-                    u.ApplyForce(force(u.ID).Sum, c4)
+                    Dim F = force(u.ID).Sum
+                    F.Strength /= 10
+
+                    u += F
+                    u.Displacement()
                     force(u.ID).Clear()
                 Next
             End Using
@@ -183,8 +187,6 @@ Public Module Module1
     End Class
 
     Public Class node : Inherits MassPoint
-
-        Public Property ID$
 
         Sub New()
             Point = New Vector({Rnd() * 1000, Rnd() * 1000})

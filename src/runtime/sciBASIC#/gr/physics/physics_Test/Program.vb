@@ -1,6 +1,6 @@
-﻿Imports Microsoft.VisualBasic.Imaging.Physics
-Imports System.Math
-Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
+﻿Imports System.Math
+Imports Microsoft.VisualBasic.Imaging.Physics
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Public Module Program
 

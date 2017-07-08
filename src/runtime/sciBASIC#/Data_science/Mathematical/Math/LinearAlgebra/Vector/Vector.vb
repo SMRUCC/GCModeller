@@ -26,9 +26,10 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Mathematical.SyntaxAPI.Vectors
+Imports Microsoft.VisualBasic.Math.SyntaxAPI.Vectors
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports sys = System.Math
 
 Namespace LinearAlgebra
 
@@ -417,7 +418,7 @@ Namespace LinearAlgebra
         ''' <returns></returns>
         Public ReadOnly Property SumMagnitude As Double
             Get
-                Return Math.Sqrt(Me.Mod)
+                Return sys.Sqrt(Me.Mod)
             End Get
         End Property
 
@@ -448,7 +449,7 @@ Namespace LinearAlgebra
         ''' </summary>
         ''' <returns></returns>
         Public Function Product() As Double
-            Return Me.PI
+            Return Me.ProductALL
         End Function
 
         ''' <summary>

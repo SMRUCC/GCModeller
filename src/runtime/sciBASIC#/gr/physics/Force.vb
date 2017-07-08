@@ -1,6 +1,6 @@
 ﻿Imports System.Math
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 
 ''' <summary>
 ''' 力
