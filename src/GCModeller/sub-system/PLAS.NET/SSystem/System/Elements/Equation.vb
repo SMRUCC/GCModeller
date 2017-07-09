@@ -28,11 +28,10 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical.Scripting
-Imports Microsoft.VisualBasic.Mathematical.Scripting.Types
+Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.Types
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 Imports SMRUCC.genomics.GCModeller.Framework
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.DataStorage.FileModel
 
 Namespace Kernel.ObjectModels
@@ -56,7 +55,7 @@ Namespace Kernel.ObjectModels
 
         Dim dynamics As SimpleExpression
 
-        Sub New(s As SEquation, engine As Mathematical.Scripting.Expression)
+        Sub New(s As SEquation, engine As Expression)
             Me.Model = s
             Me.Expression = s.Expression
             Me.Identifier = s.x
@@ -66,7 +65,7 @@ Namespace Kernel.ObjectModels
             Me.dynamics = ExpressionParser.TryParse(Expression, engine)
         End Sub
 
-        Sub New(id As String, expr As String, engine As Mathematical.Scripting.Expression)
+        Sub New(id As String, expr As String, engine As Expression)
             Call Me.New(New SEquation(id, expr), engine)
         End Sub
 
@@ -98,7 +97,7 @@ Namespace Kernel.ObjectModels
         ''' </summary>
         ''' <param name="engine"></param>
         ''' <returns></returns>
-        Public Function Elapsed(engine As Mathematical.Scripting.Expression) As Boolean
+        Public Function Elapsed(engine As Expression) As Boolean
             Var.Value += (Me.Evaluate * Kernel.Precision)
             engine(Var.UniqueId) = Var.Value
 

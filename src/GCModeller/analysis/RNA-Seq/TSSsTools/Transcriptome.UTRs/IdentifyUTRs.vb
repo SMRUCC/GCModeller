@@ -339,7 +339,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
             Return LQuery.ToArray
         End Function
 
-        Private Function __testSites(genome As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT,
+        Private Function __testSites(genome As PTT,
                                      replicate As Replicate,
                                      unstranded As Boolean) As DocumentFormat.Transcript()
             Dim genomeCoordinates As SortedDictionary(Of String, DocumentFormat.Transcript) =
@@ -378,13 +378,13 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
         ''' <param name="unstrand"></param>
         ''' <param name="siRNAPredicts">筛选的模式会反转</param>
         ''' <returns></returns>
-        Private Function __dataPartitionings(Transcripts As Generic.IEnumerable(Of ReadsCount),
+        Private Function __dataPartitionings(Transcripts As IEnumerable(Of ReadsCount),
                                              sharedReads As Integer,
                                              sharedReadsMin As Integer,
                                              genomeSize As Long,
                                              readsLen As Integer,
                                              unstrand As Boolean,
-                                             siRNAPredicts As Boolean) As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT
+                                             siRNAPredicts As Boolean) As PTT
 
             Dim Trim As List(Of ReadsCount)
 
@@ -439,13 +439,12 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
         ''' </summary>
         ''' <param name="Transcripts"></param>
         ''' <returns></returns>
-        Private Function __genomeAssumption(Transcripts As Generic.IEnumerable(Of DocumentFormat.Transcript),
-                                            genomeSize As Long) As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT
+        Private Function __genomeAssumption(Transcripts As IEnumerable(Of DocumentFormat.Transcript), genomeSize As Long) As PTT
             '生成ID编号
             Dim Genes = (From i As Integer In Transcripts.Sequence.AsParallel  '42..1370	+	442	66766353	dnaA	XC_0001	-	COG0593L	chromosome replication initiator DnaA
                          Let site = Transcripts(i)
                          Let sId As String = "FkTSSs_" & i
-                         Select assumption = New SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.GeneBrief With {
+                         Select assumption = New GeneBrief With {
                              .Code = "-",
                              .COG = "-",
                              .Gene = sId,

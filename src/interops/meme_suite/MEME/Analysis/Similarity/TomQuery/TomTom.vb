@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
@@ -247,7 +247,7 @@ Nucleic Acids Res. 2005 Jul 1;33(Web Server issue):W438-41.",
         ''' 
         <ExportAPI("ED")>
         Public Function ED(X As Analysis.MotifScans.ResidueSite, Y As Analysis.MotifScans.ResidueSite) As Double
-            Dim d As Double = VBMathExtensions.EuclideanDistance(X.PWM, Y.PWM)
+            Dim d As Double = VBMath.EuclideanDistance(X.PWM, Y.PWM)
             Dim value As Double = 1 - d
             Return value
         End Function

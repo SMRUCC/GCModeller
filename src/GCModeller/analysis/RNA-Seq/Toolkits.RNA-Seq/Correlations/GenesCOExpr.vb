@@ -33,8 +33,8 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.AprioriAlgorithm
 Imports Microsoft.VisualBasic.DataMining.AprioriAlgorithm.Entities
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Mathematical
-Imports Microsoft.VisualBasic.Mathematical.Correlations.Correlations
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Correlations.Correlations
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 Imports SMRUCC.genomics.InteractionModel

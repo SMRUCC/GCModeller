@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.DataMining
-Imports Microsoft.VisualBasic.Mathematical.Interpolation
+Imports Microsoft.VisualBasic.Math.Interpolation
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.API.base

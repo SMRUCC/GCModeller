@@ -1,5 +1,5 @@
 ﻿Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 
 Namespace DeltaSimilarity1998.CAI
 

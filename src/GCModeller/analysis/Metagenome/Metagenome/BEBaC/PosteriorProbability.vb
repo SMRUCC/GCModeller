@@ -29,7 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical.Distributions
+Imports Microsoft.VisualBasic.Math.Distributions
 
 Namespace BEBaC
 

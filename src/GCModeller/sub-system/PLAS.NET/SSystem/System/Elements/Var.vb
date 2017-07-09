@@ -27,9 +27,10 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Mathematical.Calculus
+Imports Microsoft.VisualBasic.Math.Calculus
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
+Imports MathExpression = Microsoft.VisualBasic.Math.Scripting.Expression
 
 Namespace Kernel.ObjectModels
 
@@ -70,7 +71,7 @@ Namespace Kernel.ObjectModels
         ''' <param name="strData"></param>
         ''' <param name="val"></param>
         ''' <returns></returns>
-        Public Shared Function TryParse(strData As String, val As Mathematical.Scripting.Expression) As var
+        Public Shared Function TryParse(strData As String, val As MathExpression) As var
             Dim tokens = strData.GetTagValue("=", trim:=True)
 
             Return New var With {

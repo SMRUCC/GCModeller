@@ -36,7 +36,7 @@ Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcidStaticsProperty
-Imports Microsoft.VisualBasic.Mathematical.Quantile
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>

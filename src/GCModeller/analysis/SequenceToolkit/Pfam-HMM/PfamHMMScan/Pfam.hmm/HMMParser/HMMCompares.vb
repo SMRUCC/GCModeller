@@ -27,7 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Text.Levenshtein
 
 Public Module HMMCompares
