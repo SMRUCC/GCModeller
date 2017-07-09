@@ -27,7 +27,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Mathematical.Calculus
+Imports Microsoft.VisualBasic.Math.Calculus
 
 Namespace Kernel.ObjectModels
 

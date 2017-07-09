@@ -28,7 +28,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.FASTA
 

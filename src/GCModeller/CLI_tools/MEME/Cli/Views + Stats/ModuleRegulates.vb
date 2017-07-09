@@ -27,20 +27,16 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 Imports RDotNET.Extensions.Bioinformatics.VennDiagram.ModelAPI
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 

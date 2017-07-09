@@ -28,8 +28,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Mathematical
-Imports Microsoft.VisualBasic.Mathematical.Matrix
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 
 <[Namespace]("Network.SVD",

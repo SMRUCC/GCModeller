@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical.Quantile
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 

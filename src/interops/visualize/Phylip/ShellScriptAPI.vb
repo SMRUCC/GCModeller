@@ -40,7 +40,7 @@ Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal.Utility
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.Analysis.localblast.VennDiagram.BlastAPI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis

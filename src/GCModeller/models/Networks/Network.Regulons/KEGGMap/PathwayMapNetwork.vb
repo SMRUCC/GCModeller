@@ -4,8 +4,8 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical
-Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Public Module PathwayMapNetwork
