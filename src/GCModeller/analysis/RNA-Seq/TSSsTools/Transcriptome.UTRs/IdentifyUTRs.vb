@@ -40,6 +40,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels.Gene
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation
 Imports SMRUCC.genomics.ContextModel
+Imports sys = System.Math
 
 Namespace Transcriptome.UTRs
 
@@ -488,7 +489,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
             Else
                 gNext = genome(x)
             End If
-            Dim [stop] As Integer = Math.Min(gNext.ATG, gNext.TGA) - 1
+            Dim [stop] As Integer = sys.Min(gNext.ATG, gNext.TGA) - 1
             'If Not gNext.IsORF Then
             '    [stop] = gNext.MappingLocation.Left - 1
             'End If
@@ -538,7 +539,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
             ' Distinguish overlapping UTRs
             If (frontUTR_length > 0) AndAlso
                 (backUTR_length > 0) AndAlso
-                (Math.Max(gPrevious.ATG, gPrevious.TGA) + frontUTR_length >= Math.Min(gNext.ATG, gNext.TGA) - backUTR_length) Then
+                (Math.Max(gPrevious.ATG, gPrevious.TGA) + frontUTR_length >= sys.Min(gNext.ATG, gNext.TGA) - backUTR_length) Then
 
                 ' Determine mean of genes' expression
                 Dim mean1 As Double = replicate.getMeanOfRange(gPrevious.ATG, gPrevious.TGA, gPrevious.Strand)
@@ -548,9 +549,9 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
                     mean2 = replicate.getMeanOfRange(gNext.ATG, gNext.TGA, "?"c)
                 End If
 
-                Dim overlapStart As Integer = Math.Min(gNext.ATG, gNext.TGA) - backUTR_length
+                Dim overlapStart As Integer = sys.Min(gNext.ATG, gNext.TGA) - backUTR_length
                 Dim overlapStop As Integer = Math.Max(gPrevious.ATG, gPrevious.TGA) + frontUTR_length
-                'while ((overlapStart < Math.min(g2.getStart(), g2.getStop())) && (getPoissonPDF(r.getReads(overlapStart, g1.getStrand()), mean1) > getPoissonPDF(r.getReads(overlapStart, g2.getStrand()), mean2))) overlapStart++;
+                'while ((overlapStart < sys.Min(g2.getStart(), g2.getStop())) && (getPoissonPDF(r.getReads(overlapStart, g1.getStrand()), mean1) > getPoissonPDF(r.getReads(overlapStart, g2.getStrand()), mean2))) overlapStart++;
                 If Not unstranded Then
                     ' Strand specific
                     While (overlapStart <= overlapStop) AndAlso (Math.Abs(replicate.getReads(overlapStart, gPrevious.Strand) - mean1) < Math.Abs(replicate.getReads(overlapStart, gNext.Strand) - mean2))
@@ -594,7 +595,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
                     End If
                 End If
                 frontUTR_length = overlapStart - (Math.Max(gPrevious.ATG, gPrevious.TGA) + 1)
-                backUTR_length = Math.Min(gNext.ATG, gNext.TGA) - 1 - overlapStop
+                backUTR_length = sys.Min(gNext.ATG, gNext.TGA) - 1 - overlapStop
             End If
 
             ' Merge UTRs from different experiments
@@ -604,7 +605,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
             ElseIf frontUTR_length_merged = 0 Then
                 frontUTR_length_merged = Math.Max(frontUTR_length_merged, frontUTR_length)
             Else
-                frontUTR_length_merged = Math.Min(frontUTR_length_merged, frontUTR_length)
+                frontUTR_length_merged = sys.Min(frontUTR_length_merged, frontUTR_length)
             End If
             'backUTR_length_merged = Math.max(backUTR_length_merged, backUTR_length);
             If backUTR_length_merged = -1 Then
@@ -612,7 +613,7 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
             ElseIf backUTR_length_merged = 0 Then
                 backUTR_length_merged = Math.Max(backUTR_length_merged, backUTR_length)
             Else
-                backUTR_length_merged = Math.Min(backUTR_length_merged, backUTR_length)
+                backUTR_length_merged = sys.Min(backUTR_length_merged, backUTR_length)
             End If
 
             '  Update transcription start/stop of genes (if genes are expressed)
@@ -657,11 +658,11 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
                                        gStart As SortedDictionary(Of String, Value(Of Integer)),
                                        gStop As SortedDictionary(Of String, Value(Of Integer))) As DocumentFormat.Transcript
             If Transcript.MappingLocation.Strand = Strands.Forward Then
-                Transcript.Left = gStart(Transcript.Synonym).Value
-                Transcript.Right = gStop(Transcript.Synonym).Value
+                Transcript.Left = gStart(Transcript.Synonym).value
+                Transcript.Right = gStop(Transcript.Synonym).value
             Else
-                Transcript.Right = gStart(Transcript.Synonym).Value
-                Transcript.Left = gStop(Transcript.Synonym).Value
+                Transcript.Right = gStart(Transcript.Synonym).value
+                Transcript.Left = gStop(Transcript.Synonym).value
             End If
 
             Return Transcript
@@ -719,13 +720,13 @@ which is equivalent to the maximum likelihood estimate, as uniform prior probabi
 
             'int[] IG = new int[stop-start+1+WINDOW];
             'if (isFront) {  // Front UTR
-            '   for (int i=start-WINDOW/2; i<=Math.min(stop+WINDOW/2, genome.size()-1); i++) IG[i-start+WINDOW/2] = r.getReads(i, g.getStrand());
+            '   for (int i=start-WINDOW/2; i<=sys.Min(stop+WINDOW/2, genome.size()-1); i++) IG[i-start+WINDOW/2] = r.getReads(i, g.getStrand());
             '} else {  // Back UTR
             '    for (int i=stop+WINDOW/2; i>=Math.max(start-WINDOW/2,1); i--) IG[stop+WINDOW/2-i] = r.getReads(i, g.getStrand());
             '}
             Dim IG As Integer() = New Integer([stop] - start) {}
             If isFront Then                ' Front UTR
-                For i As Integer = start To Math.Min([stop], genomeSize - 1)
+                For i As Integer = start To sys.Min([stop], genomeSize - 1)
                     IG(i - start) = replicate.getReads(i, strand)
                 Next
             Else                ' Back UTR

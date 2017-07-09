@@ -27,15 +27,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports sys = System.Math
 
 Namespace ProteinDomainArchitecture.MPAlignment
 
@@ -285,7 +283,7 @@ Statistics as Topic",
                 End If
             Next
 
-            Dim min As Integer = Math.Min(ds1.Distribution.Count, ds2.Distribution.Count)
+            Dim min As Integer = sys.Min(ds1.Distribution.Count, ds2.Distribution.Count)
             Dim max As Integer = Math.Max(ds1.Distribution.Count, ds2.Distribution.Count)
 
             score = (score / (combinations.Count * 2)) * min

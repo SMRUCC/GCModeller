@@ -28,13 +28,11 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -43,7 +41,6 @@ Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
@@ -53,6 +50,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME.HTML
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports sys = System.Math
 
 Namespace Analysis.GenomeMotifFootPrints
 
@@ -353,8 +351,8 @@ Namespace Analysis.GenomeMotifFootPrints
             For Each Site In data1
                 Dim LQuery = (From site2 As VirtualFootprints In data2.AsParallel
                               Where String.Equals(Site.ORF, site2.ORF) AndAlso
-                                  Math.Abs(site2.Starts - Site.Starts) <= Math.Min(Site.Length, site2.Length) * 0.85 AndAlso
-                                  Math.Abs(Site.Length - site2.Length) <= Math.Min(Site.Length, site2.Length) * 0.85
+                                  Math.Abs(site2.Starts - Site.Starts) <= sys.Min(Site.Length, site2.Length) * 0.85 AndAlso
+                                  Math.Abs(Site.Length - site2.Length) <= sys.Min(Site.Length, site2.Length) * 0.85
                               Select setValue(site2, data2Tag & site2.MotifId)).ToArray
                 If Not LQuery.IsNullOrEmpty Then
                     '找得到对应的位点，则是一致的数据
