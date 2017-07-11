@@ -27,7 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Data.visualize.Network
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 
 Namespace Tables
 

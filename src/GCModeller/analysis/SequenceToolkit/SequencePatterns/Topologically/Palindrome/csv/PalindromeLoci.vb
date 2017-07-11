@@ -31,7 +31,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 
 Namespace Topologically
 

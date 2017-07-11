@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports System.Text

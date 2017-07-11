@@ -1,5 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Mathematical.Correlations
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 

@@ -1,5 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical.HashMaps
+Imports Microsoft.VisualBasic.Math.HashMaps
 
 Public Module Extensions
 

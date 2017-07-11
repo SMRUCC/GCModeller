@@ -28,7 +28,7 @@
 
 Imports SMRUCC.genomics.Visualize.Circos.Colors
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 
 Namespace TrackDatas.Highlights
 

@@ -2,8 +2,8 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical.LinearAlgebra
-Imports Microsoft.VisualBasic.Mathematical.Quantile
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Quantile
 
 Public Module PseAA
 
