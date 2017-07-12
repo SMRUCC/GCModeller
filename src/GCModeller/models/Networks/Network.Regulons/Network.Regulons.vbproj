@@ -176,7 +176,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API.vb" />
-    <Compile Include="KEGGMap\PathwayMapNetwork.vb" />
     <Compile Include="MotifCluster.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
