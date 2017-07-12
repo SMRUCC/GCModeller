@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Public Module PathwayMapNetwork
@@ -78,7 +79,7 @@ Public Module PathwayMapNetwork
     End Function
 
     ''' <summary>
-    ''' 这个网络模式是以代谢物为主题的
+    ''' 这个网络模式是以代谢物为主题的，使用代谢途径作为边连接线太密集了，使用reaction网络的密度会更加好一些
     ''' </summary>
     ''' <param name="br08901$"></param>
     ''' <returns></returns>
@@ -127,7 +128,7 @@ Public Module PathwayMapNetwork
                     .ToNode = b.ID
                 }
 
-                If Not (common = pathways.Intersect(typeB).ToArray).IsNullOrEmpty Then
+                If Not (common = pathways.Intersect(typeB).ToArray).IsNullOrEmpty AndAlso common.value.Length > 10 Then
                     With edge.GetNullDirectedGuid(True)
                         If Not edges.ContainsKey(.ref) Then
                             edges(.ref) = edge
@@ -139,6 +140,10 @@ Public Module PathwayMapNetwork
             Next
         Next
 
-        Return New NetworkTables(nodes.Values, edges.Values)
+        Dim ranks As Vector = edges.Values.Select(Function(x) x.value).ToArray
+        Dim quantile As QuantileEstimationGK = ranks.GKQuantile
+        Dim q# = quantile.Query(0.95)
+
+        Return New NetworkTables(nodes.Values, edges.Values.AsList(Which.IsTrue(ranks >= q)))
     End Function
 End Module
