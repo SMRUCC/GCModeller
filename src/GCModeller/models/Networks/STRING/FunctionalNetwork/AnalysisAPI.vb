@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
+Imports SMRUCC.genomics.Model.Network.KEGG
 Imports NetworkTables = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
 
 ''' <summary>
@@ -21,7 +22,7 @@ Public Module AnalysisAPI
 
         Dim model = stringNetwork _
             .BuildModel(uniprot:=annotations,
-                        groupValues:=FunctionalEnrichmentNetwork.KOGroupTable)
+                        groupValues:=FunctionalNetwork.KOGroupTable)
         Call model.ComputeNodeDegrees
         Call model.RenderDEGsColor(DEGs, (up:="brown", down:="skyblue"),)
 

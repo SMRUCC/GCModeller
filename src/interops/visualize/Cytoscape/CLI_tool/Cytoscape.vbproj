@@ -272,6 +272,10 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\GCModeller\models\Networks\KEGG\KEGG.vbproj">
+      <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
+      <Name>KEGG</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\visualize\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
