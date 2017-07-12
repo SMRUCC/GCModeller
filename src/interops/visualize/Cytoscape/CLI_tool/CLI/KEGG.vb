@@ -40,14 +40,13 @@ Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports SMRUCC.genomics.Model.Network.Regulons
+Imports SMRUCC.genomics.Model.Network.KEGG
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG.ReactionNET
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
 Imports xCytoscape.GCModeller.FileSystem
 Imports xCytoscape.GCModeller.FileSystem.KEGG.Directories
-
 Imports ______NETWORK__ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.Network(Of
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node,
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge)

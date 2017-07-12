@@ -160,10 +160,6 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\data\STRING\STRING-db.vbproj">
-      <Project>{03565BD9-54DC-4E8F-A0E7-7D3EF10EE8D7}</Project>
-      <Name>STRING-db</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

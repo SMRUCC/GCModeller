@@ -10,10 +10,11 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
+Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports SMRUCC.genomics.Data.STRING
 Imports GraphLayout = Microsoft.VisualBasic.Data.visualize.Network.Layouts
 
 Public Module FunctionalNetwork
@@ -36,7 +37,7 @@ Public Module FunctionalNetwork
     ''' <returns></returns>
     <Extension>
     Public Function VisualizeKEGG(model As NetworkTables,
-                                  Optional layouts As Coordinates() = Nothing,
+                                  Optional layouts As ILayoutCoordinate() = Nothing,
                                   Optional size$ = "6000,5000",
                                   Optional colorSchema$ = "Set1:c9",
                                   Optional scale# = 4.5,
@@ -61,11 +62,11 @@ Public Module FunctionalNetwork
             Call graph.doForceLayout(showProgress:=True, parameters:=parameters)
         Else
             ' 直接使用所提供的布局信息
-            Dim layoutTable = layouts.ToDictionary(Function(x) x.node)
+            Dim layoutTable = layouts.ToDictionary(Function(x) x.ID)
 
             For Each node In graph.nodes
                 With layoutTable(node.ID)
-                    Dim point As New FDGVector2(.x_position * 1000, .y_position * 1000)
+                    Dim point As New FDGVector2(.X * 1000, .Y * 1000)
                     node.Data.initialPostion = point
                 End With
             Next
