@@ -51,7 +51,7 @@ Public Module ReactionNetwork
                     Continue For
                 End If
 
-                If Not (commons = reactionA.Intersect(rB)).IsNullOrEmpty Then
+                If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
                     Dim edge As New NetworkEdge With {
                         .FromNode = a.ID,
                         .ToNode = b.ID,
