@@ -17,21 +17,28 @@ Public Class ReactionTable
 
     Public Shared Iterator Function Load(br08201$) As IEnumerable(Of ReactionTable)
         For Each file As String In (ls - l - r - "*.XML" <= br08201)
-            Dim xml As Reaction = file.LoadXml(Of Reaction)
-            Dim eq As DefaultTypes.Equation = EquationBuilder.CreateObject(xml.Equation)
-
-            Yield New ReactionTable With {
-                .definition = xml.Definition,
-                .EC = xml.ECNum,
-                .entry = xml.Entry,
-                .name = xml.CommonNames.JoinBy("; "),
-                .products = eq.Products _
-                    .Select(Function(x) x.ID) _
-                    .ToArray,
-                .substrates = eq.Reactants _
-                    .Select(Function(x) x.ID) _
-                    .ToArray
-            }
+            Try
+                Yield ReactionTable.__creates(file.LoadXml(Of Reaction))
+            Catch ex As Exception
+                Call file.PrintException
+                Call App.LogException(ex)
+            End Try
         Next
+    End Function
+
+    Private Shared Function __creates(xml As Reaction) As ReactionTable
+        Dim eq As DefaultTypes.Equation = EquationBuilder.CreateObject(xml.Equation)
+        Return New ReactionTable With {
+            .definition = xml.Definition,
+            .EC = xml.ECNum,
+            .entry = xml.Entry,
+            .name = xml.CommonNames.JoinBy("; "),
+            .products = eq.Products _
+                .Select(Function(x) x.ID) _
+                .ToArray,
+            .substrates = eq.Reactants _
+                .Select(Function(x) x.ID) _
+                .ToArray
+        }
     End Function
 End Class
