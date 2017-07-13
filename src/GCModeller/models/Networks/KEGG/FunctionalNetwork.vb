@@ -16,8 +16,11 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports GraphLayout = Microsoft.VisualBasic.Data.visualize.Network.Layouts
+Imports Microsoft.VisualBasic.Math.Quantile
 
 Public Module FunctionalNetwork
+
+    Public Const Delimiter$ = " == "
 
     ''' <summary>
     ''' Using for the group values inforamtion for <see cref="BuildModel"/> function.
@@ -45,7 +48,9 @@ Public Module FunctionalNetwork
                                   Optional KEGGNameFont$ = CSSFont.Win7LargerNormal,
                                   Optional margin% = 100,
                                   Optional groupLowerBounds% = 3,
-                                  Optional delimiter$ = " == ") As Image
+                                  Optional delimiter$ = FunctionalNetwork.Delimiter,
+                                  Optional quantile# = 0.5,
+                                  Optional fontSizeFactor# = 2.5) As Image
 
         Dim graph As NetworkGraph = model _
             .CreateGraph(
@@ -92,8 +97,25 @@ Public Module FunctionalNetwork
                                           End Function) _
                                   .ToArray
                           End Function)
-        Dim nodePoints As Dictionary(Of Graph.Node, Point) = Nothing
         Dim colors As New LoopArray(Of Color)(Designer.GetColors(colorSchema))
+
+        If nodeGroups.Count > colors.Length Then
+            Dim q# = nodeGroups _
+                .Select(Function(x) CDbl(x.Value.Length)) _
+                .GKQuantile _
+                .Query(quantile)
+            Dim keys = nodeGroups _
+                .Keys _
+                .Where(Function(key)
+                           Return nodeGroups(key).Length >= q
+                       End Function) _
+                .ToArray
+
+            nodeGroups = keys.ToDictionary(Function(key) key,
+                                           Function(key) nodeGroups(key))
+        End If
+
+        Dim nodePoints As Dictionary(Of Graph.Node, Point) = Nothing
         Dim image As Image
 
         Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
@@ -114,7 +136,7 @@ Public Module FunctionalNetwork
                        scale:=scale,
                        nodePoints:=nodePoints,
                        edgeDashTypes:=dash,
-                       fontSizeFactor:=2.5) _
+                       fontSizeFactor:=fontSizeFactor) _
             .AsGDIImage _
             .CreateCanvas2D(directAccess:=True)
 

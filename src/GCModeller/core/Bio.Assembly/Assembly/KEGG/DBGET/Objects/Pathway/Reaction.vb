@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -48,6 +49,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Property Entry As String Implements INamedValue.Key
         Public Property CommonNames As String()
         Public Property Definition As String
+
+        ''' <summary>
+        ''' 使用KEGG compound编号作为代谢物的反应过程的表达式
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Equation As String
 
         ''' <summary>
@@ -68,10 +74,25 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         Public Property [Class] As KeyValuePair()
 
+        ''' <summary>
+        ''' + (...)
+        ''' + m
+        ''' + n
+        ''' + [nm]-1
+        ''' + [nm]+1
+        ''' </summary>
+        Const polymers$ = "(\(.+?\))|([nm](\s*[+-]\s*[0-9mn]+)? )"
+
+        ''' <summary>
+        ''' 从<see cref="Equation"/>属性值字符串创建一个代谢过程的模型
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property ReactionModel As DefaultTypes.Equation
             Get
                 Try
-                    Return EquationBuilder.CreateObject(Me.Equation)
+                    Return EquationBuilder.CreateObject(Of
+                        DefaultTypes.CompoundSpecieReference,
+                        DefaultTypes.Equation)(r.Replace(Equation, polymers, "", RegexICSng))
                 Catch ex As Exception
                     ex = New Exception(Me.GetJson, ex)
                     Throw ex
@@ -83,6 +104,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return String.Format("[{0}] {1}:  {2}", ECNum, Entry, Definition)
         End Function
 
+        ''' <summary>
+        ''' 这个反应过程是否是可逆的代谢反应？
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Reversible As Boolean
             Get
                 Return InStr(Equation, " <=> ") > 0
@@ -95,20 +120,18 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function GetSubstrateCompounds() As String()
-            Dim FluxModel = EquationBuilder.CreateObject(Of
-                DefaultTypes.CompoundSpecieReference,
-                DefaultTypes.Equation)(Regex.Replace(Equation, "(\s*\(.+?\))|(n )", ""))
-            Dim Compounds$() = LinqAPI.Exec(Of String) <=
+            Dim fluxModel = Me.ReactionModel
+            Dim allCompounds$() = LinqAPI.Exec(Of String) <=
  _
                 From csr As DefaultTypes.CompoundSpecieReference
                 In {
-                    FluxModel.Reactants,
-                    FluxModel.Products
+                    fluxModel.Reactants,
+                    fluxModel.Products
                 }.IteratesALL
                 Select csr.ID
                 Distinct
 
-            Return Compounds
+            Return allCompounds
         End Function
 
         Public Function IsConnectWith([next] As Reaction) As Boolean
