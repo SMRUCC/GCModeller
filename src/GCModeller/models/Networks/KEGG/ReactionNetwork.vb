@@ -7,18 +7,7 @@ Imports Microsoft.VisualBasic.Linq
 Public Module ReactionNetwork
 
     <Extension>
-    Public Function BuildModel(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String))) As NetworkTables
-        Dim nodes As Dictionary(Of Node) = compounds _
-            .Select(Function(cpd)
-                        Return New Node With {
-                            .ID = cpd.Name,
-                            .NodeType = "KEGG Compound",
-                            .Properties = New Dictionary(Of String, String) From {
-                                {"name", cpd.Value}
-                            }
-                        }
-                    End Function) _
-            .ToDictionary
+    Public Function BuildModel(br08901 As IEnumerable(Of ReactionTable), compounds As IEnumerable(Of NamedValue(Of String)), Optional delimiter$ = "") As NetworkTables
         Dim edges As New Dictionary(Of String, NetworkEdge)
         Dim cpdGroups = br08901 _
             .Select(Function(x)
@@ -36,6 +25,26 @@ Public Module ReactionNetwork
                                   .ToArray
                           End Function)
         Dim commons As Value(Of String()) = {}
+        Dim nodes As Dictionary(Of Node) = compounds _
+            .Select(Function(cpd)
+                        Dim type$
+
+                        If cpdGroups.ContainsKey(cpd.Name) Then
+                            type = cpdGroups(cpd.Name) _
+                                .JoinBy(FunctionalNetwork.Delimiter)
+                        Else
+                            type = "KEGG Compound"
+                        End If
+
+                        Return New Node With {
+                            .ID = cpd.Name,
+                            .NodeType = type,
+                            .Properties = New Dictionary(Of String, String) From {
+                                {"name", cpd.Value}
+                            }
+                        }
+                    End Function) _
+            .ToDictionary
 
         For Each a As Node In nodes.Values
             Dim reactionA = cpdGroups.TryGetValue(a.ID)

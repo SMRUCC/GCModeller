@@ -19,6 +19,8 @@ Imports GraphLayout = Microsoft.VisualBasic.Data.visualize.Network.Layouts
 
 Public Module FunctionalNetwork
 
+    Public Const Delimiter$ = " == "
+
     ''' <summary>
     ''' Using for the group values inforamtion for <see cref="BuildModel"/> function.
     ''' </summary>
@@ -45,7 +47,7 @@ Public Module FunctionalNetwork
                                   Optional KEGGNameFont$ = CSSFont.Win7LargerNormal,
                                   Optional margin% = 100,
                                   Optional groupLowerBounds% = 3,
-                                  Optional delimiter$ = " == ") As Image
+                                  Optional delimiter$ = FunctionalNetwork.Delimiter) As Image
 
         Dim graph As NetworkGraph = model _
             .CreateGraph(
