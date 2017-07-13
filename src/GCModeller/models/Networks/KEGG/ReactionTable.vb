@@ -27,7 +27,7 @@ Public Class ReactionTable
     End Function
 
     Private Shared Function __creates(xml As Reaction) As ReactionTable
-        Dim eq As DefaultTypes.Equation = EquationBuilder.CreateObject(xml.Equation)
+        Dim eq As DefaultTypes.Equation = xml.ReactionModel
         Return New ReactionTable With {
             .definition = xml.Definition,
             .EC = xml.ECNum,

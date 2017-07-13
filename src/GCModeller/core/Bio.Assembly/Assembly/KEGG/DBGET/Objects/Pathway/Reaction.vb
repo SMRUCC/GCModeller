@@ -74,7 +74,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         Public Property [Class] As KeyValuePair()
 
-        Const polymers$ = "(\s*\(.+?\))|(n )"
+        ''' <summary>
+        ''' + (...)
+        ''' + m
+        ''' + n
+        ''' + [nm]-1
+        ''' + [nm]+1
+        ''' </summary>
+        Const polymers$ = "(\(.+?\))|([nm](\s*[+-]\s*[0-9mn]+)? )"
 
         ''' <summary>
         ''' 从<see cref="Equation"/>属性值字符串创建一个代谢过程的模型
@@ -85,7 +92,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Try
                     Return EquationBuilder.CreateObject(Of
                         DefaultTypes.CompoundSpecieReference,
-                        DefaultTypes.Equation)(r.Replace(Equation, polymers, ""))
+                        DefaultTypes.Equation)(r.Replace(Equation, polymers, "", RegexICSng))
                 Catch ex As Exception
                     ex = New Exception(Me.GetJson, ex)
                     Throw ex
