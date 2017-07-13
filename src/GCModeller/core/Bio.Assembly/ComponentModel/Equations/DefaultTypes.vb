@@ -62,7 +62,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
     End Class
 
     ''' <summary>
-    ''' 默认类型的反应表达式的数据结构
+    ''' 默认类型的反应表达式的数据结构，可以使用<see cref="EquationBuilder.CreateObject(String)"/>来进行构建
     ''' </summary>
     ''' <remarks></remarks>
     Public Class Equation : Inherits Equation(Of CompoundSpecieReference)

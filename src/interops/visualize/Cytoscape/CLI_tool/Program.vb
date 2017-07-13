@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
+Imports System.Text.RegularExpressions
 
 Module Program
 
@@ -40,6 +41,8 @@ Module Program
         '  sdfsdf()
         '  Call ExportNetwork()
         'Call test33333linkages()
+
+        '   Dim s = Regex.Replace("(n+1) C02174 C00404(n);C00404; n C00001", "(\(.+?\))|([nm] )", "", RegexICSng)
 
         Return GetType(CLI).RunCLI(App.CommandLine)
     End Function
