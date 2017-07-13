@@ -325,4 +325,13 @@ Partial Module CLI
 
         Return graph.Save(out, Encodings.ASCII).CLICode
     End Function
+
+    <ExportAPI("/Write.Reaction.Table")>
+    <Usage("/Write.Reaction.Table /in <br08201.DIR> [/out <out.csv>]")>
+    Public Function WriteReactionTable(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimDIR & ".table.csv")
+        Dim table As ReactionTable() = ReactionTable.Load(br08201:=[in]).ToArray
+        Return table.SaveTo(out).CLICode
+    End Function
 End Module
