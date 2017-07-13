@@ -334,4 +334,13 @@ Partial Module CLI
         Dim table As ReactionTable() = ReactionTable.Load(br08201:=[in]).ToArray
         Return table.SaveTo(out).CLICode
     End Function
+
+    <ExportAPI("/KO.link")>
+    <Usage("/KO.link /in <ko00001.DIR> [/out <out.XML>]")>
+    Public Function BuildKOLinks(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimDIR & ".links.XML")
+        Dim data As KOLinks() = KOLinks.Build(ko00001:=[in]).ToArray
+        Return data.GetXml.SaveTo(out).CLICode
+    End Function
 End Module
