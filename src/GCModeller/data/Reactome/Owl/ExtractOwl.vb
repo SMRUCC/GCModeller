@@ -27,9 +27,9 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.Reactome.ObjectModels
 Imports SMRUCC.genomics.Data.Reactome.OwlDocument.Abstract
@@ -76,7 +76,7 @@ Public Module ExtractOwl
             ' Throw New Exception(String.Format("The data was broken: could not found stoichiometry value for the specific item {0}", ResourceId))
             Return 1
         Else
-            Return Scripting.CastInteger(LQuery.stoichiometricCoefficient)
+            Return CastInteger(LQuery.stoichiometricCoefficient)
         End If
     End Function
 

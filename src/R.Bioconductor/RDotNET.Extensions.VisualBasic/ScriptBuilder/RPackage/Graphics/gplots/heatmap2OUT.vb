@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures.BinaryTree
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace SymbolBuilder.packages.gplots
@@ -77,7 +77,7 @@ Namespace SymbolBuilder.packages.gplots
         Public Property colorTable As colorTable()
 
         Public Shared Function IndParser(result As String) As Integer()
-            Return Regex.Matches(result, "\d+").ToArray(Function(s) Scripting.CastInteger(s))
+            Return Regex.Matches(result, "\d+").ToArray(Function(s) CastInteger(s))
         End Function
 
         Public Shared Function MeansParser(result As String) As Double()

@@ -28,7 +28,7 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Restriction_enzyme
@@ -146,7 +146,7 @@ Namespace Restriction_enzyme
             Dim i As String = Regex.Match(s, "\d'").Value
             s = s.Replace(i, "")
             s = s.Replace("---", "").Trim
-            Return New KeyValuePair(Of Integer, String)(Scripting.CastInteger(i), s)
+            Return New KeyValuePair(Of Integer, String)(CastInteger(i), s)
         End Function
     End Class
 End Namespace
