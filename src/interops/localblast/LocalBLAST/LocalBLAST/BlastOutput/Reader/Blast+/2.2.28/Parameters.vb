@@ -27,7 +27,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 

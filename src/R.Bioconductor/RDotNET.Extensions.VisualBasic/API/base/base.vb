@@ -26,9 +26,10 @@
 
 #End Region
 
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
-Imports Microsoft.VisualBasic.Linq
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace API
 
@@ -343,7 +344,7 @@ Namespace API
         ''' <param name="recursive"></param>
         ''' <returns></returns>
         Public Function c(Of T)(list As IEnumerable(Of T), Optional recursive As Boolean = False) As String
-            Return base.c(list.SafeQuery.Select(AddressOf Scripting.CStrSafe), recursive:=recursive)
+            Return base.c(list.SafeQuery.Select(AddressOf CStrSafe), recursive:=recursive)
         End Function
 
         ''' <summary>

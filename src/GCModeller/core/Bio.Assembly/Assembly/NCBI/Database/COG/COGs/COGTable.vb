@@ -29,6 +29,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Assembly.NCBI.COG.COGs
 
@@ -105,11 +106,11 @@ Namespace Assembly.NCBI.COG.COGs
             DomainID = tokens(++i)
             GenomeName = tokens(++i)
             ProteinID = tokens(++i)
-            ProteinLength = Scripting.CastInteger(tokens(++i))
-            Start = Scripting.CastInteger(tokens(++i))
-            Ends = Scripting.CastInteger(tokens(++i))
+            ProteinLength = CastInteger(tokens(++i))
+            Start = CastInteger(tokens(++i))
+            Ends = CastInteger(tokens(++i))
             COGId = tokens(++i)
-            Membership = Scripting.CastInteger(tokens(++i))
+            Membership = CastInteger(tokens(++i))
         End Sub
 
         Public Overrides Function ToString() As String

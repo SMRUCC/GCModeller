@@ -37,7 +37,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 

@@ -2,6 +2,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 
 Namespace SymbolBuilder
@@ -27,7 +28,7 @@ Namespace SymbolBuilder
                 Dim s$
 
                 For Each [property] As PropertyInfo In props
-                    s = Scripting.CStrSafe([property].GetValue(o))
+                    s = CStrSafe([property].GetValue(o))
                     s = EscapingHelper.R_Escaping(s)
                     Call [property].SetValue(o, value:=s)
                 Next
