@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Expressions
 Imports Who = Microsoft.VisualBasic.Which
+Imports Microsoft.VisualBasic.Emit.Delegates
 
 Namespace Language
 
@@ -86,6 +87,22 @@ Namespace Language
                 Else
                     MyBase.Item(Scan0) = value
                 End If
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="args">同时支持boolean和integer</param>
+        ''' <returns></returns>
+        Default Public Overloads Property Item(args As Object) As List(Of T)
+            Get
+                Dim index = Indexer.Indexing(args)
+                Return Me(index)
+            End Get
+            Set
+                Dim index = Indexer.Indexing(args)
+                Me(index) = Value
             End Set
         End Property
 
