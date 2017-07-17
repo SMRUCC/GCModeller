@@ -27,12 +27,11 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Parallel.Linq
-Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 
 Namespace LocalBLAST.Application
 
