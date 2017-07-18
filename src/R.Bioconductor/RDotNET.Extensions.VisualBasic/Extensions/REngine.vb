@@ -74,6 +74,23 @@ Public Module RExtensionInvoke
         Return s.StringEmpty OrElse s = "NA"
     End Function
 
+    ''' <summary>
+    ''' R variable copy
+    ''' </summary>
+    ''' <param name="var$"></param>
+    ''' <returns></returns>
+    <Extension> Public Function copy(var$) As String
+        Dim x$ = App.NextTempName
+
+        SyncLock R
+            With R
+                .call = $"{x} <- {var};"
+            End With
+        End SyncLock
+
+        Return x
+    End Function
+
     '''' <summary>
     '''' This function equals to the function &lt;library> in R system.
     '''' </summary>
