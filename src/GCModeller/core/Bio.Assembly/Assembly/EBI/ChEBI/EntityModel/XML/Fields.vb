@@ -33,6 +33,8 @@ Namespace Assembly.EBI.ChEBI.XML
         Public Property type As String
 
         Public Const HMDB_accession$ = "HMDB accession"
+        Public Const KEGG_COMPOUND_accession$ = "KEGG COMPOUND accession"
+        Public Const KEGG_DRUG_accession$ = "KEGG DRUG accession"
 
         Public Overrides Function ToString() As String
             Return $"[{type}] {data}"
