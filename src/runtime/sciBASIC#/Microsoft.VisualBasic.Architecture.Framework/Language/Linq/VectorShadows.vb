@@ -39,7 +39,7 @@ Namespace Language
         ReadOnly op_IntegerDivisions As BinaryOperator
 #End Region
 
-        ReadOnly methods As New Dictionary(Of String, MethodInfo())
+        ReadOnly methods As New Dictionary(Of String, OverloadsFunction)
 
         ReadOnly type As Type = GetType(T)
 
@@ -145,14 +145,35 @@ Namespace Language
 #End Region
 
 #Region "Method/Function"
-        Public Overrides Function TryInvoke(binder As InvokeBinder, args() As Object, ByRef result As Object) As Boolean
-            Return MyBase.TryInvoke(binder, args, result)
+        Public Overrides Function TryInvokeMember(binder As InvokeMemberBinder, args() As Object, ByRef result As Object) As Boolean
+            If Not methods.ContainsKey(binder.Name) Then
+                Return False
+            End If
+
+            Dim [overloads] = methods(binder.Name)
+            Dim method As MethodInfo = [overloads].Match(args.Select(Function(o) o.GetType).ToArray)
+
+            If method Is Nothing Then
+                Return False
+            Else
+                result = Me.Select(Function(o) method.Invoke(o, args)).ToArray
+                Return True
+            End If
         End Function
 #End Region
 
 #Region "Operator:Unary"
         Public Overrides Function TryUnaryOperation(binder As UnaryOperationBinder, ByRef result As Object) As Boolean
+            If Not operatorsUnary.ContainsKey(binder.Operation) Then
+                Return False
+            Else
+                Dim method = operatorsUnary(binder.Operation)
+                result = Me _
+                    .Select(method) _
+                    .ToArray
+            End If
 
+            Return True
         End Function
 #End Region
 
@@ -237,6 +258,26 @@ Namespace Language
         ''' <returns></returns>
         Public Shared Operator Like(vector As VectorShadows(Of T), obj As Object) As Object
             If vector.op_Likes Is Nothing Then
+
+                ' string like
+                If vector.type Is GetType(String) Then
+                    Dim type As Type = obj.GetType
+
+                    If type Is GetType(String) Then
+                        Dim str$ = obj.ToString
+
+                        Return vector.Select(Function(s) CStrSafe(s) Like str).ToArray
+                    ElseIf type.ImplementsInterface(GetType(IEnumerable(Of String))) Then
+                        Dim out As Boolean() = New Boolean(vector.Length - 1) {}
+
+                        For Each s In DirectCast(obj, IEnumerable(Of String)).SeqIterator
+                            out(s) = DirectCast(CObj(vector.vector(s)), String) Like s.value
+                        Next
+
+                        Return out
+                    End If
+                End If
+
                 Throw New NotImplementedException
             Else
                 Return binaryOperatorSelfLeft(vector, vector.op_Likes, obj, obj.GetType)
@@ -244,7 +285,11 @@ Namespace Language
         End Operator
 
         Public Shared Operator \(vector As VectorShadows(Of T), obj As Object) As Object
-
+            If vector.op_IntegerDivisions Is Nothing Then
+                Throw New NotImplementedException
+            Else
+                Return binaryOperatorSelfLeft(vector, vector.op_IntegerDivisions, obj, obj.GetType)
+            End If
         End Operator
 
         Const left% = 0
