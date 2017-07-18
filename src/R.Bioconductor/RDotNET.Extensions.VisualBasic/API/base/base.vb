@@ -180,6 +180,7 @@ Namespace API
         ''' </summary>
         ''' <param name="file$">
         ''' a (readable binary-mode) connection or a character string giving the name of the file to load (when tilde expansion is done).
+        ''' (文件路径字符串不需要进行特殊处理，在函数这里已经会被自动处理了)
         ''' </param>
         ''' <param name="verbose">should item names be printed during loading?</param>
         ''' <returns>
