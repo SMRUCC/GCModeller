@@ -28,8 +28,11 @@ Namespace Assembly.EBI.ChEBI.XML
     End Class
 
     Public Class DatabaseLinks
+
         Public Property data As String
         Public Property type As String
+
+        Public Const HMDB_accession$ = "HMDB accession"
 
         Public Overrides Function ToString() As String
             Return $"[{type}] {data}"
