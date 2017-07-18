@@ -95,7 +95,7 @@ Namespace Assembly.EBI.ChEBI.XML
         End Property
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return chebiAsciiName
         End Function
     End Class
 End Namespace
