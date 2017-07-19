@@ -184,14 +184,14 @@ Namespace ComponentModel.Loci
         ''' 388739 ==> 389772 #Forward
         ''' ```
         ''' </summary>
-        ''' <param name="s_Loci"></param>
+        ''' <param name="input"></param>
         ''' <returns></returns>
-        Private Function __tryParse(s_Loci As String) As NucleotideLocation
-            Dim Tokens As String() = s_Loci.Split
-            Dim Left As Integer = CInt(Val(Tokens(0)))
-            Dim Right As Integer = CInt(Val(Tokens(2)))
-            Dim Strand As Strands = GetStrand(Tokens(3))
-            Return New NucleotideLocation(Left, Right, Strand).Normalization.As(Of NucleotideLocation)
+        Private Function __tryParse(input As String) As NucleotideLocation
+            Dim t$() = input.Split
+            Dim left As Integer = CInt(Val(t(0)))
+            Dim right As Integer = CInt(Val(t(2)))
+            Dim strand As Strands = GetStrand(t(3))
+            Return New NucleotideLocation(left, right, strand).Normalization
         End Function
 
         <ExportAPI("Loci.Equals")>

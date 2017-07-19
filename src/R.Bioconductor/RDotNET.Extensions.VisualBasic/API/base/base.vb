@@ -195,7 +195,11 @@ Namespace API
             SyncLock R
                 With R
                     Dim expr$ = $"load(file = {Rstring(file.UnixPath)}, verbose = {verbose.λ})"
-                    Dim names$() = .Evaluate(expr).ToStrings
+                    Dim var$ = App.NextTempName
+
+                    .call = $"{var} <- {expr}"
+
+                    Dim names$() = .Evaluate(var).ToStrings
                     Return names
                 End With
             End SyncLock
