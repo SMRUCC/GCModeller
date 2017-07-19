@@ -79,6 +79,11 @@ Public Class ExtendedEngine : Inherits REngine
     Private Sub __cleanHook()
         Call __logs.WriteLine()
         Call __logs.WriteLine()
+        Call __logs.WriteLine("# Show warnings():")
+        Call __logs.WriteLine()
+        Call __logs.WriteLine(Evaluate("str(warnings())").ToStrings.Select(Function(s) "# " & s).JoinBy(ASCII.LF))
+
+        Call __logs.WriteLine()
         Call __logs.WriteLine($"#### =================={App.PID} {App.CommandLine.ToString}=======================================")
         Call __logs.Flush()
         Call __logs.Close()
