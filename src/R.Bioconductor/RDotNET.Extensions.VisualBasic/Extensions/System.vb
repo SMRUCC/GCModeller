@@ -63,9 +63,11 @@ Public Class ExtendedEngine : Inherits REngine
         Try
             Return MyBase.Evaluate(statement)
         Catch ex As Exception
-            ex = New Exception(statement, ex)
+            ex = New Exception(vbCrLf & vbCrLf &
+                               statement &
+                               vbCrLf & vbCrLf, ex)
+            Call App.LogException(ex)
 
-            App.LogException(ex)
             Throw ex
         End Try
     End Function
