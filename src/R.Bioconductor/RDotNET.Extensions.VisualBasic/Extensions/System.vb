@@ -63,9 +63,11 @@ Public Class ExtendedEngine : Inherits REngine
         Try
             Return MyBase.Evaluate(statement)
         Catch ex As Exception
-            ex = New Exception(statement, ex)
+            ex = New Exception(vbCrLf & vbCrLf &
+                               statement &
+                               vbCrLf & vbCrLf, ex)
+            Call App.LogException(ex)
 
-            App.LogException(ex)
             Throw ex
         End Try
     End Function
@@ -76,6 +78,11 @@ Public Class ExtendedEngine : Inherits REngine
 
     Private Sub __cleanHook()
         Call __logs.WriteLine()
+        Call __logs.WriteLine()
+        Call __logs.WriteLine("# Show warnings():")
+        Call __logs.WriteLine()
+        Call __logs.WriteLine(Evaluate("str(warnings())").ToStrings.Select(Function(s) "# " & s).JoinBy(ASCII.LF))
+
         Call __logs.WriteLine()
         Call __logs.WriteLine($"#### =================={App.PID} {App.CommandLine.ToString}=======================================")
         Call __logs.Flush()

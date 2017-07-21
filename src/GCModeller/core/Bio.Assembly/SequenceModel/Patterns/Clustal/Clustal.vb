@@ -1,35 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::ff28ed950d038a4f90a34d3f7852206f, ..\core\Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace SequenceModel.Patterns.Clustal
@@ -38,7 +37,7 @@ Namespace SequenceModel.Patterns.Clustal
     ''' Fasta格式的多序列比对的结果
     ''' </summary>
     Public Class Clustal : Inherits ITextFile
-        Implements IEnumerable(Of FASTA.FastaToken)
+        Implements IEnumerable(Of FastaToken)
 
         Dim _innerList As List(Of FastaToken)
         Dim _SRChains As SRChain()
@@ -68,10 +67,12 @@ Namespace SequenceModel.Patterns.Clustal
             _SRChains = SR.FromAlign(_innerList, levels:=_innerList.Count)
             Dim variations As Patterns.PatternModel = Patterns.Frequency(_innerList)
             Dim dict As IReadOnlyDictionary(Of Integer, IReadOnlyDictionary(Of Char, Double)) =
-                variations.Residues.SeqIterator _
-               .ToDictionary(Function(x) x.i,
-                             Function(y) DirectCast(y.value.Alphabets, IReadOnlyDictionary(Of Char, Double))) _
-                                        .As(Of IReadOnlyDictionary(Of Integer, IReadOnlyDictionary(Of Char, Double)))
+                variations.Residues _
+                    .SeqIterator _
+                    .ToDictionary(Function(x) x.i,
+                                  Function(y)
+                                      Return DirectCast(y.value.Alphabets, IReadOnlyDictionary(Of Char, Double))
+                                  End Function)
             _Frequency = dict
             _Conservation = dict.ToArray(Function(x) __getSite(x))
         End Sub
@@ -80,7 +81,7 @@ Namespace SequenceModel.Patterns.Clustal
             Dim topSite = (From site As KeyValuePair(Of Char, Double) In x.Value
                            Select site
                            Order By site.Value Descending).First
-            Dim residue As SR = New SR With {
+            Dim residue As New SR With {
                 .Index = x.Key,
                 .Frq = topSite.Value,
                 .Residue = topSite.Key
