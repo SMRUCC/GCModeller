@@ -15,6 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+packages/
 
 # External tool builders
 .externalToolBuilders/
@@ -215,3 +216,4 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+/.vs/Circos/v15/sqlite3/storage.ide

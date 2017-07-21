@@ -37,7 +37,7 @@ Namespace Configurations.Nodes.Plots
 
         Public ReadOnly Property Highlights As Highlights
             Get
-                Return Me.TracksData.As(Of Highlights)
+                Return DirectCast(Me.TracksData, Highlights)
             End Get
         End Property
 
