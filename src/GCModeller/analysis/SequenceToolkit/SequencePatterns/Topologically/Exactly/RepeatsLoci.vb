@@ -90,8 +90,7 @@ Namespace Topologically
                     In LQuery
                     Where Not loci Is Nothing
                     Select loci
-                    Group loci By loci.__hash Into Group).ToArray(
-                        Function(loci) loci.Group.First.As(Of RevRepeatsLoci))
+                    Group loci By loci.__hash Into Group).ToArray(Function(loci) DirectCast(loci.Group.First, RevRepeatsLoci))
         End Function
     End Class
 

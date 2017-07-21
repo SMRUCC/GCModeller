@@ -9,6 +9,10 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Matrix
 
+    <Extension> Private Function [As](Of T, V)(o As T) As V
+        Return DirectCast(CObj(o), V)
+    End Function
+
     <Extension>
     Public Function NeedlemanWunsch(locis As IEnumerable(Of FastaToken), Optional ByRef out As StreamWriter = Nothing) As DataSet()
         Dim buffer As FastaToken() = locis.ToArray
