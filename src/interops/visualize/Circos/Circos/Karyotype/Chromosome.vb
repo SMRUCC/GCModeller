@@ -86,22 +86,28 @@ Namespace Karyotype
             End If
 
             Dim rnd As New Random
+            Dim chrVector = chrs.ToArray
             Dim ks As Karyotype() =
+ _
                 LinqAPI.Exec(Of Karyotype) <= From nt As SeqValue(Of FastaToken)
-                                              In chrs.SeqIterator(offset:=1)
-                                              Let name As String =
-                                                  nt.value.Title _
-                                                        .Split("."c).First _
-                                                        .NormalizePathString(True) _
-                                                        .Replace(" ", "_")
+                                              In chrVector.SeqIterator(offset:=1)
+                                              Let fasta = nt.value
+                                              Let name As String = fasta.Title _
+                                                  .Split("."c) _
+                                                  .First _
+                                                  .NormalizePathString(True) _
+                                                  .Replace(" ", "_")
                                               Let clInd As Integer = rnd.NextInteger(colors.Length).value
                                               Select New Karyotype With {
                                                   .chrName = "chr" & nt.i,
                                                   .chrLabel = name,
                                                   .color = colors(clInd),
                                                   .start = 0,
-                                                  .end = nt.value.Length
-                                              }.nt.SetValue(nt.value).As(Of Karyotype)
+                                                  .end = fasta.Length
+                                              }
+            With ks.VectorShadows
+                .nt = chrVector
+            End With
 
             Return New KaryotypeChromosomes With {
                 .__karyotypes = ks.AsList
@@ -119,9 +125,11 @@ Namespace Karyotype
             Dim labels As Dictionary(Of String, Karyotype) =
                 ks.__karyotypes.ToDictionary(Function(x) x.nt.value.Title,
                                              Function(x) x)
+            Dim reads = source.ToArray
             Dim bands As List(Of Band) =
+ _
                 LinqAPI.MakeList(Of Band) <= From x As SeqValue(Of BlastnMapping)
-                                             In source.SeqIterator(offset:=1)
+                                             In reads.SeqIterator(offset:=1)
                                              Let chr As String = labels(x.value.Reference).chrName
                                              Let loci As NucleotideLocation = x.value.MappingLocation
                                              Select New Band With {
@@ -131,22 +139,29 @@ Namespace Karyotype
                                                  .color = "",
                                                  .bandX = "band" & x.i,
                                                  .bandY = "band" & x.i
-                                             }.MapsRaw.SetValue(x.value).As(Of Band)
+                                             }
+            With bands.VectorShadows
+                .MapsRaw = reads
+            End With
 
             Dim nts As Dictionary(Of String, SimpleSegment) =
                 chrs.ToDictionary(
                 Function(x) x.Title,
-                Function(x) New SimpleSegment With {.SequenceData = NucleicAcid.RemoveInvalids(x.SequenceData)})
+                Function(x)
+                    Return New SimpleSegment With {
+                        .SequenceData = NucleicAcid.RemoveInvalids(x.SequenceData)
+                    }
+                End Function)
 
-            Dim __getNt As Func(Of Band, FastaToken) =
-                Function(x) As FastaToken
-                    Dim map As BlastnMapping = x.MapsRaw.value
-                    Dim nt As SimpleSegment = nts(map.Reference)
-                    Dim fragment As FastaToken =
-                        nt.CutSequenceLinear(map.MappingLocation) _
-                          .SimpleFasta(map.ReadQuery)
-                    Return fragment
-                End Function
+            Dim __getNt As Func(Of Band, FastaToken) = Function(x) As FastaToken
+                                                           Dim map As BlastnMapping = x.MapsRaw.value
+                                                           Dim nt As SimpleSegment = nts(map.Reference)
+                                                           Dim fragment As FastaToken =
+                                                               nt _
+                                                               .CutSequenceLinear(map.MappingLocation) _
+                                                               .SimpleFasta(map.ReadQuery)
+                                                           Return fragment
+                                                       End Function
 
             Dim props = bands.Select(__getNt).PropertyMaps
 

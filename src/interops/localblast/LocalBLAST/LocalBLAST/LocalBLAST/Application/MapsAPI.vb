@@ -85,8 +85,7 @@ Namespace LocalBLAST.Application
             Dim LQuery As BlastnMapping() =
                 LinqAPI.Exec(Of BlastnMapping) <= From hitMapping As SubjectHit
                                                   In Query.SubjectHits
-                                                  Let blastnHitMapping As BlastnHit =
-                                                      hitMapping.As(Of BlastnHit)
+                                                  Let blastnHitMapping As BlastnHit = DirectCast(hitMapping, BlastnHit)
                                                   Select __createObject(Query, blastnHitMapping)
             Call __setUnique(LQuery)
             Return LQuery
