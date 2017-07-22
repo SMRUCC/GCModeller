@@ -126,7 +126,7 @@ Partial Module CLI
     End Function
 
     Private Function __clusteringCommon(nClusters As Integer, Maps As KMeans.Entity(), mapNames As String()) As List(Of EntityLDM)
-        Dim Clusters As ClusterCollection(Of KMeans.Entity) = KMeans.ClusterDataSet(nClusters, Maps)
+        Dim Clusters As ClusterCollection(Of KMeans.Entity) = Maps.ClusterDataSet(nClusters)
         Dim result As New List(Of EntityLDM)
         Dim i As Integer = 1
         Dim setValue = New SetValue(Of EntityLDM) <= NameOf(EntityLDM.Cluster)
