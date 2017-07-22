@@ -49,8 +49,8 @@ Public Module SVDNetwork
     <ExportAPI("Reconstruct")>
     Public Function Reconstruct(MAT As GeneralMatrix) As GeneralMatrix
         Dim SVD = New SingularValueDecomposition(MAT)
-        Dim U = SVD.GetU
-        Dim V = SVD.GetV.Transpose
+        Dim U = SVD.U
+        Dim V = SVD.V.Transpose
         Dim E = SVD.S
 
         Dim Y = New GeneralMatrix((From Line As Double() In E.Array
