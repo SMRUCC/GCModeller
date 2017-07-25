@@ -45,6 +45,15 @@ Namespace SymbolBuilder
         ''' </summary>
         ''' <param name="value$"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' ###### 2017-07-25
+        ''' 
+        ''' ```
+        ''' Error: '\-' is an unrecognized escape in character string starting ""4\-"
+        ''' In addition: There were 35 warnings (use warnings() To see them)
+        ''' Error: unprotect_ptr: pointer Not found
+        ''' ```
+        ''' </remarks>
         <Extension> Public Function R_Escaping(value$) As String
             If value.StringEmpty Then
                 Return ""
@@ -55,6 +64,11 @@ Namespace SymbolBuilder
                 Call sb.Replace("\'", "'")
                 Call sb.Replace("\Z", "[Z]")
                 Call sb.Replace("\0", "")
+                Call sb.Replace("\\-", "-")
+                Call sb.Replace("\-", "-")
+                Call sb.Replace("\+", "+")
+                Call sb.Replace("\*", "*")
+                Call sb.Replace("\\", "$")
 
                 Call sb.Replace(R_quot, R_quot_escape)
                 Call sb.Replace(ASCII.Quot, R_quot)
