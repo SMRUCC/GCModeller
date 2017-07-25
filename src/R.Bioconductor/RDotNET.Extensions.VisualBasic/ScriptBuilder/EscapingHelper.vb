@@ -55,6 +55,10 @@ Namespace SymbolBuilder
                 Call sb.Replace("\'", "'")
                 Call sb.Replace("\Z", "[Z]")
                 Call sb.Replace("\0", "")
+                Call sb.Replace("\-", "-")
+                Call sb.Replace("\+", "+")
+                Call sb.Replace("\*", "*")
+                Call sb.Replace("\\", "$")
 
                 Call sb.Replace(R_quot, R_quot_escape)
                 Call sb.Replace(ASCII.Quot, R_quot)
