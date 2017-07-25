@@ -30,22 +30,33 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace API.is
 
+    ' 2017-6-28
+    '
+    ' 在这里是使用命名空间[as]来实现as.XXX的R函数名称语法的
+    ' 函数在as命名空间下被分散在不同的module之中表示来自于不同的R API的命名空间
+    ' [is]命名空间之中的设计也是如此
+    ' 所以不需要专门修改这个命名空间下的module为class了
+
     Public Module stats
 
         ''' <summary>
         ''' as.ts and is.ts coerce an object to a time-series and test whether an object is a time series.
         ''' </summary>
         ''' <param name="x">an arbitrary R object.</param>
-        ''' <returns>is.ts tests if an object is a time series. It is generic: you can write methods to handle specific classes of objects, see InternalMethods.</returns>
+        ''' <returns>
+        ''' ``is.ts`` tests if an object is a time series. It is generic: you can write methods to handle 
+        ''' specific classes of objects, see InternalMethods.
+        ''' </returns>
         Public Function ts(x As String) As Boolean
             Return $"is.ts({x})".__call.AsBoolean
         End Function
     End Module
 
-    Public Module [is]
+    Public Module base
 
         ''' <summary>
-        ''' is.vector returns TRUE if x is a vector of the specified mode having no attributes other than names. It returns FALSE otherwise.
+        ''' is.vector returns TRUE if x is a vector of the specified mode having no attributes other than names. 
+        ''' It returns FALSE otherwise.
         ''' </summary>
         ''' <param name="x$"></param>
         ''' <param name="mode$"></param>

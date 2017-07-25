@@ -11,13 +11,11 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.KEGG.KEGGOrthology
-Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DEGDesigner
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG
@@ -33,7 +31,42 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 
-Partial Module CLI     
+Partial Module CLI
+
+    <ExportAPI("/Exocarta.Hits")>
+    <Usage("/Exocarta.Hits /in <list.txt> /annotation <annotations.csv> /exocarta <Exocarta.tsv> [/out <out.csv>]")>
+    Public Function ExocartaHits(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim annotation$ = args <= "/annotation"
+        Dim exocarta$ = args <= "/exocarta"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".Exocarta.Hits.csv")
+        Dim list$() = [in].ReadAllLines
+        Dim annotations = EntityObject.LoadDataSet(annotation).ToDictionary
+        Dim species$ = annotations.First.Value!organism
+        Dim exocartaData = EntityObject _
+            .LoadDataSet(exocarta, tsv:=True) _
+            .Where(Function(item)
+                       Return item("CONTENT TYPE").TextEquals("protein") AndAlso
+                             (item!SPECIES).TextEquals(species)
+                   End Function) _
+            .Select(Function(x) x("ENTREZ GENE ID")) _
+            .Distinct _
+            .Indexing
+        Dim output As New List(Of EntityObject)
+
+        For Each uniprotID In list
+            Dim protein = annotations(uniprotID)
+            Dim entrezID = protein!Entrez
+
+            For Each id In entrezID.StringSplit(";\s*")
+                If exocartaData.IndexOf(id) > -1 Then
+                    output += protein
+                End If
+            Next
+        Next
+
+        Return output.SaveTo(out).CLICode
+    End Function
 
     <ExportAPI("/update.uniprot.mapped",
                Usage:="/update.uniprot.mapped /in <table.csv> /mapping <mapping.tsv/tab> [/source /out <out.csv>]")>

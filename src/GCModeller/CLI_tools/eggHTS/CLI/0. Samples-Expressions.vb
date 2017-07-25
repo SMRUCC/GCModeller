@@ -124,7 +124,6 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".relative_amount/")
         Dim proteins = EntityObject.LoadDataSet([in])
         Dim designers As Designer() = designer.LoadCsv(Of Designer)
-        Dim relativeAmounts As New List(Of EntityObject)
         Dim delimiter$ = args.GetValue("/deli", "_")
         Dim groupLabels = designers.GetExperimentGroupLabels(args <= "/label", delimiter)
         Dim uniprots = EntityObject.LoadDataSet(args <= "/uniprot").ToDictionary
@@ -146,6 +145,8 @@ Partial Module CLI
                                                 End Function)
                               Return (proteinAverages.Values.Sum, proteinAverages)
                           End Function)
+
+        Dim relativeAmounts As New List(Of EntityObject)
         Dim name$ = Nothing
 
         For Each protein As EntityObject In proteins

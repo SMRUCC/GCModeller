@@ -26,8 +26,10 @@
 
 #End Region
 
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace API
 
@@ -79,15 +81,95 @@ Namespace API
                 End SyncLock
             End Get
             Set(value As String())
-                Dim vector$ = c(value, stringVector:=True)
-
-                SyncLock R
-                    With R
-                        .call = $"names({x}) <- {vector};"
-                    End With
-                End SyncLock
+                Call x.__setNames(value, "names")
             End Set
         End Property
+
+        ''' <summary>
+        ''' Retrieve or set the row or column names of a matrix-like object.
+        ''' </summary>
+        ''' <param name="x$">a matrix-Like R Object, With at least two dimensions For colnames.</param>
+        ''' <param name="doNULL">logical. If FALSE and names are NULL, names are created.</param>
+        ''' <param name="prefix$">for created names.</param>
+        ''' <returns>
+        ''' a valid value for that component of dimnames(x). 
+        ''' For a matrix or array this is either NULL or a character vector of non-zero length 
+        ''' equal to the appropriate dimension.
+        ''' </returns>
+        Public Property colnames(x$, Optional doNULL As Boolean = True, Optional prefix$ = "col") As String()
+            Get
+                SyncLock R
+                    With R
+                        Dim s As SymbolicExpression = .Evaluate($"colnames({x}, do.NULL = {doNULL.λ}, prefix = {Rstring(prefix)})")
+                        Dim namelist$() = s.ToStrings
+                        Return namelist
+                    End With
+                End SyncLock
+            End Get
+            Set(value As String())
+                Call x.__setNames(value, "colnames")
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' Retrieve or set the row or column names of a matrix-like object.
+        ''' </summary>
+        ''' <param name="x$">a matrix-Like R Object, With at least two dimensions For colnames.</param>
+        ''' <param name="doNULL">logical. If FALSE and names are NULL, names are created.</param>
+        ''' <param name="prefix$">for created names.</param>
+        ''' <returns>
+        ''' a valid value for that component of dimnames(x). 
+        ''' For a matrix or array this is either NULL or a character vector of non-zero length 
+        ''' equal to the appropriate dimension.
+        ''' </returns>
+        Public Property rownames(x$, Optional doNULL As Boolean = True, Optional prefix$ = "col") As String()
+            Get
+                SyncLock R
+                    With R
+                        Dim s As SymbolicExpression = .Evaluate($"rownames({x}, do.NULL = {doNULL.λ}, prefix = {Rstring(prefix)})")
+                        Dim namelist$() = s.ToStrings
+                        Return namelist
+                    End With
+                End SyncLock
+            End Get
+            Set(value As String())
+                Call x.__setNames(value, "rownames")
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' Template for invoke set names function in R language
+        ''' </summary>
+        ''' <param name="x$"></param>
+        ''' <param name="names$"></param>
+        ''' <param name="func$"></param>
+        ''' <remarks>
+        ''' The extractor functions try to do something sensible for any matrix-like object x. 
+        ''' If the object has dimnames the first component is used as the row names, and the second 
+        ''' component (if any) is used for the column names. For a data frame, rownames and colnames 
+        ''' eventually call row.names and names respectively, but the latter are preferred.
+        ''' 
+        ''' If do.NULL Is FALSE, a character vector (of length NROW(x) Or NCOL(x)) Is returned in 
+        ''' any case, prepending prefix to simple numbers, if there are no dimnames Or the 
+        ''' corresponding component of the dimnames Is NULL.
+        ''' 
+        ''' The replacement methods For arrays/matrices coerce vector And factor values Of value 
+        ''' To character, but Do Not dispatch methods For As.character.
+        ''' 
+        ''' For a data frame, value for rownames should be a character vector of non-duplicated 
+        ''' And non-missing names (this Is enforced), And for colnames a character vector of 
+        ''' (preferably) unique syntactically-valid names. In both cases, value will be coerced 
+        ''' by as.character, And setting colnames will convert the row names To character.
+        ''' </remarks>
+        <Extension> Private Sub __setNames(x$, names$(), func$)
+            Dim vector$ = c(names, stringVector:=True)
+
+            SyncLock R
+                With R
+                    .call = $"{func}({x}) <- {vector};"
+                End With
+            End SyncLock
+        End Sub
 
         ''' <summary>
         ''' ###### load {base}
@@ -98,6 +180,7 @@ Namespace API
         ''' </summary>
         ''' <param name="file$">
         ''' a (readable binary-mode) connection or a character string giving the name of the file to load (when tilde expansion is done).
+        ''' (文件路径字符串不需要进行特殊处理，在函数这里已经会被自动处理了)
         ''' </param>
         ''' <param name="verbose">should item names be printed during loading?</param>
         ''' <returns>
@@ -112,7 +195,11 @@ Namespace API
             SyncLock R
                 With R
                     Dim expr$ = $"load(file = {Rstring(file.UnixPath)}, verbose = {verbose.λ})"
-                    Dim names$() = .Evaluate(expr).ToStrings
+                    Dim var$ = App.NextTempName
+
+                    .call = $"{var} <- {expr}"
+
+                    Dim names$() = .Evaluate(var).ToStrings
                     Return names
                 End With
             End SyncLock
@@ -262,7 +349,7 @@ Namespace API
         ''' <param name="recursive"></param>
         ''' <returns></returns>
         Public Function c(Of T)(list As IEnumerable(Of T), Optional recursive As Boolean = False) As String
-            Return base.c(list.SafeQuery.Select(AddressOf Scripting.CStrSafe), recursive:=recursive)
+            Return base.c(list.SafeQuery.Select(AddressOf CStrSafe), recursive:=recursive)
         End Function
 
         ''' <summary>

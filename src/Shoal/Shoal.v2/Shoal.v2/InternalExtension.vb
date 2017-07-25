@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -19,6 +20,10 @@ Public Module InternalExtension
             Return My.Resources.license
         End Get
     End Property
+
+    <Extension> Friend Function [As](Of T, V)(o As T) As V
+        Return DirectCast(CObj(o), V)
+    End Function
 
     ''' <summary>
     ''' 脚本的执行入口点的定义

@@ -2,19 +2,20 @@
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace KOBAS
-    
+
     Public Class EnrichmentTerm
         Implements IGoTerm
         Implements IGoTermEnrichment
+        Implements IKEGGTerm
 
         ''' <summary>
         ''' #Term
         ''' </summary>
         ''' <returns></returns>
         <Column("#Term")>
-        Public Property Term As String
+        Public Property Term As String Implements IKEGGTerm.Term
         Public Property Database As String
-        Public Property ID As String Implements IGoTerm.Go_ID
+        Public Property ID As String Implements IGoTerm.Go_ID, IKEGGTerm.ID
 
         ''' <summary>
         ''' Input number
@@ -32,7 +33,7 @@ Namespace KOBAS
         ''' P-Value
         ''' </summary>
         ''' <returns></returns>
-        <Column("P-Value")> Public Property Pvalue As Double Implements IGoTermEnrichment.Pvalue
+        <Column("P-Value")> Public Property Pvalue As Double Implements IGoTermEnrichment.Pvalue, IKEGGTerm.Pvalue
 
         ''' <summary>
         ''' Corrected P-Value
@@ -45,14 +46,14 @@ Namespace KOBAS
         ''' </summary>
         ''' <returns></returns>
         Public Property Input As String
-        Public Property ORF As String()
+        Public Property ORF As String() Implements IKEGGTerm.ORF
 
         ''' <summary>
         ''' 用于一些可视化的超链接url
         ''' </summary>
         ''' <returns></returns>
         <Column("Hyperlink")>
-        Public Property link As String
+        Public Property link As String Implements IKEGGTerm.Link
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

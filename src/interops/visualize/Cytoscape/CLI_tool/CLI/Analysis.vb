@@ -8,10 +8,10 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical.Correlations
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Visualize
-Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Network
+Imports NetGraph = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
 
 Partial Module CLI
 

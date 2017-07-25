@@ -28,7 +28,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.base
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
 Namespace SymbolBuilder
@@ -153,7 +152,7 @@ Namespace SymbolBuilder
         ''' </summary>
         ''' <param name="s">Input value</param>
         ''' <returns></returns>
-        Public Function Rstring(s As String) As String
+        <Extension> Public Function Rstring(s As String) As String
             Return $"""{s}"""
         End Function
 

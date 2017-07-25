@@ -3,11 +3,15 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Matrix
+
+    <Extension> Private Function [As](Of T, V)(o As T) As V
+        Return DirectCast(CObj(o), V)
+    End Function
 
     <Extension>
     Public Function NeedlemanWunsch(locis As IEnumerable(Of FastaToken), Optional ByRef out As StreamWriter = Nothing) As DataSet()

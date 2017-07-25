@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("eggHTS")>
-<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyTitle("eggHTS: Proteomics data analysis toolkit")>
+<Assembly: AssemblyDescription("eggHTS: Proteomics data analysis toolkit")>
 <Assembly: AssemblyCompany("SMRUCC")>
 <Assembly: AssemblyProduct("GCModeller")>
 <Assembly: AssemblyCopyright("Copyright © I@xieguigang.me 2017")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTrademark("GCModeller")>
 
 <Assembly: ComVisible(False)>
 

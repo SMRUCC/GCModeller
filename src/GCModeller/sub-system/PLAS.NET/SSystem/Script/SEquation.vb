@@ -26,8 +26,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Mathematical.Scripting
-Imports Microsoft.VisualBasic.Mathematical.Scripting.Types
+Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.Types
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Script
@@ -61,7 +61,7 @@ Namespace Script
         ''' </summary>
         ''' <param name="engine"></param>
         ''' <returns></returns>
-        Public Function GetModel(engine As Mathematical.Scripting.Expression) As SimpleExpression
+        Public Function GetModel(engine As Expression) As SimpleExpression
             Return ExpressionParser.TryParse(Expression, engine)
         End Function
 

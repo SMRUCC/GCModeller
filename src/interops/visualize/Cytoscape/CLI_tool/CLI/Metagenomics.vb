@@ -172,7 +172,7 @@ Partial Module CLI
             cut = Function(d) d > cutoff
         End If
 
-        Dim net As Network = data.ToNetwork(clusterColors, cut:=cut)
+        Dim net As NetworkTables = data.ToNetwork(clusterColors, cut:=cut)
         Return net.Save(out, Encodings.ASCII).CLICode
     End Function
 
@@ -180,6 +180,9 @@ Partial Module CLI
                Info:="> Viral assemblage composition in Yellowstone acidic hot springs assessed by network analysis, DOI: 10.1038/ismej.2015.28",
                Usage:="/BLAST.Metagenome.SSU.Network /net <blastn.self.txt/blastnmapping.csv> /tax <ssu-nt.blastnMaps.csv> /taxonomy <ncbi_taxonomy:names,nodes> [/x2taxid <x2taxid.dmp/DIR> /tax-build-in /skip-exists /gi2taxid /parallel /theme-color <default='Paired:c12'> /identities <default:0.3> /coverage <default:0.3> /out <out-net.DIR>]")>
     <Group(CLIGrouping.Metagenomics)>
+    <Argument("/net", Description:="The blastn mapping that you can creates from the self pairwise blastn alignment of your SSU sequence. Using for create the network graph based on the similarity result between the aligned sequnece.")>
+    <Argument("/tax", Description:="The blastn mapping that you can creates from the blastn alignment of your SSU sequence against the NCBI nt database.")>
+    <Argument("/x2taxid", Description:="NCBI taxonomy database that you can download from the NCBI ftp server.")>
     Public Function SSU_MetagenomeNetwork(args As CommandLine) As Integer
         Dim net$ = args("/net")
         Dim tax$ = args("/tax")
@@ -252,7 +255,7 @@ Partial Module CLI
         End If
 
         ' step3
-        Dim network As Network = BuildNetwork(matrix, ssuTax, theme, parallel)
+        Dim network As NetworkTables = BuildNetwork(matrix, ssuTax, theme, parallel)
 
         ' 第一步的iterator直到第三布的时候才会被执行，所以这个列表要放在最后面保存，否则会没有数据
         Call notFound.FlushAllLines(EXPORT & "/taxonomy_notfound.txt")

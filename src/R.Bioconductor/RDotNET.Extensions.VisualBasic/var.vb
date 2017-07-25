@@ -105,8 +105,13 @@ Public Class var
         Throw New NotImplementedException
     End Operator
 
+    ''' <summary>
+    ''' 因为name是表达式的值的引用源，而这个变量又是经常直接用于字符串插值之中的，
+    ''' 所以在这里直接返回name以方便自动生成R分析脚本 
+    ''' </summary>
+    ''' <returns></returns>
     Public Overrides Function ToString() As String
-        Return Me.GetJson(simpleDict:=False)
+        Return Name
     End Function
 
     ''' <summary>

@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::cebc26e5f321c963e29ae2d254fef16e, ..\GCModeller\models\Networks\Network.BLAST\Metagenome\Protocol.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -63,7 +63,7 @@ Namespace Metagenome
 
             If gi2taxid Then
 
-                For Each x In taxData
+                For Each x As BlastnMapping In taxData
                     list += parser(x.Reference) & vbTab & x("taxid")
                 Next
 
@@ -111,12 +111,12 @@ Namespace Metagenome
                 notFound = New List(Of String)
             End If
 
-            For Each x As BlastnMapping In source
+            For Each hit As BlastnMapping In source
+                With hit
+                    ' inline value assign of the 18s rRNA taxid
+                    If (taxid = taxidFromRef(hit.Reference)) > -1 Then
 
-                With x
-                    If (taxid = taxidFromRef(x.Reference)) > -1 Then
-
-                        .Extensions(Protocol.taxid) = +taxid
+                        .Extensions(Protocol.taxid) = (taxid.value)
 
                         Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(+taxid, True)
                         Dim tree$ = TaxonomyNode.BuildBIOM(nodes)
@@ -134,7 +134,7 @@ Namespace Metagenome
                     End If
                 End With
 
-                Yield x
+                Yield hit
             Next
         End Function
 
@@ -213,24 +213,22 @@ Namespace Metagenome
         ''' <param name="theme">The network color theme, default using colorbrewer theme style: **Paired:c12**</param>
         ''' <returns>使用于``Cytoscape``进行绘图可视化的网络数据模型</returns>
         <Extension>
-        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of BlastnMapping), Optional theme$ = "Paired:c12", Optional parallel As Boolean = False) As FileStream.Network
-            Dim nodes As New List(Of Node)
-            Dim edges As New List(Of NetworkEdge)
-            Dim taxonomyTypes As New Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String))
+        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of BlastnMapping), Optional theme$ = "Paired:c12", Optional parallel As Boolean = False) As FileStream.NetworkTables
+            With New Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String))
+                For Each SSU As BlastnMapping In taxid
+                    Dim tax = (CInt(SSU(Protocol.taxid)), SSU(Protocol.taxonomyName), SSU(Protocol.Taxonomy))
+                    Call .Add(SSU.ReadQuery, tax)
+                Next
 
-            For Each SSU As BlastnMapping In taxid
-                Dim tax = (CInt(SSU(Protocol.taxid)), SSU(Protocol.taxonomyName), SSU(Protocol.Taxonomy))
-                taxonomyTypes.Add(SSU.ReadQuery, tax)
-            Next
-
-            Return matrix.__buildNetwork(taxonomyTypes, theme, parallel)
+                Return matrix.__buildNetwork(.ref, theme, parallel)
+            End With
         End Function
 
         <Extension>
         Private Function __buildNetwork(matrix As IEnumerable(Of DataSet),
                                         taxonomyTypes As Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String)),
                                         theme$,
-                                        parallel As Boolean) As FileStream.Network
+                                        parallel As Boolean) As FileStream.NetworkTables
 
             Dim nodes As New List(Of Node)
             Dim edges As New List(Of NetworkEdge)
@@ -258,7 +256,7 @@ Namespace Metagenome
 
             Call theme$.__styleNetwork(nodes, edges)
 
-            Return New FileStream.Network With {
+            Return New FileStream.NetworkTables With {
                 .Nodes = nodes,
                 .Edges = edges
             }
@@ -274,15 +272,15 @@ Namespace Metagenome
         ''' <param name="theme">The network color theme, default using colorbrewer theme style: **Paired:c12**</param>
         ''' <returns>使用于``Cytoscape``进行绘图可视化的网络数据模型</returns>
         <Extension>
-        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of OTUData), Optional theme$ = "Paired:c12", Optional parallel As Boolean = False) As FileStream.Network
-            Dim taxonomyTypes As New Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String))
+        Public Function BuildNetwork(matrix As IEnumerable(Of DataSet), taxid As IEnumerable(Of OTUData), Optional theme$ = "Paired:c12", Optional parallel As Boolean = False) As FileStream.NetworkTables
+            With New Dictionary(Of String, (taxid%, taxonomyName$, Taxonomy As String))
+                For Each SSU As OTUData In taxid
+                    Dim tax = (CInt(SSU.Data(Protocol.taxid)), SSU.Data(Protocol.taxonomyName), SSU.Taxonomy)
+                    Call .Add(SSU.OTU, tax)
+                Next
 
-            For Each SSU As OTUData In taxid
-                Dim tax = (CInt(SSU.Data(Protocol.taxid)), SSU.Data(Protocol.taxonomyName), SSU.Taxonomy)
-                taxonomyTypes.Add(SSU.OTU, tax)
-            Next
-
-            Return matrix.__buildNetwork(taxonomyTypes, theme, parallel)
+                Return matrix.__buildNetwork(.ref, theme, parallel)
+            End With
         End Function
 
         <Extension>
@@ -307,10 +305,8 @@ Namespace Metagenome
             }
 
             With node
-                Call .Properties.Add(
-                    NameOf(taxonomy.taxonomyName), taxonomy.taxonomyName)
-                Call .Properties.Add(
-                    NameOf(taxonomy.taxonomy), taxonomy.taxonomy)
+                Call .Add(NameOf(taxonomy.taxonomyName), taxonomy.taxonomyName)
+                Call .Add(NameOf(taxonomy.taxonomy), taxonomy.taxonomy)
             End With
 
             For Each hit In ssu.Properties
@@ -321,7 +317,7 @@ Namespace Metagenome
                     taxonomy.taxid,
                     hitType
                 }
-                Dim interacts = type _
+                Dim interacts$ = type _
                     .OrderBy(Function(t) t) _
                     .Distinct _
                     .JoinBy("-")
@@ -339,7 +335,7 @@ Namespace Metagenome
         End Function
 
         ''' <summary>
-        ''' Apply color style for taxonomy group
+        ''' Apply color style for taxonomy group using Graphics2D <see cref="Designer"/> API
         ''' </summary>
         ''' <param name="theme$">Color theme name</param>
         ''' <param name="nodes"></param>
@@ -371,7 +367,7 @@ Namespace Metagenome
                     colorPaired.Average(Function(c) c.R),
                     colorPaired.Average(Function(c) c.G),
                     colorPaired.Average(Function(c) c.B))
-                edge.Properties("color") = ColorTranslator.ToHtml(
+                edge!color = ColorTranslator.ToHtml(
                     Drawing.Color.FromArgb(
                         CInt(color.r),
                         CInt(color.g),
@@ -379,8 +375,10 @@ Namespace Metagenome
             Next
 
             For Each node As Node In nodes
-                node.Properties("display") = $"({node.ID}) {node.Properties("taxonomyName")}"
-                node.Properties("color") = colors(node.NodeType)
+                With node
+                    !display = $"({node.ID}) {node!taxonomyName}"
+                    !color = colors(node.NodeType)
+                End With
             Next
         End Sub
     End Module

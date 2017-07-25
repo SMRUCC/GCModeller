@@ -402,6 +402,9 @@
     <Compile Include="Assembly\Uniprot\Web\Retrieve_IDmapping.vb" />
     <Compile Include="Assembly\Uniprot\Web\Entry.vb" />
     <Compile Include="ComponentModel\CatalogProfiling.vb" />
+    <Compile Include="ComponentModel\IMolecule.vb" />
+    <Compile Include="ComponentModel\DBLinkBuilder\Xref.vb" />
+    <Compile Include="ComponentModel\DBLinkBuilder\SecondaryIDSolver.vb" />
     <Compile Include="ComponentModel\Loci.Models\LociSites\Extensions.vb" />
     <Compile Include="ComponentModel\Loci.Models\LociSites\MotifSite.vb" />
     <Compile Include="ContextModel\Algorithm\Context.vb" />

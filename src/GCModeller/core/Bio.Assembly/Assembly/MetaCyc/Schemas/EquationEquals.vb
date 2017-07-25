@@ -28,7 +28,6 @@
 
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace Assembly.MetaCyc.Schema
 

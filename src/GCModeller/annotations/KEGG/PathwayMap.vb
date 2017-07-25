@@ -30,7 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
@@ -48,7 +48,7 @@ Public Module PathwayMapVisualize
     ''' <param name="compounds"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function BuildModel(ref As PathwayMap, reaction As IRepositoryRead(Of String, Reaction), compounds As IRepositoryRead(Of String, Compound)) As Network
+    Public Function BuildModel(ref As PathwayMap, reaction As IRepositoryRead(Of String, Reaction), compounds As IRepositoryRead(Of String, Compound)) As NetworkTables
         If ref.KEGGReaction.IsNullOrEmpty Then
             Return Nothing
         End If

@@ -27,12 +27,11 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Parallel.Linq
-Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 
 Namespace LocalBLAST.Application
 
@@ -86,8 +85,7 @@ Namespace LocalBLAST.Application
             Dim LQuery As BlastnMapping() =
                 LinqAPI.Exec(Of BlastnMapping) <= From hitMapping As SubjectHit
                                                   In Query.SubjectHits
-                                                  Let blastnHitMapping As BlastnHit =
-                                                      hitMapping.As(Of BlastnHit)
+                                                  Let blastnHitMapping As BlastnHit = DirectCast(hitMapping, BlastnHit)
                                                   Select __createObject(Query, blastnHitMapping)
             Call __setUnique(LQuery)
             Return LQuery

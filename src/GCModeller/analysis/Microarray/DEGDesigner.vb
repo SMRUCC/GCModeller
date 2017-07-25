@@ -36,8 +36,8 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical.Statistics.Hypothesis
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 
@@ -174,15 +174,35 @@ Public Module DEGDesigner
     ''' 假若是使用默认值0的话，由于任何实数都大于0，所以就不会进行差异基因的筛选，即函数会返回所有的基因列表
     ''' </param>
     ''' <returns></returns>
-    Public Function MergeMatrix(DIR$, name$, Optional DEG# = 0, Optional Pvalue# = Integer.MaxValue, Optional fieldFC$ = "logFC", Optional FCdown# = Integer.MinValue, Optional fieldPvalue$ = "PValue", Optional nonDEP_blank As Boolean = True) As gene()
+    Public Function MergeMatrix(DIR$, name$,
+                                Optional DEG# = 0,
+                                Optional Pvalue# = Integer.MaxValue,
+                                Optional fieldFC$ = "logFC",
+                                Optional FCdown# = Integer.MinValue,
+                                Optional fieldPvalue$ = "PValue",
+                                Optional nonDEP_blank As Boolean = True,
+                                Optional log2t As Boolean = False) As gene()
+
         Dim samples As New Dictionary(Of String, gene())
-        Dim test As Func(Of gene, Boolean)
+        Dim test As Func(Of gene, Boolean) ' 监测目标是否是符合要求的？
 
         If FCdown <> Integer.MinValue Then
             test = Function(gene)
-                       Dim FC# = gene(fieldFC).ParseNumeric
-                       Return (FC >= DEG OrElse FC <= FCdown) AndAlso
-                           gene(fieldPvalue).ParseNumeric <= Pvalue
+                       If gene(fieldPvalue).ParseNumeric > Pvalue Then
+                           Return False
+                       End If
+
+                       Dim FC = gene(fieldFC)
+                       Dim value#
+
+                       If log2t Then
+                           If FC.TextEquals("Inf") Then
+
+                           End If
+                       Else
+                           value = Val(FC)
+                           Return (value >= DEG OrElse value <= FCdown)
+                       End If
                    End Function
         Else
             test = Function(gene)
@@ -435,6 +455,55 @@ Public Module DEGDesigner
         Next
     End Sub
 
+    ''' <summary>
+    ''' 两个独立实验进行相互比较的t检验分析
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <param name="designers"></param>
+    ''' <param name="label"></param>
+    ''' <param name="workDIR$"></param>
+    Public Sub TtestDesignerIndependent(path$, designers As Designer(), Optional label As (label$, delimiter$) = Nothing, Optional workDIR$ = "./")
+        Dim output As DataOutput =
+            Sub(data, name, group)
+                Dim outName$ = name & "-" & group.NormalizePathString(False)
+                Dim out$ = workDIR & "/" & outName & ".txt"
+
+                Call data.SaveTo(out, Encoding.ASCII)
+            End Sub
+        Dim doSymbol As doSymbol =
+            Sub(gene, experiments, controls, fillRowData)
+                ' 生成两个独立的实验向量
+                ' aaaaabbbbb
+
+                Dim experimentValues = experiments _
+                    .Select(Function(t) Val(gene(t)).SafeToString) _
+                    .AsList
+                Dim controlValues$() = controls _
+                    .Select(Function(t) Val(gene(t)).SafeToString) _
+                    .ToArray
+
+                Call fillRowData({gene.ID})
+                Call fillRowData(experimentValues + controlValues)
+            End Sub
+        Dim doHeaders As doSymbol =
+            Sub(gene, experiments, controls, fillRowData)
+                Call fillRowData(experiments.AsList + controls)
+            End Sub
+
+        Call DEGDesigner.GeneralDesigner(
+            path, designers, label,
+            doSymbol,
+            doHeaders,
+            output)
+    End Sub
+
+    ''' <summary>
+    ''' FC值向量和1向量进行t检验分析DEG
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <param name="designers"></param>
+    ''' <param name="label"></param>
+    ''' <param name="workDIR$"></param>
     Public Sub TtestDesigner(path$, designers As Designer(), Optional label As (label$, delimiter$) = Nothing, Optional workDIR$ = "./")
         Dim output As DataOutput =
             Sub(data, name, group)

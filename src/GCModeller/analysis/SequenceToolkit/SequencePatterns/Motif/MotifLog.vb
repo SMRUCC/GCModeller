@@ -28,7 +28,7 @@
 
 Imports System.Web.Script.Serialization
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 ''' <summary>

@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv
 Public Module Extensions
 
     <Extension>
-    Public Function MatchNetwork(idData As Dictionary(Of String, String), actions$) As Network
+    Public Function MatchNetwork(idData As Dictionary(Of String, String), actions$) As NetworkTables
         Dim edges As New List(Of NetworkEdge)
         Dim nodes As New Dictionary(Of Node)
         Dim testAdd As Action(Of String) =
@@ -73,7 +73,7 @@ Public Module Extensions
             End If
         Next
 
-        Return New Network With {
+        Return New NetworkTables With {
             .Edges = edges,
             .Nodes = nodes.Values.ToArray
         }
@@ -87,7 +87,7 @@ Public Module Extensions
     ''' <param name="actions$"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function MatchNetwork(idData As Dictionary(Of String, String), links$, actions$) As Network
+    Public Function MatchNetwork(idData As Dictionary(Of String, String), links$, actions$) As NetworkTables
         Dim edges As New List(Of NetworkEdge)
         Dim nodes As New Dictionary(Of Node)
         Dim testAdd As Action(Of String) =
@@ -156,7 +156,7 @@ Public Module Extensions
             End If
         Next
 
-        Return New Network With {
+        Return New NetworkTables With {
             .Edges = edges,
             .Nodes = nodes.Values.ToArray
         }
@@ -169,7 +169,7 @@ Public Module Extensions
     ''' <param name="actions$"><see cref="LinkAction"/></param>
     ''' <returns></returns>
     <Extension>
-    Public Function MatchNetwork(IDlist As IEnumerable(Of NamedValue(Of String)), actions$) As Network
+    Public Function MatchNetwork(IDlist As IEnumerable(Of NamedValue(Of String)), actions$) As NetworkTables
         Dim idData As Dictionary(Of String, String) = IDlist _
             .ToDictionary(Function(x) x.Name,
                           Function(x) x.Value)

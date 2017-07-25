@@ -38,7 +38,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 ''' <summary>
 ''' 用来可视化差异表达基因

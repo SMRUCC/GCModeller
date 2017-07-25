@@ -29,6 +29,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Extensions
@@ -39,13 +40,13 @@ Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
+Imports SMRUCC.genomics.Model.Network.KEGG
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.KEGG.ReactionNET
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
 Imports xCytoscape.GCModeller.FileSystem
 Imports xCytoscape.GCModeller.FileSystem.KEGG.Directories
-
 Imports ______NETWORK__ = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.Network(Of
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node,
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge)
@@ -222,11 +223,11 @@ Partial Module CLI
         If Not String.IsNullOrEmpty(model) Then
             out = model.TrimSuffix & ".ReactionNET/"
             Dim bMods As XmlModel = model.LoadXml(Of XmlModel)
-            Dim net As FileStream.Network = ModelNET(bMods, source)
+            Dim net As FileStream.NetworkTables = ModelNET(bMods, source)
             Return net.Save(out, Encodings.ASCII.CodePage).CLICode
         Else
             out = args.GetValue("/out", source & ".ReactionNET/")
-            Dim net As FileStream.Network = BuildNET(source)
+            Dim net As FileStream.NetworkTables = BuildNET(source)
             Return net.Save(out, Encodings.ASCII.CodePage).CLICode
         End If
     End Function
@@ -250,7 +251,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inDIR & ".modsNET/")
         Dim footprint As String = args("/footprints")
         Dim cut As Double = args.GetValue("/cut", 0.0R)
-        Dim nulls As FileStream.Network = Nothing
+        Dim nulls As FileStream.NetworkTables = Nothing
 
         If footprint.FileExists Then
             Dim brief As Boolean = args.GetBoolean("/brief")
@@ -276,7 +277,7 @@ Partial Module CLI
                                    Where Array.IndexOf(rhaves, x.ToNode) > -1
                                    Select x).FirstOrDefault Is Nothing
                             Select m).ToArray
-                nulls = New FileStream.Network + Trim.ToArray(Function(x) x.Group).IteratesALL ' 添加新的网络节点
+                nulls = New FileStream.NetworkTables + Trim.ToArray(Function(x) x.Group).IteratesALL ' 添加新的网络节点
                 net -= nulls.Edges  ' 删除旧的网络节点
                 nulls += net <= nulls.Edges.ToArray(Function(x) {x.FromNode, x.ToNode}).IteratesALL
                 net -= nulls.Nodes
@@ -296,5 +297,50 @@ Partial Module CLI
             Call nulls.Save(out & "/no-regs/", Encodings.ASCII)
         End If
         Return net.Save(out, Encodings.ASCII).CLICode
+    End Function
+
+    <ExportAPI("/KEGG.pathwayMap.Network")>
+    <Usage("/KEGG.pathwayMap.Network /in <br08901.DIR> [/node <nodes.data.csv> /out <out.DIR>]")>
+    <Group(CLIGrouping.KEGGTools)>
+    Public Function KEGGPathwayMapNetwork(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim node$ = args <= "/node"
+        Dim out$ = args.GetValue("/out", [in].TrimDIR & ".network/")
+        Dim graph As NetworkTables = PathwayMapNetwork.BuildModel([in])
+
+        If node.FileExists(True) Then
+            Dim data = EntityObject.LoadDataSet(node)
+            Dim nodes As New Dictionary(Of Node)(graph.Nodes)
+
+            For Each n As EntityObject In data
+                If nodes.ContainsKey(n.ID) Then
+                    With nodes(n.ID).Properties
+                        For Each p In n.Properties
+                            Call .Add(p.Key, p.Value)
+                        Next
+                    End With
+                End If
+            Next
+        End If
+
+        Return graph.Save(out, Encodings.ASCII).CLICode
+    End Function
+
+    <ExportAPI("/Write.Reaction.Table")>
+    <Usage("/Write.Reaction.Table /in <br08201.DIR> [/out <out.csv>]")>
+    Public Function WriteReactionTable(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimDIR & ".table.csv")
+        Dim table As ReactionTable() = ReactionTable.Load(br08201:=[in]).ToArray
+        Return table.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/KO.link")>
+    <Usage("/KO.link /in <ko00001.DIR> [/out <out.XML>]")>
+    Public Function BuildKOLinks(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimDIR & ".links.XML")
+        Dim data As KOLinks() = KOLinks.Build(ko00001:=[in]).ToArray
+        Return data.GetXml.SaveTo(out).CLICode
     End Function
 End Module

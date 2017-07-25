@@ -177,17 +177,17 @@
       <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
       <Name>+VB_DataFrame</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematical\Math\Microsoft.VisualBasic.Mathematical.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
-      <Name>Microsoft.VisualBasic.Mathematical</Name>
+      <Name>math-core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematical\Plots\Plots.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Plot\Plots\Plots.vbproj">
       <Project>{17F8E821-0A01-4975-9CAA-AC95251226D5}</Project>
       <Name>Plots</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Datavisualization.Network.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Network.GraphTheory.vbproj">
       <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
-      <Name>Datavisualization.Network</Name>
+      <Name>Network.GraphTheory</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Datavisualization.Network\Visualizer\Visualizer.vbproj">
       <Project>{45b726ac-d3b8-476d-89ea-1ff7243a4fa5}</Project>

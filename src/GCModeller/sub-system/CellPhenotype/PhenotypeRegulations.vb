@@ -36,7 +36,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.CellPhenotype.TRN
@@ -260,8 +260,7 @@ Public Module PhenotypeRegulations
 
         For i As Integer = 0 To counts
 
-            Using driver As Kernel_Driver.KernelDriver(Of Integer, KineticsModel.BinaryExpression, BinaryNetwork) =
-                New Kernel_Driver.KernelDriver(Of Integer, KineticsModel.BinaryExpression, BinaryNetwork)
+            Using driver As New Kernel_Driver.KernelDriver(Of Integer, KineticsModel.BinaryExpression, BinaryNetwork)
                 Call driver.LoadEngineKernel(Kernel:=network)
                 Call driver.SetFilterHandles(network.NonRegulationHandles)
                 Call driver.Run()

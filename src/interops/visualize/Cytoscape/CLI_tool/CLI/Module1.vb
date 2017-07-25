@@ -38,7 +38,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Cytoscape
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 
@@ -151,7 +151,7 @@ Partial Module CLI
         Dim schema$ = args.GetValue("/schema", "material")
         Dim typePrefix As Boolean = Not args.GetBoolean("/no-type_prefix")
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/" & [in].BaseName & ".knowledge_network/")
-        Dim network As Network
+        Dim network As NetworkTables
 
         If [in].DirectoryExists Then
         Else

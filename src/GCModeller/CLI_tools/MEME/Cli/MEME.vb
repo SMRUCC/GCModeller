@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Data.Regprecise.Regulator
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.Data.Regtransbase.WebServices
 Imports SMRUCC.genomics.Interops.NBCR
@@ -417,7 +418,7 @@ Partial Module CLI
                        In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
                        Select file.LoadXml(Of BacteriaGenome)
         Dim RfamSitesLQuery = (From x In loadFile.AsParallel
-                               Let rfam = (From regulator In x.Regulons.Regulators Where regulator.Type = regulator.Types.RNA Select regulator)
+                               Let rfam = (From regulator In x.Regulons.Regulators Where regulator.Type = Types.RNA Select regulator)
                                Select (From rna In rfam Select rna.Family, rna.RegulatorySites).ToArray).Unlist
         Dim RfamCategory = (From x In RfamSitesLQuery
                             Select x

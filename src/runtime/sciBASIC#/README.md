@@ -55,7 +55,6 @@ PM> Install-Package sciBASIC -Pre
 + **[/Microsoft.VisualBasic.Architecture.Framework](./Microsoft.VisualBasic.Architecture.Framework/)** : Microsoft VisualBasic General App Runtime core
 + **[/mime](./mime/)** : various mime-type doc parsers in VisualBasic
 + **[/gr](./gr/)** : **sciBASIC# Artists**: (graphic artist) VB.NET data graphics system
-+ **[/win32_api](./win32_api/)** : Win32 API collection (**Obsolete**)
 + **[/www](./www/)** : Web related utilities code
 
 ###### 2. docs for User
@@ -64,6 +63,38 @@ PM> Install-Package sciBASIC -Pre
 + **[/vb_codestyle](./docs/vb_codestyle/)** : sciBASIC# Coding style standard document
 
 ---------------------------------------------------------------------------------------------------------------
+
+## Namespace
+
+|Namespace                      |Description                                                                       |
+|-------------------------------|----------------------------------------------------------------------------------|
+|Microsoft.VisualBasic.Data     |Raw data processing related code                                                  |
+|Microsoft.VisualBasic.Imaging  |``sciBASIC`` graphics system based on the GDI+ API from ``System.Drawing``        |
+|Microsoft.VisualBasic.Math     |``sciBASIC`` math library                                                         |
+|Microsoft.VisualBasic.Scripting|String expression related API for CLI programming and optional parameter scripting|
+
+## ODEs scripting language feature
+
+Example for solving a dynamics system using VisualBasic ODEs scripting language feature, demo created for the [Lorenz system](https://en.wikipedia.org/wiki/Lorenz_system):
+
+```vbnet
+Dim x, y, z As var
+Dim sigma# = 10
+Dim rho# = 28
+Dim beta# = 8 / 3
+Dim t = (a:=0, b:=120, dt:=0.005)
+
+Call Let$(list:=Function() {x = 1, y = 1, z = 1})
+Call {
+    x = Function() sigma * (y - x),
+    y = Function() x * (rho - z) - y,
+    z = Function() x * y - beta * z
+}.Solve(dt:=t) _
+ .DataFrame _
+ .Save($"{App.HOME}/Lorenz_system.csv")
+```
+
+![](./Data_science/Mathematical/data/Lorenz_system/Lorenz_system.png)
 
 ## Microsoft VisualBasic Trinity Natural Language Processor
 
@@ -95,6 +126,8 @@ Call bitmap.GetBinaryBitmap(BinarizationStyles.SparseGray)
 |<img src="./etc/lena/f13e6388b975d9434ad9e1a41272d242_1_orig.jpg" width=160 height=160 />|<img src="./etc/lena/lena.binary.png" width=160 height=160 />|<img src="./etc/lena/lena.gray.png" width=160 height=160 />|<img src="./etc/lena/lena.grayscale.png" width=160 height=160 />|
 
 ## sciBASIC# Graphics Artist
+
+[![](./gr/Datavisualization.Network/KEGG-pathway-network-clusters.png)](https://github.com/SMRUCC/GCModeller/blob/master/src/GCModeller/models/Networks/STRING/FunctionalEnrichmentPlot.vb)
 
 + **[Network Visualization Interface](./gr/Datavisualization.Network/)**
 + **[2D Imaging & 3D graphics engine](./gr/Microsoft.VisualBasic.Imaging/)**
@@ -319,6 +352,6 @@ BufferLength = BitConverter.ToInt64(bitChunk, Scan0)
 
 <hr/>
 
-![](./docs/xieguigang_github-vcard.png)
+![](./www/data/github/xieguigang_github-vcard.png)
 
 > Copyleft ! 2017, [I@xieguigang.me](mailto://I@xieguigang.me) (http://scibasic.cool/)

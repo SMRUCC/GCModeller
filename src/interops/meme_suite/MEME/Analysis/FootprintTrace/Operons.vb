@@ -93,7 +93,7 @@ Namespace Analysis.FootprintTraceAPI
                                    cut As Double) As List(Of PredictedRegulationFootprint)
             Dim LQuery = (From x As PredictedRegulationFootprint
                           In footprints
-                          Where x.InitX.getBoolean
+                          Where x.InitX.ParseBoolean
                           Select x,
                               opr = DOOR.GetOperon(x.ORF))
             Dim expands = (From x In LQuery Select x.x.__expands(x.opr, coors)).IteratesALL

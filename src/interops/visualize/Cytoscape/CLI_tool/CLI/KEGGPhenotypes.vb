@@ -29,18 +29,15 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.DataMining.KMeans
-Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.Serialization
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports SMRUCC.genomics.Visualize.Cytoscape.NetworkModel.PfsNET
@@ -148,7 +145,7 @@ Partial Module CLI
                           x.EntryId,
                           x.BriteId,
                           x.GetPathwayGenes).ToArray
-        Dim net As New FileStream.Network
+        Dim net As New FileStream.NetworkTables
         net += From x In LQuery
                Let props = New Dictionary(Of String, String) From {
                     {"A", mods.GetA(x.x)},

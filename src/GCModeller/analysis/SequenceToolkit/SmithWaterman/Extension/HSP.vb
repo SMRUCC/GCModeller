@@ -29,7 +29,7 @@
 Imports System.Linq
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text.Levenshtein.LevenshteinDistance
 
 Public Class HSP : Inherits Match
@@ -83,7 +83,7 @@ Public Class HSP : Inherits Match
         Dim hsp = matches.ToArray(Function(x) CreateObject(x, query, subject))
 
         Try
-            Dim lstb = SimpleChaining.chaining(hsp.ToArray(Function(x) x.As(Of Match)).AsList, False)
+            Dim lstb = SimpleChaining.chaining(hsp.ToArray(Function(x) DirectCast(x, Match)).AsList, False)
             lstb = (From x In lstb Select x Order By x.Score Descending).AsList
             If Not lstb.IsNullOrEmpty Then
                 best = CreateObject(lstb.FirstOrDefault, query, subject)

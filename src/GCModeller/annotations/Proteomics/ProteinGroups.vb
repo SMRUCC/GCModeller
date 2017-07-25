@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Assembly
@@ -313,6 +313,7 @@ Public Module ProteinGroups
         Dim GO As String() = getKeyValue("GO")
         Dim EC As String() = getKeyValue("EC")
         Dim KO As String() = getKeyValue("KO")
+        Dim Entrez$() = getKeyValue("GeneID")
         Dim ORF$ = uniprots _
             .Select(Function(prot) prot.gene) _
             .Where(Function(x) Not x Is Nothing) _
@@ -328,6 +329,7 @@ Public Module ProteinGroups
 
         Call annotations.Add("geneName", geneNames)
         Call annotations.Add("ORF", ORF)
+        Call annotations.Add("Entrez", Entrez.JoinBy("; "))
         Call annotations.Add("fullName", names.JoinBy("; "))
         Call annotations.Add("uniprot", mappsId.JoinBy("; "))
         Call annotations.Add("GO", GO.JoinBy("; "))
@@ -491,7 +493,7 @@ Public Module ProteinGroups
     End Sub
 
     ''' <summary>
-    ''' <see cref="protein.LoadDataSet(String, String)"/>的快捷方式
+    ''' <see cref="protein.LoadDataSet"/>的快捷方式
     ''' </summary>
     ''' <param name="path$"></param>
     ''' <returns></returns>

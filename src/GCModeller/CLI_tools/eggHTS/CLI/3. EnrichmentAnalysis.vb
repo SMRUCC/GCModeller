@@ -4,6 +4,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots
@@ -14,20 +15,115 @@ Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical.Quantile
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Math.Quantile
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Linq
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.GO.PlantRegMap
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
+Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 Partial Module CLI
+
+    <ExportAPI("/KEGG.enrichment.DAVID")>
+    <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /custom <ko00001.keg> /size <default=1200,1000> /tick 1 /out <out.png>]")>
+    <Group(CLIGroups.Enrichment_CLI)>
+    Public Function DAVID_KEGGplot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG.plot.png")
+
+        ' 处理DAVID数据
+        Dim table As FunctionCluster() = If(
+            args.GetBoolean("/tsv"),
+            DAVID.Load([in]),
+            [in].LoadCsv(Of FunctionCluster).ToArray)
+        Dim KEGG = table.SelectKEGGPathway
+        Dim size$ = args.GetValue("/size", "1200,1000")
+        Dim KEGG_PATH As Dictionary(Of String, BriteHText) = Nothing
+
+        With args <= "/custom"
+            If .FileExists(True) Then
+                KEGG_PATH = PathwayMapping.CustomPathwayTable(ko00001:= .ref)
+            End If
+        End With
+
+        Return KEGG _
+            .KEGGEnrichmentPlot(size:=size.SizeParser,
+                                KEGG:=KEGG_PATH,
+                                tick:=args.GetValue("/tick", 1.0R)) _
+            .Save(out) _
+            .CLICode
+    End Function
+
+    ''' <summary>
+    ''' 因为富集分析的输出列表都是uniprotID，所以还需要uniprot注释数据转换为KEGG编号
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/KEGG.enrichment.DAVID.pathwaymap")>
+    <Usage("/KEGG.enrichment.DAVID.pathwaymap /in <david.csv> /uniprot <uniprot.XML> [/iTraq /tsv /DEPs <deps.csv> /colors <default=red,blue,green> /tag <default=logFC> /pvalue <default=0.05> /out <out.DIR>]")>
+    <Group(CLIGroups.Enrichment_CLI)>
+    Public Function DAVID_KEGGPathwayMap(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG/")
+        Dim uniprot$ = args <= "/uniprot"
+        Dim uniprot2KEGG = UniprotXML.Load(uniprot) _
+            .entries _
+            .Where(Function(x) x.Xrefs.ContainsKey("KEGG")) _
+            .Select(Function(protein)
+                        Return protein.accessions.Select(Function(uniprotID)
+                                                             Return (uniprotID, protein.Xrefs("KEGG").Select(Function(id) id.id).ToArray)
+                                                         End Function)
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(x) x.Item1) _
+            .ToDictionary(Function(id) id.Key,
+                          Function(x)
+                              Return x.Select(Function(o) o.Item2) _
+                                  .IteratesALL _
+                                  .Distinct _
+                                  .ToArray
+                          End Function)
+        Dim pvalue# = args.GetValue("/pvalue", 0.05)
+
+        ' 处理DAVID数据
+        Dim table As FunctionCluster() = If(
+            args.GetBoolean("/tsv"),
+            DAVID.Load([in]),
+            [in].LoadCsv(Of FunctionCluster).ToArray)
+        Dim KEGG = table.SelectKEGGPathway(uniprot2KEGG)
+
+        With args <= "/DEPs"
+            If .FileLength > 0 Then
+                Dim DEPgenes = EntityObject.LoadDataSet(.ref).ToArray
+                Dim isDEP As Func(Of EntityObject, Boolean) =
+                    Function(gene)
+                        Return gene("is.DEP").TextEquals("TRUE")
+                    End Function
+                Dim threshold = (1.25, 1 / 1.25)
+                Dim readTag$ = args.GetValue("/tag", "logFC")
+
+                If Not args.GetBoolean("/iTraq") Then
+                    threshold = (1.25.Log2, (1 / 1.25).Log2)
+                End If
+
+                Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, threshold, readTag, uniprot2KEGG)
+
+                Call KEGG.KOBAS_DEPs(colors, EXPORT:=out, pvalue:=pvalue)
+            Else
+                Call KEGG.KOBAS_visualize(EXPORT:=out, pvalue:=pvalue)
+            End If
+        End With
+
+        Return 0
+    End Function
 
     ''' <summary>
     ''' 绘制GO分析之中的亚细胞定位结果的饼图
@@ -291,7 +387,12 @@ Partial Module CLI
             Dim mapID = uniprot _
                 .Where(Function(gene) gene.Value.Xrefs.ContainsKey("KEGG")) _
                 .ToDictionary(Function(gene) gene.Key,
-                              Function(gene) gene.Value.Xrefs("KEGG").First.id)
+                              Function(gene)
+                                  Return gene.Value _
+                                      .Xrefs("KEGG") _
+                                      .Select(Function(x) x.id) _
+                                      .ToArray
+                              End Function)
             Dim isDEP As Func(Of EntityObject, Boolean) =
                 Function(gene)
                     Return gene("is.DEP").TextEquals("TRUE")
@@ -360,6 +461,7 @@ Partial Module CLI
 
     <ExportAPI("/Term2genes",
                Usage:="/Term2genes /in <uniprot.XML> [/term <GO> /id <ORF> /out <out.tsv>]")>
+    <Group(CLIGroups.Enrichment_CLI)>
     Public Function Term2Genes(args As CommandLine) As Integer
         Dim [in] = args <= "/in"
         Dim term As String = args.GetValue("/term", "GO")
@@ -370,17 +472,52 @@ Partial Module CLI
         Return tsv.SaveTSV(out).CLICode
     End Function
 
+    ''' <summary>
+    ''' 生成背景基因列表
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/enricher.background",
-               Usage:="/enricher.background /in <genbank.gb> [/out <universe.txt>]")>
+               Usage:="/enricher.background /in <uniprot.XML> [/out <term2gene.txt.DIR>]")>
+    <Description("Create enrichment analysis background by using uniprot annotation data.")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function Backgrounds(args As CommandLine) As Integer
         Dim [in] = args <= "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".backgrounds.txt")
-        Dim gb As GBFF.File = GBFF.File.Load([in])
-        Dim PTT As PTT = gb.GbffToORF_PTT
-        Dim genes$() = PTT.GeneIDList.ToArray
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".t2g_backgrounds/")
+        Dim go As New List(Of (accessions As String(), GO As String()))
+        Dim KEGG = go.AsList
 
-        Return genes.SaveTo(out, Encodings.ASCII.CodePage).CLICode
+        For Each protein As entry In in$.LoadXmlDataSet(Of entry)(xmlns:="http://uniprot.org/uniprot")
+            Dim go_ref = protein.Xrefs.TryGetValue("GO")
+            If Not go_ref.IsNullOrEmpty Then
+                go += (protein.accessions, go_ref.Select(Function(x) x.id).ToArray)
+            End If
+            Dim KO_ref = protein.Xrefs.TryGetValue("KO")
+            If Not KO_ref.IsNullOrEmpty Then
+                KEGG += (protein.accessions, KO_ref.Select(Function(x) x.id).ToArray)
+            End If
+        Next
+
+        Dim createBackground =
+            Function(data As (accessions As String(), GO As String())()) As String()
+                Return data _
+                    .Select(Function(protein)
+                                Return Combination _
+                                    .CreateCombos(protein.accessions, protein.GO) _
+                                    .Select(Function(x)
+                                                ' term gene
+                                                Return {x.Item2, x.Item1}.JoinBy(ASCII.TAB)
+                                            End Function)
+                            End Function) _
+                    .IteratesALL _
+                    .Distinct _
+                    .ToArray
+            End Function
+
+        Call createBackground(go).SaveTo(out & "/GO.txt")
+        Call createBackground(KEGG).SaveTo(out & "/KO.txt")
+
+        Return 0
     End Function
 
     <ExportAPI("/enrichment.go",

@@ -66,7 +66,7 @@ Namespace PfsNET
             uId = Regex.Split(uId, "=").First.Replace("`", "").Trim.Split.Last
 
             Dim n As Integer = Val(Regex.Match(strTemp, "\d+").Value)
-            Dim f As Boolean = Regex.Match(strTemp, "TRUE|FALSE", RegexOptions.IgnoreCase).Value.getBoolean
+            Dim f As Boolean = Regex.Match(strTemp, "TRUE|FALSE", RegexOptions.IgnoreCase).Value.ParseBoolean
             strData = strData.Replace(strTemp, "")
             strTemp = Regex.Match(strData, "c\(\d+(,\d+)*\)(,c\(\d+(,\d+)*\))*,").Value
             strData = strData.Replace(strTemp, "")

@@ -1,0 +1,114 @@
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Data.GeneOntology
+
+''' <summary>
+''' X -> iBAQ表达量值
+''' Y -> GO向量距离值
+''' size -> logFC
+''' color -> pvalue
+''' </summary>
+Public Module CloudPlot
+
+    ''' <summary>
+    ''' 绘制云图
+    ''' </summary>
+    ''' <param name="expression">原始数据</param>
+    ''' <param name="annotations">蛋白注释结果</param>
+    ''' <param name="DEPs">DEP计算结果文件</param>
+    ''' <param name="schema$"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function Plot(expression As EntityObject(), annotations As UniprotAnnotations(), DEPs As EntityObject(), tag$,
+                         Optional schema$ = "Paired:c8",
+                         Optional levels% = 125,
+                         Optional sizeRange$ = "5,125",
+                         Optional size$ = "2000,1600",
+                         Optional margin$ = g.DefaultLargerPadding,
+                         Optional bg$ = "white") As GraphicsData
+
+        Dim colors As Color() = Designer.GetColors(schema, levels)
+        Dim foldChanges = DEPs _
+            .Select(Function(protein)
+                        Dim P# = -Math.Log10(Val(protein("p.value")))
+                        Return New NamedValue(Of (logFC#, P#)) With {
+                            .Name = protein.ID,
+                            .Value = (Val(protein("logFC")), P#)
+                        }
+                    End Function) _
+            .ToArray
+
+        Dim Plevels%() = foldChanges _
+            .Select(Function(protein)
+                        Dim P# = protein.Value.P
+                        If P.IsNaNImaginary Then
+                            Return 0
+                        Else
+                            Return P
+                        End If
+                    End Function) _
+            .RangeTransform($"0,{levels - 1}") _
+            .Select(Function(x) CInt(x)) _
+            .ToArray
+        Dim radius#() = foldChanges _
+            .Select(Function(protein)
+                        Return protein.Value.logFC
+                    End Function) _
+            .RangeTransform(sizeRange)
+        Dim proteinID As Index(Of String) = foldChanges.Keys.Indexing
+        Dim expressions =
+            expression _
+            .Select(Function(protein)
+                        Return New NamedValue(Of Double) With {
+                            .Name = protein.ID,
+                            .Value = Val(protein(tag))
+                        }
+                    End Function) _
+            .Sort(by:=proteinID)
+        Dim PseAA As NamedValue(Of Vector)() =
+            annotations _
+            .Select(Function(protein)
+                        Return New NamedValue(Of String()) With {
+                            .Name = protein.ID,
+                            .Value = protein.GO
+                        }
+                    End Function) _
+            .Construct _
+            .Sort(by:=proteinID)
+
+        ' 表达数据和GO分类向量都是已经经过排序操作了的，可以直接使用
+
+        Dim plotInternal =
+            Sub(ByRef g As IGraphics, rect As GraphicsRegion)
+
+                Dim pointsX = expressions _
+                    .Values _
+                    .RangeTransform(rect.XRange)
+                Dim pointsY = PseAA _
+                    .Values _
+                    .Select(Function(v) v.Mod) _
+                    .RangeTransform(rect.YRange)
+
+                For i As Integer = 0 To foldChanges.Length - 1
+                    Dim X = pointsX(i), Y = pointsY(i)
+                    Dim r = radius(i)
+                    Dim color As Color = colors(Plevels(i))
+                    Dim circle As New Rectangle(X - r, Y - r, r * 2, r * 2)
+
+                    Call g.FillPie(New SolidBrush(color), circle, 0, 360)
+                Next
+            End Sub
+
+        Return GraphicsPlots(size.SizeParser, margin, bg, plotInternal)
+    End Function
+End Module

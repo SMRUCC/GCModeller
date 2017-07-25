@@ -29,32 +29,35 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace Assembly.EBI.ChEBI.XML
 
     ''' <summary>
     ''' The complete entity including synonyms, database links and chemical structures.
-    ''' (ChEBI数据库之中的一个对某种代谢物的完整的描述的数据模型)
+    ''' (ChEBI数据库之中的一个对某种代谢物的完整的描述的数据模型，
+    ''' <see cref="INamedValue"/>的主键为<see cref="chebiId"/>主ID)
     ''' </summary>
     ''' <remarks>
     ''' 这个对象的XML布局是根据ChEBI的Web Services来生成的，所以为了能够正确的读取ChEBI的数据，不能够再随意修改了
     ''' return节点之中的数据
     ''' </remarks>
     Public Class ChEBIEntity : Implements INamedValue
+        Implements IMolecule
 
         ''' <summary>
         ''' Chebi的主ID
         ''' </summary>
         ''' <returns></returns>
-        Public Property chebiId As String Implements INamedValue.Key
-        Public Property chebiAsciiName As String
+        Public Property chebiId As String Implements INamedValue.Key, IMolecule.ID
+        Public Property chebiAsciiName As String Implements IMolecule.Name
         Public Property definition As String
         Public Property status As String
         Public Property smiles As String
         Public Property inchi As String
         Public Property inchiKey As String
         Public Property charge As Integer
-        Public Property mass As Double
+        Public Property mass As Double Implements IMolecule.Mass
         Public Property entityStar As Integer
         <XmlElement>
         Public Property Synonyms As Synonyms()
@@ -82,8 +85,17 @@ Namespace Assembly.EBI.ChEBI.XML
         <XmlElement>
         Public Property CompoundOrigins As CompoundOrigin()
 
+        Private Property Formula As String Implements IMolecule.Formula
+            Get
+                Return Formulae.data
+            End Get
+            Set(value As String)
+                Formulae.data = value
+            End Set
+        End Property
+
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return chebiAsciiName
         End Function
     End Class
 End Namespace

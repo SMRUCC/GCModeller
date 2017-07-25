@@ -51,7 +51,7 @@ Public Class RegPreciseRegulon
         Return Me.GetJson
     End Function
 
-    Public Shared Function ToNetwork(source As IEnumerable(Of RegPreciseRegulon)) As FileStream.Network
+    Public Shared Function ToNetwork(source As IEnumerable(Of RegPreciseRegulon)) As FileStream.NetworkTables
         Dim Nodes As Dictionary(Of String, FileStream.Node) =
             New Dictionary(Of String, FileStream.Node)
         For Each x As RegPreciseRegulon In source
@@ -93,7 +93,7 @@ Public Class RegPreciseRegulon
             Next
         Next
 
-        Return New FileStream.Network With {
+        Return New FileStream.NetworkTables With {
             .Edges = edges.ToArray,
             .Nodes = Nodes.Values.ToArray
         }

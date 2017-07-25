@@ -28,7 +28,7 @@
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
@@ -77,7 +77,7 @@ Namespace DeltaSimilarity1998.CAI
         Public Function CAI() As Double
             Try
                 Dim Codens = ToCodonCollection(ORF)
-                Dim PIValue = (From code As Codon In Codens Select Me.W(code)).PI
+                Dim PIValue = (From code As Codon In Codens Select Me.W(code)).ProductALL
                 Return PIValue ^ (1 / Codens.Length)
             Catch ex As Exception
                 ex = New Exception(ORF.Length / 3 & " is not a valid ORF slides.", ex)

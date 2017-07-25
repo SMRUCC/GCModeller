@@ -327,7 +327,7 @@ Partial Module CLI
         End If
 
         Dim n As Integer = args.GetValue("/n", data.Count * 0.1)
-        Dim cl = ClusterDataSet(n, data, )
+        Dim cl As ClusterCollection(Of Entity) = data.ClusterDataSet(n)
         Dim output As New List(Of NamedValue(Of String()))
 
         For Each cluster As KMeansCluster(Of Entity) In cl

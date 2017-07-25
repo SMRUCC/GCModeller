@@ -31,7 +31,7 @@ Namespace Compiler.CodeDOM
             EntryPoint.Statements.Add(LocalsInit(ScriptApp, NameOf(Program), [New](NameOf(Program), {})))
             EntryPoint.Statements.Add(ValueAssign(Reference(LocalVariable(ScriptApp), __innerScriptEngine), [New](GetType(Runtime.ScriptEngine), {[Call](GetType(Config), NameOf(Config.LoadDefault), {})})))
             EntryPoint.Statements.Add(LocalsInit("rtvl", GetType(Integer), [Call](LocalVariable(ScriptApp), ScriptApp, {LocalVariable("args")})))
-            EntryPoint.Statements.Add([Call](GetType(Extensions), NameOf(Extensions.Pause), {}))
+            EntryPoint.Statements.Add([Call](GetType(Extensions), NameOf(App.Pause), {}))
             EntryPoint.Statements.Add([Return](LocalVariable("rtvl")))
         End Sub
 
@@ -42,13 +42,13 @@ Namespace Compiler.CodeDOM
             If Expr.Initializer.IsConstant Then
                 Init = __castType(__getConstant(Expr.Initializer.GetTokenValue), TypeRef)
 
-            ElseIf Expr.Initializer.IsVariable
+            ElseIf Expr.Initializer.IsVariable Then
 
 
-            ElseIf Expr.Initializer.IsPrimaryValue
+            ElseIf Expr.Initializer.IsPrimaryValue Then
                 Init = __castType(Value(Expr.Initializer.Expression.PrimaryExpression), TypeRef)
 
-            ElseIf Expr.Initializer.IsExpr
+            ElseIf Expr.Initializer.IsExpr Then
 
             End If
 
@@ -77,9 +77,9 @@ Namespace Compiler.CodeDOM
         Public Sub __return(Expr As Interpreter.LDM.Expressions.Keywords.Return)
             If Expr.ValueExpression.IsConstant Then  '从内置的脚本引擎之中取常数值
                 Call Program.Statements.Add([Return](__castType(__getConstant(Expr.ValueExpression.GetTokenValue), GetType(Integer))))
-            ElseIf Expr.ValueExpression.IsVariable
+            ElseIf Expr.ValueExpression.IsVariable Then
                 Call Program.Statements.Add([Return](__castType(LocalVariable(Expr.ValueExpression.GetTrimExpr), GetType(Integer))))
-            ElseIf Expr.ValueExpression.IsPrimaryValue
+            ElseIf Expr.ValueExpression.IsPrimaryValue Then
                 Call Program.Statements.Add([Return](__castType(Value(Expr.ValueExpression.Expression.PrimaryExpression), GetType(Integer))))
             End If
         End Sub

@@ -111,7 +111,7 @@ Partial Module CLI
 
         maps = maps.ReverseMaps(True)
 
-        Dim net As FileStream.Network = If(
+        Dim net As FileStream.NetworkTables = If(
             alllinks.FileExists(True),
             maps.MatchNetwork(actions:=links, links:=alllinks),
             maps.MatchNetwork(actions:=links))

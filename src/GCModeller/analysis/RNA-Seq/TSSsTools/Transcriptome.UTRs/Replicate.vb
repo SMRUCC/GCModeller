@@ -1,34 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::0840b60621e0d9696d467c3d7af0bd10, ..\GCModeller\analysis\RNA-Seq\TSSsTools\Transcriptome.UTRs\Replicate.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports sys = System.Math
 
 Namespace Transcriptome.UTRs
 
@@ -135,7 +135,7 @@ Namespace Transcriptome.UTRs
             End If
 
             Dim sum As Long = 0
-            For i As Integer = Math.Max(start, 1) To Math.Min([stop] + 1, plusReads.Length) - 1
+            For i As Integer = Math.Max(start, 1) To sys.Min([stop] + 1, plusReads.Length) - 1
                 If strand = "+"c Then
                     ' Plus strand
                     sum += Me.plusReads(i)
@@ -215,7 +215,7 @@ Namespace Transcriptome.UTRs
 
             If [stop] < start Then Call start.SwapWith([stop])    ' Swap
 
-            For i As Integer = Math.Max(start, 1) To Math.Min([stop] + 1, plusReads.Length) - 1
+            For i As Integer = Math.Max(start, 1) To sys.Min([stop] + 1, plusReads.Length) - 1
                 If strand = "+"c Then '      ' Plus strand
                     stdev += Math.Pow(plusReads(i) - mean, 2.0)
                 ElseIf strand = "-"c Then '      ' Minus strand
@@ -224,7 +224,7 @@ Namespace Transcriptome.UTRs
                     stdev += Math.Pow(plusReads(i) + minusReads(i) - mean, 2.0)
                 End If
             Next
-            Return stdev / Math.Sqrt(Math.Min([stop], plusReads.Length - 1) - Math.Max(start, 1) + 1)
+            Return stdev / Math.Sqrt(sys.Min([stop], plusReads.Length - 1) - Math.Max(start, 1) + 1)
         End Function
 
         ''' <summary>
@@ -301,7 +301,7 @@ Namespace Transcriptome.UTRs
 
             'For Each obj In strandData
             '    Dim Ends = Math.Max(obj.MappingLocation.Left, obj.MappingLocation.Right)
-            '    For idx = Math.Min(obj.MappingLocation.Left, obj.MappingLocation.Right) To Ends - 1
+            '    For idx = sys.Min(obj.MappingLocation.Left, obj.MappingLocation.Right) To Ends - 1
             '        coordinates(idx) = coordinates(idx) + obj.TSSsShared
             '    Next
             'Next

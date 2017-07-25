@@ -140,7 +140,7 @@ Public Module DataFrameAPI
                         Case GetType(String)
                             cc = RScripts.c(col.value)
                         Case GetType(Boolean)
-                            cc = RScripts.c(col.value.ToArray(AddressOf getBoolean))
+                            cc = RScripts.c(col.value.ToArray(AddressOf ParseBoolean))
                         Case Else
                             cc = RScripts.c(col.value.ToArray(Function(x) DirectCast(x, Object)))
                     End Select
