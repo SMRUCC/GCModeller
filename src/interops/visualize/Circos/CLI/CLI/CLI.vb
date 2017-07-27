@@ -48,7 +48,7 @@ Imports SMRUCC.genomics.Visualize.Circos.Configurations.Nodes.Plots
 Imports SMRUCC.genomics.Visualize.Circos.Documents.Karyotype
 Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 
-<PackageNamespace("Circos.CLI",
+<Package("Circos.CLI",
                   Category:=APICategories.CLI_MAN,
                   Description:="Tools for generates the circos drawing model file for the circos perl script.")>
 Public Module CLI

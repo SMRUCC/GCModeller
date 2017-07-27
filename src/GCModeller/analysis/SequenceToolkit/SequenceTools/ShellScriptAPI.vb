@@ -37,7 +37,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
 
-<[PackageNamespace]("SequenceTools",
+<Package("SequenceTools",
                     Category:=APICategories.ResearchTools,
                     Description:="Sequence search tools and sequence operation tools",
                     Publisher:="xie.guigang@gmail.com")>

@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace ComponentModel.Loci
 
-    <PackageNamespace("Loci.API", Description:="Methods for some nucleotide utility.")>
+    <Package("Loci.API", Description:="Methods for some nucleotide utility.")>
     Public Module LociAPI
 
         ''' <summary>

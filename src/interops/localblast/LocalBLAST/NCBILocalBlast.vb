@@ -46,7 +46,7 @@ Imports SMRUCC.genomics.SequenceModel
 ''' ShoalShell API interface for ncbi localblast operations.
 ''' </summary>
 ''' <remarks></remarks>
-<PackageNamespace("NCBI.LocalBLAST",
+<Package("NCBI.LocalBLAST",
                   Category:=APICategories.ResearchTools,
                   Publisher:="xie.guigang@gmail.com")>
 Public Module NCBILocalBlast

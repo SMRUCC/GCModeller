@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 ''' <summary>
 ''' Provides methods for converting between common language runtime types and JSON types.
 ''' </summary>
-<PackageNamespace("Json",
+<Package("Json",
                   Url:="http://www.newtonsoft.com/json",
                   Description:="Json.NET is a popular high-performance JSON framework for .NET.<br />Provides methods for converting between common language runtime types and JSON types.",
                   Publisher:="James Newton-King")>

@@ -37,7 +37,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Assembly.KEGG.Archives.Xml
 
-    <PackageNamespace("KEGG.XmlModel.Compiler")>
+    <Package("KEGG.XmlModel.Compiler")>
     Public Module CompilerAPI
 
         <ExportAPI("Compile")>

@@ -54,7 +54,7 @@ Namespace WGCNA
         End Function
     End Class
 
-    <PackageNamespace("WGCNA.Modules", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.ResearchTools)>
+    <Package("WGCNA.Modules", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.ResearchTools)>
     Public Module WGCNAModules
 
         <ExportAPI("Load.Modules")>

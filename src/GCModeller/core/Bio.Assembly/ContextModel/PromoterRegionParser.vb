@@ -46,7 +46,7 @@ Namespace ContextModel
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <[PackageNamespace]("Parser.Gene.Promoter", Publisher:="xie.guigang@gmail.com")>
+    <Package("Parser.Gene.Promoter", Publisher:="xie.guigang@gmail.com")>
     Public Class PromoterRegionParser
 
         Public Shared ReadOnly Property PrefixLength As IReadOnlyList(Of Integer) = {100, 150, 200, 250, 300, 400, 500}

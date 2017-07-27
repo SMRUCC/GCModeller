@@ -48,7 +48,7 @@ Namespace Transcriptome.UTRs
     ''' For each gene, identify its 5'UTR and 3'UTR based on the expression data.
     ''' </summary>
     ''' 
-    <PackageNamespace("Transcriptome.UTRs",
+    <Package("Transcriptome.UTRs",
                   Description:="To generate a transcriptome map based on reads from an RNA-seq experiment, a multi-step approach is used. 
                   
 <p>First, a set of transcript seeds is identified corresponding to annotated genes and to novel transcript seeds. Novel transcript seeds are genomic regions at least w nucleotides in length <strong>(w is 10 by default)</strong> 

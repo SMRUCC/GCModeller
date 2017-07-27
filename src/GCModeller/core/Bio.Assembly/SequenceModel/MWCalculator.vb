@@ -36,7 +36,7 @@ Namespace SequenceModel
     ''' 核酸链或者多肽链分子的相对分子质量的计算工具
     ''' </summary>
     ''' <remarks></remarks>
-    <PackageNamespace("MolecularWeights", Publisher:="xie.guigang@gcmodeller.org")>
+    <Package("MolecularWeights", Publisher:="xie.guigang@gcmodeller.org")>
     Public Module MolecularWeightCalculator
 
         Private ReadOnly AminoAcidMolecularWeights As SortedDictionary(Of AminoAcid, Double) =

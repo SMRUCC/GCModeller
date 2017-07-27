@@ -47,7 +47,7 @@ Namespace NetworkModel.StringDB
     ''' 构建蛋白质互作网络的绘图模型
     ''' </summary>
     ''' 
-    <[PackageNamespace]("String-Db.Interactions", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gmail.com")>
+    <Package("String-Db.Interactions", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gmail.com")>
     Public Module PINetwork
 
         <ExportAPI("Build", Info:="Build the protein interaction network cytoscape visualization model file.")>

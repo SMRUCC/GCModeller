@@ -39,7 +39,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
     ''' <summary>
     ''' 将数据写入现有的genbank文件或者创建新的genbank文件
     ''' </summary>
-    <PackageNamespace("NCBI.Genbank.WriteStream", Publisher:="GCModeller", Url:="http://gcmodeller.org")>
+    <Package("NCBI.Genbank.WriteStream", Publisher:="GCModeller", Url:="http://gcmodeller.org")>
     Public Module GbkWriter
 
         ''' <summary>

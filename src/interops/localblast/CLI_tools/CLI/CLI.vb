@@ -50,7 +50,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
     SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BatchParallel.AlignEntry)
 
 <ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
-<PackageNamespace("NCBI.LocalBlast", Category:=APICategories.CLI_MAN,
+<Package("NCBI.LocalBlast", Category:=APICategories.CLI_MAN,
                   Description:="Wrapper tools for the ncbi blast+ program and the blast output data analysis program. 
                   For running a large scale parallel alignment task, using ``/venn.BlastAll`` command for ``blastp`` and ``/blastn.Query.All`` command for ``blastn``.",
                   Publisher:="amethyst.asuka@gcmodeller.org")>

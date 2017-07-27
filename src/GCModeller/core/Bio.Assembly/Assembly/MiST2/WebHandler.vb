@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Language
 
 Namespace Assembly.MiST2
 
-    <PackageNamespace("MiST2.WebServices")>
+    <Package("MiST2.WebServices")>
     Public Module WebServices
 
         Const SignalTransductionProfileComment As String = "<!-- Signal transduction profile -->"

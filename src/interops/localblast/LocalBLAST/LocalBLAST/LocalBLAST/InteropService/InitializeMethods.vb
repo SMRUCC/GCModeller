@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace LocalBLAST.InteropService
 
-    <PackageNamespace("NCBI.Blast.Initialize")>
+    <Package("NCBI.Blast.Initialize")>
     Public Module InitializeMethods
 
         ReadOnly __createService As Dictionary(Of Program, System.Func(Of String, InteropService)) =

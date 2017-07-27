@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace Assembly.Uniprot.Web
 
-    <PackageNamespace("Uniprot.WebServices")>
+    <Package("Uniprot.WebServices")>
     Public Module WebServices
 
         Const UNIPROT_QUERY As String = "http://www.uniprot.org/uniprot/?query=name%3A{0}+AND+taxonomy%3A{1}&sort=score"

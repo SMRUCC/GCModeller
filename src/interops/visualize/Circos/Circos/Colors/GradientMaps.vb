@@ -40,7 +40,7 @@ Namespace Colors
     ''' Crcos程序的所支持的颜色
     ''' </summary>
     ''' <remarks></remarks>
-    <PackageNamespace("Circos.Color.GradientMaps",
+    <Package("Circos.Color.GradientMaps",
                       Category:=APICategories.UtilityTools,
                       Publisher:="amethyst.asuka@gcmodeller.org",
                       Description:="Provides of the mappings between the scale vector and the circos color string, 

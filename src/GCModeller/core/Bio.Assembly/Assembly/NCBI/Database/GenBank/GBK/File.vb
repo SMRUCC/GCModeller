@@ -45,7 +45,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
     ''' </summary>
     ''' <remarks></remarks>
     '''
-    <PackageNamespace("NCBI.Genbank.GBFF")>
+    <Package("NCBI.Genbank.GBFF")>
     Public Class File : Inherits ITextFile
 
         Public Property Comment As Keywords.COMMENT

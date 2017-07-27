@@ -88,7 +88,7 @@ Namespace Assembly.NCBI.COG.COGs
     ''' 
     ''' </summary>
     ''' 
-    <PackageNamespace("NCBI.COGs", Publisher:="xie.guigang@gcmodeller.org")>
+    <Package("NCBI.COGs", Publisher:="xie.guigang@gcmodeller.org")>
     Public Module COGs
 
         ''' <summary>

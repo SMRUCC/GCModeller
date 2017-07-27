@@ -72,7 +72,7 @@ Namespace NetworkModel.PfsNET
         End Function
     End Class
 
-    <[PackageNamespace]("Cytoscape.PfsNET", Publisher:="xie.guigang@live.com")>
+    <Package("Cytoscape.PfsNET", Publisher:="xie.guigang@live.com")>
     Public Module NetworkGenerator
 
         <ExportAPI("Creates.Network.Basaical")>

@@ -43,7 +43,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
-<PackageNamespace("Bio.Extensions", Publisher:="xie.guigang@gcmodeller.org")>
+<Package("Bio.Extensions", Publisher:="xie.guigang@gcmodeller.org")>
 Public Module BioAssemblyExtensions
 
     ''' <summary>

@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 
-<[PackageNamespace]("Cellphenotype.DynamicsNetwork", Publisher:="xie.guigang@gcmodeller.org")>
+<Package("Cellphenotype.DynamicsNetwork", Publisher:="xie.guigang@gcmodeller.org")>
 Public Module DataVisualization
 
     Public Class Edge : Inherits NetworkEdge

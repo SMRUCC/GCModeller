@@ -43,7 +43,7 @@ Namespace NetworkModel.KEGG
     ''' <summary>
     ''' 反应过程对象之间构成网络
     ''' </summary>
-    <PackageNamespace("Cytoscape.Reaction.NET")>
+    <Package("Cytoscape.Reaction.NET")>
     Public Module ReactionNET
 
         <ExportAPI("Reaction.Loads")>

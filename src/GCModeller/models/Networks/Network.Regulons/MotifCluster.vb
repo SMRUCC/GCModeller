@@ -39,7 +39,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
 ''' 先进行TOM全局比对，然后取match部分，之后就可以进行聚类了？
 ''' </summary>
 ''' 
-<PackageNamespace("Motif.TOMCluster", Category:=APICategories.ResearchTools)>
+<Package("Motif.TOMCluster", Category:=APICategories.ResearchTools)>
 Public Module MotifCluster
 
     ''' <summary>

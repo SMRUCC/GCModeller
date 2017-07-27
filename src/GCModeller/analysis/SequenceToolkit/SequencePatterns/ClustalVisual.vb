@@ -43,7 +43,7 @@ Imports SMRUCC.genomics.SequenceModel.Patterns
 ''' </summary>
 ''' <remarks></remarks>
 ''' 
-<[PackageNamespace]("MultipleAlignment.Visualization",
+<Package("MultipleAlignment.Visualization",
                     Category:=APICategories.UtilityTools,
                     Description:="Data visualization for the Clustal multiple alignment output fasta file.",
                     Publisher:="amethyst.asuka@gcmodeller.org",
