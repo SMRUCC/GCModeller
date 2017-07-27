@@ -36,7 +36,7 @@ Imports sys = System.Math
 
 Namespace Math
 
-    <PackageNamespace("ScaleMaps",
+    <PackageAttribute("ScaleMaps",
                   Category:=APICategories.UtilityTools,
                   Publisher:="xie.guigang@live.com")>
     Public Module ScaleMaps

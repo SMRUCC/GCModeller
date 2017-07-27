@@ -47,7 +47,7 @@ Imports SMRUCC.genomics.SequenceModel
 
 Namespace Regprecise
 
-    <[PackageNamespace]("Regprecise.Bidirectional_Bh", Publisher:="xie.guigang@gcmodeller.org")>
+    <PackageAttribute("Regprecise.Bidirectional_Bh", Publisher:="xie.guigang@gcmodeller.org")>
     Public Module RegpreciseBidirectionalBh_Methods
 
         ''' <summary>

@@ -53,7 +53,7 @@ Namespace Analysis.FootprintTraceAPI
     ''' 通过MAST来得到MEME中的Motif的结果
     ''' </summary>
     ''' 
-    <PackageNamespace("MAST.MotifMatch")>
+    <PackageAttribute("MAST.MotifMatch")>
     Public Module MotifMatchMast
 
         Sub New()

@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
 
-<PackageNamespace("Phenotype.Coefficient")>
+<PackageAttribute("Phenotype.Coefficient")>
 Public Module PhenoCoefficient
 
     ''' <summary>

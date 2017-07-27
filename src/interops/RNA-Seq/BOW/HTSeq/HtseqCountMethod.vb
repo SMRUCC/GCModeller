@@ -47,7 +47,7 @@ Imports SMRUCC.genomics.SequenceModel.SAM
 ''' to each feature.
 ''' </summary>
 ''' <remarks>为了得到比较好的计算性能，SAM文件之中的Reads数据首先被转换为位置数据进行缓存</remarks>
-<[PackageNamespace]("HTSeq-count",
+<PackageAttribute("HTSeq-count",
                         Description:="Given a file with aligned sequencing reads and a list of genomic features, a common task is to count how many reads map to each feature.",
                         Cites:="Anders, S., et al. (2015). ""HTSeq--a Python framework To work With high-throughput sequencing data."" Bioinformatics 31(2): 166-169.
 <p>MOTIVATION: A large choice of tools exists for many standard tasks in the analysis of high-throughput sequencing (HTS) data. However, once a project deviates from standard workflows, custom scripts are needed. RESULTS: We present HTSeq, a Python library to facilitate the rapid development of such scripts. HTSeq offers parsers for many common data formats in HTS projects, as well as classes to represent data, such as genomic coordinates, sequences, sequencing reads, alignments, gene model information and variant calls, and provides data structures that allow for querying via genomic coordinates. We also present htseq-count, a tool developed with HTSeq that preprocesses RNA-Seq data for differential expression analysis by counting the overlap of reads with genes. AVAILABILITY AND IMPLEMENTATION: HTSeq is released as an open-source software under the GNU General Public Licence and available from http://www-huber.embl.de/HTSeq or from the Python Package Index at https://pypi.python.org/pypi/HTSeq.",

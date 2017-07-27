@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 Imports SMRUCC.genomics.Interops.Visualize.Phylip.MatrixFile
 Imports PathEntry = System.Collections.Generic.KeyValuePair(Of String, String)
 
-<[PackageNamespace]("Phylip.Matrix",
+<PackageAttribute("Phylip.Matrix",
                     Cites:="PLOTREE, D. and D. PLOTGRAM (1989). ""PHYLIP-phylogeny inference package (version 3.2).""",
                     Publisher:="amethyst.asuka@gcmodeller.org",
                     Category:=APICategories.ResearchTools)>

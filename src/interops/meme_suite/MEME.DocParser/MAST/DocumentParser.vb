@@ -34,7 +34,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace DocumentFormat.MAST.HTML
 
-    <[PackageNamespace]("MEME.MAST", Description:="Document parser for the mast html output.", Publisher:="xie.guigang@gcmodeller.org")>
+    <PackageAttribute("MEME.MAST", Description:="Document parser for the mast html output.", Publisher:="xie.guigang@gcmodeller.org")>
     Public Module DocumentParser
 
         ''' <summary>

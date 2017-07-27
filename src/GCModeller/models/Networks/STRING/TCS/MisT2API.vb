@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.Data.STRING.SimpleCsv
 Imports SMRUCC.genomics.Model.Network.STRING.Models
 Imports STRING_netGraph = SMRUCC.genomics.Model.Network.STRING.Models.Network
 
-<[PackageNamespace]("MiST2.STrP_Network", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gmail.com")>
+<PackageAttribute("MiST2.STrP_Network", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gmail.com")>
 Public Module MisT2API
 
     <ExportAPI("Assemble.STrP",

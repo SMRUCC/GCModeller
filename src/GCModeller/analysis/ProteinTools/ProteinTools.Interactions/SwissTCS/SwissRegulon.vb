@@ -37,7 +37,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace SwissTCS
 
-    <[PackageNamespace]("swiss-regulon.TCS.pl",
+    <PackageAttribute("swiss-regulon.TCS.pl",
                     Category:=APICategories.ResearchTools,
                     Description:="Burger, L. and E. van Nimwegen (2008). 
                     ""Accurate prediction Of protein-protein interactions from sequence alignments Using a Bayesian method."" 

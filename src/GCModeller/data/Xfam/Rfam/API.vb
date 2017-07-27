@@ -68,7 +68,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 ''' Zero licence. See ftp://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/COPYING for
 ''' more information.
 ''' </summary>
-<PackageNamespace("Sanger.Rfam", Category:=APICategories.ResearchTools,
+<PackageAttribute("Sanger.Rfam", Category:=APICategories.ResearchTools,
                   Description:="Rfam: Multiple alignments, secondary structures and covariance models of non-coding RNA families
                   Rfam is a database of structure-annotated multiple sequence alignments,
 convariance models and family annotation for a number of non-coding RNA,

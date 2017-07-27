@@ -46,7 +46,7 @@ Namespace SequenceLogo
     ''' sequence And diversity of the sequences. Sequence logos are frequently used to depict sequence 
     ''' characteristics such as protein-binding sites in DNA Or functional units in proteins.
     ''' </summary>
-    <[PackageNamespace]("SequenceLogo",
+    <PackageAttribute("SequenceLogo",
                         Description:="In bioinformatics, a sequence logo is a graphical representation of the sequence conservation " &
                  "of nucleotides (in a strand Of DNA/RNA) Or amino acids (In protein sequences). " &
                  "A sequence logo Is created from a collection of aligned sequences And depicts the consensus " &

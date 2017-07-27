@@ -36,7 +36,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 ''' 可能会出现中文字符，所以html文档必须要以Utf8编码进行保存
 ''' </summary>
 ''' 
-<PackageNamespace("GCModeller.HTML.ReportBuiulder", Publisher:="amethyst.asuka@gcmodeller.org")>
+<PackageAttribute("GCModeller.HTML.ReportBuiulder", Publisher:="amethyst.asuka@gcmodeller.org")>
 Public Module HTML
 
     Public Const BR As String = "<br />"

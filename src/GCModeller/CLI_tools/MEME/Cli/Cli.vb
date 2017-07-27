@@ -41,7 +41,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
 
-<PackageNamespace("MEME.CLI",
+<PackageAttribute("MEME.CLI",
                   Description:="A wrapper tools for the NCBR meme tools, this is a powerfull tools for reconstruct the regulation in the bacterial genome.",
                   Category:=APICategories.CLI_MAN,
                   Publisher:="xie.guigang@gcmodeller.org")>

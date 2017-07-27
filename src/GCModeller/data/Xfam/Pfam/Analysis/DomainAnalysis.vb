@@ -45,7 +45,7 @@ Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.Polypeptides.SecondaryStructure
 
-<[PackageNamespace]("Pfam.Domain.Analysis",
+<PackageAttribute("Pfam.Domain.Analysis",
                     Publisher:="xie.guigang@gcmodeller.org",
                     Category:=APICategories.ResearchTools,
                     Description:="Tools for analysis the protein domains in your annotated bacterial genome.")>

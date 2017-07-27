@@ -37,7 +37,7 @@ Imports SMRUCC.genomics.Data.SabiorkKineticLaws.TabularDump
 
 Namespace SabiorkKineticLaws
 
-    <PackageNamespace("Sabio-rk.DbAPI")>
+    <PackageAttribute("Sabio-rk.DbAPI")>
     Public Module DocAPI
 
         <ExportAPI("GET.Identifier")>

@@ -42,7 +42,7 @@ Namespace NetworkModel.KEGG
     ''' <summary>
     ''' 基因和模块之间的从属关系的示意图
     ''' </summary>
-    <PackageNamespace("Cytoscape.NET.KEGG_Mods")>
+    <PackageAttribute("Cytoscape.NET.KEGG_Mods")>
     Public Module ModInteractions
 
         <ExportAPI("Load.Modules")>

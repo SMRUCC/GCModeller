@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic
 
 Namespace Assembly.DOMINE
 
-    <PackageNamespace("DOMINE.API")>
+    <PackageAttribute("DOMINE.API")>
     Public Module ImportsAPI
 
         <ExportAPI("ImportsDb")>

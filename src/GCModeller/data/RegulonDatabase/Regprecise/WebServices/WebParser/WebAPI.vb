@@ -37,7 +37,7 @@ Imports Microsoft.VisualBasic.Text.HtmlParser
 
 Namespace Regprecise
 
-    <PackageNamespace("Regprecise.WebAPI",
+    <PackageAttribute("Regprecise.WebAPI",
                       Category:=APICategories.UtilityTools,
                       Description:="Tools API for download and search RegPrecise database.",
                       Publisher:="")>

@@ -85,7 +85,7 @@ Here, we describe the update to version 9.1 of STRING, introducing several impro
           Volume:=41, Year:=2013,
           AuthorAddress:="Institute of Molecular Life Sciences and Swiss Institute of Bioinformatics, University of Zurich, Switzerland.",
           PubMed:=23203871)>
-    <[PackageNamespace]("string-db.API", Description:="STRING has an application programming interface (API) which enables you to get the data without using the 
+    <PackageAttribute("string-db.API", Description:="STRING has an application programming interface (API) which enables you to get the data without using the 
 graphical user interface of the web page. The API is convenient if you need to programmatically access some 
 information but still do not want to download the entire dataset. There are several scenarios when it is 
 practical to use it. For example, you might need to access some interaction from your own scripts or want to 

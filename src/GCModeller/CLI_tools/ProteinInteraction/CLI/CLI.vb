@@ -46,7 +46,7 @@ Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.Data.STRING.SimpleCsv
 Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv
 
-<PackageNamespace("Protein.Interactions.Tools", Category:=APICategories.CLI_MAN,
+<PackageAttribute("Protein.Interactions.Tools", Category:=APICategories.CLI_MAN,
                   Description:="Tools for analysis the protein interaction relationship.",
                   Publisher:="xie.guigang@gcmodeller.org",
                   Url:="http://gcmodeller.org")>

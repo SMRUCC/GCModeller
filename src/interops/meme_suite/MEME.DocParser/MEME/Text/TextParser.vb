@@ -71,7 +71,7 @@ Namespace DocumentFormat.MEME.Text
     ''' AAAI Press, Menlo Park, California, 1994.
     ''' ********************************************************************************
     ''' </remarks>
-    <[PackageNamespace]("MEME.Text",
+    <PackageAttribute("MEME.Text",
                         Description:="Text file format meme motif data.
                     <br /><br /><br />
 <pre>********************************************************************************

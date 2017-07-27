@@ -38,7 +38,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular.DataVisual
 
 Namespace PathRoutes
 
-    <[PackageNamespace]("SpiderMan.PQDijkstraProvider", Category:=APICategories.UtilityTools, Description:="Tools for finding path in a network.", Publisher:="xie.guigang@gmail.com", Url:="")>
+    <PackageAttribute("SpiderMan.PQDijkstraProvider", Category:=APICategories.UtilityTools, Description:="Tools for finding path in a network.", Publisher:="xie.guigang@gmail.com", Url:="")>
     Public Class PQDijkstraProvider : Inherits PQDijkstra.PQDijkstraProvider
 
         Dim OriginalNodes As NodeAttributes()

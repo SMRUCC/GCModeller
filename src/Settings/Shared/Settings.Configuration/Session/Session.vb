@@ -38,7 +38,7 @@ Namespace Settings
     ''' <remarks></remarks>
     ''' 
 #If ENABLE_API_EXPORT Then
-    <[PackageNamespace]("GCModeller.Profile.Session",
+    <PackageAttribute("GCModeller.Profile.Session",
                     Description:="The application profile data session for the GCModeller application modules.",
                     Publisher:="amethyst.asuka@gcmodeller.org")>
     Module Session

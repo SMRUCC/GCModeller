@@ -40,7 +40,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
     ''' <summary>
     ''' Tools for comparing the protein domain structure similarity.
     ''' </summary>
-    <PackageNamespace("MPAlignment.Algorithm",
+    <PackageAttribute("MPAlignment.Algorithm",
                       Publisher:="xie.guigang@gmail.com",
                       Category:=APICategories.ResearchTools,
                       Description:="Tools for comparing the protein domain structure similarity.",

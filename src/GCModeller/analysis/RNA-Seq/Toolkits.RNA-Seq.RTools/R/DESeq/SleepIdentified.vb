@@ -38,7 +38,7 @@ Namespace DESeq2
     ''' 鉴别出底表达量和休眠的基因
     ''' </summary>
     ''' 
-    <PackageNamespace("Expression.Stat")>
+    <PackageAttribute("Expression.Stat")>
     Public Module SleepIdentified
 
         ''' <summary>

@@ -9,7 +9,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 ''' 内部的一些简单的常用命令
 ''' </summary>
 ''' 
-<PackageNamespace("System.Extensions",
+<PackageAttribute("System.Extensions",
                   Description:="Shoal system internal plugins module to provides some basically operation on your file system or scripting.",
                   Publisher:="xie.guigang@gmail.com",
                   Url:="http://SourceForge.net/projects/shoal")>

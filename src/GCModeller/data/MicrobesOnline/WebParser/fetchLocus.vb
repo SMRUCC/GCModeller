@@ -37,7 +37,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' http://www.microbesonline.org/cgi-bin/fetchLocus.cgi?locus=5219138&amp;disp=4
 ''' </summary>
 ''' 
-<PackageNamespace("MicrobesOnline.fetchLocus",
+<PackageAttribute("MicrobesOnline.fetchLocus",
                   Category:=APICategories.SoftwareTools,
                   Url:="http://www.microbesonline.org/cgi-bin/fetchLocus.cgi?locus=<gene_locus>&disp=4")>
 Public Module fetchLocus

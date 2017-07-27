@@ -51,7 +51,7 @@ Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 
-<PackageNamespace("Phenotype.Tree.CLI",
+<PackageAttribute("Phenotype.Tree.CLI",
                   Category:=APICategories.CLI_MAN,
                   Description:="Cellular phenotype analysis tools.")>
 Public Module CLI

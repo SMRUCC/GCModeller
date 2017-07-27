@@ -39,7 +39,7 @@ Namespace KMeans
     ''' <summary>
     ''' KMeans.Tree.NET
     ''' </summary>
-    <PackageNamespace("KMeans.Tree.NET",
+    <PackageAttribute("KMeans.Tree.NET",
                       Category:=APICategories.ResearchTools,
                       Publisher:="smrucc@gcmodeller.org")>
     Public Module Tree

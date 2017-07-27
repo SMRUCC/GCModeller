@@ -34,7 +34,7 @@ Imports sys = System.Math
 
 Namespace SyntaxAPI.MathExtension
 
-    <PackageNamespace("R.Math.Vector", Url:="", Publisher:="", Category:=APICategories.UtilityTools, Description:="")>
+    <PackageAttribute("R.Math.Vector", Url:="", Publisher:="", Category:=APICategories.UtilityTools, Description:="")>
     Public Module VectorMath
 
         ''' <summary>

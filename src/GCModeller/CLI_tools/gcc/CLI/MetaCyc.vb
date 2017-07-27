@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
-<PackageNamespace("GCModeller.Compiler.CLI", Category:=APICategories.CLI_MAN,
+<PackageAttribute("GCModeller.Compiler.CLI", Category:=APICategories.CLI_MAN,
                   Description:="gcc=GCModeller Compiler; Compiler program for the GCModeller virtual cell system model",
                   Url:="http://gcmodeller.org",
                   Publisher:="GCModeller")>

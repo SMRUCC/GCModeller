@@ -37,7 +37,7 @@ Imports Microsoft.VisualBasic.Text.HtmlParser
 ''' <summary>
 ''' Comparative Analysis and Reconstruction of MEtabolic Networks
 ''' </summary>
-<PackageNamespace("CARMEN.WebHandler",
+<PackageAttribute("CARMEN.WebHandler",
                   Description:="Comparative Analysis and Reconstruction of MEtabolic Networks<br />
                   KGML-based model reconstruction of metabolic pathways<br /><br />             
 After a CARMEN analysis run has finished, you can directly download various SBML files (Level 2 Version 1 and Version 4, Level 3 Version 1). 

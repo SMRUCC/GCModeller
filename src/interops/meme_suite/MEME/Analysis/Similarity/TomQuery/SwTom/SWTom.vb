@@ -53,7 +53,7 @@ Namespace Analysis.Similarity.TOMQuery
         End Sub
     End Class
 
-    <PackageNamespace("TOMQuery.Smith-Waterman", Category:=APICategories.ResearchTools)>
+    <PackageAttribute("TOMQuery.Smith-Waterman", Category:=APICategories.ResearchTools)>
     Public Module SWTom
 
         Private Class __similarity

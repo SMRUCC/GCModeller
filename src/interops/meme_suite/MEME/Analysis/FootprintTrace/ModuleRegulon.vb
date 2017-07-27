@@ -46,7 +46,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
 
 Namespace Analysis.FootprintTraceAPI
 
-    <PackageNamespace("Module.Regulons")>
+    <PackageAttribute("Module.Regulons")>
     Public Module ModuleRegulon
 
         <ExportAPI("Maps.Hash")>

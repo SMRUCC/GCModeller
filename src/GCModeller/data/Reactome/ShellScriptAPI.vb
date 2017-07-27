@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Reactome.ObjectModels
 
-<[PackageNamespace]("Reactome", Cites:="", Publisher:="", Description:="", Url:="")>
+<PackageAttribute("Reactome", Cites:="", Publisher:="", Description:="", Url:="")>
 Module ShellScriptAPI
 
     <ExportAPI("Owl.Extract")>

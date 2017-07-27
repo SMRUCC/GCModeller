@@ -37,7 +37,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 
 Namespace Colors
 
-    <PackageNamespace("Circos.COGs.ColorAPI")>
+    <PackageAttribute("Circos.COGs.ColorAPI")>
     Public Module ColorAPI
 
         <ExportAPI("COG.Colors")>

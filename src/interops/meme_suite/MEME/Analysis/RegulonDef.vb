@@ -42,7 +42,7 @@ Namespace Analysis
     ''' 基因能够被比对得上，并且motif位点也能够恰好被比对上，就认为是一个成功预测的Regulon？？
     ''' </summary>
     ''' 
-    <PackageNamespace("MEME.Regulon.Def", Category:=APICategories.ResearchTools)>
+    <PackageAttribute("MEME.Regulon.Def", Category:=APICategories.ResearchTools)>
     Public Module RegulonDef
 
         Public ReadOnly Property MAST_LDM As Dictionary(Of String, AnnotationModel)

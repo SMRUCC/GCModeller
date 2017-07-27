@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.Loci
 
-<[PackageNamespace]("Assembler.TSSs",
+<PackageAttribute("Assembler.TSSs",
                     Publisher:="xie.guigang@gcmodeller.org",
                     Description:="Package for TSSs identification.")>
 Public Module TSSsIdentification

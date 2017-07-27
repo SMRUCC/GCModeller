@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Oracle.Java.IO.Properties.Reflector
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-<[PackageNamespace]("GCModeller.Engine_Kernel")>
+<PackageAttribute("GCModeller.Engine_Kernel")>
 Public Module ShellScriptAPI
 
     Dim ModelRegistry As SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleRegistry

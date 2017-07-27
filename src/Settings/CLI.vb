@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-<PackageNamespace("GCModeller.Configuration.CLI",
+<PackageAttribute("GCModeller.Configuration.CLI",
                   Category:=APICategories.CLI_MAN,
                   Url:="http://gcmodeller.org",
                   Description:="GCModeller configuration console.",

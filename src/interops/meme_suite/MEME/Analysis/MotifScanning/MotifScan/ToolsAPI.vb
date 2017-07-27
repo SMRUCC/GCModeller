@@ -34,7 +34,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MAST.HTML
 
 Namespace Analysis.MotifScans
 
-    <PackageNamespace("MotifScansTools", Publisher:="xie.guigang@gcmodeller.org")>
+    <PackageAttribute("MotifScansTools", Publisher:="xie.guigang@gcmodeller.org")>
     Public Module MotifScansTools
 
         <ExportAPI("Read.Xml.Regulations")>

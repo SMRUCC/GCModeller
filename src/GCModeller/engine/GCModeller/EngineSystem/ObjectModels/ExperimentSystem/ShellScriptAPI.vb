@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.DataVisualization.DynamicMap.
 
 Namespace EngineSystem.ObjectModels.ExperimentSystem
 
-    <[PackageNamespace]("GCModeller.EngineKernel.ExperimentSystem")>
+    <PackageAttribute("GCModeller.EngineKernel.ExperimentSystem")>
     Module ShellScriptAPI
 
         Dim EngineKernel As Engine.GCModeller

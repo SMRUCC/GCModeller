@@ -40,7 +40,7 @@ Imports SMRUCC.genomics.Model.Network.VirtualFootprint
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-<PackageNamespace("VirtualFootprint.CLI", Category:=APICategories.CLI_MAN)>
+<PackageAttribute("VirtualFootprint.CLI", Category:=APICategories.CLI_MAN)>
 Module CLI
 
     ''' <summary>

@@ -39,7 +39,7 @@ Namespace Compiler.Components
         Public Property KEGGCompounds As bGetObject.Compound
     End Class
 
-    <PackageNamespace("Model.Retrive_Info")>
+    <PackageAttribute("Model.Retrive_Info")>
     Public Module DownloadsAPI
 
         ''' <summary>

@@ -38,7 +38,7 @@ Namespace GenePrediction
     ''' Microbial Genome Annotation Tools @http://www.ncbi.nlm.nih.gov/genomes/MICROBES/genemark.cgi
     ''' </summary>
     ''' 
-    <PackageNamespace("GeneMark",
+    <PackageAttribute("GeneMark",
                       Publisher:="Microbial Genome Annotation Tools",
                       Category:=APICategories.ResearchTools,
                       Description:="The GeneMark family of gene finding programs has been used for prokaryotic genome annotation since 1995 

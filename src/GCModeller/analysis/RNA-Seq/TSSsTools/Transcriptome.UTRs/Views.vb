@@ -44,7 +44,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.COG
 ''' <summary>
 ''' TSSs位点的性质的统计函数
 ''' </summary>
-<PackageNamespace("TSSs.Analysis.Views", Description:="The TSS property statics functions.", Publisher:="amethyst.asuka@gcmodeller.org")>
+<PackageAttribute("TSSs.Analysis.Views", Description:="The TSS property statics functions.", Publisher:="amethyst.asuka@gcmodeller.org")>
 Public Module Views
 
     <ExportAPI("TSSs.Numbers")>

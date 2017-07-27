@@ -44,7 +44,7 @@ Imports SMRUCC.genomics.InteractionModel
 ''' </summary>
 ''' <remarks></remarks>
 ''' 
-<[PackageNamespace]("Gene.CO-Expression", Publisher:="xie.guigang@gmail.com")>
+<PackageAttribute("Gene.CO-Expression", Publisher:="xie.guigang@gmail.com")>
 Public Module GenesCOExpr
 
     ''' <summary>

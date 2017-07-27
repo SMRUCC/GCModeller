@@ -40,7 +40,7 @@ Imports SMRUCC.genomics.Analysis.PFSNet.R
 ''' </summary>
 ''' <remarks></remarks>
 ''' 
-<[PackageNamespace]("PfsNET.Parallel",
+<PackageAttribute("PfsNET.Parallel",
                     Description:="PfsNET algorithm implments in VisualBasic language for large scale network high-performance calculation.",
                     Publisher:="xie.guigang@gcmodeller.org")>
 Public Module PFSNet

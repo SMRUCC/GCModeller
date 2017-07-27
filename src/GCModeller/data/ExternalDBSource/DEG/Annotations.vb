@@ -39,7 +39,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Namespace DEG
 
-    <PackageNamespace("DEG.Annotations")>
+    <PackageAttribute("DEG.Annotations")>
     Public Module Workflows
 
         <ExportAPI("Reports")>

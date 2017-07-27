@@ -43,7 +43,7 @@ Namespace TrackDatas.NtProps
     ''' GC% calculation tools for drawing the circos elements.
     ''' </summary>
     ''' 
-    <PackageNamespace("Circos.Nt.Attributes")>
+    <PackageAttribute("Circos.Nt.Attributes")>
     Public Module GCProps
 
         ''' <summary>

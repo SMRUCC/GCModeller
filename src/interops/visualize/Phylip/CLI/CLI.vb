@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-<[PackageNamespace]("Phylip",
+<PackageAttribute("Phylip",
 Cites:="",
 Publisher:="evolution.gs.washington.edu/phylip/credits.html",
 Url:="http://evolution.genetics.washington.edu/phylip.html",

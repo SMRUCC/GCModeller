@@ -37,7 +37,7 @@ Imports SMRUCC.genomics.Visualize.ExpressionMatrix
 
 Namespace NCBIBlastResult
 
-    <PackageNamespace("Venn.Besthit", Publisher:="xie.guigang@live.com")>
+    <PackageAttribute("Venn.Besthit", Publisher:="xie.guigang@live.com")>
     Public Module VennBesthit
 
         Dim Margin As Integer = 100

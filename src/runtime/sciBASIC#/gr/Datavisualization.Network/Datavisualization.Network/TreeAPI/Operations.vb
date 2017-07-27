@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataStructures.BinaryTree
 
 Namespace TreeAPI
 
-    <PackageNamespace("TREE.Cluster")>
+    <PackageAttribute("TREE.Cluster")>
     Public Module Operations
 
         <ExportAPI("Tree.Build")>

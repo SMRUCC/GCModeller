@@ -37,7 +37,7 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.Graphics
 
 Namespace API.Graphics
 
-    <PackageNamespace("PieChart",
+    <PackageAttribute("PieChart",
                   Description:="Pie charts are not recommended in the R documentation, and their features are somewhat limited. 
                   The authors recommend bar or dot plots over pie charts because people are able to judge length more accurately than volume. 
                   Pie charts are created with the function pie(x, labels=) where x is a non-negative numeric vector indicating the area of each slice and labels= notes a character vector of names for the slices.",

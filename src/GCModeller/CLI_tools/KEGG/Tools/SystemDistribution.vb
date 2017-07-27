@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-<[PackageNamespace]("Pathway.System.Distribution", Publisher:="xie.guigang@gmail.com")>
+<PackageAttribute("Pathway.System.Distribution", Publisher:="xie.guigang@gmail.com")>
 Public Module SystemDistribution
 
     <DataFrameColumn("Margin")> Dim Margin As Integer

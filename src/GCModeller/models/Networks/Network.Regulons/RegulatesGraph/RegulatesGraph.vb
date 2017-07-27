@@ -38,7 +38,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 
 Namespace RegulatesGraph
 
-    <PackageNamespace("MEME.RegulatesGraph", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
+    <PackageAttribute("MEME.RegulatesGraph", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
     Public Module GraphAPI
 
         <ExportAPI("Create.Doc")>

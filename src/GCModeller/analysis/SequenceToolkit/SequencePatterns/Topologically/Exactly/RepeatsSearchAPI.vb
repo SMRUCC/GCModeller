@@ -37,7 +37,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Topologically
 
-    <[PackageNamespace]("GCModeller.SeqTools.Repeats.SearchAPI",
+    <PackageAttribute("GCModeller.SeqTools.Repeats.SearchAPI",
                         Category:=APICategories.ResearchTools,
                         Description:="Repeats sites search tools.",
                         Publisher:="xie.guigang@gcmodeller.org")>

@@ -40,7 +40,7 @@ Namespace CommandLine
     ''' <summary>
     ''' CLI parser and <see cref="CommandLine"/> object creates.
     ''' </summary>
-    <[PackageNamespace]("CommandLine",
+    <PackageAttribute("CommandLine",
                         Url:="http://gcmodeller.org",
                         Publisher:="xie.guigang@gcmodeller.org",
                         Description:="",

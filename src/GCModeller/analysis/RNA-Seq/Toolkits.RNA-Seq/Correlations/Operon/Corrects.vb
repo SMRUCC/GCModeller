@@ -39,7 +39,7 @@ Namespace Operon
     ''' 根据转录组数据来修正操纵子
     ''' </summary>
     ''' <remarks></remarks>
-    <[PackageNamespace]("Operon.Corrects", Category:=APICategories.UtilityTools, Description:="Corrects the DOOR operon data based on the RNA-Seq data.")>
+    <PackageAttribute("Operon.Corrects", Category:=APICategories.UtilityTools, Description:="Corrects the DOOR operon data based on the RNA-Seq data.")>
     Public Module Corrects
 
         ''' <summary>

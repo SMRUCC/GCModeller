@@ -37,7 +37,7 @@ Imports RDotNET.Extensions.Bioinformatics.VennDiagram.ModelAPI
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.RSystem
 
-<PackageNamespace("VennTools.CLI", Category:=APICategories.CLI_MAN,
+<PackageAttribute("VennTools.CLI", Category:=APICategories.CLI_MAN,
                   Description:="Tools for creating venn diagram model for the R program and venn diagram visualize drawing.",
                   Publisher:="xie.guigang@gmail.com",
                   Url:="http://gcmodeller.org")>

@@ -38,7 +38,7 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports System.Text
 
-<[PackageNamespace]("PCC.Matrix", Publisher:="xie.guigang@gmail.com", Category:=APICategories.UtilityTools)>
+<PackageAttribute("PCC.Matrix", Publisher:="xie.guigang@gmail.com", Category:=APICategories.UtilityTools)>
 Public Module MatrixAPI
 
     ''' <summary>

@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Regprecise
 
-    <PackageNamespace("Regprecise.Compiler", Publisher:="xie.guigang@gcmodeller.org")>
+    <PackageAttribute("Regprecise.Compiler", Publisher:="xie.guigang@gcmodeller.org")>
     Public Module Compiler
 
         <ExportAPI("Load.Xml.Regulon")>

@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Dijkstra
 
-    <[PackageNamespace]("Path.Find.Dijkstra",
+    <PackageAttribute("Path.Find.Dijkstra",
                         Publisher:="Michael Demeersseman",
                         Category:=APICategories.UtilityTools,
                         Description:="Calculation of the shortest path between x points",

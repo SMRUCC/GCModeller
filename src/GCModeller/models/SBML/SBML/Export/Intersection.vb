@@ -38,7 +38,7 @@ Imports SMRUCC.genomics.Model.SBML.Level2
 
 Namespace ExportServices
 
-    <PackageNamespace("SBML.KEGG.Intersection")>
+    <PackageAttribute("SBML.KEGG.Intersection")>
     Public Module Intersection
 
         ''' <summary>

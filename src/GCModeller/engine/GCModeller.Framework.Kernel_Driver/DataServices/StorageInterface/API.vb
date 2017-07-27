@@ -39,7 +39,7 @@ Namespace DataStorage.FileModel
     ''' GCModeller的内核驱动程序的数据服务
     ''' </summary>
     ''' <remarks></remarks>
-    <[PackageNamespace]("Kernel_Driver.Data_Services", Publisher:="GCModeller Virtual Cell System")>
+    <PackageAttribute("Kernel_Driver.Data_Services", Publisher:="GCModeller Virtual Cell System")>
     Public Module Extensions
 
         ''' <summary>

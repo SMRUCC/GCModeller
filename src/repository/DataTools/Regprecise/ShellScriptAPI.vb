@@ -43,7 +43,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.InteropService
 
 Namespace RegpreciseRegulations
 
-    <[PackageNamespace]("Annotations.Regprecise",
+    <PackageAttribute("Annotations.Regprecise",
                         Category:=APICategories.ResearchTools,
                         Publisher:="xie.guigang@gcmodeller.org")>
     Public Module RegpreciseShellScriptAPI

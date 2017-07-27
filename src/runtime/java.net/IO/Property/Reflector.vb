@@ -8,7 +8,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace IO.Properties
 
-    <PackageNamespace("Java.IO.Properties")>
+    <PackageAttribute("Java.IO.Properties")>
     Public Module Reflector
 
         <ExportAPI("Read.Properties")>

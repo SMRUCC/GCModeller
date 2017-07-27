@@ -11,7 +11,7 @@ Imports Microsoft.VisualBasic.Scripting.ShoalShell.Runtime.SCOM
 ''' </summary>
 ''' <remarks></remarks>
 ''' 
-<PackageNamespace("Shoal",
+<PackageAttribute("Shoal",
                   Category:=APICategories.CLI_MAN,
                   Url:="http://gcmodeller.org",
                   Description:="This module define the shoal commandlines for the command line interpreter.",

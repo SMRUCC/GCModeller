@@ -40,7 +40,7 @@ Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
 Namespace NetworkModel
 
-    <PackageNamespace("NET.SBML.rFBA")>
+    <PackageAttribute("NET.SBML.rFBA")>
     Public Module SBMLrFBA
 
         <ExportAPI("FBA_OUT.Load")>

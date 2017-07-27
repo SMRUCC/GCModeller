@@ -53,7 +53,7 @@ Namespace NetworkModel.PfsNET
     ''' 1. 对于有代谢反应的网络，表现为酶分子与酶分子之间所组成的网络
     ''' </remarks>
     ''' 
-    <PackageNamespace("KEGG_Pathway.Network",
+    <PackageAttribute("KEGG_Pathway.Network",
                       Description:="Network data visualization for the pfsNET result",
                       Category:=APICategories.ResearchTools,
                       Publisher:="amethyst.asuka@gcmodeller.org")>

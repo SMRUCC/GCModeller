@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.Data.SabiorkKineticLaws
 
 Namespace ShellScriptAPI
 
-    <[PackageNamespace]("Sabio-rk",
+    <PackageAttribute("Sabio-rk",
                         Category:=APICategories.ResearchTools,
                         Publisher:="xie.guigang@gmail.com")>
     Public Module SabiorkKinetics

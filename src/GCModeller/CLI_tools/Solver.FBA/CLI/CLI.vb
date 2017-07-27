@@ -39,7 +39,7 @@ Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
 
-<PackageNamespace("FBA.CLI", Category:=APICategories.CLI_MAN)>
+<PackageAttribute("FBA.CLI", Category:=APICategories.CLI_MAN)>
 <CLI> Public Module CLI
 
     Sub New()

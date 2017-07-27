@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace Interpro.Xml
 
-    <PackageNamespace("Interpro.DbTools", Category:=APICategories.ResearchTools, Publisher:="")>
+    <PackageAttribute("Interpro.DbTools", Category:=APICategories.ResearchTools, Publisher:="")>
     Public Module ToolsAPI
 
         Sub New()

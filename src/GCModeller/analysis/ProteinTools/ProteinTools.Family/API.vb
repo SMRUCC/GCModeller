@@ -38,7 +38,7 @@ Imports SMRUCC.genomics.Analysis.ProteinTools.Family.FileSystem
 Imports SMRUCC.genomics.Assembly.KEGG.Archives
 Imports SMRUCC.genomics.Data
 
-<PackageNamespace("SMART.PfamFamily",
+<PackageAttribute("SMART.PfamFamily",
                   Category:=APICategories.ResearchTools,
                   Description:="Protein family category using Motif Parallel Alignment method.",
                   Publisher:="xie.guigang@gcmodeller.org")>

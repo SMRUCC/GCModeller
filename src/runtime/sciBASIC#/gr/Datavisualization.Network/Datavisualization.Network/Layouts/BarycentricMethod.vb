@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Layouts
 
-    <PackageNamespace("Network.Layout.Barycentric", Publisher:="xie.guigang@gmail.com")>
+    <PackageAttribute("Network.Layout.Barycentric", Publisher:="xie.guigang@gmail.com")>
     Public Module BarycentricMethod
 
         ''' <summary>

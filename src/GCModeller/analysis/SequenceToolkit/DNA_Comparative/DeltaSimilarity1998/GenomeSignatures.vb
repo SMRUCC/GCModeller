@@ -42,7 +42,7 @@ Namespace DeltaSimilarity1998
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <PackageNamespace("Genome.Signatures")>
+    <PackageAttribute("Genome.Signatures")>
     Public Module GenomeSignatures
 
         ''' <summary>

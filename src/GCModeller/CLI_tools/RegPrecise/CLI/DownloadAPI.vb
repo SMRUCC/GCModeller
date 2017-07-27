@@ -44,7 +44,7 @@ Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.SequenceModel
 
-<PackageNamespace("RegPrecise.CLI", Category:=APICategories.CLI_MAN)>
+<PackageAttribute("RegPrecise.CLI", Category:=APICategories.CLI_MAN)>
 <CLI> Public Module CLI
 
     <ExportAPI("/Repository.Fetch",

@@ -46,7 +46,7 @@ Namespace Analysis.Similarity.TOMQuery
     ''' various motif column comparison functions and score combination methods
     ''' </summary>
     ''' 
-    <PackageNamespace("TOM.Query",
+    <PackageAttribute("TOM.Query",
                       Category:=APICategories.ResearchTools,
                       Publisher:="xie.guigang@gcmodeller.org",
                       Description:="Various motif column comparison functions and score combination methods")>
