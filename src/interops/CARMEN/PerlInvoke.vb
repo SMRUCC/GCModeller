@@ -36,7 +36,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 ''' SBML is an open source XML-based format that facilitates the description of models and 
 ''' their exchange between various simulation and analysis tools (Hucka, 2003).
 ''' </summary>
-<PackageAttribute("CARMEN",
+<Package("CARMEN",
                   Description:="The software CARMEN was developed to support functional and comparative genome analysis. CARMEN provides the visualization of automatically obtained metabolic networks based on KEGG database information and stores the generated data in standardized SBML format. SBML is an open source XML-based format that facilitates the description of models and their exchange between various simulation and analysis tools (Hucka, 2003). 
                   <br />The reconstruction procedures of CARMEN allow users to quickly gain insights into metabolic networks of published or unpublished genome sequences and offer a user-friendly way to visualize and adapt automatically generated metabolic networks. The combination of biochemical reactions and genome annotation data facilitates the rapid detection of metabolic features. Furthermore, the generated pathways provide automated access to modeling and simulation tools that are compliant to the SBML standard. 
                   <br /><pre>CARMEN provides two main applications:

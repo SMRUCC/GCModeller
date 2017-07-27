@@ -43,7 +43,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abst
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Visualize.NCBIBlastResult
 
-<PackageAttribute("MPAlignment.CLI", Category:=APICategories.CLI_MAN)>
+<Package("MPAlignment.CLI", Category:=APICategories.CLI_MAN)>
 Module CLI
 
     <ExportAPI("/Pfam.Sub", Usage:="/Pfam.Sub /index <bbh_index.csv> /pfam <pfam-string> [/out <sub-out.csv>]")>

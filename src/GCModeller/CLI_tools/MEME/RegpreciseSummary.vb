@@ -45,7 +45,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
 
 Namespace Analysis
 
-    <PackageAttribute("MEME.app.Genome_Footprints", Publisher:="xie.guigang@gcmodeller.org")>
+    <Package("MEME.app.Genome_Footprints", Publisher:="xie.guigang@gcmodeller.org")>
     Public Module RegpreciseSummary
 
         ''' <summary>

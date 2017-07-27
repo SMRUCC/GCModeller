@@ -38,7 +38,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
     ''' <summary>
     ''' 
     ''' </summary>
-    <PackageAttribute("KEGG.DBGET.spEntry",
+    <Package("KEGG.DBGET.spEntry",
                       Publisher:="amethyst.asuka@gcmodeller.org",
                       Url:=EntryAPI.WEB_URL,
                       Category:=APICategories.UtilityTools,

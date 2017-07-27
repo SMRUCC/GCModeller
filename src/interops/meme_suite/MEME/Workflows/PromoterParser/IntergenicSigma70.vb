@@ -78,7 +78,7 @@ Namespace Workflows.PromoterParser
     ''' 黄单胞菌应该长一点150bp，非严格重叠？？？？
     ''' </remarks>
     ''' 
-    <PackageAttribute("Sigma70",
+    <Package("Sigma70",
                         Description:="Initially, all 100 nt regions upstream of all protein encoding genes were selected from the genome. 
 Subsequently, these sequences were evaluated for their potential overlap With a preceding gene, 
 And In such cases, only the intergenic sequence was used For analysis, provided they were 25 nt Or longer.

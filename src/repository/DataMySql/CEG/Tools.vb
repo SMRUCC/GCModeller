@@ -42,7 +42,7 @@ Imports PathEntry = Microsoft.VisualBasic.ComponentModel.DataSourceModel.NamedVa
 
 Namespace CEG
 
-    <PackageAttribute("CEG")>
+    <Package("CEG")>
     Public Module Tools
 
         <ExportAPI("CEG.Install")>

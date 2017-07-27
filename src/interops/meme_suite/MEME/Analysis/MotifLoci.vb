@@ -47,7 +47,7 @@ Namespace Analysis
     ''' 对MEME text里面的位点在整个基因组上面的定位
     ''' </summary>
     ''' 
-    <PackageAttribute("Motif.Loci", Publisher:="amethyst.asuka@gcmodeller.org")>
+    <Package("Motif.Loci", Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module MotifLoci
 
         ''' <summary>

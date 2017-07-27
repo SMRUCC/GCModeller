@@ -42,7 +42,7 @@ Imports SMRUCC.genomics.SequenceModel
 
 Namespace Assembly.NCBI.GenBank
 
-    <PackageAttribute("NCBI.Genbank.Extensions", Publisher:="amethyst.asuka@gcmodeller.org")>
+    <Package("NCBI.Genbank.Extensions", Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module Extensions
 
         <Extension>

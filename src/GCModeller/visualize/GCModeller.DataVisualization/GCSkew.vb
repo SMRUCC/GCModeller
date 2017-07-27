@@ -38,7 +38,7 @@ Imports SMRUCC.genomics.SequenceModel
 ''' <summary>
 ''' plotting the GC% and GC skew curve.
 ''' </summary>
-<PackageAttribute("NT.GC.Curve", Publisher:="amethyst.asuka@gcmodeller.org")>
+<Package("NT.GC.Curve", Publisher:="amethyst.asuka@gcmodeller.org")>
 Public Module GCSkew
 
     <DataFrameColumn("slide_Window.size")>

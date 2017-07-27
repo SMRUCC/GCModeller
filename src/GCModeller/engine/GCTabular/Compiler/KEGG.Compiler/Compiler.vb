@@ -46,7 +46,7 @@ Imports SMRUCC.genomics.Model.SBML
 
 Namespace KEGG.Compiler
 
-    <PackageAttribute("GCModeller.KEGG.Compiler", Category:=APICategories.UtilityTools,
+    <Package("GCModeller.KEGG.Compiler", Category:=APICategories.UtilityTools,
                         Description:="For the first time of the model compiles operation, a active network connection to the KEGG database server maybe required.")>
     Public Class Compiler : Inherits GCTabular.Compiler.Compiler
 

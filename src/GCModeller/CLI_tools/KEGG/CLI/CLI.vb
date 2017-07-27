@@ -119,7 +119,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
       Journal:="Nucleic Acids Research", Pages:="27-30",
       StartPage:=27,
       URL:="http://www.genome.ad.jp/kegg/")>
-<PackageAttribute("KEGG.WebServices.CLI",
+<Package("KEGG.WebServices.CLI",
                   Publisher:="xie.guigang@gcmodeller.org",
                   Category:=APICategories.CLI_MAN,
                   Url:="http://www.kegg.jp/",

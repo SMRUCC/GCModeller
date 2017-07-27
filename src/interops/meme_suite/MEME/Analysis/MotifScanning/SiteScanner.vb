@@ -37,7 +37,7 @@ Namespace Analysis.MotifScans
     ''' <summary>
     ''' 不太建议使用这个模块进行长序列的比对
     ''' </summary>
-    <PackageAttribute("Site.Scanner", Publisher:="amethyst.asuka@gcmodeller.org")>
+    <Package("Site.Scanner", Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module SiteScanner
 
         <ExportAPI("Fa.LDM")>

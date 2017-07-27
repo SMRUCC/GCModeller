@@ -40,7 +40,7 @@ Imports ______NETWORK__ =
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node,
     Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge)
 
-<PackageAttribute("DataVisualization.Network", Publisher:="xie.guigang@gmail.com")>
+<Package("DataVisualization.Network", Publisher:="xie.guigang@gmail.com")>
 Public Module NetworkAPI
 
     <ExportAPI("Read.Network")>

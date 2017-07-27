@@ -56,7 +56,7 @@ Namespace NCBIBlastResult
     ''' <summary>
     ''' 对blastn和blastx的比对结果进行可视化操作
     ''' </summary>
-    <PackageAttribute("NCBI.Visualization.BLAST",
+    <Package("NCBI.Visualization.BLAST",
                         Description:="Visualization of the blast result",
                         Category:=APICategories.ResearchTools,
                         Publisher:="xie.guigang@gmail.com")>

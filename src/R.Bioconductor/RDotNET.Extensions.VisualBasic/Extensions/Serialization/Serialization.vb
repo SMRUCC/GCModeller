@@ -43,7 +43,7 @@ Imports RDotNET.SymbolicExpressionExtension
 ''' </summary>
 ''' <remarks></remarks>
 ''' 
-<PackageAttribute("R.Serialization",
+<Package("R.Serialization",
                   Description:="Convert the R object into a .NET object from the specific type schema information.",
                   Category:=APICategories.UtilityTools,
                   Publisher:="xieguigang@gcmodeller.org")>

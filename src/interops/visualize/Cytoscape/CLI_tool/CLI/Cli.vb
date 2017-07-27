@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports SMRUCC.genomics.Visualize.Cytoscape.Visualization
 
-<PackageAttribute("Cytoscape.CLI",
+<Package("Cytoscape.CLI",
                   Category:=APICategories.CLI_MAN,
                   Description:="Cytoscape model generator and visualization tools utils for GCModeller",
                   Publisher:="xie.guigang@gcmodeller.org",

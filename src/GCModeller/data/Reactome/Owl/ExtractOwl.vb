@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.Data.Reactome.OwlDocument.Abstract
 Imports SMRUCC.genomics.Data.Reactome.OwlDocument.Nodes
 Imports SMRUCC.genomics.Data.Reactome.OwlDocument.XrefNodes
 
-<PackageAttribute("Reactome.ExtractOwl")>
+<Package("Reactome.ExtractOwl")>
 Public Module ExtractOwl
 
     <ExportAPI("Extract.OwlFile")>

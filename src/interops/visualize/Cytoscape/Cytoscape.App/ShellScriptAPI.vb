@@ -37,7 +37,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 
-<PackageAttribute("Cytoscape",
+<Package("Cytoscape",
                     Cites:="Shannon, P., et al. (2003). ""Cytoscape: a software environment For integrated models Of biomolecular interaction networks."" Genome Res 13(11): 2498-2504.
 <p>Cytoscape is an open source software project for integrating biomolecular interaction networks with high-throughput expression data and other molecular states into a unified 
                     conceptual framework. Although applicable to any system of molecular components and interactions, Cytoscape is most powerful when used in conjunction 

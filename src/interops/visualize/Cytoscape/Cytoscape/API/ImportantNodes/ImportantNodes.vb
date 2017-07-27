@@ -42,7 +42,7 @@ Namespace API.ImportantNodes
 
     '{Hu, 2010 #173}
 
-    <PackageAttribute("Cytoscape.ImportantNodes")>
+    <Package("Cytoscape.ImportantNodes")>
     Public Module ImportantNodes
 
         <ExportAPI("Read.Csv.Nodes.Cytoscape")>

@@ -38,7 +38,7 @@ Namespace Analysis.Similarity.TOMQuery
     ''' <summary>
     ''' 全局比对
     ''' </summary>
-    <PackageAttribute("TOM.Visual", Publisher:="amethyst.asuka@gcmodeller.org")>
+    <Package("TOM.Visual", Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module TomVisual
 
         Dim margin As Integer = 100

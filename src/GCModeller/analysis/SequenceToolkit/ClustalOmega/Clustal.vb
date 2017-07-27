@@ -49,7 +49,7 @@ Imports CLI = Microsoft.VisualBasic.CommandLine.InteropService.InteropService
 ''' </summary>
 ''' <remarks></remarks>
 ''' 
-<PackageAttribute("Clustal",
+<Package("Clustal",
                     Cites:="Sievers, F., et al. (2011). ""Fast, scalable generation Of high-quality protein multiple sequence alignments Using Clustal Omega."" Mol Syst Biol 7: 539.
 <p>Multiple sequence alignments are fundamental to many sequence analysis methods. Most alignments are computed using the progressive alignment heuristic. These methods are starting to become a bottleneck in some analysis pipelines when faced with data sets of the size of many thousands of sequences. Some methods allow computation of larger data sets while sacrificing quality, and others produce high-quality alignments, but scale badly with the number of sequences. In this paper, we describe a new program called Clustal Omega, which can align virtually any number of protein sequences quickly and that delivers accurate alignments. The accuracy of the package on smaller test cases is similar to that of the high-quality aligners. On larger data sets, Clustal Omega outperforms other packages in terms of execution time and quality. Clustal Omega also has powerful features for adding sequences to and exploiting information in existing alignments, making use of the vast amount of precomputed information in public databases like Pfam.
 

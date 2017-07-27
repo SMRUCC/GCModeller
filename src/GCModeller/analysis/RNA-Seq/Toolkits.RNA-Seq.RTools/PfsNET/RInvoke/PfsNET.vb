@@ -47,7 +47,7 @@ Namespace PfsNET
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <PackageAttribute("PfsNET.R.Invoke",
+    <Package("PfsNET.R.Invoke",
                       Description:="PFSNet computes signifiance of subnetworks generated through a process that selects genes in a pathway based on fuzzy scoring and a majority voting procedure.",
                       Cites:="Lim, K. and L. Wong (2014). ""Finding consistent disease subnetworks Using PFSNet."" Bioinformatics 30(2): 189-196.
 <p> MOTIVATION: Microarray data analysis is often applied to characterize disease populations by identifying individual genes linked to the disease. 

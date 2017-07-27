@@ -36,7 +36,7 @@ Namespace SymbolBuilder.packages.Graphics
     ''' Graphics devices for BMP, JPEG, PNG and TIFF format bitmap files. 
     ''' </summary>
     ''' 
-    <PackageAttribute("grDevices", Description:="Graphics devices for BMP, JPEG, PNG and TIFF format bitmap files.  
+    <Package("grDevices", Description:="Graphics devices for BMP, JPEG, PNG and TIFF format bitmap files.  
 <p><strong>NOTE:  please notice that this package just generates the R language statement for write a image file from a specific plot statement.
 Once you have done the function from this namespace, then you can using the Shoal Shell hybrid scripting feature to draw the image and save to a file.
 </strong>"， Publisher:=“amethyst.asuka@gcmodeller.org”)>

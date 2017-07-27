@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace LDM
 
-    <PackageAttribute("GCModeller.Property", Publisher:="GCModeller Virtual Cell System", Description:="")>
+    <Package("GCModeller.Property", Publisher:="GCModeller Virtual Cell System", Description:="")>
     Public Module API
 
 #Region "Shell API"

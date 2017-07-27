@@ -67,7 +67,7 @@ Module PFSNet
     End Function
 End Module
 
-<PackageAttribute("PfsNET.Footprint.Mapping.Pathway",
+<Package("PfsNET.Footprint.Mapping.Pathway",
                     Description:="This module determines the specific pathway for the motif mapping to a specific cell phenotype.",
                     Publisher:="xie.guigang@gcmodeller.org")>
 Module PfsNET_FootprintMappingPathway_API

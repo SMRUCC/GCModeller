@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
 Namespace Models.rFBA
 
-    <PackageAttribute("rFBA.ModelAPI")>
+    <Package("rFBA.ModelAPI")>
     Public Module ModelAPI
 
         ''' <summary>

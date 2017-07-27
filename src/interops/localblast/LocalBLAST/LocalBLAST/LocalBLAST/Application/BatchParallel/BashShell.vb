@@ -36,7 +36,7 @@ Namespace LocalBLAST.Application.BatchParallel
     ''' 生成用于linux服务器上面批量运行的blast脚本
     ''' </summary>
     ''' 
-    <PackageAttribute("NCBI.LocalBLAST.BashShell")>
+    <Package("NCBI.LocalBLAST.BashShell")>
     Public Module BashShell
 
         ''' <summary>

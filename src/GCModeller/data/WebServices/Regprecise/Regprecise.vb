@@ -42,7 +42,7 @@ Imports SMRUCC.genomics.SequenceModel
 Namespace Regprecise
 
 
-    <PackageAttribute("Regprecise.WebServices.API",
+    <Package("Regprecise.WebServices.API",
                   Url:="http://regprecise.lbl.gov/RegPrecise/services.jsp",
                   Description:="<strong>Formats</strong>
                   <br /><br />

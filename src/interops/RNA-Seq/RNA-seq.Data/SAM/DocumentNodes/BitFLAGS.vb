@@ -205,7 +205,7 @@ Namespace SAM
         <Description("Duplicated")> Bit0x400 = 1024
     End Enum
 
-    <PackageAttribute("SAM.BitFLAGS", Category:=APICategories.UtilityTools)>
+    <Package("SAM.BitFLAGS", Category:=APICategories.UtilityTools)>
     Public Module BitFLAGS_API
 
         ''' <summary>

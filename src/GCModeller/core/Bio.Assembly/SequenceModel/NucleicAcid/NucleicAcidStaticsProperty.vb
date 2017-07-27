@@ -42,7 +42,7 @@ Namespace SequenceModel.NucleotideModels
     ''' <summary>
     ''' NucleicAcid sequence property calculator
     ''' </summary>
-    <PackageAttribute("NucleicAcid.Property", Publisher:="amethyst.asuka@gcmodeller.org")>
+    <Package("NucleicAcid.Property", Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module NucleicAcidStaticsProperty
 
         ''' <summary>

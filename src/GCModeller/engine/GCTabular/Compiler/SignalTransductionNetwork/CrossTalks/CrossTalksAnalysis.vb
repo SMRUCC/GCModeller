@@ -42,7 +42,7 @@ Namespace Compiler.Components
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <PackageAttribute("GCModeller.Compiler.Crosstalks.API")>
+    <Package("GCModeller.Compiler.Crosstalks.API")>
     Public Module CrossTalksAnalysis
 
         <ExportAPI("TCS.CrossTalks.Net")>

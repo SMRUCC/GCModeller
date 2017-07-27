@@ -39,7 +39,7 @@ Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
 Imports STRING_NetGraph = SMRUCC.genomics.Model.Network.STRING.Models.Network
 
-<PackageAttribute("StrPNet.API", Description:="Bacterial signal transduction network based on the string-db")>
+<Package("StrPNet.API", Description:="Bacterial signal transduction network based on the string-db")>
 Public Module API
 
     <ExportAPI("Extract.Network"), Extension>

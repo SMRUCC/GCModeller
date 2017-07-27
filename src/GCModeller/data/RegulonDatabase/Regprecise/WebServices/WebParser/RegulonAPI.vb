@@ -42,7 +42,7 @@ Namespace Regprecise
     ''' <summary>
     ''' 根据直系同源的方法能够真的重建出Regulon么？
     ''' </summary>
-    <PackageAttribute("Regprecise.RegulonAPI",
+    <Package("Regprecise.RegulonAPI",
                       Description:="Tools API for reconstruct the regulon data for your bacterial genome by uisng Regprecise regulon data.",
                       Category:=APICategories.ResearchTools,
                       Publisher:="amethyst.asuka@gcmodeller.org")>

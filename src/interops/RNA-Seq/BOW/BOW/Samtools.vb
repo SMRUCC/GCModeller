@@ -46,7 +46,7 @@ Imports SMRUCC.genomics.SequenceModel.SAM
 ''' quality information, and user-specified annotations - SAMtools reduces the effort needed to use SAM/BAM files by 
 ''' hiding low-level details.
 ''' </summary>
-<PackageAttribute("Samtools", Description:="Tools for alignments in the SAM format, 
+<Package("Samtools", Description:="Tools for alignments in the SAM format, 
 SAMtools is a set of utilities for interacting with and post-processing short DNA sequence read alignments in the SAM, BAM and CRAM formats, 
 written by Heng Li. These files are generated as output by short read aligners like BWA. Both simple and advanced tools are provided, 
 supporting complex tasks like variant calling and alignment viewing as well as sorting, indexing, data extraction and format conversion.

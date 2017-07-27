@@ -36,7 +36,7 @@ Namespace GCModeller.FileSystem
     ''' <remarks>由于可能会修改参数然后在调用的这种情况出现，所以这里的数据可能需要实时更新，所以不再使用属性的简写形式了</remarks>
     ''' 
 #If ENABLE_API_EXPORT Then
-    <PackageAttribute("GCModeller.Repository.FileSystem", Publisher:="amethyst.asuka@gcmodeller.org")>
+    <Package("GCModeller.Repository.FileSystem", Publisher:="amethyst.asuka@gcmodeller.org")>
     Module FileSystem
 #Else
     Module FileSystem

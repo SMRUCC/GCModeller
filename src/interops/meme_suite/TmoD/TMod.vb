@@ -59,7 +59,7 @@ Sequence Analysis, Protein
 Sequence Analysis, RNA
 *Software",
       PubMed:=20007740)>
-<PackageAttribute("Tools.Tmod",
+<Package("Tools.Tmod",
                     Description:="Tmod: toolbox of motif discovery
                     
 <br />

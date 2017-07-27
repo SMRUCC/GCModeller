@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-<PackageAttribute("KEGG.Ortholog.Export",
+<Package("KEGG.Ortholog.Export",
                   Category:=APICategories.ResearchTools,
                   Description:="KEGG ortholog annotation database.",
                   Publisher:="xie.guigang@gcmodeller.org",

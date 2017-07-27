@@ -39,7 +39,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.ProteinModel
 
-<PackageAttribute("SMART", Cites:="Letunic, I., et al. (2006). ""SMART 5: domains in the context of genomes And networks."" Nucleic Acids Res 34(Database issue): D257-260.
+<Package("SMART", Cites:="Letunic, I., et al. (2006). ""SMART 5: domains in the context of genomes And networks."" Nucleic Acids Res 34(Database issue): D257-260.
 	The Simple Modular Architecture Research Tool (SMART) is an online resource (http://smart.embl.de/) used for protein domain identification and the analysis of protein domain architectures. 
 Many new features were implemented to make SMART more accessible to scientists from different fields. 
 The new 'Genomic' mode in SMART makes it easy to analyze domain architectures in completely sequenced genomes. 

@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Namespace GCModeller.FileSystem.KEGG
 
 #If ENABLE_API_EXPORT Then
-    <PackageAttribute("GCModeller.Repository.KEGG.Directory", Publisher:="amethyst.asuka@gcmodeller.org")>
+    <Package("GCModeller.Repository.KEGG.Directory", Publisher:="amethyst.asuka@gcmodeller.org")>
     Module Directories
 #Else
     Module Directories

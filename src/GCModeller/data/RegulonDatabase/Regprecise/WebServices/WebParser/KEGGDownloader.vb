@@ -37,7 +37,7 @@ Namespace Regprecise
     ''' <summary>
     ''' Downloads the protein fasta sequence from the KEGG which was records in the regprecise regulation datasets.
     ''' </summary>
-    <PackageAttribute("Regprecise.KEGGDownloader",
+    <Package("Regprecise.KEGGDownloader",
                       Publisher:="xie.guigang@gcmodeller.org",
                       Category:=APICategories.UtilityTools,
                       Description:="Sequence downloader for the regulators and the regulated genes in the regprecise database from KEGG server.")>

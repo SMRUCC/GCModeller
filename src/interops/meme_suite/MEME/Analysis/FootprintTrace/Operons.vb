@@ -41,7 +41,7 @@ Namespace Analysis.FootprintTraceAPI
     ''' <summary>
     ''' 操作Operon调控相关的信息
     ''' </summary>
-    <PackageAttribute("Operon.Footprints")>
+    <Package("Operon.Footprints")>
     Public Module OperonFootprints
 
         ''' <summary>

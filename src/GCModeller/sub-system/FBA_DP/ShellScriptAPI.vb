@@ -68,7 +68,7 @@ Nat Biotechnol. 2010 Mar;28(3):245-8. doi: 10.1038/nbt.1614.",
       URL:="http://www.ncbi.nlm.nih.gov/pubmed/20212490",
       Volume:=28,
       Year:=2010)>
-<PackageAttribute("Solver.FBA",
+<Package("Solver.FBA",
                     Url:="http://code.google.com/p/genome-in-code",
                     Publisher:="xie.guigang@gmail.com",
                     Description:="Simple metabolism network optimization solver.")>

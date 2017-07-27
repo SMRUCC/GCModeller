@@ -39,7 +39,7 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.dataExprMAT
 ''' 对PCC矩阵进行快速的二进制序列化
 ''' </summary>
 ''' <remarks>由于是一个二维的矩阵，坐标之间有着一一对应的顺序关系，所以这里不可以使用并行化拓展</remarks>
-<PackageAttribute("PCC.Matrix.Serialization",
+<Package("PCC.Matrix.Serialization",
                   Description:="Tools for fast IO of the gene expression pcc matrix.",
                   Category:=APICategories.UtilityTools,
                   Publisher:="xie.guigang@gcmodeller.org")>

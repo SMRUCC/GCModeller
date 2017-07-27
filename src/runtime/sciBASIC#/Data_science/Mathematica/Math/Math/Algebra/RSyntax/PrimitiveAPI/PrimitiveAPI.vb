@@ -40,7 +40,7 @@ Namespace SyntaxAPI
     ''' </summary>
     ''' <remarks></remarks>
     '''
-    <PackageAttribute("RBase.PrimitiveAPI")>
+    <Package("RBase.PrimitiveAPI")>
     Public Module PrimitiveAPI
 
         ''' <summary>

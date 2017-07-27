@@ -52,7 +52,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF.FeatureKeys
 Imports SMRUCC.genomics.Interops.RNA_Seq.BOW
 
-<PackageAttribute("RNA-seq.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gcmodeller.org")>
+<Package("RNA-seq.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gcmodeller.org")>
 Module CLI
 
     Sub New()

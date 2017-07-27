@@ -51,7 +51,7 @@ Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 ''' <summary>
 ''' This module contains the required API function for create the chromosomes map of a specific bacteria genome.
 ''' </summary>
-<PackageAttribute("Data.Visualization.Chromosome_Map",
+<Package("Data.Visualization.Chromosome_Map",
                         Description:="You can using this tool to create the map of the whole bacteria genome.",
                         Publisher:="xie.guigang@gcmodeller.org",
                         Url:="http://gcmodeller.org")>

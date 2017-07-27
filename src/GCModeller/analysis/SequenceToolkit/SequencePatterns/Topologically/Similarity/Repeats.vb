@@ -46,7 +46,7 @@ Namespace Topologically.SimilarityMatches
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <PackageAttribute("Seqtools.Repeats.Search", Publisher:="xie.guigang@gmail.com", Url:="http://gcmodeller.org")>
+    <Package("Seqtools.Repeats.Search", Publisher:="xie.guigang@gmail.com", Url:="http://gcmodeller.org")>
     Public Module Repeats
 
         ''' <summary>

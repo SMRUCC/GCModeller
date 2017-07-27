@@ -30,7 +30,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-<PackageAttribute("Visual.Network")>
+<Package("Visual.Network")>
 Public Module NetworkVisualization
 
     <ExportAPI("Metabolism.Network")>

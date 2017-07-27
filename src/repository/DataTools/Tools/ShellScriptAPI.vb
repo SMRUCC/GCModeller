@@ -30,7 +30,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Annotations.Reports
 
-<PackageAttribute("Annotation.Reports", Publisher:="xie.guigang@gmail.com")>
+<Package("Annotation.Reports", Publisher:="xie.guigang@gmail.com")>
 Public Module ShellScriptAPI
 
     <ExportAPI("Write.Rtf.Anno_Reports")>

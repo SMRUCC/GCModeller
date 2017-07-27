@@ -105,7 +105,7 @@ Namespace Topologically
     ''' -- A.G. Pedersen And L.J. Jensen And H.H. St\aerfeldt And S. Brunak And D.W. 
     '''    Ussery A DNA structural atlas of extitE. coli (2000) 299907-930
     ''' </summary>
-    <PackageAttribute("Palindrome.Search",
+    <Package("Palindrome.Search",
                       Publisher:="xie.guigang@gcmodeller.org", Url:="http://gcmodeller.org")>
     Public Module Palindrome
 
