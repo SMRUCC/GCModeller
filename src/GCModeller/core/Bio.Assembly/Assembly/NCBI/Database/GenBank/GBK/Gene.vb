@@ -53,7 +53,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Function
     End Class
 
-    <PackageNamespace("Genbank.Export_Genes")>
+    <Package("Genbank.Export_Genes")>
     Public Module ExportGenes
 
         <ExportAPI("GET.Genes")>

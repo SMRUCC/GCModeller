@@ -38,7 +38,7 @@ Imports SMRUCC.genomics.SequenceModel
 
 Namespace DocumentFormat.MAST.HTML
 
-    <PackageNamespace("Mast.Html.Parser", Publisher:="xie.guigang@gmail.com")>
+    <Package("Mast.Html.Parser", Publisher:="xie.guigang@gmail.com")>
     Public Module HtmlParser
 
         Private Function __getRegulation(Tfbs As FASTA.FastaToken) As KeyValuePair(Of String, String)

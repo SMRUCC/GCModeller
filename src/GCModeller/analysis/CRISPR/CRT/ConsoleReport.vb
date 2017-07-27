@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-<PackageNamespace("CRISPR.Searchs.Reports")>
+<Package("CRISPR.Searchs.Reports")>
 Public Module ConsoleReport
 
     <ExportAPI("Prints")>

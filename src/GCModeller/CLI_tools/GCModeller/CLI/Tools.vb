@@ -69,13 +69,13 @@ Partial Module CLI
         Dim execs As IEnumerable(Of String) =
             ls - l - wildcards("*.exe") <= App.HOME
 
-        Dim types = LinqAPI.Exec(Of NamedValue(Of PackageNamespace)) <=
+        Dim types = LinqAPI.Exec(Of NamedValue(Of PackageAttribute)) <=
  _
             From exe As String
             In execs
             Let def As Type = GetCLIMod(exe)
             Where Not def Is Nothing
-            Select New NamedValue(Of PackageNamespace) With {
+            Select New NamedValue(Of PackageAttribute) With {
                 .Name = exe.BaseName,
                 .Value = GetEntry(def)
             }

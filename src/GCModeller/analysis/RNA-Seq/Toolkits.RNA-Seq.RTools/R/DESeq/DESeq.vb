@@ -66,7 +66,7 @@ Namespace DESeq2
     ''' Welcome to 'DESeq'. For improved performance, usability and functionality, please consider migrating to 'DESeq2'.
     ''' 虽然模块的名称是DESeq，但是在R之中实际调用的包确是DESeq2
     ''' </remarks>
-    <[PackageNamespace]("DESeq", Description:="Differential analysis of count data – the DESeq2 package
+    <Package("DESeq", Description:="Differential analysis of count data – the DESeq2 package
 (M. I. Love, W. Huber, S. Anders: Moderated estimation of fold change And dispersion For RNA-Seq data With DESeq2. bioRxiv(2014).doi : 10.1101/002832)
 <br />
 <p>

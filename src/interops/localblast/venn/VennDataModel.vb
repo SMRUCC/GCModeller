@@ -60,7 +60,7 @@ Namespace BlastAPI
     ''' 2. 两两组合式的双向比对
     ''' 3.
     ''' </remarks>
-    <[PackageNamespace]("VennDiagram.LDM.BBH",
+    <Package("VennDiagram.LDM.BBH",
                         Category:=APICategories.ResearchTools,
                         Publisher:="xie.guigang@gcmodeller.org",
                         Description:="Package for generate the data model for creates the Venn diagram using the completely combination blastp based bbh protein homologous method result.

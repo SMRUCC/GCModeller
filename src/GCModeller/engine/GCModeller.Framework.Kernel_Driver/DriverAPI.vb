@@ -29,7 +29,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-<[PackageNamespace]("GCModeller.Engine_Driver",
+<Package("GCModeller.Engine_Driver",
                     Description:="This namespace define the generic method to running the GCModeller simulation engine. You can using the API functions in this module to run the GCModeller simulation.",
                     Publisher:="amethyst.asuka@gcmodeller.org")>
 Module DriverAPI

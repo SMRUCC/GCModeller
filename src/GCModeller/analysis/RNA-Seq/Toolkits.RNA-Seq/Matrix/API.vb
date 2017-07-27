@@ -41,7 +41,7 @@ Namespace dataExprMAT
     ''' Gene expression chip data.(基因芯片数据)
     ''' </summary>
     ''' <remarks></remarks>
-    <[PackageNamespace]("Analysis.Chipdata", Publisher:="xie.guigang@gmail.com")>
+    <Package("Analysis.Chipdata", Publisher:="xie.guigang@gmail.com")>
     Public Module API
 
         <ExportAPI("ToSamples")>

@@ -41,7 +41,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 ''' 这个多用于宏基因组的研究
 ''' </summary>
 ''' 
-<PackageNamespace("BiologicalNetwork.BLAST",
+<Package("BiologicalNetwork.BLAST",
                   Category:=APICategories.ResearchTools,
                   Description:="Metagenome blast network builder",
                   Publisher:="xie.guigang@gcmodeller.org",

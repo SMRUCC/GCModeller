@@ -58,7 +58,7 @@ Imports SMRUCC.genomics.Assembly.DOOR
 
 Namespace Analysis
 
-    <[PackageNamespace]("MEME_Html.Analysis.Parser", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gmail.com")>
+    <Package("MEME_Html.Analysis.Parser", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gmail.com")>
     Public Module HtmlMatching
 
         Public Class MEMEAnalysisResult : Implements RegulonDatabase.IRegulationModel

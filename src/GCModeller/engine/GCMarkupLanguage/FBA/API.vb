@@ -33,7 +33,7 @@ Imports SMRUCC.genomics.Model.SBML
 
 Namespace FBACompatibility
 
-    <PackageNamespace("GCML.FBA.Compiler")>
+    <Package("GCML.FBA.Compiler")>
     Public Module API
 
         <ExportAPI("Compile")>

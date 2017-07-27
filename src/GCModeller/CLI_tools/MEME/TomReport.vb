@@ -38,7 +38,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Imaging
 
-<PackageNamespace("Tom.Report", Publisher:="amethyst.asuka@gcmodeller.org")>
+<Package("Tom.Report", Publisher:="amethyst.asuka@gcmodeller.org")>
 Public Module TomReport
 
     Const A = 0, T = 1, G = 2, C = 3

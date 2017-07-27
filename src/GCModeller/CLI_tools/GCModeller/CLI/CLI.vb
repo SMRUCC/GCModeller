@@ -37,7 +37,7 @@ Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services
 
-<PackageNamespace("GCModeller.CLI", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.CLI_MAN, Url:="http://gcmodeller.org")>
+<Package("GCModeller.CLI", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.CLI_MAN, Url:="http://gcmodeller.org")>
 Public Module CLI
 
     <ExportAPI("/Merge.Table",

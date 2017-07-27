@@ -40,7 +40,7 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
 ''' <returns></returns>
 Public Delegate Function IsTrue(g1 As String, g2 As String) As Boolean
 
-<PackageNamespace("GCModeller.Gene.Correlations",
+<Package("GCModeller.Gene.Correlations",
                   Publisher:="xie.guigang@gcmodeller.org",
                   Category:=APICategories.ResearchTools)>
 Public Module CorrsDbAPI

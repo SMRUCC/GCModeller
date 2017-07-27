@@ -49,7 +49,7 @@ Namespace Workflows.PromoterParser
     ''' <summary>
     ''' 按照给定的代谢途径或者其他的规则分组取出启动子序列，这个对象是考虑了操纵子的情况的
     ''' </summary>
-    <[PackageNamespace]("Analysis.MEME.Data_Preparing",
+    <Package("Analysis.MEME.Data_Preparing",
                         Category:=APICategories.ResearchTools,
                         Publisher:="xie.guigang@gmail.com")>
     Public Class DataPreparingParser

@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Imaging
 
-<PackageNamespace("Texture.Resource.Loader", Publisher:="xie.guigang@gmail.com")>
+<Package("Texture.Resource.Loader", Publisher:="xie.guigang@gmail.com")>
 Public Module TextureResourceLoader
 
     ''' <summary>

@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.Analysis.SSystem
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 
-<PackageNamespace("PLAS.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gmail.com")>
+<Package("PLAS.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gmail.com")>
 Public Module CLI
 
     <ExportAPI("Run", Info:="run a model file of the biochemical network system.",

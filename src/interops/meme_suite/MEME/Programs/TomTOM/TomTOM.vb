@@ -45,7 +45,7 @@ Namespace Programs
     ''' Quantifying similarity between motifs
     ''' </summary>
     ''' 
-    <PackageNamespace("TomTOM",
+    <Package("TomTOM",
                       Category:=APICategories.ResearchTools,
                       Description:="Quantifying similarity between motifs")>
     <Cite(Title:="Quantifying similarity between motifs",

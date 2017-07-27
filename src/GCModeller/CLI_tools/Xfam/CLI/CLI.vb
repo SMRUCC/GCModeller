@@ -40,7 +40,7 @@ Imports SMRUCC.genomics.Data.Xfam
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
-<PackageNamespace("Xfam.CLI",
+<Package("Xfam.CLI",
                   Description:="Xfam Tools (Pfam, Rfam, iPfam)",
                   Category:=APICategories.CLI_MAN,
                   Url:="http://xfam.org")>

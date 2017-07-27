@@ -42,7 +42,7 @@ Namespace SequenceModel.FASTA.Reflection
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <PackageNamespace("Fasta.Tools")>
+    <Package("Fasta.Tools")>
     Public Module FastaExportMethods
 
         ''' <summary>

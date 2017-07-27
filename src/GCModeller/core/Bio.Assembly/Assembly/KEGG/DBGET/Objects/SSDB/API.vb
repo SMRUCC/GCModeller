@@ -47,7 +47,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <PackageNamespace("KEGG.DBGET.SSDB", Publisher:="xie.guigang@gmail.com",
+    <Package("KEGG.DBGET.SSDB", Publisher:="xie.guigang@gmail.com",
                       Category:=APICategories.UtilityTools,
                       Description:="KEGG SSDB (Sequence Similarity DataBase) contains the information about amino acid sequence similarities among all protein-coding genes in the complete genomes, which is computationally generated from the GENES database in KEGG. All possible pairwise genome comparisons are performed by the SSEARCH program, and the gene pairs with the Smith-Waterman similarity score of 100 or more are entered in SSDB, together with the information about best hits and bidirectional best hits (best-best hits). SSDB is thus a huge weighted, directed graph, which can be used for searching orthologs and paralogs, as well as conserved gene clusters with additional consideration of positional correlations on the chromosome. 
 

@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.SequenceModel
 
 Namespace Analysis.MotifScans
 
-    <PackageNamespace("MotifScansTools.Similarity", Publisher:="amethyst.asuka@gcmodeller.org")>
+    <Package("MotifScansTools.Similarity", Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module TestAPI
 
         <ExportAPI("PWM")>

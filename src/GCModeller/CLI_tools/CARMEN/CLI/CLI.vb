@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Interops
 
-<PackageNamespace("CARMEN.CLI", Category:=APICategories.CLI_MAN)>
+<Package("CARMEN.CLI", Category:=APICategories.CLI_MAN)>
 Module CLI
 
     <ExportAPI("--Reconstruct.KEGG.Online", Usage:="--Reconstruct.KEGG.Online /sp <organism> [/pathway <KEGG.pathwayId> /out <outDIR>]")>

@@ -36,7 +36,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace NCBIBlastResult
 
-    <[PackageNamespace]("SBH_Tabular",
+    <Package("SBH_Tabular",
                         Publisher:="xie.guigang@gmail.com",
                         Category:=APICategories.UtilityTools)>
     Public Module SBH_Tabular

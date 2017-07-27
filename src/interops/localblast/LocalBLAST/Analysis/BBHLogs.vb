@@ -47,7 +47,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
 
 Namespace Analysis
 
-    <PackageNamespace("NCBI.LocalBlast.BBH",
+    <Package("NCBI.LocalBlast.BBH",
                       Publisher:="amethyst.asuka@gcmodeller.org",
                       Category:=APICategories.ResearchTools,
                       Url:="http://gcmodeller.org")>

@@ -42,7 +42,7 @@ Namespace Operon
     ''' 由于在这里operon里面的基因都是共转录的，而非调控关系，所以必须选择PCC矩阵，并且pcc的值不能够为负数
     ''' </summary>
     ''' <remarks></remarks>
-    <[PackageNamespace]("Operon.Predict", Category:=APICategories.UtilityTools)>
+    <Package("Operon.Predict", Category:=APICategories.UtilityTools)>
     Public Module Predicts
 
         <ExportAPI("Write.Csv.Operons")>

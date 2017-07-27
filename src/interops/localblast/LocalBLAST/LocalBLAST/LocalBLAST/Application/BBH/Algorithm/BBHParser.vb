@@ -42,7 +42,7 @@ Namespace LocalBLAST.Application.BBH
     ''' <summary>
     ''' BBH解析的时候，是不会区分方向的，所以只要保证编号是一致的就会解析出结果，这个不需要担心
     ''' </summary>
-    <PackageNamespace("BBHParser", Publisher:="xie.guigang@gcmodeller.org")>
+    <Package("BBHParser", Publisher:="xie.guigang@gcmodeller.org")>
     Public Module BBHParser
 
         <Extension>
