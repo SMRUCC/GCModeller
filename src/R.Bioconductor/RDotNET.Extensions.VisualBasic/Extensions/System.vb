@@ -50,6 +50,30 @@ Public Class ExtendedEngine : Inherits REngine
         End Set
     End Property
 
+    ''' <summary>
+    ''' 返回一个逻辑值类型的变量指针
+    ''' </summary>
+    ''' <param name="object$">An object from a formally defined class.</param>
+    ''' <param name="name$">
+    ''' The name of the slot. The operator takes a fixed name, which can be unquoted if it is syntactically a name in the language. 
+    ''' A slot name can be any non-empty string, but if the name is not made up of letters, numbers, and ., it needs to be quoted 
+    ''' (by backticks or single or double quotes).
+    ''' In the case of the slot function, name can be any expression that evaluates to a valid slot in the class definition. 
+    ''' Generally, the only reason to use the functional form rather than the simpler operator Is because the slot name has 
+    ''' to be computed.</param>
+    ''' <returns></returns>
+    Public Function hasSlot(object$, name$) As String
+        Dim var$ = App.NextTempName
+
+        SyncLock Me
+            With Me
+                .call = $"{var} <- .hasSlot({object$}, {name});"
+            End With
+        End SyncLock
+
+        Return var
+    End Function
+
     Sub New(id As String, dll As String)
         MyBase.New(id, dll)
 

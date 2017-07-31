@@ -184,6 +184,7 @@
     <Compile Include="API\base\with.vb" />
     <Compile Include="API\base\print.vb" />
     <Compile Include="API\is.vb" />
+    <Compile Include="API\methods.vb" />
     <Compile Include="API\stats\stats.vb" />
     <Compile Include="API\grDevices\dev.vb" />
     <Compile Include="API\grDevices\images.vb" />
