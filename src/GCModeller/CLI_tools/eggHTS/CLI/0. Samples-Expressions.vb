@@ -114,9 +114,14 @@ Partial Module CLI
         Return groupLabels
     End Function
 
+    ''' <summary>
+    ''' 统计总蛋白的平均表达量
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/Relative.amount")>
     <Usage("/Relative.amount /in <proteinGroups.csv> /designer <designer.csv> [/uniprot <annotations.csv> /label <tag label> /deli <delimiter, default=_> /out <out.csv>]")>
-    <Description("")>
+    <Description("Statistics of the relative expression value of the total proteins.")>
     <Group(CLIGroups.SamplesExpressions_CLI)>
     Public Function RelativeAmount(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
