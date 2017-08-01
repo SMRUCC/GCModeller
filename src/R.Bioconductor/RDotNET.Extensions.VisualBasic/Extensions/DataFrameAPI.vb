@@ -107,7 +107,7 @@ Public Module DataFrameAPI
     ''' <param name="df"></param>
     ''' <param name="var"></param>
     <Extension>
-    Public Sub PushAsDataFrame(df As IO.File, var$,
+    Public Sub PushAsDataFrame(df As File, var$,
                                Optional types As Dictionary(Of String, Type) = Nothing,
                                Optional typeParsing As Boolean = True,
                                Optional rowNames As IEnumerable(Of String) = Nothing)
