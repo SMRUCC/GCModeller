@@ -311,7 +311,8 @@ Partial Module CLI
         Call CatalogPlots.Plot(
             data, orderTakes:=top,
             tick:=tick,
-            size:=size).Save(out & "/plot.png")
+            size:=size,
+            axisTitle:="Number Of Proteins").Save(out & "/plot.png")
 
         Return 0
     End Function
@@ -357,7 +358,10 @@ Partial Module CLI
             End If
         End With
 
-        profile.ProfilesPlot("KEGG Orthology Profiling", size:=size, tick:=tick).Save(out & "/plot.png")
+        profile.ProfilesPlot("KEGG Orthology Profiling",
+                             size:=size,
+                             tick:=tick,
+                             axisTitle:="Number Of Proteins").Save(out & "/plot.png")
         KO_counts.SaveTo(out & "/KO_counts.csv")
         catalogs.DataFrame.SaveTo(out & "/KOCatalogs.csv")
 

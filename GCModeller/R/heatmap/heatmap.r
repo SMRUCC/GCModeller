@@ -81,7 +81,7 @@ plotDEPs <- function(csv,
 	tryCatch({
 		heatmap.2(matrix.data,
 			scale        = "row",
-			# labRow       = NA,
+			labRow       = NA,
 			# labCol       = NA,
 			main         = title,            # heat map title
 			notecol      = "black",          # change font color of cell labels to black
