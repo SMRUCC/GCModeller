@@ -31,7 +31,7 @@ Namespace Tables
             Dim colors As Dictionary(Of String, String) =
                 Designer _
                 .GetColors(term:=schema, n:=types.Length) _
-                .Select(Function(c) c.RGB2Hexadecimal) _
+                .Select(AddressOf ToHtmlColor) _
                 .SeqIterator _
                 .ToDictionary(Function(name) types.Get(name, App.NextTempName),
                               Function(color) +color)
