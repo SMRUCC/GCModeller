@@ -12,6 +12,12 @@ Namespace DATA
             entityList = list.ToDictionary
         End Sub
 
+        Public Function [As](Of T As Class)() As T()
+            Return entityList.Values _
+                .ToCsvDoc _
+                .AsDataSource(Of T)
+        End Function
+
         Public Overrides Function ToString() As String
             Return entityList.Keys.ToArray.GetJson
         End Function
