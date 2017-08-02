@@ -26,6 +26,10 @@ Namespace DATA
             Return entityList.Values.SaveTo(path, encoding.CodePage)
         End Function
 
+        Public Shared Function Load(path$, Optional encoding As Encodings = Encodings.Default) As DataFrame
+            Return New DataFrame(EntityObject.LoadDataSet(path))
+        End Function
+
         Public Iterator Function GetEnumerator() As IEnumerator(Of EntityObject) Implements IEnumerable(Of EntityObject).GetEnumerator
             For Each x In entityList.Values
                 Yield x
