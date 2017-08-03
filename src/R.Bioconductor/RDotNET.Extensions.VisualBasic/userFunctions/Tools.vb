@@ -57,7 +57,7 @@ Namespace Custom
                                   name <- names({list}[i]);
 
                                   if (!is.na(name)) {{
-                                      {newList}[[name]] <- {list}[name]
+                                      {newList}[[name]] <- {list}[[name]]
                                   }}
 
                               }}"
