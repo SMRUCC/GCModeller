@@ -23,7 +23,7 @@ Namespace DATA
         End Function
 
         Public Function SaveTable(path$, Optional encoding As Encodings = Encodings.UTF8) As Boolean
-            Return entityList.Values.SaveTo(path, encoding.CodePage)
+            Return entityList.Values.SaveTo(path, encoding:=encoding.CodePage, strict:=False)
         End Function
 
         Public Shared Function Load(path$, Optional encoding As Encodings = Encodings.Default) As DataFrame
