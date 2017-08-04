@@ -187,11 +187,13 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <param name="EXPORT"></param>
         ''' <param name="DirectoryOrganized"></param>
         ''' <param name="forceUpdate">是否需要API对已经存在的数据进行强制更新？</param>
+        ''' <param name="structInfo">是否同时也下载分子结构信息？</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function DownloadFromResource(EXPORT$,
                                                     Optional DirectoryOrganized As Boolean = True,
-                                                    Optional forceUpdate As Boolean = False) As String()
+                                                    Optional forceUpdate As Boolean = False,
+                                                    Optional structInfo As Boolean = False) As String()
             Dim Resource = {
                 New KeyValuePair(Of String, Compound())("Compounds with biological roles", Build(BriteHText.Load(My.Resources.br08001))),
                 New KeyValuePair(Of String, Compound())("Lipids", Build(BriteHText.Load(My.Resources.br08002))),
@@ -207,14 +209,26 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
             For Each briteEntry In Resource
                 With briteEntry
-                    Call __downloadsInternal(.Key, .Value, failures, EXPORT, DirectoryOrganized, forceUpdate)
+                    Call __downloadsInternal(.Key, .Value,
+                                             failures,
+                                             EXPORT,
+                                             DirectoryOrganized,
+                                             forceUpdate,
+                                             structInfo)
                 End With
             Next
 
             Return failures
         End Function
 
-        Private Shared Sub __downloadsInternal(key$, briteEntry As Compound(), ByRef failures As List(Of String), EXPORT$, DirectoryOrganized As Boolean, forceUpdate As Boolean)
+        Private Shared Sub __downloadsInternal(key$,
+                                               briteEntry As Compound(),
+                                               ByRef failures As List(Of String),
+                                               EXPORT$,
+                                               DirectoryOrganized As Boolean,
+                                               forceUpdate As Boolean,
+                                               structInfo As Boolean)
+
             Dim progress As New ProgressBar("Downloads " & key, CLS:=True)
             Dim tick As New ProgressProvider(briteEntry.Length)
 
@@ -230,7 +244,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             For Each entry As Compound In keys
                 Dim EntryId As String = entry.Entry.Key
                 Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized, [class]:=key)
-                Dim xml As String = String.Format("{0}/{1}.xml", saveDIR, EntryId)
+                Dim xml$ = $"{saveDIR}/{EntryId}.xml"
 
                 If Not forceUpdate AndAlso xml.FileExists(True) Then
                     Continue For
@@ -253,6 +267,11 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                         failures += EntryId
                     Else
                         Call cpd.GetXml.SaveTo(xml)
+
+                        If structInfo Then
+                            Call cpd.DownloadKCF(xml.TrimSuffix & ".KCF")
+                            Call cpd.DownloadStructureImage(xml.TrimSuffix & ".gif")
+                        End If
                     End If
                 End If
 
