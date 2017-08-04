@@ -60,7 +60,8 @@ Public Module FunctionalNetwork
             .ScaleRadius(range:=radius)
 
         If layouts.IsNullOrEmpty Then
-            Dim parameters As ForceDirectedArgs = GraphLayout.Parameters.Load
+            Dim defaultFile$ = App.InputFile.ParentPath & "/" & GraphLayout.Parameters.DefaultFileName
+            Dim parameters As ForceDirectedArgs = GraphLayout.Parameters.Load(defaultFile)
 
             ' 生成layout信息               
             Call graph.doRandomLayout
