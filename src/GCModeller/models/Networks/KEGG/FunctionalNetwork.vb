@@ -50,7 +50,8 @@ Public Module FunctionalNetwork
                                   Optional groupLowerBounds% = 3,
                                   Optional quantile# = 0.5,
                                   Optional delimiter$ = FunctionalNetwork.Delimiter,
-                                  Optional fontSizeFactor# = 2.5) As Image
+                                  Optional fontSizeFactor# = 2.5,
+                                  Optional polygonStroke$ = Stroke.AxisGridStroke) As Image
 
         Dim graph As NetworkGraph = model _
             .CreateGraph(
@@ -122,6 +123,7 @@ Public Module FunctionalNetwork
 
         Dim KEGGColors As New Dictionary(Of String, (counts#, color As Color))
         Dim dash As Dictionary(Of String, DashStyle)
+        Dim strokePen As Stroke = Stroke.TryParse(polygonStroke)
 
         With New Dictionary(Of String, DashStyle)
             !pathway_internal = DashStyle.Solid
@@ -158,7 +160,9 @@ Public Module FunctionalNetwork
                 End If
 
                 With colors.Next
-                    Dim pen As New Pen(.ref, 10)
+                    Dim pen As New Pen(.ref, strokePen.width) With {
+                        .DashStyle = strokePen.dash
+                    }
                     Dim fill As New SolidBrush(Color.FromArgb(40, .ref))
 
                     Call g.DrawPolygon(pen, polygon)
