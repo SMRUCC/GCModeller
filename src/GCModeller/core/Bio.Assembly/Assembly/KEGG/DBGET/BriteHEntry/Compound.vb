@@ -227,17 +227,21 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Using progress As New ProgressBar("Downloads others", CLS:=True)
                 Dim tick As New ProgressProvider(len)
                 Dim saveDIR = EXPORT & "/OtherUnknowns/"
+                Dim skip As Boolean = False
 
-                For i As Integer = 0 To 20000
-                    Dim id = "C" & i.FormatZero("0000")
+                For i As Integer = 1 To 20000
+                    Dim id = "C" & i.FormatZero("00000")
 
                     If success(id) = -1 Then
-                        Call Download(id, saveDIR, forceUpdate, structInfo)
+                        skip = False
+                        Call Download(id, saveDIR, forceUpdate, structInfo, skip)
                     End If
 
                     Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
 
-                    Call Thread.Sleep(1000)
+                    If Not skip Then
+                        Call Thread.Sleep(1000)
+                    End If
                     Call progress.SetProgress(tick.StepProgress, details:=ETA)
                 Next
             End Using
@@ -245,10 +249,11 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return failures
         End Function
 
-        Private Shared Function Download(entryID$, saveDIR$, forceUpdate As Boolean, structInfo As Boolean) As Boolean
+        Private Shared Function Download(entryID$, saveDIR$, forceUpdate As Boolean, structInfo As Boolean, ByRef skip As Boolean) As Boolean
             Dim xml$ = $"{saveDIR}/{entryID}.xml"
 
             If Not forceUpdate AndAlso xml.FileExists(True) Then
+                skip = True
                 Return True
             End If
 
@@ -299,18 +304,23 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
             Using progress As New ProgressBar("Downloads " & key, CLS:=True)
                 Dim tick As New ProgressProvider(keys.Length)
+                Dim skip As Boolean = False
 
                 For Each entry As Compound In keys
                     Dim EntryId As String = entry.Entry.Key
                     Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized, [class]:=key)
 
-                    If Not Download(EntryId, saveDIR, forceUpdate, structInfo) Then
+                    skip = False
+
+                    If Not Download(EntryId, saveDIR, forceUpdate, structInfo, skip) Then
                         failures += EntryId
                     End If
 
                     Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
 
-                    Call Thread.Sleep(1000)
+                    If Not skip Then
+                        Call Thread.Sleep(1000)
+                    End If
                     Call progress.SetProgress(tick.StepProgress, details:=ETA)
                 Next
             End Using
