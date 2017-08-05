@@ -4,6 +4,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.GraphAPI
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
@@ -16,7 +17,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports GraphLayout = Microsoft.VisualBasic.Data.visualize.Network.Layouts
-Imports Microsoft.VisualBasic.Math.Quantile
 
 Public Module FunctionalNetwork
 
@@ -48,9 +48,10 @@ Public Module FunctionalNetwork
                                   Optional KEGGNameFont$ = CSSFont.Win7LargerNormal,
                                   Optional margin% = 100,
                                   Optional groupLowerBounds% = 3,
-                                  Optional delimiter$ = FunctionalNetwork.Delimiter,
                                   Optional quantile# = 0.5,
-                                  Optional fontSizeFactor# = 2.5) As Image
+                                  Optional delimiter$ = FunctionalNetwork.Delimiter,
+                                  Optional fontSizeFactor# = 2.5,
+                                  Optional polygonStroke$ = Stroke.AxisGridStroke) As Image
 
         Dim graph As NetworkGraph = model _
             .CreateGraph(
@@ -60,7 +61,8 @@ Public Module FunctionalNetwork
             .ScaleRadius(range:=radius)
 
         If layouts.IsNullOrEmpty Then
-            Dim parameters As ForceDirectedArgs = GraphLayout.Parameters.Load
+            Dim defaultFile$ = App.InputFile.ParentPath & "/" & GraphLayout.Parameters.DefaultFileName
+            Dim parameters As ForceDirectedArgs = GraphLayout.Parameters.Load(defaultFile)
 
             ' 生成layout信息               
             Call graph.doRandomLayout
@@ -87,7 +89,9 @@ Public Module FunctionalNetwork
             .IteratesALL _
             .GroupBy(Function(x) x.Item1) _
             .Where(Function(g)
-                       Return (Not g.Key.StringEmpty) AndAlso g.Count >= groupLowerBounds
+                       Return (Not g.Key.StringEmpty) AndAlso
+                            g.Key <> "KEGG Compound" AndAlso
+                            g.Count >= groupLowerBounds
                    End Function) _
             .ToDictionary(Function(g) g.Key,
                           Function(nodes)
@@ -100,16 +104,13 @@ Public Module FunctionalNetwork
         Dim colors As New LoopArray(Of Color)(Designer.GetColors(colorSchema))
 
         If nodeGroups.Count > colors.Length Then
-            Dim q# = nodeGroups _
-                .Select(Function(x) CDbl(x.Value.Length)) _
-                .GKQuantile _
-                .Query(quantile)
-            Dim keys = nodeGroups _
-                .Keys _
-                .Where(Function(key)
-                           Return nodeGroups(key).Length >= q
-                       End Function) _
-                .ToArray
+            Dim q = nodeGroups.Count * (1 - quantile)
+            Dim keys$() = nodeGroups _
+                .AsGroups _
+                .IGrouping _
+                .OrderByDegrees _
+                .Take(q) _
+                .Keys
 
             nodeGroups = keys.ToDictionary(Function(key) key,
                                            Function(key) nodeGroups(key))
@@ -122,6 +123,7 @@ Public Module FunctionalNetwork
 
         Dim KEGGColors As New Dictionary(Of String, (counts#, color As Color))
         Dim dash As Dictionary(Of String, DashStyle)
+        Dim strokePen As Stroke = Stroke.TryParse(polygonStroke)
 
         With New Dictionary(Of String, DashStyle)
             !pathway_internal = DashStyle.Solid
@@ -158,7 +160,9 @@ Public Module FunctionalNetwork
                 End If
 
                 With colors.Next
-                    Dim pen As New Pen(.ref, 10)
+                    Dim pen As New Pen(.ref, strokePen.width) With {
+                        .DashStyle = strokePen.dash
+                    }
                     Dim fill As New SolidBrush(Color.FromArgb(40, .ref))
 
                     Call g.DrawPolygon(pen, polygon)

@@ -87,6 +87,13 @@ Public Class var
         Call __setValue()
     End Sub
 
+    Public Shared Function Rvariable(var$) As var
+        Return New var With {
+            ._Name = var,
+            ._expr = var
+        }
+    End Function
+
     ''' <summary>
     ''' <see cref="out"/>
     ''' </summary>
