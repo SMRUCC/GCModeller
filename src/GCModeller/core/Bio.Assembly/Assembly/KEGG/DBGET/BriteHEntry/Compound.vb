@@ -26,11 +26,11 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Threading
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Terminal
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
@@ -209,16 +209,75 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
             For Each briteEntry In Resource
                 With briteEntry
-                    Call __downloadsInternal(.Key, .Value,
-                                             failures,
-                                             EXPORT,
-                                             DirectoryOrganized,
-                                             forceUpdate,
-                                             structInfo)
+                    Call __downloadsInternal(
+                        .Key, .Value,
+                        failures,
+                        EXPORT,
+                        DirectoryOrganized,
+                        forceUpdate,
+                        structInfo)
                 End With
             Next
 
+            Dim success As Index(Of String) = (ls - l - r - "*.XML" <= EXPORT) _
+                .Select(AddressOf BaseName) _
+                .Indexing
+            Dim len% = 20000
+
+            Using progress As New ProgressBar("Downloads others", CLS:=True)
+                Dim tick As New ProgressProvider(len)
+                Dim saveDIR = EXPORT & "/OtherUnknowns/"
+
+                For i As Integer = 0 To 20000
+                    Dim id = "C" & i.FormatZero("0000")
+
+                    If success(id) = -1 Then
+                        Call Download(id, saveDIR, forceUpdate, structInfo)
+                    End If
+
+                    Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
+
+                    Call Thread.Sleep(1000)
+                    Call progress.SetProgress(tick.StepProgress, details:=ETA)
+                Next
+            End Using
+
             Return failures
+        End Function
+
+        Private Shared Function Download(entryID$, saveDIR$, forceUpdate As Boolean, structInfo As Boolean) As Boolean
+            Dim xml$ = $"{saveDIR}/{entryID}.xml"
+
+            If Not forceUpdate AndAlso xml.FileExists(True) Then
+                Return True
+            End If
+
+            If entryID.First = "G"c Then
+                Dim gl As Glycan = Glycan.Download(entryID)
+
+                If gl Is Nothing Then
+                    Call $"[{entryID}] is not exists in the kegg!".Warning
+                    Return False
+                Else
+                    Call gl.GetXml.SaveTo(xml)
+                End If
+            Else
+                Dim cpd As bGetObject.Compound = MetabolitesDBGet.DownloadCompound(entryID)
+
+                If cpd Is Nothing Then
+                    Call $"[{entryID}] is not exists in the kegg!".Warning
+                    Return False
+                Else
+                    Call cpd.GetXml.SaveTo(xml)
+
+                    If structInfo Then
+                        Call cpd.DownloadKCF(xml.TrimSuffix & ".KCF")
+                        Call cpd.DownloadStructureImage(xml.TrimSuffix & ".gif")
+                    End If
+                End If
+            End If
+
+            Return True
         End Function
 
         Private Shared Sub __downloadsInternal(key$,
@@ -228,59 +287,33 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                                                DirectoryOrganized As Boolean,
                                                forceUpdate As Boolean,
                                                structInfo As Boolean)
-
-            Dim progress As New ProgressBar("Downloads " & key, CLS:=True)
-            Dim tick As New ProgressProvider(briteEntry.Length)
-
             ' 2017-3-12
             ' 有些entry的编号是空值？？？
-            Dim keys = briteEntry.Where(
-                Function(ID)
-                    Return (Not ID Is Nothing) AndAlso
-                        (Not ID.Entry Is Nothing) AndAlso
-                        (Not ID.Entry.Key.StringEmpty)
-                End Function)
+            Dim keys As Compound() = briteEntry _
+                .Where(Function(ID)
+                           Return (Not ID Is Nothing) AndAlso
+                                (Not ID.Entry Is Nothing) AndAlso
+                                (Not ID.Entry.Key.StringEmpty)
+                       End Function) _
+                .ToArray
 
-            For Each entry As Compound In keys
-                Dim EntryId As String = entry.Entry.Key
-                Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized, [class]:=key)
-                Dim xml$ = $"{saveDIR}/{EntryId}.xml"
+            Using progress As New ProgressBar("Downloads " & key, CLS:=True)
+                Dim tick As New ProgressProvider(keys.Length)
 
-                If Not forceUpdate AndAlso xml.FileExists(True) Then
-                    Continue For
-                End If
+                For Each entry As Compound In keys
+                    Dim EntryId As String = entry.Entry.Key
+                    Dim saveDIR As String = entry.BuildPath(EXPORT, DirectoryOrganized, [class]:=key)
 
-                If EntryId.First = "G"c Then
-                    Dim gl As Glycan = Glycan.Download(EntryId)
-
-                    If gl Is Nothing Then
-                        Call $"[{entry.ToString}] is not exists in the kegg!".Warning
+                    If Not Download(EntryId, saveDIR, forceUpdate, structInfo) Then
                         failures += EntryId
-                    Else
-                        Call gl.GetXml.SaveTo(xml)
                     End If
-                Else
-                    Dim cpd As bGetObject.Compound = MetabolitesDBGet.DownloadCompound(EntryId)
 
-                    If cpd Is Nothing Then
-                        Call $"[{entry.ToString}] is not exists in the kegg!".Warning
-                        failures += EntryId
-                    Else
-                        Call cpd.GetXml.SaveTo(xml)
+                    Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
 
-                        If structInfo Then
-                            Call cpd.DownloadKCF(xml.TrimSuffix & ".KCF")
-                            Call cpd.DownloadStructureImage(xml.TrimSuffix & ".gif")
-                        End If
-                    End If
-                End If
-
-                Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
-                Call Thread.Sleep(1000)
-                Call progress.SetProgress(tick.StepProgress, details:=ETA)
-            Next
-
-            Call progress.Dispose()
+                    Call Thread.Sleep(1000)
+                    Call progress.SetProgress(tick.StepProgress, details:=ETA)
+                Next
+            End Using
         End Sub
 
         Public Function BuildPath(EXPORT$, directoryOrganized As Boolean, Optional class$ = "") As String
