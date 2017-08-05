@@ -197,6 +197,12 @@ Namespace Text.HtmlParser
 
         Const attributeParse$ = "\S+?=.+?"
 
+        <Extension>
+        Private Function stripTag(ByRef tag$) As String
+            tag = tag.Trim("<"c).Trim(">"c).Trim("/"c)
+            Return tag
+        End Function
+
         ''' <summary>
         ''' 获取一个html标签之中的所有的attribute属性数据
         ''' </summary>
@@ -204,7 +210,7 @@ Namespace Text.HtmlParser
         ''' <returns></returns>
         <Extension>
         Public Iterator Function TagAttributes(tag$) As IEnumerable(Of NamedValue(Of String))
-            Dim list = Regex.Matches(tag, attributeParse, RegexICSng).ToArray
+            Dim list = Regex.Matches(tag.stripTag, attributeParse, RegexICSng).ToArray
             Dim p%
             Dim s$
             Dim name$
