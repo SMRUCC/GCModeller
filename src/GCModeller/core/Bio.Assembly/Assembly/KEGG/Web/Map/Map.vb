@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -115,7 +116,18 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         Public Shared Function Parse(line$) As Area
+            Dim attrs As Dictionary(Of NamedValue(Of String)) =
+                line.TagAttributes.ToDictionary
+            Dim getValue = Function(key$)
+                               Return attrs.TryGetValue(key).Value
+                           End Function
 
+            Return New Area With {
+                .coords = getValue(NameOf(coords)),
+                .href = getValue(NameOf(href)),
+                .shape = getValue(NameOf(shape)),
+                .title = getValue(NameOf(title))
+            }
         End Function
     End Class
 End Namespace
