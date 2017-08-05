@@ -57,19 +57,22 @@ Namespace Assembly.KEGG.WebServices
         Public Shared Function ParseHTML(url$) As Map
             Dim html$ = url.GET
             Dim map$ = r.Match(html, data, RegexICSng).Value
-            Dim areas = map.lTokens
+            Dim areas = map.lTokens.Skip(1).ToArray
             Dim img = r.Match(html, "<img src="".+?"" name=""pathwayimage"" usemap=""#mapdata"".+?/>", RegexICSng).Value
             Dim tmp$ = App.GetAppSysTempFile
+            Dim shapes = areas _
+                .Take(areas.Length - 1) _
+                .Select(AddressOf Area.Parse) _
+                .ToArray
 
             With "http://www.genome.jp/" & img.ImageSource
                 Call .DownloadFile(tmp)
+                img = tmp.LoadImage.ToBase64String
             End With
 
             Return New Map With {
-                .PathwayImage = tmp.LoadImage.ToBase64String,
-                .Areas = areas _
-                    .Select(AddressOf Area.Parse) _
-                    .ToArray
+                .PathwayImage = img,
+                .Areas = shapes
             }
         End Function
     End Class
@@ -116,8 +119,9 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         Public Shared Function Parse(line$) As Area
-            Dim attrs As Dictionary(Of NamedValue(Of String)) =
-                line.TagAttributes.ToDictionary
+            Dim attrs As Dictionary(Of NamedValue(Of String)) = line _
+                .TagAttributes _
+                .ToDictionary
             Dim getValue = Function(key$)
                                Return attrs.TryGetValue(key).Value
                            End Function
