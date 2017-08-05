@@ -27,7 +27,10 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -36,6 +39,13 @@ Namespace Assembly.KEGG.WebServices
     Public Class Map
 
         <XmlElement> Public Property Areas As Area()
+
+        ''' <summary>
+        ''' base64 image
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlText>
+        Public Property PathwayImage As String
 
         Public Overrides Function ToString() As String
             Return Areas.GetJson
@@ -47,8 +57,19 @@ Namespace Assembly.KEGG.WebServices
             Dim html$ = url.GET
             Dim map$ = r.Match(html, data, RegexICSng).Value
             Dim areas = map.lTokens
+            Dim img = r.Match(html, "<img src="".+?"" name=""pathwayimage"" usemap=""#mapdata"".+?/>", RegexICSng).Value
+            Dim tmp$ = App.GetAppSysTempFile
 
+            With "http://www.genome.jp/" & img.ImageSource
+                Call .DownloadFile(tmp)
+            End With
 
+            Return New Map With {
+                .PathwayImage = tmp.LoadImage.ToBase64String,
+                .Areas = areas _
+                    .Select(AddressOf Area.Parse) _
+                    .ToArray
+            }
         End Function
     End Class
 
@@ -91,6 +112,10 @@ Namespace Assembly.KEGG.WebServices
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
+        End Function
+
+        Public Shared Function Parse(line$) As Area
+
         End Function
     End Class
 End Namespace
