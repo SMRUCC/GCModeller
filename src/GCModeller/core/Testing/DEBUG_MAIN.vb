@@ -67,6 +67,13 @@ Module DEBUG_MAIN
 
     Sub Main()
 
+        Dim resultddddd = SMRUCC.genomics.Assembly.KEGG.WebServices.Map.ParseHTML("D:\GCModeller\src\GCModeller\core\Testing\hsa05034.html")
+
+        Call resultddddd.GetXml.SaveTo("D:\GCModeller\src\GCModeller\core\hsa05034.XML")
+
+
+        Pause()
+
         '  Call "http://www.genome.jp/dbget-bin/www_bget?pathway:hsa00010".GET.SaveTo("x:\pathway_Test.html")
         ' Call "http://www.kegg.jp/dbget-bin/www_bget?pathway+hsa00600".GET.SaveTo("x:\pathway_Test2.html")
         'Pause()
