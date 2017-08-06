@@ -47,20 +47,20 @@ Namespace AppEngine
         ''' 只要是.NET assembly都会进行扫描，否则使用<see cref="DebuggerAPI"/>进行调试的时候
         ''' 就不能够正确的加载对象了，所以在这里取消掉exe的限制
         ''' </remarks>
-        Public Function Scan(platform As PlatformEngine) As Boolean
+        Public Iterator Function Scan(platform As PlatformEngine) As IEnumerable(Of String)
             Dim dlls As IEnumerable(Of String) = ls - l - {"*.dll", "*.exe"} <= App.HOME
 
             For Each dllFile As String In dlls
                 Try
-                    Call ParseDll(dllFile, platform)
+                    If ParseDll(dllFile, platform) > 0 Then
+                        Yield dllFile
+                    End If
                 Catch ex As Exception
                     ex = New Exception(dllFile, ex)
                     Call ex.PrintException
                     Call App.LogException(ex)
                 End Try
             Next
-
-            Return True
         End Function
 
         ''' <summary>
