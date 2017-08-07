@@ -235,6 +235,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     If success(id) = -1 Then
                         skip = False
                         Call Download(id, saveDIR, forceUpdate, structInfo, skip)
+                    Else
+                        skip = True
                     End If
 
                     Dim ETA$ = $"ETA={tick.ETA(progress.ElapsedMilliseconds)}"
@@ -242,7 +244,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     If Not skip Then
                         Call Thread.Sleep(1000)
                     End If
-                    Call progress.SetProgress(tick.StepProgress, details:=ETA)
+                    Call progress.SetProgress(tick.StepProgress, details:=id & "   " & ETA)
                 Next
             End Using
 
