@@ -40,6 +40,12 @@ Module Test
 
     Sub Main()
 
+        Dim g As New SMRUCC.genomics.Data.GeneOntology.DAG.Graph("D:\smartnucl_integrative\DATA\go.obo")
+
+
+
+        Pause()
+
         ' 1. 从uniprot下载数据
 
         ' 2. 生成注释信息，并赋值一个临时的基因号
