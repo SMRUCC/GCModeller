@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22d1c6c5d1933845927dcb21f0b8dd59, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\GraphicsDevice.vb"
+﻿#Region "Microsoft.VisualBasic::8318e6e10b12c64556f6da4779c16c8d, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\GraphicsDevice.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a8940584489da11747863bcd35aa2e5, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\genetics\API.vb"
+﻿#Region "Microsoft.VisualBasic::754022a942b047b17a634ba04760eebc, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\genetics\API.vb"
 
     ' Author:
     ' 

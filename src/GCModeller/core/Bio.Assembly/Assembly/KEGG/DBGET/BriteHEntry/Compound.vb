@@ -193,7 +193,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Shared Function DownloadFromResource(EXPORT$,
                                                     Optional DirectoryOrganized As Boolean = True,
                                                     Optional forceUpdate As Boolean = False,
-                                                    Optional structInfo As Boolean = False) As String()
+                                                    Optional structInfo As Boolean = False,
+                                                    Optional maxID% = 25000) As String()
             Dim Resource = {
                 New KeyValuePair(Of String, Compound())("Compounds with biological roles", Build(BriteHText.Load(My.Resources.br08001))),
                 New KeyValuePair(Of String, Compound())("Lipids", Build(BriteHText.Load(My.Resources.br08002))),
@@ -222,14 +223,13 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim success As Index(Of String) = (ls - l - r - "*.XML" <= EXPORT) _
                 .Select(AddressOf BaseName) _
                 .Indexing
-            Dim len% = 20000
 
             Using progress As New ProgressBar("Downloads others", CLS:=True)
-                Dim tick As New ProgressProvider(len)
+                Dim tick As New ProgressProvider(maxID)
                 Dim saveDIR = EXPORT & "/OtherUnknowns/"
                 Dim skip As Boolean = False
 
-                For i As Integer = 1 To 20000
+                For i As Integer = 1 To maxID
                     Dim id = "C" & i.FormatZero("00000")
 
                     If success(id) = -1 Then

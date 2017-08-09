@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e89d959110b2169617801aa4c68c726, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\polysat\API.vb"
+﻿#Region "Microsoft.VisualBasic::9c1428d160f391a0e1a3dd07e23b6f2d, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\polysat\API.vb"
 
     ' Author:
     ' 

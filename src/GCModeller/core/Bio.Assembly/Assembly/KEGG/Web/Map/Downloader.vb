@@ -1,6 +1,7 @@
-﻿Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+﻿Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 
 Namespace Assembly.KEGG.WebServices
 
@@ -14,10 +15,20 @@ Namespace Assembly.KEGG.WebServices
             Dim failures As New List(Of String)
             Dim tick As New ProgressProvider(briefEntries.Length)
             Dim msg$
+            Dim getID = Function(entry As BriteHEntry.Pathway)
+                            If briefFile Is Nothing Then
+                                Return "map" & entry.EntryId
+                            Else
+                                Dim s = entry.Entry.Value
+                                s = Regex.Match(s, "\[PATH:.+?\]", RegexICSng).Value
+                                s = s.GetStackValue("[", "]").Split(":"c).Last
+                                Return s
+                            End If
+                        End Function
 
             Using progress As New ProgressBar("Downloads KEGG pathway map data...", CLS:=True)
                 For Each entry In briefEntries
-                    Dim id$ = "map" & entry.EntryId
+                    Dim id$ = getID(entry)
                     Dim url$ = $"http://www.genome.jp/kegg-bin/show_pathway?{id}"
                     Dim save$ = EXPORT & $"/{id}.XML"
 
@@ -38,6 +49,17 @@ Namespace Assembly.KEGG.WebServices
             End Using
 
             Return failures
+        End Function
+
+        Public Function DownloadHumans(EXPORT$) As String()
+            Dim url$ = "http://www.kegg.jp/kegg-bin/download_htext?htext=hsa00001.keg&format=htext&filedir="
+            Dim temp = App.GetAppSysTempFile(".txt")
+
+            If Not url.DownloadFile(temp) Then
+                Throw New UnauthorizedAccessException
+            End If
+
+            Return Downloader.Downloads(EXPORT, briefFile:=temp)
         End Function
     End Module
 End Namespace
