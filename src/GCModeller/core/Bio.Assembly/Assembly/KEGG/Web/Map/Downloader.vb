@@ -1,4 +1,5 @@
 ﻿Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -33,9 +34,12 @@ Namespace Assembly.KEGG.WebServices
                     Dim save$ = EXPORT & $"/{id}.XML"
 
                     Try
-                        Call Map.ParseHTML(url) _
-                            .GetXml _
-                            .SaveTo(save)
+                        If Not save.FileExists(True) Then
+                            Call Map.ParseHTML(url) _
+                                .GetXml _
+                                .SaveTo(save)
+                            Call Thread.Sleep(2500)
+                        End If
                     Catch ex As Exception
                         failures += id
                         Call ex.PrintException

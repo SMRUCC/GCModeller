@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
@@ -39,28 +40,28 @@ Namespace SequenceModel
     <Package("MolecularWeights", Publisher:="xie.guigang@gcmodeller.org")>
     Public Module MolecularWeightCalculator
 
-        Private ReadOnly AminoAcidMolecularWeights As SortedDictionary(Of AminoAcid, Double) =
-            New SortedDictionary(Of AminoAcid, Double) From {
-                {AminoAcid.Alanine, 71.0779},
-                {AminoAcid.Arginine, 156.1857},
-                {AminoAcid.Asparagine, 114.1026},
-                {AminoAcid.AsparticAcid, 115.0874},
-                {AminoAcid.Cysteine, 103.1429},
-                {AminoAcid.GlutamicAcid, 129.114},
-                {AminoAcid.Glutamine, 128.1292},
-                {AminoAcid.Glycine, 57.0513},
-                {AminoAcid.Histidine, 137.1393},
-                {AminoAcid.Isoleucine, 113.1576},
-                {AminoAcid.Leucine, 113.1576},
-                {AminoAcid.Lysine, 128.1723},
-                {AminoAcid.Methionine, 131.1961},
-                {AminoAcid.Phenylalanine, 147.1739},
-                {AminoAcid.Praline, 97.1152},
-                {AminoAcid.Serine, 87.0773},
-                {AminoAcid.Threonine, 101.1039},
-                {AminoAcid.Tryptophane, 186.2099},
-                {AminoAcid.Tyrosine, 163.1733},
-                {AminoAcid.Valine, 99.1311}}
+        Private ReadOnly AminoAcidMolecularWeights As New SortedDictionary(Of AminoAcid, Double) From {
+            {AminoAcid.Alanine, 71.0779},
+            {AminoAcid.Arginine, 156.1857},
+            {AminoAcid.Asparagine, 114.1026},
+            {AminoAcid.AsparticAcid, 115.0874},
+            {AminoAcid.Cysteine, 103.1429},
+            {AminoAcid.GlutamicAcid, 129.114},
+            {AminoAcid.Glutamine, 128.1292},
+            {AminoAcid.Glycine, 57.0513},
+            {AminoAcid.Histidine, 137.1393},
+            {AminoAcid.Isoleucine, 113.1576},
+            {AminoAcid.Leucine, 113.1576},
+            {AminoAcid.Lysine, 128.1723},
+            {AminoAcid.Methionine, 131.1961},
+            {AminoAcid.Phenylalanine, 147.1739},
+            {AminoAcid.Praline, 97.1152},
+            {AminoAcid.Serine, 87.0773},
+            {AminoAcid.Threonine, 101.1039},
+            {AminoAcid.Tryptophane, 186.2099},
+            {AminoAcid.Tyrosine, 163.1733},
+            {AminoAcid.Valine, 99.1311}
+        }
 
         Private ReadOnly NucleicAcidsMolecularWeights As SortedDictionary(Of Char, Double) =
             New SortedDictionary(Of Char, Double) From {
@@ -68,7 +69,8 @@ Namespace SequenceModel
                 {"C"c, 467.2},
                 {"G"c, 507.2},
                 {"T"c, 482.2},
-                {"U"c, 324.2}}
+                {"U"c, 324.2}
+        }
 
         ''' <summary>
         ''' 计算蛋白质序列的相对分子质量
@@ -77,15 +79,15 @@ Namespace SequenceModel
         ''' <returns></returns>
         <ExportAPI("MW.Polypeptide")>
         Public Function CalcMW_Polypeptide(SequenceData As ISequenceModel) As Double
-            Dim Polypeptide = ConstructVector(SequenceData.SequenceData)
-            Dim LQuery = (From aa In Polypeptide Select AminoAcidMolecularWeights(aa)).Sum
-            Return LQuery
+            Return SequenceData.SequenceData.CalcMW_Polypeptide
         End Function
 
         <ExportAPI("MW.Polypeptide")>
-        Public Function CalcMW_Polypeptide(SequenceData As String) As Double
-            Dim Polypeptide = ConstructVector(SequenceData)
-            Dim LQuery = (From aa In Polypeptide Select AminoAcidMolecularWeights(aa)).Sum
+        <Extension> Public Function CalcMW_Polypeptide(SequenceData As String) As Double
+            Dim polypeptide = ConstructVector(SequenceData)
+            Dim LQuery = Aggregate aa As AminoAcid
+                         In polypeptide
+                         Into Sum(AminoAcidMolecularWeights(aa))
             Return LQuery
         End Function
 
@@ -96,10 +98,11 @@ Namespace SequenceModel
         ''' <returns></returns>
         <ExportAPI("MW.NT")>
         Public Function CalcMW_Nucleotides(SequenceData As ISequenceModel) As Double
-            Dim LQuery As Double = (From ch As Char
-                                    In SequenceData.SequenceData.ToUpper
-                                    Select NucleicAcidsMolecularWeights(ch)).Sum
-            Return LQuery
+            With SequenceData.SequenceData
+                Return Aggregate ch As Char
+                       In .ToUpper
+                       Into Sum(NucleicAcidsMolecularWeights(ch))
+            End With
         End Function
     End Module
 End Namespace

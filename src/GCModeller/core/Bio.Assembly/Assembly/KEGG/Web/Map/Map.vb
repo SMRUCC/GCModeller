@@ -26,6 +26,8 @@
 
 #End Region
 
+Imports System.Drawing
+Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
@@ -33,6 +35,7 @@ Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices
@@ -47,6 +50,12 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         <XmlText>
         Public Property PathwayImage As String
+
+        Public Function GetImage() As Image
+            Dim lines$() = PathwayImage.lTokens
+            Dim base64$ = String.Join("", lines)
+            Return Base64Codec.GetImage(base64)
+        End Function
 
         Public Overrides Function ToString() As String
             Return Areas.GetJson
@@ -67,7 +76,9 @@ Namespace Assembly.KEGG.WebServices
 
             With "http://www.genome.jp/" & img.ImageSource
                 Call .DownloadFile(tmp)
+
                 img = tmp.LoadImage.ToBase64String
+                img = FastaToken.SequenceLineBreak(200, img)
             End With
 
             Return New Map With {
