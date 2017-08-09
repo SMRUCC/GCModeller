@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1620718fbe0ab39c0f0fdeaeabdaccd2, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\out.vb"
+﻿#Region "Microsoft.VisualBasic::0e5c5b72f988c07a960bc40b783f754b, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\out.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,6 @@
 
 #End Region
 
-
 <AttributeUsage(AttributeTargets.Class, AllowMultiple:=False, Inherited:=True)>
 Public Class out : Inherits Attribute
 
@@ -47,4 +46,3 @@ Public Class out : Inherits Attribute
         Return Parser.ToString
     End Function
 End Class
-
