@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2e67bb6e4e5b8829ff378ffe4c371121, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\forecast\Class1.vb"
+﻿#Region "Microsoft.VisualBasic::9b5889a63a2df73d205e61daa894c7f3, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\forecast\Class1.vb"
 
     ' Author:
     ' 
@@ -29,4 +29,3 @@
 Public Class Class1
 
 End Class
-

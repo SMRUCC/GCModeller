@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e2f53a91775631ea02a874ffc04fe9d, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\var.vb"
+﻿#Region "Microsoft.VisualBasic::feac868bdbb7360cab8ec94e7d64d5f0, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\var.vb"
 
     ' Author:
     ' 
@@ -186,4 +186,3 @@ Public Class var
         Return New var(Scripting.ToString(expr.value, NULL))
     End Operator
 End Class
-

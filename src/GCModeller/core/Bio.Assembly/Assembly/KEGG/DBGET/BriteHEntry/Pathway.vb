@@ -129,7 +129,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 ElseIf Id = "C"c Then
                     Dim IdNum As String = Regex.Match(line, "\d{5}").Value
 
-                    line = line.Replace(IdNum, "").Trim
+                    line = Mid(line, IdNum.Length + 1).Trim
                     out += New Pathway With {
                         .Category = category,
                         .Class = [class],

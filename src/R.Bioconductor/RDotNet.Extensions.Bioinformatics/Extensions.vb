@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72245f2da6f6fa74b208642441ededcc, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e9576a3c6079979590327e5a74a462d6, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,4 +31,3 @@ Module Extensions
     Public Const NA As String = NameOf(NA)
 
 End Module
-
