@@ -360,21 +360,31 @@ AAGCGAACAAATGTTCTATA"
             End If
 
             Call sb.AppendLine()
-
-            If lineBreak <= 0 Then
-                Call sb.AppendLine(SequenceData)
-            Else
-                For i As Integer = 1 To Len(SequenceData) Step lineBreak
-                    Dim sg As String = Mid(SequenceData, i, lineBreak)
-                    Call sb.AppendLine(sg)
-                Next
-            End If
+            Call SequenceLineBreak(sb, lineBreak, SequenceData)
 
             If removeCR Then
                 Call sb.Replace(vbCr, "")
             End If
 
             Return sb.ToString
+        End Function
+
+        Public Shared Sub SequenceLineBreak(ByRef sb As StringBuilder, lineBreak%, sequence$)
+            If lineBreak <= 0 Then
+                Call sb.AppendLine(sequence)
+            Else
+                For i As Integer = 1 To Len(sequence) Step lineBreak
+                    Dim sg As String = Mid(sequence, i, lineBreak)
+                    Call sb.AppendLine(sg)
+                Next
+            End If
+        End Sub
+
+        Public Shared Function SequenceLineBreak(lineBreak%, sequence$) As String
+            With New StringBuilder
+                FastaToken.SequenceLineBreak(.ref, lineBreak, sequence)
+                Return .ToString
+            End With
         End Function
 
         ''' <summary>

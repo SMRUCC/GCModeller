@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
@@ -33,6 +34,7 @@ Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices
@@ -67,7 +69,9 @@ Namespace Assembly.KEGG.WebServices
 
             With "http://www.genome.jp/" & img.ImageSource
                 Call .DownloadFile(tmp)
+
                 img = tmp.LoadImage.ToBase64String
+                img = FastaToken.SequenceLineBreak(200, img)
             End With
 
             Return New Map With {
