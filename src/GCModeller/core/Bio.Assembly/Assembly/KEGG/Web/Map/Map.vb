@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -49,6 +50,12 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         <XmlText>
         Public Property PathwayImage As String
+
+        Public Function GetImage() As Image
+            Dim lines$() = PathwayImage.lTokens
+            Dim base64$ = String.Join("", lines)
+            Return Base64Codec.GetImage(base64)
+        End Function
 
         Public Overrides Function ToString() As String
             Return Areas.GetJson
