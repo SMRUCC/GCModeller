@@ -45,7 +45,7 @@ Namespace Assembly.KEGG.WebServices
             Dim scaleFactor As SizeF = scale.FloatSizeParser
 
             If font Is Nothing Then
-                font = New Font(FontFace.MicrosoftYaHei, 10, FontStyle.Regular)
+                font = New Font(FontFace.SimSun, 10, FontStyle.Regular)
             End If
 
             Using g As Graphics2D = pathway.GetImage.CreateCanvas2D(directAccess:=True)
@@ -71,32 +71,45 @@ Namespace Assembly.KEGG.WebServices
                 End If
 
                 Dim brush As Brush = id.Value.GetBrush
-                Dim strSize = g.MeasureString(id.Name, font)
 
-                For Each shape In shapes(id.Name)
-                    Dim rect As RectangleF = shape.Rectangle.Scale(scale)
+                With shapes(id.Name)
+                    Dim name As String = .Name
+                    Dim strSize = g.MeasureString(name, font)
 
-                    g.FillRectangle(brush, rect)
-                    g.DrawRectangle(Pens.Black, rect)
-                    g.DrawString(id.Name, font, pen, rect.CenterAlign(strSize))
-                Next
+                    For Each shape As Area In .Value
+                        Dim rect As RectangleF = shape.Rectangle.Scale(scale)
+
+                        g.FillRectangle(brush, rect)
+                        g.DrawRectangle(Pens.Black, rect)
+                        g.DrawString(name, font, pen, rect.CenterAlign(strSize))
+                    Next
+                End With
             Next
         End Sub
 
-        Private Shared Function getAreas(map As Map, type$) As Dictionary(Of String, Area())
+        Private Shared Function getAreas(map As Map, type$) As Dictionary(Of String, NamedValue(Of Area()))
             Dim shapes = map.Areas _
                 .Where(Function(x) x.Type = type) _
                 .Select(Function(x)
+                            Dim titles = x.Names
                             Return x.IdList _
+                                .SeqIterator _
                                 .Select(Function(cpd) New NamedValue(Of Area) With {
-                                    .Name = cpd,
-                                    .Value = x
+                                    .Name = cpd.value,
+                                    .Value = x,
+                                    .Description = titles(cpd).Value
                                 })
                         End Function) _
                 .IteratesALL _
                 .GroupBy(Function(x) x.Name) _
                 .ToDictionary(Function(x) x.Key,
-                              Function(group) group.Values)
+                              Function(group)
+                                  Dim name$ = group.First.Description
+                                  Return New NamedValue(Of Area()) With {
+                                      .Name = name,
+                                      .Value = group.Values
+                                  }
+                              End Function)
             Return shapes
         End Function
 
