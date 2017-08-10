@@ -72,7 +72,7 @@ Namespace Assembly.KEGG.WebServices
                 Dim strSize = g.MeasureString(id.Name, font)
 
                 For Each shape In shapes(id.Name)
-                    Dim rect As RectangleF = shape.Rectangle
+                    Dim rect As RectangleF = shape.Rectangle.Scale(New Size(1.5, 1.5))
 
                     g.FillRectangle(brush, rect)
                     g.DrawRectangle(Pens.Black, rect)
