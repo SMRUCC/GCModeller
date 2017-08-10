@@ -150,6 +150,24 @@ Namespace Assembly.KEGG.WebServices
             End Get
         End Property
 
+        Public ReadOnly Property Names As NamedValue(Of String)()
+            Get
+                Dim t = title _
+                    .Split(","c) _
+                    .Select(AddressOf Trim) _
+                    .Select(Function(s)
+                                Dim name = s.GetTagValue(" ")
+                                Return New NamedValue(Of String) With {
+                                    .Name = name.Name,
+                                    .Value = name.Value.GetStackValue("(", ")")
+                                }
+                            End Function) _
+                    .ToArray
+
+                Return t
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function

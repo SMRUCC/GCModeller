@@ -43,7 +43,7 @@ Namespace Assembly.KEGG.WebServices
             Dim pen As Brush = textColor.GetBrush
 
             If font Is Nothing Then
-                font = New Font(FontFace.MicrosoftYaHei, 12, FontStyle.Bold)
+                font = New Font(FontFace.MicrosoftYaHei, 11, FontStyle.Bold)
             End If
 
             Using g As Graphics2D = pathway.GetImage.CreateCanvas2D(directAccess:=True)
