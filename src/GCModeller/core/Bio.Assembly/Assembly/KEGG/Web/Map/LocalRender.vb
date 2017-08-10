@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Assembly.KEGG.WebServices
 
@@ -37,18 +38,19 @@ Namespace Assembly.KEGG.WebServices
             Return New LocalRender(maps)
         End Function
 
-        Public Function Rendering(url$, Optional font As Font = Nothing, Optional textColor$ = "white") As Image
+        Public Function Rendering(url$, Optional font As Font = Nothing, Optional textColor$ = "white", Optional scale$ = "1,1") As Image
             Dim data = URLEncoder.URLParser(url)
             Dim pathway As Map = mapTable(data.Name)
             Dim pen As Brush = textColor.GetBrush
+            Dim scaleFactor As SizeF = scale.FloatSizeParser
 
             If font Is Nothing Then
-                font = New Font(FontFace.MicrosoftYaHei, 11, FontStyle.Bold)
+                font = New Font(FontFace.MicrosoftYaHei, 10, FontStyle.Regular)
             End If
 
             Using g As Graphics2D = pathway.GetImage.CreateCanvas2D(directAccess:=True)
-                Call renderGenes(g, font, pen, pathway, data.Value)
-                Call renderCompound(g, font, pen, pathway, data.Value)
+                Call renderGenes(g, font, pen, pathway, scaleFactor, data.Value)
+                Call renderCompound(g, font, pen, pathway, scaleFactor, data.Value)
 
                 Return g
             End Using
@@ -60,7 +62,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="g"></param>
         ''' <param name="map"></param>
         ''' <param name="list"></param>
-        Private Shared Sub renderGenes(ByRef g As Graphics2D, font As Font, pen As Brush, map As Map, list As NamedValue(Of String)())
+        Private Shared Sub renderGenes(ByRef g As Graphics2D, font As Font, pen As Brush, map As Map, scale As SizeF, list As NamedValue(Of String)())
             Dim shapes = getAreas(map, "Gene")
 
             For Each id As NamedValue(Of String) In list
@@ -72,7 +74,7 @@ Namespace Assembly.KEGG.WebServices
                 Dim strSize = g.MeasureString(id.Name, font)
 
                 For Each shape In shapes(id.Name)
-                    Dim rect As RectangleF = shape.Rectangle.Scale(New Size(1.5, 1.5))
+                    Dim rect As RectangleF = shape.Rectangle.Scale(scale)
 
                     g.FillRectangle(brush, rect)
                     g.DrawRectangle(Pens.Black, rect)
@@ -104,7 +106,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="g"></param>
         ''' <param name="map"></param>
         ''' <param name="list"></param>
-        Private Shared Sub renderCompound(ByRef g As Graphics2D, font As Font, pen As Brush, map As Map, list As NamedValue(Of String)())
+        Private Shared Sub renderCompound(ByRef g As Graphics2D, font As Font, pen As Brush, map As Map, scale As SizeF, list As NamedValue(Of String)())
             Dim shapes = getAreas(map, "Compound")
 
             For Each id As NamedValue(Of String) In list
