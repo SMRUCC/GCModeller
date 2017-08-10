@@ -99,6 +99,28 @@ Namespace Assembly.KEGG.WebServices
         <XmlElement> Public Property href As String
         <XmlElement> Public Property title As String
 
+        Public ReadOnly Property Rectangle As RectangleF
+            Get
+                Dim t#() = coords _
+                    .Split(","c) _
+                    .Select(AddressOf Val) _
+                    .ToArray
+                Dim pt As New PointF(t(0), t(1))
+
+                If t.Length = 3 Then
+                    Return New RectangleF(pt, New SizeF(t(2), t(2)))
+                ElseIf t.Length = 4 Then
+                    Return New RectangleF(pt, New SizeF(t(2), t(3)))
+                Else
+                    Throw New NotImplementedException(coords)
+                End If
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Compound, Gene, Pathway
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Type As String
             Get
                 If InStr(href, "/dbget-bin/www_bget") = 1 Then
@@ -108,13 +130,13 @@ Namespace Assembly.KEGG.WebServices
                         ElseIf .IndexOf(":"c) > -1 Then
                             Return "Gene"
                         Else
-                            Throw New NotImplementedException
+                            Throw New NotImplementedException(Me.GetXml)
                         End If
                     End With
                 ElseIf InStr(href, "/kegg-bin/show_pathway") = 1 Then
                     Return NameOf(Pathway)
                 Else
-                    Throw New NotImplementedException
+                    Throw New NotImplementedException(Me.GetXml)
                 End If
             End Get
         End Property
