@@ -110,7 +110,8 @@ Namespace Assembly.KEGG.WebServices
                 If t.Length = 3 Then
                     Return New RectangleF(pt, New SizeF(t(2), t(2)))
                 ElseIf t.Length = 4 Then
-                    Return New RectangleF(pt, New SizeF(t(2), t(3)))
+                    Dim size As New SizeF(t(2) - pt.X, t(3) - pt.Y)
+                    Return New RectangleF(pt, size)
                 Else
                     Throw New NotImplementedException(coords)
                 End If
