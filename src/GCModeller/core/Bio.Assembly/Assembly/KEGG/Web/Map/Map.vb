@@ -129,6 +129,8 @@ Namespace Assembly.KEGG.WebServices
                             Return NameOf(Compound)
                         ElseIf .IndexOf(":"c) > -1 Then
                             Return "Gene"
+                        ElseIf shape = "rect" AndAlso .IndexOf(":"c) = -1 Then
+                            Return NameOf(Pathway)
                         Else
                             Throw New NotImplementedException(Me.GetXml)
                         End If
