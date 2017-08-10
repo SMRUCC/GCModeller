@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace SwissTCS
 
@@ -218,7 +219,7 @@ Namespace SwissTCS
         End Function
 
         <ExportAPI("TCS.Sequence.Downloads")>
-        Public Function DownloadTcsSequence(DIR As String) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
+        Public Function DownloadTcsSequence(DIR As String) As FastaFile
             Dim profiles As CrossTalks() = (From path As String
                                             In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchAllSubDirectories, "*.csv").AsParallel
                                             Let data = path.LoadCsv(Of CrossTalks)(False)
@@ -237,10 +238,10 @@ Namespace SwissTCS
                      Order By Trimed Ascending).ToArray
             Dim LQuery = (From sId As String
                           In lstId
-                          Let gFa As SequenceModel.FASTA.FastaToken = SMRUCC.genomics.Assembly.KEGG.WebServices.Downloads(DIR, sId)
+                          Let gFa As SequenceModel.FASTA.FastaToken = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.Downloads(DIR, sId)
                           Where Not gFa Is Nothing
                           Select gFa).ToArray
-            Return New SMRUCC.genomics.SequenceModel.FASTA.FastaFile(LQuery)
+            Return New FastaFile(LQuery)
         End Function
 
         Private Function __trim(sId As String) As String
@@ -253,7 +254,7 @@ Namespace SwissTCS
             End If
         End Function
 
-        <Extension> Public Function CrossTalk(profiles As Generic.IEnumerable(Of CrossTalks), HisK As String, RR As String) As Double
+        <Extension> Public Function CrossTalk(profiles As IEnumerable(Of CrossTalks), HisK As String, RR As String) As Double
             Dim LQuery = (From ctk As CrossTalks
                           In profiles
                           Where Graph.Abstract.Contains(ctk, HisK) AndAlso Graph.Abstract.Contains(ctk, RR)
