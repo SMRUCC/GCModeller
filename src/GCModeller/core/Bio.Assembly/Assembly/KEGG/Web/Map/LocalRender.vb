@@ -19,16 +19,19 @@ Namespace Assembly.KEGG.WebServices
             Dim data = URLEncoder.URLParser(url)
             Dim pathway As Map = mapTable(data.Name)
 
-            Using g As Graphics2D = pathway.PathwayImage
+            Using g As Graphics2D = pathway.GetImage.CreateCanvas2D(directAccess:=True)
+                Call renderGenes(g, pathway, data.Value)
+                Call renderCompound(g, pathway, data.Value)
 
+                Return g
             End Using
         End Function
 
-        Private Shared Sub renderGenes(ByRef g As Graphics, brush As Brush, map As Map, id As NamedValue(Of String)())
+        Private Shared Sub renderGenes(ByRef g As Graphics2D, map As Map, id As NamedValue(Of String)())
 
         End Sub
 
-        Private Shared Sub renderCompound(ByRef g As Graphics, map As Map, id As NamedValue(Of String)())
+        Private Shared Sub renderCompound(ByRef g As Graphics2D, map As Map, id As NamedValue(Of String)())
 
         End Sub
     End Class
