@@ -113,6 +113,15 @@ Namespace Assembly.KEGG.WebServices
                 End If
 
                 Dim brush As Brush = id.Value.GetBrush
+                Dim strSize = g.MeasureString(id.Name, font)
+
+                For Each shape In shapes(id.Name)
+                    Dim rect As RectangleF = shape.Rectangle
+
+                    g.FillPie(brush, rect, 0, 360)
+                    g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
+                    g.DrawString(id.Name, font, pen, rect.CenterAlign(strSize))
+                Next
             Next
         End Sub
     End Class
