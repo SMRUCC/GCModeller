@@ -33,6 +33,10 @@ Namespace Assembly.KEGG.WebServices
                     Dim url$ = $"http://www.genome.jp/kegg-bin/show_pathway?{id}"
                     Dim save$ = EXPORT & $"/{id}.XML"
 
+                    If id.StringEmpty Then
+                        Continue For
+                    End If
+
                     Try
                         If Not save.FileExists(True) Then
                             Call Map.ParseHTML(url) _
