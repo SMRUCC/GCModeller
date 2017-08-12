@@ -108,7 +108,10 @@ Namespace Assembly.KEGG.WebServices
                 Dim pt As New PointF(t(0), t(1))
 
                 If t.Length = 3 Then
-                    Return New RectangleF(pt, New SizeF(t(2), t(2)))
+                    ' 中心点(x, y), r
+                    Dim r# = t(2)
+                    pt = New PointF(pt.X - r / 2, pt.Y - r / 2)
+                    Return New RectangleF(pt, New SizeF(r, r))
                 ElseIf t.Length = 4 Then
                     Dim size As New SizeF(t(2) - pt.X, t(3) - pt.Y)
                     Return New RectangleF(pt, size)

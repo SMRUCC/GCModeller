@@ -122,6 +122,8 @@ Namespace Assembly.KEGG.WebServices
         Private Shared Sub renderCompound(ByRef g As Graphics2D, font As Font, pen As Brush, map As Map, scale As SizeF, list As NamedValue(Of String)())
             Dim shapes = getAreas(map, "Compound")
 
+            pen = Brushes.Blue
+
             For Each id As NamedValue(Of String) In list
                 If Not shapes.ContainsKey(id.Name) Then
                     Continue For
