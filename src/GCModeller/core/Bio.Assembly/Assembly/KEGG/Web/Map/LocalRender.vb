@@ -106,7 +106,7 @@ Namespace Assembly.KEGG.WebServices
                               Function(group)
                                   Dim name$ = group.First.Description
                                   Return New NamedValue(Of Area()) With {
-                                      .Name = name,
+                                      .name = name,
                                       .Value = group.Values
                                   }
                               End Function)
