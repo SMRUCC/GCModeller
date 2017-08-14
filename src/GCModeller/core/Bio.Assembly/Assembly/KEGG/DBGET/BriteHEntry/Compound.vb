@@ -175,7 +175,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' Removes all of the download failured result from the workspace
         ''' </summary>
         ''' <param name="DIR$"></param>
-        Public Sub WorkspaceCleanup(DIR$)
+        Public Shared Sub WorkspaceCleanup(DIR$)
             On Error Resume Next
 
             For Each XML As String In ls - l - r - "*.XML" <= DIR
@@ -194,6 +194,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                     Call FileIO.FileSystem.DeleteFile(XML)
                     Call FileIO.FileSystem.DeleteFile(XML.TrimSuffix & ".KCF")
                     Call FileIO.FileSystem.DeleteFile(XML.TrimSuffix & ".gif")
+
+                    cat(".")
                 End If
             Next
         End Sub
