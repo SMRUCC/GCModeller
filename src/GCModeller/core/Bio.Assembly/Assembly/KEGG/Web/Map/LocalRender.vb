@@ -50,7 +50,7 @@ Namespace Assembly.KEGG.WebServices
 
             Using g As Graphics2D = pathway.GetImage.CreateCanvas2D(directAccess:=True)
                 Call renderGenes(g, font, pen, pathway, scaleFactor, data.Value)
-                Call renderCompound(g, font, pen, pathway, scaleFactor, data.Value)
+                Call renderCompound(g, font, pathway, data.Value)
 
                 Return g
             End Using
@@ -106,7 +106,7 @@ Namespace Assembly.KEGG.WebServices
                               Function(group)
                                   Dim name$ = group.First.Description
                                   Return New NamedValue(Of Area()) With {
-                                      .Name = name,
+                                      .name = name,
                                       .Value = group.Values
                                   }
                               End Function)
@@ -119,8 +119,9 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="g"></param>
         ''' <param name="map"></param>
         ''' <param name="list"></param>
-        Private Shared Sub renderCompound(ByRef g As Graphics2D, font As Font, pen As Brush, map As Map, scale As SizeF, list As NamedValue(Of String)())
+        Private Shared Sub renderCompound(ByRef g As Graphics2D, font As Font, map As Map, list As NamedValue(Of String)())
             Dim shapes = getAreas(map, "Compound")
+            Dim scaleCircle As New SizeF(2, 2)
 
             For Each id As NamedValue(Of String) In list
                 If Not shapes.ContainsKey(id.Name) Then
@@ -129,7 +130,6 @@ Namespace Assembly.KEGG.WebServices
 
                 Dim brush As Brush = id.Value.GetBrush
 
-
                 With shapes(id.Name)
                     Dim name As String = .Name
                     Dim strSize = g.MeasureString(name, font)
@@ -137,9 +137,8 @@ Namespace Assembly.KEGG.WebServices
                     For Each shape As Area In .Value
                         Dim rect As RectangleF = shape.Rectangle
 
-                        g.FillPie(brush, rect, 0, 360)
+                        g.FillPie(brush, rect.Scale(scaleCircle), 0, 360)
                         g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
-                        g.DrawString(name, font, pen, rect.CenterAlign(strSize))
                     Next
                 End With
             Next
