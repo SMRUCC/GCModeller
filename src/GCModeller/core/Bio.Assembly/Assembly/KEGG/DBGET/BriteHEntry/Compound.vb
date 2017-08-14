@@ -291,7 +291,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             If entryID.First = "G"c Then
                 Dim gl As Glycan = Glycan.Download(entryID)
 
-                If gl Is Nothing Then
+                If gl.IsNullOrEmpty Then
                     Call $"[{entryID}] is not exists in the kegg!".Warning
                     Return False
                 Else
@@ -300,7 +300,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Else
                 Dim cpd As bGetObject.Compound = MetabolitesDBGet.DownloadCompound(entryID)
 
-                If cpd Is Nothing Then
+                If cpd.IsNullOrEmpty Then
                     Call $"[{entryID}] is not exists in the kegg!".Warning
                     Return False
                 Else
