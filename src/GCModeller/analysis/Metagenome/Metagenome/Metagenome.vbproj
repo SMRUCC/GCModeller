@@ -148,6 +148,7 @@
     <Compile Include="BEBaC\Model.vb" />
     <Compile Include="BEBaC\PosteriorProbability.vb" />
     <Compile Include="BIOM.vb" />
+    <Compile Include="ACE.vb" />
     <Compile Include="OTUTable.vb" />
     <Compile Include="MeganImports.vb" />
     <Compile Include="gast\ARGV.vb" />
