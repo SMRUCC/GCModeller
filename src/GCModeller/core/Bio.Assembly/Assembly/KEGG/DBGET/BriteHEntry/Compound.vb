@@ -172,6 +172,33 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         ''' <summary>
+        ''' Removes all of the download failured result from the workspace
+        ''' </summary>
+        ''' <param name="DIR$"></param>
+        Public Sub WorkspaceCleanup(DIR$)
+            On Error Resume Next
+
+            For Each XML As String In ls - l - r - "*.XML" <= DIR
+                Dim name$ = XML.BaseName
+                Dim compound As bGetObject.Compound
+
+                If name.First = "C"c Then
+                    compound = XML.LoadXml(Of bGetObject.Compound)
+                Else
+                    compound = XML.LoadXml(Of bGetObject.Glycan)
+                End If
+
+                If compound.IsNullOrEmpty Then
+
+                    ' 这个对象是空的，需要从工作区清除
+                    Call FileIO.FileSystem.DeleteFile(XML)
+                    Call FileIO.FileSystem.DeleteFile(XML.TrimSuffix & ".KCF")
+                    Call FileIO.FileSystem.DeleteFile(XML.TrimSuffix & ".gif")
+                End If
+            Next
+        End Sub
+
+        ''' <summary>
         ''' 请注意，这个函数只能够下载包含有分类信息的化合物，假若代谢物还没有分类信息的话，则无法利用这个函数进行下载
         ''' 
         ''' + ``br08001``  Compounds with biological roles
