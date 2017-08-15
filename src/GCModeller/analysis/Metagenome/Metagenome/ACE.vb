@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
 ''' Ace – the ACE estimator (http://www.mothur.org/wiki/Ace)；用来估计群落中OTU 数目的指数，由Chao 提出，是生态学中估计物种总数的常用指数之一
@@ -32,20 +33,16 @@ Public Module ACE
         Return S(OTUs, groups, 11, Sobs)
     End Function
 
-    Public Function Nrare(OTUs As OTUTable(), groups$()) As Dictionary(Of String, Double)
-        Dim n As Dictionary(Of String, Double) = groups _
-            .ToDictionary(Function(name) name,
-                          Function(x) 0R)
+    Public Function Nrare(OTUs As OTUTable(), groups As NamedVectorFactory) As Dictionary(Of String, Double)
+        Dim n As Vector = groups.EmptyVector
+        Dim fk As Dictionary(Of String, Double)
 
         For k As Integer = 1 To 10
-            Dim fk = F(OTUs, groups, k)
-
-            For Each name In groups
-                n(name) += k * fk(name)
-            Next
+            fk = F(OTUs, groups.Keys, k)
+            n += k * groups.AsVector(fk)
         Next
 
-        Return n
+        Return groups.Translate(n)
     End Function
 
     Public Function F(OTUs As OTUTable(), groups$(), k#) As Dictionary(Of String, Double)
