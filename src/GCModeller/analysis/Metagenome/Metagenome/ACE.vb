@@ -1,30 +1,30 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.SyntaxAPI.MathExtension
 
 ''' <summary>
 ''' Ace – the ACE estimator (http://www.mothur.org/wiki/Ace)；用来估计群落中OTU 数目的指数，由Chao 提出，是生态学中估计物种总数的常用指数之一
 ''' </summary>
 Public Module ACE
 
-    <Extension> Public Function Srare(OTUs As OTUTable(), groups$()) As Dictionary(Of String, Double)
+    <Extension> Public Function Srare(OTUs As OTUTable(), groups As NamedVectorFactory) As Vector
         Return S(OTUs, groups, 1, 10)
     End Function
 
-    Public Function S(OTUs As OTUTable(), groups$(), min%, max%) As Dictionary(Of String, Double)
-        Dim n As Dictionary(Of String, Double) = groups.ToDictionary(Function(name) name, Function(x) 0R)
+    Public Function S(OTUs As OTUTable(), groups As NamedVectorFactory, min%, max%) As Vector
+        Dim n As Vector = groups.EmptyVector
+        Dim fk As Dictionary(Of String, Double)
 
         For k As Integer = min To max
-            Dim fk = F(OTUs, groups, k)
-
-            For Each name In groups
-                n(name) += fk(name)
-            Next
+            fk = F(OTUs, groups.Keys, k)
+            n += groups.AsVector(fk)
         Next
 
         Return n
     End Function
 
-    Public Function Sabund(OTUs As OTUTable(), groups$()) As Dictionary(Of String, Double)
+    Public Function Sabund(OTUs As OTUTable(), groups As NamedVectorFactory) As Vector
         Dim Sobs As Double = OTUs _
             .Select(Function(otu) otu.Properties.Values) _
             .IteratesALL _
@@ -32,17 +32,13 @@ Public Module ACE
         Return S(OTUs, groups, 11, Sobs)
     End Function
 
-    Public Function Nrare(OTUs As OTUTable(), groups$()) As Dictionary(Of String, Double)
-        Dim n As Dictionary(Of String, Double) = groups _
-            .ToDictionary(Function(name) name,
-                          Function(x) 0R)
+    Public Function Nrare(OTUs As OTUTable(), groups As NamedVectorFactory) As Vector
+        Dim n As Vector = groups.EmptyVector
+        Dim fk As Dictionary(Of String, Double)
 
         For k As Integer = 1 To 10
-            Dim fk = F(OTUs, groups, k)
-
-            For Each name In groups
-                n(name) += k * fk(name)
-            Next
+            fk = F(OTUs, groups.Keys, k)
+            n += k * groups.AsVector(fk)
         Next
 
         Return n
@@ -64,51 +60,41 @@ Public Module ACE
         Return fk
     End Function
 
-    Public Function C_ACE(OTUs As OTUTable(), groups$()) As Dictionary(Of String, Double)
-        Dim f1 = F(OTUs, groups, k:=1)
+    Public Function C_ACE(OTUs As OTUTable(), groups As NamedVectorFactory) As Vector
+        Dim f1 = groups.AsVector(F(OTUs, groups.Keys, k:=1))
         Dim n = Nrare(OTUs, groups)
-        Dim c = groups.ToDictionary(Function(name) name,
-                                    Function(g) 1 - f1(g) / n(g))
+        Dim c = 1 - f1 / n
         Return c
     End Function
 
     Public Function S_ACE(OTUs As OTUTable(), groups$()) As Dictionary(Of String, Double)
-        Dim Sa = Sabund(OTUs, groups)
-        Dim Sr = Srare(OTUs, groups)
-        Dim C = C_ACE(OTUs, groups)
-        Dim f1 = F(OTUs, groups, k:=1)
-        Dim n = Nrare(OTUs, groups)
-        Dim gamma = GammaACE(OTUs, groups, Sr, C, n)
-        Dim ACE = groups.ToDictionary(
-            Function(group) group,
-            Function(g)
-                Return Sa(g) + Sr(g) / C(g) + f1(g) / C(g) * gamma(g) ^ 2
-            End Function)
-        Return ACE
+        Dim factors As New NamedVectorFactory(groups)
+        Dim Sa = Sabund(OTUs, factors)
+        Dim Sr = Srare(OTUs, factors)
+        Dim C = C_ACE(OTUs, factors)
+        Dim f1 = factors.AsVector(F(OTUs, groups, k:=1))
+        Dim n = Nrare(OTUs, factors)
+        Dim gamma = GammaACE(OTUs, factors, Sr, C, n)
+        Dim ACE = Sa + Sr / C + f1 / C * gamma ^ 2
+        Return factors.Translate(ACE)
     End Function
 
-    Public Function GammaACE(OTUs As OTUTable(), groups$(), S As Dictionary(Of String, Double), C As Dictionary(Of String, Double), n As Dictionary(Of String, Double)) As Dictionary(Of String, Double)
+    Public Function GammaACE(OTUs As OTUTable(), groups As NamedVectorFactory, S As Vector, C As Vector, n As Vector) As Vector
         Dim k = SumFk(OTUs, groups)
-        Dim x = groups.ToDictionary(
-            Function(name) name,
-            Function(g)
-                Return S(g) / C(g) * k(g) / (C(g) * n(g) * (n(g) - 1)) - 1
-            End Function)
-        Dim maxGamma = x.ToDictionary(Function(g) g.Key, Function(g) Math.Max(g.Value, 0))
+        Dim x = S / C * k / (C * n * (n - 1)) - 1
+        Dim maxGamma = VectorMath.Max(x, 0)
         Return maxGamma
     End Function
 
-    Private Function SumFk(OTUs As OTUTable(), groups$()) As Dictionary(Of String, Double)
-        Dim value = groups.ToDictionary(Function(name) name, Function() 0R)
+    Private Function SumFk(OTUs As OTUTable(), groups As NamedVectorFactory) As Vector
+        Dim v As Vector = groups.EmptyVector
+        Dim fk As Dictionary(Of String, Double)
 
         For k As Integer = 1 To 10
-            Dim fk = F(OTUs, groups, k)
-
-            For Each name In groups
-                value(name) += k * (k - 1) * fk(name)
-            Next
+            fk = F(OTUs, groups.Keys, k)
+            v += k * (k - 1) * groups.AsVector(fk)
         Next
 
-        Return value
+        Return v
     End Function
 End Module

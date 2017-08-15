@@ -228,3 +228,4 @@ pip-log.txt
 /src/runtime/httpd/httpd/ftp_publish
 /.vs/GCModeller/v15
 /src/.vs/GCModeller/v15/sqlite3/storage.ide
+*.ide
