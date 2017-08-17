@@ -57,45 +57,34 @@
 '
 
 Imports System.IO
-Imports System.Security.Permissions
 Imports Microsoft.VisualBasic.Language
 
 Namespace AppEngine.POSTParser
 
     Public Class HttpPostedFile
-        Private name As String
-        Private content_type As String
-        Private stream As Stream
-
-        Public Sub New(name As String, content_type As String, base_stream As Stream, offset As Long, length As Long)
-            Me.name = name
-            Me.content_type = content_type
-            Me.stream = New ReadSubStream(base_stream, offset, length)
-        End Sub
-
-        Public ReadOnly Property ContentType() As String
-            Get
-                Return (content_type)
-            End Get
-        End Property
-
-        Public ReadOnly Property ContentLength() As Integer
-            Get
-                Return CInt(stream.Length)
-            End Get
-        End Property
 
         Public ReadOnly Property FileName() As String
+        Public ReadOnly Property InputStream() As Stream
+        Public ReadOnly Property ContentType As String
+        Public ReadOnly Property ContentLength As Integer
             Get
-                Return (name)
+                Return CInt(InputStream.Length)
             End Get
         End Property
 
-        Public ReadOnly Property InputStream() As Stream
-            Get
-                Return (stream)
-            End Get
-        End Property
+        Public Sub New(name As String, content_type As String, base_stream As Stream, offset As Long, length As Long)
+            Me.FileName = name
+            Me.ContentType = content_type
+            Me.InputStream = New ReadSubStream(base_stream, offset, length)
+        End Sub
+
+        Public Function Summary() As Dictionary(Of String, String)
+            Return New Dictionary(Of String, String) From {
+                {NameOf(FileName), FileName},
+                {NameOf(ContentType), ContentType},
+                {NameOf(ContentLength), ContentLength}
+            }
+        End Function
 
         ''' <summary>
         ''' 将用户上传的文件保存到指定的目标文件<paramref name="filename"/>之中
@@ -103,7 +92,7 @@ Namespace AppEngine.POSTParser
         ''' <param name="filename"></param>
         Public Sub SaveAs(filename As String)
             Dim buffer As Byte() = New Byte(16 * 1024 - 1) {}
-            Dim old_post As Long = stream.Position
+            Dim old_post As Long = InputStream.Position
 
             Try
                 If filename.FileExists Then
@@ -120,14 +109,14 @@ Namespace AppEngine.POSTParser
                 Using fs As FileStream = File.Create(filename)
                     Dim n As int = Scan0
 
-                    stream.Position = 0
+                    InputStream.Position = 0
 
-                    While (n = stream.Read(buffer, 0, 16 * 1024)) <> 0
-                        fs.Write(buffer, 0, n.value)
+                    While (n = InputStream.Read(buffer, 0, 16 * 1024)) <> 0
+                        fs.Write(buffer, 0, n.Value)
                     End While
                 End Using
             Finally
-                stream.Position = old_post
+                InputStream.Position = old_post
             End Try
         End Sub
     End Class
