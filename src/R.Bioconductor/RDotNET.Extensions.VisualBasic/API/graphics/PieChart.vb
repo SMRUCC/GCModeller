@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::176e8e4ee81970c2827c75e396eee09d, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\graphics\PieChart.vb"
+﻿#Region "Microsoft.VisualBasic::adf9d72c6671857ec30de2e5bd752dc7, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\graphics\PieChart.vb"
 
     ' Author:
     ' 
@@ -37,7 +37,7 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.packages.Graphics
 
 Namespace API.Graphics
 
-    <PackageNamespace("PieChart",
+    <Package("PieChart",
                   Description:="Pie charts are not recommended in the R documentation, and their features are somewhat limited. 
                   The authors recommend bar or dot plots over pie charts because people are able to judge length more accurately than volume. 
                   Pie charts are created with the function pie(x, labels=) where x is a non-negative numeric vector indicating the area of each slice and labels= notes a character vector of names for the slices.",

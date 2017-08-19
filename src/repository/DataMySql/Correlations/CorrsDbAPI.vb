@@ -40,7 +40,7 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.WGCNA
 Imports SMRUCC.genomics.Data.Model_Repository.MySQL.Tables
 
-<PackageNamespace("GCModeller.Gene.Correlations",
+<Package("GCModeller.Gene.Correlations",
                   Publisher:="xie.guigang@gcmodeller.org",
                   Category:=APICategories.ResearchTools)>
 Public Module CorrsDbAPI

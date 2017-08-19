@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::44aad776ffc1cd8473882bdf1130f9fa, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::9459fc69847bb88c00d1cf86da489877, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Reflection.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -40,7 +40,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 ''' <summary>
 ''' Some common used reflection operation extension at here.
 ''' </summary>
-<PackageNamespace("Emit.Reflection",
+<Package("Emit.Reflection",
                   Category:=APICategories.SoftwareTools,
                   Publisher:="xie.guigang@live.com")>
 Public Module EmitReflection
@@ -421,6 +421,12 @@ NULL:       If Not strict Then
             .Description([default]:=s)
     End Function
 
+    ''' <summary>
+    ''' 获取得到定义该类型成员之上的<see cref="DescriptionAttribute"/>值或者默认定义
+    ''' </summary>
+    ''' <param name="m"></param>
+    ''' <param name="default$"></param>
+    ''' <returns></returns>
     <Extension> Public Function Description(m As MemberInfo, Optional default$ = Nothing) As String
         Dim customAttrs() = m.GetCustomAttributes(
             GetType(DescriptionAttribute),
@@ -433,12 +439,24 @@ NULL:       If Not strict Then
         End If
     End Function
 
+    <Extension> Public Function Category(m As MemberInfo, Optional default$ = Nothing) As String
+        Dim customAttrs() = m.GetCustomAttributes(
+           GetType(CategoryAttribute),
+           inherit:=False)
+
+        If Not customAttrs.IsNullOrEmpty Then
+            Return DirectCast(customAttrs(Scan0), CategoryAttribute).Category
+        Else
+            Return [default]
+        End If
+    End Function
+
     ''' <summary>
     ''' Enumerate all of the enum values in the specific <see cref="System.Enum"/> type data.(只允许枚举类型，其他的都返回空集合)
     ''' </summary>
     ''' <typeparam name="T">泛型类型约束只允许枚举类型，其他的都返回空集合</typeparam>
     ''' <returns></returns>
-    Public Function Enums(Of T)() As T()
+    Public Function Enums(Of T As Structure)() As T()
         Dim EnumType As Type = GetType(T)
         If Not EnumType.IsInheritsFrom(GetType(System.Enum)) Then
             Return Nothing

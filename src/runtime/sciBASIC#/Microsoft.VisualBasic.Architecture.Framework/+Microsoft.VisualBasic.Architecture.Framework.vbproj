@@ -422,6 +422,8 @@
     <Compile Include="ComponentModel\System.Collections.Generic\Dictionary%28Of T, V%29.vb" />
     <Compile Include="ComponentModel\ValuePair\TagData\LineValue.vb" />
     <Compile Include="Extensions\CodeDOM\References.vb" />
+    <Compile Include="Extensions\Collection\VectorAssertExtensions.vb" />
+    <Compile Include="Extensions\Collection\Linq\VectorAssertor.vb" />
     <Compile Include="Extensions\Collection\NumericSequence.vb" />
     <Compile Include="Extensions\Collection\Which.vb" />
     <Compile Include="Extensions\Debugger\VisualBasicAppException.vb" />
@@ -429,7 +431,11 @@
     <Compile Include="Extensions\Image\Colors\CytoscapeColor.vb" />
     <Compile Include="Extensions\Image\Colors\HSLColor.vb" />
     <Compile Include="Extensions\Image\GDI+\Layouts\LayoutedObject.vb" />
-    <Compile Include="Extensions\Image\GDI+\Layouts\mxRectangle.vb" />
+    <Compile Include="Extensions\Image\GDI+\Layouts\DblRect.vb" />
+    <Compile Include="Extensions\Image\Math\GeometryMath.vb" />
+    <Compile Include="Extensions\Image\Math\PolygonD.vb" />
+    <Compile Include="Extensions\Image\Math\VecMath2D.vb" />
+    <Compile Include="Extensions\Image\Math\Vector2D.vb" />
     <Compile Include="Extensions\Image\PointF3D.vb" />
     <Compile Include="Extensions\Math\Correlations\Ranking.vb" />
     <Compile Include="Extensions\Math\Matrix.vb" />
@@ -437,6 +443,7 @@
     <Compile Include="Extensions\Reflection\Delegate\DataValue.vb" />
     <Compile Include="Extensions\Reflection\Parameters\Simple.vb" />
     <Compile Include="Extensions\Reflection\Parameters\ParamLogUtility.vb" />
+    <Compile Include="Extensions\StringHelpers\IEqualityComparer.vb" />
     <Compile Include="Extensions\StringHelpers\NumericFormatHelper.vb" />
     <Compile Include="Extensions\WebServices\GZStream.vb" />
     <Compile Include="Extensions\WebServices\sitemap.xml.vb" />
@@ -444,6 +451,7 @@
     <Compile Include="Language\lang\Java\Line2D.vb" />
     <Compile Include="Language\lang\Java\Collections.vb" />
     <Compile Include="Language\lang\Java\Reflection.vb" />
+    <Compile Include="Language\Linq\SchemaProvider.vb" />
     <Compile Include="Language\Linq\Indexer.vb" />
     <Compile Include="Language\Linq\Vector.vb" />
     <Compile Include="Language\Linq\VectorShadows.vb" />
@@ -452,11 +460,13 @@
     <Compile Include="Scripting\Abstract.vb" />
     <Compile Include="Scripting\Expressions\Selector.vb" />
     <Compile Include="Scripting\Runtime\BinaryOperator.vb" />
+    <Compile Include="Scripting\Runtime\CType\CastStringVector.vb" />
     <Compile Include="Scripting\Runtime\OverloadsFunction.vb" />
     <Compile Include="Scripting\Runtime\Extensions.vb" />
     <Compile Include="Scripting\TokenIcer\LangModels\OperatorExpression.vb" />
     <Compile Include="Scripting\TokenIcer\LangModels\PeekToken.vb" />
     <Compile Include="Scripting\VBLanguage.vb" />
+    <Compile Include="Text\GreekAlphabets.vb" />
     <Compile Include="Text\StringSimilarity\Levenshtein\LevenshteinString.vb" />
     <Compile Include="Text\Xml\Linq\NodeIterator.vb" />
     <Compile Include="Text\Xml\Models\Coordinate.vb" />

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b33d8cb343b3e31731e398da14605a2, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Tools\ZipLib.vb"
+﻿#Region "Microsoft.VisualBasic::d99f419f6ac03b95895408915d9d5532, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Tools\ZipLib.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 ''' </summary>
 ''' <remarks></remarks>
 ''' 
-<PackageNamespace("IO.ZIP", Description:="Creating Zip Files Easily in .NET 4.6",
+<Package("IO.ZIP", Description:="Creating Zip Files Easily in .NET 4.6",
                   Publisher:="Tim Corey",
                   Url:="http://www.codeproject.com/Articles/381661/Creating-Zip-Files-Easily-in-NET")>
 Public Module GZip

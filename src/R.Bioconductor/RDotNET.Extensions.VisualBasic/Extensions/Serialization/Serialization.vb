@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d4f8b8b5603c65e8b2c041d7484f343, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\Serialization.vb"
+﻿#Region "Microsoft.VisualBasic::677f0e93624fe60d6bb376b44ac1175c, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\Serialization\Serialization.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@ Imports RDotNET.SymbolicExpressionExtension
 ''' </summary>
 ''' <remarks></remarks>
 ''' 
-<PackageNamespace("R.Serialization",
+<Package("R.Serialization",
                   Description:="Convert the R object into a .NET object from the specific type schema information.",
                   Category:=APICategories.UtilityTools,
                   Publisher:="xieguigang@gcmodeller.org")>

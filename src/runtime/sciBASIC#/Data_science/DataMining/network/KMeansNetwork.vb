@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7007eddf40ff53bb06a9a700cebe37af, ..\sciBASIC#\Data_science\DataMining\network\KMeansNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::5aa6401f9a2fc296c8e3d61721c0ece0, ..\sciBASIC#\Data_science\DataMining\network\KMeansNetwork.vb"
 
     ' Author:
     ' 
@@ -60,7 +60,7 @@ Namespace KMeans
                 For Each c As KeyValuePair(Of String, Color) In colors
                     clusterColors += New NamedValue(Of String) With {
                         .Name = c.Key,
-                        .Value = c.Value.RGB2Hexadecimal
+                        .Value = c.Value.ToHtmlColor
                     }
                 Next
             End If
@@ -101,7 +101,7 @@ Namespace KMeans
                             .Select(getColor) _
                             .Select(AddressOf TranslateColor) _
                             .Average _
-                            .RGB2Hexadecimal
+                            .ToHtmlColor
                     End If
 
                     edges += New NetworkEdge With {

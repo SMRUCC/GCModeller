@@ -31,7 +31,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace PlasmidMap
 
-    <[PackageNamespace]("Data.Visualization.Plasmid_Map", Description:="Data visualization module for the bacteria plasmid object.", Category:=APICategories.UtilityTools)>
+    <Package("Data.Visualization.Plasmid_Map", Description:="Data visualization module for the bacteria plasmid object.", Category:=APICategories.UtilityTools)>
     Public Module ShellScriptAPI
 
 #Const DEBUG = 1

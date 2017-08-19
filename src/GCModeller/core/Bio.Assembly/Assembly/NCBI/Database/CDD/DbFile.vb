@@ -45,7 +45,7 @@ Namespace Assembly.NCBI.CDD
     ''' </remarks>
     ''' 
     <XmlRoot("CDD.DB_File", Namespace:="http://code.google.com/p/genome-in-code/ncbi/cdd")>
-    <PackageNamespace("NCBI.CDD", Url:="ftp://ftp.ncbi.nlm.nih.gov/pub/mmdb/cdd/cdd.tar.gz",
+    <Package("NCBI.CDD", Url:="ftp://ftp.ncbi.nlm.nih.gov/pub/mmdb/cdd/cdd.tar.gz",
                       Category:=APICategories.ResearchTools,
                       Description:="CDD database builder.",
                       Publisher:="xie.guigang@gmail.com")>

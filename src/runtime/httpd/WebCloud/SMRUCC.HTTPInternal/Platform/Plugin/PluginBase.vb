@@ -27,12 +27,11 @@
 #End Region
 
 Imports SMRUCC.WebCloud.HTTPInternal.AppEngine.APIMethods.Arguments
-Imports SMRUCC.WebCloud.HTTPInternal.Core
 
 Namespace Platform.Plugins
 
     Public MustInherit Class PluginBase : Inherits Submodule
-        Implements System.IDisposable
+        Implements IDisposable
 
         Sub New(main As PlatformEngine)
             Call MyBase.New(main)

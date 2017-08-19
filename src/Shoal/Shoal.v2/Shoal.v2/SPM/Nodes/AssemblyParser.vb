@@ -50,7 +50,7 @@ Namespace SPM.Nodes
 
             Dim attrs As Object() =
                 Type.GetCustomAttributes(
-                    attributeType:=PackageNamespace.TypeInfo,
+                    attributeType:=PackageAttribute.TypeInfo,
                     inherit:=False)
 
             If attrs.IsNullOrEmpty Then
@@ -59,18 +59,18 @@ Namespace SPM.Nodes
                              attributeType:=Microsoft.VisualBasic.CommandLine.Reflection.Namespace.TypeInfo,
                              inherit:=False)
                          Let nsEntry = DirectCast(ns, Microsoft.VisualBasic.CommandLine.Reflection.Namespace)
-                         Select New PackageNamespace(nsEntry)).ToArray
+                         Select New PackageAttribute(nsEntry)).ToArray
                 If attrs.IsNullOrEmpty Then
                     Return Nothing
                 End If
             End If
 
-            Dim nsAttr As PackageNamespace = DirectCast(attrs(Scan0), PackageNamespace)
+            Dim nsAttr As PackageAttribute = DirectCast(attrs(Scan0), PackageAttribute)
             Return __nsParser(Type, nsAttr, Assembly)
         End Function
 
         Private Function __nsParser(type As Type,
-                                    nsEntry As PackageNamespace,
+                                    nsEntry As PackageAttribute,
                                     assembly As Assembly) As PartialModule
             Dim Functions = GetAllCommands(type, False)
             Dim EntryPoints = (From Func In Functions Select __entryPointParser(Func)).ToArray

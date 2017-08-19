@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::166d76d12569bdbcb9fd7849e36b4b8c, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\base\base.vb"
+﻿#Region "Microsoft.VisualBasic::b91d3d53e848d3f5aae5e874590b4663, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\base\base.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,6 +33,14 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
 Namespace API
 
+    ''' <summary>
+    ''' The R Base Package
+    ''' 
+    ''' This package contains the basic functions which let R function as a language: arithmetic, input/output, basic programming support, etc. 
+    ''' Its contents are available through inheritance from any environment.
+    ''' 
+    ''' For a complete list of functions, use ``library(help = "base")``.
+    ''' </summary>
     Public Module base
 
         ''' <summary>

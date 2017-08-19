@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70ff0fc02dfdf2430b1cbfa89b52732f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\TestProject\__DEBUG_MAIN.vb"
+﻿#Region "Microsoft.VisualBasic::6edf3695cff516db5964f6e859dfa03f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\TestProject\__DEBUG_MAIN.vb"
 
     ' Author:
     ' 
@@ -91,6 +91,14 @@ Public Module __DEBUG_MAIN
     End Class
 
 
+    Sub fffff()
+        Dim s As Value(Of String) = "3333333"
+
+        's.ClassDumper
+        Dim i As Integer?
+        i += 2
+    End Sub
+
     'Private Sub testColors()
     '    Dim c1 = Color.Blue.ColorToDecimal
     '    Dim c2 = Color.Red.ColorToDecimal
@@ -137,6 +145,19 @@ Public Module __DEBUG_MAIN
     End Sub
 
     Function Main() As Integer
+
+        Dim ddddsss = "1234567"
+
+        With ddddsss
+
+            ddddsss = "abc"
+
+            Dim g = .ref.GetJson
+
+            System.Console.WriteLine(g)
+            Pause()
+        End With
+
 
         Dim nnnnn = New List(Of NamedValue(Of String)) From {
             {"1", "1", "1"}, 

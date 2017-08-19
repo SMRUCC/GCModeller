@@ -38,7 +38,7 @@ Imports SMRUCC.genomics.Interops
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
-<PackageNamespace("SMATRT.CLI",
+<Package("SMATRT.CLI",
                   Category:=APICategories.CLI_MAN,
                   Publisher:="xie.guigang@gcmodeller.org, amethyst.asuka@gcmodeller.org",
                   Description:="SMART protein domain structure tools CLI interface.")>

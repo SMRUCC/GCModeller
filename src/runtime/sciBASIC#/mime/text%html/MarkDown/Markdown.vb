@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::019d3e1fb8c8bface7681025bbf6b49c, ..\sciBASIC#\mime\text%html\MarkDown\Markdown.vb"
+﻿#Region "Microsoft.VisualBasic::6862901149e6faf29fc664116165e745, ..\sciBASIC#\mime\text%html\MarkDown\Markdown.vb"
 
     ' Author:
     ' 
@@ -173,7 +173,6 @@ Namespace MarkDown
             Return text
         End Function
 
-
         ''' <summary>
         ''' Perform transformations that form block-level tags like paragraphs, headers, and list items.
         ''' </summary>
@@ -182,6 +181,10 @@ Namespace MarkDown
             For Each extension As ExtensionTransform In _inlineExtensions
                 text = extension(text)
             Next
+
+            ' 因为R或者python语言之中的注释符号是markdown之中的header的标记
+            ' 所以为了不将其转义，需要将codeblock优先于header进行转换
+            text = DoCodeBlocks(text)
 
             If Not _DisableHeaders Then
                 text = DoHeaders(text)
@@ -192,7 +195,6 @@ Namespace MarkDown
             End If
 
             text = DoLists(text)
-            text = DoCodeBlocks(text)
             text = DoBlockQuotes(text)
 
             ' We already ran HashHTMLBlocks() before, in Markdown(), but that
@@ -206,8 +208,7 @@ Namespace MarkDown
             Return text
         End Function
 
-
-        Private _inlineExtensions As New List(Of ExtensionTransform)()
+        ReadOnly _inlineExtensions As New List(Of ExtensionTransform)()
 
         ''' <summary>
         ''' Public <see cref="System.Delegate"/> Function ExtensionTransform(text As <see cref="String"/>) As <see cref="String"/>
@@ -896,9 +897,23 @@ Namespace MarkDown
             Return result
         End Function
 
-        Private Shared _headerSetext As New Regex(vbCr & vbLf & "                ^(.+?)" & vbCr & vbLf & "                [ ]*" & vbCr & vbLf & "                \n" & vbCr & vbLf & "                (=+|-+)     # $1 = string of ='s or -'s" & vbCr & vbLf & "                [ ]*" & vbCr & vbLf & "                \n+", RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
+        Const regex_headerSetext$ = "
+              ^(.+?)
+              [ ]*
+              \n
+              (=+|-+)     # $1 = string of ='s or -'s
+              [ ]*
+              \n+"
+        Const regex_headerAtx$ = "
+              ^(\#{1,6})  # $1 = string of #'s
+              [ ]*
+              (.+?)       # $2 = Header text
+              [ ]*
+              \#*         # optional closing #'s (not counted)
+              \n+"
 
-        Private Shared _headerAtx As New Regex(vbCr & vbLf & "                ^(\#{1,6})  # $1 = string of #'s" & vbCr & vbLf & "                [ ]*" & vbCr & vbLf & "                (.+?)       # $2 = Header text" & vbCr & vbLf & "                [ ]*" & vbCr & vbLf & "                \#*         # optional closing #'s (not counted)" & vbCr & vbLf & "                \n+", RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
+        Friend Shared ReadOnly _headerSetext As New Regex(regex_headerSetext, RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
+        Friend Shared ReadOnly _headerAtx As New Regex(regex_headerAtx, RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
 
         ''' <summary>
         ''' Turn Markdown headers into HTML header tags
@@ -934,8 +949,17 @@ Namespace MarkDown
             Return String.Format("<h{1}>{0}</h{1}>" & vbLf & vbLf, RunSpanGamut(header), level)
         End Function
 
+        Const regex_horizontalRules$ = "
+              ^[ ]{0,3}         # Leading space
+                  ([-*_])       # $1: First marker
+                  (?>           # Repeated marker group
+                      [ ]{0,2}  # Zero, one, or two spaces.
+                      \1        # Marker character
+                  ){2,}         # Group repeated at least twice
+                  [ ]*          # Trailing spaces
+                  $             # End of line."
 
-        Private Shared _horizontalRules As New Regex(vbCr & vbLf & "            ^[ ]{0,3}         # Leading space" & vbCr & vbLf & "                ([-*_])       # $1: First marker" & vbCr & vbLf & "                (?>           # Repeated marker group" & vbCr & vbLf & "                    [ ]{0,2}  # Zero, one, or two spaces." & vbCr & vbLf & "                    \1        # Marker character" & vbCr & vbLf & "                ){2,}         # Group repeated at least twice" & vbCr & vbLf & "                [ ]*          # Trailing spaces" & vbCr & vbLf & "                $             # End of line." & vbCr & vbLf & "            ", RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
+        Private Shared _horizontalRules As New Regex(regex_horizontalRules, RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
 
         ''' <summary>
         ''' Turn Markdown horizontal rules into HTML hr tags
@@ -950,11 +974,29 @@ Namespace MarkDown
             Return _horizontalRules.Replace(text, "<hr" & _EmptyElementSuffix & vbLf)
         End Function
 
-        Private Shared _wholeList As String = String.Format(vbCr & vbLf & "            (                               # $1 = whole list" & vbCr & vbLf & "              (                             # $2" & vbCr & vbLf & "                [ ]{{0,{1}}}" & vbCr & vbLf & "                ({0})                       # $3 = first list item marker" & vbCr & vbLf & "                [ ]+" & vbCr & vbLf & "              )" & vbCr & vbLf & "              (?s:.+?)" & vbCr & vbLf & "              (                             # $4" & vbCr & vbLf & "                  \z" & vbCr & vbLf & "                |" & vbCr & vbLf & "                  \n{{2,}}" & vbCr & vbLf & "                  (?=\S)" & vbCr & vbLf & "                  (?!                       # Negative lookahead for another list item marker" & vbCr & vbLf & "                    [ ]*" & vbCr & vbLf & "                    {0}[ ]+" & vbCr & vbLf & "                  )" & vbCr & vbLf & "              )" & vbCr & vbLf & "            )", String.Format("(?:{0}|{1})", _markerUL, _markerOL), _tabWidth - 1)
+        Const regex_wholeList$ = "
+              (                               # $1 = whole list
+                (                             # $2
+                  [ ]{{0,{1}}} 
+                  ({0})                       # $3 = first list item marker
+                  [ ]+
+                )
+                (?s:.+?)
+                (                             # $4
+                  \z
+                  |
+                  \n{{2,}}
+                  (?=\S)
+                    (?!                       # Negative lookahead for another list item marker
+                      [ ]*
+                      {0}[ ]+
+                    )
+                  )
+                )"
 
-        Private Shared _listNested As New Regex("^" & _wholeList, RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
-
-        Private Shared _listTopLevel As New Regex("(?:(?<=\n\n)|\A\n?)" & _wholeList, RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
+        Shared ReadOnly _wholeList As String = String.Format(regex_wholeList, String.Format("(?:{0}|{1})", _markerUL, _markerOL), _tabWidth - 1)
+        Shared _listNested As New Regex("^" & _wholeList, RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
+        Shared _listTopLevel As New Regex("(?:(?<=\n\n)|\A\n?)" & _wholeList, RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
 
         ''' <summary>
         ''' Turn Markdown lists into HTML ul and ol and li tags
@@ -985,11 +1027,18 @@ Namespace MarkDown
             End If
 
             result = ProcessListItems(list, If(listType = "ul", _markerUL, _markerOL))
-
             result = String.Format("<{0}{1}>" & vbLf & "{2}</{0}>" & vbLf, listType, start, result)
-            Return result
 
+            Return result
         End Function
+
+        Const listPatternFormat$ = "
+
+              (^[ ]*)                    # leading whitespace = $1
+              ({0}) [ ]+                 # list marker = $2
+              ((?s:.+?)                  # list item text = $3
+              (\n+))      
+              (?= (\z | \1 ({0}) [ ]+))"
 
         ''' <summary>
         ''' Process the contents of a single ordered or unordered list, splitting it
@@ -1022,14 +1071,7 @@ Namespace MarkDown
             ' Trim trailing blank lines:
             list = Regex.Replace(list, "\n{2,}\z", vbLf)
 
-            Dim pattern As String = String.Format("
-
-(^[ ]*)                    # leading whitespace = $1
-({0}) [ ]+                 # list marker = $2
-((?s:.+?)                  # list item text = $3
-(\n+))      
-(?= (\z | \1 ({0}) [ ]+))", marker)
-
+            Dim pattern$ = String.Format(listPatternFormat, marker)
             Dim lastItemHadADoubleNewline As Boolean = False
 
             ' has to be a closure, so subsequent invocations can share the bool
@@ -1050,17 +1092,20 @@ Namespace MarkDown
 
             list = Regex.Replace(list, pattern, ListItemEvaluator, RegexOptions.IgnorePatternWhitespace Or RegexOptions.Multiline)
             _listLevel -= 1
+
             Return list
         End Function
 
 #Region "代码预览块的HTML文本处理"
 
+        Const CodeBlockFlag$ = "[`]{3}"
+
         ''' <summary>
         ''' 带语言类型说明的代码块
         ''' </summary>
-        Const SyntaxCodeBloackRegexp$ = "^```\S+\s*$.+?^```\s*$"
+        Const SyntaxCodeBloackRegexp$ = CodeBlockFlag & ".+?" & CodeBlockFlag
 
-        Shared ReadOnly __syntaxCodeBlock As New Regex(SyntaxCodeBloackRegexp, RawCompileOptions)
+        Shared ReadOnly __syntaxCodeBlock As New Regex(SyntaxCodeBloackRegexp, RegexICSng)
 
         ''' <summary>
         ''' 这里只是解析出4个空格的缩进的代码块
@@ -1082,8 +1127,21 @@ Namespace MarkDown
         ''' Turn Markdown 4-space indented code into HTML pre code blocks
         ''' </summary>
         Private Function DoCodeBlocks(text As String) As String
+            text = __syntaxCodeBlock.Replace(text, New MatchEvaluator(AddressOf SyntaxedCodeBlockEvaluator))
             text = _codeBlock.Replace(text, New MatchEvaluator(AddressOf CodeBlockEvaluator))
             Return text
+        End Function
+
+        Private Function SyntaxedCodeBlockEvaluator(match As Match) As String
+            Dim codeBlock As String = match.Value
+            Dim lines = codeBlock.lTokens
+            Dim language$ = Mid(lines(Scan0), 4).Trim
+
+            codeBlock = lines.Skip(1).Take(lines.Length - 2).JoinBy(vbLf)
+            codeBlock = EncodeCode(Outdent(codeBlock))
+            codeBlock = _newlinesLeadingTrailing.Replace(codeBlock, "")
+
+            Return String.Concat(vbLf & vbLf & $"<pre><code class=""{language}"">", codeBlock, vbLf & "</code></pre>" & vbLf & vbLf)
         End Function
 
         Private Function CodeBlockEvaluator(match As Match) As String
@@ -1325,9 +1383,7 @@ Namespace MarkDown
             Return email
         End Function
 
-
 #Region "Encoding and Normalization"
-
 
         ''' <summary>
         ''' encodes email address randomly  

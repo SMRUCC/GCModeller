@@ -65,8 +65,11 @@ Namespace Platform
         ''' <summary>
         ''' Scanning the dll file and then load the <see cref="WebApp"/> content.
         ''' </summary>
-        ''' <param name="dll"></param>
-        Private Sub __init(dll As String)
+        ''' <param name="dll">
+        ''' 如果这个dll文件存在的话，则服务器进行注册这个dll容器之中所定义的Web应用程序
+        ''' 否则，服务器进程会扫描其所在的文件夹<see cref="App.HOME"/>之中的所有的.NET assembly文件
+        ''' </param>
+        Private Sub __init(Optional dll$ = Nothing)
             _AppManager = New AppEngine.APPManager(Me)
 
             If dll.FileExists Then
@@ -75,15 +78,25 @@ Namespace Platform
                 Call AppEngine.ExternalCall.ParseDll(dll, Me)
                 Call __runDll(dll)
             Else
-                Call AppEngine.ExternalCall.Scan(Me)
+                For Each dll$ In AppEngine.ExternalCall.Scan(Me)
+                    Call __runDll(dll)
+                Next
             End If
 
             _EnginePlugins = Plugins.ExternalCall.Scan(Me)
+
             Call "Web App engine initialized!".__DEBUG_ECHO
         End Sub
 
         ''' <summary>
         ''' Call sub main in the <see cref="WebApp"/> dll
+        ''' 
+        ''' 尝试运行dll文件之中的``Main``函数，可能会执行一些初始化的程序
+        ''' 
+        ''' ###### 运行的条件
+        ''' 
+        ''' + assembly之中包含有一个容器类型，该容器的名称为``WebApp``
+        ''' + 并且在该容器之中存在着一个名称为``Main``的静态共享方法
         ''' </summary>
         ''' <param name="dll"></param>
         Private Sub __runDll(dll As String)

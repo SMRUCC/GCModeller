@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e0e4f0c1d92455afa6fc8c32ffb05fe, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\ImageFormat.vb"
+﻿#Region "Microsoft.VisualBasic::a65481db4907e9686ba21157607cfb39, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\ImageFormat.vb"
 
     ' Author:
     ' 
@@ -29,6 +29,8 @@
 Imports System.Drawing
 Imports System.Drawing.Imaging
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Text
 
 Namespace Imaging
 
@@ -77,6 +79,10 @@ Namespace Imaging
         ''' Gets the Windows metafile (WMF) image format.
         ''' </summary>
         Wmf
+        ''' <summary>
+        ''' Base64
+        ''' </summary>
+        Base64
     End Enum
 
     ''' <summary>
@@ -129,8 +135,7 @@ Namespace Imaging
             Return enumFormats.TryGetValue(LCase(format), [default]:=ImageFormats.Png)
         End Function
 
-        ReadOnly __formats As SortedDictionary(Of ImageFormats, ImageFormat) =
-            New SortedDictionary(Of ImageFormats, ImageFormat) From {
+        ReadOnly __formats As New SortedDictionary(Of ImageFormats, ImageFormat) From {
  _
             {ImageFormats.Bmp, ImageFormat.Bmp},
             {ImageFormats.Emf, ImageFormat.Emf},
@@ -158,6 +163,10 @@ Namespace Imaging
 
                 If format = ImageFormats.Tiff Then
                     Return New TiffWriter(res).MultipageTiffSave(path)
+                ElseIf format = ImageFormats.Base64 Then
+                    Return res _
+                        .ToBase64String _
+                        .SaveTo(path, Encodings.ASCII.CodePage)
                 Else
                     Call res.Save(path, format.GetFormat)
                 End If

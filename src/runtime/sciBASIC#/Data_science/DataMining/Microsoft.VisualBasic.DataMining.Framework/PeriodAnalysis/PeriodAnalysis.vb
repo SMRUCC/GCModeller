@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b92c6393f534570995934b6e3ad056e5, ..\sciBASIC#\Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\PeriodAnalysis\PeriodAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::2c3b502a1524f0eb72a8052b6228940d, ..\sciBASIC#\Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\PeriodAnalysis\PeriodAnalysis.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Serials.PeriodAnalysis
 
-    <[PackageNamespace]("Serials.PeriodAnalysis", Publisher:="xie.guigang@gmail.com")>
+    <Package("Serials.PeriodAnalysis", Publisher:="xie.guigang@gmail.com")>
     Public Module PeriodAnalysis
 
         ''' <summary>

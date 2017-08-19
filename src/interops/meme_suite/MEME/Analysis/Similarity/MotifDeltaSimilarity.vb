@@ -39,7 +39,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Analysis.Similarity
 
-    <[PackageNamespace]("Motif.Delta.Similarity",
+    <Package("Motif.Delta.Similarity",
                     Description:="Calculate the motif similarity using the nucleotide sequence delta similarity method.",
                     Publisher:="xie.guigang@gcmodeller.org")>
     Public Module MotifDeltaSimilarity

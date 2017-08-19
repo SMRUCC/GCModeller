@@ -65,7 +65,7 @@ Imports SMRUCC.genomics.Visualize.Circos.TrackDatas.Highlights
 ''' <summary>
 ''' Shoal shell interaction with circos perl program to draw a circle diagram of a bacteria genome.
 ''' </summary>
-<[PackageNamespace]("Circos", Description:="Shoal shell interaction with circos perl program to draw a circle diagram of a bacteria genome.
+<Package("Circos", Description:="Shoal shell interaction with circos perl program to draw a circle diagram of a bacteria genome.
 <br />
 ```
                                     ____ _

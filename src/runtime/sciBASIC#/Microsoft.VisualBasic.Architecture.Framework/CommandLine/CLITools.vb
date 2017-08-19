@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89e8a78ba0e30ea4dae5a236c0ca06b9, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\CLITools.vb"
+﻿#Region "Microsoft.VisualBasic::9e50b1a4d8f91494f84c18bc3f762715, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\CLITools.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@ Namespace CommandLine
     ''' <summary>
     ''' CLI parser and <see cref="CommandLine"/> object creates.
     ''' </summary>
-    <[PackageNamespace]("CommandLine",
+    <Package("CommandLine",
                         Url:="http://gcmodeller.org",
                         Publisher:="xie.guigang@gcmodeller.org",
                         Description:="",

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1716d4a74d6acf549444d9ab70829df8, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\IO\PathSearchTool.vb"
+﻿#Region "Microsoft.VisualBasic::e8366e956915b17e58fc0b896323550b, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\IO\PathSearchTool.vb"
 
     ' Author:
     ' 
@@ -46,7 +46,7 @@ Imports Microsoft.VisualBasic.Text
 ''' Search the path from a specific keyword.(通过关键词来推测路径)
 ''' </summary>
 ''' <remarks></remarks>
-<[PackageNamespace]("Program.Path.Search",
+<Package("Program.Path.Search",
                     Description:="A utility tools for searching a specific file of its path on the file system more easily.")>
 Public Module ProgramPathSearchTool
 
@@ -405,6 +405,17 @@ Public Module ProgramPathSearchTool
     Public Function DirectoryExists(DIR As String) As Boolean
         Return Not String.IsNullOrEmpty(DIR) AndAlso
             FileIO.FileSystem.DirectoryExists(DIR)
+    End Function
+
+    ''' <summary>
+    ''' Get the directory its name of the target <paramref name="dir"/> directory
+    ''' </summary>
+    ''' <param name="dir$"></param>
+    ''' <returns></returns>
+    <Extension> Public Function DirectoryName(dir$) As String
+        Return dir.TrimDIR _
+            .Split("\"c).Last _
+            .Split("/"c).Last
     End Function
 
     ''' <summary>

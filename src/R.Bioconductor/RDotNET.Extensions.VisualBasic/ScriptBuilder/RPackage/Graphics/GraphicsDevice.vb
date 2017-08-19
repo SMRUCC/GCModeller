@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22d1c6c5d1933845927dcb21f0b8dd59, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\GraphicsDevice.vb"
+﻿#Region "Microsoft.VisualBasic::8318e6e10b12c64556f6da4779c16c8d, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\ScriptBuilder\RPackage\Graphics\GraphicsDevice.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@ Namespace SymbolBuilder.packages.Graphics
     ''' Graphics devices for BMP, JPEG, PNG and TIFF format bitmap files. 
     ''' </summary>
     ''' 
-    <PackageNamespace("grDevices", Description:="Graphics devices for BMP, JPEG, PNG and TIFF format bitmap files.  
+    <Package("grDevices", Description:="Graphics devices for BMP, JPEG, PNG and TIFF format bitmap files.  
 <p><strong>NOTE:  please notice that this package just generates the R language statement for write a image file from a specific plot statement.
 Once you have done the function from this namespace, then you can using the Shoal Shell hybrid scripting feature to draw the image and save to a file.
 </strong>"， Publisher:=“amethyst.asuka@gcmodeller.org”)>

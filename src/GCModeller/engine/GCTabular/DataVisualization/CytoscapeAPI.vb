@@ -39,7 +39,7 @@ Imports Microsoft.VisualBasic.Text
 
 Namespace DataVisualization
 
-    <PackageNamespace("Cytoscape.GCModeller.NetVisual")>
+    <Package("Cytoscape.GCModeller.NetVisual")>
     Public Module CytoscapeAPI
 
         <ExportAPI("cytoscape_generator.create")>

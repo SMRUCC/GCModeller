@@ -40,7 +40,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
     ''' </summary>
     ''' <remarks></remarks>
     '''
-    <[PackageNamespace]("MPAlignment",
+    <Package("MPAlignment",
                         Description:="Alignment for the protein domains, this method is useful for the protein family classification annotation automatically.",
                         Category:=APICategories.ResearchTools,
                         Publisher:="xie.guigang@gcmodeller.org")>

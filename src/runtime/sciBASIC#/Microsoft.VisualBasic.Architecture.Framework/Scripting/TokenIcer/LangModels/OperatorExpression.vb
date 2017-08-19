@@ -1,15 +1,47 @@
-﻿Imports System.Linq.Expressions
+﻿#Region "Microsoft.VisualBasic::b7264459fc432f41ff7af91c66598588, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Scripting\TokenIcer\LangModels\OperatorExpression.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Linq.Expressions
 
 Namespace Scripting.TokenIcer
 
-    Module OperatorExpression
+    Public Module OperatorExpression
 
-        Public ReadOnly Property Linq2Name As New Dictionary(Of ExpressionType, String)
+        ''' <summary>
+        ''' Linq Type to operator symbols.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Linq2Symbols As New Dictionary(Of ExpressionType, String)
         Public ReadOnly Property opName2Linq As New Dictionary(Of String, ExpressionType)
 
         Sub New()
             Call __opName2Linq()
-            Call __linq2Name()
+            Call __linq2Symbols()
         End Sub
 
         Const op_LessThan$ = NameOf(op_LessThan)
@@ -59,8 +91,8 @@ Namespace Scripting.TokenIcer
             End With
         End Sub
 
-        Private Sub __linq2Name()
-            With Linq2Name
+        Private Sub __linq2Symbols()
+            With Linq2Symbols
                 Call .Add(ExpressionType.Add, "+")
                 Call .Add(ExpressionType.AddAssign, "+=")
                 Call .Add(ExpressionType.AddAssignChecked, "+=")

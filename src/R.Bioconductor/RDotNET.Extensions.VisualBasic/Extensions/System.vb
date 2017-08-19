@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::4ff471b68326d0fd158dc14aed50b84d, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\System.vb"
+﻿#Region "Microsoft.VisualBasic::023286ff57cbba4ffd32f63719093656, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\System.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -49,6 +49,30 @@ Public Class ExtendedEngine : Inherits REngine
             Call Evaluate(statement:=value)
         End Set
     End Property
+
+    ''' <summary>
+    ''' 返回一个逻辑值类型的变量指针
+    ''' </summary>
+    ''' <param name="object$">An object from a formally defined class.</param>
+    ''' <param name="name$">
+    ''' The name of the slot. The operator takes a fixed name, which can be unquoted if it is syntactically a name in the language. 
+    ''' A slot name can be any non-empty string, but if the name is not made up of letters, numbers, and ., it needs to be quoted 
+    ''' (by backticks or single or double quotes).
+    ''' In the case of the slot function, name can be any expression that evaluates to a valid slot in the class definition. 
+    ''' Generally, the only reason to use the functional form rather than the simpler operator Is because the slot name has 
+    ''' to be computed.</param>
+    ''' <returns></returns>
+    Public Function hasSlot(object$, name$) As String
+        Dim var$ = App.NextTempName
+
+        SyncLock Me
+            With Me
+                .call = $"{var} <- .hasSlot({object$}, {name});"
+            End With
+        End SyncLock
+
+        Return var
+    End Function
 
     Sub New(id As String, dll As String)
         MyBase.New(id, dll)

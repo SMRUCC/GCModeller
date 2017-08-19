@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a54013d352eaf6f60ff8958bdce8bd8, ..\sciBASIC#\mime\text%html\HTML\CSS\Stroke.vb"
+﻿#Region "Microsoft.VisualBasic::8cc0c92324c34f9129c01d91b4b16a65, ..\sciBASIC#\mime\text%html\HTML\CSS\Stroke.vb"
 
     ' Author:
     ' 
@@ -41,6 +41,8 @@ Namespace HTML.CSS
 
         Public Const AxisStroke$ = "stroke: black; stroke-width: 2px; stroke-dash: solid;"
         Public Const AxisGridStroke$ = "stroke: lightgray; stroke-width: 2px; stroke-dash: dash;"
+        Public Const HighlightStroke$ = "stroke: gray; stroke-width: 0.5px; stroke-dash: dash;"
+        Public Const StrongHighlightStroke$ = "stroke: black; stroke-width: 1px; stroke-dash: dash;"
 
         Public Property fill As String
         Public Property width As Single
@@ -71,7 +73,7 @@ Namespace HTML.CSS
 
         Sub New(style As Pen)
             width = style.Width
-            fill = style.Color.RGB2Hexadecimal
+            fill = style.Color.ToHtmlColor
             dash = style.DashStyle
         End Sub
 

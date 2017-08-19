@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::33ddcc8a70fb941466c24d3c7a0ec091, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\GraphicsExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::9dfcdfdc234432a79bb84c33f4d863a0, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\GraphicsExtensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -45,7 +45,7 @@ Namespace Imaging
     ''' GDI+
     ''' </summary>
     '''
-    <PackageNamespace("GDI+", Description:="GDI+ GDIPlus Extensions Module to provide some useful interface.",
+    <Package("GDI+", Description:="GDI+ GDIPlus Extensions Module to provide some useful interface.",
                   Publisher:="xie.guigang@gmail.com",
                   Revision:=58,
                   Url:="http://gcmodeller.org")>
@@ -161,13 +161,13 @@ Namespace Imaging
         End Sub
 
         ''' <summary>
-        ''' 
+        ''' 进行圆的绘制
         ''' </summary>
         ''' <param name="g"></param>
         ''' <param name="centra">圆心的坐标，这个函数之中会自动转换为<see cref="Rectangle"/>的左上角位置坐标</param>
-        ''' <param name="r!"></param>
-        ''' <param name="color"></param>
-        ''' <param name="fill"></param>
+        ''' <param name="r!">圆的半径</param>
+        ''' <param name="color">线条的颜色</param>
+        ''' <param name="fill">是否进行填充？</param>
         <Extension>
         Public Sub DrawCircle(ByRef g As IGraphics, centra As PointF, r!, color As Pen, Optional fill As Boolean = True)
             Dim d = r * 2
@@ -268,10 +268,16 @@ Namespace Imaging
         ''' <param name="path"></param>
         ''' <returns></returns>
         <ExportAPI("LoadImage"), Extension>
-        Public Function LoadImage(path As String) As Image
-            Dim stream As Byte() = FileIO.FileSystem.ReadAllBytes(path)
-            Dim res = Image.FromStream(stream:=New IO.MemoryStream(stream))
-            Return res
+        Public Function LoadImage(path As String, Optional base64 As Boolean = False) As Image
+            If base64 Then
+                Dim base64String = path.ReadAllText
+                Dim img As Image = base64String.GetImage
+                Return img
+            Else
+                Dim stream As Byte() = FileIO.FileSystem.ReadAllBytes(path)
+                Dim res = Image.FromStream(stream:=New IO.MemoryStream(stream))
+                Return res
+            End If
         End Function
 
         <ExportAPI("LoadImage")>
@@ -462,6 +468,12 @@ Namespace Imaging
             End With
         End Function
 
+        <Extension> Public Function OffSet2D(pt As PointF, x!, y!) As PointF
+            With pt
+                Return New PointF(x + .X, y + .Y)
+            End With
+        End Function
+
         <Extension> Public Function IsValidGDIParameter(size As Size) As Boolean
             Return size.Width > 0 AndAlso size.Height > 0
         End Function
@@ -469,7 +481,7 @@ Namespace Imaging
         Const InvalidSize As String = "One of the size parameter for the gdi+ device is not valid!"
 
         ''' <summary>
-        ''' 创建一个GDI+的绘图设备
+        ''' 创建一个GDI+的绘图设备，默认的背景填充色为白色
         ''' </summary>
         ''' <param name="r"></param>
         ''' <param name="filled">默认的背景填充颜色为白色</param>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1901f6186f85f9adbf29b1fbed68e0e6, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\lang\UnixBash\Cowsay.vb"
+﻿#Region "Microsoft.VisualBasic::5fd474cee93bf8f6967bce44e951e500, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\lang\UnixBash\Cowsay.vb"
 
     ' Author:
     ' 
@@ -35,7 +35,7 @@ Namespace Language.UnixBash
     ''' <summary>
     ''' Cowsay tricks for showing your message more friendly.
     ''' </summary>
-    <PackageNamespace("Cowsay",
+    <Package("Cowsay",
                   Description:="cowsay is a program which generates ASCII pictures of a cow with a message.[2] 
                   It can also generate pictures using pre-made images of other animals, such as Tux the Penguin, the Linux mascot. 
                   It is written in Perl. There is also a related program called cowthink, with cows with thought bubbles rather than speech bubbles. .

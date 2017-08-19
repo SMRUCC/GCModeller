@@ -41,7 +41,7 @@ Imports SMRUCC.genomics.ProteinModel
 
 Namespace PfamString
 
-    <PackageNamespace("PfamString.API")>
+    <Package("PfamString.API")>
     Public Module API
 
         <ExportAPI("FromChouFasman")>

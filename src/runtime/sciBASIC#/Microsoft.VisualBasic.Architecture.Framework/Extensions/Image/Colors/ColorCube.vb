@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f24f8852704f54c3be7ae7a9b89980d4, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\ColorCube.vb"
+﻿#Region "Microsoft.VisualBasic::fd36d3ab4ddefc487b00cea0e137e762, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\ColorCube.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@ Namespace Imaging
     ''' <remarks>
     ''' http://social.technet.microsoft.com/wiki/contents/articles/20990.generate-color-sequences-using-rgb-color-cube-in-vb-net.aspx
     ''' </remarks>
-    <PackageNamespace("ColorCube",
+    <Package("ColorCube",
                   Publisher:="Reed Kimble",
                   Category:=APICategories.UtilityTools,
                   Description:="Sometimes when you are designing a form, or creating some other kind of visual output, you'd like to generate an array of colors which may be shades of a single color or a discernible sequence of individual colors such as the spectrum of a rainbow.  This can be useful for coloring bars in a graph or generating a gradient around some specified color.  Unfortunately the .Net framework does not give us any sophisticated solution for this.

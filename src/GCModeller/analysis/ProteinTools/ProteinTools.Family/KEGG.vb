@@ -34,7 +34,7 @@ Imports SMRUCC.genomics.Analysis.ProteinTools.Family.FileSystem
 Imports SMRUCC.genomics.Assembly.KEGG.Archives
 Imports SMRUCC.genomics.Data
 
-<PackageNamespace("KEGG.Prot.Family", Category:=APICategories.UtilityTools)>
+<Package("KEGG.Prot.Family", Category:=APICategories.UtilityTools)>
 Public Module KEGG
 
     ''' <summary>

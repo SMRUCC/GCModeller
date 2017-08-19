@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::41b03b5bd8e00446e8a62679cb2e2bd8, ..\sciBASIC#\Data_science\Mathematical\Plots\BarPlot\AlignmentPlot.vb"
+﻿#Region "Microsoft.VisualBasic::b9f7047314f9476efa7ccdde37f61baf, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\BarPlot\AlignmentPlot.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,6 +35,8 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports signals = System.ValueTuple(Of Double, Double)
@@ -118,6 +120,26 @@ Namespace BarPlot
             End Function
         End Structure
 
+        <Extension> Private Function Hit(highlights#(), err#) As Func(Of Double, (err#, X#, yes As Boolean))
+            If highlights.IsNullOrEmpty Then
+                Return Function() (-1, -1, False)
+            Else
+                Return Function(x)
+                           Dim e#
+
+                           For Each n In highlights
+                               e = Math.Abs(n - x)
+
+                               If e <= err Then
+                                   Return (e, n, True)
+                               End If
+                           Next
+
+                           Return (-1, -1, False)
+                       End Function
+            End If
+        End Function
+
         ''' <summary>
         ''' 以条形图的方式可视化绘制两个离散的信号的比对的图形，由于绘制的时候是分别对<paramref name="query"/>和<paramref name="subject"/>
         ''' 信号数据使用For循环进行绘图的，所以数组最后一个位置的元素会在最上层
@@ -147,7 +169,11 @@ Namespace BarPlot
                                             Optional displayX As Boolean = True,
                                             Optional X_CSS$ = CSSFont.Win10Normal,
                                             Optional yAxislabelPosition As YlabelPosition = YlabelPosition.InsidePlot,
-                                            Optional labelPlotStrength# = 0.25) As GraphicsData
+                                            Optional labelPlotStrength# = 0.25,
+                                            Optional hitsHightLights As Double() = Nothing,
+                                            Optional xError# = 0.5,
+                                            Optional highlight$ = Stroke.StrongHighlightStroke,
+                                            Optional highlightMargin! = 2) As GraphicsData
             If xrange Is Nothing Then
                 Dim ALL = query _
                     .Select(Function(x) x.signals.Keys) _
@@ -249,7 +275,7 @@ Namespace BarPlot
                         Dim xsz As SizeF
                         Dim xpos As PointF
                         Dim xlabel$
-
+                        Dim highlightPen As Pen = Stroke.TryParse(highlight).GDIObject
 #Region "绘制柱状图"
                         For Each part In query
                             Dim ba As New SolidBrush(part.Color.TranslateColor)
@@ -273,6 +299,24 @@ Namespace BarPlot
                                 rect = Rectangle(ymid, left, left + bw, y)
                                 g.FillRectangle(bb, rect)
                             Next
+                        Next
+
+                        ' 绘制高亮的区域
+                        Dim highlights = HighlightGroups(query, subject, hitsHightLights, xError)
+                        Dim right!
+                        Dim blockHeight!
+
+                        For Each block As (xmin#, xmax#, query#, subject#) In highlights
+                            left = region.Padding.Left + xscale(block.xmin)
+                            right = region.Padding.Left + xscale(block.xmax) + bw
+                            y = ymid - yscale(block.query)
+                            blockHeight = yscale(block.query) + yscale(block.subject)
+
+                            rect = New Rectangle(
+                                New Point(left - highlightMargin, y - highlightMargin),
+                                New Size(right - left + 2 * highlightMargin, blockHeight + 2 * highlightMargin))
+
+                            g.DrawRectangle(highlightPen, rect)
                         Next
 #End Region
                         ' 考虑到x轴标签可能会被柱子挡住，所以在这里将柱子和x标签的绘制分开在两个循环之中来完成
@@ -355,6 +399,61 @@ Namespace BarPlot
                 size.SizeParser, padding,
                 "white",
                 plotInternal)
+        End Function
+
+        Private Function HighlightGroups(query As Signal(), subject As Signal(), highlights#(), err#) As (xmin#, xmax#, query#, subject#)()
+            If highlights.IsNullOrEmpty Then
+                Return {}
+            End If
+
+            Dim isHighlight = highlights.Hit(err)
+            Dim qh = query.__createHits(isHighlight)
+            Dim sh = subject.__createHits(isHighlight)
+            Dim out As New List(Of (xmin#, xmax#, query#, subject#))
+
+            For Each x In highlights
+                If Not qh.ContainsKey(x) OrElse Not sh.ContainsKey(x) Then
+                    Continue For
+                End If
+
+                Dim q = qh(x)
+                Dim s = sh(x)
+
+                With q.x + s.x.ToArray
+                    out += (.Min, .Max, q.y, s.y)
+                End With
+            Next
+
+            Return out
+        End Function
+
+        <Extension>
+        Private Function __createHits(data As Signal(), ishighlight As Func(Of Double, (err#, x#, yes As Boolean))) As Dictionary(Of Double, (x As List(Of Double), y#))
+            Dim hits As New Dictionary(Of Double, (x As List(Of Double), y#))
+            Dim source As IEnumerable(Of signals) = data _
+                .Select(Function(x) x.signals) _
+                .IteratesALL
+
+            For Each o As (x#, y#) In source
+                Dim hit = ishighlight(o.x)
+
+                If hit.yes Then
+                    If Not hits.ContainsKey(hit.x) Then
+                        hits(hit.x) = (New List(Of Double), -100)
+                    End If
+
+                    Dim value = hits(hit.x)
+                    value.x.Add(o.x)
+
+                    If value.y < o.y Then
+                        value = (value.x, o.y)
+                    End If
+
+                    hits(hit.x) = value
+                End If
+            Next
+
+            Return hits
         End Function
     End Module
 End Namespace

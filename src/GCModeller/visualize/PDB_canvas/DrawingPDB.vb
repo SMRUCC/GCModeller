@@ -38,7 +38,7 @@ Imports SMRUCC.genomics.Data.RCSB.PDB
 ''' <summary>
 ''' Visualize the protein 3D structure from the PDB file.
 ''' </summary>
-<[PackageNamespace]("Drawing.Protein.3D.PDB",
+<Package("Drawing.Protein.3D.PDB",
                     Description:="Visualize the protein 3D structure from the PDB file.",
                     Publisher:="amethyst.asuka@gcmodeller.org", Url:="http://gcmodeller.org")>
 Public Module DrawingPDB

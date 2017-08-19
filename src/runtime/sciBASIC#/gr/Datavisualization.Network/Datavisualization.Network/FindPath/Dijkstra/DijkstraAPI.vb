@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd0f3817ed180a726201d2bdd34de202, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\FindPath\Dijkstra\DijkstraAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5e729b32d3c52efa8e09fcf82ecb23af, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\FindPath\Dijkstra\DijkstraAPI.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Dijkstra
 
-    <[PackageNamespace]("Path.Find.Dijkstra",
+    <Package("Path.Find.Dijkstra",
                         Publisher:="Michael Demeersseman",
                         Category:=APICategories.UtilityTools,
                         Description:="Calculation of the shortest path between x points",

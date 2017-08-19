@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::833d9b09c69a14436ad204277ff44f08, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\IO\GraphAPI.vb"
+﻿#Region "Microsoft.VisualBasic::b231178bbd6e4b807712dccd01e3c25c, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\IO\ModelExtensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -131,6 +131,32 @@ Namespace FileStream
         End Function
 
         ''' <summary>
+        ''' 将节点组按照组内的节点的degree的总和或者平均值来重排序
+        ''' 函数返回的是降序排序的结果
+        ''' 如果需要升序排序，则可以对返回的结果进行一次reverse即可
+        ''' </summary>
+        ''' <param name="nodeGroups"></param>
+        ''' <param name="method$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function OrderByDegrees(nodeGroups As IEnumerable(Of IGrouping(Of String, Graph.Node)), Optional method$ = NameOf(Average)) As IEnumerable(Of IGrouping(Of String, Graph.Node))
+            Dim orderProvider As Func(Of IGrouping(Of String, Graph.Node), Double) = Nothing
+
+            Select Case method
+                Case NameOf(Average)
+                    orderProvider = Function(g)
+                                        Return Aggregate x In g Into Average(Val(x.Data(names.REFLECTION_ID_MAPPING_DEGREE)))
+                                    End Function
+                Case NameOf(Sum)
+                    orderProvider = Function(g)
+                                        Return Aggregate x In g Into Sum(Val(x.Data(names.REFLECTION_ID_MAPPING_DEGREE)))
+                                    End Function
+            End Select
+
+            Return nodeGroups.OrderByDescending(orderProvider)
+        End Function
+
+        ''' <summary>
         ''' Transform the network data model to graph model
         ''' </summary>
         ''' <typeparam name="TNode"></typeparam>
@@ -158,7 +184,6 @@ Namespace FileStream
                 nodeColor = Function(n) br
             End If
 
-
             Dim nodes = LinqAPI.Exec(Of Graph.Node) <=
  _
                 From n As Node
@@ -171,7 +196,10 @@ Namespace FileStream
                     .Color = c,
                     .radius = r,
                     .Properties = New Dictionary(Of String, String) From {
-                        {names.REFLECTION_ID_MAPPING_NODETYPE, n.NodeType}
+                        {names.REFLECTION_ID_MAPPING_NODETYPE, n.NodeType},
+                        {names.REFLECTION_ID_MAPPING_DEGREE, n(names.REFLECTION_ID_MAPPING_DEGREE)},
+                        {names.REFLECTION_ID_MAPPING_DEGREE_IN, n(names.REFLECTION_ID_MAPPING_DEGREE_IN)},
+                        {names.REFLECTION_ID_MAPPING_DEGREE_OUT, n(names.REFLECTION_ID_MAPPING_DEGREE_OUT)}
                     },
                     .initialPostion = pos,
                     .label = n!name
@@ -283,14 +311,22 @@ Namespace FileStream
         End Function
 
         ''' <summary>
+        ''' 无边连接的节点的Degree值为零
+        ''' </summary>
+        Public Const NoConnections% = 0
+
+        ''' <summary>
         ''' 直接按照节点的``Degree``来筛选
         ''' </summary>
         ''' <param name="net"></param>
-        ''' <param name="degree%">``<see cref="Node"/> -> "Degree"``</param>
+        ''' <param name="degree%">``<see cref="Node"/> -> "Degree"``.（当这个参数为零的时候，表示默认是将无连接的孤立节点删除掉）</param>
         ''' <param name="removeIDs$"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function RemovesByDegree(net As NetworkTables, Optional degree% = 0, Optional ByRef removeIDs$() = Nothing) As NetworkTables
+        Public Function RemovesByDegree(net As NetworkTables,
+                                        Optional degree% = NoConnections,
+                                        Optional ByRef removeIDs$() = Nothing) As NetworkTables
+
             Dim nodes As New List(Of Node)
             Dim removes As New List(Of String)
 

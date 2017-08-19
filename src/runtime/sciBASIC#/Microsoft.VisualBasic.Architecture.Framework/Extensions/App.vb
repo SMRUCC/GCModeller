@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::f6f6385ee5ba7943985a3d6e0dd5dd97, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\App.vb"
+﻿#Region "Microsoft.VisualBasic::44d816e28f48c429f0594ba3a6337544, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\App.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -81,7 +81,7 @@ Imports Microsoft.VisualBasic.Windows.Forms.VistaSecurity
 ''' (从命令行之中使用``/@set``参数赋值环境变量的时候，每一个变量之间使用分号进行分隔)
 ''' </summary>
 '''
-<PackageNamespace("App", Description:="More easily runtime environment information provider on LINUX platform for visualbasic program.",
+<Package("App", Description:="More easily runtime environment information provider on LINUX platform for visualbasic program.",
                   Publisher:="amethyst.asuka@gcmodeller.org",
                   Url:="http://SourceForge.net/projects/shoal")>
 Public Module App
@@ -201,10 +201,13 @@ Public Module App
     ''' Gets the ``/in`` commandline value as the input file path.
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property InputFile As String
+    Public Property InputFile As String
         Get
             Return App.CommandLine("/in")
         End Get
+        Friend Set(value As String)
+            App.CommandLine.Add("/in", value)
+        End Set
     End Property
 
     Dim _out$
@@ -227,6 +230,8 @@ Public Module App
     End Property
 
     ''' <summary>
+    ''' Found the file path based on the current application context.
+    ''' 
     ''' 1. 直接查找(这个查找已经包含了在当前的文件夹之中查找)
     ''' 2. 从<see cref="App.InputFile"/>所在的文件夹之中查找
     ''' 3. 从<see cref="App.OutFile"/>所在的文件夹之中查找
@@ -1120,7 +1125,7 @@ Public Module App
     '''
     <ExportAPI("Folk.Self")>
     Public Function SelfFolk(CLI As String) As IIORedirectAbstract
-        Return Shell(App.ExecutablePath, CLI)
+        Return Shell(App.ExecutablePath, CLI, CLR:=True)
     End Function
 
     ''' <summary>

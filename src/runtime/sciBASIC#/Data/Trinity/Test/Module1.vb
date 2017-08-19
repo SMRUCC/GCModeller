@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d1ac3c601843875be9084bed59d9569, ..\sciBASIC#\Data\Trinity\Test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::c111fb5d5effc09cd916b70827e89f81, ..\sciBASIC#\Data\Trinity\Test\Module1.vb"
 
     ' Author:
     ' 
@@ -28,6 +28,7 @@
 
 Imports Microsoft.VisualBasic.Data.NLP
 Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.PageRank
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module Module1
@@ -56,7 +57,7 @@ available here"
         Dim net = g.GetNetwork
 
         For Each node In net.Nodes
-            node.Properties.Add("PageRank", result(node.Identifier))
+            node.Properties.Add("PageRank", result(node.ID))
         Next
 
         Call net.Save("G:\GCModeller\src\runtime\sciBASIC#\Data\TextRank\")

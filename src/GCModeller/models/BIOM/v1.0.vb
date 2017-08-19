@@ -51,6 +51,33 @@ Namespace v10
         Public Const MatrixElTypeUnicode As String = "unicode"
     End Class
 
+    Public Class IntegerMatrix : Inherits Json(Of Integer)
+
+        Public Overloads Shared Function LoadFile(path$) As IntegerMatrix
+            Dim json$ = path.ReadAllText
+            Dim biom As IntegerMatrix = JsonContract.EnsureDate(json, "date").LoadObject(Of IntegerMatrix)
+            Return biom
+        End Function
+    End Class
+
+    Public Class FloatMatrix : Inherits Json(Of Double)
+
+        Public Overloads Shared Function LoadFile(path$) As FloatMatrix
+            Dim json$ = path.ReadAllText
+            Dim biom As FloatMatrix = JsonContract.EnsureDate(json, "date").LoadObject(Of FloatMatrix)
+            Return biom
+        End Function
+    End Class
+
+    Public Class StringMatrix : Inherits Json(Of String)
+
+        Public Overloads Shared Function LoadFile(path$) As StringMatrix
+            Dim json$ = path.ReadAllText
+            Dim biom As StringMatrix = JsonContract.EnsureDate(json, "date").LoadObject(Of StringMatrix)
+            Return biom
+        End Function
+    End Class
+
     ''' <summary>
     ''' ##### The biom file format: Version 1.0
     ''' 
@@ -58,7 +85,7 @@ Namespace v10
     ''' JSON is a widely supported format with native parsers available within many programming 
     ''' languages.
     ''' </summary>
-    Public Class Json
+    Public Class Json(Of T As {IComparable(Of T), IEquatable(Of T), IComparable})
 
         ''' <summary>
         ''' ``&lt;string or null>`` a field that can be used to id a table (or null)
@@ -153,7 +180,7 @@ Namespace v10
         ''' 
         ''' </summary>
         ''' <returns></returns>
-        Public Property data As Integer()()
+        Public Property data As T()()
         ''' <summary>
         ''' ``&lt;list of objects>`` An ORDERED list of obj describing the rows
         ''' </summary>
@@ -168,6 +195,12 @@ Namespace v10
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
+
+        Public Shared Function LoadFile(path$) As Json(Of T)
+            Dim json$ = path.ReadAllText
+            Dim biom As Json(Of T) = JsonContract.EnsureDate(json, "date").LoadObject(Of Json(Of T))
+            Return biom
+        End Function
     End Class
 
     Public Class row
@@ -177,7 +210,7 @@ Namespace v10
 
     Public Class meta
         Public Property taxonomy As String()
-
+        Public Property KEGG_Pathways As String()
     End Class
 
     Public Class column

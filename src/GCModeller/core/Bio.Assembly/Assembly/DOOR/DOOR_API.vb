@@ -78,7 +78,7 @@ Software",
 0305-1048 (Linking)",
           PubMed:=18988623,
           URL:="http://csbl1.bmb.uga.edu/OperonDB")>
-    <PackageNamespace("Door.API", Category:=APICategories.UtilityTools, Description:="Door operon prediction data.")>
+    <Package("Door.API", Category:=APICategories.UtilityTools, Description:="Door operon prediction data.")>
     Public Module DOOR_API
 
         ''' <summary>

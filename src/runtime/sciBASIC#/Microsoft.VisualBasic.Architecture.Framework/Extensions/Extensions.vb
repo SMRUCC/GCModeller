@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::e33a3586a2558a9eaa0ada6e2de0b238, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::ed42981e98c61dc18f07b9d24ccb8eac, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -61,7 +61,7 @@ Imports v = System.Array
 ''' Common extension methods library for convenient the programming job.
 ''' </summary>
 ''' <remarks></remarks>
-<[PackageNamespace]("Framework.Extensions",
+<Package("Framework.Extensions",
                     Description:="The common extension methods module in this Microsoft.VisualBasic program assembly." &
                                  "Common extension methods library for convenient the programming job.",
                     Publisher:="xie.guigang@gmail.com",
@@ -2005,16 +2005,6 @@ Public Module Extensions
     ''' <remarks></remarks>
     <Extension> Public Function IsNullOrEmpty(Of T)(array As T()) As Boolean
         Return array Is Nothing OrElse array.Length = 0
-    End Function
-
-    ''' <summary>
-    ''' 这个字符串数组之中的所有的元素都是空字符串？
-    ''' </summary>
-    ''' <param name="s$"></param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function EmptyStringVector(s$()) As Boolean
-        Return s.Where(Function(c) Not c.StringEmpty).Count = 0
     End Function
 
     <ExportAPI("CopyFile", Info:="kernel32.dll!CopyFileW")>

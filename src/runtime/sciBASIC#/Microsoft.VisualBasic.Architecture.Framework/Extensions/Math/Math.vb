@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::e0e273615bd139e71819a47b6b0ed7dc, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Math\Math.vb"
+﻿#Region "Microsoft.VisualBasic::1868f9b8353e26d25ec1c3a3c2b03ad9, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Math\Math.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -43,7 +43,7 @@ Namespace Math
     ''' common mathematical functions.To browse the .NET Framework source code for this
     ''' type, see the Reference Source.
     ''' </summary>
-    <PackageNamespace("VBMath", Publisher:="xie.guigang@gmail.com")>
+    <Package("VBMath", Publisher:="xie.guigang@gmail.com")>
     Public Module VBMath
 
         ''' <summary>
@@ -1295,18 +1295,19 @@ Namespace Math
         Public Function Log(d As Double) As Double
             Return sys.Log(d)
         End Function
-        '
-        ' Summary:
-        '     Calculates the integral part of a specified double-precision floating-point number.
-        '
-        ' Parameters:
-        '   d:
-        '     A number to truncate.
-        '
-        ' Returns:
-        '     The integral part of d; that is, the number that remains after any fractional
-        '     digits have been discarded, or one of the values listed in the following table.
-        '     dReturn valueSystem.Double.NaNSystem.Double.NaNSystem.Double.NegativeInfinitySystem.Double.NegativeInfinitySystem.Double.PositiveInfinitySystem.Double.PositiveInfinity
+
+        ''' <summary>
+        ''' Calculates the integral part of a specified double-precision floating-point number.
+        ''' </summary>
+        ''' <param name="d">A number to truncate.</param>
+        ''' <returns>The integral part of d; that is, the number that remains after any fractional
+        ''' digits have been discarded, or one of the values listed in the following table.
+        ''' |<paramref name="d"/>          |Return value                  |
+        ''' |------------------------------|------------------------------|
+        ''' |System.Double.NaN             |System.Double.NaN             |
+        ''' |System.Double.NegativeInfinity|System.Double.NegativeInfinity|
+        ''' |System.Double.PositiveInfinity|System.Double.PositiveInfinity|
+        ''' </returns>
         Public Function Truncate(d As Double) As Double
             Return sys.Truncate(d)
         End Function

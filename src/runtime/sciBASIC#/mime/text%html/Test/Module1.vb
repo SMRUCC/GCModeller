@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71db8c6f183875fff6fc34ae5673e9c8, ..\sciBASIC#\mime\text%html\Test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::fab5a20f525c30ca12f8eb7f2571b553, ..\sciBASIC#\mime\text%html\Test\Module1.vb"
 
     ' Author:
     ' 
@@ -32,7 +32,13 @@ Imports Microsoft.VisualBasic.MIME.Markup.MarkDown
 Module Module1
 
     Sub Main()
-        Dim md = "![](./images/test.png) and ![](./2. annotations/GO/plot.png)
+        Dim md = "
+
+# header1
+
+## Header2
+
+![](./images/test.png) and ![](./2. annotations/GO/plot.png)
 
 |1|2|3|
 |-|-|-|
@@ -45,11 +51,35 @@ Module Module1
 code here
 ```
 
+    Dim a = a+b
+    Call MsgBox(12334)
+
+--------------------------
+
+```vbnet
+Dim DDDDDDDDDDDDDDDDDDDDDDDDDDDDD%
+
+Public Function T() As Void
+End Function
+```
+
+
+###### Escaping Test
+
+```
+
+# This is not a table
+
+|a|b|c|
+|-|-|-|
+|1|2|3|
+
+```
 "
 
         ' md = "G:\temp\reports.md".ReadAllText
 
-        Call New MarkdownHTML().Transform(md).SaveTo("x:\test.html", Encoding.UTF8)
+        Call New MarkdownHTML().Transform(md).SaveTo("./test.html", Encoding.UTF8)
 
         Pause()
     End Sub

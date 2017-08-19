@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::668a12bc35549ae0f9aaf1919ecd7b71, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\TreeAPI\Operations.vb"
+﻿#Region "Microsoft.VisualBasic::df661f53a8dd419eb87982b39377ea57, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\TreeAPI\Operations.vb"
 
     ' Author:
     ' 
@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataStructures.BinaryTree
 
 Namespace TreeAPI
 
-    <PackageNamespace("TREE.Cluster")>
+    <Package("TREE.Cluster")>
     Public Module Operations
 
         <ExportAPI("Tree.Build")>

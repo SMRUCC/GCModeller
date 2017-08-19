@@ -44,7 +44,7 @@ Namespace LocalBLAST.Application.BatchParallel
     ''' </summary>
     ''' <remarks>这里面的方法都是完全的两两组合的BBH</remarks>
     '''
-    <PackageNamespace("Venn.Builder",
+    <Package("Venn.Builder",
                       Category:=APICategories.ResearchTools,
                       Publisher:="amethyst.asuka@gcmodeller.org")>
     Public Module VennDataBuilder

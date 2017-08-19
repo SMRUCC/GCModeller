@@ -308,6 +308,8 @@
     <Compile Include="Assembly\KEGG\Medical\DiseaseParser.vb" />
     <Compile Include="Assembly\KEGG\Extensions.vb" />
     <Compile Include="Assembly\KEGG\Medical\Extensions.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\LocalRender.vb" />
+    <Compile Include="Assembly\KEGG\Web\Map\Downloader.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\URLEncoder.vb" />
     <Compile Include="Assembly\KEGG\Web\Map\Map.vb" />
     <Compile Include="Assembly\KEGG\Web\PathwayMapping.vb" />
@@ -672,7 +674,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\br08901.txt" />
   </ItemGroup>
@@ -740,12 +741,6 @@
     <None Include="Resources\transl_table\transl_table-25.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\br08610.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -783,6 +778,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\KEGG\Reactions\br08203.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\repo\sciBASIC\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

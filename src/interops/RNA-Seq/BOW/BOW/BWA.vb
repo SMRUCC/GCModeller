@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.CommandLine
 '''          stdsw         standard SW/NW alignment
 ''' 
 ''' </remarks>
-<[PackageNamespace]("BWA.API",
+<Package("BWA.API",
                     Description:="Program: bwa (alignment via Burrows-Wheeler transformation)<br />
 Version: 0.6.1-r104<br />
 Contact: Heng Li &lt;lh3@sanger.ac.uk><br />

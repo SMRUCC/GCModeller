@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::01e220864961b8f1b3adb73766141676, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\TableExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::2eaebb7351ac282f111cdceab3ee9d3c, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\DataFrameAPI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -107,7 +107,7 @@ Public Module DataFrameAPI
     ''' <param name="df"></param>
     ''' <param name="var"></param>
     <Extension>
-    Public Sub PushAsDataFrame(df As IO.File, var$,
+    Public Sub PushAsDataFrame(df As File, var$,
                                Optional types As Dictionary(Of String, Type) = Nothing,
                                Optional typeParsing As Boolean = True,
                                Optional rowNames As IEnumerable(Of String) = Nothing)
@@ -267,18 +267,21 @@ l;
     ''' <typeparam name="T"></typeparam>
     ''' <param name="var"></param>
     ''' <returns></returns>
-    <Extension> Public Function AsDataFrame(Of T As Class)(var As var) As T()
+    <Extension> Public Function AsDataFrame(Of T As Class)(var As var, Optional maps As Dictionary(Of String, String) = Nothing) As T()
         Dim tmp$ = App.GetAppSysTempFile
         Dim out As T()
 
         utils.write.csv(x:=var.Name, file:=tmp, rowNames:=False)
-        out = tmp.LoadCsv(Of T)
+        out = tmp.LoadCsv(Of T)(
+            encoding:=Encodings.UTF8.CodePage,
+            maps:=maps) ' R的write.csv函数所保存的文件编码默认为UTF8编码
 
         Return out
     End Function
 
     ''' <summary>
     ''' Write the ``vb.net`` csv dataframe into the R server memory through file IO.
+    ''' (函数所返回来的字符串值为临时变量的名称)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="df"></param>

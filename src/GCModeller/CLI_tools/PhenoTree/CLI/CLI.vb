@@ -51,7 +51,7 @@ Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.COG
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 
-<PackageNamespace("Phenotype.Tree.CLI",
+<Package("Phenotype.Tree.CLI",
                   Category:=APICategories.CLI_MAN,
                   Description:="Cellular phenotype analysis tools.")>
 Public Module CLI
@@ -134,7 +134,7 @@ Public Module CLI
             Let index = New Index(Of String)(members.Select(Function(x) x.Name))
             Select New Map(Of Index(Of String), String) With {
                 .Key = index,
-                .Maps = color.RGB2Hexadecimal
+                .Maps = color.ToHtmlColor
             }
 
         For Each node As Node In net.Nodes

@@ -39,6 +39,17 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
     Public Module MetabolitesDBGet
 
+        <Extension>
+        Public Function MatchByName(compound As Compound, name$) As Boolean
+            For Each s In compound.CommonNames.SafeQuery
+                If s.TextEquals(name) Then
+                    Return True
+                End If
+            Next
+
+            Return False
+        End Function
+
         Const URL = "http://www.kegg.jp/dbget-bin/www_bget?cpd:{0}"
 
         ''' <summary>

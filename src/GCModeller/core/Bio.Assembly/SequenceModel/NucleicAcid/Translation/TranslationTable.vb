@@ -39,7 +39,7 @@ Namespace SequenceModel.NucleotideModels.Translation
     ''' transl_table=1 标准密码子表
     ''' </summary>
     ''' 
-    <PackageNamespace("NT.Translation",
+    <Package("NT.Translation",
                       Category:=APICategories.UtilityTools,
                       Description:="",
                       Publisher:="amethyst.asuka@gcmodeller.org",

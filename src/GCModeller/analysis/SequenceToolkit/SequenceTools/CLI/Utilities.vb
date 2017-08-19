@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
 ''' </summary>
 ''' <remarks></remarks>
 ''' 
-<PackageNamespace("Seqtools.Utilities.CLI",
+<Package("Seqtools.Utilities.CLI",
                   Category:=APICategories.CLI_MAN,
                   Description:="Sequence operation utilities",
                   Publisher:="xie.guigang@gmail.com")>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3249c524a26bd157ad4c2d46ca07fd9d, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\Settings\Inf\INIProfile.vb"
+﻿#Region "Microsoft.VisualBasic::88db7a47dcf4f850c6ec7720b67b9a75, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\Settings\Inf\INIProfile.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@ Namespace ComponentModel.Settings.Inf
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <PackageNamespace("Settings.Inf",
+    <Package("Settings.Inf",
                       Description:="Wrapper class for *.ini and *.inf configure file.", Url:="http://gcmodeller.org", Publisher:="xie.guigang@live.com")>
     Public Module INIProfile
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e68bf3d93255edefb2980ae2ebd7dc0c, ..\sciBASIC#\Data_science\DataMining\network\BinaryTree\Tree.vb"
+﻿#Region "Microsoft.VisualBasic::c77c61a0dfa5d51ccc5e8d441fab2ae1, ..\sciBASIC#\Data_science\DataMining\network\BinaryTree\Tree.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@ Namespace KMeans
     ''' <summary>
     ''' KMeans.Tree.NET
     ''' </summary>
-    <PackageNamespace("KMeans.Tree.NET",
+    <Package("KMeans.Tree.NET",
                       Category:=APICategories.ResearchTools,
                       Publisher:="smrucc@gcmodeller.org")>
     Public Module Tree

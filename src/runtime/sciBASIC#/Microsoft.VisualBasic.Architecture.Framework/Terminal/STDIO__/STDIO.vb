@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4453fc282c91f519c82f5a208f0eec10, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Terminal\STDIO__\STDIO.vb"
+﻿#Region "Microsoft.VisualBasic::be13e7f4b166d7dc5690b942e49cc28f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Terminal\STDIO__\STDIO.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,7 @@ Namespace Terminal
     ''' (一个用于让VisualBasic应用程序更加容易的运行于Linux服务器或者MAC系统之上的标准输入输出流的系统兼容包)
     ''' </summary>
     ''' <remarks></remarks>
-    <PackageNamespace("STDIO", Description:="A standard input/output compatibility package that makes VisualBasic console program easily running on the Linux server or mac osx operating system.",
+    <Package("STDIO", Description:="A standard input/output compatibility package that makes VisualBasic console program easily running on the Linux server or mac osx operating system.",
                       Publisher:="xie.guigang@live.com",
                       Revision:=569,
                       Url:="http://gcmodeller.org")>

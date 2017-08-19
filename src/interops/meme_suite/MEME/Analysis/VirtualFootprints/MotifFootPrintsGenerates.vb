@@ -58,7 +58,7 @@ Namespace Analysis.GenomeMotifFootPrints
     ''' 这里所定义的所有对象都是和数据解析无关了，都是用于进行数据存储的对象类型
     ''' </summary>
     ''' <remarks></remarks>
-    <[PackageNamespace]("MEME.app.Genome_Footprints",
+    <Package("MEME.app.Genome_Footprints",
         Description:="Steps for genome wide regulation analysis: <br />
      <li> 1. Download the regprecise database And then extract the motif sequence.
      <li> 2. Download the regprecise regulators protein sequence from kegg

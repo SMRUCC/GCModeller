@@ -48,7 +48,7 @@ Namespace Assembly.KEGG.WebServices
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <PackageNamespace("KEGG.DBGET",
+    <Package("KEGG.DBGET",
                       Url:="http://www.genome.jp/dbget/",
                       Description:="KEGG web query request handler for DBGET system.<br />
 <pre>DBGET is an integrated database retrieval system for major biological databases, which are classified into five categories:

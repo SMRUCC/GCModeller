@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c38ba59d43decdae4483244cc0150aa6, ..\sciBASIC#\Data\Trinity\TextRank.vb"
+﻿#Region "Microsoft.VisualBasic::351f615e923045bad61c0f32f9cae0b6, ..\sciBASIC#\Data\Trinity\TextRank.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
-Imports Microsoft.VisualBasic.Data.visualize.Network
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.PageRank
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Text
 
@@ -65,7 +65,7 @@ Public Module TextRank
 
     <Extension>
     Public Function TextGraph(sentences As IEnumerable(Of String)) As GraphMatrix
-        Dim net As New Network
+        Dim net As New NetworkTables
         Dim source As String() = sentences _
             .Select(AddressOf Trim) _
             .Where(Function(s) Not String.IsNullOrEmpty(s)) _

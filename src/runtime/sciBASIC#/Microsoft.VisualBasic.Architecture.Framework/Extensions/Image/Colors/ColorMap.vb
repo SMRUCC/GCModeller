@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd6e60571f2ada400f539d7139de547d, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\ColorMap.vb"
+﻿#Region "Microsoft.VisualBasic::e7063b31bfaa6a47452dfdac198c6b7a, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\ColorMap.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@ Namespace Imaging
     ''' </summary>
     ''' <remarks>http://www.codeproject.com/Articles/18150/Create-Custom-Color-Maps-in-C</remarks>
     ''' 
-    <PackageNamespace("ColorMap", Publisher:="Jack J. H. Xu", Category:=APICategories.UtilityTools)>
+    <Package("ColorMap", Publisher:="Jack J. H. Xu", Category:=APICategories.UtilityTools)>
     Public Module ColorMapsExtensions
 
         ''' <summary>

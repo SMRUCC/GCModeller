@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9dbc4192aad7afde9a05ce0ae3980022, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Wrappers\Heatmap.vb"
+﻿#Region "Microsoft.VisualBasic::a1d5eba5838bb3ebe445c6ad5990e271, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Wrappers\Heatmap.vb"
 
     ' Author:
     ' 

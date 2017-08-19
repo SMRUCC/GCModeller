@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem
 
-<[PackageNamespace]("GCModeller.EngineHost", Description:="", Url:="", Category:=APICategories.CLI_MAN)>
+<Package("GCModeller.EngineHost", Description:="", Url:="", Category:=APICategories.CLI_MAN)>
 Public Module CommandLines
 
     <ExportAPI("run", Info:="",
