@@ -27,9 +27,10 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Vector.Text
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 
@@ -67,6 +68,7 @@ Namespace DendrogramVisualize
         Dim wModel As Double = 0.0
         Dim hModel As Double = 0.0
 
+        Public Property ShowLeafLabel As Boolean = True
         Public Property ShowDistanceValues As Boolean = True
         Public Property ShowScale As Boolean = True
         Public Property ScalePadding As Integer = 10
@@ -74,6 +76,7 @@ Namespace DendrogramVisualize
         Public Property ScaleValueInterval As Double
         Public Property ScaleValueDecimals As Integer
         Public Property LineColor As Color = Color.Black
+        Public Property LinkDotRadius% = 5
 
         Public Property Model As Cluster
             Get
@@ -147,11 +150,20 @@ Namespace DendrogramVisualize
             Return comp
         End Function
 
-        Public Sub paint(g2 As Graphics2D,
-                         Optional region As Rectangle = Nothing,
-                         Optional axisStrokeCSS$ = Stroke.AxisStroke,
-                         Optional branchStrokeCSS$ = Stroke.AxisStroke,
-                         Optional classLegendWidth% = 50)
+        ''' <summary>
+        ''' Draw dendrogram tree visualize and returns the label orders
+        ''' </summary>
+        ''' <param name="g2"></param>
+        ''' <param name="region"></param>
+        ''' <param name="axisStrokeCSS$"></param>
+        ''' <param name="branchStrokeCSS$"></param>
+        ''' <param name="classLegendWidth%"></param>
+        ''' <returns></returns>
+        Public Function Paint(g2 As Graphics2D,
+                              Optional region As Rectangle = Nothing,
+                              Optional axisStrokeCSS$ = Stroke.AxisStroke,
+                              Optional branchStrokeCSS$ = Stroke.AxisStroke,
+                              Optional classLegendWidth% = 50) As NamedValue(Of PointF)()
 
             If region.IsEmpty Then
                 region = g2.ImageResource.EntireImage
@@ -169,10 +181,10 @@ Namespace DendrogramVisualize
 
             ' 如果cluster的结果不为空
             If component IsNot Nothing Then
-                Call __draw(g2,
-                            wDisplay, hDisplay, xDisplayOrigin, yDisplayOrigin,
-                            stroke:=Stroke.TryParse(branchStrokeCSS),
-                            classLegendWidth:=classLegendWidth)
+                Return __draw(g2,
+                    wDisplay, hDisplay, xDisplayOrigin, yDisplayOrigin,
+                    stroke:=Stroke.TryParse(branchStrokeCSS),
+                    classLegendWidth:=classLegendWidth)
             Else
                 ' No data available 
                 Dim str As String = "No data"
@@ -181,13 +193,17 @@ Namespace DendrogramVisualize
                 Dim yt As Integer = CInt(Fix(hDisplay / 2.0 - rect.Height / 2.0))
 
                 g2.DrawString(str, xt, yt)
+
+                Return {}
             End If
-        End Sub
+        End Function
 
-        Private Sub __draw(g2 As Graphics2D, wDisplay%, hDisplay%, xDisplayOrigin%, yDisplayOrigin%, stroke As Stroke, classLegendWidth%)
-            Dim nameGutterWidth As Integer = component.GetMaxNameWidth(g2, False) + component.NamePadding
+        Private Function __draw(g2 As Graphics2D, wDisplay%, hDisplay%, xDisplayOrigin%, yDisplayOrigin%, stroke As Stroke, classLegendWidth%) As NamedValue(Of PointF)()
 
-            wDisplay -= nameGutterWidth
+            If ShowLeafLabel Then
+                Dim nameGutterWidth% = component.GetMaxNameWidth(g2, False) + component.NamePadding
+                wDisplay -= nameGutterWidth
+            End If
 
             If ShowScale Then
                 Dim rect As RectangleF = g2.FontMetrics.GetStringBounds("0", g2.Graphics)
@@ -217,11 +233,14 @@ Namespace DendrogramVisualize
                 .classTable = ClassTable,
                 .stroke = stroke,
                 .classLegendSize = New Size(classLegendWidth, legendHeight),
-                .classLegendPadding = padding
+                .classLegendPadding = padding,
+                .ShowLabelName = ShowLeafLabel,
+                .LinkDotRadius = LinkDotRadius
             }
+            Dim labels As New List(Of NamedValue(Of PointF))
 
             ' 从这里开始进行递归的绘制出整个进化树
-            Call component.paint(g2, args)
+            Call component.paint(g2, args, labels)
 
             ' 在这里进行标尺的绘制
             If ShowScale Then
@@ -259,6 +278,8 @@ Namespace DendrogramVisualize
                     distanceValue += xModelInterval
                 Loop
             End If
-        End Sub
+
+            Return labels
+        End Function
     End Class
 End Namespace

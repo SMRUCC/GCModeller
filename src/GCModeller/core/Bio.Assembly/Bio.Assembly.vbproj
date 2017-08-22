@@ -274,6 +274,7 @@
     <Compile Include="Assembly\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb" />
     <Compile Include="Assembly\EBI\ChEBI\EntityModel\Extensions.vb" />
     <Compile Include="Assembly\EBI\ChEBI\EntityModel\EntitySearch.vb" />
+    <Compile Include="Assembly\EBI\ChEBI\EntityModel\XML\Extensions.vb" />
     <Compile Include="Assembly\EBI\ChEBI\EntityModel\XML\Fields.vb" />
     <Compile Include="Assembly\EBI\ChEBI\Web\REST.vb" />
     <Compile Include="Assembly\Expasy\API.vb" />
@@ -780,7 +781,7 @@
     <None Include="Resources\KEGG\Reactions\br08203.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\repo\sciBASIC\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
