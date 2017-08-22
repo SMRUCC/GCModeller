@@ -46,7 +46,7 @@ Public Module BIOM
     ''' <param name="cut%"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function [Imports](source As IEnumerable(Of Names), Optional takes% = 100, Optional cut% = 50) As Json
+    Public Function [Imports](source As IEnumerable(Of Names), Optional takes% = 100, Optional cut% = 50) As IntegerMatrix
         Dim array As Names() = LinqAPI.Exec(Of Names) <=
  _
             From x As Names
@@ -96,7 +96,7 @@ Public Module BIOM
             Next
         Next
 
-        Return New Json With {
+        Return New IntegerMatrix With {
             .id = Guid.NewGuid.ToString,
             .format = "Biological Observation Matrix 1.0.0",
             .format_url = "http://biom-format.org",
@@ -113,7 +113,7 @@ Public Module BIOM
     End Function
 
     <Extension>
-    Public Function EXPORT(table As IEnumerable(Of OTUData), Optional alreadyBIOMTax As Boolean = False) As Json
+    Public Function EXPORT(table As IEnumerable(Of OTUData), Optional alreadyBIOMTax As Boolean = False) As IntegerMatrix
         Dim getTax As Func(Of String, String)
 
         If alreadyBIOMTax Then
