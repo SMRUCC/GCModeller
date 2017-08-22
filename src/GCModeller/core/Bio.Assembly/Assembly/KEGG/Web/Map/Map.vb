@@ -129,7 +129,8 @@ Namespace Assembly.KEGG.WebServices
             Get
                 If InStr(href, "/dbget-bin/www_bget") = 1 Then
                     With IdList.First
-                        If .IsPattern("C\d+") Then
+                        If .IsPattern("[CDG]\d+") Then
+                            ' compound, drug, glycan
                             Return NameOf(Compound)
                         ElseIf .IndexOf(":"c) > -1 Then
                             Return "Gene"
