@@ -22,6 +22,27 @@ Namespace Assembly.KEGG.WebServices
         End Sub
 
         ''' <summary>
+        ''' Get display title of the target pathway map
+        ''' </summary>
+        ''' <param name="mapName$"></param>
+        ''' <returns></returns>
+        Public Function GetTitle(mapName$) As String
+            Dim map As Map = mapTable(mapName)
+            Dim rect As Area = map _
+                .Areas _
+                .Where(Function(ar)
+                           Return ar.shape.TextEquals("rect") AndAlso ar.IdList.IndexOf(mapName) > -1
+                       End Function) _
+                .FirstOrDefault
+
+            If rect Is Nothing Then
+                Return mapName
+            Else
+                Return rect.title
+            End If
+        End Function
+
+        ''' <summary>
         ''' Create renderer from a directory which contains required map file.
         ''' </summary>
         ''' <param name="repo$"></param>
