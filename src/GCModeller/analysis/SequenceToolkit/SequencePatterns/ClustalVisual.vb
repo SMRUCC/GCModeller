@@ -110,7 +110,7 @@ Public Module ClustalVisual
                                fa.Title
                            Order By l Descending).First
 
-        Dim titleFont As Font = New Font(Ubuntu, FontSize)
+        Dim titleFont As Font = New Font(FontFace.Ubuntu, FontSize)
         Dim StringSize As Size = titleMaxLen.Title.MeasureString(titleFont)
         Dim DotSize As Integer = ClustalVisual.DotSize
 
@@ -123,7 +123,7 @@ Public Module ClustalVisual
         Dim gdi As Graphics2D = grSize.CreateGDIDevice
         Dim X As Integer = 0.5 * Margin + StringSize.Width + 10
         Dim Y As Integer = Margin
-        Dim DotFont As New Font(Ubuntu, FontSize + 1, FontStyle.Bold)
+        Dim DotFont As New Font(FontFace.Ubuntu, FontSize + 1, FontStyle.Bold)
         Dim ConservedSites As Integer() =
             LinqAPI.Exec(Of Integer) <= From site As SeqValue(Of SimpleSite)
                                         In Patterns.Frequency(aln).Residues.SeqIterator
