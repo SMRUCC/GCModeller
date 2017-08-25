@@ -172,7 +172,7 @@ For example, we identified a new domain, likely to have a role downstream of the
             Dim gSize As New Size(model.Residues.Length * WordSize + 2 * margin, 2 * margin + n * Height)
             Dim gdi As Graphics2D = gSize.CreateGDIDevice(Color.Transparent)
             Dim X, Y As Integer
-            Dim font As New Font(MicrosoftYaHei, CInt(WordSize * 0.6), FontStyle.Bold)
+            Dim font As New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.6), FontStyle.Bold)
             Dim size As SizeF
 
             size =
@@ -182,7 +182,7 @@ For example, we identified a new domain, likely to have a role downstream of the
                 Brushes.Black,
                 New Point((gdi.Width - size.Width) / 2, y:=margin / 2.5))
 
-            font = New Font(MicrosoftYaHei, CInt(WordSize * 0.4))
+            font = New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.4))
 
 #Region "画坐标轴"
 
