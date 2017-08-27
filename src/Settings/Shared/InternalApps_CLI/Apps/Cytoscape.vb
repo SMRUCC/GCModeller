@@ -2,6 +2,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
+
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
 ' assembly: G:/GCModeller/GCModeller/bin/Cytoscape.exe
 
@@ -441,6 +442,47 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /KEGG.pathwayMap.Network /in &lt;br08901.DIR> [/node &lt;nodes.data.csv> /out &lt;out.DIR>]
+''' ```
+''' </summary>
+'''
+Public Function KEGGPathwayMapNetwork(_in As String, Optional _node As String = "", Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("/KEGG.pathwayMap.Network")
+Call CLI.Append(" ")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _node.StringEmpty Then
+Call CLI.Append("/node " & """" & _node & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /KO.link /in &lt;ko00001.DIR> [/out &lt;out.XML>]
+''' ```
+''' </summary>
+'''
+Public Function BuildKOLinks(_in As String, Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("/KO.link")
+Call CLI.Append(" ")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /linkage.knowledge.network /in &lt;knowledge.network.csv/DIR> [/schema &lt;material> /no-type_prefix /out &lt;out.network.DIR>]
 ''' ```
 ''' </summary>
@@ -732,6 +774,28 @@ End Function
 
 ''' <summary>
 ''' ```
+''' /Plot.Cytoscape.Table /in &lt;table.csv> [/size &lt;default=1600,1440> /out &lt;out.DIR>]
+''' ```
+''' </summary>
+'''
+Public Function PlotCytoscapeTable(_in As String, Optional _size As String = "1600,1440", Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("/Plot.Cytoscape.Table")
+Call CLI.Append(" ")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _size.StringEmpty Then
+Call CLI.Append("/size " & """" & _size & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
 ''' /reaction.NET [/model &lt;xmlModel.xml> /source &lt;rxn.DIR> /out &lt;outDIR>]
 ''' ```
 ''' </summary>
@@ -803,6 +867,25 @@ End Function
 '''
 Public Function rFBATreeCluster(_in As String, Optional _out As String = "") As Integer
 Dim CLI As New StringBuilder("/Tree.Cluster.rFBA")
+Call CLI.Append(" ")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Write.Reaction.Table /in &lt;br08201.DIR> [/out &lt;out.csv>]
+''' ```
+''' </summary>
+'''
+Public Function WriteReactionTable(_in As String, Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("/Write.Reaction.Table")
 Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
