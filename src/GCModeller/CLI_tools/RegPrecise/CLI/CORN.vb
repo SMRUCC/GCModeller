@@ -27,7 +27,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -37,7 +37,6 @@ Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns

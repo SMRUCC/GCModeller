@@ -30,6 +30,7 @@ Imports System.Drawing
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base

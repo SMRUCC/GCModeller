@@ -265,15 +265,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="My Project\Settings.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="Interpreter\Parser\LDM\SyntaxModel.vb" />
     <Compile Include="Interpreter\Parser\SyntaxParser.vb" />
     <Compile Include="Interpreter\Parser\Tokenliser\Tokens\Tokens.vb" />
-    <Compile Include="My Project\Settings1.Designer.vb">
+    <Compile Include="My Project\Settings.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -340,7 +335,7 @@
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>My</CustomToolNamespace>
-      <LastGenOutput>Settings1.Designer.vb</LastGenOutput>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
   </ItemGroup>
