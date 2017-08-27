@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 
 Namespace LocalBLAST.Programs

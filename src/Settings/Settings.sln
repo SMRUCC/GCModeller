@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Settings.Configuration", "Shared\Settings.Configuration\Settings.Configuration.shproj", "{E8CABDE9-5471-4EB6-8ABC-54C95D3B1512}"
 EndProject
@@ -21,9 +21,12 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+Microsoft.VisualBasic.Arch
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+VB_DataFrame", "..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj", "{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "InternalApps_CLI", "Shared\InternalApps_CLI\InternalApps_CLI.shproj", "{3D1FB85C-C35B-4AE8-BC0A-36FCE222551E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Shared\Settings.FileSystem\Settings.FileSystem.projitems*{36ee8dc2-3d23-45b7-8ce4-1942916a02aa}*SharedItemsImports = 13
+		Shared\InternalApps_CLI\InternalApps_CLI.projitems*{3d1fb85c-c35b-4ae8-bc0a-36fce222551e}*SharedItemsImports = 13
 		Shared\RepositoryCommon\RepositoryCommon.projitems*{9b5ef311-a718-4067-a409-417de0f9d2af}*SharedItemsImports = 13
 		Shared\Settings.Configuration\Settings.Configuration.projitems*{e8cabde9-5471-4eb6-8abc-54c95d3b1512}*SharedItemsImports = 13
 		Shared\RepositoryCommon\RepositoryCommon.projitems*{feb3212d-0b72-41e4-9c2d-56c212cf5062}*SharedItemsImports = 4
@@ -179,5 +182,9 @@ Global
 		{2C34A044-1BDE-44E8-A86E-E9971C87DA21} = {7B15BCA1-34FB-4C18-B000-0BDF5B305A7E}
 		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99} = {7B15BCA1-34FB-4C18-B000-0BDF5B305A7E}
 		{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB} = {7B15BCA1-34FB-4C18-B000-0BDF5B305A7E}
+		{3D1FB85C-C35B-4AE8-BC0A-36FCE222551E} = {7D6476CE-22A4-4C79-8738-543F8ADA99B4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9D26208A-0CE9-4397-AAFD-4B0835AAA563}
 	EndGlobalSection
 EndGlobal
