@@ -1,7 +1,7 @@
 ﻿Imports System.Reflection
 Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.Linq
-
+Imports Microsoft.VisualBasic.ApplicationServices
 ''' <summary>
 ''' A list of GCModeller apps 
 ''' </summary>

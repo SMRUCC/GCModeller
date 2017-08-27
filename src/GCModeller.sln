@@ -431,6 +431,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "KEGG", "GCModeller\models\N
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Plots.Statistics", "runtime\sciBASIC#\Data_science\Mathematica\Plot\Plots-statistics\Plots.Statistics.vbproj", "{368EE92F-7AA0-47DF-BE48-2AE150369A4C}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "InternalApps_CLI", "Settings\Shared\InternalApps_CLI\InternalApps_CLI.shproj", "{3D1FB85C-C35B-4AE8-BC0A-36FCE222551E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{01c60ec4-4677-483b-9f20-031bac02d921}*SharedItemsImports = 4
@@ -449,6 +451,7 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{2e8a689a-3bec-4504-9d02-80082c732653}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{32ad8599-cf3f-4eec-8595-ea480f24dae2}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{36ee8dc2-3d23-45b7-8ce4-1942916a02aa}*SharedItemsImports = 13
+		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{3d1fb85c-c35b-4ae8-bc0a-36fce222551e}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{44aae36f-f2a7-412e-baf3-163779e90fb3}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{44aae36f-f2a7-412e-baf3-163779e90fb3}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{556c6e3c-d90b-4be6-a230-3c9b167c33d0}*SharedItemsImports = 4
@@ -479,6 +482,7 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{804eb81c-493a-49ef-95a9-dbf800fa4a08}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
+		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{8443c152-5bfc-44e3-bb6b-28675d5f282a}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{8443c152-5bfc-44e3-bb6b-28675d5f282a}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{8443c152-5bfc-44e3-bb6b-28675d5f282a}*SharedItemsImports = 4
 		GCModeller\shared\docs\Shared.DocumentFormats.projitems*{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}*SharedItemsImports = 4
@@ -491,6 +495,7 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{9c60cb50-7abc-44d7-b0e6-270fdd6120e7}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{9f0a63f1-e8bf-4d40-a4e2-0da12bff566d}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{9f0a63f1-e8bf-4d40-a4e2-0da12bff566d}*SharedItemsImports = 4
+		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{a2dcf5de-7cee-4fc7-89fb-913a8b814824}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{a2dcf5de-7cee-4fc7-89fb-913a8b814824}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{a2dcf5de-7cee-4fc7-89fb-913a8b814824}*SharedItemsImports = 4
 		GCModeller\sub-system\FBA_DP\FBA_Doc\FBA_Doc.projitems*{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}*SharedItemsImports = 4
@@ -6629,6 +6634,7 @@ Global
 		{CC88FECD-EEEE-40D3-830C-CE98FCF598DC} = {AB809E3E-ECF5-4B99-AE30-821F93976AED}
 		{83C6A265-8264-4F16-A70A-1F4E692290EC} = {E841C8AE-8CC3-4BA9-8D39-42E15C6D6635}
 		{368EE92F-7AA0-47DF-BE48-2AE150369A4C} = {C790863D-8CC5-4BDC-8BCA-54A29338371D}
+		{3D1FB85C-C35B-4AE8-BC0A-36FCE222551E} = {AD70F88E-094C-4888-8E3F-781764FE7EF4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47F07DE6-3450-41B9-AB20-E7181E445FFF}

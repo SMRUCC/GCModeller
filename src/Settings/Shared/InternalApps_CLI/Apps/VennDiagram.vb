@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports CLIApp = Microsoft.VisualBasic.CommandLine.InteropService.InteropService
-
+Imports Microsoft.VisualBasic.ApplicationServices
 Namespace GCModellerApps
 
     Public Class VennDiagram : Inherits CLIApp
