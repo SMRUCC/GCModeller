@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ALGLIB</RootNamespace>
     <AssemblyName>alglibnet2</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
   </PropertyGroup>
