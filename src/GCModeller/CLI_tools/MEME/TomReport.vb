@@ -29,14 +29,15 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
-Imports SMRUCC.genomics.GCModeller.Workbench
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.GCModeller.Workbench
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
 
 <Package("Tom.Report", Publisher:="amethyst.asuka@gcmodeller.org")>
 Public Module TomReport
@@ -114,7 +115,7 @@ E-Value: {query.Subject.Evalue}
         Call ReportBuilder.SaveAsHTML(innerHTML.ToString,
                                       outDIR & "/TomQuery.html",
                                       "Motif Query: " & query.Query.ToString)
-        Call GZip.AddToArchive(outDIR & "/TomQuery.zip", FileIO.FileSystem.GetFiles(outDIR, FileIO.SearchOption.SearchAllSubDirectories), ArchiveAction.Replace, Overwrite.Always, IO.Compression.CompressionLevel.Fastest)
+        Call GZip.AddToArchive(ls - l - r - "*.*" <= outDIR, outDIR & "/TomQuery.zip", ArchiveAction.Replace, Overwrite.Always, IO.Compression.CompressionLevel.Fastest)
 
         Return True
     End Function

@@ -96,6 +96,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
                 Call New VisualBasic(CLI, GCModellerApps) _
                     .GetSourceCode _
                     .SaveTo($"{out}/{file.BaseName}.vb")
+                Call file.__INFO_ECHO
             End If
         Next
 
