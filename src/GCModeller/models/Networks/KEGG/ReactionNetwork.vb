@@ -187,6 +187,8 @@ Public Module ReactionNetwork
                                         End If
                                     End With
                                 Next
+
+                                Exit For
                             End If
                         Next
                     End If
@@ -199,6 +201,12 @@ Public Module ReactionNetwork
             .Select(Function(x) x.First) _
             .AsList
 
-        Return New NetworkTables(nodes.Values + extendes, edges.Values)
+        For Each x In extendes
+            If Not nodes.ContainsKey(x.ID) Then
+                nodes += x
+            End If
+        Next
+
+        Return New NetworkTables(nodes.Values, edges.Values)
     End Function
 End Module
