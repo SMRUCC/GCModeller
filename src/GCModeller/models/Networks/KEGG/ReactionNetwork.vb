@@ -48,10 +48,19 @@ Public Module ReactionNetwork
         Next
     End Sub
 
+    ''' <summary>
+    ''' 利用代谢反应的摘要数据构建出代谢物的互作网络
+    ''' </summary>
+    ''' <param name="br08901">代谢反应数据</param>
+    ''' <param name="compounds">KEGG化合物编号</param>
+    ''' <param name="delimiter$"></param>
+    ''' <param name="extended">是否对结果进行进一步的拓展，以获取得到一个连通性更加多的大网络？默认不进行拓展</param>
+    ''' <returns></returns>
     <Extension>
     Public Function BuildModel(br08901 As IEnumerable(Of ReactionTable),
                                compounds As IEnumerable(Of NamedValue(Of String)),
-                               Optional delimiter$ = FunctionalNetwork.Delimiter) As NetworkTables
+                               Optional delimiter$ = FunctionalNetwork.Delimiter,
+                               Optional extended As Boolean = False) As NetworkTables
 
         Dim blue = Color.CornflowerBlue.RGBExpression
         Dim edges As New Dictionary(Of String, NetworkEdge)
@@ -111,8 +120,8 @@ Public Module ReactionNetwork
                     Dim edge As New NetworkEdge With {
                         .FromNode = a.ID,
                         .ToNode = b.ID,
-                        .value = commons.value.Length,
-                        .Interaction = commons.value.JoinBy("|")
+                        .value = commons.Value.Length,
+                        .Interaction = commons.Value.JoinBy("|")
                     }
 
                     With edge.GetNullDirectedGuid(True)
