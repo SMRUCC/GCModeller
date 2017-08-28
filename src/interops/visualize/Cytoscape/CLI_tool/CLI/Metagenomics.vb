@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -46,7 +47,6 @@ Imports SMRUCC.genomics.Model.Network.BLAST.API
 Imports SMRUCC.genomics.Model.Network.BLAST.BBHAPI
 Imports SMRUCC.genomics.Model.Network.BLAST.LDM
 Imports SMRUCC.genomics.Model.Network.BLAST.Metagenome
-
 
 Partial Module CLI
 

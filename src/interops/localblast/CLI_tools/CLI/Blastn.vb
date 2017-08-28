@@ -28,20 +28,16 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
@@ -250,7 +246,7 @@ Partial Module CLI
         Dim out As String = args _
             .GetValue("/out", [in].TrimSuffix & $"{If(best, ".best", "")}.Csv")
 
-        If FileSystem.FileLen([in]) > 2L * 1024L * 1024L * 1024L Then
+        If [in].FileLength > 2L * 1024L * 1024L * 1024L Then
             ' 超大
             Using IO As New WriteStream(Of BlastnMapping)(out, metaKeys:={})
                 Dim handle As Action(Of Query) =
