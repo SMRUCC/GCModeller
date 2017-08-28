@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Public Module ReactionNetwork
 
@@ -64,6 +65,8 @@ Public Module ReactionNetwork
 
         Dim blue = Color.CornflowerBlue.RGBExpression
         Dim edges As New Dictionary(Of String, NetworkEdge)
+
+        ' {KEGG_compound --> reaction ID()}
         Dim cpdGroups = br08901 _
             .Select(Function(x)
                         Return x.substrates _
@@ -80,6 +83,8 @@ Public Module ReactionNetwork
                                   .ToArray
                           End Function)
         Dim commons As Value(Of String()) = {}
+
+        ' 从输入的数据之中构建出网络的节点列表
         Dim nodes As Dictionary(Of Node) = compounds _
             .Select(Function(cpd)
                         Dim type$
@@ -102,6 +107,9 @@ Public Module ReactionNetwork
                     End Function) _
             .ToDictionary
 
+        Dim extendes As New List(Of Node)
+
+        ' 下面的这个for循环对所构建出来的节点列表进行边链接构建
         For Each a As Node In nodes.Values
             Dim reactionA = cpdGroups.TryGetValue(a.ID)
 
@@ -116,6 +124,7 @@ Public Module ReactionNetwork
                     Continue For
                 End If
 
+                ' a 和 b 是直接相连的
                 If Not (commons = reactionA.Intersect(rB).ToArray).IsNullOrEmpty Then
                     Dim edge As New NetworkEdge With {
                         .FromNode = a.ID,
@@ -129,10 +138,67 @@ Public Module ReactionNetwork
                             Call edges.Add(.ref, edge)
                         End If
                     End With
+
+                Else
+
+                    ' 这两个节点之间可能存在一个空位，
+                    ' 对所有的节点进行遍历，找出同时链接a和b的节点
+                    If extended Then
+
+                        If Not cpdGroups.ContainsKey(a.ID) OrElse Not cpdGroups.ContainsKey(b.ID) Then
+                            Continue For
+                        End If
+
+                        Dim indexA = cpdGroups(a.ID).Indexing
+                        Dim indexB = cpdGroups(b.ID).Indexing
+
+                        For Each x In cpdGroups
+                            Dim list = x.Value
+
+                            If list.Any(Function(r) indexA(r) > -1) AndAlso list.Any(Function(r) indexB(r) > -1) Then
+                                ' 这是一个间接的拓展链接，将其加入到边列表之中
+                                ' X也添加进入拓展节点列表之中
+
+                                extendes += New Node With {
+                                    .ID = x.Key,
+                                    .NodeType = list.JoinBy(delimiter),
+                                    .Properties = New Dictionary(Of String, String) From {
+                                        {"name", x.Key},
+                                        {"color", blue}
+                                    }
+                                }
+
+                                Dim populate = Iterator Function()
+                                                   Yield (a.ID, indexA)
+                                                   Yield (b.ID, indexB)
+                                               End Function
+
+                                For Each n As (ID$, list As Index(Of String)) In populate()
+                                    Dim edge As New NetworkEdge With {
+                                        .FromNode = n.ID,
+                                        .ToNode = x.Key,
+                                        .Interaction = n.list.Objects.Intersect(list).JoinBy("|"),
+                                        .value = - .Interaction.Split("|"c).Length
+                                    }
+
+                                    With edge.GetNullDirectedGuid(True)
+                                        If Not edges.ContainsKey(.ref) Then
+                                            Call edges.Add(.ref, edge)
+                                        End If
+                                    End With
+                                Next
+                            End If
+                        Next
+                    End If
                 End If
             Next
         Next
 
-        Return New NetworkTables(nodes.Values, edges.Values)
+        extendes = extendes _
+            .GroupBy(Function(n) n.ID) _
+            .Select(Function(x) x.First) _
+            .AsList
+
+        Return New NetworkTables(nodes.Values + extendes, edges.Values)
     End Function
 End Module
