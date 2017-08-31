@@ -27,9 +27,9 @@ DROP TABLE IF EXISTS `alt_id`;
 CREATE TABLE `alt_id` (
   `id` int(10) unsigned NOT NULL,
   `alt_id` int(10) unsigned NOT NULL,
-  `name` mediumtext,
+  `name` mediumtext COMMENT 'The name field in the go_term',
   PRIMARY KEY (`id`,`alt_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term的主编号和次级编号之间的关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,8 +45,9 @@ CREATE TABLE `dag_relationship` (
   `relationship_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`,`term_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`,`term_id`),
+  KEY `dag_relation_name_id_idx` (`relationship_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='由GO_term之间的相互关系所构成的有向无环图Directed Acyclic Graph（DAG）';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,8 +67,9 @@ CREATE TABLE `go_terms` (
   `is_obsolete` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 为 False, 1 为 True',
   `comment` longtext,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `go_term_namespace_idx` (`namespace_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term的具体的定义内容';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +84,7 @@ CREATE TABLE `relation_names` (
   `name` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='枚举所有的关系的名称';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +99,7 @@ CREATE TABLE `term_namespace` (
   `namespace` tinytext NOT NULL COMMENT '这个表里面只有三个值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='枚举三个命名空间';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,8 +116,9 @@ CREATE TABLE `term_synonym` (
   `type` varchar(45) DEFAULT NULL COMMENT 'EXACT []  表示完全一样\nRELATED [EC:3.1.27.3] 表示和xxxx有关联，其中EC编号为本表之中的object字段 ',
   `object` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `term_id_idx` (`term_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term的同义词表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +134,7 @@ CREATE TABLE `xref` (
   `external_id` varchar(45) NOT NULL COMMENT '外部数据库编号',
   `comment` longtext,
   PRIMARY KEY (`go_id`,`external_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='GO_term与外部数据库之间的相互关联';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,4 +154,4 @@ CREATE TABLE `xref` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-31 23:10:11
+-- Dump completed on 2017-08-31 23:37:55
