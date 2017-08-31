@@ -28,6 +28,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
@@ -53,18 +54,22 @@ Public Module Volcano
 
     <Extension>
     Public Function PlotDEGs(genes As IEnumerable(Of EntityObject),
-                             Optional size As Size = Nothing,
+                             Optional size$ = "2000,1850",
                              Optional padding$ = g.DefaultPadding,
                              Optional bg$ = "white",
                              Optional logFC$ = "logFC",
-                             Optional pvalue$ = "P.value",
+                             Optional pvalue$ = "p.value",
                              Optional displayLabel As LabelTypes = LabelTypes.None,
                              Optional labelFontStyle$ = CSSFont.PlotTitle,
                              Optional ylayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
 
         Return genes.PlotDEGs(
-            x:=Function(gene) gene(logFC).ParseNumeric,
-            y:=Function(gene) gene(pvalue).ParseNumeric,
+            x:=Function(gene)
+                   Return Val(gene(logFC))
+               End Function,
+            y:=Function(gene)
+                   Return Val(gene(pvalue))
+               End Function,
             label:=Function(gene) gene.ID,
             size:=size,
             padding:=padding,
@@ -79,7 +84,7 @@ Public Module Volcano
                                    x As Func(Of T, Double),
                                    y As Func(Of T, Double),
                                    label As Func(Of T, String),
-                                   Optional size As Size = Nothing,
+                                   Optional size$ = "2000,1850",
                                    Optional padding$ = g.DefaultPadding,
                                    Optional bg$ = "white",
                                    Optional displayLabel As LabelTypes = LabelTypes.None,
@@ -125,7 +130,7 @@ Public Module Volcano
     ''' 
     <Extension>
     Public Function Plot(genes As IEnumerable(Of DEGModel), factors As Func(Of DEGModel, Integer), colors As Dictionary(Of Integer, Color),
-                         Optional size As Size = Nothing,
+                         Optional size$ = "2000,1850",
                          Optional padding$ = g.DefaultPadding,
                          Optional bg$ = "white",
                          Optional xlab$ = "log<sub>2</sub>(Fold Change)",
@@ -147,34 +152,53 @@ Public Module Volcano
                 .logFC = g.logFC,
                 .pvalue = translate(g.pvalue)
             })
-        Dim scaler As New Mapper(New Scaling(DEG_matrix.ToArray(Function(x) (x.logFC, x.pvalue))))
+
+        ' 下面分别得到了log2fc的对称range，以及pvalue范围
+        Dim xRange As DoubleRange = DEG_matrix _
+            .Select(Function(d) Math.Abs(d.logFC)) _
+            .Where(Function(n) Not n.IsNaNImaginary) _
+            .Max _
+            .SymmetricalRange
+        Dim yRange As DoubleRange = {
+            0, DEG_matrix _
+                .Select(Function(d) d.pvalue) _
+                .Where(Function(n) Not n.IsNaNImaginary) _
+                .Max
+        }
+        Dim xTicks = xRange.CreateAxisTicks
+        Dim yTicks = yRange.CreateAxisTicks
+
         Dim brushes As Dictionary(Of Integer, Brush) = colors _
             .ToDictionary(Function(k) k.Key,
                           Function(br) DirectCast(New SolidBrush(br.Value), Brush))
+        Dim labelFont As Font = CSSFont.TryParse(labelFontStyle)
 
-        If size.IsEmpty Then
-            size = New Size(2000, 1850)
-        End If
-
-        Return g.Allocate(size, padding, bg) <=
+        Return g.Allocate(size.SizeParser, padding, bg) <=
  _
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
-                Dim scalling = scaler.TupleScaler(region)
-                Dim labelFont As Font = CSSFont.TryParse(labelFontStyle)
-                Dim lbSize As SizeF
+                Dim x, y As d3js.scale.LinearScale
+
+                With region.PlotRegion
+                    x = d3js.scale.linear.domain(xTicks).range({ .Left, .Right})
+                    y = d3js.scale.linear.domain(yTicks).range({ .Top, .Bottom})
+                End With
+
+                Dim scaler = (x, y).TupleScaler
                 Dim gdi As IGraphics = g
                 Dim __drawLabel = Sub(label$, point As PointF)
-                                      lbSize = gdi.MeasureString(label, labelFont)
-                                      Call gdi.DrawString(label, labelFont, black, New PointF(point.X - lbSize.Width / 2, point.Y + ptSize))
+                                      With gdi.MeasureString(label, labelFont)
+                                          point = New PointF(point.X - .Width / 2, point.Y + ptSize)
+                                          gdi.DrawString(label, labelFont, black, point)
+                                      End With
                                   End Sub
 
-                Call Axis.DrawAxis(g, region, scaler, True, xlabel:=xlab, ylabel:=ylab, ylayout:=axisLayout)
+                ' Call Axis.DrawAxis(g, region, scaler, True, xlabel:=xlab, ylabel:=ylab, ylayout:=axisLayout)
 
                 For Each gene As DEGModel In DEG_matrix
                     Dim factor As Integer = factors(gene)
                     Dim color As Brush = brushes(factor)
-                    Dim point As PointF = scalling((gene.logFC, gene.pvalue))
+                    Dim point As PointF = scaler(gene.logFC, gene.pvalue)
 
                     Call g.DrawCircle(point, ptSize, color)
 
@@ -233,6 +257,10 @@ Public Module Volcano
         Dim label$
         Dim logFC#
         Dim pvalue#
+
+        Public Overrides Function ToString() As String
+            Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"
+        End Function
     End Structure
 
     Public Enum LabelTypes
