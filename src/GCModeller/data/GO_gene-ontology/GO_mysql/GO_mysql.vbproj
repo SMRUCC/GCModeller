@@ -166,6 +166,14 @@
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
+      <Project>{327A0323-5469-45C1-B95B-4A0336CF27C2}</Project>
+      <Name>OBO_Foundry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeneOntology\GO_OWL.vbproj">
+      <Project>{755078c9-f421-4ed0-a64b-161a69e86bcb}</Project>
+      <Name>GO_OWL</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
