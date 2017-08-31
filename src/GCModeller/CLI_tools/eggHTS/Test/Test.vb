@@ -40,6 +40,9 @@ Module Test
 
     Sub Main()
 
+
+        Call SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML.EnumerateEntries("G:\GCModeller-repo\uniprot-all.xml\uniprot-all.xml").ToArray
+
         Dim g As New SMRUCC.genomics.Data.GeneOntology.DAG.Graph("D:\smartnucl_integrative\DATA\go.obo")
 
 
