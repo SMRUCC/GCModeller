@@ -405,11 +405,15 @@ Partial Module CLI
             For Each prot As Uniprot.XML.entry In source _
                 .Where(Function(g) Not g.sequence Is Nothing)
 
-                Dim orf$ = If(prot.gene Is Nothing, "", prot.gene.ORF.JoinBy(","))
-                Dim seq$ = prot.sequence.sequence.lTokens.JoinBy("")
+                Dim seq$ = prot _
+                    .sequence _
+                    .sequence _
+                    .lTokens _
+                    .JoinBy("") _
+                    .Replace(" ", "")
                 Dim fa As New FastaToken With {
                     .SequenceData = seq,
-                    .Attributes = {prot.accessions.First, orf$}
+                    .Attributes = {prot.accessions.First & " " & prot.proteinFullName}
                 }
 
                 Call writer.WriteLine(fa.GenerateDocument(120))
