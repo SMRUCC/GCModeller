@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml
+Imports Microsoft.VisualBasic.Text.Xml.Linq
 
 Namespace Assembly.Uniprot.XML
 
@@ -72,6 +73,15 @@ Namespace Assembly.Uniprot.XML
 
             Dim model As UniprotXML = xml.LoadFromXml(Of UniprotXML)
             Return model
+        End Function
+
+        ''' <summary>
+        ''' 使用这个函数来读取超大的uniprot XML数据库
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <returns></returns>
+        Public Shared Function EnumerateEntries(path$) As IEnumerable(Of entry)
+            Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniprot")
         End Function
 
         ''' <summary>

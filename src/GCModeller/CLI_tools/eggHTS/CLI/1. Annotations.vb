@@ -368,11 +368,12 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/protein.EXPORT",
-             Usage:="/protein.EXPORT /in <uniprot.xml> [/sp <name> /exclude /out <out.fasta>]")>
+    <ExportAPI("/protein.EXPORT")>
+    <Usage("/protein.EXPORT /in <uniprot.xml> [/sp <name> /exclude /out <out.fasta>]")>
+    <Description("Export the protein sequence and save as fasta format from the uniprot database dump XML.")>
     <Argument("/sp", True, CLITypes.String,
-            AcceptTypes:={GetType(String)},
-            Description:="The organism scientific name.")>
+              AcceptTypes:={GetType(String)},
+              Description:="The organism scientific name.")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function proteinEXPORT(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
@@ -383,20 +384,21 @@ Partial Module CLI
             "",
             If(exclude, "-exclude", "") & "-" & sp.NormalizePathString.Replace(" ", "_"))
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{suffix}.fasta")
-        Dim uniprotXML As UniprotXML = UniprotXML.Load([in])
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
-            Dim source As IEnumerable(Of Uniprot.XML.entry) = uniprotXML.entries
+            Dim source As IEnumerable(Of Uniprot.XML.entry) = UniprotXML.EnumerateEntries(path:=[in])
 
             If Not String.IsNullOrEmpty(sp) Then
                 If exclude Then
                     source = source _
-                        .Where(Function(gene) Not gene.organism.scientificName = sp) _
-                        .ToArray
+                        .Where(Function(gene)
+                                   Return Not gene.organism.scientificName = sp
+                               End Function)
                 Else
                     source = source _
-                        .Where(Function(gene) gene.organism.scientificName = sp) _
-                        .ToArray
+                        .Where(Function(gene)
+                                   Return gene.organism.scientificName = sp
+                               End Function)
                 End If
             End If
 
@@ -404,11 +406,13 @@ Partial Module CLI
                 .Where(Function(g) Not g.sequence Is Nothing)
 
                 Dim orf$ = If(prot.gene Is Nothing, "", prot.gene.ORF.JoinBy(","))
+                Dim seq$ = prot.sequence.sequence.lTokens.JoinBy("")
                 Dim fa As New FastaToken With {
-                    .SequenceData = prot.sequence.sequence.lTokens.JoinBy(""),
+                    .SequenceData = seq,
                     .Attributes = {prot.accessions.First, orf$}
                 }
-                Call writer.WriteLine(fa.GenerateDocument(-1))
+
+                Call writer.WriteLine(fa.GenerateDocument(120))
             Next
         End Using
 
