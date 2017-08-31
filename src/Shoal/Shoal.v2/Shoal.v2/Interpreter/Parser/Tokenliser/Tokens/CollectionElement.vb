@@ -1,5 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.ApplicationServices
 
 Namespace Interpreter.Parser.Tokens
 
@@ -35,12 +36,12 @@ Namespace Interpreter.Parser.Tokens
 
             If Tokens.Length = 1 Then  ' $var,  ~First,  ~Last,  &const,  
                 Me.Index = New Tokens.InternalExpression(index)
-            ElseIf String.Equals(Tokens.First.GetTokenValue, "where", StringComparison.OrdinalIgnoreCase)Then
-                Me.Index = New InternalExpression(String.Join(" ", (From t In Tokens.Skip(1) Select t.GetTokenValue.CliToken).ToArray))
-            ElseIf (From t In Tokens Where t.GetTokenValue.Last = "," Select 1).ToArray.Length = Tokens.Length - 1
+            ElseIf String.Equals(Tokens.First.GetTokenValue, "where", StringComparison.OrdinalIgnoreCase) Then
+                Me.Index = New InternalExpression(String.Join(" ", (From t In Tokens.Skip(1) Select t.GetTokenValue.CLIToken).ToArray))
+            ElseIf (From t In Tokens Where t.GetTokenValue.Last = "," Select 1).ToArray.Length = Tokens.Length - 1 Then
                 Me.Index = New InternalExpression("{" & String.Join(" ", Tokens.ToArray(Of String)([ctype]:=Function(t) t.GetTokenValue)) & "}")
             Else
-                Throw New SyntaxErrorException(Expression.CliToken & " is not a value element indexing expression!")
+                Throw New SyntaxErrorException(Expression.CLIToken & " is not a value element indexing expression!")
             End If
         End Sub
     End Class

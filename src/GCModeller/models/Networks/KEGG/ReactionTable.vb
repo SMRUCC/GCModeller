@@ -2,13 +2,32 @@
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
+''' <summary>
+''' 对一个代谢反应过程的描述
+''' </summary>
 Public Class ReactionTable
 
+    ''' <summary>
+    ''' 反应编号
+    ''' </summary>
+    ''' <returns></returns>
     Public Property entry As String
     Public Property name As String
     Public Property definition As String
+    ''' <summary>
+    ''' 酶编号，可以通过这个编号和相对应的基因或者KO编号关联起来
+    ''' </summary>
+    ''' <returns></returns>
     Public Property EC As String()
+    ''' <summary>
+    ''' 底物列表
+    ''' </summary>
+    ''' <returns></returns>
     Public Property substrates As String()
+    ''' <summary>
+    ''' 产物列表
+    ''' </summary>
+    ''' <returns></returns>
     Public Property products As String()
 
     Public Overrides Function ToString() As String

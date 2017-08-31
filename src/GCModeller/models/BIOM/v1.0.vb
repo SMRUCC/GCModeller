@@ -51,6 +51,9 @@ Namespace v10
         Public Const MatrixElTypeUnicode As String = "unicode"
     End Class
 
+    ''' <summary>
+    ''' BIOM json with integer matrix data
+    ''' </summary>
     Public Class IntegerMatrix : Inherits Json(Of Integer)
 
         Public Overloads Shared Function LoadFile(path$) As IntegerMatrix
@@ -60,6 +63,9 @@ Namespace v10
         End Function
     End Class
 
+    ''' <summary>
+    ''' BIOM json with double matrix data
+    ''' </summary>
     Public Class FloatMatrix : Inherits Json(Of Double)
 
         Public Overloads Shared Function LoadFile(path$) As FloatMatrix
@@ -69,6 +75,9 @@ Namespace v10
         End Function
     End Class
 
+    ''' <summary>
+    ''' BIOM json with string matrix data
+    ''' </summary>
     Public Class StringMatrix : Inherits Json(Of String)
 
         Public Overloads Shared Function LoadFile(path$) As StringMatrix

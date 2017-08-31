@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{A298B539-BE81-4A66-AFC1-014D449E4887}"
 EndProject
@@ -253,8 +253,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workbench", "workbench", "{
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ReportBuilder", "workbench\ReportBuilder\ReportBuilder.vbproj", "{EEB2BB03-20B0-4381-8A9E-E2210EB568A5}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Json.Extensions", "runtime\Json.Extensions\Json.Extensions.vbproj", "{F73583E4-55A8-4FEF-BA69-BDB7072B749B}"
-EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "R.VennDiagram", "R.Bioconductor\VennDiagram\VennDiagram\R.VennDiagram.vbproj", "{ED690FD0-6A42-4D81-BF13-CE053EB1CA37}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "virtualcell_host", "GCModeller\engine\vcsm\virtualcell_host.vbproj", "{580F3176-B71D-4602-99CC-3AB3C6EA7E9A}"
@@ -334,8 +332,6 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ODEsSolver", "runtime\sciBASIC#\Data_science\Mathematica\Math\ODE\ODEsSolver.vbproj", "{14E0B048-3A0D-4FD6-AA79-9B815D6F1B30}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Plots", "runtime\sciBASIC#\Data_science\Mathematica\Plot\Plots\Plots.vbproj", "{17F8E821-0A01-4975-9CAA-AC95251226D5}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Plots.Extensions", "runtime\sciBASIC#\Data_science\Mathematica\plot\Plots\Plots.Extensions\Plots.Extensions.vbproj", "{A7819BB0-EA16-4526-A7D8-E6533F30E914}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Math.Statistics", "runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\Math.Statistics.vbproj", "{3E195DF1-9FEB-44D5-904B-15626BBE74D7}"
 EndProject
@@ -433,6 +429,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "KEGG", "GCModeller\models\N
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Plots.Statistics", "runtime\sciBASIC#\Data_science\Mathematica\Plot\Plots-statistics\Plots.Statistics.vbproj", "{368EE92F-7AA0-47DF-BE48-2AE150369A4C}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "InternalApps_CLI", "Settings\Shared\InternalApps_CLI\InternalApps_CLI.shproj", "{3D1FB85C-C35B-4AE8-BC0A-36FCE222551E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{01c60ec4-4677-483b-9f20-031bac02d921}*SharedItemsImports = 4
@@ -451,6 +449,7 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{2e8a689a-3bec-4504-9d02-80082c732653}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{32ad8599-cf3f-4eec-8595-ea480f24dae2}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{36ee8dc2-3d23-45b7-8ce4-1942916a02aa}*SharedItemsImports = 13
+		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{3d1fb85c-c35b-4ae8-bc0a-36fce222551e}*SharedItemsImports = 13
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{44aae36f-f2a7-412e-baf3-163779e90fb3}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{44aae36f-f2a7-412e-baf3-163779e90fb3}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{556c6e3c-d90b-4be6-a230-3c9b167c33d0}*SharedItemsImports = 4
@@ -481,6 +480,7 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{804eb81c-493a-49ef-95a9-dbf800fa4a08}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
+		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{8443c152-5bfc-44e3-bb6b-28675d5f282a}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{8443c152-5bfc-44e3-bb6b-28675d5f282a}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{8443c152-5bfc-44e3-bb6b-28675d5f282a}*SharedItemsImports = 4
 		GCModeller\shared\docs\Shared.DocumentFormats.projitems*{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}*SharedItemsImports = 4
@@ -493,6 +493,7 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{9c60cb50-7abc-44d7-b0e6-270fdd6120e7}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{9f0a63f1-e8bf-4d40-a4e2-0da12bff566d}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{9f0a63f1-e8bf-4d40-a4e2-0da12bff566d}*SharedItemsImports = 4
+		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{a2dcf5de-7cee-4fc7-89fb-913a8b814824}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{a2dcf5de-7cee-4fc7-89fb-913a8b814824}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{a2dcf5de-7cee-4fc7-89fb-913a8b814824}*SharedItemsImports = 4
 		GCModeller\sub-system\FBA_DP\FBA_Doc\FBA_Doc.projitems*{a3270dd3-bbe8-4af0-aa2c-40277d2bdc63}*SharedItemsImports = 4
@@ -3648,42 +3649,6 @@ Global
 		{EEB2BB03-20B0-4381-8A9E-E2210EB568A5}.Release2|x64.Build.0 = Release2|x64
 		{EEB2BB03-20B0-4381-8A9E-E2210EB568A5}.Release2|x86.ActiveCfg = Release2|x86
 		{EEB2BB03-20B0-4381-8A9E-E2210EB568A5}.Release2|x86.Build.0 = Release2|x86
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Debug|x64.ActiveCfg = Debug|x64
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Debug|x64.Build.0 = Debug|x64
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Debug|x86.Build.0 = Debug|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.DEMO|Any CPU.ActiveCfg = Debug|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.DEMO|Any CPU.Build.0 = Debug|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.DEMO|x64.ActiveCfg = Debug|x64
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.DEMO|x64.Build.0 = Debug|x64
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.DEMO|x86.ActiveCfg = Debug|x86
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.DEMO|x86.Build.0 = Debug|x86
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.docs|Any CPU.ActiveCfg = Debug|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.docs|Any CPU.Build.0 = Debug|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.docs|x64.ActiveCfg = docs|x64
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.docs|x64.Build.0 = docs|x64
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.docs|x86.ActiveCfg = Debug|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.docs|x86.Build.0 = Debug|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Publish|Any CPU.Build.0 = Publish|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Publish|x64.ActiveCfg = Publish|x64
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Publish|x64.Build.0 = Publish|x64
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Publish|x86.ActiveCfg = Release|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Publish|x86.Build.0 = Release|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Release|x64.ActiveCfg = Release|x64
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Release|x64.Build.0 = Release|x64
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Release|x86.ActiveCfg = Release|x86
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Release|x86.Build.0 = Release|x86
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Release2|Any CPU.ActiveCfg = Release2|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Release2|Any CPU.Build.0 = Release2|Any CPU
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Release2|x64.ActiveCfg = Release2|x64
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Release2|x64.Build.0 = Release2|x64
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Release2|x86.ActiveCfg = Release2|x86
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B}.Release2|x86.Build.0 = Release2|x86
 		{ED690FD0-6A42-4D81-BF13-CE053EB1CA37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ED690FD0-6A42-4D81-BF13-CE053EB1CA37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED690FD0-6A42-4D81-BF13-CE053EB1CA37}.Debug|x64.ActiveCfg = Debug|x64
@@ -4906,42 +4871,6 @@ Global
 		{17F8E821-0A01-4975-9CAA-AC95251226D5}.Release2|x64.Build.0 = Release2|x64
 		{17F8E821-0A01-4975-9CAA-AC95251226D5}.Release2|x86.ActiveCfg = Release2|x86
 		{17F8E821-0A01-4975-9CAA-AC95251226D5}.Release2|x86.Build.0 = Release2|x86
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Debug|x64.ActiveCfg = Debug|x64
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Debug|x64.Build.0 = Debug|x64
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Debug|x86.Build.0 = Debug|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.DEMO|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.DEMO|Any CPU.Build.0 = Debug|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.DEMO|x64.ActiveCfg = Debug|x64
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.DEMO|x64.Build.0 = Debug|x64
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.DEMO|x86.ActiveCfg = Debug|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.DEMO|x86.Build.0 = Debug|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.docs|Any CPU.ActiveCfg = docs|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.docs|Any CPU.Build.0 = docs|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.docs|x64.ActiveCfg = docs|x64
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.docs|x64.Build.0 = docs|x64
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.docs|x86.ActiveCfg = docs|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.docs|x86.Build.0 = docs|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Publish|Any CPU.ActiveCfg = docs|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Publish|Any CPU.Build.0 = docs|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Publish|x64.ActiveCfg = Publish|x64
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Publish|x64.Build.0 = Publish|x64
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Publish|x86.ActiveCfg = docs|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Publish|x86.Build.0 = docs|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Release|x64.ActiveCfg = Release|x64
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Release|x64.Build.0 = Release|x64
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Release|x86.ActiveCfg = Release|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Release|x86.Build.0 = Release|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Release2|Any CPU.ActiveCfg = Release|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Release2|Any CPU.Build.0 = Release|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Release2|x64.ActiveCfg = Release|x64
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Release2|x64.Build.0 = Release|x64
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Release2|x86.ActiveCfg = Release|Any CPU
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914}.Release2|x86.Build.0 = Release|Any CPU
 		{3E195DF1-9FEB-44D5-904B-15626BBE74D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E195DF1-9FEB-44D5-904B-15626BBE74D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E195DF1-9FEB-44D5-904B-15626BBE74D7}.Debug|x64.ActiveCfg = Debug|x64
@@ -6578,7 +6507,6 @@ Global
 		{70640BD3-7F63-4B4D-9465-1F9FD1C5C965} = {48A601B1-D4F1-40E0-85C2-E295C3F87A24}
 		{56C6B3F0-2991-429B-BAEB-86830DF4EA94} = {9FE4DD45-812C-4F67-BCD0-8B254F4E6036}
 		{EEB2BB03-20B0-4381-8A9E-E2210EB568A5} = {C9BCC8AE-D996-4D3B-92F2-CBCBF28FCD6F}
-		{F73583E4-55A8-4FEF-BA69-BDB7072B749B} = {A298B539-BE81-4A66-AFC1-014D449E4887}
 		{ED690FD0-6A42-4D81-BF13-CE053EB1CA37} = {6EDD80CC-6944-47D9-8503-6FDE5D1B661E}
 		{580F3176-B71D-4602-99CC-3AB3C6EA7E9A} = {AB809E3E-ECF5-4B99-AE30-821F93976AED}
 		{A2DCF5DE-7CEE-4FC7-89FB-913A8B814824} = {AB809E3E-ECF5-4B99-AE30-821F93976AED}
@@ -6619,7 +6547,6 @@ Global
 		{4E06139A-D524-417F-A980-DB3BF534CBDC} = {C790863D-8CC5-4BDC-8BCA-54A29338371D}
 		{14E0B048-3A0D-4FD6-AA79-9B815D6F1B30} = {C790863D-8CC5-4BDC-8BCA-54A29338371D}
 		{17F8E821-0A01-4975-9CAA-AC95251226D5} = {C790863D-8CC5-4BDC-8BCA-54A29338371D}
-		{A7819BB0-EA16-4526-A7D8-E6533F30E914} = {C790863D-8CC5-4BDC-8BCA-54A29338371D}
 		{3E195DF1-9FEB-44D5-904B-15626BBE74D7} = {C790863D-8CC5-4BDC-8BCA-54A29338371D}
 		{FC125B0D-1942-496F-B502-9C0EB80E35B6} = {852FA545-CC24-443C-8991-B82EF14FA61D}
 		{4B877AB2-E15F-4AA9-B7D6-7C11B2213F10} = {852FA545-CC24-443C-8991-B82EF14FA61D}
@@ -6668,5 +6595,9 @@ Global
 		{CC88FECD-EEEE-40D3-830C-CE98FCF598DC} = {AB809E3E-ECF5-4B99-AE30-821F93976AED}
 		{83C6A265-8264-4F16-A70A-1F4E692290EC} = {E841C8AE-8CC3-4BA9-8D39-42E15C6D6635}
 		{368EE92F-7AA0-47DF-BE48-2AE150369A4C} = {C790863D-8CC5-4BDC-8BCA-54A29338371D}
+		{3D1FB85C-C35B-4AE8-BC0A-36FCE222551E} = {AD70F88E-094C-4888-8E3F-781764FE7EF4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {47F07DE6-3450-41B9-AB20-E7181E445FFF}
 	EndGlobalSection
 EndGlobal

@@ -1,8 +1,9 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports System.Drawing
-Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Linq.Extensions
+﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Scripting.MetaData
 
 ''' <summary>
 ''' This module provides some common operation in the shoal scripting.

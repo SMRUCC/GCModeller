@@ -1,7 +1,6 @@
 ﻿Imports System.Dynamic
 Imports System.Text
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting.ShoalShell.Runtime.MMU
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Text
 
 Namespace Runtime

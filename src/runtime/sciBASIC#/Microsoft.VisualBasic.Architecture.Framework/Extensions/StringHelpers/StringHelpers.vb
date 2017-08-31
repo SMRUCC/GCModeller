@@ -226,9 +226,9 @@ Public Module StringHelpers
 
         If p = 0 Then
             If failureNoName Then
-                Return New NamedValue(Of String)("", s)
+                Return New NamedValue(Of String)("", s, s)
             Else
-                Return New NamedValue(Of String)(s, "")
+                Return New NamedValue(Of String)(s, "", s)
             End If
         Else
             Dim key$ = Mid(s, 1, p - 1)
@@ -238,7 +238,7 @@ Public Module StringHelpers
                 value = value.Trim(trim.ToArray)
             End If
 
-            Return New NamedValue(Of String)(key, value)
+            Return New NamedValue(Of String)(key, value, s)
         End If
     End Function
 
@@ -686,7 +686,7 @@ Public Module StringHelpers
                                       Optional regex As Boolean = False,
                                       Optional opt As RegexOptions = RegexOptions.Singleline) As IEnumerable(Of String())
 
-        Dim delimiterTest As Func(Of String, Boolean)
+        Dim delimiterTest As Assert(Of String)
 
         If regex Then
             Dim regexp As New Regex(delimiter, opt)
@@ -709,7 +709,7 @@ Public Module StringHelpers
     ''' <returns></returns>
     <Extension>
     Public Iterator Function Split(source As IEnumerable(Of String),
-                                   assertionDelimiter As Func(Of String, Boolean),
+                                   assertionDelimiter As Assert(Of String),
                                    Optional includes As Boolean = True) As IEnumerable(Of String())
 
         Dim list As New List(Of String)

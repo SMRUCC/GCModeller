@@ -20,6 +20,11 @@ Namespace Assembly.KEGG.WebServices
     ''' </remarks>
     Public Module URLEncoder
 
+        ''' <summary>
+        ''' ``{id -> color}``
+        ''' </summary>
+        ''' <param name="url$"></param>
+        ''' <returns></returns>
         Public Function URLParser(url$) As NamedCollection(Of NamedValue(Of String))
             Dim args$ = url.Split("?"c).LastOrDefault
             Dim t = args.Split("/"c)
