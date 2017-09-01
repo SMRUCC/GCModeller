@@ -148,6 +148,7 @@
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLI\0. Samples-Expressions.vb" />
     <Compile Include="CLI\4. NetworkEnrichment.vb" />
+    <Compile Include="CLI\Repository.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -255,9 +256,17 @@
       <Project>{755078C9-F421-4ED0-A64B-161A69E86BCB}</Project>
       <Name>GO_OWL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\data\GO_gene-ontology\GO_mysql\GO_mysql.vbproj">
+      <Project>{b03f3745-e466-4ed0-a206-4ee5058cfaed}</Project>
+      <Name>GO_mysql</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\data\STRING\STRING-db.vbproj">
       <Project>{03565bd9-54dc-4e8f-a0e7-7d3ef10ee8d7}</Project>
       <Name>STRING-db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
+      <Project>{327A0323-5469-45C1-B95B-4A0336CF27C2}</Project>
+      <Name>OBO_Foundry</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\models\Networks\STRING\STRING.vbproj">
       <Project>{d62f02e0-1b52-4837-af15-96c70d17d424}</Project>
