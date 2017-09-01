@@ -68,8 +68,8 @@ Partial Module CLI
         Return output.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/update.uniprot.mapped",
-               Usage:="/update.uniprot.mapped /in <table.csv> /mapping <mapping.tsv/tab> [/source /out <out.csv>]")>
+    <ExportAPI("/update.uniprot.mapped")>
+    <Usage("/update.uniprot.mapped /in <table.csv> /mapping <mapping.tsv/tab> [/source /out <out.csv>]")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function Update2UniprotMappedID(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -95,9 +95,9 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/Samples.IDlist",
-               Info:="Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.",
-               Usage:="/Samples.IDlist /in <samples.csv> [/Perseus /shotgun /pair <samples2.csv> /out <out.list.txt>]")>
+    <ExportAPI("/Samples.IDlist")>
+    <Description("Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.")>
+    <Usage("/Samples.IDlist /in <samples.csv> [/Perseus /shotgun /pair <samples2.csv> /out <out.list.txt>]")>
     <Argument("/Perseus", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this flag was presented, that means the input sample data is the Perseus analysis output file ``ProteinGroups.txt``, or the input sample data is the iTraq result.")>
@@ -286,13 +286,13 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/proteins.Go.plot")>
     <Description("ProteinGroups sample data go profiling plot from the uniprot annotation data.")>
-    <Usage("/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /tick <default=-1> /top 20 /size <2000,2200> /out <out.DIR>]")>
+    <Usage("/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /tick <default=-1> /selects Q3 /size <2000,2200> /out <out.DIR>]")>
     Public Function ProteinsGoPlot(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
         Dim in$ = args("/in")
         Dim size As Size = args.GetValue("/size", New Size(2000, 2200))
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/GO/")
-        Dim top% = args.GetValue("/top", 20)
+        Dim selects$ = args.GetValue("/selects", "Q3")
         Dim tick! = args.GetValue("/tick", -1.0!)
 
         ' 绘制GO图
@@ -309,7 +309,7 @@ Partial Module CLI
 
         Call data.SaveCountValue(out & "/plot.csv")
         Call CatalogPlots.Plot(
-            data, orderTakes:=top,
+            data, selects:=selects,
             tick:=tick,
             size:=size,
             axisTitle:="Number Of Proteins").Save(out & "/plot.png")

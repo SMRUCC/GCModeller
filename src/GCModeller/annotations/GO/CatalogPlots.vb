@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
@@ -194,7 +195,7 @@ Public Module CatalogPlots
     ''' <returns></returns>
     <Extension>
     Public Function Plot(profile As Dictionary(Of String, NamedValue(Of Integer)()),
-                         Optional orderTakes% = -1,
+                         Optional selects$ = "Q3",
                          Optional title$ = "Gene Ontology Profiling",
                          Optional axisTitle$ = "Number Of Gene",
                          Optional colorSchema$ = "Set1:c6",
@@ -210,21 +211,33 @@ Public Module CatalogPlots
                          Optional maxTermLength% = 72) As GraphicsData
 
         Dim data As New Dictionary(Of String, NamedValue(Of Double)())
+        Dim top As NamedValue(Of Double)()
 
         For Each k In profile
             Dim x As NamedValue(Of Integer)() = k.Value
 
-            If orderTakes > 0 Then
-                Dim top As NamedValue(Of Double)() = x _
-                    .OrderByDescending(Function(o) o.Value) _
-                    .Take(orderTakes) _
-                    .ToArray(Function(o) New NamedValue(Of Double)(o.Description, o.Value))
-                Call data.Add(k.Key, top)
+            If Not selects.StringEmpty Then
+                top = x _
+                    .ApplySelector(Function(o) o.Value, selects) _
+                    .ToArray(Function(o)
+                                 Return New NamedValue(Of Double) With {
+                                     .Name = o.Description,
+                                     .Value = o.Value
+                                 }
+                             End Function)
+
             Else
-                Call data.Add(
-                    k.Key,
-                    x.ToArray(Function(o) New NamedValue(Of Double)(o.Description, o.Value)))
+
+                top = x _
+                    .ToArray(Function(o)
+                                 Return New NamedValue(Of Double) With {
+                                     .Name = o.Description,
+                                     .Value = o.Value
+                                 }
+                             End Function)
             End If
+
+            Call data.Add(k.Key, top)
         Next
 
         Dim strip = Function(s$) If(
@@ -243,17 +256,18 @@ Public Module CatalogPlots
             Next
         Next
 
-        Dim orders As New Dictionary(Of String, NamedValue(Of Double)())
+        With New Dictionary(Of String, NamedValue(Of Double)())
 
-        orders("biological_process") = data("biological_process")
-        orders("cellular_component") = data("cellular_component")
-        orders("molecular_function") = data("molecular_function")
+            !biological_process = data!biological_process
+            !cellular_component = data!cellular_component
+            !molecular_function = data!molecular_function
 
-        Return orders.ProfilesPlot(
-            title, axisTitle, colorSchema,
-            bg, size, padding,
-            classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
-            tickFontStyle, tick)
+            Return .ProfilesPlot(
+                title, axisTitle, colorSchema,
+                bg, size, padding,
+                classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
+                tickFontStyle, tick)
+        End With
     End Function
 
     <Extension>

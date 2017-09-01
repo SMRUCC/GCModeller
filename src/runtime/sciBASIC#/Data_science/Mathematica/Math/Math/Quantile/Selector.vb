@@ -31,6 +31,14 @@ Namespace Quantile
         End Structure
 
         <Extension>
+        Public Function ApplySelector(Of T)(source As IEnumerable(Of T), getValue As Func(Of T, Double), exp$) As IEnumerable(Of T)
+            Return New Provider(Of T) With {
+                .getValue = getValue,
+                .source = source
+            }.ApplySelector(exp)
+        End Function
+
+        <Extension>
         Public Function ApplySelector(Of T)(source As Provider(Of T), exp$) As IEnumerable(Of T)
             If InStr(exp, "quantile:", CompareMethod.Text) > 0 Then
                 Dim q#
