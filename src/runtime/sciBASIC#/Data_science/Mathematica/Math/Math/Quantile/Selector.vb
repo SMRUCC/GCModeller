@@ -24,7 +24,7 @@ Namespace Quantile
             ''' </summary>
             Dim getValue As Func(Of T, Double)
 
-            Public Function CreateArray() As (x#, obj As T)()
+            Public Function CreateArray() As IEnumerable(Of (x#, obj As T))
                 Dim readData = getValue
                 Return source.Select(Function(x) (readData(x), x))
             End Function
@@ -64,17 +64,41 @@ Namespace Quantile
         ''' <returns></returns>
         <Extension>
         Public Function SelectByQuantile(Of T)(source As Provider(Of T), q#) As IEnumerable(Of T)
+            Dim array = source.CreateArray.ToArray
+            Dim quantile = array.Select(Function(o) o.x).GKQuantile
+            Dim threshold# = quantile.Query(q)
 
+            Return array _
+                .Where(Function(o) o.x >= threshold) _
+                .Select(Function(x) x.obj)
         End Function
 
         <Extension>
         Public Function SelectByQuartile(Of T)(source As Provider(Of T), name As Quartile.Levels) As IEnumerable(Of T)
+            Dim array = source.CreateArray.ToArray
+            Dim quartile = array.Select(Function(o) o.x).Quartile
+            Dim q#
 
+            Select Case name
+                Case Levels.Q1 : q# = quartile.Q1
+                Case Levels.Q2 : q# = quartile.Q2
+                Case Levels.Q3 : q# = quartile.Q3
+                Case Else
+                    Throw New NotSupportedException("???" & name.ToString)
+            End Select
+
+            Return array _
+                .Where(Function(o) o.x >= q#) _
+                .Select(Function(x) x.obj)
         End Function
 
         <Extension>
         Public Function SelectByRankAsc(Of T)(source As Provider(Of T), n%, desc As Boolean) As IEnumerable(Of T)
-
+            Return source _
+                .CreateArray _
+                .Sort(Function(o) o.x, desc) _
+                .Take(n) _
+                .Select(Function(x) x.obj)
         End Function
     End Module
 End Namespace
