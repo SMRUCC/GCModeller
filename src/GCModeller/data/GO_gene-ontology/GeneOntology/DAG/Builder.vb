@@ -36,35 +36,43 @@ Namespace DAG
     Public Module Builder
 
         <Extension>
-        Public Function BuildTree(file As IEnumerable(Of OBO.Term)) As Dictionary(Of Term)
-            Dim tree As New Dictionary(Of Term)
+        Public Function BuildTree(file As IEnumerable(Of Term)) As Dictionary(Of TermNode)
+            Dim tree As New Dictionary(Of TermNode)
 
-            For Each x As OBO.Term In file
-                tree += New Term With {
-                    .id = x.id,
-                    .is_a = x.is_a.ToArray(Function(s) New is_a(s$)),
-                    .relationship = x.relationship.ToArray(Function(s) New Relationship(s$)),
-                    .synonym = x.synonym.ToArray(Function(s) New synonym(s$)),
-                    .xref = x.xref.ToArray(AddressOf xrefParser),
-                    .namespace = x.namespace
-                }
+            For Each x As Term In file
+                tree += x.ConstructNode
             Next
 
             Return tree
         End Function
 
+        <Extension> Public Function ConstructNode(term As Term) As TermNode
+            Dim is_a = term.is_a.ToArray(Function(s) New is_a(s$))
+            Dim rels = term.relationship.ToArray(Function(s) New Relationship(s$))
+            Dim synonym = term.synonym.ToArray(Function(s) New synonym(s$))
+
+            Return New TermNode With {
+                .id = term.id,
+                .is_a = is_a,
+                .relationship = rels,
+                .synonym = synonym,
+                .xref = term.xref.ToArray(AddressOf xrefParser),
+                .namespace = term.namespace
+            }
+        End Function
+
         Private Function xrefParser(s$) As NamedValue(Of String)
             Dim tokens$() = CommandLine.GetTokens(s$)
-            Dim id = tokens(Scan0).Split(":"c)
+            Dim id$() = tokens(Scan0).Split(":"c)
 
             Return New NamedValue(Of String) With {
                 .Name = id(Scan0),
                 .Value = id(1%),
-                .Description = tokens.Get(1%)
+                .Description = tokens.ElementAtOrDefault(1%)
             }
         End Function
 
-        Public Function BuildTree(path$) As Dictionary(Of Term)
+        Public Function BuildTree(path$) As Dictionary(Of TermNode)
             Return GO_OBO.Open(path).BuildTree
         End Function
     End Module

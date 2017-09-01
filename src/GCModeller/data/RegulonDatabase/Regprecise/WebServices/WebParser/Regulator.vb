@@ -172,7 +172,7 @@ Namespace Regprecise
 
             Dim exportServletLnks As String() = __exportServlet(html)
             Regulator.lstOperon = Operon.OperonParser(html) 'WebAPI.GetRegulates(url:=exportServletLnks.Get(Scan0))
-            Regulator.RegulatorySites = Regtransbase.WebServices.FastaObject.Parse(url:=exportServletLnks.Get(1))
+            Regulator.RegulatorySites = Regtransbase.WebServices.FastaObject.Parse(url:=exportServletLnks.ElementAtOrDefault(1))
 
             Return Regulator
         End Function

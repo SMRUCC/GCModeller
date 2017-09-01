@@ -148,14 +148,14 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             FastaFile = FASTA.FastaFile.Read(_lstFile.faa, strict)
             Proteins = (From prot As FASTA.FastaToken
                         In FastaFile.SafeQuery
-                        Let uniqueId As String = GetLocusId(prot.Attributes.Get(1), prot.Attributes.First)
+                        Let uniqueId As String = GetLocusId(prot.Attributes.ElementAtOrDefault(1), prot.Attributes.First)
                         Select FastaObjects.Fasta.CreateObject(uniqueId, prot)) _
                             .ToDictionary(Function(x) x.UniqueId)
 
             FastaFile = FASTA.FastaFile.Read(_lstFile.ffn, strict)
             GeneFastas = (From genFa As FASTA.FastaToken
                           In FastaFile.SafeQuery
-                          Let UniqueId As String = GetGeneUniqueId(genFa.Attributes.Get(4), genFa.Attributes.First)
+                          Let UniqueId As String = GetGeneUniqueId(genFa.Attributes.ElementAtOrDefault(4), genFa.Attributes.First)
                           Select FastaObjects.Fasta.CreateObject(UniqueId, genFa)) _
                              .ToDictionary(Function(x As FastaObjects.Fasta) x.UniqueId)
             FastaFile = FASTA.FastaFile.Read(_lstFile.frn, strict)

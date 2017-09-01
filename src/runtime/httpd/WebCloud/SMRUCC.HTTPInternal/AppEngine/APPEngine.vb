@@ -191,7 +191,7 @@ Namespace AppEngine
                 Let entryPoint As MethodInfo = m.entryPoint
                 Let api As ExportAPIAttribute = m.API
                 Let attr As Object =
-                    entryPoint.GetCustomAttributes(GetType(APIMethod), True).Get(Scan0)
+                    entryPoint.GetCustomAttributes(GetType(APIMethod), True).ElementAtOrDefault(Scan0)
                 Let warning = VBDebugger.Assert(
                     Not attr Is Nothing,
                     $"Not found {GetType(APIMethod).FullName} definition on the method: {api.Name}, you should specific one of this http method custom attribute: GET/POST/DELETE.",

@@ -142,7 +142,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
         Public Function Load(path As String, Optional simplyGuid As Boolean = False) As Motif()
             Dim str As String = FileIO.FileSystem.ReadAllText(path)
             Dim Motifs = Strings.Split(str.Replace(vbCr, ""), SPLIT_MOTIFS)
-            Dim size As Dictionary(Of String, Integer) = SiteLength.GetSize(Motifs.Get(2))
+            Dim size As Dictionary(Of String, Integer) = SiteLength.GetSize(Motifs.ElementAtOrDefault(2))
             Motifs = Motifs.Skip(3).ToArray
             Dim NtMol As Boolean = InStr(str, "ALPHABET= ACGT", CompareMethod.Text) > 0
             Dim list As New List(Of String)

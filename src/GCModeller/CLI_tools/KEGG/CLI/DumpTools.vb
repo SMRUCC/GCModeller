@@ -86,7 +86,7 @@ Partial Module CLI
     Public Function GetKOAnnotation(args As CommandLine) As Integer
         Dim input As String = args("/in")
         Dim buffer = input.ReadAllLines.ToArray(Function(x) Strings.Split(x, vbTab))
-        Dim tbl = buffer.ToArray(Function(x) New KeyValuePair With {.Key = x(Scan0), .Value = x.Get(1)})
+        Dim tbl = buffer.ToArray(Function(x) New KeyValuePair With {.Key = x(Scan0), .Value = x.ElementAtOrDefault(1)})
         Dim brite = BriteHEntry.Pathway.LoadDictionary
         Dim LQuery = (From prot In tbl Select __queryKO(prot.Key, prot.Value, brite)).ToArray.Unlist
         Return LQuery.SaveTo(input.TrimSuffix & ".KO.csv")
