@@ -16,7 +16,7 @@ Public Module DATA
     ''' <returns></returns>
     <Extension> Public Function ImportsMySQL(obo As OBOFile) As Dictionary(Of String, SQLTable())
         Dim namespaces As New Dictionary(Of String, kb_go.term_namespace)
-        Dim relationNames As New Dictionary(Of String, kb_go.relation_names)
+        Dim relationNames As Dictionary(Of String, kb_go.relation_names)
         Dim go_terms As New Dictionary(Of String, kb_go.go_terms)
         Dim dag As New List(Of kb_go.dag_relationship)
         Dim xrefList As New List(Of kb_go.xref)
@@ -29,23 +29,14 @@ Public Module DATA
             !molecular_function = New kb_go.term_namespace With {.id = Ontologies.MolecularFunction, .namespace = "molecular_function"}
         End With
 
-        With relationNames
-            !is_a = New kb_go.relation_names With {
-                .id = 0,
-                .name = NameOf(is_a)
-            }
-        End With
-
-        Dim relsID = Function(name$)
-                         If Not relationNames.ContainsKey(name) Then
-                             relationNames(name) = New kb_go.relation_names With {
-                                 .id = relationNames.Count,
-                                 .name = name
-                             }
-                         End If
-
-                         Return relationNames(name).id
-                     End Function
+        relationNames = Enums(Of OntologyRelations) _
+            .ToDictionary(Function(rel) rel.ToString,
+                          Function(rel)
+                              Return New kb_go.relation_names With {
+                                  .id = rel,
+                                  .name = rel.ToString
+                              }
+                          End Function)
 
         For Each term As Term In obo.EnumerateGOTerms
             Dim id& = term.id.Split(":"c).Last
@@ -83,7 +74,18 @@ Public Module DATA
                         .term_id = term_id,
                         .name = assert.name.MySqlEscaping,
                         .relationship = NameOf(is_a),
-                        .relationship_id = relsID(.relationship)
+                        .relationship_id = relationNames(.relationship).id
+                    }
+                Next
+            End If
+            If Not dagNode.relationship.IsNullOrEmpty Then
+                For Each rel In dagNode.relationship
+                    dag += New kb_go.dag_relationship With {
+                        .id = id,
+                        .relationship = rel.type.ToString,
+                        .relationship_id = rel.type,
+                        .name = rel.parentName.MySqlEscaping,
+                        .term_id = rel.parent.Value
                     }
                 Next
             End If
