@@ -272,7 +272,7 @@ Public Module CatalogProfiling
         Next
 
         Dim maxValue# = profile.Values.Max(Function(v) If(v.Length = 0, 0, v.Max(Function(n) n.Value)))
-        Dim axisTicks#() = AxisScalling.GetAxisByTick(maxValue, tick)
+        Dim axisTicks#() = GetTicks(maxValue, tick)
         Dim d# = 25
         Dim tickFont = CSSFont.TryParse(tickFontStyle)
         Dim tickSize As SizeF
@@ -294,4 +294,13 @@ Public Module CatalogProfiling
 
         Call g.DrawString(axisTitle, titleFont, Brushes.Black, New PointF(barRect.Left + (barRect.Width - titleSize.Width) / 2, y))
     End Sub
+
+    Private Function GetTicks(max#, tick!) As Double()
+        If tick <= 0 Then
+            ' 自动生成
+            Return AxisScalling.CreateAxisTicks({0, max})
+        Else
+            Return AxisScalling.GetAxisByTick(max, tick)
+        End If
+    End Function
 End Module
