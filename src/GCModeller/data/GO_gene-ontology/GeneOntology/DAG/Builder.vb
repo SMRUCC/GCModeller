@@ -36,11 +36,11 @@ Namespace DAG
     Public Module Builder
 
         <Extension>
-        Public Function BuildTree(file As IEnumerable(Of OBO.Term)) As Dictionary(Of Term)
-            Dim tree As New Dictionary(Of Term)
+        Public Function BuildTree(file As IEnumerable(Of Term)) As Dictionary(Of TermNode)
+            Dim tree As New Dictionary(Of TermNode)
 
-            For Each x As OBO.Term In file
-                tree += New Term With {
+            For Each x As Term In file
+                tree += New TermNode With {
                     .id = x.id,
                     .is_a = x.is_a.ToArray(Function(s) New is_a(s$)),
                     .relationship = x.relationship.ToArray(Function(s) New Relationship(s$)),
@@ -64,7 +64,7 @@ Namespace DAG
             }
         End Function
 
-        Public Function BuildTree(path$) As Dictionary(Of Term)
+        Public Function BuildTree(path$) As Dictionary(Of TermNode)
             Return GO_OBO.Open(path).BuildTree
         End Function
     End Module

@@ -33,7 +33,7 @@ Namespace DAG
 
     Public Class Graph
 
-        ReadOnly __DAG As Dictionary(Of Term)
+        ReadOnly __DAG As Dictionary(Of TermNode)
         ReadOnly _file$
 
         Public ReadOnly Property header As header

@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Oracle.LinuxCompatibility.MySQL
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.foundation.OBO_Foundry
 
@@ -46,7 +47,12 @@ Public Module DATA
             End If
 
             If Not term.is_a.IsNullOrEmpty Then
+                Dim term_id&
 
+                For Each assert As is_a In term.is_a.Select(Function(as$) New is_a([as]))
+                    term_id = assert.term_id.Split(":"c).Last
+                    dag += New kb_go.dag_relationship With {.id = id, .term_id = term_id, .name = assert.name, .relationship = NameOf(is_a), .relationship_id }
+                Next
             End If
 
             If Not term.xref.IsNullOrEmpty Then
