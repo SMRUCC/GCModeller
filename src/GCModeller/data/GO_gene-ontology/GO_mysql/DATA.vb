@@ -21,6 +21,7 @@ Public Module DATA
         Dim dag As New List(Of kb_go.dag_relationship)
         Dim xrefList As New List(Of kb_go.xref)
         Dim synonymNames As New List(Of kb_go.term_synonym)
+        Dim altIDs As New List(Of kb_go.alt_id)
 
         With namespaces
             !cellular_component = New kb_go.term_namespace With {.id = Ontologies.CellularComponent, .namespace = "cellular_component"}
@@ -62,9 +63,14 @@ Public Module DATA
             }
 
             If Not term.alt_id.IsNullOrEmpty Then
-                For Each alid In term.alt_id
-
-                Next
+                altIDs += From alid As String
+                          In term.alt_id
+                          Let id2 As Long = alid.Split(":"c).Last
+                          Select New kb_go.alt_id With {
+                              .alt_id = id2,
+                              .id = id,
+                              .name = term.name
+                          }
             End If
 
             If Not dagNode.is_a.IsNullOrEmpty Then
@@ -92,7 +98,32 @@ Public Module DATA
                                 .go_id = id
                             }
             End If
+
+            If Not dagNode.synonym.IsNullOrEmpty Then
+                synonymNames += From name As synonym
+                                In dagNode.synonym
+                                Let obj As String = name.synonym.Description
+                                Select New kb_go.term_synonym With {
+                                    .id = id,
+                                    .synonym = name.name,
+                                    .term_id = id,
+                                    .object = obj,
+                                    .type = name.type
+                                }
+            End If
         Next
+
+        Dim GO As New Dictionary(Of String, SQLTable())
+
+        GO(NameOf(kb_go.alt_id)) = altIDs
+        GO(NameOf(kb_go.dag_relationship)) = dag
+        GO(NameOf(kb_go.go_terms)) = go_terms.Values.ToArray
+        GO(NameOf(kb_go.relation_names)) = relationNames.Values.ToArray
+        GO(NameOf(kb_go.term_namespace)) = namespaces.Values.ToArray
+        GO(NameOf(kb_go.term_synonym)) = synonymNames
+        GO(NameOf(kb_go.xref)) = xrefList
+
+        Return GO
     End Function
 
     ''' <summary>
@@ -104,8 +135,8 @@ Public Module DATA
     <Extension>
     Public Function DumpMySQL(obo As OBOFile, saveSQL$) As Boolean
         Using writer As StreamWriter = saveSQL.OpenWriter
-            With obo.ImportsMySQL
-                Call writer.DumpMySQL(.Values.ToArray)
+            With obo.ImportsMySQL.Values
+                Call writer.DumpMySQL(.ToArray)
             End With
 
             Return True
