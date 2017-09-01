@@ -366,7 +366,7 @@ Partial Module CLI
             Dim Regulations As Regulations = GCModeller.FileSystem.Regulations.LoadXml(Of Regulations)
             Dim setValue = New SetValue(Of MotifSite) <= NameOf(MotifSite.Family)
             chunkBuffer = chunkBuffer.ToArray(
-                Function(site) setValue(site, Regulations.GetMotifFamily(site.uid.Split("|"c).Get(Scan0))))
+                Function(site) setValue(site, Regulations.GetMotifFamily(site.uid.Split("|"c).ElementAtOrDefault(Scan0))))
         End If
 
         Dim novelSites = ResultSet.ToArray(Function([set]) [set].novels).Unlist.TrimNull

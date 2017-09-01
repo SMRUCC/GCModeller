@@ -237,7 +237,7 @@ Namespace Assembly.KEGG.Medical
                     .Atom = t(2),
                     .M = Val(t(3)),
                     .Charge = Val(t(4)),
-                    .Edit = t.Get(5)
+                    .Edit = t.ElementAtOrDefault(5)
                 }
             Next
 
@@ -260,7 +260,7 @@ Namespace Assembly.KEGG.Medical
                     .a = Val(t(1)),
                     .b = Val(t(2)),
                     .N = Val(t(3)),
-                    .Edit = t.Get(4)
+                    .Edit = t.ElementAtOrDefault(4)
                 }
             Next
 

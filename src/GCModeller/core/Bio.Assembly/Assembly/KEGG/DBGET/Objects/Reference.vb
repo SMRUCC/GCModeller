@@ -97,10 +97,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .ToArray
 
             Dim i As int = Scan0
-            Dim PMID As String = tokens.Get(++i).GetValue
-            Dim Authors As String = tokens.Get(++i).GetValue
-            Dim Title As String = tokens.Get(++i).GetValue
-            Dim Journal As String = tokens.Get(++i).GetValue
+            Dim PMID As String = tokens.ElementAtOrDefault(++i).GetValue
+            Dim Authors As String = tokens.ElementAtOrDefault(++i).GetValue
+            Dim Title As String = tokens.ElementAtOrDefault(++i).GetValue
+            Dim Journal As String = tokens.ElementAtOrDefault(++i).GetValue
 
             If Regex.Match(PMID, "PMID[:]<a").Success Then
                 PMID = PMID.GetValue

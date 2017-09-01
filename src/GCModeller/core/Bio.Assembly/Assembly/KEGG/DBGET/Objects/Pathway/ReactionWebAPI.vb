@@ -116,8 +116,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         Private Function __innerOrthParser(s As String) As TripleKeyValuesPair
             Dim t As String() = Regex.Split(s, "<[/]?a>", RegexOptions.IgnoreCase)
-            Dim KO As String = t.Get(Scan0)
-            Dim def As String = t.Get(1).Split("["c).First.Trim
+            Dim KO As String = t.ElementAtOrDefault(Scan0)
+            Dim def As String = t.ElementAtOrDefault(1).Split("["c).First.Trim
             Dim EC As String = Regex.Match(s, "\d+(\.\d+)+").Value
 
             Return New TripleKeyValuesPair With {

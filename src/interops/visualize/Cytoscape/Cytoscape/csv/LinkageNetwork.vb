@@ -33,7 +33,7 @@ Namespace Tables
                 .GetColors(term:=schema, n:=types.Length) _
                 .Select(AddressOf ToHtmlColor) _
                 .SeqIterator _
-                .ToDictionary(Function(name) types.Get(name, App.NextTempName),
+                .ToDictionary(Function(name) types.ElementAtOrDefault(name, App.NextTempName),
                               Function(color) +color)
             Dim linkages = source.Columns.SlideWindows(2).ToArray
             Dim parents As NamedValue(Of String)() = New NamedValue(Of String)(source.RowNumbers - 2) {} ' 

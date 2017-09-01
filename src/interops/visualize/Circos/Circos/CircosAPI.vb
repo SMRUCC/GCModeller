@@ -651,7 +651,7 @@ SET_END:    Dim ends = i
             Dim aavg As Double
 
             If chun.IsNullOrEmpty Then
-                aavg = pre.Get(start - 1, [default]:=0)  ' 一个点的？？？
+                aavg = pre.ElementAtOrDefault(start - 1, [default]:=0)  ' 一个点的？？？
             Else
                 aavg = chun.Average
             End If

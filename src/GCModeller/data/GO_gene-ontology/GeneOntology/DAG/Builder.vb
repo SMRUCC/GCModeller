@@ -40,27 +40,35 @@ Namespace DAG
             Dim tree As New Dictionary(Of TermNode)
 
             For Each x As Term In file
-                tree += New TermNode With {
-                    .id = x.id,
-                    .is_a = x.is_a.ToArray(Function(s) New is_a(s$)),
-                    .relationship = x.relationship.ToArray(Function(s) New Relationship(s$)),
-                    .synonym = x.synonym.ToArray(Function(s) New synonym(s$)),
-                    .xref = x.xref.ToArray(AddressOf xrefParser),
-                    .namespace = x.namespace
-                }
+                tree += x.ConstructNode
             Next
 
             Return tree
         End Function
 
+        <Extension> Public Function ConstructNode(term As Term) As TermNode
+            Dim is_a = term.is_a.ToArray(Function(s) New is_a(s$))
+            Dim rels = term.relationship.ToArray(Function(s) New Relationship(s$))
+            Dim synonym = term.synonym.ToArray(Function(s) New synonym(s$))
+
+            Return New TermNode With {
+                .id = term.id,
+                .is_a = is_a,
+                .relationship = rels,
+                .synonym = synonym,
+                .xref = term.xref.ToArray(AddressOf xrefParser),
+                .namespace = term.namespace
+            }
+        End Function
+
         Private Function xrefParser(s$) As NamedValue(Of String)
             Dim tokens$() = CommandLine.GetTokens(s$)
-            Dim id = tokens(Scan0).Split(":"c)
+            Dim id$() = tokens(Scan0).Split(":"c)
 
             Return New NamedValue(Of String) With {
                 .Name = id(Scan0),
                 .Value = id(1%),
-                .Description = tokens.Get(1%)
+                .Description = tokens.ElementAtOrDefault(1%)
             }
         End Function
 
