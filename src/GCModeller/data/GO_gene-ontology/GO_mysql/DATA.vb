@@ -54,10 +54,10 @@ Public Module DATA
             go_terms(term.id) = New kb_go.go_terms With {
                 .id = id,
                 .term = term.id,
-                .comment = term.comment,
-                .def = term.def,
+                .comment = term.comment.MySqlEscaping,
+                .def = term.def.MySqlEscaping,
                 .is_obsolete = term.is_obsolete.ParseBoolean,
-                .name = term.name,
+                .name = term.name.MySqlEscaping,
                 .namespace = term.namespace,
                 .namespace_id = namespaces(term.namespace).id
             }
@@ -69,7 +69,7 @@ Public Module DATA
                           Select New kb_go.alt_id With {
                               .alt_id = id2,
                               .id = id,
-                              .name = term.name
+                              .name = term.name.MySqlEscaping
                           }
             End If
 
@@ -81,7 +81,7 @@ Public Module DATA
                     dag += New kb_go.dag_relationship With {
                         .id = id,
                         .term_id = term_id,
-                        .name = assert.name,
+                        .name = assert.name.MySqlEscaping,
                         .relationship = NameOf(is_a),
                         .relationship_id = relsID(.relationship)
                     }
@@ -93,8 +93,8 @@ Public Module DATA
                             In dagNode.xref
                             Select New kb_go.xref With {
                                 .xref = ref.Name,
-                                .comment = ref.Description,
-                                .external_id = ref.Value,
+                                .comment = ref.Description.MySqlEscaping,
+                                .external_id = ref.Value.MySqlEscaping,
                                 .go_id = id
                             }
             End If
@@ -105,7 +105,7 @@ Public Module DATA
                                 Let obj As String = name.synonym.Description
                                 Select New kb_go.term_synonym With {
                                     .id = id,
-                                    .synonym = name.name,
+                                    .synonym = name.name.MySqlEscaping,
                                     .term_id = id,
                                     .object = obj,
                                     .type = name.type
