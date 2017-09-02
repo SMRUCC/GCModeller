@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e472b2b1f33ac90042eb4e55d2ae7e9, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\iPfam\LocalMySQL\pdb_residue_data.vb"
+﻿#Region "Microsoft.VisualBasic::9e472b2b1f33ac90042eb4e55d2ae7e9, ..\repository\DataMySql\Xfam\iPfam\LocalMySQL\pdb_residue_data.vb"
 
     ' Author:
     ' 

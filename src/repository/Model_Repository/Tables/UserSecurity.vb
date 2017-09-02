@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::140f39df9a916e4784ad575e14109ce0, ..\workbench\Model_Repository\Tables\UserSecurity.vb"
+﻿#Region "Microsoft.VisualBasic::140f39df9a916e4784ad575e14109ce0, ..\repository\Model_Repository\Tables\UserSecurity.vb"
 
     ' Author:
     ' 
