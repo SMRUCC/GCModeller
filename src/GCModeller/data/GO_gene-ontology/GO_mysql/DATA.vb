@@ -22,6 +22,7 @@ Public Module DATA
         Dim xrefList As New List(Of kb_go.xref)
         Dim synonymNames As New List(Of kb_go.term_synonym)
         Dim altIDs As New List(Of kb_go.alt_id)
+        Dim synonymID As int = 0
 
         With namespaces
             !cellular_component = New kb_go.term_namespace With {.id = Ontologies.CellularComponent, .namespace = "cellular_component"}
@@ -106,7 +107,7 @@ Public Module DATA
                                 In dagNode.synonym
                                 Let obj As String = name.synonym.Description
                                 Select New kb_go.term_synonym With {
-                                    .id = id,
+                                    .id = ++synonymID,
                                     .synonym = name.name.MySqlEscaping,
                                     .term_id = id,
                                     .object = obj,
