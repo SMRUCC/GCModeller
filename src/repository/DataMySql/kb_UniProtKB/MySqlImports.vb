@@ -95,7 +95,7 @@ Namespace kb_UniProtKB
                             .alt_id = hashCodes(acc).hash_code,
                             .name = protein.name,
                             .primary_hashcode = hashcode,
-                            .uniprot_id = uniprotID
+                            .uniprot_id = acc
                         }
                     End If
                 Next
