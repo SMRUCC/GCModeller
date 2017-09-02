@@ -134,6 +134,8 @@ Namespace kb_UniProtKB
             mysqlTables(NameOf(mysql.hash_table)) = hashCodes.Values.ToArray
             mysqlTables(NameOf(mysql.protein_functions)) = proteinFunctions
             mysqlTables(NameOf(mysql.alt_id)) = altIDs
+            mysqlTables(NameOf(mysql.protein_go)) = GOfunctions
+            mysqlTables(NameOf(mysql.protein_ko)) = KOfunctions
 
             Return mysqlTables
         End Function
