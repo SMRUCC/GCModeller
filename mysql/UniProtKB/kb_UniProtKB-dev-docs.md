@@ -25,8 +25,82 @@ CREATE TABLE `alt_id` (
 
 
 
-## hash_table
+## feature_site_variation
+序列的突变位点
 
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|uid|Int64 (10)|``NN``||
+|hash_code|Int64 (10)|``NN``||
+|uniprot_id|VarChar (45)|||
+|original|VarChar (45)|||
+|variation|VarChar (45)|||
+|position|VarChar (45)|||
+
+```SQL
+CREATE TABLE `feature_site_variation` (
+  `uid` int(10) unsigned NOT NULL,
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL,
+  `original` varchar(45) DEFAULT NULL,
+  `variation` varchar(45) DEFAULT NULL,
+  `position` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`uid`,`hash_code`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='序列的突变位点';
+```
+
+
+
+## feature_types
+
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|uid|Int64 (10)|``NN``||
+|type_name|VarChar (45)|``NN``||
+
+```SQL
+CREATE TABLE `feature_types` (
+  `uid` int(10) unsigned NOT NULL,
+  `type_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+
+## gene_info
+
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|hash_code|Int64 (10)|``NN``||
+|uniprot_id|VarChar (45)|||
+|gene_name|VarChar (45)|||
+|ORF|VarChar (45)|||
+|synonym1|VarChar (45)|||
+|synonym2|VarChar (45)|||
+|synonym3|VarChar (45)|||
+
+```SQL
+CREATE TABLE `gene_info` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL,
+  `gene_name` varchar(45) DEFAULT NULL,
+  `ORF` varchar(45) DEFAULT NULL,
+  `synonym1` varchar(45) DEFAULT NULL,
+  `synonym2` varchar(45) DEFAULT NULL,
+  `synonym3` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hash_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+
+## hash_table
+这个表主要是为了加快整个数据库的查询效率而建立的冗余表，在这里为每一个uniport accession编号都赋值了一个唯一编号，然后利用这个唯一编号就可以实现对其他数据表之中的数据的快速查询了
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
@@ -42,6 +116,25 @@ CREATE TABLE `hash_table` (
   PRIMARY KEY (`uniprot_id`),
   UNIQUE KEY `uniprot_id_UNIQUE` (`uniprot_id`),
   UNIQUE KEY `hash_code_UNIQUE` (`hash_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='这个表主要是为了加快整个数据库的查询效率而建立的冗余表，在这里为每一个uniport accession编号都赋值了一个唯一编号，然后利用这个唯一编号就可以实现对其他数据表之中的数据的快速查询了';
+```
+
+
+
+## keywords
+
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|uid|Int64 (10)|``AI``, ``NN``||
+|keyword|VarChar (45)|``NN``||
+
+```SQL
+CREATE TABLE `keywords` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `keyword` varchar(45) NOT NULL,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
@@ -57,7 +150,6 @@ CREATE TABLE `hash_table` (
 |date|VarChar (45)|||
 |db|VarChar (45)|||
 |title|VarChar (45)|||
-|author_list|VarChar (45)|||
 |pubmed|VarChar (45)|||
 |doi|VarChar (45)|||
 |volume|VarChar (45)|||
@@ -71,7 +163,6 @@ CREATE TABLE `literature` (
   `date` varchar(45) DEFAULT NULL,
   `db` varchar(45) DEFAULT NULL,
   `title` varchar(45) DEFAULT NULL,
-  `author_list` varchar(45) DEFAULT NULL,
   `pubmed` varchar(45) DEFAULT NULL,
   `doi` varchar(45) DEFAULT NULL,
   `volume` varchar(45) DEFAULT NULL,
@@ -104,11 +195,11 @@ CREATE TABLE `location_id` (
 
 
 ## organism_code
-
+物种信息简表
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|uid|Int64 (10)|``AI``, ``NN``||
+|uid|Int64 (10)|``NN``|在这里使用的是NCBI Taxonomy编号|
 |organism_name|VarChar (100)|``NN``||
 |domain|VarChar (45)|||
 |kingdom|VarChar (45)|||
@@ -122,7 +213,7 @@ CREATE TABLE `location_id` (
 
 ```SQL
 CREATE TABLE `organism_code` (
-  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(10) unsigned NOT NULL COMMENT '在这里使用的是NCBI Taxonomy编号',
   `organism_name` varchar(100) NOT NULL,
   `domain` varchar(45) DEFAULT NULL,
   `kingdom` varchar(45) DEFAULT NULL,
@@ -136,7 +227,7 @@ CREATE TABLE `organism_code` (
   PRIMARY KEY (`uid`),
   UNIQUE KEY `organism_name_UNIQUE` (`organism_name`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='物种信息简表';
 ```
 
 
@@ -163,6 +254,114 @@ CREATE TABLE `organism_proteome` (
 
 
 
+## peoples
+
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|uid|Int64 (10)|``NN``||
+|name|VarChar (45)|``NN``||
+
+```SQL
+CREATE TABLE `peoples` (
+  `uid` int(10) unsigned NOT NULL,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+
+## protein_alternative_name
+
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|hash_code|Int64 (10)|``NN``||
+|uniprot_id|VarChar (45)|``NN``||
+|name|VarChar (45)|``NN``||
+|fullName|VarChar (45)|||
+|shortName1|VarChar (45)|||
+|shortName2|VarChar (45)|||
+|shortName3|VarChar (45)|||
+|shortName4|VarChar (45)|||
+|shortName5|VarChar (45)|||
+
+```SQL
+CREATE TABLE `protein_alternative_name` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `fullName` varchar(45) DEFAULT NULL,
+  `shortName1` varchar(45) DEFAULT NULL,
+  `shortName2` varchar(45) DEFAULT NULL,
+  `shortName3` varchar(45) DEFAULT NULL,
+  `shortName4` varchar(45) DEFAULT NULL,
+  `shortName5` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hash_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+
+## protein_feature_regions
+
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|hash_code|Int64 (10)|``NN``||
+|uniprot_id|VarChar (45)|||
+|type_id|Int64 (10)|``NN``||
+|type|VarChar (45)|||
+|description|VarChar (45)|||
+|begin|VarChar (45)|||
+|end|VarChar (45)|||
+
+```SQL
+CREATE TABLE `protein_feature_regions` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL,
+  `type_id` int(10) unsigned NOT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  `begin` varchar(45) DEFAULT NULL,
+  `end` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hash_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+
+## protein_feature_site
+
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|uid|Int64 (10)|``NN``||
+|hash_code|Int64 (10)|``NN``||
+|uniprot_id|VarChar (45)|||
+|type_id|Int64 (10)|``NN``||
+|type|VarChar (45)|||
+|description|VarChar (45)|||
+|position|VarChar (45)|||
+
+```SQL
+CREATE TABLE `protein_feature_site` (
+  `uid` int(10) unsigned NOT NULL,
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL,
+  `type_id` int(10) unsigned NOT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  `position` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`uid`,`hash_code`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+
 ## protein_functions
 对蛋白质的名称以及功能方面的字符串描述
 
@@ -172,11 +371,10 @@ CREATE TABLE `organism_proteome` (
 |uniprot_id|VarChar (45)|||
 |function|VarChar (45)||comment -> type = function|
 |name|VarChar (45)|||
-|full_name|VarChar (45)|||
-|short_name1|VarChar (45)|||
-|short_name2|VarChar (45)|||
-|short_name3|VarChar (45)|||
-|protein_functionscol|VarChar (45)|||
+|full_name|VarChar (45)||recommendedName|
+|short_name1|VarChar (45)||recommendedName|
+|short_name2|VarChar (45)||recommendedName|
+|short_name3|VarChar (45)||recommendedName|
 
 ```SQL
 CREATE TABLE `protein_functions` (
@@ -184,11 +382,10 @@ CREATE TABLE `protein_functions` (
   `uniprot_id` varchar(45) DEFAULT NULL,
   `function` varchar(45) DEFAULT NULL COMMENT 'comment -> type = function',
   `name` varchar(45) DEFAULT NULL,
-  `full_name` varchar(45) DEFAULT NULL,
-  `short_name1` varchar(45) DEFAULT NULL,
-  `short_name2` varchar(45) DEFAULT NULL,
-  `short_name3` varchar(45) DEFAULT NULL,
-  `protein_functionscol` varchar(45) DEFAULT NULL,
+  `full_name` varchar(45) DEFAULT NULL COMMENT 'recommendedName',
+  `short_name1` varchar(45) DEFAULT NULL COMMENT 'recommendedName',
+  `short_name2` varchar(45) DEFAULT NULL COMMENT 'recommendedName',
+  `short_name3` varchar(45) DEFAULT NULL COMMENT 'recommendedName',
   PRIMARY KEY (`hash_code`),
   UNIQUE KEY `hash_code_UNIQUE` (`hash_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='对蛋白质的名称以及功能方面的字符串描述';
@@ -204,20 +401,46 @@ CREATE TABLE `protein_functions` (
 |hash_code|Int64 (10)|``NN``||
 |uniprot_id|VarChar (45)|``NN``||
 |go_id|Int64 (10)|``NN``||
+|namespace_id|Int64 (10)|``NN``||
+|namespace|VarChar (45)|||
 
 ```SQL
 CREATE TABLE `protein_go` (
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) NOT NULL,
   `go_id` int(10) unsigned NOT NULL,
+  `namespace_id` int(10) unsigned NOT NULL,
+  `namespace` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`hash_code`,`go_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='对蛋白质的GO功能注释的信息关联表';
 ```
 
 
 
+## protein_keywords
+
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|hash_code|Int64 (10)|``NN``||
+|uniprot_id|VarChar (45)|``NN``||
+|keyword_id|Int64 (10)|``NN``||
+|keyword|VarChar (45)|``NN``||
+
+```SQL
+CREATE TABLE `protein_keywords` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) NOT NULL,
+  `keyword_id` int(10) unsigned NOT NULL,
+  `keyword` varchar(45) NOT NULL,
+  PRIMARY KEY (`hash_code`,`keyword_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+
 ## protein_ko
-蛋白质的KEGG直系同源的注释信息表
+蛋白质的KEGG直系同源的注释信息表，uniprotKB库通过这个表连接kegg知识库
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
@@ -231,7 +454,7 @@ CREATE TABLE `protein_ko` (
   `uniprot_id` varchar(45) DEFAULT NULL,
   `KO` int(10) unsigned NOT NULL,
   PRIMARY KEY (`hash_code`,`KO`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='蛋白质的KEGG直系同源的注释信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='蛋白质的KEGG直系同源的注释信息表，uniprotKB库通过这个表连接kegg知识库';
 ```
 
 
@@ -258,6 +481,32 @@ CREATE TABLE `protein_reference` (
 
 
 
+## protein_structures
+主要是pdb结构记录数据
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|hash_code|Int64 (10)|``NN``||
+|uniprot_id|VarChar (45)|``NN``||
+|pdb_id|VarChar (45)|||
+|method|VarChar (45)|||
+|resolution|VarChar (45)|||
+|chains|VarChar (45)|||
+
+```SQL
+CREATE TABLE `protein_structures` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) NOT NULL,
+  `pdb_id` varchar(45) DEFAULT NULL,
+  `method` varchar(45) DEFAULT NULL,
+  `resolution` varchar(45) DEFAULT NULL,
+  `chains` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hash_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='主要是pdb结构记录数据';
+```
+
+
+
 ## protein_subcellular_location
 目标蛋白质在细胞质中的亚细胞定位结果
 
@@ -280,6 +529,28 @@ CREATE TABLE `protein_subcellular_location` (
   `topology_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`hash_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='目标蛋白质在细胞质中的亚细胞定位结果';
+```
+
+
+
+## research_jobs
+
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|person|Int64 (10)|``NN``||
+|people_name|VarChar (45)|||
+|literature_id|Int64 (10)|``NN``||
+|literature_title|VarChar (45)|||
+
+```SQL
+CREATE TABLE `research_jobs` (
+  `person` int(10) unsigned NOT NULL,
+  `people_name` varchar(45) DEFAULT NULL,
+  `literature_id` int(10) unsigned NOT NULL,
+  `literature_title` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`person`,`literature_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
 
@@ -322,6 +593,53 @@ CREATE TABLE `seq_archive` (
 
 
 
+## tissue_code
+对某一个物种的组织进行编号
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|uid|Int64 (10)|``AI``, ``NN``||
+|tissue_name|VarChar (45)|``NN``||
+|org_id|Int64 (10)|||
+|organism|VarChar (45)||物种名称|
+
+```SQL
+CREATE TABLE `tissue_code` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tissue_name` varchar(45) NOT NULL,
+  `org_id` int(10) unsigned DEFAULT NULL,
+  `organism` varchar(45) DEFAULT NULL COMMENT '物种名称',
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='对某一个物种的组织进行编号';
+```
+
+
+
+## tissue_locations
+
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|hash_code|Int64 (10)|``NN``||
+|uniprot_id|VarChar (45)|||
+|name|VarChar (45)|||
+|tissue_id|Int64 (10)|``NN``||
+|tissue_name|VarChar (45)|||
+
+```SQL
+CREATE TABLE `tissue_locations` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `tissue_id` int(10) unsigned NOT NULL,
+  `tissue_name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hash_code`,`tissue_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+
 ## topology_id
 
 
@@ -337,6 +655,34 @@ CREATE TABLE `topology_id` (
   PRIMARY KEY (`uid`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+
+## xref
+某一个uniprot蛋白质记录对外部的链接信息
+
+|field|type|attributes|description|
+|-----|----|----------|-----------|
+|hash_code|Int64 (10)|``NN``||
+|uniprot_id|VarChar (45)|||
+|xref|VarChar (45)|``NN``||
+|external_id|VarChar (45)|``NN``||
+|molecule_type|VarChar (45)|||
+|protein_ID|VarChar (45)|||
+|nucleotide_ID|VarChar (45)|||
+
+```SQL
+CREATE TABLE `xref` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL,
+  `xref` varchar(45) NOT NULL,
+  `external_id` varchar(45) NOT NULL,
+  `molecule_type` varchar(45) DEFAULT NULL,
+  `protein_ID` varchar(45) DEFAULT NULL,
+  `nucleotide_ID` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hash_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='某一个uniprot蛋白质记录对外部的链接信息';
 ```
 
 

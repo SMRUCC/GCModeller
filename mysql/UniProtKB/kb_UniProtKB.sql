@@ -34,6 +34,59 @@ CREATE TABLE `alt_id` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `feature_site_variation`
+--
+
+DROP TABLE IF EXISTS `feature_site_variation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `feature_site_variation` (
+  `uid` int(10) unsigned NOT NULL,
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL,
+  `original` varchar(45) DEFAULT NULL,
+  `variation` varchar(45) DEFAULT NULL,
+  `position` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`uid`,`hash_code`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='序列的突变位点';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `feature_types`
+--
+
+DROP TABLE IF EXISTS `feature_types`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `feature_types` (
+  `uid` int(10) unsigned NOT NULL,
+  `type_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `gene_info`
+--
+
+DROP TABLE IF EXISTS `gene_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gene_info` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL,
+  `gene_name` varchar(45) DEFAULT NULL,
+  `ORF` varchar(45) DEFAULT NULL,
+  `synonym1` varchar(45) DEFAULT NULL,
+  `synonym2` varchar(45) DEFAULT NULL,
+  `synonym3` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hash_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `hash_table`
 --
 
@@ -47,6 +100,21 @@ CREATE TABLE `hash_table` (
   PRIMARY KEY (`uniprot_id`),
   UNIQUE KEY `uniprot_id_UNIQUE` (`uniprot_id`),
   UNIQUE KEY `hash_code_UNIQUE` (`hash_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='这个表主要是为了加快整个数据库的查询效率而建立的冗余表，在这里为每一个uniport accession编号都赋值了一个唯一编号，然后利用这个唯一编号就可以实现对其他数据表之中的数据的快速查询了';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `keywords`
+--
+
+DROP TABLE IF EXISTS `keywords`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `keywords` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `keyword` varchar(45) NOT NULL,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -63,7 +131,6 @@ CREATE TABLE `literature` (
   `date` varchar(45) DEFAULT NULL,
   `db` varchar(45) DEFAULT NULL,
   `title` varchar(45) DEFAULT NULL,
-  `author_list` varchar(45) DEFAULT NULL,
   `pubmed` varchar(45) DEFAULT NULL,
   `doi` varchar(45) DEFAULT NULL,
   `volume` varchar(45) DEFAULT NULL,
@@ -97,7 +164,7 @@ DROP TABLE IF EXISTS `organism_code`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `organism_code` (
-  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(10) unsigned NOT NULL COMMENT '在这里使用的是NCBI Taxonomy编号',
   `organism_name` varchar(100) NOT NULL,
   `domain` varchar(45) DEFAULT NULL,
   `kingdom` varchar(45) DEFAULT NULL,
@@ -111,7 +178,7 @@ CREATE TABLE `organism_code` (
   PRIMARY KEY (`uid`),
   UNIQUE KEY `organism_name_UNIQUE` (`organism_name`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='物种信息简表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,6 +198,81 @@ CREATE TABLE `organism_proteome` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `peoples`
+--
+
+DROP TABLE IF EXISTS `peoples`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `peoples` (
+  `uid` int(10) unsigned NOT NULL,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `protein_alternative_name`
+--
+
+DROP TABLE IF EXISTS `protein_alternative_name`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `protein_alternative_name` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `fullName` varchar(45) DEFAULT NULL,
+  `shortName1` varchar(45) DEFAULT NULL,
+  `shortName2` varchar(45) DEFAULT NULL,
+  `shortName3` varchar(45) DEFAULT NULL,
+  `shortName4` varchar(45) DEFAULT NULL,
+  `shortName5` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hash_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `protein_feature_regions`
+--
+
+DROP TABLE IF EXISTS `protein_feature_regions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `protein_feature_regions` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL,
+  `type_id` int(10) unsigned NOT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  `begin` varchar(45) DEFAULT NULL,
+  `end` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hash_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `protein_feature_site`
+--
+
+DROP TABLE IF EXISTS `protein_feature_site`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `protein_feature_site` (
+  `uid` int(10) unsigned NOT NULL,
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL,
+  `type_id` int(10) unsigned NOT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  `position` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`uid`,`hash_code`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `protein_functions`
 --
 
@@ -142,11 +284,10 @@ CREATE TABLE `protein_functions` (
   `uniprot_id` varchar(45) DEFAULT NULL,
   `function` varchar(45) DEFAULT NULL COMMENT 'comment -> type = function',
   `name` varchar(45) DEFAULT NULL,
-  `full_name` varchar(45) DEFAULT NULL,
-  `short_name1` varchar(45) DEFAULT NULL,
-  `short_name2` varchar(45) DEFAULT NULL,
-  `short_name3` varchar(45) DEFAULT NULL,
-  `protein_functionscol` varchar(45) DEFAULT NULL,
+  `full_name` varchar(45) DEFAULT NULL COMMENT 'recommendedName',
+  `short_name1` varchar(45) DEFAULT NULL COMMENT 'recommendedName',
+  `short_name2` varchar(45) DEFAULT NULL COMMENT 'recommendedName',
+  `short_name3` varchar(45) DEFAULT NULL COMMENT 'recommendedName',
   PRIMARY KEY (`hash_code`),
   UNIQUE KEY `hash_code_UNIQUE` (`hash_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='对蛋白质的名称以及功能方面的字符串描述';
@@ -163,8 +304,26 @@ CREATE TABLE `protein_go` (
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) NOT NULL,
   `go_id` int(10) unsigned NOT NULL,
+  `namespace_id` int(10) unsigned NOT NULL,
+  `namespace` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`hash_code`,`go_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='对蛋白质的GO功能注释的信息关联表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `protein_keywords`
+--
+
+DROP TABLE IF EXISTS `protein_keywords`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `protein_keywords` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) NOT NULL,
+  `keyword_id` int(10) unsigned NOT NULL,
+  `keyword` varchar(45) NOT NULL,
+  PRIMARY KEY (`hash_code`,`keyword_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +338,7 @@ CREATE TABLE `protein_ko` (
   `uniprot_id` varchar(45) DEFAULT NULL,
   `KO` int(10) unsigned NOT NULL,
   PRIMARY KEY (`hash_code`,`KO`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='蛋白质的KEGG直系同源的注释信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='蛋白质的KEGG直系同源的注释信息表，uniprotKB库通过这个表连接kegg知识库';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,6 +358,24 @@ CREATE TABLE `protein_reference` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `protein_structures`
+--
+
+DROP TABLE IF EXISTS `protein_structures`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `protein_structures` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) NOT NULL,
+  `pdb_id` varchar(45) DEFAULT NULL,
+  `method` varchar(45) DEFAULT NULL,
+  `resolution` varchar(45) DEFAULT NULL,
+  `chains` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hash_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='主要是pdb结构记录数据';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `protein_subcellular_location`
 --
 
@@ -214,6 +391,22 @@ CREATE TABLE `protein_subcellular_location` (
   `topology_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`hash_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='目标蛋白质在细胞质中的亚细胞定位结果';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `research_jobs`
+--
+
+DROP TABLE IF EXISTS `research_jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `research_jobs` (
+  `person` int(10) unsigned NOT NULL,
+  `people_name` varchar(45) DEFAULT NULL,
+  `literature_id` int(10) unsigned NOT NULL,
+  `literature_title` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`person`,`literature_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,6 +435,40 @@ CREATE TABLE `seq_archive` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `tissue_code`
+--
+
+DROP TABLE IF EXISTS `tissue_code`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tissue_code` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tissue_name` varchar(45) NOT NULL,
+  `org_id` int(10) unsigned DEFAULT NULL,
+  `organism` varchar(45) DEFAULT NULL COMMENT '物种名称',
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='对某一个物种的组织进行编号';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tissue_locations`
+--
+
+DROP TABLE IF EXISTS `tissue_locations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tissue_locations` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `tissue_id` int(10) unsigned NOT NULL,
+  `tissue_name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hash_code`,`tissue_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `topology_id`
 --
 
@@ -254,6 +481,25 @@ CREATE TABLE `topology_id` (
   PRIMARY KEY (`uid`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `xref`
+--
+
+DROP TABLE IF EXISTS `xref`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `xref` (
+  `hash_code` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL,
+  `xref` varchar(45) NOT NULL,
+  `external_id` varchar(45) NOT NULL,
+  `molecule_type` varchar(45) DEFAULT NULL,
+  `protein_ID` varchar(45) DEFAULT NULL,
+  `nucleotide_ID` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hash_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='某一个uniprot蛋白质记录对外部的链接信息';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -273,4 +519,4 @@ CREATE TABLE `topology_id` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-02 23:46:51
+-- Dump completed on 2017-09-03  2:55:00
