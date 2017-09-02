@@ -287,10 +287,10 @@
     <Compile Include="Interpro\Tables\varsplic_master.vb" />
     <Compile Include="Interpro\Tables\varsplic_match.vb" />
     <Compile Include="Interpro\Tables\varsplic_supermatch.vb" />
-    <Compile Include="UniprotSprot\MySQL\id_mappings.vb" />
-    <Compile Include="UniprotSprot\MySQL\uniprotkb.vb" />
-    <Compile Include="UniprotSprot\ShellScriptAPI.vb" />
-    <Compile Include="UniprotSprot\DbTools.vb" />
+    <Compile Include="kb_UniProtKB\MySQL\id_mappings.vb" />
+    <Compile Include="kb_UniProtKB\MySQL\uniprotkb.vb" />
+    <Compile Include="kb_UniProtKB\ShellScriptAPI.vb" />
+    <Compile Include="kb_UniProtKB\DbTools.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
