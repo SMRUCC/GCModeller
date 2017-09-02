@@ -9,6 +9,8 @@ RD /S /Q "./kb_go/"
 
 
 REM install uniprot.XML database mysql ORM adapter
+SET dir="../../src/repository/DataMySql/UniprotSprot/MySQL"
 reflector --reflects /sql ./kb_UniProtKB.sql /namespace "kb_UniProtKB" /split /auto_increment.disable
-xcopy "./kb_UniProtKB/*.*" "../../src/GCModeller/data/GO_gene-ontology/GO_mysql/kb_go" /s /h /d /y /e /f /i
+mkdir %dir%
+xcopy "./kb_UniProtKB/*.*" %dir% /s /h /d /y /e /f /i
 RD /S /Q "./kb_UniProtKB/"
