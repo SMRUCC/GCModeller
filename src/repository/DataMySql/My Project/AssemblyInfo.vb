@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Comparative Genomics Annotation Tools for the GCModeller database services components")> 
-<Assembly: AssemblyDescription("Comparative Genomics Annotation Tools")> 
-<Assembly: AssemblyCompany("蓝思生物信息工程师工作站")> 
-<Assembly: AssemblyProduct("AnnotationTools")> 
-<Assembly: AssemblyCopyright("Copyright © LANS Corp. 2015")> 
+<Assembly: AssemblyTitle("Comparative Genomics Annotation Tools for the GCModeller database services components")>
+<Assembly: AssemblyDescription("Integrated DataMysql system")>
+<Assembly: AssemblyCompany("蓝思生物信息工程师工作站")>
+<Assembly: AssemblyProduct("Integrated DataMysql")>
+<Assembly: AssemblyCopyright("Copyright © SMRUCC. 2017")>
 <Assembly: AssemblyTrademark("GCModeller")> 
 
 <Assembly: ComVisible(False)>

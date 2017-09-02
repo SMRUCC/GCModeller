@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62abdb75efff6fca0604439b59fda744, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\iPfam\LocalMySQL\ligand_synonym.vb"
+﻿#Region "Microsoft.VisualBasic::62abdb75efff6fca0604439b59fda744, ..\repository\DataMySql\Xfam\iPfam\LocalMySQL\ligand_synonym.vb"
 
     ' Author:
     ' 

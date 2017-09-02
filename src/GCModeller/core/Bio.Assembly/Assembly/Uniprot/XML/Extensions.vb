@@ -112,7 +112,7 @@ Namespace Assembly.Uniprot.XML
         ''' <param name="idType"></param>
         ''' <returns>``term --> geneID``</returns>
         <Extension>
-        Public Function Term2Gene(uniprotXML As UniprotXML, Optional type$ = "GO", Optional idType As IDTypes = IDTypes.Accession) As IDMap()
+        Public Function Term2Gene(uniprotXML As UniProtXML, Optional type$ = "GO", Optional idType As IDTypes = IDTypes.Accession) As IDMap()
             Dim out As New List(Of IDMap)
             Dim getID As Func(Of entry, String) = idType.GetID
 

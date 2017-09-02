@@ -6,12 +6,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{473214B6-2B78-42A8-982F-D7961AE9F1E6}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>test.Module1</StartupObject>
+    <StartupObject>test.UniProtKB</StartupObject>
     <RootNamespace>test</RootNamespace>
     <AssemblyName>test</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Module1.vb" />
+    <Compile Include="UniProtKB.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -134,29 +135,21 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\runtime\visualbasic.DBI\LibMySQL\LibMySQL.vbproj">
+    <ProjectReference Include="..\..\runtime\mysqli\LibMySQL\LibMySQL.vbproj">
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\runtime\visualbasic_App\Data\BinaryData\BinaryData\BinaryData.vbproj">
-      <Project>{487D7C92-D05A-4908-BF81-E6BABA0BF592}</Project>
-      <Name>BinaryData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\runtime\visualbasic_App\Data\DataFrame\+VB_DataFrame.vbproj">
-      <Project>{5914e529-39f5-4e1a-a70f-050ab1df934b}</Project>
-      <Name>+VB_DataFrame</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\runtime\visualbasic_App\Data\SearchEngine\SearchEngine.vbproj">
+    <ProjectReference Include="..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>SearchEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\runtime\visualbasic_App\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\nt\nt_repo.vbproj">
-      <Project>{44aae36f-f2a7-412e-baf3-163779e90fb3}</Project>
-      <Name>nt_repo</Name>
+    <ProjectReference Include="..\DataMySql\DataMySQL.vbproj">
+      <Project>{74b33a15-1d34-4d11-81a1-2538c45b7a80}</Project>
+      <Name>DataMySQL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

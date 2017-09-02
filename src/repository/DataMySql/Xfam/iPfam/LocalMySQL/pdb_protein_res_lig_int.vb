@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b65d01452662b69d581ed31f85feda7, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\iPfam\LocalMySQL\pdb_protein_res_lig_int.vb"
+﻿#Region "Microsoft.VisualBasic::1b65d01452662b69d581ed31f85feda7, ..\repository\DataMySql\Xfam\iPfam\LocalMySQL\pdb_protein_res_lig_int.vb"
 
     ' Author:
     ' 

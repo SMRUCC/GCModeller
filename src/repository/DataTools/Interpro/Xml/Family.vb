@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc75bcdaac86948d5e6459b7a3ae8570, ..\GCModeller\analysis\annoTools\DataTools\Interpro\Xml\Family.vb"
+﻿#Region "Microsoft.VisualBasic::f6929047298d72f5c87039a28d82f160, ..\repository\DataTools\Interpro\Xml\Family.vb"
 
     ' Author:
     ' 

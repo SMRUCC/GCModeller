@@ -12,8 +12,8 @@ RD /S /Q "./kb_go/"
 
 
 REM install uniprot.XML database mysql ORM adapter
-SET dir="../../src/repository/DataMySql/UniprotSprot/MySQL"
-reflector --reflects /sql ./kb_UniProtKB.sql /namespace "kb_UniProtKB" /split /auto_increment.disable
+SET dir="../../src/repository/DataMySql/kb_UniProtKB/MySQL"
+reflector --reflects /sql ./kb_UniProtKB.sql /namespace "kb_UniProtKB.mysql" /split /auto_increment.disable
 RD /S /Q %dir%
 mkdir %dir%
 xcopy "./kb_UniProtKB/*.*" %dir% /s /h /d /y /e /f /i
