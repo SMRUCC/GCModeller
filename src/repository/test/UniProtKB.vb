@@ -32,9 +32,10 @@ Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB
 Module UniProtKB
 
     Sub Main()
+        Dim path$ = "G:\GCModeller-repo\uniprot-all.xml\uniprot-id-Q9Y478+OR+id-P54619+OR+id-Q5VST6+OR+id-Q7Z5R6+OR+id-Q9NRW3+--.xml"
         Call UniProtXML _
-            .EnumerateEntries("G:\GCModeller-repo\uniprot-all.xml\uniprot-id-Q9Y478+OR+id-P54619+OR+id-Q5VST6+OR+id-Q7Z5R6+OR+id-Q9NRW3+--.xml") _
-            .DumpMySQL("./test.sql")
+            .EnumerateEntries(path) _
+            .DumpMySQL(path.TrimSuffix & ".sql")
     End Sub
 End Module
 

@@ -277,7 +277,8 @@ Namespace kb_UniProtKB
                             .hash_code = hashcode,
                             .type = feature.type,
                             .type_id = featureTypes(feature.type).uid,
-                            .uniprot_id = uniprotID
+                            .uniprot_id = uniprotID,
+                            .uid = featureRegions.Count
                         }
                     End If
                 Next

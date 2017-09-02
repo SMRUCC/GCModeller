@@ -241,6 +241,7 @@ DROP TABLE IF EXISTS `protein_feature_regions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `protein_feature_regions` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) DEFAULT NULL,
   `type_id` int(10) unsigned NOT NULL,
@@ -248,7 +249,8 @@ CREATE TABLE `protein_feature_regions` (
   `description` varchar(45) DEFAULT NULL,
   `begin` varchar(45) DEFAULT NULL,
   `end` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`hash_code`)
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -267,7 +269,7 @@ CREATE TABLE `protein_feature_site` (
   `type` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
   `position` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`uid`,`hash_code`),
+  PRIMARY KEY (`uid`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -365,13 +367,15 @@ DROP TABLE IF EXISTS `protein_structures`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `protein_structures` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) NOT NULL,
   `pdb_id` varchar(45) DEFAULT NULL,
   `method` varchar(45) DEFAULT NULL,
   `resolution` varchar(45) DEFAULT NULL,
   `chains` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`hash_code`)
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='主要是pdb结构记录数据';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -519,4 +523,4 @@ CREATE TABLE `xref` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-03  2:55:00
+-- Dump completed on 2017-09-03  5:49:19

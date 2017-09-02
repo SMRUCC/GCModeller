@@ -310,6 +310,7 @@ CREATE TABLE `protein_alternative_name` (
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
+|uid|Int64 (10)|``AI``, ``NN``||
 |hash_code|Int64 (10)|``NN``||
 |uniprot_id|VarChar (45)|||
 |type_id|Int64 (10)|``NN``||
@@ -320,6 +321,7 @@ CREATE TABLE `protein_alternative_name` (
 
 ```SQL
 CREATE TABLE `protein_feature_regions` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) DEFAULT NULL,
   `type_id` int(10) unsigned NOT NULL,
@@ -327,7 +329,8 @@ CREATE TABLE `protein_feature_regions` (
   `description` varchar(45) DEFAULT NULL,
   `begin` varchar(45) DEFAULT NULL,
   `end` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`hash_code`)
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
@@ -355,7 +358,7 @@ CREATE TABLE `protein_feature_site` (
   `type` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
   `position` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`uid`,`hash_code`),
+  PRIMARY KEY (`uid`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
@@ -486,6 +489,7 @@ CREATE TABLE `protein_reference` (
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
+|uid|Int64 (10)|``AI``, ``NN``||
 |hash_code|Int64 (10)|``NN``||
 |uniprot_id|VarChar (45)|``NN``||
 |pdb_id|VarChar (45)|||
@@ -495,13 +499,15 @@ CREATE TABLE `protein_reference` (
 
 ```SQL
 CREATE TABLE `protein_structures` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) NOT NULL,
   `pdb_id` varchar(45) DEFAULT NULL,
   `method` varchar(45) DEFAULT NULL,
   `resolution` varchar(45) DEFAULT NULL,
   `chains` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`hash_code`)
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='主要是pdb结构记录数据';
 ```
 
