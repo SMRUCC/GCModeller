@@ -26,9 +26,9 @@ DROP TABLE IF EXISTS `alt_id`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `alt_id` (
   `primary_hashcode` int(10) unsigned NOT NULL,
-  `uniprot_id` varchar(45) DEFAULT NULL,
   `alt_id` int(10) unsigned NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL COMMENT 'The alternative(secondary) uniprot id',
+  `name` varchar(45) DEFAULT NULL COMMENT 'entry -> name',
   PRIMARY KEY (`primary_hashcode`,`alt_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='当uniprot的XML数据库之中的某一条蛋白质的entry由多个uniprot编号的时候，在这个表之中就会记录下其他的编号信息，默认取entry记录的第一个accession编号为主编号';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -306,8 +306,10 @@ CREATE TABLE `protein_go` (
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) NOT NULL,
   `go_id` int(10) unsigned NOT NULL,
+  `GO_term` varchar(45) NOT NULL,
+  `term_name` tinytext,
   `namespace_id` int(10) unsigned NOT NULL,
-  `namespace` varchar(45) DEFAULT NULL,
+  `namespace` char(32) DEFAULT NULL,
   PRIMARY KEY (`hash_code`,`go_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='对蛋白质的GO功能注释的信息关联表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -523,4 +525,4 @@ CREATE TABLE `xref` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-03  5:49:19
+-- Dump completed on 2017-09-03  6:00:54

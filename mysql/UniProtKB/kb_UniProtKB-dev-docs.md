@@ -9,16 +9,16 @@ Mysql database field attributes notes:
 |field|type|attributes|description|
 |-----|----|----------|-----------|
 |primary_hashcode|Int64 (10)|``NN``||
-|uniprot_id|VarChar (45)|||
 |alt_id|Int64 (10)|``NN``||
-|name|VarChar (45)|||
+|uniprot_id|VarChar (45)||The alternative(secondary) uniprot id|
+|name|VarChar (45)||entry -> name|
 
 ```SQL
 CREATE TABLE `alt_id` (
   `primary_hashcode` int(10) unsigned NOT NULL,
-  `uniprot_id` varchar(45) DEFAULT NULL,
   `alt_id` int(10) unsigned NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
+  `uniprot_id` varchar(45) DEFAULT NULL COMMENT 'The alternative(secondary) uniprot id',
+  `name` varchar(45) DEFAULT NULL COMMENT 'entry -> name',
   PRIMARY KEY (`primary_hashcode`,`alt_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='当uniprot的XML数据库之中的某一条蛋白质的entry由多个uniprot编号的时候，在这个表之中就会记录下其他的编号信息，默认取entry记录的第一个accession编号为主编号';
 ```
@@ -404,16 +404,20 @@ CREATE TABLE `protein_functions` (
 |hash_code|Int64 (10)|``NN``||
 |uniprot_id|VarChar (45)|``NN``||
 |go_id|Int64 (10)|``NN``||
+|GO_term|VarChar (45)|``NN``||
+|term_name|Text|||
 |namespace_id|Int64 (10)|``NN``||
-|namespace|VarChar (45)|||
+|namespace|VarChar (32)|||
 
 ```SQL
 CREATE TABLE `protein_go` (
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) NOT NULL,
   `go_id` int(10) unsigned NOT NULL,
+  `GO_term` varchar(45) NOT NULL,
+  `term_name` tinytext,
   `namespace_id` int(10) unsigned NOT NULL,
-  `namespace` varchar(45) DEFAULT NULL,
+  `namespace` char(32) DEFAULT NULL,
   PRIMARY KEY (`hash_code`,`go_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='对蛋白质的GO功能注释的信息关联表';
 ```
