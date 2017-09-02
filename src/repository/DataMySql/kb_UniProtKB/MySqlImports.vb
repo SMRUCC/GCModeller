@@ -26,11 +26,11 @@
 
 '#End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports Microsoft.VisualBasic.Language
-Imports System.IO
 Imports SMRUCC.genomics.Data.GeneOntology
 
 Namespace kb_UniProtKB
@@ -38,10 +38,10 @@ Namespace kb_UniProtKB
     Public Module MySqlImports
 
         ''' <summary>
-        ''' Create mysql database dump from <see cref="UniprotXML"/> database
+        ''' Create mysql database dump from <see cref="UniProtXML"/> database
         ''' </summary>
         ''' <param name="uniprot">
-        ''' For imports a ultra large size XML database, using linq method <see cref="UniprotXML.EnumerateEntries(String)"/>
+        ''' For imports a ultra large size XML database, using linq method <see cref="UniProtXML.EnumerateEntries(String)"/>
         ''' </param>
         ''' <returns></returns>
         <Extension>
@@ -51,6 +51,7 @@ Namespace kb_UniProtKB
             Dim altIDs As New List(Of mysql.alt_id)
             Dim GOfunctions As New List(Of mysql.protein_go)
             Dim KOfunctions As New List(Of mysql.protein_ko)
+            Dim peoples As New Dictionary(Of String, mysql.peoples)
 
             For Each entry As entry In uniprot
                 Dim uniprotID$ = entry.accessions.First
@@ -131,15 +132,20 @@ Namespace kb_UniProtKB
                                     .uniprot_id = uniprotID
                                 }
                             End Function)
+
+                For Each ref As reference In entry.reference
+
+                Next
             Next
 
-            Dim mysqlTables As New Dictionary(Of String, SQLTable())
+                Dim mysqlTables As New Dictionary(Of String, SQLTable())
 
             mysqlTables(NameOf(mysql.hash_table)) = hashCodes.Values.ToArray
             mysqlTables(NameOf(mysql.protein_functions)) = proteinFunctions
             mysqlTables(NameOf(mysql.alt_id)) = altIDs
             mysqlTables(NameOf(mysql.protein_go)) = GOfunctions
             mysqlTables(NameOf(mysql.protein_ko)) = KOfunctions
+            mysqlTables(NameOf(mysql.peoples)) = peoples.Values.ToArray
 
             Return mysqlTables
         End Function

@@ -176,6 +176,9 @@ Namespace Assembly.Uniprot.XML
         Public Property recommendedName As recommendedName
         Public Property submittedName As recommendedName
 
+        <XmlElement("alternativeName")>
+        Public Property alternativeNames As recommendedName()
+
         Public ReadOnly Property FullName As String
             Get
                 If recommendedName Is Nothing OrElse recommendedName.fullName Is Nothing Then
@@ -200,6 +203,7 @@ Namespace Assembly.Uniprot.XML
         <XmlAttribute> Public Property evidence As String
         <XmlAttribute> Public Property description As String
         <XmlText> Public Property value As String
+
         Public Property location As location
     End Class
 
