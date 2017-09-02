@@ -262,6 +262,7 @@ Partial Module Utilities
                        .Select(Function(col) columns(col)(i)) _
                        .ToArray
                    Let seqData As String = Regex.Replace(columns(seqOrd)(i), "\s*", "")
+                   Where Not seqData.StringEmpty
                    Select seqFa = New FastaToken With {
                        .Attributes = attributes,
                        .SequenceData = seqData
