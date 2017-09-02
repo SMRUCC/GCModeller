@@ -308,6 +308,9 @@ Namespace kb_UniProtKB
                 Dim tissue$
 
                 For Each ref As reference In protein.references
+                    If ref.source Is Nothing OrElse ref.source.tissues.IsNullOrEmpty Then
+                        Continue For
+                    End If
                     For Each name In ref.source.tissues
                         tissue = organismScientificName & "+" & name
 
