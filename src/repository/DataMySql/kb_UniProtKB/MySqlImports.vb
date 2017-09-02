@@ -75,9 +75,13 @@ Namespace kb_UniProtKB
                 Next
 
                 Dim recommendedName = entry.protein.recommendedName
+                Dim fullName$ = recommendedName _
+                    .fullName _
+                    .value _
+                    .MySqlEscaping
 
                 proteinFunctions += New mysql.protein_functions With {
-                    .full_name = recommendedName.fullName.value,
+                    .full_name = fullName,
                     .function = entry.comments _
                         .Where(Function(c) c.type = "function") _
                         .FirstOrDefault _
@@ -85,9 +89,9 @@ Namespace kb_UniProtKB
                     .hash_code = hashcode,
                     .name = entry.name,
                     .uniprot_id = uniprotID,
-                    .short_name1 = recommendedName.shortNames.ElementAtOrDefault(0)?.value,
-                    .short_name2 = recommendedName.shortNames.ElementAtOrDefault(1)?.value,
-                    .short_name3 = recommendedName.shortNames.ElementAtOrDefault(2)?.value
+                    .short_name1 = recommendedName.shortNames.ElementAtOrDefault(0)?.value.MySqlEscaping,
+                    .short_name2 = recommendedName.shortNames.ElementAtOrDefault(1)?.value.MySqlEscaping,
+                    .short_name3 = recommendedName.shortNames.ElementAtOrDefault(2)?.value.MySqlEscaping
                 }
 
                 GOfunctions += entry.Xrefs _
