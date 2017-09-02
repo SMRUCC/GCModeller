@@ -244,7 +244,7 @@ Namespace kb_UniProtKB
                             .uid = featureID,
                             .uniprot_id = uniprotID
                         }
-                        If Not feature.original.StringEmpty AndAlso feature.variation.StringEmpty Then
+                        If Not (feature.original.StringEmpty AndAlso feature.variation.StringEmpty) Then
                             featureVariations += New mysql.feature_site_variation With {
                                 .hash_code = hashcode,
                                 .original = feature.original,
