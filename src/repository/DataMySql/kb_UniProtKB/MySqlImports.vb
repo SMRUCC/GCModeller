@@ -31,6 +31,7 @@ Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports Microsoft.VisualBasic.Language
 Imports System.IO
+Imports SMRUCC.genomics.Data.GeneOntology
 
 Namespace kb_UniProtKB
 
@@ -48,7 +49,8 @@ Namespace kb_UniProtKB
             Dim hashCodes As New Dictionary(Of String, mysql.hash_table)
             Dim proteinFunctions As New List(Of mysql.protein_functions)
             Dim altIDs As New List(Of mysql.alt_id)
-
+            Dim GOfunctions As New List(Of mysql.protein_go)
+            Dim KOfunctions As New List(Of mysql.protein_ko)
 
             For Each entry As entry In uniprot
                 Dim uniprotID$ = entry.accessions.First
@@ -87,6 +89,44 @@ Namespace kb_UniProtKB
                     .short_name2 = recommendedName.shortNames.ElementAtOrDefault(1)?.value,
                     .short_name3 = recommendedName.shortNames.ElementAtOrDefault(2)?.value
                 }
+
+                GOfunctions += entry.Xrefs _
+                    .TryGetValue("GO") _
+                   ?.Select(Function(go)
+                                Dim term$ = go.properties _
+                                    .Where(Function([property]) [property].type = "term") _
+                                    .FirstOrDefault _
+                                   ?.value
+                                Dim [namespace] As Ontologies
+
+                                Select Case term.Split(":"c).First
+                                    Case "C"
+                                        [namespace] = Ontologies.CellularComponent
+                                    Case "P"
+                                        [namespace] = Ontologies.BiologicalProcess
+                                    Case "F"
+                                        [namespace] = Ontologies.MolecularFunction
+                                    Case Else
+                                        Throw New InvalidDataException(term)
+                                End Select
+
+                                Return New mysql.protein_go With {
+                                    .go_id = go.id.Split(":"c).Last,
+                                    .hash_code = hashcode,
+                                    .namespace = OntologyNamespaces([namespace]),
+                                    .namespace_id = [namespace],
+                                    .uniprot_id = uniprotID
+                                }
+                            End Function)
+                KOfunctions += entry.Xrefs _
+                    .TryGetValue("KO") _
+                   ?.Select(Function(ko)
+                                Return New mysql.protein_ko With {
+                                    .hash_code = hashcode,
+                                    .KO = ko.id.Match("\d+"),
+                                    .uniprot_id = uniprotID
+                                }
+                            End Function)
             Next
 
             Dim mysqlTables As New Dictionary(Of String, SQLTable())
