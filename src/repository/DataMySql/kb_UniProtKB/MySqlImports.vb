@@ -146,7 +146,9 @@ Namespace kb_UniProtKB
                                     .hash_code = hashcode,
                                     .namespace = OntologyNamespaces([namespace]),
                                     .namespace_id = [namespace],
-                                    .uniprot_id = uniprotID
+                                    .uniprot_id = uniprotID,
+                                    .GO_term = go.id,
+                                    .term_name = term.MySqlEscaping
                                 }
                             End Function)
                 KOfunctions += protein.Xrefs _
