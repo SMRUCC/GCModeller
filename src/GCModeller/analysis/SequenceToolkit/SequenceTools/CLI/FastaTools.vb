@@ -52,6 +52,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports System.ComponentModel
+Imports Microsoft.VisualBasic.Data
 
 Partial Module Utilities
 
@@ -215,44 +217,58 @@ Partial Module Utilities
     End Function
 
     ''' <summary>
-    ''' 将Excel表格之中的序列数据提取出来
+    ''' 将Excel表格之中的序列数据提取出来，序列和属性的列名称必须是唯一的，但是其他的额外的列的名称可以出现重复
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Excel.2Fasta",
-               Usage:="/Excel.2Fasta /in <anno.csv> [/out <out.fasta> /attrs <gene;locus_tag;gi;location,...> /seq <Sequence>]",
-               Info:="Convert the sequence data in a excel annotation file into a fasta sequence file.")>
+    <ExportAPI("/Excel.2Fasta")>
+    <Usage("/Excel.2Fasta /in <anno.csv> [/out <out.fasta> /attrs <gene;locus_tag;gi;location,...> /seq <Sequence>]")>
+    <Description("Convert the sequence data in a excel annotation file into a fasta sequence file.")>
     <Argument("/in", Description:="Excel csv table file.")>
     <Argument("/attrs", Description:="Excel header fields name as the fasta sequence header.")>
     <Argument("/seq", Description:="Excel header field name for reading the sequence data.")>
     <Group(CLIGrouping.FastaTools)>
     Public Function ToFasta(args As CommandLine) As Integer
-        Dim inFile As String = args("/in")
+        Dim inFile As String = args <= "/in"
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Fasta")
-        Dim attrs As String = args("/attrs")
-        Dim lstAttrs As String() = If(
-            String.IsNullOrEmpty(attrs),
-            {
-                "gene", "locus_tag", "gi", "location", "product"
-            },
-            attrs.Split(";"c))
+        Dim attrs$() = args.GetValue("/attrs", {"gene", "locus_tag", "gi", "location", "product"}, __ctype:=Function(s) s.Split(";"c))
         Dim seq As String = args.GetValue("/seq", "sequence")
-        Dim csv As DataFrame = IO.DataFrame.CreateObject(IO.DataFrame.Load(inFile))
-        Dim readers As DynamicObjectLoader() = csv.CreateDataSource
-        Dim attrSchema = (From x In csv.GetOrdinalSchema(lstAttrs) Where x > -1 Select x).ToArray
-        Dim seqOrd As Integer = csv.GetOrdinal(seq)
-        Dim Fa = From row As DynamicObjectLoader
-                 In readers.AsParallel
-                 Let attributes As String() = row.GetValues(attrSchema)
-                 Let seqData As String = Regex.Replace(row.GetValue(seqOrd), "\s*", "")
-                 Let seqFa As FastaToken = New FastaToken With {
-                     .Attributes = attributes,
-                     .SequenceData = seqData
-                 }
-                 Select seqFa
-                 Order By seqFa.Title Ascending
+        Dim csv As csv.IO.File = inFile
+        Dim headers As Index(Of String) = csv.Headers.Indexing
+        Dim columns$()() = csv _
+            .Columns _
+            .Select(Function(c) c.Skip(1).ToArray) _
+            .ToArray
+        Dim seqOrd As Integer = headers(seq)
+        Dim attrSchema%() = LinqAPI.Exec(Of Integer) _
+ _
+            () <= From col As String
+                  In attrs
+                  Let x = headers.IndexOf(col)
+                  Where x > -1
+                  Select x
 
-        Dim Fasta As New FastaFile(Fa)
+        If seqOrd = -1 Then
+            Throw New Exception($"Column name '{seq}' is not exists in the csv headers!")
+        End If
+        If attrSchema.IsNullOrEmpty Then
+            Call $"No attribute column name was found, using first column as default header.".Warning
+            attrSchema = {0}
+        End If
+
+        Dim seqs = From i As Integer
+                   In columns.First.Sequence
+                   Let attributes As String() = attrSchema _
+                       .Select(Function(col) columns(col)(i)) _
+                       .ToArray
+                   Let seqData As String = Regex.Replace(columns(seqOrd)(i), "\s*", "")
+                   Select seqFa = New FastaToken With {
+                       .Attributes = attributes,
+                       .SequenceData = seqData
+                   }
+                   Order By seqFa.Title Ascending
+
+        Dim Fasta As New FastaFile(seqs)
         Return Fasta.Save(out, Encodings.ASCII).CLICode
     End Function
 
