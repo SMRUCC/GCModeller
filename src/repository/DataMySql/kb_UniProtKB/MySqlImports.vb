@@ -144,20 +144,32 @@ Namespace kb_UniProtKB
 
                 For Each ref As reference In entry.references
                     For Each name As person In ref.citation.authorList
-                        If Not peoples.ContainsKey(name.name) Then
+                        Dim personName$ = name.name.MySqlEscaping
+
+                        If Not peoples.ContainsKey(personName) Then
                             Call peoples.Add(
-                                name.name, New mysql.peoples With {
-                                    .name = name.name,
+                                personName, New mysql.peoples With {
+                                    .name = personName,
                                     .uid = peoples.Count
                                 })
                         End If
                     Next
 
                     Dim cite As citation = ref.citation
-                    Dim citeTitle$ = If(cite.title, uniprotID & ": " & cite.type)
+                    Dim citeTitle$ = If(cite.title, uniprotID & ": " & cite.type).MySqlEscaping
 
                     If Not citation.ContainsKey(citeTitle) Then
                         Dim jobID&
+                        Dim doi$ = cite.dbReferences _
+                            .SafeQuery _
+                            .Where(Function(r) r.type = "DOI") _
+                            .FirstOrDefault _
+                           ?.id
+                        Dim pubmed = cite.dbReferences _
+                            .SafeQuery _
+                            .Where(Function(r) r.type = "PubMed") _
+                            .FirstOrDefault _
+                           ?.id
 
                         Call citation.Add(
                             citeTitle, New mysql.literature With {
@@ -169,16 +181,8 @@ Namespace kb_UniProtKB
                                 .type = cite.type,
                                 .uid = citation.Count,
                                 .pages = $"{cite.first} - {cite.last}",
-                                .doi = cite.dbReferences _
-                                    .SafeQuery _
-                                    .Where(Function(r) r.type = "DOI") _
-                                    .FirstOrDefault _
-                                   ?.id,
-                                .pubmed = cite.dbReferences _
-                                    .SafeQuery _
-                                    .Where(Function(r) r.type = "PubMed") _
-                                    .FirstOrDefault _
-                                   ?.id
+                                .doi = doi,
+                                .pubmed = pubmed
                             })
 
                         jobID = citation(citeTitle).uid
@@ -187,7 +191,7 @@ Namespace kb_UniProtKB
                                 Select New mysql.research_jobs With {
                                     .literature_id = jobID,
                                     .literature_title = citeTitle,
-                                    .people_name = people.name,
+                                    .people_name = people.name.MySqlEscaping,
                                     .person = peoples(.people_name).uid
                                 }
                     End If
