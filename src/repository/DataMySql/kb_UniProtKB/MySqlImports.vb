@@ -55,6 +55,12 @@ Namespace kb_UniProtKB
             Dim peoples As New Dictionary(Of String, mysql.peoples)
             Dim citation As New Dictionary(Of String, mysql.literature)
             Dim jobs As New List(Of mysql.research_jobs)
+            Dim keywords As New Dictionary(Of String, mysql.keywords)
+            Dim proteinKeywords As New List(Of mysql.protein_keywords)
+            Dim featureSites As New List(Of mysql.protein_feature_site)
+            Dim featureRegions As New List(Of mysql.protein_feature_regions)
+            Dim featureVariations As New List(Of mysql.feature_site_variation)
+            Dim featureTypes As New Dictionary(Of String, mysql.feature_types)
 
             For Each entry As entry In uniprot
                 Dim uniprotID$ = entry.accessions.First
@@ -196,6 +202,72 @@ Namespace kb_UniProtKB
                                 }
                     End If
                 Next
+
+                For Each keyword In entry.keywords.SafeQuery
+                    Dim word$ = keyword.value.MySqlEscaping
+                    Dim id& = keyword.id.Split("-"c).Last
+
+                    If Not keywords.ContainsKey(word) Then
+                        Call keywords.Add(
+                            word, New mysql.keywords With {
+                                .keyword = word,
+                                .uid = id
+                            })
+                    End If
+
+                    proteinKeywords += New mysql.protein_keywords With {
+                        .keyword = word,
+                        .hash_code = hashcode,
+                        .keyword_id = id,
+                        .uniprot_id = uniprotID
+                    }
+                Next
+
+                For Each feature As feature In entry.features.SafeQuery
+                    If Not featureTypes.ContainsKey(feature.type) Then
+                        Call featureTypes.Add(
+                            feature.type, New mysql.feature_types With {
+                                .type_name = feature.type,
+                                .uid = featureTypes.Count
+                            })
+                    End If
+
+                    If feature.location.IsSite Then
+                        Dim featureID& = featureSites.Count
+
+                        featureSites += New mysql.protein_feature_site With {
+                            .description = feature.description.MySqlEscaping,
+                            .hash_code = hashcode,
+                            .position = feature.location.position.position,
+                            .type = feature.type,
+                            .type_id = featureTypes(feature.type).uid,
+                            .uid = featureID,
+                            .uniprot_id = uniprotID
+                        }
+                        If Not feature.original.StringEmpty AndAlso feature.variation.StringEmpty Then
+                            featureVariations += New mysql.feature_site_variation With {
+                                .hash_code = hashcode,
+                                .original = feature.original,
+                                .position = feature.location.position.position,
+                                .uid = featureID,
+                                .uniprot_id = uniprotID,
+                                .variation = feature.variation
+                            }
+                        End If
+                    Else
+                        Dim featureID& = featureRegions.Count
+
+                        featureRegions += New mysql.protein_feature_regions With {
+                            .begin = feature.location.begin.position,
+                            .description = feature.description.MySqlEscaping,
+                            .end = feature.location.end.position,
+                            .hash_code = hashcode,
+                            .type = feature.type,
+                            .type_id = featureTypes(feature.type).uid,
+                            .uniprot_id = uniprotID
+                        }
+                    End If
+                Next
             Next
 
             Dim mysqlTables As New Dictionary(Of String, SQLTable())
@@ -205,9 +277,17 @@ Namespace kb_UniProtKB
             mysqlTables(NameOf(mysql.alt_id)) = altIDs
             mysqlTables(NameOf(mysql.protein_go)) = GOfunctions
             mysqlTables(NameOf(mysql.protein_ko)) = KOfunctions
+
             mysqlTables(NameOf(mysql.peoples)) = peoples.Values.ToArray
             mysqlTables(NameOf(mysql.literature)) = citation.Values.ToArray
             mysqlTables(NameOf(mysql.research_jobs)) = jobs
+            mysqlTables(NameOf(mysql.keywords)) = keywords.Values.ToArray
+            mysqlTables(NameOf(mysql.protein_keywords)) = proteinKeywords
+
+            mysqlTables(NameOf(mysql.protein_feature_site)) = featureSites
+            mysqlTables(NameOf(mysql.protein_feature_regions)) = featureRegions
+            mysqlTables(NameOf(mysql.feature_site_variation)) = featureVariations
+            mysqlTables(NameOf(mysql.feature_types)) = featureTypes.Values.ToArray
 
             Return mysqlTables
         End Function

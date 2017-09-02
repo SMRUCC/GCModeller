@@ -203,8 +203,14 @@ Namespace Assembly.Uniprot.XML
         <XmlAttribute> Public Property evidence As String
         <XmlAttribute> Public Property description As String
         <XmlText> Public Property value As String
+        Public Property original As String
+        Public Property variation As String
 
         Public Property location As location
+
+        Public Overrides Function ToString() As String
+            Return description
+        End Function
     End Class
 
     Public Class location
@@ -223,6 +229,26 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <returns></returns>
         Public Property position As position
+
+        Public ReadOnly Property IsRegion As Boolean
+            Get
+                Return Not (begin Is Nothing AndAlso [end] Is Nothing)
+            End Get
+        End Property
+
+        Public ReadOnly Property IsSite As Boolean
+            Get
+                Return Not IsRegion
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            If IsRegion Then
+                Return $"[{begin}, {[end]}]"
+            Else
+                Return position.position
+            End If
+        End Function
     End Class
 
     ''' <summary>
