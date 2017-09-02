@@ -18,10 +18,19 @@ Namespace Assembly.Uniprot.XML
         <XmlAttribute> Public Property type As String
         <XmlAttribute> Public Property [date] As String
         <XmlAttribute> Public Property db As String
+        ''' <summary>
+        ''' 期刊名称
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property name As String
         <XmlAttribute> Public Property volume As String
-        <XmlAttribute> Public Property first As Integer
-        <XmlAttribute> Public Property last As Integer
+        <XmlAttribute> Public Property first As String
+        <XmlAttribute> Public Property last As String
+
+        ''' <summary>
+        ''' ``submission``类型的引用的标题可能是空的
+        ''' </summary>
+        ''' <returns></returns>
         Public Property title As String
         Public Property authorList As person()
         <XmlElement("dbReference")>

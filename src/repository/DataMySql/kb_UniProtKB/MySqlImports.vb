@@ -154,36 +154,39 @@ Namespace kb_UniProtKB
                     Next
 
                     Dim cite As citation = ref.citation
+                    Dim citeTitle$ = If(cite.title, uniprotID & ": " & cite.type)
 
-                    If Not citation.ContainsKey(cite.title) Then
+                    If Not citation.ContainsKey(citeTitle) Then
                         Dim jobID&
 
                         Call citation.Add(
-                            cite.title, New mysql.literature With {
+                            citeTitle, New mysql.literature With {
                                 .date = cite.date,
                                 .db = cite.db,
                                 .journal = cite.name,
                                 .volume = cite.volume,
-                                .title = cite.title,
+                                .title = citeTitle,
                                 .type = cite.type,
                                 .uid = citation.Count,
                                 .pages = $"{cite.first} - {cite.last}",
                                 .doi = cite.dbReferences _
+                                    .SafeQuery _
                                     .Where(Function(r) r.type = "DOI") _
                                     .FirstOrDefault _
                                    ?.id,
                                 .pubmed = cite.dbReferences _
+                                    .SafeQuery _
                                     .Where(Function(r) r.type = "PubMed") _
                                     .FirstOrDefault _
                                    ?.id
                             })
 
-                        jobID = citation(cite.title).uid
+                        jobID = citation(citeTitle).uid
                         jobs += From people As person
                                 In cite.authorList.SafeQuery
                                 Select New mysql.research_jobs With {
                                     .literature_id = jobID,
-                                    .literature_title = cite.title,
+                                    .literature_title = citeTitle,
                                     .people_name = people.name,
                                     .person = peoples(.people_name).uid
                                 }
