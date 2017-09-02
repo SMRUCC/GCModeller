@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.GO_mysql.My.MySettings
+        Friend ReadOnly Property Settings() As Global.SMRUCC.genomics.Data.GeneOntology.mysql.My.MySettings
             Get
-                Return Global.GO_mysql.My.MySettings.Default
+                Return Global.SMRUCC.genomics.Data.GeneOntology.mysql.My.MySettings.Default
             End Get
         End Property
     End Module

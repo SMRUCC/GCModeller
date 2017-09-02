@@ -373,7 +373,7 @@ Public Module Extensions
     ''' <param name="index"></param>
     ''' <param name="[default]">Default value for return when the array object is nothing or index outside of the boundary.</param>
     ''' <returns></returns>
-    <Extension> Public Function [Get](Of T)(array As T(), index As Integer, Optional [default] As T = Nothing) As T
+    <Extension> Public Function ElementAtOrDefault(Of T)(array As T(), index As Integer, Optional [default] As T = Nothing) As T
         If array.IsNullOrEmpty Then
             Return [default]
         End If
@@ -1878,6 +1878,13 @@ Public Module Extensions
         Return False
     End Function
 
+    ''' <summary>
+    ''' 字典之中是否是没有任何数据的？
+    ''' </summary>
+    ''' <typeparam name="TKey"></typeparam>
+    ''' <typeparam name="TValue"></typeparam>
+    ''' <param name="dict"></param>
+    ''' <returns></returns>
     <Extension> Public Function IsNullOrEmpty(Of TKey, TValue)(dict As Dictionary(Of TKey, TValue)) As Boolean
         If dict Is Nothing Then
             Return True
@@ -1885,6 +1892,12 @@ Public Module Extensions
         Return dict.Count = 0
     End Function
 
+    ''' <summary>
+    ''' 这个队列之中是否是没有任何数据的?
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="queue"></param>
+    ''' <returns></returns>
     <Extension> Public Function IsNullOrEmpty(Of T)(queue As Queue(Of T)) As Boolean
         If queue Is Nothing Then
             Return True
@@ -1892,6 +1905,12 @@ Public Module Extensions
         Return queue.Count = 0
     End Function
 
+    ''' <summary>
+    ''' 这个动态列表之中是否是没有任何数据的？
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="list"></param>
+    ''' <returns></returns>
     <Extension> Public Function IsNullOrEmpty(Of T)(list As List(Of T)) As Boolean
         If list Is Nothing Then
             Return True

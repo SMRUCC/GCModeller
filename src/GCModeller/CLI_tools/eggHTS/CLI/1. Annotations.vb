@@ -68,8 +68,8 @@ Partial Module CLI
         Return output.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/update.uniprot.mapped",
-               Usage:="/update.uniprot.mapped /in <table.csv> /mapping <mapping.tsv/tab> [/source /out <out.csv>]")>
+    <ExportAPI("/update.uniprot.mapped")>
+    <Usage("/update.uniprot.mapped /in <table.csv> /mapping <mapping.tsv/tab> [/source /out <out.csv>]")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function Update2UniprotMappedID(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -95,9 +95,9 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/Samples.IDlist",
-               Info:="Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.",
-               Usage:="/Samples.IDlist /in <samples.csv> [/Perseus /shotgun /pair <samples2.csv> /out <out.list.txt>]")>
+    <ExportAPI("/Samples.IDlist")>
+    <Description("Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.")>
+    <Usage("/Samples.IDlist /in <samples.csv> [/Perseus /shotgun /pair <samples2.csv> /out <out.list.txt>]")>
     <Argument("/Perseus", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this flag was presented, that means the input sample data is the Perseus analysis output file ``ProteinGroups.txt``, or the input sample data is the iTraq result.")>
@@ -284,16 +284,16 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/proteins.Go.plot",
-               Info:="ProteinGroups sample data go profiling plot from the uniprot annotation data.",
-               Usage:="/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /tick 50 /top 20 /size <2000,4000> /out <out.DIR>]")>
+    <ExportAPI("/proteins.Go.plot")>
+    <Description("ProteinGroups sample data go profiling plot from the uniprot annotation data.")>
+    <Usage("/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /tick <default=-1> /selects Q3 /size <2000,2200> /out <out.DIR>]")>
     Public Function ProteinsGoPlot(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
         Dim in$ = args("/in")
-        Dim size As Size = args.GetValue("/size", New Size(2000, 4000))
+        Dim size As Size = args.GetValue("/size", New Size(2000, 2200))
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/GO/")
-        Dim top% = args.GetValue("/top", 20)
-        Dim tick! = args.GetValue("/tick", 50.0!)
+        Dim selects$ = args.GetValue("/selects", "Q3")
+        Dim tick! = args.GetValue("/tick", -1.0!)
 
         ' 绘制GO图
         Dim goTerms As Dictionary(Of String, Term) = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
@@ -309,7 +309,7 @@ Partial Module CLI
 
         Call data.SaveCountValue(out & "/plot.csv")
         Call CatalogPlots.Plot(
-            data, orderTakes:=top,
+            data, selects:=selects,
             tick:=tick,
             size:=size,
             axisTitle:="Number Of Proteins").Save(out & "/plot.png")
@@ -368,11 +368,12 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/protein.EXPORT",
-             Usage:="/protein.EXPORT /in <uniprot.xml> [/sp <name> /exclude /out <out.fasta>]")>
+    <ExportAPI("/protein.EXPORT")>
+    <Usage("/protein.EXPORT /in <uniprot.xml> [/sp <name> /exclude /out <out.fasta>]")>
+    <Description("Export the protein sequence and save as fasta format from the uniprot database dump XML.")>
     <Argument("/sp", True, CLITypes.String,
-            AcceptTypes:={GetType(String)},
-            Description:="The organism scientific name.")>
+              AcceptTypes:={GetType(String)},
+              Description:="The organism scientific name.")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function proteinEXPORT(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
@@ -383,32 +384,39 @@ Partial Module CLI
             "",
             If(exclude, "-exclude", "") & "-" & sp.NormalizePathString.Replace(" ", "_"))
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{suffix}.fasta")
-        Dim uniprotXML As UniprotXML = UniprotXML.Load([in])
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
-            Dim source As IEnumerable(Of Uniprot.XML.entry) = uniprotXML.entries
+            Dim source As IEnumerable(Of Uniprot.XML.entry) = UniprotXML.EnumerateEntries(path:=[in])
 
             If Not String.IsNullOrEmpty(sp) Then
                 If exclude Then
                     source = source _
-                        .Where(Function(gene) Not gene.organism.scientificName = sp) _
-                        .ToArray
+                        .Where(Function(gene)
+                                   Return Not gene.organism.scientificName = sp
+                               End Function)
                 Else
                     source = source _
-                        .Where(Function(gene) gene.organism.scientificName = sp) _
-                        .ToArray
+                        .Where(Function(gene)
+                                   Return gene.organism.scientificName = sp
+                               End Function)
                 End If
             End If
 
             For Each prot As Uniprot.XML.entry In source _
                 .Where(Function(g) Not g.sequence Is Nothing)
 
-                Dim orf$ = If(prot.gene Is Nothing, "", prot.gene.ORF.JoinBy(","))
+                Dim seq$ = prot _
+                    .sequence _
+                    .sequence _
+                    .lTokens _
+                    .JoinBy("") _
+                    .Replace(" ", "")
                 Dim fa As New FastaToken With {
-                    .SequenceData = prot.sequence.sequence.lTokens.JoinBy(""),
-                    .Attributes = {prot.accessions.First, orf$}
+                    .SequenceData = seq,
+                    .Attributes = {prot.accessions.First & " " & prot.proteinFullName}
                 }
-                Call writer.WriteLine(fa.GenerateDocument(-1))
+
+                Call writer.WriteLine(fa.GenerateDocument(120))
             Next
         End Using
 

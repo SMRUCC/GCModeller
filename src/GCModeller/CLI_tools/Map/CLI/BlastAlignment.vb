@@ -113,7 +113,7 @@ Partial Module CLI
                 cata _
                 .ReadAllLines _
                 .Select(Function(s) s.Split(ASCII.TAB)) _
-                .Select(Function(g) New NamedValue(Of String)(g(0), g.Get(1))) _
+                .Select(Function(g) New NamedValue(Of String)(g(0), g.ElementAtOrDefault(1))) _
                 .ToDictionary()
 
             For Each gene As GeneBrief In PTT

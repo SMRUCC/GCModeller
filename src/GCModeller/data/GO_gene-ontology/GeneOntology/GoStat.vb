@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::b6fd731e6fcb21dcc42b74efb1d16a9d, ..\GCModeller\data\GO_gene-ontology\GeneOntology\GoStat.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,11 +35,17 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.foundation.OBO_Foundry
 
 ''' <summary>
 ''' Statics of the GO function catalog
 ''' </summary>
 Public Module GoStat
+
+    Public ReadOnly Property OntologyNamespaces As Dictionary(Of Ontologies, String) =
+        Enums(Of Ontologies) _
+        .ToDictionary(Function(o) o,
+                      Function([namespace]) [namespace].Description)
 
     ''' <summary>
     ''' 计数统计
@@ -78,7 +84,7 @@ Public Module GoStat
                         })
                 End If
 
-                count(goID).Value.value += value.Number
+                count(goID).Value.Value += value.Number
             Next
         Next
 
@@ -107,7 +113,7 @@ Public Module GoStat
     Private Function __t(value As IEnumerable(Of NamedValue(Of int))) As NamedValue(Of Integer)()
         Dim array As New List(Of NamedValue(Of Integer))
 
-        For Each x In value.Where(Function(c) c.Value.value > 1).ToArray
+        For Each x In value.Where(Function(c) c.Value.Value > 1).ToArray
             array += New NamedValue(Of Integer) With {
                 .Name = x.Name,
                 .Value = x.Value,
@@ -141,6 +147,11 @@ Public Module GoStat
         Next
 
         Return out
+    End Function
+
+    <Extension>
+    Public Function EnumerateGOTerms(obo As OBOFile) As IEnumerable(Of Term)
+        Return GO_OBO.ReadTerms(obo)
     End Function
 End Module
 

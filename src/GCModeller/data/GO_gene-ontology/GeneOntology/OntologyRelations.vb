@@ -40,7 +40,7 @@
 ''' For more technical information about relations And their properties used In GO And other ontologies see the OBO Relations Ontology 
 ''' (RO) And For relationships used In GO annotation extensions, see the GO annotation extension relations file (experimental).
 ''' </summary>
-Public Enum OntologyRelations
+Public Enum OntologyRelations As Byte
 
     ''' <summary>
     ''' ## The _is a_ relation
@@ -61,7 +61,7 @@ Public Enum OntologyRelations
     ''' 
     ''' (child is a parent class object.)
     ''' </summary>
-    is_a
+    is_a = 1
     ''' <summary>
     ''' ## The _part of_ relationship
     ''' The relation **_part of_** Is used To represent part-whole relationships In the Gene Ontology. part Of has a specific meaning In GO, 

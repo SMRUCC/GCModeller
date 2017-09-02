@@ -45,7 +45,7 @@ Imports System.ComponentModel
 ''' ``oxidoreductase activity``, the ``Biological Process`` terms ``oxidative phosphorylation`` And ``induction of cell death``, 
 ''' And the ``Cellular Component`` terms ``mitochondrial matrix`` And ``mitochondrial inner membrane``.
 ''' </summary>
-Public Enum Ontologies
+Public Enum Ontologies As Byte
 
     ''' <summary>
     ''' These terms describe a component of a cell that is part of a larger object, such as an anatomical structure 

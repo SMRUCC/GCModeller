@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B03F3745-E466-4ED0-A206-4EE5058CFAED}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>GO_mysql</RootNamespace>
-    <AssemblyName>GO_mysql</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.Data.GeneOntology.mysql</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Data.GeneOntology.kb_go</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
@@ -19,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>GO_mysql.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.GeneOntology.kb_go.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>GO_mysql.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.GeneOntology.kb_go.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -48,7 +48,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DocumentationFile>GO_mysql.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.GeneOntology.kb_go.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -56,8 +56,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DocumentationFile>GO_mysql.xml</DocumentationFile>
+    <OutputPath>..\..\..\..\..\GCModeller\bin\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Data.GeneOntology.kb_go.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -67,7 +67,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Publish\</OutputPath>
-    <DocumentationFile>GO_mysql.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.GeneOntology.kb_go.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -77,6 +77,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x64\Publish\</OutputPath>
+    <DocumentationFile>SMRUCC.genomics.Data.GeneOntology.kb_go.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\GCModeller%28Release_X64%29\</OutputPath>
+    <DocumentationFile>GO_mysql.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\GCModeller%28Release_X64%29\</OutputPath>
     <DocumentationFile>GO_mysql.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -87,6 +107,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -108,6 +129,14 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="kb_go\alt_id.vb" />
+    <Compile Include="kb_go\dag_relationship.vb" />
+    <Compile Include="kb_go\go_terms.vb" />
+    <Compile Include="kb_go\relation_names.vb" />
+    <Compile Include="kb_go\term_namespace.vb" />
+    <Compile Include="kb_go\term_synonym.vb" />
+    <Compile Include="kb_go\xref.vb" />
+    <Compile Include="DATA.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -123,50 +152,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="MySQL\Tables\association.vb" />
-    <Compile Include="MySQL\Tables\association_isoform.vb" />
-    <Compile Include="MySQL\Tables\association_property.vb" />
-    <Compile Include="MySQL\Tables\association_qualifier.vb" />
-    <Compile Include="MySQL\Tables\association_species_qualifier.vb" />
-    <Compile Include="MySQL\Tables\assoc_rel.vb" />
-    <Compile Include="MySQL\Tables\db.vb" />
-    <Compile Include="MySQL\Tables\dbxref.vb" />
-    <Compile Include="MySQL\Tables\evidence.vb" />
-    <Compile Include="MySQL\Tables\evidence_dbxref.vb" />
-    <Compile Include="MySQL\Tables\gene_product.vb" />
-    <Compile Include="MySQL\Tables\gene_product_ancestor.vb" />
-    <Compile Include="MySQL\Tables\gene_product_count.vb" />
-    <Compile Include="MySQL\Tables\gene_product_dbxref.vb" />
-    <Compile Include="MySQL\Tables\gene_product_homology.vb" />
-    <Compile Include="MySQL\Tables\gene_product_homolset.vb" />
-    <Compile Include="MySQL\Tables\gene_product_phylotree.vb" />
-    <Compile Include="MySQL\Tables\gene_product_property.vb" />
-    <Compile Include="MySQL\Tables\gene_product_seq.vb" />
-    <Compile Include="MySQL\Tables\gene_product_subset.vb" />
-    <Compile Include="MySQL\Tables\gene_product_synonym.vb" />
-    <Compile Include="MySQL\Tables\graph_path.vb" />
-    <Compile Include="MySQL\Tables\graph_path2term.vb" />
-    <Compile Include="MySQL\Tables\homolset.vb" />
-    <Compile Include="MySQL\Tables\instance_data.vb" />
-    <Compile Include="MySQL\Tables\intersection_of.vb" />
-    <Compile Include="MySQL\Tables\phylotree.vb" />
-    <Compile Include="MySQL\Tables\phylotree_property.vb" />
-    <Compile Include="MySQL\Tables\relation_composition.vb" />
-    <Compile Include="MySQL\Tables\relation_properties.vb" />
-    <Compile Include="MySQL\Tables\seq.vb" />
-    <Compile Include="MySQL\Tables\seq_dbxref.vb" />
-    <Compile Include="MySQL\Tables\seq_property.vb" />
-    <Compile Include="MySQL\Tables\source_audit.vb" />
-    <Compile Include="MySQL\Tables\species.vb" />
-    <Compile Include="MySQL\Tables\term.vb" />
-    <Compile Include="MySQL\Tables\term2term.vb" />
-    <Compile Include="MySQL\Tables\term2term_metadata.vb" />
-    <Compile Include="MySQL\Tables\term_audit.vb" />
-    <Compile Include="MySQL\Tables\term_dbxref.vb" />
-    <Compile Include="MySQL\Tables\term_definition.vb" />
-    <Compile Include="MySQL\Tables\term_property.vb" />
-    <Compile Include="MySQL\Tables\term_subset.vb" />
-    <Compile Include="MySQL\Tables\term_synonym.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -201,6 +186,15 @@
       <Project>{2c34a044-1bde-44e8-a86e-e9971c87da21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\foundation\OBO_Foundry\OBO_Foundry.vbproj">
+      <Project>{327A0323-5469-45C1-B95B-4A0336CF27C2}</Project>
+      <Name>OBO_Foundry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeneOntology\GO_OWL.vbproj">
+      <Project>{755078c9-f421-4ed0-a64b-161a69e86bcb}</Project>
+      <Name>GO_OWL</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

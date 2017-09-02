@@ -108,6 +108,7 @@ Namespace Assembly.Uniprot.XML
             End Set
         End Property
 
+        <XmlElement("reference")> Public Property references As reference()
         <XmlIgnore>
         Public ReadOnly Property CommentList As Dictionary(Of String, comment())
         ''' <summary>

@@ -176,6 +176,9 @@ Namespace Assembly.Uniprot.XML
         Public Property recommendedName As recommendedName
         Public Property submittedName As recommendedName
 
+        <XmlElement("alternativeName")>
+        Public Property alternativeNames As recommendedName()
+
         Public ReadOnly Property FullName As String
             Get
                 If recommendedName Is Nothing OrElse recommendedName.fullName Is Nothing Then
@@ -200,7 +203,14 @@ Namespace Assembly.Uniprot.XML
         <XmlAttribute> Public Property evidence As String
         <XmlAttribute> Public Property description As String
         <XmlText> Public Property value As String
+        Public Property original As String
+        Public Property variation As String
+
         Public Property location As location
+
+        Public Overrides Function ToString() As String
+            Return description
+        End Function
     End Class
 
     Public Class location
@@ -219,6 +229,26 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <returns></returns>
         Public Property position As position
+
+        Public ReadOnly Property IsRegion As Boolean
+            Get
+                Return Not (begin Is Nothing AndAlso [end] Is Nothing)
+            End Get
+        End Property
+
+        Public ReadOnly Property IsSite As Boolean
+            Get
+                Return Not IsRegion
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            If IsRegion Then
+                Return $"[{begin}, {[end]}]"
+            Else
+                Return position.position
+            End If
+        End Function
     End Class
 
     ''' <summary>
@@ -248,13 +278,20 @@ Namespace Assembly.Uniprot.XML
         Public Property ecNumber As value()
     End Class
 
-    Public Class value
-        Implements Value(Of String).IValueOf
+    ''' <summary>
+    ''' 一条值数据记录
+    ''' </summary>
+    Public Class value : Implements Value(Of String).IValueOf
 
         <XmlAttribute> Public Property type As String
         <XmlAttribute> Public Property evidence As String
         <XmlAttribute> Public Property description As String
         <XmlAttribute> Public Property id As String
+
+        ''' <summary>
+        ''' 这条值对象的文本内容
+        ''' </summary>
+        ''' <returns></returns>
         <XmlText> Public Property value As String Implements Value(Of String).IValueOf.value
 
         Public Overrides Function ToString() As String

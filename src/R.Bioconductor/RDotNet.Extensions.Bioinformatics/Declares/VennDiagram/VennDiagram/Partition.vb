@@ -77,8 +77,8 @@ Namespace VennDiagram.ModelAPI
 
         Public Function ApplyOptions([Option] As String()) As Partition
             Name = [Option].First
-            Color = [Option].Get(1)
-            Title = [Option].Get(2)
+            Color = [Option].ElementAtOrDefault(1)
+            Title = [Option].ElementAtOrDefault(2)
             Console.WriteLine("{0}(color: {1}) {2} counts.", Me.Name, Me.Color, Me.Vector.Split(CChar(",")).Length)
             Return Me
         End Function
