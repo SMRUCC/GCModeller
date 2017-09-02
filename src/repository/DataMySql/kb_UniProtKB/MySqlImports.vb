@@ -26,6 +26,7 @@
 
 '#End Region
 
+Imports System.Runtime.CompilerServices
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 
@@ -33,9 +34,27 @@ Namespace kb_UniProtKB
 
     Public Module MySqlImports
 
-        <extension>
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="uniprot">For imports a ultra large size XML database, using linq method <see cref="UniprotXML.EnumerateEntries(String)"/></param>
+        ''' <returns></returns>
+        <Extension>
         Public Function ImportsUniProtKB(uniprot As IEnumerable(Of entry)) As Dictionary(Of String, SQLTable())
+            Dim hashCodes As New Dictionary(Of String, mysql.hash_table)
+            Dim proteinFunctions As New Dictionary(Of String, mysql.protein_functions)
 
+            For Each entry As entry In uniprot
+
+
+            Next
+
+            Dim mysqlTables As New Dictionary(Of String, SQLTable())
+
+            mysqlTables(NameOf(mysql.hash_table)) = hashCodes.Values.ToArray
+            mysqlTables(NameOf(mysql.protein_functions)) = proteinFunctions.Values.ToArray
+
+            Return mysqlTables
         End Function
     End Module
 End Namespace

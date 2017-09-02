@@ -76,7 +76,8 @@ Namespace Assembly.Uniprot.XML
         End Function
 
         ''' <summary>
-        ''' 使用这个函数来读取超大的uniprot XML数据库
+        ''' Enumerate all of the data entries in a ultra large size uniprot XML database.
+        ''' (使用这个函数来读取超大的uniprot XML数据库)
         ''' </summary>
         ''' <param name="path$"></param>
         ''' <returns></returns>
