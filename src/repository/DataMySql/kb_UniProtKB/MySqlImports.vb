@@ -51,6 +51,7 @@ Namespace kb_UniProtKB
             Dim altIDs As New List(Of mysql.alt_id)
 
             Dim proteinFunctions As New List(Of mysql.protein_functions)
+            Dim alternativeNames As New List(Of mysql.protein_alternative_name)
             Dim GOfunctions As New List(Of mysql.protein_go)
             Dim KOfunctions As New List(Of mysql.protein_ko)
 
@@ -123,6 +124,25 @@ Namespace kb_UniProtKB
                     .short_name2 = recommendedName.shortNames.ElementAtOrDefault(1)?.value.MySqlEscaping,
                     .short_name3 = recommendedName.shortNames.ElementAtOrDefault(2)?.value.MySqlEscaping
                 }
+                alternativeNames += From alt As recommendedName
+                                    In protein _
+                                        .protein _
+                                        .alternativeNames _
+                                        .SafeQuery
+                                    Let altFullName = alt.fullName _
+                                        ?.value _
+                                         .MySqlEscaping
+                                    Select New mysql.protein_alternative_name With {
+                                        .fullName = altFullName,
+                                        .hash_code = hashcode,
+                                        .name = protein.name,
+                                        .uniprot_id = uniprotID,
+                                        .shortName1 = alt.shortNames.ElementAtOrDefault(0).value.MySqlEscaping,
+                                        .shortName2 = alt.shortNames.ElementAtOrDefault(1).value.MySqlEscaping,
+                                        .shortName3 = alt.shortNames.ElementAtOrDefault(2).value.MySqlEscaping,
+                                        .shortName4 = alt.shortNames.ElementAtOrDefault(3).value.MySqlEscaping,
+                                        .shortName5 = alt.shortNames.ElementAtOrDefault(4).value.MySqlEscaping
+                                    }
 
                 GOfunctions += protein.Xrefs _
                     .TryGetValue("GO") _
@@ -376,6 +396,7 @@ Namespace kb_UniProtKB
             mysqlTables(NameOf(mysql.alt_id)) = altIDs
             mysqlTables(NameOf(mysql.protein_go)) = GOfunctions
             mysqlTables(NameOf(mysql.protein_ko)) = KOfunctions
+            mysqlTables(NameOf(mysql.protein_alternative_name)) = alternativeNames
 
             mysqlTables(NameOf(mysql.peoples)) = peoples.Values.ToArray
             mysqlTables(NameOf(mysql.literature)) = citation.Values.ToArray
