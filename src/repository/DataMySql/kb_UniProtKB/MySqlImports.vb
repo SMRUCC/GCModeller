@@ -294,7 +294,7 @@ Namespace kb_UniProtKB
                     }
                 Next
 
-                GOfunctions += protein.Xrefs _
+                For Each go_class In protein.Xrefs _
                     .TryGetValue("GO") _
                    ?.Select(Function(go)
                                 Dim term$ = go.properties _
@@ -324,7 +324,14 @@ Namespace kb_UniProtKB
                                     .term_name = term.MySqlEscaping
                                 }
                             End Function)
-                KOfunctions += protein.Xrefs _
+
+                    Yield New NamedValue(Of MySQLTable) With {
+                        .Name = NameOf(mysql.protein_go),
+                        .Value = go_class
+                    }
+                Next
+
+                For Each ko_class In protein.Xrefs _
                     .TryGetValue("KO") _
                    ?.Select(Function(ko)
                                 Return New mysql.protein_ko With {
@@ -333,11 +340,17 @@ Namespace kb_UniProtKB
                                     .uniprot_id = uniprotID
                                 }
                             End Function)
-                If Not protein.gene Is Nothing Then
-                    Dim gene As gene = protein.gene
-                    Dim synNames = gene.IDs("synonym")
 
-                    geneNames += New mysql.gene_info With {
+                    Yield New NamedValue(Of MySQLTable) With {
+                        .Name = NameOf(mysql.protein_ko),
+                        .Value = ko_class
+                    }
+                Next
+                If Not protein.gene Is Nothing Then
+                        Dim gene As gene = protein.gene
+                        Dim synNames = gene.IDs("synonym")
+
+                        geneNames += New mysql.gene_info With {
                         .gene_name = gene.Primary?.FirstOrDefault,
                         .hash_code = hashcode,
                         .ORF = gene.ORF?.FirstOrDefault,
@@ -346,39 +359,39 @@ Namespace kb_UniProtKB
                         .synonym2 = synNames.ElementAtOrDefault(1),
                         .synonym3 = synNames.ElementAtOrDefault(2)
                     }
-                End If
+                    End If
 #End Region
 #Region "literature works"
-                For Each ref As reference In protein.references
-                    For Each name As person In ref.citation.authorList
-                        Dim personName$ = name.name.MySqlEscaping
+                    For Each ref As reference In protein.references
+                        For Each name As person In ref.citation.authorList
+                            Dim personName$ = name.name.MySqlEscaping
 
-                        If Not peoples.ContainsKey(personName) Then
-                            Call peoples.Add(
+                            If Not peoples.ContainsKey(personName) Then
+                                Call peoples.Add(
                                 personName, New mysql.peoples With {
                                     .name = personName,
                                     .uid = peoples.Count
                                 })
-                        End If
-                    Next
+                            End If
+                        Next
 
-                    Dim cite As citation = ref.citation
-                    Dim citeTitle$ = If(cite.title, uniprotID & ": " & cite.type).MySqlEscaping
+                        Dim cite As citation = ref.citation
+                        Dim citeTitle$ = If(cite.title, uniprotID & ": " & cite.type).MySqlEscaping
 
-                    If Not citation.ContainsKey(citeTitle) Then
-                        Dim jobID&
-                        Dim doi$ = cite.dbReferences _
+                        If Not citation.ContainsKey(citeTitle) Then
+                            Dim jobID&
+                            Dim doi$ = cite.dbReferences _
                             .SafeQuery _
                             .Where(Function(r) r.type = "DOI") _
                             .FirstOrDefault _
                            ?.id
-                        Dim pubmed = cite.dbReferences _
+                            Dim pubmed = cite.dbReferences _
                             .SafeQuery _
                             .Where(Function(r) r.type = "PubMed") _
                             .FirstOrDefault _
                            ?.id
 
-                        Call citation.Add(
+                            Call citation.Add(
                             citeTitle, New mysql.literature With {
                                 .date = cite.date,
                                 .db = cite.db,
@@ -392,20 +405,20 @@ Namespace kb_UniProtKB
                                 .pubmed = pubmed
                             })
 
-                        jobID = citation(citeTitle).uid
-                        jobs += From people As person
+                            jobID = citation(citeTitle).uid
+                            jobs += From people As person
                                 In cite.authorList.SafeQuery
-                                Select New mysql.research_jobs With {
+                                    Select New mysql.research_jobs With {
                                     .literature_id = jobID,
                                     .literature_title = citeTitle,
                                     .people_name = people.name.MySqlEscaping,
                                     .person = peoples(.people_name).uid
                                 }
-                    End If
+                        End If
 
-                    Dim refID& = proteinReferences.Count
+                        Dim refID& = proteinReferences.Count
 
-                    proteinReferences += New mysql.protein_reference With {
+                        proteinReferences += New mysql.protein_reference With {
                         .hash_code = hashcode,
                         .reference_id = citation(citeTitle).uid,
                         .uniprot_id = uniprotID,
@@ -413,58 +426,58 @@ Namespace kb_UniProtKB
                         .literature_title = cite.title.MySqlEscaping
                     }
 
-                    For Each scope As String In ref.scope.SafeQuery.Select(AddressOf MySqlEscaping)
-                        If Not scopes.ContainsKey(scope) Then
-                            Call scopes.Add(
+                        For Each scope As String In ref.scope.SafeQuery.Select(AddressOf MySqlEscaping)
+                            If Not scopes.ContainsKey(scope) Then
+                                Call scopes.Add(
                                 scope, New mysql.hashcode_scopes With {
                                     .scope = scope,
                                     .uid = scopes.Count
                                 })
-                        End If
-                        reference_scopes += New mysql.protein_reference_scopes With {
+                            End If
+                            reference_scopes += New mysql.protein_reference_scopes With {
                             .scope = scope,
                             .scope_id = scopes(scope).uid,
                             .uid = refID,
                             .uniprot_hashcode = hashcode,
                             .uniprot_id = uniprotID
                         }
+                        Next
                     Next
-                Next
 
-                For Each keyword In protein.keywords.SafeQuery
-                    Dim word$ = keyword.value.MySqlEscaping
-                    Dim id& = keyword.id.Split("-"c).Last
+                    For Each keyword In protein.keywords.SafeQuery
+                        Dim word$ = keyword.value.MySqlEscaping
+                        Dim id& = keyword.id.Split("-"c).Last
 
-                    If Not Keywords.ContainsKey(word) Then
-                        Call Keywords.Add(
+                        If Not Keywords.ContainsKey(word) Then
+                            Call Keywords.Add(
                             word, New mysql.keywords With {
                                 .keyword = word,
                                 .uid = id
                             })
-                    End If
+                        End If
 
-                    proteinKeywords += New mysql.protein_keywords With {
+                        proteinKeywords += New mysql.protein_keywords With {
                         .keyword = word,
                         .hash_code = hashcode,
                         .keyword_id = id,
                         .uniprot_id = uniprotID
                     }
-                Next
+                    Next
 #End Region
 #Region "feature sites"
-                For Each feature As feature In protein.features.SafeQuery
-                    If Not featureTypes.ContainsKey(feature.type) Then
-                        Call featureTypes.Add(
+                    For Each feature As feature In protein.features.SafeQuery
+                        If Not featureTypes.ContainsKey(feature.type) Then
+                            Call featureTypes.Add(
                             feature.type, New mysql.feature_types With {
                                 .type_name = feature.type,
                                 .uid = featureTypes.Count
                             })
-                    End If
+                        End If
 
-                    If feature.location.IsSite Then
-                        Dim featureID& = featureSites.Count
+                        If feature.location.IsSite Then
+                            Dim featureID& = featureSites.Count
 
-                        featureSites += New mysql.protein_feature_site With {
+                            featureSites += New mysql.protein_feature_site With {
                             .description = feature.description.MySqlEscaping,
                             .hash_code = hashcode,
                             .position = feature.location.position.position,
@@ -473,8 +486,8 @@ Namespace kb_UniProtKB
                             .uid = featureID,
                             .uniprot_id = uniprotID
                         }
-                        If Not (feature.original.StringEmpty AndAlso feature.variation.StringEmpty) Then
-                            featureVariations += New mysql.feature_site_variation With {
+                            If Not (feature.original.StringEmpty AndAlso feature.variation.StringEmpty) Then
+                                featureVariations += New mysql.feature_site_variation With {
                                 .hash_code = hashcode,
                                 .original = feature.original,
                                 .position = feature.location.position.position,
@@ -482,11 +495,11 @@ Namespace kb_UniProtKB
                                 .uniprot_id = uniprotID,
                                 .variation = feature.variation
                             }
-                        End If
-                    Else
-                        Dim featureID& = featureRegions.Count
+                            End If
+                        Else
+                            Dim featureID& = featureRegions.Count
 
-                        featureRegions += New mysql.protein_feature_regions With {
+                            featureRegions += New mysql.protein_feature_regions With {
                             .begin = feature.location.begin.position,
                             .description = feature.description.MySqlEscaping,
                             .end = feature.location.end.position,
@@ -496,29 +509,29 @@ Namespace kb_UniProtKB
                             .uniprot_id = uniprotID,
                             .uid = featureRegions.Count
                         }
-                    End If
-                Next
+                        End If
+                    Next
 #End Region
 #Region "organism info"
-                Dim organismScientificName$ = protein.organism _
+                    Dim organismScientificName$ = protein.organism _
                     .names _
                     .Where(Function(t) t.type = "scientific") _
                     .First _
                     .value
 
-                If Not organism.ContainsKey(organismScientificName) Then
-                    Call organism.Add(
+                    If Not organism.ContainsKey(organismScientificName) Then
+                        Call organism.Add(
                         organismScientificName, New mysql.organism_code With {
                             .organism_name = organismScientificName,
                             .uid = protein.organism.dbReference.id
                         })
-                End If
+                    End If
 
-                Dim proteomesInfo As dbReference = protein _
+                    Dim proteomesInfo As dbReference = protein _
                     .dbReferences _
                     .Where(Function(r) r.type = "Proteomes") _
                     .FirstOrDefault
-                Dim chr$ = If(
+                    Dim chr$ = If(
                     proteomesInfo Is Nothing,
                     "",
                     proteomesInfo.properties _
@@ -526,7 +539,7 @@ Namespace kb_UniProtKB
                         .Where(Function(p) p.type = "component") _
                         .FirstOrDefault _
                        ?.value)
-                proteome += New mysql.organism_proteome With {
+                    proteome += New mysql.organism_proteome With {
                     .gene_name = protein.name,
                     .id_hashcode = hashcode,
                     .org_id = organism(organismScientificName).uid,
@@ -536,64 +549,64 @@ Namespace kb_UniProtKB
                 }
 #End Region
 #Region "tissue locations"
-                Dim tissue$
+                    Dim tissue$
 
-                For Each ref As reference In protein.references
-                    If ref.source Is Nothing OrElse ref.source.tissues.IsNullOrEmpty Then
-                        Continue For
-                    End If
-                    For Each name In ref.source.tissues
-                        tissue = organismScientificName & "+" & name
+                    For Each ref As reference In protein.references
+                        If ref.source Is Nothing OrElse ref.source.tissues.IsNullOrEmpty Then
+                            Continue For
+                        End If
+                        For Each name In ref.source.tissues
+                            tissue = organismScientificName & "+" & name
 
-                        If Not tissues.ContainsKey(tissue) Then
-                            Call tissues.Add(
+                            If Not tissues.ContainsKey(tissue) Then
+                                Call tissues.Add(
                                 tissue, New mysql.tissue_code With {
                                     .organism = organismScientificName,
                                     .org_id = organism(organismScientificName).uid,
                                     .tissue_name = name,
                                     .uid = tissues.Count
                                 })
-                        End If
+                            End If
 
-                        proteinTissueLocations += New mysql.tissue_locations With {
+                            proteinTissueLocations += New mysql.tissue_locations With {
                             .hash_code = hashcode,
                             .name = protein.name,
                             .tissue_id = tissues(tissue).uid,
                             .tissue_name = name,
                             .uniprot_id = uniprotID
                         }
+                        Next
                     Next
-                Next
 #End Region
 #Region "subcellular locations"
-                Dim subcellular_locations = protein _
+                    Dim subcellular_locations = protein _
                     .comments _
                     .Where(Function(c) c.type = "subcellular location") _
                     .ToArray
-                For Each sublocation In subcellular_locations _
+                    For Each sublocation In subcellular_locations _
                     .Select(Function(c) c.subcellularLocations) _
                     .IteratesALL
 
-                    If Not sublocation.topology Is Nothing Then
-                        If Not topologies.ContainsKey(sublocation.topology.value) Then
-                            Call topologies.Add(
+                        If Not sublocation.topology Is Nothing Then
+                            If Not topologies.ContainsKey(sublocation.topology.value) Then
+                                Call topologies.Add(
                                 sublocation.topology.value, New mysql.topology_id With {
                                     .name = sublocation.topology.value,
                                     .uid = topologies.Count
                                 })
+                            End If
                         End If
-                    End If
 
-                    For Each name In sublocation.locations
-                        If Not locations.ContainsKey(name.value) Then
-                            Call locations.Add(
+                        For Each name In sublocation.locations
+                            If Not locations.ContainsKey(name.value) Then
+                                Call locations.Add(
                                 name.value, New mysql.location_id With {
                                     .name = name.value,
                                     .uid = locations.Count
                                 })
-                        End If
+                            End If
 
-                        SubCellularLocations += New mysql.protein_subcellular_location With {
+                            SubCellularLocations += New mysql.protein_subcellular_location With {
                             .hash_code = hashcode,
                             .location = name.value,
                             .location_id = locations(name.value).uid,
@@ -605,10 +618,10 @@ Namespace kb_UniProtKB
                             .uniprot_id = uniprotID,
                             .uid = SubCellularLocations.Count
                         }
+                        Next
                     Next
-                Next
 #End Region
-            Next
+                Next
         End Function
 
         ''' <summary>
