@@ -11,6 +11,7 @@ Partial Module CLI
     <ExportAPI("/Imports.Go.obo.mysql")>
     <Description("")>
     <Usage("/Imports.Go.obo.mysql /in <go.obo> [/out <out.sql>]")>
+    <Group(CLIGroups.Repository_CLI)>
     Public Function DumpGOAsMySQL(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".kb_go.sql")
@@ -22,6 +23,7 @@ Partial Module CLI
 
     <ExportAPI("/Imports.Uniprot.Xml")>
     <Usage("/Imports.Uniprot.Xml /in <uniprot.xml> [/out <out.sql>]")>
+    <Group(CLIGroups.Repository_CLI)>
     Public Function DumpUniprot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".kb_go.sql")
