@@ -344,15 +344,15 @@ Namespace kb_UniProtKB
                     }
                 Next
 
-                For Each ko_class In protein.Xrefs _
+                For Each ko As dbReference In protein.Xrefs _
                     .TryGetValue("KO") _
-                   ?.Select(Function(ko)
-                                Return New mysql.protein_ko With {
-                                    .hash_code = hashcode,
-                                    .KO = ko.id.Match("\d+"),
-                                    .uniprot_id = uniprotID
-                                }
-                            End Function)
+                    .SafeQuery
+
+                    Dim ko_class As New mysql.protein_ko With {
+                        .hash_code = hashcode,
+                        .KO = ko.id.Match("\d+"),
+                        .uniprot_id = uniprotID
+                    }
 
                     Yield New NamedValue(Of MySQLTable) With {
                         .Name = NameOf(mysql.protein_ko),
