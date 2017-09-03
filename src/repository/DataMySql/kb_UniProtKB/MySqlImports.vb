@@ -202,6 +202,9 @@ Namespace kb_UniProtKB
             Dim featureRegions As int = 1
             Dim organism As New Dictionary(Of String, Long)
             Dim tissues As New Dictionary(Of String, Long)
+            Dim topologies As New Dictionary(Of String, Long)
+            Dim locations As New Dictionary(Of String, Long)
+            Dim subCellularLocations As int = 1
 
             For Each protein As entry In uniprot
                 Dim uniprotID$ = protein.accessions.First
@@ -626,6 +629,7 @@ Namespace kb_UniProtKB
                     If ref.source Is Nothing OrElse ref.source.tissues.IsNullOrEmpty Then
                         Continue For
                     End If
+
                     For Each name In ref.source.tissues
                         tissue = organismScientificName & "+" & name
 
@@ -658,44 +662,56 @@ Namespace kb_UniProtKB
 #End Region
 #Region "subcellular locations"
                 Dim subcellular_locations = protein _
-                .comments _
-                .Where(Function(c) c.type = "subcellular location") _
-                .ToArray
-                For Each sublocation In subcellular_locations _
-                .Select(Function(c) c.subcellularLocations) _
-                .IteratesALL
+                    .comments _
+                    .Where(Function(c) c.type = "subcellular location") _
+                    .ToArray
+
+                For Each sublocation As subcellularLocation In subcellular_locations _
+                    .Select(Function(c) c.subcellularLocations) _
+                    .IteratesALL
 
                     If Not sublocation.topology Is Nothing Then
                         If Not topologies.ContainsKey(sublocation.topology.value) Then
-                            Call topologies.Add(
-                            sublocation.topology.value, New mysql.topology_id With {
-                                .name = sublocation.topology.value,
-                                .uid = topologies.Count
-                            })
+                            Call topologies.Add(sublocation.topology.value, topologies.Count)
+
+                            Yield New NamedValue(Of MySQLTable) With {
+                                .Name = NameOf(mysql.topology_id),
+                                .Value = New mysql.topology_id With {
+                                    .name = sublocation.topology.value,
+                                    .uid = topologies(.name)
+                                }
+                            }
                         End If
                     End If
 
                     For Each name In sublocation.locations
                         If Not locations.ContainsKey(name.value) Then
-                            Call locations.Add(
-                            name.value, New mysql.location_id With {
-                                .name = name.value,
-                                .uid = locations.Count
-                            })
+                            Call locations.Add(name.value, locations.Count)
+
+                            Yield New NamedValue(Of MySQLTable) With {
+                                .Name = NameOf(mysql.location_id),
+                                .Value = New mysql.location_id With {
+                                    .name = name.value,
+                                    .uid = locations(.name)
+                                }
+                            }
                         End If
 
-                        SubCellularLocations += New mysql.protein_subcellular_location With {
-                        .hash_code = hashcode,
-                        .location = name.value,
-                        .location_id = locations(name.value).uid,
-                        .topology = sublocation.topology?.value,
-                        .topology_id = If(
-                            sublocation.topology Is Nothing,
-                            -1,
-                            topologies(sublocation.topology.value).uid),
-                        .uniprot_id = uniprotID,
-                        .uid = SubCellularLocations.Count
-                    }
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.protein_subcellular_location),
+                            .Value = New mysql.protein_subcellular_location With {
+                                .hash_code = hashcode,
+                                .location = name.value,
+                                .location_id = locations(name.value),' .uid,
+                                .topology = sublocation.topology?.value,
+                                .topology_id = If(
+                                    sublocation.topology Is Nothing,
+                                    -1,
+                                    topologies(.topology)),' .uid),
+                                .uniprot_id = uniprotID,
+                                .uid = ++subCellularLocations
+                            }
+                        }
                     Next
                 Next
 #End Region
