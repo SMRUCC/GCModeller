@@ -75,6 +75,10 @@ Namespace kb_UniProtKB
             Dim tissues As New Dictionary(Of String, mysql.tissue_code)
             Dim proteinTissueLocations As New List(Of mysql.tissue_locations)
 
+            Dim subcellularLocations As New List(Of mysql.protein_subcellular_location)
+            Dim locations As New Dictionary(Of String, mysql.location_id)
+            Dim topologies As New Dictionary(Of String, mysql.topology_id)
+
             For Each protein As entry In uniprot
                 Dim uniprotID$ = protein.accessions.First
                 Dim hashcode&
@@ -387,6 +391,48 @@ Namespace kb_UniProtKB
                     Next
                 Next
 #End Region
+#Region "subcellular locations"
+                Dim subcellular_locations = protein _
+                    .comments _
+                    .Where(Function(c) c.type = "subcellular location") _
+                    .ToArray
+                For Each sublocation In subcellular_locations _
+                    .Select(Function(c) c.subcellularLocations) _
+                    .IteratesALL
+
+                    If Not sublocation.topology Is Nothing Then
+                        If Not topologies.ContainsKey(sublocation.topology.value) Then
+                            Call topologies.Add(
+                                sublocation.topology.value, New mysql.topology_id With {
+                                    .name = sublocation.topology.value,
+                                    .uid = topologies.Count
+                                })
+                        End If
+                    End If
+
+                    For Each name In sublocation.locations
+                        If Not locations.ContainsKey(name.value) Then
+                            Call locations.Add(
+                                name.value, New mysql.location_id With {
+                                    .name = name.value,
+                                    .uid = locations.Count
+                                })
+                        End If
+
+                        subcellularLocations += New mysql.protein_subcellular_location With {
+                            .hash_code = hashcode,
+                            .location = name.value,
+                            .location_id = locations(name.value).uid,
+                            .topology = sublocation.topology?.value,
+                            .topology_id = If(
+                                sublocation.topology Is Nothing,
+                                -1,
+                                topologies(sublocation.topology.value)),
+                            .uniprot_id = uniprotID
+                        }
+                    Next
+                Next
+#End Region
             Next
 
             Dim mysqlTables As New Dictionary(Of String, SQLTable())
@@ -418,6 +464,10 @@ Namespace kb_UniProtKB
 
             mysqlTables(NameOf(mysql.tissue_code)) = tissues.Values.ToArray
             mysqlTables(NameOf(mysql.tissue_locations)) = proteinTissueLocations
+
+            mysqlTables(NameOf(mysql.protein_subcellular_location)) = subcellularLocations
+            mysqlTables(NameOf(mysql.location_id)) = locations.Values.ToArray
+            mysqlTables(NameOf(mysql.topology_id)) = topologies.Values.ToArray
 
             Return mysqlTables
         End Function
