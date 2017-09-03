@@ -202,7 +202,7 @@ Namespace kb_UniProtKB
                     Dim synNames = gene.IDs("synonym")
 
                     geneNames += New mysql.gene_info With {
-                        .gene_name = gene.Primary.FirstOrDefault,
+                        .gene_name = gene.Primary?.FirstOrDefault,
                         .hash_code = hashcode,
                         .ORF = gene.ORF?.FirstOrDefault,
                         .uniprot_id = uniprotID,
