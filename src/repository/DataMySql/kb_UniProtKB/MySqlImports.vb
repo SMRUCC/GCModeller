@@ -307,36 +307,33 @@ Namespace kb_UniProtKB
                     }
                 Next
 
-                For Each go_class In protein.Xrefs _
-                    .TryGetValue("GO") _
-                   ?.Select(Function(go)
-                                Dim term$ = go.properties _
-                                    .Where(Function([property]) [property].type = "term") _
-                                    .FirstOrDefault _
-                                   ?.value
-                                Dim [namespace] As Ontologies
+                For Each go As dbReference In protein.Xrefs.TryGetValue("GO").SafeQuery
+                    Dim term$ = go.properties _
+                        .Where(Function([property]) [property].type = "term") _
+                        .FirstOrDefault _
+                       ?.value
+                    Dim [namespace] As Ontologies
 
-                                Select Case term.Split(":"c).First
-                                    Case "C"
-                                        [namespace] = Ontologies.CellularComponent
-                                    Case "P"
-                                        [namespace] = Ontologies.BiologicalProcess
-                                    Case "F"
-                                        [namespace] = Ontologies.MolecularFunction
-                                    Case Else
-                                        Throw New InvalidDataException(term)
-                                End Select
+                    Select Case term.Split(":"c).First
+                        Case "C"
+                            [namespace] = Ontologies.CellularComponent
+                        Case "P"
+                            [namespace] = Ontologies.BiologicalProcess
+                        Case "F"
+                            [namespace] = Ontologies.MolecularFunction
+                        Case Else
+                            Throw New InvalidDataException(term)
+                    End Select
 
-                                Return New mysql.protein_go With {
-                                    .go_id = go.id.Split(":"c).Last,
-                                    .hash_code = hashcode,
-                                    .namespace = OntologyNamespaces([namespace]),
-                                    .namespace_id = [namespace],
-                                    .uniprot_id = uniprotID,
-                                    .GO_term = go.id,
-                                    .term_name = term.MySqlEscaping
-                                }
-                            End Function)
+                    Dim go_class As New mysql.protein_go With {
+                        .go_id = go.id.Split(":"c).Last,
+                        .hash_code = hashcode,
+                        .namespace = OntologyNamespaces([namespace]),
+                        .namespace_id = [namespace],
+                        .uniprot_id = uniprotID,
+                        .GO_term = go.id,
+                        .term_name = term.MySqlEscaping
+                    }
 
                     Yield New NamedValue(Of MySQLTable) With {
                         .Name = NameOf(mysql.protein_go),
@@ -359,6 +356,7 @@ Namespace kb_UniProtKB
                         .Value = ko_class
                     }
                 Next
+
                 If Not protein.gene Is Nothing Then
                     Dim gene As gene = protein.gene
                     Dim synNames = gene.IDs("synonym")
@@ -430,6 +428,7 @@ Namespace kb_UniProtKB
                         }
 
                         jobID = citations(citeTitle) ' .uid
+
                         For Each job As mysql.research_jobs In
                             From people As person
                             In cite _
@@ -672,7 +671,9 @@ Namespace kb_UniProtKB
 
                     If Not sublocation.topology Is Nothing Then
                         If Not topologies.ContainsKey(sublocation.topology.value) Then
-                            Call topologies.Add(sublocation.topology.value, topologies.Count)
+                            Call topologies.Add(
+                                sublocation.topology.value,
+                                topologies.Count)
 
                             Yield New NamedValue(Of MySQLTable) With {
                                 .Name = NameOf(mysql.topology_id),
