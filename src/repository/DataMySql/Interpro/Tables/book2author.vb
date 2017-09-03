@@ -73,7 +73,7 @@ CREATE TABLE `book2author` (
   CONSTRAINT `fk_book2author$author_id` FOREIGN KEY (`author_id`) REFERENCES `author` (`author_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_book2author$isbn` FOREIGN KEY (`isbn`) REFERENCES `book` (`isbn`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class book2author: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class book2author: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("isbn"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "10")> Public Property isbn As String
     <DatabaseField("author_id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "9")> Public Property author_id As Long

@@ -69,7 +69,7 @@ CREATE TABLE `method2pub` (
   CONSTRAINT `fk_method2pub$method` FOREIGN KEY (`method_ac`) REFERENCES `method` (`method_ac`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_method2pub$pub_id` FOREIGN KEY (`pub_id`) REFERENCES `pub` (`pub_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class method2pub: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class method2pub: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("pub_id"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "11")> Public Property pub_id As String
     <DatabaseField("method_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "25")> Public Property method_ac As String

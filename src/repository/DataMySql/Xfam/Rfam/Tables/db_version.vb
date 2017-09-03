@@ -75,7 +75,7 @@ CREATE TABLE `db_version` (
   `infernal_version` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`rfam_release`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class db_version: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class db_version: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_release"), PrimaryKey, NotNull, DataType(MySqlDbType.Double)> Public Property rfam_release As Double
     <DatabaseField("rfam_release_date"), NotNull, DataType(MySqlDbType.DateTime)> Public Property rfam_release_date As Date

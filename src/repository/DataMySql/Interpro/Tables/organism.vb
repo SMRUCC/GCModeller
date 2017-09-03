@@ -69,7 +69,7 @@ CREATE TABLE `organism` (
   `tax_code` decimal(38,0) DEFAULT NULL,
   PRIMARY KEY (`oscode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class organism: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class organism: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("oscode"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property oscode As String
     <DatabaseField("name"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property name As String

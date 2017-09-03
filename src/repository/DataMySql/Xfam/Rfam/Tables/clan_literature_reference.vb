@@ -69,7 +69,7 @@ CREATE TABLE `clan_literature_reference` (
   KEY `fk_clan_literature_references_clan1_idx` (`clan_acc`),
   KEY `fk_clan_literature_references_literature_reference1_idx` (`pmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class clan_literature_reference: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class clan_literature_reference: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("clan_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property clan_acc As String
     <DatabaseField("pmid"), NotNull, DataType(MySqlDbType.Int64, "10")> Public Property pmid As Long

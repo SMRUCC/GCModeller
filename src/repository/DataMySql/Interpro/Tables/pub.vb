@@ -91,7 +91,7 @@ CREATE TABLE `pub` (
   KEY `fk_pub$issn` (`issn`),
   CONSTRAINT `fk_pub$issn` FOREIGN KEY (`issn`) REFERENCES `journal` (`issn`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class pub: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class pub: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("pub_id"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "11")> Public Property pub_id As String
     <DatabaseField("pub_type"), NotNull, DataType(MySqlDbType.VarChar, "1")> Public Property pub_type As String

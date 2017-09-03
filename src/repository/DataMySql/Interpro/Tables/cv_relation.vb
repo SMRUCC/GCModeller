@@ -71,7 +71,7 @@ CREATE TABLE `cv_relation` (
   PRIMARY KEY (`code`),
   UNIQUE KEY `uq_relation$abbrev` (`abbrev`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class cv_relation: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class cv_relation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("code"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "2")> Public Property code As String
     <DatabaseField("abbrev"), NotNull, DataType(MySqlDbType.VarChar, "10")> Public Property abbrev As String

@@ -77,7 +77,7 @@ CREATE TABLE `entry_friends` (
   `ab` int(5) NOT NULL,
   PRIMARY KEY (`entry1_ac`,`entry2_ac`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class entry_friends: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class entry_friends: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("entry1_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property entry1_ac As String
     <DatabaseField("entry2_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property entry2_ac As String

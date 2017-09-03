@@ -63,7 +63,7 @@ CREATE TABLE `tax_entry_count` (
   `tax_name` varchar(30) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `count` int(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class tax_entry_count: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class tax_entry_count: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("entry_ac"), DataType(MySqlDbType.VarChar, "9")> Public Property entry_ac As String
     <DatabaseField("tax_name"), DataType(MySqlDbType.VarChar, "30")> Public Property tax_name As String

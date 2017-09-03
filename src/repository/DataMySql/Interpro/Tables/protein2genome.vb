@@ -63,7 +63,7 @@ CREATE TABLE `protein2genome` (
   `oscode` varchar(5) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   PRIMARY KEY (`oscode`,`protein_ac`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class protein2genome: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class protein2genome: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("protein_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "6")> Public Property protein_ac As String
     <DatabaseField("oscode"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property oscode As String

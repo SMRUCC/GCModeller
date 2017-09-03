@@ -82,7 +82,7 @@ CREATE TABLE `wikitext` (
   PRIMARY KEY (`auto_wiki`),
   UNIQUE KEY `title_UNIQUE` (`title`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2450 DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;")>
-Public Class wikitext: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class wikitext: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("auto_wiki"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property auto_wiki As Long
     <DatabaseField("title"), NotNull, DataType(MySqlDbType.VarChar, "150")> Public Property title As String

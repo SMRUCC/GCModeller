@@ -67,7 +67,7 @@ CREATE TABLE `clan_membership` (
   KEY `fk_clan_membership_family1_idx` (`rfam_acc`),
   KEY `fk_clan_membership_clan1_idx` (`clan_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class clan_membership: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class clan_membership: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("clan_acc"), NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property clan_acc As String
     <DatabaseField("rfam_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String

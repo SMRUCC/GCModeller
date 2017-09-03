@@ -73,7 +73,7 @@ CREATE TABLE `motif_family_stats` (
   KEY `motif_family_stats_rfam_acc_idx` (`rfam_acc`),
   KEY `motif_family_stats_motif_acc_idx` (`motif_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class motif_family_stats: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class motif_family_stats: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String
     <DatabaseField("motif_acc"), NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property motif_acc As String

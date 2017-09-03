@@ -67,7 +67,7 @@ CREATE TABLE `abstract` (
   PRIMARY KEY (`entry_ac`),
   CONSTRAINT `fk_abstract$entry_ac` FOREIGN KEY (`entry_ac`) REFERENCES `entry` (`entry_ac`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class abstract: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class abstract: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("entry_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property entry_ac As String
     <DatabaseField("abstract"), NotNull, DataType(MySqlDbType.Text)> Public Property abstract As String

@@ -75,7 +75,7 @@ CREATE TABLE `entry2entry` (
   CONSTRAINT `fk_entry2entry$parent` FOREIGN KEY (`parent_ac`) REFERENCES `entry` (`entry_ac`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_entry2entry$relation` FOREIGN KEY (`relation`) REFERENCES `cv_relation` (`code`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class entry2entry: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class entry2entry: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("entry_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property entry_ac As String
     <DatabaseField("parent_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property parent_ac As String

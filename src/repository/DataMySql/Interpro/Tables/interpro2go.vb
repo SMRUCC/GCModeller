@@ -61,7 +61,7 @@ CREATE TABLE `interpro2go` (
   `entry_ac` varchar(9) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   `go_id` varchar(10) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class interpro2go: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class interpro2go: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("entry_ac"), NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property entry_ac As String
     <DatabaseField("go_id"), NotNull, DataType(MySqlDbType.VarChar, "10")> Public Property go_id As String

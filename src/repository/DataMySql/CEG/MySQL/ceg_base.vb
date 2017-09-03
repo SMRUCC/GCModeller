@@ -67,7 +67,7 @@ CREATE TABLE `ceg_base` (
   `description` varchar(255) NOT NULL,
   `ec` varchar(100) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=gb2312;")>
-Public Class ceg_base: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class ceg_base: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("access_num"), DataType(MySqlDbType.VarChar, "255")> Public Property access_num As String
     <DatabaseField("koid"), DataType(MySqlDbType.VarChar, "255")> Public Property koid As String

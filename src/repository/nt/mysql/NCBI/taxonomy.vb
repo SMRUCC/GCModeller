@@ -80,7 +80,7 @@ CREATE TABLE `taxonomy` (
   PRIMARY KEY (`taxid`),
   UNIQUE KEY `taxid_UNIQUE` (`taxid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
-Public Class taxonomy: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class taxonomy: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("taxid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property taxid As Long
     <DatabaseField("name"), DataType(MySqlDbType.VarChar, "64")> Public Property name As String

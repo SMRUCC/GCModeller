@@ -14,7 +14,7 @@ Public Module DATA
     ''' </summary>
     ''' <param name="obo"></param>
     ''' <returns></returns>
-    <Extension> Public Function ImportsMySQL(obo As OBOFile) As Dictionary(Of String, SQLTable())
+    <Extension> Public Function ImportsMySQL(obo As OBOFile) As Dictionary(Of String, MySQLTable())
         Dim namespaces As New Dictionary(Of String, kb_go.term_namespace)
         Dim relationNames As Dictionary(Of String, kb_go.relation_names)
         Dim go_terms As New Dictionary(Of String, kb_go.go_terms)
@@ -116,7 +116,7 @@ Public Module DATA
             End If
         Next
 
-        Dim GO As New Dictionary(Of String, SQLTable())
+        Dim GO As New Dictionary(Of String, MySQLTable())
 
         GO(NameOf(kb_go.alt_id)) = altIDs
         GO(NameOf(kb_go.dag_relationship)) = dag

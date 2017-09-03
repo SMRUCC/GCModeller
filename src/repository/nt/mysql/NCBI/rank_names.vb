@@ -63,7 +63,7 @@ CREATE TABLE `rank_names` (
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
-Public Class rank_names: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class rank_names: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property id As Long
     <DatabaseField("name"), DataType(MySqlDbType.VarChar, "45")> Public Property name As String

@@ -63,7 +63,7 @@ CREATE TABLE `gi2taxid` (
   `taxid` int(11) NOT NULL,
   PRIMARY KEY (`gi`,`taxid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
-Public Class gi2taxid: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class gi2taxid: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("gi"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property gi As Long
     <DatabaseField("taxid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property taxid As Long

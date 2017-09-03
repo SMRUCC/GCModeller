@@ -75,7 +75,7 @@ CREATE TABLE `entry` (
   KEY `fk_entry$entry_type` (`entry_type`),
   CONSTRAINT `fk_entry$entry_type` FOREIGN KEY (`entry_type`) REFERENCES `cv_entry_type` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class entry: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class entry: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("entry_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property entry_ac As String
     <DatabaseField("entry_type"), NotNull, DataType(MySqlDbType.VarChar, "1")> Public Property entry_type As String

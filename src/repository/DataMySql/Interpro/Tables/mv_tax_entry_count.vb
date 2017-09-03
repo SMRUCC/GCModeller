@@ -65,7 +65,7 @@ CREATE TABLE `mv_tax_entry_count` (
   `count` decimal(22,0) NOT NULL,
   PRIMARY KEY (`entry_ac`,`tax_id`,`count`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class mv_tax_entry_count: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class mv_tax_entry_count: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("entry_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property entry_ac As String
     <DatabaseField("tax_id"), PrimaryKey, NotNull, DataType(MySqlDbType.Decimal)> Public Property tax_id As Decimal

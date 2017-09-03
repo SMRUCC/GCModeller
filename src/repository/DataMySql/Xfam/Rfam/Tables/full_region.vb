@@ -85,7 +85,7 @@ CREATE TABLE `full_region` (
   KEY `full_region_acc_sign` (`rfam_acc`,`is_significant`) USING BTREE,
   KEY `fk_full_region_rfamseq1_cascase` (`rfamseq_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class full_region: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class full_region: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_acc"), NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String
     <DatabaseField("rfamseq_acc"), NotNull, DataType(MySqlDbType.VarChar, "20")> Public Property rfamseq_acc As String

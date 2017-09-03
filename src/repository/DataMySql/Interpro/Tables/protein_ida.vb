@@ -65,7 +65,7 @@ CREATE TABLE `protein_ida` (
   PRIMARY KEY (`protein_ac`),
   CONSTRAINT `fk_protein_ida_p` FOREIGN KEY (`protein_ac`) REFERENCES `protein` (`protein_ac`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class protein_ida: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class protein_ida: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("protein_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "6")> Public Property protein_ac As String
     <DatabaseField("ida"), DataType(MySqlDbType.Text)> Public Property ida As String

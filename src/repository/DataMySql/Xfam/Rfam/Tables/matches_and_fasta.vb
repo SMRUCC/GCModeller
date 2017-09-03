@@ -67,7 +67,7 @@ CREATE TABLE `matches_and_fasta` (
   `type` enum('rfamseq','genome','refseq') NOT NULL,
   KEY `fk_matches_and_fasta_family1_idx` (`rfam_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class matches_and_fasta: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class matches_and_fasta: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String
     <DatabaseField("match_list"), DataType(MySqlDbType.Blob)> Public Property match_list As Byte()

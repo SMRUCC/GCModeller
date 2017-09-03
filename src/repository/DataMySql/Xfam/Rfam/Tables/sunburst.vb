@@ -65,7 +65,7 @@ CREATE TABLE `sunburst` (
   `type` enum('rfamseq','genome','refseq') NOT NULL,
   KEY `fk_table1_family3_idx` (`rfam_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class sunburst: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class sunburst: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String
     <DatabaseField("data"), NotNull, DataType(MySqlDbType.Blob)> Public Property data As Byte()

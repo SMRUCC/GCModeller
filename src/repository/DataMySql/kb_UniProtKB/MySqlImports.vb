@@ -46,7 +46,7 @@ Namespace kb_UniProtKB
         ''' </param>
         ''' <returns></returns>
         <Extension>
-        Public Function ImportsUniProtKB(uniprot As IEnumerable(Of entry)) As Dictionary(Of String, SQLTable())
+        Public Function ImportsUniProtKB(uniprot As IEnumerable(Of entry)) As Dictionary(Of String, MySQLTable())
             Dim hashCodes As New Dictionary(Of String, mysql.hash_table)
             Dim altIDs As New List(Of mysql.alt_id)
 
@@ -474,7 +474,7 @@ Namespace kb_UniProtKB
 #End Region
             Next
 
-            Dim mysqlTables As New Dictionary(Of String, SQLTable())
+            Dim mysqlTables As New Dictionary(Of String, MySQLTable())
 
             mysqlTables(NameOf(mysql.hash_table)) = hashCodes.Values.ToArray
             mysqlTables(NameOf(mysql.protein_functions)) = proteinFunctions

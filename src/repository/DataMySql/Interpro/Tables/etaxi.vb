@@ -77,7 +77,7 @@ CREATE TABLE `etaxi` (
   `annotation_source` varchar(30) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   `full_name` mediumtext CHARACTER SET latin1 COLLATE latin1_bin
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class etaxi: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class etaxi: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("tax_id"), NotNull, DataType(MySqlDbType.Int64, "15")> Public Property tax_id As Long
     <DatabaseField("parent_id"), DataType(MySqlDbType.Int64, "15")> Public Property parent_id As Long

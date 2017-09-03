@@ -63,7 +63,7 @@ CREATE TABLE `text_index_entry` (
   `field` varchar(20) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `text` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class text_index_entry: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class text_index_entry: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("id"), DataType(MySqlDbType.VarChar, "9")> Public Property id As String
     <DatabaseField("field"), DataType(MySqlDbType.VarChar, "20")> Public Property field As String

@@ -67,7 +67,7 @@ CREATE TABLE `cv_entry_type` (
   PRIMARY KEY (`code`),
   UNIQUE KEY `uq_entry_type$abbrev` (`abbrev`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class cv_entry_type: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class cv_entry_type: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("code"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "1")> Public Property code As String
     <DatabaseField("abbrev"), NotNull, DataType(MySqlDbType.VarChar, "20")> Public Property abbrev As String

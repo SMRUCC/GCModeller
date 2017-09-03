@@ -69,7 +69,7 @@ CREATE TABLE `dead_clan` (
   `user` tinytext NOT NULL,
   UNIQUE KEY `rfam_acc` (`clan_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class dead_clan: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class dead_clan: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("clan_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property clan_acc As String
 ''' <summary>
