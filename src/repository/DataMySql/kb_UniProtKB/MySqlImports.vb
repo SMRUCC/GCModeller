@@ -59,6 +59,7 @@ Namespace kb_UniProtKB
             Dim jobs As New List(Of mysql.research_jobs)
             Dim keywords As New Dictionary(Of String, mysql.keywords)
             Dim proteinKeywords As New List(Of mysql.protein_keywords)
+            Dim proteinReferences As New List(Of mysql.protein_reference)
 
             Dim featureSites As New List(Of mysql.protein_feature_site)
             Dim featureRegions As New List(Of mysql.protein_feature_regions)
@@ -215,6 +216,8 @@ Namespace kb_UniProtKB
                                     .person = peoples(.people_name).uid
                                 }
                     End If
+
+                    proteinReferences += New mysql.protein_reference With {.hash_code = hashcode, .reference_id = citation(citeTitle).uid, .scope = ref.scope, .uniprot_id = uniprotID}
                 Next
 
                 For Each keyword In protein.keywords.SafeQuery
