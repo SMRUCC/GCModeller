@@ -291,6 +291,7 @@
     <Compile Include="kb_UniProtKB\MySQL\feature_site_variation.vb" />
     <Compile Include="kb_UniProtKB\MySQL\feature_types.vb" />
     <Compile Include="kb_UniProtKB\MySQL\gene_info.vb" />
+    <Compile Include="kb_UniProtKB\MySQL\hashcode_scopes.vb" />
     <Compile Include="kb_UniProtKB\MySQL\hash_table.vb" />
     <Compile Include="kb_UniProtKB\MySQL\keywords.vb" />
     <Compile Include="kb_UniProtKB\MySQL\literature.vb" />
@@ -306,6 +307,7 @@
     <Compile Include="kb_UniProtKB\MySQL\protein_keywords.vb" />
     <Compile Include="kb_UniProtKB\MySQL\protein_ko.vb" />
     <Compile Include="kb_UniProtKB\MySQL\protein_reference.vb" />
+    <Compile Include="kb_UniProtKB\MySQL\protein_reference_scopes.vb" />
     <Compile Include="kb_UniProtKB\MySQL\protein_structures.vb" />
     <Compile Include="kb_UniProtKB\MySQL\protein_subcellular_location.vb" />
     <Compile Include="kb_UniProtKB\MySQL\research_jobs.vb" />

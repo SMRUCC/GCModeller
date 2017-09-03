@@ -60,6 +60,8 @@ Namespace kb_UniProtKB
             Dim keywords As New Dictionary(Of String, mysql.keywords)
             Dim proteinKeywords As New List(Of mysql.protein_keywords)
             Dim proteinReferences As New List(Of mysql.protein_reference)
+            Dim scopes As New Dictionary(Of String, mysql.hashcode_scopes)
+            Dim reference_scopes As New List(Of mysql.protein_reference_scopes)
 
             Dim featureSites As New List(Of mysql.protein_feature_site)
             Dim featureRegions As New List(Of mysql.protein_feature_regions)
@@ -217,7 +219,32 @@ Namespace kb_UniProtKB
                                 }
                     End If
 
-                    proteinReferences += New mysql.protein_reference With {.hash_code = hashcode, .reference_id = citation(citeTitle).uid, .scope = ref.scope, .uniprot_id = uniprotID}
+                    Dim refID& = proteinReferences.Count
+
+                    proteinReferences += New mysql.protein_reference With {
+                        .hash_code = hashcode,
+                        .reference_id = citation(citeTitle).uid,
+                        .uniprot_id = uniprotID,
+                        .uid = refID,
+                        .literature_title = cite.title.MySqlEscaping
+                    }
+
+                    For Each scope As String In ref.scope.SafeQuery.Select(AddressOf MySqlEscaping)
+                        If Not scopes.ContainsKey(scope) Then
+                            Call scopes.Add(
+                                scope, New mysql.hashcode_scopes With {
+                                    .scope = scope,
+                                    .uid = scopes.Count
+                                })
+                        End If
+                        reference_scopes += New mysql.protein_reference_scopes With {
+                            .scope = scope,
+                            .scope_id = scopes(scope).uid,
+                            .uid = refID,
+                            .uniprot_hashcode = hashcode,
+                            .uniprot_id = uniprotID
+                        }
+                    Next
                 Next
 
                 For Each keyword In protein.keywords.SafeQuery
@@ -355,6 +382,10 @@ Namespace kb_UniProtKB
             mysqlTables(NameOf(mysql.research_jobs)) = jobs
             mysqlTables(NameOf(mysql.keywords)) = keywords.Values.ToArray
             mysqlTables(NameOf(mysql.protein_keywords)) = proteinKeywords
+
+            mysqlTables(NameOf(mysql.protein_reference)) = proteinReferences
+            mysqlTables(NameOf(mysql.hashcode_scopes)) = scopes.Values.ToArray
+            mysqlTables(NameOf(mysql.protein_reference_scopes)) = reference_scopes
 
             mysqlTables(NameOf(mysql.protein_feature_site)) = featureSites
             mysqlTables(NameOf(mysql.protein_feature_regions)) = featureRegions
