@@ -28,6 +28,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Oracle.LinuxCompatibility.MySQL
@@ -47,39 +48,148 @@ Namespace kb_UniProtKB
         ''' <returns></returns>
         <Extension>
         Public Function ImportsUniProtKB(uniprot As IEnumerable(Of entry)) As Dictionary(Of String, MySQLTable())
-            Dim hashCodes As New Dictionary(Of String, mysql.hash_table)
-            Dim altIDs As New List(Of mysql.alt_id)
+            Dim hashCodes As New List(Of MySQLTable)
+            Dim altIDs As New List(Of MySQLTable)
 
-            Dim proteinFunctions As New List(Of mysql.protein_functions)
-            Dim alternativeNames As New List(Of mysql.protein_alternative_name)
-            Dim GOfunctions As New List(Of mysql.protein_go)
-            Dim KOfunctions As New List(Of mysql.protein_ko)
-            Dim geneNames As New List(Of mysql.gene_info)
+            Dim proteinFunctions As New List(Of MySQLTable)
+            Dim alternativeNames As New List(Of MySQLTable)
+            Dim GOfunctions As New List(Of MySQLTable)
+            Dim KOfunctions As New List(Of MySQLTable)
+            Dim geneNames As New List(Of MySQLTable)
 
-            Dim peoples As New Dictionary(Of String, mysql.peoples)
-            Dim citation As New Dictionary(Of String, mysql.literature)
-            Dim jobs As New List(Of mysql.research_jobs)
-            Dim keywords As New Dictionary(Of String, mysql.keywords)
-            Dim proteinKeywords As New List(Of mysql.protein_keywords)
-            Dim proteinReferences As New List(Of mysql.protein_reference)
-            Dim scopes As New Dictionary(Of String, mysql.hashcode_scopes)
-            Dim reference_scopes As New List(Of mysql.protein_reference_scopes)
+            Dim peoples As New List(Of MySQLTable)
+            Dim citation As New List(Of MySQLTable)
+            Dim jobs As New List(Of MySQLTable)
+            Dim keywords As New List(Of MySQLTable)
+            Dim proteinKeywords As New List(Of MySQLTable)
+            Dim proteinReferences As New List(Of MySQLTable)
+            Dim scopes As New List(Of MySQLTable)
+            Dim reference_scopes As New List(Of MySQLTable)
 
-            Dim featureSites As New List(Of mysql.protein_feature_site)
-            Dim featureRegions As New List(Of mysql.protein_feature_regions)
-            Dim featureVariations As New List(Of mysql.feature_site_variation)
-            Dim featureTypes As New Dictionary(Of String, mysql.feature_types)
+            Dim featureSites As New List(Of MySQLTable)
+            Dim featureRegions As New List(Of MySQLTable)
+            Dim featureVariations As New List(Of MySQLTable)
+            Dim featureTypes As New List(Of MySQLTable)
 
-            Dim organism As New Dictionary(Of String, mysql.organism_code)
-            Dim proteome As New List(Of mysql.organism_proteome)
+            Dim organism As New List(Of MySQLTable)
+            Dim proteome As New List(Of MySQLTable)
 
-            Dim tissues As New Dictionary(Of String, mysql.tissue_code)
-            Dim proteinTissueLocations As New List(Of mysql.tissue_locations)
+            Dim tissues As New List(Of MySQLTable)
+            Dim proteinTissueLocations As New List(Of MySQLTable)
 
-            Dim subcellularLocations As New List(Of mysql.protein_subcellular_location)
-            Dim locations As New Dictionary(Of String, mysql.location_id)
-            Dim topologies As New Dictionary(Of String, mysql.topology_id)
+            Dim subcellularLocations As New List(Of MySQLTable)
+            Dim locations As New List(Of MySQLTable)
+            Dim topologies As New List(Of MySQLTable)
 
+            Dim x As MySQLTable
+
+            For Each obj In uniprot.PopulateData
+                x = obj.Value
+
+                Select Case obj.Name
+                    Case NameOf(mysql.alt_id)
+                        altIDs += x
+                    Case NameOf(mysql.feature_site_variation)
+                        featureVariations += x
+                    Case NameOf(mysql.feature_types)
+                        featureTypes += x
+                    Case NameOf(mysql.gene_info)
+                        geneNames += x
+                    Case NameOf(mysql.hashcode_scopes)
+                        scopes += x
+                    Case NameOf(mysql.hash_table)
+                        hashCodes += x
+                    Case NameOf(mysql.keywords)
+                        keywords += x
+                    Case NameOf(mysql.literature)
+                        citation += x
+                    Case NameOf(mysql.location_id)
+                        locations += x
+                    Case NameOf(mysql.organism_code)
+                        organism += x
+                    Case NameOf(mysql.organism_proteome)
+                        proteome += x
+                    Case NameOf(mysql.peoples)
+                        peoples += x
+                    Case NameOf(mysql.protein_alternative_name)
+                        alternativeNames += x
+                    Case NameOf(mysql.protein_feature_regions)
+                        featureRegions += x
+                    Case NameOf(mysql.protein_feature_site)
+                        featureSites += x
+                    Case NameOf(mysql.protein_functions)
+                        proteinFunctions += x
+                    Case NameOf(mysql.protein_go)
+                        GOfunctions += x
+                    Case NameOf(mysql.protein_keywords)
+                        proteinKeywords += x
+                    Case NameOf(mysql.protein_ko)
+                        KOfunctions += x
+                    Case NameOf(mysql.protein_reference)
+                        proteinReferences += x
+                    Case NameOf(mysql.protein_reference_scopes)
+                        reference_scopes += x
+                    Case NameOf(mysql.protein_subcellular_location)
+                        subcellularLocations += x
+                    Case NameOf(mysql.research_jobs)
+                        jobs += x
+                    Case NameOf(mysql.tissue_code)
+                        tissues += x
+                    Case NameOf(mysql.tissue_locations)
+                        proteinTissueLocations += x
+                    Case NameOf(mysql.topology_id)
+                        topologies += x
+                    Case Else
+                        Throw New NotSupportedException(obj.Name)
+                End Select
+            Next
+
+            With New Dictionary(Of String, MySQLTable())
+
+                .ref(NameOf(mysql.hash_table)) = hashCodes
+                .ref(NameOf(mysql.protein_functions)) = proteinFunctions
+                .ref(NameOf(mysql.alt_id)) = altIDs
+                .ref(NameOf(mysql.protein_go)) = GOfunctions
+                .ref(NameOf(mysql.protein_ko)) = KOfunctions
+                .ref(NameOf(mysql.protein_alternative_name)) = alternativeNames
+                .ref(NameOf(mysql.gene_info)) = geneNames
+
+                .ref(NameOf(mysql.peoples)) = peoples
+                .ref(NameOf(mysql.literature)) = citation
+                .ref(NameOf(mysql.research_jobs)) = jobs
+                .ref(NameOf(mysql.keywords)) = keywords
+                .ref(NameOf(mysql.protein_keywords)) = proteinKeywords
+
+                .ref(NameOf(mysql.protein_reference)) = proteinReferences
+                .ref(NameOf(mysql.hashcode_scopes)) = scopes
+                .ref(NameOf(mysql.protein_reference_scopes)) = reference_scopes
+
+                .ref(NameOf(mysql.protein_feature_site)) = featureSites
+                .ref(NameOf(mysql.protein_feature_regions)) = featureRegions
+                .ref(NameOf(mysql.feature_site_variation)) = featureVariations
+                .ref(NameOf(mysql.feature_types)) = featureTypes
+
+                .ref(NameOf(mysql.organism_code)) = organism
+                .ref(NameOf(mysql.organism_proteome)) = proteome
+
+                .ref(NameOf(mysql.tissue_code)) = tissues
+                .ref(NameOf(mysql.tissue_locations)) = proteinTissueLocations
+
+                .ref(NameOf(mysql.protein_subcellular_location)) = subcellularLocations
+                .ref(NameOf(mysql.location_id)) = locations
+                .ref(NameOf(mysql.topology_id)) = topologies
+
+                Return .ref
+            End With
+        End Function
+
+        ''' <summary>
+        ''' For a ultra large size datatset export solution.
+        ''' </summary>
+        ''' <param name="uniprot"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function PopulateData(uniprot As IEnumerable(Of entry)) As IEnumerable(Of NamedValue(Of MySQLTable))
             For Each protein As entry In uniprot
                 Dim uniprotID$ = protein.accessions.First
                 Dim hashcode&
@@ -299,8 +409,8 @@ Namespace kb_UniProtKB
                     Dim word$ = keyword.value.MySqlEscaping
                     Dim id& = keyword.id.Split("-"c).Last
 
-                    If Not keywords.ContainsKey(word) Then
-                        Call keywords.Add(
+                    If Not Keywords.ContainsKey(word) Then
+                        Call Keywords.Add(
                             word, New mysql.keywords With {
                                 .keyword = word,
                                 .uid = id
@@ -457,7 +567,7 @@ Namespace kb_UniProtKB
                                 })
                         End If
 
-                        subcellularLocations += New mysql.protein_subcellular_location With {
+                        SubCellularLocations += New mysql.protein_subcellular_location With {
                             .hash_code = hashcode,
                             .location = name.value,
                             .location_id = locations(name.value).uid,
@@ -467,49 +577,12 @@ Namespace kb_UniProtKB
                                 -1,
                                 topologies(sublocation.topology.value).uid),
                             .uniprot_id = uniprotID,
-                            .uid = subcellularLocations.Count
+                            .uid = SubCellularLocations.Count
                         }
                     Next
                 Next
 #End Region
             Next
-
-            Dim mysqlTables As New Dictionary(Of String, MySQLTable())
-
-            mysqlTables(NameOf(mysql.hash_table)) = hashCodes.Values.ToArray
-            mysqlTables(NameOf(mysql.protein_functions)) = proteinFunctions
-            mysqlTables(NameOf(mysql.alt_id)) = altIDs
-            mysqlTables(NameOf(mysql.protein_go)) = GOfunctions
-            mysqlTables(NameOf(mysql.protein_ko)) = KOfunctions
-            mysqlTables(NameOf(mysql.protein_alternative_name)) = alternativeNames
-            mysqlTables(NameOf(mysql.gene_info)) = geneNames
-
-            mysqlTables(NameOf(mysql.peoples)) = peoples.Values.ToArray
-            mysqlTables(NameOf(mysql.literature)) = citation.Values.ToArray
-            mysqlTables(NameOf(mysql.research_jobs)) = jobs
-            mysqlTables(NameOf(mysql.keywords)) = keywords.Values.ToArray
-            mysqlTables(NameOf(mysql.protein_keywords)) = proteinKeywords
-
-            mysqlTables(NameOf(mysql.protein_reference)) = proteinReferences
-            mysqlTables(NameOf(mysql.hashcode_scopes)) = scopes.Values.ToArray
-            mysqlTables(NameOf(mysql.protein_reference_scopes)) = reference_scopes
-
-            mysqlTables(NameOf(mysql.protein_feature_site)) = featureSites
-            mysqlTables(NameOf(mysql.protein_feature_regions)) = featureRegions
-            mysqlTables(NameOf(mysql.feature_site_variation)) = featureVariations
-            mysqlTables(NameOf(mysql.feature_types)) = featureTypes.Values.ToArray
-
-            mysqlTables(NameOf(mysql.organism_code)) = organism.Values.ToArray
-            mysqlTables(NameOf(mysql.organism_proteome)) = proteome
-
-            mysqlTables(NameOf(mysql.tissue_code)) = tissues.Values.ToArray
-            mysqlTables(NameOf(mysql.tissue_locations)) = proteinTissueLocations
-
-            mysqlTables(NameOf(mysql.protein_subcellular_location)) = subcellularLocations
-            mysqlTables(NameOf(mysql.location_id)) = locations.Values.ToArray
-            mysqlTables(NameOf(mysql.topology_id)) = topologies.Values.ToArray
-
-            Return mysqlTables
         End Function
 
         ''' <summary>
