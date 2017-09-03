@@ -433,7 +433,7 @@ Namespace kb_UniProtKB
                             .topology_id = If(
                                 sublocation.topology Is Nothing,
                                 -1,
-                                topologies(sublocation.topology.value)),
+                                topologies(sublocation.topology.value).uid),
                             .uniprot_id = uniprotID
                         }
                     Next
