@@ -297,10 +297,11 @@ CREATE TABLE `peoples` (
 
 
 ## protein_alternative_name
-
+一个蛋白质会有多个候选名称
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
+|uid|Int64 (10)|``AI``, ``NN``||
 |hash_code|Int64 (10)|``NN``||
 |uniprot_id|VarChar (45)|``NN``||
 |name|VarChar (45)|``NN``||
@@ -313,6 +314,7 @@ CREATE TABLE `peoples` (
 
 ```SQL
 CREATE TABLE `protein_alternative_name` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -322,8 +324,9 @@ CREATE TABLE `protein_alternative_name` (
   `shortName3` varchar(45) DEFAULT NULL,
   `shortName4` varchar(45) DEFAULT NULL,
   `shortName5` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`hash_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='一个蛋白质会有多个候选名称';
 ```
 
 
@@ -571,6 +574,7 @@ CREATE TABLE `protein_structures` (
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
+|uid|Int64 (10)|``AI``, ``NN``||
 |hash_code|Int64 (10)|``NN``||
 |uniprot_id|VarChar (45)|||
 |location|VarChar (45)|||
@@ -580,13 +584,15 @@ CREATE TABLE `protein_structures` (
 
 ```SQL
 CREATE TABLE `protein_subcellular_location` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) DEFAULT NULL,
   `location` varchar(45) DEFAULT NULL,
   `location_id` int(10) unsigned DEFAULT NULL,
   `topology` varchar(45) DEFAULT NULL,
   `topology_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`hash_code`)
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='目标蛋白质在细胞质中的亚细胞定位结果';
 ```
 

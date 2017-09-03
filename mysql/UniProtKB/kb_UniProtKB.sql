@@ -237,6 +237,7 @@ DROP TABLE IF EXISTS `protein_alternative_name`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `protein_alternative_name` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -246,8 +247,9 @@ CREATE TABLE `protein_alternative_name` (
   `shortName3` varchar(45) DEFAULT NULL,
   `shortName4` varchar(45) DEFAULT NULL,
   `shortName5` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`hash_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='一个蛋白质会有多个候选名称';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -424,13 +426,15 @@ DROP TABLE IF EXISTS `protein_subcellular_location`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `protein_subcellular_location` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) DEFAULT NULL,
   `location` varchar(45) DEFAULT NULL,
   `location_id` int(10) unsigned DEFAULT NULL,
   `topology` varchar(45) DEFAULT NULL,
   `topology_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`hash_code`)
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='目标蛋白质在细胞质中的亚细胞定位结果';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -560,4 +564,4 @@ CREATE TABLE `xref` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-03 12:14:23
+-- Dump completed on 2017-09-03 12:29:28

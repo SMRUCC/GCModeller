@@ -129,6 +129,8 @@ Namespace kb_UniProtKB
                     .short_name2 = recommendedName.shortNames.ElementAtOrDefault(1)?.value.MySqlEscaping,
                     .short_name3 = recommendedName.shortNames.ElementAtOrDefault(2)?.value.MySqlEscaping
                 }
+
+                Dim altNameId As int = alternativeNames.Count + 1
                 alternativeNames += From alt As recommendedName
                                     In protein _
                                         .protein _
@@ -152,7 +154,8 @@ Namespace kb_UniProtKB
                                         .shortName2 = getShortName(1),
                                         .shortName3 = getShortName(2),
                                         .shortName4 = getShortName(3),
-                                        .shortName5 = getShortName(4)
+                                        .shortName5 = getShortName(4),
+                                        .uid = ++altNameId
                                     }
 
                 GOfunctions += protein.Xrefs _
@@ -463,7 +466,8 @@ Namespace kb_UniProtKB
                                 sublocation.topology Is Nothing,
                                 -1,
                                 topologies(sublocation.topology.value).uid),
-                            .uniprot_id = uniprotID
+                            .uniprot_id = uniprotID,
+                            .uid = subcellularLocations.Count
                         }
                     Next
                 Next
