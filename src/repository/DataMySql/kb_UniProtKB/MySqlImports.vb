@@ -414,7 +414,7 @@ Namespace kb_UniProtKB
                         Call citations.Add(citeTitle, citations.Count)
 
                         Yield New NamedValue(Of MySQLTable) With {
-                            .Name = citeTitle,
+                            .Name = NameOf(mysql.literature),
                             .Value = New mysql.literature With {
                                 .date = cite.date,
                                 .db = cite.db,
