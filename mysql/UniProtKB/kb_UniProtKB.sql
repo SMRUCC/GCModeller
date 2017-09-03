@@ -94,13 +94,28 @@ DROP TABLE IF EXISTS `hash_table`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hash_table` (
-  `uniprot_id` char(32) NOT NULL COMMENT 'uniprot数据库编号首先会在这个表之中进行查找，得到自己唯一的哈希值结果，然后再根据这个哈希值去快速的查找其他的表之中的结果',
   `hash_code` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '每一个字符串形式的uniprot数据库编号都有一个唯一的哈希值编号',
+  `uniprot_id` char(32) NOT NULL COMMENT 'uniprot数据库编号首先会在这个表之中进行查找，得到自己唯一的哈希值结果，然后再根据这个哈希值去快速的查找其他的表之中的结果',
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`uniprot_id`),
   UNIQUE KEY `uniprot_id_UNIQUE` (`uniprot_id`),
   UNIQUE KEY `hash_code_UNIQUE` (`hash_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='这个表主要是为了加快整个数据库的查询效率而建立的冗余表，在这里为每一个uniport accession编号都赋值了一个唯一编号，然后利用这个唯一编号就可以实现对其他数据表之中的数据的快速查询了';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `hashcode_scopes`
+--
+
+DROP TABLE IF EXISTS `hashcode_scopes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hashcode_scopes` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `scope` varchar(45) NOT NULL,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -306,7 +321,7 @@ CREATE TABLE `protein_go` (
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) NOT NULL,
   `go_id` int(10) unsigned NOT NULL,
-  `GO_term` varchar(45) NOT NULL,
+  `GO_term` varchar(45) NOT NULL COMMENT 'GO编号',
   `term_name` tinytext,
   `namespace_id` int(10) unsigned NOT NULL,
   `namespace` char(32) DEFAULT NULL,
@@ -353,12 +368,30 @@ DROP TABLE IF EXISTS `protein_reference`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `protein_reference` (
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `hash_code` int(10) unsigned NOT NULL,
   `uniprot_id` varchar(45) DEFAULT NULL,
   `reference_id` int(10) unsigned NOT NULL,
-  `scope` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`hash_code`,`reference_id`)
+  `literature_title` mediumtext,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='对这个蛋白质的文献报道数据';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `protein_reference_scopes`
+--
+
+DROP TABLE IF EXISTS `protein_reference_scopes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `protein_reference_scopes` (
+  `uid` int(10) unsigned NOT NULL,
+  `scope_id` int(10) unsigned NOT NULL,
+  `scope` varchar(45) NOT NULL,
+  `uniprot_hashcode` int(10) unsigned NOT NULL,
+  `uniprot_id` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -525,4 +558,4 @@ CREATE TABLE `xref` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-03  6:00:54
+-- Dump completed on 2017-09-03 10:57:48
