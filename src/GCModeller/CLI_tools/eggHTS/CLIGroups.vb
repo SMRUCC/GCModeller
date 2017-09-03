@@ -7,6 +7,8 @@
     Public Const Enrichment_CLI As String = "3. Enrichment analysis tools"
     Public Const NetworkEnrichment_CLI$ = "4. Network enrichment visualize tools"
 
+    Public Const Repository_CLI$ = "Repository data tools"
+
     Private Sub New()
     End Sub
 

@@ -80,7 +80,13 @@ Namespace Assembly.Uniprot.XML
                 .CommentList _
                 .TryGetValue("subcellular location", [default]:={})
             Return cellularComments _
-                .Select(Function(c) c.subcellularLocations.ToArray(Function(x) x.locations)) _
+                .Select(Function(c)
+                            Return c.subcellularLocations _
+                                .Select(Function(x)
+                                            Return x.locations _
+                                                .Select(Function(l) l.value)
+                                        End Function)
+                        End Function) _
                 .IteratesALL _
                 .IteratesALL _
                 .Distinct _
