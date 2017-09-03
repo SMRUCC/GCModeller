@@ -201,6 +201,7 @@ Namespace kb_UniProtKB
             Dim featureSites As int = 1
             Dim featureRegions As int = 1
             Dim organism As New Dictionary(Of String, Long)
+            Dim tissues As New Dictionary(Of String, Long)
 
             For Each protein As entry In uniprot
                 Dim uniprotID$ = protein.accessions.First
@@ -629,22 +630,29 @@ Namespace kb_UniProtKB
                         tissue = organismScientificName & "+" & name
 
                         If Not tissues.ContainsKey(tissue) Then
-                            Call tissues.Add(
-                            tissue, New mysql.tissue_code With {
-                                .organism = organismScientificName,
-                                .org_id = organism(organismScientificName).uid,
-                                .tissue_name = name,
-                                .uid = tissues.Count
-                            })
+                            Call tissues.Add(tissue, tissues.Count)
+
+                            Yield New NamedValue(Of MySQLTable) With {
+                                .Name = NameOf(mysql.tissue_code),
+                                .Value = New mysql.tissue_code With {
+                                    .organism = organismScientificName,
+                                    .org_id = organism(organismScientificName),' .uid,
+                                    .tissue_name = name,
+                                    .uid = tissues(tissue)
+                                }
+                            }
                         End If
 
-                        proteinTissueLocations += New mysql.tissue_locations With {
-                        .hash_code = hashcode,
-                        .name = protein.name,
-                        .tissue_id = tissues(tissue).uid,
-                        .tissue_name = name,
-                        .uniprot_id = uniprotID
-                    }
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.tissue_locations),
+                            .Value = New mysql.tissue_locations With {
+                                .hash_code = hashcode,
+                                .name = protein.name,
+                                .tissue_id = tissues(tissue),' .uid,
+                                .tissue_name = name,
+                                .uniprot_id = uniprotID
+                            }
+                        }
                     Next
                 Next
 #End Region
