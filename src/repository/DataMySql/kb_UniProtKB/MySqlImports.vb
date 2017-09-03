@@ -190,6 +190,9 @@ Namespace kb_UniProtKB
         ''' <returns></returns>
         <Extension>
         Public Iterator Function PopulateData(uniprot As IEnumerable(Of entry)) As IEnumerable(Of NamedValue(Of MySQLTable))
+            Dim hashCodes As New Dictionary(Of String, Long)
+            Dim altNameId As int = 1
+
             For Each protein As entry In uniprot
                 Dim uniprotID$ = protein.accessions.First
                 Dim hashcode&
@@ -197,24 +200,31 @@ Namespace kb_UniProtKB
 #Region "UniProt ID"
                 For Each acc As String In protein.accessions
                     If Not hashCodes.ContainsKey(acc) Then
-                        Call hashCodes.Add(
-                            acc, New mysql.hash_table With {
-                                .hash_code = hashCodes.Count,
+                        Call hashCodes.Add(acc, hashCodes.Count)
+
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.hash_table),
+                            .Value = New mysql.hash_table With {
+                                .hash_code = hashCodes(acc),
                                 .name = protein.name,
                                 .uniprot_id = acc
-                            })
+                            }
+                        }
 
                         If uniprotID = acc Then
-                            hashcode = hashCodes(uniprotID).hash_code
+                            hashcode = hashCodes(uniprotID) ' .hash_code
                         End If
                     End If
 
                     If Not acc = uniprotID Then
-                        altIDs += New mysql.alt_id With {
-                            .alt_id = hashCodes(acc).hash_code,
-                            .name = protein.name,
-                            .primary_hashcode = hashcode,
-                            .uniprot_id = acc
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.alt_id),
+                            .Value = New mysql.alt_id With {
+                                .alt_id = hashCodes(acc),' .hash_code,
+                                .name = protein.name,
+                                .primary_hashcode = hashcode,
+                                .uniprot_id = acc
+                            }
                         }
                     End If
                 Next
@@ -225,48 +235,64 @@ Namespace kb_UniProtKB
                     .fullName _
                     .value _
                     .MySqlEscaping
+                Dim getRecommendedShortName =
+                    Function(i)
+                        Return recommendedName.shortNames _
+                            .ElementAtOrDefault(i) _
+                           ?.value _
+                            .MySqlEscaping
+                    End Function
 
-                proteinFunctions += New mysql.protein_functions With {
-                    .full_name = fullName,
-                    .function = protein.comments _
-                        .Where(Function(c) c.type = "function") _
-                        .FirstOrDefault _
-                       ?.text.value,
-                    .hash_code = hashcode,
-                    .name = protein.name,
-                    .uniprot_id = uniprotID,
-                    .short_name1 = recommendedName.shortNames.ElementAtOrDefault(0)?.value.MySqlEscaping,
-                    .short_name2 = recommendedName.shortNames.ElementAtOrDefault(1)?.value.MySqlEscaping,
-                    .short_name3 = recommendedName.shortNames.ElementAtOrDefault(2)?.value.MySqlEscaping
+                Yield New NamedValue(Of MySQLTable) With {
+                    .Name = NameOf(mysql.protein_functions),
+                    .Value = New mysql.protein_functions With {
+                        .full_name = fullName,
+                        .function = protein.comments _
+                            .Where(Function(c) c.type = "function") _
+                            .FirstOrDefault _
+                           ?.text.value,
+                        .hash_code = hashcode,
+                        .name = protein.name,
+                        .uniprot_id = uniprotID,
+                        .short_name1 = getRecommendedShortName(0),
+                        .short_name2 = getRecommendedShortName(1),
+                        .short_name3 = getRecommendedShortName(2)
+                    }
                 }
 
-                Dim altNameId As int = alternativeNames.Count + 1
-                alternativeNames += From alt As recommendedName
-                                    In protein _
-                                        .protein _
-                                        .alternativeNames _
-                                        .SafeQuery
-                                    Let altFullName = alt.fullName _
-                                        ?.value _
-                                         .MySqlEscaping
-                                    Let getShortName = Function(index)
-                                                           Return alt.shortNames _
-                                                               .ElementAtOrDefault(0) _
-                                                              ?.value _
-                                                               .MySqlEscaping
-                                                       End Function
-                                    Select New mysql.protein_alternative_name With {
-                                        .fullName = altFullName,
-                                        .hash_code = hashcode,
-                                        .name = protein.name,
-                                        .uniprot_id = uniprotID,
-                                        .shortName1 = getShortName(0),
-                                        .shortName2 = getShortName(1),
-                                        .shortName3 = getShortName(2),
-                                        .shortName4 = getShortName(3),
-                                        .shortName5 = getShortName(4),
-                                        .uid = ++altNameId
-                                    }
+                For Each altName As mysql.protein_alternative_name In
+                    From alt As recommendedName
+                    In protein _
+                        .protein _
+                        .alternativeNames _
+                        .SafeQuery
+                    Let altFullName = alt.fullName _
+                        ?.value _
+                         .MySqlEscaping
+                    Let getShortName = Function(index)
+                                           Return alt.shortNames _
+                                               .ElementAtOrDefault(0) _
+                                              ?.value _
+                                               .MySqlEscaping
+                                       End Function
+                    Select New mysql.protein_alternative_name With {
+                        .fullName = altFullName,
+                        .hash_code = hashcode,
+                        .name = protein.name,
+                        .uniprot_id = uniprotID,
+                        .shortName1 = getShortName(0),
+                        .shortName2 = getShortName(1),
+                        .shortName3 = getShortName(2),
+                        .shortName4 = getShortName(3),
+                        .shortName5 = getShortName(4),
+                        .uid = ++altNameId
+                    }
+
+                    Yield New NamedValue(Of MySQLTable) With {
+                        .Name = NameOf(mysql.protein_alternative_name),
+                        .Value = altName
+                    }
+                Next
 
                 GOfunctions += protein.Xrefs _
                     .TryGetValue("GO") _
