@@ -260,6 +260,8 @@ CREATE TABLE `organism_code` (
 |uniprot_id|VarChar (45)|||
 |id_hashcode|Int64 (10)|``NN``||
 |gene_name|VarChar (45)|||
+|proteomes_id|VarChar (45)||Proteomes蛋白组数据库之中的编号|
+|component|VarChar (45)||染色体编号|
 
 ```SQL
 CREATE TABLE `organism_proteome` (
@@ -267,6 +269,8 @@ CREATE TABLE `organism_proteome` (
   `uniprot_id` varchar(45) DEFAULT NULL,
   `id_hashcode` int(10) unsigned NOT NULL,
   `gene_name` varchar(45) DEFAULT NULL,
+  `proteomes_id` varchar(45) DEFAULT NULL COMMENT 'Proteomes蛋白组数据库之中的编号',
+  `component` varchar(45) DEFAULT NULL COMMENT '染色体编号',
   PRIMARY KEY (`org_id`,`id_hashcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='这个表之中列举出了某一个物种其基因组之中所拥有的蛋白质的集合';
 ```
@@ -515,7 +519,7 @@ CREATE TABLE `protein_reference` (
 
 |field|type|attributes|description|
 |-----|----|----------|-----------|
-|uid|Int64 (10)|``NN``||
+|uid|Int64 (10)|``NN``|指向的是protein_reference表之中的uid唯一标识符字段|
 |scope_id|Int64 (10)|``NN``||
 |scope|VarChar (45)|``NN``||
 |uniprot_hashcode|Int64 (10)|``NN``||
@@ -523,7 +527,7 @@ CREATE TABLE `protein_reference` (
 
 ```SQL
 CREATE TABLE `protein_reference_scopes` (
-  `uid` int(10) unsigned NOT NULL,
+  `uid` int(10) unsigned NOT NULL COMMENT '指向的是protein_reference表之中的uid唯一标识符字段',
   `scope_id` int(10) unsigned NOT NULL,
   `scope` varchar(45) NOT NULL,
   `uniprot_hashcode` int(10) unsigned NOT NULL,

@@ -201,7 +201,7 @@ Namespace kb_UniProtKB
                     geneNames += New mysql.gene_info With {
                         .gene_name = gene.Primary.FirstOrDefault,
                         .hash_code = hashcode,
-                        .ORF = gene.ORF.FirstOrDefault,
+                        .ORF = gene.ORF?.FirstOrDefault,
                         .uniprot_id = uniprotID,
                         .synonym1 = synNames.ElementAtOrDefault(0),
                         .synonym2 = synNames.ElementAtOrDefault(1),
