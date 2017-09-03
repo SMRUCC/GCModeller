@@ -375,11 +375,25 @@ Namespace kb_UniProtKB
                         })
                 End If
 
+                Dim proteomesInfo As dbReference = protein _
+                    .dbReferences _
+                    .Where(Function(r) r.type = "Proteomes") _
+                    .FirstOrDefault
+                Dim chr$ = If(
+                    proteomesInfo Is Nothing,
+                    "",
+                    proteomesInfo.properties _
+                        .SafeQuery _
+                        .Where(Function(p) p.type = "component") _
+                        .FirstOrDefault _
+                       ?.value)
                 proteome += New mysql.organism_proteome With {
                     .gene_name = protein.name,
                     .id_hashcode = hashcode,
                     .org_id = organism(organismScientificName).uid,
-                    .uniprot_id = uniprotID
+                    .uniprot_id = uniprotID,
+                    .proteomes_id = If(proteomesInfo Is Nothing, "", proteomesInfo.id),
+                    .component = chr
                 }
 #End Region
 #Region "tissue locations"
