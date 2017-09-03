@@ -734,5 +734,17 @@ Namespace kb_UniProtKB
                 Return True
             End Using
         End Function
+
+        <Extension>
+        Public Function DumpMySQLProject(uniprot As IEnumerable(Of entry), EXPORT$) As Boolean
+            Try
+                Call uniprot.PopulateData.ProjectDumping(EXPORT)
+            Catch ex As Exception
+                ex = New Exception(EXPORT, ex)
+                Throw ex
+            End Try
+
+            Return True
+        End Function
     End Module
 End Namespace
