@@ -136,16 +136,22 @@ Namespace kb_UniProtKB
                                     Let altFullName = alt.fullName _
                                         ?.value _
                                          .MySqlEscaping
+                                    Let getShortName = Function(index)
+                                                           Return alt.shortNames _
+                                                               .ElementAtOrDefault(0) _
+                                                              ?.value _
+                                                               .MySqlEscaping
+                                                       End Function
                                     Select New mysql.protein_alternative_name With {
                                         .fullName = altFullName,
                                         .hash_code = hashcode,
                                         .name = protein.name,
                                         .uniprot_id = uniprotID,
-                                        .shortName1 = alt.shortNames.ElementAtOrDefault(0).value.MySqlEscaping,
-                                        .shortName2 = alt.shortNames.ElementAtOrDefault(1).value.MySqlEscaping,
-                                        .shortName3 = alt.shortNames.ElementAtOrDefault(2).value.MySqlEscaping,
-                                        .shortName4 = alt.shortNames.ElementAtOrDefault(3).value.MySqlEscaping,
-                                        .shortName5 = alt.shortNames.ElementAtOrDefault(4).value.MySqlEscaping
+                                        .shortName1 = getShortName(0),
+                                        .shortName2 = getShortName(1),
+                                        .shortName3 = getShortName(2),
+                                        .shortName4 = getShortName(3),
+                                        .shortName5 = getShortName(4)
                                     }
 
                 GOfunctions += protein.Xrefs _
