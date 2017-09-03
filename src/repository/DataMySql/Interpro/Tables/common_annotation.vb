@@ -67,7 +67,7 @@ CREATE TABLE `common_annotation` (
   `comments` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   PRIMARY KEY (`ann_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class common_annotation: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class common_annotation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("ann_id"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property ann_id As String
     <DatabaseField("name"), DataType(MySqlDbType.VarChar, "50")> Public Property name As String

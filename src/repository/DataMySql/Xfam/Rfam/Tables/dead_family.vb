@@ -71,7 +71,7 @@ CREATE TABLE `dead_family` (
   `user` tinytext NOT NULL,
   UNIQUE KEY `rfam_acc` (`rfam_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class dead_family: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class dead_family: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
 ''' <summary>
 ''' record the author???

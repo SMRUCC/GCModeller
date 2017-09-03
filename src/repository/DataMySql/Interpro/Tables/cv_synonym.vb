@@ -63,7 +63,7 @@ CREATE TABLE `cv_synonym` (
   `description` varchar(80) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class cv_synonym: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class cv_synonym: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("code"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "4")> Public Property code As String
     <DatabaseField("description"), NotNull, DataType(MySqlDbType.VarChar, "80")> Public Property description As String

@@ -67,7 +67,7 @@ CREATE TABLE `version` (
   `embl_release` tinytext NOT NULL,
   PRIMARY KEY (`rfam_release`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;")>
-Public Class version: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class version: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_release"), PrimaryKey, NotNull, DataType(MySqlDbType.Double)> Public Property rfam_release As Double
     <DatabaseField("rfam_release_date"), NotNull, DataType(MySqlDbType.DateTime)> Public Property rfam_release_date As Date

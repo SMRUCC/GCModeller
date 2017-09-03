@@ -83,7 +83,7 @@ CREATE TABLE `rfamseq` (
   KEY `version` (`version`),
   KEY `fk_rfamseq_taxonomy1_idx` (`ncbi_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class rfamseq: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class rfamseq: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
 ''' <summary>
 ''' This should be 

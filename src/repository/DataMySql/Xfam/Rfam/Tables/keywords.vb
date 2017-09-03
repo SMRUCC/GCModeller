@@ -77,7 +77,7 @@ CREATE TABLE `keywords` (
   PRIMARY KEY (`rfam_acc`),
   FULLTEXT KEY `rfam_kw_idx` (`description`,`rfam_general`,`literature`,`wiki`,`pdb_mappings`,`clan_info`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;")>
-Public Class keywords: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class keywords: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String
     <DatabaseField("rfam_id"), DataType(MySqlDbType.VarChar, "40")> Public Property rfam_id As String

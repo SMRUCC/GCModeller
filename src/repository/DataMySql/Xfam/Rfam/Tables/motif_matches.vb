@@ -85,7 +85,7 @@ CREATE TABLE `motif_matches` (
   KEY `motif_match_rfam_acc_idx` (`rfam_acc`),
   KEY `motif_match_rfamseq_acc_idx` (`rfamseq_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class motif_matches: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class motif_matches: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("motif_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property motif_acc As String
     <DatabaseField("rfam_acc"), NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String

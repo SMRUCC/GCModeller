@@ -89,7 +89,7 @@ CREATE TABLE `taxonomy_websearch` (
   KEY `parent` (`parent`),
   KEY `ncbi_id_idx` (`ncbi_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;")>
-Public Class taxonomy_websearch: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class taxonomy_websearch: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("ncbi_id"), DataType(MySqlDbType.Int64, "10")> Public Property ncbi_id As Long
     <DatabaseField("species"), DataType(MySqlDbType.VarChar, "100")> Public Property species As String

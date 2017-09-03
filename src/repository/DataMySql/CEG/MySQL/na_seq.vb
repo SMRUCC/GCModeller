@@ -63,7 +63,7 @@ CREATE TABLE `na_seq` (
   `aalength` varchar(8) DEFAULT NULL,
   `aaseq` longtext
 ) ENGINE=MyISAM AUTO_INCREMENT=7687 DEFAULT CHARSET=gb2312;")>
-Public Class na_seq: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class na_seq: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("gid"), DataType(MySqlDbType.VarChar, "25")> Public Property gid As String
     <DatabaseField("aalength"), DataType(MySqlDbType.VarChar, "8")> Public Property aalength As String

@@ -63,7 +63,7 @@ CREATE TABLE `mv_secondary` (
   `secondary_ac` varchar(9) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   `method_ac` varchar(25) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class mv_secondary: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class mv_secondary: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("entry_ac"), NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property entry_ac As String
     <DatabaseField("secondary_ac"), NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property secondary_ac As String

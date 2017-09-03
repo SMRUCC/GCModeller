@@ -69,7 +69,7 @@ CREATE TABLE `motif_literature` (
   KEY `motif_literature_pmid_idx` (`pmid`),
   KEY `motif_literature_motif_acc` (`motif_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class motif_literature: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class motif_literature: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("motif_acc"), NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property motif_acc As String
     <DatabaseField("pmid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property pmid As Long

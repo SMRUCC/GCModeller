@@ -73,7 +73,7 @@ CREATE TABLE `clade` (
   `genus` text NOT NULL,
   PRIMARY KEY (`oganismid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7687 DEFAULT CHARSET=gb2312;")>
-Public Class clade: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class clade: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("oganismid"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "4")> Public Property oganismid As Long
     <DatabaseField("phylum"), DataType(MySqlDbType.VarChar, "100")> Public Property phylum As String

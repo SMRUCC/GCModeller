@@ -79,7 +79,7 @@ CREATE TABLE `protein` (
   KEY `fk_protein$dbcode` (`dbcode`),
   CONSTRAINT `fk_protein$dbcode` FOREIGN KEY (`dbcode`) REFERENCES `cv_database` (`dbcode`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class protein: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class protein: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("protein_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "6")> Public Property protein_ac As String
     <DatabaseField("name"), NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property name As String

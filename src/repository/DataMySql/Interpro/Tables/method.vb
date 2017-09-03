@@ -75,7 +75,7 @@ CREATE TABLE `method` (
   KEY `fk_method$dbcode` (`dbcode`),
   CONSTRAINT `fk_method$dbcode` FOREIGN KEY (`dbcode`) REFERENCES `cv_database` (`dbcode`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class method: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class method: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("method_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "25")> Public Property method_ac As String
     <DatabaseField("name"), NotNull, DataType(MySqlDbType.VarChar, "30")> Public Property name As String

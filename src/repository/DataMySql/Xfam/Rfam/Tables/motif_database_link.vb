@@ -69,7 +69,7 @@ CREATE TABLE `motif_database_link` (
   `other_params` tinytext,
   KEY `motif_acc` (`motif_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class motif_database_link: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class motif_database_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("motif_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property motif_acc As String
     <DatabaseField("db_id"), NotNull, DataType(MySqlDbType.Text)> Public Property db_id As String

@@ -65,7 +65,7 @@ CREATE TABLE `motif_file` (
   `cm` longblob NOT NULL,
   KEY `fk_motif_file_motif_idx` (`motif_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class motif_file: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class motif_file: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("motif_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property motif_acc As String
     <DatabaseField("seed"), NotNull, DataType(MySqlDbType.Blob)> Public Property seed As Byte()

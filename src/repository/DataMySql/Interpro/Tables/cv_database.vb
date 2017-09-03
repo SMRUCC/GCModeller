@@ -73,7 +73,7 @@ CREATE TABLE `cv_database` (
   UNIQUE KEY `uq_cv_database$dborder` (`dborder`),
   UNIQUE KEY `uq_cv_database$dbshort` (`dbshort`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class cv_database: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class cv_database: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("dbcode"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "1")> Public Property dbcode As String
     <DatabaseField("dbname"), NotNull, DataType(MySqlDbType.VarChar, "20")> Public Property dbname As String

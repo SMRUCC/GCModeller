@@ -69,7 +69,7 @@ CREATE TABLE `clan_database_link` (
   `other_params` tinytext,
   KEY `fk_clan_database_links_clan1_idx` (`clan_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class clan_database_link: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class clan_database_link: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("clan_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property clan_acc As String
     <DatabaseField("db_id"), NotNull, DataType(MySqlDbType.Text)> Public Property db_id As String

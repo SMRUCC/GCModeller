@@ -76,7 +76,7 @@ CREATE TABLE `varsplic_supermatch` (
   `pos_to` int(5) NOT NULL,
   PRIMARY KEY (`protein_ac`,`entry_ac`,`pos_from`,`pos_to`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class varsplic_supermatch: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class varsplic_supermatch: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("protein_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "12")> Public Property protein_ac As String
     <DatabaseField("entry_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property entry_ac As String

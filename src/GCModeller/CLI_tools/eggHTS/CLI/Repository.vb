@@ -30,7 +30,7 @@ Partial Module CLI
         Dim proteins = UniProtXML.EnumerateEntries(path:=[in])
 
         Return proteins _
-            .DumpMySQL(savedSQL:=out) _
+            .DumpMySQLProject(EXPORT:=out) _
             .CLICode
     End Function
 End Module

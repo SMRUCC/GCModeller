@@ -67,7 +67,7 @@ CREATE TABLE `secondary_structure_image` (
   KEY `fk_secondary_structure_images_family1_idx` (`rfam_acc`),
   KEY `secondatStructureTypeIdx` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class secondary_structure_image: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class secondary_structure_image: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String
     <DatabaseField("type"), DataType(MySqlDbType.String)> Public Property type As String

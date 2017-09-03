@@ -71,7 +71,7 @@ CREATE TABLE `taxonomy` (
   PRIMARY KEY (`ncbi_id`),
   KEY `species` (`species`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class taxonomy: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class taxonomy: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("ncbi_id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property ncbi_id As Long
     <DatabaseField("species"), NotNull, DataType(MySqlDbType.VarChar, "100")> Public Property species As String

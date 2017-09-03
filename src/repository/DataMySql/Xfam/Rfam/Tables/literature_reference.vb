@@ -67,7 +67,7 @@ CREATE TABLE `literature_reference` (
   `journal` tinytext,
   PRIMARY KEY (`pmid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=97362240 DEFAULT CHARSET=latin1;")>
-Public Class literature_reference: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class literature_reference: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("pmid"), PrimaryKey, AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "10")> Public Property pmid As Long
     <DatabaseField("title"), DataType(MySqlDbType.Text)> Public Property title As String

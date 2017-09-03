@@ -69,7 +69,7 @@ CREATE TABLE `book` (
   `pubplace` varchar(50) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   PRIMARY KEY (`isbn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class book: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class book: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("isbn"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "10")> Public Property isbn As String
     <DatabaseField("title"), NotNull, DataType(MySqlDbType.Text)> Public Property title As String

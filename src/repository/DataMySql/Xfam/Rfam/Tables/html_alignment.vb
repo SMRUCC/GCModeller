@@ -73,7 +73,7 @@ CREATE TABLE `html_alignment` (
   KEY `htmlTypeIdx` (`type`),
   KEY `htmlBlockIdx` (`block`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class html_alignment: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class html_alignment: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String
     <DatabaseField("type"), NotNull, DataType(MySqlDbType.String)> Public Property type As String

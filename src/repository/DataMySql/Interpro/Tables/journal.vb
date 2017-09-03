@@ -69,7 +69,7 @@ CREATE TABLE `journal` (
   `end_date` datetime DEFAULT NULL,
   PRIMARY KEY (`issn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class journal: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class journal: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("issn"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property issn As String
     <DatabaseField("abbrev"), NotNull, DataType(MySqlDbType.VarChar, "60")> Public Property abbrev As String

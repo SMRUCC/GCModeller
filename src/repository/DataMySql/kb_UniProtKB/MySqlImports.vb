@@ -28,6 +28,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Oracle.LinuxCompatibility.MySQL
@@ -46,39 +47,164 @@ Namespace kb_UniProtKB
         ''' </param>
         ''' <returns></returns>
         <Extension>
-        Public Function ImportsUniProtKB(uniprot As IEnumerable(Of entry)) As Dictionary(Of String, SQLTable())
-            Dim hashCodes As New Dictionary(Of String, mysql.hash_table)
-            Dim altIDs As New List(Of mysql.alt_id)
+        Public Function ImportsUniProtKB(uniprot As IEnumerable(Of entry)) As Dictionary(Of String, MySQLTable())
+            Dim hashCodes As New List(Of MySQLTable)
+            Dim altIDs As New List(Of MySQLTable)
 
-            Dim proteinFunctions As New List(Of mysql.protein_functions)
-            Dim alternativeNames As New List(Of mysql.protein_alternative_name)
-            Dim GOfunctions As New List(Of mysql.protein_go)
-            Dim KOfunctions As New List(Of mysql.protein_ko)
-            Dim geneNames As New List(Of mysql.gene_info)
+            Dim proteinFunctions As New List(Of MySQLTable)
+            Dim alternativeNames As New List(Of MySQLTable)
+            Dim GOfunctions As New List(Of MySQLTable)
+            Dim KOfunctions As New List(Of MySQLTable)
+            Dim geneNames As New List(Of MySQLTable)
 
-            Dim peoples As New Dictionary(Of String, mysql.peoples)
-            Dim citation As New Dictionary(Of String, mysql.literature)
-            Dim jobs As New List(Of mysql.research_jobs)
-            Dim keywords As New Dictionary(Of String, mysql.keywords)
-            Dim proteinKeywords As New List(Of mysql.protein_keywords)
-            Dim proteinReferences As New List(Of mysql.protein_reference)
-            Dim scopes As New Dictionary(Of String, mysql.hashcode_scopes)
-            Dim reference_scopes As New List(Of mysql.protein_reference_scopes)
+            Dim peoples As New List(Of MySQLTable)
+            Dim citation As New List(Of MySQLTable)
+            Dim jobs As New List(Of MySQLTable)
+            Dim keywords As New List(Of MySQLTable)
+            Dim proteinKeywords As New List(Of MySQLTable)
+            Dim proteinReferences As New List(Of MySQLTable)
+            Dim scopes As New List(Of MySQLTable)
+            Dim reference_scopes As New List(Of MySQLTable)
 
-            Dim featureSites As New List(Of mysql.protein_feature_site)
-            Dim featureRegions As New List(Of mysql.protein_feature_regions)
-            Dim featureVariations As New List(Of mysql.feature_site_variation)
-            Dim featureTypes As New Dictionary(Of String, mysql.feature_types)
+            Dim featureSites As New List(Of MySQLTable)
+            Dim featureRegions As New List(Of MySQLTable)
+            Dim featureVariations As New List(Of MySQLTable)
+            Dim featureTypes As New List(Of MySQLTable)
 
-            Dim organism As New Dictionary(Of String, mysql.organism_code)
-            Dim proteome As New List(Of mysql.organism_proteome)
+            Dim organism As New List(Of MySQLTable)
+            Dim proteome As New List(Of MySQLTable)
 
-            Dim tissues As New Dictionary(Of String, mysql.tissue_code)
-            Dim proteinTissueLocations As New List(Of mysql.tissue_locations)
+            Dim tissues As New List(Of MySQLTable)
+            Dim proteinTissueLocations As New List(Of MySQLTable)
 
-            Dim subcellularLocations As New List(Of mysql.protein_subcellular_location)
-            Dim locations As New Dictionary(Of String, mysql.location_id)
-            Dim topologies As New Dictionary(Of String, mysql.topology_id)
+            Dim subcellularLocations As New List(Of MySQLTable)
+            Dim locations As New List(Of MySQLTable)
+            Dim topologies As New List(Of MySQLTable)
+
+            Dim x As MySQLTable
+
+            For Each obj In uniprot.PopulateData
+                x = obj.Value
+
+                Select Case obj.Name
+                    Case NameOf(mysql.alt_id)
+                        altIDs += x
+                    Case NameOf(mysql.feature_site_variation)
+                        featureVariations += x
+                    Case NameOf(mysql.feature_types)
+                        featureTypes += x
+                    Case NameOf(mysql.gene_info)
+                        geneNames += x
+                    Case NameOf(mysql.hashcode_scopes)
+                        scopes += x
+                    Case NameOf(mysql.hash_table)
+                        hashCodes += x
+                    Case NameOf(mysql.keywords)
+                        keywords += x
+                    Case NameOf(mysql.literature)
+                        citation += x
+                    Case NameOf(mysql.location_id)
+                        locations += x
+                    Case NameOf(mysql.organism_code)
+                        organism += x
+                    Case NameOf(mysql.organism_proteome)
+                        proteome += x
+                    Case NameOf(mysql.peoples)
+                        peoples += x
+                    Case NameOf(mysql.protein_alternative_name)
+                        alternativeNames += x
+                    Case NameOf(mysql.protein_feature_regions)
+                        featureRegions += x
+                    Case NameOf(mysql.protein_feature_site)
+                        featureSites += x
+                    Case NameOf(mysql.protein_functions)
+                        proteinFunctions += x
+                    Case NameOf(mysql.protein_go)
+                        GOfunctions += x
+                    Case NameOf(mysql.protein_keywords)
+                        proteinKeywords += x
+                    Case NameOf(mysql.protein_ko)
+                        KOfunctions += x
+                    Case NameOf(mysql.protein_reference)
+                        proteinReferences += x
+                    Case NameOf(mysql.protein_reference_scopes)
+                        reference_scopes += x
+                    Case NameOf(mysql.protein_subcellular_location)
+                        subcellularLocations += x
+                    Case NameOf(mysql.research_jobs)
+                        jobs += x
+                    Case NameOf(mysql.tissue_code)
+                        tissues += x
+                    Case NameOf(mysql.tissue_locations)
+                        proteinTissueLocations += x
+                    Case NameOf(mysql.topology_id)
+                        topologies += x
+                    Case Else
+                        Throw New NotSupportedException(obj.Name)
+                End Select
+            Next
+
+            With New Dictionary(Of String, MySQLTable())
+
+                .ref(NameOf(mysql.hash_table)) = hashCodes
+                .ref(NameOf(mysql.protein_functions)) = proteinFunctions
+                .ref(NameOf(mysql.alt_id)) = altIDs
+                .ref(NameOf(mysql.protein_go)) = GOfunctions
+                .ref(NameOf(mysql.protein_ko)) = KOfunctions
+                .ref(NameOf(mysql.protein_alternative_name)) = alternativeNames
+                .ref(NameOf(mysql.gene_info)) = geneNames
+
+                .ref(NameOf(mysql.peoples)) = peoples
+                .ref(NameOf(mysql.literature)) = citation
+                .ref(NameOf(mysql.research_jobs)) = jobs
+                .ref(NameOf(mysql.keywords)) = keywords
+                .ref(NameOf(mysql.protein_keywords)) = proteinKeywords
+
+                .ref(NameOf(mysql.protein_reference)) = proteinReferences
+                .ref(NameOf(mysql.hashcode_scopes)) = scopes
+                .ref(NameOf(mysql.protein_reference_scopes)) = reference_scopes
+
+                .ref(NameOf(mysql.protein_feature_site)) = featureSites
+                .ref(NameOf(mysql.protein_feature_regions)) = featureRegions
+                .ref(NameOf(mysql.feature_site_variation)) = featureVariations
+                .ref(NameOf(mysql.feature_types)) = featureTypes
+
+                .ref(NameOf(mysql.organism_code)) = organism
+                .ref(NameOf(mysql.organism_proteome)) = proteome
+
+                .ref(NameOf(mysql.tissue_code)) = tissues
+                .ref(NameOf(mysql.tissue_locations)) = proteinTissueLocations
+
+                .ref(NameOf(mysql.protein_subcellular_location)) = subcellularLocations
+                .ref(NameOf(mysql.location_id)) = locations
+                .ref(NameOf(mysql.topology_id)) = topologies
+
+                Return .ref
+            End With
+        End Function
+
+        ''' <summary>
+        ''' For a ultra large size datatset export solution.
+        ''' </summary>
+        ''' <param name="uniprot"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function PopulateData(uniprot As IEnumerable(Of entry)) As IEnumerable(Of NamedValue(Of MySQLTable))
+            Dim hashCodes As New Dictionary(Of String, Long)
+            Dim altNameId As int = 1
+            Dim peoples As New Dictionary(Of String, Long)
+            Dim citations As New Dictionary(Of String, Long)
+            Dim proteinReferences As int = 1
+            Dim scopes As New Dictionary(Of String, Long)
+            Dim keywords As New Dictionary(Of String, Long)
+            Dim featureTypes As New Dictionary(Of String, Long)
+            Dim featureSites As int = 1
+            Dim featureRegions As int = 1
+            Dim organism As New Dictionary(Of String, Long)
+            Dim tissues As New Dictionary(Of String, Long)
+            Dim topologies As New Dictionary(Of String, Long)
+            Dim locations As New Dictionary(Of String, Long)
+            Dim subCellularLocations As int = 1
 
             For Each protein As entry In uniprot
                 Dim uniprotID$ = protein.accessions.First
@@ -87,24 +213,31 @@ Namespace kb_UniProtKB
 #Region "UniProt ID"
                 For Each acc As String In protein.accessions
                     If Not hashCodes.ContainsKey(acc) Then
-                        Call hashCodes.Add(
-                            acc, New mysql.hash_table With {
-                                .hash_code = hashCodes.Count,
+                        Call hashCodes.Add(acc, hashCodes.Count)
+
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.hash_table),
+                            .Value = New mysql.hash_table With {
+                                .hash_code = hashCodes(acc),
                                 .name = protein.name,
                                 .uniprot_id = acc
-                            })
+                            }
+                        }
 
                         If uniprotID = acc Then
-                            hashcode = hashCodes(uniprotID).hash_code
+                            hashcode = hashCodes(uniprotID) ' .hash_code
                         End If
                     End If
 
                     If Not acc = uniprotID Then
-                        altIDs += New mysql.alt_id With {
-                            .alt_id = hashCodes(acc).hash_code,
-                            .name = protein.name,
-                            .primary_hashcode = hashcode,
-                            .uniprot_id = acc
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.alt_id),
+                            .Value = New mysql.alt_id With {
+                                .alt_id = hashCodes(acc),' .hash_code,
+                                .name = protein.name,
+                                .primary_hashcode = hashcode,
+                                .uniprot_id = acc
+                            }
                         }
                     End If
                 Next
@@ -115,50 +248,66 @@ Namespace kb_UniProtKB
                     .fullName _
                     .value _
                     .MySqlEscaping
+                Dim getRecommendedShortName =
+                    Function(i)
+                        Return recommendedName.shortNames _
+                            .ElementAtOrDefault(i) _
+                           ?.value _
+                            .MySqlEscaping
+                    End Function
 
-                proteinFunctions += New mysql.protein_functions With {
-                    .full_name = fullName,
-                    .function = protein.comments _
-                        .Where(Function(c) c.type = "function") _
-                        .FirstOrDefault _
-                       ?.text.value,
-                    .hash_code = hashcode,
-                    .name = protein.name,
-                    .uniprot_id = uniprotID,
-                    .short_name1 = recommendedName.shortNames.ElementAtOrDefault(0)?.value.MySqlEscaping,
-                    .short_name2 = recommendedName.shortNames.ElementAtOrDefault(1)?.value.MySqlEscaping,
-                    .short_name3 = recommendedName.shortNames.ElementAtOrDefault(2)?.value.MySqlEscaping
+                Yield New NamedValue(Of MySQLTable) With {
+                    .Name = NameOf(mysql.protein_functions),
+                    .Value = New mysql.protein_functions With {
+                        .full_name = fullName,
+                        .function = protein.comments _
+                            .Where(Function(c) c.type = "function") _
+                            .FirstOrDefault _
+                           ?.text.value,
+                        .hash_code = hashcode,
+                        .name = protein.name,
+                        .uniprot_id = uniprotID,
+                        .short_name1 = getRecommendedShortName(0),
+                        .short_name2 = getRecommendedShortName(1),
+                        .short_name3 = getRecommendedShortName(2)
+                    }
                 }
 
-                Dim altNameId As int = alternativeNames.Count + 1
-                alternativeNames += From alt As recommendedName
-                                    In protein _
-                                        .protein _
-                                        .alternativeNames _
-                                        .SafeQuery
-                                    Let altFullName = alt.fullName _
-                                        ?.value _
-                                         .MySqlEscaping
-                                    Let getShortName = Function(index)
-                                                           Return alt.shortNames _
-                                                               .ElementAtOrDefault(0) _
-                                                              ?.value _
-                                                               .MySqlEscaping
-                                                       End Function
-                                    Select New mysql.protein_alternative_name With {
-                                        .fullName = altFullName,
-                                        .hash_code = hashcode,
-                                        .name = protein.name,
-                                        .uniprot_id = uniprotID,
-                                        .shortName1 = getShortName(0),
-                                        .shortName2 = getShortName(1),
-                                        .shortName3 = getShortName(2),
-                                        .shortName4 = getShortName(3),
-                                        .shortName5 = getShortName(4),
-                                        .uid = ++altNameId
-                                    }
+                For Each altName As mysql.protein_alternative_name In
+                    From alt As recommendedName
+                    In protein _
+                        .protein _
+                        .alternativeNames _
+                        .SafeQuery
+                    Let altFullName = alt.fullName _
+                        ?.value _
+                         .MySqlEscaping
+                    Let getShortName = Function(index)
+                                           Return alt.shortNames _
+                                               .ElementAtOrDefault(0) _
+                                              ?.value _
+                                               .MySqlEscaping
+                                       End Function
+                    Select New mysql.protein_alternative_name With {
+                        .fullName = altFullName,
+                        .hash_code = hashcode,
+                        .name = protein.name,
+                        .uniprot_id = uniprotID,
+                        .shortName1 = getShortName(0),
+                        .shortName2 = getShortName(1),
+                        .shortName3 = getShortName(2),
+                        .shortName4 = getShortName(3),
+                        .shortName5 = getShortName(4),
+                        .uid = ++altNameId
+                    }
 
-                GOfunctions += protein.Xrefs _
+                    Yield New NamedValue(Of MySQLTable) With {
+                        .Name = NameOf(mysql.protein_alternative_name),
+                        .Value = altName
+                    }
+                Next
+
+                For Each go_class In protein.Xrefs _
                     .TryGetValue("GO") _
                    ?.Select(Function(go)
                                 Dim term$ = go.properties _
@@ -188,7 +337,14 @@ Namespace kb_UniProtKB
                                     .term_name = term.MySqlEscaping
                                 }
                             End Function)
-                KOfunctions += protein.Xrefs _
+
+                    Yield New NamedValue(Of MySQLTable) With {
+                        .Name = NameOf(mysql.protein_go),
+                        .Value = go_class
+                    }
+                Next
+
+                For Each ko_class In protein.Xrefs _
                     .TryGetValue("KO") _
                    ?.Select(Function(ko)
                                 Return New mysql.protein_ko With {
@@ -197,18 +353,27 @@ Namespace kb_UniProtKB
                                     .uniprot_id = uniprotID
                                 }
                             End Function)
+
+                    Yield New NamedValue(Of MySQLTable) With {
+                        .Name = NameOf(mysql.protein_ko),
+                        .Value = ko_class
+                    }
+                Next
                 If Not protein.gene Is Nothing Then
                     Dim gene As gene = protein.gene
                     Dim synNames = gene.IDs("synonym")
 
-                    geneNames += New mysql.gene_info With {
-                        .gene_name = gene.Primary?.FirstOrDefault,
-                        .hash_code = hashcode,
-                        .ORF = gene.ORF?.FirstOrDefault,
-                        .uniprot_id = uniprotID,
-                        .synonym1 = synNames.ElementAtOrDefault(0),
-                        .synonym2 = synNames.ElementAtOrDefault(1),
-                        .synonym3 = synNames.ElementAtOrDefault(2)
+                    Yield New NamedValue(Of MySQLTable) With {
+                        .Name = NameOf(mysql.gene_info),
+                        .Value = New mysql.gene_info With {
+                            .gene_name = gene.Primary?.FirstOrDefault,
+                            .hash_code = hashcode,
+                            .ORF = gene.ORF?.FirstOrDefault,
+                            .uniprot_id = uniprotID,
+                            .synonym1 = synNames.ElementAtOrDefault(0),
+                            .synonym2 = synNames.ElementAtOrDefault(1),
+                            .synonym3 = synNames.ElementAtOrDefault(2)
+                        }
                     }
                 End If
 #End Region
@@ -218,18 +383,22 @@ Namespace kb_UniProtKB
                         Dim personName$ = name.name.MySqlEscaping
 
                         If Not peoples.ContainsKey(personName) Then
-                            Call peoples.Add(
-                                personName, New mysql.peoples With {
+                            Call peoples.Add(personName, peoples.Count)
+
+                            Yield New NamedValue(Of MySQLTable) With {
+                                .Name = NameOf(mysql.peoples),
+                                .Value = New mysql.peoples With {
                                     .name = personName,
-                                    .uid = peoples.Count
-                                })
+                                    .uid = peoples(personName)
+                                }
+                            }
                         End If
                     Next
 
                     Dim cite As citation = ref.citation
                     Dim citeTitle$ = If(cite.title, uniprotID & ": " & cite.type).MySqlEscaping
 
-                    If Not citation.ContainsKey(citeTitle) Then
+                    If Not citations.ContainsKey(citeTitle) Then
                         Dim jobID&
                         Dim doi$ = cite.dbReferences _
                             .SafeQuery _
@@ -242,55 +411,82 @@ Namespace kb_UniProtKB
                             .FirstOrDefault _
                            ?.id
 
-                        Call citation.Add(
-                            citeTitle, New mysql.literature With {
+                        Call citations.Add(citeTitle, citations.Count)
+
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = citeTitle,
+                            .Value = New mysql.literature With {
                                 .date = cite.date,
                                 .db = cite.db,
                                 .journal = cite.name,
                                 .volume = cite.volume,
                                 .title = citeTitle,
                                 .type = cite.type,
-                                .uid = citation.Count,
+                                .uid = citations(citeTitle),
                                 .pages = $"{cite.first} - {cite.last}",
                                 .doi = doi,
                                 .pubmed = pubmed
-                            })
+                            }
+                        }
 
-                        jobID = citation(citeTitle).uid
-                        jobs += From people As person
-                                In cite.authorList.SafeQuery
-                                Select New mysql.research_jobs With {
-                                    .literature_id = jobID,
-                                    .literature_title = citeTitle,
-                                    .people_name = people.name.MySqlEscaping,
-                                    .person = peoples(.people_name).uid
-                                }
+                        jobID = citations(citeTitle) ' .uid
+                        For Each job As mysql.research_jobs In
+                            From people As person
+                            In cite _
+                                .authorList _
+                                .SafeQuery
+                            Select New mysql.research_jobs With {
+                                .literature_id = jobID,
+                                .literature_title = citeTitle,
+                                .people_name = people.name.MySqlEscaping,
+                                .person = peoples(.people_name)' .uid
+                            }
+
+                            Yield New NamedValue(Of MySQLTable) With {
+                                .Name = NameOf(mysql.research_jobs),
+                                .Value = job
+                            }
+                        Next
                     End If
 
-                    Dim refID& = proteinReferences.Count
+                    Dim refID& = ++proteinReferences
 
-                    proteinReferences += New mysql.protein_reference With {
-                        .hash_code = hashcode,
-                        .reference_id = citation(citeTitle).uid,
-                        .uniprot_id = uniprotID,
-                        .uid = refID,
-                        .literature_title = cite.title.MySqlEscaping
+                    Yield New NamedValue(Of MySQLTable) With {
+                        .Name = NameOf(mysql.protein_reference),
+                        .Value = New mysql.protein_reference With {
+                            .hash_code = hashcode,
+                            .reference_id = citations(citeTitle),' .uid,
+                            .uniprot_id = uniprotID,
+                            .uid = refID,
+                            .literature_title = cite.title.MySqlEscaping
+                        }
                     }
 
-                    For Each scope As String In ref.scope.SafeQuery.Select(AddressOf MySqlEscaping)
+                    For Each scope As String In ref.scope _
+                        .SafeQuery _
+                        .Select(AddressOf MySqlEscaping)
+
                         If Not scopes.ContainsKey(scope) Then
-                            Call scopes.Add(
-                                scope, New mysql.hashcode_scopes With {
+                            Call scopes.Add(scope, scopes.Count)
+
+                            Yield New NamedValue(Of MySQLTable) With {
+                                .Name = NameOf(mysql.hashcode_scopes),
+                                .Value = New mysql.hashcode_scopes With {
                                     .scope = scope,
-                                    .uid = scopes.Count
-                                })
+                                    .uid = scopes(scope)
+                                }
+                            }
                         End If
-                        reference_scopes += New mysql.protein_reference_scopes With {
-                            .scope = scope,
-                            .scope_id = scopes(scope).uid,
-                            .uid = refID,
-                            .uniprot_hashcode = hashcode,
-                            .uniprot_id = uniprotID
+
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.protein_reference_scopes),
+                            .Value = New mysql.protein_reference_scopes With {
+                                .scope = scope,
+                                .scope_id = scopes(scope),' .uid,
+                                .uid = refID,
+                                .uniprot_hashcode = hashcode,
+                                .uniprot_id = uniprotID
+                            }
                         }
                     Next
                 Next
@@ -300,65 +496,84 @@ Namespace kb_UniProtKB
                     Dim id& = keyword.id.Split("-"c).Last
 
                     If Not keywords.ContainsKey(word) Then
-                        Call keywords.Add(
-                            word, New mysql.keywords With {
+                        Call keywords.Add(word, id)
+
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.keywords),
+                            .Value = New mysql.keywords With {
                                 .keyword = word,
                                 .uid = id
-                            })
+                            }
+                        }
                     End If
 
-                    proteinKeywords += New mysql.protein_keywords With {
-                        .keyword = word,
-                        .hash_code = hashcode,
-                        .keyword_id = id,
-                        .uniprot_id = uniprotID
+                    Yield New NamedValue(Of MySQLTable) With {
+                        .Name = NameOf(mysql.protein_keywords),
+                        .Value = New mysql.protein_keywords With {
+                            .keyword = word,
+                            .hash_code = hashcode,
+                            .keyword_id = id,
+                            .uniprot_id = uniprotID
+                        }
                     }
                 Next
 #End Region
 #Region "feature sites"
                 For Each feature As feature In protein.features.SafeQuery
                     If Not featureTypes.ContainsKey(feature.type) Then
-                        Call featureTypes.Add(
-                            feature.type, New mysql.feature_types With {
+                        Call featureTypes.Add(feature.type, featureTypes.Count)
+
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.feature_types),
+                            .Value = New mysql.feature_types With {
                                 .type_name = feature.type,
-                                .uid = featureTypes.Count
-                            })
+                                .uid = featureTypes(feature.type)
+                            }
+                        }
                     End If
 
                     If feature.location.IsSite Then
-                        Dim featureID& = featureSites.Count
+                        Dim featureID& = ++featureSites
 
-                        featureSites += New mysql.protein_feature_site With {
-                            .description = feature.description.MySqlEscaping,
-                            .hash_code = hashcode,
-                            .position = feature.location.position.position,
-                            .type = feature.type,
-                            .type_id = featureTypes(feature.type).uid,
-                            .uid = featureID,
-                            .uniprot_id = uniprotID
-                        }
-                        If Not (feature.original.StringEmpty AndAlso feature.variation.StringEmpty) Then
-                            featureVariations += New mysql.feature_site_variation With {
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.protein_feature_site),
+                            .Value = New mysql.protein_feature_site With {
+                                .description = feature.description.MySqlEscaping,
                                 .hash_code = hashcode,
-                                .original = feature.original,
                                 .position = feature.location.position.position,
+                                .type = feature.type,
+                                .type_id = featureTypes(feature.type),' .uid,
                                 .uid = featureID,
-                                .uniprot_id = uniprotID,
-                                .variation = feature.variation
+                                .uniprot_id = uniprotID
+                            }
+                        }
+
+                        If Not (feature.original.StringEmpty AndAlso feature.variation.StringEmpty) Then
+                            Yield New NamedValue(Of MySQLTable) With {
+                                .Name = NameOf(mysql.feature_site_variation),
+                                .Value = New mysql.feature_site_variation With {
+                                    .hash_code = hashcode,
+                                    .original = feature.original,
+                                    .position = feature.location.position.position,
+                                    .uid = featureID,
+                                    .uniprot_id = uniprotID,
+                                    .variation = feature.variation
+                                }
                             }
                         End If
                     Else
-                        Dim featureID& = featureRegions.Count
-
-                        featureRegions += New mysql.protein_feature_regions With {
-                            .begin = feature.location.begin.position,
-                            .description = feature.description.MySqlEscaping,
-                            .end = feature.location.end.position,
-                            .hash_code = hashcode,
-                            .type = feature.type,
-                            .type_id = featureTypes(feature.type).uid,
-                            .uniprot_id = uniprotID,
-                            .uid = featureRegions.Count
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.protein_feature_regions),
+                            .Value = New mysql.protein_feature_regions With {
+                                .begin = feature.location.begin.position,
+                                .description = feature.description.MySqlEscaping,
+                                .end = feature.location.end.position,
+                                .hash_code = hashcode,
+                                .type = feature.type,
+                                .type_id = featureTypes(feature.type),' .uid,
+                                .uniprot_id = uniprotID,
+                                .uid = ++featureRegions
+                            }
                         }
                     End If
                 Next
@@ -371,11 +586,15 @@ Namespace kb_UniProtKB
                     .value
 
                 If Not organism.ContainsKey(organismScientificName) Then
-                    Call organism.Add(
-                        organismScientificName, New mysql.organism_code With {
+                    Call organism.Add(organismScientificName, protein.organism.dbReference.id)
+
+                    Yield New NamedValue(Of MySQLTable) With {
+                        .Name = NameOf(mysql.organism_code),
+                        .Value = New mysql.organism_code With {
                             .organism_name = organismScientificName,
-                            .uid = protein.organism.dbReference.id
-                        })
+                            .uid = organism(organismScientificName)
+                        }
+                    }
                 End If
 
                 Dim proteomesInfo As dbReference = protein _
@@ -390,13 +609,17 @@ Namespace kb_UniProtKB
                         .Where(Function(p) p.type = "component") _
                         .FirstOrDefault _
                        ?.value)
-                proteome += New mysql.organism_proteome With {
-                    .gene_name = protein.name,
-                    .id_hashcode = hashcode,
-                    .org_id = organism(organismScientificName).uid,
-                    .uniprot_id = uniprotID,
-                    .proteomes_id = If(proteomesInfo Is Nothing, "", proteomesInfo.id),
-                    .component = chr
+
+                Yield New NamedValue(Of MySQLTable) With {
+                    .Name = NameOf(mysql.organism_proteome),
+                    .Value = New mysql.organism_proteome With {
+                        .gene_name = protein.name,
+                        .id_hashcode = hashcode,
+                        .org_id = organism(organismScientificName),' .uid,
+                        .uniprot_id = uniprotID,
+                        .proteomes_id = If(proteomesInfo Is Nothing, "", proteomesInfo.id),
+                        .component = chr
+                    }
                 }
 #End Region
 #Region "tissue locations"
@@ -406,25 +629,33 @@ Namespace kb_UniProtKB
                     If ref.source Is Nothing OrElse ref.source.tissues.IsNullOrEmpty Then
                         Continue For
                     End If
+
                     For Each name In ref.source.tissues
                         tissue = organismScientificName & "+" & name
 
                         If Not tissues.ContainsKey(tissue) Then
-                            Call tissues.Add(
-                                tissue, New mysql.tissue_code With {
+                            Call tissues.Add(tissue, tissues.Count)
+
+                            Yield New NamedValue(Of MySQLTable) With {
+                                .Name = NameOf(mysql.tissue_code),
+                                .Value = New mysql.tissue_code With {
                                     .organism = organismScientificName,
-                                    .org_id = organism(organismScientificName).uid,
+                                    .org_id = organism(organismScientificName),' .uid,
                                     .tissue_name = name,
-                                    .uid = tissues.Count
-                                })
+                                    .uid = tissues(tissue)
+                                }
+                            }
                         End If
 
-                        proteinTissueLocations += New mysql.tissue_locations With {
-                            .hash_code = hashcode,
-                            .name = protein.name,
-                            .tissue_id = tissues(tissue).uid,
-                            .tissue_name = name,
-                            .uniprot_id = uniprotID
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.tissue_locations),
+                            .Value = New mysql.tissue_locations With {
+                                .hash_code = hashcode,
+                                .name = protein.name,
+                                .tissue_id = tissues(tissue),' .uid,
+                                .tissue_name = name,
+                                .uniprot_id = uniprotID
+                            }
                         }
                     Next
                 Next
@@ -434,82 +665,57 @@ Namespace kb_UniProtKB
                     .comments _
                     .Where(Function(c) c.type = "subcellular location") _
                     .ToArray
-                For Each sublocation In subcellular_locations _
+
+                For Each sublocation As subcellularLocation In subcellular_locations _
                     .Select(Function(c) c.subcellularLocations) _
                     .IteratesALL
 
                     If Not sublocation.topology Is Nothing Then
                         If Not topologies.ContainsKey(sublocation.topology.value) Then
-                            Call topologies.Add(
-                                sublocation.topology.value, New mysql.topology_id With {
+                            Call topologies.Add(sublocation.topology.value, topologies.Count)
+
+                            Yield New NamedValue(Of MySQLTable) With {
+                                .Name = NameOf(mysql.topology_id),
+                                .Value = New mysql.topology_id With {
                                     .name = sublocation.topology.value,
-                                    .uid = topologies.Count
-                                })
+                                    .uid = topologies(.name)
+                                }
+                            }
                         End If
                     End If
 
                     For Each name In sublocation.locations
                         If Not locations.ContainsKey(name.value) Then
-                            Call locations.Add(
-                                name.value, New mysql.location_id With {
+                            Call locations.Add(name.value, locations.Count)
+
+                            Yield New NamedValue(Of MySQLTable) With {
+                                .Name = NameOf(mysql.location_id),
+                                .Value = New mysql.location_id With {
                                     .name = name.value,
-                                    .uid = locations.Count
-                                })
+                                    .uid = locations(.name)
+                                }
+                            }
                         End If
 
-                        subcellularLocations += New mysql.protein_subcellular_location With {
-                            .hash_code = hashcode,
-                            .location = name.value,
-                            .location_id = locations(name.value).uid,
-                            .topology = sublocation.topology?.value,
-                            .topology_id = If(
-                                sublocation.topology Is Nothing,
-                                -1,
-                                topologies(sublocation.topology.value).uid),
-                            .uniprot_id = uniprotID,
-                            .uid = subcellularLocations.Count
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.protein_subcellular_location),
+                            .Value = New mysql.protein_subcellular_location With {
+                                .hash_code = hashcode,
+                                .location = name.value,
+                                .location_id = locations(name.value),' .uid,
+                                .topology = sublocation.topology?.value,
+                                .topology_id = If(
+                                    sublocation.topology Is Nothing,
+                                    -1,
+                                    topologies(.topology)),' .uid),
+                                .uniprot_id = uniprotID,
+                                .uid = ++subCellularLocations
+                            }
                         }
                     Next
                 Next
 #End Region
             Next
-
-            Dim mysqlTables As New Dictionary(Of String, SQLTable())
-
-            mysqlTables(NameOf(mysql.hash_table)) = hashCodes.Values.ToArray
-            mysqlTables(NameOf(mysql.protein_functions)) = proteinFunctions
-            mysqlTables(NameOf(mysql.alt_id)) = altIDs
-            mysqlTables(NameOf(mysql.protein_go)) = GOfunctions
-            mysqlTables(NameOf(mysql.protein_ko)) = KOfunctions
-            mysqlTables(NameOf(mysql.protein_alternative_name)) = alternativeNames
-            mysqlTables(NameOf(mysql.gene_info)) = geneNames
-
-            mysqlTables(NameOf(mysql.peoples)) = peoples.Values.ToArray
-            mysqlTables(NameOf(mysql.literature)) = citation.Values.ToArray
-            mysqlTables(NameOf(mysql.research_jobs)) = jobs
-            mysqlTables(NameOf(mysql.keywords)) = keywords.Values.ToArray
-            mysqlTables(NameOf(mysql.protein_keywords)) = proteinKeywords
-
-            mysqlTables(NameOf(mysql.protein_reference)) = proteinReferences
-            mysqlTables(NameOf(mysql.hashcode_scopes)) = scopes.Values.ToArray
-            mysqlTables(NameOf(mysql.protein_reference_scopes)) = reference_scopes
-
-            mysqlTables(NameOf(mysql.protein_feature_site)) = featureSites
-            mysqlTables(NameOf(mysql.protein_feature_regions)) = featureRegions
-            mysqlTables(NameOf(mysql.feature_site_variation)) = featureVariations
-            mysqlTables(NameOf(mysql.feature_types)) = featureTypes.Values.ToArray
-
-            mysqlTables(NameOf(mysql.organism_code)) = organism.Values.ToArray
-            mysqlTables(NameOf(mysql.organism_proteome)) = proteome
-
-            mysqlTables(NameOf(mysql.tissue_code)) = tissues.Values.ToArray
-            mysqlTables(NameOf(mysql.tissue_locations)) = proteinTissueLocations
-
-            mysqlTables(NameOf(mysql.protein_subcellular_location)) = subcellularLocations
-            mysqlTables(NameOf(mysql.location_id)) = locations.Values.ToArray
-            mysqlTables(NameOf(mysql.topology_id)) = topologies.Values.ToArray
-
-            Return mysqlTables
         End Function
 
         ''' <summary>
@@ -527,6 +733,18 @@ Namespace kb_UniProtKB
 
                 Return True
             End Using
+        End Function
+
+        <Extension>
+        Public Function DumpMySQLProject(uniprot As IEnumerable(Of entry), EXPORT$) As Boolean
+            Try
+                Call uniprot.PopulateData.ProjectDumping(EXPORT)
+            Catch ex As Exception
+                ex = New Exception(EXPORT, ex)
+                Throw ex
+            End Try
+
+            Return True
         End Function
     End Module
 End Namespace

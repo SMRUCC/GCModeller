@@ -82,7 +82,7 @@ CREATE TABLE `xcb` (
   PRIMARY KEY (`g1_entity`,`g2_entity`),
   UNIQUE KEY `uid_UNIQUE` (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18275626 DEFAULT CHARSET=utf8;")>
-Public Class xcb: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class xcb: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("uid"), AutoIncrement, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property uid As Long
     <DatabaseField("g1_entity"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "45")> Public Property g1_entity As String
