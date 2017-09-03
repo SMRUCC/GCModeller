@@ -200,6 +200,7 @@ Namespace kb_UniProtKB
             Dim featureTypes As New Dictionary(Of String, Long)
             Dim featureSites As int = 1
             Dim featureRegions As int = 1
+            Dim organism As New Dictionary(Of String, Long)
 
             For Each protein As entry In uniprot
                 Dim uniprotID$ = protein.accessions.First
@@ -575,39 +576,47 @@ Namespace kb_UniProtKB
 #End Region
 #Region "organism info"
                 Dim organismScientificName$ = protein.organism _
-                .names _
-                .Where(Function(t) t.type = "scientific") _
-                .First _
-                .value
+                    .names _
+                    .Where(Function(t) t.type = "scientific") _
+                    .First _
+                    .value
 
                 If Not organism.ContainsKey(organismScientificName) Then
-                    Call organism.Add(
-                    organismScientificName, New mysql.organism_code With {
-                        .organism_name = organismScientificName,
-                        .uid = protein.organism.dbReference.id
-                    })
+                    Call organism.Add(organismScientificName, protein.organism.dbReference.id)
+
+                    Yield New NamedValue(Of MySQLTable) With {
+                        .Name = NameOf(mysql.organism_code),
+                        .Value = New mysql.organism_code With {
+                            .organism_name = organismScientificName,
+                            .uid = organism(organismScientificName)
+                        }
+                    }
                 End If
 
                 Dim proteomesInfo As dbReference = protein _
-                .dbReferences _
-                .Where(Function(r) r.type = "Proteomes") _
-                .FirstOrDefault
+                    .dbReferences _
+                    .Where(Function(r) r.type = "Proteomes") _
+                    .FirstOrDefault
                 Dim chr$ = If(
-                proteomesInfo Is Nothing,
-                "",
-                proteomesInfo.properties _
-                    .SafeQuery _
-                    .Where(Function(p) p.type = "component") _
-                    .FirstOrDefault _
-                   ?.value)
-                proteome += New mysql.organism_proteome With {
-                .gene_name = protein.name,
-                .id_hashcode = hashcode,
-                .org_id = organism(organismScientificName).uid,
-                .uniprot_id = uniprotID,
-                .proteomes_id = If(proteomesInfo Is Nothing, "", proteomesInfo.id),
-                .component = chr
-            }
+                    proteomesInfo Is Nothing,
+                    "",
+                    proteomesInfo.properties _
+                        .SafeQuery _
+                        .Where(Function(p) p.type = "component") _
+                        .FirstOrDefault _
+                       ?.value)
+
+                Yield New NamedValue(Of MySQLTable) With {
+                    .Name = NameOf(mysql.organism_proteome),
+                    .Value = New mysql.organism_proteome With {
+                        .gene_name = protein.name,
+                        .id_hashcode = hashcode,
+                        .org_id = organism(organismScientificName),' .uid,
+                        .uniprot_id = uniprotID,
+                        .proteomes_id = If(proteomesInfo Is Nothing, "", proteomesInfo.id),
+                        .component = chr
+                    }
+                }
 #End Region
 #Region "tissue locations"
                 Dim tissue$
