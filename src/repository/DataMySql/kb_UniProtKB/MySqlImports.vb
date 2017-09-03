@@ -54,6 +54,7 @@ Namespace kb_UniProtKB
             Dim alternativeNames As New List(Of mysql.protein_alternative_name)
             Dim GOfunctions As New List(Of mysql.protein_go)
             Dim KOfunctions As New List(Of mysql.protein_ko)
+            Dim geneNames As New List(Of mysql.gene_info)
 
             Dim peoples As New Dictionary(Of String, mysql.peoples)
             Dim citation As New Dictionary(Of String, mysql.literature)
@@ -193,6 +194,20 @@ Namespace kb_UniProtKB
                                     .uniprot_id = uniprotID
                                 }
                             End Function)
+                If Not protein.gene Is Nothing Then
+                    Dim gene As gene = protein.gene
+                    Dim synNames = gene.IDs("synonym")
+
+                    geneNames += New mysql.gene_info With {
+                        .gene_name = gene.Primary.FirstOrDefault,
+                        .hash_code = hashcode,
+                        .ORF = gene.ORF.FirstOrDefault,
+                        .uniprot_id = uniprotID,
+                        .synonym1 = synNames.ElementAtOrDefault(0),
+                        .synonym2 = synNames.ElementAtOrDefault(1),
+                        .synonym3 = synNames.ElementAtOrDefault(2)
+                    }
+                End If
 #End Region
 #Region "literature works"
                 For Each ref As reference In protein.references
@@ -449,6 +464,7 @@ Namespace kb_UniProtKB
             mysqlTables(NameOf(mysql.protein_go)) = GOfunctions
             mysqlTables(NameOf(mysql.protein_ko)) = KOfunctions
             mysqlTables(NameOf(mysql.protein_alternative_name)) = alternativeNames
+            mysqlTables(NameOf(mysql.gene_info)) = geneNames
 
             mysqlTables(NameOf(mysql.peoples)) = peoples.Values.ToArray
             mysqlTables(NameOf(mysql.literature)) = citation.Values.ToArray
