@@ -197,6 +197,9 @@ Namespace kb_UniProtKB
             Dim proteinReferences As int = 1
             Dim scopes As New Dictionary(Of String, Long)
             Dim keywords As New Dictionary(Of String, Long)
+            Dim featureTypes As New Dictionary(Of String, Long)
+            Dim featureSites As int = 1
+            Dim featureRegions As int = 1
 
             For Each protein As entry In uniprot
                 Dim uniprotID$ = protein.accessions.First
@@ -513,48 +516,60 @@ Namespace kb_UniProtKB
 #Region "feature sites"
                 For Each feature As feature In protein.features.SafeQuery
                     If Not featureTypes.ContainsKey(feature.type) Then
-                        Call featureTypes.Add(
-                        feature.type, New mysql.feature_types With {
-                            .type_name = feature.type,
-                            .uid = featureTypes.Count
-                        })
+                        Call featureTypes.Add(feature.type, featureTypes.Count)
+
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.feature_types),
+                            .Value = New mysql.feature_types With {
+                                .type_name = feature.type,
+                                .uid = featureTypes(feature.type)
+                            }
+                        }
                     End If
 
                     If feature.location.IsSite Then
-                        Dim featureID& = featureSites.Count
+                        Dim featureID& = ++featureSites
 
-                        featureSites += New mysql.protein_feature_site With {
-                        .description = feature.description.MySqlEscaping,
-                        .hash_code = hashcode,
-                        .position = feature.location.position.position,
-                        .type = feature.type,
-                        .type_id = featureTypes(feature.type).uid,
-                        .uid = featureID,
-                        .uniprot_id = uniprotID
-                    }
-                        If Not (feature.original.StringEmpty AndAlso feature.variation.StringEmpty) Then
-                            featureVariations += New mysql.feature_site_variation With {
-                            .hash_code = hashcode,
-                            .original = feature.original,
-                            .position = feature.location.position.position,
-                            .uid = featureID,
-                            .uniprot_id = uniprotID,
-                            .variation = feature.variation
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.protein_feature_site),
+                            .Value = New mysql.protein_feature_site With {
+                                .description = feature.description.MySqlEscaping,
+                                .hash_code = hashcode,
+                                .position = feature.location.position.position,
+                                .type = feature.type,
+                                .type_id = featureTypes(feature.type),' .uid,
+                                .uid = featureID,
+                                .uniprot_id = uniprotID
+                            }
                         }
+
+                        If Not (feature.original.StringEmpty AndAlso feature.variation.StringEmpty) Then
+                            Yield New NamedValue(Of MySQLTable) With {
+                                .Name = NameOf(mysql.feature_site_variation),
+                                .Value = New mysql.feature_site_variation With {
+                                    .hash_code = hashcode,
+                                    .original = feature.original,
+                                    .position = feature.location.position.position,
+                                    .uid = featureID,
+                                    .uniprot_id = uniprotID,
+                                    .variation = feature.variation
+                                }
+                            }
                         End If
                     Else
-                        Dim featureID& = featureRegions.Count
-
-                        featureRegions += New mysql.protein_feature_regions With {
-                        .begin = feature.location.begin.position,
-                        .description = feature.description.MySqlEscaping,
-                        .end = feature.location.end.position,
-                        .hash_code = hashcode,
-                        .type = feature.type,
-                        .type_id = featureTypes(feature.type).uid,
-                        .uniprot_id = uniprotID,
-                        .uid = featureRegions.Count
-                    }
+                        Yield New NamedValue(Of MySQLTable) With {
+                            .Name = NameOf(mysql.protein_feature_regions),
+                            .Value = New mysql.protein_feature_regions With {
+                                .begin = feature.location.begin.position,
+                                .description = feature.description.MySqlEscaping,
+                                .end = feature.location.end.position,
+                                .hash_code = hashcode,
+                                .type = feature.type,
+                                .type_id = featureTypes(feature.type),' .uid,
+                                .uniprot_id = uniprotID,
+                                .uid = ++featureRegions
+                            }
+                        }
                     End If
                 Next
 #End Region
