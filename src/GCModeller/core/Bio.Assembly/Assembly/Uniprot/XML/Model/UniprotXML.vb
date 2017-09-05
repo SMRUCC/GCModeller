@@ -38,10 +38,15 @@ Namespace Assembly.Uniprot.XML
     ''' <summary>
     ''' Download from the uniprot database id mappings result
     ''' </summary>
-    <XmlType("uniprot")> Public Class UniprotXML
+    <XmlType("uniprot")> Public Class UniProtXML
 
         Const ns$ = "xmlns=""http://uniprot.org/uniprot"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniprot http://www.uniprot.org/support/docs/uniprot.xsd"""
-        ' <uniparc xmlns="http://uniprot.org/uniparc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://uniprot.org/uniparc http://www.uniprot.org/docs/uniparc.xsd" version="2017_03">
+
+        ''' <summary>
+        ''' ```xml
+        ''' &lt;uniparc xmlns="http://uniprot.org/uniparc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://uniprot.org/uniparc http://www.uniprot.org/docs/uniparc.xsd" version="2017_03"> 
+        ''' ```
+        ''' </summary>
         Const uniparc_ns$ = "xmlns=""http://uniprot.org/uniparc"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniparc http://www.uniprot.org/docs/uniparc.xsd"""
 
         ''' <summary>
@@ -60,23 +65,24 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <param name="path$"></param>
         ''' <returns></returns>
-        Public Shared Function Load(path$) As UniprotXML
+        Public Shared Function Load(path$) As UniProtXML
             Dim xml As String = path.ReadAllText
 
             If InStr(xml, "<uniparc xmlns=", CompareMethod.Text) > 0 Then
-                xml = xml.Replace(UniprotXML.uniparc_ns, Xmlns.DefaultXmlns)
+                xml = xml.Replace(UniProtXML.uniparc_ns, Xmlns.DefaultXmlns)
                 xml = xml.Replace("<uniparc xmlns", "<uniprot xmlns")
                 xml = xml.Replace("</uniparc>", "</uniprot>")
             Else
-                xml = xml.Replace(UniprotXML.ns, Xmlns.DefaultXmlns)
+                xml = xml.Replace(UniProtXML.ns, Xmlns.DefaultXmlns)
             End If
 
-            Dim model As UniprotXML = xml.LoadFromXml(Of UniprotXML)
+            Dim model As UniProtXML = xml.LoadFromXml(Of UniProtXML)
             Return model
         End Function
 
         ''' <summary>
-        ''' 使用这个函数来读取超大的uniprot XML数据库
+        ''' Enumerate all of the data entries in a ultra large size uniprot XML database.
+        ''' (使用这个函数来读取超大的uniprot XML数据库)
         ''' </summary>
         ''' <param name="path$"></param>
         ''' <returns></returns>

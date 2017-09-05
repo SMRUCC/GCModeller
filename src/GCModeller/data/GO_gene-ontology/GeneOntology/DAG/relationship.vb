@@ -64,21 +64,21 @@ Namespace DAG
     ''' </summary>
     Public Structure is_a
 
-        Dim uid$, cat$
+        Dim term_id$, name$
         ''' <summary>
         ''' 父节点的实例
         ''' </summary>
-        Dim term As Term
+        Dim term As TermNode
 
         Sub New(value$)
             Dim tokens$() = Strings.Split(value$, " ! ")
 
-            uid = tokens(Scan0%)
-            cat = tokens(1%)
+            term_id = tokens(Scan0%)
+            name = tokens(1%)
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"is_a: {uid} ! {cat$}"
+            Return $"is_a: {term_id} ! {name$}"
         End Function
     End Structure
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d592789a1fa57a81fd07344562893536, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\iPfam\LocalMySQL\MySQL_Tables\ligand_chemistry.vb"
+﻿#Region "Microsoft.VisualBasic::d592789a1fa57a81fd07344562893536, ..\repository\DataMySql\Xfam\iPfam\LocalMySQL\MySQL_Tables\ligand_chemistry.vb"
 
     ' Author:
     ' 

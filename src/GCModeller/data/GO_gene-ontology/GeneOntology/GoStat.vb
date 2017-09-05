@@ -42,6 +42,11 @@ Imports SMRUCC.genomics.foundation.OBO_Foundry
 ''' </summary>
 Public Module GoStat
 
+    Public ReadOnly Property OntologyNamespaces As Dictionary(Of Ontologies, String) =
+        Enums(Of Ontologies) _
+        .ToDictionary(Function(o) o,
+                      Function([namespace]) [namespace].Description)
+
     ''' <summary>
     ''' 计数统计
     ''' </summary>

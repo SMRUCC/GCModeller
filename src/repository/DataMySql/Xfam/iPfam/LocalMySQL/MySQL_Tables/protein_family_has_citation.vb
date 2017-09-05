@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93cdd93786747eea145b8249529f34d5, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\iPfam\LocalMySQL\MySQL_Tables\protein_family_has_citation.vb"
+﻿#Region "Microsoft.VisualBasic::93cdd93786747eea145b8249529f34d5, ..\repository\DataMySql\Xfam\iPfam\LocalMySQL\MySQL_Tables\protein_family_has_citation.vb"
 
     ' Author:
     ' 

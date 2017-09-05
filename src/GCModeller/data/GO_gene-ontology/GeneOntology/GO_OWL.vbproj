@@ -214,7 +214,7 @@
     <Compile Include="DAG\Builder.vb" />
     <Compile Include="DAG\Graph.vb" />
     <Compile Include="DAG\Relationship.vb" />
-    <Compile Include="DAG\Term.vb" />
+    <Compile Include="DAG\TermNode.vb" />
     <Compile Include="DAG\Fields.vb" />
     <Compile Include="Files\NCBI\gene2go.vb" />
     <Compile Include="Files\Obo\base.vb" />

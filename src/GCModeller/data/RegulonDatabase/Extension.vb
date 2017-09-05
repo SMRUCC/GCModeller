@@ -76,7 +76,7 @@ Public Module Extensions
                 If i = n.Length OrElse n(i).x - pre.x <> 1 Then
                     Call tmp.Add(pre.s)
                     Call parts.Add(tmp.ToArray)
-                    pre = n.Get(i)
+                    pre = n.ElementAtOrDefault(i)
                     i += 1
                     Exit Do
                 Else

@@ -217,7 +217,7 @@ Public Module RSystem
             Call App.LogException(ex)
             Return ""
         End Try
-        Dim ver As String = result.Get(Scan0)
+        Dim ver As String = result.ElementAtOrDefault(Scan0)
         If Not String.IsNullOrEmpty(ver) Then
             ver = String.Join(".", Regex.Matches(ver, "\d+").ToArray)
         End If

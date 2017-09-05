@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::147c1a2ed200fe1fbbfcc7c88421c407, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\iPfam\LocalMySQL\MySQL_Tables\quality_control.vb"
+﻿#Region "Microsoft.VisualBasic::147c1a2ed200fe1fbbfcc7c88421c407, ..\repository\DataMySql\Xfam\iPfam\LocalMySQL\MySQL_Tables\quality_control.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d36037724228232b4e75a606c9f30fdc, ..\GCModeller\analysis\annoTools\DataMySql\Xfam\iPfam\LocalMySQL\version.vb"
+﻿#Region "Microsoft.VisualBasic::d36037724228232b4e75a606c9f30fdc, ..\repository\DataMySql\Xfam\iPfam\LocalMySQL\version.vb"
 
     ' Author:
     ' 
