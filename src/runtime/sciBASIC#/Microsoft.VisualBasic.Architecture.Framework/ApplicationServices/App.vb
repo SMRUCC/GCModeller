@@ -363,7 +363,7 @@ Public Module App
     Public ReadOnly Property ProductSharedDIR As String
 
     Sub New()
-        On Error Resume Next
+        On Error Resume Next ' 在Linux服务器上面不起作用？？？
 
         Call FileIO.FileSystem.CreateDirectory(AppSystemTemp)
         Call FileIO.FileSystem.CreateDirectory(App.HOME & "/Resources/")
@@ -389,11 +389,11 @@ Public Module App
             AssemblyName,
             Application.ProductName.Trim)
         App.HOME = FileIO.FileSystem.GetParentPath(App.ExecutablePath)
-        App.UserHOME = PathMapper.HOME.GetDirectoryFullPath
-        App.ProductProgramData = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/{ProductName}".GetDirectoryFullPath
+        App.UserHOME = PathMapper.HOME.GetDirectoryFullPath("App.New(.cctor)")
+        App.ProductProgramData = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/{ProductName}".GetDirectoryFullPath("App.New(.cctor)")
         App.ProductSharedDIR = $"{ProductProgramData}/.shared".GetDirectoryFullPath
-        App.LocalData = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/{ProductName}/{AssemblyName}".GetDirectoryFullPath
-        App.CurrentProcessTemp = GenerateTemp(App.SysTemp & "/tmp.io", App.PID).GetDirectoryFullPath
+        App.LocalData = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/{ProductName}/{AssemblyName}".GetDirectoryFullPath("App.New(.cctor)")
+        App.CurrentProcessTemp = GenerateTemp(App.SysTemp & "/tmp.io", App.PID).GetDirectoryFullPath("App.New(.cctor)")
         App.ProductSharedTemp = App.ProductSharedDIR & "/tmp/"
         App.LogErrDIR = App.LocalData & $"/.logs/err/"
 #End Region
