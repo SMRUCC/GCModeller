@@ -127,7 +127,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim designer$ = args <= "/designer"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".relative_amount/")
-        Dim proteins = EntityObject.LoadDataSet([in])
+        Dim proteins = EntityObject.LoadDataSet([in]).ToArray
         Dim designers As Designer() = designer.LoadCsv(Of Designer)
         Dim delimiter$ = args.GetValue("/deli", "_")
         Dim groupLabels = designers.GetExperimentGroupLabels(args <= "/label", delimiter)
@@ -143,8 +143,7 @@ Partial Module CLI
                               Dim proteinAverages = proteins _
                                   .ToDictionary(Function(protein) protein.ID,
                                                 Function(protein)
-                                                    Return protein _
-                                                        .TakeValues(labels.Value) _
+                                                    Return protein(labels.Value) _
                                                         .Select(AddressOf Val) _
                                                         .Average
                                                 End Function)
