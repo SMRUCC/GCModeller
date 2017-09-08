@@ -47,24 +47,21 @@ Partial Module CLI
     <ExportAPI("/Solve", Info:="solve a FBA model from a specific (SBML) model file.",
         Usage:="/solve -i <sbml_file> -o <output_result_dir> -d <max/min> [-m <sbml/model> -f <object_function> -knock_out <gene_id_list>]",
         Example:="solve -i ""/home/xieguigang/BLAST/db/MetaCyc/xcc8004/fba.xml"" -o ""/home/xieguigang/Desktop/8004"" -m sbml -f default -d max -knock_out XC_1184,XC_3631")>
-    <Argument("-i", Description:="", Example:="")>
-    <Argument("-o", Description:="The directory for the output result.", Example:="/home/xieguigang/Desktop/8004")>
-    <Argument("-m", True, Description:="", Example:="")>
+    <Argument("-i", Description:="")>
+    <Argument("-o", Description:="The directory for the output result.")>
+    <Argument("-m", True, Description:="")>
     <Argument("-f", True,
         Description:="Optional, Set up the objective function for the fba linear programming problem, its value can be a expression, default or all." & vbCrLf &
                      " <expression> - a user specific expression for objective function, it can be a expression or a text file name if the first character is @ in the switch value." & vbCrLf &
                      " default - the program generate the objective function using the objective coefficient value which defines in each reaction object;" & vbCrLf &
-                     " all - set up all of the reaction objective coeffecient factor to 1, which means all of the reaction flux will use for objective function generation.",
-        Example:="@d:/fba_objf.txt")>
+                     " all - set up all of the reaction objective coeffecient factor to 1, which means all of the reaction flux will use for objective function generation.")>
     <Argument("-d", True,
         Description:="Optional, the constraint direction of the objective function for the fba linear programming problem, " & vbCrLf &
                      "if this switch option is not specific by the user then the program will use the direction which was defined in the FBA model file " & vbCrLf &
-                     "else if use specific this switch value then the user specific value will override the direction value in the FBA model.",
-        Example:="max")>
+                     "else if use specific this switch value then the user specific value will override the direction value in the FBA model.")>
     <Argument("-knock_out", True,
         Description:="Optional, this switch specific the id list that of the gene will be knock out in the simulation, this switch option only works in the advanced fba model file." & vbCrLf &
-                     "value string format: each id can be seperated by the comma character and the id value can be both of the genbank id or a metacyc unique-id value.",
-        Example:="XC_1184,XC_3631")>
+                     "value string format: each id can be seperated by the comma character and the id value can be both of the genbank id or a metacyc unique-id value.")>
     Public Function Solve(args As CommandLine) As Integer
         Dim Model As I_FBAC2(Of speciesReference)
         Dim Input As String = args("-i")

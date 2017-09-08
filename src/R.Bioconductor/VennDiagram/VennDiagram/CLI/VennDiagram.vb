@@ -50,21 +50,17 @@ Public Module CLI
         Usage:=".Draw -i <csv_file> [-t <diagram_title> -o <_diagram_saved_path> -s <partitions_option_pairs/*.csv> /First.ID.Skip -rbin <r_bin_directory>]",
         Example:=".Draw -i /home/xieguigang/Desktop/genomes.csv -t genome-compared -o ~/Desktop/xcc8004.tiff -s ""Xcc8004,blue,Xcc 8004;ecoli,green,Ecoli. K12;pa14,yellow,PA14;ftn,black,FTN;aciad,red,ACIAD""")>
     <Argument("-i",
-        Description:="The csv data source file for drawing the venn diagram graph.",
-        Example:="/home/xieguigang/Desktop/genomes.csv")>
+        Description:="The csv data source file for drawing the venn diagram graph.")>
     <Argument("-t", True,
-        Description:="Optional, the venn diagram title text",
-        Example:="genome-compared")>
+        Description:="Optional, the venn diagram title text")>
     <Argument("-o", True,
         Description:="Optional, the saved file location for the venn diagram, if this switch value is not specific by the user then \n" &
-                     "the program will save the generated venn diagram to user desktop folder and using the file name of the input csv file as default.",
-        Example:="~/Desktop/xcc8004.tiff")>
+                     "the program will save the generated venn diagram to user desktop folder and using the file name of the input csv file as default.")>
     <Argument("-s", True, CLITypes.File,
         Description:="Optional, the profile settings for the partitions in the venn diagram, each partition profile data is\n " &
                      "in a key value paired like: name,color, and each partition profile pair is seperated by a ';' character.\n" &
                      "If this switch value is not specific by the user then the program will trying to parse the partition name\n" &
-                     "from the column values and apply for each partition a randomize color.",
-        Example:="Xcc8004,blue,Xcc 8004;ecoli,green,Ecoli. K12;pa14,yellow,PA14;ftn,black,FTN;aciad,red,ACIAD")>
+                     "from the column values and apply for each partition a randomize color.")>
     <Argument("-rbin", True,
         Description:="Optional, Set up the r bin path for drawing the venn diagram, if this switch value is not specific by the user then \n" &
                      "the program just output the venn diagram drawing R script file in a specific location, or if this switch \n" &
@@ -72,8 +68,7 @@ Public Module CLI
                      "file and R script for drawing the output venn diagram.\n" &
                      "This switch value is just for the windows user, when this program was running on a LINUX/UNIX/MAC platform operating \n" &
                      "system, you can ignore this switch value, but you should install the R program in your linux/MAC first if you wish to\n " &
-                     "get the venn diagram directly from this program.",
-        Example:="C:\\R\\bin\\")>
+                     "get the venn diagram directly from this program.")>
     <Group(Program.PlotTools)>
     Public Function VennDiagramA(args As CommandLine) As Integer
         Dim inds As String = args("-i")

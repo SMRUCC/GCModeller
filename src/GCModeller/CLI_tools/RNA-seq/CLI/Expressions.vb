@@ -51,8 +51,7 @@ Partial Module CLI
     <ExportAPI("/RPKM.Log2",
                Usage:="/RPKM.Log2 /in <RPKM.csv> /cond <conditions> [/out <out.csv>]")>
     <Argument("/cond", False,
-                   Description:="Syntax format as:  <experiment1>/<experiment2>|<experiment3>/<experiment4>|.....",
-                   Example:="colR1/xcb1|colR2/xcb2")>
+                   Description:="Syntax format as:  <experiment1>/<experiment2>|<experiment3>/<experiment4>|.....")>
     Public Function Log2(args As CommandLine) As Integer
         Dim inRPKM As String = args("/in")
         Dim out As String = args.GetValue("/out", inRPKM.TrimSuffix & ".log2.csv")

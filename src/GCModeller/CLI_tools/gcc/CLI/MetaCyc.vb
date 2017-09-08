@@ -49,11 +49,9 @@ Public Module CLI
         Usage:="compile_metacyc -i <data_dir> -o <output_file>",
         Example:="compile_metacyc -i ~/Documents/ecoli/ -o ~/Desktop/ecoli.xml")>
     <Argument("-i",
-        Description:="",
-        Example:="")>
+        Description:="")>
     <Argument("-o",
-        Description:="",
-        Example:="")>
+        Description:="")>
     Public Function CompileMetaCyc(CommandLine As Microsoft.VisualBasic.CommandLine.CommandLine) As Integer
         Dim input As String = CommandLine("-i")
         Dim output As String = CommandLine("-o")
@@ -110,9 +108,9 @@ Public Module CLI
     ''' 最后将拓展的新反应规则添加进入计算机模型之中
     ''' </remarks>
     <ExportAPI("-add_rule", Usage:="-add_rule -rulefile <path> -db <datadir> -model <path> [-grep <scriptText>]")>
-    <Argument("-rulefile", Description:="a file contains some protein interaction rules", Usage:="", Example:="")>
-    <Argument("-db", Description:="original database for the target compiled model", Usage:="", Example:="")>
-    <Argument("-model", Description:="Target model file for adding some new rules", Usage:="", Example:="")>
+    <Argument("-rulefile", Description:="a file contains some protein interaction rules", Usage:="")>
+    <Argument("-db", Description:="original database for the target compiled model", Usage:="")>
+    <Argument("-model", Description:="Target model file for adding some new rules", Usage:="")>
     <Argument("-grep", True, Description:="If null then the system will using the MeatCyc database unique-id parsing method as default.")>
     Public Function AddRule(CommandLine As Microsoft.VisualBasic.CommandLine.CommandLine) As Integer
         Dim MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder =
