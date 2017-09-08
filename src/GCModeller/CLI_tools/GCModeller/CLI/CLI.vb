@@ -114,15 +114,12 @@ Public Module CLI
     <Argument("-t", True,
         Description:="Optional, The target table name for export the data set, there is a option value for this switch: all." & vbCrLf &
                      " <name> - export the data in the specific name of the table;" & vbCrLf &
-                     " all - Default, export all of the table in the database, and at the mean time the -o switch value will be stand for the output directory of the exported csv files.",
-        Example:="all")>
+                     " all - Default, export all of the table in the database, and at the mean time the -o switch value will be stand for the output directory of the exported csv files.")>
     <Argument("-o", True,
         Description:="Optional, The path of the export csv file save, it can be a directory or a file path, depend on the value of the -t switch value." & vbCrLf &
-                    "Default is desktop directory and table name combination",
-        Example:="~/Desktop/")>
+                    "Default is desktop directory and table name combination")>
     <Argument("-mysql",
-        Description:="The mysql connection string for gc program connect to a specific mysql database server.",
-        Example:="http://localhost:8080/client?user=username%password=password%database=database")>
+        Description:="The mysql connection string for gc program connect to a specific mysql database server.")>
     Public Function ExportData(args As CommandLine) As Integer
         Dim Cnn As String = args("-mysql")  '获取与MySQL服务器的连接URL
         Dim Table As String = args("-t") '获取表名称
