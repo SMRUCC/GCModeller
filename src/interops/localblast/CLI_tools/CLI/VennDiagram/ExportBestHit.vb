@@ -56,8 +56,7 @@ Partial Module CLI
                Example:="")>
     <Argument("-i", False,
         Description:="Each file path in the filelist should be separated by a ""|"" character.",
-        Usage:="-i ""file_path1|file_path2|file_path3|...""",
-        Example:="")>
+        Usage:="-i ""file_path1|file_path2|file_path3|...""")>
     Public Function MergeBestHits(args As CommandLine) As Integer
         Dim FilePathList = args("-i").Split(CChar("|"))
         Dim Idx As Integer = Val(args("-osidx"))

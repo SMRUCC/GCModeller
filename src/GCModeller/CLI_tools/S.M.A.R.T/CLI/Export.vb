@@ -45,11 +45,9 @@ Partial Module CLI
     ''' <remarks></remarks>
     <ExportAPI("export", Info:="", Usage:="export -keyword <keyword_list> [-m <any/all>] -o <export_file> [-d <db_name> -casesense <T/F>]", Example:="")>
     <Argument("-d", False,
-        Description:="This switch value can be both a domain database name or a fasta file path.",
-        Example:="")>
+        Description:="This switch value can be both a domain database name or a fasta file path.")>
     <Argument("-keyword",
-        Description:="The keyword list will be use for the sequence record search, each keyword should seperated by comma character.",
-        Example:="HTH,GGDEF,Clp,REC")>
+        Description:="The keyword list will be use for the sequence record search, each keyword should seperated by comma character.")>
     Public Function Export(args As CommandLine) As Integer
         Dim Db As String = args("-d")
         Dim Keywords As String() = args("-keyword").Split(CChar(","))
@@ -127,8 +125,7 @@ Partial Module CLI
                      "   Example: tokens | 3" &
                      " match - match a gene id using a specific pattern regular expression.\n" &
                      "   usage:   match <regular_expression>\n" &
-                     "   Example: match .+[-]\d{5}",
-        Example:="'tokens | 5';'match .+[-].+'")>
+                     "   Example: match .+[-]\d{5}")>
     <Argument("-h", False,
         Description:="The parsing script for parsing the gene_id from the blast log file, this switch value is consist of sevral operation " &
                      "tokens, and each token is separate by the ';' character and the token unit in each script token should seperate by " &
@@ -140,8 +137,7 @@ Partial Module CLI
                      "   Example: tokens | 3" &
                      " match - match a gene id using a specific pattern regular expression.\n" &
                      "   usage:   match <regular_expression>\n" &
-                     "   Example: match .+[-]\d{5}",
-        Example:="'tokens | 5';'match .+[-].+'")>
+                     "   Example: match .+[-]\d{5}")>
     Public Function Grep(args As CommandLine) As Integer
         Dim GrepScriptQuery As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args("-q"))
         Dim GrepScriptHit As TextGrepScriptEngine = TextGrepScriptEngine.Compile(args("-h"))

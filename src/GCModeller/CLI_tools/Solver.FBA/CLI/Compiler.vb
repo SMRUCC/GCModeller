@@ -28,9 +28,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.Model.SBML.Level2.Elements
@@ -41,29 +39,23 @@ Partial Module CLI
         Usage:="compile -i <input_file> -o <output_file>[ -if <sbml/metacyc> -of <fba/fba2> -f <objective_function> -d <max/min>]",
         Example:="compile -i /home/xieguigang/ecoli/ -o /home/xieguigang/ecoli.xml -if metacyc -of fba2 -f v2+v3 -d max")>
     <Argument("-i", False,
-        Description:="The input datasource path of the compiled model, it can be a MetaCyc data directory or a xml file in sbml format, format was specific by the value of switch '-if'",
-        Example:="/home/xieguigang/ecoli/")>
+        Description:="The input datasource path of the compiled model, it can be a MetaCyc data directory or a xml file in sbml format, format was specific by the value of switch '-if'")>
     <Argument("-o", False,
-        Description:="The output file path of the compiled model file.",
-        Example:="/home/xieguigang/ecoli.xml")>
+        Description:="The output file path of the compiled model file.")>
     <Argument("-if", True,
         Description:="Optional, this switch specific the format of the input data source, the fba compiler just support the metacyc database and sbml model currently, default value if metacyc." & vbCrLf &
                                  " metacyc - the input compiled data source is a metacyc database;" & vbCrLf &
-                                 "sbml - the input compiled data source is a standard sbml language model in level 2.",
-        Example:="metacyc")>
+                                 "sbml - the input compiled data source is a standard sbml language model in level 2.")>
     <Argument("-of", True,
         Description:="Optional, this switch specific the format of the output compiled model, it can be a standard fba model or a advanced version of fba model, defualt is a standard fba model." & vbCrLf &
                                  " fba - the output compiled model is a standard fba model;" & vbCrLf &
-                                 "fba2 - the output compiled model is a advanced version of fba model.",
-        Example:="fba2")>
+                                 "fba2 - the output compiled model is a advanced version of fba model.")>
     <Argument("-f", True,
-        Description:="Optional, you can specific the objective function using this switch, default value is the objective function that define in the sbml model file.",
-        Example:="v2+v3")>
+        Description:="Optional, you can specific the objective function using this switch, default value is the objective function that define in the sbml model file.")>
     <Argument("-d", True,
         Description:="Optional, the constraint direction of the objective function in the fba model, default value is maximum the objective function." & vbCrLf &
                                  " max - the constraint direction is maximum;" & vbCrLf &
-                                 " min - the constraint direction is minimum.",
-        Example:="max")>
+                                 " min - the constraint direction is minimum.")>
     Public Function Compile(CommandLine As CommandLine) As Integer
         Dim DataSourceFomat As String = CommandLine("-if")
 
