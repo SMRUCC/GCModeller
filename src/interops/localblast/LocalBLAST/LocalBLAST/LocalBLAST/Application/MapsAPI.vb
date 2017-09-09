@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::af5a6f9b8b99de130323ec0ba0c7c7a3, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\MapsAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -51,7 +51,7 @@ Namespace LocalBLAST.Application
         Public Function Where(full As Boolean,
                               perfect As Boolean,
                               unique As Boolean,
-                              Optional identities As Double = 0.9,
+                              Optional identities# = 0.9,
                               Optional logics As Logics = Logics.OrElse) As Func(Of BlastnMapping, Boolean)
 
             Dim tests As New List(Of Func(Of BlastnMapping, Boolean))
@@ -82,12 +82,16 @@ Namespace LocalBLAST.Application
         ''' 
         <Extension>
         Public Function CreateObject(Query As Query) As BlastnMapping()
-            Dim LQuery As BlastnMapping() =
-                LinqAPI.Exec(Of BlastnMapping) <= From hitMapping As SubjectHit
-                                                  In Query.SubjectHits
-                                                  Let blastnHitMapping As BlastnHit = DirectCast(hitMapping, BlastnHit)
-                                                  Select __createObject(Query, blastnHitMapping)
-            Call __setUnique(LQuery)
+            Dim LQuery As BlastnMapping() = LinqAPI.Exec(Of BlastnMapping) _
+ _
+                () <= From hitMapping As SubjectHit
+                      In Query.SubjectHits
+                      Let blastnHitMapping As BlastnHit = DirectCast(hitMapping, BlastnHit)
+                      Let result = Query.__createObject(blastnHitMapping)
+                      Select result
+
+            Call LQuery.__setUnique
+
             Return LQuery
         End Function
 
@@ -100,15 +104,15 @@ Namespace LocalBLAST.Application
         ''' </summary>
         ''' <param name="data"></param>
         ''' <returns></returns>
-        Private Function __setUnique(ByRef data As BlastnMapping()) As Boolean
+        <Extension> Private Function __setUnique(ByRef data As BlastnMapping()) As Boolean
             If data.Length = 1 Then
                 data(Scan0).Unique = True
                 Return True
             End If
 
-            Dim perfects = (From row As BlastnMapping In data
-                            Where row.PerfectAlignment
-                            Select row).ToArray
+            Dim perfects = data _
+                .Where(Function(x) x.PerfectAlignment) _
+                .ToArray
 
             For i As Integer = 0 To data.Length - 1
                 data(i).Unique = False
@@ -130,9 +134,9 @@ Namespace LocalBLAST.Application
         ''' <param name="Query"></param>
         ''' <param name="hitMapping"></param>
         ''' <returns></returns>
-        Private Function __createObject(Query As Query, hitMapping As BlastnHit) As BlastnMapping
+        <Extension> Private Function __createObject(query As Query, hitMapping As BlastnHit) As BlastnMapping
             Dim MappingView As New BlastnMapping With {
-                .ReadQuery = Query.QueryName,
+                .ReadQuery = query.QueryName,
                 .Reference = hitMapping.Name,
                 .Evalue = hitMapping.Score.Expect,
                 .Gaps = hitMapping.Score.Gaps.Value * 100,
@@ -146,7 +150,7 @@ Namespace LocalBLAST.Application
                 .ReferenceLeft = hitMapping.SubjectLocation.Left,
                 .ReferenceRight = hitMapping.SubjectLocation.Right,
                 .Strand = hitMapping.Strand,
-                .QueryLength = Query.QueryLength
+                .QueryLength = query.QueryLength
             }         '.EffectiveSearchSpaceUsed = Query.EffectiveSearchSpace,
             '.H = Query.p.H,
             '.H_Gapped = Query.Gapped.H,

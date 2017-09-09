@@ -41,13 +41,13 @@ Public Module Extensions
     ''' </summary>
     ''' <param name="path">The file path of the blast output result text file.</param>
     ''' <returns></returns>
-    Public Function IsAvailable(path As String) As Boolean
+    Public Function IsAvailable(path$) As Boolean
         If Not path.FileExists Then
             Return False
         End If
 
         Dim i As Integer
-        Dim last As String = Tails(path, 2048)
+        Dim last As String = path.Tails(2048)
 
         For Each word As String In __ends
             If InStr(last, word, CompareMethod.Text) > 0 Then
@@ -78,6 +78,8 @@ Public Module Extensions
         Return notNull Is Nothing
     End Function
 
+    Public Const FastaIsNotProtein$ = "Target fasta sequence file is not a protein sequence data file!"
+
     ''' <summary>
     ''' Invoke the blastp search for the target protein fasta sequence.(对目标蛋白质序列进行Blastp搜索)
     ''' </summary>
@@ -92,7 +94,7 @@ Public Module Extensions
                                              Optional ByRef Blastbin As LocalBLAST.InteropService.InteropService = Nothing) As BlastPlus.v228
 
         If Not Query.IsProtSource Then
-            Call VBDebugger.PrintException("Target fasta sequence file is not a protein sequence data file!")
+            Call VBDebugger.PrintException(FastaIsNotProtein)
             Return Nothing
         End If
 

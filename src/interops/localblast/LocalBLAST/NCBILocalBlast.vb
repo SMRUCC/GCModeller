@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::b40f079d8ab90a254ecddab99c520b6f, ..\interops\localblast\LocalBLAST\NCBILocalBlast.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -34,13 +35,13 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel.Threads
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Text.Similarity
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports SMRUCC.genomics.Assembly.Expasy.Database
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.SequenceModel
+Imports r = System.Text.RegularExpressions.Regex
 
 ''' <summary>
 ''' ShoalShell API interface for ncbi localblast operations.
@@ -55,38 +56,36 @@ Public Module NCBILocalBlast
     ''' 进行快速的字符串匹配
     ''' </summary>
     ''' <param name="query"></param>
-    ''' <param name="BlastOUTPUT"></param>
+    ''' <param name="path">The file path of the blast output result in plant text format</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function FastCheckIntegrityProvider(query As FASTA.FastaFile, BlastOUTPUT As String) As Boolean
-        If Not FileIO.FileSystem.FileExists(BlastOUTPUT) Then
+    <Extension> Public Function FastCheckIntegrityProvider(query As FASTA.FastaFile, path$) As Boolean
+        Dim queries$() = LinqAPI.Exec(Of String) _
+ _
+            () <= From line As String
+                  In path.IterateAllLines
+                  Let entry As String = r.Match(line, "Query\s*=\s*.+").Value
+                  Where Not String.IsNullOrEmpty(entry)
+                  Select r.Replace(entry, "Query\s*=\s*", "").Trim
+
+        If queries.Length <> query.NumberOfFasta Then
             Return False
         End If
 
-        Dim Queries As String() =
-            LinqAPI.Exec(Of String) <= From strLine As String
-                                       In BlastOUTPUT.ReadAllLines()
-                                       Let Entry As String =
-                                           Regex.Match(strLine, "Query\s*=\s*.+").Value
-                                       Where Not String.IsNullOrEmpty(Entry)
-                                       Select Regex.Replace(Entry, "Query\s*=\s*", "").Trim
+        Dim isIntegrity = From fa As FASTA.FastaToken
+                          In query
+                          Let InternalIntegrityCheck As Boolean = fa.__integrity(queries)
+                          Where Not InternalIntegrityCheck
+                          Select InternalIntegrityCheck
 
-        If Queries.Length <> query.NumberOfFasta Then
-            Return False
-        End If
-
-        Dim CompareLQuery = (From fa As FASTA.FastaToken
-                             In query
-                             Let InternalIntegrity As Boolean = __integrity(fa, Queries)
-                             Where Not InternalIntegrity
-                             Select InternalIntegrity).ToArray
-        Return CompareLQuery.IsNullOrEmpty
+        Return isIntegrity.IsNullOrEmpty
     End Function
 
-    Private Function __integrity(Fasta As FASTA.FastaToken, Queries As String()) As Boolean
+    <Extension>
+    Private Function __integrity(Fasta As FASTA.FastaToken, queries$()) As Boolean
         Dim Title As String = Fasta.Title
         Dim GetLQuery = (From Query As String
-                         In Queries
+                         In queries
                          Where FuzzyMatching(Title, Query)
                          Select Query).FirstOrDefault
         Return Not String.IsNullOrEmpty(GetLQuery)
@@ -103,12 +102,11 @@ Public Module NCBILocalBlast
     ''' Write the blast output data as a Xml data file.
     ''' </summary>
     ''' <param name="data"></param>
-    ''' <param name="SaveTo">The file path of the blast output xml data will be saved.</param>
+    ''' <param name="saveTo">The file path of the blast output xml data will be saved.</param>
     ''' <returns></returns>
     <ExportAPI("Write.Xml.Blast_Output", Info:="Write the blast output data as a Xml data file.")>
-    Public Function SaveBlastOutput(data As IBlastOutput,
-                                    <Parameter("Path.SaveTo", "The file path of the blast output xml data will be saved.")> SaveTo As String) As Boolean
-        Return data.Save(SaveTo, Encodings.UTF8)
+    Public Function SaveBlastOutput(data As IBlastOutput, <Parameter("Path.SaveTo", "The file path of the blast output xml data will be saved.")> saveTo$) As Boolean
+        Return data.Save(saveTo, Encodings.UTF8)
     End Function
 
     <ExportAPI("Blast.Version()", Info:="Returns the blast program version.")>
@@ -118,7 +116,7 @@ Public Module NCBILocalBlast
                             "   ----> {0}" & vbCrLf &
                             "   ----> version {1}"
         Call Console.WriteLine(str, Handle.BlastBin.ToFileURL, ver)
-        ver = Regex.Match(ver, "\d+\.\d+\.\d+").Value
+        ver = r.Match(ver, "\d+\.\d+\.\d+").Value
         Return ver
     End Function
 
