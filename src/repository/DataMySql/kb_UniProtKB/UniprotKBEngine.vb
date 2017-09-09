@@ -28,6 +28,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Oracle.LinuxCompatibility.MySQL
+Imports Oracle.LinuxCompatibility.MySQL.Reflection.Schema
 Imports mysqli = Oracle.LinuxCompatibility.MySQL.MySQL
 
 Namespace kb_UniProtKB
@@ -36,6 +37,12 @@ Namespace kb_UniProtKB
     ''' 使用Uniprot的mysql知识库进行蛋白注释的获取的引擎
     ''' </summary>
     Public Module UniprotKBEngine
+
+        ''' <summary>
+        ''' ``kb_uniprotkb``
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property DbName As String = New Table(GetType(mysql.hash_table)).Database
 
         ''' <summary>
         ''' 获取得到哈希码，然后应用于快读的查询其他的蛋白数据
