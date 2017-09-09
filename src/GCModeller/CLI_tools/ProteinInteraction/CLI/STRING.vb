@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11ee25245f6db3496c01c4734430c1fa, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\STRING.vb"
+﻿#Region "Microsoft.VisualBasic::a92898b364682b025f2dab5366b10f91, ..\CLI_tools\ProteinInteraction\CLI\STRING.vb"
 
     ' Author:
     ' 
@@ -144,4 +144,3 @@ Partial Module CLI
         Return net.Save(out).CLICode
     End Function
 End Module
-

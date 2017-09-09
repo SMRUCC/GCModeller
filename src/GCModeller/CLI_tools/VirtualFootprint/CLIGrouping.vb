@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c9e0d838cd0dc088bdbd1aee357ceb00, ..\GCModeller\CLI_tools\VirtualFootprint\CLIGrouping.vb"
+﻿#Region "Microsoft.VisualBasic::6e4d9ae905f5c0488d06bd2a604597b5, ..\CLI_tools\VirtualFootprint\CLIGrouping.vb"
 
     ' Author:
     ' 
@@ -32,4 +32,3 @@ Public Class CLIGrouping
     Public Const TFRegulonTools As String = "TF/Regulon tools"
 
 End Class
-

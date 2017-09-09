@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad6473c47315e4c877941665a8588c98, ..\GCModeller\CLI_tools\c2\WGCNAWeight.vb"
+﻿#Region "Microsoft.VisualBasic::ad6473c47315e4c877941665a8588c98, ..\CLI_tools\c2\WGCNAWeight.vb"
 
     ' Author:
     ' 

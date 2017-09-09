@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2b5891f5256724319afe1091d0a8bcd, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\GenomeWildRandomParser.vb"
+﻿#Region "Microsoft.VisualBasic::a2b5891f5256724319afe1091d0a8bcd, ..\CLI_tools\c2\Workflows\RegulationNetwork\GenomeWildRandomParser.vb"
 
     ' Author:
     ' 
