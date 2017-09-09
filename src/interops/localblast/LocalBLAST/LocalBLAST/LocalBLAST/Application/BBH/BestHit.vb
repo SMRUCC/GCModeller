@@ -30,6 +30,12 @@ Namespace LocalBLAST.Application.BBH
             End Get
         End Property
 
+        Public ReadOnly Property SBHScore As Double
+            Get
+                Return BBHParser.SBHScore(Me)
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return String.Format("{0} --> {1}; E-value:={2}", QueryName, HitName, evalue)
         End Function

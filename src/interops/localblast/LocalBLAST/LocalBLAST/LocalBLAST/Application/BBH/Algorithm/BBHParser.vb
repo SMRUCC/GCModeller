@@ -136,15 +136,24 @@ Namespace LocalBLAST.Application.BBH
         ''' <param name="hits">假设这里面的hits都是通过了cutoff了的数据</param>
         ''' <returns></returns>
         <Extension> Public Function TopHit(hits As IEnumerable(Of BestHit)) As BestHit
-            Dim LQuery = (From x As BestHit
-                          In hits
-                          Select x,
-                              score = x.identities + x.coverage
-                          Order By score Descending).First.x
+            Dim LQuery = LinqAPI.DefaultFirst(Of BestHit) _
+ _
+                () <= From x As BestHit
+                      In hits
+                      Select x
+                      Order By x.SBHScore Descending
+
             Return LQuery
         End Function
 
-        Private Function __generateBBH(hits As String(), Id As String, row As LocalBLAST.Application.BBH.BestHit) As BiDirectionalBesthit
+        <Extension>
+        Public Function SBHScore(hit As BestHit) As Double
+            Dim E# = If(hit.evalue = 0R, Double.MaxValue - 100, -Math.Log10(hit.evalue))
+            Dim score# = (hit.identities * hit.coverage) * E
+            Return score
+        End Function
+
+        Private Function __generateBBH(hits As String(), Id As String, row As BestHit) As BiDirectionalBesthit
             If Array.IndexOf(hits, Id) > -1 Then _
                 Return New BiDirectionalBesthit With {  ' 可以双向匹配
                     .QueryName = row.QueryName,
