@@ -364,13 +364,13 @@ Namespace kb_UniProtKB
                     Yield New NamedValue(Of MySQLTable) With {
                         .Name = NameOf(mysql.gene_info),
                         .Value = New mysql.gene_info With {
-                            .gene_name = gene.Primary?.FirstOrDefault,
+                            .gene_name = gene.Primary?.FirstOrDefault.MySqlEscaping,
                             .hash_code = hashcode,
-                            .ORF = gene.ORF?.FirstOrDefault,
+                            .ORF = gene.ORF?.FirstOrDefault.MySqlEscaping,
                             .uniprot_id = uniprotID,
-                            .synonym1 = synNames.ElementAtOrDefault(0),
-                            .synonym2 = synNames.ElementAtOrDefault(1),
-                            .synonym3 = synNames.ElementAtOrDefault(2)
+                            .synonym1 = synNames.ElementAtOrDefault(0).MySqlEscaping,
+                            .synonym2 = synNames.ElementAtOrDefault(1).MySqlEscaping,
+                            .synonym3 = synNames.ElementAtOrDefault(2).MySqlEscaping
                         }
                     }
                 End If
