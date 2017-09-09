@@ -409,6 +409,31 @@ Namespace My.Resources
         
         '''<summary>
         '''  查找类似 +D	KO
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; KEGG Orthology (KO) - All Categories&lt;/h2&gt;
+        '''#&lt;!---
+        '''#ENTRY       ko00000
+        '''#NAME        KO_all
+        '''#DEFINITION  KEGG Orthology (KO) - all categories
+        '''#---&gt;
+        '''!
+        '''A09100 Metabolism
+        '''B
+        '''B  09101 Carbohydrate metabolism
+        '''C    00010 Glycolysis / Gluconeogenesis [PATH:ko00010]
+        '''D      K00844  HK; hexokinase
+        '''D      K12407  GCK; glucokinase
+        '''D      K00845  glk; glucokinase
+        '''D      K01810  GPI, pgi; glucose-6-phosphate isomerase
+        '''D  [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        '''</summary>
+        Friend ReadOnly Property ko00000() As String
+            Get
+                Return ResourceManager.GetString("ko00000", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  查找类似 +D	KO
         '''#&lt;h2&gt;&lt;a href=&quot;/kegg/kegg2.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; KEGG Orthology (KO)&lt;/h2&gt;
         '''#&lt;!---
         '''#ENTRY       ko00001

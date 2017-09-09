@@ -103,6 +103,16 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             End Get
         End Property
 
+        Public Function GetRoot() As BriteHText
+            Dim parent As BriteHText = Me.Parent
+
+            Do While Not parent.Parent Is Nothing
+                parent = parent.Parent
+            Loop
+
+            Return parent
+        End Function
+
         ''' <summary>
         ''' 查找不到会返回空值
         ''' </summary>

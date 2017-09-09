@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 ''' <summary>
 ''' 绘制差异表达蛋白或者基因的``log2FC``对KO分类的热图作图
@@ -34,6 +35,7 @@ Public Module DEPsKOHeatmap
                          Optional bg$ = "white",
                          Optional schema$ = ColorBrewer.QualitativeSchemes.Paired6,
                          Optional title$ = "KEGG KO log2FC heatmap") As GraphicsData
+
         Dim groupClassColor = groupInfo.ToDictionary(
             Function(x) x.Key,
             Function(x) groupColors(x.Value).ToHtmlColor)
@@ -51,6 +53,27 @@ Public Module DEPsKOHeatmap
     ''' <returns></returns>
     <Extension>
     Public Function ColorKO(koInfo As Dictionary(Of String, String), KOcolor As Dictionary(Of String, Color)) As Dictionary(Of String, String)
+        Dim ko00000 As Dictionary(Of String, BriteHText()) = KOCatalog.ko00000
+        Dim colors = koInfo.ToDictionary(
+            Function(x) x.Key,
+            Function(KO)
+                Return KO _
+                    .KOColor(ko00000, KOcolor) _
+                    .ToHtmlColor
+            End Function)
+        Return colors
+    End Function
 
+    <Extension>
+    Private Function KOColor(KO As KeyValuePair(Of String, String),
+                             ko00000 As Dictionary(Of String, BriteHText()),
+                             colors As Dictionary(Of String, Color)) As Color
+
+        Dim [class] = ko00000(KO.Value) _
+            .Select(Function(h) h.GetRoot.ClassLabel) _
+            .ToArray
+        Dim allColors = [class].Select(Function(c) colors(c))
+        Dim average As Color = allColors.Average
+        Return average
     End Function
 End Module
