@@ -436,7 +436,7 @@ Namespace kb_UniProtKB
                                 .SafeQuery
                             Select New mysql.research_jobs With {
                                 .literature_id = jobID,
-                                .literature_title = cite.title,
+                                .literature_title = cite.title.MySqlEscaping,
                                 .people_name = people.name.MySqlEscaping,
                                 .person = peoples(.people_name)' .uid
                             }
