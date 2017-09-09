@@ -236,6 +236,10 @@
       <Project>{2DD4BE80-DDC3-4767-94A7-10F1C3395716}</Project>
       <Name>mime-htmls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\workbench\ExperimentDesigner\ExperimentDesigner.vbproj">
+      <Project>{fce39d85-b8c5-490c-b330-79ff3a5bfa27}</Project>
+      <Name>ExperimentDesigner</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\analysis\Microarray\Microarray.vbproj">
       <Project>{64384E97-D1C6-410C-BFF7-43392D994050}</Project>
       <Name>Microarray</Name>
