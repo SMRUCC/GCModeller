@@ -43,6 +43,9 @@ Imports Microsoft.VisualBasic.Text
 <ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
 <CLI> Public Module CLI
 
+    Const Config_CLI$ = "GCModeller configuration CLI tool"
+    Const Dev_CLI$ = "GCModeller development helper CLI"
+
     Sub New()
         Settings.Session.Initialize()
     End Sub
@@ -53,6 +56,7 @@ Imports Microsoft.VisualBasic.Text
     <Argument("<varName>", False, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The variable name in the GCModeller configuration file.")>
+    <Group(CLI.Config_CLI)>
     Public Function [Set](args As CommandLine) As Integer
         Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
             Dim params As String() = args.Parameters
@@ -73,6 +77,7 @@ Imports Microsoft.VisualBasic.Text
     <Argument("/value", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument is presented, then this settings program will only output the variable value, otherwise will output data in format: key = value")>
+    <Group(CLI.Config_CLI)>
     Public Function ViewVar(args As CommandLine) As Integer
         Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
 
@@ -109,8 +114,13 @@ Imports Microsoft.VisualBasic.Text
     <ExportAPI("/set.mysql")>
     <Description("Setting up the mysql connection parameters")>
     <Usage("/set.mysql")>
+    <Group(CLI.Config_CLI)>
     Public Function SetMySQL(args As CommandLine) As Integer
         Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
+            Call mysqli.RunConfig(
+                Sub(uri)
+                    MySQLExtensions.MySQL = uri
+                End Sub)
 
             Return 0
         End Using
@@ -124,6 +134,7 @@ Imports Microsoft.VisualBasic.Text
     <Argument("/out", True, CLITypes.File,
               AcceptTypes:={GetType(String)},
               Description:="The generated VisualBasic source file output directory location.")>
+    <Group(CLI.Dev_CLI)>
     Public Function CLIDevelopment(args As CommandLine) As Integer
         Dim out$ = args.GetValue("/out", "./Apps/")
         Dim CLI As New Value(Of Type)
