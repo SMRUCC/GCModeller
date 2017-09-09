@@ -25,6 +25,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -48,6 +49,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
     <ExportAPI("Set", Info:="Setting up the configuration data node.",
                Usage:="Set <varName> <value>",
                Example:="Set java /usr/lib/java/java.bin")>
+    <Argument("<varName>", False, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The variable name in the GCModeller configuration file.")>
     Public Function [Set](args As CommandLine) As Integer
         Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
             Dim params As String() = args.Parameters
@@ -63,7 +67,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
     <ExportAPI("var", Info:="Gets the settings value.",
                Usage:="var [varName]",
                Example:="")>
-    <Argument("[VarName]", True,
+    <Argument("[VarName]", True, CLITypes.String,
               Description:="If this value is null, then the program will prints all of the variables in the gcmodeller config file or when the variable is presents in the database, only the config value of the specific variable will be display.")>
     Public Function Var(args As CommandLine) As Integer
         Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
@@ -80,9 +84,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
     Const GCModellerApps$ = NameOf(GCModellerApps)
 
-    <ExportAPI("/dev",
-               Info:="Generates Apps CLI visualbasic reference source code.",
-               Usage:="/dev [/out <DIR>]")>
+    <ExportAPI("/dev")>
+    <Description("Generates Apps CLI visualbasic reference source code.")>
+    <Usage("/dev [/out <DIR>]")>
     Public Function CLIDevelopment(args As CommandLine) As Integer
         Dim out$ = args.GetValue("/out", "./Apps/")
         Dim CLI As New Value(Of Type)
