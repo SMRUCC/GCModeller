@@ -83,8 +83,28 @@ Namespace ComponentModel.Collection
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
+        Sub New(source As IEnumerable(Of T))
+            list = source.ToList
+            list.Sort()
+        End Sub
+
         Public Overridable Sub Enqueue(queueItem As T)
             Call list.Add(queueItem)
+            Call list.Sort()
+        End Sub
+
+        ''' <summary>
+        ''' Add without sort
+        ''' </summary>
+        ''' <param name="x"></param>
+        Public Sub Add(x As T)
+            Call list.Add(x)
+        End Sub
+
+        Public Sub Sort()
             Call list.Sort()
         End Sub
 

@@ -5,25 +5,22 @@ Namespace Hierarchy
 
     Public Class HierarchyLink : Implements IComparable, IComparable(Of HierarchyLink), IReadOnlyId
 
-        Private ReadOnly outerInstance As DistanceMap
+        Public ReadOnly Tree As HierarchyTreeNode
+        Public ReadOnly Property HashKey As String Implements IReadOnlyId.Identity
 
-        Friend ReadOnly pair As HierarchyTreeNode
         Friend removed As Boolean = False
 
-        Public ReadOnly Property hash As String Implements IReadOnlyId.Identity
-
-        Friend Sub New(outerInstance As DistanceMap, p As HierarchyTreeNode)
-            Me.outerInstance = outerInstance
-            pair = p
-            hash = p.hashCodePair
+        Sub New(p As HierarchyTreeNode)
+            Tree = p
+            HashKey = p.hashCodePair
         End Sub
 
         Public Function compareTo(o As HierarchyLink) As Integer Implements IComparable(Of HierarchyLink).CompareTo
-            Return pair.compareTo(o.pair)
+            Return Tree.compareTo(o.Tree)
         End Function
 
         Public Overrides Function ToString() As String
-            Return hash
+            Return HashKey
         End Function
 
         Private Function __compareTo(obj As Object) As Integer Implements IComparable.CompareTo
@@ -37,7 +34,7 @@ Namespace Hierarchy
         ''' Compute some kind of unique ID for a given cluster pair. </summary>
         ''' <returns> The ID </returns>
         <Extension> Public Function hashCodePair(link As HierarchyTreeNode) As String
-            Return hashCodePair(link.lCluster(), link.rCluster())
+            Return hashCodePair(link.Left(), link.Right())
         End Function
 
         Public Function hashCodePair(lCluster As Cluster, rCluster As Cluster) As String

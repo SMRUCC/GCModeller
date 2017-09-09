@@ -63,13 +63,28 @@ Namespace Hierarchy
 
         Const NoRoot$ = "No root available"
 
+        ''' <summary>
+        ''' Gets the root cluster of the hierarchy tree
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property RootCluster As Cluster
             Get
                 If Not TreeComplete Then
                     Throw New EvaluateException(NoRoot)
                 Else
-                    Return Clusters(0)
+                    Return Me.First
                 End If
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' The first element in this <see cref="HierarchyBuilder"/>, 
+        ''' if <see cref="TreeComplete"/> then this first element is the root cluster.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property First As Cluster
+            Get
+                Return Clusters(Scan0)
             End Get
         End Property
 
@@ -84,7 +99,7 @@ Namespace Hierarchy
         ''' <param name="threshold">
         ''' @return </param>
         Public Function flatAgg(linkageStrategy As LinkageStrategy, threshold As Double) As IList(Of Cluster)
-            Do While ((Not TreeComplete)) AndAlso (Distances.minDist() <= threshold)
+            Do While ((Not TreeComplete)) AndAlso (Distances.MinimalDistance() <= threshold)
                 'System.out.println("Cluster Distances: " + distances.toString());
                 'System.out.println("Cluster Size: " + clusters.size());
                 Agglomerate(linkageStrategy)
@@ -102,22 +117,20 @@ Namespace Hierarchy
         Public Sub Agglomerate(linkageStrategy As LinkageStrategy)
             Dim minDistLink As HierarchyTreeNode = Distances.RemoveFirst()
 
-            If minDistLink Is Nothing Then Return
+            If minDistLink Is Nothing Then
+                Return
+            End If
 
-            Clusters.Remove(minDistLink.rCluster())
-            Clusters.Remove(minDistLink.lCluster())
+            Clusters.Remove(minDistLink.Right())
+            Clusters.Remove(minDistLink.Left())
 
-            Dim oldClusterL As Cluster = minDistLink.lCluster()
-            Dim oldClusterR As Cluster = minDistLink.rCluster()
+            Dim oldClusterL As Cluster = minDistLink.Left()
+            Dim oldClusterR As Cluster = minDistLink.Right()
             Dim newCluster As Cluster = minDistLink.Agglomerate(Nothing)
 
             For Each iClust As Cluster In Clusters
                 Dim link1 As HierarchyTreeNode = findByClusters(iClust, oldClusterL)
                 Dim link2 As HierarchyTreeNode = findByClusters(iClust, oldClusterR)
-                Dim newLinkage As New HierarchyTreeNode With {
-                    .lCluster = iClust,
-                    .rCluster = newCluster
-                }
                 Dim distanceValues As New List(Of Distance)
 
                 If link1 IsNot Nothing Then
@@ -134,12 +147,18 @@ Namespace Hierarchy
                     Distances.Remove(link2)
                 End If
 
-                Dim newDistance As Distance = linkageStrategy.CalculateDistance(distanceValues)
+                Dim newLinkage As New HierarchyTreeNode With {
+                    .Left = iClust,
+                    .Right = newCluster,
+                    .LinkageDistance = linkageStrategy _
+                        .CalculateDistance(distanceValues) _
+                        .Distance
+                }
 
-                newLinkage.LinkageDistance = newDistance.Distance
-                Distances.Add(newLinkage)
+                Call Distances.Add(newLinkage, direct:=True)
             Next
 
+            Call Distances.Sort()
             Call Clusters.Add(newCluster)
         End Sub
 
