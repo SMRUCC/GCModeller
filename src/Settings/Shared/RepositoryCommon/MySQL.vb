@@ -47,7 +47,9 @@ Module MySQLExtensions
     End Property
 
     Sub New()
-        Call Settings.Session.Initialize()
+        If Not Settings.Session.Initialized Then
+            Call Settings.Session.Initialize()
+        End If
     End Sub
 
     ''' <summary>
