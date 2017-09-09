@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 
 <Package("GCModeller.Configuration.CLI",
                   Category:=APICategories.CLI_MAN,
@@ -65,17 +66,40 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
     End Function
 
     <ExportAPI("var", Info:="Gets the settings value.",
-               Usage:="var [varName]",
+               Usage:="var [varName] [/value]",
                Example:="")>
     <Argument("[VarName]", True, CLITypes.String,
               Description:="If this value is null, then the program will prints all of the variables in the gcmodeller config file or when the variable is presents in the database, only the config value of the specific variable will be display.")>
-    Public Function Var(args As CommandLine) As Integer
+    <Argument("/value", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this argument is presented, then this settings program will only output the variable value, otherwise will output data in format: key = value")>
+    Public Function ViewVar(args As CommandLine) As Integer
         Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
-            If args.Parameters.Length = 0 Then 'list all setting items
+
+            ' list all setting items
+            If args.Parameters.Length = 0 Then
                 Call Console.WriteLine(Settings.View)
+                Call Console.WriteLine()
+                Call Console.Write($"  Read from {Settings.FilePath.GetFullPath}")
             Else
                 Dim x As String = args.Parameters.First
-                Call Console.WriteLine(Settings.View(x))
+                Dim value = Settings.View(x)
+
+                If Not args.Parameters _
+                    .Where(Function(s) s.TextEquals("/value")) _
+                    .FirstOrDefault _
+                    .StringEmpty Then
+
+                    With value.GetTagValue("=") _
+                        .Value _
+                        .Trim(ASCII.Quot, " "c)
+
+                        Call Console.Write(.ref)
+                    End With
+                Else
+                    Call Console.WriteLine()
+                    Call Console.Write("   " & value)
+                End If
             End If
 
             Return 0
@@ -87,6 +111,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
     <ExportAPI("/dev")>
     <Description("Generates Apps CLI visualbasic reference source code.")>
     <Usage("/dev [/out <DIR>]")>
+    <Argument("/out", True, CLITypes.File,
+              AcceptTypes:={GetType(String)},
+              Description:="The generated VisualBasic source file output directory location.")>
     Public Function CLIDevelopment(args As CommandLine) As Integer
         Dim out$ = args.GetValue("/out", "./Apps/")
         Dim CLI As New Value(Of Type)
