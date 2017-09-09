@@ -69,7 +69,7 @@ CREATE TABLE `taxonomy2protein` (
   PRIMARY KEY (`protein_ac`,`tax_id`),
   CONSTRAINT `fk_taxonomy2protein$p` FOREIGN KEY (`protein_ac`) REFERENCES `protein` (`protein_ac`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class taxonomy2protein: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class taxonomy2protein: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("protein_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "6")> Public Property protein_ac As String
     <DatabaseField("tax_id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "15")> Public Property tax_id As Long

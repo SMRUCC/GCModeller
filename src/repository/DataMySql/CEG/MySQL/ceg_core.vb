@@ -89,7 +89,7 @@ CREATE TABLE `ceg_core` (
   PRIMARY KEY (`gid`),
   FULLTEXT KEY `gid` (`gid`,`access_num`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7687 DEFAULT CHARSET=gb2312;")>
-Public Class ceg_core: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class ceg_core: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("access_num"), DataType(MySqlDbType.VarChar, "50")> Public Property access_num As String
     <DatabaseField("gid"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "25")> Public Property gid As String

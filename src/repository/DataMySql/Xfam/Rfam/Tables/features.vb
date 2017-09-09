@@ -75,7 +75,7 @@ CREATE TABLE `features` (
   `quaternary_id` varchar(150) DEFAULT NULL,
   KEY `fk_features_rfamseq1_idx` (`rfamseq_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class features: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class features: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfamseq_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "20")> Public Property rfamseq_acc As String
     <DatabaseField("database_id"), NotNull, DataType(MySqlDbType.VarChar, "50")> Public Property database_id As String

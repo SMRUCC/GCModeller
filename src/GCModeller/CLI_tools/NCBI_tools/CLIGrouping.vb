@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fd1e3bd0a28eebacec20c2af0f8c790, ..\GCModeller\CLI_tools\NCBI_tools\CLIGrouping.vb"
+﻿#Region "Microsoft.VisualBasic::4564670756cb119d63ceaf92a87aec23, ..\CLI_tools\NCBI_tools\CLIGrouping.vb"
 
     ' Author:
     ' 
@@ -41,4 +41,3 @@ Module CLIGrouping
 As of September 2016, the integer sequence identifiers known as ""GIs"" will no longer be included in the GenBank, GenPept, and FASTA formats supported by NCBI for sequence records. The FASTA header will be further simplified to report only the sequence accession.version and record title for accessions managed by the International Sequence Database Collaboration (INSDC) and NCBI’s Reference Sequence (RefSeq) project. As NCBI makes this transition, we encourage any users who have workflows that depend on GI's to begin planning to use accession.version identifiers instead. After September 2016, any processes solely dependent on GIs will no longer function as expected."
 
 End Module
-

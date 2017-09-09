@@ -133,7 +133,7 @@ CREATE TABLE `family` (
   KEY `rfam_id` (`rfam_id`),
   KEY `fk_family_wikitext1_idx` (`auto_wiki`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class family: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class family: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String
     <DatabaseField("rfam_id"), NotNull, DataType(MySqlDbType.VarChar, "40")> Public Property rfam_id As String

@@ -133,20 +133,16 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
         Usage:="-pattern_search -i <file_name> -p <regex_pattern>[ -o <output_directory> -f <format:fsa/gbk>]",
         Example:="-pattern_search -i ~/xcc8004.txt -p TTA{3}N{1,2} -f fsa")>
     <Argument("-i",
-        Description:="The sequence input data source file, it can be a fasta or genbank file.",
-        Example:="~/Desktop/xcc8004.txt")>
+        Description:="The sequence input data source file, it can be a fasta or genbank file.")>
     <Argument("-p",
         Description:="This switch specific the regular expression pattern for search the sequence segment,\n" &
-                     "for more detail information about the regular expression please read the user manual.",
-        Example:="N{1,5}TA")>
+                     "for more detail information about the regular expression please read the user manual.")>
     <Argument("-o", True,
-        Description:="Optional, this switch value specific the output directory for the result data, default is user Desktop folder.",
-        Example:="~/Documents/")>
+        Description:="Optional, this switch value specific the output directory for the result data, default is user Desktop folder.")>
     <Argument("-f", True,
         Description:="Optional, specific the input file format for the sequence reader, default value is FASTA sequence file.\n" &
                      " fsa - The input sequence data file is a FASTA format file;\n" &
-                     " gbk - The input sequence data file is a NCBI genbank flat file.",
-        Example:="fsa")>
+                     " gbk - The input sequence data file is a NCBI genbank flat file.")>
     Public Function PatternSearchA(argvs As CommandLine) As Integer
         Dim Format As String = argvs("-f")
         Dim Input As String = argvs("-i")

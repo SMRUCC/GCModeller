@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0546cbffbd22c93cfaf574783da49b5, ..\GCModeller\CLI_tools\Xfam\CLI\Database.vb"
+﻿#Region "Microsoft.VisualBasic::a0546cbffbd22c93cfaf574783da49b5, ..\CLI_tools\Xfam\CLI\Database.vb"
 
     ' Author:
     ' 

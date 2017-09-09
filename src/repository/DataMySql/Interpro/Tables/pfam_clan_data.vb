@@ -65,7 +65,7 @@ CREATE TABLE `pfam_clan_data` (
   `description` varchar(75) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   PRIMARY KEY (`clan_id`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class pfam_clan_data: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class pfam_clan_data: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("clan_id"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "15")> Public Property clan_id As String
     <DatabaseField("name"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "50")> Public Property name As String

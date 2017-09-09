@@ -61,7 +61,7 @@ CREATE TABLE `example_auto` (
   `entry_ac` varchar(9) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   `protein_ac` varchar(6) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class example_auto: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class example_auto: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("entry_ac"), NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property entry_ac As String
     <DatabaseField("protein_ac"), NotNull, DataType(MySqlDbType.VarChar, "6")> Public Property protein_ac As String

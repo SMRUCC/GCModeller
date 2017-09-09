@@ -69,7 +69,7 @@ CREATE TABLE `author` (
   UNIQUE KEY `ui_author$id$name` (`author_id`,`name`),
   UNIQUE KEY `uq_author$name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class author: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class author: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("author_id"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "9")> Public Property author_id As Long
     <DatabaseField("name"), NotNull, DataType(MySqlDbType.VarChar, "80")> Public Property name As String

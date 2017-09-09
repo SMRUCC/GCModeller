@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8649563f1f84346dd16105ccfd09a04, ..\GCModeller\annotations\Proteomics\Module2.vb"
+﻿#Region "Microsoft.VisualBasic::186021c2bc31c642c10a38694703b77f, ..\CLI_tools\eggHTS\Test\Module2.vb"
 
     ' Author:
     ' 
@@ -38,4 +38,3 @@ Module Module2
         Call Volcano.PlotDEGs(sample, pvalue:="PValue", displayLabel:=LabelTypes.DEG).Save("x:\test.png")
     End Sub
 End Module
-

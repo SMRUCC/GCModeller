@@ -71,7 +71,7 @@ CREATE TABLE `motif_pdb` (
   KEY `motif_pdb_pdb_idx` (`pdb_id`),
   KEY `motif_pdb_motif_acc_idx` (`motif_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class motif_pdb: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class motif_pdb: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("motif_acc"), NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property motif_acc As String
     <DatabaseField("pdb_id"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "4")> Public Property pdb_id As String

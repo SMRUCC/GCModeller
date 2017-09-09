@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ce84c2f7ba346e12e60a01d3a95372a, ..\GCModeller\CLI_tools\c2\NetworkVisualization\SignalTransductionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::7ce84c2f7ba346e12e60a01d3a95372a, ..\CLI_tools\c2\NetworkVisualization\SignalTransductionNetwork.vb"
 
     ' Author:
     ' 

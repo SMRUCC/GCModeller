@@ -65,7 +65,7 @@ CREATE TABLE `varsplic_master` (
   `crc64` varchar(16) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `length` int(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class varsplic_master: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class varsplic_master: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("protein_ac"), DataType(MySqlDbType.VarChar, "6")> Public Property protein_ac As String
     <DatabaseField("variant"), DataType(MySqlDbType.Int64, "3")> Public Property [variant] As Long

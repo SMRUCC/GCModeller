@@ -63,7 +63,7 @@ CREATE TABLE `entry_deleted` (
   `remark` varchar(50) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   PRIMARY KEY (`entry_ac`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class entry_deleted: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class entry_deleted: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("entry_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property entry_ac As String
     <DatabaseField("remark"), DataType(MySqlDbType.VarChar, "50")> Public Property remark As String

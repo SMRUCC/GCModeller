@@ -69,7 +69,7 @@ CREATE TABLE `family_literature_reference` (
   KEY `fk_family_literature_reference_family1_idx` (`rfam_acc`),
   KEY `fk_family_literature_reference_literature_reference1_idx` (`pmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class family_literature_reference: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class family_literature_reference: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String
     <DatabaseField("pmid"), NotNull, DataType(MySqlDbType.Int64, "10")> Public Property pmid As Long

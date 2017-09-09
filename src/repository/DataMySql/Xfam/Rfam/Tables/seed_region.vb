@@ -69,7 +69,7 @@ CREATE TABLE `seed_region` (
   KEY `fk_rfam_reg_seed_family1_idx` (`rfam_acc`),
   KEY `fk_rfam_reg_seed_rfamseq1_idx` (`rfamseq_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class seed_region: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class seed_region: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String
     <DatabaseField("rfamseq_acc"), NotNull, DataType(MySqlDbType.VarChar, "20")> Public Property rfamseq_acc As String

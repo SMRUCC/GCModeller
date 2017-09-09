@@ -61,7 +61,7 @@ CREATE TABLE `cv_rank` (
   `rank` varchar(20) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `seq` bigint(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class cv_rank: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class cv_rank: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rank"), DataType(MySqlDbType.VarChar, "20")> Public Property rank As String
     <DatabaseField("seq"), NotNull, DataType(MySqlDbType.Int64, "15")> Public Property seq As Long

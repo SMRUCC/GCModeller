@@ -65,7 +65,7 @@ CREATE TABLE `uniprot_taxonomy` (
   `left_number` bigint(15) NOT NULL,
   `right_number` bigint(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class uniprot_taxonomy: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class uniprot_taxonomy: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("protein_ac"), NotNull, DataType(MySqlDbType.VarChar, "10")> Public Property protein_ac As String
     <DatabaseField("tax_id"), NotNull, DataType(MySqlDbType.Int64, "15")> Public Property tax_id As Long

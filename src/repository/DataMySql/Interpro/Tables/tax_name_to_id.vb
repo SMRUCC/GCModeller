@@ -61,7 +61,7 @@ CREATE TABLE `tax_name_to_id` (
   `tax_name` varchar(30) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   `tax_id` bigint(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class tax_name_to_id: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class tax_name_to_id: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("tax_name"), DataType(MySqlDbType.VarChar, "30")> Public Property tax_name As String
     <DatabaseField("tax_id"), DataType(MySqlDbType.Int64, "15")> Public Property tax_id As Long

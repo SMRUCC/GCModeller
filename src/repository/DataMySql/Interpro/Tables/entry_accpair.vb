@@ -65,7 +65,7 @@ CREATE TABLE `entry_accpair` (
   PRIMARY KEY (`entry_ac`,`secondary_ac`),
   CONSTRAINT `fk_entry_accpair$ac1` FOREIGN KEY (`entry_ac`) REFERENCES `entry` (`entry_ac`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class entry_accpair: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class entry_accpair: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("entry_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property entry_ac As String
     <DatabaseField("secondary_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "9")> Public Property secondary_ac As String

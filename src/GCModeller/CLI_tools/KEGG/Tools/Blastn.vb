@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5727e0c0cebcc51255e4175990d3166c, ..\GCModeller\CLI_tools\KEGG\Blastn.vb"
+﻿#Region "Microsoft.VisualBasic::5727e0c0cebcc51255e4175990d3166c, ..\CLI_tools\KEGG\Tools\Blastn.vb"
 
     ' Author:
     ' 

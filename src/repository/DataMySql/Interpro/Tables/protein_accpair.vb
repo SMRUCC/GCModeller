@@ -65,7 +65,7 @@ CREATE TABLE `protein_accpair` (
   PRIMARY KEY (`protein_ac`,`secondary_ac`),
   CONSTRAINT `fk_accpair$primary` FOREIGN KEY (`protein_ac`) REFERENCES `protein` (`protein_ac`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class protein_accpair: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class protein_accpair: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("protein_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "6")> Public Property protein_ac As String
     <DatabaseField("secondary_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "6")> Public Property secondary_ac As String

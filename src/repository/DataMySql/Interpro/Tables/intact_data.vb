@@ -77,7 +77,7 @@ CREATE TABLE `intact_data` (
   PRIMARY KEY (`entry_ac`,`intact_id`,`interacts_with`,`protein_ac`),
   CONSTRAINT `fk_intact_data$entry_ac` FOREIGN KEY (`entry_ac`) REFERENCES `entry` (`entry_ac`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class intact_data: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class intact_data: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("uniprot_id"), NotNull, DataType(MySqlDbType.VarChar, "20")> Public Property uniprot_id As String
     <DatabaseField("protein_ac"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "30")> Public Property protein_ac As String

@@ -113,7 +113,7 @@ CREATE TABLE `motif` (
   PRIMARY KEY (`motif_acc`),
   KEY `motif_id` (`motif_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class motif: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class motif: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("motif_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property motif_acc As String
     <DatabaseField("motif_id"), DataType(MySqlDbType.VarChar, "40")> Public Property motif_id As String

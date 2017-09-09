@@ -72,7 +72,7 @@ CREATE TABLE `nt` (
   PRIMARY KEY (`gi`),
   UNIQUE KEY `gi_UNIQUE` (`gi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='nt sequence database';")>
-Public Class nt: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class nt: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("gi"), PrimaryKey, NotNull, DataType(MySqlDbType.Int64, "11")> Public Property gi As Long
     <DatabaseField("db"), NotNull, DataType(MySqlDbType.VarChar, "32")> Public Property db As String

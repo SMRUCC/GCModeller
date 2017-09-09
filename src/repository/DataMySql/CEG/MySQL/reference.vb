@@ -76,7 +76,7 @@ CREATE TABLE `reference` (
   `pubmedid` varchar(20) DEFAULT NULL,
   `pub_title` text NOT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=7687 DEFAULT CHARSET=gb2312;")>
-Public Class reference: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class reference: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("oganismid"), DataType(MySqlDbType.Int64, "4")> Public Property oganismid As Long
     <DatabaseField("abbr"), NotNull, DataType(MySqlDbType.VarChar, "5")> Public Property abbr As String

@@ -67,7 +67,7 @@ CREATE TABLE `family_ncbi` (
   KEY `fk_rfam_ncbi_family1_idx` (`rfam_acc`),
   KEY `fk_family_ncbi_taxonomy1_idx` (`ncbi_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class family_ncbi: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class family_ncbi: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("ncbi_id"), NotNull, DataType(MySqlDbType.Int64, "10")> Public Property ncbi_id As Long
 ''' <summary>

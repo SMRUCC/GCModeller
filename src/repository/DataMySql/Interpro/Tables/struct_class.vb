@@ -65,7 +65,7 @@ CREATE TABLE `struct_class` (
   `dbcode` varchar(1) CHARACTER SET latin1 COLLATE latin1_bin DEFAULT NULL,
   PRIMARY KEY (`domain_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class struct_class: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class struct_class: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("domain_id"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "14")> Public Property domain_id As String
     <DatabaseField("fam_id"), DataType(MySqlDbType.VarChar, "20")> Public Property fam_id As String

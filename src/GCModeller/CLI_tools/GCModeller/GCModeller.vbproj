@@ -197,7 +197,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\GCModeller%28Release_X64%29\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>GCModeller.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -315,10 +315,6 @@
     <Content Include="DNA.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\repository\DataMySql\MySqlTools.vbproj">
-      <Project>{74b33a15-1d34-4d11-81a1-2538c45b7a80}</Project>
-      <Name>MySqlTools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\repository\DataTools\DataTools.vbproj">
       <Project>{7e6df33f-feb0-447f-b656-a51acd00e888}</Project>
       <Name>DataTools</Name>

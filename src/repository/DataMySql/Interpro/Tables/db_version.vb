@@ -71,7 +71,7 @@ CREATE TABLE `db_version` (
   PRIMARY KEY (`dbcode`),
   CONSTRAINT `fk_db_version$dbcode` FOREIGN KEY (`dbcode`) REFERENCES `cv_database` (`dbcode`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class db_version: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class db_version: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("dbcode"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "1")> Public Property dbcode As String
     <DatabaseField("version"), NotNull, DataType(MySqlDbType.VarChar, "20")> Public Property version As String

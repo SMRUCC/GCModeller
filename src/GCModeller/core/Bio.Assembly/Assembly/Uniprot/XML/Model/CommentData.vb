@@ -46,7 +46,8 @@ Namespace Assembly.Uniprot.XML
 
     Public Class subcellularLocation
 
-        <XmlElement("location")> Public Property locations As String()
+        <XmlElement("location")> Public Property locations As value()
+        <XmlElement("topology")> Public Property topology As value
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

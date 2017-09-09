@@ -75,7 +75,7 @@ CREATE TABLE `alignment_and_tree` (
   `number_of_sequences` bigint(20) DEFAULT NULL,
   KEY `fk_alignments_and_trees_family1_idx` (`rfam_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class alignment_and_tree: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class alignment_and_tree: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String
     <DatabaseField("type"), NotNull, DataType(MySqlDbType.String)> Public Property type As String

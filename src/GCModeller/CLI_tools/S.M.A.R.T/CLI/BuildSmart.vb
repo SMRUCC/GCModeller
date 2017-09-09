@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd5eae0c0a0545dfd2507b4fb8f0f691, ..\GCModeller\CLI_tools\S.M.A.R.T\CLI\BuildSmart.vb"
+﻿#Region "Microsoft.VisualBasic::bd5eae0c0a0545dfd2507b4fb8f0f691, ..\CLI_tools\S.M.A.R.T\CLI\BuildSmart.vb"
 
     ' Author:
     ' 

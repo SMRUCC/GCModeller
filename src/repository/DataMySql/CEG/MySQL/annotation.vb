@@ -63,7 +63,7 @@ CREATE TABLE `annotation` (
   `Gene_Name` varchar(80) DEFAULT NULL,
   `fundescrp` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=11862 DEFAULT CHARSET=gb2312;")>
-Public Class annotation: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class annotation: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("gid"), DataType(MySqlDbType.VarChar, "25")> Public Property gid As String
     <DatabaseField("Gene_Name"), DataType(MySqlDbType.VarChar, "80")> Public Property Gene_Name As String

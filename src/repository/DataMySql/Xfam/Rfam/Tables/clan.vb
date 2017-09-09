@@ -79,7 +79,7 @@ CREATE TABLE `clan` (
   UNIQUE KEY `clan_acc` (`clan_acc`),
   UNIQUE KEY `clan_acc_2` (`clan_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class clan: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class clan: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("clan_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property clan_acc As String
     <DatabaseField("id"), DataType(MySqlDbType.VarChar, "40")> Public Property id As String

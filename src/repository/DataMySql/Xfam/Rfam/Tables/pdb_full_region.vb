@@ -83,7 +83,7 @@ CREATE TABLE `pdb_full_region` (
   KEY `fk_pdb_rfam_reg_pdb1_idx` (`pdb_id`),
   KEY `rfam_acc` (`rfam_acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;")>
-Public Class pdb_full_region: Inherits Oracle.LinuxCompatibility.MySQL.SQLTable
+Public Class pdb_full_region: Inherits Oracle.LinuxCompatibility.MySQL.MySQLTable
 #Region "Public Property Mapping To Database Fields"
     <DatabaseField("rfam_acc"), PrimaryKey, NotNull, DataType(MySqlDbType.VarChar, "7")> Public Property rfam_acc As String
     <DatabaseField("pdb_id"), NotNull, DataType(MySqlDbType.VarChar, "4")> Public Property pdb_id As String
