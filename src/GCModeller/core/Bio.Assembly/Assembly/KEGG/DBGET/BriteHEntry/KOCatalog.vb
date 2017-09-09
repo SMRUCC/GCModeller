@@ -38,5 +38,32 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
+
+        ''' <summary>
+        ''' ###### KEGG Orthology (KO) - All Categories
+        ''' 
+        ''' > http://www.kegg.jp/kegg-bin/get_htext?ko00000.keg
+        ''' 
+        ''' In general KO grouping of functional orthologs is defined in the context of KEGG molecular networks (KEGG pathway maps, 
+        ''' BRITE hierarchies and KEGG modules), which are in fact represented as networks of nodes identified by K numbers. 
+        ''' The relationships between KOs and corresponding molecular networks are represented in the following KO system.
+        ''' 
+        ''' The fact that functional information is associated with ortholog groups is a unique aspect of the KEGG resource. 
+        ''' The sequence similarity based inference as a generalization of limited amount of experimental evidence is predefined 
+        ''' in KEGG. As implemented in BlastKOALA and other tools, the sequence similarity search against KEGG GENES is a search 
+        ''' for most appropriate K numbers. Once K numbers are assigned to genes in the genome, the KEGG pathways maps, Brite 
+        ''' hierarchies, and KEGG modules are automatically reconstructed, enabling biological interpretation of high-level 
+        ''' functions. 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared Function ko00000() As Dictionary(Of String, BriteHText())
+            Dim htext As htext = htext.StreamParser(My.Resources.ko00000)
+            Dim maps = htext.Hierarchical _
+                .EnumerateEntries _
+                .GroupBy(Function(x) x.EntryId) _
+                .ToDictionary(Function(x) x.Key,
+                              Function(g) g.ToArray)
+            Return maps
+        End Function
     End Class
 End Namespace
