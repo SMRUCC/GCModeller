@@ -30,6 +30,7 @@ Imports System.ComponentModel
 Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -39,6 +40,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
+Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Visualize
@@ -295,7 +297,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap",
                Info:="Generates the heatmap plot input data. The default label profile is using for the iTraq result.",
-               Usage:="/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /iTraq /non_DEP.blank /level 1.25 /size <size, default=2000,3000> /FC.tag <FC.avg> /pvalue <p.value=0.05> /out <out.DIR>]")>
+               Usage:="/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /groups <groupInfo, dictionary> /iTraq /non_DEP.blank /level 1.25 /size <size, default=2000,3000> /FC.tag <FC.avg> /pvalue <p.value=0.05> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set merge, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -323,9 +325,11 @@ Partial Module CLI
         Call matrix.SaveTo(dataOUT)
 
         If args.IsTrue("/KO.class") Then
+            Dim groupInfo As Dictionary(Of String, String) = args.GetDictionary("/groups")
+            Call DEPsKOHeatmap.Plot(matrix, groupInfo,)
         Else
             ' 绘制普通的热图
-            Call heatmap
+            Call Heatmap.Plot(matrix, size:=size).Save(out & "/plot.png")
         End If
 
         Return 0
