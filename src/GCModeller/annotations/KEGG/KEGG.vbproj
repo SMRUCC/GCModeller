@@ -129,6 +129,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DEPsKOHeatmap.vb" />
     <Compile Include="PathwayMap.vb" />
     <Compile Include="KEGGOrthology.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
