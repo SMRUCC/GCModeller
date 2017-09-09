@@ -414,16 +414,16 @@ Namespace kb_UniProtKB
                         Yield New NamedValue(Of MySQLTable) With {
                             .Name = NameOf(mysql.literature),
                             .Value = New mysql.literature With {
-                                .date = cite.date,
-                                .db = cite.db,
-                                .journal = cite.name,
-                                .volume = cite.volume,
-                                .title = citeTitle,
-                                .type = cite.type,
+                                .date = cite.date.MySqlEscaping,
+                                .db = cite.db.MySqlEscaping,
+                                .journal = cite.name.MySqlEscaping,
+                                .volume = cite.volume.MySqlEscaping,
+                                .title = cite.title.MySqlEscaping,
+                                .type = cite.type.MySqlEscaping,
                                 .uid = citations(citeTitle),
                                 .pages = $"{cite.first} - {cite.last}",
-                                .doi = doi,
-                                .pubmed = pubmed
+                                .doi = doi.MySqlEscaping,
+                                .pubmed = pubmed.MySqlEscaping
                             }
                         }
 
@@ -436,7 +436,7 @@ Namespace kb_UniProtKB
                                 .SafeQuery
                             Select New mysql.research_jobs With {
                                 .literature_id = jobID,
-                                .literature_title = citeTitle,
+                                .literature_title = cite.title,
                                 .people_name = people.name.MySqlEscaping,
                                 .person = peoples(.people_name)' .uid
                             }
