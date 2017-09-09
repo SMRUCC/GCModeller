@@ -1,33 +1,30 @@
 ﻿#Region "Microsoft.VisualBasic::9c412a6454c814791af96392d7662ec0, ..\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\HierarchyBuilder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
-Imports System
-Imports System.Collections.Generic
 
 '
 '*****************************************************************************
@@ -98,8 +95,12 @@ Namespace Hierarchy
             Return Clusters
         End Function
 
+        ''' <summary>
+        ''' 进行层次聚类的迭代计算操作，主要的限速步骤
+        ''' </summary>
+        ''' <param name="linkageStrategy"></param>
         Public Sub Agglomerate(linkageStrategy As LinkageStrategy)
-            Dim minDistLink As HierarchyTreeNode = Distances.removeFirst()
+            Dim minDistLink As HierarchyTreeNode = Distances.RemoveFirst()
 
             If minDistLink Is Nothing Then Return
 
@@ -123,27 +124,27 @@ Namespace Hierarchy
                     Dim distVal As Double = link1.LinkageDistance
                     Dim weightVal As Double = link1.GetOtherCluster(iClust).WeightValue
                     distanceValues.Add(New Distance(distVal, weightVal))
-                    Distances.remove(link1)
+                    Distances.Remove(link1)
                 End If
 
                 If link2 IsNot Nothing Then
                     Dim distVal As Double = link2.LinkageDistance
                     Dim weightVal As Double = link2.GetOtherCluster(iClust).WeightValue
                     distanceValues.Add(New Distance(distVal, weightVal))
-                    Distances.remove(link2)
+                    Distances.Remove(link2)
                 End If
 
                 Dim newDistance As Distance = linkageStrategy.CalculateDistance(distanceValues)
 
                 newLinkage.LinkageDistance = newDistance.Distance
-                Distances.add(newLinkage)
+                Distances.Add(newLinkage)
             Next
 
             Call Clusters.Add(newCluster)
         End Sub
 
         Private Function findByClusters(c1 As Cluster, c2 As Cluster) As HierarchyTreeNode
-            Return Distances.findByCodePair(c1, c2)
+            Return Distances.FindByCodePair(c1, c2)
         End Function
     End Class
 End Namespace
