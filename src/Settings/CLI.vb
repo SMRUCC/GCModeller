@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports Oracle.LinuxCompatibility.MySQL
 
 <Package("GCModeller.Configuration.CLI",
                   Category:=APICategories.CLI_MAN,
@@ -113,7 +114,10 @@ Imports Microsoft.VisualBasic.Text
 
     <ExportAPI("/set.mysql")>
     <Description("Setting up the mysql connection parameters")>
-    <Usage("/set.mysql")>
+    <Usage("/set.mysql /test")>
+    <Argument("/test", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this boolean argument is set, then the program will testing for the mysqli connection before write the configuration file. If the connection test failure, then the configuration file will not be updated!")>
     <Group(CLI.Config_CLI)>
     Public Function SetMySQL(args As CommandLine) As Integer
         Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
@@ -121,6 +125,10 @@ Imports Microsoft.VisualBasic.Text
                 Sub(uri)
                     MySQLExtensions.MySQL = uri
                 End Sub)
+
+            If args.IsTrue("/test") Then
+                Dim mysqli As MySQL = MySQLExtensions.GetMySQLClient(, DBName:=Nothing)
+            End If
 
             Return 0
         End Using
