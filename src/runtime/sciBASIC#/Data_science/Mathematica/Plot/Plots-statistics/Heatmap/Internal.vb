@@ -24,7 +24,15 @@ Namespace Heatmap
         ''' <summary>
         ''' 绘制矩阵之中的方格在xy上面的步进值
         ''' </summary>
-        Public dStep As SizeF
+        Public ReadOnly Property dStep As SizeF
+            Get
+                Return New SizeF With {
+                    .Width = matrixPlotRegion.Width / ColOrders.Length,
+                    .Height = matrixPlotRegion.Height / RowOrders.Length
+                }
+            End Get
+        End Property
+
         ''' <summary>
         ''' 矩阵区域的大小和位置
         ''' </summary>
@@ -322,7 +330,11 @@ Namespace Heatmap
                         layoutA = 0
                     End If
                     If Not drawClass.rowClass.IsNullOrEmpty Then
-                        layoutA += dendrogramLayout.A / 3
+                        Dim d = dendrogramLayout.A / 3
+
+                        layoutA += d
+                        left += d
+                        dw -= d
                     End If
 
                     ' 有列的聚类树
@@ -335,7 +347,11 @@ Namespace Heatmap
                         layoutB = 0
                     End If
                     If Not drawClass.colClass.IsNullOrEmpty Then
-                        layoutB += dendrogramLayout.B / 3
+                        Dim d = dendrogramLayout.B / 3
+
+                        layoutB += d
+                        top += d
+                        dh -= d
                     End If
 
                     Dim interval% = 10  ' 层次聚类树与热图矩阵之间的距离
@@ -363,7 +379,7 @@ Namespace Heatmap
                             }
                             Dim dsize As New Size With {
                                 .Width = dendrogramLayout.A,
-                                .Height = dh
+                                .Height = matrixPlotRegion.Height
                             }
                             rowKeys = configDendrogramCanvas(cluster, drawClass.rowClass) _
                                 .Paint(DirectCast(g, Graphics2D), New Rectangle(topleft, dsize)) _
@@ -394,9 +410,6 @@ Namespace Heatmap
                         ' 没有绘制层次聚类树，但是列的class有值，则会绘制列的class legend
                         Call g.DrawClass(colKeys, drawClass.colClass, matrixPlotRegion, False, dendrogramLayout.B, interval)
                     End If
-
-                    dw /= keys.Length
-                    dh /= array.Length
 
                     Dim levels As New Dictionary(Of String, DataSet)
                     Dim scaleData As DataSet()
@@ -439,7 +452,6 @@ Namespace Heatmap
 
                     Dim args As New PlotArguments With {
                         .colors = colors,
-                        .dStep = New SizeF(dw, dh),
                         .left = left,
                         .levels = levels,
                         .top = top,
@@ -453,6 +465,7 @@ Namespace Heatmap
                     ' 绘制heatmap之中的矩阵内容
                     Call plot(g, rect, args)
 
+                    dw = args.dStep.Width
                     left = args.left
                     top = args.top
                     left += dw / 2
