@@ -43,7 +43,10 @@ Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB.UniprotKBEngine
+Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB
 
 Partial Module CLI
 
@@ -297,12 +300,15 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap",
                Info:="Generates the heatmap plot input data. The default label profile is using for the iTraq result.",
-               Usage:="/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /groups <groupInfo, dictionary> /iTraq /non_DEP.blank /level 1.25 /size <size, default=2000,3000> /FC.tag <FC.avg> /pvalue <p.value=0.05> /out <out.DIR>]")>
+               Usage:="/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /sampleInfo <sampleinfo.csv> /iTraq /non_DEP.blank /level 1.25 /size <size, default=2000,3000> /FC.tag <FC.avg> /pvalue <p.value=0.05> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set merge, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument was set, then the KO class information for uniprotID will be draw on the output heatmap.")>
+    <Argument("/sampleInfo", True, CLITypes.File,
+              AcceptTypes:={GetType(SampleInfo)},
+              Description:="Describ the experimental group information")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap_DEPs(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
@@ -325,8 +331,14 @@ Partial Module CLI
         Call matrix.SaveTo(dataOUT)
 
         If args.IsTrue("/KO.class") Then
-            Dim groupInfo As Dictionary(Of String, String) = args.GetDictionary("/groups")
-            Call DEPsKOHeatmap.Plot(matrix, groupInfo,)
+            Dim groupInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+            Dim KOinfo As Dictionary(Of String, String) = matrix _
+                .Keys _
+                .GetKOTable(MySQLExtensions.GetMySQLClient(DBName:=UniprotKBEngine.DbName))
+
+            Call DEPsKOHeatmap _
+                .Plot(matrix, groupInfo.SampleGroupInfo, groupInfo.SampleGroupColor, KOInfo:=KOinfo) _
+                .Save(out & "/plot.png")
         Else
             ' 绘制普通的热图
             Call Heatmap.Plot(matrix, size:=size).Save(out & "/plot.png")

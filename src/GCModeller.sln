@@ -492,6 +492,7 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{8384ac6e-a7f6-40f0-a9a0-f995c2106843}*SharedItemsImports = 4
 		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{8443c152-5bfc-44e3-bb6b-28675d5f282a}*SharedItemsImports = 4
+		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{8443c152-5bfc-44e3-bb6b-28675d5f282a}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{8443c152-5bfc-44e3-bb6b-28675d5f282a}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{8443c152-5bfc-44e3-bb6b-28675d5f282a}*SharedItemsImports = 4
 		GCModeller\shared\docs\Shared.DocumentFormats.projitems*{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}*SharedItemsImports = 4
