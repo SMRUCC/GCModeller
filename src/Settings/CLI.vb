@@ -127,7 +127,7 @@ Imports Oracle.LinuxCompatibility.MySQL
                 End Sub)
 
             If args.IsTrue("/test") Then
-                Dim mysqli As MySQL = MySQLExtensions.GetMySQLClient()
+                Dim mysqli As MySQL = MySQLExtensions.GetMySQLClient(, DBName:=Nothing)
             End If
 
             Return 0
