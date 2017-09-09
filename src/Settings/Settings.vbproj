@@ -332,6 +332,7 @@
   <Import Project="Shared\RepositoryCommon\RepositoryCommon.projitems" Label="Shared" />
   <Import Project="Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
+  <Import Project="..\runtime\mysqli\mysqliHelper\mysqliHelper.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
