@@ -739,7 +739,7 @@ Namespace kb_UniProtKB
         <Extension>
         Public Function DumpMySQLProject(uniprot As IEnumerable(Of entry), EXPORT$) As Boolean
             Try
-                Call uniprot.PopulateData.ProjectDumping(EXPORT)
+                Call uniprot.PopulateData.ProjectDumping(EXPORT,, singleTransaction:=True)
             Catch ex As Exception
                 ex = New Exception(EXPORT, ex)
                 Throw ex
