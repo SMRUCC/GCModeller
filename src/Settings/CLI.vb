@@ -106,6 +106,16 @@ Imports Microsoft.VisualBasic.Text
         End Using
     End Function
 
+    <ExportAPI("/set.mysql")>
+    <Description("Setting up the mysql connection parameters")>
+    <Usage("/set.mysql")>
+    Public Function SetMySQL(args As CommandLine) As Integer
+        Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
+
+            Return 0
+        End Using
+    End Function
+
     Const GCModellerApps$ = NameOf(GCModellerApps)
 
     <ExportAPI("/dev")>
