@@ -209,7 +209,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\GCModeller%28Release_X64%29\</OutputPath>
+    <OutputPath>..\..\GCModeller\bin\</OutputPath>
     <DefineConstants>ENABLE_API_EXPORT=1</DefineConstants>
     <DocumentationFile>Settings.xml</DocumentationFile>
     <Optimize>true</Optimize>
@@ -332,6 +332,7 @@
   <Import Project="Shared\RepositoryCommon\RepositoryCommon.projitems" Label="Shared" />
   <Import Project="Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
+  <Import Project="..\runtime\mysqli\mysqliHelper\mysqliHelper.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
