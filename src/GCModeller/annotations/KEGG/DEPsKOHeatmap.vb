@@ -1,6 +1,9 @@
 ﻿
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -17,6 +20,9 @@ Public Module DEPsKOHeatmap
     ''' + 热图矩阵的底部标记为实验的分组标签
     ''' </summary>
     ''' <param name="KOInfo">``<see cref="DataSet.ID"/> -> KO``</param>
+    ''' <param name="KOcolor">KEGG大分类的颜色</param>
+    ''' <param name="groupColors">实验分组的颜色</param>
+    ''' <param name="groupInfo">``<see cref="DataSet.ID"/> -> group``</param>
     ''' <returns></returns>
     Public Function Plot(matrix As IEnumerable(Of DataSet),
                          groupInfo As Dictionary(Of String, String),
@@ -28,6 +34,23 @@ Public Module DEPsKOHeatmap
                          Optional bg$ = "white",
                          Optional schema$ = ColorBrewer.QualitativeSchemes.Paired6,
                          Optional title$ = "KEGG KO log2FC heatmap") As GraphicsData
+        Dim groupClassColor = groupInfo.ToDictionary(
+            Function(x) x.Key,
+            Function(x) groupColors(x.Value).ToHtmlColor)
+
+        Return Heatmap.Plot(
+            matrix, size:=size, padding:=padding, mapName:=schema, mainTitle:=title, bg:=bg,
+            drawClass:=(KOInfo.ColorKO(KOcolor), groupClassColor))
+    End Function
+
+    ''' <summary>
+    ''' 使用内部的数据库对每一个蛋白质的自己的KO进行大分类的颜色赋值
+    ''' </summary>
+    ''' <param name="koInfo"></param>
+    ''' <param name="KOcolor"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ColorKO(koInfo As Dictionary(Of String, String), KOcolor As Dictionary(Of String, Color)) As Dictionary(Of String, String)
 
     End Function
 End Module
