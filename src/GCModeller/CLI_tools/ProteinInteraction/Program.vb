@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18589d75bb434732cd5827b9265d74c6, ..\GCModeller\CLI_tools\ProteinInteraction\Program.vb"
+﻿#Region "Microsoft.VisualBasic::18589d75bb434732cd5827b9265d74c6, ..\CLI_tools\ProteinInteraction\Program.vb"
 
     ' Author:
     ' 

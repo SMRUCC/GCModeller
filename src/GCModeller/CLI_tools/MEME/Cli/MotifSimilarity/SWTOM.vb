@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::182c873f15be14ab7e83feb482193fd0, ..\GCModeller\CLI_tools\MEME\Cli\MotifSimilarity\SWTOM.vb"
+﻿#Region "Microsoft.VisualBasic::182c873f15be14ab7e83feb482193fd0, ..\CLI_tools\MEME\Cli\MotifSimilarity\SWTOM.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a8c6cfb691efd5f19ce8ec470a89bcc, ..\GCModeller\CLI_tools\MEME\Cli\MotifSimilarity\MEME_TOM.vb"
+﻿#Region "Microsoft.VisualBasic::9a8c6cfb691efd5f19ce8ec470a89bcc, ..\CLI_tools\MEME\Cli\MotifSimilarity\MEME_TOM.vb"
 
     ' Author:
     ' 

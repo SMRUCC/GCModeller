@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::96a4df1a96a7475cbb866e3492dfda40, ..\GCModeller\CLI_tools\c2\Reconstruction\Genome\TranscriptUnit.vb"
+﻿#Region "Microsoft.VisualBasic::96a4df1a96a7475cbb866e3492dfda40, ..\CLI_tools\c2\Reconstruction\Genome\TranscriptUnit.vb"
 
     ' Author:
     ' 

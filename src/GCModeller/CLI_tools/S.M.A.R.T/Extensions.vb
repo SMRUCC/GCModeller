@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d53fea50858ea72b1c355f2946badefb, ..\GCModeller\CLI_tools\S.M.A.R.T\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e8f40a7648549e153d041baf7dc01f5f, ..\CLI_tools\S.M.A.R.T\Extensions.vb"
 
     ' Author:
     ' 

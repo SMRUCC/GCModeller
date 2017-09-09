@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ffb8f161858e6aff5d44effecbfa553, ..\GCModeller\CLI_tools\MEME\Cli\MotifSites.vb"
+﻿#Region "Microsoft.VisualBasic::8ffb8f161858e6aff5d44effecbfa553, ..\CLI_tools\MEME\Cli\MotifSites.vb"
 
     ' Author:
     ' 
