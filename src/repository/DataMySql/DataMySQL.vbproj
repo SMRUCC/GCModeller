@@ -321,7 +321,7 @@
     <Compile Include="kb_UniProtKB\MySQL\tissue_locations.vb" />
     <Compile Include="kb_UniProtKB\MySQL\topology_id.vb" />
     <Compile Include="kb_UniProtKB\MySQL\xref.vb" />
-    <Compile Include="kb_UniProtKB\ShellScriptAPI.vb" />
+    <Compile Include="kb_UniProtKB\UniprotKBEngine.vb" />
     <Compile Include="kb_UniProtKB\MySqlImports.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
