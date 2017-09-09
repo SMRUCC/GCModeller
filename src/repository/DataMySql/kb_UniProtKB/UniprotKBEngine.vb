@@ -67,5 +67,31 @@ Namespace kb_UniProtKB
 
             Return hashCode
         End Function
+
+        <Extension>
+        Public Function GetKOTable(id As IEnumerable(Of String), mysql As mysqli, Optional chunkSize% = 3000) As Dictionary(Of String, String)
+            Dim list = id.ToArray
+            Dim hashcodes = list.GetHashCode(mysql, chunkSize)
+            Dim model As New Table(Of mysql.protein_ko)(mysql)
+            Dim targets = hashcodes.Values _
+                .Split(chunkSize) _
+                .Select(Function(chunk) chunk.JoinBy(", ")) _
+                .ToArray
+            Dim KO As New Dictionary(Of String, String)
+
+            For Each chunk As String In targets
+                Dim buffer As mysql.protein_ko() = model _
+                    .Where($"{NameOf(kb_UniProtKB.mysql.protein_ko.hash_code)} IN ( {chunk} )") _
+                    .SelectALL
+
+                For Each map In buffer
+                    With map
+                        KO(.uniprot_id) = .KO
+                    End With
+                Next
+            Next
+
+            Return KO
+        End Function
     End Module
 End Namespace
