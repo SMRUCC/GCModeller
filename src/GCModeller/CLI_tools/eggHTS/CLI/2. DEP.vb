@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::11f4c70f3bf162d002cd62b42381fa3c, ..\CLI_tools\eggHTS\CLI\2. DEP.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -217,7 +217,7 @@ Partial Module CLI
 
         If Not sciName.StringEmpty AndAlso uniprot.FileExists(True) Then
             ' 将结果过滤为指定的物种的编号
-            Dim table As Dictionary(Of entry) = UniprotXML.LoadDictionary(uniprot)
+            Dim table As Dictionary(Of entry) = UniProtXML.LoadDictionary(uniprot)
             uniprotIDs = uniprotIDs _
                 .Where(Function(ID) table.ContainsKey(ID) AndAlso
                                     table(ID).organism.scientificName = sciName) _
@@ -295,11 +295,14 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap",
                Info:="Generates the heatmap plot input data. The default label profile is using for the iTraq result.",
-               Usage:="/DEP.heatmap /data <Directory> [/iTraq /non_DEP.blank /level 1.25 /FC.tag <FC.avg> /pvalue <p.value=0.05> /out <out.csv>]")>
+               Usage:="/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /iTraq /non_DEP.blank /level 1.25 /size <size, default=2000,3000> /FC.tag <FC.avg> /pvalue <p.value=0.05> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set merge, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
+    <Argument("/KO.class", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this argument was set, then the KO class information for uniprotID will be draw on the output heatmap.")>
     <Group(CLIGroups.DEP_CLI)>
-    Public Function Heatmap(args As CommandLine) As Integer
+    Public Function Heatmap_DEPs(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
         Dim FCtag$ = args.GetValue("/FC.tag", "FC.avg")
         Dim pvalue = args _
@@ -310,10 +313,22 @@ Partial Module CLI
         Dim level# = args.GetValue("/level", 1.25)
         Dim nonDEP_blank As Boolean = args.GetBoolean("/non_DEP.blank")
         Dim iTraq As Boolean = args.GetBoolean("/iTraq")
+        Dim size$ = args.GetValue("/size", "2000,3000")
+        Dim matrix As DataSet() = DEGDesigner _
+            .MergeMatrix(DIR, "*.csv", level, Val(pvalue.Value), FCtag, 1 / level, pvalue.Name,
+                         nonDEP_blank:=nonDEP_blank,
+                         log2t:=Not iTraq) _
+            .AsDataSet(blank:=1)
 
-        Return DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", level, Val(pvalue.Value), FCtag, 1 / level, pvalue.Name, nonDEP_blank:=nonDEP_blank, log2t:=Not iTraq) _
-            .SaveDataSet(dataOUT, blank:=1)
+        Call matrix.SaveTo(dataOUT)
+
+        If args.IsTrue("/KO.class") Then
+        Else
+            ' 绘制普通的热图
+            Call heatmap
+        End If
+
+        Return 0
     End Function
 
     ''' <summary>
