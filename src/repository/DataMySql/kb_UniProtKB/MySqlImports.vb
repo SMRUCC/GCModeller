@@ -207,6 +207,7 @@ Namespace kb_UniProtKB
             Dim locations As New Dictionary(Of String, Long)
             Dim subCellularLocations As int = 1
             Dim peopleJobs As New Index(Of String)
+            Dim uniqueTissueLocations As New Index(Of String)
             Dim uniqueKey$
 
             For Each protein As entry In uniprot
@@ -638,6 +639,7 @@ Namespace kb_UniProtKB
 #End Region
 #Region "tissue locations"
                 Dim tissue$
+                Dim tissueID&
 
                 For Each ref As reference In protein.references
                     If ref.source Is Nothing OrElse ref.source.tissues.IsNullOrEmpty Then
@@ -661,12 +663,21 @@ Namespace kb_UniProtKB
                             }
                         End If
 
+                        tissueID = tissues(tissue)
+                        uniqueKey = $"{hashcode} - {tissueID}"
+
+                        If uniqueTissueLocations.IndexOf(uniqueKey) > -1 Then
+                            Continue For
+                        Else
+                            uniqueTissueLocations.Add(uniqueKey)
+                        End If
+
                         Yield New NamedValue(Of MySQLTable) With {
                             .Name = NameOf(mysql.tissue_locations),
                             .Value = New mysql.tissue_locations With {
                                 .hash_code = hashcode,
                                 .name = protein.name,
-                                .tissue_id = tissues(tissue),' .uid,
+                                .tissue_id = tissueID,' .uid,
                                 .tissue_name = name,
                                 .uniprot_id = uniprotID
                             }
