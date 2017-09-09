@@ -28,6 +28,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -205,6 +206,8 @@ Namespace kb_UniProtKB
             Dim topologies As New Dictionary(Of String, Long)
             Dim locations As New Dictionary(Of String, Long)
             Dim subCellularLocations As int = 1
+            Dim peopleJobs As New Index(Of String)
+            Dim uniqueKey$
 
             For Each protein As entry In uniprot
                 Dim uniprotID$ = protein.accessions.First
@@ -259,17 +262,19 @@ Namespace kb_UniProtKB
                 Yield New NamedValue(Of MySQLTable) With {
                     .Name = NameOf(mysql.protein_functions),
                     .Value = New mysql.protein_functions With {
-                        .full_name = fullName,
+                        .full_name = fullName.MySqlEscaping,
                         .function = protein.comments _
                             .Where(Function(c) c.type = "function") _
                             .FirstOrDefault _
-                           ?.text.value,
+                           ?.text _
+                           ?.value _
+                            .MySqlEscaping,
                         .hash_code = hashcode,
                         .name = protein.name,
                         .uniprot_id = uniprotID,
-                        .short_name1 = getRecommendedShortName(0),
-                        .short_name2 = getRecommendedShortName(1),
-                        .short_name3 = getRecommendedShortName(2)
+                        .short_name1 = getRecommendedShortName(0).MySqlEscaping,
+                        .short_name2 = getRecommendedShortName(1).MySqlEscaping,
+                        .short_name3 = getRecommendedShortName(2).MySqlEscaping
                     }
                 }
 
@@ -434,12 +439,22 @@ Namespace kb_UniProtKB
                             In cite _
                                 .authorList _
                                 .SafeQuery
+                            Let name = people.name.MySqlEscaping
+                            Let personID = peoples(name)
                             Select New mysql.research_jobs With {
                                 .literature_id = jobID,
                                 .literature_title = cite.title.MySqlEscaping,
-                                .people_name = people.name.MySqlEscaping,
-                                .person = peoples(.people_name)' .uid
+                                .people_name = name,
+                                .person = personID  ' .uid
                             }
+
+                            uniqueKey = $"{job.literature_id} - {job.person}"
+
+                            If peopleJobs.IndexOf(uniqueKey) > -1 Then
+                                Continue For
+                            Else
+                                peopleJobs.Add(uniqueKey)
+                            End If
 
                             Yield New NamedValue(Of MySQLTable) With {
                                 .Name = NameOf(mysql.research_jobs),
