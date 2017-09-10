@@ -76,6 +76,8 @@ Namespace Quantile
             Dim quantile = array.Select(Function(o) o.x).GKQuantile
             Dim threshold# = quantile.Query(q)
 
+            Call $"quantile {q * 100}% => {threshold}".__INFO_ECHO
+
             Return array _
                 .Where(Function(o) o.x >= threshold) _
                 .Select(Function(x) x.obj)
@@ -94,6 +96,8 @@ Namespace Quantile
                 Case Else
                     Throw New NotSupportedException("???" & name.ToString)
             End Select
+
+            Call $"quartile {name.ToString} => {q}".__INFO_ECHO
 
             Return array _
                 .Where(Function(o) o.x >= q#) _
