@@ -169,13 +169,23 @@ Partial Module CLI
 
     <ExportAPI("/SBH.tophits")>
     <Description("Filtering the sbh result with top SBH Score")>
-    <Usage("/SBH.tophits /in <sbh.csv> [/out <out.csv>]")>
+    <Usage("/SBH.tophits /in <sbh.csv> [/uniprotKB /out <out.csv>]")>
     Public Function SBH_topHits(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".sbh.tophits.csv")
         Dim data = [in].LoadCsv(Of BestHit)
         Dim groups = data.GroupBy(Function(hit) hit.QueryName)
         Dim tophits = groups.Select(Function(g) g.OrderByDescending(Function(hit) hit.SBHScore).First).ToArray
+
+        If args.IsTrue("/uniprotKB") Then
+            For Each x In tophits
+                With x.HitName.GetTagValue(" ", trim:=True)
+                    x.HitName = .Name
+                    x.description = .Value
+                End With
+            Next
+        End If
+
         Return tophits.SaveTo(out).CLICode
     End Function
 
