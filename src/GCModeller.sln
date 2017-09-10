@@ -8511,8 +8511,8 @@ Global
 		{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}.docs|x86.Build.0 = Debug|Any CPU
 		{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}.GCModeller(Release_X64)|x64.ActiveCfg = Release|Any CPU
-		{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}.GCModeller(Release_X64)|x64.Build.0 = Release|Any CPU
+		{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
+		{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
 		{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
 		{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
 		{FCE39D85-B8C5-490C-B330-79FF3A5BFA27}.mysqli_X64_release|Any CPU.ActiveCfg = Release|Any CPU

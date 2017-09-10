@@ -28,6 +28,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -205,6 +206,9 @@ Namespace kb_UniProtKB
             Dim topologies As New Dictionary(Of String, Long)
             Dim locations As New Dictionary(Of String, Long)
             Dim subCellularLocations As int = 1
+            Dim peopleJobs As New Index(Of String)
+            Dim uniqueTissueLocations As New Index(Of String)
+            Dim uniqueKey$
 
             For Each protein As entry In uniprot
                 Dim uniprotID$ = protein.accessions.First
@@ -259,17 +263,19 @@ Namespace kb_UniProtKB
                 Yield New NamedValue(Of MySQLTable) With {
                     .Name = NameOf(mysql.protein_functions),
                     .Value = New mysql.protein_functions With {
-                        .full_name = fullName,
+                        .full_name = fullName.MySqlEscaping,
                         .function = protein.comments _
                             .Where(Function(c) c.type = "function") _
                             .FirstOrDefault _
-                           ?.text.value,
+                           ?.text _
+                           ?.value _
+                            .MySqlEscaping,
                         .hash_code = hashcode,
                         .name = protein.name,
                         .uniprot_id = uniprotID,
-                        .short_name1 = getRecommendedShortName(0),
-                        .short_name2 = getRecommendedShortName(1),
-                        .short_name3 = getRecommendedShortName(2)
+                        .short_name1 = getRecommendedShortName(0).MySqlEscaping,
+                        .short_name2 = getRecommendedShortName(1).MySqlEscaping,
+                        .short_name3 = getRecommendedShortName(2).MySqlEscaping
                     }
                 }
 
@@ -289,15 +295,15 @@ Namespace kb_UniProtKB
                                                .MySqlEscaping
                                        End Function
                     Select New mysql.protein_alternative_name With {
-                        .fullName = altFullName,
+                        .fullName = altFullName.MySqlEscaping,
                         .hash_code = hashcode,
                         .name = protein.name,
                         .uniprot_id = uniprotID,
-                        .shortName1 = getShortName(0),
-                        .shortName2 = getShortName(1),
-                        .shortName3 = getShortName(2),
-                        .shortName4 = getShortName(3),
-                        .shortName5 = getShortName(4),
+                        .shortName1 = getShortName(0).MySqlEscaping,
+                        .shortName2 = getShortName(1).MySqlEscaping,
+                        .shortName3 = getShortName(2).MySqlEscaping,
+                        .shortName4 = getShortName(3).MySqlEscaping,
+                        .shortName5 = getShortName(4).MySqlEscaping,
                         .uid = ++altNameId
                     }
 
@@ -414,16 +420,16 @@ Namespace kb_UniProtKB
                         Yield New NamedValue(Of MySQLTable) With {
                             .Name = NameOf(mysql.literature),
                             .Value = New mysql.literature With {
-                                .date = cite.date,
-                                .db = cite.db,
-                                .journal = cite.name,
-                                .volume = cite.volume,
-                                .title = citeTitle,
-                                .type = cite.type,
+                                .date = cite.date.MySqlEscaping,
+                                .db = cite.db.MySqlEscaping,
+                                .journal = cite.name.MySqlEscaping,
+                                .volume = cite.volume.MySqlEscaping,
+                                .title = cite.title.MySqlEscaping,
+                                .type = cite.type.MySqlEscaping,
                                 .uid = citations(citeTitle),
                                 .pages = $"{cite.first} - {cite.last}",
-                                .doi = doi,
-                                .pubmed = pubmed
+                                .doi = doi.MySqlEscaping,
+                                .pubmed = pubmed.MySqlEscaping
                             }
                         }
 
@@ -434,12 +440,22 @@ Namespace kb_UniProtKB
                             In cite _
                                 .authorList _
                                 .SafeQuery
+                            Let name = people.name.MySqlEscaping
+                            Let personID = peoples(name)
                             Select New mysql.research_jobs With {
                                 .literature_id = jobID,
-                                .literature_title = citeTitle,
-                                .people_name = people.name.MySqlEscaping,
-                                .person = peoples(.people_name)' .uid
+                                .literature_title = cite.title.MySqlEscaping,
+                                .people_name = name,
+                                .person = personID  ' .uid
                             }
+
+                            uniqueKey = $"{job.literature_id} - {job.person}"
+
+                            If peopleJobs.IndexOf(uniqueKey) > -1 Then
+                                Continue For
+                            Else
+                                peopleJobs.Add(uniqueKey)
+                            End If
 
                             Yield New NamedValue(Of MySQLTable) With {
                                 .Name = NameOf(mysql.research_jobs),
@@ -590,7 +606,7 @@ Namespace kb_UniProtKB
                     Yield New NamedValue(Of MySQLTable) With {
                         .Name = NameOf(mysql.organism_code),
                         .Value = New mysql.organism_code With {
-                            .organism_name = organismScientificName,
+                            .organism_name = organismScientificName.MySqlEscaping,
                             .uid = organism(organismScientificName)
                         }
                     }
@@ -617,12 +633,13 @@ Namespace kb_UniProtKB
                         .org_id = organism(organismScientificName),' .uid,
                         .uniprot_id = uniprotID,
                         .proteomes_id = If(proteomesInfo Is Nothing, "", proteomesInfo.id),
-                        .component = chr
+                        .component = chr.MySqlEscaping
                     }
                 }
 #End Region
 #Region "tissue locations"
                 Dim tissue$
+                Dim tissueID&
 
                 For Each ref As reference In protein.references
                     If ref.source Is Nothing OrElse ref.source.tissues.IsNullOrEmpty Then
@@ -638,7 +655,7 @@ Namespace kb_UniProtKB
                             Yield New NamedValue(Of MySQLTable) With {
                                 .Name = NameOf(mysql.tissue_code),
                                 .Value = New mysql.tissue_code With {
-                                    .organism = organismScientificName,
+                                    .organism = organismScientificName.MySqlEscaping,
                                     .org_id = organism(organismScientificName),' .uid,
                                     .tissue_name = name,
                                     .uid = tissues(tissue)
@@ -646,13 +663,22 @@ Namespace kb_UniProtKB
                             }
                         End If
 
+                        tissueID = tissues(tissue)
+                        uniqueKey = $"{hashcode} - {tissueID}"
+
+                        If uniqueTissueLocations.IndexOf(uniqueKey) > -1 Then
+                            Continue For
+                        Else
+                            uniqueTissueLocations.Add(uniqueKey)
+                        End If
+
                         Yield New NamedValue(Of MySQLTable) With {
                             .Name = NameOf(mysql.tissue_locations),
                             .Value = New mysql.tissue_locations With {
                                 .hash_code = hashcode,
-                                .name = protein.name,
-                                .tissue_id = tissues(tissue),' .uid,
-                                .tissue_name = name,
+                                .name = protein.name.MySqlEscaping,
+                                .tissue_id = tissueID,' .uid,
+                                .tissue_name = name.MySqlEscaping,
                                 .uniprot_id = uniprotID
                             }
                         }
@@ -664,21 +690,23 @@ Namespace kb_UniProtKB
                     .comments _
                     .Where(Function(c) c.type = "subcellular location") _
                     .ToArray
+                Dim topologyName$
 
                 For Each sublocation As subcellularLocation In subcellular_locations _
                     .Select(Function(c) c.subcellularLocations) _
                     .IteratesALL
 
                     If Not sublocation.topology Is Nothing Then
-                        If Not topologies.ContainsKey(sublocation.topology.value) Then
+                        topologyName = sublocation.topology.value.MySqlEscaping
+
+                        If Not topologies.ContainsKey(topologyName) Then
                             Call topologies.Add(
-                                sublocation.topology.value,
-                                topologies.Count)
+                                topologyName, topologies.Count)
 
                             Yield New NamedValue(Of MySQLTable) With {
                                 .Name = NameOf(mysql.topology_id),
                                 .Value = New mysql.topology_id With {
-                                    .name = sublocation.topology.value,
+                                    .name = topologyName,
                                     .uid = topologies(.name)
                                 }
                             }
@@ -704,7 +732,9 @@ Namespace kb_UniProtKB
                                 .hash_code = hashcode,
                                 .location = name.value,
                                 .location_id = locations(name.value),' .uid,
-                                .topology = sublocation.topology?.value,
+                                .topology = sublocation.topology _
+                                    ?.value _
+                                     .MySqlEscaping,
                                 .topology_id = If(
                                     sublocation.topology Is Nothing,
                                     -1,
@@ -739,7 +769,7 @@ Namespace kb_UniProtKB
         <Extension>
         Public Function DumpMySQLProject(uniprot As IEnumerable(Of entry), EXPORT$) As Boolean
             Try
-                Call uniprot.PopulateData.ProjectDumping(EXPORT)
+                Call uniprot.PopulateData.ProjectDumping(EXPORT,, singleTransaction:=True)
             Catch ex As Exception
                 ex = New Exception(EXPORT, ex)
                 Throw ex
