@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 
 Namespace Quantile
 
@@ -45,9 +46,9 @@ Namespace Quantile
 
                 With exp.Split(":"c).Last.Trim
                     If .IsPattern("\d+(\.\d+)?[%]") Then
-                        q = Val(exp) / 100
+                        q = Val(.ref) / 100
                     Else
-                        q = Val(exp)
+                        q = Val(.ref)
                     End If
                 End With
 
