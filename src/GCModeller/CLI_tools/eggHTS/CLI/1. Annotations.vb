@@ -200,14 +200,17 @@ Partial Module CLI
 
             out = args.GetValue("/out", list.TrimSuffix & "-proteins-uniprot-annotations.csv")
 
-            If list.ExtensionSuffix.TextEquals("csv") Then
-                geneIDs = EntityObject.LoadDataSet(list) _
-                    .Select(Function(x) x.ID) _
-                    .Distinct _
-                    .ToArray
-            Else
-                geneIDs = list.ReadAllLines
-            End If
+            With list.ExtensionSuffix
+                If .TextEquals("csv") OrElse .TextEquals("tsv") Then
+                    geneIDs = EntityObject.LoadDataSet(list,, tsv:= .TextEquals("tsv")) _
+                        .Select(Function(x) x.ID) _
+                        .Distinct _
+                        .ToArray
+                Else
+                    geneIDs = list.ReadAllLines
+                End If
+            End With
+
             If mapping.FileExists Then
                 mappings = Retrieve_IDmapping.MappingReader(mapping)
             End If
