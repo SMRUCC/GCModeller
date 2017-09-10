@@ -558,63 +558,27 @@ Partial Module CLI
 
     <ExportAPI("/DEPs.stat",
                Info:="https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R",
-               Usage:="/DEPs.stat /in <log2.test.csv> [/iTraq /level <default=1.5> /out <out.stat.csv>]")>
+               Usage:="/DEPs.stat /in <log2.test.csv> [/log2FC <default=log2FC> /out <out.stat.csv>]")>
+    <Argument("/log2FC", True, CLITypes.String, Description:="The field name that stores the log2FC value of the average FoldChange")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function DEPStatics(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim level# = args.GetValue("/level", 1.5R)
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEPs.stat.csv")
-        Dim iTraq As Boolean = args.GetBoolean("/iTraq")
+        Dim log2FC$ = args.GetValue("/log2FC", "log2FC")
         Dim DEPs As EntityObject() = EntityObject _
            .LoadDataSet(path:=in$) _
            .Where(Function(d) d("is.DEP").TextEquals("TRUE")) _
            .ToArray
         Dim result As New File
-        Dim levelDown = 1 / level
-        Dim getFoldChange = Function(protein As EntityObject)
-                                Dim s$
-
-                                If iTraq Then
-                                    s = protein("FC.avg")
-                                Else
-                                    s = protein("logFC")
-                                End If
-
-                                Return s
-                            End Function
-
-        If Not iTraq Then
-            level = Math.Log(level, 2)
-        End If
 
         result += {"上调", "下调", "总数"}
         result += {
             DEPs _
-                .Where(Function(prot)
-                           If iTraq Then
-                               Return Val(getFoldChange(prot)) >= level
-                           Else
-                               Dim s = getFoldChange(prot)
-
-                               If s.TextEquals("Inf") Then
-                                   Return True
-                               ElseIf s.TextEquals("-Inf") Then
-                                   Return False
-                               Else
-                                   Return Val(getFoldChange(prot)).Log2 >= level
-                               End If
-                           End If
-                       End Function) _
+                .Where(Function(prot) Val(prot(log2FC)) > 0) _
                 .Count _
                 .ToString,
             DEPs _
-                .Where(Function(prot)
-                           If iTraq Then
-                               Return Val(getFoldChange(prot)) <= levelDown
-                           Else
-                               Return -1 * Val(getFoldChange(prot)).Log2 >= level
-                           End If
-                       End Function) _
+                .Where(Function(prot) Val(prot(log2FC)) < 0) _
                 .Count _
                 .ToString,
             CStr(DEPs.Length)
