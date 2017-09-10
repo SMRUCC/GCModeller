@@ -36,6 +36,6 @@ Public Class SampleInfo
     Public Property shapetype As String
 
     Public Overrides Function ToString() As String
-        Return sample_name
+        Return $"[{sample_group}] {sample_name}"
     End Function
 End Class
