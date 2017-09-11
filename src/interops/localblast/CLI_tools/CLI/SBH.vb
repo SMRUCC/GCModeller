@@ -27,14 +27,18 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.IO
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.BBHLogs
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
@@ -42,6 +46,26 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 
 Partial Module CLI
+
+    <ExportAPI("/to.kobas")>
+    <Usage("/to.kobas /in <sbh.csv> [/out <kobas.tsv>]")>
+    Public Function _2_KOBASOutput(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".tsv")
+        Dim row As RowObject
+
+        Using writer As StreamWriter = out.OpenWriter
+            For Each match As BestHit In [in].LoadCsv(Of BestHit)
+                With match
+                    row = { .QueryName, .HitName, .coverage, .length_hsp, 0, 0, 0, 0, 0, 0, .evalue, .Score}
+                End With
+
+                Call writer.WriteLine(row.AsLine(ASCII.TAB))
+            Next
+        End Using
+
+        Return 0
+    End Function
 
     <ExportAPI("/Paralog", Usage:="/Paralog /blastp <blastp.txt> [/coverage 0.5 /identities 0.3 /out <out.csv>]")>
     Public Function ExportParalog(args As CommandLine) As Integer
@@ -129,11 +153,11 @@ Partial Module CLI
         Dim LQuery = (From contig In contigs.AsParallel Select __evalueRow(hitsTags, contig.Key, contig.Value, flip)).ToArray
         Dim hits = (From contig In contigs.AsParallel Select __HitsRow(hitsTags, contig.Key, contig.Value)).ToArray
 
-        Dim Csv As File = New File + New RowObject("+".Join(hitsTags))
+        Dim Csv As csv.IO.File = New csv.IO.File + New RowObject("+".Join(hitsTags))
         Csv += LQuery
-        Csv.Save(out, Encoding:=System.Text.Encoding.ASCII)
+        Csv.Save(out, Encoding:=Encoding.ASCII)
 
-        Csv = New File + New RowObject("+".Join(hitsTags))
+        Csv = New csv.IO.File + New RowObject("+".Join(hitsTags))
         Csv += hits
 
         Return Csv.Save(out & ".Hits.Csv", Encoding:=System.Text.Encoding.ASCII).CLICode
