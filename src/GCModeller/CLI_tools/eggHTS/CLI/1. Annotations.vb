@@ -68,6 +68,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/UniRef.UniprotKB")>
     <Usage("/UniRef.UniprotKB /in <uniref.xml> [/out <maps.csv>]")>
+    <Argument("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
     Public Function UniRef2UniprotKB(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-uniref_uniprotKB.csv")
@@ -91,6 +92,8 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/UniRef.map.organism")>
     <Usage("/UniRef.map.organism /in <uniref.xml> /org <organism_name> [/out <out.csv>]")>
+    <Argument("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
+    <Argument("/org", False, CLITypes.String, Description:="The organism scientific name.")>
     Public Function UniRefMap2Organism(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim org$ = args <= "/org"
