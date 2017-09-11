@@ -22,6 +22,16 @@ Namespace Assembly.Uniprot.XML.UniRef
     Public Class representativeMember
         Public Property dbReference As dbReference
         Public Property sequence As sequence
+
+        Public ReadOnly Property UniProtKB_accession As String
+            Get
+                Return dbReference.properties.Where(Function(prop) prop.type = "UniProtKB accession").FirstOrDefault?.value
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            Return UniProtKB_accession
+        End Function
     End Class
 
     Public Module Extensions
