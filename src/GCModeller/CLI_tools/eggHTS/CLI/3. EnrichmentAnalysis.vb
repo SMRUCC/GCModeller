@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.Uniprot.Web.Retrieve_IDmapping
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
@@ -506,7 +507,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/enricher.background",
-               Usage:="/enricher.background /in <uniprot.XML> [/out <term2gene.txt.DIR>]")>
+               Usage:="/enricher.background /in <uniprot.XML> [/mapping <maps.tsv> /out <term2gene.txt.DIR>]")>
     <Description("Create enrichment analysis background by using uniprot annotation data.")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function Backgrounds(args As CommandLine) As Integer
@@ -514,15 +515,45 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".t2g_backgrounds/")
         Dim go As New List(Of (accessions As String(), GO As String()))
         Dim KEGG = go.AsList
+        Dim maps = MappingReader(args <= "/mapping") _
+            .Select(Function(id) id.Value.Select(Function(uniprotID) (uniprotID, id.Key))) _
+            .IteratesALL _
+            .GroupBy(Function(x) x.Item1) _
+            .ToDictionary(Function(x) x.Key,
+                          Function(g)
+                              Return g _
+                                  .Select(Function(x) x.Item2) _
+                                  .Distinct _
+                                  .ToArray
+                          End Function)
 
         For Each protein As entry In in$.LoadXmlDataSet(Of entry)(xmlns:="http://uniprot.org/uniprot")
             Dim go_ref = protein.Xrefs.TryGetValue("GO")
-            If Not go_ref.IsNullOrEmpty Then
-                go += (protein.accessions, go_ref.Select(Function(x) x.id).ToArray)
+            Dim ID$()
+
+            If maps.IsNullOrEmpty Then
+                ID = protein.accessions
+            Else
+                ID = protein.accessions _
+                    .Where(Function(uniprotID) maps.ContainsKey(uniprotID)) _
+                    .Select(Function(uniprotID) maps(uniprotID)) _
+                    .IteratesALL _
+                    .Distinct _
+                    .ToArray
             End If
+
+            If ID.IsNullOrEmpty Then
+                Continue For
+            End If
+
+            If Not go_ref.IsNullOrEmpty Then
+                go += (ID, go_ref.Select(Function(x) x.id).ToArray)
+            End If
+
             Dim KO_ref = protein.Xrefs.TryGetValue("KO")
+
             If Not KO_ref.IsNullOrEmpty Then
-                KEGG += (protein.accessions, KO_ref.Select(Function(x) x.id).ToArray)
+                KEGG += (ID, KO_ref.Select(Function(x) x.id).ToArray)
             End If
         Next
 
