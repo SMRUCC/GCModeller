@@ -47,7 +47,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/func.rich.string")>
-    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/r.range <default=5,20> /fold <1.5> /iTraq /logFC <logFC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
+    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/r.range <default=12,30> /fold <1.5> /iTraq /logFC <logFC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
     <Description("DEPs' functional enrichment network based on string-db exports, and color by KEGG pathway.")>
     <Group(CLIGroups.NetworkEnrichment_CLI)>
     Public Function FunctionalNetworkEnrichment(args As CommandLine) As Integer
