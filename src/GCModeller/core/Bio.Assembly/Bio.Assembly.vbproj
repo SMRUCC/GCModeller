@@ -479,6 +479,7 @@
     <Compile Include="Assembly\UniProt\Web\ID_types.vb" />
     <Compile Include="Assembly\UniProt\Web\Retrieve_IDmapping.vb" />
     <Compile Include="Assembly\UniProt\Web\Entry.vb" />
+    <Compile Include="Assembly\UniProt\XML\UniRef\entry.vb" />
     <Compile Include="ComponentModel\CatalogProfiling.vb" />
     <Compile Include="ComponentModel\IMolecule.vb" />
     <Compile Include="ComponentModel\DBLinkBuilder\Xref.vb" />

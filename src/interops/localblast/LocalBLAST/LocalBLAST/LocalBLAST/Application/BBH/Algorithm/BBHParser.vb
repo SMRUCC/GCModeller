@@ -148,7 +148,7 @@ Namespace LocalBLAST.Application.BBH
 
         <Extension>
         Public Function SBHScore(hit As BestHit) As Double
-            Dim E# = If(hit.evalue = 0R, Double.MaxValue - 100, -Math.Log10(hit.evalue))
+            Dim E# = If(hit.evalue = 0R, 500, -Math.Log10(hit.evalue))
             Dim score# = (hit.identities * hit.coverage) * E
             Return score
         End Function
