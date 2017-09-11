@@ -10,10 +10,23 @@ Public Module DEGProfiling
                             logFC$) As (UP As Dictionary(Of String, Double), DOWN As Dictionary(Of String, Double))
 
         Dim DEGs As gene() = genes.Where(isDEP).ToArray
-        Dim up = DEGs.Where(Function(gene) Val(gene(logFC)) >= threshold.up).ToDictionary(Function(gene) gene.ID, Function(gene) Val(gene(logFC)))
-        Dim down = DEGs.Where(Function(gene) Val(gene(logFC)) <= threshold.down).ToDictionary(Function(gene) gene.ID, Function(gene) Val(gene(logFC)))
+        Dim up = DEGs.Where(Function(gene) Val(gene(logFC)) >= threshold.up).createTable(logFC)
+        Dim down = DEGs.Where(Function(gene) Val(gene(logFC)) <= threshold.down).createTable(logFC)
 
         Return (up, down)
+    End Function
+
+    <Extension>
+    Private Function createTable(DEGs As IEnumerable(Of gene), logFC$) As Dictionary(Of String, Double)
+        Return DEGs _
+            .GroupBy(Function(gene) gene.ID) _
+            .ToDictionary(Function(gene) gene.Key,
+                          Function(g)
+                              Return Aggregate gene As gene
+                                     In g
+                                     Let log2FC As Double = Val(gene(logFC))
+                                     Into Average(log2FC)
+                          End Function)
     End Function
 
     ''' <summary>
