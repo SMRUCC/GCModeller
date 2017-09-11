@@ -146,10 +146,16 @@ Namespace LocalBLAST.Application.BBH
             Return LQuery
         End Function
 
+        ''' <summary>
+        ''' 因为Evalue是评价hsp的相似度的高低的因素，而identity和coverage则是评价序列整体相似度的因素，
+        ''' 所以在这里仅需要identity和coverage这两个因素来计算得分就好了
+        ''' </summary>
+        ''' <param name="hit"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function SBHScore(hit As BestHit) As Double
-            Dim E# = If(hit.evalue = 0R, 500, -Math.Log10(hit.evalue))
-            Dim score# = (hit.identities * hit.coverage) * E
+            ' Dim E# = If(hit.evalue = 0R, 500, -Math.Log10(hit.evalue))
+            Dim score# = (hit.identities * hit.coverage) ' * E
             Return score
         End Function
 
