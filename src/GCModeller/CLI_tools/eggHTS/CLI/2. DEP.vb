@@ -47,6 +47,9 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB.UniprotKBEngine
 Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.DataMining.KMeans
 
 Partial Module CLI
 
@@ -300,7 +303,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /sampleInfo <sampleinfo.csv> /iTraq /non_DEP.blank /size <size, default=2000,3000> /log2FC <log2FC> /is.DEP <is.DEP> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /cluster.n <default=5> /sampleInfo <sampleinfo.csv> /iTraq /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /size <size, default=2000,3000> /log2FC <log2FC> /is.DEP <is.DEP> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -319,9 +322,10 @@ Partial Module CLI
         Dim nonDEP_blank As Boolean = args.GetBoolean("/non_DEP.blank")
         Dim iTraq As Boolean = args.GetBoolean("/iTraq")
         Dim size$ = args.GetValue("/size", "2000,3000")
-        Dim data As Dictionary(Of String, Dictionary(Of EntityObject)) = (ls - l - r - "*.csv" <= DIR).ToDictionary(Function(path) path.BaseName, Function(path) EntityObject.LoadDataSet(path).ToDictionary)
-        Dim allDEPs = data.Values.IteratesALL.Where(Function(x) x.Value(isDEP).TextEquals("TRUE")).Keys.Distinct.ToArray
+        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = (ls - l - r - "*.csv" <= DIR).ToDictionary(Function(path) path.BaseName, Function(path) EntityObject.LoadDataSet(Of DEP_iTraq)(path).ToDictionary)
+        Dim allDEPs = data.Values.IteratesALL.Where(Function(x) x.Value.isDEP).Keys.Distinct.ToArray
         Dim matrix As New List(Of DataSet)
+        Dim title$ = args.GetValue("/title", "Heatmap of DEPs log2FC")
 
         For Each id In allDEPs
             Dim FClog2 As New Dictionary(Of String, Double)
@@ -330,18 +334,34 @@ Partial Module CLI
                 With group.Value
                     If .ContainsKey(id) Then
                         With .ref(id)
-                            If .ref(isDEP).TextEquals("TRUE") Then
-                                FClog2.Add(group.Key, Val(.ref(log2FC)))
+                            If .ref.isDEP Then
+                                For Each prop In .ref.Properties
+                                    If prop.Value.TextEquals("NA") Then
+                                        FClog2.Add(prop.Key, 0)
+                                    Else
+                                        FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                    End If
+                                Next
                             Else
                                 If nonDEP_blank Then
-                                    FClog2.Add(group.Key, 1)
+                                    For Each prop In .ref.Properties
+                                        FClog2.Add(prop.Key, 0) 'log2(1) = 0
+                                    Next
                                 Else
-                                    FClog2.Add(group.Key, Val(.ref(log2FC)))
+                                    For Each prop In .ref.Properties
+                                        If prop.Value.TextEquals("NA") Then
+                                            FClog2.Add(prop.Key, 0)
+                                        Else
+                                            FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                        End If
+                                    Next
                                 End If
                             End If
                         End With
                     Else
-                        FClog2.Add(group.Key, 1)
+                        For Each key In data(group.Key).Values.First.Properties.Keys
+                            FClog2.Add(key, 0)
+                        Next
                     End If
                 End With
             Next
@@ -352,7 +372,7 @@ Partial Module CLI
             }
         Next
 
-        Call matrix.SaveTo(dataOUT)
+        Call matrix.ToKMeansModels.Kmeans(expected:=args.GetValue("/cluster.n", 6)).SaveTo(dataOUT)
 
         If args.IsTrue("/KO.class") Then
             Dim groupInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
@@ -365,7 +385,11 @@ Partial Module CLI
                 .Save(out & "/plot.png")
         Else
             ' 绘制普通的热图
-            Call Heatmap.Plot(matrix, size:=size).Save(out & "/plot.png")
+            Call Heatmap.Plot(
+                matrix,
+                size:=size,
+                drawScaleMethod:=DrawElements.Rows,
+                mainTitle:=title, rowLabelfontStyle:=CSSFont.Win7Small, colLabelFontStyle:=CSSFont.Win7Large, mapName:=Colors.ColorBrewer.DivergingSchemes.RdYlGn11).Save(out & "/plot.png")
         End If
 
         Return 0

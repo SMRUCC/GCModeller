@@ -61,6 +61,24 @@ Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
 
+    <ExportAPI("/UniRef.UniprotKB")>
+    <Usage("/UniRef.UniprotKB /in <uniref.xml> [/out <maps.csv>]")>
+    Public Function UniRef2UniprotKB(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-uniref_uniprotKB.csv")
+        Dim ref As NamedValue(Of String)() = UniRef _
+            .PopulateALL([in]) _
+            .Select(Function(entry)
+                        Return New NamedValue(Of String) With {
+                            .Name = entry.id,
+                            .Value = entry.representativeMember.UniProtKB_accession
+                        }
+                    End Function) _
+            .ToArray
+
+        Return ref.SaveTo(out).CLICode
+    End Function
+
     <ExportAPI("/Exocarta.Hits")>
     <Usage("/Exocarta.Hits /in <list.txt> /annotation <annotations.csv> /exocarta <Exocarta.tsv> [/out <out.csv>]")>
     Public Function ExocartaHits(args As CommandLine) As Integer

@@ -11,6 +11,8 @@ Public Class DEP_iTraq : Inherits EntityObject
     <Column("FC.avg")> Public Property FCavg As Double
     <Column("p.value")> Public Property pvalue As Double
     <Column("is.DEP")> Public Property isDEP As Boolean
+    <Column("log2FC")> Public Property log2FC As Double
+    <Column("FDR")> Public Property FDR As Double
 
     Public Overrides Function ToString() As String
         Return Me.GetJson
