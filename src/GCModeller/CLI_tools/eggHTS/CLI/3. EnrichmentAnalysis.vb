@@ -506,9 +506,13 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/enricher.background",
-               Usage:="/enricher.background /in <uniprot.XML> [/mapping <maps.tsv> /out <term2gene.txt.DIR>]")>
-    <Description("Create enrichment analysis background by using uniprot annotation data.")>
+    <ExportAPI("/enricher.background")>
+    <Usage("/enricher.background /in <uniprot.XML> [/mapping <maps.tsv> /out <term2gene.txt.DIR>]")>
+    <Description("Create enrichment analysis background based on the uniprot xml database.")>
+    <Argument("/mapping", True, CLITypes.File,
+              Description:="The id mapping file, each row in format like ``id<TAB>uniprotID``")>
+    <Argument("/in", True, CLITypes.File,
+              Description:="The uniprotKB XML database which can be download from http://uniprot.org")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function Backgrounds(args As CommandLine) As Integer
         Dim [in] = args <= "/in"
