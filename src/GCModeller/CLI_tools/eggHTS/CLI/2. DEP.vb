@@ -47,6 +47,8 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB.UniprotKBEngine
 Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 
 Partial Module CLI
 
@@ -300,7 +302,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /sampleInfo <sampleinfo.csv> /iTraq /non_DEP.blank /size <size, default=2000,3000> /log2FC <log2FC> /is.DEP <is.DEP> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /sampleInfo <sampleinfo.csv> /iTraq /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /size <size, default=2000,3000> /log2FC <log2FC> /is.DEP <is.DEP> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -322,6 +324,7 @@ Partial Module CLI
         Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = (ls - l - r - "*.csv" <= DIR).ToDictionary(Function(path) path.BaseName, Function(path) EntityObject.LoadDataSet(Of DEP_iTraq)(path).ToDictionary)
         Dim allDEPs = data.Values.IteratesALL.Where(Function(x) x.Value.isDEP).Keys.Distinct.ToArray
         Dim matrix As New List(Of DataSet)
+        Dim title$ = args.GetValue("/title", "Heatmap of DEPs log2FC")
 
         For Each id In allDEPs
             Dim FClog2 As New Dictionary(Of String, Double)
@@ -332,7 +335,11 @@ Partial Module CLI
                         With .ref(id)
                             If .ref.isDEP Then
                                 For Each prop In .ref.Properties
-                                    FClog2.Add(prop.Key, Val(Math.Log(prop.Value, 2)))
+                                    If prop.Value.TextEquals("NA") Then
+                                        FClog2.Add(prop.Key, 0)
+                                    Else
+                                        FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                    End If
                                 Next
                             Else
                                 If nonDEP_blank Then
@@ -341,7 +348,11 @@ Partial Module CLI
                                     Next
                                 Else
                                     For Each prop In .ref.Properties
-                                        FClog2.Add(prop.Key, Val(Math.Log(prop.Value, 2)))
+                                        If prop.Value.TextEquals("NA") Then
+                                            FClog2.Add(prop.Key, 0)
+                                        Else
+                                            FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                        End If
                                     Next
                                 End If
                             End If
@@ -373,7 +384,11 @@ Partial Module CLI
                 .Save(out & "/plot.png")
         Else
             ' 绘制普通的热图
-            Call Heatmap.Plot(matrix, size:=size).Save(out & "/plot.png")
+            Call Heatmap.Plot(
+                matrix,
+                size:=size,
+                drawScaleMethod:=DrawElements.Rows,
+                mainTitle:=title, rowLabelfontStyle:=CSSFont.Win7Small, colLabelFontStyle:=CSSFont.Win7Large, mapName:=Colors.ColorBrewer.DivergingSchemes.RdYlGn11).Save(out & "/plot.png")
         End If
 
         Return 0
