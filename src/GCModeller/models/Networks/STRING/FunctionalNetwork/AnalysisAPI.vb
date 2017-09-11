@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -16,7 +17,7 @@ Public Module AnalysisAPI
     <Extension>
     Public Function NetworkVisualize(stringNetwork As IEnumerable(Of InteractExports),
                                      annotations As Dictionary(Of String, entry),
-                                     DEGs As (UP As String(), down As String()),
+                                     DEGs As (UP As Dictionary(Of String, Double), down As Dictionary(Of String, Double)),
                                      Optional layouts As IEnumerable(Of Coordinates) = Nothing,
                                      Optional radius$ = "5,30") As (model As NetworkTables, image As Image)
 
@@ -24,7 +25,7 @@ Public Module AnalysisAPI
             .BuildModel(uniprot:=annotations,
                         groupValues:=FunctionalNetwork.KOGroupTable)
         Call model.ComputeNodeDegrees
-        Call model.RenderDEGsColor(DEGs, (up:="brown", down:="skyblue"),)
+        Call model.RenderDEGsColorSchema(DEGs, (up:=ColorBrewer.SequentialSchemes.RdPu9, down:=ColorBrewer.SequentialSchemes.YlGnBu9),)
 
         With model.VisualizeKEGG(
             layouts.ToArray,
@@ -38,7 +39,7 @@ Public Module AnalysisAPI
     End Function
 
     <Extension>
-    Public Function Uniprot2STRING(annotations As Dictionary(Of String, entry)) As Func(Of String(), String())
+    Public Function Uniprot2STRING(annotations As Dictionary(Of String, entry)) As Func(Of Dictionary(Of String, Double), Dictionary(Of String, Double))
         Dim uniprotSTRING = annotations.Values _
                .Distinct _
                .Select(Function(protein)
@@ -53,13 +54,14 @@ Public Module AnalysisAPI
                                      .Select(Function(link) link.id) _
                                      .ToArray
                              End Function)
-        Return Function(list As String())
+        Return Function(list As Dictionary(Of String, Double))
                    Return list _
-                       .Where(Function(id) uniprotSTRING.ContainsKey(id)) _
-                       .Select(Function(id) uniprotSTRING(id)) _
+                       .Where(Function(id) uniprotSTRING.ContainsKey(id.Key)) _
+                       .Select(Function(id) uniprotSTRING(id.Key).Select(Function(id2) (id2:=id2, log2FC:=id.Value))) _
                        .IteratesALL _
-                       .Distinct _
-                       .ToArray
+                       .GroupBy(Function(x) x.id2) _
+                       .ToDictionary(Function(x) x.Key,
+                                     Function(x) Aggregate n In x Into Average(n.log2FC))
                End Function
     End Function
 End Module
