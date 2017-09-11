@@ -298,11 +298,11 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/DEP.heatmap",
-               Info:="Generates the heatmap plot input data. The default label profile is using for the iTraq result.",
-               Usage:="/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /sampleInfo <sampleinfo.csv> /iTraq /non_DEP.blank /level 1.25 /size <size, default=2000,3000> /FC.tag <FC.avg> /pvalue <p.value=0.05> /out <out.DIR>]")>
+    <ExportAPI("/DEP.heatmap")>
+    <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
+    <Usage("/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /sampleInfo <sampleinfo.csv> /iTraq /non_DEP.blank /size <size, default=2000,3000> /log2FC <log2FC> /is.DEP <is.DEP> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
-              Description:="If this parameter present, then all of the non-DEP that bring by the DEP set merge, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
+              Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument was set, then the KO class information for uniprotID will be draw on the output heatmap.")>
@@ -311,22 +311,46 @@ Partial Module CLI
               Description:="Describ the experimental group information")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap_DEPs(args As CommandLine) As Integer
-        Dim DIR$ = args("/data")
-        Dim FCtag$ = args.GetValue("/FC.tag", "FC.avg")
-        Dim pvalue = args _
-            .GetValue("/pvalue", "p.value=0.05") _
-            .GetTagValue("=", trim:=True)
+        Dim DIR$ = args <= "/data"
+        Dim log2FC As String = args.GetValue("/log2FC", "log2FC")
+        Dim isDEP As String = args.GetValue("/is.DEP", "is.DEP")
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
-        Dim level# = args.GetValue("/level", 1.25)
         Dim nonDEP_blank As Boolean = args.GetBoolean("/non_DEP.blank")
         Dim iTraq As Boolean = args.GetBoolean("/iTraq")
         Dim size$ = args.GetValue("/size", "2000,3000")
-        Dim matrix As DataSet() = DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", level, Val(pvalue.Value), FCtag, 1 / level, pvalue.Name,
-                         nonDEP_blank:=nonDEP_blank,
-                         log2t:=Not iTraq) _
-            .AsDataSet(blank:=1)
+        Dim data As Dictionary(Of String, Dictionary(Of EntityObject)) = (ls - l - r - "*.csv" <= DIR).ToDictionary(Function(path) path.BaseName, Function(path) EntityObject.LoadDataSet(path).ToDictionary)
+        Dim allDEPs = data.Values.IteratesALL.Where(Function(x) x.Value(isDEP).TextEquals("TRUE")).Keys.Distinct.ToArray
+        Dim matrix As New List(Of DataSet)
+
+        For Each id In allDEPs
+            Dim FClog2 As New Dictionary(Of String, Double)
+
+            For Each group In data
+                With group.Value
+                    If .ContainsKey(id) Then
+                        With .ref(id)
+                            If .ref(isDEP).TextEquals("TRUE") Then
+                                FClog2.Add(group.Key, Val(.ref(log2FC)))
+                            Else
+                                If nonDEP_blank Then
+                                    FClog2.Add(group.Key, 1)
+                                Else
+                                    FClog2.Add(group.Key, Val(.ref(log2FC)))
+                                End If
+                            End If
+                        End With
+                    Else
+                        FClog2.Add(group.Key, 1)
+                    End If
+                End With
+            Next
+
+            matrix += New DataSet With {
+                .ID = id,
+                .Properties = FClog2
+            }
+        Next
 
         Call matrix.SaveTo(dataOUT)
 

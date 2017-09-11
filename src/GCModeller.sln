@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26823.1
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{A298B539-BE81-4A66-AFC1-014D449E4887}"
 EndProject
@@ -3569,16 +3569,16 @@ Global
 		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.docs|x86.Build.0 = docs|x86
 		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.GCModeller(Release_X64)|x64.ActiveCfg = Release|x64
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.GCModeller(Release_X64)|x64.Build.0 = Release|x64
 		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.GCModeller(Release_X64)|x86.ActiveCfg = Release|x86
 		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.GCModeller(Release_X64)|x86.Build.0 = Release|x86
-		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.mysqli_X64_release|Any CPU.ActiveCfg = mysqli_X64_release|Any CPU
-		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.mysqli_X64_release|Any CPU.Build.0 = mysqli_X64_release|Any CPU
-		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.mysqli_X64_release|x64.ActiveCfg = mysqli_X64_release|x64
-		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.mysqli_X64_release|x64.Build.0 = mysqli_X64_release|x64
-		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.mysqli_X64_release|x86.ActiveCfg = mysqli_X64_release|x86
-		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.mysqli_X64_release|x86.Build.0 = mysqli_X64_release|x86
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.mysqli_X64_release|Any CPU.ActiveCfg = Release2|Any CPU
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.mysqli_X64_release|Any CPU.Build.0 = Release2|Any CPU
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.mysqli_X64_release|x64.ActiveCfg = Release2|x64
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.mysqli_X64_release|x64.Build.0 = Release2|x64
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.mysqli_X64_release|x86.ActiveCfg = Release2|x86
+		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.mysqli_X64_release|x86.Build.0 = Release2|x86
 		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
 		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Publish|Any CPU.Build.0 = Publish|Any CPU
 		{2C34A044-1BDE-44E8-A86E-E9971C87DA21}.Publish|x64.ActiveCfg = Publish|x64
@@ -7167,8 +7167,8 @@ Global
 		{87383048-1B31-49B7-9FB7-0DED1B80ACE8}.docs|x86.Build.0 = docs|x86
 		{87383048-1B31-49B7-9FB7-0DED1B80ACE8}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{87383048-1B31-49B7-9FB7-0DED1B80ACE8}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{87383048-1B31-49B7-9FB7-0DED1B80ACE8}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{87383048-1B31-49B7-9FB7-0DED1B80ACE8}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
+		{87383048-1B31-49B7-9FB7-0DED1B80ACE8}.GCModeller(Release_X64)|x64.ActiveCfg = Release|x64
+		{87383048-1B31-49B7-9FB7-0DED1B80ACE8}.GCModeller(Release_X64)|x64.Build.0 = Release|x64
 		{87383048-1B31-49B7-9FB7-0DED1B80ACE8}.GCModeller(Release_X64)|x86.ActiveCfg = Release|x86
 		{87383048-1B31-49B7-9FB7-0DED1B80ACE8}.GCModeller(Release_X64)|x86.Build.0 = Release|x86
 		{87383048-1B31-49B7-9FB7-0DED1B80ACE8}.mysqli_X64_release|Any CPU.ActiveCfg = Release2|Any CPU
@@ -7215,8 +7215,8 @@ Global
 		{0A9B9FA6-E12D-48FD-B979-9F021A591E69}.docs|x86.Build.0 = docs|x86
 		{0A9B9FA6-E12D-48FD-B979-9F021A591E69}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{0A9B9FA6-E12D-48FD-B979-9F021A591E69}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{0A9B9FA6-E12D-48FD-B979-9F021A591E69}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{0A9B9FA6-E12D-48FD-B979-9F021A591E69}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
+		{0A9B9FA6-E12D-48FD-B979-9F021A591E69}.GCModeller(Release_X64)|x64.ActiveCfg = Release|x64
+		{0A9B9FA6-E12D-48FD-B979-9F021A591E69}.GCModeller(Release_X64)|x64.Build.0 = Release|x64
 		{0A9B9FA6-E12D-48FD-B979-9F021A591E69}.GCModeller(Release_X64)|x86.ActiveCfg = Release|x86
 		{0A9B9FA6-E12D-48FD-B979-9F021A591E69}.GCModeller(Release_X64)|x86.Build.0 = Release|x86
 		{0A9B9FA6-E12D-48FD-B979-9F021A591E69}.mysqli_X64_release|Any CPU.ActiveCfg = Release2|Any CPU
@@ -7263,8 +7263,8 @@ Global
 		{BC922A27-9BC3-4E7E-BE3D-55FC03FB4160}.docs|x86.Build.0 = docs|x86
 		{BC922A27-9BC3-4E7E-BE3D-55FC03FB4160}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{BC922A27-9BC3-4E7E-BE3D-55FC03FB4160}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{BC922A27-9BC3-4E7E-BE3D-55FC03FB4160}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{BC922A27-9BC3-4E7E-BE3D-55FC03FB4160}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
+		{BC922A27-9BC3-4E7E-BE3D-55FC03FB4160}.GCModeller(Release_X64)|x64.ActiveCfg = Release|x64
+		{BC922A27-9BC3-4E7E-BE3D-55FC03FB4160}.GCModeller(Release_X64)|x64.Build.0 = Release|x64
 		{BC922A27-9BC3-4E7E-BE3D-55FC03FB4160}.GCModeller(Release_X64)|x86.ActiveCfg = Release|x86
 		{BC922A27-9BC3-4E7E-BE3D-55FC03FB4160}.GCModeller(Release_X64)|x86.Build.0 = Release|x86
 		{BC922A27-9BC3-4E7E-BE3D-55FC03FB4160}.mysqli_X64_release|Any CPU.ActiveCfg = Release2|Any CPU
@@ -8415,16 +8415,16 @@ Global
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.docs|x86.Build.0 = Debug|Any CPU
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
+		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|x64.ActiveCfg = Release|x64
+		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|x64.Build.0 = Release|x64
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
-		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|Any CPU.ActiveCfg = mysqli_X64_release|Any CPU
-		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|Any CPU.Build.0 = mysqli_X64_release|Any CPU
-		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|x64.ActiveCfg = mysqli_X64_release|x64
-		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|x64.Build.0 = mysqli_X64_release|x64
-		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|x86.ActiveCfg = mysqli_X64_release|Any CPU
-		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|x86.Build.0 = mysqli_X64_release|Any CPU
+		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|Any CPU.ActiveCfg = Publish|Any CPU
+		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|Any CPU.Build.0 = Publish|Any CPU
+		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|x64.ActiveCfg = Release|x64
+		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|x64.Build.0 = Release|x64
+		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|x86.ActiveCfg = Publish|Any CPU
+		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|x86.Build.0 = Publish|Any CPU
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.Publish|Any CPU.Build.0 = Publish|Any CPU
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.Publish|x64.ActiveCfg = Publish|x64
@@ -8463,16 +8463,16 @@ Global
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.docs|x86.Build.0 = Debug|Any CPU
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|x64.ActiveCfg = Release|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|x64.Build.0 = Release|x64
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
-		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|Any CPU.ActiveCfg = mysqli_X64_release|Any CPU
-		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|Any CPU.Build.0 = mysqli_X64_release|Any CPU
-		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|x64.ActiveCfg = mysqli_X64_release|x64
-		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|x64.Build.0 = mysqli_X64_release|x64
-		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|x86.ActiveCfg = mysqli_X64_release|Any CPU
-		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|x86.Build.0 = mysqli_X64_release|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|Any CPU.ActiveCfg = Publish|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|Any CPU.Build.0 = Publish|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|x64.ActiveCfg = Release|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|x64.Build.0 = Release|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|x86.ActiveCfg = Publish|Any CPU
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|x86.Build.0 = Publish|Any CPU
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Publish|Any CPU.Build.0 = Publish|Any CPU
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.Publish|x64.ActiveCfg = Publish|x64

@@ -130,7 +130,7 @@ Partial Module Utilities
     <Argument("/out", True, AcceptTypes:={GetType(RepeatsView), GetType(RevRepeatsView)})>
     <Group(CLIGrouping.RepeatsTools)>
     Public Function BatchSearch(args As CommandLine) As Integer
-        Dim Mla As FastaFile = args.GetObject("/aln", AddressOf FastaFile.Read)
+        Dim Mla As FastaFile = args.GetObject(Of FastaFile)("/aln", AddressOf FastaFile.Read)
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim MinAppeared As Integer = args.GetValue("/min-rep", 2)
