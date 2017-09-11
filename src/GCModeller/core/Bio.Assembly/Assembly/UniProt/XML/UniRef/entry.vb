@@ -13,6 +13,8 @@ Namespace Assembly.Uniprot.XML.UniRef
         <XmlAttribute>
         Public Property id As String Implements IKeyedEntity(Of String).Key
         Public Property representativeMember As representativeMember
+        <XmlElement("member")>
+        Public Property members As representativeMember()
 
         Public Overrides Function ToString() As String
             Return id
@@ -20,12 +22,19 @@ Namespace Assembly.Uniprot.XML.UniRef
     End Class
 
     Public Class representativeMember
+
         Public Property dbReference As dbReference
         Public Property sequence As sequence
 
         Public ReadOnly Property UniProtKB_accession As String
             Get
-                Return dbReference.properties.Where(Function(prop) prop.type = "UniProtKB accession").FirstOrDefault?.value
+                Return dbReference("UniProtKB accession")
+            End Get
+        End Property
+
+        Public ReadOnly Property source_organism As String
+            Get
+                Return dbReference("source organism")
             End Get
         End Property
 

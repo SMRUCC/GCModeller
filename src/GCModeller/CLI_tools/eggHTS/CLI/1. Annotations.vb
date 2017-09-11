@@ -61,8 +61,14 @@ Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
 
+    ''' <summary>
+    ''' 将每一个参考cluster之中的代表序列的uniprot编号取出来生成映射
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/UniRef.UniprotKB")>
     <Usage("/UniRef.UniprotKB /in <uniref.xml> [/out <maps.csv>]")>
+    <Argument("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
     Public Function UniRef2UniprotKB(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-uniref_uniprotKB.csv")
@@ -76,6 +82,59 @@ Partial Module CLI
                     End Function) _
             .ToArray
 
+        Return ref.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' 将cluster之中的指定的物种名称的编号取出来，以方便应用于新测序的非参考基因组的数据项目的功能富集分析
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/UniRef.map.organism")>
+    <Usage("/UniRef.map.organism /in <uniref.xml> [/org <organism_name> /out <out.csv>]")>
+    <Argument("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
+    <Argument("/org", True, CLITypes.String, Description:="The organism scientific name. If this argument is presented in the CLI input, then this program will output the top organism in this input data.")>
+    Public Function UniRefMap2Organism(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim org$ = args <= "/org"
+
+        If org.StringEmpty Then
+            org = UniRef _
+                .PopulateALL([in]) _
+                .Select(Function(x)
+                            Return x.representativeMember.Join(x.members)
+                        End Function) _
+                .IteratesALL _
+                .Select(Function(x) x.source_organism) _
+                .GroupBy(Function(x) x) _
+                .OrderByDescending(Function(g) g.Count) _
+                .First _
+                .Key
+        End If
+
+        Dim ref As NamedValue(Of String)() = UniRef _
+            .PopulateALL([in]) _
+            .Select(Function(entry)
+                        Dim member = entry _
+                            .representativeMember _
+                            .Join(entry.members) _
+                            .Where(Function(m) InStr(m.source_organism, org, CompareMethod.Text) > 0) _
+                            .FirstOrDefault
+
+                        If member Is Nothing Then
+                            Return Nothing
+                        End If
+
+                        Return New NamedValue(Of String) With {
+                            .Name = entry.id,
+                            .Value = member.UniProtKB_accession,
+                            .Description = member.source_organism
+                        }
+                    End Function) _
+            .Where(Function(map) Not map.IsEmpty) _
+            .ToArray
+
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-" & org.NormalizePathString & ".csv")
         Return ref.SaveTo(out).CLICode
     End Function
 
