@@ -320,7 +320,7 @@ Partial Module CLI
         Dim iTraq As Boolean = args.GetBoolean("/iTraq")
         Dim size$ = args.GetValue("/size", "2000,3000")
         Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = (ls - l - r - "*.csv" <= DIR).ToDictionary(Function(path) path.BaseName, Function(path) EntityObject.LoadDataSet(Of DEP_iTraq)(path).ToDictionary)
-        Dim allDEPs = data.Values.IteratesALL.Where(Function(x) x.Value(isDEP).TextEquals("TRUE")).Keys.Distinct.ToArray
+        Dim allDEPs = data.Values.IteratesALL.Where(Function(x) x.Value.isDEP).Keys.Distinct.ToArray
         Dim matrix As New List(Of DataSet)
 
         For Each id In allDEPs
@@ -330,7 +330,7 @@ Partial Module CLI
                 With group.Value
                     If .ContainsKey(id) Then
                         With .ref(id)
-                            If .ref(isDEP).TextEquals("TRUE") Then
+                            If .ref.isDEP Then
                                 For Each prop In .ref.Properties
                                     FClog2.Add(prop.Key, Val(Math.Log(prop.Value, 2)))
                                 Next
