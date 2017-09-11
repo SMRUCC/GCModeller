@@ -402,7 +402,7 @@ Partial Module Utilities
                           Description:="If this parameter is set up true, then only the locus_tag of the ORF gene will be dump to the fasta sequence.")>
     <Group(CLIGrouping.FastaTools)>
     Public Function GetSegments(args As CommandLine) As Integer
-        Dim Regions As List(Of SimpleSegment) = args.GetObject("/regions", AddressOf LoadCsv(Of SimpleSegment))
+        Dim Regions As List(Of SimpleSegment) = args.GetObject(Of List(Of SimpleSegment))("/regions", AddressOf LoadCsv(Of SimpleSegment))
         Dim Fasta As New FASTA.FastaToken(args("/fasta"))
         Dim Complement As Boolean = args.GetBoolean("/complement")
         Dim reversed As Boolean = args.GetBoolean("/reversed")

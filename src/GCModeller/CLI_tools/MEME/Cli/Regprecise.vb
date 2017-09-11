@@ -228,7 +228,7 @@ Partial Module CLI
     Public Function CompileMast(args As CommandLine) As Integer
         Dim PTT As TabularFormat.PTT = TabularFormat.PTT.Load(args("/ptt"))
         Dim mast As XmlOutput.MAST.MAST =
-            args.GetObject("/mast", AddressOf LoadXml(Of XmlOutput.MAST.MAST))
+            args.GetObject(Of XmlOutput.MAST.MAST)("/mast", AddressOf LoadXml(Of XmlOutput.MAST.MAST))
         Dim sites As MastSites()
         Dim pvalue As Double = args.GetValue("/p-value", 0.001)
         Dim atgDist As Integer = args.GetValue("/atg-dist", 250)

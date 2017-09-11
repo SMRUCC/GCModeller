@@ -159,9 +159,9 @@ Partial Module CLI
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
 
         Using IO As New WriteStream(Of BestHit)(out)
-            Dim handle As Action(Of Query) = IO.ToArray(Of BlastPlus.Query)(
+            Dim handle As Action(Of Query) = IO.ToArray(Of Query)(
                 Function(query) v228.SBHLines(query, coverage:=coverage, identities:=idetities))
-            Call BlastPlus.Transform(inFile, 1024 * 1024 * 256, handle)
+            Call Transform(inFile, 1024 * 1024 * 256, handle)
         End Using
 
         Return 0
