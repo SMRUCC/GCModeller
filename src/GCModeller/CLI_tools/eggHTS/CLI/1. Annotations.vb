@@ -104,7 +104,7 @@ Partial Module CLI
                         Dim member = entry _
                             .representativeMember _
                             .Join(entry.members) _
-                            .Where(Function(m) m.source_organism.TextEquals(org)) _
+                            .Where(Function(m) InStr(m.source_organism, org, CompareMethod.Text) > 0) _
                             .FirstOrDefault
 
                         If member Is Nothing Then
@@ -117,7 +117,7 @@ Partial Module CLI
                             .Description = member.source_organism
                         }
                     End Function) _
-            .Where(Function(map) map.IsEmpty) _
+            .Where(Function(map) Not map.IsEmpty) _
             .ToArray
 
         Return ref.SaveTo(out).CLICode
