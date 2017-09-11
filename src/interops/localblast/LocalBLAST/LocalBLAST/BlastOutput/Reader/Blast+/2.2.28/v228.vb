@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::e55b05a2d86d2599c676db1db8299174, ..\localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\v228.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,6 +35,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 
@@ -109,7 +110,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 besthit.HitName = HITS_NOT_FOUND
             Else
                 Dim Score As Score = topHit.Score
-                
+
                 With besthit
                     .QueryName = locusId
                     .HitName = topHit.Name.Trim
@@ -174,23 +175,25 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         End Function
 
         Private Shared Function __hitsOverview(query As Query) As BestHit()
-            Return LinqAPI.Exec(Of BestHit) <=
+            Return LinqAPI.Exec(Of BestHit) _
  _
-                From hit As SubjectHit
-                In query.SubjectHits
-                Select New BestHit With {
-                    .QueryName = query.QueryName,
-                    .HitName = hit.Name,
-                    .evalue = hit.Score.Expect,
-                    .hit_length = hit.Length,
-                    .identities = hit.Score.Identities.Value,
-                    .length_hit = hit.LengthHit,
-                    .length_hsp = hit.LengthQuery,
-                    .length_query = hit.LengthQuery,
-                    .Positive = hit.Score.Positives.Value,
-                    .query_length = query.QueryLength,
-                    .Score = hit.Score.Score
-               }
+                () <= From hit As SubjectHit
+                      In query.SubjectHits
+                      Let identity As Double = hit.Score.Identities.Value
+                      Let positive As Double = hit.Score.Positives.Value
+                      Select New BestHit With {
+                          .QueryName = query.QueryName,
+                          .HitName = hit.Name,
+                          .evalue = hit.Score.Expect,
+                          .hit_length = hit.Length,
+                          .identities = identity,
+                          .length_hit = hit.LengthHit,
+                          .length_hsp = hit.LengthQuery,
+                          .length_query = hit.LengthQuery,
+                          .Positive = positive,
+                          .query_length = query.QueryLength,
+                          .Score = hit.Score.Score
+                      }
         End Function
 
         ''' <summary>
@@ -198,24 +201,26 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overrides Function ExportAllBestHist(Optional coverage As Double = 0.5, Optional identities_cutoff As Double = 0.15) As LocalBLAST.Application.BBH.BestHit()
+        Public Overrides Function ExportAllBestHist(Optional coverage As Double = 0.5, Optional identities_cutoff As Double = 0.15) As BestHit()
             Dim LQuery = LinqAPI.Exec(Of BestHit) <= From query As Query
                                                      In Queries
                                                      Select SBHLines(query, coverage, identities_cutoff) '
             Return LQuery
         End Function
 
-        Public Shared Function ExportBesthits(QueryName As String, QueryLength As Integer, Besthits As SubjectHit()) As LocalBLAST.Application.BBH.BestHit()
+        Public Shared Function ExportBesthits(QueryName$, QueryLength%, Besthits As SubjectHit()) As BestHit()
             Dim locusId As String = QueryName.Split.First
-            Dim def As String = Mid(QueryName, Len(locusId) + 1).Trim
-            Dim RowQuery As BestHit() = LinqAPI.Exec(Of BestHit) <=
+            Dim sbh As BestHit() = LinqAPI.Exec(Of BestHit) <=
  _
                 From besthit As SubjectHit
                 In Besthits
                 Let Score As Score = besthit.Score
+                Let hitName = besthit.Name.Trim
+                Let hitID = hitName.Split.First
+                Let def As String = Mid(hitName, Len(hitID) + 1).Trim  ' 因为在进行blast搜索的时候，query还是未知的，所以描述信息这里应该是取hits 的
                 Select New BestHit With {
                     .QueryName = locusId,
-                    .HitName = besthit.Name.Trim,
+                    .HitName = hitID,
                     .query_length = QueryLength,
                     .hit_length = besthit.Length,
                     .Score = Score.RawScore,
@@ -228,21 +233,19 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                     .description = def
                 }
 
-            Return RowQuery
+            Return sbh
         End Function
 
-        Public Shared Function EmptyHit(Query As Query) As LocalBLAST.Application.BBH.BestHit
-            Dim Row As New Application.BBH.BestHit With {
-                .QueryName = Query.QueryName,
-                .HitName = HITS_NOT_FOUND
+        Public Shared Function EmptyHit(query As Query) As BestHit
+            Dim locusId As String = query.QueryName.Split.First
+            Dim describ As String = Mid(query.QueryName, Len(locusId) + 1).Trim
+            Dim sbh As New BestHit With {
+                .HitName = HITS_NOT_FOUND,
+                .QueryName = locusId,
+                .description = describ
             }
-            Dim locusId As String = Query.QueryName.Split.First
-            Dim def As String = Mid(Query.QueryName, Len(locusId) + 1).Trim
 
-            Row.QueryName = locusId
-            Row.description = def
-
-            Return Row
+            Return sbh
         End Function
 
         ''' <summary>
@@ -252,14 +255,15 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function CheckIntegrity(source As FASTA.FastaFile) As Boolean
-            Dim LQuery =
-                LinqAPI.DefaultFirst(Of Query()) <= From Fasta As FASTA.FastaToken
-                                                    In source.AsParallel
-                                                    Let GetQuery = __checkIntegrity(Fasta, Me.Queries)
-                                                    Where GetQuery.IsNullOrEmpty  ' 空集合表示没有匹配的项目，则可能是不完整的结果
-                                                    Select GetQuery
-            Dim test As Boolean = LQuery Is Nothing  ' 不为空值，说明有空的记录，即匹配不上的记录，则说明blast操作是被中断的，需要重新做
-            Return test
+            Dim empty = LinqAPI.DefaultFirst(Of Query()) _
+ _
+                () <= From fasta As FastaToken
+                      In source.AsParallel
+                      Let list = __checkIntegrity(fasta, Me.Queries)
+                      Where list.IsNullOrEmpty  ' 空集合表示没有匹配的项目，则可能是不完整的结果
+                      Select list
+
+            Return empty Is Nothing  ' 不为空值，说明有空的记录，即匹配不上的记录，则说明blast操作是被中断的，需要重新做
         End Function
 
         Private Shared Function __checkIntegrity(Fasta As FASTA.FastaToken, Queries As Query()) As Query()
