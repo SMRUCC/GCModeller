@@ -86,18 +86,32 @@ Partial Module CLI
     End Function
 
     ''' <summary>
-    ''' 将cluster之中的指定的物种名称的编号取出来，以方便应用于飞参考基因组的数据项目的功能富集分析
+    ''' 将cluster之中的指定的物种名称的编号取出来，以方便应用于新测序的非参考基因组的数据项目的功能富集分析
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/UniRef.map.organism")>
-    <Usage("/UniRef.map.organism /in <uniref.xml> /org <organism_name> [/out <out.csv>]")>
+    <Usage("/UniRef.map.organism /in <uniref.xml> [/org <organism_name> /out <out.csv>]")>
     <Argument("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
-    <Argument("/org", False, CLITypes.String, Description:="The organism scientific name.")>
+    <Argument("/org", True, CLITypes.String, Description:="The organism scientific name. If this argument is presented in the CLI input, then this program will output the top organism in this input data.")>
     Public Function UniRefMap2Organism(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim org$ = args <= "/org"
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-" & org.NormalizePathString & ".csv")
+
+        If org.StringEmpty Then
+            org = UniRef _
+                .PopulateALL([in]) _
+                .Select(Function(x)
+                            Return x.representativeMember.Join(x.members)
+                        End Function) _
+                .IteratesALL _
+                .Select(Function(x) x.source_organism) _
+                .GroupBy(Function(x) x) _
+                .OrderByDescending(Function(g) g.Count) _
+                .First _
+                .Key
+        End If
+
         Dim ref As NamedValue(Of String)() = UniRef _
             .PopulateALL([in]) _
             .Select(Function(entry)
@@ -120,6 +134,7 @@ Partial Module CLI
             .Where(Function(map) Not map.IsEmpty) _
             .ToArray
 
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-" & org.NormalizePathString & ".csv")
         Return ref.SaveTo(out).CLICode
     End Function
 
