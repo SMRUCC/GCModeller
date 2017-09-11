@@ -49,6 +49,7 @@ Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Linq
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.GO.PlantRegMap
+Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
@@ -410,18 +411,7 @@ Partial Module CLI
                 EXPORT:=out,
                 pvalue:=pvalue)
         Else
-            Dim DEPgenes = EntityObject.LoadDataSet(DEPs).ToArray
-
-            With (args <= "/map").MappingReader Or New Dictionary(Of String, String())().AsDefault
-                If .Count > 0 Then
-                    ' 将用户基因号转换为uniprot编号
-                    For Each gene In DEPgenes
-                        If .ContainsKey(gene.ID) Then
-                            gene.ID = .ref(gene.ID).First
-                        End If
-                    Next
-                End If
-            End With
+            Dim DEPgenes = EntityObject.LoadDataSet(DEPs).UserCustomMaps(args <= "/map")
 
             ' 假设这里的编号都是uniprot编号，还需要转换为KEGG基因编号
             Dim uniprot = UniProtXML.LoadDictionary(args <= "/uniprot")
