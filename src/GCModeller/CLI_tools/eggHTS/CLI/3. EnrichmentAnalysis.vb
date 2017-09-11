@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::f9a73c91a9f6754ed46d0efe4d933c94, ..\CLI_tools\eggHTS\CLI\3. EnrichmentAnalysis.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -103,7 +103,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG/")
         Dim uniprot$ = args <= "/uniprot"
-        Dim uniprot2KEGG = UniprotXML.Load(uniprot) _
+        Dim uniprot2KEGG = UniProtXML.Load(uniprot) _
             .entries _
             .Where(Function(x) x.Xrefs.ContainsKey("KEGG")) _
             .Select(Function(protein)
@@ -340,13 +340,13 @@ Partial Module CLI
         Dim pvalue# = If(args.GetBoolean("/nocut"), 100.0#, 0.05)
 
         If getORF Then
-            uniprot = UniprotXML _
+            uniprot = UniProtXML _
                 .Load(proteins) _
                 .entries _
                 .Where(Function(x) Not x.ORF.StringEmpty) _
                 .ToDictionary(Function(x) x.ORF)
         Else
-            uniprot = UniprotXML _
+            uniprot = UniProtXML _
                 .LoadDictionary(proteins) _
                 .Values _
                 .ToDictionary(Function(x) DirectCast(x, INamedValue).Key)
@@ -393,7 +393,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/KEGG.Enrichment.PathwayMap",
                Info:="Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.",
-               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/DEPs <deps.csv> /colors <default=red,blue,green> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>
+               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/DEPs <deps.csv> /colors <default=red,blue,green> /map <id2uniprotID.txt> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>
     <Argument("/colors", AcceptTypes:={GetType(String())},
               Description:="A string vector that setups the DEPs' color profiles, if the argument ``/DEPs`` is presented. value format is ``up,down,present``")>
     <Group(CLIGroups.Enrichment_CLI)>
@@ -411,8 +411,20 @@ Partial Module CLI
                 pvalue:=pvalue)
         Else
             Dim DEPgenes = EntityObject.LoadDataSet(DEPs).ToArray
+
+            With (args <= "/map").MappingReader Or New Dictionary(Of String, String())().AsDefault
+                If .Count > 0 Then
+                    ' 将用户基因号转换为uniprot编号
+                    For Each gene In DEPgenes
+                        If .ContainsKey(gene.ID) Then
+                            gene.ID = .ref(gene.ID).First
+                        End If
+                    Next
+                End If
+            End With
+
             ' 假设这里的编号都是uniprot编号，还需要转换为KEGG基因编号
-            Dim uniprot = UniprotXML.LoadDictionary(args <= "/uniprot")
+            Dim uniprot = UniProtXML.LoadDictionary(args <= "/uniprot")
             Dim mapID = uniprot _
                 .Where(Function(gene) gene.Value.Xrefs.ContainsKey("KEGG")) _
                 .ToDictionary(Function(gene) gene.Key,
@@ -496,7 +508,7 @@ Partial Module CLI
         Dim term As String = args.GetValue("/term", "GO")
         Dim idType$ = args.GetValue("/id", "ORF")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-type={term},{idType}.term2genes.tsv")
-        Dim uniprot As UniprotXML = UniprotXML.Load([in])
+        Dim uniprot As UniProtXML = UniProtXML.Load([in])
         Dim tsv As IDMap() = uniprot.Term2Gene(type:=term, idType:=GetIDs.ParseType(idType))
         Return tsv.SaveTSV(out).CLICode
     End Function

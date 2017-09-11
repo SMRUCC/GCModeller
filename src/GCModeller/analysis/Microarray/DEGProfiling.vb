@@ -1,6 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
-Imports Microsoft.VisualBasic.Language
 
 Public Module DEGProfiling
 
