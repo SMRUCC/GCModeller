@@ -152,7 +152,11 @@ Namespace Assembly.Uniprot.Web
         ''' <remarks>
         ''' 可能每一行之中会存在多对多的情况，但是不需要担心，这个函数会自动处理这些非一对一的情况的
         ''' </remarks>
-        Public Function MappingReader(path$) As Dictionary(Of String, String())
+        <Extension> Public Function MappingReader(path$) As Dictionary(Of String, String())
+            If Not path.FileExists Then
+                Return Nothing
+            End If
+
             Dim lines = path.ReadAllLines.Skip(1)
             Dim maps As Dictionary(Of String, String()) = lines _
                 .Select(Function(l) l.Split(ASCII.TAB)) _
