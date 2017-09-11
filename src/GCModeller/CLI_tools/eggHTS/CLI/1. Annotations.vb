@@ -61,6 +61,11 @@ Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
 
+    ''' <summary>
+    ''' 将每一个参考cluster之中的代表序列的uniprot编号取出来生成映射
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/UniRef.UniprotKB")>
     <Usage("/UniRef.UniprotKB /in <uniref.xml> [/out <maps.csv>]")>
     Public Function UniRef2UniprotKB(args As CommandLine) As Integer
@@ -74,6 +79,42 @@ Partial Module CLI
                             .Value = entry.representativeMember.UniProtKB_accession
                         }
                     End Function) _
+            .ToArray
+
+        Return ref.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' 将cluster之中的指定的物种名称的编号取出来，以方便应用于飞参考基因组的数据项目的功能富集分析
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/UniRef.map.organism")>
+    <Usage("/UniRef.map.organism /in <uniref.xml> /org <organism_name> [/out <out.csv>]")>
+    Public Function UniRefMap2Organism(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim org$ = args <= "/org"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-" & org.NormalizePathString & ".csv")
+        Dim ref As NamedValue(Of String)() = UniRef _
+            .PopulateALL([in]) _
+            .Select(Function(entry)
+                        Dim member = entry _
+                            .representativeMember _
+                            .Join(entry.members) _
+                            .Where(Function(m) m.source_organism.TextEquals(org)) _
+                            .FirstOrDefault
+
+                        If member Is Nothing Then
+                            Return Nothing
+                        End If
+
+                        Return New NamedValue(Of String) With {
+                            .Name = entry.id,
+                            .Value = member.UniProtKB_accession,
+                            .Description = member.source_organism
+                        }
+                    End Function) _
+            .Where(Function(map) map.IsEmpty) _
             .ToArray
 
         Return ref.SaveTo(out).CLICode
