@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 
 Partial Module CLI
@@ -14,9 +15,16 @@ Partial Module CLI
               Description:="Using for replace the mass spectrum expeirment symbol to the user experiment tag.")>
     Public Function iTraqSignReplacement(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim symbols$ = args <= "/symbols"
         Dim out$ = args.GetValue("/out", [in].ParentPath)
+        Dim symbols = (args <= "/symbols").LoadCsv(Of iTraqSigns)
 
+        With [in].LoadCsv(Of iTraqReader)
+            Call .iTraqMatrix(symbols) _
+                 .SaveTo(out & "/matrix.csv")
+            Call .SymbolReplace(symbols) _
+                 .SaveTo(out & $"/{[in].BaseName}.sample.csv")
+        End With
 
+        Return 0
     End Function
 End Module

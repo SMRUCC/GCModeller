@@ -21,6 +21,47 @@ Public Module iTraq_csvReader
         End With
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="symbols">从csv文件之中所读取出来的原始标签数据</param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function iTraqMatrix(data As IEnumerable(Of iTraqReader), symbols As IEnumerable(Of iTraqSigns)) As IEnumerable(Of DataSet)
+        With symbols.Combinations.ToArray
+            For Each gene As iTraqReader In data
+                Dim groups = gene.GetSampleGroups(.ref)
+                Dim foldChange = groups _
+                    .Values _
+                    .ToDictionary(Function(x) x.Group,
+                                  Function(x) x.FoldChange)
+
+                Yield New DataSet With {
+                    .ID = gene.ID,
+                    .Properties = foldChange
+                }
+            Next
+        End With
+    End Function
+
+    <Extension>
+    Public Iterator Function SymbolReplace(data As IEnumerable(Of iTraqReader), symbols As IEnumerable(Of iTraqSigns)) As IEnumerable(Of iTraqReader)
+        With symbols.Combinations.ToArray
+            For Each gene As iTraqReader In data
+                Dim groups = gene.GetSampleGroups(.ref)
+
+                gene.Properties = groups _
+                    .Values _
+                    .Select(Function(g) g.PopulateData) _
+                    .IteratesALL _
+                    .ToDictionary
+
+                Yield gene
+            Next
+        End With
+    End Function
+
     Public Function StripCsv(path$, Optional headers% = 2) As File
         Dim [in] As File = File.Load(path)
         Dim headerRows As RowObject() = [in].Take(headers).ToArray
