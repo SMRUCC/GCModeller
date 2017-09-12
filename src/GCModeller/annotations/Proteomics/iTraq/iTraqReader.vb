@@ -1,15 +1,20 @@
-﻿Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Serialization.JSON
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 
 ''' <summary>
-''' Shotgun data reader
+''' iTraq data reader
 ''' </summary>
-Public Class ShotgunData
+Public Class iTraqReader : Inherits DataSet
+    Implements INamedValue
 
-    Public Property Accession As String
+    <Column("Accession")>
+    Public Overrides Property ID As String Implements IKeyedEntity(Of String).Key
     Public Property Description As String
     Public Property Score As String
     Public Property Coverage As String
+
     <Column("# Proteins")> Public Property Proteins As String
     <Column("# Unique Peptides")> Public Property UniquePeptides As String
     <Column("# Peptides")> Public Property Peptides As String
@@ -19,6 +24,6 @@ Public Class ShotgunData
     <Column("calc. pI")> Public Property calcPI As String
 
     Public Overrides Function ToString() As String
-        Return Me.GetJson
+        Return $"{ID} {Description}"
     End Function
 End Class
