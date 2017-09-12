@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26823.1
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{A298B539-BE81-4A66-AFC1-014D449E4887}"
 EndProject
@@ -8415,8 +8415,8 @@ Global
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.docs|x86.Build.0 = Debug|Any CPU
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
+		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|x64.ActiveCfg = Release|x64
+		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|x64.Build.0 = Release|x64
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
 		{8A02381A-18E7-44CD-9A5A-F67310864C3D}.mysqli_X64_release|Any CPU.ActiveCfg = Publish|Any CPU
@@ -8463,8 +8463,8 @@ Global
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.docs|x86.Build.0 = Debug|Any CPU
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|x64.ActiveCfg = Release|x64
+		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|x64.Build.0 = Release|x64
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
 		{6FBB3D95-4D76-42B8-A991-A4BEED9831BC}.mysqli_X64_release|Any CPU.ActiveCfg = Publish|Any CPU

@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::328e85db4f97be86d3838d40b4087bd2, ..\CLI_tools\eggHTS\CLI\0. Samples.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
@@ -47,14 +48,14 @@ Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
-Partial Module CLI      
+Partial Module CLI
 
     <ExportAPI("/Shotgun.Data.Strip", Usage:="/Shotgun.Data.Strip /in <data.csv> [/out <output.csv>]")>
     <Group(CLIGroups.Samples_CLI)>
     Public Function StripShotgunData(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Data.csv")
-        Return Shotgun_csvReader.StripCsv([in]).Save(out,)
+        Return iTraq_csvReader.StripCsv([in]).Save(out,)
     End Function
 
     ''' <summary>
@@ -123,7 +124,7 @@ Partial Module CLI
             .LoadCsv(Of BBHIndex) _
             .Where(Function(bh) bh.Matched) _
             .ToDictionary(Function(bh) bh.QueryName.Split("|"c).First)
-        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniprotXML.LoadDictionary(uniprot)
+        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniProtXML.LoadDictionary(uniprot)
         Dim describKey As String = args("/Description")
         Dim ORF$
 
@@ -205,7 +206,7 @@ Partial Module CLI
         Dim bbhData As Dictionary(Of String, BBHIndex) = bbh _
             .Where(Function(bh) bh.Matched) _
             .ToDictionary(Function(bh) bh.QueryName.Split("|"c).First)
-        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniprotXML.LoadDictionary(uniprot)
+        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniProtXML.LoadDictionary(uniprot)
         Dim ORF$
 
         ' 由于只是为了添加重新mapping的信息，所以在这里不需要进行ID替换
@@ -257,7 +258,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".ORF_ID.csv")
         Dim ID As String = args("/ID")
         Dim data = EntityObject.LoadDataSet([in], uidMap:=ID).ToArray
-        Dim uniprotTable = UniprotXML.LoadDictionary(uniprot)
+        Dim uniprotTable = UniProtXML.LoadDictionary(uniprot)
 
         For Each protein As EntityObject In data
             uniprot = protein.ID
@@ -293,9 +294,24 @@ Partial Module CLI
         Return dataTable.SaveTo(out).CLICode
     End Function
 
-    <ExportAPI("/plot.pimw",
-               Info:="'calc. pI'/'MW [kDa]' scatter plot of the protomics raw sample data.",
-               Usage:="/plot.pimw /in <samples.csv> [/field.pi <calc. pI> /field.mw <MW [kDa]> /legend.fontsize <20> /legend.size (100,30) /x.axis ""(min,max),tick=2"" /y.axis ""(min,max),n=10"" /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
+    <ExportAPI("/plot.pimw")>
+    <Description("'calc. pI' - 'MW [kDa]' scatter plot of the protomics raw sample data.")>
+    <Usage("/plot.pimw /in <samples.csv> [/field.pi <default=""calc. pI""> /field.mw <default=""MW [kDa]""> /legend.fontsize <20> /legend.size (100,30) /quantile.removes <default=1> /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
+    <Argument("/field.pi", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The field name that records the pI value of the protein samples, default is using iTraq result out format: ``calc. pI``")>
+    <Argument("/field.mw", True, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The field name that records the MW value of the protein samples, default is using iTraq result out format: ``MW [kDa]``")>
+    <Argument("/pt.size", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="The radius size of the point in this scatter plot.")>
+    <Argument("/size", True, CLITypes.String,
+              AcceptTypes:={GetType(Size), GetType(SizeF)},
+              Description:="The plot image its canvas size of this scatter plot.")>
+    <Argument("/quantile.removes", True, CLITypes.Double,
+              AcceptTypes:={GetType(Double)},
+              Description:="All of the Y sample value greater than this quantile value will be removed. By default is quantile 100%, means no cuts.")>
     <Group(CLIGroups.Samples_CLI)>
     Public Function pimwScatterPlot(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
@@ -307,8 +323,10 @@ Partial Module CLI
         Dim ptSize! = args.GetValue("/pt.Size", 8.0!)
         Dim legendFontSize! = args.GetValue("/legend.fontsize", 20.0#)
         Dim legendSize As Size = args.GetValue("/legend.size", New Size(100, 30))
+        Dim quantileRemoves# = args.GetValue("/quantile.removes", 1.0#)
         Dim res As GraphicsData = {
-            ScatterSerials(File.Load([in]), pi, mw, color, ptSize)
+            ScatterSerials(File.Load([in]), pi, mw, color, ptSize) _
+            .RemovesYOutlier(q:=quantileRemoves)
         }.Plot(size:=size,
                drawLine:=False,
                XaxisAbsoluteScalling:=True,
@@ -317,8 +335,6 @@ Partial Module CLI
                legendSize:=legendSize,
                Xlabel:="Calc.pI",
                Ylabel:="MW [kDa]",
-               xaxis:=(args <= "/x.axis"),
-               yaxis:=(args <= "/y.axis"),
                legendRegionBorder:=New Stroke With {
                    .fill = "Black",
                    .dash = DashStyle.Solid,

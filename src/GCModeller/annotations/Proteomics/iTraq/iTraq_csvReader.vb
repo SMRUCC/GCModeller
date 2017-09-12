@@ -5,7 +5,65 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot
 
-Public Module Shotgun_csvReader
+Public Module iTraq_csvReader
+
+    <Extension>
+    Public Iterator Function Combinations(signs As IEnumerable(Of iTraqSigns)) As IEnumerable(Of iTraqSigns)
+        With signs.ToArray
+            For Each symbol1 As iTraqSigns In .ref
+                For Each symbol2 As iTraqSigns In .ref
+                    Yield New iTraqSigns With {
+                        .Sign = $"{symbol1.Sign}/{symbol2.Sign}",
+                        .SampleID = $"{symbol1.SampleID}/{symbol2.SampleID}"
+                    }
+                Next
+            Next
+        End With
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="symbols">从csv文件之中所读取出来的原始标签数据</param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function iTraqMatrix(data As IEnumerable(Of iTraqReader), symbols As IEnumerable(Of iTraqSigns)) As IEnumerable(Of DataSet)
+        With symbols.Combinations.ToArray
+            For Each gene As iTraqReader In data
+                Dim groups = gene.GetSampleGroups(.ref)
+                Dim foldChange = groups _
+                    .Values _
+                    .ToDictionary(Function(x) x.Group,
+                                  Function(x) x.FoldChange)
+
+                Yield New DataSet With {
+                    .ID = gene.ID,
+                    .Properties = foldChange
+                }
+            Next
+        End With
+    End Function
+
+    <Extension>
+    Public Iterator Function SymbolReplace(data As IEnumerable(Of iTraqReader), symbols As IEnumerable(Of iTraqSigns)) As IEnumerable(Of iTraqReader)
+        With symbols.Combinations.ToArray
+            For Each gene As iTraqReader In data
+                Dim groups = gene.GetSampleGroups(.ref)
+
+                ' 直接进行赋值似乎会出现bug，在这里使用with代码块进行赋值操作
+                With gene
+                    .Properties = groups _
+                        .Values _
+                        .Select(Function(g) g.PopulateData) _
+                        .IteratesALL _
+                        .ToDictionary
+
+                    Yield .ref
+                End With
+            Next
+        End With
+    End Function
 
     Public Function StripCsv(path$, Optional headers% = 2) As File
         Dim [in] As File = File.Load(path)
