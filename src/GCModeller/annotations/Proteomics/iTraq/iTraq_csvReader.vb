@@ -51,13 +51,16 @@ Public Module iTraq_csvReader
             For Each gene As iTraqReader In data
                 Dim groups = gene.GetSampleGroups(.ref)
 
-                gene.Properties = groups _
-                    .Values _
-                    .Select(Function(g) g.PopulateData) _
-                    .IteratesALL _
-                    .ToDictionary
+                ' 直接进行赋值似乎会出现bug，在这里使用with代码块进行赋值操作
+                With gene
+                    .Properties = groups _
+                        .Values _
+                        .Select(Function(g) g.PopulateData) _
+                        .IteratesALL _
+                        .ToDictionary
 
-                Yield gene
+                    Yield .ref
+                End With
             Next
         End With
     End Function

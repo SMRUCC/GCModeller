@@ -20,8 +20,10 @@ Partial Module CLI
 
         With [in].LoadCsv(Of iTraqReader)
             Call .iTraqMatrix(symbols) _
+                 .ToArray _
                  .SaveTo(out & "/matrix.csv")
             Call .SymbolReplace(symbols) _
+                 .ToArray _
                  .SaveTo(out & $"/{[in].BaseName}.sample.csv")
         End With
 
