@@ -137,8 +137,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloudPlot.vb" />
-    <Compile Include="DATA\Shotgun_csvReader.vb" />
-    <Compile Include="DATA\ShotgunReader.vb" />
+    <Compile Include="iTraq\Shotgun_csvReader.vb" />
+    <Compile Include="iTraq\ShotgunReader.vb" />
     <Compile Include="DATA\Perseus.vb" />
     <Compile Include="DEP.vb" />
     <Compile Include="DATA\UniprotAnnotations.vb" />
