@@ -1,36 +1,37 @@
-﻿#Region "Microsoft.VisualBasic::43c285ab4462296b71f90dfcbf2b2bdc, ..\GCModeller\CLI_tools\GCModeller\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::b4ffae85c828d2227bd0d0c0dbbbdcca, ..\CLI_tools\GCModeller\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DATA
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -59,8 +60,8 @@ Public Module CLI
         Dim append$ = args <= "/append"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "+" & append.BaseName & ".csv")
 
-        Return (DataFrame.Load([in]) + DataFrame.Load(append)) _
-            .SaveTable(out) _
+        Return csv.DATA.DataFrame.Append(EntityObject.LoadDataSet([in]), csv.DATA.DataFrame.Load(append)) _
+            .SaveTo(out) _
             .CLICode
     End Function
 
@@ -114,15 +115,12 @@ Public Module CLI
     <Argument("-t", True,
         Description:="Optional, The target table name for export the data set, there is a option value for this switch: all." & vbCrLf &
                      " <name> - export the data in the specific name of the table;" & vbCrLf &
-                     " all - Default, export all of the table in the database, and at the mean time the -o switch value will be stand for the output directory of the exported csv files.",
-        Example:="all")>
+                     " all - Default, export all of the table in the database, and at the mean time the -o switch value will be stand for the output directory of the exported csv files.")>
     <Argument("-o", True,
         Description:="Optional, The path of the export csv file save, it can be a directory or a file path, depend on the value of the -t switch value." & vbCrLf &
-                    "Default is desktop directory and table name combination",
-        Example:="~/Desktop/")>
+                    "Default is desktop directory and table name combination")>
     <Argument("-mysql",
-        Description:="The mysql connection string for gc program connect to a specific mysql database server.",
-        Example:="http://localhost:8080/client?user=username%password=password%database=database")>
+        Description:="The mysql connection string for gc program connect to a specific mysql database server.")>
     Public Function ExportData(args As CommandLine) As Integer
         Dim Cnn As String = args("-mysql")  '获取与MySQL服务器的连接URL
         Dim Table As String = args("-t") '获取表名称

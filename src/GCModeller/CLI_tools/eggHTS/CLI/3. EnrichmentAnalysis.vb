@@ -1,4 +1,32 @@
-﻿Imports System.ComponentModel
+﻿#Region "Microsoft.VisualBasic::f9a73c91a9f6754ed46d0efe4d933c94, ..\CLI_tools\eggHTS\CLI\3. EnrichmentAnalysis.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.ComponentModel
 Imports System.Drawing
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
@@ -21,12 +49,14 @@ Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Linq
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.GO.PlantRegMap
+Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.Uniprot.Web.Retrieve_IDmapping
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
@@ -74,7 +104,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG/")
         Dim uniprot$ = args <= "/uniprot"
-        Dim uniprot2KEGG = UniprotXML.Load(uniprot) _
+        Dim uniprot2KEGG = UniProtXML.Load(uniprot) _
             .entries _
             .Where(Function(x) x.Xrefs.ContainsKey("KEGG")) _
             .Select(Function(protein)
@@ -311,13 +341,13 @@ Partial Module CLI
         Dim pvalue# = If(args.GetBoolean("/nocut"), 100.0#, 0.05)
 
         If getORF Then
-            uniprot = UniprotXML _
+            uniprot = UniProtXML _
                 .Load(proteins) _
                 .entries _
                 .Where(Function(x) Not x.ORF.StringEmpty) _
                 .ToDictionary(Function(x) x.ORF)
         Else
-            uniprot = UniprotXML _
+            uniprot = UniProtXML _
                 .LoadDictionary(proteins) _
                 .Values _
                 .ToDictionary(Function(x) DirectCast(x, INamedValue).Key)
@@ -364,7 +394,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/KEGG.Enrichment.PathwayMap",
                Info:="Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.",
-               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/DEPs <deps.csv> /colors <default=red,blue,green> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>
+               Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/DEPs <deps.csv> /colors <default=red,blue,green> /map <id2uniprotID.txt> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>
     <Argument("/colors", AcceptTypes:={GetType(String())},
               Description:="A string vector that setups the DEPs' color profiles, if the argument ``/DEPs`` is presented. value format is ``up,down,present``")>
     <Group(CLIGroups.Enrichment_CLI)>
@@ -381,9 +411,10 @@ Partial Module CLI
                 EXPORT:=out,
                 pvalue:=pvalue)
         Else
-            Dim DEPgenes = EntityObject.LoadDataSet(DEPs).ToArray
+            Dim DEPgenes = EntityObject.LoadDataSet(DEPs).UserCustomMaps(args <= "/map")
+
             ' 假设这里的编号都是uniprot编号，还需要转换为KEGG基因编号
-            Dim uniprot = UniprotXML.LoadDictionary(args <= "/uniprot")
+            Dim uniprot = UniProtXML.LoadDictionary(args <= "/uniprot")
             Dim mapID = uniprot _
                 .Where(Function(gene) gene.Value.Xrefs.ContainsKey("KEGG")) _
                 .ToDictionary(Function(gene) gene.Key,
@@ -467,7 +498,7 @@ Partial Module CLI
         Dim term As String = args.GetValue("/term", "GO")
         Dim idType$ = args.GetValue("/id", "ORF")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-type={term},{idType}.term2genes.tsv")
-        Dim uniprot As UniprotXML = UniprotXML.Load([in])
+        Dim uniprot As UniProtXML = UniProtXML.Load([in])
         Dim tsv As IDMap() = uniprot.Term2Gene(type:=term, idType:=GetIDs.ParseType(idType))
         Return tsv.SaveTSV(out).CLICode
     End Function
@@ -477,24 +508,58 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/enricher.background",
-               Usage:="/enricher.background /in <uniprot.XML> [/out <term2gene.txt.DIR>]")>
-    <Description("Create enrichment analysis background by using uniprot annotation data.")>
+    <ExportAPI("/enricher.background")>
+    <Usage("/enricher.background /in <uniprot.XML> [/mapping <maps.tsv> /out <term2gene.txt.DIR>]")>
+    <Description("Create enrichment analysis background based on the uniprot xml database.")>
+    <Argument("/mapping", True, CLITypes.File,
+              Description:="The id mapping file, each row in format like ``id<TAB>uniprotID``")>
+    <Argument("/in", True, CLITypes.File,
+              Description:="The uniprotKB XML database which can be download from http://uniprot.org")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function Backgrounds(args As CommandLine) As Integer
         Dim [in] = args <= "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".t2g_backgrounds/")
         Dim go As New List(Of (accessions As String(), GO As String()))
         Dim KEGG = go.AsList
+        Dim maps = MappingReader(args <= "/mapping") _
+            .Select(Function(id) id.Value.Select(Function(uniprotID) (uniprotID, id.Key))) _
+            .IteratesALL _
+            .GroupBy(Function(x) x.Item1) _
+            .ToDictionary(Function(x) x.Key,
+                          Function(g)
+                              Return g _
+                                  .Select(Function(x) x.Item2) _
+                                  .Distinct _
+                                  .ToArray
+                          End Function)
 
         For Each protein As entry In in$.LoadXmlDataSet(Of entry)(xmlns:="http://uniprot.org/uniprot")
             Dim go_ref = protein.Xrefs.TryGetValue("GO")
-            If Not go_ref.IsNullOrEmpty Then
-                go += (protein.accessions, go_ref.Select(Function(x) x.id).ToArray)
+            Dim ID$()
+
+            If maps.IsNullOrEmpty Then
+                ID = protein.accessions
+            Else
+                ID = protein.accessions _
+                    .Where(Function(uniprotID) maps.ContainsKey(uniprotID)) _
+                    .Select(Function(uniprotID) maps(uniprotID)) _
+                    .IteratesALL _
+                    .Distinct _
+                    .ToArray
             End If
+
+            If ID.IsNullOrEmpty Then
+                Continue For
+            End If
+
+            If Not go_ref.IsNullOrEmpty Then
+                go += (ID, go_ref.Select(Function(x) x.id).ToArray)
+            End If
+
             Dim KO_ref = protein.Xrefs.TryGetValue("KO")
+
             If Not KO_ref.IsNullOrEmpty Then
-                KEGG += (protein.accessions, KO_ref.Select(Function(x) x.id).ToArray)
+                KEGG += (ID, KO_ref.Select(Function(x) x.id).ToArray)
             End If
         Next
 
@@ -541,3 +606,4 @@ Partial Module CLI
         Return result.SaveTo(out).CLICode
     End Function
 End Module
+

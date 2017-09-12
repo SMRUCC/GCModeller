@@ -25,12 +25,15 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
+Imports Oracle.LinuxCompatibility.MySQL
 
 <Package("GCModeller.Configuration.CLI",
                   Category:=APICategories.CLI_MAN,
@@ -41,6 +44,9 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 <ExceptionHelp(Documentation:="http://docs.gcmodeller.org", Debugging:="https://github.com/SMRUCC/GCModeller/wiki", EMailLink:="xie.guigang@gcmodeller.org")>
 <CLI> Public Module CLI
 
+    Const Config_CLI$ = "GCModeller configuration CLI tool"
+    Const Dev_CLI$ = "GCModeller development helper CLI"
+
     Sub New()
         Settings.Session.Initialize()
     End Sub
@@ -48,6 +54,10 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
     <ExportAPI("Set", Info:="Setting up the configuration data node.",
                Usage:="Set <varName> <value>",
                Example:="Set java /usr/lib/java/java.bin")>
+    <Argument("<varName>", False, CLITypes.String,
+              AcceptTypes:={GetType(String)},
+              Description:="The variable name in the GCModeller configuration file.")>
+    <Group(CLI.Config_CLI)>
     Public Function [Set](args As CommandLine) As Integer
         Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
             Dim params As String() = args.Parameters
@@ -61,17 +71,63 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
     End Function
 
     <ExportAPI("var", Info:="Gets the settings value.",
-               Usage:="var [varName]",
+               Usage:="var [varName] [/value]",
                Example:="")>
-    <Argument("[VarName]", True,
+    <Argument("[VarName]", True, CLITypes.String,
               Description:="If this value is null, then the program will prints all of the variables in the gcmodeller config file or when the variable is presents in the database, only the config value of the specific variable will be display.")>
-    Public Function Var(args As CommandLine) As Integer
+    <Argument("/value", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this argument is presented, then this settings program will only output the variable value, otherwise will output data in format: key = value")>
+    <Group(CLI.Config_CLI)>
+    Public Function ViewVar(args As CommandLine) As Integer
         Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
-            If args.Parameters.Length = 0 Then 'list all setting items
+
+            ' list all setting items
+            If args.Parameters.Length = 0 Then
                 Call Console.WriteLine(Settings.View)
+                Call Console.WriteLine()
+                Call Console.Write($"  Read from {Settings.FilePath.GetFullPath}")
             Else
                 Dim x As String = args.Parameters.First
-                Call Console.WriteLine(Settings.View(x))
+                Dim value = Settings.View(x)
+
+                If Not args.Parameters _
+                    .Where(Function(s) s.TextEquals("/value")) _
+                    .FirstOrDefault _
+                    .StringEmpty Then
+
+                    With value.GetTagValue("=") _
+                        .Value _
+                        .Trim(ASCII.Quot, " "c)
+
+                        Call Console.Write(.ref)
+                    End With
+                Else
+                    Call Console.WriteLine()
+                    Call Console.Write("   " & value)
+                End If
+            End If
+
+            Return 0
+        End Using
+    End Function
+
+    <ExportAPI("/set.mysql")>
+    <Description("Setting up the mysql connection parameters")>
+    <Usage("/set.mysql /test")>
+    <Argument("/test", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this boolean argument is set, then the program will testing for the mysqli connection before write the configuration file. If the connection test failure, then the configuration file will not be updated!")>
+    <Group(CLI.Config_CLI)>
+    Public Function SetMySQL(args As CommandLine) As Integer
+        Using Settings = Global.GCModeller.Configuration.Settings.Session.ProfileData
+            Call mysqli.RunConfig(
+                Sub(uri)
+                    MySQLExtensions.MySQL = uri
+                End Sub)
+
+            If args.IsTrue("/test") Then
+                Dim mysqli As MySQL = MySQLExtensions.GetMySQLClient(, DBName:=Nothing)
             End If
 
             Return 0
@@ -80,9 +136,13 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
     Const GCModellerApps$ = NameOf(GCModellerApps)
 
-    <ExportAPI("/dev",
-               Info:="Generates Apps CLI visualbasic reference source code.",
-               Usage:="/dev [/out <DIR>]")>
+    <ExportAPI("/dev")>
+    <Description("Generates Apps CLI visualbasic reference source code.")>
+    <Usage("/dev [/out <DIR>]")>
+    <Argument("/out", True, CLITypes.File,
+              AcceptTypes:={GetType(String)},
+              Description:="The generated VisualBasic source file output directory location.")>
+    <Group(CLI.Dev_CLI)>
     Public Function CLIDevelopment(args As CommandLine) As Integer
         Dim out$ = args.GetValue("/out", "./Apps/")
         Dim CLI As New Value(Of Type)

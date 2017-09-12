@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7731c7194bcc02eedc810ad64b6bea88, ..\GCModeller\CLI_tools\MEME\CLIGrouping.vb"
+﻿#Region "Microsoft.VisualBasic::68e92007a5fc3c68d440de76ac49fbf6, ..\CLI_tools\MEME\CLIGrouping.vb"
 
     ' Author:
     ' 
@@ -34,4 +34,3 @@ Public Class CLIGrouping
     Public Const DatabaseTools = "MEME tools database utilities"
     Public Const RegPreciseTools = "RegPrecise Analysis Tools"
 End Class
-

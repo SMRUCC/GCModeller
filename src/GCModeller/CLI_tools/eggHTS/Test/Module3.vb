@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aef63d582cd3e9b114e5c45e241b4cef, ..\GCModeller\annotations\Proteomics\Module3.vb"
+﻿#Region "Microsoft.VisualBasic::209ad82b0f609c14afe0d1d89dfaae25, ..\CLI_tools\eggHTS\Test\Module3.vb"
 
     ' Author:
     ' 
@@ -120,4 +120,3 @@ Module Module3
         '   Pause()
     End Sub
 End Module
-

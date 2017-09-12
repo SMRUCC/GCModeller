@@ -29,9 +29,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.Analysis.SSystem
-Imports SMRUCC.genomics.Analysis.SSystem.Script
 
 <Package("PLAS.CLI", Category:=APICategories.CLI_MAN, Publisher:="xie.guigang@gmail.com")>
 Public Module CLI
@@ -39,19 +37,17 @@ Public Module CLI
     <ExportAPI("Run", Info:="run a model file of the biochemical network system.",
         Usage:="run -i <model_file> -f <script/model/sbml> [-o <output_csv> /time <-1> /ODEs]",
         Example:="run -i ""/home/xieguigang/proj/xcc8004.sbml"" -f sbml -chart T -o ""/home/xieguigang/Desktop/xcc8004.csv""")>
-    <Argument("-i", False, Description:="The file path of the input model file that will be run on the PLAS program.", Example:="/home/xieguigang/proj/xcc8004.sbml")>
+    <Argument("-i", False, Description:="The file path of the input model file that will be run on the PLAS program.")>
     <Argument("-f", True,
         Description:="This parameter specific that the file format of the model file which will be run on the PLAS program." & vbCrLf &
                      " script - The input file that specific by the switch parameter ""-i"" is a PLAS script file," & vbCrLf &
                      " model - The input file is a compiled PLAS model, run it directly," & vbCrLf &
-                     " sbml - The input file is a sbml model file, it needs to be compiled to a PLAS model first.",
-        Example:="model")>
+                     " sbml - The input file is a sbml model file, it needs to be compiled to a PLAS model first.")>
     <Argument("-chart", True,
         Description:="Optional, This switch specific that PLAS displaying a chart windows after the calculation or not, default is F for not displaying." & vbCrLf &
                      " T - (True) display a chart window after the calculation," & vbCrLf &
-                     " F - (False) not display a chart window after the calculation.",
-        Example:="/home/xieguigang/proj/xcc8004.sbml")>
-    <Argument("-o", False, Description:="The file path of the output data file for the calculation.", Example:="/home/xieguigang/Desktop/xcc8004.csv")>
+                     " F - (False) not display a chart window after the calculation.")>
+    <Argument("-o", False, Description:="The file path of the output data file for the calculation.")>
     Public Function Run(args As CommandLine) As Integer
         Return RunMethods(args <= "-f")(args)
     End Function

@@ -315,6 +315,20 @@ Namespace Assembly.Uniprot.XML
         Public Property properties As [property]()
         Public Property molecule As molecule
 
+        Default Public ReadOnly Property PropertyValue(name$) As String
+            Get
+                Return properties _
+                    .SafeQuery _
+                    .Where(Function([property]) [property].type = name) _
+                    .FirstOrDefault _
+                   ?.value
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            Return $"[{type}] {id}"
+        End Function
+
     End Class
 
     Public Structure molecule

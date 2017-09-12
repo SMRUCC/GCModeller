@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d7a78aac466f517dc1aba05bb914e50, ..\GCModeller\CLI_tools\GCModeller\CLI\SeqDiff.vb"
+﻿#Region "Microsoft.VisualBasic::6d7a78aac466f517dc1aba05bb914e50, ..\CLI_tools\GCModeller\CLI\SeqDiff.vb"
 
     ' Author:
     ' 

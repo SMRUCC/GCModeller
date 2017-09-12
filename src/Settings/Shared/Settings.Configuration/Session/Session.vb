@@ -149,7 +149,13 @@ Namespace Settings
         End Property
 
         ''' <summary>
-        ''' Initialize the application session and get the program profile data.(初始化应用程序会话，并获取应用程序的配置数据)
+        ''' Initialize the application session and get the program profile data.
+        ''' 
+        ''' (初始化应用程序会话，并获取应用程序的配置数据，请注意，如果涉及到配置文件数据的修改保存操作，
+        ''' 请确保在调用当前的这个初始化方法之前已经使用<see cref="Initialized"/>进行判断，否则新修改
+        ''' 的配置数据将不会被保存到文件之中，因为调用这个方法将会加载新的配置引擎对象，因为在修改的时候所引用
+        ''' 的为旧的配置引擎，所以新修改的配置值将无法写入到旧的配置引擎之中，因为对象的引用关系已经在调用
+        ''' 这个初始化方法之后发生变化了)
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>

@@ -1,9 +1,38 @@
-﻿Imports System.ComponentModel
+﻿#Region "Microsoft.VisualBasic::951b4b30ecfd266521fc9ad96f4fed60, ..\CLI_tools\eggHTS\CLI\4. NetworkEnrichment.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray.DEGProfiling
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -19,7 +48,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/func.rich.string")>
-    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/r.range <default=5,20> /fold <1.5> /iTraq /logFC <logFC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
+    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/map <map.tsv> /r.range <default=12,30> /fold <1.5> /iTraq /logFC <log2FC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
     <Description("DEPs' functional enrichment network based on string-db exports, and color by KEGG pathway.")>
     <Group(CLIGroups.NetworkEnrichment_CLI)>
     Public Function FunctionalNetworkEnrichment(args As CommandLine) As Integer
@@ -28,13 +57,13 @@ Partial Module CLI
         Dim DEP$ = args <= "/DEP"
         Dim fold# = args.GetValue("/fold", 1.5)
         Dim iTraq As Boolean = args.GetBoolean("/iTraq")
-        Dim logFC$ = args.GetValue("/logFC", NameOf(logFC))
+        Dim log2FC$ = args.GetValue("/log2FC", NameOf(log2FC))
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-funrich_string/")
-        Dim proteins As protein() = protein.LoadDataSet(DEP).ToArray
+        Dim proteins As protein() = protein.LoadDataSet(DEP).UserCustomMaps(args <= "/map")
         Dim stringNetwork = [in].LoadTsv(Of InteractExports)
         Dim threshold As (up#, down#)
         Dim layouts As Coordinates() = (args <= "/layout").LoadTsv(Of Coordinates)
-        Dim annotations = UniprotXML.Load(uniprot).StringUniprot ' STRING -> uniprot
+        Dim annotations = UniProtXML.Load(uniprot).StringUniprot ' STRING -> uniprot
 
         If iTraq Then
             threshold = (fold, 1 / fold)
@@ -46,7 +75,7 @@ Partial Module CLI
             Function(gene)
                 Return gene("is.DEP").TextEquals("TRUE")
             End Function,
-            threshold, logFC)
+            threshold, log2FC)
         Dim Uniprot2STRING = annotations.Uniprot2STRING
 
         With DEGs

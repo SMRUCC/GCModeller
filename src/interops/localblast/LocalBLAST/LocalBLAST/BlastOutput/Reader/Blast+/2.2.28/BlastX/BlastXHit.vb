@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b97ee8514ad81fa7ec2e63110a5771f3, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\BlastXHit.vb"
+﻿#Region "Microsoft.VisualBasic::a62a599583538897959fabbbb18a800e, ..\localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\BlastXHit.vb"
 
     ' Author:
     ' 
@@ -73,4 +73,3 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         End Function
     End Class
 End Namespace
-

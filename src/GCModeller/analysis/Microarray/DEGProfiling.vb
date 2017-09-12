@@ -1,6 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
-Imports Microsoft.VisualBasic.Language
 
 Public Module DEGProfiling
 
@@ -8,13 +7,26 @@ Public Module DEGProfiling
     Public Function GetDEGs(genes As IEnumerable(Of gene),
                             isDEP As Func(Of gene, Boolean),
                             threshold As (up#, down#),
-                            logFC$) As (UP As String(), DOWN As String())
+                            logFC$) As (UP As Dictionary(Of String, Double), DOWN As Dictionary(Of String, Double))
 
         Dim DEGs As gene() = genes.Where(isDEP).ToArray
-        Dim up = DEGs.Where(Function(gene) Val(gene(logFC)) >= threshold.up).Keys
-        Dim down = DEGs.Where(Function(gene) Val(gene(logFC)) <= threshold.down).Keys
+        Dim up = DEGs.Where(Function(gene) Val(gene(logFC)) >= threshold.up).createTable(logFC)
+        Dim down = DEGs.Where(Function(gene) Val(gene(logFC)) <= threshold.down).createTable(logFC)
 
         Return (up, down)
+    End Function
+
+    <Extension>
+    Private Function createTable(DEGs As IEnumerable(Of gene), logFC$) As Dictionary(Of String, Double)
+        Return DEGs _
+            .GroupBy(Function(gene) gene.ID) _
+            .ToDictionary(Function(gene) gene.Key,
+                          Function(g)
+                              Return Aggregate gene As gene
+                                     In g
+                                     Let log2FC As Double = Val(gene(logFC))
+                                     Into Average(log2FC)
+                          End Function)
     End Function
 
     ''' <summary>
@@ -54,12 +66,12 @@ Public Module DEGProfiling
         Dim profiles As New Dictionary(Of String, String)
 
         With genes.GetDEGs(isDEP, threshold, logFC)
-            For Each gene As String In .UP
+            For Each gene As String In .UP.Keys
                 For Each ID In mapID(gene)
                     profiles(ID) = upColor
                 Next
             Next
-            For Each gene As String In .DOWN
+            For Each gene As String In .DOWN.Keys
                 For Each ID In mapID(gene)
                     profiles(ID) = downColor
                 Next

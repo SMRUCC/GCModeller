@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64168ae993c300c44cb4f6a0c3fe5129, ..\GCModeller\CLI_tools\ProteinInteraction\CLIGroupping.vb"
+﻿#Region "Microsoft.VisualBasic::10d4f50b5e402813a9283eec71bee860, ..\CLI_tools\ProteinInteraction\CLIGroupping.vb"
 
     ' Author:
     ' 
@@ -32,4 +32,3 @@ Module CLIGroupping
     Public Const BioGridTools As String = "BioGrid CLI tools"
 
 End Module
-

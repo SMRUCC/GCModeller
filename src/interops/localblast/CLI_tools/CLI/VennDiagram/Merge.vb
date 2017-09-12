@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c16cd6b961d5618ee53c49c8f5c28852, ..\interops\localblast\CLI_tools\CLI\VennDiagram\Merge.vb"
+﻿#Region "Microsoft.VisualBasic::dbbdde3e2fd78d54854ede0bad80ce80, ..\localblast\CLI_tools\CLI\VennDiagram\Merge.vb"
 
     ' Author:
     ' 
@@ -50,11 +50,9 @@ Partial Module CLI
         Usage:="merge -d <directory> -o <output_file>",
         Example:="merge -d ~/blast_besthit/ -o ~/Desktop/compared.csv")>
     <Argument("-d",
-        Description:="The directory that contains some blast log parsing csv data file.",
-        Example:="~/Desktop/blast/result/")>
+        Description:="The directory that contains some blast log parsing csv data file.")>
     <Argument("-o",
-        Description:="The save file name for the output result, the program willl save the merge result in the csv format",
-        Example:="~/Desktop/8004_venn.csv")>
+        Description:="The save file name for the output result, the program willl save the merge result in the csv format")>
     Public Function Merge(args As CommandLine) As Integer
         Dim Directory As String = args("-d")
         Dim SavedFile As String = args("-o")

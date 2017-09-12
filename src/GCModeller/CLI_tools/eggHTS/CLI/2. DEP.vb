@@ -1,7 +1,36 @@
-﻿Imports System.ComponentModel
+﻿#Region "Microsoft.VisualBasic::11f4c70f3bf162d002cd62b42381fa3c, ..\CLI_tools\eggHTS\CLI\2. DEP.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.ComponentModel
 Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -11,9 +40,16 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
+Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB.UniprotKBEngine
+Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.DataMining.KMeans
 
 Partial Module CLI
 
@@ -189,7 +225,7 @@ Partial Module CLI
 
         If Not sciName.StringEmpty AndAlso uniprot.FileExists(True) Then
             ' 将结果过滤为指定的物种的编号
-            Dim table As Dictionary(Of entry) = UniprotXML.LoadDictionary(uniprot)
+            Dim table As Dictionary(Of entry) = UniProtXML.LoadDictionary(uniprot)
             uniprotIDs = uniprotIDs _
                 .Where(Function(ID) table.ContainsKey(ID) AndAlso
                                     table(ID).organism.scientificName = sciName) _
@@ -265,27 +301,98 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/DEP.heatmap",
-               Info:="Generates the heatmap plot input data. The default label profile is using for the iTraq result.",
-               Usage:="/DEP.heatmap /data <Directory> [/iTraq /non_DEP.blank /level 1.25 /FC.tag <FC.avg> /pvalue <p.value=0.05> /out <out.csv>]")>
+    <ExportAPI("/DEP.heatmap")>
+    <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
+    <Usage("/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /cluster.n <default=5> /sampleInfo <sampleinfo.csv> /iTraq /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /size <size, default=2000,3000> /log2FC <log2FC> /is.DEP <is.DEP> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
-              Description:="If this parameter present, then all of the non-DEP that bring by the DEP set merge, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
+              Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
+    <Argument("/KO.class", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this argument was set, then the KO class information for uniprotID will be draw on the output heatmap.")>
+    <Argument("/sampleInfo", True, CLITypes.File,
+              AcceptTypes:={GetType(SampleInfo)},
+              Description:="Describ the experimental group information")>
     <Group(CLIGroups.DEP_CLI)>
-    Public Function Heatmap(args As CommandLine) As Integer
-        Dim DIR$ = args("/data")
-        Dim FCtag$ = args.GetValue("/FC.tag", "FC.avg")
-        Dim pvalue = args _
-            .GetValue("/pvalue", "p.value=0.05") _
-            .GetTagValue("=", trim:=True)
+    Public Function Heatmap_DEPs(args As CommandLine) As Integer
+        Dim DIR$ = args <= "/data"
+        Dim log2FC As String = args.GetValue("/log2FC", "log2FC")
+        Dim isDEP As String = args.GetValue("/is.DEP", "is.DEP")
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
-        Dim level# = args.GetValue("/level", 1.25)
         Dim nonDEP_blank As Boolean = args.GetBoolean("/non_DEP.blank")
         Dim iTraq As Boolean = args.GetBoolean("/iTraq")
+        Dim size$ = args.GetValue("/size", "2000,3000")
+        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = (ls - l - r - "*.csv" <= DIR).ToDictionary(Function(path) path.BaseName, Function(path) EntityObject.LoadDataSet(Of DEP_iTraq)(path).ToDictionary)
+        Dim allDEPs = data.Values.IteratesALL.Where(Function(x) x.Value.isDEP).Keys.Distinct.ToArray
+        Dim matrix As New List(Of DataSet)
+        Dim title$ = args.GetValue("/title", "Heatmap of DEPs log2FC")
 
-        Return DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", level, Val(pvalue.Value), FCtag, 1 / level, pvalue.Name, nonDEP_blank:=nonDEP_blank, log2t:=Not iTraq) _
-            .SaveDataSet(dataOUT, blank:=1)
+        For Each id In allDEPs
+            Dim FClog2 As New Dictionary(Of String, Double)
+
+            For Each group In data
+                With group.Value
+                    If .ContainsKey(id) Then
+                        With .ref(id)
+                            If .ref.isDEP Then
+                                For Each prop In .ref.Properties
+                                    If prop.Value.TextEquals("NA") Then
+                                        FClog2.Add(prop.Key, 0)
+                                    Else
+                                        FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                    End If
+                                Next
+                            Else
+                                If nonDEP_blank Then
+                                    For Each prop In .ref.Properties
+                                        FClog2.Add(prop.Key, 0) 'log2(1) = 0
+                                    Next
+                                Else
+                                    For Each prop In .ref.Properties
+                                        If prop.Value.TextEquals("NA") Then
+                                            FClog2.Add(prop.Key, 0)
+                                        Else
+                                            FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                        End If
+                                    Next
+                                End If
+                            End If
+                        End With
+                    Else
+                        For Each key In data(group.Key).Values.First.Properties.Keys
+                            FClog2.Add(key, 0)
+                        Next
+                    End If
+                End With
+            Next
+
+            matrix += New DataSet With {
+                .ID = id,
+                .Properties = FClog2
+            }
+        Next
+
+        Call matrix.ToKMeansModels.Kmeans(expected:=args.GetValue("/cluster.n", 6)).SaveTo(dataOUT)
+
+        If args.IsTrue("/KO.class") Then
+            Dim groupInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+            Dim KOinfo As Dictionary(Of String, String) = matrix _
+                .Keys _
+                .GetKOTable(MySQLExtensions.GetMySQLClient(DBName:=UniprotKBEngine.DbName))
+
+            Call DEPsKOHeatmap _
+                .Plot(matrix, groupInfo.SampleGroupInfo, groupInfo.SampleGroupColor, KOInfo:=KOinfo) _
+                .Save(out & "/plot.png")
+        Else
+            ' 绘制普通的热图
+            Call Heatmap.Plot(
+                matrix,
+                size:=size,
+                drawScaleMethod:=DrawElements.Rows,
+                mainTitle:=title, rowLabelfontStyle:=CSSFont.Win7Small, colLabelFontStyle:=CSSFont.Win7Large, mapName:=Colors.ColorBrewer.DivergingSchemes.RdYlGn11).Save(out & "/plot.png")
+        End If
+
+        Return 0
     End Function
 
     ''' <summary>
@@ -499,63 +606,27 @@ Partial Module CLI
 
     <ExportAPI("/DEPs.stat",
                Info:="https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R",
-               Usage:="/DEPs.stat /in <log2.test.csv> [/iTraq /level <default=1.5> /out <out.stat.csv>]")>
+               Usage:="/DEPs.stat /in <log2.test.csv> [/log2FC <default=log2FC> /out <out.stat.csv>]")>
+    <Argument("/log2FC", True, CLITypes.String, Description:="The field name that stores the log2FC value of the average FoldChange")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function DEPStatics(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim level# = args.GetValue("/level", 1.5R)
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEPs.stat.csv")
-        Dim iTraq As Boolean = args.GetBoolean("/iTraq")
+        Dim log2FC$ = args.GetValue("/log2FC", "log2FC")
         Dim DEPs As EntityObject() = EntityObject _
            .LoadDataSet(path:=in$) _
            .Where(Function(d) d("is.DEP").TextEquals("TRUE")) _
            .ToArray
         Dim result As New File
-        Dim levelDown = 1 / level
-        Dim getFoldChange = Function(protein As EntityObject)
-                                Dim s$
-
-                                If iTraq Then
-                                    s = protein("FC.avg")
-                                Else
-                                    s = protein("logFC")
-                                End If
-
-                                Return s
-                            End Function
-
-        If Not iTraq Then
-            level = Math.Log(level, 2)
-        End If
 
         result += {"上调", "下调", "总数"}
         result += {
             DEPs _
-                .Where(Function(prot)
-                           If iTraq Then
-                               Return Val(getFoldChange(prot)) >= level
-                           Else
-                               Dim s = getFoldChange(prot)
-
-                               If s.TextEquals("Inf") Then
-                                   Return True
-                               ElseIf s.TextEquals("-Inf") Then
-                                   Return False
-                               Else
-                                   Return Val(getFoldChange(prot)).Log2 >= level
-                               End If
-                           End If
-                       End Function) _
+                .Where(Function(prot) Val(prot(log2FC)) > 0) _
                 .Count _
                 .ToString,
             DEPs _
-                .Where(Function(prot)
-                           If iTraq Then
-                               Return Val(getFoldChange(prot)) <= levelDown
-                           Else
-                               Return -1 * Val(getFoldChange(prot)).Log2 >= level
-                           End If
-                       End Function) _
+                .Where(Function(prot) Val(prot(log2FC)) < 0) _
                 .Count _
                 .ToString,
             CStr(DEPs.Length)

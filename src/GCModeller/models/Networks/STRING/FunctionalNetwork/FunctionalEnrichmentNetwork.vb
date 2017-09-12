@@ -1,7 +1,11 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
@@ -18,7 +22,7 @@ Public Module FunctionalEnrichmentNetwork
     ''' </summary>
     ''' <param name="uniprot"></param>
     ''' <returns></returns>
-    <Extension> Public Function StringUniprot(uniprot As UniprotXML) As Dictionary(Of String, entry)
+    <Extension> Public Function StringUniprot(uniprot As UniProtXML) As Dictionary(Of String, entry)
         Return uniprot _
             .entries _
             .Where(Function(protein) protein.Xrefs.ContainsKey(InteractExports.STRING)) _
@@ -147,6 +151,40 @@ Public Module FunctionalEnrichmentNetwork
                 node!color = colors.down
             Else
                 node!color = nonDEPcolor
+            End If
+        Next
+
+        Return model
+    End Function
+
+    <Extension>
+    Public Function RenderDEGsColorSchema(ByRef model As NetGraph,
+                                          DEGs As (up As Dictionary(Of String, Double), down As Dictionary(Of String, Double)),
+                                          schema As (up$, down$),
+                                          Optional nonDEPColor$ = NameOf(Color.Gray)) As NetGraph
+        Dim upColors$() = Designer _
+            .GetColors(schema.up, 256) _
+            .Skip(56) _
+            .Select(Function(c) c.ToHtmlColor) _
+            .ToArray
+        Dim downColors$() = Designer _
+            .GetColors(schema.down, 256) _
+            .Skip(56) _
+            .Select(Function(c) c.ToHtmlColor) _
+            .ToArray
+        Dim colorIndex As DoubleRange = {0, 199}
+        Dim upRange As DoubleRange = DEGs.up.Values.Range
+        Dim downRange As DoubleRange = DEGs.down.Values.Range
+
+        For Each node As NetNode In model.Nodes
+            Dim id$ = node!STRING_ID
+
+            If DEGs.up.ContainsKey(id) Then
+                node!color = upColors(upRange.ScaleMapping(DEGs.up(id), colorIndex))
+            ElseIf DEGs.down.ContainsKey(id) Then
+                node!color = downColors(downRange.ScaleMapping(DEGs.down(id), colorIndex))
+            Else
+                node!color = nonDEPColor
             End If
         Next
 

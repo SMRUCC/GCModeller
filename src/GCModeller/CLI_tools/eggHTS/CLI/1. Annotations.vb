@@ -1,4 +1,32 @@
-﻿Imports System.ComponentModel
+﻿#Region "Microsoft.VisualBasic::682701a70518f1085f7defbab5bb34df, ..\CLI_tools\eggHTS\CLI\1. Annotations.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.ComponentModel
 Imports System.Drawing
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
@@ -32,6 +60,83 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
+
+    ''' <summary>
+    ''' 将每一个参考cluster之中的代表序列的uniprot编号取出来生成映射
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/UniRef.UniprotKB")>
+    <Usage("/UniRef.UniprotKB /in <uniref.xml> [/out <maps.csv>]")>
+    <Argument("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
+    Public Function UniRef2UniprotKB(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-uniref_uniprotKB.csv")
+        Dim ref As NamedValue(Of String)() = UniRef _
+            .PopulateALL([in]) _
+            .Select(Function(entry)
+                        Return New NamedValue(Of String) With {
+                            .Name = entry.id,
+                            .Value = entry.representativeMember.UniProtKB_accession
+                        }
+                    End Function) _
+            .ToArray
+
+        Return ref.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' 将cluster之中的指定的物种名称的编号取出来，以方便应用于新测序的非参考基因组的数据项目的功能富集分析
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/UniRef.map.organism")>
+    <Usage("/UniRef.map.organism /in <uniref.xml> [/org <organism_name> /out <out.csv>]")>
+    <Argument("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
+    <Argument("/org", True, CLITypes.String, Description:="The organism scientific name. If this argument is presented in the CLI input, then this program will output the top organism in this input data.")>
+    Public Function UniRefMap2Organism(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim org$ = args <= "/org"
+
+        If org.StringEmpty Then
+            org = UniRef _
+                .PopulateALL([in]) _
+                .Select(Function(x)
+                            Return x.representativeMember.Join(x.members)
+                        End Function) _
+                .IteratesALL _
+                .Select(Function(x) x.source_organism) _
+                .GroupBy(Function(x) x) _
+                .OrderByDescending(Function(g) g.Count) _
+                .First _
+                .Key
+        End If
+
+        Dim ref As NamedValue(Of String)() = UniRef _
+            .PopulateALL([in]) _
+            .Select(Function(entry)
+                        Dim member = entry _
+                            .representativeMember _
+                            .Join(entry.members) _
+                            .Where(Function(m) InStr(m.source_organism, org, CompareMethod.Text) > 0) _
+                            .FirstOrDefault
+
+                        If member Is Nothing Then
+                            Return Nothing
+                        End If
+
+                        Return New NamedValue(Of String) With {
+                            .Name = entry.id,
+                            .Value = member.UniProtKB_accession,
+                            .Description = member.source_organism
+                        }
+                    End Function) _
+            .Where(Function(map) Not map.IsEmpty) _
+            .ToArray
+
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-" & org.NormalizePathString & ".csv")
+        Return ref.SaveTo(out).CLICode
+    End Function
 
     <ExportAPI("/Exocarta.Hits")>
     <Usage("/Exocarta.Hits /in <list.txt> /annotation <annotations.csv> /exocarta <Exocarta.tsv> [/out <out.csv>]")>
@@ -172,14 +277,17 @@ Partial Module CLI
 
             out = args.GetValue("/out", list.TrimSuffix & "-proteins-uniprot-annotations.csv")
 
-            If list.ExtensionSuffix.TextEquals("csv") Then
-                geneIDs = EntityObject.LoadDataSet(list) _
-                    .Select(Function(x) x.ID) _
-                    .Distinct _
-                    .ToArray
-            Else
-                geneIDs = list.ReadAllLines
-            End If
+            With list.ExtensionSuffix
+                If .TextEquals("csv") OrElse .TextEquals("tsv") Then
+                    geneIDs = EntityObject.LoadDataSet(list,, tsv:= .TextEquals("tsv")) _
+                        .Select(Function(x) x.ID) _
+                        .Distinct _
+                        .ToArray
+                Else
+                    geneIDs = list.ReadAllLines
+                End If
+            End With
+
             If mapping.FileExists Then
                 mappings = Retrieve_IDmapping.MappingReader(mapping)
             End If

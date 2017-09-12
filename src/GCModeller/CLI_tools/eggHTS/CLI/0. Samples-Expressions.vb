@@ -1,4 +1,32 @@
-﻿Imports System.ComponentModel
+﻿#Region "Microsoft.VisualBasic::7308f3822519de0274634b2e66bb9a50, ..\CLI_tools\eggHTS\CLI\0. Samples-Expressions.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -127,7 +155,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim designer$ = args <= "/designer"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".relative_amount/")
-        Dim proteins = EntityObject.LoadDataSet([in])
+        Dim proteins = EntityObject.LoadDataSet([in]).ToArray
         Dim designers As Designer() = designer.LoadCsv(Of Designer)
         Dim delimiter$ = args.GetValue("/deli", "_")
         Dim groupLabels = designers.GetExperimentGroupLabels(args <= "/label", delimiter)
@@ -143,8 +171,7 @@ Partial Module CLI
                               Dim proteinAverages = proteins _
                                   .ToDictionary(Function(protein) protein.ID,
                                                 Function(protein)
-                                                    Return protein _
-                                                        .TakeValues(labels.Value) _
+                                                    Return protein(labels.Value) _
                                                         .Select(AddressOf Val) _
                                                         .Average
                                                 End Function)

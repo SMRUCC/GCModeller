@@ -129,6 +129,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DEPsKOHeatmap.vb" />
     <Compile Include="PathwayMap.vb" />
     <Compile Include="KEGGOrthology.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -179,6 +180,10 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Plot\Plots-statistics\Plots.Statistics.vbproj">
+      <Project>{368ee92f-7aa0-47df-be48-2ae150369a4c}</Project>
+      <Name>Plots.Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Plot\Plots\Plots.vbproj">
       <Project>{17f8e821-0a01-4975-9caa-ac95251226d5}</Project>

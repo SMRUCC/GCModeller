@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::9952baeffb576556606711feee9ac4da, ..\GCModeller\data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -44,6 +45,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Regprecise
 
@@ -158,23 +160,30 @@ Namespace Regprecise
                                                   TextGrepScriptEngine.Compile(QueryGrep).Method,
                                                   TextGrepScriptEngine.Compile("tokens ' ' 0;tokens | last").Method,
                                                   "1e-3", ExportAll:=ExportAll)
-            Dim ExtractedTfbsInfo = (From regulator As SequenceModel.FASTA.FastaToken In RegpreciseRegulators
-                                     Let tfbs As String() = __gettfbs(regulator, siteInfoList)
+            Dim ExtractedTfbsInfo = (From regulator As FastaToken
+                                     In RegpreciseRegulators
+                                     Let tfbs As String() = regulator.__gettfbs(siteInfoList)
                                      Select New KeyValuePair(Of String, String())(regulator.Title.Split.First.Split(CChar("|")).Last, tfbs)).ToArray
-            Dim LQuery = (From bbhReg As LocalBLAST.Application.BBH.BiDirectionalBesthit
-                          In bhArray
-                          Where Not String.IsNullOrEmpty(bbhReg.HitName)
-                          Select New RegpreciseMPBBH With {
-                              .HitName = bbhReg.HitName,
-                              .QueryName = bbhReg.QueryName,
-                              .RegpreciseTfbsIds = (From tfbs As KeyValuePair(Of String, String())
-                                                    In ExtractedTfbsInfo.AsParallel
-                                                    Where String.Equals(bbhReg.HitName, tfbs.Key)
-                                                    Select tfbs.Value).First}).ToArray
+            Dim LQuery = LinqAPI.Exec(Of RegpreciseMPBBH) _
+ _
+                () <= From bbhReg As LocalBLAST.Application.BBH.BiDirectionalBesthit
+                      In bhArray
+                      Where Not String.IsNullOrEmpty(bbhReg.HitName)
+                      Let ids = (From tfbs As KeyValuePair(Of String, String())
+                                 In ExtractedTfbsInfo.AsParallel
+                                 Where String.Equals(bbhReg.HitName, tfbs.Key)
+                                 Select tfbs.Value).FirstOrDefault
+                      Select New RegpreciseMPBBH With {
+                          .HitName = bbhReg.HitName,
+                          .QueryName = bbhReg.QueryName,
+                          .RegpreciseTfbsIds = ids
+                      }
+
             Return LQuery
         End Function
 
-        Private Function __gettfbs(regFasta As SequenceModel.FASTA.FastaToken, siteInforList As KeyValuePair(Of String, String)()) As String()
+        <Extension>
+        Private Function __gettfbs(regFasta As FastaToken, siteInforList As KeyValuePair(Of String, String)()) As String()
             Dim Tokens = Regex.Match(regFasta.Attributes.Last, "tfbs=[^]]+").Value.Split(CChar("=")).Last.Split(CChar(";"))
             Dim GetTfbs = (From site As KeyValuePair(Of String, String) In siteInforList Where Array.IndexOf(Tokens, site.Key) > -1 Select site.Value).ToArray
             Return GetTfbs
@@ -197,11 +206,13 @@ Namespace Regprecise
                               Optional PfamStrings As PfamString() = Nothing) As RegpreciseMPBBH()
 
             Dim RegpreciseRegulators As Regulator() = Regprecise.Get_Regulators(Regulator.Types.TF)
-            Dim MyvaCogDict As Dictionary(Of String, MyvaCOG) = If(Myva_COG Is Nothing, New Dictionary(Of String, MyvaCOG), Myva_COG.ToDictionary)
+            Dim MyvaCogDict As Dictionary(Of String, MyvaCOG) = If(Myva_COG Is Nothing, New Dictionary(Of MyvaCOG), Myva_COG.ToDictionary)
             Dim PfamStringDict As Dictionary(Of String, PfamString) =
-                If(PfamStrings Is Nothing, New Dictionary(Of String, PfamString), PfamStrings.ToDictionary)
+                If(PfamStrings Is Nothing, New Dictionary(Of PfamString), PfamStrings.ToDictionary)
             Dim GetRegpreciseRegulator = Function(Id As String) As Regulator
-                                             Dim LQuery = (From item In RegpreciseRegulators Where String.Equals(item.LocusId, Id) Select item).ToArray
+                                             Dim LQuery = From item In RegpreciseRegulators
+                                                          Where String.Equals(item.LocusId, Id)
+                                                          Select item
                                              Return LQuery.FirstOrDefault
                                          End Function
             Dim RegulatorFasta = If(RegpreciseRegulators_Fasta.IsNullOrEmpty, Nothing, FastaReaders.Regulator.LoadDocument(RegpreciseRegulators_Fasta).ToDictionary(True))

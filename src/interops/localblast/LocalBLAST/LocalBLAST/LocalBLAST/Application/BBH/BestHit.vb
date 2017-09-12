@@ -1,4 +1,32 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
+﻿#Region "Microsoft.VisualBasic::ae5b672552903d6c678833f82d80140a, ..\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\BestHit.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports Microsoft.VisualBasic.ComponentModel.KeyValuePair
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
@@ -22,11 +50,22 @@ Namespace LocalBLAST.Application.BBH
         <Column("length_hit")> Public Property length_hit As Integer
         <Column("length_query")> Public Property length_query As Integer
         <Column("length_hsp")> Public Property length_hsp As Integer
+
+        ''' <summary>
+        ''' The functional description of <see cref="HitName"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public Property description As String
 
         Public ReadOnly Property coverage As Double
             Get
                 Return Me.length_query / Me.query_length
+            End Get
+        End Property
+
+        Public ReadOnly Property SBHScore As Double
+            Get
+                Return BBHParser.SBHScore(Me)
             End Get
         End Property
 

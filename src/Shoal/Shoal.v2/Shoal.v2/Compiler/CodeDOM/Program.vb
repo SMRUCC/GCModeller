@@ -24,7 +24,7 @@ Namespace Compiler.CodeDOM
             Call ProgramClass.Members.Add(CodeDOMExpressions.Field(__innerScriptEngine, GetType(Runtime.ScriptEngine)))
 
             Program.ReturnType = Type(Of Integer)()
-            Program.Parameters.Add(Argument(Of CommandLine.CommandLine)("args"))
+            Program.Parameters.Add(Microsoft.VisualBasic.Emit.CodeDOM_VBC.Argument(Of CommandLine.CommandLine)("args"))
             EntryPoint.Statements.Add(LocalsInit("__args", GetType(String), initExpression:=Reference(GetType(Microsoft.VisualBasic.App), NameOf(App.Command))))
             EntryPoint.Statements.Add([Call](GetType(Extensions), NameOf(__DEBUG_ECHO), Parameters:={LocalVariable("__args")}))
             EntryPoint.Statements.Add(LocalsInit("args", GetType(CommandLine.CommandLine), initExpression:=[Call](GetType(CommandLine.CommandLine), NameOf(CommandLine.TryParse), {LocalVariable("__args")})))

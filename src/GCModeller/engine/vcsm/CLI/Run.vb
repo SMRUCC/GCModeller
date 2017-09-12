@@ -42,18 +42,15 @@ Public Module CommandLines
         Usage:="run -i <model_file> -mysql <mysql_connection_string> [-f <gcml/csv_tabular> -t <time> -metabolism <assembly_path> -expression <assembly_path>]",
         Example:="run -i ~/gc/ecoli.xml -t 1000 -url ""http://localhost:8080/client?user=username%password=password%database=database""")>
     <Argument("-i", False,
-        Description:="This switch value specific the model file that the simulation engine will be load",
-        Example:="~/gc/ecoli.xml")>
+        Description:="This switch value specific the model file that the simulation engine will be load")>
     <Argument("-t", True,
-        Description:="Optional, This switch specific that the cycle number of this simulation will run, this switch value will override the time value in the loaded model file.",
-        Example:="1000")>
+        Description:="Optional, This switch specific that the cycle number of this simulation will run, this switch value will override the time value in the loaded model file.")>
     <Argument("-url", False,
-        Description:="Setup the data storage service connection url string.",
-        Example:="http://localhost:8080/client?user=username%password=password%database=database")>
+        Description:="Setup the data storage service connection url string.")>
     <Argument("-metabolism", True,
-        Description:="N/A - The engine kernel will not load the metabolism module.", Example:="")>
+        Description:="N/A - The engine kernel will not load the metabolism module.")>
     <Argument("-expression", True,
-        Description:="N/A - The engine kernel will not load the gene expression regulation module.", Example:="")>
+        Description:="N/A - The engine kernel will not load the gene expression regulation module.")>
     <Argument("-interval", True,
         Description:="This switch value specific the data commit to the mysql database server time interval, " &
                      "if your compiled model is too large you should consider set up this switch value smaller " &

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e01cc1afec2df01e4d4f74f560ed209, ..\GCModeller\CLI_tools\MEME\Cli\Regulons.vb"
+﻿#Region "Microsoft.VisualBasic::5e01cc1afec2df01e4d4f74f560ed209, ..\CLI_tools\MEME\Cli\Regulons.vb"
 
     ' Author:
     ' 
