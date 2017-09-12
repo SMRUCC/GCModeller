@@ -54,7 +54,7 @@ Partial Module CLI
     Public Function StripShotgunData(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Data.csv")
-        Return Shotgun_csvReader.StripCsv([in]).Save(out,)
+        Return iTraq_csvReader.StripCsv([in]).Save(out,)
     End Function
 
     ''' <summary>

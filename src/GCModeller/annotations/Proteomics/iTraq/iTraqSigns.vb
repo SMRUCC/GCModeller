@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
 ''' iTraq信号标记替换
@@ -18,14 +19,5 @@ Public Class iTraqSigns
 
     Public Overrides Function ToString() As String
         Return $"{Sign} -> {SampleID}"
-    End Function
-
-    ''' <summary>
-    ''' 将原始数据之中的标记替换为用户的样品名称
-    ''' </summary>
-    ''' <param name="header"></param>
-    ''' <returns></returns>
-    Public Function Replace(header As RowObject) As RowObject
-
     End Function
 End Class

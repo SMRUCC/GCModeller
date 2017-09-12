@@ -149,6 +149,7 @@
     <Compile Include="CLI\0. Samples-Expressions.vb" />
     <Compile Include="CLI\4. NetworkEnrichment.vb" />
     <Compile Include="CLI\Repository.vb" />
+    <Compile Include="CLI\Samples\iTraq.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -297,6 +298,7 @@
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
   <Import Project="..\..\..\Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems" Label="Shared" />

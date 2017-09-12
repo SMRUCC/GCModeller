@@ -5,7 +5,21 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot
 
-Public Module Shotgun_csvReader
+Public Module iTraq_csvReader
+
+    <Extension>
+    Public Iterator Function Combinations(signs As IEnumerable(Of iTraqSigns)) As IEnumerable(Of iTraqSigns)
+        With signs.ToArray
+            For Each symbol1 As iTraqSigns In .ref
+                For Each symbol2 As iTraqSigns In .ref
+                    Yield New iTraqSigns With {
+                        .Sign = $"{symbol1.Sign}/{symbol2.Sign}",
+                        .SampleID = $"{symbol1.SampleID}/{symbol2.SampleID}"
+                    }
+                Next
+            Next
+        End With
+    End Function
 
     Public Function StripCsv(path$, Optional headers% = 2) As File
         Dim [in] As File = File.Load(path)

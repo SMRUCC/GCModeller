@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 
 ''' <summary>
-''' iTraq data reader
+''' iTraq data reader.(iTraq蛋白组下机数据转录原始结果文件的数据模型)
 ''' </summary>
 Public Class iTraqReader : Inherits DataSet
     Implements INamedValue
@@ -26,4 +26,21 @@ Public Class iTraqReader : Inherits DataSet
     Public Overrides Function ToString() As String
         Return $"{ID} {Description}"
     End Function
+
+    Public Function GetSampleGroups(symbols As IEnumerable(Of iTraqSigns)) As Dictionary(Of SampleValue)
+
+    End Function
+
+    Public Structure SampleValue : Implements INamedValue
+
+        Public Property Group As String Implements IKeyedEntity(Of String).Key
+
+        Dim FoldChange#
+        Dim Count%
+        Dim Variability#
+
+        Public Overrides Function ToString() As String
+            Return $"{Group}: foldChange={FoldChange}, count={Count}, variability={Variability}"
+        End Function
+    End Structure
 End Class
