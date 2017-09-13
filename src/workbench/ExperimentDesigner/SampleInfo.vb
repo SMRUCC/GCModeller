@@ -1,8 +1,9 @@
-﻿
+﻿Imports Microsoft.VisualBasic.Data.csv
+
 ''' <summary>
 ''' 一般而言，对于实验数据的分析而言，在进行数据存储的时候使用的是<see cref="ID"/>属性，而在进行数据可视化或者数据报告输出的时候，则是使用的<see cref="sample_name"/>属性作为显示的label
 ''' </summary>
-Public Class SampleInfo
+<Template("ExperimentDesigner")> Public Class SampleInfo
 
     ''' <summary>
     ''' 符合VisualBasic标识符语法的目标样品标识符

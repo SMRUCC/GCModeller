@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 
 Public Module Extensions
@@ -80,7 +81,7 @@ Public Module Extensions
     End Function
 End Module
 
-Public Class ExperimentAnalysis
+<Template("ExperimentDesigner")> Public Class ExperimentAnalysis
 
     Public Property Controls As String
     Public Property Experimental As String
