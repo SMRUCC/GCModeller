@@ -101,7 +101,7 @@ Partial Module CLI
         Dim pvalue# = args.GetValue("/p.value", 0.05)
         Dim FDR# = args.GetValue("/FDR", 0.05)
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".log2FC.t.test.csv")
-        Dim DEPs = data.logFCtest(level, pvalue, FDR)
+        Dim DEPs As DEP_iTraq() = data.logFCtest(level, pvalue, FDR)
         Return DEPs.SaveDataSet(out).CLICode
     End Function
 End Module
