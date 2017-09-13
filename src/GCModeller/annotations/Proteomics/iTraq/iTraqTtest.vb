@@ -87,7 +87,9 @@ Public Module iTraqTtest
 
             SyncLock RServer.R
                 With RServer.R
-                    FDR = .Evaluate(var).AsNumeric.ToArray
+                    FDR = .Evaluate(var) _
+                          .AsNumeric _
+                          .ToArray
                 End With
             End SyncLock
 
