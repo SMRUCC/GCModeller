@@ -30,7 +30,7 @@ Public Module TemplateHelper
                 }
 
                 Call template.SaveTo(path)
-                Call typeTable.Add(t.Item1.Category, t.Item2)
+                Call typeTable.Add(t.Item1.Category & "/" & fileName, t.Item2)
             Next
         Next
 
