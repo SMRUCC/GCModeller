@@ -56,7 +56,7 @@ Partial Module CLI
                 Dim labels = group.Value
                 Dim data = matrix _
                     .Select(Function(x)
-                                Dim values As New Dictionary(Of String, Double)
+                                Dim values As New List(Of KeyValuePair(Of String, Double))
 
                                 For Each label In labels
                                     With label.ToString
@@ -76,7 +76,9 @@ Partial Module CLI
 
                                 Return New DataSet With {
                                     .ID = x.ID,
-                                    .Properties = values
+                                    .Properties = values _
+                                        .OrderBy(Function(d) d.Key) _
+                                        .ToDictionary()
                                 }
                             End Function) _
                     .ToArray
