@@ -27,6 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
@@ -207,7 +208,14 @@ Namespace API
         ''' </param>
         ''' <returns>函数返回来的是变量名，这个变量的值类型为一个Double数组向量</returns>
         Public Function padjust(p As IEnumerable(Of Double), Optional method As padjusts = padjusts.fdr, Optional n$ = "length(p)") As String
-            Dim v$ = base.c(p, recursive:=False)
+            Dim stringV$() = p _
+                .Select(Function(x)
+                            ' 因为NaN在.NET之中会被转换为“非数字”，在R之中是无效的对象，
+                            ' 需要在这里预防这种情况的发生从而导致程序崩溃
+                            Return If(x.IsNaNImaginary, "NA", CStr(x))
+                        End Function) _
+                .ToArray
+            Dim v$ = base.c(stringV, recursive:=False)
 
             SyncLock R
                 With R
