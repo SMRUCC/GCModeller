@@ -47,23 +47,44 @@ Partial Module CLI
         Dim sampleInfo = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
         Dim designer = (args <= "/designer").LoadCsv(Of ExperimentAnalysis)
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & "-Groups/")
-        Dim matrix As DataSet() = DataSet.LoadDataSet(args <= "/in")
+        Dim matrix As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
 
         With sampleInfo.DataAnalysisDesign(analysis:=designer)
 
             For Each group In .ref
-                Dim groupName = group.Key
-                Dim labels$() = group _
-                    .Value _
-                    .Select(Function(x) x.ToString) _
-                    .ToArray
-
+                Dim groupName$ = group.Key
+                Dim labels = group.Value
                 Dim data = matrix _
-                    .Select(Function(x) x.SubSet(labels)) _
+                    .Select(Function(x)
+                                Dim values As New Dictionary(Of String, Double)
+
+                                For Each label In labels
+                                    With label.ToString
+                                        If x.HasProperty(.ref) Then
+                                            Call values.Add(.ref, x(.ref))
+                                        Else
+                                            ' 可能是在进行质谱实验的时候将顺序颠倒了，在这里将标签颠倒一下试试
+                                            With label.Swap.ToString
+                                                If x.HasProperty(.ref) Then
+                                                    ' 由于在取出值之后使用1除来进行翻转，所以在这里标签还是用原来的顺序，不需要进行颠倒了
+                                                    Call values.Add(label.ToString, 1 / x(.ref))
+                                                End If
+                                            End With
+                                        End If
+                                    End With
+                                Next
+
+                                Return New DataSet With {
+                                    .ID = x.ID,
+                                    .Properties = values
+                                }
+                            End Function) _
                     .ToArray
                 Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
 
-                Call data.SaveTo(path)
+                If Not data.All(Function(x) x.Properties.Count = 0) Then
+                    Call data.SaveTo(path)
+                End If
             Next
         End With
 
