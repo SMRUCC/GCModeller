@@ -83,7 +83,7 @@ Public Module iTraqTtest
             Dim log2FC As Vector = DirectCast(.log2FC, VectorShadows(Of Double))
             Dim p As Vector = DirectCast(.pvalue, VectorShadows(Of Double))
             Dim FDR As Vector
-            Dim var$ = stats.padjust(.FDR, n:= .FDR.Length)
+            Dim var$ = stats.padjust(p, n:=p.Length)
 
             SyncLock RServer.R
                 With RServer.R
