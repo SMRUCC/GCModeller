@@ -49,7 +49,7 @@ Imports SMRUCC.genomics.Analysis.Microarray.DEGDesigner
 
         If Not (path = Settings.Session.Templates & "/iTraq.sign.csv").FileExists Then
             Call {
-                New iTraqSigns
+                New iTraqSymbols
             }.SaveTo(path)
         End If
     End Sub

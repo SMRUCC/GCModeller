@@ -8,13 +8,13 @@ Imports SMRUCC.genomics.Assembly.Uniprot
 Public Module iTraq_csvReader
 
     <Extension>
-    Public Iterator Function Combinations(signs As IEnumerable(Of iTraqSigns)) As IEnumerable(Of iTraqSigns)
-        With signs.ToArray
-            For Each symbol1 As iTraqSigns In .ref
-                For Each symbol2 As iTraqSigns In .ref
-                    Yield New iTraqSigns With {
-                        .Sign = $"{symbol1.Sign}/{symbol2.Sign}",
-                        .SampleID = $"{symbol1.SampleID}/{symbol2.SampleID}"
+    Public Iterator Function Combinations(symbols As IEnumerable(Of iTraqSymbols)) As IEnumerable(Of iTraqSymbols)
+        With symbols.ToArray
+            For Each symbol1 As iTraqSymbols In .ref
+                For Each symbol2 As iTraqSymbols In .ref
+                    Yield New iTraqSymbols With {
+                        .Symbol = $"{symbol1.Symbol}/{symbol2.Symbol}",
+                        .SampleID = $"{symbol1.AnalysisID}/{symbol2.AnalysisID}"
                     }
                 Next
             Next
@@ -28,7 +28,7 @@ Public Module iTraq_csvReader
     ''' <param name="symbols">从csv文件之中所读取出来的原始标签数据</param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function iTraqMatrix(data As IEnumerable(Of iTraqReader), symbols As IEnumerable(Of iTraqSigns)) As IEnumerable(Of DataSet)
+    Public Iterator Function iTraqMatrix(data As IEnumerable(Of iTraqReader), symbols As IEnumerable(Of iTraqSymbols)) As IEnumerable(Of DataSet)
         With symbols.Combinations.ToArray
             For Each gene As iTraqReader In data
                 Dim groups = gene.GetSampleGroups(.ref)
@@ -46,7 +46,7 @@ Public Module iTraq_csvReader
     End Function
 
     <Extension>
-    Public Iterator Function SymbolReplace(data As IEnumerable(Of iTraqReader), symbols As IEnumerable(Of iTraqSigns)) As IEnumerable(Of iTraqReader)
+    Public Iterator Function SymbolReplace(data As IEnumerable(Of iTraqReader), symbols As IEnumerable(Of iTraqSymbols)) As IEnumerable(Of iTraqReader)
         With symbols.Combinations.ToArray
             For Each gene As iTraqReader In data
                 Dim groups = gene.GetSampleGroups(.ref)

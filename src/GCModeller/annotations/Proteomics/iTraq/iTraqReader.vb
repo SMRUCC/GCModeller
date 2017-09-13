@@ -33,17 +33,17 @@ Public Class iTraqReader : Inherits DataSet
     ''' </summary>
     ''' <param name="symbols">已经经过了<see cref="Combinations"/>操作之后的结果</param>
     ''' <returns></returns>
-    Public Function GetSampleGroups(symbols As IEnumerable(Of iTraqSigns)) As Dictionary(Of SampleValue)
+    Public Function GetSampleGroups(symbols As IEnumerable(Of iTraqSymbols)) As Dictionary(Of SampleValue)
         Dim groups As New List(Of SampleValue)
 
-        For Each group As iTraqSigns In symbols
-            If Properties.ContainsKey(group.Sign) Then
+        For Each group As iTraqSymbols In symbols
+            If Properties.ContainsKey(group.Symbol) Then
                 ' FoldChange
                 groups += New SampleValue With {
-                    .Group = group.SampleID,
-                    .Count = Properties(group.Sign & " Count"),
-                    .FoldChange = Properties(group.Sign),
-                    .Variability = Properties(group.Sign & " Variability [%]")
+                    .Group = group.AnalysisID,
+                    .Count = Properties(group.Symbol & " Count"),
+                    .FoldChange = Properties(group.Symbol),
+                    .Variability = Properties(group.Symbol & " Variability [%]")
                 }
             End If
         Next

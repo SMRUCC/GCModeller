@@ -11,12 +11,12 @@ Partial Module CLI
               AcceptTypes:={GetType(iTraqReader)},
               Description:="")>
     <Argument("/symbols", False, CLITypes.File,
-              AcceptTypes:={GetType(iTraqSigns)},
+              AcceptTypes:={GetType(iTraqSymbols)},
               Description:="Using for replace the mass spectrum expeirment symbol to the user experiment tag.")>
     Public Function iTraqSignReplacement(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].ParentPath)
-        Dim symbols = (args <= "/symbols").LoadCsv(Of iTraqSigns)
+        Dim symbols = (args <= "/symbols").LoadCsv(Of iTraqSymbols)
 
         With [in].LoadCsv(Of iTraqReader)
             Call .iTraqMatrix(symbols) _
