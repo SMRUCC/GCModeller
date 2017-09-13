@@ -71,13 +71,8 @@ Public Module iTraqTtest
 
                 value.FCavg = v.Average
                 value.log2FC = Math.Log(value.FCavg, 2)
-
-                Try
-                    value.pvalue = stats.Ttest(x:=base.c(v), y:=ZERO).pvalue
-                Catch ex As Exception
-                    Throw New Exception(v.ToArray.GetJson, ex)
-                End Try
-
+                v = VectorMath.Log(v, 2)
+                value.pvalue = stats.Ttest(x:=base.c(v), y:=ZERO).pvalue
             End If
 
             result += value
