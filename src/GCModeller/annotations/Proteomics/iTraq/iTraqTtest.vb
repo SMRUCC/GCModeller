@@ -3,9 +3,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.SyntaxAPI.MathExtension
 Imports Microsoft.VisualBasic.Math.SyntaxAPI.Vectors
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RServer = RDotNET.Extensions.VisualBasic.RSystem
@@ -50,6 +48,7 @@ Public Module iTraqTtest
             }
 
             If row.Properties.Values.All(Function(x) x = 0R) Then
+
                 ' 所有的值都是0的话，是无法进行假设检验的
                 ' 但是这种情况可能是实验A之中没有表达量，但是在实验B之中被检测到了表达
 
@@ -72,7 +71,7 @@ Public Module iTraqTtest
                 value.FCavg = v.Average
                 value.log2FC = Math.Log(value.FCavg, 2)
                 value.pvalue = stats.Ttest(
-                    x:=base.c(VectorMath.Log(v, 2)),
+                    x:=base.c(Vector.Log(v, 2)),
                     y:=ZERO,
                     varEqual:=True).pvalue
             End If
@@ -98,8 +97,7 @@ Public Module iTraqTtest
 
             .FDR = FDR
 
-            test = VectorMath.Abs(log2FC) >= Math.Log(level, 2)
-            test = test & (p <= pvalue)
+            test = Vector.Abs(log2FC) >= Math.Log(level, 2) & (p <= pvalue)
 
             If fdrThreshold < 1 Then
                 test = test & (FDR <= fdrThreshold)
@@ -107,7 +105,8 @@ Public Module iTraqTtest
 
             .isDEP = test
 
-            println("resulted %s DEPs from %s proteins!", Which.IsTrue(test).Count, result.Count)
+            Dim count% = Which.IsTrue(test).Count
+            Call println("resulted %s DEPs from %s proteins!", count, result.Count)
         End With
 
         Return result
