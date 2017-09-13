@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::4cef575fbe73c4ecf9b4de361c50956d, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\stats\stats.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -218,5 +218,143 @@ Namespace API
                 End With
             End SyncLock
         End Function
+
+        ''' <summary>
+        ''' ### Student's t-Test
+        ''' 
+        ''' Performs one and two sample t-tests on vectors of data.
+        ''' 
+        ''' The formula interface is only applicable for the 2-sample tests.
+        '''
+        ''' ``alternative = "greater"`` is the alternative that x has a larger mean than y.
+        '''
+        ''' If paired is TRUE then both x and y must be specified and they must be the same length. 
+        ''' Missing values are silently removed (in pairs if paired is TRUE). If var.equal is TRUE 
+        ''' then the pooled estimate of the variance is used. By default, if var.equal is FALSE 
+        ''' then the variance is estimated separately for both groups and the Welch modification 
+        ''' to the degrees of freedom is used.
+        '''
+        ''' If the input data are effectively constant (compared to the larger of the two means) an 
+        ''' error is generated.
+        ''' </summary>
+        ''' <param name="x#">a (non-empty) numeric vector of data values.</param>
+        ''' <param name="y#">an optional (non-empty) numeric vector of data values.</param>
+        ''' <param name="alternative$">
+        ''' a character string specifying the alternative hypothesis, must be one of "two.sided" 
+        ''' (default), "greater" or "less". You can specify just the initial letter.
+        ''' </param>
+        ''' <param name="mu#">
+        ''' a number indicating the true value of the mean (or difference in means if you are performing a two sample test).
+        ''' </param>
+        ''' <param name="paired">a logical indicating whether you want a paired t-test.</param>
+        ''' <param name="varEqual">
+        ''' a logical variable indicating whether to treat the two variances as being equal. If TRUE 
+        ''' then the pooled variance is used to estimate the variance otherwise the Welch (or 
+        ''' Satterthwaite) approximation to the degrees of freedom is used.
+        ''' </param>
+        ''' <param name="conf_level#">confidence level of the interval.</param>
+        ''' <returns></returns>
+        Public Function Ttest(x#(), Optional y#() = Nothing,
+                              Optional alternative$ = "two.sided",
+                              Optional mu# = 0,
+                              Optional paired As Boolean = False,
+                              Optional varEqual As Boolean = False,
+                              Optional conf_level# = 0.95) As TtestResult
+
+            Dim a = base.c(x)
+            Dim b = base.c(y)
+            Return Ttest(a, b, alternative, mu, paired, varEqual, conf_level)
+        End Function
+
+        ''' <summary>
+        ''' ### Student's t-Test
+        ''' 
+        ''' Performs one and two sample t-tests on vectors of data.
+        ''' 
+        ''' The formula interface is only applicable for the 2-sample tests.
+        '''
+        ''' ``alternative = "greater"`` is the alternative that x has a larger mean than y.
+        '''
+        ''' If paired is TRUE then both x and y must be specified and they must be the same length. 
+        ''' Missing values are silently removed (in pairs if paired is TRUE). If var.equal is TRUE 
+        ''' then the pooled estimate of the variance is used. By default, if var.equal is FALSE 
+        ''' then the variance is estimated separately for both groups and the Welch modification 
+        ''' to the degrees of freedom is used.
+        '''
+        ''' If the input data are effectively constant (compared to the larger of the two means) an 
+        ''' error is generated.
+        ''' </summary>
+        ''' <param name="x#">a (non-empty) numeric vector of data values.</param>
+        ''' <param name="y#">an optional (non-empty) numeric vector of data values.</param>
+        ''' <param name="alternative$">
+        ''' a character string specifying the alternative hypothesis, must be one of "two.sided" 
+        ''' (default), "greater" or "less". You can specify just the initial letter.
+        ''' </param>
+        ''' <param name="mu#">
+        ''' a number indicating the true value of the mean (or difference in means if you are performing a two sample test).
+        ''' </param>
+        ''' <param name="paired">a logical indicating whether you want a paired t-test.</param>
+        ''' <param name="varEqual">
+        ''' a logical variable indicating whether to treat the two variances as being equal. If TRUE 
+        ''' then the pooled variance is used to estimate the variance otherwise the Welch (or 
+        ''' Satterthwaite) approximation to the degrees of freedom is used.
+        ''' </param>
+        ''' <param name="conf_level#">confidence level of the interval.</param>
+        ''' <returns></returns>
+        Public Function Ttest(x$, Optional y$ = Nothing,
+                              Optional alternative$ = "two.sided",
+                              Optional mu# = 0,
+                              Optional paired As Boolean = False,
+                              Optional varEqual As Boolean = False,
+                              Optional conf_level# = 0.95) As TtestResult
+            SyncLock R
+                With R
+
+                    Dim var$ = App.NextTempName
+
+                    .call = $"{var} <- t.test({x}, {y},
+       alternative = {Rstring(alternative)},
+       mu = {mu}, paired = {Rbool(paired)}, var.equal = {Rbool(varEqual)},
+       conf.level = {conf_level});"
+
+                    Dim pvalue# = .Evaluate($"{var}$p.value").AsNumeric.ToArray.First
+                    Dim dataname$ = .Evaluate($"{var}$data.name").AsCharacter.ToArray.First
+                    Dim method$ = .Evaluate($"{var}$method").AsCharacter.ToArray.First
+
+                    Return New TtestResult With {
+                        .pvalue = pvalue,
+                        .method = method,
+                        .alternative = alternative,
+                        .dataname = dataname
+                    }
+                End With
+            End SyncLock
+        End Function
+
+        Public Structure TtestResult
+
+            Public Property statistic As String
+            Public Property parameter As String
+
+            ''' <summary>
+            ''' the p-value for the test.
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property pvalue As Double
+            Public Property confint As Double()
+            Public Property estimate As Double()
+            Public Property nullvalue As Double
+            Public Property alternative As String
+            ''' <summary>
+            ''' a character string indicating what type of t-test was performed.
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property method As String
+            Public Property dataname As String
+
+            Public Overrides Function ToString() As String
+                Return pvalue & $" ({method})"
+            End Function
+        End Structure
     End Module
 End Namespace
