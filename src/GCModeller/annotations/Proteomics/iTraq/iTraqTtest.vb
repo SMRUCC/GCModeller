@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.SyntaxAPI.MathExtension
 Imports Microsoft.VisualBasic.Math.SyntaxAPI.Vectors
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RServer = RDotNET.Extensions.VisualBasic.RSystem
@@ -70,7 +71,12 @@ Public Module iTraqTtest
 
                 value.FCavg = v.Average
                 value.log2FC = Math.Log(value.FCavg, 2)
-                value.pvalue = stats.Ttest(x:=base.c(v), y:=ZERO).pvalue
+
+                Try
+                    value.pvalue = stats.Ttest(x:=base.c(v), y:=ZERO).pvalue
+                Catch ex As Exception
+                    Throw New Exception(v.ToArray.GetJson, ex)
+                End Try
 
             End If
 
