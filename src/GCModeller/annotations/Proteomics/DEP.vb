@@ -4,7 +4,8 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' iTraq的DEP分析结果输出的文件数据读取对象
-''' https://github.com/xieguigang/GCModeller.cli2R/blob/master/R/iTraq.log2_t-test.R
+''' 
+''' > https://github.com/xieguigang/GCModeller.cli2R/blob/master/R/iTraq.log2_t-test.R
 ''' </summary>
 Public Class DEP_iTraq : Inherits EntityObject
 

@@ -42,6 +42,13 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
+    <ExportAPI("/Scan.templates")>
+    <Usage("/Scan.templates")>
+    Public Function ScanTableTemplates(args As CommandLine) As Integer
+        Call TemplateHelper.ScanTemplates(App.HOME, Settings.Templates.TemplateFolder)
+        Return 0
+    End Function
+
     <ExportAPI("/Strip.Null.Columns", Usage:="/Strip.Null.Columns /in <table.csv> [/out <out.csv>]")>
     Public Function StripNullColumns(args As CommandLine) As Integer
         Dim in$ = args <= "/in"

@@ -149,6 +149,7 @@
     <Compile Include="CLI\0. Samples-Expressions.vb" />
     <Compile Include="CLI\4. NetworkEnrichment.vb" />
     <Compile Include="CLI\Repository.vb" />
+    <Compile Include="CLI\Samples\iTraq.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -195,6 +196,14 @@
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
       <Project>{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7}</Project>
       <Name>NCBI.Extensions.localblast</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
+      <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
+      <Name>RDotNET.Extensions.VisualBasic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
+      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
+      <Name>RDotNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\repository\DataMySql\DataMySQL.vbproj">
       <Project>{74b33a15-1d34-4d11-81a1-2538c45b7a80}</Project>
@@ -297,6 +306,7 @@
       <Name>DataVisualizationExtensions</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
   <Import Project="..\..\..\Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems" Label="Shared" />

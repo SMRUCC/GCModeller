@@ -323,6 +323,10 @@
       <Project>{ae8d7346-7f3e-4c84-9a59-bba3cac5df41}</Project>
       <Name>nt_repo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame.Extensions\+VB_DataFrame.Extensions.vbproj">
+      <Project>{344bf0cf-107f-45d2-9074-9865d8f86506}</Project>
+      <Name>+VB_DataFrame.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
