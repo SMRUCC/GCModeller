@@ -71,8 +71,10 @@ Public Module iTraqTtest
 
                 value.FCavg = v.Average
                 value.log2FC = Math.Log(value.FCavg, 2)
-                v = VectorMath.Log(v, 2)
-                value.pvalue = stats.Ttest(x:=base.c(v), y:=ZERO).pvalue
+                value.pvalue = stats.Ttest(
+                    x:=base.c(VectorMath.Log(v, 2)),
+                    y:=ZERO,
+                    varEqual:=True).pvalue
             End If
 
             result += value
