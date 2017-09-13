@@ -67,7 +67,7 @@ Partial Module CLI
                                             With label.Swap.ToString
                                                 If x.HasProperty(.ref) Then
                                                     ' 由于在取出值之后使用1除来进行翻转，所以在这里标签还是用原来的顺序，不需要进行颠倒了
-                                                    Call values.Add(label.ToString, 1 / x(.ref))
+                                                    values.Add(label.ToString, 1 / x(.ref))
                                                 End If
                                             End With
                                         End If
@@ -86,6 +86,7 @@ Partial Module CLI
 
                 If Not data.All(Function(x) x.Properties.Count = 0) Then
                     Call data.SaveTo(path)
+                    Call StripNaN(path, replaceAs:="NA")
                 End If
             Next
         End With
