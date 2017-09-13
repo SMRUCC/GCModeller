@@ -206,7 +206,7 @@ Namespace API
         ''' number of comparisons, must be at least length(p); only set this (to non-default) when you know what you are doing!
         ''' </param>
         ''' <returns>函数返回来的是变量名，这个变量的值类型为一个Double数组向量</returns>
-        Public Function padjust(p#(), Optional method As padjusts = padjusts.fdr, Optional n$ = "length(p)") As String
+        Public Function padjust(p As IEnumerable(Of Double), Optional method As padjusts = padjusts.fdr, Optional n$ = "length(p)") As String
             Dim v$ = base.c(p, recursive:=False)
 
             SyncLock R

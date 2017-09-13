@@ -5,7 +5,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.SyntaxAPI.MathExtension
 Imports Microsoft.VisualBasic.Math.SyntaxAPI.Vectors
+Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
+Imports RServer = RDotNET.Extensions.VisualBasic.RSystem
 
 Public Module iTraqTtest
 
@@ -80,7 +82,14 @@ Public Module iTraqTtest
             Dim test As BooleanVector
             Dim log2FC As Vector = DirectCast(.log2FC, VectorShadows(Of Double))
             Dim p As Vector = DirectCast(.pvalue, VectorShadows(Of Double))
-            Dim FDR As Vector = stats.padjust(DirectCast(.FDR, Double()), n:= .FDR.Length)
+            Dim FDR As Vector
+            Dim var$ = stats.padjust(.FDR, n:= .FDR.Length)
+
+            SyncLock RServer.R
+                With RServer.R
+                    FDR = .Evaluate(var).AsNumeric.ToArray
+                End With
+            End SyncLock
 
             .FDR = FDR
 
