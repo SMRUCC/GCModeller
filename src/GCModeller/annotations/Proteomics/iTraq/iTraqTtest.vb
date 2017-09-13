@@ -1,7 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.SyntaxAPI.MathExtension
+Imports Microsoft.VisualBasic.Math.SyntaxAPI.Vectors
 Imports RDotNET.Extensions.VisualBasic.API
 
 Public Module iTraqTtest
@@ -15,6 +18,9 @@ Public Module iTraqTtest
     ''' <param name="fdrThreshold#"></param>
     ''' <param name="includesZERO"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R
+    ''' </remarks>
     <Extension>
     Public Function logFCtest(data As IEnumerable(Of DataSet),
                               Optional level# = 1.5,
@@ -62,11 +68,32 @@ Public Module iTraqTtest
 
                 value.FCavg = v.Average
                 value.log2FC = Math.Log(value.FCavg, 2)
-                value.pvalue = stats.Ttest(x:=v, y:=ZERO)
+                value.pvalue = stats.Ttest(x:=base.c(v), y:=ZERO).pvalue
 
             End If
 
         Next
+
+        With result.VectorShadows
+
+            Dim test As BooleanVector
+            Dim log2FC As Vector = .log2FC
+            Dim p As Vector = .pvalue
+            Dim FDR As Vector = stats.padjust(DirectCast(.FDR, Double()), n:= .FDR.Length)
+
+            .FDR = FDR
+
+            test = VectorMath.Abs(.ref) >= Math.Log(level, 2)
+            test = test & (p <= pvalue)
+
+            If fdrThreshold < 1 Then
+                test = test & (FDR <= fdrThreshold)
+            End If
+
+            .isDEP = test
+
+            println("resulted %s DEPs from %s proteins!", Which.IsTrue(test).Count, result.Count)
+        End With
 
         Return result
     End Function

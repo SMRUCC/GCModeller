@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
@@ -254,6 +255,8 @@ Namespace API
         ''' </param>
         ''' <param name="conf_level#">confidence level of the interval.</param>
         ''' <returns></returns>
+        ''' 
+        <ExportAPI("t.test")>
         Public Function Ttest(x#(), Optional y#() = Nothing,
                               Optional alternative$ = "two.sided",
                               Optional mu# = 0,
@@ -301,6 +304,8 @@ Namespace API
         ''' </param>
         ''' <param name="conf_level#">confidence level of the interval.</param>
         ''' <returns></returns>
+        ''' 
+        <ExportAPI("t.test")>
         Public Function Ttest(x$, Optional y$ = Nothing,
                               Optional alternative$ = "two.sided",
                               Optional mu# = 0,
