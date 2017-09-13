@@ -215,7 +215,7 @@ Public Module Extensions
     End Function
 
     <ExportAPI("Write.Csv")>
-    <Extension> Public Function SaveTo(data As IEnumerable(Of Object), path As String, Optional encoding As Encoding = Nothing) As Boolean
+    <Extension> Public Function SaveTo(data As IEnumerable(Of Object), path$, Optional encoding As Encoding = Nothing) As Boolean
         Return Reflector.Save(data, False).SaveDataFrame(path, encoding)
     End Function
 
