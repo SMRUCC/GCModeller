@@ -14,7 +14,8 @@ Public Module iTraq_csvReader
                 For Each symbol2 As iTraqSymbols In .ref
                     Yield New iTraqSymbols With {
                         .Symbol = $"{symbol1.Symbol}/{symbol2.Symbol}",
-                        .SampleID = $"{symbol1.AnalysisID}/{symbol2.AnalysisID}"
+                        .SampleID = $"{symbol1.SampleID}/{symbol2.SampleID}",
+                        .AnalysisID = $"{symbol1.AnalysisID}/{symbol2.AnalysisID}"
                     }
                 Next
             Next
