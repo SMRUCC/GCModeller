@@ -64,6 +64,21 @@ Namespace IO
         End Function
 
         ''' <summary>
+        ''' 直接使用<paramref name="labels"/>取出<see cref="Properties"/>之中的一个子集
+        ''' 对于不存在的属性，默认值为零
+        ''' </summary>
+        ''' <param name="labels"></param>
+        ''' <returns></returns>
+        Public Function SubSet(labels As IEnumerable(Of String)) As DataSet
+            Return New DataSet With {
+                .ID = ID,
+                .Properties = labels _
+                    .ToDictionary(Function(x) x,
+                                  Function(x) Me(x))
+            }
+        End Function
+
+        ''' <summary>
         ''' <paramref name="uidMap"/>一般情况下会自动进行判断，不需要具体的设置
         ''' </summary>
         ''' <param name="path"></param>

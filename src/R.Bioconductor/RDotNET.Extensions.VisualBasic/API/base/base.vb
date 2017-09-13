@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::b91d3d53e848d3f5aae5e874590b4663, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\base\base.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -42,6 +42,32 @@ Namespace API
     ''' For a complete list of functions, use ``library(help = "base")``.
     ''' </summary>
     Public Module base
+
+        ''' <summary>
+        ''' Replicate Elements of Vectors and Lists
+        ''' </summary>
+        ''' <param name="x$">
+        ''' a vector (of any mode including a list) or a factor or (for rep only) a POSIXct or POSIXlt 
+        ''' or Date object; or an S4 object containing such an object.
+        ''' </param>
+        ''' <param name="times%">
+        ''' an integer-valued vector giving the (non-negative) number of times to repeat each element 
+        ''' if of length length(x), or to repeat the whole vector if of length 1. Negative or NA values 
+        ''' are an error. A double vector is accepted, other inputs being coerced to an integer or 
+        ''' double vector.
+        ''' </param>
+        ''' <returns></returns>
+        Public Function rep(x$, times%) As String
+            SyncLock R
+                With R
+                    Dim var$ = App.NextTempName
+
+                    .call = $"{var} <- rep({x}, times = {times});"
+
+                    Return var
+                End With
+            End SyncLock
+        End Function
 
         ''' <summary>
         ''' The Names of an Object
