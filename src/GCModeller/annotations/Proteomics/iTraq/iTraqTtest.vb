@@ -72,18 +72,19 @@ Public Module iTraqTtest
 
             End If
 
+            result += value
         Next
 
         With result.VectorShadows
 
             Dim test As BooleanVector
-            Dim log2FC As Vector = .log2FC
-            Dim p As Vector = .pvalue
+            Dim log2FC As Vector = DirectCast(.log2FC, VectorShadows(Of Double))
+            Dim p As Vector = DirectCast(.pvalue, VectorShadows(Of Double))
             Dim FDR As Vector = stats.padjust(DirectCast(.FDR, Double()), n:= .FDR.Length)
 
             .FDR = FDR
 
-            test = VectorMath.Abs(.ref) >= Math.Log(level, 2)
+            test = VectorMath.Abs(log2FC) >= Math.Log(level, 2)
             test = test & (p <= pvalue)
 
             If fdrThreshold < 1 Then

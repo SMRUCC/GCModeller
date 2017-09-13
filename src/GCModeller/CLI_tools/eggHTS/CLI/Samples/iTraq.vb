@@ -92,4 +92,16 @@ Partial Module CLI
 
         Return 0
     End Function
+
+    <ExportAPI("/iTraq.t.test")>
+    <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
+    Public Function iTraqTtest(args As CommandLine) As Integer
+        Dim data As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
+        Dim level# = args.GetValue("/level", 1.5)
+        Dim pvalue# = args.GetValue("/p.value", 0.05)
+        Dim FDR# = args.GetValue("/FDR", 0.05)
+        Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".log2FC.t.test.csv")
+        Dim DEPs = data.logFCtest(level, pvalue, FDR)
+        Return DEPs.SaveTo(out).CLICode
+    End Function
 End Module
