@@ -18,6 +18,7 @@ Public Class iTraqSymbols
     ''' </summary>
     ''' <returns></returns>
     Public Property AnalysisID As String
+    Public Property SampleGroup As String
 
     Public Overrides Function ToString() As String
         Return $"{Symbol} -> {SampleID}"
