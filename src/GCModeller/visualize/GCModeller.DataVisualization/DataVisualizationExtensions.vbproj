@@ -189,6 +189,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Ideg.vb" />
     <Compile Include="Abstract\MapModelCommon.vb" />
     <Compile Include="CatalogProfiling\CatalogProfiling.vb" />
     <Compile Include="CatalogProfiling\COGCatalogProfiling.vb" />

@@ -37,9 +37,11 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Visualize
 
 ''' <summary>
 ''' 用来可视化差异表达基因
@@ -121,15 +123,29 @@ Public Module Volcano
     End Function
 
     ReadOnly black As Brush = Brushes.Black
+    ReadOnly P As DefaultValue(Of Func(Of Double, Double)) = New Func(Of Double, Double)(Function(pvalue) -Math.Log10(pvalue))
+
+    <Extension>
+    Private Function CreateModel(Of T As Ideg)(source As IEnumerable(Of T), pvalueTranslate As Func(Of Double, Double)) As IEnumerable(Of DEGModel)
+        Return source.ToArray(
+            Function(g) New DEGModel With {
+                .label = g.label,
+                .logFC = g.log2FC,
+                .pvalue = pvalueTranslate(g.pvalue)
+            })
+    End Function
 
     ''' <summary>
     ''' 绘制差异表达基因的火山图
     ''' </summary>
     ''' <param name="genes"></param>
+    ''' <param name="colors"></param>
+    ''' <param name="factors">
+    ''' 这个函数描述了如何从<paramref name="colors"/>参数之中取出差异表达基因自己所对应的颜色值
+    ''' </param>
     ''' <returns></returns>
-    ''' 
     <Extension>
-    Public Function Plot(genes As IEnumerable(Of DEGModel), factors As Func(Of DEGModel, Integer), colors As Dictionary(Of Integer, Color),
+    Public Function Plot(Of T As Ideg)(genes As IEnumerable(Of T), factors As Func(Of DEGModel, Integer), colors As Dictionary(Of Integer, Color),
                          Optional size$ = "2000,1850",
                          Optional padding$ = g.DefaultPadding,
                          Optional bg$ = "white",
@@ -142,17 +158,7 @@ Public Module Volcano
                          Optional legendFont$ = CSSFont.UbuntuNormal,
                          Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
 
-        If translate Is Nothing Then
-            translate = Function(pvalue) -Math.Log10(pvalue)
-        End If
-
-        Dim DEG_matrix As DEGModel() = genes.ToArray(
-            Function(g) New DEGModel With {
-                .label = g.label,
-                .logFC = g.logFC,
-                .pvalue = translate(g.pvalue)
-            })
-
+        Dim DEG_matrix As DEGModel() = genes.CreateModel(translate Or P)
         ' 下面分别得到了log2fc的对称range，以及pvalue范围
         Dim xRange As DoubleRange = DEG_matrix _
             .Select(Function(d) Math.Abs(d.logFC)) _
@@ -170,7 +176,9 @@ Public Module Volcano
 
         Dim brushes As Dictionary(Of Integer, Brush) = colors _
             .ToDictionary(Function(k) k.Key,
-                          Function(br) DirectCast(New SolidBrush(br.Value), Brush))
+                          Function(br)
+                              Return DirectCast(New SolidBrush(br.Value), Brush)
+                          End Function)
         Dim labelFont As Font = CSSFont.TryParse(labelFontStyle)
 
         Return g.Allocate(size.SizeParser, padding, bg) <=
@@ -181,7 +189,7 @@ Public Module Volcano
 
                 With region.PlotRegion
                     x = d3js.scale.linear.domain(xTicks).range({ .Left, .Right})
-                    y = d3js.scale.linear.domain(yTicks).range({ .Top, .Bottom})
+                    y = d3js.scale.linear.domain(yTicks).range({ .Bottom, .Top})
                 End With
 
                 Dim scaler = (x, y).TupleScaler
@@ -254,9 +262,11 @@ Public Module Volcano
     End Function
 
     Public Structure DEGModel
-        Dim label$
-        Dim logFC#
-        Dim pvalue#
+        Implements Ideg
+
+        Public Property label$ Implements Ideg.label
+        Public Property logFC# Implements Ideg.log2FC
+        Public Property pvalue# Implements Ideg.pvalue
 
         Public Overrides Function ToString() As String
             Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"
