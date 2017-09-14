@@ -303,7 +303,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /cluster.n <default=5> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /size <size, default=2000,3000> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /size <size, default=2000,3000> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -319,15 +319,30 @@ Partial Module CLI
         Dim dataOUT = out & "/DEP.heatmap.csv"
         Dim nonDEP_blank As Boolean = args.GetBoolean("/non_DEP.blank")
         Dim size$ = args.GetValue("/size", "2000,3000")
-        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = (ls - l - r - "*.csv" <= DIR).ToDictionary(Function(path) path.BaseName, Function(path) EntityObject.LoadDataSet(Of DEP_iTraq)(path).ToDictionary)
-        Dim allDEPs = data.Values.IteratesALL.Where(Function(x) x.Value.isDEP).Keys.Distinct.ToArray
         Dim matrix As New List(Of DataSet)
         Dim title$ = args.GetValue("/title", "Heatmap of DEPs log2FC")
         Dim tlog2 As Boolean = args.IsTrue("/t.log2")
+        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) =
+            (ls - l - r - "*.csv" <= DIR) _
+            .ToDictionary(Function(path) path.BaseName,
+                          Function(path)
+                              Return EntityObject _
+                                  .LoadDataSet(Of DEP_iTraq)(path) _
+                                  .ToDictionary
+                          End Function)
+        Dim allDEPs = data.Values _
+            .IteratesALL _
+            .Where(Function(x) x.Value.isDEP) _
+            .Keys _
+            .Distinct _
+            .ToArray
 
-        For Each id In allDEPs
+        Call $"Input data have {allDEPs.Length} Union DEPs".__INFO_ECHO
+
+        For Each id As String In allDEPs
             Dim FClog2 As New Dictionary(Of String, Double)
 
+            ' 将当前的这个DEP标记的基因的数据从所有的分组之中拿出来
             For Each group In data
                 With group.Value
                     If .ContainsKey(id) Then
@@ -378,7 +393,10 @@ Partial Module CLI
             }
         Next
 
-        Call matrix.ToKMeansModels.Kmeans(expected:=args.GetValue("/cluster.n", 6)).SaveTo(dataOUT)
+        Call matrix _
+            .ToKMeansModels _
+            .Kmeans(expected:=args.GetValue("/cluster.n", 6)) _
+            .SaveTo(dataOUT)
 
         If args.IsTrue("/KO.class") Then
             Dim groupInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
