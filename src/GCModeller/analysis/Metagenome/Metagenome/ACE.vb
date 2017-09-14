@@ -1,7 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.SyntaxAPI.MathExtension
 
 ''' <summary>
 ''' Ace – the ACE estimator (http://www.mothur.org/wiki/Ace)；用来估计群落中OTU 数目的指数，由Chao 提出，是生态学中估计物种总数的常用指数之一
@@ -82,7 +81,7 @@ Public Module ACE
     Public Function GammaACE(OTUs As OTUTable(), groups As NamedVectorFactory, S As Vector, C As Vector, n As Vector) As Vector
         Dim k = SumFk(OTUs, groups)
         Dim x = S / C * k / (C * n * (n - 1)) - 1
-        Dim maxGamma = VectorMath.Max(x, 0)
+        Dim maxGamma = Vector.Max(x, 0)
         Return maxGamma
     End Function
 
