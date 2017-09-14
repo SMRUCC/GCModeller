@@ -37,6 +37,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -122,6 +123,17 @@ Public Module Volcano
     End Function
 
     ReadOnly black As Brush = Brushes.Black
+    ReadOnly P As DefaultValue(Of Func(Of Double, Double)) = New Func(Of Double, Double)(Function(pvalue) -Math.Log10(pvalue))
+
+    <Extension>
+    Private Function CreateModel(Of T As Ideg)(source As IEnumerable(Of T), pvalueTranslate As Func(Of Double, Double)) As IEnumerable(Of DEGModel)
+        Return source.ToArray(
+            Function(g) New DEGModel With {
+                .label = g.label,
+                .logFC = g.log2FC,
+                .pvalue = pvalueTranslate(g.pvalue)
+            })
+    End Function
 
     ''' <summary>
     ''' 绘制差异表达基因的火山图
@@ -146,17 +158,7 @@ Public Module Volcano
                          Optional legendFont$ = CSSFont.UbuntuNormal,
                          Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
 
-        If translate Is Nothing Then
-            translate = Function(pvalue) -Math.Log10(pvalue)
-        End If
-
-        Dim DEG_matrix As DEGModel() = genes.ToArray(
-            Function(g) New DEGModel With {
-                .label = g.label,
-                .logFC = g.log2FC,
-                .pvalue = translate(g.pvalue)
-            })
-
+        Dim DEG_matrix As DEGModel() = genes.CreateModel(translate Or P)
         ' 下面分别得到了log2fc的对称range，以及pvalue范围
         Dim xRange As DoubleRange = DEG_matrix _
             .Select(Function(d) Math.Abs(d.logFC)) _
@@ -185,7 +187,7 @@ Public Module Volcano
 
                 With region.PlotRegion
                     x = d3js.scale.linear.domain(xTicks).range({ .Left, .Right})
-                    y = d3js.scale.linear.domain(yTicks).range({ .Top, .Bottom})
+                    y = d3js.scale.linear.domain(yTicks).range({ .Bottom, .Top})
                 End With
 
                 Dim scaler = (x, y).TupleScaler
