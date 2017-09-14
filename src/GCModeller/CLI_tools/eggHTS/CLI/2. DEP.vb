@@ -303,7 +303,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /cluster.n <default=5> /sampleInfo <sampleinfo.csv> /iTraq /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /size <size, default=2000,3000> /log2FC <log2FC> /is.DEP <is.DEP> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /cluster.n <default=5> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /size <size, default=2000,3000> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -315,17 +315,15 @@ Partial Module CLI
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap_DEPs(args As CommandLine) As Integer
         Dim DIR$ = args <= "/data"
-        Dim log2FC As String = args.GetValue("/log2FC", "log2FC")
-        Dim isDEP As String = args.GetValue("/is.DEP", "is.DEP")
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
         Dim nonDEP_blank As Boolean = args.GetBoolean("/non_DEP.blank")
-        Dim iTraq As Boolean = args.GetBoolean("/iTraq")
         Dim size$ = args.GetValue("/size", "2000,3000")
         Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = (ls - l - r - "*.csv" <= DIR).ToDictionary(Function(path) path.BaseName, Function(path) EntityObject.LoadDataSet(Of DEP_iTraq)(path).ToDictionary)
         Dim allDEPs = data.Values.IteratesALL.Where(Function(x) x.Value.isDEP).Keys.Distinct.ToArray
         Dim matrix As New List(Of DataSet)
         Dim title$ = args.GetValue("/title", "Heatmap of DEPs log2FC")
+        Dim tlog2 As Boolean = args.IsTrue("/t.log2")
 
         For Each id In allDEPs
             Dim FClog2 As New Dictionary(Of String, Double)
@@ -339,20 +337,28 @@ Partial Module CLI
                                     If prop.Value.TextEquals("NA") Then
                                         FClog2.Add(prop.Key, 0)
                                     Else
-                                        FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                        If tlog2 Then
+                                            Call FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                        Else
+                                            Call FClog2.Add(prop.Key, Val(prop.Value))
+                                        End If
                                     End If
                                 Next
                             Else
                                 If nonDEP_blank Then
                                     For Each prop In .ref.Properties
-                                        FClog2.Add(prop.Key, 0) 'log2(1) = 0
+                                        FClog2.Add(prop.Key, 0) ' log2(1) = 0
                                     Next
                                 Else
                                     For Each prop In .ref.Properties
                                         If prop.Value.TextEquals("NA") Then
                                             FClog2.Add(prop.Key, 0)
                                         Else
-                                            FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                            If tlog2 Then
+                                                Call FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                            Else
+                                                Call FClog2.Add(prop.Key, Val(prop.Value))
+                                            End If
                                         End If
                                     Next
                                 End If
