@@ -211,7 +211,7 @@ Namespace Topologically
             Return RevLocis
         End Function
 
-        Public Overloads Shared Function TrimView(data As Generic.IEnumerable(Of RevRepeats)) As RevRepeatsView()
+        Public Overloads Shared Function TrimView(data As IEnumerable(Of RevRepeats)) As RevRepeatsView()
             Dim LQuery As RevRepeatsView() = data.ToArray(
                 Function(loci) _
                     New RevRepeatsView With {

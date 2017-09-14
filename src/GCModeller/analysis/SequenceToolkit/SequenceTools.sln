@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.25914.0
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{12F73CA6-3E91-4CB2-8E6C-A6493CCE7F4A}"
 EndProject
@@ -29,7 +29,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+Microsoft.VisualBasic.Arch
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "+VB_DataFrame", "..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj", "{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Microsoft.VisualBasic.Mathematical", "..\..\..\runtime\sciBASIC#\Data_science\Mathematical\Math\math-core.vbproj", "{E3367B88-5D0C-495A-8273-331656D4B5AA}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "math-core", "..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj", "{E3367B88-5D0C-495A-8273-331656D4B5AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{975FA135-C26C-49EC-9389-B82C3522FDAF}"
 EndProject
@@ -428,5 +428,8 @@ Global
 		{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB} = {12F73CA6-3E91-4CB2-8E6C-A6493CCE7F4A}
 		{E3367B88-5D0C-495A-8273-331656D4B5AA} = {12F73CA6-3E91-4CB2-8E6C-A6493CCE7F4A}
 		{975FA135-C26C-49EC-9389-B82C3522FDAF} = {A2E248CA-BDC6-46F1-9CDE-1ECD0F7E9554}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EDD81E64-E588-433B-BE04-304DB4979D82}
 	EndGlobalSection
 EndGlobal

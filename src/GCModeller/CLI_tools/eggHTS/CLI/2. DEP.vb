@@ -33,23 +33,23 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB
+Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB.UniprotKBEngine
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
-Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB.UniprotKBEngine
-Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.DataMining.KMeans
 
 Partial Module CLI
 
@@ -237,23 +237,133 @@ Partial Module CLI
 
     <ExportAPI("/DEP.venn",
                Info:="Generate the VennDiagram plot data and the venn plot tiff. The default parameter profile is using for the iTraq data.",
-               Usage:="/DEP.venn /data <Directory> [/level <1.25> /FC.tag <FC.avg> /title <VennDiagram title> /pvalue <p.value> /out <out.DIR>]")>
+               Usage:="/DEP.venn /data <Directory> [/title <VennDiagram title> /out <out.DIR>]")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function VennData(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
-        Dim FCtag$ = args.GetValue("/FC.tag", "FC.avg")
-        Dim pvalue$ = args.GetValue("/pvalue", "p.value")
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".venn/")
         Dim dataOUT = out & "/DEP.venn.csv"
         Dim title$ = args.GetValue("/title", "VennDiagram title")
-        Dim level# = args.GetValue("/level", 1.25)
 
-        Call DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue) _
+        Call Union(DIR, True, "", nonDEP_blank:=True, outGroup:=True) _
             .SaveDataSet(dataOUT)
         Call Apps.VennDiagram.Draw(dataOUT, title, out:=out & "/venn.tiff")
 
         Return 0
+    End Function
+
+    Public Function Union(DIR$, tlog2 As Boolean, ZERO$, nonDEP_blank As Boolean, outGroup As Boolean) As List(Of EntityObject)
+        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) =
+          (ls - l - r - "*.csv" <= DIR) _
+          .ToDictionary(Function(path) path.BaseName,
+                        Function(path)
+                            Return EntityObject _
+                                .LoadDataSet(Of DEP_iTraq)(path) _
+                                .ToDictionary
+                        End Function)
+        Dim allDEPs = data.Values _
+            .IteratesALL _
+            .Where(Function(x) x.Value.isDEP) _
+            .Keys _
+            .Distinct _
+            .ToArray
+        Dim matrix As New List(Of EntityObject)
+
+        Call $"Input data have {allDEPs.Length} Union DEPs".__INFO_ECHO
+
+        For Each id As String In allDEPs
+            Dim FClog2 As New Dictionary(Of String, String)
+
+            ' 将当前的这个DEP标记的基因的数据从所有的分组之中拿出来
+            For Each group In data
+                With group.Value
+                    If .ContainsKey(id) Then
+                        With .ref(id)
+                            If .ref.isDEP Then
+                                If outGroup Then
+
+                                    FClog2.Add(group.Key, .ref.log2FC)
+
+                                Else
+
+                                    For Each prop In .ref.Properties
+                                        If prop.Value.TextEquals("NA") Then
+                                            FClog2.Add(prop.Key, ZERO)
+                                        Else
+                                            If tlog2 Then
+                                                Call FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                            Else
+                                                Call FClog2.Add(prop.Key, Val(prop.Value))
+                                            End If
+                                        End If
+                                    Next
+
+                                End If
+                            Else
+                                If nonDEP_blank Then
+
+                                    If outGroup Then
+
+                                        FClog2.Add(group.Key, ZERO)
+
+                                    Else
+
+                                        For Each prop In .ref.Properties
+                                            FClog2.Add(prop.Key, ZERO) ' log2(1) = 0
+                                        Next
+
+                                    End If
+
+                                Else
+
+                                    If outGroup Then
+
+                                        FClog2.Add(group.Key, .ref.log2FC)
+
+                                    Else
+
+                                        For Each prop In .ref.Properties
+                                            If prop.Value.TextEquals("NA") Then
+                                                FClog2.Add(prop.Key, ZERO)
+                                            Else
+                                                If tlog2 Then
+                                                    Call FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                                Else
+                                                    Call FClog2.Add(prop.Key, Val(prop.Value))
+                                                End If
+                                            End If
+                                        Next
+
+                                    End If
+
+
+                                End If
+                            End If
+                        End With
+                    Else
+
+                        If outGroup Then
+
+                            FClog2.Add(group.Key, ZERO)
+
+                        Else
+
+                            For Each key In data(group.Key).Values.First.Properties.Keys
+                                FClog2.Add(key, ZERO)
+                            Next
+
+                        End If
+                    End If
+                End With
+            Next
+
+            matrix += New EntityObject With {
+                .ID = id,
+                .Properties = FClog2
+            }
+        Next
+
+        Return matrix
     End Function
 
     <ExportAPI("/DEPs.union", Usage:="/DEPs.union /in <csv.DIR> [/FC <default=logFC> /out <out.csv>]")>
@@ -303,7 +413,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /cluster.n <default=5> /sampleInfo <sampleinfo.csv> /iTraq /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /size <size, default=2000,3000> /log2FC <log2FC> /is.DEP <is.DEP> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /size <size, default=2000,3000> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -315,64 +425,22 @@ Partial Module CLI
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap_DEPs(args As CommandLine) As Integer
         Dim DIR$ = args <= "/data"
-        Dim log2FC As String = args.GetValue("/log2FC", "log2FC")
-        Dim isDEP As String = args.GetValue("/is.DEP", "is.DEP")
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
-        Dim nonDEP_blank As Boolean = args.GetBoolean("/non_DEP.blank")
-        Dim iTraq As Boolean = args.GetBoolean("/iTraq")
         Dim size$ = args.GetValue("/size", "2000,3000")
-        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = (ls - l - r - "*.csv" <= DIR).ToDictionary(Function(path) path.BaseName, Function(path) EntityObject.LoadDataSet(Of DEP_iTraq)(path).ToDictionary)
-        Dim allDEPs = data.Values.IteratesALL.Where(Function(x) x.Value.isDEP).Keys.Distinct.ToArray
-        Dim matrix As New List(Of DataSet)
         Dim title$ = args.GetValue("/title", "Heatmap of DEPs log2FC")
+        Dim tlog2 As Boolean = args.IsTrue("/t.log2")
+        Dim matrix As List(Of DataSet) = Union(DIR, tlog2, 0, args.GetBoolean("/non_DEP.blank"), False) _
+            .AsDataSet _
+            .AsList
 
-        For Each id In allDEPs
-            Dim FClog2 As New Dictionary(Of String, Double)
+        Call matrix _
+            .ToKMeansModels _
+            .Kmeans(expected:=args.GetValue("/cluster.n", 6)) _
+            .SaveTo(dataOUT)
 
-            For Each group In data
-                With group.Value
-                    If .ContainsKey(id) Then
-                        With .ref(id)
-                            If .ref.isDEP Then
-                                For Each prop In .ref.Properties
-                                    If prop.Value.TextEquals("NA") Then
-                                        FClog2.Add(prop.Key, 0)
-                                    Else
-                                        FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
-                                    End If
-                                Next
-                            Else
-                                If nonDEP_blank Then
-                                    For Each prop In .ref.Properties
-                                        FClog2.Add(prop.Key, 0) 'log2(1) = 0
-                                    Next
-                                Else
-                                    For Each prop In .ref.Properties
-                                        If prop.Value.TextEquals("NA") Then
-                                            FClog2.Add(prop.Key, 0)
-                                        Else
-                                            FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
-                                        End If
-                                    Next
-                                End If
-                            End If
-                        End With
-                    Else
-                        For Each key In data(group.Key).Values.First.Properties.Keys
-                            FClog2.Add(key, 0)
-                        Next
-                    End If
-                End With
-            Next
-
-            matrix += New DataSet With {
-                .ID = id,
-                .Properties = FClog2
-            }
-        Next
-
-        Call matrix.ToKMeansModels.Kmeans(expected:=args.GetValue("/cluster.n", 6)).SaveTo(dataOUT)
+        Dim schema$ = args.GetValue("/schema", Colors.ColorBrewer.DivergingSchemes.RdYlGn11)
+        Dim revColorSequence As Boolean = Not args.IsTrue("/no-clrev")
 
         If args.IsTrue("/KO.class") Then
             Dim groupInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
@@ -381,7 +449,7 @@ Partial Module CLI
                 .GetKOTable(MySQLExtensions.GetMySQLClient(DBName:=UniprotKBEngine.DbName))
 
             Call DEPsKOHeatmap _
-                .Plot(matrix, groupInfo.SampleGroupInfo, groupInfo.SampleGroupColor, KOInfo:=KOinfo) _
+                .Plot(matrix, groupInfo.SampleGroupInfo, groupInfo.SampleGroupColor, KOInfo:=KOinfo, schema:=schema) _
                 .Save(out & "/plot.png")
         Else
             ' 绘制普通的热图
@@ -389,7 +457,10 @@ Partial Module CLI
                 matrix,
                 size:=size,
                 drawScaleMethod:=DrawElements.Rows,
-                mainTitle:=title, rowLabelfontStyle:=CSSFont.Win7Small, colLabelFontStyle:=CSSFont.Win7Large, mapName:=Colors.ColorBrewer.DivergingSchemes.RdYlGn11).Save(out & "/plot.png")
+                mainTitle:=title, rowLabelfontStyle:=CSSFont.Win7Small,
+                colLabelFontStyle:=CSSFont.Win7Large,
+                mapName:=schema,
+                reverseClrSeq:=revColorSequence).Save(out & "/plot.png")
         End If
 
         Return 0
@@ -458,30 +529,6 @@ Partial Module CLI
         Return values _
             .SaveTo(out) _
             .CLICode
-    End Function
-
-    <ExportAPI("/Venn.Functions",
-               Usage:="/Venn.Functions /venn <venn.csv> /anno <annotations.csv> [/out <out.csv>]")>
-    <Group(CLIGroups.DEP_CLI)>
-    Public Function VennFunctions(args As CommandLine) As Integer
-        Dim in$ = args <= "/venn"
-        Dim anno$ = args <= "/anno"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-functions.csv")
-        Dim venn As EntityObject() = EntityObject.LoadDataSet([in]).ToArray
-        Dim annoData As Dictionary(Of String, EntityObject) = EntityObject _
-            .LoadDataSet(anno) _
-            .ToDictionary(Function(prot) prot("uniprot"))
-        Dim list As New List(Of EntityObject)
-
-        For Each prot As EntityObject In venn
-            prot.Properties.Add("geneName", annoData(prot.ID)("geneName"))
-            prot.Properties.Add("fullName", annoData(prot.ID)("fullName"))
-            prot.Properties.Add("functions", annoData(prot.ID)("functions"))
-
-            list += prot
-        Next
-
-        Return list.SaveTo(out).CLICode
     End Function
 
     ''' <summary>
@@ -586,20 +633,38 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP.qlfTable.csv> [/tag.pvalue <default=p.value> /size <1920,1440> /out <plot.csv>]")>
+    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/size <1920,1440> /out <plot.csv>]")>
     <Description("Volcano plot of the DEPs' analysis result.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function logFCVolcano(args As CommandLine) As Integer
         Dim in$ = args("/in")
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEP.vocano.plot.png")
-        Dim sample = EntityObject.LoadDataSet([in])
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEPs.vocano.plot.png")
+        Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)([in])
         Dim size$ = args.GetValue("/size", "1920,1440")
-        Dim pvalueTag$ = args.GetValue("/tag.pvalue", "p.value")
+        Dim colors As New Dictionary(Of Integer, Color) From {
+            {1, Color.Violet},
+            {0, Color.Gray},
+            {-1, Color.Blue}
+        }
 
-        Return Volcano.PlotDEGs(sample, pvalue:=pvalueTag,
-                                padding:="padding: 50 50 150 150",
-                                displayLabel:=LabelTypes.None,
-                                size:=size) _
+        Return Volcano.Plot(sample,
+                            colors:=colors,
+                            factors:=Function(x)
+                                         If x.pvalue > 0.05 Then
+                                             Return 0
+                                         ElseIf Math.Abs(x.logFC) < Math.Log(1.5, 2) Then
+                                             Return 0
+                                         End If
+
+                                         If x.logFC > 0 Then
+                                             Return 1
+                                         Else
+                                             Return -1
+                                         End If
+                                     End Function,
+                            padding:="padding: 50 50 150 150",
+                            displayLabel:=LabelTypes.None,
+                            size:=size) _
             .Save(out) _
             .CLICode
     End Function
