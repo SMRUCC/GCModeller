@@ -176,7 +176,9 @@ Public Module Volcano
 
         Dim brushes As Dictionary(Of Integer, Brush) = colors _
             .ToDictionary(Function(k) k.Key,
-                          Function(br) DirectCast(New SolidBrush(br.Value), Brush))
+                          Function(br)
+                              Return DirectCast(New SolidBrush(br.Value), Brush)
+                          End Function)
         Dim labelFont As Font = CSSFont.TryParse(labelFontStyle)
 
         Return g.Allocate(size.SizeParser, padding, bg) <=
