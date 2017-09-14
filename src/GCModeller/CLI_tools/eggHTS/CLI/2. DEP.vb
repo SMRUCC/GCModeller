@@ -245,14 +245,14 @@ Partial Module CLI
         Dim dataOUT = out & "/DEP.venn.csv"
         Dim title$ = args.GetValue("/title", "VennDiagram title")
 
-        Call Union(DIR, True, "", nonDEP_blank:=True) _
+        Call Union(DIR, True, "", nonDEP_blank:=True, outGroup:=True) _
             .SaveDataSet(dataOUT)
         Call Apps.VennDiagram.Draw(dataOUT, title, out:=out & "/venn.tiff")
 
         Return 0
     End Function
 
-    Public Function Union(DIR$, tlog2 As Boolean, ZERO$, nonDEP_blank As Boolean) As List(Of EntityObject)
+    Public Function Union(DIR$, tlog2 As Boolean, ZERO$, nonDEP_blank As Boolean, outGroup As Boolean) As List(Of EntityObject)
         Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) =
           (ls - l - r - "*.csv" <= DIR) _
           .ToDictionary(Function(path) path.BaseName,
@@ -280,23 +280,12 @@ Partial Module CLI
                     If .ContainsKey(id) Then
                         With .ref(id)
                             If .ref.isDEP Then
-                                For Each prop In .ref.Properties
-                                    If prop.Value.TextEquals("NA") Then
-                                        FClog2.Add(prop.Key, ZERO)
-                                    Else
-                                        If tlog2 Then
-                                            Call FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
-                                        Else
-                                            Call FClog2.Add(prop.Key, Val(prop.Value))
-                                        End If
-                                    End If
-                                Next
-                            Else
-                                If nonDEP_blank Then
-                                    For Each prop In .ref.Properties
-                                        FClog2.Add(prop.Key, ZERO) ' log2(1) = 0
-                                    Next
+                                If outGroup Then
+
+                                    FClog2.Add(group.Key, .ref.log2FC)
+
                                 Else
+
                                     For Each prop In .ref.Properties
                                         If prop.Value.TextEquals("NA") Then
                                             FClog2.Add(prop.Key, ZERO)
@@ -308,13 +297,62 @@ Partial Module CLI
                                             End If
                                         End If
                                     Next
+
+                                End If
+                            Else
+                                If nonDEP_blank Then
+
+                                    If outGroup Then
+
+                                        FClog2.Add(group.Key, ZERO)
+
+                                    Else
+
+                                        For Each prop In .ref.Properties
+                                            FClog2.Add(prop.Key, ZERO) ' log2(1) = 0
+                                        Next
+
+                                    End If
+
+                                Else
+
+                                    If outGroup Then
+
+                                        FClog2.Add(group.Key, .ref.log2FC)
+
+                                    Else
+
+                                        For Each prop In .ref.Properties
+                                            If prop.Value.TextEquals("NA") Then
+                                                FClog2.Add(prop.Key, ZERO)
+                                            Else
+                                                If tlog2 Then
+                                                    Call FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                                Else
+                                                    Call FClog2.Add(prop.Key, Val(prop.Value))
+                                                End If
+                                            End If
+                                        Next
+
+                                    End If
+
+
                                 End If
                             End If
                         End With
                     Else
-                        For Each key In data(group.Key).Values.First.Properties.Keys
-                            FClog2.Add(key, ZERO)
-                        Next
+
+                        If outGroup Then
+
+                            FClog2.Add(group.Key, ZERO)
+
+                        Else
+
+                            For Each key In data(group.Key).Values.First.Properties.Keys
+                                FClog2.Add(key, ZERO)
+                            Next
+
+                        End If
                     End If
                 End With
             Next
@@ -392,7 +430,7 @@ Partial Module CLI
         Dim size$ = args.GetValue("/size", "2000,3000")
         Dim title$ = args.GetValue("/title", "Heatmap of DEPs log2FC")
         Dim tlog2 As Boolean = args.IsTrue("/t.log2")
-        Dim matrix As List(Of DataSet) = Union(DIR, tlog2, 0, args.GetBoolean("/non_DEP.blank")) _
+        Dim matrix As List(Of DataSet) = Union(DIR, tlog2, 0, args.GetBoolean("/non_DEP.blank"), False) _
             .AsDataSet _
             .AsList
 
