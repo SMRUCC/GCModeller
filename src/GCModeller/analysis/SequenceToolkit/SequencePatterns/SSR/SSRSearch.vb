@@ -23,13 +23,13 @@ Public Module SSRSearch
             Yield x
         Next
 
-        For Each x In CompoundSSR(nt, range)
-            Yield x
-        Next
+        'For Each x In CompoundSSR(nt, range)
+        '    Yield x
+        'Next
 
-        For Each x In InterruptedSSR(nt, range)
-            Yield x
-        Next
+        'For Each x In InterruptedSSR(nt, range)
+        '    Yield x
+        'Next
     End Function
 
     Private Function SeedingInternal(seedRange As IntRange) As List(Of String)
@@ -50,7 +50,9 @@ Public Module SSRSearch
     ''' <param name="range">重复片段的长度范围，默认是最短2个核苷酸，最长6个核苷酸</param>
     ''' <returns></returns>
     Public Function PureSSR(nt As ISequenceModel, Optional range$ = "2,6", Optional minRepeats% = 3) As SSR()
-        Dim repeatUnit = SeedingInternal(range)
+        Dim repeatUnit = SeedingInternal(range) _
+            .Where(Function(s) s <> New String(s.First, s.Length)) _
+            .ToArray
 
         ' 假若短的种子不存在重复片段的话，延长一个碱基或许会有了
         ' 例如下面的重复单位为ATC，很显然AT是不可能会出现重复的，但是将种子AT延长一个碱基之后就出现重复了
@@ -99,8 +101,7 @@ Public Module SSRSearch
                     .Ends = instance.Length + .Start,
                     .Sequence = instance.Value,
                     .Strand = strand,
-                    .RepeatUnit = unit,
-                    .Type = type
+                    .RepeatUnit = unit ' , .Type = type
                 }
             Next
         Next
@@ -126,7 +127,7 @@ Public Module SSRSearch
 
                    For Each a$ In repeatUnit
                        For Each b$ In repeatUnit.Where(Function(s) s <> a) ' 如果相等的话就是pureSSR了，在其他的函数中已经搜索过了，就不需要再搜索了
-                           Dim pattern$ = $"({a}{b}){{{minRepeats},}}"
+                           Dim pattern$ = $"(({a}){{2,}}({b}){{2,}}){{{minRepeats},}}"
 
                            seq.MatchInternal(pattern, SSR, a & b, strand, NameOf(CompoundSSR))
                        Next
@@ -161,7 +162,7 @@ End Module
 
 Public Structure SSR
 
-    Public Property Type As String
+    ' Public Property Type As String
     Public Property Sequence As String
     Public Property Start As Integer
     Public Property Ends As Integer
