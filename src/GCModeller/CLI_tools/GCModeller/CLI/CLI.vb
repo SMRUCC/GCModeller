@@ -42,29 +42,6 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services
 <Package("GCModeller.CLI", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.CLI_MAN, Url:="http://gcmodeller.org")>
 Public Module CLI
 
-    <ExportAPI("/rbind")>
-    <Usage("/rbind /in <*.csv.DIR> [/out <EXPORT.csv>]")>
-    Public Function MergeTable(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".MERGE.csv")
-
-        Return DocumentExtensions _
-            .MergeTable(
-            out, ls - l - r - wildcards("*.csv") <= [in])
-    End Function
-
-    <ExportAPI("/cbind")>
-    <Usage("/cbind /in <a.csv> /append <b.csv> [/out <ALL.csv>]")>
-    Public Function Appends(args As CommandLine) As Integer
-        Dim in$ = args <= "/in"
-        Dim append$ = args <= "/append"
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & "+" & append.BaseName & ".csv")
-
-        Return csv.DATA.DataFrame.Append(EntityObject.LoadDataSet([in]), csv.DATA.DataFrame.Load(append)) _
-            .SaveTo(out) _
-            .CLICode
-    End Function
-
     <ExportAPI("help", Example:="gc help", Usage:="gc help", Info:="Show help information about this program.")>
     Public Function About() As Integer
         printf("gc database administration")
