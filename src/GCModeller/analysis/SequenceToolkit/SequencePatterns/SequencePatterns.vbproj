@@ -247,6 +247,7 @@
     <Compile Include="SequenceLogo\DrawingDevice.vb" />
     <Compile Include="SequenceLogo\DrawingModel.vb" />
     <Compile Include="SequenceLogo\Residue.vb" />
+    <Compile Include="SSR\SSRSearch.vb" />
     <Compile Include="Topologically\Palindrome\SearchWorker\MirrorPalindrome.vb" />
     <Compile Include="Topologically\Seeds\Seed.vb" />
     <Compile Include="Topologically\Seeds\SeedBox.vb" />
