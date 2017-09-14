@@ -86,10 +86,13 @@ Public Module iTraqTtest
             Dim log2FC As Vector = DirectCast(.log2FC, VectorShadows(Of Double))
             Dim p As Vector = DirectCast(.pvalue, VectorShadows(Of Double))
             Dim FDR As Vector
-            Dim var$ = stats.padjust(p, n:=p.Length)
+            Dim var$ = stats.padjust(p, n:=p.Length)   ' obtain the memory pointer to the R server memory
 
             SyncLock RServer.R
                 With RServer.R
+
+                    ' read the Rserver memory from the pointer and 
+                    ' then convert the symbol to a numeric vector
                     FDR = .Evaluate(var) _
                           .AsNumeric _
                           .ToArray
