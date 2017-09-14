@@ -85,6 +85,11 @@ Namespace SyntaxAPI.Vectors
             Return New BooleanVector(From i As SeqValue(Of Boolean) In x.SeqIterator Select i.value AndAlso y(i))
         End Operator
 
+        ''' <summary>
+        ''' 将逻辑向量之中的每一个逻辑值都进行翻转
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
         Public Shared Operator Not(x As BooleanVector) As BooleanVector
             Return New BooleanVector((From b As Boolean In x Select Not b).ToArray)
         End Operator
