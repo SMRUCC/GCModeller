@@ -490,30 +490,6 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/Venn.Functions",
-               Usage:="/Venn.Functions /venn <venn.csv> /anno <annotations.csv> [/out <out.csv>]")>
-    <Group(CLIGroups.DEP_CLI)>
-    Public Function VennFunctions(args As CommandLine) As Integer
-        Dim in$ = args <= "/venn"
-        Dim anno$ = args <= "/anno"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-functions.csv")
-        Dim venn As EntityObject() = EntityObject.LoadDataSet([in]).ToArray
-        Dim annoData As Dictionary(Of String, EntityObject) = EntityObject _
-            .LoadDataSet(anno) _
-            .ToDictionary(Function(prot) prot("uniprot"))
-        Dim list As New List(Of EntityObject)
-
-        For Each prot As EntityObject In venn
-            prot.Properties.Add("geneName", annoData(prot.ID)("geneName"))
-            prot.Properties.Add("fullName", annoData(prot.ID)("fullName"))
-            prot.Properties.Add("functions", annoData(prot.ID)("functions"))
-
-            list += prot
-        Next
-
-        Return list.SaveTo(out).CLICode
-    End Function
-
     ''' <summary>
     ''' 这个函数要求的列名称能够和raw之中的列名称可以一一对应，假若raw参数存在的话
     ''' </summary>
