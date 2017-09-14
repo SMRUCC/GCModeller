@@ -33,23 +33,23 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB
+Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB.UniprotKBEngine
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
-Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB.UniprotKBEngine
-Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB
-Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.DataMining.KMeans
 
 Partial Module CLI
 
@@ -303,7 +303,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory> [/KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /size <size, default=2000,3000> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /size <size, default=2000,3000> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -398,6 +398,9 @@ Partial Module CLI
             .Kmeans(expected:=args.GetValue("/cluster.n", 6)) _
             .SaveTo(dataOUT)
 
+        Dim schema$ = args.GetValue("/schema", Colors.ColorBrewer.DivergingSchemes.RdYlGn11)
+        Dim revColorSequence As Boolean = Not args.IsTrue("/no-clrev")
+
         If args.IsTrue("/KO.class") Then
             Dim groupInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
             Dim KOinfo As Dictionary(Of String, String) = matrix _
@@ -405,7 +408,7 @@ Partial Module CLI
                 .GetKOTable(MySQLExtensions.GetMySQLClient(DBName:=UniprotKBEngine.DbName))
 
             Call DEPsKOHeatmap _
-                .Plot(matrix, groupInfo.SampleGroupInfo, groupInfo.SampleGroupColor, KOInfo:=KOinfo) _
+                .Plot(matrix, groupInfo.SampleGroupInfo, groupInfo.SampleGroupColor, KOInfo:=KOinfo, schema:=schema) _
                 .Save(out & "/plot.png")
         Else
             ' 绘制普通的热图
@@ -413,7 +416,10 @@ Partial Module CLI
                 matrix,
                 size:=size,
                 drawScaleMethod:=DrawElements.Rows,
-                mainTitle:=title, rowLabelfontStyle:=CSSFont.Win7Small, colLabelFontStyle:=CSSFont.Win7Large, mapName:=Colors.ColorBrewer.DivergingSchemes.RdYlGn11).Save(out & "/plot.png")
+                mainTitle:=title, rowLabelfontStyle:=CSSFont.Win7Small,
+                colLabelFontStyle:=CSSFont.Win7Large,
+                mapName:=schema,
+                reverseClrSeq:=revColorSequence).Save(out & "/plot.png")
         End If
 
         Return 0
