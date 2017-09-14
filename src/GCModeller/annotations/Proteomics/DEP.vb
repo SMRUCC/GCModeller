@@ -11,6 +11,8 @@ Imports SMRUCC.genomics.Visualize
 Public Class DEP_iTraq : Inherits EntityObject
     Implements Ideg
 
+    Public Overrides Property ID As String Implements Ideg.label
+
     <Column("FC.avg")> Public Property FCavg As Double
     <Column("p.value")> Public Property pvalue As Double Implements Ideg.pvalue
     <Column("is.DEP")> Public Property isDEP As Boolean

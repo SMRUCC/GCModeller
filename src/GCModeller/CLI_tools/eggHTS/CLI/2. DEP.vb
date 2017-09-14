@@ -594,11 +594,30 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEPs.vocano.plot.png")
         Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)([in])
         Dim size$ = args.GetValue("/size", "1920,1440")
+        Dim colors As New Dictionary(Of Integer, Color) From {
+            {1, Color.Violet},
+            {0, Color.Gray},
+            {-1, Color.Blue}
+        }
 
-        Return Volcano.PlotDEGs(sample, pvalue:=pvalueTag,
-                                padding:="padding: 50 50 150 150",
-                                displayLabel:=LabelTypes.None,
-                                size:=size) _
+        Return Volcano.Plot(sample,
+                            colors:=colors,
+                            factors:=Function(x)
+                                         If x.pvalue > 0.05 Then
+                                             Return 0
+                                         ElseIf Math.Abs(x.logFC) < Math.Log(1.5, 2) Then
+                                             Return 0
+                                         End If
+
+                                         If x.logFC > 0 Then
+                                             Return 1
+                                         Else
+                                             Return -1
+                                         End If
+                                     End Function,
+                            padding:="padding: 50 50 150 150",
+                            displayLabel:=LabelTypes.None,
+                            size:=size) _
             .Save(out) _
             .CLICode
     End Function

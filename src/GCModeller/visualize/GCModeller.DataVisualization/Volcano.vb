@@ -40,6 +40,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Visualize
 
 ''' <summary>
 ''' 用来可视化差异表达基因
@@ -126,10 +127,13 @@ Public Module Volcano
     ''' 绘制差异表达基因的火山图
     ''' </summary>
     ''' <param name="genes"></param>
+    ''' <param name="colors"></param>
+    ''' <param name="factors">
+    ''' 这个函数描述了如何从<paramref name="colors"/>参数之中取出差异表达基因自己所对应的颜色值
+    ''' </param>
     ''' <returns></returns>
-    ''' 
     <Extension>
-    Public Function Plot(genes As IEnumerable(Of DEGModel), factors As Func(Of DEGModel, Integer), colors As Dictionary(Of Integer, Color),
+    Public Function Plot(Of T As Ideg)(genes As IEnumerable(Of T), factors As Func(Of DEGModel, Integer), colors As Dictionary(Of Integer, Color),
                          Optional size$ = "2000,1850",
                          Optional padding$ = g.DefaultPadding,
                          Optional bg$ = "white",
@@ -149,7 +153,7 @@ Public Module Volcano
         Dim DEG_matrix As DEGModel() = genes.ToArray(
             Function(g) New DEGModel With {
                 .label = g.label,
-                .logFC = g.logFC,
+                .logFC = g.log2FC,
                 .pvalue = translate(g.pvalue)
             })
 
@@ -254,9 +258,11 @@ Public Module Volcano
     End Function
 
     Public Structure DEGModel
-        Dim label$
-        Dim logFC#
-        Dim pvalue#
+        Implements Ideg
+
+        Public Property label$ Implements Ideg.label
+        Public Property logFC# Implements Ideg.log2FC
+        Public Property pvalue# Implements Ideg.pvalue
 
         Public Overrides Function ToString() As String
             Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"
