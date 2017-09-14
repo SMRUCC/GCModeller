@@ -237,23 +237,95 @@ Partial Module CLI
 
     <ExportAPI("/DEP.venn",
                Info:="Generate the VennDiagram plot data and the venn plot tiff. The default parameter profile is using for the iTraq data.",
-               Usage:="/DEP.venn /data <Directory> [/level <1.25> /FC.tag <FC.avg> /title <VennDiagram title> /pvalue <p.value> /out <out.DIR>]")>
+               Usage:="/DEP.venn /data <Directory> [/title <VennDiagram title> /out <out.DIR>]")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function VennData(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
-        Dim FCtag$ = args.GetValue("/FC.tag", "FC.avg")
-        Dim pvalue$ = args.GetValue("/pvalue", "p.value")
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".venn/")
         Dim dataOUT = out & "/DEP.venn.csv"
         Dim title$ = args.GetValue("/title", "VennDiagram title")
-        Dim level# = args.GetValue("/level", 1.25)
 
-        Call DEGDesigner _
-            .MergeMatrix(DIR, "*.csv", level, 0.05, FCtag, 1 / level, pvalue) _
+        Call Union(DIR, True, "", nonDEP_blank:=True) _
             .SaveDataSet(dataOUT)
         Call Apps.VennDiagram.Draw(dataOUT, title, out:=out & "/venn.tiff")
 
         Return 0
+    End Function
+
+    Public Function Union(DIR$, tlog2 As Boolean, ZERO$, nonDEP_blank As Boolean) As List(Of EntityObject)
+        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) =
+          (ls - l - r - "*.csv" <= DIR) _
+          .ToDictionary(Function(path) path.BaseName,
+                        Function(path)
+                            Return EntityObject _
+                                .LoadDataSet(Of DEP_iTraq)(path) _
+                                .ToDictionary
+                        End Function)
+        Dim allDEPs = data.Values _
+            .IteratesALL _
+            .Where(Function(x) x.Value.isDEP) _
+            .Keys _
+            .Distinct _
+            .ToArray
+        Dim matrix As New List(Of EntityObject)
+
+        Call $"Input data have {allDEPs.Length} Union DEPs".__INFO_ECHO
+
+        For Each id As String In allDEPs
+            Dim FClog2 As New Dictionary(Of String, String)
+
+            ' 将当前的这个DEP标记的基因的数据从所有的分组之中拿出来
+            For Each group In data
+                With group.Value
+                    If .ContainsKey(id) Then
+                        With .ref(id)
+                            If .ref.isDEP Then
+                                For Each prop In .ref.Properties
+                                    If prop.Value.TextEquals("NA") Then
+                                        FClog2.Add(prop.Key, ZERO)
+                                    Else
+                                        If tlog2 Then
+                                            Call FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                        Else
+                                            Call FClog2.Add(prop.Key, Val(prop.Value))
+                                        End If
+                                    End If
+                                Next
+                            Else
+                                If nonDEP_blank Then
+                                    For Each prop In .ref.Properties
+                                        FClog2.Add(prop.Key, ZERO) ' log2(1) = 0
+                                    Next
+                                Else
+                                    For Each prop In .ref.Properties
+                                        If prop.Value.TextEquals("NA") Then
+                                            FClog2.Add(prop.Key, ZERO)
+                                        Else
+                                            If tlog2 Then
+                                                Call FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
+                                            Else
+                                                Call FClog2.Add(prop.Key, Val(prop.Value))
+                                            End If
+                                        End If
+                                    Next
+                                End If
+                            End If
+                        End With
+                    Else
+                        For Each key In data(group.Key).Values.First.Properties.Keys
+                            FClog2.Add(key, ZERO)
+                        Next
+                    End If
+                End With
+            Next
+
+            matrix += New EntityObject With {
+                .ID = id,
+                .Properties = FClog2
+            }
+        Next
+
+        Return matrix
     End Function
 
     <ExportAPI("/DEPs.union", Usage:="/DEPs.union /in <csv.DIR> [/FC <default=logFC> /out <out.csv>]")>
@@ -317,81 +389,12 @@ Partial Module CLI
         Dim DIR$ = args <= "/data"
         Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
-        Dim nonDEP_blank As Boolean = args.GetBoolean("/non_DEP.blank")
         Dim size$ = args.GetValue("/size", "2000,3000")
-        Dim matrix As New List(Of DataSet)
         Dim title$ = args.GetValue("/title", "Heatmap of DEPs log2FC")
         Dim tlog2 As Boolean = args.IsTrue("/t.log2")
-        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) =
-            (ls - l - r - "*.csv" <= DIR) _
-            .ToDictionary(Function(path) path.BaseName,
-                          Function(path)
-                              Return EntityObject _
-                                  .LoadDataSet(Of DEP_iTraq)(path) _
-                                  .ToDictionary
-                          End Function)
-        Dim allDEPs = data.Values _
-            .IteratesALL _
-            .Where(Function(x) x.Value.isDEP) _
-            .Keys _
-            .Distinct _
-            .ToArray
-
-        Call $"Input data have {allDEPs.Length} Union DEPs".__INFO_ECHO
-
-        For Each id As String In allDEPs
-            Dim FClog2 As New Dictionary(Of String, Double)
-
-            ' 将当前的这个DEP标记的基因的数据从所有的分组之中拿出来
-            For Each group In data
-                With group.Value
-                    If .ContainsKey(id) Then
-                        With .ref(id)
-                            If .ref.isDEP Then
-                                For Each prop In .ref.Properties
-                                    If prop.Value.TextEquals("NA") Then
-                                        FClog2.Add(prop.Key, 0)
-                                    Else
-                                        If tlog2 Then
-                                            Call FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
-                                        Else
-                                            Call FClog2.Add(prop.Key, Val(prop.Value))
-                                        End If
-                                    End If
-                                Next
-                            Else
-                                If nonDEP_blank Then
-                                    For Each prop In .ref.Properties
-                                        FClog2.Add(prop.Key, 0) ' log2(1) = 0
-                                    Next
-                                Else
-                                    For Each prop In .ref.Properties
-                                        If prop.Value.TextEquals("NA") Then
-                                            FClog2.Add(prop.Key, 0)
-                                        Else
-                                            If tlog2 Then
-                                                Call FClog2.Add(prop.Key, Math.Log(Val(prop.Value), 2))
-                                            Else
-                                                Call FClog2.Add(prop.Key, Val(prop.Value))
-                                            End If
-                                        End If
-                                    Next
-                                End If
-                            End If
-                        End With
-                    Else
-                        For Each key In data(group.Key).Values.First.Properties.Keys
-                            FClog2.Add(key, 0)
-                        Next
-                    End If
-                End With
-            Next
-
-            matrix += New DataSet With {
-                .ID = id,
-                .Properties = FClog2
-            }
-        Next
+        Dim matrix As List(Of DataSet) = Union(DIR, tlog2, 0, args.GetBoolean("/non_DEP.blank")) _
+            .AsDataSet _
+            .AsList
 
         Call matrix _
             .ToKMeansModels _
