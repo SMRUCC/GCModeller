@@ -586,15 +586,14 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP.qlfTable.csv> [/tag.pvalue <default=p.value> /size <1920,1440> /out <plot.csv>]")>
+    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/size <1920,1440> /out <plot.csv>]")>
     <Description("Volcano plot of the DEPs' analysis result.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function logFCVolcano(args As CommandLine) As Integer
         Dim in$ = args("/in")
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEP.vocano.plot.png")
-        Dim sample = EntityObject.LoadDataSet([in])
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEPs.vocano.plot.png")
+        Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)([in])
         Dim size$ = args.GetValue("/size", "1920,1440")
-        Dim pvalueTag$ = args.GetValue("/tag.pvalue", "p.value")
 
         Return Volcano.PlotDEGs(sample, pvalue:=pvalueTag,
                                 padding:="padding: 50 50 150 150",
