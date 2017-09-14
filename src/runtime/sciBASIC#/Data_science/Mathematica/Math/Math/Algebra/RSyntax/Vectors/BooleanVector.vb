@@ -65,6 +65,10 @@ Namespace SyntaxAPI.Vectors
             MyBase.New(b)
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"ALL({Length}) = {Which.IsTrue(buffer).Count} true + {Which.IsTrue(Not Me).Count} false"
+        End Function
+
         ''' <summary>
         ''' And
         ''' </summary>
