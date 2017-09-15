@@ -60,7 +60,8 @@ Partial Module CLI
     <Argument("/r.range", True, CLITypes.String,
               AcceptTypes:={GetType(DoubleRange)},
               Description:="The network node size radius range, input string in format like: ``min,max``")>
-    <Argument("/")>
+    <Argument("/log2FC", True, CLITypes.String,
+              Description:="The csv field name for read the DEPs fold change value, default is ``log2FC`` as the field name.")>
     Public Function FunctionalNetworkEnrichment(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim uniprot$ = args <= "/uniprot"
@@ -77,12 +78,11 @@ Partial Module CLI
             End Function,
             log2FC)
         Dim Uniprot2STRING = annotations.Uniprot2STRING
+        Dim radius = args.GetValue("/r.range", "12,30")
 
         With DEGs
             DEGs = (Uniprot2STRING(.UP), Uniprot2STRING(.DOWN))
         End With
-
-        Dim radius = args.GetValue("/r.range", "12,30")
 
         With stringNetwork.NetworkVisualize(
             annotations:=annotations,
