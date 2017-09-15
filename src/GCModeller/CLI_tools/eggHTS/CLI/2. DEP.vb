@@ -661,22 +661,23 @@ Partial Module CLI
                           Function(color)
                               Return color.Value.TranslateColor
                           End Function)
+        Dim toFactor = Function(x As DEGModel)
+                           If x.pvalue > 0.05 Then
+                               Return 0
+                           ElseIf Math.Abs(x.logFC) < Math.Log(1.5, 2) Then
+                               Return 0
+                           End If
+
+                           If x.logFC > 0 Then
+                               Return 1
+                           Else
+                               Return -1
+                           End If
+                       End Function
 
         Return Volcano.Plot(sample,
                             colors:=colors,
-                            factors:=Function(x)
-                                         If x.pvalue > 0.05 Then
-                                             Return 0
-                                         ElseIf Math.Abs(x.logFC) < Math.Log(1.5, 2) Then
-                                             Return 0
-                                         End If
-
-                                         If x.logFC > 0 Then
-                                             Return 1
-                                         Else
-                                             Return -1
-                                         End If
-                                     End Function,
+                            factors:=toFactor,
                             padding:="padding: 50 50 150 150",
                             displayLabel:=LabelTypes.None,
                             size:=size) _
