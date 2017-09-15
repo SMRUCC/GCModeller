@@ -178,15 +178,16 @@ Partial Module Utilities
 
     <ExportAPI("/SSR")>
     <Description("Search for SSR on a nt sequence.")>
-    <Usage("/SSR /in <nt.fasta> [/range <default=2,6> /out <out.csv/DIR>]")>
+    <Usage("/SSR /in <nt.fasta> [/range <default=2,6> /parallel /out <out.csv/DIR>]")>
     Public Function SSRFinder(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim range$ = args.GetValue("/range", "2,6")
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".SSR.csv")
-        Dim fasta As FastaFile = FastaFile.LoadNucleotideData([in])
 
-        If fasta.NumberOfFasta = 1 Then
-            Dim nt As FastaToken = fasta.First
+        SSRSearch.Parallel = args.IsTrue("/parallel")
+
+        If FastaFile.SingleSequence([in]) Then
+            Dim nt As FastaToken = FastaToken.LoadNucleotideData([in])
 
             If nt.IsProtSource Then
                 Throw New InvalidExpressionException([in])
@@ -198,13 +199,23 @@ Partial Module Utilities
                 .SaveTo(out) _
                 .CLICode
         Else
-            For Each nt As FastaToken In fasta
-                Dim SSR = nt _
-                    .SSR(range) _
-                    .ToArray
+            For Each nt As FastaToken In New StreamIterator([in]).ReadStream
                 Dim path$ = out.TrimSuffix & $"/{nt.Title.NormalizePathString}.csv"
 
-                Call SSR.SaveTo(path)
+                If path.FileExists Then
+                    Console.Write(".")
+                    Continue For
+                End If
+
+                Try
+                    Dim SSR As SSR() = nt _
+                        .SSR(range) _
+                        .ToArray
+
+                    Call SSR.SaveTo(path)
+                Catch ex As Exception
+                    Call ex.PrintException
+                End Try
             Next
 
             Return 0
