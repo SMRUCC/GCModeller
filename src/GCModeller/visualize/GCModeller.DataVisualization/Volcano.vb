@@ -223,11 +223,11 @@ Public Module Volcano
 
                 ' 先计算出title文件的大小
                 Dim titleSize As SizeF = g.MeasureString(title, titleFont)
-                Dim top! = titleSize.Height + ticksFont.Height + 10
+                Dim top! = titleSize.Height * 1.5 + ticksFont.Height + 10
                 Dim left! = g.MeasureString("00.0", ticksFont).Width + 10
                 Dim plotRegion As New Rectangle With {
                     .X = region.Padding.Left + left,
-                    .Y = region.Padding.Top + titleSize.Height,
+                    .Y = region.Padding.Top + titleSize.Height * 1.5,
                     .Width = region.PlotRegion.Width - left,
                     .Height = region.PlotRegion.Height - top
                 }   ' 得到最终剩余的绘图区域
@@ -236,7 +236,7 @@ Public Module Volcano
 
                 With plotRegion
                     x = d3js.scale.linear.domain(xTicks).range({ .Left, .Right})
-                    y = d3js.scale.linear.domain(yTicks).range({ .Bottom, .Top})
+                    y = d3js.scale.linear.domain(yTicks).range({0, plotRegion.Height})
                 End With
 
                 Dim scaler As New DataScaler With {
