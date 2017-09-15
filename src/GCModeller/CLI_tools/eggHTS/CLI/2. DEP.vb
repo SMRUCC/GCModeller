@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -633,38 +634,55 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/size <1920,1440> /out <plot.csv>]")>
+    ''' <summary>
+    ''' 绘制差异蛋白的火山图
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/level <default=1.5> /colors <up=red;down=green;other=black> /size <1600,1400> /out <plot.csv>]")>
     <Description("Volcano plot of the DEPs' analysis result.")>
+    <Argument("/size", True, CLITypes.String,
+              Description:="The canvas size of the output image.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(DEP_iTraq)},
+              Description:="The input DEPs t.test result, should contains at least 3 columns which are names: ``ID``, ``log2FC`` and ``p.value``")>
+    <Argument("/colors", True, CLITypes.String,
+              Description:="The color profile for the DEPs and proteins that no-changes, value string in format like: key=value, and seperated by ``;`` symbol.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function logFCVolcano(args As CommandLine) As Integer
-        Dim in$ = args("/in")
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEPs.vocano.plot.png")
-        Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)([in])
-        Dim size$ = args.GetValue("/size", "1920,1440")
-        Dim colors As New Dictionary(Of Integer, Color) From {
-            {1, Color.Violet},
-            {0, Color.Gray},
-            {-1, Color.Blue}
-        }
+        Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".DEPs.vocano.plot.png")
+        Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)(args <= "/in")
+        Dim size$ = args.GetValue("/size", "1600,1400")
+        Dim colors As Dictionary(Of Integer, Color) = args _
+            .GetDictionary("/colors", [default]:="up=red;down=green;other=black") _
+            .ToDictionary(Function(type)
+                              Return CInt(DEGDesigner.ParseDEGTypes(type.Key))
+                          End Function,
+                          Function(color)
+                              Return color.Value.TranslateColor
+                          End Function)
+        Dim log2FCLevel# = args.GetValue("/level", 1.5)
+        Dim toFactor = Function(x As DEGModel)
+                           If x.pvalue < Volcano.PValueThreshold Then
+                               Return 0
+                           ElseIf Math.Abs(x.logFC) < Math.Log(log2FCLevel, 2) Then
+                               Return 0
+                           End If
+
+                           If x.logFC > 0 Then
+                               Return 1
+                           Else
+                               Return -1
+                           End If
+                       End Function
 
         Return Volcano.Plot(sample,
                             colors:=colors,
-                            factors:=Function(x)
-                                         If x.pvalue > 0.05 Then
-                                             Return 0
-                                         ElseIf Math.Abs(x.logFC) < Math.Log(1.5, 2) Then
-                                             Return 0
-                                         End If
-
-                                         If x.logFC > 0 Then
-                                             Return 1
-                                         Else
-                                             Return -1
-                                         End If
-                                     End Function,
+                            factors:=toFactor,
                             padding:="padding: 50 50 150 150",
                             displayLabel:=LabelTypes.None,
-                            size:=size) _
+                            size:=size,
+                            log2Threshold:=log2FCLevel) _
             .Save(out) _
             .CLICode
     End Function
