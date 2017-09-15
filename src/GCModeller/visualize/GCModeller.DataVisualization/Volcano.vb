@@ -205,11 +205,13 @@ Public Module Volcano
 
                 ' 布局如下：
                 '
-                '      title
-                '           legends
-                ' y scatter plots  
-                '
-                '        x
+                '          title
+                '   +----------------+
+                '   |         legends|
+                ' y |                |
+                '   |  scatter plots |
+                '   +----------------+
+                '           x
 
                 ' 先计算出title文件的大小
                 Dim titleSize As SizeF = g.MeasureString(title, titleFont)
@@ -220,7 +222,7 @@ Public Module Volcano
                     .Y = region.Padding.Top + titleSize.Height,
                     .Width = region.PlotRegion.Width - left,
                     .Height = region.PlotRegion.Height - top
-                } ' 最终剩余的绘图区域
+                }   ' 得到最终剩余的绘图区域
 
                 Dim x, y As d3js.scale.LinearScale
 
@@ -229,9 +231,8 @@ Public Module Volcano
                     y = d3js.scale.linear.domain(yTicks).range({ .Bottom, .Top})
                 End With
 
-                Dim scaler = (x, y).TupleScaler
+                Dim scaler = (x, y).TupleScaler(plotRegion.Bottom)
 
-                ' Call Axis.DrawAxis(g, region, scaler, True, xlabel:=xlab, ylabel:=ylab, ylayout:=axisLayout)
                 ' 分别绘制出log2(level)和pvalue的4条threshold虚线条
                 log2Threshold = Log2(Math.Abs(log2Threshold))
 
@@ -240,6 +241,12 @@ Public Module Volcano
 
                 left = x(-log2Threshold)
                 Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
+
+                ' 在绘制出pvalue的临界值虚线
+                top = plotRegion.Bottom - y(-Math.Log10(0.05))
+                Call g.DrawLine(thresholdPen, New Point(plotRegion.Left, top), New Point(plotRegion.Right, top))
+
+                Call Axis.DrawAxis(g, region, scaler, True, xlabel:=xlab, ylabel:=ylab, ylayout:=axisLayout)
 
                 For Each gene As DEGModel In DEG_matrix
                     Dim factor As Integer = factors(gene)
