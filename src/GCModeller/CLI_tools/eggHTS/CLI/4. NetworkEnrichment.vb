@@ -29,6 +29,7 @@
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
@@ -48,34 +49,33 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/func.rich.string")>
-    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/map <map.tsv> /r.range <default=12,30> /fold <1.5> /iTraq /logFC <log2FC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
+    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/map <map.tsv> /r.range <default=12,30> /log2FC <default=log2FC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
     <Description("DEPs' functional enrichment network based on string-db exports, and color by KEGG pathway.")>
     <Group(CLIGroups.NetworkEnrichment_CLI)>
+    <Argument("/map", True, CLITypes.File,
+              Description:="A tsv file that using for map the user custom gene ID as the uniprotKB ID, in format like: ``UserID<TAB>UniprotID``")>
+    <Argument("/DEP", False, CLITypes.File,
+              AcceptTypes:={GetType(DEP_iTraq)},
+              Description:="The DEPs t.test output result csv file.")>
+    <Argument("/r.range", True, CLITypes.String,
+              AcceptTypes:={GetType(DoubleRange)},
+              Description:="The network node size radius range, input string in format like: ``min,max``")>
+    <Argument("/")>
     Public Function FunctionalNetworkEnrichment(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim uniprot$ = args <= "/uniprot"
         Dim DEP$ = args <= "/DEP"
-        Dim fold# = args.GetValue("/fold", 1.5)
-        Dim iTraq As Boolean = args.GetBoolean("/iTraq")
         Dim log2FC$ = args.GetValue("/log2FC", NameOf(log2FC))
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-funrich_string/")
         Dim proteins As protein() = protein.LoadDataSet(DEP).UserCustomMaps(args <= "/map")
         Dim stringNetwork = [in].LoadTsv(Of InteractExports)
-        Dim threshold As (up#, down#)
         Dim layouts As Coordinates() = (args <= "/layout").LoadTsv(Of Coordinates)
         Dim annotations = UniProtXML.Load(uniprot).StringUniprot ' STRING -> uniprot
-
-        If iTraq Then
-            threshold = (fold, 1 / fold)
-        Else
-            threshold = (fold.Log2, (1 / fold).Log2)
-        End If
-
         Dim DEGs = proteins.GetDEGs(
             Function(gene)
                 Return gene("is.DEP").TextEquals("TRUE")
             End Function,
-            threshold, log2FC)
+            log2FC)
         Dim Uniprot2STRING = annotations.Uniprot2STRING
 
         With DEGs
