@@ -48,8 +48,10 @@ Imports SMRUCC.genomics.Visualize
 ''' </summary>
 Public Module Volcano
 
+    Public ReadOnly Property PValueThreshold# = -Math.Log10(0.05)
+
     ReadOnly DEG_diff# = Math.Log(2, 2)
-    ReadOnly diffPValue# = -Math.Log10(0.05)
+    ReadOnly DEP_diff# = Math.Log(1.5, 2)
 
     Const UP$ = "Up"
     Const DOWN$ = "Down"
@@ -95,7 +97,7 @@ Public Module Volcano
 
         Dim factor As Func(Of DEGModel, Integer) =
             Function(DEG)
-                If DEG.pvalue < diffPValue Then
+                If DEG.pvalue < PValueThreshold Then
                     Return 0
                 End If
 
@@ -190,16 +192,17 @@ Public Module Volcano
         Dim titleFont As Font = CSSFont.TryParse(titleFontStyle)
         Dim ticksFont As Font = CSSFont.TryParse(ticksFontStyle)
         Dim thresholdPen As Pen = Stroke.TryParse(thresholdStroke).GDIObject
+        Dim point As PointF
 
         Return g.Allocate(size.SizeParser, padding, bg) <=
  _
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
                 Dim gdi As IGraphics = g
-                Dim __drawLabel = Sub(label$, point As PointF)
+                Dim __drawLabel = Sub(label$, pos As PointF)
                                       With gdi.MeasureString(label, labelFont)
-                                          point = New PointF(point.X - .Width / 2, point.Y + ptSize)
-                                          gdi.DrawString(label, labelFont, black, point)
+                                          pos = New PointF(pos.X - .Width / 2, pos.Y + ptSize)
+                                          gdi.DrawString(label, labelFont, black, pos)
                                       End With
                                   End Sub
 
@@ -242,6 +245,13 @@ Public Module Volcano
                 Call g.DrawAxis(region, scaler, True, xlabel:=xlab, ylabel:=ylab, ylayout:=axisLayout)
                 Call g.DrawRectangle(Pens.Black, plotRegion)
 
+                ' 绘制出顶部的大标题
+                point = New PointF With {
+                    .X = region.Padding.Left + (region.PlotRegion.Width - titleSize.Width) / 2,
+                    .Y = region.Padding.Top
+                }
+                Call g.DrawString(title, titleFont, New SolidBrush(Color.Black), point)
+
                 ' 分别绘制出log2(level)和pvalue的4条threshold虚线条
                 log2Threshold = Log2(Math.Abs(log2Threshold))
 
@@ -256,11 +266,11 @@ Public Module Volcano
                 Call g.DrawLine(thresholdPen, New Point(plotRegion.Left, top), New Point(plotRegion.Right, top))
 
                 For Each gene As DEGModel In DEG_matrix
-                    Dim factor As Integer = factors(gene)
+                    Dim factor% = factors(gene)
                     Dim color As Brush = brushes(factor)
-                    Dim point As PointF = scaler.Translate(gene.logFC, gene.pvalue)
 
-                    Call g.DrawCircle(point, ptSize, color)
+                    point = scaler.Translate(gene.logFC, gene.pvalue)
+                    g.DrawCircle(point, ptSize, color)
 
                     Select Case displayLabel
                         Case LabelTypes.None' 不进行任何操作

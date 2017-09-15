@@ -639,7 +639,7 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/colors <up=red;down=green;other=black> /size <2000,2250> /out <plot.csv>]")>
+    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/level <default=1.5> /colors <up=red;down=green;other=black> /size <2000,2250> /out <plot.csv>]")>
     <Description("Volcano plot of the DEPs' analysis result.")>
     <Argument("/size", True, CLITypes.String,
               Description:="The canvas size of the output image.")>
@@ -661,10 +661,11 @@ Partial Module CLI
                           Function(color)
                               Return color.Value.TranslateColor
                           End Function)
+        Dim log2FCLevel# = args.GetValue("/level", 1.5)
         Dim toFactor = Function(x As DEGModel)
-                           If x.pvalue > 0.05 Then
+                           If x.pvalue < Volcano.PValueThreshold Then
                                Return 0
-                           ElseIf Math.Abs(x.logFC) < Math.Log(1.5, 2) Then
+                           ElseIf Math.Abs(x.logFC) < Math.Log(log2FCLevel, 2) Then
                                Return 0
                            End If
 
@@ -680,7 +681,8 @@ Partial Module CLI
                             factors:=toFactor,
                             padding:="padding: 50 50 150 150",
                             displayLabel:=LabelTypes.None,
-                            size:=size) _
+                            size:=size,
+                            log2Threshold:=log2FCLevel) _
             .Save(out) _
             .CLICode
     End Function
