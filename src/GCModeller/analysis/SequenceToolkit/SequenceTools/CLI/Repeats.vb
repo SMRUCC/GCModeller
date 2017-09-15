@@ -205,6 +205,8 @@ Partial Module Utilities
                 If path.FileExists Then
                     Console.Write(".")
                     Continue For
+                Else
+                    Call nt.Title.__INFO_ECHO
                 End If
 
                 Try
