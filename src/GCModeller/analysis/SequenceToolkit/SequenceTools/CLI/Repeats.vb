@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
@@ -173,5 +174,40 @@ Partial Module Utilities
         Dim seeds As SeedData = SeedData.Initialize(chars, max)
 
         Return seeds.Save(out)
+    End Function
+
+    <ExportAPI("/SSR")>
+    <Description("Search for SSR on a nt sequence.")>
+    <Usage("/SSR /in <nt.fasta> [/range <default=2,6> /out <out.csv/DIR>]")>
+    Public Function SSRFinder(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim range$ = args.GetValue("/range", "2,6")
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".SSR.csv")
+        Dim fasta As FastaFile = FastaFile.LoadNucleotideData([in])
+
+        If fasta.NumberOfFasta = 1 Then
+            Dim nt As FastaToken = fasta.First
+
+            If nt.IsProtSource Then
+                Throw New InvalidExpressionException([in])
+            End If
+
+            Return nt _
+                .SSR(range) _
+                .ToArray _
+                .SaveTo(out) _
+                .CLICode
+        Else
+            For Each nt As FastaToken In fasta
+                Dim SSR = nt _
+                    .SSR(range) _
+                    .ToArray
+                Dim path$ = out.TrimSuffix & $"/{nt.Title.NormalizePathString}.csv"
+
+                Call SSR.SaveTo(path)
+            Next
+
+            Return 0
+        End If
     End Function
 End Module
