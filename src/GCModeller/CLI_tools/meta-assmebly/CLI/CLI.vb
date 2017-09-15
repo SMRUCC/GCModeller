@@ -38,8 +38,14 @@ Module CLI
     Public Function UPGMATree(args As CommandLine) As Integer
         Dim data As IEnumerable(Of DataSet) = DataSet.LoadDataSet(args <= "/in")
         Dim tree As taxa = data.BuildTree
+        Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".txt")
 
+        With tree.ToString
+            Call .__INFO_ECHO
+            Call .SaveTo(out)
+        End With
 
+        Return 0
     End Function
 End Module
 

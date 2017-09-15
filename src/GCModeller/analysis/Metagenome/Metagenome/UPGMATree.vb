@@ -1,6 +1,7 @@
 ﻿Imports System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
 ''' https://github.com/graph1994/UPGMA-Tree-Building-Application/blob/master/UPGMATreeCreator.py
@@ -29,6 +30,20 @@ Public Module UPGMATree
             Me.size = size
             Me.distance = distance
         End Sub
+
+        Public Overrides Function ToString() As String
+            If data.IsNullOrEmpty Then
+                Return label
+            Else
+                With data
+                    If .Length = 1 Then
+                        Return .First.ToString
+                    Else
+                        Return $"({ .First.ToString}, { .Last.ToString}: {size.ToString("F2")})"
+                    End If
+                End With
+            End If
+        End Function
     End Class
 
     Function form_taxas(species As taxa()) As Dictionary(Of Integer, taxa)
@@ -66,6 +81,8 @@ Public Module UPGMATree
     End Function
 
     Function combine(dic_taxas As Dictionary(Of Integer, taxa), matrix As List(Of Double())) As taxa
+        Dim n% = dic_taxas.Count
+
         Do While dic_taxas.Count <> 1
             Dim x As (i%, j%, dij#) = find_min(dic_taxas.Keys.ToArray, matrix)
             Dim i = x.i
@@ -77,10 +94,9 @@ Public Module UPGMATree
             Dim u As New taxa(dic_taxas.Keys.Max + 1, {icluster, jcluster}, (icluster.size + jcluster.size), (dij))
             dic_taxas.Remove(i)
             dic_taxas.Remove(j)
-            matrix.Add({})
-            For Each l In NumericSequence.Range(0, u.id - 1)
-                matrix(u.id - 1).Add(0)
-            Next
+
+            matrix.Add(New Vector(u.id - 1))
+
             For Each l In dic_taxas.Keys
                 Dim dil = matrix(Max(i, l) - 1)(Min(i, l) - 1)
                 Dim djl = matrix(Max(j, l) - 1)(Min(j, l) - 1)
