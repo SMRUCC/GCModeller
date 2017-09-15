@@ -168,6 +168,7 @@ Public Module Volcano
                                        Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
 
         Dim DEG_matrix As DEGModel() = genes.CreateModel(translate Or P)
+
         ' 下面分别得到了log2fc的对称range，以及pvalue范围
         Dim xRange As DoubleRange = DEG_matrix _
             .Select(Function(d) Math.Abs(d.logFC)) _
@@ -198,13 +199,15 @@ Public Module Volcano
  _
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
+                ' 因为在下面的lambda表达式drawLabel之中，不可以使用ByRef传递的g变量，
+                ' 所以在这里需要额外的申明来避免错误
                 Dim gdi As IGraphics = g
-                Dim __drawLabel = Sub(label$, pos As PointF)
-                                      With gdi.MeasureString(label, labelFont)
-                                          pos = New PointF(pos.X - .Width / 2, pos.Y + ptSize)
-                                          gdi.DrawString(label, labelFont, black, pos)
-                                      End With
-                                  End Sub
+                Dim drawLabel = Sub(label$, pos As PointF)
+                                    With gdi.MeasureString(label, labelFont)
+                                        pos = New PointF(pos.X - .Width / 2, pos.Y + ptSize)
+                                        gdi.DrawString(label, labelFont, black, pos)
+                                    End With
+                                End Sub
 
                 ' 布局如下：
                 '
@@ -276,13 +279,13 @@ Public Module Volcano
                         Case LabelTypes.None' 不进行任何操作
                         Case LabelTypes.DEG
                             If factor <> 0 Then
-                                Call __drawLabel(gene.label, point)
+                                Call drawLabel(gene.label, point)
                             End If
                         Case LabelTypes.ALL
-                            Call __drawLabel(gene.label, point)
+                            Call drawLabel(gene.label, point)
                         Case Else  ' 自定义
                             If Not gene.label.StringEmpty Then
-                                Call __drawLabel(gene.label, point)
+                                Call drawLabel(gene.label, point)
                             End If
                     End Select
                 Next
