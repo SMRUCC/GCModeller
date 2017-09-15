@@ -34,6 +34,11 @@ Namespace Graphic
 
     Public Module DataScaler
 
+        ''' <summary>
+        ''' Translate the x/y value as a geom point.
+        ''' </summary>
+        ''' <param name="scaler"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function TupleScaler(scaler As (x As d3js.scale.LinearScale, y As d3js.scale.LinearScale)) As Func(Of Double, Double, PointF)
             With scaler

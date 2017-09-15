@@ -145,18 +145,25 @@ Public Module Volcano
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function Plot(Of T As Ideg)(genes As IEnumerable(Of T), factors As Func(Of DEGModel, Integer), colors As Dictionary(Of Integer, Color),
-                         Optional size$ = "2000,1850",
-                         Optional padding$ = g.DefaultPadding,
-                         Optional bg$ = "white",
-                         Optional xlab$ = "log<sub>2</sub>(Fold Change)",
-                         Optional ylab$ = "-log<sub>10</sub>(p-value)",
-                         Optional ptSize! = 5,
-                         Optional translate As Func(Of Double, Double) = Nothing,
-                         Optional displayLabel As LabelTypes = LabelTypes.None,
-                         Optional labelFontStyle$ = CSSFont.PlotTitle,
-                         Optional legendFont$ = CSSFont.UbuntuNormal,
-                         Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
+    Public Function Plot(Of T As Ideg)(genes As IEnumerable(Of T),
+                                       factors As Func(Of DEGModel, Integer),
+                                       colors As Dictionary(Of Integer, Color),
+                                       Optional size$ = "2000,1850",
+                                       Optional padding$ = g.DefaultPadding,
+                                       Optional bg$ = "white",
+                                       Optional xlab$ = "log<sub>2</sub>(Fold Change)",
+                                       Optional ylab$ = "-log<sub>10</sub>(p-value)",
+                                       Optional title$ = "Volcano plot",
+                                       Optional log2Threshold# = 2,
+                                       Optional thresholdStroke$ = Stroke.AxisGridStroke,
+                                       Optional ptSize! = 5,
+                                       Optional translate As Func(Of Double, Double) = Nothing,
+                                       Optional displayLabel As LabelTypes = LabelTypes.None,
+                                       Optional labelFontStyle$ = CSSFont.PlotTitle,
+                                       Optional legendFont$ = CSSFont.UbuntuNormal,
+                                       Optional titleFontStyle$ = CSSFont.Win7Large,
+                                       Optional ticksFontStyle$ = CSSFont.Win10Normal,
+                                       Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
 
         Dim DEG_matrix As DEGModel() = genes.CreateModel(translate Or P)
         ' 下面分别得到了log2fc的对称range，以及pvalue范围
@@ -180,19 +187,14 @@ Public Module Volcano
                               Return DirectCast(New SolidBrush(br.Value), Brush)
                           End Function)
         Dim labelFont As Font = CSSFont.TryParse(labelFontStyle)
+        Dim titleFont As Font = CSSFont.TryParse(titleFontStyle)
+        Dim ticksFont As Font = CSSFont.TryParse(ticksFontStyle)
+        Dim thresholdPen As Pen = Stroke.TryParse(thresholdStroke).GDIObject
 
         Return g.Allocate(size.SizeParser, padding, bg) <=
  _
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
-                Dim x, y As d3js.scale.LinearScale
-
-                With region.PlotRegion
-                    x = d3js.scale.linear.domain(xTicks).range({ .Left, .Right})
-                    y = d3js.scale.linear.domain(yTicks).range({ .Bottom, .Top})
-                End With
-
-                Dim scaler = (x, y).TupleScaler
                 Dim gdi As IGraphics = g
                 Dim __drawLabel = Sub(label$, point As PointF)
                                       With gdi.MeasureString(label, labelFont)
@@ -201,7 +203,43 @@ Public Module Volcano
                                       End With
                                   End Sub
 
+                ' 布局如下：
+                '
+                '      title
+                '           legends
+                ' y scatter plots  
+                '
+                '        x
+
+                ' 先计算出title文件的大小
+                Dim titleSize As SizeF = g.MeasureString(title, titleFont)
+                Dim top! = titleSize.Height + ticksFont.Height + 10
+                Dim left! = g.MeasureString("00.0", ticksFont).Width + 10
+                Dim plotRegion As New Rectangle With {
+                    .X = region.Padding.Left + left,
+                    .Y = region.Padding.Top + titleSize.Height,
+                    .Width = region.PlotRegion.Width - left,
+                    .Height = region.PlotRegion.Height - top
+                } ' 最终剩余的绘图区域
+
+                Dim x, y As d3js.scale.LinearScale
+
+                With plotRegion
+                    x = d3js.scale.linear.domain(xTicks).range({ .Left, .Right})
+                    y = d3js.scale.linear.domain(yTicks).range({ .Bottom, .Top})
+                End With
+
+                Dim scaler = (x, y).TupleScaler
+
                 ' Call Axis.DrawAxis(g, region, scaler, True, xlabel:=xlab, ylabel:=ylab, ylayout:=axisLayout)
+                ' 分别绘制出log2(level)和pvalue的4条threshold虚线条
+                log2Threshold = Log2(Math.Abs(log2Threshold))
+
+                left = x(log2Threshold)
+                Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
+
+                left = x(-log2Threshold)
+                Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
 
                 For Each gene As DEGModel In DEG_matrix
                     Dim factor As Integer = factors(gene)

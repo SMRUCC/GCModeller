@@ -639,7 +639,7 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/colors <up=red,down=green,other=black> /size <1920,1440> /out <plot.csv>]")>
+    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/colors <up=red;down=green;other=black> /size <1920,1440> /out <plot.csv>]")>
     <Description("Volcano plot of the DEPs' analysis result.")>
     <Argument("/size", True, CLITypes.String,
               Description:="The canvas size of the output image.")>
@@ -647,14 +647,14 @@ Partial Module CLI
               AcceptTypes:={GetType(DEP_iTraq)},
               Description:="The input DEPs t.test result, should contains at least 3 columns which are names: ``ID``, ``log2FC`` and ``p.value``")>
     <Argument("/colors", True, CLITypes.String,
-              Description:="The color profile for the DEPs and proteins that no-changes, value string in format like: key=value, and seperated by comma symbol.")>
+              Description:="The color profile for the DEPs and proteins that no-changes, value string in format like: key=value, and seperated by ``;`` symbol.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function logFCVolcano(args As CommandLine) As Integer
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".DEPs.vocano.plot.png")
         Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)(args <= "/in")
         Dim size$ = args.GetValue("/size", "1920,1440")
         Dim colors As Dictionary(Of Integer, Color) = args _
-            .GetDictionary("/colors", [default]:="up=red,down=green,other=black") _
+            .GetDictionary("/colors", [default]:="up=red;down=green;other=black") _
             .ToDictionary(Function(type)
                               Return CInt(DEGDesigner.ParseDEGTypes(type.Key))
                           End Function,
