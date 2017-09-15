@@ -32,6 +32,8 @@ Public Module SSRSearch
         'Next
     End Function
 
+    Public Property Parallel As Boolean = False
+
     Private Function SeedingInternal(seedRange As IntRange) As List(Of String)
         Dim seeds As List(Of String) = Seeding.InitializeSeeds("ATGC", seedRange.Min)
         Dim repeatUnit As New List(Of String)(seeds)
@@ -57,33 +59,56 @@ Public Module SSRSearch
         ' 假若短的种子不存在重复片段的话，延长一个碱基或许会有了
         ' 例如下面的重复单位为ATC，很显然AT是不可能会出现重复的，但是将种子AT延长一个碱基之后就出现重复了
         ' ATC ATC ATC ATC
-        Dim SSR As New List(Of SSR)
-        Dim seq$ = nt.SequenceData
         Dim SearchInternal =
-            Sub(strand$)
-                Using progress As New ProgressBar($"Search for Pure SSR on {strand} strand...",, CLS:=True)
-                    Dim tick As New ProgressProvider(repeatUnit.Count)
-                    Dim ETA$
-                    Dim msg$
+            Function(strand$, seq$) As List(Of SSR)
+                Dim SSR As New List(Of SSR)
+                Dim searchWork = Sub(report As Action(Of String))
+                                     For Each unit As String In repeatUnit
+                                         Dim pattern$ = $"({unit}){{{minRepeats},}}"
 
-                    For Each unit As String In repeatUnit
-                        Dim pattern$ = $"({unit}){{{minRepeats},}}"
+                                         seq.MatchInternal(pattern, SSR, unit, strand, NameOf(PureSSR))
+                                         Call report(unit)
+                                     Next
+                                 End Sub
 
-                        seq.MatchInternal(pattern, SSR, unit, strand, NameOf(PureSSR))
-                        ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
-                        msg = $"{unit}...  ETA: {ETA}"
+                If Parallel Then
+                    Call searchWork(Sub()
+                                        ' Do Nothing
+                                    End Sub)
+                Else
+                    Using progress As New ProgressBar($"Search for Pure SSR on {strand} strand...",, CLS:=True)
+                        Dim tick As New ProgressProvider(repeatUnit.Count)
+                        Dim ETA$
+                        Dim msg$
+                        Dim work = Sub(unit$)
+                                       ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                                       msg = $"{unit}...  ETA: {ETA}"
 
-                        Call progress.SetProgress(tick.StepProgress, msg)
-                    Next
-                End Using
-            End Sub
+                                       Call progress.SetProgress(tick.StepProgress, msg)
+                                   End Sub
 
-        seq = nt.SequenceData.ToUpper
-        Call SearchInternal("+")
-        seq = NucleicAcid.Complement(seq).Reverse.CharString
-        Call SearchInternal("-")
+                        Call searchWork(report:=work)
+                    End Using
+                End If
 
-        Return SSR
+                Return SSR
+            End Function
+
+        Dim sequence$ = nt.SequenceData.ToUpper
+
+        If Not Parallel Then
+            Return SearchInternal("+", sequence).AsEnumerable +
+                   SearchInternal("-", NucleicAcid.Complement(sequence).Reverse.CharString)
+        Else
+            Dim SSR As New List(Of SSR)
+            Dim forwards = ApplicationServices.TaskRun(Sub()
+                                                           SSR = SearchInternal("+", sequence)
+                                                       End Sub)
+            Dim reverse = SearchInternal("-", NucleicAcid.Complement(sequence).Reverse.CharString)
+
+            Call forwards.GetValue()
+            Return SSR.AsEnumerable + reverse
+        End If
     End Function
 
     <Extension>

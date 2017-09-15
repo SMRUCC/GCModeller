@@ -9,14 +9,14 @@ Imports SMRUCC.genomics.Visualize
 ''' > https://github.com/xieguigang/GCModeller.cli2R/blob/master/R/iTraq.log2_t-test.R
 ''' </summary>
 Public Class DEP_iTraq : Inherits EntityObject
-    Implements Ideg
+    Implements IDeg
 
-    Public Overrides Property ID As String Implements Ideg.label
+    Public Overrides Property ID As String Implements IDeg.label
 
     <Column("FC.avg")> Public Property FCavg As Double
-    <Column("p.value")> Public Property pvalue As Double Implements Ideg.pvalue
+    <Column("p.value")> Public Property pvalue As Double Implements IDeg.pvalue
     <Column("is.DEP")> Public Property isDEP As Boolean
-    <Column("log2FC")> Public Property log2FC As Double Implements Ideg.log2FC
+    <Column("log2FC")> Public Property log2FC As Double Implements IDeg.log2FC
     <Column("FDR")> Public Property FDR As Double
 
     Public Overrides Function ToString() As String

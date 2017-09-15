@@ -98,7 +98,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/KEGG.enrichment.DAVID.pathwaymap")>
-    <Usage("/KEGG.enrichment.DAVID.pathwaymap /in <david.csv> /uniprot <uniprot.XML> [/iTraq /tsv /DEPs <deps.csv> /colors <default=red,blue,green> /tag <default=logFC> /pvalue <default=0.05> /out <out.DIR>]")>
+    <Usage("/KEGG.enrichment.DAVID.pathwaymap /in <david.csv> /uniprot <uniprot.XML> [/tsv /DEPs <deps.csv> /colors <default=red,blue,green> /tag <default=log2FC> /pvalue <default=0.05> /out <out.DIR>]")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function DAVID_KEGGPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -137,14 +137,8 @@ Partial Module CLI
                     Function(gene)
                         Return gene("is.DEP").TextEquals("TRUE")
                     End Function
-                Dim threshold = (1.25, 1 / 1.25)
-                Dim readTag$ = args.GetValue("/tag", "logFC")
-
-                If Not args.GetBoolean("/iTraq") Then
-                    threshold = (1.25.Log2, (1 / 1.25).Log2)
-                End If
-
-                Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, threshold, readTag, uniprot2KEGG)
+                Dim readTag$ = args.GetValue("/tag", "log2FC")
+                Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, readTag, uniprot2KEGG)
 
                 Call KEGG.KOBAS_DEPs(colors, EXPORT:=out, pvalue:=pvalue)
             Else
@@ -428,8 +422,7 @@ Partial Module CLI
                 Function(gene)
                     Return gene("is.DEP").TextEquals("TRUE")
                 End Function
-            Dim threshold = (1.25, 1 / 1.25)
-            Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, threshold, "FC.avg", mapID)
+            Dim colors = DEGProfiling.ColorsProfiling(DEPgenes, isDEP, "log2FC", mapID)
 
             Call data.KOBAS_DEPs(colors, EXPORT:=out, pvalue:=pvalue)
         End If
