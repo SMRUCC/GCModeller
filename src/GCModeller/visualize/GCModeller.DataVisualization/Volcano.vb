@@ -194,6 +194,8 @@ Public Module Volcano
         Dim ticksFont As Font = CSSFont.TryParse(ticksFontStyle)
         Dim thresholdPen As Pen = Stroke.TryParse(thresholdStroke).GDIObject
         Dim point As PointF
+        Dim px!, py!
+        Dim up%, down%
 
         Return g.Allocate(size.SizeParser, padding, bg) <=
  _
@@ -275,6 +277,12 @@ Public Module Volcano
                     point = scaler.Translate(gene.logFC, gene.pvalue)
                     g.DrawCircle(point, ptSize, color)
 
+                    If factor > 0 Then
+                        up += 1
+                    ElseIf factor < 0 Then
+                        down += 1
+                    End If
+
                     Select Case displayLabel
                         Case LabelTypes.None' 不进行任何操作
                         Case LabelTypes.DEG
@@ -291,36 +299,37 @@ Public Module Volcano
                 Next
 
                 With region
-                    Dim legends = colors.GetLegends(legendFont)
+                    Dim legends = colors.GetLegends(legendFont, (up, down))
                     Dim lsize As SizeF = legends.MaxLegendSize(g)
-                    Dim topleft As New Point(
-                        .Size.Width - .Padding.Left - (lsize.Width + 50),
-                        .Padding.Top)
 
-                    Call g.DrawLegends(topleft, legends)
+                    px = .Size.Width - .Padding.Left - (lsize.Width + 50)
+                    py = plotRegion.Top + .Padding.Top / 2
+                    point = New PointF(px, py)
+
+                    Call g.DrawLegends(point.ToPoint, legends)
                 End With
             End Sub
     End Function
 
     <Extension>
-    Private Function GetLegends(colors As Dictionary(Of Integer, Color), font$) As Legend()
+    Private Function GetLegends(colors As Dictionary(Of Integer, Color), font$, count As (up%, down%)) As Legend()
         Dim up As New Legend With {
             .color = colors(1).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
-            .title = "log2FC > UP"
+            .title = $"({count.up}) log2FC >= UP"
         }
         Dim down As New Legend With {
             .color = colors(-1).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
-            .title = "log2FC < DOWN"
+            .title = $"({count.down}) log2FC <= DOWN"
         }
         Dim normal As New Legend With {
             .color = colors(0).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
-            .title = "Normal"
+            .title = "unchange"
         }
 
         Return {normal, up, down}
