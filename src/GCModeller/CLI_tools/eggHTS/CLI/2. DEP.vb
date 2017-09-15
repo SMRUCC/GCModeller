@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -633,19 +634,33 @@ Partial Module CLI
             .CLICode
     End Function
 
-    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/size <1920,1440> /out <plot.csv>]")>
+    ''' <summary>
+    ''' 绘制差异蛋白的火山图
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/colors <up=red,down=green,other=black> /size <1920,1440> /out <plot.csv>]")>
     <Description("Volcano plot of the DEPs' analysis result.")>
+    <Argument("/size", True, CLITypes.String,
+              Description:="The canvas size of the output image.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(DEP_iTraq)},
+              Description:="The input DEPs t.test result, should contains at least 3 columns which are names: ``ID``, ``log2FC`` and ``p.value``")>
+    <Argument("/colors", True, CLITypes.String,
+              Description:="The color profile for the DEPs and proteins that no-changes, value string in format like: key=value, and seperated by comma symbol.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function logFCVolcano(args As CommandLine) As Integer
-        Dim in$ = args("/in")
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DEPs.vocano.plot.png")
-        Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)([in])
+        Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".DEPs.vocano.plot.png")
+        Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)(args <= "/in")
         Dim size$ = args.GetValue("/size", "1920,1440")
-        Dim colors As New Dictionary(Of Integer, Color) From {
-            {1, Color.Violet},
-            {0, Color.Gray},
-            {-1, Color.Blue}
-        }
+        Dim colors As Dictionary(Of Integer, Color) = args _
+            .GetDictionary("/colors", [default]:="up=red,down=green,other=black") _
+            .ToDictionary(Function(type)
+                              Return CInt(DEGDesigner.ParseDEGTypes(type.Key))
+                          End Function,
+                          Function(color)
+                              Return color.Value.TranslateColor
+                          End Function)
 
         Return Volcano.Plot(sample,
                             colors:=colors,
