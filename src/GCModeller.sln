@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{A298B539-BE81-4A66-AFC1-014D449E4887}"
 EndProject
@@ -9568,12 +9568,12 @@ Global
 		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64)|x64.Build.0 = Release|x64
 		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
 		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
-		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64|x64.Build.0 = GCModeller(Release_X64)|x64
-		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64|x86.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64|x86.Build.0 = GCModeller(Release_X64)|Any CPU
+		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64|Any CPU.ActiveCfg = Release|Any CPU
+		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64|Any CPU.Build.0 = Release|Any CPU
+		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64|x64.ActiveCfg = Release|x64
+		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64|x64.Build.0 = Release|x64
+		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64|x86.ActiveCfg = Release|Any CPU
+		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.GCModeller(Release_X64|x86.Build.0 = Release|Any CPU
 		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.mysqli_X64_release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.mysqli_X64_release|Any CPU.Build.0 = Release|Any CPU
 		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}.mysqli_X64_release|x64.ActiveCfg = Release|x64
