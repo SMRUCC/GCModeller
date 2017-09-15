@@ -148,7 +148,7 @@ Public Module Volcano
     Public Function Plot(Of T As Ideg)(genes As IEnumerable(Of T),
                                        factors As Func(Of DEGModel, Integer),
                                        colors As Dictionary(Of Integer, Color),
-                                       Optional size$ = "2000,1850",
+                                       Optional size$ = "2000,2250",
                                        Optional padding$ = g.DefaultPadding,
                                        Optional bg$ = "white",
                                        Optional xlab$ = "log<sub>2</sub>(Fold Change)",
@@ -231,7 +231,16 @@ Public Module Volcano
                     y = d3js.scale.linear.domain(yTicks).range({ .Bottom, .Top})
                 End With
 
-                Dim scaler = (x, y).TupleScaler(plotRegion.Bottom)
+                Dim scaler As New DataScaler With {
+                    .AxisTicks = (xTicks, yTicks),
+                    .ChartRegion = plotRegion,
+                    .X = x,
+                    .Y = y
+                }
+
+                ' 必须要首先绘制出坐标轴，否则背景填充会将下面的几条阈值虚线给覆盖掉的
+                Call g.DrawAxis(region, scaler, True, xlabel:=xlab, ylabel:=ylab, ylayout:=axisLayout)
+                Call g.DrawRectangle(Pens.Black, plotRegion)
 
                 ' 分别绘制出log2(level)和pvalue的4条threshold虚线条
                 log2Threshold = Log2(Math.Abs(log2Threshold))
@@ -246,12 +255,10 @@ Public Module Volcano
                 top = plotRegion.Bottom - y(-Math.Log10(0.05))
                 Call g.DrawLine(thresholdPen, New Point(plotRegion.Left, top), New Point(plotRegion.Right, top))
 
-                Call Axis.DrawAxis(g, region, scaler, True, xlabel:=xlab, ylabel:=ylab, ylayout:=axisLayout)
-
                 For Each gene As DEGModel In DEG_matrix
                     Dim factor As Integer = factors(gene)
                     Dim color As Brush = brushes(factor)
-                    Dim point As PointF = scaler(gene.logFC, gene.pvalue)
+                    Dim point As PointF = scaler.Translate(gene.logFC, gene.pvalue)
 
                     Call g.DrawCircle(point, ptSize, color)
 
