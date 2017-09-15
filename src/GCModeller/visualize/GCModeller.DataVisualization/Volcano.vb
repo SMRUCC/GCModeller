@@ -128,7 +128,7 @@ Public Module Volcano
     ReadOnly P As DefaultValue(Of Func(Of Double, Double)) = New Func(Of Double, Double)(Function(pvalue) -Math.Log10(pvalue))
 
     <Extension>
-    Private Function CreateModel(Of T As Ideg)(source As IEnumerable(Of T), pvalueTranslate As Func(Of Double, Double)) As IEnumerable(Of DEGModel)
+    Private Function CreateModel(Of T As IDeg)(source As IEnumerable(Of T), pvalueTranslate As Func(Of Double, Double)) As IEnumerable(Of DEGModel)
         Return source.ToArray(
             Function(g) New DEGModel With {
                 .label = g.label,
@@ -147,7 +147,7 @@ Public Module Volcano
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function Plot(Of T As Ideg)(genes As IEnumerable(Of T),
+    Public Function Plot(Of T As IDeg)(genes As IEnumerable(Of T),
                                        factors As Func(Of DEGModel, Integer),
                                        colors As Dictionary(Of Integer, Color),
                                        Optional size$ = "2000,2250",
@@ -327,11 +327,11 @@ Public Module Volcano
     End Function
 
     Public Structure DEGModel
-        Implements Ideg
+        Implements IDeg
 
-        Public Property label$ Implements Ideg.label
-        Public Property logFC# Implements Ideg.log2FC
-        Public Property pvalue# Implements Ideg.pvalue
+        Public Property label$ Implements IDeg.label
+        Public Property logFC# Implements IDeg.log2FC
+        Public Property pvalue# Implements IDeg.pvalue
 
         Public Overrides Function ToString() As String
             Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"

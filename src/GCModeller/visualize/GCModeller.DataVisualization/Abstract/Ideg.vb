@@ -1,4 +1,4 @@
-﻿Public Interface Ideg
+﻿Public Interface IDeg
 
     Property label As String
     Property log2FC As Double
