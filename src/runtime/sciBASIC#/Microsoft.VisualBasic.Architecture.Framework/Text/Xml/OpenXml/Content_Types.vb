@@ -36,7 +36,7 @@ Namespace Text.Xml.OpenXml
     ''' </summary>
     ''' 
     <XmlRoot("Types", Namespace:="http://schemas.openxmlformats.org/package/2006/content-types")>
-    Public Class Content_Types
+    Public Class ContentTypes
         <XmlElement> Public Property [Default] As Type()
         <XmlElement("Override")>
         Public Property [Overrides] As Type()
@@ -49,7 +49,11 @@ Namespace Text.Xml.OpenXml
         <XmlAttribute> Public Property PartName As String
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            If PartName.StringEmpty Then
+                Return ContentType
+            Else
+                Return $"({PartName}) {ContentType}"
+            End If
         End Function
     End Structure
 End Namespace
