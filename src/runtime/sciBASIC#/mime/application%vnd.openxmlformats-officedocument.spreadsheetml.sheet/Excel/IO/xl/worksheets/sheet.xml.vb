@@ -28,15 +28,55 @@
 
 Imports System.Xml.Serialization
 
-Namespace xl.worksheets
+Namespace XML.xl.worksheets
 
+    <XmlRoot("worksheet", [Namespace]:="http://schemas.openxmlformats.org/spreadsheetml/2006/main")>
     Public Class worksheet
+
         Public Property dimension As dimension
 
         Public Property cols As col()
-        Public Property sheetData As row()
+        Public Property sheetData As sheetData
         Public Property phoneticPr As phoneticPr
         Public Property pageMargins As pageMargins
+        Public Property sheetViews As sheetView()
+
+        <XmlAttribute("uid", [Namespace]:=xr)>
+        Public Property uid As String
+        <XmlAttribute(NameOf(Ignorable), [Namespace]:=mc)>
+        Public Property Ignorable As String
+
+        <XmlNamespaceDeclarations()>
+        Public xmlns As XmlSerializerNamespaces
+
+        Sub New()
+            xmlns = New XmlSerializerNamespaces
+            xmlns.Add("r", r)
+            xmlns.Add("mc", mc)
+            xmlns.Add("x14ac", x14ac)
+            xmlns.Add("xr", xr)
+            xmlns.Add("xr2", xr2)
+            xmlns.Add("xr3", xr3)
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return uid
+        End Function
+    End Class
+
+    Public Class sheetData
+        <XmlElement("row")> Public Property rows As row()
+    End Class
+
+    Public Class sheetView
+        <XmlAttribute> Public Property tabSelected As String
+        <XmlAttribute> Public Property workbookViewId As String
+        Public Property selection As selection
+    End Class
+
+    Public Class selection
+        <XmlAttribute> Public Property activeCell As String
+        <XmlAttribute> Public Property sqref As String
     End Class
 
     Public Structure dimension
@@ -55,6 +95,10 @@ Namespace xl.worksheets
     Public Structure row
         <XmlAttribute> Public Property r As String
         <XmlAttribute> Public Property spans As String
+
+        <XmlAttribute(NameOf(dyDescent), [Namespace]:=x14ac)>
+        Public Property dyDescent As String
+
         <XmlAttribute> Public Property ht As String
         <XmlAttribute> Public Property customHeight As String
         <XmlAttribute> Public Property customFormat As String
@@ -62,10 +106,48 @@ Namespace xl.worksheets
     End Structure
 
     Public Structure c
+
+        ''' <summary>
+        ''' Reference location, cell ID
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property r As String
         <XmlAttribute> Public Property s As String
+        ''' <summary>
+        ''' Type, if this property value is ``s``, then it means value <see cref="v"/> refernece from <see cref="sharedStrings"/>
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property t As String
+
+        ''' <summary>
+        ''' Value
+        ''' </summary>
+        ''' <returns></returns>
         Public Property v As String
+
+        ''' <summary>
+        ''' 返回-1表示非引用类型，即<see cref="v"/>直接可以用作为值
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property sharedStringsRef As Integer
+            Get
+                If t.TextEquals("s") Then
+                    Return Val(v)
+                Else
+                    Return -1
+                End If
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            Dim value$ = v
+
+            If t.TextEquals("s") Then
+                value = $"sharedStrings({value})"
+            End If
+
+            Return $"[{r}] {value}"
+        End Function
     End Structure
 
     Public Class pageMargins

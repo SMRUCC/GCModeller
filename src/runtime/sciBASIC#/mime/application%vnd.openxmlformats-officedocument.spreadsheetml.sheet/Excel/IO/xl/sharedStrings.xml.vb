@@ -28,7 +28,7 @@
 
 Imports System.Xml.Serialization
 
-Namespace xl
+Namespace XML.xl
 
     <XmlRoot("sst", [Namespace]:="http://schemas.openxmlformats.org/spreadsheetml/2006/main")>
     Public Class sharedStrings
@@ -42,8 +42,13 @@ Namespace xl
     End Class
 
     Public Class si
+
         Public Property t As String
         Public Property phoneticPr As phoneticPr
+
+        Public Overrides Function ToString() As String
+            Return t
+        End Function
     End Class
 
     Public Class phoneticPr
