@@ -1,4 +1,7 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.IO.Compression
+Imports System.Runtime.CompilerServices
+Imports System.Text
+Imports Microsoft.VisualBasic.Text.Xml
 Imports Microsoft.VisualBasic.Text.Xml.OpenXml
 
 Public Module IO
@@ -24,14 +27,48 @@ Public Module IO
             ._rels = rels,
             .docProps = docProps,
             .xl = xl,
-            .FilePath = xlsx
+            .FilePath = xlsx,
+            .ROOT = ROOT
         }
 
         Return file
     End Function
 
-    <Extension>
-    Public Function Save(xlsx As File, path$) As Boolean
+    ''' <summary>
+    ''' Save the Xlsx file data to a specific <paramref name="path"/> location.
+    ''' </summary>
+    ''' <param name="xlsx"></param>
+    ''' <param name="path$"></param>
+    ''' <returns></returns>
+    <Extension> Public Function SaveTo(xlsx As File, path$) As Boolean
+        Dim workbook$ = xlsx.ROOT & "/xl/workbook.xml"
+        Dim sharedStrings = xlsx.ROOT & "/xl/sharedStrings.xml"
+        Dim ContentTypes$ = xlsx.ROOT & "/[Content_Types].xml"
 
+        If xlsx.modify("worksheet.add") > -1 Then
+            With xlsx.xl
+                Call .worksheets.Save()
+                Call .workbook _
+                    .GetXml(xmlEncoding:=XmlEncodings.UTF8) _
+                    .SaveTo(workbook, Encoding.UTF8)
+                Call .sharedStrings _
+                    .GetXml(xmlEncoding:=XmlEncodings.UTF8) _
+                    .SaveTo(sharedStrings, Encoding.UTF8)
+
+                Call xlsx.ContentTypes _
+                    .GetXml(xmlEncoding:=XmlEncodings.UTF8) _
+                    .SaveTo(ContentTypes, Encoding.UTF8)
+            End With
+        ElseIf xlsx.modify("worksheet.update") > -1 Then
+            Call xlsx.xl.worksheets.Save()
+            Call xlsx.xl.sharedStrings _
+                .GetXml(xmlEncoding:=XmlEncodings.UTF8) _
+                .SaveTo(sharedStrings, Encoding.UTF8)
+        End If
+
+        ' 重新进行zip打包
+        Call GZip.DirectoryArchive(xlsx.ROOT, path, ArchiveAction.Replace, Overwrite.Always, CompressionLevel.Fastest)
+
+        Return True
     End Function
 End Module

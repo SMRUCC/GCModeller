@@ -5,6 +5,8 @@ Imports Microsoft.VisualBasic.MIME.Office.Excel.XML.xl.worksheets
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Language
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports System.Text
+Imports Microsoft.VisualBasic.Text.Xml
 
 Public Class _rels : Inherits Directory
 
@@ -56,6 +58,17 @@ Public Class xl : Inherits Directory
     End Sub
 
     ''' <summary>
+    ''' 使用表名称来判断目标工作簿是否存在？
+    ''' </summary>
+    ''' <param name="worksheet$"></param>
+    ''' <returns></returns>
+    Public Function Exists(worksheet$) As Boolean
+        Return Not workbook _
+            .GetSheetIDByName(worksheet) _
+            .StringEmpty
+    End Function
+
+    ''' <summary>
     ''' Get <see cref="worksheet"/> by name.
     ''' </summary>
     ''' <param name="name$"></param>
@@ -87,6 +100,10 @@ End Class
 
 Public Class worksheets : Inherits Directory
 
+    ''' <summary>
+    ''' Key都是格式``sheet%d``的字符串
+    ''' </summary>
+    ''' <returns></returns>
     Public Property worksheets As Dictionary(Of String, worksheet)
 
     Sub New(ROOT$)
@@ -96,6 +113,10 @@ Public Class worksheets : Inherits Directory
     Public Function HaveWorksheet(sheetID$) As Boolean
         Return worksheets.ContainsKey("sheet" & sheetID)
     End Function
+
+    Public Sub Add(sheetID As String, worksheet As worksheet)
+        Call worksheets.Add(sheetID, worksheet)
+    End Sub
 
     Public Function GetWorksheet(sheetID$) As worksheet
         With "sheet" & sheetID
@@ -111,6 +132,17 @@ Public Class worksheets : Inherits Directory
         worksheets = (ls - l - "*.xml" <= Folder) _
             .ToDictionary(Function(name) name.BaseName,
                           Function(path) path.LoadXml(Of worksheet))
+    End Sub
+
+    Public Sub Save()
+        Dim path$
+
+        For Each sheet In worksheets
+            path = $"{Folder}/{sheet.Key}.xml"
+            sheet.Value _
+                .GetXml(xmlEncoding:=XmlEncodings.UTF8) _
+                .SaveTo(path, Encoding.UTF8)
+        Next
     End Sub
 
     Protected Overrides Function _name() As String
