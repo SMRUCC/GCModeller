@@ -28,6 +28,7 @@
 
 Imports System.IO.Compression
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XML.xl.worksheets
@@ -44,6 +45,9 @@ Public Class File : Implements IFileReference
     Public Property _rels As _rels
     Public Property docProps As docProps
     Public Property xl As xl
+
+    Friend ReadOnly modify As New Index(Of String)
+    Friend ROOT$
 
     Dim _filePath As DefaultValue(Of String)
 
@@ -72,12 +76,49 @@ Public Class File : Implements IFileReference
         Return WriteSheetTable(table, sheetName)
     End Function
 
+    ''' <summary>
+    ''' 如果表明不存在，会追加，否则会直接替换现有的表数据
+    ''' </summary>
+    ''' <param name="table"></param>
+    ''' <param name="sheetName$"></param>
+    ''' <returns></returns>
     Public Function WriteSheetTable(table As csv, sheetName$) As Boolean
+        Dim worksheet As worksheet = table.CreateWorksheet(xl.sharedStrings)
+        Dim sheetID = xl.workbook.GetSheetIDByName(sheetName)
 
+        If Not sheetID.StringEmpty Then
+            ' 进行替换
+            xl.worksheets.worksheets(sheetID) = worksheet
+
+            If modify.NotExists("worksheet.update") Then
+                modify.Add("worksheet.update")
+            End If
+        Else
+            ' 进行添加
+            sheetID = xl.workbook.Add(sheetName)
+            xl.worksheets.Add(sheetID, worksheet)
+            ContentTypes.Overrides += New Type With {
+                .ContentType = Xmlns.worksheet,
+                .PartName = $"/xl/worksheets/{sheetID}.xml"
+            }
+
+            If modify.NotExists("worksheet.add") Then
+                modify.Add("worksheet.add")
+            End If
+        End If
+
+        Return True
     End Function
 
+    ''' <summary>
+    ''' 默认是写入原来的文件位置
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <returns></returns>
     Public Function WriteXlsx(Optional path$ = Nothing) As Boolean
-        Return Me.Save(path Or _filePath)
+        ' Save to the user specific path or original source _filePath 
+        ' If the path Is Not specific by user
+        Return Me.SaveTo(path Or _filePath)
     End Function
 
     Public Function GetTable(sheetName$) As csv

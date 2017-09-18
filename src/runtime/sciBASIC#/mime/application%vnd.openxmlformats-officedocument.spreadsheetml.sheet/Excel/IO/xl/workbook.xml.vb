@@ -29,6 +29,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports worksheet = Microsoft.VisualBasic.Language.List(Of Microsoft.VisualBasic.MIME.Office.Excel.XML.xl.sheet)
 
 Namespace XML.xl
 
@@ -40,7 +41,7 @@ Namespace XML.xl
 
         Public Property fileVersion As fileVersion
         Public Property bookViews As workbookView()
-        Public Property sheets As sheet()
+        Public Property sheets As New worksheet
         Public Property calcPr As calcPr
         Public Property workbookPr As workbookPr
         Public Property fileRecoveryPr As fileRecoveryPr
@@ -63,12 +64,28 @@ Namespace XML.xl
             xmlns.Add("xr2", Excel.Xmlns.xr2)
         End Sub
 
+        ''' <summary>
+        ''' 不存在会返回空字符串
+        ''' </summary>
+        ''' <param name="name$"></param>
+        ''' <returns></returns>
         Public Function GetSheetIDByName(name$) As String
             Return sheets _
                 .SafeQuery _
                 .Where(Function(s) s.name.TextEquals(name)) _
                 .FirstOrDefault _
                 .sheetId
+        End Function
+
+        Public Function Add(sheetName$) As String
+            Dim n$ = sheets.Count + 1
+
+            sheets += New sheet With {
+                .name = sheetName,
+                .rid = "rId" & n,
+                .sheetId = n
+            }
+            Return "sheet" & n
         End Function
     End Class
 
