@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{A298B539-BE81-4A66-AFC1-014D449E4887}"
 EndProject
@@ -446,6 +446,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Excel.CLI", "runtime\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel.CLI\Excel.CLI.vbproj", "{F2836E14-0E10-4B98-9B2C-C842D7E2F14E}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Excel", "runtime\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\Excel.vbproj", "{E695D793-C970-422B-BA74-703EE43194FC}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Graph", "runtime\sciBASIC#\Data_science\Graph\Graph.vbproj", "{203BC68F-A0CD-443A-AB62-4AF4110F752F}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -9652,6 +9654,60 @@ Global
 		{E695D793-C970-422B-BA74-703EE43194FC}.Release2|x64.Build.0 = Release|x64
 		{E695D793-C970-422B-BA74-703EE43194FC}.Release2|x86.ActiveCfg = Release|Any CPU
 		{E695D793-C970-422B-BA74-703EE43194FC}.Release2|x86.Build.0 = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Debug|x64.ActiveCfg = Debug|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Debug|x64.Build.0 = Debug|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Debug|x86.Build.0 = Debug|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.DEMO|Any CPU.ActiveCfg = Debug|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.DEMO|Any CPU.Build.0 = Debug|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.DEMO|x64.ActiveCfg = Debug|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.DEMO|x64.Build.0 = Debug|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.DEMO|x86.ActiveCfg = Debug|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.DEMO|x86.Build.0 = Debug|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.docs|x64.ActiveCfg = Debug|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.docs|x64.Build.0 = Debug|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.docs|x86.ActiveCfg = Debug|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.docs|x86.Build.0 = Debug|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.GCModeller(Release_X64)|x64.ActiveCfg = Release|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.GCModeller(Release_X64)|x64.Build.0 = Release|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.GCModeller(Release_X64|Any CPU.ActiveCfg = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.GCModeller(Release_X64|Any CPU.Build.0 = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.GCModeller(Release_X64|x64.ActiveCfg = Release|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.GCModeller(Release_X64|x64.Build.0 = Release|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.GCModeller(Release_X64|x86.ActiveCfg = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.GCModeller(Release_X64|x86.Build.0 = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.mysqli_X64_release|Any CPU.ActiveCfg = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.mysqli_X64_release|Any CPU.Build.0 = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.mysqli_X64_release|x64.ActiveCfg = Release|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.mysqli_X64_release|x64.Build.0 = Release|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.mysqli_X64_release|x86.ActiveCfg = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.mysqli_X64_release|x86.Build.0 = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Publish|x64.ActiveCfg = Release|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Publish|x64.Build.0 = Release|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Publish|x86.ActiveCfg = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Publish|x86.Build.0 = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Release|x64.ActiveCfg = Release|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Release|x64.Build.0 = Release|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Release|x86.ActiveCfg = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Release|x86.Build.0 = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Release2|Any CPU.ActiveCfg = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Release2|Any CPU.Build.0 = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Release2|x64.ActiveCfg = Release|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Release2|x64.Build.0 = Release|x64
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Release2|x86.ActiveCfg = Release|Any CPU
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F}.Release2|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -9873,6 +9929,7 @@ Global
 		{8DE297A8-067C-44F5-9A63-0F996C71F8BD} = {EDD061D2-B00F-4D9D-9794-8AC797E42032}
 		{F2836E14-0E10-4B98-9B2C-C842D7E2F14E} = {8DE297A8-067C-44F5-9A63-0F996C71F8BD}
 		{E695D793-C970-422B-BA74-703EE43194FC} = {551D0368-1396-4BA4-9A3E-95C2874A4024}
+		{203BC68F-A0CD-443A-AB62-4AF4110F752F} = {852FA545-CC24-443C-8991-B82EF14FA61D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47F07DE6-3450-41B9-AB20-E7181E445FFF}
