@@ -1,44 +1,83 @@
-﻿Public Module AnalysisExtensions
+﻿Imports System.Reflection
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
-        ' Simple 'drawing' routines
-    <Extension>    Public Function Build(Of T)(tree As Tree(Of T)) As String
-            If tree Is Nothing Then
-                Return "()"
-            End If
+Public Module AnalysisExtensions
 
-          if tree.isleaf then 
- return tree.ID
-else 
-dim children = tree _
-.childs _
-.select(function(t) t.build) _
-.joinby(", ")
+    ''' <summary>
+    ''' Tree to string
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="tree"></param>
+    ''' <returns></returns>
+    <Extension> Public Function Build(Of T)(tree As Tree(Of T)) As String
+        If tree Is Nothing Then
+            Return "()"
+        End If
 
-return $"{tree.ID}({children})" 
-		 end if 
-        End Function
-		
-		' summary this tree model its nodes as csv table
-		 <Extension> public iterator function Summary(Of T)(tree as tree(of T), Optional schema As Propertyinfo() = Nothing) As IEnumerable(Of NamedValue(Of Dictionary(of string ,string )))
-		 
-		 If schema.isnullorempty
-			schema = dataframework.schema(Of T)(index:= False, primitive:=True, access:=Readable)
-	End If
-		 
-		 yield tree.SummaryMe(schema)
-		 
-		 For Each c as Tree(Of T) In tree.Childs.SafeQuery
-		 yield c.Summary(schema)
-		 Next
-		end function 
-		
-		' 这个函数不会对childs进行递归
-		private function SummaryMe(Of T)(this As Tree(Of T),schema As Propertyinfo()) As namedValue(Of Dictionary(Of string ,String))
-		Dim name = this.label
-	dim values = schema.ToDictionary(function(key) key .name , function(read) safeCStr(read.getValue(this.data)))
-	values.Add("tree.ID", this.ID)
-	values.add("tree.Label", this.label)
-	
-	return new namedvalue(Of Dictionary(of string,string)) with { .name =  name , .value = values}
-		end function
+        If tree.IsLeaf Then
+            Return tree.ID
+        Else
+            Dim children = tree _
+                .Childs _
+                .Select(Function(tr) tr.Build) _
+                .JoinBy(", ")
+
+            Return $"{tree.ID}({children})"
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Summary this tree model its nodes as csv table
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="tree"></param>
+    ''' <param name="schema"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function Summary(Of T)(tree As Tree(Of T), Optional schema As PropertyInfo() = Nothing) As IEnumerable(Of NamedValue(Of Dictionary(Of String, String)))
+        If schema.IsNullOrEmpty Then
+            schema = DataFramework _
+                .Schema(Of T)(PropertyAccess.Readable, nonIndex:=True, primitive:=True) _
+                .Values _
+                .ToArray
+        End If
+
+        Yield tree.SummaryMe(schema)
+
+        For Each c As Tree(Of T) In tree.Childs.SafeQuery
+            For Each value In c.Summary(schema)
+                Yield value
+            Next
+        Next
+    End Function
+
+    ''' <summary>
+    ''' 这个函数不会对<see cref="Tree(Of T).Childs"/>进行递归
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="this"></param>
+    ''' <param name="schema"></param>
+    ''' <returns></returns>
+    <Extension>
+    Private Function SummaryMe(Of T)(this As Tree(Of T), schema As PropertyInfo()) As NamedValue(Of Dictionary(Of String, String))
+        Dim name$ = this.Label
+        Dim values = schema.ToDictionary(
+            Function(key) key.Name,
+            Function(read)
+                Return CStrSafe(read.GetValue(this.Data))
+            End Function)
+
+        With values
+            Call .Add("tree.ID", this.ID)
+            Call .Add("tree.Label", this.Label)
+        End With
+
+        Return New NamedValue(Of Dictionary(Of String, String)) With {
+            .Name = name,
+            .Value = values
+        }
+    End Function
 End Module
