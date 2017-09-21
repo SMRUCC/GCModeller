@@ -54,11 +54,43 @@ Namespace ComponentModel
         Dim list As New List(Of T)
         Dim isNothing As Assert(Of T) = Function(x) x Is Nothing
 
+        ''' <summary>
+        ''' 返回所有不为空的元素的数量，因为本列表的存储特性的关系，为空的位置实际上是没有值的，所以不会返回这些为空的值的统计数量
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Count As Integer
             Get
                 Return list.Where(Function(x) Not isNothing(x)).Count
             End Get
         End Property
+
+        Public ReadOnly Property EmptySlots As Integer()
+            Get
+                Return list _
+                    .SeqIterator _
+                    .Where(Function(x) isNothing(x.value)) _
+                    .Select(Function(x) x.i) _
+                    .ToArray
+            End Get
+        End Property
+
+        Public Function GetAvailablePos() As Integer
+            With list _
+                .SeqIterator _
+                .Where(Function(x) isNothing(x.value)) _
+                .FirstOrDefault
+
+                If list.Count > 0 And .i = 0 Then
+                    If list(0) Is Nothing Then
+                        Return 0
+                    Else
+                        Return list.Count
+                    End If
+                Else
+                    Return .i
+                End If
+            End With
+        End Function
 
         ''' <summary>
         ''' 与迭代器<see cref="GetEnumerator()"/>函数所不同的是，迭代器函数返回的都是非空元素，而这个读写属性则是可以直接接触到内部的
@@ -68,6 +100,10 @@ Namespace ComponentModel
         Default Public Property Item(index%) As T
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
+                If index > list.Count - 1 Then
+                    Return Nothing
+                End If
+
                 If index < 0 Then
                     index = list.Count + index
                 End If
@@ -87,9 +123,19 @@ Namespace ComponentModel
         Sub New()
         End Sub
 
+        Sub New(capacity%)
+            For i As Integer = 0 To capacity - 1
+                Call list.Add(Nothing)
+            Next
+        End Sub
+
         Sub New(source As IEnumerable(Of T))
             Call Add(source)
         End Sub
+
+        Public Function Contains(x As T) As Boolean
+            Return Not Me(x.Address) Is Nothing
+        End Function
 
         Public Sub Clear()
             Call list.Clear()
@@ -120,11 +166,8 @@ Namespace ComponentModel
             list(x.Address) = x
         End Sub
 
-        Shared Narrowing Operator CType(src As HandledList(Of T)) As T()
-            Return src _
-                .list _
-                .Where(Function(x) Not src.isNothing(x)) _
-                .ToArray
+        Public Shared Narrowing Operator CType(src As HandledList(Of T)) As T()
+            Return src.ToArray
         End Operator
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of T) Implements IEnumerable(Of T).GetEnumerator
