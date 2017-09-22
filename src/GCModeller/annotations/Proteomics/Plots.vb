@@ -103,7 +103,7 @@ Public Module Plots
                                    Optional tag$ = "logFC",
                                    Optional serialTitle$ = "Frequency(logFC)",
                                    Optional step! = 1,
-                                   Optional size As Size = Nothing,
+                                   Optional size$ = "1600,1200",
                                    Optional padding$ = "padding: 100 180 100 180",
                                    Optional xAxis$ = Nothing,
                                    Optional color$ = "lightblue") As GraphicsData
