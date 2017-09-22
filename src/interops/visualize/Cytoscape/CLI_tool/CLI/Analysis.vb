@@ -83,7 +83,7 @@ Partial Module CLI
 
         Call objects.SaveTo(out & "/links.csv")
         Call matrix.SaveTo(out & "/matrix.csv")
-        Call HeatmapTable _
+        Call CorrelationHeatmap _
             .Plot(matrix, size:=size, mapName:=colors) _
             .Save(out & "/heatmap.png")
 
