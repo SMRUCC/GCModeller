@@ -57,7 +57,7 @@ Module CLI
 
     <ExportAPI("/LefSe.Matrix")>
     <Description("Processing the relative aboundance matrix to the input format file as it describ: http://huttenhower.sph.harvard.edu/galaxy/root?tool_id=lefse_upload")>
-    <Usage("/LefSe.Matrix /in <Species_abundance.csv> /ncbi_taxonomy <NCBI_taxonomy> [/std_rank /out <out.tsv>]")>
+    <Usage("/LefSe.Matrix /in <Species_abundance.csv> /ncbi_taxonomy <NCBI_taxonomy> [/all_rank /out <out.tsv>]")>
     Public Function LefSeMatrix(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim ncbi_taxonomy$ = args <= "/ncbi_taxonomy"
@@ -65,7 +65,7 @@ Module CLI
         Dim taxonomy As New NcbiTaxonomyTree(ncbi_taxonomy)
         Dim taxid = names.BuildTaxiIDFinder(ncbi_taxonomy & "/names.dmp")
         Dim aboundance = DataSet.LoadDataSet([in]).ToArray
-        Dim std As Boolean = args.IsTrue("/std_rank")
+        Dim std As Boolean = Not args.IsTrue("/all_rank")
 
         For Each sp As DataSet In aboundance
             Dim name$ = sp.ID
