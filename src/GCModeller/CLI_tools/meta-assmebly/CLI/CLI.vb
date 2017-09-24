@@ -37,7 +37,7 @@ Module CLI
     <Usage("/UPGMA.Tree /in <in.csv> [/out <>]")>
     Public Function UPGMATree(args As CommandLine) As Integer
         Dim data As IEnumerable(Of DataSet) = DataSet.LoadDataSet(args <= "/in")
-        Dim tree As taxa = data.BuildTree
+        Dim tree As Taxa = data.BuildTree
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".txt")
 
         With tree.ToString
