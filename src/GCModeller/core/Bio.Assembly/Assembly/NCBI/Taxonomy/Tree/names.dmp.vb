@@ -47,9 +47,9 @@ Namespace Assembly.NCBI.Taxonomy
 
                 Yield New names With {
                     .tax_id = CInt(tokens(Scan0)),
-                    .name_txt = tokens(1),
-                    .unique_name = tokens(2),
-                    .name_class = tokens(3)
+                    .name_txt = tokens(2),
+                    .unique_name = tokens(4),
+                    .name_class = tokens(6)
                 }
             Next
         End Function

@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.Metagenome.UPGMATree
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
@@ -62,23 +63,25 @@ Module CLI
         Dim in$ = args <= "/in"
         Dim ncbi_taxonomy$ = args <= "/ncbi_taxonomy"
         Dim out As String = (args <= "/out") Or ([in].TrimSuffix & "_" & ncbi_taxonomy.BaseName & ".tsv").AsDefault
-        Dim taxonomy As New NcbiTaxonomyTree(ncbi_taxonomy)
         Dim taxid = names.BuildTaxiIDFinder(ncbi_taxonomy & "/names.dmp")
+        Dim taxonomy As New NcbiTaxonomyTree(ncbi_taxonomy)
         Dim aboundance = DataSet.LoadDataSet([in]).ToArray
         Dim std As Boolean = Not args.IsTrue("/all_rank")
 
         For Each sp As DataSet In aboundance
-            Dim name$ = sp.ID
+            Dim name$ = sp.ID.Replace("_"c, " "c)
             Dim names = taxid(name)
 
             If Not names.IsNullOrEmpty Then
                 Dim tax_id% = names _
                     .Where(Function(x) x.name_class = "scientific name") _
-                    .FirstOrDefault _
+                    .DefaultFirst(New names) _
                    ?.tax_id
 
                 Dim tree = taxonomy.GetAscendantsWithRanksAndNames(taxid:=tax_id, only_std_ranks:=std)
-                sp.ID = TaxonomyNode.Taxonomy(tree, delimiter:="|")
+                If Not tree.IsNullOrEmpty Then
+                    sp.ID = TaxonomyNode.Taxonomy(tree, delimiter:="|")
+                End If
             End If
         Next
 
