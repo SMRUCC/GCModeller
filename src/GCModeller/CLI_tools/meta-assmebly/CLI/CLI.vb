@@ -29,16 +29,20 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.Metagenome.UPGMATree
 
 Module CLI
 
     <ExportAPI("/UPGMA.Tree")>
     <Usage("/UPGMA.Tree /in <in.csv> [/out <>]")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(DataSet)},
+              Description:="The input matrix in csv table format for build and visualize as a UPGMA Tree.")>
     Public Function UPGMATree(args As CommandLine) As Integer
         Dim data As IEnumerable(Of DataSet) = DataSet.LoadDataSet(args <= "/in")
         Dim tree As Taxa = data.BuildTree
-        Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".txt")
+        Dim out$ = (args <= "/out") Or ((args <= "/in").TrimSuffix & ".txt").AsDefault
 
         With tree.ToString
             Call .__INFO_ECHO
