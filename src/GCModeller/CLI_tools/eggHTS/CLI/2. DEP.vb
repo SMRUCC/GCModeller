@@ -606,9 +606,9 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/DEP.logFC.hist",
-               Info:="Using for plots the FC histogram when the experiment have no biological replicates.",
-               Usage:="/DEP.logFC.hist /in <log2test.csv> [/step <0.5> /tag <logFC> /legend.title <Frequency(logFC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1600,1200> /out <out.png>]")>
+    <ExportAPI("/DEP.logFC.hist")>
+    <Description("Using for plots the FC histogram when the experiment have no biological replicates.")>
+    <Usage("/DEP.logFC.hist /in <log2test.csv> [/step <0.5> /tag <logFC> /legend.title <Frequency(logFC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1600,1200> /out <out.png>]")>
     <Argument("/tag", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is ""logFC"".")>
@@ -625,7 +625,7 @@ Partial Module CLI
 
         Return data _
             .logFCHistogram(tag,
-                            size:=args.GetValue("/size", New Size(1600, 1200)),
+                            size:=(args <= "/size") Or "1600,1200".AsDefault,
                             [step]:=[step],
                             xAxis:=xAxis,
                             serialTitle:=lTitle,

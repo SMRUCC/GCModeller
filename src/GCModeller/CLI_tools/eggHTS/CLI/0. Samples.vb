@@ -317,7 +317,7 @@ Partial Module CLI
         Dim [in] As String = args <= "/in"
         Dim pi$ = args.GetValue("/field.pi", "calc. pI")
         Dim mw$ = args.GetValue("/field.mw", "MW [kDa]")
-        Dim size As Size = args.GetValue("/size", New Size(1600, 1200))
+        Dim size$ = (args <= "/size") Or "1600,1200".AsDefault
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".pI_MW.png")
         Dim color As String = args.GetValue("/color", "black")
         Dim ptSize! = args.GetValue("/pt.Size", 8.0!)

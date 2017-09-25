@@ -1,6 +1,7 @@
 ﻿Imports System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Graph
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
@@ -9,57 +10,66 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 ''' </summary>
 Public Module UPGMATree
 
-    Public Class taxa
-
-        Public id%
-        Public data As taxa()
-        Public label$
+    Public Class Value
         Public size%
         Public distance#
+    End Class
 
-        Sub New(id%, data As taxa(), size%, distance#)
-            Me.id = id
-            Me.data = data
-            Me.size = size
-            Me.distance = distance
+    Public Class Taxa : Inherits Tree(Of Value)
+
+        Public ReadOnly Property Size As Double
+            Get
+                Return Data.size
+            End Get
+        End Property
+
+        Sub New(id%, data As Taxa(), size%, distance#)
+            Me.ID = id
+            Me.Childs = data.Select(Function(x) CType(x, Tree(Of Value))).AsList
+            Me.Data = New Value With {
+                .size = size,
+                .distance = distance
+            }
         End Sub
 
         Sub New(id%, data$, size%, distance#)
             Me.id = id
             Me.label = data
-            Me.size = size
-            Me.distance = distance
+            Me.Data = New Value With {
+                .size = size,
+                .distance = distance
+            }
         End Sub
 
         Public Overrides Function ToString() As String
-            If data.IsNullOrEmpty Then
-                Return label
+            If Childs.IsNullOrEmpty Then
+                Return Label
             Else
-                With data
-                    If .Length = 1 Then
+                With Childs
+                    If .Count = 1 Then
                         Return .First.ToString
                     Else
-                        Return $"({ .First.ToString}, { .Last.ToString}: {size.ToString("F2")})"
+                        Return $"({ .First.ToString}, { .Last.ToString}: {Data.size.ToString("F2")})"
                     End If
                 End With
             End If
         End Function
     End Class
 
-    Function form_taxas(species As taxa()) As Dictionary(Of Integer, taxa)
-        Dim taxas As New Dictionary(Of Integer, taxa)
+    Private Function form_taxas(species As Taxa()) As Dictionary(Of Integer, Taxa)
+        Dim taxas As New Dictionary(Of Integer, Taxa)
         Dim ids = 1
 
         For Each item In species
-            Dim x As New taxa(ids, {item}, 1, 0)
-            taxas(x.id) = x
+            Dim x As New Taxa(ids, {item}, 1, 0)
+            taxas(x.ID) = x
             ids = ids + 1
         Next
 
         Return taxas
     End Function
 
-    Function find_min(dic%(), array As List(Of Double())) As (i%, j%, lowest#)
+    Private Function findMin(dic%(), array As List(Of Double())) As (i%, j%, lowest#)
         Dim lowest# = Integer.MaxValue
         Dim iMin = 0
         Dim jMin = 0
@@ -80,53 +90,41 @@ Public Module UPGMATree
         Return (iMin, jMin, lowest)
     End Function
 
-    Function combine(dic_taxas As Dictionary(Of Integer, taxa), matrix As List(Of Double())) As taxa
-        Dim n% = dic_taxas.Count
+    Private Function combine(dicTaxas As Dictionary(Of Integer, Taxa), matrix As List(Of Double())) As Taxa
+        Dim n% = dicTaxas.Count
 
-        Do While dic_taxas.Count <> 1
-            Dim x As (i%, j%, dij#) = find_min(dic_taxas.Keys.ToArray, matrix)
+        Do While dicTaxas.Count <> 1
+            Dim x As (i%, j%, dij#) = findMin(dicTaxas.Keys.ToArray, matrix)
             Dim i = x.i
             Dim j = x.j
             Dim dij = x.dij
-            Dim icluster = dic_taxas(i)
-            Dim jcluster = dic_taxas(j)
+            Dim icluster = dicTaxas(i)
+            Dim jcluster = dicTaxas(j)
 
-            Dim u As New taxa(dic_taxas.Keys.Max + 1, {icluster, jcluster}, (icluster.size + jcluster.size), (dij))
-            dic_taxas.Remove(i)
-            dic_taxas.Remove(j)
+            Dim u As New Taxa(dicTaxas.Keys.Max + 1, {icluster, jcluster}, (icluster.Size + jcluster.Size), (dij))
+            dicTaxas.Remove(i)
+            dicTaxas.Remove(j)
 
-            matrix.Add(New Vector(u.id - 1))
+            matrix.Add(New Vector(u.ID - 1))
 
-            For Each l In dic_taxas.Keys
+            For Each l In dicTaxas.Keys
                 Dim dil = matrix(Max(i, l) - 1)(Min(i, l) - 1)
                 Dim djl = matrix(Max(j, l) - 1)(Min(j, l) - 1)
-                Dim dul = (dil * icluster.size + djl * jcluster.size) / (icluster.size + jcluster.size)
-                matrix(u.id - 1)(l - 1) = dul
+                Dim dul = (dil * icluster.Size + djl * jcluster.Size) / (icluster.Size + jcluster.Size)
+                matrix(u.ID - 1)(l - 1) = dul
             Next
 
-            dic_taxas(u.id) = u
+            dicTaxas(u.ID) = u
         Loop
 
         ' 循环的退出条件为字典之中只有一个值
-        Return dic_taxas.Values.First
-    End Function
-
-    Function taxaPrint(tax As taxa, distance#)
-        If tax.size > 1 Then
-            println("(")
-            taxaPrint(tax.data(0), tax.distance)
-            println(",")
-            taxaPrint(tax.data(1), tax.distance)
-            println("," & tax.distance & ")")
-        Else
-            ' println(tax.data)
-        End If
+        Return dicTaxas.Values.First
     End Function
 
     <Extension>
-    Public Function BuildTree(data As IEnumerable(Of DataSet)) As taxa
+    Public Function BuildTree(data As IEnumerable(Of DataSet)) As Taxa
         Dim array = data.ToArray
-        Dim inputs = array.Select(Function(x) New taxa(0, x.ID, 0, 0)).ToArray
+        Dim inputs = array.Select(Function(x) New Taxa(0, x.ID, 0, 0)).ToArray
         Dim matrix = array.Matrix
         Dim table = form_taxas(inputs)
         Dim tree = combine(table, matrix.AsList)
