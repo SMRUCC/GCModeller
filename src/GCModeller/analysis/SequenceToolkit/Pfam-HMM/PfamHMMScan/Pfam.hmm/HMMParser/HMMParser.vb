@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 ''' <summary>
 ''' HMMER3/f [3.1b2 | February 2015]
 ''' </summary>
-Public Class HMMParser : Inherits ClassObject
+Public Class HMMParser : Inherits BaseClass
 
     ''' <summary>
     ''' Model name; &lt;s> is a single word containing no spaces or tabs. The name is normally picked up
