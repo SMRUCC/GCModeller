@@ -38,7 +38,7 @@ Namespace ContextModel
     ''' 描述位点在基因组上面的位置，可以使用<see cref="ToString"/>函数获取得到位置描述
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    Public Class Relationship(Of T As IGeneBrief) : Inherits ClassObject
+    Public Class Relationship(Of T As IGeneBrief) : Inherits BaseClass
         Implements IReadOnlyId
 
         ''' <summary>

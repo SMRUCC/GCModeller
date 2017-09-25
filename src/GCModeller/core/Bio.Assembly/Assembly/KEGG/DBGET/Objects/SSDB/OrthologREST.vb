@@ -41,7 +41,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
     ''' 在直系同源的数据被下载下来之后，这个对象会被直接保存为Xml文档
     ''' </remarks>
     <XmlType("Ortholog")>
-    Public Class OrthologREST : Inherits ClassObject
+    Public Class OrthologREST : Inherits BaseClass
 
         Public Const URL As String = "http://www.kegg.jp/ssdb-bin/ssdb_best?org_gene={0}:{1}"
 

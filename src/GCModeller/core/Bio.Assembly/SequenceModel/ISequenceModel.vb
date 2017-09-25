@@ -36,7 +36,7 @@ Namespace SequenceModel
     ''' The biological sequence molecular model.(蛋白质序列，核酸序列都可以使用本对象来表示)
     ''' </summary>
     ''' <remarks></remarks>
-    Public MustInherit Class ISequenceModel : Inherits ClassObject
+    Public MustInherit Class ISequenceModel : Inherits BaseClass
         Implements IPolymerSequenceModel
 
 #Region "Object properties"
