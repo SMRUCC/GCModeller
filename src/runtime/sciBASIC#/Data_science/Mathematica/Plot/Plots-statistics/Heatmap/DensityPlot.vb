@@ -8,6 +8,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Heatmap
@@ -33,11 +34,20 @@ Namespace Heatmap
                              Optional schema$ = "Jet",
                              Optional levels% = 20,
                              Optional steps$ = Nothing,
-                             Optional ptSize! = 5) As GraphicsData
+                             Optional ptSize! = 5,
+                             Optional legendWidth% = 150) As GraphicsData
 
-            Dim data = points.VectorShadows
-            Dim xrange As DoubleRange = data.X ' As IEnumerable(Of Single)
-            Dim yrange As DoubleRange = data.Y ' As IEnumerable(Of Single)
+            Dim data = points _
+                .Where(Function(pt)
+                           Return Not New Double() {
+                               pt.X, pt.Y
+                           }.Any(Function(x)
+                                     Return x.IsNaNImaginary
+                                 End Function)
+                       End Function) _
+                .VectorShadows
+            Dim xrange As DoubleRange = DirectCast(data.X, VectorShadows(Of Single)) ' As IEnumerable(Of Single)
+            Dim yrange As DoubleRange = DirectCast(data.Y, VectorShadows(Of Single)) ' As IEnumerable(Of Single)
             Dim pointData = DirectCast(data, VectorShadows(Of PointF))
             Dim colors$() = Designer _
                 .GetColors(schema, levels) _
@@ -49,15 +59,42 @@ Namespace Heatmap
                     pointData,
                     schema:=colors,
                     r:=ptSize)
+            Dim scatterPadding As Padding = padding
+
+            scatterPadding.Right += legendWidth
 
             Using g As IGraphics = Scatter.Plot(
                 c:={density},
-                size:=size, padding:=padding, bg:=bg,
+                size:=size, padding:=scatterPadding, bg:=bg,
                 drawLine:=False,
                 showLegend:=False,
                 fillPie:=True).CreateGraphics
 
                 ' 在这里还需要绘制颜色谱的legend
+                ' 计算出legend的layout信息
+                ' 竖直样式的legend：右边居中，宽度为legendwidth，高度则是plotregion的高度的2/3
+                Dim plotRegion As New GraphicsRegion With {
+                    .Size = g.Size,
+                    .Padding = scatterPadding
+                }
+                Dim scatterRegion As Rectangle = plotRegion.PlotRegion
+                Dim legendHeight! = scatterRegion.Height * 2 / 3
+                Dim legendLayout As New Rectangle With {
+                    .Size = New Size With {
+                        .Width = legendWidth,
+                        .Height = legendHeight
+                    },
+                    .Location = New Point With {
+                        .X = scatterRegion.Right,
+                        .Y = (scatterRegion.Height - legendHeight) / 2 + scatterPadding.Top
+                    }
+                }
+                Dim designer As SolidBrush() = colors _
+                    .Select(AddressOf TranslateColor) _
+                    .Select(Function(c) New SolidBrush(c)) _
+                    .ToArray
+
+                '  Call Legends.ColorMapLegend(g, legendLayout, designer,)
 
                 If TypeOf g Is Graphics2D Then
                     Return New ImageData(DirectCast(g, Graphics2D).ImageResource, g.Size)
@@ -98,10 +135,12 @@ Namespace Heatmap
                 .SeqIterator _
                 .Select(Function(pt)
                             Return New PointData With {
-                                .color = schema(density(pt)),
+                                .value = density(pt),
+                                .color = schema(CInt(.value)),
                                 .pt = pt
                             }
                         End Function) _
+                .OrderBy(Function(pt) pt.value) _
                 .ToArray
 
             Return New SerialData With {
