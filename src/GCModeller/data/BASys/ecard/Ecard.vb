@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Public Class Ecard : Inherits ClassObject
+Public Class Ecard : Inherits BaseClass
 
     Public Property Name As NamedValue(Of String)
     Public Property Values As EcardValue()

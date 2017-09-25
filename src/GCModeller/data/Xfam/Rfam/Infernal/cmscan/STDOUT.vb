@@ -27,11 +27,8 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Infernal.cmscan
@@ -40,7 +37,7 @@ Namespace Infernal.cmscan
         Public Property QueryHits As Query
     End Class
 
-    Public Class Query : Inherits ClassObject
+    Public Class Query : Inherits BaseClass
         Public Property title As String
         Public Property Length As Long
         Public Property Description As String

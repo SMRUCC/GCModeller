@@ -35,7 +35,7 @@ Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Namespace Motif
 
-    Public Class MotifPWM : Inherits ClassObject
+    Public Class MotifPWM : Inherits BaseClass
         Implements IIterator(Of ResidueSite)
 
         Public Property PWM As ResidueSite()

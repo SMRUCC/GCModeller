@@ -33,7 +33,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     ''' <summary>
     ''' dbget-bin/www_bget
     ''' </summary>
-    Public MustInherit Class bGetObject : Inherits ClassObject
+    Public MustInherit Class bGetObject : Inherits BaseClass
 
         Public MustOverride ReadOnly Property Code As String
 

@@ -74,7 +74,7 @@ Namespace gast
     ''' Return classes Or full text Of a taxonoDim Object,
     ''' Calculate consensus Of an array Of taxonomic objects.
     ''' </summary>
-    Public Class Taxonomy : Inherits ClassObject
+    Public Class Taxonomy : Inherits BaseClass
 
         Friend Shared ReadOnly ranks As String() = {"domain", "phylum", "class", "orderx", "family", "genus", "species", "strain"}
 

@@ -36,7 +36,7 @@ Namespace Assembly.NCBI.Entrez.ComponentModels
     ''' 用于表示获取查询结果的一个入口点
     ''' </summary>
     ''' <remarks></remarks>
-    Public MustInherit Class I_QueryEntry : Inherits ClassObject
+    Public MustInherit Class I_QueryEntry : Inherits BaseClass
         Implements IKeyValuePairObject(Of String, String)
 
         Public Property Title As String Implements IKeyValuePairObject(Of String, String).Value

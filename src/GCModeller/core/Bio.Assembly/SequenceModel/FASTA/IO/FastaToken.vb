@@ -163,7 +163,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <summary>
         ''' NCBI style header delimiter
         ''' </summary>
-        Public Const DefaultHeaderDelimiter As String = "|"
+        Public Const DefaultHeaderDelimiter$ = "|"
 
         Sub New()
         End Sub

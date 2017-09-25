@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 ''' <summary>
 ''' [index] BASys Annotation Summary
 ''' </summary>
-Public Class Summary : Inherits ClassObject
+Public Class Summary : Inherits BaseClass
 
     ''' <summary>
     ''' Chromosome Id
