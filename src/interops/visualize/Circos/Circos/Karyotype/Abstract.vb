@@ -27,21 +27,18 @@
 #End Region
 
 Imports System.Text
-Imports SMRUCC.genomics.Visualize.Circos.Configurations
-Imports SMRUCC.genomics.Visualize.Circos.TrackDatas
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Visualize.Circos.Configurations
 
 Namespace Karyotype
 
     ''' <summary>
     ''' The annotated genome skeleton information.
     ''' </summary>
-    Public MustInherit Class SkeletonInfo : Inherits ClassObject
+    Public MustInherit Class SkeletonInfo : Inherits BaseClass
         Implements ICircosDocument
 
         ''' <summary>

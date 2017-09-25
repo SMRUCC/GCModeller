@@ -51,7 +51,7 @@ Namespace SequenceModel
     ''' <summary>
     ''' This class can be using for build a <see cref="FASTA.FastaToken"/> object.
     ''' </summary>
-    Public MustInherit Class ISequenceBuilder : Inherits ClassObject
+    Public MustInherit Class ISequenceBuilder : Inherits BaseClass
 
         ''' <summary>
         ''' <see cref="GetSequenceData()"/> length.(序列的长度)

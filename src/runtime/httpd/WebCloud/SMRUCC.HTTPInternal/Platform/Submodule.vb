@@ -33,7 +33,7 @@ Namespace Platform
     ''' <summary>
     ''' Web App engine platform components.
     ''' </summary>
-    Public MustInherit Class Submodule : Inherits ClassObject
+    Public MustInherit Class Submodule : Inherits BaseClass
 
         ''' <summary>
         ''' Platform engine parent host

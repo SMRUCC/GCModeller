@@ -37,7 +37,7 @@ Namespace DeltaSimilarity1998.CAI.XML
     ''' </summary>
     ''' 
     <XmlRoot("codon-adaptation-index", [Namespace]:="http://gcmodeller.org/analysis/SequenceToolkit/DNA_Comparative/codon-adaptation-index.XML")>
-    Public Class CodonAdaptationIndex : Inherits ClassObject
+    Public Class CodonAdaptationIndex : Inherits BaseClass
 
         <XmlElement> Public Property Name As String
         <XmlElement> Public Property CAI As Double

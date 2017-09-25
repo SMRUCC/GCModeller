@@ -33,7 +33,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel
 
-    Public Class CatalogProfiling : Inherits ClassObject
+    Public Class CatalogProfiling : Inherits BaseClass
         Implements IGrouping(Of String, String)
         Implements IList(Of String)
         Implements INamedValue
