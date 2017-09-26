@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::682701a70518f1085f7defbab5bb34df, ..\CLI_tools\eggHTS\CLI\1. Annotations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -52,6 +52,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.GoStat
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
@@ -362,7 +363,7 @@ Partial Module CLI
         Dim uniprot As String = args("/uniprot")
         Dim out = args.GetValue("/out", [in].TrimSuffix & ".proteins.annotation.csv")
         Dim table As Perseus() = [in].LoadCsv(Of Perseus)
-        Dim uniprotTable = UniprotXML.LoadDictionary(uniprot)
+        Dim uniprotTable = UniProtXML.LoadDictionary(uniprot)
         Dim scientifcName As String = args("/scientifcName")
         Dim output = table.GenerateAnnotations(uniprotTable, "uniprot", scientifcName).ToArray
         Dim annotations = output.Select(Function(prot) prot.Item1).ToArray
@@ -403,13 +404,14 @@ Partial Module CLI
         Dim goDB$ = (args <= "/go") Or (GCModeller.FileSystem.GO & "/go.obo").AsDefault
         Dim in$ = args <= "/in"
         Dim size$ = (args <= "/size") Or "2000,2200".AsDefault
-        Dim out As String = args.GetValue("/out", [in].ParentPath & "/GO/")
+        Dim out$ = args.GetValue("/out", [in].ParentPath & "/GO/")
         Dim selects$ = args.GetValue("/selects", "Q3")
         Dim tick! = args.GetValue("/tick", -1.0!)
         Dim level% = args.GetValue("/level", 2)
 
         ' 绘制GO图
         Dim goTerms As Dictionary(Of String, Term) = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
+        Dim DAG As New Graph(goTerms.Values)
         Dim sample = [in].LoadSample
         Dim selector = Function(x As EntityObject)
                            Return x("GO") _
@@ -417,8 +419,9 @@ Partial Module CLI
                                .Select(AddressOf Trim) _
                                .ToArray
                        End Function
-        Dim data As Dictionary(Of String, NamedValue(Of Integer)()) =
-            sample.CountStat(selector, goTerms)
+        Dim data = sample _
+            .CountStat(selector, goTerms) _
+            .LevelGOTerms(level, DAG)
 
         Call data.SaveCountValue(out & "/plot.csv")
         Call CatalogPlots.Plot(
@@ -499,7 +502,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{suffix}.fasta")
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
-            Dim source As IEnumerable(Of Uniprot.XML.entry) = UniprotXML.EnumerateEntries(path:=[in])
+            Dim source As IEnumerable(Of Uniprot.XML.entry) = UniProtXML.EnumerateEntries(path:=[in])
 
             If Not String.IsNullOrEmpty(sp) Then
                 If exclude Then
@@ -559,7 +562,7 @@ Partial Module CLI
             .LoadCsv(Of BBHIndex) _
             .Where(Function(bh) bh.Matched) _
             .ToDictionary(Function(bh) bh.QueryName.Split("|"c).First)
-        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniprotXML.LoadDictionary(uniprot)
+        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniProtXML.LoadDictionary(uniprot)
 
         For Each protein As UniprotAnnotations In annotationData
 

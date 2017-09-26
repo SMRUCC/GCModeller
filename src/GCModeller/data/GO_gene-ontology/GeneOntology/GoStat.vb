@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.foundation.OBO_Foundry
 
@@ -46,6 +47,11 @@ Public Module GoStat
         Enums(Of Ontologies) _
         .ToDictionary(Function(o) o,
                       Function([namespace]) [namespace].Description)
+
+    <Extension>
+    Public Function LevelGOTerms(stat As Dictionary(Of String, NamedValue(Of Integer)()), level%, graph As Graph) As Dictionary(Of String, NamedValue(Of Integer)())
+
+    End Function
 
     ''' <summary>
     ''' 计数统计

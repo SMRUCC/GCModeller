@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
@@ -48,9 +49,16 @@ Namespace DAG
         ''' </summary>
         ''' <param name="path$">File path of the GO database: ``go.obo``</param>
         Sub New(path$)
-            Dim obo As GO_OBO = GO_OBO.LoadDocument(path$)
-            __DAG = obo.Terms.BuildTree
-            _file = path$
+            Call Me.New(GO_OBO.LoadDocument(path$).Terms, trace:=path)
+        End Sub
+
+        ''' <summary>
+        ''' Or build DAG graph tree from a specific GO_term collection <paramref name="terms"/>
+        ''' </summary>
+        ''' <param name="terms"></param>
+        Sub New(terms As IEnumerable(Of Term), <CallerMemberName> Optional trace$ = Nothing)
+            __DAG = terms.BuildTree
+            _file = trace
         End Sub
 
         Public Overrides Function ToString() As String
