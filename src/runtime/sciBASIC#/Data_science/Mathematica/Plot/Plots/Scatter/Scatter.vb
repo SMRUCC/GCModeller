@@ -100,8 +100,11 @@ Public Module Scatter
             .CreateAxisTicks
         Dim YTicks = array _
             .Select(Function(s)
-                        Return s.pts.Select(Function(pt) CDbl(pt.pt.Y))
+                        Return s.pts.Select(Function(pt)
+                                                Return {pt.pt.Y - pt.errMinus, pt.pt.Y + pt.errPlus}
+                                            End Function)
                     End Function) _
+            .IteratesALL _
             .IteratesALL _
             .Range _
             .CreateAxisTicks
@@ -133,6 +136,16 @@ Public Module Scatter
                     Call g.DrawAxis(rect, scaler, showGrid, xlabel:=Xlabel, ylabel:=Ylabel)
                 End If
 
+                Dim canvas = g
+                Dim drawErrorLine = Sub(err#, sign%, pt As PointF, value#)
+                                        Dim p0 As New PointF With {
+                                            .X = pt.X,
+                                            .Y = Y(value + (sign * err))
+                                        }
+
+                                        Call canvas.DrawLine(Pens.Black, pt, p0)
+                                    End Sub
+
                 For Each line As SerialData In array
                     Dim pts = line.pts.SlideWindows(2)
                     Dim pen As New Pen(color:=line.color, width:=line.width) With {
@@ -151,7 +164,7 @@ Public Module Scatter
                                         End Function
                     Dim pt1, pt2 As PointF
 
-                    For Each pt In pts
+                    For Each pt As SlideWindow(Of PointData) In pts
                         Dim a As PointData = pt.First
                         Dim b As PointData = pt.Last
 
@@ -179,6 +192,22 @@ Public Module Scatter
                             Call g.FillPie(getPointBrush(a), pt1.X - r, pt1.Y - r, d, d, 0, 360)
                             Call g.FillPie(getPointBrush(b), pt2.X - r, pt2.Y - r, d, d, 0, 360)
                         End If
+
+                        ' 绘制误差线
+                        ' 首先计算出误差的长度，然后可pt1,pt2的Y相加减即可得到新的位置
+                        ' 最后划线即可
+                        If a.errPlus > 0 Then
+                            Call drawErrorLine(a.errPlus, 1, pt1, a.pt.Y)
+                        End If
+                        If a.errMinus > 0 Then
+                            Call drawErrorLine(a.errMinus, -1, pt1, a.pt.Y)
+                        End If
+                        If b.errPlus > 0 Then
+                            Call drawErrorLine(b.errPlus, 1, pt2, b.pt.Y)
+                        End If
+                        If b.errMinus > 0 Then
+                            Call drawErrorLine(b.errMinus, -1, pt2, b.pt.Y)
+                        End If
                     Next
 
                     If Not line.DataAnnotations.IsNullOrEmpty Then
@@ -190,31 +219,33 @@ Public Module Scatter
                     End If
 
                     If showLegend Then
-                        Dim legends As Legend() = LinqAPI.Exec(Of Legend) <=
+                        Dim legends = LinqAPI.Exec(Of Legend) _
  _
-                            From s As SerialData
-                            In array
-                            Let sColor As String = s.color.RGBExpression
-                            Let legendFont = CSSFont.GetFontStyle(
-                                FontFace.SegoeUI,
-                                FontStyle.Regular,
-                                legendFontSize)
-                            Select New Legend With {
-                                .color = sColor,
-                                .fontstyle = legendFont,
-                                .style = LegendStyles.Circle,
-                                .title = s.title
-                            }
+                        () <= From s As SerialData
+                              In array
+                              Let sColor As String = s.color.RGBExpression
+                              Let legendFont = CSSFont.GetFontStyle(
+                                  FontFace.SegoeUI,
+                                  FontStyle.Regular,
+                                  legendFontSize)
+                              Select New Legend With {
+                                  .color = sColor,
+                                  .fontstyle = legendFont,
+                                  .style = LegendStyles.Circle,
+                                  .title = s.title
+                                  }
 
                         If legendPosition.IsEmpty Then
-                            legendPosition = New Point(
-                                CInt(gSize.Width * 0.7),
-                                margin.Bottom)
+                            legendPosition = New Point With {
+                                .X = CInt(gSize.Width * 0.7),
+                                .Y = margin.Bottom
+                            }
                         End If
 
-                        Call g.DrawLegends(legendPosition, legends, legendSize,,
-                                           legendBorder,
-                                           legendRegionBorder)
+                        Call g.DrawLegends(
+                            legendPosition, legends, legendSize,,
+                            legendBorder,
+                            legendRegionBorder)
                     End If
                 Next
             End Sub
