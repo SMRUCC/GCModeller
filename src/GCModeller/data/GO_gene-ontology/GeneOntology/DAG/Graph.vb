@@ -116,6 +116,8 @@ Namespace DAG
 
             Dim Route As List(Of TermNode)
 
+            ReadOnly Tree As TermNode()
+
             Public ReadOnly Property Top As TermNode
                 Get
                     Return Route.Last
@@ -138,9 +140,23 @@ Namespace DAG
                 End Get
             End Property
 
+            Private Sub New(tree As TermNode())
+                Me.Tree = tree
+            End Sub
+
+            Public Function Level(lv%) As Term
+                Return Tree.ElementAtOrDefault(lv)?.GO_term
+            End Function
+
             Public Function Strip() As InheritsChain
-                Return New InheritsChain With {
-                    .Route = Route.Distinct.AsList
+                Dim route = Me.Route.Distinct.AsList
+                Dim tree = route _
+                    .AsEnumerable _
+                    .Reverse _
+                    .ToArray
+
+                Return New InheritsChain(tree) With {
+                    .Route = route
                 }
             End Function
 
@@ -149,12 +165,8 @@ Namespace DAG
             End Function
         End Structure
 
-        'Private Function visits(id$, namespace$) As NamedValue(Of Term)()
+        'Public Function Infer(a$, b$) As Relationship
 
         'End Function
-
-        Public Function Infer(a$, b$) As Relationship
-
-        End Function
     End Class
 End Namespace
