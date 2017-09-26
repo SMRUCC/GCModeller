@@ -295,11 +295,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <remarks></remarks>
         '''
         <ExportAPI("BBH")>
-        Public Function GetBBHTop(qvs As BestHit(),
-                                  svq As BestHit(),
-                                  Optional identities As Double = -1,
-                                  Optional coverage As Double = -1) As BiDirectionalBesthit()
-
+        Public Function GetBBHTop(qvs As BestHit(), svq As BestHit(), Optional identities# = -1, Optional coverage# = -1) As BiDirectionalBesthit()
             Dim qHash As Dictionary(Of String, BestHit) = qvs.__bhHash(identities, coverage)
             Dim shash As Dictionary(Of String, BestHit) = svq.__bhHash(identities, coverage)
             Dim result As New List(Of BiDirectionalBesthit)
