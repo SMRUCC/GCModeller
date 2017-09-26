@@ -133,7 +133,7 @@ Partial Module CLI
                                           }
                                       End Function) _
                               .ToArray) _
-            .ProfilesPlot(size:=New Size(2400, 1900),
+            .ProfilesPlot(size:="2400,1900",
                           title:="Network Connection Degrees",
                           axisTitle:="Node Degrees",
                           tick:=tick) _

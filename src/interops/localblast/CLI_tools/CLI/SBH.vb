@@ -163,9 +163,9 @@ Partial Module CLI
         Return Csv.Save(out & ".Hits.Csv", Encoding:=System.Text.Encoding.ASCII).CLICode
     End Function
 
-    <ExportAPI("/SBH.Export.Large",
-               Info:="Using this command for export the sbh result of your blastp raw data.",
-               Usage:="/SBH.Export.Large /in <blastp_out.txt> [/trim-kegg /out <sbh.csv> /identities 0.15 /coverage 0.5]")>
+    <ExportAPI("/SBH.Export.Large")>
+    <Description("Using this command for export the sbh result of your blastp raw data.")>
+    <Usage("/SBH.Export.Large /in <blastp_out.txt> [/trim-kegg /out <sbh.csv> /s.pattern <default=-> /q.pattern <default=-> /identities 0.15 /coverage 0.5]")>
     <Argument("/trim-KEGG", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
@@ -181,11 +181,13 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".sbh.Csv")
         Dim idetities As Double = args.GetValue("/identities", 0.15)
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
+        Dim sPattern$ = args.GetValue("/s.pattern", "-")
+        Dim qPattern$ = args.GetValue("/q.pattern", "-")
 
         Using IO As New WriteStream(Of BestHit)(out)
             Dim handle As Action(Of Query) = IO.ToArray(Of Query)(
                 Function(query) v228.SBHLines(query, coverage:=coverage, identities:=idetities))
-            Call Transform(inFile, 1024 * 1024 * 256, handle)
+            Call Transform(inFile, 1024 * 1024 * 256, handle, grep:=(qPattern, sPattern))
         End Using
 
         Return 0

@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.foundation.OBO_Foundry
 
@@ -46,6 +47,52 @@ Public Module GoStat
         Enums(Of Ontologies) _
         .ToDictionary(Function(o) o,
                       Function([namespace]) [namespace].Description)
+
+    ''' <summary>
+    ''' Get specific level go Term and sum the result
+    ''' </summary>
+    ''' <param name="stat"></param>
+    ''' <param name="level%"></param>
+    ''' <param name="graph"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function LevelGOTerms(stat As Dictionary(Of String, NamedValue(Of Integer)()), level%, graph As Graph) As Dictionary(Of String, NamedValue(Of Integer)())
+        Dim levelStat As New Dictionary(Of String, NamedValue(Of Integer)())
+
+        For Each [namespace] In stat
+            Dim ontology$ = [namespace].Key
+            Dim terms = [namespace].Value
+            Dim trees = terms _
+                .Select(Function(t)
+                            Dim chains = graph _
+                                .Family(t.Name) _
+                                .Select(Function(family) family.Strip) _
+                                .Where(Function(family) family.Route.Count >= level) _
+                                .ToArray
+                            Return (family:=chains, stat:=t)
+                        End Function) _
+                .Where(Function(t) t.family.Length > 0) _
+                .ToArray
+
+            ' 得到指定的等级的结果，然后分组计数
+            Dim levelTerms = trees _
+                .Select(Function(t) t.family.Select(Function(chain) (terms:=chain.Level(lv:=level), n:=t.stat.Value))) _
+                .IteratesALL _
+                .GroupBy(Function(term) term.terms.id) _
+                .Select(Function(term)
+                            Return New NamedValue(Of Integer) With {
+                                .Name = term.Key,
+                                .Description = term.First.terms.name,
+                                .Value = Aggregate t In term Into Sum(t.n)
+                            }
+                        End Function) _
+                .ToArray
+
+            levelStat.Add(ontology, levelTerms)
+        Next
+
+        Return levelStat
+    End Function
 
     ''' <summary>
     ''' 计数统计

@@ -62,7 +62,7 @@ Partial Module CLI
         Dim cut As Double = args.GetValue("/cut", 0.65)
         Dim out As String = args.GetValue("/out", hit.TrimSuffix & $"_cut={cut}.csv")
         Dim hits = hit.LoadCsv(Of BBHIndex)
-        Dim Grep As TextGrepMethod = TextGrepScriptEngine.Compile("tokens ' ' first").Method
+        Dim Grep As TextGrepMethod = TextGrepScriptEngine.Compile("tokens ' ' first").PipelinePointer
         For Each x As BBHIndex In hits
             x.QueryName = Grep(x.QueryName)
             x.HitName = Grep(x.HitName)
