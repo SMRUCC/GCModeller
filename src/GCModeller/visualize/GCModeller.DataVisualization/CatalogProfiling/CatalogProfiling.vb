@@ -249,7 +249,7 @@ Public Module CatalogProfiling
                     New Point(barRect.Left, y),
                     New Size(barWidth - gap, maxLenSubKeySize.Height))
 
-                valueLabel = cata.Value.FormatNumeric(2)
+                valueLabel = cata.Value.ToString("F2")
                 valueSize = g.MeasureString(valueLabel, valueFont)
                 valueLeft = barRectPlot.Right - valueSize.Width
 
