@@ -395,11 +395,13 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/proteins.Go.plot")>
     <Description("ProteinGroups sample data go profiling plot from the uniprot annotation data.")>
-    <Usage("/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /tick <default=-1> /level <default=2> /selects Q3 /size <2000,2200> /out <out.DIR>]")>
+    <Usage("/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /label.right /tick <default=-1> /level <default=2> /selects Q3 /size <2000,2200> /out <out.DIR>]")>
     <Argument("/GO", True, CLITypes.File,
               Description:="The go database file path, if this argument is present in the CLI, then will using the GO.obo database file from GCModeller repository.")>
     <Argument("/level", True, CLITypes.Integer,
               Description:="The GO annotation level from the DAG, default is level 2.")>
+    <Argument("/label.right", True, CLITypes.Boolean,
+              Description:="Plot GO term their label will be alignment on right. default is alignment left if this aegument is not present.")>
     Public Function ProteinsGoPlot(args As CommandLine) As Integer
         Dim goDB$ = (args <= "/go") Or (GCModeller.FileSystem.GO & "/go.obo").AsDefault
         Dim in$ = args <= "/in"
@@ -408,6 +410,7 @@ Partial Module CLI
         Dim selects$ = args.GetValue("/selects", "Q3")
         Dim tick! = args.GetValue("/tick", -1.0!)
         Dim level% = args.GetValue("/level", 2)
+        Dim labelRight As Boolean = args.IsTrue("/label.right")
 
         ' 绘制GO图
         Dim goTerms As Dictionary(Of String, Term) = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
@@ -424,11 +427,12 @@ Partial Module CLI
             .LevelGOTerms(level, DAG)
 
         Call data.SaveCountValue(out & "/plot.csv")
-        Call CatalogPlots.Plot(
-            data, selects:=selects,
-            tick:=tick,
-            size:=size,
-            axisTitle:="Number Of Proteins").Save(out & "/plot.png")
+        Call CatalogPlots.Plot(data, selects:=selects,
+                               tick:=tick,
+                               size:=size,
+                               axisTitle:="Number Of Proteins",
+                               labelAlignmentRight:=labelRight) _
+            .Save(out & "/plot.png")
 
         Return 0
     End Function
