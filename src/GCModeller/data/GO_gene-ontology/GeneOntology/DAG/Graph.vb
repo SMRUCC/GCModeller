@@ -152,8 +152,14 @@ Namespace DAG
                 Me.Tree = tree
             End Sub
 
+            ''' <summary>
+            ''' 这个函数会自动将<paramref name="lv"/>等级减1转换为向量之中的顶点下表值
+            ''' </summary>
+            ''' <param name="lv%"></param>
+            ''' <returns></returns>
             Public Function Level(lv%) As Term
-                Return Tree.ElementAtOrDefault(lv)?.GO_term
+                ' lv 是从1开始的，所以需要在这里减去1才能够转换为数组的下标值
+                Return Tree.ElementAtOrDefault(lv - 1)?.GO_term
             End Function
 
             Public Function Strip() As InheritsChain
