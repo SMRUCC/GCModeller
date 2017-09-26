@@ -66,6 +66,7 @@ Public Module GoStat
                 .Select(Function(t)
                             Dim chains = graph _
                                 .Family(t.Name) _
+                                .Select(Function(family) family.Strip) _
                                 .Where(Function(family) family.Route.Count >= level) _
                                 .ToArray
                             Return (family:=chains, stat:=t)

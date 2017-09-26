@@ -406,11 +406,15 @@ Partial Module CLI
         Dim goDB$ = (args <= "/go") Or (GCModeller.FileSystem.GO & "/go.obo").AsDefault
         Dim in$ = args <= "/in"
         Dim size$ = (args <= "/size") Or "2000,2200".AsDefault
-        Dim out$ = args.GetValue("/out", [in].ParentPath & "/GO/")
         Dim selects$ = args.GetValue("/selects", "Q3")
         Dim tick! = args.GetValue("/tick", -1.0!)
         Dim level% = args.GetValue("/level", 2)
         Dim labelRight As Boolean = args.IsTrue("/label.right")
+        Dim out$ = args.GetValue("/out", [in].ParentPath & "/GO/")
+
+        cat("\n")
+        Call $"   ===> level={level}".__INFO_ECHO
+        cat("\n")
 
         ' 绘制GO图
         Dim goTerms As Dictionary(Of String, Term) = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
