@@ -287,15 +287,26 @@ Public Module CatalogProfiling
 
         titleFont = CSSFont.TryParse(CSSFont.Win7LargerBold)
         titleSize = g.MeasureString(title, titleFont)
+        left = barRect.Left + (barRect.Width - titleSize.Width) / 2
 
-        Call g.DrawString(axisTitle, titleFont, Brushes.Black, New PointF(barRect.Left + (barRect.Width - titleSize.Width) / 2, y))
+        Call g.DrawString(axisTitle, titleFont, Brushes.Black, New PointF(left, y))
     End Sub
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="max#"></param>
+    ''' <param name="tick!">
+    ''' 如果间隔参数是小于零的话，函数则会自动根据[0, <paramref name="max"/>]区间来生成tick，否则会直接使用<paramref name="tick"/>间隔叠加到<paramref name="max"/>产生tick序列
+    ''' </param>
+    ''' <returns></returns>
     Private Function GetTicks(max#, tick!) As Double()
         If tick <= 0 Then
             ' 自动生成
+            Call "Ticks created from auto axis ticking...".__INFO_ECHO
             Return AxisScalling.CreateAxisTicks({0, max})
         Else
+            Call "Ticks created from tick sequence...".__INFO_ECHO
             Return AxisScalling.GetAxisByTick(max, tick)
         End If
     End Function
