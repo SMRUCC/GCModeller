@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::682701a70518f1085f7defbab5bb34df, ..\CLI_tools\eggHTS\CLI\1. Annotations.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -52,6 +52,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.GoStat
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
@@ -362,7 +363,7 @@ Partial Module CLI
         Dim uniprot As String = args("/uniprot")
         Dim out = args.GetValue("/out", [in].TrimSuffix & ".proteins.annotation.csv")
         Dim table As Perseus() = [in].LoadCsv(Of Perseus)
-        Dim uniprotTable = UniprotXML.LoadDictionary(uniprot)
+        Dim uniprotTable = UniProtXML.LoadDictionary(uniprot)
         Dim scientifcName As String = args("/scientifcName")
         Dim output = table.GenerateAnnotations(uniprotTable, "uniprot", scientifcName).ToArray
         Dim annotations = output.Select(Function(prot) prot.Item1).ToArray
@@ -394,17 +395,32 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/proteins.Go.plot")>
     <Description("ProteinGroups sample data go profiling plot from the uniprot annotation data.")>
-    <Usage("/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /tick <default=-1> /selects Q3 /size <2000,2200> /out <out.DIR>]")>
+    <Usage("/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /label.right /tick <default=-1> /level <default=2> /selects Q3 /size <2000,2200> /out <out.DIR>]")>
+    <Argument("/GO", True, CLITypes.File,
+              Description:="The go database file path, if this argument is present in the CLI, then will using the GO.obo database file from GCModeller repository.")>
+    <Argument("/level", True, CLITypes.Integer,
+              Description:="The GO annotation level from the DAG, default is level 2.")>
+    <Argument("/label.right", True, CLITypes.Boolean,
+              Description:="Plot GO term their label will be alignment on right. default is alignment left if this aegument is not present.")>
     Public Function ProteinsGoPlot(args As CommandLine) As Integer
-        Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
-        Dim in$ = args("/in")
-        Dim size As Size = args.GetValue("/size", New Size(2000, 2200))
-        Dim out As String = args.GetValue("/out", [in].ParentPath & "/GO/")
+        Dim goDB$ = (args <= "/go") Or (GCModeller.FileSystem.GO & "/go.obo").AsDefault
+        Dim in$ = args <= "/in"
+        Dim size$ = (args <= "/size") Or "2000,2200".AsDefault
         Dim selects$ = args.GetValue("/selects", "Q3")
         Dim tick! = args.GetValue("/tick", -1.0!)
+        Dim level% = args.GetValue("/level", 2)
+        Dim labelRight As Boolean = args.IsTrue("/label.right")
+        Dim out$ = (args <= "/out") Or ([in].ParentPath & "/GO/").AsDefault
+
+        cat("\n")
+        Call $"   ===> level={level}".__INFO_ECHO
+        cat("\n")
 
         ' 绘制GO图
-        Dim goTerms As Dictionary(Of String, Term) = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
+        Dim goTerms As Dictionary(Of String, Term) = GO_OBO _
+            .Open(path:=goDB) _
+            .ToDictionary(Function(x) x.id)
+        Dim DAG As New Graph(goTerms.Values)
         Dim sample = [in].LoadSample
         Dim selector = Function(x As EntityObject)
                            Return x("GO") _
@@ -412,15 +428,17 @@ Partial Module CLI
                                .Select(AddressOf Trim) _
                                .ToArray
                        End Function
-        Dim data As Dictionary(Of String, NamedValue(Of Integer)()) =
-            sample.CountStat(selector, goTerms)
+        Dim data = sample _
+            .CountStat(selector, goTerms) _
+            .LevelGOTerms(level, DAG)
 
-        Call data.SaveCountValue(out & "/plot.csv")
-        Call CatalogPlots.Plot(
-            data, selects:=selects,
-            tick:=tick,
-            size:=size,
-            axisTitle:="Number Of Proteins").Save(out & "/plot.png")
+        Call data.SaveCountValue(out & $"/level={level}/plot.csv")
+        Call CatalogPlots.Plot(data, selects:=selects,
+                               tick:=tick,
+                               size:=size,
+                               axisTitle:="Number Of Proteins",
+                               labelAlignmentRight:=labelRight) _
+            .Save(out & $"/level={level}/plot.png")
 
         Return 0
     End Function
@@ -431,13 +449,13 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/proteins.KEGG.plot")>
-    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/custom <sp00001.keg> /size <2000,4000> /tick 20 /out <out.DIR>]")>
+    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
     <Description("KEGG function catalog profiling plot of the TP sample.")>
     <Argument("/custom",
               Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg")>
     Public Function proteinsKEGGPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim size As Size = args.GetValue("/size", New Size(2000, 4000))
+        Dim size$ = args.GetValue("/size", "2200,2000")
         Dim tick! = args.GetValue("/tick", 20.0!)
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/KEGG/")
         Dim sample = [in].LoadSample
@@ -494,7 +512,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{suffix}.fasta")
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
-            Dim source As IEnumerable(Of Uniprot.XML.entry) = UniprotXML.EnumerateEntries(path:=[in])
+            Dim source As IEnumerable(Of Uniprot.XML.entry) = UniProtXML.EnumerateEntries(path:=[in])
 
             If Not String.IsNullOrEmpty(sp) Then
                 If exclude Then
@@ -554,7 +572,7 @@ Partial Module CLI
             .LoadCsv(Of BBHIndex) _
             .Where(Function(bh) bh.Matched) _
             .ToDictionary(Function(bh) bh.QueryName.Split("|"c).First)
-        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniprotXML.LoadDictionary(uniprot)
+        Dim uniprotTable As Dictionary(Of Uniprot.XML.entry) = UniProtXML.LoadDictionary(uniprot)
 
         For Each protein As UniprotAnnotations In annotationData
 
@@ -589,7 +607,7 @@ Partial Module CLI
                Usage:="/COG.profiling.plot /in <myvacog.csv> [/size <image_size, default=1800,1200> /out <out.png>]")>
     Public Function COGCatalogProfilingPlot(args As CommandLine) As Integer
         Dim [in] = args("/in")
-        Dim size As Size = args.GetValue("/size", New Size(1800, 1200))
+        Dim size$ = args.GetValue("/size", "1800,1200")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".COG.profiling.png")
         Dim COGs As IEnumerable(Of MyvaCOG) = [in].LoadCsv(Of MyvaCOG)
 

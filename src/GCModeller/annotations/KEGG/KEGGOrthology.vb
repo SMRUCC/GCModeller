@@ -153,7 +153,7 @@ Public Module KEGGOrthology
                          Optional axisTitle$ = "Number Of Gene",
                          Optional colorSchema$ = "Set1:c6",
                          Optional bg$ = "white",
-                         Optional size As Size = Nothing,
+                         Optional size$ = "2200,2000",
                          Optional padding$ = g.DefaultPadding,
                          Optional classFontStyle$ = CSSFont.Win7LargerBold,
                          Optional catalogFontStyle$ = CSSFont.Win7Bold,
@@ -190,7 +190,7 @@ Public Module KEGGOrthology
     <Extension>
     Public Function KEGGEnrichmentPlot(result As IEnumerable(Of FunctionCluster),
                                        Optional KEGG As Dictionary(Of String, BriteHText) = Nothing,
-                                       Optional size As Size = Nothing,
+                                       Optional size$ = "2200,2000",
                                        Optional tick# = 1) As GraphicsData
 
         Dim data As New Dictionary(Of String, List(Of NamedValue(Of Double)))
@@ -247,7 +247,7 @@ Public Module KEGGOrthology
 
     <Extension>
     Public Function KEGGEnrichmentPlot(result As IEnumerable(Of EnrichmentTerm),
-                                       Optional size As Size = Nothing,
+                                       Optional size$ = "2200,2000",
                                        Optional pvalue# = 0.05,
                                        Optional tick# = 1,
                                        Optional gray As Boolean = False,

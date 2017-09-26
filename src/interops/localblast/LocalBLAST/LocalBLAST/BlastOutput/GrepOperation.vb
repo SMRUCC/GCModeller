@@ -36,13 +36,13 @@ Namespace LocalBLAST.BLASTOutput
 
         Sub New(Script As String)
             Dim Engine = Microsoft.VisualBasic.Text.TextGrepScriptEngine.Compile(Script)
-            _query = Engine.Method
-            _subject = Engine.Method
+            _query = Engine.PipelinePointer
+            _subject = Engine.PipelinePointer
         End Sub
 
         Sub New(Query As String, Subject As String)
-            _query = Microsoft.VisualBasic.Text.TextGrepScriptEngine.Compile(Query).Method
-            _subject = Microsoft.VisualBasic.Text.TextGrepScriptEngine.Compile(Subject).Method
+            _query = Microsoft.VisualBasic.Text.TextGrepScriptEngine.Compile(Query).PipelinePointer
+            _subject = Microsoft.VisualBasic.Text.TextGrepScriptEngine.Compile(Subject).PipelinePointer
         End Sub
 
         Sub New(Query As TextGrepMethod, Subject As TextGrepMethod)

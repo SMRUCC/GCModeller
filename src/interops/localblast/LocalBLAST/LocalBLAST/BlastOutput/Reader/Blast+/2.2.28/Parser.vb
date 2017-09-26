@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::94b3c1cdccfc37e2a3d2e6ecc35f2118, ..\localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Parser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
@@ -35,6 +36,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228
+Imports defaultEncoding = Microsoft.VisualBasic.Language.DefaultValue(Of System.Text.Encoding)
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 
@@ -189,7 +191,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return result
         End Function
 
-        Public ReadOnly Property DefaultEncoding As Encoding = Encoding.UTF8
+        Public ReadOnly Property DefaultEncoding As defaultEncoding = Encoding.UTF8
 
         ''' <summary>
         ''' The target blast output text file is from the blastp or blastn?
@@ -200,15 +202,10 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         Public Function [GetType](path As String, Optional Encoding As Encoding = Nothing) As ReaderTypes
             Dim s As String
 
-            Using IO As IO.FileStream = New IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read)
+            Using IO As New FileStream(path, FileMode.Open, FileAccess.Read)
                 Dim buf As Byte() = New Byte(1024 * 5) {}
-
-                If Encoding Is Nothing Then
-                    Encoding = DefaultEncoding
-                End If
-
-                Call IO.Read(buf, 0, buf.Length - 1)
-                s = Encoding.GetString(buf)
+                IO.Read(buf, 0, buf.Length - 1)
+                s = (Encoding Or DefaultEncoding).GetString(buf)
             End Using
 
             If IsBlastn(s) Then
@@ -266,45 +263,67 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' File processor for the file size which is greater than 10GB.
         ''' (处理非常大的blast输出文件的时候所需要的，大小大于10GB的文件建议使用这个方法处理)
         ''' </summary>
-        Public Sub Transform(path$, CHUNK_SIZE&, transform As Action(Of BlastPlus.Query), Optional encoding As Encoding = Nothing)
-            If encoding Is Nothing Then
-                encoding = BlastPlus.Parser.DefaultEncoding
-            End If
-
+        Public Sub Transform(path$, CHUNK_SIZE&, transform As Action(Of Query), Optional encoding As Encoding = Nothing, Optional grep As (q$, s$) = Nothing)
             Call path.FixPath
 
             Dim parser As QueryParser = __getParser(path)
-            Dim readsBuffer As IEnumerable(Of String) =
-                __loadData(path, CHUNK_SIZE, encoding)
+            Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, encoding Or DefaultEncoding)
 
             Call $"Open file handle {path.ToFileURL} for data loading...".__DEBUG_ECHO
 
+            Dim q, s As TextGrepMethod
+
+            If grep.q.StringEmpty OrElse grep.q = "-" Then
+                q = Function(str) str
+            Else
+                q = TextGrepScriptEngine.Compile(grep.q).PipelinePointer
+            End If
+
+            If grep.s.StringEmpty OrElse grep.s = "-" Then
+                s = Function(str) str
+            Else
+                s = TextGrepScriptEngine.Compile(grep.s).PipelinePointer
+            End If
+
+            Dim script As (q As TextGrepMethod, s As TextGrepMethod) = (q, s)
+
             For Each line$ In readsBuffer
-                Call line$.__blockWorker(transform, parser)
+                Call line$.__blockWorker(transform, parser, grep:=script)
             Next
         End Sub
 
         ''' <summary>
         ''' 处理非常大的blast输出文件的时候所需要的，大小大于10GB的文件建议使用这个方法处理
         ''' </summary>
-        Public Sub Transform(path As String, CHUNK_SIZE As Long, transform As Action(Of BlastPlus.Query()), Optional encoding As Encoding = Nothing)
-            If encoding Is Nothing Then
-                encoding = BlastPlus.Parser.DefaultEncoding
-            End If
+        Public Sub Transform(path$,
+                             CHUNK_SIZE%,
+                             transform As Action(Of Query()),
+                             Optional encoding As Encoding = Nothing,
+                             Optional grep As (q$, s$) = Nothing)
 
             Call path.FixPath
 
             Dim parser As QueryParser = __getParser(path)
-            Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, encoding)
+            Dim readsBuffer As IEnumerable(Of String) = __loadData(path, CHUNK_SIZE, encoding Or DefaultEncoding)
 
             Call $"Open file handle {path.ToFileURL} for data loading...".__DEBUG_ECHO
-            Call (From line As String In readsBuffer Select __blockWorker(line, transform, parser)).ToArray
+            Call (From line As String In readsBuffer Select __blockWorker(line, transform, parser, grep)).ToArray
         End Sub
 
-        Private Function __blockWorker(queryBlocks As String, transform As Action(Of Query()), parser As QueryParser) As Boolean
+        Private Function __blockWorker(queryBlocks As String, transform As Action(Of Query()), parser As QueryParser, grep As (q$, s$)) As Boolean
             Dim queries As String() = __queryParser(queryBlocks.Replace(ASCII.NUL, " "c))
             Call ($"[Parsing Job Done!]  ==> {queries.Length} Queries..." & vbCrLf & vbTab & vbTab & "Start to loading blast query hits data...").__DEBUG_ECHO
             Dim LQuery = (From x As String In queries.AsParallel Select parser(x)).ToArray
+            Dim grepq As TextGrepScriptEngine = TextGrepScriptEngine.Compile(grep.q)
+            Dim greps As TextGrepScriptEngine = TextGrepScriptEngine.Compile(grep.s)
+
+            For Each q As Query In LQuery
+                q.QueryName = grepq.Grep(q.QueryName)
+
+                For Each s In q.SubjectHits
+                    s.Name = greps.Grep(s.Name)
+                Next
+            Next
 
             Call transform(LQuery)
 
@@ -312,7 +331,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         End Function
 
         <Extension>
-        Private Function __blockWorker(queryBlocks As String, transform As Action(Of Query), parser As QueryParser) As Boolean
+        Private Function __blockWorker(queryBlocks$, transform As Action(Of Query), parser As QueryParser, grep As (q As TextGrepMethod, s As TextGrepMethod)) As Boolean
             Dim queries As String() = __queryParser(queryBlocks.Replace(ASCII.NUL, " "c))
             Call ($"[Parsing Job Done!]  ==> {queries.Length} Queries..." & vbCrLf & vbTab & vbTab & "Start to loading blast query hits data...").__DEBUG_ECHO
             Dim LQuery As Query() = queries _
@@ -321,6 +340,12 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 .ToArray
 
             For Each query As Query In LQuery
+                query.QueryName = grep.q(query.QueryName)
+
+                For Each s In query.SubjectHits.SafeQuery
+                    s.Name = grep.s(s.Name)
+                Next
+
                 Call transform(query)
             Next
 

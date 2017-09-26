@@ -230,7 +230,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
                               .ToDictionary(Function(prot) prot.ID,
                                             Function(prot) prot.Group.First.desc)
 
-        Dim Grep As TextGrepMethod = TextGrepScriptEngine.Compile("tokens ' ' first").Method
+        Dim Grep As TextGrepMethod = TextGrepScriptEngine.Compile("tokens ' ' first").PipelinePointer
         Call query.Grep(Grep, Grep)
         Call subject.Grep(Grep, Grep)
 

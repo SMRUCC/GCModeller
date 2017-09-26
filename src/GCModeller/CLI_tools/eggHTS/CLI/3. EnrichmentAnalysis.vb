@@ -44,7 +44,6 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml.Linq
 Imports SMRUCC.genomics.Analysis.GO
@@ -85,7 +84,7 @@ Partial Module CLI
         End With
 
         Return KEGG _
-            .KEGGEnrichmentPlot(size:=size.SizeParser,
+            .KEGGEnrichmentPlot(size:=size,
                                 KEGG:=KEGG_PATH,
                                 tick:=args.GetValue("/tick", 1.0R)) _
             .Save(out) _
@@ -259,7 +258,7 @@ Partial Module CLI
         If PlantRegMap Then
             Dim enrichments As IEnumerable(Of PlantRegMap_GoTermEnrichment) =
                 [in].LoadTsv(Of PlantRegMap_GoTermEnrichment)
-            plot = enrichments.PlantEnrichmentPlot(terms, pvalue, size.SizeParser, tick)
+            plot = enrichments.PlantEnrichmentPlot(terms, pvalue, size, tick)
             enrichments.ToArray.SaveTo([in].TrimSuffix & ".csv")
         Else
             Dim enrichments As IEnumerable(Of EnrichmentTerm) = [in].LoadCsv(Of EnrichmentTerm)
@@ -275,7 +274,7 @@ Partial Module CLI
                                               displays:=displays)
             Else
                 plot = enrichments.EnrichmentPlot(
-                    terms, pvalue, size.SizeParser,
+                    terms, pvalue, size,
                     tick,
                     gray, labelRight,
                     top:=displays)
@@ -299,7 +298,7 @@ Partial Module CLI
         Dim labelRight As Boolean = args.GetBoolean("/label.right")
         Dim tick As Double = args.GetValue("/tick", 1.0)
         Dim plot As GraphicsData = enrichments.KEGGEnrichmentPlot(
-            size.SizeParser, pvalue,
+            size, pvalue,
             gray:=gray,
             labelRightAlignment:=labelRight,
             tick:=tick)

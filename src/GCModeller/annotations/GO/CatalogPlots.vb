@@ -53,7 +53,7 @@ Public Module CatalogPlots
                                   Optional axisTitle$ = "Number Of Gene",
                                   Optional colorSchema$ = "Set1:c6",
                                   Optional bg$ = "white",
-                                  Optional size As Size = Nothing,
+                                  Optional size$ = "2200,2000",
                                   Optional padding$ = g.DefaultPadding,
                                   Optional classFontStyle$ = CSSFont.Win7LargerBold,
                                   Optional catalogFontStyle$ = CSSFont.Win7Bold,
@@ -118,7 +118,7 @@ Public Module CatalogPlots
                                   Optional axisTitle$ = "Number Of Gene",
                                   Optional colorSchema$ = "Set1:c6",
                                   Optional bg$ = "white",
-                                  Optional size As Size = Nothing,
+                                  Optional size$ = "2200,2000",
                                   Optional padding$ = g.DefaultPadding,
                                   Optional classFontStyle$ = CSSFont.Win7LargerBold,
                                   Optional catalogFontStyle$ = CSSFont.Win7Bold,
@@ -161,7 +161,7 @@ Public Module CatalogPlots
                          Optional axisTitle$ = "Number Of Gene",
                          Optional colorSchema$ = "Set1:c6",
                          Optional bg$ = "white",
-                         Optional size As Size = Nothing,
+                         Optional size$ = "2200,2000",
                          Optional padding$ = g.DefaultPadding,
                          Optional classFontStyle$ = CSSFont.Win7LargerBold,
                          Optional catalogFontStyle$ = CSSFont.Win7Bold,
@@ -200,7 +200,7 @@ Public Module CatalogPlots
                          Optional axisTitle$ = "Number Of Gene",
                          Optional colorSchema$ = "Set1:c6",
                          Optional bg$ = "white",
-                         Optional size As Size = Nothing,
+                         Optional size$ = "2200,2000",
                          Optional padding$ = g.DefaultPadding,
                          Optional classFontStyle$ = CSSFont.Win7LargerBold,
                          Optional catalogFontStyle$ = CSSFont.Win7Bold,
@@ -208,7 +208,8 @@ Public Module CatalogPlots
                          Optional valueFontStyle$ = CSSFont.Win7Bold,
                          Optional tickFontStyle$ = CSSFont.Win7LargerBold,
                          Optional tick% = 50,
-                         Optional maxTermLength% = 72) As GraphicsData
+                         Optional maxTermLength% = 72,
+                         Optional labelAlignmentRight As Boolean = False) As GraphicsData
 
         Dim data As New Dictionary(Of String, NamedValue(Of Double)())
         Dim top As NamedValue(Of Double)()
@@ -266,12 +267,13 @@ Public Module CatalogPlots
                 title, axisTitle, colorSchema,
                 bg, size, padding,
                 classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
-                tickFontStyle, tick)
+                tickFontStyle, tick,
+                labelRightAlignment:=labelAlignmentRight)
         End With
     End Function
 
     <Extension>
-    Public Function EnrichmentPlot(data As IEnumerable(Of FunctionCluster), Optional size As Size = Nothing) As GraphicsData
+    Public Function EnrichmentPlot(data As IEnumerable(Of FunctionCluster), Optional size$ = "2200,2000") As GraphicsData
         Dim profile As New Dictionary(Of String, NamedValue(Of Double)())
         Dim g = From x As FunctionCluster
                 In data
@@ -318,7 +320,7 @@ Public Module CatalogPlots
     Public Function EnrichmentPlot(Of EnrichmentTerm As IGoTermEnrichment)(data As IEnumerable(Of EnrichmentTerm),
                                                                            GO_terms As Dictionary(Of Term),
                                                                            Optional pvalue# = 0.05,
-                                                                           Optional size As Size = Nothing,
+                                                                           Optional size$ = "2200,2000",
                                                                            Optional tick# = 1,
                                                                            Optional gray As Boolean = False,
                                                                            Optional labelRightAlignment As Boolean = False,

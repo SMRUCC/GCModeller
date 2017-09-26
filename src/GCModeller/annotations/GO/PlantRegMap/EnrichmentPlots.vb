@@ -11,7 +11,7 @@ Namespace PlantRegMap
         Public Function PlantEnrichmentPlot(data As IEnumerable(Of PlantRegMap_GoTermEnrichment),
                                             GO_terms As Dictionary(Of Term),
                                             Optional pvalue# = 0.05,
-                                            Optional size As Size = Nothing,
+                                            Optional size$ = "2200,2000",
                                             Optional tick# = 1) As GraphicsData
             Return data.EnrichmentPlot(GO_terms, pvalue, size, tick)
         End Function
