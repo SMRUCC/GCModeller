@@ -322,7 +322,7 @@ Partial Module CLI
         Dim color As String = args.GetValue("/color", "black")
         Dim ptSize! = args.GetValue("/pt.Size", 8.0!)
         Dim legendFontSize! = args.GetValue("/legend.fontsize", 20.0#)
-        Dim legendSize As Size = args.GetValue("/legend.size", New Size(100, 30))
+        Dim legendSize$ = (args <= "/legend.size") Or "100,30".AsDefault
         Dim quantileRemoves# = args.GetValue("/quantile.removes", 1.0#)
         Dim res As GraphicsData = {
             ScatterSerials(File.Load([in]), pi, mw, color, ptSize) _

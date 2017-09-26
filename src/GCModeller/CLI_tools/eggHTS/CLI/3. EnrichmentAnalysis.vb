@@ -207,7 +207,7 @@ Partial Module CLI
 
         If using3D Then
             Call profiles _
-                .FromData(colors) _
+                .Fractions(colors) _
                 .Plot3D(
                     New Camera With {
                         .screen = New Size(3600, 2500),
@@ -218,7 +218,7 @@ Partial Module CLI
                         .offset = New Point(0, -100)
                 }).Save(out)
         Else
-            Call profiles.FromData(colors).Plot.Save(out)
+            Call profiles.Fractions(colors).Plot.Save(out)
         End If
 
         Return 0
