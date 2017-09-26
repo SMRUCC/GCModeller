@@ -410,14 +410,16 @@ Partial Module CLI
         Dim tick! = args.GetValue("/tick", -1.0!)
         Dim level% = args.GetValue("/level", 2)
         Dim labelRight As Boolean = args.IsTrue("/label.right")
-        Dim out$ = args.GetValue("/out", [in].ParentPath & "/GO/")
+        Dim out$ = (args <= "/out") Or ([in].ParentPath & "/GO/").AsDefault
 
         cat("\n")
         Call $"   ===> level={level}".__INFO_ECHO
         cat("\n")
 
         ' 绘制GO图
-        Dim goTerms As Dictionary(Of String, Term) = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
+        Dim goTerms As Dictionary(Of String, Term) = GO_OBO _
+            .Open(path:=goDB) _
+            .ToDictionary(Function(x) x.id)
         Dim DAG As New Graph(goTerms.Values)
         Dim sample = [in].LoadSample
         Dim selector = Function(x As EntityObject)
@@ -430,13 +432,13 @@ Partial Module CLI
             .CountStat(selector, goTerms) _
             .LevelGOTerms(level, DAG)
 
-        Call data.SaveCountValue(out & "/plot.csv")
+        Call data.SaveCountValue(out & $"/level={level}/plot.csv")
         Call CatalogPlots.Plot(data, selects:=selects,
                                tick:=tick,
                                size:=size,
                                axisTitle:="Number Of Proteins",
                                labelAlignmentRight:=labelRight) _
-            .Save(out & "/plot.png")
+            .Save(out & $"/level={level}/plot.png")
 
         Return 0
     End Function
