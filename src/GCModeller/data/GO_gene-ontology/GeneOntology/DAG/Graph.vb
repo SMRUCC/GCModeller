@@ -26,11 +26,16 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.foundation.OBO_Foundry
 
 Namespace DAG
 
+    ''' <summary>
+    ''' GO DAG graph
+    ''' </summary>
     Public Class Graph
 
         ReadOnly __DAG As Dictionary(Of TermNode)
@@ -38,6 +43,10 @@ Namespace DAG
 
         Public ReadOnly Property header As header
 
+        ''' <summary>
+        ''' Creates GO DAG graph from ``go.obo`` file.
+        ''' </summary>
+        ''' <param name="path$">File path of the GO database: ``go.obo``</param>
         Sub New(path$)
             Dim obo As GO_OBO = GO_OBO.LoadDocument(path$)
             __DAG = obo.Terms.BuildTree
@@ -74,16 +83,36 @@ Namespace DAG
         ''' </summary>
         Const molecular_function$ = NameOf(molecular_function)
 
-        'Public Iterator Function Family(id$, [namespace] As Ontologies) As IEnumerable(Of Term())
-        '    Dim parent As New Value(Of Term)
-        '    Dim ns$ = [namespace].Description
+        ''' <summary>
+        ''' 查找某一个ID的term其在某一个<paramref name="namespace"/>之下的所有的父节点
+        ''' </summary>
+        ''' <param name="id$"></param>
+        ''' <param name="[namespace]"></param>
+        ''' <returns></returns>
+        Public Function Family(id$, [namespace] As Ontologies) As IEnumerable(Of InheritsChain)
+            Dim term As TermNode = __DAG(id)
 
-        '    For Each pid As is_a In __DAG(id$).is_a.SafeQuery
-        '        If (parent = __DAG(pid.uid$)).namespace = ns Then
-        '            Yield parent + visits(pid.uid, ns$)
-        '        End If
-        '    Next
-        'End Function
+            For Each parent In term.is_a.SafeQuery
+
+            Next
+        End Function
+
+        Public Structure InheritsChain
+
+            Dim Route As List(Of TermNode)
+
+            Public ReadOnly Property Top As TermNode
+                Get
+                    Return Route.Last
+                End Get
+            End Property
+
+            Public ReadOnly Property [Namespace] As String
+                Get
+                    Return Top.GO_term.namespace
+                End Get
+            End Property
+        End Structure
 
         'Private Function visits(id$, namespace$) As NamedValue(Of Term)()
 

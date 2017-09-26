@@ -43,9 +43,27 @@ Namespace DAG
                 tree += x.ConstructNode
             Next
 
+            For Each node As TermNode In tree.Values
+                node.is_a = node.is_a _
+                    .SafeQuery _
+                    .Select(Function(rel)
+                                Return New is_a With {
+                                    .name = rel.name,
+                                    .term_id = rel.term_id,
+                                    .term = tree(rel.term_id)
+                                }
+                            End Function) _
+                    .ToArray
+            Next
+
             Return tree
         End Function
 
+        ''' <summary>
+        ''' Creates a node in this DAG graph
+        ''' </summary>
+        ''' <param name="term"></param>
+        ''' <returns></returns>
         <Extension> Public Function ConstructNode(term As Term) As TermNode
             Dim is_a = term.is_a.ToArray(Function(s) New is_a(s$))
             Dim rels = term.relationship.ToArray(Function(s) New Relationship(s$))
@@ -57,7 +75,8 @@ Namespace DAG
                 .relationship = rels,
                 .synonym = synonym,
                 .xref = term.xref.ToArray(AddressOf xrefParser),
-                .namespace = term.namespace
+                .namespace = term.namespace,
+                .GO_term = term
             }
         End Function
 
