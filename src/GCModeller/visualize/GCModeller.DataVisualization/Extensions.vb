@@ -104,7 +104,7 @@ Public Module Extensions
     End Sub
 
     <Extension>
-    Public Function DrawCatalogProfiling(Of T As ICOGCatalog)(res As GraphicsData, genes As IEnumerable(Of T), left%, size As Size) As GraphicsData
+    Public Function DrawCatalogProfiling(Of T As ICOGCatalog)(res As GraphicsData, genes As IEnumerable(Of T), left%, size$) As GraphicsData
         Dim legend As GraphicsData = genes.COGCatalogProfilingPlot(size)
 
         Using g As IGraphics = (res).CreateGraphics

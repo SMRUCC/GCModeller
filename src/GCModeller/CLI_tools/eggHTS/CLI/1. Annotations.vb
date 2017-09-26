@@ -394,14 +394,19 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/proteins.Go.plot")>
     <Description("ProteinGroups sample data go profiling plot from the uniprot annotation data.")>
-    <Usage("/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /tick <default=-1> /selects Q3 /size <2000,2200> /out <out.DIR>]")>
+    <Usage("/proteins.Go.plot /in <proteins-uniprot-annotations.csv> [/GO <go.obo> /tick <default=-1> /level <default=2> /selects Q3 /size <2000,2200> /out <out.DIR>]")>
+    <Argument("/GO", True, CLITypes.File,
+              Description:="The go database file path, if this argument is present in the CLI, then will using the GO.obo database file from GCModeller repository.")>
+    <Argument("/level", True, CLITypes.Integer,
+              Description:="The GO annotation level from the DAG, default is level 2.")>
     Public Function ProteinsGoPlot(args As CommandLine) As Integer
-        Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
-        Dim in$ = args("/in")
-        Dim size As Size = args.GetValue("/size", New Size(2000, 2200))
+        Dim goDB$ = (args <= "/go") Or (GCModeller.FileSystem.GO & "/go.obo").AsDefault
+        Dim in$ = args <= "/in"
+        Dim size$ = (args <= "/size") Or "2000,2200".AsDefault
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/GO/")
         Dim selects$ = args.GetValue("/selects", "Q3")
         Dim tick! = args.GetValue("/tick", -1.0!)
+        Dim level% = args.GetValue("/level", 2)
 
         ' 绘制GO图
         Dim goTerms As Dictionary(Of String, Term) = GO_OBO.Open(goDB).ToDictionary(Function(x) x.id)
@@ -431,13 +436,13 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/proteins.KEGG.plot")>
-    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/custom <sp00001.keg> /size <2000,4000> /tick 20 /out <out.DIR>]")>
+    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
     <Description("KEGG function catalog profiling plot of the TP sample.")>
     <Argument("/custom",
               Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg")>
     Public Function proteinsKEGGPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim size As Size = args.GetValue("/size", New Size(2000, 4000))
+        Dim size$ = args.GetValue("/size", "2200,2000")
         Dim tick! = args.GetValue("/tick", 20.0!)
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/KEGG/")
         Dim sample = [in].LoadSample
@@ -589,7 +594,7 @@ Partial Module CLI
                Usage:="/COG.profiling.plot /in <myvacog.csv> [/size <image_size, default=1800,1200> /out <out.png>]")>
     Public Function COGCatalogProfilingPlot(args As CommandLine) As Integer
         Dim [in] = args("/in")
-        Dim size As Size = args.GetValue("/size", New Size(1800, 1200))
+        Dim size$ = args.GetValue("/size", "1800,1200")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".COG.profiling.png")
         Dim COGs As IEnumerable(Of MyvaCOG) = [in].LoadCsv(Of MyvaCOG)
 

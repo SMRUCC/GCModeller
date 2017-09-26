@@ -38,8 +38,8 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 ''' <summary>
 ''' COG, GO, KEGG
@@ -88,7 +88,7 @@ Public Module CatalogProfiling
                                  Optional axisTitle$ = "Number Of Gene",
                                  Optional colorSchema$ = "Set1:c6",
                                  Optional bg$ = "white",
-                                 Optional size As Size = Nothing,
+                                 Optional size$ = "2200,2000",
                                  Optional padding$ = "padding: 125 25 25 25",
                                  Optional classFontStyle$ = CSSFont.Win7LargerBold,
                                  Optional catalogFontStyle$ = CSSFont.Win7Bold,
@@ -112,10 +112,6 @@ Public Module CatalogProfiling
             .Select(Function(c) c.Select(Function(v) CDbl(v.Value))) _
             .IteratesALL, horizontal:=True)
 
-        If size.IsEmpty Then
-            size = New Size(2200, 2000)
-        End If
-
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Call g.__plotInternal(
@@ -129,7 +125,7 @@ Public Module CatalogProfiling
                    labelAlignmentRight:=labelRightAlignment)
             End Sub
 
-        Return g.GraphicsPlots(size, padding, bg, plotInternal)
+        Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal)
     End Function
 
     ''' <summary>
