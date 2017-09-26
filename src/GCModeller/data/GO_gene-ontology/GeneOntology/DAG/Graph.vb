@@ -83,18 +83,33 @@ Namespace DAG
         ''' </summary>
         Const molecular_function$ = NameOf(molecular_function)
 
-        ''' <summary>
-        ''' 查找某一个ID的term其在某一个<paramref name="namespace"/>之下的所有的父节点
-        ''' </summary>
-        ''' <param name="id$"></param>
-        ''' <param name="[namespace]"></param>
-        ''' <returns></returns>
-        Public Function Family(id$, [namespace] As Ontologies) As IEnumerable(Of InheritsChain)
+        Public Function Family(id$) As IEnumerable(Of InheritsChain)
             Dim term As TermNode = __DAG(id)
 
-            For Each parent In term.is_a.SafeQuery
+            If term.is_a.IsNullOrEmpty Then
+                Return {
+                    New InheritsChain With {
+                        .Route = New List(Of TermNode) From {term}
+                    }
+                }
+            Else
+                Dim routes As New List(Of InheritsChain)
 
-            Next
+                For Each parent In term.is_a
+                    Dim chain As New InheritsChain With {
+                        .Route = New List(Of TermNode)
+                    }
+
+                    Dim parentChains = Family(parent.term_id).ToArray
+
+                    For Each c As InheritsChain In parentChains
+                        c.Route.Insert(0, parent.term)
+                        routes.Add(c)
+                    Next
+                Next
+
+                Return routes
+            End If
         End Function
 
         Public Structure InheritsChain
@@ -112,6 +127,26 @@ Namespace DAG
                     Return Top.GO_term.namespace
                 End Get
             End Property
+
+            Public ReadOnly Property Family As String()
+                Get
+                    Return Route _
+                        .AsEnumerable _
+                        .Reverse _
+                        .Select(Function(t) t.GO_term.name) _
+                        .ToArray
+                End Get
+            End Property
+
+            Public Function Strip() As InheritsChain
+                Return New InheritsChain With {
+                    .Route = Route.Distinct.AsList
+                }
+            End Function
+
+            Public Overrides Function ToString() As String
+                Return $"[{[Namespace]}] {Family.JoinBy(" -> ")}"
+            End Function
         End Structure
 
         'Private Function visits(id$, namespace$) As NamedValue(Of Term)()
