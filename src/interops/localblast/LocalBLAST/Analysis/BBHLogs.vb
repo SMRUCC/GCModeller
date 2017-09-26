@@ -196,7 +196,7 @@ Namespace Analysis
             If OutputLog Is Nothing Then
                 Return Nothing
             Else
-                Call OutputLog.Grep(Query:=qgr.Method, Hits:=sgr.Method)
+                Call OutputLog.Grep(Query:=qgr.PipelinePointer, Hits:=sgr.PipelinePointer)
             End If
 
             Dim besthitsData As BBH.BestHit() = OutputLog.ExportBestHit
@@ -228,7 +228,7 @@ RETURN_VALUE:
             If QueryGrep Is Nothing Then QueryGrep = TextGrepScriptEngine.Compile("tokens | first")
             If SubjectGrep Is Nothing Then SubjectGrep = TextGrepScriptEngine.Compile("tokens | first")
 
-            Dim GrepOperation As GrepOperation = New GrepOperation(QueryGrep.Method, SubjectGrep.Method)
+            Dim GrepOperation As GrepOperation = New GrepOperation(QueryGrep.PipelinePointer, SubjectGrep.PipelinePointer)
             Dim LQuery = (From path As AlignEntry  ' 从日志文件之中解析出比对结果的对象模型
                           In Source.AsParallel
                           Let OutputLog = BlastPlus.Parser.TryParse(path.FilePath)

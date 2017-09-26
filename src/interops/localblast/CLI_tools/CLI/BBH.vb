@@ -136,6 +136,18 @@ Partial Module CLI
         Return bbh.SaveTo(out).CLICode
     End Function
 
+    <ExportAPI("/bbh.topbest")>
+    <Usage("/bbh.topbest /in <bbh.csv> [/out <out.csv>]")>
+    Public Function BBHTopBest(args As CommandLine) As Integer
+        With (args <= "/out") Or ((args <= "/in").TrimSuffix & ".topbest.csv").AsDefault
+            Return (args <= "/in") _
+                .LoadCsv(Of BiDirectionalBesthit) _
+                .StripTopBest _
+                .SaveTo(.ref) _
+                .CLICode
+        End With
+    End Function
+
     <ExportAPI("/SBH.BBH.Batch",
                Usage:="/SBH.BBH.Batch /in <sbh.DIR> [/identities <-1> /coverage <-1> /all /out <bbh.DIR> /num_threads <-1>]")>
     <Group(CLIGrouping.BBHTools)>
@@ -196,7 +208,7 @@ Partial Module CLI
 
         If trim Then
             Dim script As TextGrepMethod =
-                TextGrepScriptEngine.Compile("tokens ' ' first").Method
+                TextGrepScriptEngine.Compile("tokens ' ' first").PipelinePointer
             Call queryOUT.Grep(script, script)
         End If
 
@@ -332,7 +344,7 @@ Partial Module CLI
         End If
 
         Dim logs As BlastPlus.v228 = BlastPlus.ParsingSizeAuto(blastp)
-        Dim GrepMethod = TextGrepScriptEngine.Compile("tokens ' ' first").Method
+        Dim GrepMethod = TextGrepScriptEngine.Compile("tokens ' ' first").PipelinePointer
         Dim GrepOperation As GrepOperation = New GrepOperation(GrepMethod, GrepMethod)
         Call GrepOperation.Grep(logs)
         Return logs.ExportAllBestHist(coverage, identities).SaveTo(out).CLICode

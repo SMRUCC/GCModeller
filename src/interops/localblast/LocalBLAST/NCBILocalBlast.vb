@@ -348,13 +348,13 @@ Public Module NCBILocalBlast
 
     <ExportAPI("Grep.Query")>
     Public Function GrepQuery(blast_output As BlastPlus.v228, script As TextGrepScriptEngine) As BlastPlus.v228
-        Call blast_output.Grep(script.Method, Nothing)
+        Call blast_output.Grep(script.PipelinePointer, Nothing)
         Return blast_output
     End Function
 
     <ExportAPI("Grep.Hits")>
     Public Function Grephits(blast_output As BlastPlus.v228, script As TextGrepScriptEngine) As BlastPlus.v228
-        Call blast_output.Grep(Nothing, script.Method)
+        Call blast_output.Grep(Nothing, script.PipelinePointer)
         Return blast_output
     End Function
 
@@ -427,7 +427,7 @@ Public Module NCBILocalBlast
 
     <ExportAPI("Create.Myva_COG", Info:="blast_output parameter is the original blast output file path.")>
     Public Function MyvaCogClassify(blast_output As String, query_grep As String, Whog_Xml As String) As MyvaCOG()
-        Dim textEngine = TextGrepScriptEngine.Compile(query_grep).Method
+        Dim textEngine = TextGrepScriptEngine.Compile(query_grep).PipelinePointer
         Return COGsUtils.MyvaCOGCatalog(blast_output, Whog_Xml,,, textEngine)
     End Function
 End Module

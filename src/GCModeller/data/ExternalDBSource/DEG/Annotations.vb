@@ -44,7 +44,7 @@ Namespace DEG
 
         <ExportAPI("Reports")>
         Public Function CreateReportView(LogFile As IBlastOutput, Annotations As DEG.Annotations()) As IO.File
-            Call LogFile.Grep(Nothing, TextGrepScriptEngine.Compile("match DEG\d+").Method)
+            Call LogFile.Grep(Nothing, TextGrepScriptEngine.Compile("match DEG\d+").PipelinePointer)
             Dim BestHit = LogFile.ExportAllBestHist '.AsDataSource(Of SMRUCC.genomics.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit)(False)
             Dim csv As New File
             Dim QueriesId$() = LinqAPI.Exec(Of String) <=
