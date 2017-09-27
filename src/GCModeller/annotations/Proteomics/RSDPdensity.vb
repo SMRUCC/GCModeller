@@ -33,7 +33,7 @@ Public Module RSDPdensity
 
     <Extension>
     Public Function RSDPdensity(points As IEnumerable(Of PointF),
-                                Optional size$ = "1600,1200",
+                                Optional size$ = "1600,1400",
                                 Optional padding$ = g.DefaultPadding,
                                 Optional bg$ = "white",
                                 Optional schema$ = "Jet",

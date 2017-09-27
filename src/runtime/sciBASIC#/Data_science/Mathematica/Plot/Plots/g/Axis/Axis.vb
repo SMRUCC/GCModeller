@@ -33,7 +33,6 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
-Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text.HtmlParser
@@ -149,6 +148,12 @@ Namespace Graphic.Axis
             End If
 
             Dim pen As Pen = Stroke.TryParse(axisStroke).GDIObject
+
+            If htmlLabel Then
+                Call "Axis Labeling using HTML render is enable.".__INFO_ECHO
+            Else
+                Call "Axis Labeling using HTML render was disabled!".__INFO_ECHO
+            End If
 
             If xlayout <> XAxisLayoutStyles.None Then
                 Call g.DrawX(pen, xlabel, scaler, xlayout, offset, labelFontStyle, tickFont, htmlLabel:=htmlLabel)
