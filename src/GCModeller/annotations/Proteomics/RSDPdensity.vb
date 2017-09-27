@@ -11,7 +11,7 @@ Public Module RSDPdensity
 
     <Extension>
     Public Function RSDP(data As IEnumerable(Of DataSet), n%) As PointF()
-        Dim ZERO#() = 0#.Replicate(n)
+        Dim ZERO#() = 0#.Replicate(n).ToArray
         Dim points As PointF() = data _
             .Select(Function(x)
                         Dim sample#() = x.Properties.Values.ToArray
