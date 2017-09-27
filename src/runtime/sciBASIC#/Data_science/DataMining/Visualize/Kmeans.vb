@@ -26,14 +26,19 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Public Module Kmeans
 
@@ -56,12 +61,53 @@ Public Module Kmeans
     <Extension>
     Public Function Scatter3D(data As IEnumerable(Of DataSet),
                               catagory As Dictionary(Of NamedCollection(Of String)),
+                              camera As Camera,
                               Optional size$ = "1600,1200",
                               Optional bg$ = "white",
                               Optional padding$ = g.DefaultPadding,
-                              Optional clusterN% = 6) As GraphicsData
+                              Optional clusterN% = 6,
+                              Optional schema$ = Designer.Clusters,
+                              Optional shapes As LegendStyles = LegendStyles.Circle Or LegendStyles.Square Or LegendStyles.Triangle) As GraphicsData
 
-        Dim clusters As EntityLDM() = data.ToKMeansModels.Kmeans(expected:=clusterN)
+        Dim clusters As Dictionary(Of String, EntityLDM()) = data _
+            .ToKMeansModels _
+            .Kmeans(expected:=clusterN) _
+            .GroupBy(Function(point) point.Cluster) _
+            .ToDictionary(Function(cluster) cluster.Key,
+                          Function(group) group.ToArray)
+
+        ' 相同的cluster的对象都会被染上同一种颜色
+        ' 不同的分组之中的数据点则会被绘制为不同的形状
+        Dim clusterColors As Color() = Designer.GetColors(schema)
+        Dim serials As New List(Of Serial3D)
+        Dim shapeList As LegendStyles() = GetAllEnumFlags(Of LegendStyles)(shapes)
+        Dim keys$() = catagory.Keys.ToArray
+
+        For Each cluster In clusters.SeqIterator
+            Dim color As Color = clusterColors(cluster)
+            Dim point3D As New List(Of Point3D)
+
+            For Each member As EntityLDM In (+cluster).Value
+                With keys _
+                    .Select(Function(cat)
+                                Return member(catagory(cat).Value).Average
+                            End Function) _
+                    .ToArray
+
+                    Dim point As New Point3D(.ref(0), .ref(1), .ref(2))
+                    point3D += point
+                End With
+            Next
+
+            serials += New Serial3D With {
+                .Title = (+cluster).Key,
+                .Color = color,
+                .Points = point3D,
+                .Shape = LegendStyles.Triangle
+            }
+        Next
+
+        Return serials.Plot(camera, bg, padding)
     End Function
 End Module
 
