@@ -63,6 +63,26 @@ Imports SMRUCC.genomics.Visualize
 Partial Module CLI
 
     ''' <summary>
+    ''' 可视化样本的一致重复性
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/iTraq.RSD-P.Density")>
+    <Usage("/iTraq.RSD-P.Density /in <matrix.csv> /out <out.png>")>
+    Public Function iTraqRSDPvalueDensityPlot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".RSD-P.density.png").AsDefault
+        Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim n% = matrix.PropertyNames.Distinct.Count
+
+        Return matrix _
+            .RSDP(n) _
+            .RSDPdensity() _
+            .Save(out) _
+            .CLICode
+    End Function
+
+    ''' <summary>
     ''' 将每一个参考cluster之中的代表序列的uniprot编号取出来生成映射
     ''' </summary>
     ''' <param name="args"></param>
