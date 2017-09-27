@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2413633368656c3403aeae4bbb89ab15, ..\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\HierarchyTreeNode.vb"
+﻿#Region "Microsoft.VisualBasic::677552787c96f846a6ad72707f02e983, ..\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\HierarchyTreeNode.vb"
 
     ' Author:
     ' 
@@ -26,9 +26,7 @@
 
 #End Region
 
-Imports System
 Imports System.Text
-Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.Hierarchy
 
 '
 '*****************************************************************************
@@ -52,7 +50,11 @@ Namespace Hierarchy
 
     Public Class HierarchyTreeNode : Implements IComparable(Of HierarchyTreeNode)
 
-        Private Shared globalIndex As Long = 0
+        Public Property Left As Cluster
+        Public Property Right As Cluster
+        Public Property LinkageDistance As Double
+
+        Shared globalIndex As Long = 0
 
         Public Sub New()
         End Sub
@@ -60,16 +62,13 @@ Namespace Hierarchy
         Public Sub New(left As Cluster, right As Cluster, distance As Double)
             Me.Left = left
             Me.Right = right
+
             LinkageDistance = distance
         End Sub
 
         Public Function GetOtherCluster(c As Cluster) As Cluster
             Return If(Left Is c, Right, Left)
         End Function
-
-        Public Property Left As Cluster
-        Public Property Right As Cluster
-        Public Property LinkageDistance As Double
 
         ''' <returns> 
         ''' a new ClusterPair with the two left/right inverted
@@ -119,14 +118,14 @@ Namespace Hierarchy
             Dim sb As New StringBuilder
 
             If Left IsNot Nothing Then
-                sb.Append(Left.Name)
+                sb.Append(Left.Label)
             End If
 
             If Right IsNot Nothing Then
                 If sb.Length > 0 Then
                     sb.Append(" + ")
                 End If
-                sb.Append(Right.Name)
+                sb.Append(Right.Label)
             End If
 
             Call sb _

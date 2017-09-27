@@ -1,5 +1,34 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::2c9f6bb4124102dad1f40328bb324148, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\API.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.Perl
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Language
 
@@ -56,6 +85,25 @@ Namespace Language
             Return [Default](x, isNothing)
         End Function
 
+        ''' <summary>
+        ''' Helper for update the value property of <see cref="Value(Of T)"/>
+        ''' 
+        ''' ```vbnet
+        ''' Call Let$(<see cref="Value(Of T)"/> = x)
+        ''' ```
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
+        Public Function Let$(Of T)(value As T)
+            Try
+                Return CStrSafe(value)
+            Catch ex As Exception
+                ' 在这里知识进行帮助值的设置，所以这个错误无所谓，直接忽略掉
+                Return Nothing
+            End Try
+        End Function
+
 #Region "Helper for ``With``"
 
         ''' <summary>
@@ -64,6 +112,8 @@ Namespace Language
         ''' <typeparam name="T"></typeparam>
         ''' <param name="x"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function ref(Of T)(x As T) As T
             Return x
         End Function

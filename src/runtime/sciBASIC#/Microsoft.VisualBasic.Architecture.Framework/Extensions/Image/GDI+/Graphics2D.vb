@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b079e808b9d727f7db9831b222a30482, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\Graphics2D.vb"
+﻿#Region "Microsoft.VisualBasic::63acc344c1f1297527526cb4eb3707f3, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\Graphics2D.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,7 @@ Imports System.Drawing.Graphics
 Imports System.Drawing.Imaging
 Imports System.Drawing.Text
 Imports System.Reflection
+Imports Microsoft.VisualBasic.Language
 
 Namespace Imaging
 
@@ -58,7 +59,7 @@ Namespace Imaging
             Get
                 Return __innerImage
             End Get
-            Protected Set(value As Image)
+            Protected Friend Set(value As Image)
                 __innerImage = value
                 If Not value Is Nothing Then
                     _Size = value.Size
@@ -126,7 +127,7 @@ Namespace Imaging
         ''' <summary>
         ''' Gets the width and height, in pixels, of this <see cref="ImageResource"/>.(图像的大小)
         ''' </summary>
-        ''' <returns>A System.Drawing.Size structure that represents the width and height, in pixels,
+        ''' <returns>A <see cref="System.Drawing.Size"/> structure that represents the width and height, in pixels,
         ''' of this image.</returns>
         Public Overrides ReadOnly Property Size As Size
 
@@ -207,22 +208,30 @@ Namespace Imaging
         ''' <param name="res">绘图的基础图像对象</param>
         ''' <returns></returns>
         Friend Shared Function CreateObject(g As Graphics, res As Image) As Graphics2D
-            Return New Graphics2D With {
+            With New Graphics2D With {
                 .ImageResource = res,
                 ._Graphics = g,
                 .Font = New Font(FontFace.MicrosoftYaHei, 12),
-                .Stroke = Pens.Black
+                .Stroke = Pens.Black,
+                .InterpolationMode = InterpolationMode.HighQualityBicubic,
+                .PixelOffsetMode = PixelOffsetMode.HighQuality,
+                .CompositingQuality = CompositingQuality.HighQuality,
+                .SmoothingMode = SmoothingMode.HighQuality,
+                .TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit
             }
+                ' .Clear(Color.Transparent)
+                Return .ref
+            End With
         End Function
 
         ''' <summary>
-        ''' Creates a new System.Drawing.Graphics from the specified System.Drawing.Image.
+        ''' Creates a new <see cref="System.Drawing.Graphics"/> from the specified <see cref="Image"/>.
         ''' </summary>
         ''' <param name="image">
-        ''' System.Drawing.Image from which to create the new System.Drawing.Graphics.
+        ''' <see cref="Image"/> from which to create the new System.Drawing.Graphics.
         ''' </param>
         ''' <returns>
-        ''' This method returns a new System.Drawing.Graphics for the specified System.Drawing.Image.
+        ''' This method returns a new <see cref="System.Drawing.Graphics"/> for the specified <see cref="Image"/>.
         ''' </returns>
         Public Shared Function Open(image As Image) As Graphics2D
             Dim g As Graphics = Graphics.FromImage(image)
@@ -230,7 +239,7 @@ Namespace Imaging
         End Function
 
         ''' <summary>
-        ''' Releases all resources used by this System.Drawing.Graphics.
+        ''' Releases all resources used by this <see cref="System.Drawing.Graphics"/>.
         ''' </summary>
         Public Overrides Sub Dispose() Implements IDisposable.Dispose
             Call Me.Graphics.Dispose()  ' 在这里不应该将图片资源给消灭掉，只需要释放掉gdi+资源就行了
@@ -398,14 +407,13 @@ Namespace Imaging
                 Graphics.PageUnit = value
             End Set
         End Property
-        '
-        ' Summary:
-        '     Gets or set a value specifying how pixels are offset during rendering of this
-        '     System.Drawing.Graphics.
-        '
-        ' Returns:
-        '     This property specifies a member of the System.Drawing.Drawing2D.PixelOffsetMode
-        '     enumeration
+
+        ''' <summary>
+        ''' Gets or set a value specifying how pixels are offset during rendering of this
+        ''' System.Drawing.Graphics.
+        ''' </summary>
+        ''' <returns>This property specifies a member of the System.Drawing.Drawing2D.PixelOffsetMode
+        ''' enumeration</returns>
         Public Overrides Property PixelOffsetMode As PixelOffsetMode
             Get
                 Return Graphics.PixelOffsetMode
@@ -431,12 +439,11 @@ Namespace Imaging
                 Graphics.RenderingOrigin = value
             End Set
         End Property
-        '
-        ' Summary:
-        '     Gets or sets the rendering quality for this System.Drawing.Graphics.
-        '
-        ' Returns:
-        '     One of the System.Drawing.Drawing2D.SmoothingMode values.
+
+        ''' <summary>
+        ''' Gets or sets the rendering quality for this System.Drawing.Graphics.
+        ''' </summary>
+        ''' <returns>One of the System.Drawing.Drawing2D.SmoothingMode values.</returns>
         Public Overrides Property SmoothingMode As SmoothingMode
             Get
                 Return Graphics.SmoothingMode
@@ -459,12 +466,11 @@ Namespace Imaging
                 Graphics.TextContrast = value
             End Set
         End Property
-        '
-        ' Summary:
-        '     Gets or sets the rendering mode for text associated with this System.Drawing.Graphics.
-        '
-        ' Returns:
-        '     One of the System.Drawing.Text.TextRenderingHint values.
+
+        ''' <summary>
+        ''' Gets or sets the rendering mode for text associated with this System.Drawing.Graphics.
+        ''' </summary>
+        ''' <returns>One of the System.Drawing.Text.TextRenderingHint values.</returns>
         Public Overrides Property TextRenderingHint As TextRenderingHint
             Get
                 Return Graphics.TextRenderingHint
@@ -4174,42 +4180,24 @@ Namespace Imaging
         Public Overrides Sub FillPie(brush As Brush, x As Integer, y As Integer, width As Integer, height As Integer, startAngle As Integer, sweepAngle As Integer)
             Call Graphics.FillPie(brush, x, y, width, height, startAngle, sweepAngle)
         End Sub
-        '
-        ' Summary:
-        '     Fills the interior of a pie section defined by an ellipse specified by a pair
-        '     of coordinates, a width, a height, and two radial lines.
-        '
-        ' Parameters:
-        '   brush:
-        '     System.Drawing.Brush that determines the characteristics of the fill.
-        '
-        '   x:
-        '     The x-coordinate of the upper-left corner of the bounding rectangle that defines
-        '     the ellipse from which the pie section comes.
-        '
-        '   y:
-        '     The y-coordinate of the upper-left corner of the bounding rectangle that defines
-        '     the ellipse from which the pie section comes.
-        '
-        '   width:
-        '     Width of the bounding rectangle that defines the ellipse from which the pie section
-        '     comes.
-        '
-        '   height:
-        '     Height of the bounding rectangle that defines the ellipse from which the pie
-        '     section comes.
-        '
-        '   startAngle:
-        '     Angle in degrees measured clockwise from the x-axis to the first side of the
-        '     pie section.
-        '
-        '   sweepAngle:
-        '     Angle in degrees measured clockwise from the startAngle parameter to the second
-        '     side of the pie section.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     brush is null.
+
+        ''' <summary>
+        ''' Fills the interior of a pie section defined by an ellipse specified by a pair
+        ''' of coordinates, a width, a height, and two radial lines.
+        ''' </summary>
+        ''' <param name="brush">System.Drawing.Brush that determines the characteristics of the fill.</param>
+        ''' <param name="x">The x-coordinate of the upper-left corner of the bounding rectangle that defines
+        ''' the ellipse from which the pie section comes.</param>
+        ''' <param name="y">The y-coordinate of the upper-left corner of the bounding rectangle that defines
+        ''' the ellipse from which the pie section comes.</param>
+        ''' <param name="width">Width of the bounding rectangle that defines the ellipse from which the pie section
+        ''' comes.</param>
+        ''' <param name="height">Height of the bounding rectangle that defines the ellipse from which the pie
+        ''' section comes.</param>
+        ''' <param name="startAngle">Angle in degrees measured clockwise from the x-axis to the first side of the
+        ''' pie section.</param>
+        ''' <param name="sweepAngle">Angle in degrees measured clockwise from the startAngle parameter to the second
+        ''' side of the pie section.</param>
         Public Overrides Sub FillPie(brush As Brush, x As Single, y As Single, width As Single, height As Single, startAngle As Single, sweepAngle As Single)
             Call Graphics.FillPie(brush, x, y, width, height, startAngle, sweepAngle)
         End Sub
@@ -5106,14 +5094,14 @@ Namespace Imaging
         End Function
 
         ''' <summary>
-        ''' Measures the specified string when drawn with the specified System.Drawing.Font.
+        ''' Measures the specified string when drawn with the specified <see cref="Font"/>.
         ''' </summary>
         ''' <param name="text">String to measure.</param>
-        ''' <param name="font">System.Drawing.Font that defines the text format of the string.</param>
+        ''' <param name="font"><see cref="Font"/> that defines the text format of the string.</param>
         ''' <returns>This method returns a System.Drawing.SizeF structure that represents the size,
-        ''' in the units specified by the System.Drawing.Graphics.PageUnit property, of the
+        ''' in the units specified by the <see cref="PageUnit"/> property, of the
         ''' string specified by the text parameter as drawn with the font parameter.</returns>
-        Public Overrides Function MeasureString(text As String, font As Font) As SizeF
+        Public Overrides Function MeasureString(text$, font As Font) As SizeF
             Return Graphics.MeasureString(text, font)
         End Function
 

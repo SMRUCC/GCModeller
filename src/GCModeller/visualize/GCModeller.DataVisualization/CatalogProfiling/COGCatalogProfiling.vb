@@ -40,7 +40,7 @@ Public Module COGCatalogProfiling
     <Extension>
     Public Function COGCatalogProfilingPlot(Of T As ICOGCatalog)(
                                            genes As IEnumerable(Of T),
-                                   Optional size As Size = Nothing,
+                                   Optional size$ = "2200,2000",
                                    Optional bg$ = "white",
                                    Optional title$ = "COG catalog profiling") As GraphicsData
 

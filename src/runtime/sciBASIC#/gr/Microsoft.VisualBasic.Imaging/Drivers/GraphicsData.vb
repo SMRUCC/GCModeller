@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c89c0a379daee133293e5e24ffce0ce, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drivers\GraphicsData.vb"
+﻿#Region "Microsoft.VisualBasic::0f35905ae0d50690da3b6ffb8f32319b, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drivers\GraphicsData.vb"
 
     ' Author:
     ' 
@@ -199,9 +199,14 @@ Namespace Driver
 
         Dim engine As GraphicsSVG
 
+        ''' <summary>
+        ''' <paramref name="img"/> parameter is <see cref="GraphicsSVG"/>
+        ''' </summary>
+        ''' <param name="img"></param>
+        ''' <param name="size"></param>
         Public Sub New(img As Object, size As Size)
             MyBase.New(img, size)
-            Me.engine = img
+            Me.engine = DirectCast(img, GraphicsSVG)
         End Sub
 
         Public Overrides ReadOnly Property Driver As Drivers

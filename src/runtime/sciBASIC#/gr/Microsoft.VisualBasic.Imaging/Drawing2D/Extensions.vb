@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6b0997ee2ed5074926ce36fafd7a558, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::94893f74fddfc5fbbe6f7f6cb25fe25d, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Extensions.vb"
 
     ' Author:
     ' 
@@ -28,14 +28,44 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Extensions
-Imports Microsoft.VisualBasic.Math.SyntaxAPI.MathExtension
-Imports Vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Namespace Drawing2D
 
     Public Module Extensions
 
+        <Extension>
+        Public Function Move(pt As Point, distance#, angle#) As Point
+            Dim X = pt.X + distance * Math.Sin(angle * Math.PI / 180)
+            Dim Y = pt.Y + distance * Math.Cos(angle * Math.PI / 180)
+
+            Return New Point(X, Y)
+        End Function
+
+        ''' <summary>
+        ''' 分别计算出<paramref name="textLayout"/>的上下左右对<paramref name="anchor"/>的距离，取最小的距离的位置并返回
+        ''' </summary>
+        ''' <param name="textLayout">标签文本的大小和位置，生成一个<see cref="Rectangle"/>布局对象</param>
+        ''' <param name="anchor">这个标签文本所属的对象的锚点</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function GetTextAnchor(textLayout As Rectangle, anchor As PointF) As Point
+            With textLayout
+                Dim points As Point() = {
+                    New Point(.Left + .Width / 2, .Top),    ' top
+                    New Point(.Left + .Width / 2, .Bottom), ' bottom,
+                    New Point(.Left, .Top + .Height / 2),   ' left,
+                    New Point(.Right, .Top + .Height / 2)   ' right
+                }
+                Dim d#() = points.Distance(anchor.ToPoint)
+
+                Return points(Which.Min(d))
+            End With
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Enlarge(size As SizeF, fold#) As SizeF
             With size
@@ -50,13 +80,13 @@ Namespace Drawing2D
         ''' <param name="scale#"></param>
         ''' <returns></returns>
         <Extension> Public Function Enlarge(shape As IEnumerable(Of Point), scale#) As Point()
-            Dim vector = shape.ToArray
-            Dim center = vector.Centre
-            Dim x As New Vec(vector.Select(Function(pt) pt.X))
-            Dim y As New Vec(vector.Select(Function(pt) pt.Y))
+            Dim shapeVector = shape.ToArray
+            Dim center = shapeVector.Centre
+            Dim x As New Vector(shapeVector.Select(Function(pt) pt.X))
+            Dim y As New Vector(shapeVector.Select(Function(pt) pt.Y))
             Dim b = x - CDbl(center.X)
             Dim a = y - CDbl(center.Y)
-            Dim c = VectorMath.Sqrt(b ^ 2 + a ^ 2)
+            Dim c = Vector.Sqrt(b ^ 2 + a ^ 2)
             Dim cs = c * scale
             Dim dc = cs - c
             Dim dx = (b / c) * dc
@@ -66,7 +96,7 @@ Namespace Drawing2D
             y = y + dy
 
             ' 返回放大之后的矢量图形向量
-            Return vector _
+            Return shapeVector _
                 .Sequence _
                 .Select(Function(i) New Point(x(i), y(i))) _
                 .ToArray
@@ -81,8 +111,8 @@ Namespace Drawing2D
         <Extension>
         Public Function Rotate(shape As IEnumerable(Of PointF), alpha#) As PointF()
             Dim vector = shape.ToArray
-            Dim x0 As New Vec(vector.Select(Function(pt) pt.X))
-            Dim y0 As New Vec(vector.Select(Function(pt) pt.Y))
+            Dim x0 As New Vector(vector.Select(Function(pt) pt.X))
+            Dim y0 As New Vector(vector.Select(Function(pt) pt.Y))
             Dim x1 = x0 * Math.Cos(alpha) + y0 * Math.Sin(alpha)
             Dim y1 = -x0 * Math.Sin(alpha) + y0 * Math.Cos(alpha)
             Return (x1, y1).Point2D.ToArray
@@ -125,6 +155,7 @@ Namespace Drawing2D
 
         'End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function MoveTo(shape As IEnumerable(Of Point), location As PointF, Optional type As MoveTypes = MoveTypes.BoundsBoxTopLeft) As Point()
             Return shape _

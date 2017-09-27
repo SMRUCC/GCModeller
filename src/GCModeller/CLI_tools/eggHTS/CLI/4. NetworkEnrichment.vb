@@ -1,37 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::951b4b30ecfd266521fc9ad96f4fed60, ..\CLI_tools\eggHTS\CLI\4. NetworkEnrichment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray.DEGProfiling
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -47,41 +49,40 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/func.rich.string")>
-    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/r.range <default=5,20> /fold <1.5> /iTraq /logFC <logFC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
+    <Usage("/func.rich.string /in <string_interactions.tsv> /uniprot <uniprot.XML> /DEP <dep.t.test.csv> [/map <map.tsv> /r.range <default=12,30> /log2FC <default=log2FC> /layout <string_network_coordinates.txt> /out <out.network.DIR>]")>
     <Description("DEPs' functional enrichment network based on string-db exports, and color by KEGG pathway.")>
     <Group(CLIGroups.NetworkEnrichment_CLI)>
+    <Argument("/map", True, CLITypes.File,
+              Description:="A tsv file that using for map the user custom gene ID as the uniprotKB ID, in format like: ``UserID<TAB>UniprotID``")>
+    <Argument("/DEP", False, CLITypes.File,
+              AcceptTypes:={GetType(DEP_iTraq)},
+              Description:="The DEPs t.test output result csv file.")>
+    <Argument("/r.range", True, CLITypes.String,
+              AcceptTypes:={GetType(DoubleRange)},
+              Description:="The network node size radius range, input string in format like: ``min,max``")>
+    <Argument("/log2FC", True, CLITypes.String,
+              Description:="The csv field name for read the DEPs fold change value, default is ``log2FC`` as the field name.")>
     Public Function FunctionalNetworkEnrichment(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim uniprot$ = args <= "/uniprot"
         Dim DEP$ = args <= "/DEP"
-        Dim fold# = args.GetValue("/fold", 1.5)
-        Dim iTraq As Boolean = args.GetBoolean("/iTraq")
-        Dim logFC$ = args.GetValue("/logFC", NameOf(logFC))
+        Dim log2FC$ = args.GetValue("/log2FC", NameOf(log2FC))
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-funrich_string/")
-        Dim proteins As protein() = protein.LoadDataSet(DEP).ToArray
+        Dim proteins As protein() = protein.LoadDataSet(DEP).UserCustomMaps(args <= "/map")
         Dim stringNetwork = [in].LoadTsv(Of InteractExports)
-        Dim threshold As (up#, down#)
         Dim layouts As Coordinates() = (args <= "/layout").LoadTsv(Of Coordinates)
-        Dim annotations = UniprotXML.Load(uniprot).StringUniprot ' STRING -> uniprot
-
-        If iTraq Then
-            threshold = (fold, 1 / fold)
-        Else
-            threshold = (fold.Log2, (1 / fold).Log2)
-        End If
-
+        Dim annotations = UniProtXML.Load(uniprot).StringUniprot ' STRING -> uniprot
         Dim DEGs = proteins.GetDEGs(
             Function(gene)
                 Return gene("is.DEP").TextEquals("TRUE")
             End Function,
-            threshold, logFC)
+            log2FC)
         Dim Uniprot2STRING = annotations.Uniprot2STRING
+        Dim radius = args.GetValue("/r.range", "12,30")
 
         With DEGs
             DEGs = (Uniprot2STRING(.UP), Uniprot2STRING(.DOWN))
         End With
-
-        Dim radius = args.GetValue("/r.range", "12,30")
 
         With stringNetwork.NetworkVisualize(
             annotations:=annotations,

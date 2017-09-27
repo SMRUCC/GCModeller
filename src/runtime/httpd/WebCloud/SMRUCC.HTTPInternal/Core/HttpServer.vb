@@ -40,7 +40,7 @@ Namespace Core
     ''' <summary>
     ''' Internal http server core.
     ''' </summary>
-    Public MustInherit Class HttpServer : Inherits ClassObject
+    Public MustInherit Class HttpServer : Inherits BaseClass
         Implements IDisposable
 
         Protected Is_active As Boolean = True

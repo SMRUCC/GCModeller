@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::190f31987a01264fb5c97c91419c0830, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\IO\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::04a4a4ecc21963d869fb71524f0436af, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\IO\Extensions.vb"
 
     ' Author:
     ' 
@@ -108,7 +108,7 @@ Namespace FileIO
                 file = writeNew()
             End If
 
-            Dim writer As New StreamWriter(file, encoding) With {
+            Dim writer As New StreamWriter(file, encoding Or UTF8) With {
                 .NewLine =
                 If(newLine Is Nothing OrElse newLine.Length = 0,
                 vbLf,

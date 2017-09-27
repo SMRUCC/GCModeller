@@ -136,12 +136,16 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RSDPdensity.vb" />
     <Compile Include="CloudPlot.vb" />
-    <Compile Include="DATA\Shotgun_csvReader.vb" />
-    <Compile Include="DATA\ShotgunReader.vb" />
+    <Compile Include="iTraq\iTraq_csvReader.vb" />
+    <Compile Include="iTraq\iTraqReader.vb" />
     <Compile Include="DATA\Perseus.vb" />
     <Compile Include="DEP.vb" />
     <Compile Include="DATA\UniprotAnnotations.vb" />
+    <Compile Include="iTraq\iTraqSymbols.vb" />
+    <Compile Include="iTraq\iTraqTtest.vb" />
+    <Compile Include="Mappings.vb" />
     <Compile Include="Plots.vb" />
     <Compile Include="ProteinGroups.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -181,6 +185,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
+      <Project>{AB6E71B0-1BE2-4418-AB4B-91D5554CF5A1}</Project>
+      <Name>RDotNET.Extensions.VisualBasic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
+      <Project>{21C35138-455B-4833-9756-B2629F972A22}</Project>
+      <Name>RDotNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
       <Name>+VB_DataFrame</Name>
@@ -192,6 +204,10 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Plot\Plots-statistics\Plots.Statistics.vbproj">
+      <Project>{368ee92f-7aa0-47df-be48-2ae150369a4c}</Project>
+      <Name>Plots.Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Plot\Plots\Plots.vbproj">
       <Project>{17f8e821-0a01-4975-9caa-ac95251226d5}</Project>

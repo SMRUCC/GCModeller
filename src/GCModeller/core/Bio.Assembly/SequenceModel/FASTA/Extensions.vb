@@ -47,7 +47,7 @@ Namespace SequenceModel.FASTA
                 End If
             Next
 
-            If IsNumeric(idx) Then
+            If idx.IsNumeric Then
                 Return CInt(Val(idx))
             Else
                 Return -1

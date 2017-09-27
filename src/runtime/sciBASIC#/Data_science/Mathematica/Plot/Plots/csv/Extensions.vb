@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8433ab6054402a6db84c5569571779ec, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\csv\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::1d57ddada419ff0924ed924263d303d9, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\csv\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Quantile
 
 Namespace csv
 
@@ -54,6 +55,31 @@ Namespace csv
                     .title = $"Plot({fieldX}, {fieldY})",
                     .pts = points
                 }
+            End With
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="s"></param>
+        ''' <param name="q">默认值为1，表示不会移除任何值</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function RemovesYOutlier(s As ChartPlots.SerialData, Optional q# = 1) As ChartPlots.SerialData
+            If q = 1.0R Then
+                Return s
+            End If
+
+            With s.pts _
+                .Select(Function(pt) CDbl(pt.pt.Y)) _
+                .GKQuantile
+
+                q = .Query(quantile:=q)
+                s.pts = s.pts _
+                    .Where(Function(pt) pt.pt.Y <= q) _
+                    .ToArray
+
+                Return s
             End With
         End Function
     End Module

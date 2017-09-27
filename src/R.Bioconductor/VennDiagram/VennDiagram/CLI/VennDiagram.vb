@@ -134,7 +134,7 @@ Public Module CLI
             Call TryInit(R_HOME)
         End If
 
-        Call RScript.SaveTo(EXPORT, Encodings.ASCII.CodePage)
+        Call ("#" & vbCrLf & vbCrLf & RScript).SaveTo(EXPORT, Encodings.ASCII.CodePage)
         Call source(EXPORT)
         Call VennDiagram.SaveAsXml(EXPORT.TrimSuffix & ".Xml")
 

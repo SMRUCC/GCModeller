@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7275211cc982e2a3a3976b63652f366d, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Arrow.vb"
+﻿#Region "Microsoft.VisualBasic::aa5c4618e31015f57921880ffe4cac76, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Arrow.vb"
 
     ' Author:
     ' 
@@ -30,7 +30,7 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Language
 
-Namespace Drawing2D.Vector.Shapes
+Namespace Drawing2D.Shapes
 
     ''' <summary>
     ''' 按照任意角度旋转的箭头对象
@@ -130,12 +130,12 @@ Namespace Drawing2D.Vector.Shapes
             Dim prePoint As New Value(Of Point)
 
             Call Path.AddLine(Me.Location, prePoint = New Point(Left + Direction * HeadLength, Top))                        '/
-            Call Path.AddLine(prePoint.value, prePoint = New Point(Left + Direction * HeadLength, Top + HeadSemiHeight))    ' |
-            Call Path.AddLine(prePoint.value, prePoint = New Point(Right, Top + HeadSemiHeight))                            '  ----
-            Call Path.AddLine(prePoint.value, prePoint = New Point(Right, Bottom - HeadSemiHeight))                         '      |
-            Call Path.AddLine(prePoint.value, prePoint = New Point(Left + Direction * HeadLength, Bottom - HeadSemiHeight)) '  ----
-            Call Path.AddLine(prePoint.value, prePoint = New Point(Left + Direction * HeadLength, Bottom))                  ' |
-            Call Path.AddLine(prePoint.value, Me.Location)                                                                  '\
+            Call Path.AddLine(prePoint.Value, prePoint = New Point(Left + Direction * HeadLength, Top + HeadSemiHeight))    ' |
+            Call Path.AddLine(prePoint.Value, prePoint = New Point(Right, Top + HeadSemiHeight))                            '  ----
+            Call Path.AddLine(prePoint.Value, prePoint = New Point(Right, Bottom - HeadSemiHeight))                         '      |
+            Call Path.AddLine(prePoint.Value, prePoint = New Point(Left + Direction * HeadLength, Bottom - HeadSemiHeight)) '  ----
+            Call Path.AddLine(prePoint.Value, prePoint = New Point(Left + Direction * HeadLength, Bottom))                  ' |
+            Call Path.AddLine(prePoint.Value, Me.Location)                                                                  '\
             Call Path.CloseFigure()
 
             Call g.FillPath(New SolidBrush(Me.Color), Path)

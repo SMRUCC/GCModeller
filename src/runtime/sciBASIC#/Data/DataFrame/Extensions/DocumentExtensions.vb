@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::239c27e46d651f0bccc3bc19d3a8a608, ..\sciBASIC#\Data\DataFrame\Extensions\DocumentExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::d1622510ea8bd6fb9b8abf9d6893d8bc, ..\sciBASIC#\Data\DataFrame\Extensions\DocumentExtensions.vb"
 
     ' Author:
     ' 
@@ -29,6 +29,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
@@ -40,6 +41,36 @@ Imports Microsoft.VisualBasic.Text
 ''' The csv document extensions API
 ''' </summary>
 Public Module DocumentExtensions
+
+    ''' <summary>
+    ''' 对于一些数学计算的数值结果，无穷大，无穷小或者非实数会被转换为中文，导致R程序无法识别
+    ''' 则需要使用这个函数来将这些数值替换为目标字符串<paramref name="replaceAs"/>
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <param name="replaceAs$">默认为R之中可以识别的``NA``常数值</param>
+    ''' <returns></returns>
+    Public Function StripNaN(path$, Optional replaceAs$ = "NA") As Boolean
+        Dim csv As IO.File = IO.File.Load(path)
+        Dim invalids As Index(Of String) = {"正无穷大", "负无穷大", "非数字"}.Indexing
+        Dim file As New List(Of RowObject)
+
+        ' 因为第一行一般都是标题行，所以在这里直接跳过了
+        For Each row In csv.Skip(1)
+            Dim buffer = row.ToArray
+
+            For i As Integer = 0 To buffer.Length - 1
+                If invalids.IndexOf(buffer(i)) > -1 Then
+                    buffer(i) = replaceAs
+                End If
+            Next
+
+            file += New RowObject(buffer)
+        Next
+
+        csv = csv.First + file
+
+        Return csv.Save(path, )
+    End Function
 
     ''' <summary>
     ''' 将列数据合并为一个csv文件对象
@@ -94,8 +125,15 @@ Public Module DocumentExtensions
             .SaveAsDataFrame(path)
     End Function
 
+    ''' <summary>
+    ''' Directly merges the csv table files from the target source <paramref name="files"/>, 
+    ''' and save the result to a specific file location <paramref name="EXPORT"/>
+    ''' </summary>
+    ''' <param name="files"></param>
+    ''' <param name="EXPORT$"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function MergeTable(EXPORT$, files As IEnumerable(Of String)) As Boolean
+    Public Function DirectAppends(files As IEnumerable(Of String), EXPORT$) As Boolean
         Dim data As New List(Of GenericTable)
 
         For Each path$ In files
@@ -175,8 +213,8 @@ Public Module DocumentExtensions
     Public Function LoadTsv(Of T As Class)(path$,
                                            Optional encoding As Encodings = Encodings.Default,
                                            Optional nameMaps As Dictionary(Of String, String) = Nothing) As T()
-        Return [Imports](Of T)(path, 
-                               delimiter:=ASCII.TAB, 
+        Return [Imports](Of T)(path,
+                               delimiter:=ASCII.TAB,
                                encoding:=encoding.CodePage,
                                nameMaps:=nameMaps)
     End Function

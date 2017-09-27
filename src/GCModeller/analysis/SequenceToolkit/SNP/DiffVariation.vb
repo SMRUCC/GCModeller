@@ -173,7 +173,7 @@ Public Module DiffVariation
     End Function
 End Module
 
-Public Class KSeq : Inherits ClassObject
+Public Class KSeq : Inherits BaseClass
 
     Public Property attrs As String()
     Public Property Diffs As Dictionary(Of Integer, NamedValue(Of Integer))

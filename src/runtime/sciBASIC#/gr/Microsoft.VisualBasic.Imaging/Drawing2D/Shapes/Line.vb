@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b71564bccbef4d0eef7707425ec36f12, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Line.vb"
+﻿#Region "Microsoft.VisualBasic::6694a66b0e5218cb8655fd97725d759d, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Line.vb"
 
     ' Author:
     ' 
@@ -29,7 +29,7 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Math
 
-Namespace Drawing2D.Vector.Shapes
+Namespace Drawing2D.Shapes
 
     Public Class Line : Inherits Shape
 
@@ -39,6 +39,16 @@ Namespace Drawing2D.Vector.Shapes
         Dim pt1 As PointF, pt2 As PointF
 
         Public Property Stroke As Pen
+        Public ReadOnly Property A As PointF
+            Get
+                Return pt1
+            End Get
+        End Property
+        Public ReadOnly Property B As PointF
+            Get
+                Return pt2
+            End Get
+        End Property
 
         Public Overrides ReadOnly Property Size As Size
             Get
@@ -104,6 +114,14 @@ Namespace Drawing2D.Vector.Shapes
             Me.Stroke = New Pen(New SolidBrush(c), width)
         End Sub
 
+        Sub New(a As PointF, b As PointF, pen As Pen)
+            Call MyBase.New(a.ToPoint)
+
+            pt1 = a
+            pt2 = b
+            Stroke = pen
+        End Sub
+
         Sub New(x1#, y1#, x2#, y2#)
             Call Me.New(New PointF(x1, y1), New PointF(x2, y2))
         End Sub
@@ -135,8 +153,8 @@ Namespace Drawing2D.Vector.Shapes
                 Dim offset As New Point(dx, -dy)
 
                 Return New Line(
-                    pt1.OffSet2D(Offset),
-                    pt2.OffSet2D(Offset),
+                    pt1.OffSet2D(offset),
+                    pt2.OffSet2D(offset),
                     color, .Width)
             End With
         End Function

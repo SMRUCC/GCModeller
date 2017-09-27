@@ -54,7 +54,7 @@ Partial Module CLI
     <Group(CLIGroups.Repository_CLI)>
     Public Function DumpUniprot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".kb_go.sql")
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & $".{UniprotKBEngine.DbName}.sql")
         Dim proteins = UniProtXML.EnumerateEntries(path:=[in])
 
         Return proteins _

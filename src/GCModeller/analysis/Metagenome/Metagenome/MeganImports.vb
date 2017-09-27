@@ -69,8 +69,8 @@ Public Class MeganImports
         Next
     End Function
 
-    Public Shared Iterator Function [Imports](source As IEnumerable(Of Names)) As IEnumerable(Of MeganImports)
-        For Each x As Names In source
+    Public Shared Iterator Function [Imports](source As IEnumerable(Of gast.Names)) As IEnumerable(Of MeganImports)
+        For Each x As gast.Names In source
             If x.Unique = TagNoAssign OrElse x.Unique = TagTotal Then
                 Continue For
             End If
@@ -83,12 +83,12 @@ Public Class MeganImports
         Next
     End Function
 
-    Public Shared Function Out(source As IEnumerable(Of Names)) As IO.File
+    Public Shared Function Out(source As IEnumerable(Of gast.Names)) As IO.File
         Dim file As New IO.File
 
         file += {NameOf(READ_NAME), NameOf(CLASS_NAME), NameOf(COUNT)}
 
-        For Each x As Names In source
+        For Each x As gast.Names In source
             file += New RowObject({x.Unique, x.taxonomy, x.NumOfSeqs})
         Next
 

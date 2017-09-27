@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4624ea14e8699c0870a020db17a52e66, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\ASCIIArt\Convert2ASCII.vb"
+﻿#Region "Microsoft.VisualBasic::c9b49f530f9064b6fc59d7ab8d9f014b, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\ASCIIArt\Convert2ASCII.vb"
 
     ' Author:
     ' 
@@ -30,10 +30,11 @@ Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports sys = System.Math
 
-Namespace Drawing2D.Vector.Text.ASCIIArt
+Namespace Drawing2D.Text.ASCIIArt
 
     ''' <summary>
     ''' Program that converts images to ASCII art images
@@ -147,5 +148,3 @@ Namespace Drawing2D.Vector.Text.ASCIIArt
         End Function
     End Module
 End Namespace
-
-

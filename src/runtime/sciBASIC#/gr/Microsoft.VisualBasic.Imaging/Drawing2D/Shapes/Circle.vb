@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cdfb8b82f7fb41d250c22fc21efc2ae1, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Circle.vb"
+﻿#Region "Microsoft.VisualBasic::a1940b02710977787b96b0c341051650, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Circle.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,7 @@ Imports System.Math
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 
-Namespace Drawing2D.Vector.Shapes
+Namespace Drawing2D.Shapes
 
     Public Class Circle : Inherits Shape
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81d2849986e047e897f7b55fd5f7e07a, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\CommandLine.vb"
+﻿#Region "Microsoft.VisualBasic::2a00b689e3958747fcf912082911d3d4, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\CommandLine.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,7 @@ Namespace CommandLine
     ''' </summary>
     ''' <remarks></remarks>
     '''
-    Public Class CommandLine : Inherits ClassObject
+    Public Class CommandLine : Inherits BaseClass
         Implements ICollection(Of NamedValue(Of String))
         Implements INamedValue
 
@@ -344,11 +344,15 @@ Namespace CommandLine
         ''' </summary>
         ''' <param name="name$"></param>
         ''' <returns></returns>
-        Public Function GetDictionary(name$) As Dictionary(Of String, String)
+        Public Function GetDictionary(name$, Optional default$ = Nothing) As Dictionary(Of String, String)
             Dim s$ = Me(name$)
 
             If String.IsNullOrEmpty(s$) Then
-                Return Nothing
+                If [default].StringEmpty Then
+                    Return Nothing
+                Else
+                    Return DictionaryParser.TryParse([default])
+                End If
             Else
                 Return DictionaryParser.TryParse(s$)
             End If
@@ -581,14 +585,11 @@ Namespace CommandLine
         ''' <param name="parameter">Command parameter name in the command line inputs.</param>
         ''' <param name="__getObject"></param>
         ''' <returns></returns>
-        Public Function GetObject(Of T)(parameter As String, __getObject As Func(Of String, T)) As T
-            If __getObject Is Nothing Then
-                Return Nothing
-            End If
-
-            Dim value As String = Me(parameter)
-            Dim obj As T = __getObject(arg:=value)
-            Return obj
+        Public Function GetObject(Of T)(parameter$, Optional __getObject As Func(Of String, T) = Nothing) As T
+            Dim value$ = Me(parameter)
+            Dim obj = (__getObject Or StringParser(GetType(T)))(arg:=value)
+            Dim x As T = DirectCast(obj, T)
+            Return x
         End Function
 
         ''' <summary>
@@ -803,7 +804,7 @@ Namespace CommandLine
         ''' <param name="args"></param>
         ''' <param name="fs"></param>
         ''' <returns></returns>
-        Public Overloads Shared Operator +(args As CommandLine, fs As String) As Integer
+        Public Overloads Shared Operator +(args As CommandLine, fs$) As Integer
             Dim path As String = args(fs)
             Return FileHandles.OpenHandle(path)
         End Operator
@@ -814,7 +815,7 @@ Namespace CommandLine
         ''' <param name="args"></param>
         ''' <param name="name"></param>
         ''' <returns></returns>
-        Public Overloads Shared Operator <=(args As CommandLine, name As String) As String
+        Public Overloads Shared Operator <=(args As CommandLine, name$) As String
             If args Is Nothing Then
                 Return Nothing
             Else

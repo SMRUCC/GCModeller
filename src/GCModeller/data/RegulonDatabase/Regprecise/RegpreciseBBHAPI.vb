@@ -157,8 +157,8 @@ Namespace Regprecise
                 LocalBLAST, If(String.IsNullOrEmpty(WorkDir), My.Computer.FileSystem.SpecialDirectories.Temp, WorkDir))
             Dim bhArray = BesthitBLAST.Peformance(Query.FilePath,
                                                   RegpreciseRegulators.FilePath,
-                                                  TextGrepScriptEngine.Compile(QueryGrep).Method,
-                                                  TextGrepScriptEngine.Compile("tokens ' ' 0;tokens | last").Method,
+                                                  TextGrepScriptEngine.Compile(QueryGrep).PipelinePointer,
+                                                  TextGrepScriptEngine.Compile("tokens ' ' 0;tokens | last").PipelinePointer,
                                                   "1e-3", ExportAll:=ExportAll)
             Dim ExtractedTfbsInfo = (From regulator As FastaToken
                                      In RegpreciseRegulators

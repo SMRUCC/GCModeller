@@ -48,6 +48,7 @@ Namespace DAG
         Public Property relationship As Relationship()
         Public Property id As String Implements INamedValue.Key
         Public Property [namespace] As String
+        Public Property GO_term As Term
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

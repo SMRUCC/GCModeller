@@ -28,9 +28,8 @@
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Math
-Imports SMRUCC.genomics.SequenceModel
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Namespace SequenceLogo
@@ -49,7 +48,7 @@ Namespace SequenceLogo
     ''' <summary>
     ''' Drawing model for the sequence logo visualization.
     ''' </summary>
-    Public Class DrawingModel : Inherits ClassObject
+    Public Class DrawingModel : Inherits BaseClass
 
         ''' <summary>
         ''' The motif model is consist of a sequence of residue sites.

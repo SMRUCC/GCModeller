@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5870fc6c33c580447c5f82eeaf48e73, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Delegate\DataValue.vb"
+﻿#Region "Microsoft.VisualBasic::cd701ddeb4c45ada871fa16dc42ffee5, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Delegate\DataValue.vb"
 
     ' Author:
     ' 
@@ -26,11 +26,11 @@
 
 #End Region
 
-
 Imports System.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Emit.Delegates
 
@@ -97,7 +97,7 @@ Namespace Emit.Delegates
                         Call [property].__setValue(x, v)
                     Next
                 Else
-                    Dim vector = array.Cast(Of Object).ToArray
+                    Dim vector = array.As(Of Object).ToArray
 
                     If vector.Length <> data.Length Then
                         Throw New InvalidExpressionException(DimNotAgree$)

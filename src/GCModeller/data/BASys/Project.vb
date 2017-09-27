@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal.STDIO
 
-Public Class Project : Inherits ClassObject
+Public Class Project : Inherits BaseClass
 
     Public Property Summary As Summary
     Public Property Briefs As TableBrief()

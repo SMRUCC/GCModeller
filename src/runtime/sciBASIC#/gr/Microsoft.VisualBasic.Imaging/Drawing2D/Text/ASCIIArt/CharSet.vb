@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab92f9edcd72f781928aa8d21461c028, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\ASCIIArt\CharSet.vb"
+﻿#Region "Microsoft.VisualBasic::6e89b04948c8480e243fef1373b71909, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\ASCIIArt\CharSet.vb"
 
     ' Author:
     ' 
@@ -30,7 +30,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Math
 
-Namespace Drawing2D.Vector.Text.ASCIIArt
+Namespace Drawing2D.Text.ASCIIArt
 
     Public Module CharSet
 
@@ -160,4 +160,3 @@ Namespace Drawing2D.Vector.Text.ASCIIArt
 #End Region
     End Module
 End Namespace
-

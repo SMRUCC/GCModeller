@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9459fc69847bb88c00d1cf86da489877, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::6bbb93ec751e3ecc810e5d8f7477b0e0, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Reflection.vb"
 
     ' Author:
     ' 
@@ -319,7 +319,7 @@ NULL:       If Not strict Then
     ''' <param name="strict">
     ''' + 这个参数是为了解决比较来自不同的assembly文件之中的相同类型的比较，但是这个可能会在类型转换出现一些BUG
     ''' + 假若不严格要求的话，那么则两种类型相等的时候也会被算作为继承关系
-    ''' + 假若是非严格判断，那么对于泛型而言，只要基本类型也相等也会被判断为成立的继承关系，这个是为了<see cref="Actives"/>操作设计的
+    ''' + 假若是非严格判断，那么对于泛型而言，只要基本类型也相等也会被判断为成立的继承关系，这个是为了<see cref="Activity"/>操作设计的
     ''' 
     ''' </param>
     ''' <param name="depth">类型继承的距离值，当这个值越大的时候，说明二者的继承越远，当进行函数重载判断的时候，选择这个距离值越小的越好</param>
@@ -449,6 +449,26 @@ NULL:       If Not strict Then
         Else
             Return [default]
         End If
+    End Function
+
+    ''' <summary>
+    ''' Get array value from the input flaged enum <paramref name="value"/>.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="value"></param>
+    ''' <returns></returns>
+    Public Function GetAllEnumFlags(Of T As Structure)(value As T) As T()
+        Dim type As Type = GetType(T)
+        Dim array As New List(Of T)
+        Dim enumValue As [Enum] = CType(CObj(value), [Enum])
+
+        For Each flag As [Enum] In Enums(Of T)().Select(Function(o) CType(CObj(o), [Enum]))
+            If enumValue.HasFlag(flag) Then
+                array += DirectCast(CObj(flag), T)
+            End If
+        Next
+
+        Return array
     End Function
 
     ''' <summary>
@@ -600,7 +620,8 @@ EXIT_:      If DebuggerMessage Then Call $"[WARN] Target type ""{Type.FullName}"
 #End If
 
     ''' <summary>
-    ''' Get the method reflection entry point for a anonymous lambda expression.(当函数返回Nothing的时候说明目标对象不是一个函数指针)
+    ''' Get the method reflection entry point for a anonymous lambda expression.
+    ''' (当函数返回Nothing的时候说明目标对象不是一个函数指针)
     ''' </summary>
     ''' <param name="obj"></param>
     ''' <returns></returns>
@@ -608,12 +629,15 @@ EXIT_:      If DebuggerMessage Then Call $"[WARN] Target type ""{Type.FullName}"
     '''
     <ExportAPI("Delegate.GET_Invoke", Info:="Get the method reflection entry point for a anonymous lambda expression.")>
     Public Function GetDelegateInvokeEntryPoint(obj As Object) As MethodInfo
-        Dim TypeInfo As Type = obj.GetType
-        Dim InvokeEntryPoint = (From MethodInfo As MethodInfo
-                                In TypeInfo.GetMethods
-                                Where String.Equals(MethodInfo.Name, "Invoke")
-                                Select MethodInfo).FirstOrDefault
-        Return InvokeEntryPoint
+        Dim type As Type = obj.GetType
+        Dim entryPoint = LinqAPI.DefaultFirst(Of MethodInfo) _
+ _
+            () <= From methodInfo As MethodInfo
+                  In type.GetMethods
+                  Where String.Equals(methodInfo.Name, "Invoke")
+                  Select methodInfo
+
+        Return entryPoint
     End Function
 
     ''' <summary>

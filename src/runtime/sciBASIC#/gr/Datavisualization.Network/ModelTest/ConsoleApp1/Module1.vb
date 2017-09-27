@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94d118469f5ab8c87f931bac827ab719, ..\sciBASIC#\gr\Datavisualization.Network\ModelTest\ConsoleApp1\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::af19bbf14bf90bd7e0677ac9e00bef58, ..\sciBASIC#\gr\Datavisualization.Network\ModelTest\ConsoleApp1\Module1.vb"
 
     ' Author:
     ' 
@@ -217,7 +217,7 @@ Public Module Module1
     Public Class node : Inherits MassPoint
 
         Sub New()
-            Point = New Vector({Rnd() * 1000, Rnd() * 1000})
+            Point = New Vector(shorts:={Rnd() * 1000, Rnd() * 1000})
             Charge = 0.01
         End Sub
 
@@ -226,4 +226,3 @@ Public Module Module1
         End Function
     End Class
 End Module
-

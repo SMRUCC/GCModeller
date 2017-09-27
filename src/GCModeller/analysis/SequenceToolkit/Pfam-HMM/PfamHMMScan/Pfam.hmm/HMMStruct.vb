@@ -35,7 +35,7 @@ Imports Microsoft.VisualBasic.Linq
 ''' <remarks>
 ''' http://cn.mathworks.com/help/bioinfo/ref/gethmmprof.html
 ''' </remarks>
-Public Class HMMStruct : Inherits ClassObject
+Public Class HMMStruct : Inherits BaseClass
 
     ''' <summary>
     ''' The protein family name (unique identifier) Of the HMM profile record In the PFAM database.

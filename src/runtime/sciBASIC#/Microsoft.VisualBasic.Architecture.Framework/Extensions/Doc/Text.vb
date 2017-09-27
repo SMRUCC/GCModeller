@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16319b5533c3a6f92dc89991a5a33435, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Doc\Text.vb"
+﻿#Region "Microsoft.VisualBasic::7556363210e9560501c45c581f3d473e, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Doc\Text.vb"
 
     ' Author:
     ' 
@@ -265,7 +265,7 @@ Public Module TextDoc
 
         Try
             Call FileIO.FileSystem.CreateDirectory(DIR)
-            Call FileIO.FileSystem.WriteAllText(path, text, append:=append, encoding:=encoding Or DefaultEncoding)
+            Call File.WriteAllText(path, text, encoding Or DefaultEncoding)
         Catch ex As Exception
             ex = New Exception("[DIR]  " & DIR, ex)
             ex = New Exception("[Path]  " & path, ex)

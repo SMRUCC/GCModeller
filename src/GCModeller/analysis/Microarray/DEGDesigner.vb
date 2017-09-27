@@ -43,6 +43,15 @@ Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 
 Public Module DEGDesigner
 
+    Public Function ParseDEGTypes(str$) As Types
+        Select Case Trim(str).ToLower
+            Case "up" : Return Types.Up
+            Case "down" : Return Types.Down
+            Case Else
+                Return Types.None
+        End Select
+    End Function
+
     <Extension>
     Public Iterator Function log2(data As IEnumerable(Of EntityObject), designers As Designer(), Optional label$ = Nothing) As IEnumerable(Of EntityObject)
         For Each gene As EntityObject In data

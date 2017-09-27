@@ -28,7 +28,7 @@
 
 Imports System.Drawing
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Text.Levenshtein
 
 Namespace Analysis.Similarity.TOMQuery

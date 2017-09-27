@@ -69,7 +69,7 @@ Namespace Assembly.MetaCyc.File
     ''' LEFT - NADP
     ''' ^COEFFICIENT - 1
     ''' </remarks>
-    Public Class AttributeValue : Inherits ClassObject
+    Public Class AttributeValue : Inherits BaseClass
         Implements IEnumerable(Of ObjectModel)
 
         ''' <summary>

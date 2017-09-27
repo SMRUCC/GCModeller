@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::ed42981e98c61dc18f07b9d24ccb8eac, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::171c0e71110ecc4570ccbc4809163402, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -84,8 +84,8 @@ Public Module Extensions
     ''' <param name="data"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function Range(data As IEnumerable(Of Double)) As DoubleRange
-        Return New DoubleRange(data)
+    Public Function Range(data As IEnumerable(Of Double), Optional scale# = 1) As DoubleRange
+        Return New DoubleRange(data) * scale
     End Function
 
     ''' <summary>
@@ -757,16 +757,23 @@ Public Module Extensions
     End Function
 
     ''' <summary>
-    ''' X, ....
+    ''' ``X, ....``
+    ''' 
+    ''' (这个函数是一个安全的函数，当<paramref name="collection"/>为空值的时候回忽略掉<paramref name="collection"/>，
+    ''' 只返回包含有一个<paramref name="obj"/>元素的列表)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="obj"></param>
     ''' <param name="collection"></param>
     ''' <returns></returns>
     <Extension> Public Function Join(Of T)(obj As T, collection As IEnumerable(Of T)) As List(Of T)
-        Dim list As New List(Of T) From {obj}
-        Call list.AddRange(collection)
-        Return list
+        With New List(Of T) From {obj}
+            If Not collection.IsNullOrEmpty Then
+                Call .AddRange(collection)
+            End If
+
+            Return .ref
+        End With
     End Function
 
 #If FRAMEWORD_CORE Then

@@ -9,9 +9,15 @@ Namespace Settings
     ''' </summary>
     Module Templates
 
+        Public ReadOnly Property TemplateFolder As String
+
+        Sub New()
+            TemplateFolder = App.HOME & $"/Templates"
+        End Sub
+
 #If Not DisableCsvTemplate Then
         Public Sub WriteExcelTemplate(Of T)()
-            Dim path$ = App.HOME & $"/Templates/{App.AssemblyName}/{GetType(T).Name}.csv"
+            Dim path$ = $"{TemplateFolder}/{App.AssemblyName}/{GetType(T).Name}.csv"
 
             If Not path.FileLength > 0 Then
                 Call (New T() {}).SaveTo(path,, Encodings.ASCII.CodePage)

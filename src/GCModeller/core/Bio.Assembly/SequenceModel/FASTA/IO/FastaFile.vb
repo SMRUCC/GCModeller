@@ -689,5 +689,25 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
 
             Return New FastaFile(list)
         End Function
+
+        ''' <summary>
+        ''' 文件之中是否只包含有一条序列？
+        ''' </summary>
+        ''' <param name="path$"></param>
+        ''' <returns></returns>
+        Public Shared Function SingleSequence(path$) As Boolean
+            Dim i%
+
+            For Each fasta As FastaToken In New StreamIterator(path).ReadStream
+                i += 1
+
+                If i = 2 Then
+                    ' 已经有两条序列了，肯定不是单一序列构成的，返回False
+                    Return False
+                End If
+            Next
+
+            Return True
+        End Function
     End Class
 End Namespace

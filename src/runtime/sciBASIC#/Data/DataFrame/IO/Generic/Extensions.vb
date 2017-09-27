@@ -1,34 +1,35 @@
-﻿#Region "Microsoft.VisualBasic::bbe72b7c06a9489793d27d7898450803, ..\sciBASIC#\Data\DataFrame\IO\Generic\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::20c137fce00eaec8abea5929330c9c36, ..\sciBASIC#\Data\DataFrame\IO\Generic\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 Namespace IO
@@ -37,6 +38,17 @@ Namespace IO
     ''' Data extension for <see cref="DataSet"/> and <see cref="EntityObject"/>
     ''' </summary>
     Public Module Extensions
+
+        <Extension>
+        Public Iterator Function Matrix(data As IEnumerable(Of DataSet)) As IEnumerable(Of Double())
+            With data.ToArray
+                Dim allKeys = .Keys(distinct:=True)
+
+                For Each x As DataSet In .ref
+                    Yield x.ItemValue(allKeys)
+                Next
+            End With
+        End Function
 
         <Extension>
         Public Function EuclideanDistance(a As DataSet, b As DataSet, names$()) As Double
@@ -64,6 +76,25 @@ Namespace IO
                             }
                         End Function) _
                 .ToArray
+        End Function
+
+        ''' <summary>
+        ''' 可以使用这个拓展函数进行重排序
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="keys$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Project(data As IEnumerable(Of DataSet), keys$()) As IEnumerable(Of DataSet)
+            Return data _
+                .Select(Function(x)
+                            Return New DataSet With {
+                                .ID = x.ID,
+                                .Properties = keys.ToDictionary(
+                                    Function(k) k,
+                                    Function(k) x.ItemValue(k))
+                            }
+                        End Function)
         End Function
 
         <Extension>
@@ -151,6 +182,29 @@ Namespace IO
             Return data _
                 .Select(Function(r) r(key$)) _
                 .ToArray
+        End Function
+
+        <Extension>
+        Public Function AsDataSet(data As IEnumerable(Of EntityObject), Optional blank# = 0) As IEnumerable(Of DataSet)
+            Dim array = data.ToArray
+            Dim allKeys = array _
+                .Select(Function(x) x.Properties.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+            Dim ToDouble = Function(obj As EntityObject, key$)
+                               Return If(obj.Properties.ContainsKey(key), Val(obj(key)), blank)
+                           End Function
+
+            Return data _
+                .Select(Function(obj)
+                            Return New DataSet With {
+                                .ID = obj.ID,
+                                .Properties = allKeys _
+                                    .ToDictionary(Function(x) x,
+                                                  Function(x) ToDouble(obj, key:=x))
+                            }
+                        End Function)
         End Function
     End Module
 End Namespace

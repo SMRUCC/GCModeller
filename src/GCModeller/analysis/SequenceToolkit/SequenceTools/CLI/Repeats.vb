@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
@@ -130,7 +131,7 @@ Partial Module Utilities
     <Argument("/out", True, AcceptTypes:={GetType(RepeatsView), GetType(RevRepeatsView)})>
     <Group(CLIGrouping.RepeatsTools)>
     Public Function BatchSearch(args As CommandLine) As Integer
-        Dim Mla As FastaFile = args.GetObject("/aln", AddressOf FastaFile.Read)
+        Dim Mla As FastaFile = args.GetObject(Of FastaFile)("/aln", AddressOf FastaFile.Read)
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim MinAppeared As Integer = args.GetValue("/min-rep", 2)
@@ -173,5 +174,53 @@ Partial Module Utilities
         Dim seeds As SeedData = SeedData.Initialize(chars, max)
 
         Return seeds.Save(out)
+    End Function
+
+    <ExportAPI("/SSR")>
+    <Description("Search for SSR on a nt sequence.")>
+    <Usage("/SSR /in <nt.fasta> [/range <default=2,6> /parallel /out <out.csv/DIR>]")>
+    Public Function SSRFinder(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim range$ = args.GetValue("/range", "2,6")
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".SSR.csv")
+
+        SSRSearch.Parallel = args.IsTrue("/parallel")
+
+        If FastaFile.SingleSequence([in]) Then
+            Dim nt As FastaToken = FastaToken.LoadNucleotideData([in])
+
+            If nt.IsProtSource Then
+                Throw New InvalidExpressionException([in])
+            End If
+
+            Return nt _
+                .SSR(range) _
+                .ToArray _
+                .SaveTo(out) _
+                .CLICode
+        Else
+            For Each nt As FastaToken In New StreamIterator([in]).ReadStream
+                Dim path$ = out.TrimSuffix & $"/{nt.Title.NormalizePathString}.csv"
+
+                If path.FileExists Then
+                    Console.Write(".")
+                    Continue For
+                Else
+                    Call nt.Title.__INFO_ECHO
+                End If
+
+                Try
+                    Dim SSR As SSR() = nt _
+                        .SSR(range) _
+                        .ToArray
+
+                    Call SSR.SaveTo(path)
+                Catch ex As Exception
+                    Call ex.PrintException
+                End Try
+            Next
+
+            Return 0
+        End If
     End Function
 End Module

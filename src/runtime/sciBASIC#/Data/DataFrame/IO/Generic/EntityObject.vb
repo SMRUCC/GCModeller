@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f0381917b57d14d0a719aa02a6b520e, ..\sciBASIC#\Data\DataFrame\IO\Generic\EntityObject.vb"
+﻿#Region "Microsoft.VisualBasic::45a8ec327bb1dba4e77555fa379571bc, ..\sciBASIC#\Data\DataFrame\IO\Generic\EntityObject.vb"
 
     ' Author:
     ' 
@@ -47,7 +47,7 @@ Namespace IO
         ''' </summary>
         ''' <returns></returns>
         <Column("ID")>
-        Public Property ID As String Implements INamedValue.Key
+        Public Overridable Property ID As String Implements INamedValue.Key
 
         Sub New()
         End Sub

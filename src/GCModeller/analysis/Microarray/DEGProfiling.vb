@@ -1,20 +1,36 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
-Imports Microsoft.VisualBasic.Language
 
 Public Module DEGProfiling
+
+    ' 2017-9-15
+    '
+    ' 原来在这个模块之中的每一个和DEP判断相关的函数都具有一个threshold参数用来判断是否上下调
+    ' 但是这个判断已经和isDEP函数判断重复了，所以现在将这些threshold参数都去除掉
 
     <Extension>
     Public Function GetDEGs(genes As IEnumerable(Of gene),
                             isDEP As Func(Of gene, Boolean),
-                            threshold As (up#, down#),
-                            logFC$) As (UP As String(), DOWN As String())
+                            log2FC$) As (UP As Dictionary(Of String, Double), DOWN As Dictionary(Of String, Double))
 
         Dim DEGs As gene() = genes.Where(isDEP).ToArray
-        Dim up = DEGs.Where(Function(gene) Val(gene(logFC)) >= threshold.up).Keys
-        Dim down = DEGs.Where(Function(gene) Val(gene(logFC)) <= threshold.down).Keys
+        Dim up = DEGs.Where(Function(gene) Val(gene(log2FC)) > 0).createTable(log2FC)
+        Dim down = DEGs.Where(Function(gene) Val(gene(log2FC)) < 0).createTable(log2FC)
 
         Return (up, down)
+    End Function
+
+    <Extension>
+    Private Function createTable(DEGs As IEnumerable(Of gene), logFC$) As Dictionary(Of String, Double)
+        Return DEGs _
+            .GroupBy(Function(gene) gene.ID) _
+            .ToDictionary(Function(gene) gene.Key,
+                          Function(g)
+                              Return Aggregate gene As gene
+                                     In g
+                                     Let log2FC As Double = Val(gene(logFC))
+                                     Into Average(log2FC)
+                          End Function)
     End Function
 
     ''' <summary>
@@ -22,8 +38,7 @@ Public Module DEGProfiling
     ''' </summary>
     ''' <param name="genes"></param>
     ''' <param name="isDEP"></param>
-    ''' <param name="threshold"></param>
-    ''' <param name="logFC$"></param>
+    ''' <param name="log2FC$"></param>
     ''' <param name="IDMapping"></param>
     ''' <param name="upColor$"></param>
     ''' <param name="downColor$"></param>
@@ -31,8 +46,7 @@ Public Module DEGProfiling
     <Extension>
     Public Function ColorsProfiling(genes As IEnumerable(Of gene),
                                     isDEP As Func(Of gene, Boolean),
-                                    threshold As (up#, down#),
-                                    logFC$,
+                                    log2FC$,
                                     Optional IDMapping As Dictionary(Of String, String()) = Nothing,
                                     Optional upColor$ = "red",
                                     Optional downColor$ = "blue") As Dictionary(Of String, String)
@@ -53,18 +67,18 @@ Public Module DEGProfiling
 
         Dim profiles As New Dictionary(Of String, String)
 
-        With genes.GetDEGs(isDEP, threshold, logFC)
-            For Each gene As String In .UP
+        With genes.GetDEGs(isDEP, log2FC)
+            For Each gene As String In .UP.Keys
                 For Each ID In mapID(gene)
                     profiles(ID) = upColor
                 Next
             Next
-            For Each gene As String In .DOWN
+            For Each gene As String In .DOWN.Keys
                 For Each ID In mapID(gene)
                     profiles(ID) = downColor
                 Next
             Next
-        End With      
+        End With
 
         Return profiles
     End Function

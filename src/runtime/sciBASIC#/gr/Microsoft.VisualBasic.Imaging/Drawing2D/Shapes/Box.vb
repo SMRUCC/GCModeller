@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a718dd49a070e69f72a12c7ea520124b, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Box.vb"
+﻿#Region "Microsoft.VisualBasic::cb40ad8c897258ce0e4e0fd8e96cf05b, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Box.vb"
 
     ' Author:
     ' 
@@ -29,7 +29,7 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 
-Namespace Drawing2D.Vector.Shapes
+Namespace Drawing2D.Shapes
 
     Public Class Box : Inherits Shape
 

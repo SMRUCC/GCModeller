@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::6e9eddf5dbaf07f708b12a876ac34839, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\Heatmaps\Heatmap.vb"
+﻿#Region "Microsoft.VisualBasic::0931a6dad8d3348c2d93da8b0e29d3b9, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots-statistics\Heatmap\Heatmap.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -33,8 +33,8 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
@@ -161,13 +161,15 @@ Namespace Heatmap
                                 Call g.DrawRectangles(Pens.WhiteSmoke, {rect})
                             End If
                             If drawValueLabel Then
-                                key = c.FormatNumeric(2)
-                                Dim ksz As SizeF = g.MeasureString(key, valuelabelFont)
-                                Dim kpos As New PointF With {
-                                    .X = rect.Left + (rect.Width - ksz.Width) / 2,
-                                    .Y = rect.Top + (rect.Height - ksz.Height) / 2
-                                }
-                                Call g.DrawString(key, valuelabelFont, Brushes.White, kpos)
+
+                                With c.ToString("F2")
+                                    Dim ksz As SizeF = g.MeasureString(.ref, valuelabelFont)
+                                    Dim kpos As New PointF With {
+                                        .X = rect.Left + (rect.Width - ksz.Width) / 2,
+                                        .Y = rect.Top + (rect.Height - ksz.Height) / 2
+                                    }
+                                    Call g.DrawString(.ref, valuelabelFont, Brushes.White, kpos)
+                                End With
                             End If
 
                             args.left += dw!

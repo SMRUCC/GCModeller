@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2a201d1e5cac6d5e130e0fb27c11c89, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\GeomTransform.vb"
+﻿#Region "Microsoft.VisualBasic::fa2ca1194b5f77e8fb8a1a1281243d65, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\GeomTransform.vb"
 
     ' Author:
     ' 
@@ -58,10 +58,20 @@ Namespace Imaging
             Return New PointF(x, y)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Distance(x1#, y1#, x2#, y2#) As Double
             Return sys.Sqrt((x1 - x2) ^ 2 + (y1 - y2) ^ 2)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function Distance(points As IEnumerable(Of Point), anchor As Point) As Double()
+            Return points _
+                .Select(Function(pt) Distance(pt.X, pt.Y, anchor.X, anchor.Y)) _
+                .ToArray
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function CalculateAngle(p1 As Point, p2 As Point) As Double
             Dim xDiff As Single = p2.X - p1.X
             Dim yDiff As Single = p2.Y - p1.Y
@@ -95,10 +105,12 @@ Namespace Imaging
             Return New RectangleF(topLeft, size)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function ToPoint(pf As PointF) As Point
             Return New Point(pf.X, pf.Y)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function ToPoints(ps As IEnumerable(Of PointF)) As Point()
             Return ps.Select(Function(x) New Point(x.X, x.Y)).ToArray
         End Function
@@ -109,6 +121,7 @@ Namespace Imaging
         ''' <param name="rect"></param>
         ''' <returns></returns>
         <ExportAPI("Center")>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function Centre(rect As Rectangle) As Point
             Return New Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2)
         End Function
@@ -126,6 +139,7 @@ Namespace Imaging
             Return New RectangleF(location, size)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function Scale(rect As Rectangle, factor As SizeF) As Rectangle
             With rect
                 With New RectangleF(.Location.PointF, .Size.SizeF).Scale(factor)
@@ -157,6 +171,7 @@ Namespace Imaging
             Return shape.PointF.Centre
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function PointF(polygon As IEnumerable(Of Point)) As IEnumerable(Of PointF)
             Return polygon.Select(Function(pt) New PointF(pt.X, pt.Y))
         End Function
@@ -184,6 +199,7 @@ Namespace Imaging
                 .CentralOffset(frameSize.SizeF)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function SizeF(size As Size) As SizeF
             Return New SizeF(size.Width, size.Height)

@@ -146,10 +146,16 @@ Namespace LocalBLAST.Application.BBH
             Return LQuery
         End Function
 
+        ''' <summary>
+        ''' 因为Evalue是评价hsp的相似度的高低的因素，而identity和coverage则是评价序列整体相似度的因素，
+        ''' 所以在这里仅需要identity和coverage这两个因素来计算得分就好了
+        ''' </summary>
+        ''' <param name="hit"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function SBHScore(hit As BestHit) As Double
-            Dim E# = If(hit.evalue = 0R, Double.MaxValue - 100, -Math.Log10(hit.evalue))
-            Dim score# = (hit.identities * hit.coverage) * E
+            ' Dim E# = If(hit.evalue = 0R, 500, -Math.Log10(hit.evalue))
+            Dim score# = (hit.identities * hit.coverage) ' * E
             Return score
         End Function
 
@@ -279,6 +285,30 @@ Namespace LocalBLAST.Application.BBH
                                        Function(x) x.Group.TopHit)
         End Function
 
+        <Extension>
+        Public Function BBHScore(bbh As BiDirectionalBesthit) As Double
+            Return bbh.Length * bbh.Identities
+        End Function
+
+        <Extension>
+        Public Function StripTopBest(bbh As IEnumerable(Of BiDirectionalBesthit), Optional score As Func(Of BiDirectionalBesthit, Double) = Nothing) As BiDirectionalBesthit()
+            Dim evaluate As Func(Of BiDirectionalBesthit, Double) = score Or New Func(Of BiDirectionalBesthit, Double)(AddressOf BBHScore).AsDefault
+            Dim queries = bbh _
+                .GroupBy(Function(h) h.QueryName) _
+                .Select(Function(g)
+                            Dim list = g.ToArray
+
+                            If list.Length = 1 Then
+                                Return list.First
+                            Else
+                                Return list.OrderByDescending(evaluate).First
+                            End If
+                        End Function) _
+                .ToArray
+
+            Return queries
+        End Function
+
         ''' <summary>
         ''' Only using the first besthit paired result for the orthology data, if the query have no matches then using an empty string for the hit name.
         ''' (只使用第一个做为最佳的双向结果，假若匹配不上，Hitname属性会为空字符串)
@@ -289,11 +319,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <remarks></remarks>
         '''
         <ExportAPI("BBH")>
-        Public Function GetBBHTop(qvs As BestHit(),
-                                  svq As BestHit(),
-                                  Optional identities As Double = -1,
-                                  Optional coverage As Double = -1) As BiDirectionalBesthit()
-
+        Public Function GetBBHTop(qvs As BestHit(), svq As BestHit(), Optional identities# = -1, Optional coverage# = -1) As BiDirectionalBesthit()
             Dim qHash As Dictionary(Of String, BestHit) = qvs.__bhHash(identities, coverage)
             Dim shash As Dictionary(Of String, BestHit) = svq.__bhHash(identities, coverage)
             Dim result As New List(Of BiDirectionalBesthit)

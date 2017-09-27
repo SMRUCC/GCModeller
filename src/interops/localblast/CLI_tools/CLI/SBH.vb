@@ -1,41 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::96af9101a1076bd5b25eaef682737fa1, ..\localblast\CLI_tools\CLI\SBH.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
+Imports System.ComponentModel
+Imports System.IO
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
-Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports SMRUCC.genomics.Interops.NCBI.Extensions
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.BBHLogs
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
@@ -43,6 +46,26 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 
 Partial Module CLI
+
+    <ExportAPI("/to.kobas")>
+    <Usage("/to.kobas /in <sbh.csv> [/out <kobas.tsv>]")>
+    Public Function _2_KOBASOutput(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".tsv")
+        Dim row As RowObject
+
+        Using writer As StreamWriter = out.OpenWriter
+            For Each match As BestHit In [in].LoadCsv(Of BestHit)
+                With match
+                    row = { .QueryName, .HitName, .coverage, .length_hsp, 0, 0, 0, 0, 0, 0, .evalue, .Score}
+                End With
+
+                Call writer.WriteLine(row.AsLine(ASCII.TAB))
+            Next
+        End Using
+
+        Return 0
+    End Function
 
     <ExportAPI("/Paralog", Usage:="/Paralog /blastp <blastp.txt> [/coverage 0.5 /identities 0.3 /out <out.csv>]")>
     Public Function ExportParalog(args As CommandLine) As Integer
@@ -130,19 +153,19 @@ Partial Module CLI
         Dim LQuery = (From contig In contigs.AsParallel Select __evalueRow(hitsTags, contig.Key, contig.Value, flip)).ToArray
         Dim hits = (From contig In contigs.AsParallel Select __HitsRow(hitsTags, contig.Key, contig.Value)).ToArray
 
-        Dim Csv As File = New File + New RowObject("+".Join(hitsTags))
+        Dim Csv As csv.IO.File = New csv.IO.File + New RowObject("+".Join(hitsTags))
         Csv += LQuery
-        Csv.Save(out, Encoding:=System.Text.Encoding.ASCII)
+        Csv.Save(out, Encoding:=Encoding.ASCII)
 
-        Csv = New File + New RowObject("+".Join(hitsTags))
+        Csv = New csv.IO.File + New RowObject("+".Join(hitsTags))
         Csv += hits
 
         Return Csv.Save(out & ".Hits.Csv", Encoding:=System.Text.Encoding.ASCII).CLICode
     End Function
 
-    <ExportAPI("/SBH.Export.Large",
-               Info:="Using this command for export the sbh result of your blastp raw data.",
-               Usage:="/SBH.Export.Large /in <blastp_out.txt> [/trim-kegg /out <sbh.csv> /identities 0.15 /coverage 0.5]")>
+    <ExportAPI("/SBH.Export.Large")>
+    <Description("Using this command for export the sbh result of your blastp raw data.")>
+    <Usage("/SBH.Export.Large /in <blastp_out.txt> [/trim-kegg /out <sbh.csv> /s.pattern <default=-> /q.pattern <default=-> /identities 0.15 /coverage 0.5]")>
     <Argument("/trim-KEGG", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If the fasta sequence source is comes from the KEGG database, and you want to removes the kegg species brief code for the locus_tag, then enable this option.")>
@@ -158,14 +181,38 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".sbh.Csv")
         Dim idetities As Double = args.GetValue("/identities", 0.15)
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
+        Dim sPattern$ = args.GetValue("/s.pattern", "-")
+        Dim qPattern$ = args.GetValue("/q.pattern", "-")
 
         Using IO As New WriteStream(Of BestHit)(out)
-            Dim handle As Action(Of Query) = IO.ToArray(Of BlastPlus.Query)(
+            Dim handle As Action(Of Query) = IO.ToArray(Of Query)(
                 Function(query) v228.SBHLines(query, coverage:=coverage, identities:=idetities))
-            Call BlastPlus.Transform(inFile, 1024 * 1024 * 256, handle)
+            Call Transform(inFile, 1024 * 1024 * 256, handle, grep:=(qPattern, sPattern))
         End Using
 
         Return 0
+    End Function
+
+    <ExportAPI("/SBH.tophits")>
+    <Description("Filtering the sbh result with top SBH Score")>
+    <Usage("/SBH.tophits /in <sbh.csv> [/uniprotKB /out <out.csv>]")>
+    Public Function SBH_topHits(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".sbh.tophits.csv")
+        Dim data = [in].LoadCsv(Of BestHit)
+        Dim groups = data.GroupBy(Function(hit) hit.QueryName)
+        Dim tophits = groups.Select(Function(g) g.OrderByDescending(Function(hit) hit.SBHScore).First).ToArray
+
+        If args.IsTrue("/uniprotKB") Then
+            For Each x In tophits
+                With x.HitName.GetTagValue(" ", trim:=True)
+                    x.HitName = .Name
+                    x.description = .Value
+                End With
+            Next
+        End If
+
+        Return tophits.SaveTo(out).CLICode
     End Function
 
     <ExportAPI("--Export.SBH", Usage:="--Export.SBH /in <in.DIR> /prefix <queryName> /out <out.csv> [/txt]")>

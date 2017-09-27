@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8366e956915b17e58fc0b896323550b, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\IO\PathSearchTool.vb"
+﻿#Region "Microsoft.VisualBasic::b9d37e0b8f88e37406d7d2da764b2e8e, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\IO\PathSearchTool.vb"
 
     ' Author:
     ' 
@@ -269,6 +269,7 @@ Public Module ProgramPathSearchTool
         Dim DIRTokens As String() = parent.Replace("\", "/").Split("/"c)
         Dim DIRname As String = DIRTokens.Last  ' 请注意，由于path参数可能是相对路径，所以在这里DIRname和name要分开讨论
         Dim name As String = path.Replace("\", "/").Split("/"c).Last  ' 因为相对路径最终会出现文件夹名称，但在path里面可能是使用小数点来表示的
+
         If parent.Length + name.Length >= 259 Then
             DIRname = Mid(DIRname, 1, 20) & "~"
             Dim ext As String = name.Split("."c).Last

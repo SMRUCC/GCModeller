@@ -77,7 +77,7 @@ Namespace Analysis.MotifScans
         End Function
     End Class
 
-    Public Class MatchResult : Inherits ClassObject
+    Public Class MatchResult : Inherits BaseClass
         Implements INamedValue
 
         ''' <summary>
@@ -133,8 +133,10 @@ Namespace Analysis.MotifScans
         End Function
     End Class
 
-    Public Class FootprintTrace : Inherits ClassObject
-        <XmlElement> Public Property Footprints As MatchResult()
+    Public Class FootprintTrace : Inherits BaseClass
+
+        <XmlElement>
+        Public Property Footprints As MatchResult()
 
         Public Function ToFootprints(DOOR As DOOR, maps As IEnumerable(Of bbhMappings)) As IEnumerable(Of GenomeMotifFootPrints.PredictedRegulationFootprint)
             Dim mapsHash As Dictionary(Of String, bbhMappings()) = maps.GetMapHash

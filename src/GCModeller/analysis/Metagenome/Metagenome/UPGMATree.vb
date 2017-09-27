@@ -1,0 +1,133 @@
+﻿Imports System.Math
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Graph
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+
+''' <summary>
+''' https://github.com/graph1994/UPGMA-Tree-Building-Application/blob/master/UPGMATreeCreator.py
+''' https://en.wikipedia.org/wiki/UPGMA
+''' </summary>
+Public Module UPGMATree
+
+    Public Class Value
+        Public size%
+        Public distance#
+    End Class
+
+    Public Class Taxa : Inherits Tree(Of Value)
+
+        Public ReadOnly Property Size As Double
+            Get
+                Return Data.size
+            End Get
+        End Property
+
+        Sub New(id%, data As Taxa(), size%, distance#)
+            Me.ID = id
+            Me.Childs = data.Select(Function(x) CType(x, Tree(Of Value))).AsList
+            Me.Data = New Value With {
+                .size = size,
+                .distance = distance
+            }
+        End Sub
+
+        Sub New(id%, data$, size%, distance#)
+            Me.id = id
+            Me.label = data
+            Me.Data = New Value With {
+                .size = size,
+                .distance = distance
+            }
+        End Sub
+
+        Public Overrides Function ToString() As String
+            If Childs.IsNullOrEmpty Then
+                Return Label
+            Else
+                With Childs
+                    If .Count = 1 Then
+                        Return .First.ToString
+                    Else
+                        Return $"({ .First.ToString}, { .Last.ToString}: {Data.size.ToString("F2")})"
+                    End If
+                End With
+            End If
+        End Function
+    End Class
+
+    Private Function form_taxas(species As Taxa()) As Dictionary(Of Integer, Taxa)
+        Dim taxas As New Dictionary(Of Integer, Taxa)
+        Dim ids = 1
+
+        For Each item In species
+            Dim x As New Taxa(ids, {item}, 1, 0)
+            taxas(x.ID) = x
+            ids = ids + 1
+        Next
+
+        Return taxas
+    End Function
+
+    Private Function findMin(dic%(), array As List(Of Double())) As (i%, j%, lowest#)
+        Dim lowest# = Integer.MaxValue
+        Dim iMin = 0
+        Dim jMin = 0
+
+        For Each i In dic
+            For Each j In dic
+                If j > i Then
+                    Dim tmp = array(j - 1)(i - 1)
+
+                    If tmp <= lowest Then
+                        iMin = i
+                        jMin = j
+                        lowest = tmp
+                    End If
+                End If
+            Next
+        Next
+        Return (iMin, jMin, lowest)
+    End Function
+
+    Private Function combine(dicTaxas As Dictionary(Of Integer, Taxa), matrix As List(Of Double())) As Taxa
+        Dim n% = dicTaxas.Count
+
+        Do While dicTaxas.Count <> 1
+            Dim x As (i%, j%, dij#) = findMin(dicTaxas.Keys.ToArray, matrix)
+            Dim i = x.i
+            Dim j = x.j
+            Dim dij = x.dij
+            Dim icluster = dicTaxas(i)
+            Dim jcluster = dicTaxas(j)
+
+            Dim u As New Taxa(dicTaxas.Keys.Max + 1, {icluster, jcluster}, (icluster.Size + jcluster.Size), (dij))
+            dicTaxas.Remove(i)
+            dicTaxas.Remove(j)
+
+            matrix.Add(New Vector(u.ID - 1))
+
+            For Each l In dicTaxas.Keys
+                Dim dil = matrix(Max(i, l) - 1)(Min(i, l) - 1)
+                Dim djl = matrix(Max(j, l) - 1)(Min(j, l) - 1)
+                Dim dul = (dil * icluster.Size + djl * jcluster.Size) / (icluster.Size + jcluster.Size)
+                matrix(u.ID - 1)(l - 1) = dul
+            Next
+
+            dicTaxas(u.ID) = u
+        Loop
+
+        ' 循环的退出条件为字典之中只有一个值
+        Return dicTaxas.Values.First
+    End Function
+
+    <Extension>
+    Public Function BuildTree(data As IEnumerable(Of DataSet)) As Taxa
+        Dim array = data.ToArray
+        Dim inputs = array.Select(Function(x) New Taxa(0, x.ID, 0, 0)).ToArray
+        Dim matrix = array.Matrix
+        Dim table = form_taxas(inputs)
+        Dim tree = combine(table, matrix.AsList)
+        Return tree
+    End Function
+End Module

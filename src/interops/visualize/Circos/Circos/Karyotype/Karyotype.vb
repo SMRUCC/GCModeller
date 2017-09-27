@@ -30,7 +30,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -91,7 +90,7 @@ Namespace Karyotype
     ''' Colors are taken from the spectral Brewer palette. 
     ''' To learn about Brewer palettes, see (www.colorbrewer.org)[http://www.colorbrewer.org]
     ''' </remarks>
-    Public Class Karyotype : Inherits ClassObject
+    Public Class Karyotype : Inherits BaseClass
         Implements IKaryotype
         Implements INamedValue
 
@@ -140,7 +139,7 @@ Namespace Karyotype
     ''' ``data/karyotype`` In the Circos distribution directory.
     ''' Or data/karyotype In the course directory.
     ''' </summary>
-    Public Class Band : Inherits ClassObject
+    Public Class Band : Inherits BaseClass
         Implements IKaryotype
 
         Public Property chrName As String Implements IKaryotype.chrName

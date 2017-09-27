@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.foundation.OBO_Foundry
 
@@ -48,13 +49,70 @@ Public Module GoStat
                       Function([namespace]) [namespace].Description)
 
     ''' <summary>
+    ''' Get specific level go Term and sum the result
+    ''' </summary>
+    ''' <param name="stat"></param>
+    ''' <param name="level%"></param>
+    ''' <param name="graph"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' # 2017-9-27
+    ''' Test no problem
+    ''' </remarks>
+    <Extension>
+    Public Function LevelGOTerms(stat As Dictionary(Of String, NamedValue(Of Integer)()), level%, graph As Graph) As Dictionary(Of String, NamedValue(Of Integer)())
+        Dim levelStat As New Dictionary(Of String, NamedValue(Of Integer)())
+
+        For Each [namespace] In stat
+            Dim ontology$ = [namespace].Key
+            Dim terms = [namespace].Value
+            Dim trees = terms _
+                .Select(Function(t)
+                            Dim chains = graph _
+                                .Family(t.Name) _
+                                .Select(Function(family) family.Strip) _
+                                .Where(Function(family) family.Route.Count >= level) _
+                                .ToArray
+                            Return (family:=chains, stat:=t)
+                        End Function) _
+                .Where(Function(t) t.family.Length > 0) _
+                .ToArray
+
+            ' 得到指定的等级的结果，然后分组计数
+            Dim levelTerms = trees _
+                .Select(Function(t)
+                            Return t.family.Select(Function(chain)
+                                                       Return (terms:=chain.Level(lv:=level), n:=t.stat.Value)
+                                                   End Function)
+                        End Function) _
+                .IteratesALL _
+                .GroupBy(Function(term) term.terms.id) _
+                .Select(Function(term)
+                            Return New NamedValue(Of Integer) With {
+                                .Name = term.Key,
+                                .Description = term.First.terms.name,
+                                .Value = Aggregate t In term Into Sum(t.n)
+                            }
+                        End Function) _
+                .ToArray
+
+            levelStat.Add(ontology, levelTerms)
+        Next
+
+        Return levelStat
+    End Function
+
+    ''' <summary>
     ''' 计数统计
     ''' </summary>
     ''' <returns></returns>
     ''' 
     <Extension>
     Public Function CountStat(Of gene)(genes As IEnumerable(Of gene), getGO As Func(Of gene, String()), GO_terms As Dictionary(Of String, Term)) As Dictionary(Of String, NamedValue(Of Integer)())
-        Return genes.CountStat(Function(g) getGO(g).ToArray(Function(id) (id, 1)), GO_terms)
+        Return genes _
+            .CountStat(Function(g)
+                           Return getGO(g).ToArray(Function(id) (id, 1))
+                       End Function, GO_terms)
     End Function
 
     ''' <summary>
@@ -70,7 +128,9 @@ Public Module GoStat
                           Function(null) New Dictionary(Of NamedValue(Of int)))
 
         For Each g As gene In genes
-            For Each value As (goID$, Number As Integer) In getGO(g).Where(Function(x) Not x.goID.StringEmpty AndAlso GO_terms.ContainsKey(x.goID))
+            For Each value As (goID$, Number As Integer) In getGO(g).Where(Function(x)
+                                                                               Return Not x.goID.StringEmpty AndAlso GO_terms.ContainsKey(x.goID)
+                                                                           End Function)
                 Dim goID As String = value.goID
                 Dim term As Term = GO_terms(goID)
                 Dim count = out(term.namespace)
@@ -96,13 +156,19 @@ Public Module GoStat
     End Function
 
     <Extension>
-    Public Function SaveCountValue(data As Dictionary(Of String, NamedValue(Of Integer)()), path$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
+    Public Function SaveCountValue(data As Dictionary(Of String, NamedValue(Of Integer)()),
+                                   path$,
+                                   Optional encoding As Encodings = Encodings.ASCII,
+                                   Optional tsv As Boolean = False) As Boolean
+
+        Dim del$ = "," Or vbTab.AsDefault(Function() tsv)
+
         Using write As StreamWriter = path.OpenWriter(encoding)
-            Call write.WriteLine(New RowObject({"namespace", "id", "name", "counts"}).AsLine)
+            Call write.WriteLine(New RowObject({"namespace", "id", "name", "counts"}).AsLine(del))
 
             For Each k In data
                 For Each x As NamedValue(Of Integer) In k.Value
-                    Call write.WriteLine(New RowObject({k.Key, x.Name, x.Description, x.Value}).AsLine)
+                    Call write.WriteLine(New RowObject({k.Key, x.Name, x.Description, x.Value}).AsLine(del))
                 Next
             Next
         End Using

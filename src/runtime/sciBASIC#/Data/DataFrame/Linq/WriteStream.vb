@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cb25f7371cde67b36719f4f90c71280, ..\sciBASIC#\Data\DataFrame\Linq\WriteStream.vb"
+﻿#Region "Microsoft.VisualBasic::641cc93a7a03bb5734bcd4e8c77a1b56, ..\sciBASIC#\Data\DataFrame\Linq\WriteStream.vb"
 
     ' Author:
     ' 
@@ -29,11 +29,8 @@
 Option Strict Off
 
 Imports System.IO
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace IO.Linq
 
@@ -72,7 +69,8 @@ Namespace IO.Linq
                 Optional Explicit As Boolean = False,
                 Optional metaBlank As String = "",
                 Optional metaKeys As String() = Nothing,
-                Optional maps As Dictionary(Of String, String) = Nothing)
+                Optional maps As Dictionary(Of String, String) = Nothing,
+                Optional layout As Dictionary(Of String, Integer) = Nothing)
 
             Dim typeDef As Type = GetType(T)
             Dim Schema As SchemaProvider =
@@ -82,7 +80,7 @@ Namespace IO.Linq
 
             Call path.ParentPath.MkDIR
 
-            RowWriter = New RowWriter(Schema, metaBlank)
+            RowWriter = New RowWriter(Schema, metaBlank, layout)
             handle = FileIO.FileSystem.GetFileInfo(path).FullName
 
             Call "".SaveTo(handle)

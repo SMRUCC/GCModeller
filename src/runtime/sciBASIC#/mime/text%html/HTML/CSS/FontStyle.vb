@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f53abe96c05a1293f506835fa82a052, ..\sciBASIC#\mime\text%html\HTML\CSS\FontStyle.vb"
+﻿#Region "Microsoft.VisualBasic::fa3ac491c458af4bc0c0409003987b1b, ..\sciBASIC#\mime\text%html\HTML\CSS\FontStyle.vb"
 
     ' Author:
     ' 
@@ -54,6 +54,7 @@ Namespace HTML.CSS
         Public Const Win10Normal$ = "font-style: normal; font-size: 12; font-family: " & FontFace.SegoeUI & ";"
         Public Const Win10NormalLarger$ = "font-style: normal; font-size: 16; font-family: " & FontFace.SegoeUI & ";"
 
+        Public Const Win7Small$ = "font-style: normal; font-size: 10; font-family: " & FontFace.MicrosoftYaHei & ";"
         Public Const Win7Normal$ = "font-style: normal; font-size: 12; font-family: " & FontFace.MicrosoftYaHei & ";"
         Public Const Win7Bold$ = "font-style: strong; font-size: 12; font-family: " & FontFace.MicrosoftYaHei & ";"
         Public Const Win7LargerBold$ = "font-style: strong; font-size: 16; font-family: " & FontFace.MicrosoftYaHei & ";"

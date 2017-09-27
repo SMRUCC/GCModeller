@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c13cabceef670e31d0caf5b4d0b4feed, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b2042fd0adbbf3d1d69af4119e796b3e, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Extensions.vb"
 
     ' Author:
     ' 
@@ -48,6 +48,11 @@ Public Module Extensions
         Return Sum(q * s) / Sqrt(Sum(q ^ 2) * Sum(s ^ 2))
     End Function
 
+    ''' <summary>
+    ''' Construct the <see cref="Vector"/> class from a numeric collecton.
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function AsVector(data As IEnumerable(Of Double)) As Vector
         Return New Vector(data)

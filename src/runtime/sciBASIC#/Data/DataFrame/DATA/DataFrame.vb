@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11ccf3687fdf4a6d454a6099855e870a, ..\sciBASIC#\Data\DataFrame\DATA\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::73272ea5d5512347cada1a8d47b14208, ..\sciBASIC#\Data\DataFrame\DATA\DataFrame.vb"
 
     ' Author:
     ' 
@@ -98,8 +98,8 @@ Namespace DATA
         ''' <summary>
         ''' ``cbind`` operation
         ''' </summary>
-        ''' <param name="data"></param>
-        ''' <param name="appends"></param>
+        ''' <param name="data">unique</param>
+        ''' <param name="appends">multiple</param>
         ''' <returns></returns>
         Public Shared Operator +(data As DataFrame, appends As IEnumerable(Of EntityObject)) As DataFrame
             For Each x As EntityObject In appends
@@ -116,5 +116,22 @@ Namespace DATA
 
             Return data
         End Operator
+
+        Public Shared Function Append(multiple As IEnumerable(Of EntityObject), unique As DataFrame) As IEnumerable(Of EntityObject)
+            Return multiple _
+                .Select(Function(query)
+                            If Not unique.entityList.ContainsKey(query.ID) Then
+                                Return query
+                            Else
+                                With unique.entityList(query.ID)
+                                    For Each [property] In .Properties
+                                        query.Properties([property].Key) = [property].Value
+                                    Next
+                                End With
+
+                                Return query
+                            End If
+                        End Function)
+        End Function
     End Class
 End Namespace

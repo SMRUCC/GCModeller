@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6472948655dca2d4b101ec7429ace09, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\GraphicsText.vb"
+﻿#Region "Microsoft.VisualBasic::c9521c093ea24e092f0524ae8c7476af, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\GraphicsText.vb"
 
     ' Author:
     ' 
@@ -29,7 +29,7 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 
-Namespace Drawing2D.Vector.Text
+Namespace Drawing2D.Text
 
     ''' <summary>
     ''' 利用GDI+绘制旋转文字，矩形内可以根据布局方式排列文本

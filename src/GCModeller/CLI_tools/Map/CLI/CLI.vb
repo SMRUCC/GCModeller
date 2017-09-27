@@ -53,7 +53,7 @@ Imports SMRUCC.genomics.Visualize.Extensions
               AcceptTypes:={GetType(MyvaCOG)},
               Description:="The gene object color definition, you can using this parameter to overrides the cog definition in the PTT file.")>
     Public Function DrawingChrMap(args As CommandLine) As Integer
-        Dim PTT = args.GetObject("/ptt", AddressOf TabularFormat.PTT.Load)
+        Dim PTT = args.GetObject(Of PTT)("/ptt", AddressOf TabularFormat.PTT.Load)
         Dim out As String = args.GetValue("/out", App.CurrentDirectory)
         Dim confInf As String = args.GetValue("/conf", out & "/config.inf")
         Dim COG As String = args("/COG")
@@ -104,7 +104,7 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
                     .DrawCatalogProfiling(
                         COGProfiles,
                         .Margin,
-                        New Size(2000, 1200))
+                        "2000,1200")
             End If
 
             Return output.SaveImage(out, .SavedFormat)

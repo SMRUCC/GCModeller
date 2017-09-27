@@ -37,17 +37,21 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Visualize
 
 ''' <summary>
 ''' 用来可视化差异表达基因
 ''' </summary>
 Public Module Volcano
 
+    Public ReadOnly Property PValueThreshold# = -Math.Log10(0.05)
+
     ReadOnly DEG_diff# = Math.Log(2, 2)
-    ReadOnly diffPValue# = -Math.Log10(0.05)
+    ReadOnly DEP_diff# = Math.Log(1.5, 2)
 
     Const UP$ = "Up"
     Const DOWN$ = "Down"
@@ -93,7 +97,7 @@ Public Module Volcano
 
         Dim factor As Func(Of DEGModel, Integer) =
             Function(DEG)
-                If DEG.pvalue < diffPValue Then
+                If DEG.pvalue < PValueThreshold Then
                     Return 0
                 End If
 
@@ -121,37 +125,49 @@ Public Module Volcano
     End Function
 
     ReadOnly black As Brush = Brushes.Black
+    ReadOnly P As DefaultValue(Of Func(Of Double, Double)) = New Func(Of Double, Double)(Function(pvalue) -Math.Log10(pvalue))
+
+    <Extension>
+    Private Function CreateModel(Of T As IDeg)(source As IEnumerable(Of T), pvalueTranslate As Func(Of Double, Double)) As IEnumerable(Of DEGModel)
+        Return source.ToArray(
+            Function(g) New DEGModel With {
+                .label = g.label,
+                .logFC = g.log2FC,
+                .pvalue = pvalueTranslate(g.pvalue)
+            })
+    End Function
 
     ''' <summary>
     ''' 绘制差异表达基因的火山图
     ''' </summary>
     ''' <param name="genes"></param>
+    ''' <param name="colors"></param>
+    ''' <param name="factors">
+    ''' 这个函数描述了如何从<paramref name="colors"/>参数之中取出差异表达基因自己所对应的颜色值
+    ''' </param>
     ''' <returns></returns>
-    ''' 
     <Extension>
-    Public Function Plot(genes As IEnumerable(Of DEGModel), factors As Func(Of DEGModel, Integer), colors As Dictionary(Of Integer, Color),
-                         Optional size$ = "2000,1850",
-                         Optional padding$ = g.DefaultPadding,
-                         Optional bg$ = "white",
-                         Optional xlab$ = "log<sub>2</sub>(Fold Change)",
-                         Optional ylab$ = "-log<sub>10</sub>(p-value)",
-                         Optional ptSize! = 5,
-                         Optional translate As Func(Of Double, Double) = Nothing,
-                         Optional displayLabel As LabelTypes = LabelTypes.None,
-                         Optional labelFontStyle$ = CSSFont.PlotTitle,
-                         Optional legendFont$ = CSSFont.UbuntuNormal,
-                         Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
+    Public Function Plot(Of T As IDeg)(genes As IEnumerable(Of T),
+                                       factors As Func(Of DEGModel, Integer),
+                                       colors As Dictionary(Of Integer, Color),
+                                       Optional size$ = "2000,2250",
+                                       Optional padding$ = g.DefaultPadding,
+                                       Optional bg$ = "white",
+                                       Optional xlab$ = "log<sub>2</sub>(Fold Change)",
+                                       Optional ylab$ = "-log<sub>10</sub>(p-value)",
+                                       Optional title$ = "Volcano plot",
+                                       Optional log2Threshold# = 2,
+                                       Optional thresholdStroke$ = Stroke.AxisGridStroke,
+                                       Optional ptSize! = 5,
+                                       Optional translate As Func(Of Double, Double) = Nothing,
+                                       Optional displayLabel As LabelTypes = LabelTypes.None,
+                                       Optional labelFontStyle$ = CSSFont.PlotTitle,
+                                       Optional legendFont$ = CSSFont.UbuntuNormal,
+                                       Optional titleFontStyle$ = CSSFont.Win7Large,
+                                       Optional ticksFontStyle$ = CSSFont.Win10Normal,
+                                       Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
 
-        If translate Is Nothing Then
-            translate = Function(pvalue) -Math.Log10(pvalue)
-        End If
-
-        Dim DEG_matrix As DEGModel() = genes.ToArray(
-            Function(g) New DEGModel With {
-                .label = g.label,
-                .logFC = g.logFC,
-                .pvalue = translate(g.pvalue)
-            })
+        Dim DEG_matrix As DEGModel() = genes.CreateModel(translate Or P)
 
         ' 下面分别得到了log2fc的对称range，以及pvalue范围
         Dim xRange As DoubleRange = DEG_matrix _
@@ -170,93 +186,161 @@ Public Module Volcano
 
         Dim brushes As Dictionary(Of Integer, Brush) = colors _
             .ToDictionary(Function(k) k.Key,
-                          Function(br) DirectCast(New SolidBrush(br.Value), Brush))
+                          Function(br)
+                              Return DirectCast(New SolidBrush(br.Value), Brush)
+                          End Function)
         Dim labelFont As Font = CSSFont.TryParse(labelFontStyle)
+        Dim titleFont As Font = CSSFont.TryParse(titleFontStyle)
+        Dim ticksFont As Font = CSSFont.TryParse(ticksFontStyle)
+        Dim thresholdPen As Pen = Stroke.TryParse(thresholdStroke).GDIObject
+        Dim point As PointF
+        Dim px!, py!
+        Dim up%, down%
 
         Return g.Allocate(size.SizeParser, padding, bg) <=
  _
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
+                ' 因为在下面的lambda表达式drawLabel之中，不可以使用ByRef传递的g变量，
+                ' 所以在这里需要额外的申明来避免错误
+                Dim gdi As IGraphics = g
+                Dim drawLabel = Sub(label$, pos As PointF)
+                                    With gdi.MeasureString(label, labelFont)
+                                        pos = New PointF(pos.X - .Width / 2, pos.Y + ptSize)
+                                        gdi.DrawString(label, labelFont, black, pos)
+                                    End With
+                                End Sub
+
+                ' 布局如下：
+                '
+                '          title
+                '   +----------------+
+                '   |         legends|
+                ' y |                |
+                '   |  scatter plots |
+                '   +----------------+
+                '           x
+
+                ' 先计算出title文件的大小
+                Dim titleSize As SizeF = g.MeasureString(title, titleFont)
+                Dim top! = titleSize.Height * 1.5 + ticksFont.Height + 10
+                Dim left! = g.MeasureString("00.0", ticksFont).Width + 10
+                Dim plotRegion As New Rectangle With {
+                    .X = region.Padding.Left + left,
+                    .Y = region.Padding.Top + titleSize.Height * 1.5,
+                    .Width = region.PlotRegion.Width - left,
+                    .Height = region.PlotRegion.Height - top
+                }   ' 得到最终剩余的绘图区域
+
                 Dim x, y As d3js.scale.LinearScale
 
-                With region.PlotRegion
-                    x = d3js.scale.linear.domain(xTicks).range({ .Left, .Right})
-                    y = d3js.scale.linear.domain(yTicks).range({ .Top, .Bottom})
+                With plotRegion
+                    x = d3js.scale.linear.domain(xTicks).range(integers:={ .Left, .Right})
+                    y = d3js.scale.linear.domain(yTicks).range(integers:={0, plotRegion.Height})
                 End With
 
-                Dim scaler = (x, y).TupleScaler
-                Dim gdi As IGraphics = g
-                Dim __drawLabel = Sub(label$, point As PointF)
-                                      With gdi.MeasureString(label, labelFont)
-                                          point = New PointF(point.X - .Width / 2, point.Y + ptSize)
-                                          gdi.DrawString(label, labelFont, black, point)
-                                      End With
-                                  End Sub
+                Dim scaler As New DataScaler With {
+                    .AxisTicks = (xTicks, yTicks),
+                    .ChartRegion = plotRegion,
+                    .X = x,
+                    .Y = y
+                }
 
-                ' Call Axis.DrawAxis(g, region, scaler, True, xlabel:=xlab, ylabel:=ylab, ylayout:=axisLayout)
+                ' 必须要首先绘制出坐标轴，否则背景填充会将下面的几条阈值虚线给覆盖掉的
+                Call g.DrawAxis(region, scaler, True, xlabel:=xlab, ylabel:=ylab, ylayout:=axisLayout)
+                Call g.DrawRectangle(Pens.Black, plotRegion)
+
+                ' 绘制出顶部的大标题
+                point = New PointF With {
+                    .X = region.Padding.Left + (region.PlotRegion.Width - titleSize.Width) / 2,
+                    .Y = region.Padding.Top
+                }
+                Call g.DrawString(title, titleFont, New SolidBrush(Color.Black), point)
+
+                ' 分别绘制出log2(level)和pvalue的4条threshold虚线条
+                log2Threshold = Log2(Math.Abs(log2Threshold))
+
+                left = x(log2Threshold)
+                Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
+
+                left = x(-log2Threshold)
+                Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
+
+                ' 在绘制出pvalue的临界值虚线
+                top = plotRegion.Bottom - y(-Math.Log10(0.05))
+                Call g.DrawLine(thresholdPen, New Point(plotRegion.Left, top), New Point(plotRegion.Right, top))
 
                 For Each gene As DEGModel In DEG_matrix
-                    Dim factor As Integer = factors(gene)
+                    Dim factor% = factors(gene)
                     Dim color As Brush = brushes(factor)
-                    Dim point As PointF = scaler(gene.logFC, gene.pvalue)
 
-                    Call g.DrawCircle(point, ptSize, color)
+                    point = scaler.Translate(gene.logFC, gene.pvalue)
+                    g.DrawCircle(point, ptSize, color)
+
+                    If factor > 0 Then
+                        up += 1
+                    ElseIf factor < 0 Then
+                        down += 1
+                    End If
 
                     Select Case displayLabel
                         Case LabelTypes.None' 不进行任何操作
                         Case LabelTypes.DEG
                             If factor <> 0 Then
-                                Call __drawLabel(gene.label, point)
+                                Call drawLabel(gene.label, point)
                             End If
                         Case LabelTypes.ALL
-                            Call __drawLabel(gene.label, point)
+                            Call drawLabel(gene.label, point)
                         Case Else  ' 自定义
                             If Not gene.label.StringEmpty Then
-                                Call __drawLabel(gene.label, point)
+                                Call drawLabel(gene.label, point)
                             End If
                     End Select
                 Next
 
                 With region
-                    Dim legends = colors.GetLegends(legendFont)
+                    Dim legends = colors.GetLegends(legendFont, (up, down))
                     Dim lsize As SizeF = legends.MaxLegendSize(g)
-                    Dim topleft As New Point(
-                        .Size.Width - .Padding.Left - (lsize.Width + 50),
-                        .Padding.Top)
 
-                    Call g.DrawLegends(topleft, legends)
+                    px = .Size.Width - .Padding.Left - (lsize.Width + 50)
+                    py = plotRegion.Top + .Padding.Top / 2
+                    point = New PointF(px, py)
+
+                    Call g.DrawLegends(point.ToPoint, legends)
                 End With
             End Sub
     End Function
 
     <Extension>
-    Private Function GetLegends(colors As Dictionary(Of Integer, Color), font$) As Legend()
+    Private Function GetLegends(colors As Dictionary(Of Integer, Color), font$, count As (up%, down%)) As Legend()
         Dim up As New Legend With {
             .color = colors(1).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
-            .title = "log2FC > UP"
+            .title = $"({count.up}) log2FC >= UP"
         }
         Dim down As New Legend With {
             .color = colors(-1).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
-            .title = "log2FC < DOWN"
+            .title = $"({count.down}) log2FC <= DOWN"
         }
         Dim normal As New Legend With {
             .color = colors(0).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
-            .title = "Normal"
+            .title = "unchange"
         }
 
         Return {normal, up, down}
     End Function
 
     Public Structure DEGModel
-        Dim label$
-        Dim logFC#
-        Dim pvalue#
+        Implements IDeg
+
+        Public Property label$ Implements IDeg.label
+        Public Property logFC# Implements IDeg.log2FC
+        Public Property pvalue# Implements IDeg.pvalue
 
         Public Overrides Function ToString() As String
             Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"

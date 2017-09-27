@@ -50,6 +50,11 @@ Namespace LocalBLAST.Application.BBH
         <Column("length_hit")> Public Property length_hit As Integer
         <Column("length_query")> Public Property length_query As Integer
         <Column("length_hsp")> Public Property length_hsp As Integer
+
+        ''' <summary>
+        ''' The functional description of <see cref="HitName"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public Property description As String
 
         Public ReadOnly Property coverage As Double

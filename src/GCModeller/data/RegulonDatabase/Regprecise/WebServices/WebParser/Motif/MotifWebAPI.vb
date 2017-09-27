@@ -30,9 +30,9 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Emit.Marshal
-Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.Data.Regtransbase.WebServices
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports SMRUCC.genomics.Data.Regtransbase.WebServices
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Regprecise
 
@@ -46,23 +46,26 @@ Namespace Regprecise
 
         Public Function Download(url As String) As MotifSitelog
             Dim html As String = url.GET
-            Dim logo As String = Regex.Match(html, __logo, RegexOptions.Singleline).Value
-            logo = Regex.Match(logo, "src="".+?""", RegexOptions.Singleline).Value
+            Dim logo As String = r.Match(html, __logo, RegexOptions.Singleline).Value
+            logo = r.Match(logo, "src="".+?""", RegexOptions.Singleline).Value
             logo = RegPrecise & Mid(logo, 6, logo.Length - 6)
 
-            Dim propTable As String = Regex.Matches(html, __table, RegexOptions.Singleline).ToArray.First
-            Dim rows As Pointer(Of String) = Regex.Matches(propTable, "<tr>.+?</tr>", RegexOptions.Singleline).ToArray.MarshalAs
+            Dim propTable As String = r.Matches(html, __table, RegexOptions.Singleline).ToArray.First
+            Dim rows As Pointer(Of String) = r _
+                .Matches(propTable, "<tr>.+?</tr>", RegexOptions.Singleline) _
+                .ToArray _
+                .MarshalAs
 
             Dim motif As New MotifSitelog With {
-                .Family = (+rows).__getValue,
-                .RegulationMode = (+rows).__getValue,
-                .BiologicalProcess = (+rows).__getValue,
-                .Effector = (+rows).__getValue,
-                .Regulog = (+rows).__getValue.__getEntry,
+                .Family = (++rows).__getValue,
+                .RegulationMode = (++rows).__getValue,
+                .BiologicalProcess = (++rows).__getValue,
+                .Effector = (++rows).__getValue,
+                .Regulog = (++rows).__getValue.__getEntry,
                 .logo = logo
             }
 
-            Dim sites As String = Regex.Match(html, __sites, RegexOptions.Singleline).Value
+            Dim sites As String = r.Match(html, __sites, RegexOptions.Singleline).Value
 
             sites = RegPrecise & sites.href
             motif.Taxonomy = html.__getTaxonomy

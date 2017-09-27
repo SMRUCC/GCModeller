@@ -32,10 +32,9 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Public Class DeviceModel : Inherits ClassObject
+Public Class DeviceModel : Inherits BaseClass
 
     Public Property Margin As Size
     Public Property Size As Size

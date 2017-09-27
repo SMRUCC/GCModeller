@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::9f59435564b10840e80278c48aeb56e6, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
+﻿#Region "Microsoft.VisualBasic::46773dc9ae6e5a527082b1051f0da259, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -105,6 +105,11 @@ Namespace Drawing2D.Colors
             Color.FromArgb(78, 45, 69),
             Color.FromArgb(202, 161, 169)
         }
+
+        ''' <summary>
+        ''' <see cref="Designer.GetColors(String)"/> schema name for color profile: <see cref="ClusterColour"/>.
+        ''' </summary>
+        Public Const Clusters$ = NameOf(Clusters)
 
         ''' <summary>
         ''' From TSF launcher on Android
@@ -220,6 +225,9 @@ Namespace Drawing2D.Colors
             End Try
         End Sub
 
+        ''' <summary>
+        ''' <see cref="ColorMap"/> pattern names
+        ''' </summary>
         ReadOnly __allColorMapNames$() = {
             ColorMap.PatternAutumn,
             ColorMap.PatternCool,
@@ -251,7 +259,7 @@ Namespace Drawing2D.Colors
 
         <Extension>
         Private Function IsColorNameList(exp$) As Boolean
-            If InStr(exp, ",") > 0 Then
+            If Not exp.IsPattern(DesignerExpression.FunctionPattern) AndAlso InStr(exp, ",") > 0 Then
                 If exp.IsPattern("rgb\(\d+\s*(,\s*\d+\s*)+\)") Then
                     Return False
                 Else
@@ -265,15 +273,26 @@ Namespace Drawing2D.Colors
         ''' <summary>
         ''' 对于无效的键名称，默认是返回<see cref="Office2016"/>，请注意，如果是所有的.net的颜色的话，这里面还会包含有白色，所以还需要手工去除掉白色
         ''' </summary>
-        ''' <param name="term$">假若这里所输入的是一组颜色值，则必须是htmlcolor或者颜色名称，RGB表达式将不会被允许</param>
+        ''' <param name="exp$">
+        ''' <see cref="DesignerExpression"/>.
+        ''' (假若这里所输入的是一组颜色值，则必须是htmlcolor或者颜色名称，RGB表达式将不会被允许)
+        ''' </param>
         ''' <returns></returns>
-        Public Function GetColors(term$) As Color()
-            If term.IsColorNameList Then
-                Return term _
+        Public Function GetColors(exp$) As Color()
+            If exp.IsColorNameList Then
+                ' 设计器的表达式解析器目前不兼容颜色列表的表达式
+                Return exp _
                     .StringSplit(",\s*") _
                     .Select(Function(c) c.TranslateColor) _
                     .ToArray
+            Else
+                With New DesignerExpression(exp)
+                    Return .Modify(Designer.GetColorsInternal(.Term))
+                End With
             End If
+        End Function
+
+        Private Function GetColorsInternal(term$) As Color()
             If Array.IndexOf(__allColorMapNames, term.ToLower) > -1 Then
                 Return New ColorMap(20, 255).ColorSequence(term)
             End If
@@ -297,7 +316,7 @@ Namespace Drawing2D.Colors
                 Return ChartColors
             ElseIf term.TextEquals("scibasic.category31()") Then
                 Return Category31
-            ElseIf term.TextEquals("clusters") Then
+            ElseIf term.TextEquals(Designer.Clusters) Then
                 Return ClusterColour
             End If
 
