@@ -399,7 +399,7 @@ Partial Module CLI
     <Argument("/GO", True, CLITypes.File,
               Description:="The go database file path, if this argument is present in the CLI, then will using the GO.obo database file from GCModeller repository.")>
     <Argument("/level", True, CLITypes.Integer,
-              Description:="The GO annotation level from the DAG, default is level 2.")>
+              Description:="The GO annotation level from the DAG, default is level 2. Argument value -1 means no level.")>
     <Argument("/label.right", True, CLITypes.Boolean,
               Description:="Plot GO term their label will be alignment on right. default is alignment left if this aegument is not present.")>
     <Argument("/in", False, CLITypes.File,
@@ -439,17 +439,23 @@ Partial Module CLI
                                .Select(AddressOf Trim) _
                                .ToArray
                        End Function
-        Dim data = sample _
-            .CountStat(selector, goTerms) _
-            .LevelGOTerms(level, DAG)
+        Dim data As Dictionary(Of String, NamedValue(Of Integer)()) =
+            sample _
+            .CountStat(selector, goTerms)
 
-        Call data.SaveCountValue(out & $"/level={level}/plot.csv")
+        If level > 0 Then
+            data = data.LevelGOTerms(level, DAG)
+            out &= $"/level={level}/"
+        End If
+
+        Call data.SaveCountValue(out & "/plot.csv")
         Call CatalogPlots.Plot(data, selects:=selects,
                                tick:=tick,
                                size:=size,
                                axisTitle:="Number Of Proteins",
-                               labelAlignmentRight:=labelRight) _
-            .Save(out & $"/level={level}/plot.png")
+                               labelAlignmentRight:=labelRight,
+                               valueFormat:="F0") _
+            .Save(out & $"/plot.png")
 
         Return 0
     End Function
