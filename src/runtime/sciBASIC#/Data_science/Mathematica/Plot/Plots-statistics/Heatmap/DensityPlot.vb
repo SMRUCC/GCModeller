@@ -72,7 +72,8 @@ Namespace Heatmap
                              Optional ablines As Line() = Nothing,
                              Optional labX$ = "X",
                              Optional labY$ = "Y",
-                             Optional labelFontCSS$ = CSSFont.Win10Normal) As GraphicsData
+                             Optional labelFontCSS$ = CSSFont.Win10Normal,
+                             Optional htmlLabel As Boolean = True) As GraphicsData
 
             Dim data = points _
                 .Where(Function(pt)
