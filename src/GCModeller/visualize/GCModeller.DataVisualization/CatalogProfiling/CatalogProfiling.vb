@@ -99,7 +99,8 @@ Public Module CatalogProfiling
                                  Optional tick# = 50,
                                  Optional removeNotAssign As Boolean = True,
                                  Optional gray As Boolean = False,
-                                 Optional labelRightAlignment As Boolean = False) As GraphicsData
+                                 Optional labelRightAlignment As Boolean = False,
+                                 Optional valueFormat$ = "F2") As GraphicsData
 
         If removeNotAssign AndAlso profile.ContainsKey(NOT_ASSIGN) Then
             profile = New Dictionary(Of String, NamedValue(Of Double)())(profile)
@@ -123,7 +124,8 @@ Public Module CatalogProfiling
                    tickFontStyle, tick,
                    axisTitle,
                    gray:=gray,
-                   labelAlignmentRight:=labelRightAlignment)
+                   labelAlignmentRight:=labelRightAlignment,
+                   valueFormat:=valueFormat)
             End Sub
 
         Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal)
@@ -159,16 +161,17 @@ Public Module CatalogProfiling
                                tick#,
                                axisTitle$,
                                gray As Boolean,
-                               labelAlignmentRight As Boolean)
+                               labelAlignmentRight As Boolean,
+                               valueFormat$)
 
         ' 这里是大标签的字符串向量
         Dim classes$() = profile.Keys.ToArray
         Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject
         Dim catalogFont As Font = CSSFont.TryParse(catalogFontStyle).GDIObject
+        Dim catalogCharWidth! = g.MeasureString("A", catalogFont).Width
         Dim classFont As Font = CSSFont.TryParse(classFontStyle).GDIObject
         Dim padding As Padding = region.Padding
         Dim size As Size = region.Size
-
         Dim maxLenSubKey$ = profile _
             .Values _
             .Select(Function(o) o.Select(Function(oo) oo.Name)) _
@@ -241,9 +244,12 @@ Public Module CatalogProfiling
                 Dim pos As PointF
 
                 If labelAlignmentRight Then
+
                     ' 重新计算位置进行右对齐操作
+                    Dim offset! = cata.Name.Length / (region.Width / 20) * catalogCharWidth
+                    offset = barRect.Left - 25 - g.MeasureString(cata.Name, catalogFont).Width + offset
                     pos = New PointF With {
-                        .X = barRect.Left - 25 - g.MeasureString(cata.Name, catalogFont).Width,
+                        .X = offset,
                         .Y = y
                     }
                 Else
@@ -263,7 +269,7 @@ Public Module CatalogProfiling
                     }
                 }
 
-                valueLabel = cata.Value.ToString("F2")
+                valueLabel = cata.Value.ToString(valueFormat)
                 valueSize = g.MeasureString(valueLabel, valueFont)
                 valueLeft = barRectPlot.Right - valueSize.Width
 

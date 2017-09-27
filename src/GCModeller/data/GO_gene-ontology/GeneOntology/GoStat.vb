@@ -55,6 +55,10 @@ Public Module GoStat
     ''' <param name="level%"></param>
     ''' <param name="graph"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' # 2017-9-27
+    ''' Test no problem
+    ''' </remarks>
     <Extension>
     Public Function LevelGOTerms(stat As Dictionary(Of String, NamedValue(Of Integer)()), level%, graph As Graph) As Dictionary(Of String, NamedValue(Of Integer)())
         Dim levelStat As New Dictionary(Of String, NamedValue(Of Integer)())
@@ -76,7 +80,11 @@ Public Module GoStat
 
             ' 得到指定的等级的结果，然后分组计数
             Dim levelTerms = trees _
-                .Select(Function(t) t.family.Select(Function(chain) (terms:=chain.Level(lv:=level), n:=t.stat.Value))) _
+                .Select(Function(t)
+                            Return t.family.Select(Function(chain)
+                                                       Return (terms:=chain.Level(lv:=level), n:=t.stat.Value)
+                                                   End Function)
+                        End Function) _
                 .IteratesALL _
                 .GroupBy(Function(term) term.terms.id) _
                 .Select(Function(term)
@@ -101,7 +109,10 @@ Public Module GoStat
     ''' 
     <Extension>
     Public Function CountStat(Of gene)(genes As IEnumerable(Of gene), getGO As Func(Of gene, String()), GO_terms As Dictionary(Of String, Term)) As Dictionary(Of String, NamedValue(Of Integer)())
-        Return genes.CountStat(Function(g) getGO(g).ToArray(Function(id) (id, 1)), GO_terms)
+        Return genes _
+            .CountStat(Function(g)
+                           Return getGO(g).ToArray(Function(id) (id, 1))
+                       End Function, GO_terms)
     End Function
 
     ''' <summary>
@@ -117,7 +128,9 @@ Public Module GoStat
                           Function(null) New Dictionary(Of NamedValue(Of int)))
 
         For Each g As gene In genes
-            For Each value As (goID$, Number As Integer) In getGO(g).Where(Function(x) Not x.goID.StringEmpty AndAlso GO_terms.ContainsKey(x.goID))
+            For Each value As (goID$, Number As Integer) In getGO(g).Where(Function(x)
+                                                                               Return Not x.goID.StringEmpty AndAlso GO_terms.ContainsKey(x.goID)
+                                                                           End Function)
                 Dim goID As String = value.goID
                 Dim term As Term = GO_terms(goID)
                 Dim count = out(term.namespace)
@@ -143,13 +156,19 @@ Public Module GoStat
     End Function
 
     <Extension>
-    Public Function SaveCountValue(data As Dictionary(Of String, NamedValue(Of Integer)()), path$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
+    Public Function SaveCountValue(data As Dictionary(Of String, NamedValue(Of Integer)()),
+                                   path$,
+                                   Optional encoding As Encodings = Encodings.ASCII,
+                                   Optional tsv As Boolean = False) As Boolean
+
+        Dim del$ = "," Or vbTab.AsDefault(Function() tsv)
+
         Using write As StreamWriter = path.OpenWriter(encoding)
-            Call write.WriteLine(New RowObject({"namespace", "id", "name", "counts"}).AsLine)
+            Call write.WriteLine(New RowObject({"namespace", "id", "name", "counts"}).AsLine(del))
 
             For Each k In data
                 For Each x As NamedValue(Of Integer) In k.Value
-                    Call write.WriteLine(New RowObject({k.Key, x.Name, x.Description, x.Value}).AsLine)
+                    Call write.WriteLine(New RowObject({k.Key, x.Name, x.Description, x.Value}).AsLine(del))
                 Next
             Next
         End Using
