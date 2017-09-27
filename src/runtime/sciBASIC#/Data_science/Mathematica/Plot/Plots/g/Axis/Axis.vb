@@ -240,6 +240,8 @@ Namespace Graphic.Axis
                 Call g.DrawLine(pen, ZERO, top)     ' y轴
             End If
 
+            Dim maxYTickSize!
+
             If Not scaler.AxisTicks.Y.IsNullOrEmpty Then
                 For Each tick# In scaler.AxisTicks.Y
                     Dim y! = scaler.TranslateY(tick) + offset.Y
@@ -253,6 +255,10 @@ Namespace Graphic.Axis
                     Dim sz As SizeF = g.MeasureString(labelText, tickFont)
                     Dim p As New Point(ZERO.X - delta - sz.Width, y - sz.Height / 2)
 
+                    If sz.Width > maxYTickSize Then
+                        maxYTickSize = sz.Width
+                    End If
+
                     g.DrawString(labelText, tickFont, Brushes.Black, p)
                 Next
             End If
@@ -265,7 +271,7 @@ Namespace Graphic.Axis
                     labelImage = labelImage.RotateImage(-90)
 
                     Dim location As New Point With {
-                        .X = scaler.ChartRegion.Left - labelImage.Width * 1.5,
+                        .X = scaler.ChartRegion.Left - labelImage.Width + maxYTickSize,
                         .Y = (size.Height - labelImage.Height) / 2
                     }
 
@@ -274,8 +280,8 @@ Namespace Graphic.Axis
                     Dim font As Font = CSSFont.TryParse(labelFont)
                     Dim fSize As SizeF = g.MeasureString(label, font)
                     Dim location As New PointF With {
-                        .X = scaler.ChartRegion.Left - fSize.Height * 1.5,
-                        .Y = (size.Height - fSize.Width) / 2
+                        .X = scaler.ChartRegion.Left - fSize.Height - maxYTickSize * 1.5,
+                        .Y = size.Height / 2 + scaler.ChartRegion.Top
                     }
 
                     With New GraphicsText(DirectCast(g, Graphics2D).Graphics)
