@@ -39,6 +39,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 
 Public Module Kmeans
 
@@ -62,12 +63,15 @@ Public Module Kmeans
     Public Function Scatter3D(data As IEnumerable(Of DataSet),
                               catagory As Dictionary(Of NamedCollection(Of String)),
                               camera As Camera,
-                              Optional size$ = "1600,1200",
+                              Optional size$ = "1200,1000",
                               Optional bg$ = "white",
                               Optional padding$ = g.DefaultPadding,
                               Optional clusterN% = 6,
                               Optional schema$ = Designer.Clusters,
-                              Optional shapes As LegendStyles = LegendStyles.Circle Or LegendStyles.Square Or LegendStyles.Triangle) As GraphicsData
+                              Optional shapes As LegendStyles = LegendStyles.Circle Or LegendStyles.Square Or LegendStyles.Triangle,
+                              Optional pointSize! = 20,
+                              Optional boxStroke$ = Stroke.StrongHighlightStroke,
+                              Optional axisStroke$ = Stroke.AxisStroke) As GraphicsData
 
         Dim clusters As Dictionary(Of String, EntityLDM()) = data _
             .ToKMeansModels _
@@ -103,11 +107,15 @@ Public Module Kmeans
                 .Title = (+cluster).Key,
                 .Color = color,
                 .Points = point3D,
-                .Shape = LegendStyles.Triangle
+                .Shape = LegendStyles.Triangle,
+                .PointSize = pointSize
             }
         Next
 
-        Return serials.Plot(camera, bg, padding)
+        Return serials.Plot(
+            camera, bg, padding,
+            boxStroke:=boxStroke,
+            axisStroke:=axisStroke)
     End Function
 End Module
 

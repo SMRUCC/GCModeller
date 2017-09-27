@@ -50,7 +50,9 @@ Namespace Plot3D
                              camera As Camera,
                              Optional bg$ = "white",
                              Optional padding$ = g.DefaultPadding,
-                             Optional axisLabelFontCSS$ = CSSFont.Win7Normal) As GraphicsData
+                             Optional axisLabelFontCSS$ = CSSFont.Win7Normal,
+                             Optional boxStroke$ = Stroke.StrongHighlightStroke,
+                             Optional axisStroke$ = Stroke.AxisStroke) As GraphicsData
 
             Dim list = serials.ToArray
             Dim points = list _
@@ -59,25 +61,28 @@ Namespace Plot3D
                 .ToArray
             Dim font As Font = CSSFont.TryParse(axisLabelFontCSS).GDIObject
             Dim cur As Point
-            Dim rect As Rectangle
 
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
-                    Call AxisDraw.DrawAxis(g, points, camera, font)
+                    Call AxisDraw.DrawAxis(g, points, camera, font, axisStroke:=axisStroke)
 
                     With camera
 
                         For Each serial As Serial3D In list
 
                             Dim data As Point3D() = serial.Points
+                            Dim size As New Size With {
+                                .Width = serial.PointSize,
+                                .Height = serial.PointSize
+                            }
 
                             For Each pt As Point3D In data
                                 pt = .Project(.Rotate(pt))      ' 3d project to 2d
                                 cur = pt.PointXY(camera.screen)
 
                                 ' draw legend shape
-                                Call g.DrawLegendShape(cur, New Size(5, 5), serial.Shape, serial.Color)
+                                Call g.DrawLegendShape(cur, size, serial.Shape, serial.Color)
                             Next
                         Next
                     End With
