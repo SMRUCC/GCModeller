@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
@@ -37,7 +38,9 @@ Public Module RSDPdensity
                                 Optional bg$ = "white",
                                 Optional schema$ = "Jet",
                                 Optional RSD# = 1,
-                                Optional lineStroke$ = Stroke.StrongHighlightStroke) As GraphicsData
+                                Optional lineStroke$ = Stroke.AxisGridStroke) As GraphicsData
+
+        Call $"{NameOf(P_threshold)}={P_threshold}".__DEBUG_ECHO
 
         With points _
             .Where(Function(pt)
@@ -49,43 +52,29 @@ Public Module RSDPdensity
                    End Function) _
             .ToArray
 
+            Dim ticksX = .Select(Function(pt) CDbl(pt.X)).CreateAxisTicks.AsVector
+            Dim ticksY = .Select(Function(pt) CDbl(pt.Y)).CreateAxisTicks.AsVector
+
             ' 分别绘制出P值和RSD值得临界值线
-            Using g = DensityPlot _
-                .Plot(.ref, size, padding, bg, schema, levels:=100) _
-                .CreateGraphics
+            ' P直线是横向的，即(0,P) (maxX,P)
+            ' RSD线是竖向的，即(RSD,minY) (RSD, maxY)
+            Dim P = P_threshold
+            Dim line As Pen = Stroke.TryParse(lineStroke).GDIObject
 
-                Dim region As New GraphicsRegion With {
-                    .Padding = padding,
-                    .Size = g.Size
-                }
-                Dim canvas = region.PlotRegion
-                Dim ticksX = .Select(Function(pt) CDbl(pt.X)).CreateAxisTicks.AsVector
-                Dim ticksY = .Select(Function(pt) CDbl(pt.Y)).CreateAxisTicks.AsVector
-                Dim X = d3js.scale.linear().domain(ticksX).range(New Integer() {canvas.Left, canvas.Right})
-                Dim Y = d3js.scale.linear().domain(ticksY).range(New Integer() {0, canvas.Bottom})
-                Dim scaler As New DataScaler With {
-                    .X = X,
-                    .Y = Y,
-                    .AxisTicks = (ticksX, ticksY),
-                    .ChartRegion = canvas
-                }
+            Dim Pa As New PointF(0!, P)
+            Dim Pb As New PointF(CSng(ticksX.Max), P)
+            Dim Ra As New PointF(CSng(RSD), CSng(ticksY.Min))
+            Dim Rb As New PointF(CSng(RSD), CSng(ticksY.Max))
+            Dim ablines = {
+                New Line(Pa, Pb, line), New Line(Ra, Rb, line)
+            }
 
-                ' P直线是横向的，即(0,P) (maxX,P)
-                ' RSD线是竖向的，即(RSD,minY) (RSD, maxY)
-                Dim P = scaler.TranslateY(P_threshold)
-                Dim line As Pen = Stroke.TryParse(lineStroke).GDIObject
+            Return DensityPlot.Plot(
+                .ref,
+                size, padding, bg, schema, levels:=100,
+                ablines:=ablines,
+                labX:="RSD", labY:="-log10(P.value)")
 
-                RSD = scaler.TranslateX(RSD)
-
-                Call g.DrawLine(line, 0!, CSng(P), CSng(scaler.TranslateX(ticksX.Max)), CSng(P))
-                Call g.DrawLine(line, CSng(RSD), CSng(scaler.TranslateY(ticksY.Min)), CSng(RSD), CSng(scaler.TranslateY(ticksY.Max)))
-
-                If TypeOf g Is Graphics2D Then
-                    Return New ImageData(DirectCast(g, Graphics2D).ImageResource, g.Size)
-                Else
-                    Return New SVGData(g, g.Size)
-                End If
-            End Using
         End With
     End Function
 End Module
