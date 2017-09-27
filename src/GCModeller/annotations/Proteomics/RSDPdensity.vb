@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports RDotNET.Extensions.VisualBasic.API
@@ -50,7 +51,7 @@ Public Module RSDPdensity
 
             ' 分别绘制出P值和RSD值得临界值线
             Using g = DensityPlot _
-                .Plot(points, size, padding, bg, schema, levels:=100) _
+                .Plot(.ref, size, padding, bg, schema, levels:=100) _
                 .CreateGraphics
 
                 Dim region As New GraphicsRegion With {

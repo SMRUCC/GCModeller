@@ -60,7 +60,7 @@ Namespace d3js.scale
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function range(Optional values As IEnumerable(Of Double) = Nothing) As T
-            _range = values Or defaultRange
+            _range = (values Or defaultRange).Range
             Return Me
         End Function
 
