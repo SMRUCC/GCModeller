@@ -209,7 +209,8 @@ Public Module CatalogPlots
                          Optional tickFontStyle$ = CSSFont.Win7LargerBold,
                          Optional tick% = 50,
                          Optional maxTermLength% = 72,
-                         Optional labelAlignmentRight As Boolean = False) As GraphicsData
+                         Optional labelAlignmentRight As Boolean = False,
+                         Optional valueFormat$ = "F2") As GraphicsData
 
         Dim data As New Dictionary(Of String, NamedValue(Of Double)())
         Dim top As NamedValue(Of Double)()
@@ -268,7 +269,8 @@ Public Module CatalogPlots
                 bg, size, padding,
                 classFontStyle, catalogFontStyle, titleFontStyle, valueFontStyle,
                 tickFontStyle, tick,
-                labelRightAlignment:=labelAlignmentRight)
+                labelRightAlignment:=labelAlignmentRight,
+                valueFormat:=valueFormat)
         End With
     End Function
 
