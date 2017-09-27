@@ -38,7 +38,15 @@ Public Module RSDPdensity
                                 Optional RSD# = 1,
                                 Optional lineStroke$ = Stroke.StrongHighlightStroke) As GraphicsData
 
-        With points.ToArray
+        With points _
+            .Where(Function(pt)
+                       Return Not New Double() {
+                           pt.X, pt.Y
+                       }.Any(Function(x)
+                                 Return x.IsNaNImaginary
+                             End Function)
+                   End Function) _
+            .ToArray
 
             ' 分别绘制出P值和RSD值得临界值线
             Using g = DensityPlot _
