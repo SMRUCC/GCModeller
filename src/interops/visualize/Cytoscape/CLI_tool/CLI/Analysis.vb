@@ -148,8 +148,8 @@ Partial Module CLI
 
         Call data.SaveTo(out & "/group_counts.csv")
         Call PieChart.Plot(
-                data.FromData(schema:=schema),
-                size:=New Size(2600, 2000),
+                data.Fractions(schema:=schema),
+                size:="2600,2000",
                 valueLabelStyle:=CSSFont.Win7Large) _
             .Save(out & "/group_counts.png")
         Call {
