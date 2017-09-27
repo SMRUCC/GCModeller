@@ -28,40 +28,41 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.Visualize.DataMining
-Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
+Imports Microsoft.VisualBasic.Language
 
 Module Kmeans3DTest
 
     Sub Main()
 
-        Dim matrix As DataSet() = DataSet.LoadDataSet("D:\OneDrive\2017-8-31\转录组\matrix.csv").ToArray
+        Dim matrix As List(Of DataSet) = DataSet.LoadDataSet("G:\GCModeller\src\runtime\sciBASIC#\Data_science\Mathematica\Quick_correlation_matrix_heatmap\mtcars.csv")
         Dim cata As New Dictionary(Of NamedCollection(Of String))
 
         cata += New NamedCollection(Of String) With {
-            .Name = "T2 vs T1", .Value = {"B1.A1", "B1.A2", "B2.A1", "B2.A2"}}
+            .Name = "Degree 1", .Value = {"mpg", "cyl", "disp", "hp"}}
         cata += New NamedCollection(Of String) With {
-            .Name = "T3 vs T2", .Value = {"C1.B1", "C1.B2", "C2.B1", "C2.B2"}}
+            .Name = "Degree 2", .Value = {"drat", "wt", "qsec", "qsec2"}}
         cata += New NamedCollection(Of String) With {
-            .Name = "T4 vs T3", .Value = {"D1.C1", "D1.C2", "D2.C1", "D2.C2"}}
+            .Name = "Degree 3", .Value = {"vs", "am", "gear", "carb"}}
 
         Dim camera As New Camera With {
             .fov = 500000,
             .screen = New Size(1200, 1000),
-            .ViewDistance = 3400,
+            .ViewDistance = 31000,
             .angleX = 30,
             .angleY = 60,
-            .angleZ = -56.25
+            .angleZ = -56.25,
+            .offset = New Point(-100, 300)
         }
 
-        Call Kmeans.Scatter3D(
-            matrix, cata, camera,
-            labX:="T2 vs T1",
-            labY:="T3 vs T2",
-            labZ:="T4 vs T3").AsGDIImage.CorpBlank(30, Color.White).SaveAs("./kmeans3D.png")
+        Call matrix.SaveTo("./matrix.csv")
+
+        Call Kmeans.Scatter3D(matrix, cata, camera).AsGDIImage.CorpBlank(30, Color.White).SaveAs("./kmeans3D.png")
     End Sub
 End Module
 
