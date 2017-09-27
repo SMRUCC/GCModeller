@@ -40,7 +40,13 @@ Namespace Plot3D.Model
     ''' </summary>
     Public Module AxisDraw
 
-        Public Function Axis(xrange As DoubleRange, yrange As DoubleRange, zrange As DoubleRange, Optional strokeCSS$ = Stroke.AxisStroke) As Line()
+        Public Function Axis(xrange As DoubleRange,
+                             yrange As DoubleRange,
+                             zrange As DoubleRange,
+                             labelFont As Font,
+                             labels As (X$, Y$, Z$),
+                             Optional strokeCSS$ = Stroke.AxisStroke) As Element3D()
+
             ' 交汇于xmax, ymin, zmin
             Dim ZERO As New Point3D With {.X = xrange.Max, .Y = yrange.Min, .Z = zrange.Min}
             ' X: xmin, ymin, zmin
@@ -51,13 +57,19 @@ Namespace Plot3D.Model
             Dim Z As New Point3D With {.X = xrange.Max, .Y = yrange.Min, .Z = zrange.Max}
             Dim color As Pen = Stroke.TryParse(strokeCSS).GDIObject
 
-            color.EndCap = LineCap.Triangle
+            Dim bigArrow As New AdjustableArrowCap(color.Width * 3, color.Width * 3)
+
+            color.CustomEndCap = bigArrow
 
             Dim Xaxis As New Line(ZERO, X) With {.Stroke = color}
             Dim Yaxis As New Line(ZERO, Y) With {.Stroke = color}
             Dim Zaxis As New Line(ZERO, Z) With {.Stroke = color}
 
-            Return {Xaxis, Yaxis, Zaxis}
+            Dim labX As New Label With {.Location = X, .Font = labelFont, .Color = Brushes.Black, .Text = labels.X}
+            Dim labY As New Label With {.Location = Y, .Font = labelFont, .Color = Brushes.Black, .Text = labels.Y}
+            Dim labZ As New Label With {.Location = Z, .Font = labelFont, .Color = Brushes.Black, .Text = labels.Z}
+
+            Return New Element3D() {Xaxis, Yaxis, Zaxis, labX, labY, labZ}
         End Function
     End Module
 End Namespace
