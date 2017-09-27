@@ -402,6 +402,17 @@ Partial Module CLI
               Description:="The GO annotation level from the DAG, default is level 2.")>
     <Argument("/label.right", True, CLITypes.Boolean,
               Description:="Plot GO term their label will be alignment on right. default is alignment left if this aegument is not present.")>
+    <Argument("/in", False, CLITypes.File,
+              Description:="Uniprot XML database export result from ``/protein.annotations`` command.")>
+    <Argument("/tick", True, CLITypes.Double,
+              Description:="The Axis ticking interval, if this argument is not present in the CLI, then program will create this interval value automatically.")>
+    <Argument("/size", True, CLITypes.String, AcceptTypes:={GetType(Size)},
+              Description:="The size of the output plot image.")>
+    <Argument("/selects", True, CLITypes.String,
+              Description:="The quantity selector for the bar plot content, by default is using quartile Q3 value, which means the term should have at least greater than Q3 quantitle then it will be draw on the bar plot.")>
+    <Argument("/out", True, CLITypes.File,
+              Description:="A directory path which will created for save the output result. The output result from this command contains a bar plot png image and a csv file for view the Go terms distribution in the sample uniprot annotation data.")>
+    <Group(CLIGroups.Annotation_CLI)>
     Public Function ProteinsGoPlot(args As CommandLine) As Integer
         Dim goDB$ = (args <= "/go") Or (GCModeller.FileSystem.GO & "/go.obo").AsDefault
         Dim in$ = args <= "/in"
@@ -453,6 +464,7 @@ Partial Module CLI
     <Description("KEGG function catalog profiling plot of the TP sample.")>
     <Argument("/custom",
               Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg")>
+    <Group(CLIGroups.Annotation_CLI)>
     Public Function proteinsKEGGPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim size$ = args.GetValue("/size", "2200,2000")
