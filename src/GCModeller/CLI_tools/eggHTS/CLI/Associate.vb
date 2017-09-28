@@ -1,12 +1,14 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
+Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 
 Partial Module CLI
 
@@ -78,5 +80,49 @@ Partial Module CLI
         Call Sim.SaveTo(out & $"/SimOf-{fileName}")
 
         Return 0
+    End Function
+
+    <ExportAPI("/KOBAS.Term.Kmeans")>
+    <Usage("/KOBAS.Term.Kmeans /in <dir.input> [/n <default=3> /out <out.clusters.csv>]")>
+    Public Function KOBASKMeans(args As CommandLine) As Integer
+        Dim out$ = (args <= "/out") Or $"{(args <= "/in").TrimDIR}.clusters.csv".AsDefault
+        Dim files As DataSet() = (ls - l - r - "*.csv" <= (args <= "/in")) _
+            .Select(Function(file) DataSet.LoadDataSet(file)) _
+            .IteratesALL _
+            .ToArray
+        Dim allTerms = files.PropertyNames.Distinct.Sort.ToArray
+        Dim strip As New List(Of DataSet)
+        Dim n% = args.GetValue("/n", 3)
+
+        ' 补充零，将所有的向量的长度置位等长
+        For Each vector As DataSet In files
+            strip += New DataSet With {
+                .ID = vector.ID,
+                .Properties = allTerms.ToDictionary(
+                    Function(key) key,
+                    Function(term) vector(term))
+            }
+        Next
+
+        Return strip _
+            .ToKMeansModels _
+            .Kmeans(expected:=n) _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/KOBAS.Sim.Heatmap")>
+    <Usage("/KOBAS.Sim.Heatmap /in <sim.csv> [/size <1024,800> /colors <RdYlBu:8> /out <out.png>]")>
+    Public Function SimHeatmap(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.heatmap.png".AsDefault
+        Dim size$ = (args <= "/size") Or "1024,800".AsDefault
+        Dim colors$ = (args <= "/colors") Or "RdYlBu:8".AsDefault
+        Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
+
+        Return Heatmap _
+            .Plot(matrix, reverseClrSeq:=True, mapName:=colors, size:=size) _
+            .Save(out) _
+            .CLICode
     End Function
 End Module
