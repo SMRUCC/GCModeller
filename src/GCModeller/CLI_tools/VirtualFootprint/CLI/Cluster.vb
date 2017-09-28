@@ -99,7 +99,7 @@ Partial Module CLI
             In alloacte(seq, clone:=Not ms).AsParallel  ' 在這裏使用clone而非直接使用原始的對象是爲了提升linux平臺上面的并行計算效率
             Let Name As String = a.Key.Title
             Select New EntityLDM With {
-                .Name = Name,
+                .ID = Name,
                 .Properties = a.Key.Cluster(a.Value, cutoff, minW)
             }
 

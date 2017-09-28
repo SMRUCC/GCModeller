@@ -30,18 +30,24 @@ Imports System.ComponentModel
 Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.visualize.DataMining
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
@@ -465,6 +471,48 @@ Partial Module CLI
         End If
 
         Return 0
+    End Function
+
+    ''' <summary>
+    ''' 进行差异表达蛋白的聚类结果的3D scatter散点图的绘制可视化
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/DEP.heatmap.scatter.3D")>
+    <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
+    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #"">/size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.csv>]")>
+    Public Function DEPHeatmap3D(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+        Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
+        Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
+        Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter.png").AsDefault
+        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
+        Dim viewAngle As Vector = (args <= "/view.angle") Or "30,60,-56.25".AsDefault
+        Dim viewDistance# = args.GetValue("/view.distance", 2500)
+        Dim camera As New Camera With {
+            .fov = 500000,
+            .screen = size.SizeParser,
+            .ViewDistance = viewDistance,
+            .angleX = viewAngle(0),
+            .angleY = viewAngle(1),
+            .angleZ = viewAngle(2)
+        }
+        Dim category As Dictionary(Of NamedCollection(Of String)) = sampleInfo.ToCategory
+        Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
+
+        If Not prefix.StringEmpty Then
+            For Each protein As EntityLDM In clusterData
+                protein.Cluster = prefix & protein.Cluster
+            Next
+        End If
+
+        Return clusterData _
+            .Scatter3D(category, camera, size, schema:=schema) _
+            .AsGDIImage _
+            .CorpBlank(30, Color.White) _
+            .SaveAs(path:=out) _
+            .CLICode
     End Function
 
     ''' <summary>
