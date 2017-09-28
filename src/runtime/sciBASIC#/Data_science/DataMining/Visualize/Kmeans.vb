@@ -83,6 +83,10 @@ Public Module Kmeans
             Call clusters.SaveTo($"{DIR}/{catagory.Keys.JoinBy(",").NormalizePathString}-Kmeans.csv")
         End If
 
+        For Each member As EntityLDM In clusters
+            member.Cluster = "Cluster:  #" & member.Cluster
+        Next
+
         Return Scatter3D(
             clusters, catagory, camera,
             size:=size, bg:=bg, axisStroke:=axisStroke, boxStroke:=boxStroke, padding:=padding,
@@ -153,7 +157,7 @@ Public Module Kmeans
             Next
 
             serials += New Serial3D With {
-                .Title = "Cluster:  #" & (+cluster).Key,
+                .Title = (+cluster).Key,
                 .Color = color,
                 .Points = point3D,
                 .Shape = LegendStyles.Triangle,

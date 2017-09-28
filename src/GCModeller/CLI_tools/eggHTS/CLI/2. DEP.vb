@@ -479,7 +479,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap.scatter.3D")>
     <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
-    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=3000> /out <out.csv>]")>
+    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #"">/size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=3000> /out <out.csv>]")>
     Public Function DEPHeatmap3D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
@@ -498,6 +498,13 @@ Partial Module CLI
             .angleZ = viewAngle(2)
         }
         Dim category As Dictionary(Of NamedCollection(Of String)) = sampleInfo.ToCategory
+        Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
+
+        If Not prefix.StringEmpty Then
+            For Each protein As EntityLDM In clusterData
+                protein.Cluster = prefix & protein.Cluster
+            Next
+        End If
 
         Return clusterData _
             .Scatter3D(category, camera, size, schema:=schema) _
