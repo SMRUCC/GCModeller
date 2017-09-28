@@ -31,6 +31,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -66,12 +67,13 @@ Public Module Kmeans
                               Optional size$ = "1200,1000",
                               Optional bg$ = "white",
                               Optional padding$ = g.DefaultPadding,
-                              Optional clusterN% = 6,
+                              Optional clusterN% = 10,
                               Optional schema$ = Designer.Clusters,
                               Optional shapes As LegendStyles = LegendStyles.Circle Or LegendStyles.Square Or LegendStyles.Triangle,
                               Optional pointSize! = 20,
                               Optional boxStroke$ = Stroke.StrongHighlightStroke,
-                              Optional axisStroke$ = Stroke.AxisStroke) As GraphicsData
+                              Optional axisStroke$ = Stroke.AxisStroke,
+                              Optional DIR$ = "./") As GraphicsData
 
         Dim clusters As Dictionary(Of String, EntityLDM()) = data _
             .ToKMeansModels _
@@ -80,12 +82,17 @@ Public Module Kmeans
             .ToDictionary(Function(cluster) cluster.Key,
                           Function(group) group.ToArray)
 
+        If Not DIR.StringEmpty Then
+            Call clusters.Values.IteratesALL.ToArray.SaveTo($"{DIR}/{catagory.Keys.JoinBy(",").NormalizePathString}-Kmeans.csv")
+        End If
+
         ' 相同的cluster的对象都会被染上同一种颜色
         ' 不同的分组之中的数据点则会被绘制为不同的形状
         Dim clusterColors As Color() = Designer.GetColors(schema)
         Dim serials As New List(Of Serial3D)
         Dim shapeList As LegendStyles() = GetAllEnumFlags(Of LegendStyles)(shapes)
         Dim keys$() = catagory.Keys.ToArray
+        Dim labX$ = keys(0), labY$ = keys(1), labZ$ = keys(2)
 
         For Each cluster In clusters.SeqIterator
             Dim color As Color = clusterColors(cluster)
@@ -104,7 +111,7 @@ Public Module Kmeans
             Next
 
             serials += New Serial3D With {
-                .Title = (+cluster).Key,
+                .Title = "Cluster:  #" & (+cluster).Key,
                 .Color = color,
                 .Points = point3D,
                 .Shape = LegendStyles.Triangle,
@@ -115,7 +122,8 @@ Public Module Kmeans
         Return serials.Plot(
             camera, bg, padding,
             boxStroke:=boxStroke,
-            axisStroke:=axisStroke)
+            axisStroke:=axisStroke,
+            labX:=labX, labY:=labY, labZ:=labZ)
     End Function
 
     ''' <summary>
