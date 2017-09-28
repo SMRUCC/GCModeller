@@ -29,8 +29,9 @@ Partial Module CLI
     Public Function KOBASSimilarity(args As CommandLine) As Integer
         Dim group1$ = args <= "/group1"
         Dim group2$ = args <= "/group2"
-        Dim out$ = args.GetValue("/out", group1.TrimDIR & "-" & group2.BaseName & "/")
         Dim fileName$ = args.GetValue("/fileName", "output_run-Gene Ontology.csv")
+        Dim out$ = args.GetValue("/out", group1.TrimDIR & "-" & group2.BaseName & $".{fileName}/")
+
         Dim files1 = (ls - l - r - fileName <= group1) _
             .Select(Function(file)
                         Return file.LoadTerms(file.ParentPath.ParentDirName)
@@ -54,6 +55,10 @@ Partial Module CLI
 
             For Each b In files2
                 With Measure.Similarity(a, b)
+
+                    .A.ID = $"[{group1.BaseName}] " & .A.ID
+                    .B.ID = $"[{group2.BaseName}] " & .B.ID
+
                     If Not matrixA.ContainsKey(.A.ID) Then
                         matrixA += .A
                     End If
