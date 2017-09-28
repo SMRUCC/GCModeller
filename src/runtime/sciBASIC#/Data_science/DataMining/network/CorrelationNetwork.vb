@@ -93,11 +93,13 @@ Public Module CorrelationNetwork
     Private Function HowStrong(c#) As String
         Dim abs = Math.Abs(c)
 
-        If c < 0.5 Then
+        If abs < 0.4 Then
+            Return "Very Weak"
+        ElseIf abs < 0.5 Then
             Return "Weak"
-        ElseIf c < 0.65 Then
+        ElseIf abs < 0.65 Then
             Return "Medium"
-        ElseIf c < 0.9 Then
+        ElseIf abs < 0.9 Then
             Return "Strong"
         Else
             Return "Very Strong"
