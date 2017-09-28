@@ -43,6 +43,15 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services
 <Package("GCModeller.CLI", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.CLI_MAN, Url:="http://gcmodeller.org")>
 Public Module CLI
 
+    <ExportAPI("/Intersect")>
+    <Usage("/Intersect /a <list.txt> /b <list.txt> [/out <list.txt>]")>
+    Public Function Intersect(args As CommandLine) As Integer
+        Dim a$() = (args <= "/a").ReadAllLines
+        Dim b$() = (args <= "/b").ReadAllLines
+        Dim out$ = args.GetValue("/out", (args <= "/a").TrimSuffix & "-" & (args <= "/b").BaseName & ".txt")
+        Return a.Intersect(b).FlushAllLines(out).CLICode
+    End Function
+
     <ExportAPI("/kmeans")>
     <Usage("/kmeans /in <matrix.csv> [/cluster.n <default=6> /out <out.csv>]")>
     Public Function Kmeans(args As CommandLine) As Integer
