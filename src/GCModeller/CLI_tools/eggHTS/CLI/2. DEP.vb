@@ -486,7 +486,7 @@ Partial Module CLI
         Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
         Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter.png").AsDefault
-        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in])
+        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
         Dim viewAngle As Vector = (args <= "/view.angle") Or "30,60,-56.25".AsDefault
         Dim viewDistance# = args.GetValue("/view.distance", 3000)
         Dim camera As New Camera With {
