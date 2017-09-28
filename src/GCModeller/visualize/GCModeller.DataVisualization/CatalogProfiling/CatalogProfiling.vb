@@ -181,6 +181,12 @@ Public Module CatalogProfiling
         Dim maxLenClsKey$ = classes _
             .OrderByDescending(Function(s) s.Length) _
             .First
+
+        ' 这里要判断一下，否则绘制结果仍然是和没有限制长度的结果一样
+        If maxLenSubKey.Length > 64 Then
+            maxLenSubKey = New String("+"c, 68)
+        End If
+
         Dim maxLenSubKeySize As SizeF = g.MeasureString(maxLenSubKey, catalogFont)
         Dim maxLenClsKeySize As SizeF = g.MeasureString(maxLenClsKey, classFont)
         Dim valueFont As Font = CSSFont.TryParse(valueFontStyle)
