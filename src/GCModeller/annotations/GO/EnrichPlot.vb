@@ -187,7 +187,7 @@ Public Module EnrichPlot
         Call g.DrawLegends(
             ltopLeft,
             legends,
-            graphicSize:=New Size(60, 35),
+            gSize:="60,35",
             regionBorder:=New Stroke With {
                 .fill = "Black",
                 .dash = DashStyle.Solid,
