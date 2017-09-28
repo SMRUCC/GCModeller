@@ -117,5 +117,42 @@ Public Module Kmeans
             boxStroke:=boxStroke,
             axisStroke:=axisStroke)
     End Function
+
+    ''' <summary>
+    ''' 至少需要三个维度的信息来进行Kmeans结果数据的可视化
+    ''' </summary>
+    ''' <param name="clusterData"></param>
+    ''' <param name="catagory">
+    ''' 用于生成坐标信息的，只能够包含三个元素。当这个表之中的元素的数目多余三个的时候，将只会取出前三个
+    ''' </param>
+    ''' <param name="camera"></param>
+    ''' <param name="size$"></param>
+    ''' <param name="bg$"></param>
+    ''' <param name="padding$"></param>
+    ''' <param name="clusterN%"></param>
+    ''' <param name="schema$"></param>
+    ''' <param name="shapes"></param>
+    ''' <param name="pointSize!"></param>
+    ''' <param name="boxStroke$"></param>
+    ''' <param name="axisStroke$"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 使用这个函数是对现有的kmeans的结果数据之上进行可视化绘图操作
+    ''' </remarks>
+    <Extension>
+    Public Function Scatter3D(clusterData As IEnumerable(Of EntityLDM),
+                              catagory As Dictionary(Of NamedCollection(Of String)),
+                              camera As Camera,
+                              Optional size$ = "1200,1000",
+                              Optional bg$ = "white",
+                              Optional padding$ = g.DefaultPadding,
+                              Optional clusterN% = 6,
+                              Optional schema$ = Designer.Clusters,
+                              Optional shapes As LegendStyles = LegendStyles.Circle Or LegendStyles.Square Or LegendStyles.Triangle,
+                              Optional pointSize! = 20,
+                              Optional boxStroke$ = Stroke.StrongHighlightStroke,
+                              Optional axisStroke$ = Stroke.AxisStroke) As GraphicsData
+
+    End Function
 End Module
 
