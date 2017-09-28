@@ -486,7 +486,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/proteins.KEGG.plot")>
-    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
+    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/label.right /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
     <Description("KEGG function catalog profiling plot of the TP sample.")>
     <Argument("/custom",
               Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg")>
@@ -497,6 +497,7 @@ Partial Module CLI
         Dim tick! = args.GetValue("/tick", 20.0!)
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/KEGG/")
         Dim sample = [in].LoadSample
+        Dim labelRight As Boolean = args.IsTrue("/label.right")
         Dim maps As NamedValue(Of String)() = sample _
             .Where(Function(prot) Not prot("KO").StringEmpty) _
             .Select(Function(prot)
@@ -525,7 +526,8 @@ Partial Module CLI
         profile.ProfilesPlot("KEGG Orthology Profiling",
                              size:=size,
                              tick:=tick,
-                             axisTitle:="Number Of Proteins").Save(out & "/plot.png")
+                             axisTitle:="Number Of Proteins",
+                             labelRightAlignment:=labelRight).Save(out & "/plot.png")
         KO_counts.SaveTo(out & "/KO_counts.csv")
         catalogs.DataFrame.SaveTo(out & "/KOCatalogs.csv")
 
