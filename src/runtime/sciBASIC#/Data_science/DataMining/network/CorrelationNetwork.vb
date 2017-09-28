@@ -97,7 +97,7 @@ Public Module CorrelationNetwork
             Return "Very Weak"
         ElseIf abs < 0.5 Then
             Return "Weak"
-        ElseIf abs < 0.65 Then
+        ElseIf abs < 0.7 Then
             Return "Medium"
         ElseIf abs < 0.9 Then
             Return "Strong"
