@@ -103,7 +103,7 @@ Public Module CLI
                                         Function(name) hash.TryGetValue(name) / sum)
 
             Entity += New EntityLDM With {
-                .Name = g.ID,
+                .ID = g.ID,
                 .Properties = props
             }
         Next
@@ -131,7 +131,7 @@ Public Module CLI
             Let i = cluster.i
             Let members = cluster.value.Value
             Let color As Color = colors(i)
-            Let index = New Index(Of String)(members.Select(Function(x) x.Name))
+            Let index = New Index(Of String)(members.Select(Function(x) x.ID))
             Select New Map(Of Index(Of String), String) With {
                 .Key = index,
                 .Maps = color.ToHtmlColor
@@ -164,7 +164,7 @@ Public Module CLI
         Dim clusters = [in].ReadAllText.LoadObject(Of Dictionary(Of String, EntityLDM()))
 
         For Each cluster In clusters.Values
-            Dim genes$() = cluster.Select(Function(g) g.Name.Split.First).Distinct.ToArray
+            Dim genes$() = cluster.Select(Function(g) g.ID.Split.First).Distinct.ToArray
             Dim list$ = base.c(genes, stringVector:=True)
             '   Dim enrichment = clusterProfiler.enricher(list, "NULL", term2gene, TERM2NAME:=go2name)
 

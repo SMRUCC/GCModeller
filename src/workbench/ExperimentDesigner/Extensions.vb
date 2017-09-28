@@ -1,9 +1,29 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 
 Public Module Extensions
+
+    <Extension>
+    Public Function ToCategory(sampleInfo As IEnumerable(Of SampleInfo)) As Dictionary(Of NamedCollection(Of String))
+        Return sampleInfo _
+            .GroupBy(Function(sample) sample.sample_group) _
+            .Select(Function(group)
+                        Return New NamedCollection(Of String) With {
+                            .Name = group.Key,
+                            .Value = group.SampleNames
+                        }
+                    End Function) _
+            .ToDictionary
+    End Function
+
+    <Extension>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function SampleNames(sampleInfo As IEnumerable(Of SampleInfo)) As String()
+        Return sampleInfo.Select(Function(sample) sample.sample_name).ToArray
+    End Function
 
     ''' <summary>
     ''' ``<see cref="SampleInfo.ID"/> -> <see cref="SampleInfo.sample_group"/>``

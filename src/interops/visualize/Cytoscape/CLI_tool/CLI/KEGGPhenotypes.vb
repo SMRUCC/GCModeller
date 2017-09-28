@@ -93,7 +93,7 @@ Partial Module CLI
         Dim l As Integer = footprints.Length
         Dim sets As EntityLDM() = Entities.ToArray(
             Function(x) New EntityLDM With {
-                .Name = x.EntryId,
+                .ID = x.EntryId,
                 .Properties = x.hash.ToDictionary(Function(prop) prop.Key,
                                                   Function(prop) prop.Value.Value / l)
         })
