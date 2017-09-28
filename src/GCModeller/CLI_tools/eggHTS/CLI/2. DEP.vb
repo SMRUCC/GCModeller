@@ -37,6 +37,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.DataMining
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -479,7 +480,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap.scatter.3D")>
     <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
-    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #"">/size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=3000> /out <out.csv>]")>
+    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #"">/size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.csv>]")>
     Public Function DEPHeatmap3D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
@@ -488,7 +489,7 @@ Partial Module CLI
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter.png").AsDefault
         Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
         Dim viewAngle As Vector = (args <= "/view.angle") Or "30,60,-56.25".AsDefault
-        Dim viewDistance# = args.GetValue("/view.distance", 3000)
+        Dim viewDistance# = args.GetValue("/view.distance", 2500)
         Dim camera As New Camera With {
             .fov = 500000,
             .screen = size.SizeParser,
@@ -508,7 +509,9 @@ Partial Module CLI
 
         Return clusterData _
             .Scatter3D(category, camera, size, schema:=schema) _
-            .Save(path:=out) _
+            .AsGDIImage _
+            .CorpBlank(30, Color.White) _
+            .SaveAs(path:=out) _
             .CLICode
     End Function
 
