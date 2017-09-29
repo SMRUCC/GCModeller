@@ -741,8 +741,6 @@ Partial Module CLI
                             log2Threshold:=log2FCLevel,
                             pvalueThreshold:=pvalue,
                             title:=title) _
-            .Save(out) _
-                            log2Threshold:=log2FCLevel) _
             .AsGDIImage _
             .CorpBlank(30, Color.White) _
             .SaveAs(out) _
