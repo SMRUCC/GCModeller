@@ -523,13 +523,17 @@ Partial Module CLI
             End If
         End With
 
+        KO_counts.SaveTo(out & "/KO_counts.csv")
+        catalogs _
+            .DataFrame _
+            .SaveTo(out & "/KOCatalogs.csv")
         profile.ProfilesPlot("KEGG Orthology Profiling",
                              size:=size,
                              tick:=tick,
                              axisTitle:="Number Of Proteins",
-                             labelRightAlignment:=labelRight).Save(out & "/plot.png")
-        KO_counts.SaveTo(out & "/KO_counts.csv")
-        catalogs.DataFrame.SaveTo(out & "/KOCatalogs.csv")
+                             labelRightAlignment:=labelRight,
+                             valueFormat:="F0") _
+               .Save(out & "/plot.png")
 
         Return 0
     End Function
