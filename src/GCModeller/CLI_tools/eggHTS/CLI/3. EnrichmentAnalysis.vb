@@ -390,6 +390,9 @@ Partial Module CLI
                Usage:="/KEGG.Enrichment.PathwayMap /in <kobas.csv> [/DEPs <deps.csv> /colors <default=red,blue,green> /map <id2uniprotID.txt> /uniprot <uniprot.XML> /pvalue <default=0.05> /out <DIR>]")>
     <Argument("/colors", AcceptTypes:={GetType(String())},
               Description:="A string vector that setups the DEPs' color profiles, if the argument ``/DEPs`` is presented. value format is ``up,down,present``")>
+    <Argument("/DEPs", True, CLITypes.File, AcceptTypes:={GetType(DEP_iTraq)},
+              Description:="Using for rendering color of the KEGG pathway map. The ``/colors`` argument only works when this argument is presented.")>
+    <Argument("/map", True, CLITypes.File, Description:="Maps user custom ID to uniprot ID. A tsv file with format: ``<customID><TAB><uniprotID>``")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function KEGGEnrichmentPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
