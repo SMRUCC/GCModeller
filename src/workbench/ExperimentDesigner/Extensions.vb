@@ -1,10 +1,17 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 
 Public Module Extensions
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function TakeGroup(sampleInfo As IEnumerable(Of SampleInfo), groupLabel$) As SampleInfo()
+        Return sampleInfo _
+            .Where(Function(sample) sample.sample_group = groupLabel) _
+            .ToArray
+    End Function
 
     <Extension>
     Public Function ToCategory(sampleInfo As IEnumerable(Of SampleInfo)) As Dictionary(Of NamedCollection(Of String))
@@ -22,7 +29,9 @@ Public Module Extensions
     <Extension>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function SampleNames(sampleInfo As IEnumerable(Of SampleInfo)) As String()
-        Return sampleInfo.Select(Function(sample) sample.sample_name).ToArray
+        Return sampleInfo _
+            .Select(Function(sample) sample.sample_name) _
+            .ToArray
     End Function
 
     ''' <summary>
