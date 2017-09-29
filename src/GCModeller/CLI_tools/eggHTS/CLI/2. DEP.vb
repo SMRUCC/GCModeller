@@ -473,7 +473,9 @@ Partial Module CLI
                 colLabelFontStyle:=CSSFont.Win7Large,
                 mapName:=schema,
                 reverseClrSeq:=revColorSequence,
-                min:=min).Save(out & "/plot.png")
+                min:=min).AsGDIImage _
+                         .CorpBlank(30, Color.White) _
+                         .SaveAs(out & "/plot.png")
         End If
 
         Return 0
