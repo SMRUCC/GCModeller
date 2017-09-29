@@ -2,10 +2,12 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Partial Module CLI
 
@@ -72,5 +74,24 @@ Partial Module CLI
                 .FlushAllLines(out) _
                 .CLICode
         End With
+    End Function
+
+    <ExportAPI("/labelFree.t.test")>
+    <Usage("/labelFree.t.test /in <matrix.csv> /sampleInfo <sampleInfo.csv> /design <analysis_designer.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
+    Public Function labelFreeTtest(args As CommandLine) As Integer
+        Dim data As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
+        Dim level# = args.GetValue("/level", 1.5)
+        Dim pvalue# = args.GetValue("/p.value", 0.05)
+        Dim FDR# = args.GetValue("/FDR", 0.05)
+        Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".log2FC.t.test.csv")
+        Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+        Dim designer As AnalysisDesigner = (args <= "/design").LoadCsv(Of AnalysisDesigner).First
+        Dim DEPs As DEP_iTraq() = data.logFCtest(designer, sampleInfo, level, pvalue, FDR)
+
+        Return DEPs _
+            .Where(Function(x) x.log2FC <> 0R) _
+            .ToArray _
+            .SaveDataSet(out) _
+            .CLICode
     End Function
 End Module
