@@ -18,7 +18,7 @@ Namespace Driver.CSS
         ' 样式属性则是具体的参数值
         '
         ' 例如
-        ' tickFont {
+        ' #tickFont {
         '     font-size: 14px;
         '     color: red;
         ' }
