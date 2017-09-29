@@ -12,6 +12,20 @@ Namespace Driver.CSS
     ''' </summary>
     Public Module RuntimeInvoker
 
+        ' CSS文件说明
+        ' 
+        ' selector为函数参数的名称
+        ' 样式属性则是具体的参数值
+        '
+        ' 例如
+        ' tickFont {
+        '     font-size: 14px;
+        '     color: red;
+        ' }
+        '
+        ' 定义了绘图函数的tickFont参数的字体大小为14个像素点，并且在进行绘图的时候字体颜色为红色
+        ' 如果没有定义字体名称的话，则是使用默认字体
+
         ''' <summary>
         ''' 
         ''' </summary>
