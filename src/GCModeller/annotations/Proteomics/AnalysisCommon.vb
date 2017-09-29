@@ -57,7 +57,7 @@ Module AnalysisCommon
                 Call println("resulted %s DEPs from %s proteins!", .ref, n)
             End With
 
-            Return .ref
+            Return DirectCast(!Me, VectorShadows(Of DEP_iTraq))
         End With
     End Function
 End Module
