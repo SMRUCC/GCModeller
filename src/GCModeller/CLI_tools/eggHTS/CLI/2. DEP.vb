@@ -737,7 +737,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/DEP.logFC.Volcano")>
-    <Usage("/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/title <title> /p.value <default=0.05> /level <default=1.5> /colors <up=red;down=green;other=black> /size <1400,1400> /out <plot.csv>]")>
+    <Usage("/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/title <title> /p.value <default=0.05> /level <default=1.5> /colors <up=red;down=green;other=black> /size <1400,1400> /display.count /out <plot.csv>]")>
     <Description("Volcano plot of the DEPs' analysis result.")>
     <Argument("/size", True, CLITypes.String,
               Description:="The canvas size of the output image.")>
@@ -763,6 +763,7 @@ Partial Module CLI
         Dim log2FCLevel# = args.GetValue("/level", 1.5)
         Dim pvalue# = args.GetValue("/p.value", 0.05)
         Dim P = -Math.Log10(pvalue)
+        Dim displayCount As Boolean = args.IsTrue("/display.count")
         Dim toFactor = Function(x As DEGModel)
                            If x.pvalue < P Then
                                Return 0
@@ -785,7 +786,8 @@ Partial Module CLI
                             size:=size,
                             log2Threshold:=log2FCLevel,
                             pvalueThreshold:=pvalue,
-                            title:=title) _
+                            title:=title,
+                            displayCount:=displayCount) _
             .AsGDIImage _
             .CorpBlank(30, Color.White) _
             .SaveAs(out) _
