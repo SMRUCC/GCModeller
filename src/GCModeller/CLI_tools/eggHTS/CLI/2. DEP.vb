@@ -688,7 +688,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/DEP.logFC.Volcano")>
-    <Usage("/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/p.value <default=0.05> /level <default=1.5> /colors <up=red;down=green;other=black> /size <1400,1400> /out <plot.csv>]")>
+    <Usage("/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/title <title> /p.value <default=0.05> /level <default=1.5> /colors <up=red;down=green;other=black> /size <1400,1400> /out <plot.csv>]")>
     <Description("Volcano plot of the DEPs' analysis result.")>
     <Argument("/size", True, CLITypes.String,
               Description:="The canvas size of the output image.")>
@@ -702,6 +702,7 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".DEPs.vocano.plot.png")
         Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)(args <= "/in")
         Dim size$ = args.GetValue("/size", "1400,1400")
+        Dim title$ = (args <= "/title") Or ("Volcano plot of " & (args <= "/in").BaseName).AsDefault
         Dim colors As Dictionary(Of Integer, Color) = args _
             .GetDictionary("/colors", [default]:="up=red;down=green;other=black") _
             .ToDictionary(Function(type)
@@ -734,7 +735,8 @@ Partial Module CLI
                             displayLabel:=LabelTypes.None,
                             size:=size,
                             log2Threshold:=log2FCLevel,
-                            pvalueThreshold:=pvalue) _
+                            pvalueThreshold:=pvalue,
+                            title:=title) _
             .Save(out) _
             .CLICode
     End Function
