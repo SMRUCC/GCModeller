@@ -420,7 +420,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /size <size, default=2000,3000> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -449,6 +449,7 @@ Partial Module CLI
         Dim min# = matrix.Select(Function(d) d.Properties.Values).IteratesALL.Min
         Dim schema$ = args.GetValue("/schema", Colors.ColorBrewer.DivergingSchemes.RdYlGn11)
         Dim revColorSequence As Boolean = Not args.IsTrue("/no-clrev")
+        Dim tick# = args.GetValue("/tick", -1.0#)
 
         If min >= 0 Then
             min = 0
@@ -473,7 +474,8 @@ Partial Module CLI
                 colLabelFontStyle:=CSSFont.Win7Large,
                 mapName:=schema,
                 reverseClrSeq:=revColorSequence,
-                min:=min).AsGDIImage _
+                min:=min,
+                tick:=tick).AsGDIImage _
                          .CorpBlank(30, Color.White) _
                          .SaveAs(out & "/plot.png")
         End If
