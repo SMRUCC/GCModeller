@@ -446,8 +446,13 @@ Partial Module CLI
             .Kmeans(expected:=args.GetValue("/cluster.n", 6)) _
             .SaveTo(dataOUT)
 
+        Dim min# = matrix.Select(Function(d) d.Properties.Values).IteratesALL.Min
         Dim schema$ = args.GetValue("/schema", Colors.ColorBrewer.DivergingSchemes.RdYlGn11)
         Dim revColorSequence As Boolean = Not args.IsTrue("/no-clrev")
+
+        If min >= 0 Then
+            min = 0
+        End If
 
         If args.IsTrue("/KO.class") Then
             Dim groupInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
@@ -467,7 +472,8 @@ Partial Module CLI
                 mainTitle:=title, rowLabelfontStyle:=CSSFont.Win7Small,
                 colLabelFontStyle:=CSSFont.Win7Large,
                 mapName:=schema,
-                reverseClrSeq:=revColorSequence).Save(out & "/plot.png")
+                reverseClrSeq:=revColorSequence,
+                min:=min).Save(out & "/plot.png")
         End If
 
         Return 0
