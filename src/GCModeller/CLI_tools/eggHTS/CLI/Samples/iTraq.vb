@@ -45,7 +45,7 @@ Partial Module CLI
     <Usage("/iTraq.matrix.split /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis.design.csv> [/out <out.Dir>]")>
     Public Function iTraqAnalysisMatrixSplit(args As CommandLine) As Integer
         Dim sampleInfo = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
-        Dim designer = (args <= "/designer").LoadCsv(Of ExperimentAnalysis)
+        Dim designer = (args <= "/designer").LoadCsv(Of AnalysisDesigner)
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & "-Groups/")
         Dim matrix As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
 
