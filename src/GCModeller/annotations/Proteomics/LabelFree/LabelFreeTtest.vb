@@ -44,7 +44,7 @@ Public Module LabelFreeTtest
                             .ID = protein.ID,
                             .FCavg = FC,
                             .log2FC = log2FC,
-                            .pvalue = pvalue,
+                            .pvalue = p_value,
                             .Properties = protein _
                                 .SubSet(allSamples) _
                                 .Properties _
