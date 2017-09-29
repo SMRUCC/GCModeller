@@ -163,9 +163,9 @@ Public Module Volcano
                                        Optional translate As Func(Of Double, Double) = Nothing,
                                        Optional displayLabel As LabelTypes = LabelTypes.None,
                                        Optional labelFontStyle$ = CSSFont.PlotTitle,
-                                       Optional legendFont$ = CSSFont.PlotSmallTitle,
+                                       Optional legendFont$ = CSSFont.Win7LargeBold,
                                        Optional titleFontStyle$ = CSSFont.Win7Large,
-                                       Optional ticksFontStyle$ = CSSFont.Win10NormalLarger,
+                                       Optional ticksFontStyle$ = CSSFont.Win7LargerBold,
                                        Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
 
         Dim DEG_matrix As DEGModel() = genes.CreateModel(translate Or P)
