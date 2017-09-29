@@ -731,7 +731,9 @@ Partial Module CLI
                             displayLabel:=LabelTypes.None,
                             size:=size,
                             log2Threshold:=log2FCLevel) _
-            .Save(out) _
+            .AsGDIImage _
+            .CorpBlank(30, Color.White) _
+            .SaveAs(out) _
             .CLICode
     End Function
 
