@@ -481,8 +481,33 @@ Partial Module CLI
         Return 0
     End Function
 
-    Public Function DEPKmeansScatter2D() As Integer
+    <ExportAPI("/DEP.kmeans.scatter2D")>
+    <Usage("/DEP.kmeans.scatter2D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <1600,1400> /schema <default=clusters> /out <out.png>]")>
+    Public Function DEPKmeansScatter2D(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+        Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
+        Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
+        Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter2D.png").AsDefault
+        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
+        Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
 
+        If Not prefix.StringEmpty Then
+            For Each protein As EntityLDM In clusterData
+                protein.Cluster = prefix & protein.Cluster
+            Next
+        End If
+
+        Dim category As Dictionary(Of NamedCollection(Of String)) = sampleInfo.ToCategory
+        Dim keys = category.Keys.ToArray
+        Dim A As New NamedCollection(Of String) With {.Name = keys(0), .Value = category(.Name).Value}
+        Dim B As New NamedCollection(Of String) With {.Name = keys(1), .Value = category(.Name).Value}
+
+        Return Kmeans.Scatter2D(clusterData, (A, B), size, schema:=schema) _
+            .AsGDIImage _
+            .CorpBlank(30, Color.White) _
+            .SaveAs(out) _
+            .CLICode
     End Function
 
     ''' <summary>
@@ -492,7 +517,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap.scatter.3D")>
     <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
-    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #"">/size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.csv>]")>
+    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.csv>]")>
     Public Function DEPHeatmap3D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
