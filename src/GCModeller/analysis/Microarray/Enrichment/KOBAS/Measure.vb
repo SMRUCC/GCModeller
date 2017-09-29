@@ -1,11 +1,24 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 
 Namespace KOBAS
 
     Public Module Measure
+
+        <Extension>
+        Public Function LoadTerms(file$, Optional name$ = Nothing) As NamedValue(Of EnrichmentTerm())
+            Return New NamedValue(Of EnrichmentTerm()) With {
+                .Name = name Or file.BaseName.AsDefault,
+                .Value = file _
+                    .LoadCsv(Of EnrichmentTerm) _
+                    .Where(Function(term) term.Pvalue <= 0.05) _
+                    .ToArray
+            }
+        End Function
 
         ''' <summary>
         ''' 使用余弦相似度计算两次功能富集分析之间的结果的相似度
@@ -14,8 +27,8 @@ Namespace KOBAS
         ''' <param name="group2"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function Similarity(group1 As NamedValue(Of IEnumerable(Of EnrichmentTerm)),
-                                   group2 As NamedValue(Of IEnumerable(Of EnrichmentTerm))) As (A As DataSet, B As DataSet, similarity#)
+        Public Function Similarity(group1 As NamedValue(Of EnrichmentTerm()),
+                                   group2 As NamedValue(Of EnrichmentTerm())) As (A As DataSet, B As DataSet, similarity#)
 
             Dim list1 = group1.Value.ToDictionary,
                 list2 = group2.Value.ToDictionary

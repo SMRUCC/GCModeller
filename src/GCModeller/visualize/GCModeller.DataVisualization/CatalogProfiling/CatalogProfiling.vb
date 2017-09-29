@@ -181,6 +181,12 @@ Public Module CatalogProfiling
         Dim maxLenClsKey$ = classes _
             .OrderByDescending(Function(s) s.Length) _
             .First
+
+        ' 这里要判断一下，否则绘制结果仍然是和没有限制长度的结果一样
+        If maxLenSubKey.Length > 64 Then
+            maxLenSubKey = New String("+"c, 68)
+        End If
+
         Dim maxLenSubKeySize As SizeF = g.MeasureString(maxLenSubKey, catalogFont)
         Dim maxLenClsKeySize As SizeF = g.MeasureString(maxLenClsKey, classFont)
         Dim valueFont As Font = CSSFont.TryParse(valueFontStyle)
@@ -242,12 +248,19 @@ Public Module CatalogProfiling
             ' 绘制统计的小分类标签以及barplot图形
             For Each cata As NamedValue(Of Double) In profile(+[class])
                 Dim pos As PointF
+                Dim label$
+
+                If cata.Name.Length > 64 Then
+                    label = Mid(cata.Name, 1, 63) & "..."
+                Else
+                    label = cata.Name
+                End If
 
                 If labelAlignmentRight Then
 
                     ' 重新计算位置进行右对齐操作
-                    Dim offset! = cata.Name.Length / (region.Width / 20) * catalogCharWidth
-                    offset = barRect.Left - 25 - g.MeasureString(cata.Name, catalogFont).Width + offset
+                    Dim offset! = label.Length / (region.Width / 20) * catalogCharWidth
+                    offset = barRect.Left - 25 - g.MeasureString(label, catalogFont).Width + offset
                     pos = New PointF With {
                         .X = offset,
                         .Y = y
@@ -256,7 +269,7 @@ Public Module CatalogProfiling
                     pos = New PointF(left + 25, y)
                 End If
 
-                Call g.DrawString(cata.Name, catalogFont, color, pos)
+                Call g.DrawString(label, catalogFont, color, pos)
 
                 ' 绘制虚线
                 yPlot = y + maxLenSubKeySize.Height / 2
