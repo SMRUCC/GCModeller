@@ -473,6 +473,10 @@ Partial Module CLI
         Return 0
     End Function
 
+    Public Function DEPKmeansScatter2D() As Integer
+
+    End Function
+
     ''' <summary>
     ''' 进行差异表达蛋白的聚类结果的3D scatter散点图的绘制可视化
     ''' </summary>
