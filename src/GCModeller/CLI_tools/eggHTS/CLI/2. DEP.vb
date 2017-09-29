@@ -420,7 +420,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /size <size, default=2000,3000> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -446,8 +446,14 @@ Partial Module CLI
             .Kmeans(expected:=args.GetValue("/cluster.n", 6)) _
             .SaveTo(dataOUT)
 
+        Dim min# = matrix.Select(Function(d) d.Properties.Values).IteratesALL.Min
         Dim schema$ = args.GetValue("/schema", Colors.ColorBrewer.DivergingSchemes.RdYlGn11)
         Dim revColorSequence As Boolean = Not args.IsTrue("/no-clrev")
+        Dim tick# = args.GetValue("/tick", -1.0#)
+
+        If min >= 0 Then
+            min = 0
+        End If
 
         If args.IsTrue("/KO.class") Then
             Dim groupInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
@@ -467,14 +473,53 @@ Partial Module CLI
                 mainTitle:=title, rowLabelfontStyle:=CSSFont.Win7Small,
                 colLabelFontStyle:=CSSFont.Win7Large,
                 mapName:=schema,
-                reverseClrSeq:=revColorSequence).Save(out & "/plot.png")
+                reverseClrSeq:=revColorSequence,
+                min:=min,
+                tick:=tick).AsGDIImage _
+                         .CorpBlank(30, Color.White) _
+                         .SaveAs(out & "/plot.png")
         End If
 
         Return 0
     End Function
 
-    Public Function DEPKmeansScatter2D() As Integer
+    <ExportAPI("/DEP.kmeans.scatter2D")>
+    <Usage("/DEP.kmeans.scatter2D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/t.log <default=-1> /cluster.prefix <default=""cluster: #""> /size <1600,1400> /schema <default=clusters> /out <out.png>]")>
+    Public Function DEPKmeansScatter2D(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+        Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
+        Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
+        Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter2D.png").AsDefault
+        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
+        Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
+        Dim tlog# = args.GetValue("/t.log", -1.0R)
 
+        If Not prefix.StringEmpty Then
+            For Each protein As EntityLDM In clusterData
+                protein.Cluster = prefix & protein.Cluster
+            Next
+        End If
+
+        If tlog > 0 Then
+            For Each protein In clusterData
+                For Each key In protein.Properties.Keys.ToArray
+                    ' +1S 防止log(0)出现
+                    protein.Properties(key) = Math.Log(protein.Properties(key) + +1S, newBase:=tlog)
+                Next
+            Next
+        End If
+
+        Dim category As Dictionary(Of NamedCollection(Of String)) = sampleInfo.ToCategory
+        Dim keys = category.Keys.ToArray
+        Dim A As New NamedCollection(Of String) With {.Name = keys(0), .Value = category(.Name).Value}
+        Dim B As New NamedCollection(Of String) With {.Name = keys(1), .Value = category(.Name).Value}
+
+        Return Kmeans.Scatter2D(clusterData, (A, B), size, schema:=schema) _
+            .AsGDIImage _
+            .CorpBlank(30, Color.White) _
+            .SaveAs(out) _
+            .CLICode
     End Function
 
     ''' <summary>
@@ -484,7 +529,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap.scatter.3D")>
     <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
-    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #"">/size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.csv>]")>
+    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.csv>]")>
     Public Function DEPHeatmap3D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
