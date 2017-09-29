@@ -365,7 +365,7 @@ Partial Module CLI
             Next
 
             matrix += New EntityObject With {
-                .ID = id,
+                .id = id,
                 .Properties = FClog2
             }
         Next
@@ -497,7 +497,7 @@ Partial Module CLI
         Dim camera As New Camera With {
             .fov = 500000,
             .screen = size.SizeParser,
-            .ViewDistance = viewDistance,
+            .viewDistance = viewDistance,
             .angleX = viewAngle(0),
             .angleY = viewAngle(1),
             .angleZ = viewAngle(2)
@@ -741,7 +741,9 @@ Partial Module CLI
                             log2Threshold:=log2FCLevel,
                             pvalueThreshold:=pvalue,
                             title:=title) _
-            .Save(out) _
+            .AsGDIImage _
+            .CorpBlank(30, Color.White) _
+            .SaveAs(out) _
             .CLICode
     End Function
 
