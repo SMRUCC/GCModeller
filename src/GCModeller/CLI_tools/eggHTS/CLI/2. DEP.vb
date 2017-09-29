@@ -365,7 +365,7 @@ Partial Module CLI
             Next
 
             matrix += New EntityObject With {
-                .ID = id,
+                .id = id,
                 .Properties = FClog2
             }
         Next
@@ -473,6 +473,10 @@ Partial Module CLI
         Return 0
     End Function
 
+    Public Function DEPKmeansScatter2D() As Integer
+
+    End Function
+
     ''' <summary>
     ''' 进行差异表达蛋白的聚类结果的3D scatter散点图的绘制可视化
     ''' </summary>
@@ -493,7 +497,7 @@ Partial Module CLI
         Dim camera As New Camera With {
             .fov = 500000,
             .screen = size.SizeParser,
-            .ViewDistance = viewDistance,
+            .viewDistance = viewDistance,
             .angleX = viewAngle(0),
             .angleY = viewAngle(1),
             .angleZ = viewAngle(2)
@@ -687,7 +691,8 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/level <default=1.5> /colors <up=red;down=green;other=black> /size <1600,1400> /out <plot.csv>]")>
+    <ExportAPI("/DEP.logFC.Volcano")>
+    <Usage("/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/title <title> /p.value <default=0.05> /level <default=1.5> /colors <up=red;down=green;other=black> /size <1400,1400> /out <plot.csv>]")>
     <Description("Volcano plot of the DEPs' analysis result.")>
     <Argument("/size", True, CLITypes.String,
               Description:="The canvas size of the output image.")>
@@ -700,7 +705,8 @@ Partial Module CLI
     Public Function logFCVolcano(args As CommandLine) As Integer
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".DEPs.vocano.plot.png")
         Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)(args <= "/in")
-        Dim size$ = args.GetValue("/size", "1600,1400")
+        Dim size$ = args.GetValue("/size", "1400,1400")
+        Dim title$ = (args <= "/title") Or ("Volcano plot of " & (args <= "/in").BaseName).AsDefault
         Dim colors As Dictionary(Of Integer, Color) = args _
             .GetDictionary("/colors", [default]:="up=red;down=green;other=black") _
             .ToDictionary(Function(type)
@@ -710,8 +716,10 @@ Partial Module CLI
                               Return color.Value.TranslateColor
                           End Function)
         Dim log2FCLevel# = args.GetValue("/level", 1.5)
+        Dim pvalue# = args.GetValue("/p.value", 0.05)
+        Dim P = -Math.Log10(pvalue)
         Dim toFactor = Function(x As DEGModel)
-                           If x.pvalue < Volcano.PValueThreshold Then
+                           If x.pvalue < P Then
                                Return 0
                            ElseIf Math.Abs(x.logFC) < Math.Log(log2FCLevel, 2) Then
                                Return 0
@@ -730,6 +738,10 @@ Partial Module CLI
                             padding:="padding: 50 50 150 150",
                             displayLabel:=LabelTypes.None,
                             size:=size,
+                            log2Threshold:=log2FCLevel,
+                            pvalueThreshold:=pvalue,
+                            title:=title) _
+            .Save(out) _
                             log2Threshold:=log2FCLevel) _
             .AsGDIImage _
             .CorpBlank(30, Color.White) _

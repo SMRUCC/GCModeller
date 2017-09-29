@@ -41,7 +41,6 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
@@ -56,49 +55,6 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Data.csv")
         Return iTraq_csvReader.StripCsv([in]).Save(out,)
-    End Function
-
-    ''' <summary>
-    ''' 将perseus软件的输出转换为csv文档并且导出uniprot编号以方便进行注释
-    ''' </summary>
-    ''' <param name="args"></param>
-    ''' <returns></returns>
-    <ExportAPI("/Perseus.Table",
-               Usage:="/Perseus.Table /in <proteinGroups.txt> [/out <out.csv>]")>
-    <Group(CLIGroups.Samples_CLI)>
-    Public Function PerseusTable(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".csv")
-        Dim data As Perseus() = [in].LoadTsv(Of Perseus)
-        Dim idlist As String() = data _
-            .Select(Function(prot) prot.ProteinIDs) _
-            .IteratesALL _
-            .Distinct _
-            .ToArray
-        Dim uniprotIDs$() = idlist _
-            .Select(Function(s) s.Split("|"c, ":"c)(1)) _
-            .Distinct _
-            .ToArray
-
-        Call idlist.SaveTo(out.TrimSuffix & ".proteinIDs.txt")
-        Call uniprotIDs.SaveTo(out.TrimSuffix & ".uniprotIDs.txt")
-
-        Return data.SaveTo(out).CLICode
-    End Function
-
-    <ExportAPI("/Perseus.Stat", Usage:="/Perseus.Stat /in <proteinGroups.txt> [/out <out.csv>]")>
-    <Group(CLIGroups.Samples_CLI)>
-    Public Function PerseusStatics(args As CommandLine) As Integer
-        Dim [in] = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".perseus.Stat.csv")
-        Dim data As Perseus() = [in].LoadTsv(Of Perseus)
-        Dim csv As New IO.File
-
-        Call csv.AppendLine({"MS/MS", CStr(Perseus.TotalMSDivideMS(data))})
-        Call csv.AppendLine({"Peptides", CStr(Perseus.TotalPeptides(data))})
-        Call csv.AppendLine({"ProteinGroups", CStr(data.Length)})
-
-        Return csv.Save(out, Encodings.ASCII).CLICode
     End Function
 
     ''' <summary>

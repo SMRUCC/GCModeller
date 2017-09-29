@@ -145,12 +145,14 @@
     <Compile Include="CLI\3. EnrichmentAnalysis.vb" />
     <Compile Include="CLIGroups.vb" />
     <Compile Include="CLI\0. Samples.vb" />
+    <Compile Include="CLI\0. FileFormat.vb" />
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLI\0. Samples-Expressions.vb" />
     <Compile Include="CLI\4. NetworkEnrichment.vb" />
     <Compile Include="CLI\Associate.vb" />
     <Compile Include="CLI\Repository.vb" />
     <Compile Include="CLI\Samples\iTraq.vb" />
+    <Compile Include="CLI\Samples\LabelFree.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
