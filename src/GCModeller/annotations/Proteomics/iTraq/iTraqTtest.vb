@@ -79,42 +79,6 @@ Public Module iTraqTtest
             result += value
         Next
 
-        With result.VectorShadows
 
-            Dim test As BooleanVector
-            Dim log2FC As Vector = DirectCast(.log2FC, VectorShadows(Of Double))
-            Dim p As Vector = DirectCast(.pvalue, VectorShadows(Of Double))
-            Dim FDR As Vector
-
-            ' obtain the memory pointer to the R server memory
-            Dim var$ = stats.padjust(p, n:=p.Length)
-
-            SyncLock RServer.R
-                With RServer.R
-
-                    ' read the Rserver memory from the pointer and 
-                    ' then convert the symbol to a numeric vector
-                    FDR = .Evaluate(var) _
-                          .AsNumeric _
-                          .ToArray
-                End With
-            End SyncLock
-
-            .FDR = FDR
-
-            test = (Math.Log(level, 2) <= Vector.Abs(log2FC)) & (p <= pvalue)
-
-            If fdrThreshold < 1 Then
-                test = test & (FDR <= fdrThreshold)
-            End If
-
-            .isDEP = test
-
-            With Which.IsTrue(test).Count
-                Call println("resulted %s DEPs from %s proteins!", .ref, result.Count)
-            End With
-        End With
-
-        Return result
     End Function
 End Module

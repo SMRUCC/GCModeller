@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LabelFree\LabelFreeTtest.vb" />
+    <Compile Include="AnalysisCommon.vb" />
     <Compile Include="RSDPdensity.vb" />
     <Compile Include="CloudPlot.vb" />
     <Compile Include="iTraq\iTraq_csvReader.vb" />
