@@ -157,14 +157,15 @@ Public Module Volcano
                                        Optional ylab$ = "-log<sub>10</sub>(p-value)",
                                        Optional title$ = "Volcano plot",
                                        Optional log2Threshold# = 2,
+                                       Optional pvalueThreshold# = 0.05,
                                        Optional thresholdStroke$ = Stroke.AxisGridStroke,
                                        Optional ptSize! = 5,
                                        Optional translate As Func(Of Double, Double) = Nothing,
                                        Optional displayLabel As LabelTypes = LabelTypes.None,
                                        Optional labelFontStyle$ = CSSFont.PlotTitle,
-                                       Optional legendFont$ = CSSFont.UbuntuNormal,
+                                       Optional legendFont$ = CSSFont.PlotSmallTitle,
                                        Optional titleFontStyle$ = CSSFont.Win7Large,
-                                       Optional ticksFontStyle$ = CSSFont.Win10Normal,
+                                       Optional ticksFontStyle$ = CSSFont.Win10NormalLarger,
                                        Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
 
         Dim DEG_matrix As DEGModel() = genes.CreateModel(translate Or P)
@@ -267,7 +268,7 @@ Public Module Volcano
                 Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
 
                 ' 在绘制出pvalue的临界值虚线
-                top = plotRegion.Bottom - y(-Math.Log10(0.05))
+                top = plotRegion.Bottom - y(-Math.Log10(pvalueThreshold))
                 Call g.DrawLine(thresholdPen, New Point(plotRegion.Left, top), New Point(plotRegion.Right, top))
 
                 For Each gene As DEGModel In DEG_matrix
@@ -306,7 +307,7 @@ Public Module Volcano
                     py = plotRegion.Top + .Padding.Top / 2
                     point = New PointF(px, py)
 
-                    Call g.DrawLegends(point.ToPoint, legends)
+                    Call g.DrawLegends(point.ToPoint, legends, gSize:="40,40")
                 End With
             End Sub
     End Function
