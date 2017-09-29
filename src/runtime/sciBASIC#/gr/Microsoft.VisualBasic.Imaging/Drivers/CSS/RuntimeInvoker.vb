@@ -30,7 +30,30 @@ Namespace Driver.CSS
             Dim type As MethodInfo = driver.Method
             Dim parameters = type.GetParameters
             Dim values As Dictionary(Of String, Argument) = args.ToDictionary(Function(arg) arg.name)
+            Dim arguments As New List(Of Object)
 
+            ' 因为args是必须参数，所以要首先进行赋值遍历
+            For Each arg As ParameterInfo In parameters
+                If values.ContainsKey(arg.Name) Then
+                    arguments += values(arg.Name)
+                Else
+                    With values.Keys.Where(Function(s) s.TextEquals(arg.Name)).FirstOrDefault
+                        If .StringEmpty Then
+                            ' 查看CSS样式文件之中是否存在？
+
+                            If Not arg.IsOptional Then
+                                Throw New ArgumentNullException($"Parameter '{arg.Name}' which is required by the graphics driver function is not found!")
+                            Else
+                                arguments += arg.DefaultValue
+                            End If
+                        Else
+                            arguments += values(.ref)
+                        End If
+                    End With
+                End If
+            Next
+
+            Return type.Invoke(driver.Target, arguments.ToArray)
         End Function
 
         Sub test()
