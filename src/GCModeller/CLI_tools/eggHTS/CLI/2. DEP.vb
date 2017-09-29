@@ -482,7 +482,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/DEP.kmeans.scatter2D")>
-    <Usage("/DEP.kmeans.scatter2D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <1600,1400> /schema <default=clusters> /out <out.png>]")>
+    <Usage("/DEP.kmeans.scatter2D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/t.log <default=-1> /cluster.prefix <default=""cluster: #""> /size <1600,1400> /schema <default=clusters> /out <out.png>]")>
     Public Function DEPKmeansScatter2D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
@@ -491,10 +491,20 @@ Partial Module CLI
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter2D.png").AsDefault
         Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
         Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
+        Dim tlog# = args.GetValue("/t.log", -1.0R)
 
         If Not prefix.StringEmpty Then
             For Each protein As EntityLDM In clusterData
                 protein.Cluster = prefix & protein.Cluster
+            Next
+        End If
+
+        If tlog > 0 Then
+            For Each protein In clusterData
+                For Each key In protein.Properties.Keys.ToArray
+                    ' +1S 防止log(0)出现
+                    protein.Properties(key) = Math.Log(protein.Properties(key) + +1S, newBase:=tlog)
+                Next
             Next
         End If
 
