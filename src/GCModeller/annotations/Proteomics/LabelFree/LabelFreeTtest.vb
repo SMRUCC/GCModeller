@@ -53,13 +53,7 @@ Public Module LabelFreeTtest
 
                         Return DEP
                     End Function) _
-            .ToArray
-
-        With calc.VectorShadows
-
-
-
-        End With
+            .ApplyDEPFilter(level, pvalue, fdrThreshold)
 
         Return calc
     End Function

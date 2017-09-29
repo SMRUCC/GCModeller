@@ -1,12 +1,9 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.SyntaxAPI.Vectors
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
-Imports RServer = RDotNET.Extensions.VisualBasic.RSystem
 
 Public Module iTraqTtest
 
@@ -79,6 +76,6 @@ Public Module iTraqTtest
             result += value
         Next
 
-
+        Return result.ApplyDEPFilter(level, pvalue, fdrThreshold)
     End Function
 End Module
