@@ -32,7 +32,6 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection.EntryPoints
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Text
 
 Namespace CommandLine.Reflection
@@ -204,7 +203,7 @@ Namespace CommandLine.Reflection
                     Call Console.Write(s)
 
                     ' 这里的blank调整的是命令开关名称与描述之间的字符间距
-                    blank = New String(" "c, helpOffset - l)
+                    blank = New String(" "c, If(helpOffset - l < 0, 0, helpOffset - 1))
                     infoLines$ = Paragraph _
                         .Split(param.Description, 120) _
                         .ToArray
