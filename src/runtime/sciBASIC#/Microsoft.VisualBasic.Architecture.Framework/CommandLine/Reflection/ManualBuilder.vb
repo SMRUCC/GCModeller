@@ -27,9 +27,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection.EntryPoints
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Text
 
 Namespace CommandLine.Reflection
@@ -102,6 +105,13 @@ Namespace CommandLine.Reflection
                 Dim bool As Boolean = False
                 Dim haveOptional As Boolean = False
 
+                ' 先输出必须的参数
+                ' 之后为可选参数，但是可选参数会分为下面的顺序输出
+                ' 1. 文件
+                ' 2. 字符串
+                ' 3. 数值
+                ' 4. 整数
+                ' 5. 逻辑值
                 For Each arg In api.Arguments
                     With arg.Value
 
@@ -220,6 +230,22 @@ Namespace CommandLine.Reflection
                     Call Console.WriteLine()
                     Call Console.WriteLine("  " & boolFlag)
                 End If
+
+                Dim allExts = api.Arguments _
+                    .Select(Function(arg) arg.Value.GetFileExtensions) _
+                    .IteratesALL _
+                    .Distinct _
+                    .ToArray
+
+                If allExts.Length > 0 Then
+                    Call Console.WriteLine()
+
+                    For Each ext As String In allExts
+                        With ext.GetMIMEDescrib
+                            Call Console.WriteLine($"  {ext}{vbTab}{vbTab}{ .Details}")
+                        End With
+                    Next
+                End If
             End If
 
             Return 0
@@ -248,9 +274,9 @@ Namespace CommandLine.Reflection
         End Function
 
         ''' <summary>
-        ''' (bool flag does not require of argument value)
+        ''' (boolean flag does not require of argument value)
         ''' </summary>
-        Public Const boolFlag$ = "(bool flag does not require of argument value)"
+        Public Const boolFlag$ = "(boolean flag does not require of argument value)"
 
         <Extension>
         Public Function ExampleValue(arg As Argument) As String
