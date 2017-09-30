@@ -440,6 +440,7 @@ Partial Module CLI
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument was set, then the KO class information for uniprotID will be draw on the output heatmap.")>
     <Argument("/sampleInfo", True, CLITypes.File,
+              Extensions:="",
               AcceptTypes:={GetType(SampleInfo)},
               Description:="Describ the experimental group information")>
     <Argument("/data", False, CLITypes.File, PipelineTypes.std_in,

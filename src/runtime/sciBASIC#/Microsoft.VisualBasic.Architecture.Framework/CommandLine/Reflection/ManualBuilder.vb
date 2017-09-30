@@ -240,7 +240,19 @@ Namespace CommandLine.Reflection
                 Case CLITypes.String
                     example = "<term_string>"
                 Case CLITypes.File
-                    example = "<file/directory>"
+
+                    If arg.Extensions.StringEmpty Then
+                        example = "<file/directory>"
+                    Else
+                        Dim extensions$ = arg _
+                            .Extensions _
+                            .Split(","c) _
+                            .Select(AddressOf Trim) _
+                            .Select(Function(s) $"*.{s}") _
+                            .JoinBy(", ")
+                        example = $"<file, {extensions}>"
+                    End If
+
                 Case Else
                     example = "unknown"
             End Select
