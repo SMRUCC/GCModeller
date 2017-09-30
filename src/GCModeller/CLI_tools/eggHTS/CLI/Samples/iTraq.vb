@@ -10,6 +10,7 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Partial Module CLI
 
     <ExportAPI("/iTraq.Symbol.Replacement")>
+    <Description("* Using this CLI tool for processing the tag header of iTraq result at first.")>
     <Usage("/iTraq.Symbol.Replacement /in <iTraq.data.csv> /symbols <symbols.csv> [/out <out.DIR>]")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
               AcceptTypes:={GetType(iTraqReader)},
@@ -17,6 +18,7 @@ Partial Module CLI
     <Argument("/symbols", False, CLITypes.File,
               AcceptTypes:={GetType(iTraqSymbols)},
               Description:="Using for replace the mass spectrum expeirment symbol to the user experiment tag.")>
+    <Group(CLIGroups.iTraqTool)>
     Public Function iTraqSignReplacement(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].ParentPath)
@@ -43,6 +45,10 @@ Partial Module CLI
     <ExportAPI("/iTraq.matrix.split")>
     <Description("Split the raw matrix into different compare group based on the experimental designer information.")>
     <Usage("/iTraq.matrix.split /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis.design.csv> [/out <out.Dir>]")>
+    <Group(CLIGroups.iTraqTool)>
+    <Argument("/sampleInfo", False, CLITypes.File, AcceptTypes:={GetType(SampleInfo)})>
+    <Argument("/designer", False, CLITypes.File, AcceptTypes:={GetType(AnalysisDesigner)},
+              Description:="The analysis designer in csv file format for the DEPs calculation, should contains at least two column: <Controls><Experimental>")>
     Public Function iTraqAnalysisMatrixSplit(args As CommandLine) As Integer
         Dim sampleInfo = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
         Dim designer = (args <= "/designer").LoadCsv(Of AnalysisDesigner)
