@@ -166,7 +166,8 @@ Public Module Volcano
                                        Optional legendFont$ = CSSFont.Win7LargeBold,
                                        Optional titleFontStyle$ = CSSFont.Win7Large,
                                        Optional ticksFontStyle$ = CSSFont.Win7LargerBold,
-                                       Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
+                                       Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO,
+                                       Optional displayCount As Boolean = True) As GraphicsData
 
         Dim DEG_matrix As DEGModel() = genes.CreateModel(translate Or P)
 
@@ -300,7 +301,7 @@ Public Module Volcano
                 Next
 
                 With region
-                    Dim legends = colors.GetLegends(legendFont, (up, down))
+                    Dim legends = colors.GetLegends(legendFont, (up, down), displayCount)
                     Dim lsize As SizeF = legends.MaxLegendSize(g)
 
                     px = .Size.Width - .Padding.Left - (lsize.Width + 50)
@@ -313,18 +314,18 @@ Public Module Volcano
     End Function
 
     <Extension>
-    Private Function GetLegends(colors As Dictionary(Of Integer, Color), font$, count As (up%, down%)) As Legend()
+    Private Function GetLegends(colors As Dictionary(Of Integer, Color), font$, count As (up%, down%), displayCount As Boolean) As Legend()
         Dim up As New Legend With {
             .color = colors(1).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
-            .title = $"({count.up}) log2FC >= UP"
+            .title = "log2FC >= UP" Or $"({count.up}) log2FC >= UP".AsDefault(Function() displayCount)
         }
         Dim down As New Legend With {
             .color = colors(-1).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
-            .title = $"({count.down}) log2FC <= DOWN"
+            .title = "log2FC <= DOWN" Or $"({count.down}) log2FC <= DOWN".AsDefault(Function() displayCount)
         }
         Dim normal As New Legend With {
             .color = colors(0).RGBExpression,

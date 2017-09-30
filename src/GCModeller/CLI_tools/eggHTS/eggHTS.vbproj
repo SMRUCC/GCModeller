@@ -142,7 +142,7 @@
   <ItemGroup>
     <Compile Include="CLI\1. Annotations.vb" />
     <Compile Include="CLI\2. DEP.vb" />
-    <Compile Include="CLI\3. EnrichmentAnalysis.vb" />
+    <Compile Include="CLI\Enrichment\3. EnrichmentAnalysis.vb" />
     <Compile Include="CLIGroups.vb" />
     <Compile Include="CLI\0. Samples.vb" />
     <Compile Include="CLI\0. FileFormat.vb" />
@@ -150,6 +150,7 @@
     <Compile Include="CLI\0. Samples-Expressions.vb" />
     <Compile Include="CLI\4. NetworkEnrichment.vb" />
     <Compile Include="CLI\Associate.vb" />
+    <Compile Include="CLI\Enrichment\KOBAS.vb" />
     <Compile Include="CLI\Repository.vb" />
     <Compile Include="CLI\Samples\iTraq.vb" />
     <Compile Include="CLI\Samples\LabelFree.vb" />
