@@ -28,6 +28,7 @@
 
 Imports System.ComponentModel
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -259,15 +260,27 @@ Partial Module CLI
         Return 0
     End Function
 
+    <Extension>
+    Private Function unionDATA(handle$) As Dictionary(Of String, Dictionary(Of DEP_iTraq))
+        Dim files As IEnumerable(Of String)
+
+        If handle.FileLength > 0 Then
+            files = {handle}
+        Else
+            files = ls - l - r - "*.csv" <= handle
+        End If
+
+        Return files.ToDictionary(
+            Function(path) path.BaseName,
+            Function(path)
+                Return EntityObject _
+                    .LoadDataSet(Of DEP_iTraq)(path) _
+                    .ToDictionary
+            End Function)
+    End Function
+
     Public Function Union(DIR$, tlog2 As Boolean, ZERO$, nonDEP_blank As Boolean, outGroup As Boolean) As List(Of EntityObject)
-        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) =
-          (ls - l - r - "*.csv" <= DIR) _
-          .ToDictionary(Function(path) path.BaseName,
-                        Function(path)
-                            Return EntityObject _
-                                .LoadDataSet(Of DEP_iTraq)(path) _
-                                .ToDictionary
-                        End Function)
+        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = DIR.unionDATA
         Dim allDEPs = data.Values _
             .IteratesALL _
             .Where(Function(x) x.Value.isDEP) _
@@ -365,7 +378,7 @@ Partial Module CLI
             Next
 
             matrix += New EntityObject With {
-                .id = id,
+                .ID = id,
                 .Properties = FClog2
             }
         Next
@@ -420,7 +433,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -429,6 +442,8 @@ Partial Module CLI
     <Argument("/sampleInfo", True, CLITypes.File,
               AcceptTypes:={GetType(SampleInfo)},
               Description:="Describ the experimental group information")>
+    <Argument("/data", False, CLITypes.File, PipelineTypes.std_in,
+              Description:="This file path parameter can be both a directory which contains a set of DEPs result or a single csv file path.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap_DEPs(args As CommandLine) As Integer
         Dim DIR$ = args <= "/data"
@@ -542,7 +557,7 @@ Partial Module CLI
         Dim camera As New Camera With {
             .fov = 500000,
             .screen = size.SizeParser,
-            .viewDistance = viewDistance,
+            .ViewDistance = viewDistance,
             .angleX = viewAngle(0),
             .angleY = viewAngle(1),
             .angleZ = viewAngle(2)
