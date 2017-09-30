@@ -248,8 +248,15 @@ Namespace CommandLine.Reflection
                             .Extensions _
                             .Split(","c) _
                             .Select(AddressOf Trim) _
-                            .Select(Function(s) $"*.{s}") _
+                            .Select(Function(s)
+                                        If InStr(s, "*.") = 1 Then
+                                            Return s
+                                        Else
+                                            Return $"*.{s}"
+                                        End If
+                                    End Function) _
                             .JoinBy(", ")
+
                         example = $"<file, {extensions}>"
                     End If
 
@@ -263,6 +270,7 @@ Namespace CommandLine.Reflection
         Const CLI$ = "(Microsoft.VisualBasic.CommandLine.CommandLine)"
         Const VBStyle_CLI = "(args As Microsoft.VisualBasic.CommandLine.CommandLine)"
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function APIPrototype(declare$) As String
             Return [declare].Replace(CLI, VBStyle_CLI)
         End Function
