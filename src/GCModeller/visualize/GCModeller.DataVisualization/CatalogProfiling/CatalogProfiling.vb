@@ -199,10 +199,11 @@ Public Module CatalogProfiling
         Dim y! = region.Padding.Top + (region.PlotRegion.Height - totalHeight) / 2
 
         ' barPlot的最左边的坐标
+        Dim maxLabeLength% = Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width)
         Dim barRect As New Rectangle With {
-            .X = padding.Left * 1.5 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width),
+            .X = padding.Left * 1.5 + maxLabeLength,
             .Y = y,
-            .Width = size.Width - padding.Horizontal - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - padding.Left / 2,
+            .Width = size.Width - padding.Horizontal - maxLabeLength - padding.Left / 2,
             .Height = totalHeight
         }
 
@@ -266,6 +267,7 @@ Public Module CatalogProfiling
                         .Y = y
                     }
                 Else
+                    ' 分类标签相对于大分类标签而言在水平方向上有25个像素的偏移
                     pos = New PointF(left + 25, y)
                 End If
 
