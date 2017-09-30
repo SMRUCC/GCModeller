@@ -28,6 +28,7 @@
 
 Imports System.ComponentModel
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -259,15 +260,27 @@ Partial Module CLI
         Return 0
     End Function
 
+    <Extension>
+    Private Function unionDATA(handle$) As Dictionary(Of String, Dictionary(Of DEP_iTraq))
+        Dim files As IEnumerable(Of String)
+
+        If handle.FileLength > 0 Then
+            files = {handle}
+        Else
+            files = ls - l - r - "*.csv" <= handle
+        End If
+
+        Return files.ToDictionary(
+            Function(path) path.BaseName,
+            Function(path)
+                Return EntityObject _
+                    .LoadDataSet(Of DEP_iTraq)(path) _
+                    .ToDictionary
+            End Function)
+    End Function
+
     Public Function Union(DIR$, tlog2 As Boolean, ZERO$, nonDEP_blank As Boolean, outGroup As Boolean) As List(Of EntityObject)
-        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) =
-          (ls - l - r - "*.csv" <= DIR) _
-          .ToDictionary(Function(path) path.BaseName,
-                        Function(path)
-                            Return EntityObject _
-                                .LoadDataSet(Of DEP_iTraq)(path) _
-                                .ToDictionary
-                        End Function)
+        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = DIR.unionDATA
         Dim allDEPs = data.Values _
             .IteratesALL _
             .Where(Function(x) x.Value.isDEP) _
@@ -365,7 +378,7 @@ Partial Module CLI
             Next
 
             matrix += New EntityObject With {
-                .id = id,
+                .ID = id,
                 .Properties = FClog2
             }
         Next
@@ -420,15 +433,29 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /hide.labels /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument was set, then the KO class information for uniprotID will be draw on the output heatmap.")>
     <Argument("/sampleInfo", True, CLITypes.File,
+              Extensions:="*.csv",
               AcceptTypes:={GetType(SampleInfo)},
               Description:="Describ the experimental group information")>
+    <Argument("/data", False, CLITypes.File, PipelineTypes.std_in,
+              Description:="This file path parameter can be both a directory which contains a set of DEPs result or a single csv file path.")>
+    <Argument("/hide.labels", True, CLITypes.Boolean,
+              Description:="Hide the row labels?")>
+    <Argument("/cluster.n", True, CLITypes.Integer,
+              Description:="Expects the kmeans cluster result number, default is output 6 kmeans clusters.")>
+    <Argument("/schema", True, CLITypes.String,
+              Description:="The color patterns of the heatmap visualize, by default is using ``ColorBrewer`` colors.")>
+    <Argument("/out", True, CLITypes.File,
+              Extensions:="*.csv, *.svg, *.png",
+              Description:="A directory path where will save the output heatmap plot image and the kmeans cluster details info.")>
+    <Argument("/title", True,
+              Description:="The main title of this chart plot.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap_DEPs(args As CommandLine) As Integer
         Dim DIR$ = args <= "/data"
@@ -485,6 +512,7 @@ Partial Module CLI
 
     <ExportAPI("/DEP.kmeans.scatter2D")>
     <Usage("/DEP.kmeans.scatter2D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/t.log <default=-1> /cluster.prefix <default=""cluster: #""> /size <1600,1400> /schema <default=clusters> /out <out.png>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function DEPKmeansScatter2D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
@@ -529,7 +557,28 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap.scatter.3D")>
     <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
-    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.csv>]")>
+    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.png>]")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(EntityLDM)},
+              Extensions:="*.csv",
+              Description:="The kmeans cluster result from ``/DEP.heatmap`` command.")>
+    <Argument("/sampleInfo", False, CLITypes.File,
+              AcceptTypes:={GetType(SampleInfo)},
+              Extensions:="*.csv",
+              Description:="Sample info fot grouping the matrix column data and generates the 3d plot ``<x,y,z>`` coordinations.")>
+    <Argument("/cluster.prefix", True, CLITypes.String,
+              Description:="The term prefix of the kmeans cluster name when display on the legend title.")>
+    <Argument("/size", True,
+              AcceptTypes:={GetType(Size)},
+              Description:="The output 3D scatter plot image size.")>
+    <Argument("/view.angle", True,
+              Description:="The view angle of the 3D scatter plot objects, in 3D direction of ``<X>,<Y>,<Z>``")>
+    <Argument("/view.distance", True, CLITypes.Integer,
+              Description:="The view distance from the 3D camera screen to the 3D objects.")>
+    <Argument("/out", True, CLITypes.File,
+              Extensions:="*.png, *.svg",
+              Description:="The file path of the output plot image.")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function DEPHeatmap3D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
@@ -542,7 +591,7 @@ Partial Module CLI
         Dim camera As New Camera With {
             .fov = 500000,
             .screen = size.SizeParser,
-            .viewDistance = viewDistance,
+            .ViewDistance = viewDistance,
             .angleX = viewAngle(0),
             .angleY = viewAngle(1),
             .angleZ = viewAngle(2)
