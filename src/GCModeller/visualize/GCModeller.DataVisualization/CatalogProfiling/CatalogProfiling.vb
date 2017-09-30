@@ -184,7 +184,10 @@ Public Module CatalogProfiling
 
         ' 这里要判断一下，否则绘制结果仍然是和没有限制长度的结果一样
         If maxLenSubKey.Length > 64 Then
-            maxLenSubKey = New String("+"c, 68)
+
+            ' 2017-9-30
+            ' 因为用的不是等宽字体，所以在这里使用字母来作为计算长度的单位会更加的合理一些
+            maxLenSubKey = New String("a"c, 68)
         End If
 
         Dim maxLenSubKeySize As SizeF = g.MeasureString(maxLenSubKey, catalogFont)
@@ -199,10 +202,11 @@ Public Module CatalogProfiling
         Dim y! = region.Padding.Top + (region.PlotRegion.Height - totalHeight) / 2
 
         ' barPlot的最左边的坐标
+        Dim maxLabeLength% = Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width)
         Dim barRect As New Rectangle With {
-            .X = padding.Left * 1.5 + Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width),
+            .X = padding.Left * 1.5 + maxLabeLength,
             .Y = y,
-            .Width = size.Width - padding.Horizontal - Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width) - padding.Left / 2,
+            .Width = size.Width - padding.Horizontal - maxLabeLength - padding.Left / 2,
             .Height = totalHeight
         }
 
@@ -266,6 +270,7 @@ Public Module CatalogProfiling
                         .Y = y
                     }
                 Else
+                    ' 分类标签相对于大分类标签而言在水平方向上有25个像素的偏移
                     pos = New PointF(left + 25, y)
                 End If
 
