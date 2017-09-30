@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::fb59cfa14345c14325eb5a03ff6ce746, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\Reflection\ManualBuilder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -186,7 +186,9 @@ Namespace CommandLine.Reflection
 
                     ' 这里的blank调整的是命令开关名称与描述之间的字符间距
                     blank = New String(" "c, helpOffset - l)
-                    infoLines$ = Paragraph.Split(param.Description, 120).ToArray
+                    infoLines$ = Paragraph _
+                        .Split(param.Description, 120) _
+                        .ToArray
 
                     Call Console.Write(blank)
                     Call Console.WriteLine($"{infoLines.FirstOrDefault}")
@@ -223,6 +225,28 @@ Namespace CommandLine.Reflection
             Return 0
         End Function
 
+        <Extension>
+        Public Function GetFileExtensions(arg As Argument) As String()
+            If arg.TokenType = CLITypes.File AndAlso Not arg.Extensions.StringEmpty Then
+                Dim extensions$() = arg _
+                    .Extensions _
+                    .Split(","c) _
+                    .Select(AddressOf Trim) _
+                    .Select(Function(s)
+                                If InStr(s, "*.") = 1 Then
+                                    Return s
+                                Else
+                                    Return $"*.{s}"
+                                End If
+                            End Function) _
+                    .ToArray
+
+                Return extensions
+            Else
+                Return Nothing
+            End If
+        End Function
+
         ''' <summary>
         ''' (bool flag does not require of argument value)
         ''' </summary>
@@ -233,6 +257,7 @@ Namespace CommandLine.Reflection
             Dim example$
 
             Select Case arg.TokenType
+
                 Case CLITypes.Double
                     example = "<float>"
                 Case CLITypes.Integer
@@ -241,24 +266,13 @@ Namespace CommandLine.Reflection
                     example = "<term_string>"
                 Case CLITypes.File
 
-                    If arg.Extensions.StringEmpty Then
-                        example = "<file/directory>"
-                    Else
-                        Dim extensions$ = arg _
-                            .Extensions _
-                            .Split(","c) _
-                            .Select(AddressOf Trim) _
-                            .Select(Function(s)
-                                        If InStr(s, "*.") = 1 Then
-                                            Return s
-                                        Else
-                                            Return $"*.{s}"
-                                        End If
-                                    End Function) _
-                            .JoinBy(", ")
-
-                        example = $"<file, {extensions}>"
-                    End If
+                    With arg.GetFileExtensions
+                        If .IsNullOrEmpty Then
+                            example = "<file/directory>"
+                        Else
+                            example = $"<file, { .JoinBy(", ")}>"
+                        End If
+                    End With
 
                 Case Else
                     example = "unknown"
