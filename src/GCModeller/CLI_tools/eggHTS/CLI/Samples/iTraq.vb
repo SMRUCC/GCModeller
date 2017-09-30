@@ -102,6 +102,9 @@ Partial Module CLI
 
     <ExportAPI("/iTraq.t.test")>
     <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
+    <Group(CLIGroups.iTraqTool)>
+    <Argument("/FDR", True, CLITypes.Double,
+              Description:="do FDR adjust on the p.value result? If this argument value is set to 1, means no adjustment.")>
     Public Function iTraqTtest(args As CommandLine) As Integer
         Dim data As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
         Dim level# = args.GetValue("/level", 1.5)
