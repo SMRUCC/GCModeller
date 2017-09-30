@@ -433,7 +433,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /hide.labels /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -444,6 +444,12 @@ Partial Module CLI
               Description:="Describ the experimental group information")>
     <Argument("/data", False, CLITypes.File, PipelineTypes.std_in,
               Description:="This file path parameter can be both a directory which contains a set of DEPs result or a single csv file path.")>
+    <Argument("/hide.labels", True, CLITypes.Boolean,
+              Description:="Hide the row labels?")>
+    <Argument("/cluster.n", True, CLITypes.Integer,
+              Description:="Expects the kmeans cluster result number, default is output 6 kmeans clusters.")>
+    <Argument("/schema", True, CLITypes.String,
+              Description:="The color patterns of the heatmap visualize, by default is using ``ColorBrewer`` colors.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap_DEPs(args As CommandLine) As Integer
         Dim DIR$ = args <= "/data"
