@@ -226,10 +226,6 @@ Namespace CommandLine.Reflection
                 If std_out Then
                     Call Console.WriteLine("  *std_out: " & PipelineTypes.std_out.Description)
                 End If
-                If bool Then
-                    Call Console.WriteLine()
-                    Call Console.WriteLine("  " & boolFlag)
-                End If
 
                 Dim allExts = api.Arguments _
                     .Select(Function(arg) arg.Value.GetFileExtensions) _
@@ -242,9 +238,14 @@ Namespace CommandLine.Reflection
 
                     For Each ext As String In allExts
                         With ext.GetMIMEDescrib
-                            Call Console.WriteLine($"  {ext}{vbTab}{vbTab}{ .Details}")
+                            Call Console.WriteLine($"  {ext}{vbTab}{vbTab}({ .MIMEType}) { .Name}")
                         End With
                     Next
+                End If
+
+                If bool Then
+                    Call Console.WriteLine()
+                    Call Console.WriteLine("  " & boolFlag)
                 End If
             End If
 
