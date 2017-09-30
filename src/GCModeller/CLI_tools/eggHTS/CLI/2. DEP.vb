@@ -451,6 +451,11 @@ Partial Module CLI
               Description:="Expects the kmeans cluster result number, default is output 6 kmeans clusters.")>
     <Argument("/schema", True, CLITypes.String,
               Description:="The color patterns of the heatmap visualize, by default is using ``ColorBrewer`` colors.")>
+    <Argument("/out", True, CLITypes.File,
+              Extensions:="*.csv, *.svg, *.png",
+              Description:="A directory path where will save the output heatmap plot image and the kmeans cluster details info.")>
+    <Argument("/title", True,
+              Description:="The main title of this chart plot.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap_DEPs(args As CommandLine) As Integer
         Dim DIR$ = args <= "/data"
