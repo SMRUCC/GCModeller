@@ -104,6 +104,7 @@ Namespace CommandLine.Reflection
                 Dim std_out As Boolean = False
                 Dim bool As Boolean = False
                 Dim haveOptional As Boolean = False
+                Dim boolSeperator As Boolean = False
 
                 ' 先输出必须的参数
                 ' 之后为可选参数，但是可选参数会分为下面的顺序输出
@@ -154,6 +155,14 @@ Namespace CommandLine.Reflection
 
                 ' 必须的参数放在前面，可选的参数都是在后面的位置
                 For Each param As Argument In api.Arguments.Select(Function(x) x.Value)
+
+                    If param.TokenType = CLITypes.Boolean AndAlso Not boolSeperator Then
+                        boolSeperator = True
+                        Call Console.WriteLine()
+                        Call Console.WriteLine("  Options:")
+                        Call Console.WriteLine()
+                    End If
+
                     If param.[Optional] Then
                         Dim fore = Console.ForegroundColor
 

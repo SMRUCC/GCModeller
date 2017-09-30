@@ -512,6 +512,7 @@ Partial Module CLI
 
     <ExportAPI("/DEP.kmeans.scatter2D")>
     <Usage("/DEP.kmeans.scatter2D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/t.log <default=-1> /cluster.prefix <default=""cluster: #""> /size <1600,1400> /schema <default=clusters> /out <out.png>]")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function DEPKmeansScatter2D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
@@ -556,7 +557,28 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap.scatter.3D")>
     <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
-    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.csv>]")>
+    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.png>]")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(EntityLDM)},
+              Extensions:="*.csv",
+              Description:="The kmeans cluster result from ``/DEP.heatmap`` command.")>
+    <Argument("/sampleInfo", False, CLITypes.File,
+              AcceptTypes:={GetType(SampleInfo)},
+              Extensions:="*.csv",
+              Description:="Sample info fot grouping the matrix column data and generates the 3d plot ``<x,y,z>`` coordinations.")>
+    <Argument("/cluster.prefix", True, CLITypes.String,
+              Description:="The term prefix of the kmeans cluster name when display on the legend title.")>
+    <Argument("/size", True,
+              AcceptTypes:={GetType(Size)},
+              Description:="The output 3D scatter plot image size.")>
+    <Argument("/view.angle", True,
+              Description:="The view angle of the 3D scatter plot objects, in 3D direction of ``<X>,<Y>,<Z>``")>
+    <Argument("/view.distance", True, CLITypes.Integer,
+              Description:="The view distance from the 3D camera screen to the 3D objects.")>
+    <Argument("/out", True, CLITypes.File,
+              Extensions:="*.png, *.svg",
+              Description:="The file path of the output plot image.")>
+    <Group(CLIGroups.DEP_CLI)>
     Public Function DEPHeatmap3D(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
