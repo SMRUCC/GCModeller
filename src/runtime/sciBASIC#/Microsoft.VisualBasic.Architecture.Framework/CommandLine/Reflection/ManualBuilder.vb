@@ -139,7 +139,7 @@ Namespace CommandLine.Reflection
                               Let stringL = x.Value.Example.Length
                               Into Max(stringL)
                 Dim l%
-                Dim helpOffset% = maxPrefix + maxLen + 5
+                Dim helpOffset% = maxPrefix + maxLen
                 Dim skipOptionalLine As Boolean = False
 
                 ' 必须的参数放在前面，可选的参数都是在后面的位置
