@@ -105,9 +105,32 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Go.enrichment.plot",
-               Usage:="/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays <default=10> /PlantRegMap /label.right /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
+    <ExportAPI("/Go.enrichment.plot")>
+    <Usage("/Go.enrichment.plot /in <enrichmentTerm.csv> [/bubble /r ""log(x,1.5)"" /Corrected /displays <default=10> /PlantRegMap /label.right /gray /pvalue <0.05> /size <2000,1600> /tick 1 /go <go.obo> /out <out.png>]")>
     <Description("Go enrichment plot base on the KOBAS enrichment analysis result.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.csv",
+              Description:="The KOBAS enrichment analysis output csv file.")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+              Out:=True,
+              Extensions:="*.svg, *.png",
+              Description:="The file path of the output plot image. If the graphics driver is using svg engine, then this result can be output to the standard output if this parameter is not presented in the CLI input.")>
+    <Argument("/r", True, CLITypes.String,
+              Description:="The bubble radius expression, when this enrichment plot is in ``/bubble`` mode.")>
+    <Argument("/label.right", True, CLITypes.Boolean,
+              Description:="Align the label to right if this argument presented.")>
+    <Argument("/Corrected", True, CLITypes.Boolean,
+              Description:="Using the corrected p.value instead of using the p.value as the term filter for this enrichment plot.")>
+    <Argument("/pvalue", True, CLITypes.Double,
+              Description:="The p.value threshold for choose the terms that will be plot on the image, default is plot all terms that their enrichment p.value is smaller than 0.05.")>
+    <Argument("/size", True, CLITypes.String,
+              AcceptTypes:={GetType(Size)},
+              Description:="The output image size in pixel.")>
+    <Argument("/tick", True, CLITypes.Double,
+              Description:="The axis ticking interval value, using **-1** for generated this value automatically, or any other positive numeric value will setup this interval value manually.")>
+    <Argument("/GO", True, CLITypes.File,
+              Extensions:="*.obo",
+              Description:="The GO database for category the enrichment term result into their corrisponding Go namespace. If this argument value is not presented in the CLI input, then program will using the GO database file from the GCModeller repository data system.")>
     <Argument("/bubble", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Visuallize the GO enrichment analysis result using bubble plot, not the bar plot.")>
@@ -115,6 +138,9 @@ Partial Module CLI
               AcceptTypes:={GetType(Integer)},
               Description:="If the ``/bubble`` argument is not presented, then this will means the top number of the enriched term will plot on the barplot, else it is the term label display number in the bubble plot mode. 
               Set this argument value to -1 for display all terms.")>
+    <Argument("/gray", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="Set the color of all of the labels, bars, class labels on this chart plot output to color gray? If this presented, then color schema will not working. Otherwise if this parameter argument is not presented in the CLI input, then the labels and bars will render color based on their corresponding GO namespace.")>
     <Group(CLIGroups.Enrichment_CLI)>
     Public Function GO_enrichmentPlot(args As CommandLine) As Integer
         Dim goDB As String = args.GetValue("/go", GCModeller.FileSystem.GO & "/go.obo")
