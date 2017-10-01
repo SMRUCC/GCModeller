@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 
 Namespace HTML.CSS.Render
 
@@ -49,8 +50,6 @@ Namespace HTML.CSS.Render
             End Get
         End Property
 
-        Public ReadOnly Property 
-
         ''' <summary>
         ''' Get the selector text name
         ''' </summary>
@@ -62,7 +61,11 @@ Namespace HTML.CSS.Render
         End Property
 
         Public Overrides Function ToString() As String
-            Return Selector
+            Return Selector & "{" &
+                Properties _
+                    .Select(Function(x) $"{x.Key}: {x.Value};") _
+                    .JoinBy(ASCII.LF) &
+            "}"
         End Function
     End Class
 
