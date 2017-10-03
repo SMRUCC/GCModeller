@@ -1,6 +1,9 @@
 ﻿Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS.Parser
 
 Namespace Driver.CSS
@@ -27,6 +30,99 @@ Namespace Driver.CSS
                 .Select(Function(m) m.Driver) _
                 .FirstOrDefault
         End Function
+
+        ''' <summary>
+        ''' Get all CSS field names
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Private Function __fields(type As Type) As String()
+            Return type _
+                .Schema(PropertyAccess.ReadWrite, nonIndex:=True) _
+                .Values _
+                .Select(Function(prop)
+                            Return prop.Description Or prop.Name.AsDefault(Function(s) DirectCast(s, String).StringEmpty)
+                        End Function) _
+                .ToArray
+        End Function
+
+        ReadOnly types As New Dictionary(Of Types, String()) From {
+            {CSS.Types.Brush, GetType(Fill).__fields},
+            {CSS.Types.Font, GetType(CSSFont).__fields},
+            {CSS.Types.Padding, GetType(Padding).__fields},
+            {CSS.Types.Size, GetType(CSSsize).__fields},
+            {CSS.Types.Stroke, GetType(Stroke).__fields}
+        }
+
+        ''' <summary>
+        ''' Generate CSS template for the plot driver function.
+        ''' </summary>
+        ''' <param name="driver"></param>
+        ''' <returns></returns>
+        <Extension> Public Function CSSTemplate(driver As MethodInfo) As String
+            Dim args = driver _
+                .GetParameters _
+                .Where(Function(parm) parm.ParameterType Is GetType(String)) _
+                .Select(Function(parm)
+                            Return (
+                                Type:=parm.GetCustomAttribute(Of CSSSelector),
+                                arg:=parm)
+                        End Function) _
+                .Where(Function(parm) Not parm.Type Is Nothing) _
+                .ToArray
+
+            Dim CSS As New StringBuilder
+
+            Call CSS.AppendLine($"/* CSS template for ""{driver.GetCustomAttribute(Of Driver).Name}"" */")
+            Call CSS.AppendLine()
+
+            ' global settings
+            Call CSS.AppendLine("@canvas {")
+
+            ' canvas size
+            Call CSS.AppendLine()
+            Call CSS.AppendLine("/* Canvas size */")
+            Call CSS.AppendFields(types(Imaging.Driver.CSS.Types.Size))
+
+            ' canvas drawing paddings
+            Call CSS.AppendLine()
+            Call CSS.AppendLine("/* canvas drawing paddings */")
+            Call CSS.AppendFields(types(Imaging.Driver.CSS.Types.Padding))
+
+            ' background
+            Call CSS.AppendLine()
+            Call CSS.AppendLine("/* Canvas background */")
+            Call CSS.AppendFields(types(Imaging.Driver.CSS.Types.Brush))
+
+            ' default font style
+            Call CSS.AppendLine()
+            Call CSS.AppendLine("/* default CSS font style */")
+            Call CSS.AppendFields(types(Imaging.Driver.CSS.Types.Font))
+
+            Call CSS.AppendLine("}")
+            Call CSS.AppendLine()
+
+            ' optional function parameters for tweaks of CSS styles
+            For Each parm In args
+                Call CSS.AppendLine($"#{parm.arg.Name} {{")
+                Call CSS.AppendFields(types(parm.Type.Type))
+                Call CSS.AppendLine("}")
+
+                Call CSS.AppendLine()
+            Next
+
+            Return CSS.ToString
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Private Sub AppendFields(CSS As StringBuilder, fields$())
+            For Each field As String In fields
+                Call CSS.AppendLine($"    {field}: <value>;")
+            Next
+        End Sub
 
         ' CSS文件说明
         ' 
@@ -104,6 +200,7 @@ Namespace Driver.CSS
                     Return arg.DefaultValue
                 End If
             Else
+
                 ' 因为绘图的样式值都是使用CSS字符串来完成的，所以
                 ' 在这里就直接调用CSS样式的ToString方法来得到
                 ' 参数值了
