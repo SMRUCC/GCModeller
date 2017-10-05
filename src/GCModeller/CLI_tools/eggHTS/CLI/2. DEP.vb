@@ -795,6 +795,10 @@ Partial Module CLI
               Description:="The input DEPs t.test result, should contains at least 3 columns which are names: ``ID``, ``log2FC`` and ``p.value``")>
     <Argument("/colors", True, CLITypes.String,
               Description:="The color profile for the DEPs and proteins that no-changes, value string in format like: key=value, and seperated by ``;`` symbol.")>
+    <Argument("/title", True, CLITypes.String, Description:="The plot main title.")>
+    <Argument("/p.value", True, CLITypes.Double, Description:="The p.value cutoff threshold, default is 0.05.")>
+    <Argument("/level", True, CLITypes.Double, Description:="The log2FC value cutoff threshold, default is ``log2(1.5)``.")>
+    <Argument("/display.count", True, CLITypes.Boolean, Description:="Display the protein counts in the legend label? by default is not.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function logFCVolcano(args As CommandLine) As Integer
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".DEPs.vocano.plot.png")
