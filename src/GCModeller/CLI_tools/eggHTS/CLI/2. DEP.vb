@@ -246,6 +246,9 @@ Partial Module CLI
     <ExportAPI("/DEP.venn",
                Info:="Generate the VennDiagram plot data and the venn plot tiff. The default parameter profile is using for the iTraq data.",
                Usage:="/DEP.venn /data <Directory> [/title <VennDiagram title> /out <out.DIR>]")>
+    <Argument("/data", False, CLITypes.File, PipelineTypes.std_in, Description:="A directory path which it contains the DEPs matrix csv files from the sample groups's analysis result.")>
+    <Argument("/out", True, CLITypes.File, Description:="A directory path which it will contains the venn data result, includes venn matrix, venn plot tiff image, etc.")>
+    <Argument("/title", True, CLITypes.String, Description:="The main title of the venn plot.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function VennData(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
@@ -855,6 +858,8 @@ Partial Module CLI
                Info:="https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R",
                Usage:="/DEPs.stat /in <log2.test.csv> [/log2FC <default=log2FC> /out <out.stat.csv>]")>
     <Argument("/log2FC", True, CLITypes.String, Description:="The field name that stores the log2FC value of the average FoldChange")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in, Extensions:="*.csv", Description:="The DEPs' t.test result in csv file format.")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out, Description:="The stat count output file path.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function DEPStatics(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
