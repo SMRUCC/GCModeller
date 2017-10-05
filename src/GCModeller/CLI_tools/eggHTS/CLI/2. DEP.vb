@@ -456,6 +456,10 @@ Partial Module CLI
               Description:="A directory path where will save the output heatmap plot image and the kmeans cluster details info.")>
     <Argument("/title", True,
               Description:="The main title of this chart plot.")>
+    <Argument("/t.log2", True, CLITypes.Boolean, Description:="If this parameter is presented, then it will means apply the log2 transform on the matrix cell value before the heatmap plot.")>
+    <Argument("/tick", True, CLITypes.Double, Description:="The ticks value of the color legend, by default value -1 means generates ticks automatically.")>
+    <Argument("/no-clrev", True, CLITypes.Boolean, Description:="Do not reverse the color sequence.")>
+    <Argument("/size", True, CLITypes.String, AcceptTypes:={GetType(Size)}, Description:="The canvas size.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap_DEPs(args As CommandLine) As Integer
         Dim DIR$ = args <= "/data"
