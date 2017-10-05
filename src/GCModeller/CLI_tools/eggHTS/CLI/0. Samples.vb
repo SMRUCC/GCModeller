@@ -286,7 +286,7 @@ Partial Module CLI
             ScatterSerials(File.Load([in]), pi, mw, color, ptSize) _
             .RemovesYOutlier(q:=quantileRemoves)
         }.Plot(size:=size,
-               padding:=g.DefaultPadding,
+               padding:=g.DefaultLargerPadding,
                drawLine:=False,
                XaxisAbsoluteScalling:=True,
                absoluteScaling:=False,
@@ -299,7 +299,8 @@ Partial Module CLI
                    .fill = "Black",
                    .dash = DashStyle.Solid,
                    .width = 2
-               })
+               },
+               htmlLabel:=False)
 
         Return res.Save(out).CLICode
     End Function
