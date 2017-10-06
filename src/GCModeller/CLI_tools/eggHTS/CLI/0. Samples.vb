@@ -37,6 +37,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.csv
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -252,7 +253,7 @@ Partial Module CLI
 
     <ExportAPI("/plot.pimw")>
     <Description("'calc. pI' - 'MW [kDa]' scatter plot of the protomics raw sample data.")>
-    <Usage("/plot.pimw /in <samples.csv> [/field.pi <default=""calc. pI""> /field.mw <default=""MW [kDa]""> /legend.fontsize <20> /legend.size (100,30) /quantile.removes <default=1> /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
+    <Usage("/plot.pimw /in <samples.csv> [/field.pi <default=""calc. pI""> /field.mw <default=""MW [kDa]""> /legend.fontsize <20> /legend.size (100,30) /quantile.removes <default=1> /out <pimw.png> /size <1600,1200> /color <black> /ticks.Y <-1> /pt.size <8>]")>
     <Argument("/field.pi", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The field name that records the pI value of the protein samples, default is using iTraq result out format: ``calc. pI``")>
@@ -280,10 +281,12 @@ Partial Module CLI
         Dim legendFontSize! = args.GetValue("/legend.fontsize", 20.0#)
         Dim legendSize$ = (args <= "/legend.size") Or "100,30".AsDefault
         Dim quantileRemoves# = args.GetValue("/quantile.removes", 1.0#)
+        Dim yTicks# = args.GetValue("/ticks.Y", -1.0R)
         Dim res As GraphicsData = {
             ScatterSerials(File.Load([in]), pi, mw, color, ptSize) _
             .RemovesYOutlier(q:=quantileRemoves)
         }.Plot(size:=size,
+               padding:=g.DefaultLargerPadding,
                drawLine:=False,
                XaxisAbsoluteScalling:=True,
                absoluteScaling:=False,
@@ -291,11 +294,13 @@ Partial Module CLI
                legendSize:=legendSize,
                Xlabel:="Calc.pI",
                Ylabel:="MW [kDa]",
+               ticksY:=yTicks,
                legendRegionBorder:=New Stroke With {
                    .fill = "Black",
                    .dash = DashStyle.Solid,
                    .width = 2
-               })
+               },
+               htmlLabel:=False)
 
         Return res.Save(out).CLICode
     End Function
