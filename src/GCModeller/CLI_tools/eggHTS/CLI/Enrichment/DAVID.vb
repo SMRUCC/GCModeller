@@ -15,6 +15,7 @@ Partial Module CLI
 
     <ExportAPI("/DAVID.Split")>
     <Usage("/DAVID.Split /in <DAVID.txt> [/out <out.DIR, default=./>]")>
+    <Group(CLIGroups.DAVID)>
     Public Function SplitDAVID(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = (args <= "/out") Or [in].ParentPath.AsDefault
@@ -29,7 +30,7 @@ Partial Module CLI
 
     <ExportAPI("/KEGG.enrichment.DAVID")>
     <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /custom <ko00001.keg> /size <default=1200,1000> /tick 1 /out <out.png>]")>
-    <Group(CLIGroups.Enrichment_CLI)>
+    <Group(CLIGroups.DAVID)>
     Public Function DAVID_KEGGplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG.plot.png")
@@ -64,7 +65,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/KEGG.enrichment.DAVID.pathwaymap")>
     <Usage("/KEGG.enrichment.DAVID.pathwaymap /in <david.csv> /uniprot <uniprot.XML> [/tsv /DEPs <deps.csv> /colors <default=red,blue,green> /tag <default=log2FC> /pvalue <default=0.05> /out <out.DIR>]")>
-    <Group(CLIGroups.Enrichment_CLI)>
+    <Group(CLIGroups.DAVID)>
     Public Function DAVID_KEGGPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG/")
