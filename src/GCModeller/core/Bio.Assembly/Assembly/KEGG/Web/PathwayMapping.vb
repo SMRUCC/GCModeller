@@ -306,6 +306,11 @@ Namespace Assembly.KEGG.WebServices
             Return KO_maps.KOCatalog(KO_htext)
         End Function
 
+        ''' <summary>
+        ''' http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg
+        ''' </summary>
+        ''' <param name="ko00001$"></param>
+        ''' <returns></returns>
         Public Function CustomPathwayTable(ko00001$) As Dictionary(Of String, BriteHText)
             Dim KO_htext = BriteHText _
                .Load(ko00001.SolveStream) _

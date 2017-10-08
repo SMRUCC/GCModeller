@@ -190,11 +190,12 @@ Public Module KEGGOrthology
     Public Function KEGGEnrichmentPlot(result As IEnumerable(Of FunctionCluster),
                                        Optional KEGG As Dictionary(Of String, BriteHText) = Nothing,
                                        Optional size$ = "2200,2000",
-                                       Optional tick# = 1) As GraphicsData
+                                       Optional tick# = 1,
+                                       Optional pvalue# = 0.05) As GraphicsData
 
         Dim data As New Dictionary(Of String, List(Of NamedValue(Of Double)))
 
-        For Each term As FunctionCluster In result
+        For Each term As FunctionCluster In result.Where(Function(x) x.PValue <= pvalue)
             Dim P# = -Math.Log10(term.PValue)
 
             With term.Term.GetTagValue(":", trim:=True)

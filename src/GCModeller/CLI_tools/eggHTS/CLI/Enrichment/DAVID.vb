@@ -30,12 +30,14 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/KEGG.enrichment.DAVID")>
-    <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /custom <ko00001.keg> /size <default=1200,1000> /tick 1 /out <out.png>]")>
+    <Usage("/KEGG.enrichment.DAVID /in <david.csv> [/tsv /custom <ko00001.keg> /size <default=1200,1000> /p.value <default=0.05> /tick 1 /out <out.png>]")>
     <Group(CLIGroups.DAVID)>
     Public Function DAVID_KEGGplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG.plot.png")
+        Dim pvalue# = args.GetValue("/p.value", 0.05R)
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.DAVID_KEGG.plot_p.value={pvalue}.png".AsDefault
         Dim isTsv As Boolean = args.IsTrue("/tsv")
+        Dim tick# = args.GetValue("/tick", 1.0R)
 
         ' 处理DAVID数据
         Dim table As FunctionCluster() = DAVID.Load([in], csv:=Not isTsv)
@@ -52,7 +54,8 @@ Partial Module CLI
         Return KEGG _
             .KEGGEnrichmentPlot(size:=size,
                                 KEGG:=KEGG_PATH,
-                                tick:=args.GetValue("/tick", 1.0R)) _
+                                tick:=tick,
+                                pvalue:=pvalue) _
             .Save(out) _
             .CLICode
     End Function
