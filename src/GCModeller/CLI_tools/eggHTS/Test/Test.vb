@@ -195,7 +195,7 @@ Module Test
         ' 处理DAVID数据
 
         For Each file In ls - l - r - "*.txt" <= "C:\Users\xieguigang\OneDrive\1.5\samples\4. analysis\enrichment\"
-            Dim table = DAVID.Load(file)
+            Dim table = SMRUCC.genomics.Analysis.Microarray.DAVID.Load(file)
             Dim name As String = file.BaseName
 
             Dim GO = table.SelectGoTerms()
