@@ -58,20 +58,21 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/GO.enrichment.DAVID")>
-    <Usage("/GO.enrichment.DAVID /in <DAVID.csv> [/tsv /go <go.obo> /size <default=1200,1000> /tick 1 /out <out.png>]")>
+    <Usage("/GO.enrichment.DAVID /in <DAVID.csv> [/tsv /go <go.obo> /size <default=1200,1000> /tick 1 /p.value <0.05> /out <out.png>]")>
     <Group(CLIGroups.DAVID)>
     Public Function DAVID_GOplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
+        Dim pvalue# = args.GetValue("/p.value", 0.05)
         Dim size$ = (args <= "/size") Or "1200,1000".AsDefault
         Dim isTsv As Boolean = args.IsTrue("/tsv")
         Dim tick# = args.GetValue("/tick", 1.0#)
         Dim GO$ = (args <= "/GO") Or (GCModeller.FileSystem.FileSystem.GO & "/GO.obo").AsDefault
-        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.png".AsDefault
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}_p.value={pvalue}.png".AsDefault
         Dim table As FunctionCluster() = DAVID.Load([in], csv:=Not isTsv)
         Dim GOterms = table.SelectGoTerms
 
         Return GOterms _
-            .EnrichmentPlot(size, tick:=tick) _
+            .EnrichmentPlot(size, tick:=tick, pvalue:=pvalue) _
             .Save(out) _
             .CLICode
     End Function
