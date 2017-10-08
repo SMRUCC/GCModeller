@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
@@ -34,12 +35,10 @@ Partial Module CLI
     Public Function DAVID_KEGGplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".DAVID_KEGG.plot.png")
+        Dim isTsv As Boolean = args.IsTrue("/tsv")
 
         ' 处理DAVID数据
-        Dim table As FunctionCluster() = If(
-            args.GetBoolean("/tsv"),
-            SMRUCC.genomics.Analysis.Microarray.DAVID.Load([in]),
-            [in].LoadCsv(Of FunctionCluster).ToArray)
+        Dim table As FunctionCluster() = DAVID.Load([in], csv:=Not isTsv)
         Dim KEGG = table.SelectKEGGPathway
         Dim size$ = args.GetValue("/size", "1200,1000")
         Dim KEGG_PATH As Dictionary(Of String, BriteHText) = Nothing
@@ -54,6 +53,25 @@ Partial Module CLI
             .KEGGEnrichmentPlot(size:=size,
                                 KEGG:=KEGG_PATH,
                                 tick:=args.GetValue("/tick", 1.0R)) _
+            .Save(out) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/GO.enrichment.DAVID")>
+    <Usage("/GO.enrichment.DAVID /in <DAVID.csv> [/tsv /go <go.obo> /size <default=1200,1000> /tick 1 /out <out.png>]")>
+    <Group(CLIGroups.DAVID)>
+    Public Function DAVID_GOplot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim size$ = (args <= "/size") Or "1200,1000".AsDefault
+        Dim isTsv As Boolean = args.IsTrue("/tsv")
+        Dim tick# = args.GetValue("/tick", 1.0#)
+        Dim GO$ = (args <= "/GO") Or (GCModeller.FileSystem.FileSystem.GO & "/GO.obo").AsDefault
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.png".AsDefault
+        Dim table As FunctionCluster() = DAVID.Load([in], csv:=Not isTsv)
+        Dim GOterms = table.SelectGoTerms
+
+        Return GOterms _
+            .EnrichmentPlot(size, tick:=tick) _
             .Save(out) _
             .CLICode
     End Function
@@ -88,12 +106,10 @@ Partial Module CLI
                                   .ToArray
                           End Function)
         Dim pvalue# = args.GetValue("/pvalue", 0.05)
+        Dim isTsv As Boolean = args.IsTrue("/tsv")
 
         ' 处理DAVID数据
-        Dim table As FunctionCluster() = If(
-            args.GetBoolean("/tsv"),
-            SMRUCC.genomics.Analysis.Microarray.DAVID.Load([in]),
-            [in].LoadCsv(Of FunctionCluster).ToArray)
+        Dim table As FunctionCluster() = DAVID.Load([in], csv:=Not isTsv)
         Dim KEGG = table.SelectKEGGPathway(uniprot2KEGG)
 
         With args <= "/DEPs"

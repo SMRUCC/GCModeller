@@ -39,7 +39,11 @@ Namespace DAVID
 
     Public Module DAVID
 
-        Public Function Load(path$) As FunctionCluster()
+        Public Function Load(path$, Optional csv As Boolean = False) As FunctionCluster()
+            If csv Then
+                Return path.LoadCsv(Of FunctionCluster)
+            End If
+
             Dim lines As IEnumerable(Of String()) = path _
                 .ReadAllLines _
                 .Split("Annotation Cluster \d+.+", True) _
@@ -57,6 +61,7 @@ Namespace DAVID
             Return out
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function SelectGoTerms(data As IEnumerable(Of FunctionCluster)) As FunctionCluster()
             Return LinqAPI.Exec(Of FunctionCluster) <= From x As FunctionCluster
