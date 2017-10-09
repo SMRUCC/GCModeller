@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.GO
+Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.DAVID
@@ -118,7 +119,7 @@ Partial Module CLI
 
         With args <= "/DEPs"
             If .FileLength > 0 Then
-                Dim DEPgenes = EntityObject.LoadDataSet(.ref).ToArray
+                Dim DEPgenes = EntityObject.LoadDataSet(.ref).SplitID.ToArray
                 Dim isDEP As Func(Of EntityObject, Boolean) =
                     Function(gene)
                         Return gene("is.DEP").TextEquals("TRUE")
