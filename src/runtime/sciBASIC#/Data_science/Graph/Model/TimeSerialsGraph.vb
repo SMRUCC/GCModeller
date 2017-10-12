@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::516f8c6e6a6e7260a5b64da7fb7cbd4e, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ApplicationServices\Tools\SoftwareToolkits\XmlDoc\Serialization\Libraries.vb"
+﻿#Region "Microsoft.VisualBasic::3031b128ff4852037e012e7f2a033596, ..\sciBASIC#\Data_science\Graph\Model\TimeSerialsGraph.vb"
 
     ' Author:
     ' 
@@ -26,20 +26,10 @@
 
 #End Region
 
-Namespace SoftwareToolkits.XmlDoc.Serialization
+''' <summary>
+''' 随时间变化的网络图
+''' </summary>
+Public Module TimeSerialsGraph
 
-    Public Enum Libraries
-        ''' <summary>
-        ''' The built document library was using as github wiki
-        ''' </summary>
-        Github
-        ''' <summary>
-        ''' The built document library was using as xDoc library content source.
-        ''' </summary>
-        xDoc
-        ''' <summary>
-        ''' The built document library was using as hexo page source.
-        ''' </summary>
-        Hexo
-    End Enum
-End Namespace
+End Module
+
