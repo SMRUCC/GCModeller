@@ -39,8 +39,6 @@ Imports Microsoft.VisualBasic.Logging
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.Utility
-Imports Microsoft.VisualBasic.ApplicationServices
-Imports Microsoft.VisualBasic.Scripting.Runtime
 
 ''' <summary>
 ''' Debugger helper module for VisualBasic Enterprises System.
