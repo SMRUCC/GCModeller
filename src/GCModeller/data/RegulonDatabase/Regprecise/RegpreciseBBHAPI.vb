@@ -28,15 +28,13 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Data.Xfam.Pfam
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
