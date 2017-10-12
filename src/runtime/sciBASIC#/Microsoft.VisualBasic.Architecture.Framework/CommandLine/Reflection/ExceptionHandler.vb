@@ -51,6 +51,15 @@ Namespace CommandLine.Reflection
         ''' <returns></returns>
         Public Property EMailLink As String
 
+        Sub New()
+        End Sub
+
+        Sub New(docs$, debug$, email$)
+            Documentation = docs
+            Debugging = debug
+            EMailLink = email
+        End Sub
+
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
@@ -144,7 +153,9 @@ Namespace CommandLine.Reflection
                 Call Console.WriteLine("Environment summary:")
                 Call Console.WriteLine(ConfigEngine.Prints(App.GetAppVariables))
                 Call Console.WriteLine()
-                Call Console.WriteLine(App.CommandLine.Print)
+                Call Console.WriteLine(App.CommandLine.Print(leftMargin:=2))
+                Call Console.WriteLine()
+                Call Console.WriteLine()
                 Call Console.WriteLine("Exception: ")
                 Call STDIO.print(ex.Message, ConsoleColor.Red)
                 Call Console.WriteLine()
