@@ -1,6 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Scripting
 Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
@@ -32,6 +32,11 @@ Public Module LabelFreeTtest
 
         ' calc the different expression proteins
         Dim calc = data _
+            .Where(Function(d)
+                       Return Not d.Properties _
+                           .Values _
+                           .All(AddressOf IsNaNImaginary)  ' 当原始数据全部都是NaN的时候，R会出错，在这里直接忽略掉这些原始样本
+                   End Function) _
             .Select(Function(protein)
                         Dim FC# = protein(experiment).Average / protein(controls).Average
                         Dim log2FC# = Math.Log(FC, newBase:=2)

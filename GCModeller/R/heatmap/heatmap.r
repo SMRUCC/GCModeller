@@ -39,13 +39,15 @@ plotDEPs <- function(csv,
 					 l.width       = c(1.5, 2), 
 					 l.height      = c(0.4, 2), 
 					 t.log2          = FALSE, 
-					 row.lab.removes = FALSE) {
+					 row.lab.removes = FALSE, 
+					 scale = "row") {
 
 	#########################################################
 	### B) Reading in data and transform it into matrix format
 	#########################################################
 
-	data                  <- read.csv(csv, comment.char="#")
+	data                  <- read.csv(csv, comment.char="#");
+	data[,"Cluster"]      <- NULL;
 	rnames                <- data[,1]                          # assign labels in column 1 to "rnames"
 	matrix.data           <- data.matrix(data[,2:ncol(data)])  # transform column 2-5 into a matrix
 	rownames(matrix.data) <- rnames                            # assign row names
@@ -80,7 +82,7 @@ plotDEPs <- function(csv,
 
 	tryCatch({
 		heatmap.2(matrix.data,
-			scale        = "row",
+			scale        = scale,
 			labRow       = NA,
 			# labCol       = NA,
 			main         = title,            # heat map title

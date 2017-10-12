@@ -36,6 +36,7 @@ Friend NotInheritable Class CLIGroups
 #Region "Functional enrichment tools"
     Public Const Enrichment_CLI As String = "3. Enrichment analysis tools"
     Public Const KOBAS$ = Enrichment_CLI & ": KOBAS"
+    Public Const DAVID$ = Enrichment_CLI & ": DAVID"
     Public Const ClusterProfiler$ = Enrichment_CLI & ": clusterProfiler"
     Public Const NetworkEnrichment_CLI$ = "4. Network enrichment visualize tools"
 #End Region
