@@ -2,10 +2,15 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics
+Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
@@ -100,5 +105,49 @@ Partial Module CLI
         Next
 
         Return 0
+    End Function
+
+    <ExportAPI("/heatmap.plot")>
+    <Usage("/heatmap.plot /in <data.csv> /groups <sampleInfo.csv> [/out <out.DIR>]")>
+    Public Function HeatmapPlot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim group$ = args <= "/groups"
+        Dim out$ = (args <= "/out") Or $"{in$.TrimSuffix}_{group.BaseName}.heatmap.plot.png".AsDefault
+        Dim data As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim sampleGroups = group _
+            .LoadCsv(Of SampleInfo) _
+            .EnsureGroupPaired(allSamples:=data.PropertyNames) _
+            .ToDictionary(Function(g) g.Name,
+                          Function(samples)
+                              Return samples _
+                                  .Value _
+                                  .Keys _
+                                  .ToArray
+                          End Function)
+        Dim colors$() = Designer.GetColors("console.colors") _
+            .Select(Function(c) c.ToHtmlColor) _
+            .ToArray
+        Dim groupColors As New Dictionary(Of String, String)
+
+        For Each groupLabels In sampleGroups.SeqIterator
+            For Each label As String In (+groupLabels).Value
+                groupColors.Add(label, colors(groupLabels))
+            Next
+        Next
+
+        Dim matrix As DataSet() = data _
+            .Project(groupColors.Keys.ToArray) _
+            .ToArray
+
+        Return Heatmap.Plot(matrix,
+                            size:="3800,5000",
+                            drawScaleMethod:=DrawElements.Rows,
+                            min:=0,
+                            colLabelFontStyle:=CSSFont.Win7LittleLarge,
+                            mapName:=ColorBrewer.SequentialSchemes.YlGnBu9,
+                            drawClass:=(Nothing, groupColors),
+                            mainTitle:="predictions_ko.L3") _
+            .Save(out) _
+            .CLICode
     End Function
 End Module
