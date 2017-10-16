@@ -83,7 +83,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x64\GCModeller%28Release_X64%29\</OutputPath>
+    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
     <DocumentationFile>meta-assmebly.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -160,6 +160,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
+      <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
+      <Name>RDotNET.Extensions.VisualBasic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
+      <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
+      <Name>RDotNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame.Extensions\+VB_DataFrame.Extensions.vbproj">
       <Project>{344bf0cf-107f-45d2-9074-9865d8f86506}</Project>
       <Name>+VB_DataFrame.Extensions</Name>

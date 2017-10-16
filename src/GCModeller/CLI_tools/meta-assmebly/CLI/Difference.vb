@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Partial Module CLI
@@ -23,7 +24,7 @@ Partial Module CLI
         Dim group$ = args <= "/groups"
         Dim out$ = (args <= "/out") Or $"{in$.TrimSuffix}_{group.BaseName}.significant.difference/".AsDefault
         Dim data As DataSet() = DataSet.LoadDataSet([in])
-        Dim samples As NamedCollection(Of SampleInfo)() = group _
+        Dim sampleGroups As NamedCollection(Of SampleInfo)() = group _
             .LoadCsv(Of SampleInfo) _
             .GroupBy(Function(s) s.sample_group) _
             .Select(Function(g)
@@ -34,9 +35,32 @@ Partial Module CLI
                     End Function) _
             .ToArray
 
-        For Each ga In samples
-            For Each gb In samples.Where(Function(g) g.Name <> ga.Name)
+        For Each ga As NamedCollection(Of SampleInfo) In sampleGroups
+            Dim labels1$() = ga.Value.Keys
 
+            For Each gb In sampleGroups.Where(Function(g) g.Name <> ga.Name)
+                Dim labels2$() = gb.Value.Keys
+                Dim result As New List(Of DataSet)
+
+                For Each x As DataSet In data
+                    Dim va#() = x(labels1)
+                    Dim vb#() = x(labels2)
+                    Dim pvalue# = Double.NaN
+
+                    Try
+                        pvalue = stats.Ttest(va, vb).pvalue
+                    Catch ex As Exception
+                        Call App.LogException(ex)
+                    End Try
+
+                    With New DataSet With {.ID = x.ID}
+                        !pvalue = pvalue
+                        result += .ref
+                    End With
+                Next
+
+                Dim path$ = $"{out}/{ga.Name.NormalizePathString}-{gb.Name.NormalizePathString}.csv"
+                Call result.SaveTo(path)
             Next
         Next
 
