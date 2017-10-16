@@ -34,6 +34,7 @@ Partial Module CLI
             For Each gb In sampleGroups.Where(Function(g) g.Name <> ga.Name)
                 Dim labels2$() = gb.Value.Keys
                 Dim result As New List(Of DataSet)
+                Dim path$ = $"{out}/{ga.Name.NormalizePathString}-{gb.Name.NormalizePathString}.csv"
 
                 For Each x As DataSet In data
                     Dim va#() = x(labels1)
@@ -52,7 +53,6 @@ Partial Module CLI
                     End With
                 Next
 
-                Dim path$ = $"{out}/{ga.Name.NormalizePathString}-{gb.Name.NormalizePathString}.csv"
                 Call result.SaveTo(path)
             Next
         Next

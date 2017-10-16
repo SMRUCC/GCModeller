@@ -110,7 +110,7 @@ Public Module Extensions
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Ensure all of the name label in <paramref name="allSamples"/> were paired in groups.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="sampleInfo">Probably this is the part of the sample name collection</param>
