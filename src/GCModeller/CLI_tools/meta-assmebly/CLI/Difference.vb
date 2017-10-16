@@ -1,9 +1,11 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
@@ -55,6 +57,46 @@ Partial Module CLI
 
                 Call result.SaveTo(path)
             Next
+        Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/box.plot")>
+    <Usage("/box.plot /in <data.csv> /groups <sampleInfo.csv> [/out <out.DIR>]")>
+    Public Function Boxplot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim group$ = args <= "/groups"
+        Dim out$ = (args <= "/out") Or $"{in$.TrimSuffix}_{group.BaseName}.boxplot/".AsDefault
+        Dim data As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim sampleGroups = group _
+            .LoadCsv(Of SampleInfo) _
+            .EnsureGroupPaired(allSamples:=data.PropertyNames) _
+            .ToDictionary(Function(g) g.Name,
+                          Function(samples)
+                              Return samples _
+                                  .Value _
+                                  .Keys _
+                                  .ToArray
+                          End Function)
+
+        For Each pathway As DataSet In data
+            Dim name$ = pathway.ID
+            Dim save$ = $"{out}/{name.NormalizePathString}.png"
+            Dim groups = sampleGroups _
+                .Select(Function(x)
+                            Return New NamedValue(Of Vector) With {
+                                .Name = x.Key,
+                                .Value = pathway(x.Value).AsVector
+                            }
+                        End Function) _
+                .ToArray
+            Dim boxData As New BoxData With {
+                .SerialName = name,
+                .Groups = groups
+            }
+
+            Call boxData.Plot.Save(save)
         Next
 
         Return 0
