@@ -142,7 +142,8 @@ Public Module Extensions
                                     .sample_name = name,
                                     .sample_group = groupCreated
                                 }
-                            End Function)
+                            End Function) _
+                    .ToArray
             }
         Else
             Return groups

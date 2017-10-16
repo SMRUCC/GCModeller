@@ -23,7 +23,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim group$ = args <= "/groups"
         Dim out$ = (args <= "/out") Or $"{in$.TrimSuffix}_{group.BaseName}.significant.difference/".AsDefault
-        Dim data As DataSet() = DataSet.LoadDataSet([in])
+        Dim data As DataSet() = DataSet.LoadDataSet([in]).ToArray
         Dim sampleGroups As NamedCollection(Of SampleInfo)() = group _
             .LoadCsv(Of SampleInfo) _
             .EnsureGroupPaired(allSamples:=data.PropertyNames)
