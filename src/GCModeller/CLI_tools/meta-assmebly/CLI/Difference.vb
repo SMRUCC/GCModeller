@@ -17,7 +17,7 @@ Partial Module CLI
     <Argument("/groups", False, CLITypes.File,
               AcceptTypes:={GetType(SampleInfo)},
               Extensions:="*.csv",
-              Description:="")>
+              Description:="Grouping info of the samples.")>
     Public Function SignificantDifference(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim group$ = args <= "/groups"
