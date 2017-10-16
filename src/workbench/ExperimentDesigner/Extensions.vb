@@ -108,4 +108,44 @@ Public Module Extensions
 
         Return designs
     End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="sampleInfo">Probably this is the part of the sample name collection</param>
+    ''' <param name="allSamples$">Contains all sample names, <paramref name="sampleInfo"/> maybe is the subset of it.</param>
+    ''' <param name="groupCreated$"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function EnsureGroupPaired(Of T As {New, SampleGroup})(sampleInfo As IEnumerable(Of T), allSamples$(), Optional groupCreated$ = "Control") As NamedCollection(Of T)()
+        Dim vector = sampleInfo.ToArray
+        Dim groups = vector _
+            .GroupBy(Function(s) s.sample_group) _
+            .Select(Function(g)
+                        Return New NamedCollection(Of T) With {
+                            .Name = g.Key,
+                            .Value = g.ToArray
+                        }
+                    End Function) _
+            .ToArray
+        Dim controls$() = allSamples - vector.Keys
+
+        If controls.Length > 0 Then
+
+            ' returns case + control
+            Return groups.AsList + New NamedCollection(Of T) With {
+                .Name = groupCreated,
+                .Value = controls _
+                    .Select(Function(name)
+                                Return New T With {
+                                    .sample_name = name,
+                                    .sample_group = groupCreated
+                                }
+                            End Function)
+            }
+        Else
+            Return groups
+        End If
+    End Function
 End Module

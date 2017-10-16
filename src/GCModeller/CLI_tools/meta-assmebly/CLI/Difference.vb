@@ -26,14 +26,7 @@ Partial Module CLI
         Dim data As DataSet() = DataSet.LoadDataSet([in])
         Dim sampleGroups As NamedCollection(Of SampleInfo)() = group _
             .LoadCsv(Of SampleInfo) _
-            .GroupBy(Function(s) s.sample_group) _
-            .Select(Function(g)
-                        Return New NamedCollection(Of SampleInfo) With {
-                            .Name = g.Key,
-                            .Value = g.ToArray
-                        }
-                    End Function) _
-            .ToArray
+            .EnsureGroupPaired(allSamples:=data.PropertyNames)
 
         For Each ga As NamedCollection(Of SampleInfo) In sampleGroups
             Dim labels1$() = ga.Value.Keys
