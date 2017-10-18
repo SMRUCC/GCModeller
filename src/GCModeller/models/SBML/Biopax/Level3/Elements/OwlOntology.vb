@@ -27,8 +27,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.MIME.RDF
-Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace MetaCyc.Biopax.Level3.Elements

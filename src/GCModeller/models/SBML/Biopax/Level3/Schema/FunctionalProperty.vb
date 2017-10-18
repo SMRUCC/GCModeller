@@ -27,7 +27,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.MIME.RDF
+Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
 Namespace Level3.Schema
 
