@@ -28,6 +28,7 @@
 
 Imports System.IO
 Imports System.Net.Sockets
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic.Language
@@ -69,6 +70,7 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Out As Stream
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return outputStream.BaseStream
             End Get
@@ -90,19 +92,23 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property IsWWWRoot As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return String.Equals("/", http_url)
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WriteData(data As Byte())
             Call outputStream.BaseStream.Write(data, Scan0, data.Length)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WriteLine(s As String)
             Call outputStream.WriteLine(s)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return http_url
         End Function
@@ -146,6 +152,7 @@ Namespace Core
             ' we probably shouldn't be using a streamwriter for all output from handlers either
             ' 2017-3-25 使用utf8来尝试解决中文乱码问题
             outputStream = New StreamWriter(New BufferedStream(socket.GetStream()), Encoding.UTF8)
+
             Try
                 Call __processInvoker()
             Catch e As Exception
@@ -253,19 +260,21 @@ Namespace Core
             Call NameOf(readHeaders).__DEBUG_ECHO
 
             While (s = __streamReadLine(_inputStream)) IsNot Nothing
-                If s.value.StringEmpty Then
+                If s.Value.StringEmpty Then
                     Call "got headers".__DEBUG_ECHO
                     Return
                 Else
-                    line = s.value
+                    line = s.Value
                 End If
 
                 Dim separator As Integer = line.IndexOf(":"c)
                 If separator = -1 Then
                     Throw New Exception("invalid http header line: " & line)
                 End If
+
                 Dim name As String = line.Substring(0, separator)
                 Dim pos As Integer = separator + 1
+
                 While (pos < line.Length) AndAlso (line(pos) = " "c)
                     ' strip any spaces
                     pos += 1
@@ -302,24 +311,29 @@ Namespace Core
             Dim ms As New MemoryStream()
 
             If Me.httpHeaders.ContainsKey(ContentLength) Then
+
                 content_len = Convert.ToInt32(Me.httpHeaders(ContentLength))
+
                 If content_len > MAX_POST_SIZE Then
                     Throw New Exception(String.Format(ContentLengthTooLarge, content_len))
                 End If
+
                 Dim buf As Byte() = New Byte(BUF_SIZE - 1) {}
                 Dim to_read As Integer = content_len
+                Dim numread As int = 0
+
                 While to_read > 0
                     ' Console.WriteLine("starting Read, to_read={0}", to_read)
-
-                    Dim numread As Integer = Me._inputStream.Read(buf, 0, sys.Min(BUF_SIZE, to_read))
                     ' Console.WriteLine("read finished, numread={0}", numread)
-                    If numread = 0 Then
+
+                    If (numread = _inputStream.Read(buf, 0, sys.Min(BUF_SIZE, to_read))) = 0 Then
                         If to_read = 0 Then
                             Exit While
                         Else
                             Throw New Exception("client disconnected during post")
                         End If
                     End If
+
                     to_read -= numread
                     ms.Write(buf, 0, numread)
                 End While

@@ -37,6 +37,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.localblast.VennDiagram.BlastAPI
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
@@ -207,8 +208,9 @@ Partial Module CLI
         Dim queryOUT = BLASTOutput.BlastPlus.TryParseUltraLarge(out)
 
         If trim Then
-            Dim script As TextGrepMethod =
-                TextGrepScriptEngine.Compile("tokens ' ' first").PipelinePointer
+            Dim script As TextGrepMethod = TextGrepScriptEngine _
+                .Compile("tokens ' ' first") _
+                .PipelinePointer
             Call queryOUT.Grep(script, script)
         End If
 

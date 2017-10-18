@@ -29,6 +29,7 @@
 Imports System.IO
 Imports System.Net
 Imports System.Net.Sockets
+Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
@@ -57,6 +58,7 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property IsRunning As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Not _httpListener Is Nothing AndAlso _httpListener.Server.IsBound
             End Get
@@ -133,6 +135,7 @@ Namespace Core
         ''' 向网页服务器内部的线程池之中添加执行任务
         ''' </summary>
         ''' <param name="task"></param>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub RunTask(task As Action)
             Call _threadPool.RunTask(task)
         End Sub
@@ -157,10 +160,10 @@ Namespace Core
         ''' <param name="client"></param>
         ''' <returns></returns>
         Private Function getProcessor(client As TcpClient) As HttpProcessor
-            Dim proc As HttpProcessor = __httpProcessor(client)
-            proc.BUF_SIZE = BufferSize
-
-            Return proc
+            With __httpProcessor(client)
+                .BUF_SIZE = BufferSize
+                Return .ref
+            End With
         End Function
 
         ''' <summary>
