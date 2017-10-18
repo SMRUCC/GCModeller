@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6400a158a03255aa02701ab033d9930b, ..\GCModeller\models\SBML\Biopax\Level3\Schema\DatatypeProperty.vb"
+﻿#Region "Microsoft.VisualBasic::22237e734219f77fd67a1771f6d81f5c, ..\sciBASIC#\mime\text%yaml\yaml\Syntax\BlockScalarModifier.vb"
 
 ' Author:
 ' 
@@ -26,11 +26,32 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports Microsoft.VisualBasic.MIME.text.yaml.Grammar
 
-Namespace Level3.Schema
+Namespace Syntax
 
-    Public Class DatatypeProperty : Inherits RDFEntity
-        Public Property domain As domain
+    Public Class BlockScalarModifier
+
+        Public Indent As Char
+        Public Chomp As Char
+
+        Public Function GetIndent() As Integer
+            If Indent > "0"c AndAlso Indent <= "9"c Then
+                Return Asc(Indent) - Asc("0"c)
+            Else
+                Return 1
+            End If
+        End Function
+
+        Public Function GetChompingMethod() As ChompingMethod
+            Select Case Chomp
+                Case "-"c
+                    Return ChompingMethod.Strip
+                Case "+"c
+                    Return ChompingMethod.Keep
+                Case Else
+                    Return ChompingMethod.Clip
+            End Select
+        End Function
     End Class
 End Namespace

@@ -252,7 +252,7 @@
       <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
       <Name>MEME</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\runtime\sciBASIC#\mime\application%25RDF+xml\RDF.vbproj">
+    <ProjectReference Include="..\..\runtime\sciBASIC#\mime\application%25RDF+xml\application.RDF_xml.vbproj">
       <Project>{20912ff3-ce68-497c-854d-21e372f11d7c}</Project>
       <Name>RDF</Name>
     </ProjectReference>
