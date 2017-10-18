@@ -315,7 +315,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SearchEngine", "runtime\sci
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "mime-htmls", "runtime\sciBASIC#\mime\text%html\mime-htmls.vbproj", "{2DD4BE80-DDC3-4767-94A7-10F1C3395716}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RDF", "runtime\sciBASIC#\mime\application%RDF+xml\RDF.vbproj", "{20912FF3-CE68-497C-854D-21E372F11D7C}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RDF", "runtime\sciBASIC#\mime\application%RDF+xml\application.RDF_xml.vbproj", "{20912FF3-CE68-497C-854D-21E372F11D7C}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RTF", "runtime\sciBASIC#\mime\application%RTF\RTF.vbproj", "{062AFA7D-1E0D-48F8-B07D-FB74AEEFA5D6}"
 EndProject
@@ -353,7 +353,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "httpd", "runtime\httpd\http
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SMRUCC.WebCloud.d3js", "runtime\httpd\WebCloud\SMRUCC.WebCloud.d3js\SMRUCC.WebCloud.d3js.vbproj", "{D6E1FCBB-69B4-43D3-9289-A987A140A435}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "JSON", "runtime\sciBASIC#\mime\application%JSON\JSON.vbproj", "{32228818-26F1-44DF-8D40-347136C743CD}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "JSON", "runtime\sciBASIC#\mime\application%JSON\application.JSON.vbproj", "{32228818-26F1-44DF-8D40-347136C743CD}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Dfam", "GCModeller\data\Xfam\Dfam\Dfam.vbproj", "{5915DD63-1F95-4DA8-ACA3-08EF9CE41A65}"
 EndProject
@@ -413,7 +413,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MachineLearning", "runtime\
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "hierarchical-clustering", "runtime\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\hierarchical-clustering.vbproj", "{6CA54AF6-CADC-457E-94B9-384F2990F07E}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "yaml", "runtime\sciBASIC#\mime\text%yaml\yaml\yaml.vbproj", "{FB637DE6-6BEB-4722-968A-F76DEB851DFC}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "yaml", "runtime\sciBASIC#\mime\text%yaml\text.yaml.vbproj", "{FB637DE6-6BEB-4722-968A-F76DEB851DFC}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Visualizer", "runtime\sciBASIC#\gr\Datavisualization.Network\Visualizer\Visualizer.vbproj", "{45B726AC-D3B8-476D-89EA-1FF7243A4FA5}"
 EndProject
