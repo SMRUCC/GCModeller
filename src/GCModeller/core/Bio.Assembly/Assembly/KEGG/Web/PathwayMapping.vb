@@ -110,7 +110,7 @@ Namespace Assembly.KEGG.WebServices
                 If Not path.FileLength > 5 Then
                     html = ("http://www.genome.jp" & link).GET
                     img = Regex.Match(html, "src=""[^""]+map.+?\.png""", RegexICSng).Value
-                    img = "http://www.genome.jp" & img.ImageSource
+                    img = "http://www.genome.jp" & img.src
 
                     Call img.DownloadFile(path)
                     Call Thread.Sleep(1000)
@@ -182,7 +182,7 @@ Namespace Assembly.KEGG.WebServices
 
                     ' src="/tmp/mark_pathway148425218533695/ko01100_0.3533695.png"
                     img = Regex.Match(html, imgLink, RegexICSng).Value
-                    img = "http://www.kegg.jp" & img.ImageSource
+                    img = "http://www.kegg.jp" & img.src
 
                     Call img.DownloadFile(path)
                     Call Thread.Sleep(1000)
@@ -351,7 +351,7 @@ Namespace Assembly.KEGG.WebServices
         Public Function ShowEnrichmentPathway(url$, save$) As Boolean
             Dim html$ = url.GET
             Dim img = Regex.Match(html, "<img src=""/tmp/mark_pathway[^""]+"" name=""pathwayimage"".+?/>", RegexICSng).Value
-            img = "http://www.genome.jp/" & img.ImageSource
+            img = "http://www.genome.jp/" & img.src
             Return img.DownloadFile(save)
         End Function
     End Module
