@@ -74,7 +74,7 @@ Namespace Assembly.KEGG.WebServices
                 .Select(AddressOf Area.Parse) _
                 .ToArray
 
-            With "http://www.genome.jp/" & img.ImageSource
+            With "http://www.genome.jp/" & img.src
                 Call .DownloadFile(tmp)
 
                 img = tmp.LoadImage.ToBase64String
