@@ -153,7 +153,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Relative_abundance.barplot")>
-    <Usage("/Relative_abundance.barplot /in <dataset.csv> [/desc /asc /take <-1> /out <out.png>]")>
+    <Usage("/Relative_abundance.barplot /in <dataset.csv> [/group <sample_group.csv> /desc /asc /take <-1> /out <out.png>]")>
     <Argument("/desc", True, CLITypes.Boolean, Description:="")>
     <Argument("/asc", True, CLITypes.Boolean, Description:="")>
     <Argument("/take", True, CLITypes.Integer,
@@ -164,15 +164,30 @@ Partial Module CLI
         Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.barplot.png".AsDefault
         Dim isDesc As Boolean = args.IsTrue("/desc")
         Dim isAsc As Boolean = args.IsTrue("/asc")
+        Dim sampleGroup = (args <= "/group").LoadCsv(Of SampleGroup)
 
         ' 如果/desc和/asc这两个开关都开启了的话，则会优先选择/desc，因为倒序的图样式会更好看一些
         If isDesc AndAlso isAsc Then
             Call "``/desc`` and ``/asc`` option are both open, ``/asc`` option will be disabled!".Warning
         End If
 
+        Dim groups = sampleGroup _
+            .GroupBy(Function(sample) sample.sample_group) _
+            .ToDictionary(Function(g) g.Key,
+                          Function(list)
+                              Return list _
+                                  .Select(Function(sample) sample.sample_name) _
+                                  .ToArray
+                          End Function)
         Dim data = BarPlotDataExtensions _
             .LoadDataSet([in]) _
             .Normalize
+
+        If groups.Count > 0 Then
+            data = data _
+                .GroupBy(groups) _
+                .Normalize
+        End If
 
         If isDesc Then
             data = data.Desc
