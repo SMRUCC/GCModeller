@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
@@ -147,6 +148,22 @@ Partial Module CLI
                             mapName:=ColorBrewer.SequentialSchemes.YlGnBu9,
                             drawClass:=(Nothing, groupColors),
                             mainTitle:="predictions_ko.L3") _
+            .Save(out) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/Relative_abundance.barplot")>
+    <Usage("/Relative_abundance.barplot /in <dataset.csv> [/out <out.png>]")>
+    Public Function Relative_abundance_barplot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.barplot.png".AsDefault
+        Dim data = BarPlotDataExtensions _
+            .LoadDataSet([in]) _
+            .Normalize _
+            .Reorder("Unclassified") _
+            .Strip(30)
+
+        Return StackedBarPlot.Plot(data, YaxisTitle:="Relative abundance") _
             .Save(out) _
             .CLICode
     End Function
