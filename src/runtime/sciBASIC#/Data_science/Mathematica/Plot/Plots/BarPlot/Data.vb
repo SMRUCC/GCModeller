@@ -94,6 +94,10 @@ Namespace BarPlot
 
         End Function
 
+        Public Function Asc() As BarDataGroup
+
+        End Function
+
         ''' <summary>
         ''' 如果系列在这里面，则会一次排在前面，否则任然是按照原始的顺序排布
         ''' </summary>

@@ -153,16 +153,40 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Relative_abundance.barplot")>
-    <Usage("/Relative_abundance.barplot /in <dataset.csv> [/desc /out <out.png>]")>
+    <Usage("/Relative_abundance.barplot /in <dataset.csv> [/desc /asc /take <-1> /out <out.png>]")>
+    <Argument("/desc", True, CLITypes.Boolean, Description:="")>
+    <Argument("/asc", True, CLITypes.Boolean, Description:="")>
+    <Argument("/take", True, CLITypes.Integer,
+              AcceptTypes:={GetType(Integer)},
+              Description:="")>
     Public Function Relative_abundance_barplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.barplot.png".AsDefault
         Dim isDesc As Boolean = args.IsTrue("/desc")
+        Dim isAsc As Boolean = args.IsTrue("/asc")
+
+        ' 如果/desc和/asc这两个开关都开启了的话，则会优先选择/desc，因为倒序的图样式会更好看一些
+        If isDesc AndAlso isAsc Then
+            Call "``/desc`` and ``/asc`` option are both open, ``/asc`` option will be disabled!".Warning
+        End If
+
         Dim data = BarPlotDataExtensions _
             .LoadDataSet([in]) _
-            .Normalize _
-            .Reorder("Unclassified") _
-            .Strip(30)
+            .Normalize
+
+        If isDesc Then
+            data = data.Desc
+        ElseIf isAsc Then
+            data = data.Asc
+        Else
+            ' Do Nothing
+        End If
+
+        Dim take% = args.GetValue("/take", -1%)
+
+        If take > 0 Then
+            data = data.Strip(take)
+        End If
 
         Return StackedBarPlot.Plot(data, YaxisTitle:="Relative abundance") _
             .Save(out) _
