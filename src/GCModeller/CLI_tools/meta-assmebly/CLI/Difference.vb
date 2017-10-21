@@ -153,10 +153,11 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Relative_abundance.barplot")>
-    <Usage("/Relative_abundance.barplot /in <dataset.csv> [/out <out.png>]")>
+    <Usage("/Relative_abundance.barplot /in <dataset.csv> [/desc /out <out.png>]")>
     Public Function Relative_abundance_barplot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.barplot.png".AsDefault
+        Dim isDesc As Boolean = args.IsTrue("/desc")
         Dim data = BarPlotDataExtensions _
             .LoadDataSet([in]) _
             .Normalize _
