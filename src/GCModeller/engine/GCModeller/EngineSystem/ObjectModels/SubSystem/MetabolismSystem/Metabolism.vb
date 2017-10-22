@@ -91,8 +91,8 @@ Namespace EngineSystem.ObjectModels.SubSystem
             Call ProteinCPLXAssemblies.MemoryDump(Dir)
         End Sub
 
-        Public Function GetMetabolite(UniqueId As String) As EngineSystem.ObjectModels.Entity.Compound
-            Return Metabolites.GetById(UniqueId, StringComparison.OrdinalIgnoreCase)
+        Public Function GetMetabolite(UniqueId As String) As Entity.Compound
+            Return Metabolites.GetByKey(UniqueId, StringComparison.OrdinalIgnoreCase)
         End Function
 
         ''' <summary>
