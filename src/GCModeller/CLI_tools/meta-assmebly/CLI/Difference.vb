@@ -109,12 +109,12 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/heatmap.plot")>
-    <Usage("/heatmap.plot /in <data.csv> /groups <sampleInfo.csv> [/out <out.DIR>]")>
+    <Usage("/heatmap.plot /in <data.csv> /groups <sampleInfo.csv> [/tsv /out <out.DIR>]")>
     Public Function HeatmapPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim group$ = args <= "/groups"
         Dim out$ = (args <= "/out") Or $"{in$.TrimSuffix}_{group.BaseName}.heatmap.plot.png".AsDefault
-        Dim data As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim data As DataSet() = DataSet.LoadDataSet([in], tsv:=args.IsTrue("/tsv")).ToArray
         Dim sampleGroups = group _
             .LoadCsv(Of SampleInfo) _
             .EnsureGroupPaired(allSamples:=data.PropertyNames) _
