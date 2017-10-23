@@ -6,9 +6,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CC88FECD-EEEE-40D3-830C-CE98FCF598DC}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>meta_assmebly.Program</StartupObject>
-    <RootNamespace>meta_assmebly</RootNamespace>
-    <AssemblyName>meta-assmebly</AssemblyName>
+    <StartupObject>meta_community.Program</StartupObject>
+    <RootNamespace>meta_community</RootNamespace>
+    <AssemblyName>meta-community</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
@@ -22,7 +22,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>meta-assmebly.xml</DocumentationFile>
+    <DocumentationFile>meta-community.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -32,7 +32,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>meta-assmebly.xml</DocumentationFile>
+    <DocumentationFile>meta-community.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -52,7 +52,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>meta-assmebly.xml</DocumentationFile>
+    <DocumentationFile>meta-community.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -62,7 +62,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>meta-assmebly.xml</DocumentationFile>
+    <DocumentationFile>meta-community.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\GCModeller%28Release_X64%29\</OutputPath>
-    <DocumentationFile>meta-assmebly.xml</DocumentationFile>
+    <DocumentationFile>meta-community.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -84,7 +84,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
     <DefineTrace>true</DefineTrace>
     <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>meta-assmebly.xml</DocumentationFile>
+    <DocumentationFile>meta-community.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
