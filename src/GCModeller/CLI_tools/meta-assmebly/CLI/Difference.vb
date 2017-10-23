@@ -153,7 +153,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Relative_abundance.barplot")>
-    <Usage("/Relative_abundance.barplot /in <dataset.csv> [/group <sample_group.csv> /desc /asc /take <-1> /out <out.png>]")>
+    <Usage("/Relative_abundance.barplot /in <dataset.csv> [/group <sample_group.csv> /desc /asc /take <-1> /size <3000,2700> /interval <10px> /out <out.png>]")>
     <Argument("/desc", True, CLITypes.Boolean, Description:="")>
     <Argument("/asc", True, CLITypes.Boolean, Description:="")>
     <Argument("/take", True, CLITypes.Integer,
@@ -189,6 +189,12 @@ Partial Module CLI
                 .Normalize
         End If
 
+        Dim take% = args.GetValue("/take", -1%)
+
+        If take > 0 Then
+            data = data.Takes(take)
+        End If
+
         If isDesc Then
             data = data.Desc
         ElseIf isAsc Then
@@ -197,13 +203,10 @@ Partial Module CLI
             ' Do Nothing
         End If
 
-        Dim take% = args.GetValue("/take", -1%)
+        Dim size$ = (args <= "/size") Or "3000,2700".AsDefault
+        Dim internal% = args.GetValue("/interval", 10)
 
-        If take > 0 Then
-            data = data.Strip(take)
-        End If
-
-        Return StackedBarPlot.Plot(data, YaxisTitle:="Relative abundance") _
+        Return StackedBarPlot.Plot(data, size:=size, interval:=internal, YaxisTitle:="Relative abundance", legendLabelFontCSS:=CSSFont.Win7LargerNormal) _
             .Save(out) _
             .CLICode
     End Function

@@ -68,6 +68,7 @@ Namespace BarPlot
                              Optional percentStacked! = no,
                              Optional YaxisTitle$ = "Value",
                              Optional interval! = 5,
+                             Optional boxSeperator! = 5,
                              Optional columnCount% = 8,
                              Optional legendLabelFontCSS$ = CSSFont.Win7LittleLarge,
                              Optional tickFontCSS$ = CSSFont.Win7LittleLarge,
@@ -97,7 +98,7 @@ Namespace BarPlot
                     Dim wb = BarWidth(barRegionWidth, n, interval)
                     Dim groupLabelFont As Font = CSSFont.TryParse(groupLabelFontCSS)
                     Dim boxWidth% = legendFont.Height * 1.1
-                    Dim bottomPart = groupLabelFont.Height + 30 + (boxWidth + interval * 2) * columnCount
+                    Dim bottomPart = groupLabelFont.Height + 30 + (boxWidth + boxSeperator * 2) * columnCount
                     Dim barRegionHeight = height - bottomPart   ' 条形图区域的总高度
                     Dim x0! = rect.Padding.Left + leftPart
 
@@ -160,7 +161,7 @@ Namespace BarPlot
                             g.DrawString(legend.Name, legendFont, Brushes.Black, New PointF(x0 + boxWidth + 5, ly))
 
                             maxWidth = Math.Max(maxWidth, g.MeasureString(legend.Name, legendFont).Width)
-                            ly += interval + boxWidth
+                            ly += boxSeperator + boxWidth
                         Next
 
                         ly = bottomY
