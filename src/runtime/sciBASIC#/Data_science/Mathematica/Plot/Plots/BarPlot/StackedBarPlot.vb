@@ -151,7 +151,9 @@ Namespace BarPlot
 
                     For Each block In serialBrushes.Split(columnCount)
 
-                        Dim maxWidth%
+                        ' 似乎在for循环之中申明的变量必须要初始化，否则下一个循环使用的是上一个循环的结果值？？？
+                        ' 这是一个bug？
+                        Dim maxWidth% = 0
 
                         For Each legend As NamedValue(Of SolidBrush) In block
                             Dim box As New Rectangle(x0, ly, boxWidth, boxWidth)
@@ -165,7 +167,8 @@ Namespace BarPlot
                         Next
 
                         ly = bottomY
-                        x0 += interval * 2 + boxWidth + maxWidth
+                        x0 += boxSeperator * 2 + boxWidth + maxWidth
+                        maxWidth = 0
                     Next
                 End Sub
 
