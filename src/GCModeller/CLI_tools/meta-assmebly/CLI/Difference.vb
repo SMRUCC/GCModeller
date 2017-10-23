@@ -109,14 +109,18 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/heatmap.plot")>
-    <Usage("/heatmap.plot /in <data.csv> /groups <sampleInfo.csv> [/tsv /out <out.DIR>]")>
+    <Usage("/heatmap.plot /in <data.csv> /groups <sampleInfo.csv> [/tsv /group /title <title> /size <2700,3000> /out <out.DIR>]")>
     Public Function HeatmapPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim group$ = args <= "/groups"
+        Dim groupData = args.IsTrue("/group")
         Dim out$ = (args <= "/out") Or $"{in$.TrimSuffix}_{group.BaseName}.heatmap.plot.png".AsDefault
+        Dim title$ = (args <= "/title") Or $"Heatmap Plot Of {[in].BaseName}".AsDefault
+        Dim size$ = (args <= "/size") Or "2700,3000".AsDefault
         Dim data As DataSet() = DataSet.LoadDataSet([in], tsv:=args.IsTrue("/tsv")).ToArray
-        Dim sampleGroups = group _
-            .LoadCsv(Of SampleInfo) _
+        Dim sampleInfo = group.LoadCsv(Of SampleInfo).ToArray
+        Dim sampleGroups =
+            sampleInfo _
             .EnsureGroupPaired(allSamples:=data.PropertyNames) _
             .ToDictionary(Function(g) g.Name,
                           Function(samples)
@@ -129,25 +133,35 @@ Partial Module CLI
             .Select(Function(c) c.ToHtmlColor) _
             .ToArray
         Dim groupColors As New Dictionary(Of String, String)
+        Dim matrix As DataSet()
 
-        For Each groupLabels In sampleGroups.SeqIterator
-            For Each label As String In (+groupLabels).Value
-                groupColors.Add(label, colors(groupLabels))
+        If groupData Then
+            For Each groupLabels In sampleGroups.SeqIterator
+                For Each label As String In (+groupLabels).Value
+                    groupColors.Add(label, colors(groupLabels))
+                Next
             Next
-        Next
 
-        Dim matrix As DataSet() = data _
-            .Project(groupColors.Keys.ToArray) _
-            .ToArray
+            matrix = data _
+                .Project(groupColors.Keys.ToArray) _
+                .ToArray
+        Else
+
+            ' 合并分组之后，绘制分组的颜色没有多大意义了，在这里删除掉
+            groupColors = Nothing
+            matrix = data _
+                .Group(sampleGroups) _
+                .ToArray
+        End If
 
         Return Heatmap.Plot(matrix,
-                            size:="3800,5000",
+                            size:=size,
                             drawScaleMethod:=DrawElements.Rows,
                             min:=0,
                             colLabelFontStyle:=CSSFont.Win7LittleLarge,
                             mapName:=ColorBrewer.SequentialSchemes.YlGnBu9,
                             drawClass:=(Nothing, groupColors),
-                            mainTitle:="predictions_ko.L3") _
+                            mainTitle:=title) _
             .Save(out) _
             .CLICode
     End Function
