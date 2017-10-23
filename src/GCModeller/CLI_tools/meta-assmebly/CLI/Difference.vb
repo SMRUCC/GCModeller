@@ -109,14 +109,18 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/heatmap.plot")>
-    <Usage("/heatmap.plot /in <data.csv> /groups <sampleInfo.csv> [/out <out.DIR>]")>
+    <Usage("/heatmap.plot /in <data.csv> /groups <sampleInfo.csv> [/tsv /group /title <title> /size <2700,3000> /out <out.DIR>]")>
     Public Function HeatmapPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim group$ = args <= "/groups"
+        Dim groupData = args.IsTrue("/group")
         Dim out$ = (args <= "/out") Or $"{in$.TrimSuffix}_{group.BaseName}.heatmap.plot.png".AsDefault
-        Dim data As DataSet() = DataSet.LoadDataSet([in]).ToArray
-        Dim sampleGroups = group _
-            .LoadCsv(Of SampleInfo) _
+        Dim title$ = (args <= "/title") Or $"Heatmap Plot Of {[in].BaseName}".AsDefault
+        Dim size$ = (args <= "/size") Or "2700,3000".AsDefault
+        Dim data As DataSet() = DataSet.LoadDataSet([in], tsv:=args.IsTrue("/tsv")).ToArray
+        Dim sampleInfo = group.LoadCsv(Of SampleInfo).ToArray
+        Dim sampleGroups =
+            sampleInfo _
             .EnsureGroupPaired(allSamples:=data.PropertyNames) _
             .ToDictionary(Function(g) g.Name,
                           Function(samples)
@@ -129,31 +133,41 @@ Partial Module CLI
             .Select(Function(c) c.ToHtmlColor) _
             .ToArray
         Dim groupColors As New Dictionary(Of String, String)
+        Dim matrix As DataSet()
 
-        For Each groupLabels In sampleGroups.SeqIterator
-            For Each label As String In (+groupLabels).Value
-                groupColors.Add(label, colors(groupLabels))
+        If Not groupData Then
+            For Each groupLabels In sampleGroups.SeqIterator
+                For Each label As String In (+groupLabels).Value
+                    groupColors.Add(label, colors(groupLabels))
+                Next
             Next
-        Next
 
-        Dim matrix As DataSet() = data _
-            .Project(groupColors.Keys.ToArray) _
-            .ToArray
+            matrix = data _
+                .Project(groupColors.Keys.ToArray) _
+                .ToArray
+        Else
+
+            ' 合并分组之后，绘制分组的颜色没有多大意义了，在这里删除掉
+            groupColors = Nothing
+            matrix = data _
+                .Group(sampleGroups) _
+                .ToArray
+        End If
 
         Return Heatmap.Plot(matrix,
-                            size:="3800,5000",
+                            size:=size,
                             drawScaleMethod:=DrawElements.Rows,
                             min:=0,
                             colLabelFontStyle:=CSSFont.Win7LittleLarge,
                             mapName:=ColorBrewer.SequentialSchemes.YlGnBu9,
                             drawClass:=(Nothing, groupColors),
-                            mainTitle:="predictions_ko.L3") _
+                            mainTitle:=title) _
             .Save(out) _
             .CLICode
     End Function
 
     <ExportAPI("/Relative_abundance.barplot")>
-    <Usage("/Relative_abundance.barplot /in <dataset.csv> [/group <sample_group.csv> /desc /asc /take <-1> /out <out.png>]")>
+    <Usage("/Relative_abundance.barplot /in <dataset.csv> [/group <sample_group.csv> /desc /asc /take <-1> /size <3000,2700> /column.n <default=9> /interval <10px> /out <out.png>]")>
     <Argument("/desc", True, CLITypes.Boolean, Description:="")>
     <Argument("/asc", True, CLITypes.Boolean, Description:="")>
     <Argument("/take", True, CLITypes.Integer,
@@ -189,6 +203,12 @@ Partial Module CLI
                 .Normalize
         End If
 
+        Dim take% = args.GetValue("/take", -1%)
+
+        If take > 0 Then
+            data = data.Takes(take)
+        End If
+
         If isDesc Then
             data = data.Desc
         ElseIf isAsc Then
@@ -197,13 +217,12 @@ Partial Module CLI
             ' Do Nothing
         End If
 
-        Dim take% = args.GetValue("/take", -1%)
+        Dim size$ = (args <= "/size") Or "3000,2700".AsDefault
+        Dim internal% = args.GetValue("/interval", 10)
+        Dim columnCount% = args.GetValue("/column.n", 9)
 
-        If take > 0 Then
-            data = data.Strip(take)
-        End If
-
-        Return StackedBarPlot.Plot(data, YaxisTitle:="Relative abundance") _
+        Return StackedBarPlot.Plot(
+            data, size:=size, interval:=internal, YaxisTitle:="Relative abundance", columnCount:=columnCount, legendLabelFontCSS:=CSSFont.Win7LargerNormal) _
             .Save(out) _
             .CLICode
     End Function
