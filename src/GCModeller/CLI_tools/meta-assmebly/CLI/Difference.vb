@@ -135,7 +135,7 @@ Partial Module CLI
         Dim groupColors As New Dictionary(Of String, String)
         Dim matrix As DataSet()
 
-        If groupData Then
+        If Not groupData Then
             For Each groupLabels In sampleGroups.SeqIterator
                 For Each label As String In (+groupLabels).Value
                     groupColors.Add(label, colors(groupLabels))
