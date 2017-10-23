@@ -35,7 +35,7 @@ End Class
 ''' <summary>
 ''' 样品的分组信息
 ''' </summary>
-Public Class SampleGroup
+<Template("SampleGroups")> Public Class SampleGroup
     Implements INamedValue
     Implements Value(Of String).IValueOf
 
