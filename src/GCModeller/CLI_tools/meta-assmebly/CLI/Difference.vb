@@ -150,7 +150,7 @@ Partial Module CLI
             ' 合并分组之后，绘制分组的颜色没有多大意义了，在这里删除掉
             groupColors = Nothing
             matrix = data _
-                .Group(sampleGroups) _
+                .GroupBy(sampleGroups) _
                 .ToArray
         End If
 
