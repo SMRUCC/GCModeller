@@ -146,7 +146,8 @@ Public Module NetworkVisualizer
                               Optional ByRef nodePoints As Dictionary(Of Node, Point) = Nothing,
                               Optional fontSizeFactor# = 1.5,
                               Optional edgeDashTypes As Dictionary(Of String, DashStyle) = Nothing,
-                              Optional getNodeLabel As Func(Of Node, String) = Nothing) As GraphicsData
+                              Optional getNodeLabel As Func(Of Node, String) = Nothing,
+                              Optional hideDisconnectedNode As Boolean = False) As GraphicsData
 
         Dim frameSize As Size = canvasSize.SizeParser  ' 所绘制的图像输出的尺寸大小
         Dim br As Brush
@@ -252,7 +253,7 @@ Public Module NetworkVisualizer
                 ' 然后将网络之中的节点绘制出来，同时记录下节点的位置作为label text的锚点
                 ' 最后通过退火算法计算出合适的节点标签文本的位置之后，再使用一个循环绘制出
                 ' 所有的节点的标签文本
-                For Each n As Node In net.nodes  ' 在这里进行节点的绘制
+                For Each n As Node In net.nodes Or net.connectedNodes.AsDefault(Function() hideDisconnectedNode)  ' 在这里进行节点的绘制
                     Dim r# = n.Data.radius
 
                     ' 当网络之中没有任何边的时候，r的值会是NAN
