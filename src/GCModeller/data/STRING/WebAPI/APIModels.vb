@@ -47,88 +47,91 @@ Namespace StringDB.WebAPI
         ''' JSON format either as a list of hashes/dictionaries, or as a plain list (if there is only one value to be returned per record)
         ''' </summary>
         ''' <remarks></remarks>
-        Public ReadOnly Json As Format = New Format With {
-        .strData = "json",
-        .Requests = New Request() {
-            Request.resolve,
-            Request.resolveList,
-            Request.abstracts,
-            Request.abstractsList
+        Public ReadOnly Json As New Format With {
+            .strData = "json",
+            .Requests = New Request() {
+                Request.resolve,
+                Request.resolveList,
+                Request.abstracts,
+                Request.abstractsList
+            }
         }
-    }
 
         ''' <summary>
         ''' Tab separated values, with a header line
         ''' </summary>
         ''' <remarks></remarks>
-        Public ReadOnly tsv As Format = New Format With {
-        .strData = "tsv",
-        .Requests = New Request() {
-            Request.resolve,
-            Request.resolveList,
-            Request.abstracts,
-            Request.abstractsList,
-            Request.actions,
-            Request.actionsList,
-            Request.interactors,
-            Request.interactorsList
+        Public ReadOnly tsv As New Format With {
+            .strData = "tsv",
+            .Requests = New Request() {
+                Request.resolve,
+                Request.resolveList,
+                Request.abstracts,
+                Request.abstractsList,
+                Request.actions,
+                Request.actionsList,
+                Request.interactors,
+                Request.interactorsList
+            }
         }
-    }
 
         ''' <summary>
         ''' Tab separated values, without header line
         ''' </summary>
         ''' <remarks></remarks>
-        Public ReadOnly tsvNoHeader As Format = New Format With {
-        .strData = "tsv-no-header",
-        .Requests = New Request() {
-            Request.resolve,
-            Request.resolveList,
-            Request.abstracts,
-            Request.abstractsList,
-            Request.actions,
-            Request.actionsList,
-            Request.interactors,
-            Request.interactorsList
+        Public ReadOnly tsvNoHeader As New Format With {
+            .strData = "tsv-no-header",
+            .Requests = New Request() {
+                Request.resolve,
+                Request.resolveList,
+                Request.abstracts,
+                Request.abstractsList,
+                Request.actions,
+                Request.actionsList,
+                Request.interactors,
+                Request.interactorsList
+            }
         }
-    }
+
         ''' <summary>
         ''' The interaction network in PSI-MI 2.5 XML format
         ''' </summary>
         ''' <remarks></remarks>
-        Public ReadOnly psiMi As Format = New Format With {
-        .strData = "psi-mi",
-        .Requests = New Request() {
-            Request.interactors,
-            Request.interactorsList,
-            Request.interactions,
-            Request.interactionsList
+        Public ReadOnly psiMi As New Format With {
+            .strData = "psi-mi",
+            .Requests = New Request() {
+                Request.interactors,
+                Request.interactorsList,
+                Request.interactions,
+                Request.interactionsList
+            }
         }
-    }
+
         ''' <summary>
         ''' Tab-delimited form of PSI-MI (similar to tsv, modeled after the IntAct specification. (Easier to parse, but contains less information than the XML format.)
         ''' </summary>
         ''' <remarks></remarks>
-        Public ReadOnly psiMiTab As Format = New Format With {
-        .strData = "psi-mi-tab",
-        .Requests = New Request() {
-            Request.interactors,
-            Request.interactorsList,
-            Request.interactions,
-            Request.interactionsList
+        Public ReadOnly psiMiTab As New Format With {
+            .strData = "psi-mi-tab",
+            .Requests = New Request() {
+                Request.interactors,
+                Request.interactorsList,
+                Request.interactions,
+                Request.interactionsList
+            }
         }
-    }
+
         ''' <summary>
         ''' The network image
         ''' </summary>
         ''' <remarks></remarks>
-        Public ReadOnly Image As Format = New Format With {
-        .strData = "image",
-        .Requests = New Request() {
-            Request.network,
-            Request.networkList
+        Public ReadOnly Image As New Format With {
+            .strData = "image",
+            .Requests = New Request() {
+                Request.network,
+                Request.networkList
+            }
         }
-    }
 
         Public Overrides Function GetToken() As String
             Return MyBase.strData

@@ -234,3 +234,8 @@ pip-log.txt
 /src/.vs/GCModeller/v15/sqlite3
 /src/.vs/GCModeller/v15/Server/sqlite3
 /src/runtime/sciBASIC#/vs_solutions/installer/utils
+/src/GCModeller/models/Networks/STRING/.vs/STRING/v15/Server/sqlite3
+*.lock
+*.ide-shm
+*.ide-wal
+/src/runtime/.vs/installer
