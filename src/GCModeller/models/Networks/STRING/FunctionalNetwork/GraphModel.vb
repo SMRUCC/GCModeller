@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
@@ -14,7 +16,7 @@ Public Module GraphModel
         Dim gEdges As New List(Of Edge)
         Dim gNodes = nodes _
             .Select(Function(n)
-                        Return New Node With {
+                        Return New Graph.Node With {
                             .ID = n.node,
                             .Data = New NodeData With {
                                 .label = n.node,
@@ -40,10 +42,7 @@ Public Module GraphModel
         g.edges = gEdges
 
         Call g.ComputeNodeDegrees
-
-        For Each node As Node In g.nodes
-            node.Data.radius = Val(node.Data!degree)
-        Next
+        Call g.UsingDegreeAsRadius
 
         Return g
     End Function
