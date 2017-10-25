@@ -1,6 +1,5 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -88,9 +87,11 @@ Public Module FunctionalEnrichmentNetwork
 
                         Dim data As New Dictionary(Of String, String)
 
-                        data!KO = KO.JoinBy("|")
-                        data!uniprotID = uniprotID.JoinBy("|")
-                        data!STRING_ID = stringID
+                        With data
+                            !KO = KO.JoinBy("|")
+                            !uniprotID = uniprotID.JoinBy("|")
+                            !STRING_ID = stringID
+                        End With
 
                         Return New NetNode(name) With {
                             .NodeType = pathways.JoinBy(FunctionalEnrichmentNetwork.delimiter),
@@ -143,15 +144,17 @@ Public Module FunctionalEnrichmentNetwork
         Dim down = DEGs.down.Indexing
 
         For Each node As NetNode In model.Nodes
-            Dim id$ = node!STRING_ID
+            With node
+                Dim id$ = !STRING_ID
 
-            If up.IndexOf(id) > -1 Then
-                node!color = colors.up
-            ElseIf down.IndexOf(id) > -1 Then
-                node!color = colors.down
-            Else
-                node!color = nonDEPcolor
-            End If
+                If up.IndexOf(id) > -1 Then
+                    !color = colors.up
+                ElseIf down.IndexOf(id) > -1 Then
+                    !color = colors.down
+                Else
+                    !color = nonDEPcolor
+                End If
+            End With
         Next
 
         Return model
@@ -177,15 +180,17 @@ Public Module FunctionalEnrichmentNetwork
         Dim downRange As DoubleRange = DEGs.down.Values.Range
 
         For Each node As NetNode In model.Nodes
-            Dim id$ = node!STRING_ID
+            With node
+                Dim id$ = !STRING_ID
 
-            If DEGs.up.ContainsKey(id) Then
-                node!color = upColors(upRange.ScaleMapping(DEGs.up(id), colorIndex))
-            ElseIf DEGs.down.ContainsKey(id) Then
-                node!color = downColors(downRange.ScaleMapping(DEGs.down(id), colorIndex))
-            Else
-                node!color = nonDEPColor
-            End If
+                If DEGs.up.ContainsKey(id) Then
+                    !color = upColors(upRange.ScaleMapping(DEGs.up(id), colorIndex))
+                ElseIf DEGs.down.ContainsKey(id) Then
+                    !color = downColors(downRange.ScaleMapping(DEGs.down(id), colorIndex))
+                Else
+                    !color = nonDEPColor
+                End If
+            End With
         Next
 
         Return model
