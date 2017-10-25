@@ -223,10 +223,6 @@
       <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
       <Name>Bio.InteractionModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\data\KEGG\KEGG.vbproj">
-      <Project>{68849e9f-359e-4844-a6db-0cae421594ad}</Project>
-      <Name>KEGG</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6DDA9162-C232-4DAD-9A79-06B9CAA47374}</Project>
       <Name>RegulonDatabase</Name>
@@ -246,6 +242,10 @@
     <ProjectReference Include="..\..\SBML\SBML\SBML.vbproj">
       <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
       <Name>SBML</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KEGG\KEGG.vbproj">
+      <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
+      <Name>KEGG</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
