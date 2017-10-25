@@ -53,7 +53,10 @@ Public Module PathwayMapRender
                 Yield New NamedValue(Of Image) With {
                     .Name = foundResult.Name,
                     .Value = render _
-                        .Rendering(.Name, nodes,, scale:=scale)
+                        .Rendering(.Name, nodes,, scale:=scale),
+                    .Description = foundResult _
+                        .Value _
+                        .JoinBy("|")
                 }
             Catch ex As Exception
                 ex = New Exception(foundResult.GetJson, ex)
@@ -78,7 +81,8 @@ Public Module PathwayMapRender
             map.Value.SaveAs(save, ImageFormats.Png)
             maplist += New NamedValue(Of String) With {
                 .Name = map.Name,
-                .Value = render.GetTitle(map.Name)
+                .Value = render.GetTitle(map.Name),
+                .Description = map.Description
             }
         Next
 
