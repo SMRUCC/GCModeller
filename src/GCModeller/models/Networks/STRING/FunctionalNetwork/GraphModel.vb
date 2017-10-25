@@ -41,6 +41,10 @@ Public Module GraphModel
 
         Call g.ComputeNodeDegrees
 
+        For Each node As Node In g.nodes
+            node.Data.radius = Val(node.Data!degree)
+        Next
+
         Return g
     End Function
 End Module
