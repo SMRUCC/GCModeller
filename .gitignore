@@ -238,3 +238,4 @@ pip-log.txt
 *.lock
 *.ide-shm
 *.ide-wal
+/src/runtime/.vs/installer
