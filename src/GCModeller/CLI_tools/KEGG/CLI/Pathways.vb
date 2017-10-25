@@ -29,8 +29,11 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Model.Network.KEGG
+Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
 Partial Module CLI
 
@@ -67,7 +70,25 @@ Partial Module CLI
         Dim scale# = args.GetValue("/scale", 1.0#)
         Dim color$ = (args <= "/color") Or "red".AsDefault
         Dim out$ = (args <= "/out") Or [in].TrimSuffix.AsDefault
+        Dim list$()
 
+        If [in].ExtensionSuffix.TextEquals("txt") Then
+            list = [in].ReadAllLines
+        Else
+            list = csv.Load([in]).Columns(0).ToArray
+        End If
 
+        Dim summary = PathwayMapRender.RenderMaps(repo, list, out)
+        Dim table As New csv
+
+        table += {"Pathway", "Name", "ID.list"}
+
+        For Each pathway In summary
+            table += {pathway.Name, pathway.Value, pathway.Description}
+        Next
+
+        Return table _
+            .Save(out & "/summary.csv", encoding:=Encodings.UTF8) _
+            .CLICode
     End Function
 End Module
