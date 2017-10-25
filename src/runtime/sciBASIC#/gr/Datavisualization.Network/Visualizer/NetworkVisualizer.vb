@@ -33,6 +33,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Styling
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Math2D
@@ -212,6 +213,7 @@ Public Module NetworkVisualizer
 
                 Call "Render network edges...".__INFO_ECHO
 
+                ' 首先在这里绘制出网络的框架：将所有的边绘制出来
                 For Each edge As Edge In net.edges
                     Dim n As Node = edge.Source
                     Dim otherNode As Node = edge.Target
@@ -243,9 +245,13 @@ Public Module NetworkVisualizer
                 defaultColor = If(defaultColor.IsEmpty, Color.Black, defaultColor)
 
                 Dim pt As Point
+                Dim labels As New List(Of (label As Label, anchor As Anchor, style As Font, color As Brush))
 
                 Call "Render network nodes...".__INFO_ECHO
 
+                ' 然后将网络之中的节点绘制出来，同时记录下节点的位置作为label text的锚点
+                ' 最后通过退火算法计算出合适的节点标签文本的位置之后，再使用一个循环绘制出
+                ' 所有的节点的标签文本
                 For Each n As Node In net.nodes  ' 在这里进行节点的绘制
                     Dim r# = n.Data.radius
 
@@ -268,31 +274,41 @@ Public Module NetworkVisualizer
                     If displayId Then
 
                         Dim font As New Font(baseFont.Name, (baseFont.Size + r) / fontSizeFactor)
-                        Dim s As String = n.GetDisplayText
-                        Dim size As SizeF = g.MeasureString(s, font)
-                        Dim sloci As New Point With {
-                            .X = pt.X + r * 1.25,
-                            .Y = pt.Y - (r - size.Height) / 2
+                        Dim label As New Label With {
+                            .text = n.GetDisplayText
                         }
 
-                        If sloci.X < margin.Left Then
-                            sloci = New Point(margin.Left, sloci.Y)
-                        End If
-                        If sloci.Y + size.Height > frameSize.Height - margin.Bottom Then
-                            sloci = New Point(sloci.X, frameSize.Height - margin.Bottom - size.Height)
-                        End If
-                        If sloci.X + size.Width > frameSize.Width - margin.Right Then
-                            sloci = New Point(frameSize.Width - margin.Right - size.Width, sloci.Y)
-                        End If
+                        With g.MeasureString(label.text, font)
+                            label.width = .Width
+                            label.height = .Height
+                        End With
 
-                        If Not labelColorAsNodeColor Then
-                            br = Brushes.Black
-                        End If
-
-                        Call g.DrawString(s, font, br, sloci)
-
+                        labels += (label, New Anchor(rect), font, br)
                     End If
                 Next
+
+                If displayId Then
+
+                    ' 使用退火算法计算出节点标签文本的位置
+                    Call d3js _
+                        .labeler _
+                        .Anchors(labels.Select(Function(x) x.anchor)) _
+                        .Labels(labels.Select(Function(x) x.label)) _
+                        .Size(frameSize) _
+                        .Start(nsweeps:=500, showProgress:=False)
+
+                    For Each label In labels
+                        With label
+                            If Not labelColorAsNodeColor Then
+                                br = Brushes.Black
+                            Else
+                                br = .color
+                            End If
+
+                            Call g.DrawString(.label.text, .style, br, .label.X, .label.Y)
+                        End With
+                    Next
+                End If
             End Sub
 
         Call "Start Render...".__INFO_ECHO
