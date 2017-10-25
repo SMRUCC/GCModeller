@@ -1,6 +1,8 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 
@@ -51,7 +53,10 @@ Public Module PathwayMapRender
                 Yield New NamedValue(Of Image) With {
                     .Name = foundResult.Name,
                     .Value = render _
-                        .Rendering(.Name, nodes,, scale:=scale)
+                        .Rendering(.Name, nodes,, scale:=scale),
+                    .Description = foundResult _
+                        .Value _
+                        .JoinBy("|")
                 }
             Catch ex As Exception
                 ex = New Exception(foundResult.GetJson, ex)
@@ -64,5 +69,23 @@ Public Module PathwayMapRender
                 End If
             End Try
         Next
+    End Function
+
+    Public Function RenderMaps(repo$, idlist$(), out$) As NamedValue(Of String)()
+        Dim render As LocalRender = LocalRender.FromRepository(repo)
+        Dim maplist As New List(Of NamedValue(Of String))
+
+        For Each map As NamedValue(Of Image) In render.QueryMaps(idlist,, scale:="1.5,1.5", throwException:=False)
+            Dim save$ = $"{out}/{map.Name}.png"
+
+            map.Value.SaveAs(save, ImageFormats.Png)
+            maplist += New NamedValue(Of String) With {
+                .Name = map.Name,
+                .Value = render.GetTitle(map.Name),
+                .Description = map.Description
+            }
+        Next
+
+        Return maplist
     End Function
 End Module

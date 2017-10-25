@@ -1,35 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::546c11ac28f922bff81fe97256b5a309, ..\CLI_tools\KEGG\CLI\Pathways.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Model.Network.KEGG
+Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
 Partial Module CLI
 
@@ -56,5 +60,35 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".geneIDs.txt")
         Dim pathway As Pathway = [in].LoadXml(Of Pathway)
         Return pathway.GetPathwayGenes.SaveTo(out).CLICode
+    End Function
+
+    <ExportAPI("/Compound.Map.Render")>
+    <Usage("/Compound.Map.Render /list <csv/txt> [/repo <pathwayMap.repository> /scale <default=1> /color <default=red> /out <out.DIR>]")>
+    Public Function CompoundMapRender(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim repo$ = (args <= "/repo") Or (GCModeller.FileSystem.FileSystem.RepositoryRoot & "/KEGG/pathwayMap/").AsDefault
+        Dim scale# = args.GetValue("/scale", 1.0#)
+        Dim color$ = (args <= "/color") Or "red".AsDefault
+        Dim out$ = (args <= "/out") Or [in].TrimSuffix.AsDefault
+        Dim list$()
+
+        If [in].ExtensionSuffix.TextEquals("txt") Then
+            list = [in].ReadAllLines
+        Else
+            list = csv.Load([in]).Columns(0).ToArray
+        End If
+
+        Dim summary = PathwayMapRender.RenderMaps(repo, list, out)
+        Dim table As New csv
+
+        table += {"Pathway", "Name", "ID.list"}
+
+        For Each pathway In summary
+            table += {pathway.Name, pathway.Value, pathway.Description}
+        Next
+
+        Return table _
+            .Save(out & "/summary.csv", encoding:=Encodings.UTF8) _
+            .CLICode
     End Function
 End Module
