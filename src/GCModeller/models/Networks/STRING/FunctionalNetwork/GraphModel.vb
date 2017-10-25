@@ -16,10 +16,10 @@ Public Module GraphModel
                         Return New Node With {
                             .ID = n.node,
                             .Data = New NodeData With {
-                                .label = n.annotation,
+                                .label = n.node,
                                 .Color = n.color.GetBrush,
                                 .origID = n.node,
-                                .initialPostion = New FDGVector2(n.x_position, n.y_position)
+                                .initialPostion = New FDGVector2(n.x_position * 1000, n.y_position * 1000)
                             }
                         }
                     End Function) _

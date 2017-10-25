@@ -56,6 +56,11 @@ Public Module NetworkVisualizer
     Public Property BackgroundColor As Color = Color.FromArgb(219, 243, 255)
     Public Property DefaultEdgeColor As Color = Color.FromArgb(131, 131, 131)
 
+    ''' <summary>
+    ''' 优先显示： <see cref="NodeData.label"/> -> <see cref="NodeData.origID"/> -> <see cref="Node.ID"/>
+    ''' </summary>
+    ''' <param name="n"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function GetDisplayText(n As Node) As String
         If n.Data Is Nothing OrElse (n.Data.origID.StringEmpty AndAlso n.Data.label.StringEmpty) Then
@@ -292,6 +297,6 @@ Public Module NetworkVisualizer
 
         Call "Start Render...".__INFO_ECHO
 
-        Return GraphicsPlots(frameSize, margin, background, plotInternal)
+        Return g.GraphicsPlots(frameSize, margin, background, plotInternal)
     End Function
 End Module
