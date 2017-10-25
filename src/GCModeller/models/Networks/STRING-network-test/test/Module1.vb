@@ -11,7 +11,7 @@ Module Module1
 
         Call GraphModel _
             .CreateGraph(edges, nodes) _
-            .DrawImage(canvasSize:="2000,2000", hideDisconnectedNode:=True) _
+            .DrawImage(canvasSize:="2000,2000", radiusScale:=6, hideDisconnectedNode:=True, fontSizeFactor:=3, minRadius:=10) _
             .Save("D:\GCModeller\src\GCModeller\models\Networks\STRING-network-test\string_interactions.png")
 
         Pause()
