@@ -407,7 +407,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Map", "GCModeller\CLI_tools
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ClusterMatrix", "GCModeller\analysis\SequenceToolkit\ClusterMatrix\ClusterMatrix.vbproj", "{8EB1F309-4D69-4353-A5FF-539061540AA5}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "KEGG", "GCModeller\data\KEGG\KEGG.vbproj", "{68849E9F-359E-4844-A6DB-0CAE421594AD}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "jp_kegg2", "GCModeller\data\KEGG\jp_kegg2.vbproj", "{68849E9F-359E-4844-A6DB-0CAE421594AD}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MachineLearning", "runtime\sciBASIC#\Data_science\MachineLearning\MachineLearning.vbproj", "{A43EC013-2B55-4D25-B9F1-96BD5FB1E577}"
 EndProject

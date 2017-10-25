@@ -335,8 +335,12 @@
       <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
       <Name>Bio.Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\data\KEGG\KEGG.vbproj">
+    <ProjectReference Include="..\..\data\KEGG\jp_kegg2.vbproj">
       <Project>{68849e9f-359e-4844-a6db-0cae421594ad}</Project>
+      <Name>jp_kegg2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\models\Networks\KEGG\KEGG.vbproj">
+      <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
       <Name>KEGG</Name>
     </ProjectReference>
   </ItemGroup>
