@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -128,14 +129,14 @@ Namespace Kernel
 #If DEBUG Then
                     Call __innerTicks(Me._RTime)
 #Else
-                Try
-                    Call __innerTicks(Me._RTime)
-                Catch ex As Exception
-                    ex = New Exception("Model calculation error!", ex)
-                    Call App.LogException(ex)
-                    Call ex.PrintException
-                    Return -1
-                End Try
+                    Try
+                        Call __innerTicks(Me._RTime)
+                    Catch ex As Exception
+                        ex = New Exception("Model calculation error!", ex)
+                        Call App.LogException(ex)
+                        Call ex.PrintException
+                        Return -1
+                    End Try
 #End If
                     Call proc.SetProgress(prog.StepProgress)
                 Next

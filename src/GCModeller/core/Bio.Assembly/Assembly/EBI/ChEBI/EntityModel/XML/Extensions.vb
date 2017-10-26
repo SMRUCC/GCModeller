@@ -1,21 +1,53 @@
-﻿Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Serialization.JSON
+﻿Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.EBI.ChEBI.XML
 
-    <XmlRoot("ChEBI-entity-list", [Namespace]:="http://gcmodeller.org/core/chebi/data/")>
+    <XmlRoot("ChEBI-DataSet", [Namespace]:="http://gcmodeller.org/core/chebi/dataset.XML")>
     Public Class EntityList
 
         <XmlElement("chebi-entity")>
-        Public Property Array As ChEBIEntity()
+        Public Property DataSet As ChEBIEntity()
+
+        Public Function ToSearchModel() As Dictionary(Of Long, ChEBIEntity)
+            Dim table As New Dictionary(Of Long, ChEBIEntity)
+
+            For Each chemical As ChEBIEntity In DataSet
+                Dim id& = chemical.Address
+
+                If Not table.ContainsKey(id) Then
+                    table.Add(id, chemical)
+                End If
+            Next
+
+            Return table
+        End Function
+
+        Public Function AsList() As HashList(Of ChEBIEntity)
+            Dim list As New HashList(Of ChEBIEntity)
+
+            For Each chemical As ChEBIEntity In DataSet
+                Call list.Add(chemical)
+            Next
+
+            Return list
+        End Function
 
         Public Overrides Function ToString() As String
-            If Array.IsNullOrEmpty Then
+            If DataSet.IsNullOrEmpty Then
                 Return "No items"
             Else
-                Return $"list of {Array.Length} chebi entity: ({Array.Take(10).Keys.GetJson}...)"
+                Return $"list of {DataSet.Length} chebi entity: ({DataSet.Take(10).Keys.GetJson}...)"
             End If
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function LoadDirectory(folder$) As EntityList
+            Return Extensions.Compile(folder)
         End Function
     End Class
 
@@ -38,7 +70,7 @@ Namespace Assembly.EBI.ChEBI.XML
             Next
 
             Return New EntityList With {
-                .Array = list _
+                .DataSet = list _
                     .Values _
                     .ToArray
             }

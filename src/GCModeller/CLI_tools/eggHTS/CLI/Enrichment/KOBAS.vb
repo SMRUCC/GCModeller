@@ -2,6 +2,7 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots
@@ -91,7 +92,7 @@ Partial Module CLI
                         .angleZ = 30,
                         .angleX = 30,
                         .angleY = -30,
-                        .Offset = New Point(0, -100)
+                        .offset = New Point(0, -100)
                 }).Save(out)
         Else
             Call profiles.Fractions(colors).Plot.Save(out)

@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.ComponentModel
 
@@ -43,12 +44,27 @@ Namespace Assembly.EBI.ChEBI.XML
     ''' </remarks>
     Public Class ChEBIEntity : Implements INamedValue
         Implements IMolecule
+        Implements IAddressOf
 
         ''' <summary>
         ''' Chebi的主ID
         ''' </summary>
         ''' <returns></returns>
         Public Property chebiId As String Implements INamedValue.Key, IMolecule.ID
+
+        Dim id%
+        Friend Property Address As Integer Implements IAddress(Of Integer).Address
+            Get
+                If id = 0 Then
+                    id = Val(chebiId.Split(":"c).Last)
+                End If
+                Return id
+            End Get
+            Set(value As Integer)
+                id = value
+            End Set
+        End Property
+
         Public Property chebiAsciiName As String Implements IMolecule.Name
         Public Property definition As String
         Public Property status As String

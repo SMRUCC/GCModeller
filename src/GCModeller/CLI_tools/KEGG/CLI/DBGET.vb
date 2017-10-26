@@ -135,6 +135,11 @@ Partial Module CLI
     <ExportAPI("/dump.kegg.maps")>
     <Description("Dumping the KEGG maps database for human species.")>
     <Usage("/dump.kegg.maps /htext <htext.txt> [/out <save_dir>]")>
+    <Argument("/htext", False, CLITypes.File,
+              Extensions:="*.txt",
+              Description:="The KEGG category term provider")>
+    <Argument("/out", True, CLITypes.File,
+              Description:="A directory path that contains the download KEGG reference pathway map model data, this output can be using as the KEGG pathway map rendering repository source.")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DumpKEGGMaps(args As CommandLine) As Integer
         Dim htext$ = args <= "/htext"

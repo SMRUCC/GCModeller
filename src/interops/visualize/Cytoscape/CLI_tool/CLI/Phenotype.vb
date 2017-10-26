@@ -30,6 +30,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
@@ -99,7 +100,7 @@ Partial Module CLI
     Public Function MotifCluster(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim name As String = args("/LDM")
-        Dim out As String = args.GetValue("/out", query.TrimSuffix & "." & basename(name) & ".Csv")
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "." & BaseName(name) & ".Csv")
         Dim source As AnnotationModel()
 
         If query.FileExists Then
@@ -189,7 +190,7 @@ Partial Module CLI
             End If
 
             Dim resultSet As List(Of EntityLDM) = __clusteringCommon(nClusters, Maps, Nothing)
-            Dim sId As String = basename(xml)
+            Dim sId As String = BaseName(xml)
             Dim outFile As String = out & "/" & sId & ".Csv"
 
             Call resultSet.SaveTo(outFile)
