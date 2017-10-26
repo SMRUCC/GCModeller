@@ -9,16 +9,8 @@ Namespace Assembly.EBI.ChEBI.XML
     <XmlRoot("ChEBI-DataSet", [Namespace]:="http://gcmodeller.org/core/chebi/dataset.XML")>
     Public Class EntityList
 
-        <XmlElement("chebi-entity", [Namespace]:="http://www.ebi.ac.uk/chebi/")>
+        <XmlElement("chebi-entity")>
         Public Property DataSet As ChEBIEntity()
-
-        <XmlNamespaceDeclarations()>
-        Public xmlns As XmlSerializerNamespaces
-
-        Sub New()
-            xmlns = New XmlSerializerNamespaces
-            xmlns.Add("chebi", "http://www.ebi.ac.uk/chebi/")
-        End Sub
 
         Public Function ToSearchModel() As Dictionary(Of Long, ChEBIEntity)
             Dim table As New Dictionary(Of Long, ChEBIEntity)
