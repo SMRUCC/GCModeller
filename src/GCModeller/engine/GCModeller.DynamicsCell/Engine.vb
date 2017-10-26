@@ -28,20 +28,18 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Threading
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Canvas
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Scripting.Types
+Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Scripting.TokenIcer
 Imports SMRUCC.genomics.Analysis.SSystem
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
-Imports Microsoft.VisualBasic.Math.Scripting
 
 Public Class Engine : Implements IDisposable
 
