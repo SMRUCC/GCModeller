@@ -1,5 +1,7 @@
 ﻿Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.ComponentModel
 
 Module chebiTest
 
@@ -10,7 +12,11 @@ Module chebiTest
         Dim alltypes = tables.GetChemicalData.Select(Function(c) c.TYPE).Distinct.JoinBy(";  ")
 
         Dim prope = tables.GetChemicalData().CreateProperty
+        Dim handle = New HandledList(Of ChemicalProperty)(prope)
 
+
+        Dim a = handle(16947)
+        Dim b = handle(30769)
 
         Dim model = EntityList.LoadDirectory("D:\smartnucl_integrative\DATA\ChEBI\chebi_cache\")
         Dim list = model.AsList

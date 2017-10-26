@@ -28,6 +28,7 @@
 
 Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
@@ -75,9 +76,18 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
         End Function
     End Module
 
-    Public Class ChemicalProperty : Implements INamedValue
+    Public Class ChemicalProperty : Implements INamedValue, IAddressOf
 
         Public Property ChEBI_ID As String Implements IKeyedEntity(Of String).Key
+        Private Property ID As Integer Implements IAddress(Of Integer).Address
+            Get
+                Return Val(ChEBI_ID)
+            End Get
+            Set(value As Integer)
+                ChEBI_ID = value
+            End Set
+        End Property
+
 #Region "Property Group"
         Public Property FORMULA As ChemicalData()
         Public Property MASS As ChemicalData()
