@@ -1,7 +1,8 @@
-﻿Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Language.UnixBash
+﻿Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.EBI.ChEBI.XML
 
@@ -41,6 +42,11 @@ Namespace Assembly.EBI.ChEBI.XML
             Else
                 Return $"list of {Array.Length} chebi entity: ({Array.Take(10).Keys.GetJson}...)"
             End If
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function LoadDirectory(folder$) As EntityList
+            Return Extensions.Compile(folder)
         End Function
     End Class
 
