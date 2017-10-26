@@ -26,8 +26,8 @@ Namespace Assembly.EBI.ChEBI.XML
             Return table
         End Function
 
-        Public Function AsList() As HandledList(Of ChEBIEntity)
-            Dim list As New HandledList(Of ChEBIEntity)
+        Public Function AsList() As HashList(Of ChEBIEntity)
+            Dim list As New HashList(Of ChEBIEntity)
 
             For Each chemical As ChEBIEntity In DataSet
                 Call list.Add(chemical)
