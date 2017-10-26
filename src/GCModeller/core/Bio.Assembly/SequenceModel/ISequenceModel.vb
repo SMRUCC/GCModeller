@@ -27,9 +27,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace SequenceModel
 
@@ -66,6 +64,7 @@ Namespace SequenceModel
         ''' </summary>
         ''' <returns></returns>
         Public Overridable ReadOnly Property Length As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Len(SequenceData)
             End Get
