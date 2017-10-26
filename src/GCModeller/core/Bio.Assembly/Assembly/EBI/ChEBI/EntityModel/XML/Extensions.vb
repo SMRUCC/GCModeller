@@ -6,16 +6,24 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.EBI.ChEBI.XML
 
-    <XmlRoot("ChEBI-entity-list", [Namespace]:="http://gcmodeller.org/core/chebi/data/")>
+    <XmlRoot("ChEBI-DataSet", [Namespace]:="http://gcmodeller.org/core/chebi/dataset.XML")>
     Public Class EntityList
 
-        <XmlElement("chebi-entity")>
-        Public Property Array As ChEBIEntity()
+        <XmlElement("chebi-entity", [Namespace]:="http://www.ebi.ac.uk/chebi/")>
+        Public Property DataSet As ChEBIEntity()
+
+        <XmlNamespaceDeclarations()>
+        Public xmlns As XmlSerializerNamespaces
+
+        Sub New()
+            xmlns = New XmlSerializerNamespaces
+            xmlns.Add("chebi", "http://www.ebi.ac.uk/chebi/")
+        End Sub
 
         Public Function ToSearchModel() As Dictionary(Of Long, ChEBIEntity)
             Dim table As New Dictionary(Of Long, ChEBIEntity)
 
-            For Each chemical As ChEBIEntity In Array
+            For Each chemical As ChEBIEntity In DataSet
                 Dim id& = chemical.Address
 
                 If Not table.ContainsKey(id) Then
@@ -29,7 +37,7 @@ Namespace Assembly.EBI.ChEBI.XML
         Public Function AsList() As HandledList(Of ChEBIEntity)
             Dim list As New HandledList(Of ChEBIEntity)
 
-            For Each chemical As ChEBIEntity In Array
+            For Each chemical As ChEBIEntity In DataSet
                 Call list.Add(chemical)
             Next
 
@@ -37,10 +45,10 @@ Namespace Assembly.EBI.ChEBI.XML
         End Function
 
         Public Overrides Function ToString() As String
-            If Array.IsNullOrEmpty Then
+            If DataSet.IsNullOrEmpty Then
                 Return "No items"
             Else
-                Return $"list of {Array.Length} chebi entity: ({Array.Take(10).Keys.GetJson}...)"
+                Return $"list of {DataSet.Length} chebi entity: ({DataSet.Take(10).Keys.GetJson}...)"
             End If
         End Function
 
@@ -69,7 +77,7 @@ Namespace Assembly.EBI.ChEBI.XML
             Next
 
             Return New EntityList With {
-                .Array = list _
+                .DataSet = list _
                     .Values _
                     .ToArray
             }
