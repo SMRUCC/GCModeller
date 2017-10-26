@@ -1,5 +1,5 @@
-﻿Imports System.Drawing
-Imports System.Runtime.CompilerServices
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
