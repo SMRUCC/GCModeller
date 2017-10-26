@@ -1,6 +1,7 @@
 ﻿Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.ComponentModel
 
 Namespace Assembly.EBI.ChEBI.XML
 
@@ -9,6 +10,30 @@ Namespace Assembly.EBI.ChEBI.XML
 
         <XmlElement("chebi-entity")>
         Public Property Array As ChEBIEntity()
+
+        Public Function ToSearchModel() As Dictionary(Of Long, ChEBIEntity)
+            Dim table As New Dictionary(Of Long, ChEBIEntity)
+
+            For Each chemical As ChEBIEntity In Array
+                Dim id& = chemical.Address
+
+                If Not table.ContainsKey(id) Then
+                    table.Add(id, chemical)
+                End If
+            Next
+
+            Return table
+        End Function
+
+        Public Function AsList() As HandledList(Of ChEBIEntity)
+            Dim list As New HandledList(Of ChEBIEntity)
+
+            For Each chemical As ChEBIEntity In Array
+                Call list.Add(chemical)
+            Next
+
+            Return list
+        End Function
 
         Public Overrides Function ToString() As String
             If Array.IsNullOrEmpty Then
