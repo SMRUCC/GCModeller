@@ -52,6 +52,12 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
             Return source.Select(Function(o) o.TYPE).Distinct.ToArray
         End Function
 
+        ''' <summary>
+        ''' Group the chemical data rows into group by compound id and create property value by <see cref="ChemicalData.TYPE"/> value.
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function CreateProperty(data As IEnumerable(Of ChemicalData)) As ChemicalProperty()
             Return ChemicalData _
