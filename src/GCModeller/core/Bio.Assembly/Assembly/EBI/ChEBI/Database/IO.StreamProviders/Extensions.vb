@@ -84,7 +84,7 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
             If FORMULA.IsNullOrEmpty Then
                 Return ChEBI_ID
             Else
-                Return $"{ChEBI_ID} ({FORMULA.Select(Function(f) f.CHEMICAL_DATA).JoinBy(" / ")})"
+                Return $"{ChEBI_ID} ({FORMULA.Select(Function(f) f.CHEMICAL_DATA).Distinct.JoinBy(" / ")})"
             End If
         End Function
     End Class
