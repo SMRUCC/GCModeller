@@ -28,6 +28,7 @@
 
 Imports System.IO, System.Net, System.Text
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -511,7 +512,7 @@ RETRY:          Dim json As String = __getResponse(request)
             End If
 
             Dim genomes As Data.Regprecise.WebServices.JSONLDM.genome()
-            Dim ErrLog As New Logging.LogFile($"{EXPORT}/{NameOf(wGetDownload)}.log")
+            Dim ErrLog As New LogFile($"{EXPORT}/{NameOf(wGetDownload)}.log")
             Dim path As String = $"{EXPORT}/{NameOf(genomes)}.xml"
 
             If Updates Then
@@ -533,7 +534,7 @@ RETRY:          Dim json As String = __getResponse(request)
         <ExportAPI("wget.Download")>
         Public Function wGetDownload(genomes As IEnumerable(Of JSONLDM.genome),
                                      repository As String,
-                                     ErrLog As Logging.LogFile,
+                                     ErrLog As LogFile,
                                      Optional disableRegulatorDownloads As Boolean = False) As Boolean
             Dim path As String = $"{repository}/{NameOf(genomes)}.xml"
 
@@ -550,7 +551,7 @@ RETRY:          Dim json As String = __getResponse(request)
         <ExportAPI("wget.Download")>
         Public Function wGetDownload(genome As genome,
                                      repository As String,
-                                     ErrLog As Logging.LogFile,
+                                     ErrLog As LogFile,
                                      Optional disableRegulatorDownloads As Boolean = False) As Boolean
             Dim Path As String = $"{repository}/{NameOf(Regprecise.regulons)}/{genome.genomeId}.{genome.name.NormalizePathString}.xml"
             Dim regulons As JSONLDM.regulon()
@@ -585,7 +586,7 @@ Download:       regulons = Regprecise.regulons(genome.genomeId)
         Public Sub wGetDownload(regulon As JSONLDM.regulon,
                                 genome As genome,
                                 repository As String,
-                                ErrLog As Logging.LogFile,
+                                ErrLog As LogFile,
                                 Optional disableRegulatorDownloads As Boolean = False)
 
             Dim regulators As JSONLDM.regulator()

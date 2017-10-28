@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -36,7 +37,6 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Logging
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
@@ -90,12 +90,12 @@ Namespace Compiler
             Dim LogFile As String = argvs("-logging")
 
             If Not String.IsNullOrEmpty(LogFile) Then
-                Me._Logging = New Logging.LogFile(LogFile)
+                Me._Logging = New LogFile(LogFile)
             Else
-                Me._Logging = New Logging.LogFile(My.Computer.FileSystem.SpecialDirectories.Temp & "/gcmodeller_compiler.log")
+                Me._Logging = New LogFile(My.Computer.FileSystem.SpecialDirectories.Temp & "/gcmodeller_compiler.log")
             End If
 
-            Call Me._Logging.WriteLine(argvs.GetCommandsOverview, "CSV_COMPILER::PRE_COMPILE", Type:=Logging.MSG_TYPES.INF)
+            Call Me._Logging.WriteLine(argvs.GetCommandsOverview, "CSV_COMPILER::PRE_COMPILE", Type:=MSG_TYPES.INF)
             Call __Initialize_MetaCyc(DatabaseLoadder.CreateInstance(argvs("-metacyc")))
 
             MyBase.CompiledModel = New CellSystemXmlModel
@@ -399,7 +399,7 @@ Namespace Compiler
             If Gene Is Nothing Then
                 Call Me._Logging.WriteLine(String.Format("Could not found Metacyc gene for {0}", UniqueId),
                                            "GenerateCompositionVectors(Transcripts As FileStream.Transcript())",
-                                           Microsoft.VisualBasic.Logging.MSG_TYPES.WRN)
+                                           MSG_TYPES.WRN)
                 UniqueId = FsaObject.AccessionId
             Else
                 UniqueId = Gene.Accession1
@@ -418,7 +418,7 @@ Namespace Compiler
             If LQuery.IsNullOrEmpty Then
                 Call Me._Logging.WriteLine(String.Format("Could not found Metacyc protein for {0}", UniqueId),
                                            "GenerateCompositionVectors(Transcripts As FileStream.Transcript())",
-                                           Type:=Logging.MSG_TYPES.WRN)
+                                           Type:=MSG_TYPES.WRN)
                 UniqueId = FsaObject.UniqueId
             Else
                 UniqueId = LQuery.First
@@ -444,7 +444,7 @@ Namespace Compiler
                 Else
                     Call Me._Logging.WriteLine(String.Format("{0}, Gene sequence not found!", AccessionId),
                                                "GenerateCompositionVectors(Transcripts As FileStream.Transcript())",
-                                               Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                                               MSG_TYPES.ERR)
                 End If
                 If Not ProteinSequence.IsNullOrEmpty Then
                     TranscriptObject.PolypeptideCompositionVector = SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptides.GetCompositionVector(ProteinSequence.First.Value)

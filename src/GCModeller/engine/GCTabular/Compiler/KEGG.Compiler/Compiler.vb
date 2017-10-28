@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::f5e14349c0680311fd4eaf54cc533aca, ..\GCModeller\engine\GCTabular\Compiler\KEGG.Compiler\Compiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
@@ -43,6 +44,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Model.Network.STRING.Models
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.Model.SBML
+Imports LogClient = Microsoft.VisualBasic.ApplicationServices.Debugging.Logging.LogFile
 
 Namespace KEGG.Compiler
 
@@ -75,9 +77,9 @@ Namespace KEGG.Compiler
             Dim LogFile As String = argvs("-logging")
 
             If Not String.IsNullOrEmpty(LogFile) Then
-                Me._Logging = New Logging.LogFile(LogFile, True) With {.SuppressError = False, .SuppressWarns = False, .ColorfulOutput = False}
+                Me._Logging = New LogFile(LogFile, True) With {.SuppressError = False, .SuppressWarns = False, .ColorfulOutput = False}
             Else
-                Me._Logging = New Logging.LogFile(String.Format("{0}/gcmodeller_kegg.compiler__{1}.log", Settings.LogDIR, Logging.LogFile.NowTimeNormalizedString), True) With {
+                Me._Logging = New LogFile(String.Format("{0}/gcmodeller_kegg.compiler__{1}.log", Settings.LogDIR, LogClient.NowTimeNormalizedString), True) With {
                     .SuppressError = False,
                     .SuppressWarns = False,
                     .ColorfulOutput = False
@@ -232,7 +234,7 @@ Namespace KEGG.Compiler
                                        String.Equals(item.Value.Identifier, CM.ModelId)
                                    Select item).ToArray '首先通过MetaCyc编号来查找对象
                 If Metabolites.IsNullOrEmpty Then
-                    Call _Logging.WriteLine(String.Format("Could not found the link for the mapping: {0}, this may cause the error in the GCModeller initialize....!", CM.ToString), "Link()", Type:=Logging.MSG_TYPES.WRN)
+                    Call _Logging.WriteLine(String.Format("Could not found the link for the mapping: {0}, this may cause the error in the GCModeller initialize....!", CM.ToString), "Link()", Type:=MSG_TYPES.WRN)
                     Call _ModelIO.MetabolitesModel.Add(CM.ModelId, New FileStream.Metabolite With {.Identifier = CM.ModelId, .InitialAmount = 10, .CommonNames = {CM.ConstraintId}})
                     Call _Logging.WriteLine("TRY_FIX_LINK_ERROR::added " & CM.ToString)
                 Else
@@ -365,14 +367,14 @@ Namespace KEGG.Compiler
             Call _Logging.WriteLine(argvs.GetCommandsOverview)
 
             If Not required.IsNullOrEmpty Then
-                Call _Logging.WriteLine(String.Format("These required parameter ""{0}"" is missing!", String.Join(",", required)), head, Logging.MSG_TYPES.WRN, True)
+                Call _Logging.WriteLine(String.Format("These required parameter ""{0}"" is missing!", String.Join(",", required)), head, MSG_TYPES.WRN, True)
                 Return False
             Else
                 Return True
             End If
         End Function
 
-        Private Shared Function LoadReactionModel(path As String, LogFile As Logging.LogFile) As bGetObject.Reaction
+        Private Shared Function LoadReactionModel(path As String, LogFile As LogFile) As bGetObject.Reaction
             Dim XmlModel = path.LoadXml(Of bGetObject.Reaction)()
             If XmlModel Is Nothing Then
                 Call LogFile.WriteLine(String.Format("[DEBUG::XML_MODEL_IS_NULL] {0}", path), "CARMEN->LoadReactionModel()") '似乎CARMEN软件所使用的KEGG数据库的版本和KEGG数据库网站上的版本不一致，故而会导致这个错误，在这里只能尽量忽略这种错误
@@ -439,7 +441,7 @@ Namespace KEGG.Compiler
         End Function
 
         <ExportAPI("get.logs")>
-        Public Shared Function get_LogsData(compiler As Compiler) As Microsoft.VisualBasic.Logging.LogFile
+        Public Shared Function get_LogsData(compiler As Compiler) As LogFile
             Return compiler._Logging
         End Function
 #End Region

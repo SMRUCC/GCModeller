@@ -1,5 +1,5 @@
 ﻿Imports System.Drawing
-Imports System.Reflection
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Runtime.DeviceDriver.DriverHandles
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Runtime.Exceptions
 
@@ -38,11 +38,11 @@ Namespace Runtime.DeviceDriver
                 {GetType(String()), AddressOf IODeviceDriver.WriteTextCollection},
                 {GetType(Image), AddressOf IODeviceDriver.WriteImageFile},
                 {GetType(Bitmap), AddressOf IODeviceDriver.WriteBitmapFile},
-                {GetType(Microsoft.VisualBasic.Logging.LogFile), AddressOf IODeviceDriver.SaveLogFile},
+                {GetType(LogFile), AddressOf IODeviceDriver.SaveLogFile},
                 {GetType(Byte), Function(byt As Object, path As String) {DirectCast(byt, Byte)}.FlushStream(path)}}
         End Sub
 
-        Private Shared Function SaveLogFile(log As Microsoft.VisualBasic.Logging.LogFile, path As String) As Boolean
+        Private Shared Function SaveLogFile(log As LogFile, path As String) As Boolean
             Return log.Save(path)
         End Function
 
