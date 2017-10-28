@@ -187,7 +187,7 @@ Namespace EngineSystem.ObjectModels.Entity
                 Call LoggingClient.WriteLine(String.Format("Try to fix this error: insert new metabolite {0} into the metabolism system!", ModelBase.Identifier), "", Type:=MSG_TYPES.WRN)
                 MetaboliteBases = Metabolism.InsertNewMetabolite(ModelBase.Identifier)
                 If Not MetaboliteBases Is Nothing Then
-                    Call LoggingClient.WriteLine(String.Format("ERROR for the metabolite {0} is empty fixed successfully!", ModelBase.Identifier), "", Type:=MSG_TYPES.INF, WriteToScreen:=False)
+                    Call LoggingClient.WriteLine(String.Format("ERROR for the metabolite {0} is empty fixed successfully!", ModelBase.Identifier), "", Type:=MSG_TYPES.INF)
                 End If
             End If
 
