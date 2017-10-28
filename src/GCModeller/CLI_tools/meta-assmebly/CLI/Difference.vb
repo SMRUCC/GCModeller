@@ -109,7 +109,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/heatmap.plot")>
-    <Usage("/heatmap.plot /in <data.csv> /groups <sampleInfo.csv> [/tsv /group /title <title> /size <2700,3000> /out <out.DIR>]")>
+    <Usage("/heatmap.plot /in <data.csv> /groups <sampleInfo.csv> [/schema <default=YlGnBu:c9> /tsv /group /title <title> /size <2700,3000> /out <out.DIR>]")>
     Public Function HeatmapPlot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim group$ = args <= "/groups"
@@ -154,12 +154,14 @@ Partial Module CLI
                 .ToArray
         End If
 
+        Dim schema$ = (args <= "/schema") Or ColorBrewer.SequentialSchemes.YlGnBu9.AsDefault
+
         Return Heatmap.Plot(matrix,
                             size:=size,
                             drawScaleMethod:=DrawElements.Rows,
                             min:=0,
                             colLabelFontStyle:=CSSFont.Win7LittleLarge,
-                            mapName:=ColorBrewer.SequentialSchemes.YlGnBu9,
+                            mapName:=schema,
                             drawClass:=(Nothing, groupColors),
                             mainTitle:=title) _
             .Save(out) _
