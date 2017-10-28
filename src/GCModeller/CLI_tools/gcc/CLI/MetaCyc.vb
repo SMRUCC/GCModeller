@@ -1,35 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::3a7af7c5e3a105967d47d5bf3064cb8e, ..\CLI_tools\gcc\CLI\MetaCyc.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
@@ -55,11 +55,10 @@ Public Module CLI
     Public Function CompileMetaCyc(CommandLine As Microsoft.VisualBasic.CommandLine.CommandLine) As Integer
         Dim input As String = CommandLine("-i")
         Dim output As String = CommandLine("-o")
-        Dim LogFile As Microsoft.VisualBasic.Logging.LogFile =
-            New Microsoft.VisualBasic.Logging.LogFile($"{Settings.LogDIR}/gcc_{Now.ToNormalizedPathString}.log")
+        Dim LogFile As New LogFile($"{Settings.LogDIR}/gcc_{Now.ToNormalizedPathString}.log")
 
         If String.IsNullOrEmpty(input) Then
-            LogFile.WriteLine("Could not load metacyc database, value of the parameter ""-i"" is empty!", "gcc_main() -> compile_metacyc", Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+            LogFile.WriteLine("Could not load metacyc database, value of the parameter ""-i"" is empty!", "gcc_main() -> compile_metacyc", MSG_TYPES.ERR)
             LogFile.SaveLog()
             Return -1
         End If
@@ -67,10 +66,10 @@ Public Module CLI
         If String.IsNullOrEmpty(output) Then
             output = My.Application.Info.DirectoryPath & "/" & input.Replace("\", "/").Split.Last & ".xml"
             LogFile.WriteLine(String.Format("User not specific the output file for the compiled model, the compiled model file will be save to location:{0}  ""{1}""", vbCrLf, output),
-                              "gcc_main() -> compile_metacyc", Microsoft.VisualBasic.Logging.MSG_TYPES.WRN)
+                              "gcc_main() -> compile_metacyc", MSG_TYPES.WRN)
         End If
 
-        LogFile.WriteLine(String.Format("Start to compile metacyc database:{0}  ""{1}""", vbCrLf, input), "gcc_main() -> compile_metacyc", Microsoft.VisualBasic.Logging.MSG_TYPES.INF)
+        LogFile.WriteLine(String.Format("Start to compile metacyc database:{0}  ""{1}""", vbCrLf, input), "gcc_main() -> compile_metacyc", MSG_TYPES.INF)
 
         Dim TagFilters = (From Filter In Settings.SettingsFile.Gcc.Filters.ToArray Select New Escaping With {
                                                                                        .Original = Filter.NewReplaced, .Escape = Filter.Old}).ToArray

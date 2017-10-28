@@ -1,34 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::c5daaf6c229d73bebab48ced5eb28237, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\vbc\DynamicCompiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text
 Imports System.CodeDom.Compiler
-
+Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.Extensions
 
 Namespace Framework.DynamicCode.VBC
@@ -87,7 +87,7 @@ Namespace Framework.DynamicCode.VBC
             DynamicCodeNameSpace.Imports.AddRange(ImportsNamespace)
             ObjectModel = DynamicCodeNameSpace
 
-            Call SystemReference.SystemLogging.WriteLine(vbCrLf & "Trigger scripts DEBUG information:" & vbCrLf & vbCrLf & vbCrLf & GenerateCode(DynamicCodeNameSpace), "vbc_debug --> Dynamic compiled code()", Type:=Logging.MSG_TYPES.INF)
+            Call SystemReference.SystemLogging.WriteLine(vbCrLf & "Trigger scripts DEBUG information:" & vbCrLf & vbCrLf & vbCrLf & GenerateCode(DynamicCodeNameSpace), "vbc_debug --> Dynamic compiled code()", Type:=MSG_TYPES.INF)
 
             Return Assembly
         End Function
@@ -148,7 +148,7 @@ Namespace Framework.DynamicCode.VBC
         ''' <remarks></remarks>
         Public Shared Function Compile(ObjectModel As CodeDom.CodeCompileUnit, Reference As String(), DotNETReferenceAssembliesDir As String,
                                        Optional CodeStyle As String = "VisualBasic",
-                                       Optional SystemLogging As Microsoft.VisualBasic.Logging.LogFile = Nothing) _
+                                       Optional SystemLogging As LogFile = Nothing) _
             As System.Reflection.Assembly
 
             Dim CodeDomProvider As CodeDom.Compiler.CodeDomProvider = CodeDom.Compiler.CodeDomProvider.CreateProvider(CodeStyle)
@@ -177,8 +177,8 @@ Namespace Framework.DynamicCode.VBC
             Dim Compiled = CodeDomProvider.CompileAssemblyFromDom(Options, ObjectModel)
 
             If Not SystemLogging Is Nothing Then
-                Call SystemLogging.WriteLine(Options.CompilerOptions, "vbc_debug ==> Options.CompilerOptions()", Type:=Logging.MSG_TYPES.INF)
-                Call SystemLogging.WriteLine(GetDebugInformation(Compiled), "vbc_debug", Type:=Logging.MSG_TYPES.INF)
+                Call SystemLogging.WriteLine(Options.CompilerOptions, "vbc_debug ==> Options.CompilerOptions()", Type:=MSG_TYPES.INF)
+                Call SystemLogging.WriteLine(GetDebugInformation(Compiled), "vbc_debug", Type:=MSG_TYPES.INF)
             End If
 
             Return Compiled.CompiledAssembly
