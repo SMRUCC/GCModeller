@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.Model.SBML
@@ -43,7 +44,7 @@ Namespace Compiler.Components
         Public Sub Analysis(ByRef Metabolites As Dictionary(Of FileStream.Metabolite),
                             MetaCyc As DatabaseLoadder,
                             Model As FileStream.IO.XmlresxLoader,
-                            Logging As Logging.LogFile)
+                            Logging As LogFile)
 
             Dim SBML As Level2.XmlFile = Level2.XmlFile.Load(MetaCyc.SBMLMetabolismModel)
 

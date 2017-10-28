@@ -1,32 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::ad27ec5139aded45239a931636adac5e, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\ExpressionSystem\ExpressionRegulationNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.GCModeller.Assembly
@@ -196,7 +196,7 @@ Namespace EngineSystem.ObjectModels.SubSystem.ExpressionSystem
         ''' <remarks></remarks>
         Public Sub SetupMutation(UniqueID As String, Factor As Double)
             If Factor < 0 Then
-                Call MyBase.SystemLogging.WriteLine(String.Format("Factor could not be set negative!  {0} -> {1}x", UniqueID, Factor), "Expression_Network_Initialize_Mutation()", Type:=Logging.MSG_TYPES.ERR)
+                Call MyBase.SystemLogging.WriteLine(String.Format("Factor could not be set negative!  {0} -> {1}x", UniqueID, Factor), "Expression_Network_Initialize_Mutation()", Type:=MSG_TYPES.ERR)
                 Return
             End If
 

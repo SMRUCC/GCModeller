@@ -1,38 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::a2bc77592a6eb28a479c4c699428f94c, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\GCModeller.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Extensions
-Imports Microsoft.VisualBasic.Logging
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.MemoryDump
 Imports SMRUCC.genomics.ComponentModel
@@ -149,7 +148,7 @@ Namespace EngineSystem.Engine
             Call Me._CultivatingMediums.Initialize()
             Call KernelModule.Initialize()
 
-            Call Me._SystemLogging.WriteLine(" ===========================*** Start to Initializing the rumtime enviroment... ***====================================", "Modeller -> Initializer()", Type:=Logging.MSG_TYPES.INF)
+            Call Me._SystemLogging.WriteLine(" ===========================*** Start to Initializing the rumtime enviroment... ***====================================", "Modeller -> Initializer()", Type:=MSG_TYPES.INF)
 
             '  Me._SystemLogging.SuppressWarns = String.Equals(Me.System_argvs("-suppress_warn"), "T", StringComparison.OrdinalIgnoreCase)
             ' Me._SystemLogging.SuppressError = String.Equals(Me.System_argvs("-suppress_error"), "T", StringComparison.OrdinalIgnoreCase)
@@ -161,19 +160,19 @@ Namespace EngineSystem.Engine
             Me.ShellScriptDevie = New ShellScript(Me)
 
             Call Me.SystemActivityRecordList.Add(New String() {"#TIME", "Transcription", "Translation", "Metabolism", "SUM()", "pH", "SignalTransductionNetwork"})
-            Call Me._SystemLogging.WriteLine("  =====>  Initialize experiment system...", "Modeller -> Initializer()", Type:=Logging.MSG_TYPES.INF)
+            Call Me._SystemLogging.WriteLine("  =====>  Initialize experiment system...", "Modeller -> Initializer()", Type:=MSG_TYPES.INF)
             Call Me.ExperimentSystem.LoadExperimentData(KernelProfile.ExperimentData)
-            Call Me._SystemLogging.WriteLine("  =====>  Initialize data acquisition service...", "Modeller -> Initializer()", Type:=Logging.MSG_TYPES.INF)
+            Call Me._SystemLogging.WriteLine("  =====>  Initialize data acquisition service...", "Modeller -> Initializer()", Type:=MSG_TYPES.INF)
             Call Me.DataAcquisitionService.Join(KernelModule.CreateServiceSerials)
             Call Me.DataAcquisitionService.Join(CultivatingMediums.CreateServiceSerials)
-            Call Me._SystemLogging.WriteLine("  =====>  Initialize cultivation mediums system...", "Modeller -> Initializer()", Type:=Logging.MSG_TYPES.INF)
+            Call Me._SystemLogging.WriteLine("  =====>  Initialize cultivation mediums system...", "Modeller -> Initializer()", Type:=MSG_TYPES.INF)
             Call Me._CultivatingMediums.Add(KernelModule)
             Call Me.DataAcquisitionService.Initialize()
             Call Me.ExperimentSystem.Initialize()
             Call Me.ShellScriptDevie.Initialize()
 
-            Call Me._SystemLogging.WriteLine("  =====>  Enviroment Initializing complete!", "Modeller -> Initializer()", Type:=Logging.MSG_TYPES.INF)
-            Call Me._SystemLogging.WriteLine("  <<<<<<  Back to the main thread!", "Modeller -> Initializer()", Type:=Logging.MSG_TYPES.INF)
+            Call Me._SystemLogging.WriteLine("  =====>  Enviroment Initializing complete!", "Modeller -> Initializer()", Type:=MSG_TYPES.INF)
+            Call Me._SystemLogging.WriteLine("  <<<<<<  Back to the main thread!", "Modeller -> Initializer()", Type:=MSG_TYPES.INF)
 
             Return -1
         End Function
@@ -185,7 +184,7 @@ Namespace EngineSystem.Engine
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function ConnectDataService(ServiceURL As String) As Integer
-            Call _SystemLogging.WriteLine("Setup the connection between the data acquisition service to the data storage service.", "connect_data_service()", Type:=Logging.MSG_TYPES.INF)
+            Call _SystemLogging.WriteLine("Setup the connection between the data acquisition service to the data storage service.", "connect_data_service()", Type:=MSG_TYPES.INF)
             Return DataAcquisitionService.Connect(ServiceURL)  '数据采集服务连接至数据存储服务
         End Function
 
@@ -207,9 +206,9 @@ Namespace EngineSystem.Engine
                 Next
 #If Not DEBUG Then
             Catch ex As Exception
-                Call _SystemLogging.WriteLine(ex.ToString, "GCModeller->RUN()", Type:=Logging.MSG_TYPES.ERR)
+                Call _SystemLogging.WriteLine(ex.ToString, "GCModeller->RUN()", Type:=MSG_TYPES.ERR)
                 Call _SystemLogging.WriteLine("------------------------------------------------------------------------------------------------------------")
-                Call _SystemLogging.WriteLine("A system crash has been detacted by GCModeller......", "", Type:=Logging.MSG_TYPES.INF)
+                Call _SystemLogging.WriteLine("A system crash has been detacted by GCModeller......", "", Type:=MSG_TYPES.INF)
 
                 GoTo EXIT_
             End Try
@@ -242,15 +241,15 @@ EXIT_:      Call DataAcquisitionService.CloseStorageService()
         ''' <param name="DumpFile"></param>
         ''' <remarks></remarks>
         Public Sub MemoryDump(DumpFile As String) Implements IContainerSystemRuntimeEnvironment.MemoryDump
-            Call Me.SystemLogging.WriteLine("Trying to create memory dump of GCModeller engine kernel for developer debugging.....", "GCModeller->MemoryDump()", Microsoft.VisualBasic.Logging.MSG_TYPES.INF)
+            Call Me.SystemLogging.WriteLine("Trying to create memory dump of GCModeller engine kernel for developer debugging.....", "GCModeller->MemoryDump()", MSG_TYPES.INF)
             Try
                 Call Me.KernelModule.MemoryDump(Dir:=DumpFile)
             Catch ex As Exception
-                Call _SystemLogging.WriteLine("Error occur while trying to create memory dump!", "MemoryDump(DumpFile As String)", Type:=Logging.MSG_TYPES.ERR)
-                Call _SystemLogging.WriteLine(ex.ToString, "MemoryDump(DumpFile As String)", Type:=Logging.MSG_TYPES.ERR)
+                Call _SystemLogging.WriteLine("Error occur while trying to create memory dump!", "MemoryDump(DumpFile As String)", Type:=MSG_TYPES.ERR)
+                Call _SystemLogging.WriteLine(ex.ToString, "MemoryDump(DumpFile As String)", Type:=MSG_TYPES.ERR)
                 Throw
             End Try
-            Call Me.SystemLogging.WriteLine("Memory dump was created at file location: """ & DumpFile & """!", "GCModeller->MemoryDump()", Microsoft.VisualBasic.Logging.MSG_TYPES.INF)
+            Call Me.SystemLogging.WriteLine("Memory dump was created at file location: """ & DumpFile & """!", "GCModeller->MemoryDump()", MSG_TYPES.INF)
         End Sub
 
         Public Overrides Function ToString() As String
@@ -263,7 +262,7 @@ EXIT_:      Call DataAcquisitionService.CloseStorageService()
         ''' <param name="ModelFile">The data model for the target modelling cell system.(所要执行模拟计算的目标细胞的数据模型)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function Load(ModelFile As String, LogFile As Microsoft.VisualBasic.Logging.LogFile, argvs As Microsoft.VisualBasic.CommandLine.CommandLine) As Engine.GCModeller
+        Public Shared Function Load(ModelFile As String, LogFile As LogFile, argvs As Microsoft.VisualBasic.CommandLine.CommandLine) As Engine.GCModeller
             Dim Model As BacterialModel =
                 Microsoft.VisualBasic.LoadXml(Of BacterialModel)(ModelFile)
             Dim EngineSystem = New GCModeller(Model) With {._SystemLogging = LogFile, .args = argvs}
@@ -310,7 +309,7 @@ EXIT_:      Call DataAcquisitionService.CloseStorageService()
             Call _CultivatingMediums.TICK()
             Call DataAcquisitionService.Tick(_RTime)
             Call ExperimentSystem.Tick(_RTime)
-            Call Me.SystemLogging.WriteLine(String.Format(" TICK()  TIME_LAST:={0}ms", stw.ElapsedMilliseconds), "gcmodeller -> ticker()", Type:=Logging.MSG_TYPES.INF, WriteToScreen:=Not Me.DataAcquisitionService._SuppressPeriodicMessage)
+            Call Me.SystemLogging.WriteLine(String.Format(" TICK()  TIME_LAST:={0}ms", stw.ElapsedMilliseconds), "gcmodeller -> ticker()", Type:=MSG_TYPES.INF, WriteToScreen:=Not Me.DataAcquisitionService._SuppressPeriodicMessage)
             Call Me.InternalRecordActivityStatus()
             Call Me.ShellScriptDevie.Tick(_RTime)
 
@@ -368,7 +367,7 @@ EXIT_:      Call DataAcquisitionService.CloseStorageService()
             End Get
         End Property
 
-        Public Sub ConnectLoggingClient(client As Microsoft.VisualBasic.Logging.LogFile)
+        Public Sub ConnectLoggingClient(client As LogFile)
             Me._SystemLogging = client
         End Sub
 

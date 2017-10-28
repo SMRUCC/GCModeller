@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::4c7d4018a46bae65bc83aa92dd38c307, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\ShellScript.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.Runtime
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 
 Namespace EngineSystem.Engine
 
@@ -95,7 +96,7 @@ Namespace EngineSystem.Engine
                 Dim f As Boolean = _Internal_EmbeddedScriptEngine.Exec(strLine.Value) = 0
                 If Not f Then '出错了
                     Call LoggingClient.WriteLine(String.Format("Error occur while execute the external mount shellscript ""{0}"", try ignore this error!", strLine.Key),
-                                                 "ShellScript -> Tick(KernelCycle As Integer)", Type:=Logging.MSG_TYPES.ERR)
+                                                 "ShellScript -> Tick(KernelCycle As Integer)", Type:=MSG_TYPES.ERR)
                 End If
             Next
 

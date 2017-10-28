@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::5176456a523811986e8137d8d95b660f, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\WebAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Regprecise.Regulator
 Imports SMRUCC.genomics.SequenceModel
 Imports Microsoft.VisualBasic.Text.HtmlParser
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 
 Namespace Regprecise
 
@@ -184,7 +185,7 @@ RE_DOWNLOAD:
                    Info:="Downloads the protein sequence of the regulators which is archives in Regprecise database.")>
         Public Function DownloadRegulatorSequence(Regprecise As TranscriptionFactors, DownloadDIR As String) As FASTA.FastaFile
             Dim FileData As FASTA.FastaFile = New FASTA.FastaFile
-            Using ErrLog As Logging.LogFile = New Logging.LogFile($"{DownloadDIR}/DownloadError_{Now.ToString.NormalizePathString}.log")
+            Using ErrLog As New LogFile($"{DownloadDIR}/DownloadError_{Now.ToString.NormalizePathString}.log")
                 For Each Bacteria As BacteriaGenome In Regprecise.BacteriaGenomes
                     Dim downloads = (From regulator As Regulator
                                      In Bacteria.Regulons.Regulators
@@ -200,7 +201,7 @@ RE_DOWNLOAD:
 
         Private Function __downloads(regulator As Regulator,
                                      genome As BacteriaGenome,
-                                     ErrLog As Logging.LogFile,
+                                     ErrLog As LogFile,
                                      DownloadDIR As String) As FASTA.FastaToken
 
             If regulator.Type = Regulator.Types.RNA Then
@@ -209,7 +210,7 @@ RE_DOWNLOAD:
 
             If String.IsNullOrEmpty(regulator.LocusTag.Key) Then
                 Dim exMsg As String = $"[null_LOCUS_ID] [Regulog={regulator.Regulog.Key}] [Bacteria={genome.BacteriaGenome.name}]" & vbCrLf
-                Call ErrLog.WriteLine(exMsg, "", Logging.MSG_TYPES.INF)
+                Call ErrLog.WriteLine(exMsg, "", MSG_TYPES.INF)
                 Return Nothing
             End If
 

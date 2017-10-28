@@ -1,36 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::fae88fa3e48003e11d04adcd9b97ceea, ..\GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\KEGGDownloader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports SMRUCC.genomics.SequenceModel
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Regprecise
 
@@ -56,7 +57,7 @@ Namespace Regprecise
         <ExportAPI("Regulator.Downloads")>
         Public Function RegulatorDownloads(Regulator As Regulator,
                                            Bacteria As BacteriaGenome,
-                                           ErrLog As Logging.LogFile,
+                                           ErrLog As LogFile,
                                            DownloadDirectory As String,
                                            FastaSaved As String) As FASTA.FastaToken
 
@@ -76,18 +77,18 @@ Namespace Regprecise
 
         <ExportAPI("Regulator.Downloads", Info:="Download a regulators' protein fasta sequence using the gene's locus tag")>
         Public Function RegulatorDownloads(locusTag As String,
-                                           ErrLog As Logging.LogFile,
-                                           <Parameter("Err.Trace.Bacteria")> Optional bacteria As String = "") As SMRUCC.genomics.SequenceModel.FASTA.FastaToken
+                                           ErrLog As LogFile,
+                                           <Parameter("Err.Trace.Bacteria")> Optional bacteria As String = "") As FastaToken
             Dim EntryList = WebRequest.HandleQuery(locusTag)
             If EntryList.IsNullOrEmpty Then
                 Dim Msg = String.Format("[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={0}] [Bacteria={1}]", locusTag, bacteria)
-                Call ErrLog.WriteLine(Msg, NameOf(RegulatorDownloads), Logging.MSG_TYPES.DEBUG)
+                Call ErrLog.WriteLine(Msg, NameOf(RegulatorDownloads), MSG_TYPES.DEBUG)
                 Return Nothing
             End If
             EntryList = (From item In EntryList Where String.Equals(locusTag, item.LocusId, StringComparison.OrdinalIgnoreCase) Select item).ToArray
             If EntryList.IsNullOrEmpty Then
                 Dim Msg = String.Format("[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={0}] [Bacteria={1}]", locusTag, bacteria)
-                Call ErrLog.WriteLine(Msg, NameOf(RegulatorDownloads), Logging.MSG_TYPES.DEBUG)
+                Call ErrLog.WriteLine(Msg, NameOf(RegulatorDownloads), MSG_TYPES.DEBUG)
                 Return Nothing
             End If
 
@@ -96,7 +97,7 @@ Namespace Regprecise
 
             If FastaObject Is Nothing Then
                 Dim Msg = String.Format("[KEGG_DATA_NOT_FOUND] [Query_LocusTAG={0}] [Bacteria={1}] KEGG not sure the object is a protein.", locusTag, bacteria)
-                Call ErrLog.WriteLine(Msg, NameOf(RegulatorDownloads), Logging.MSG_TYPES.DEBUG)
+                Call ErrLog.WriteLine(Msg, NameOf(RegulatorDownloads), MSG_TYPES.DEBUG)
                 Return Nothing
             End If
 
@@ -104,8 +105,8 @@ Namespace Regprecise
         End Function
 
         <ExportAPI("Regulator.Downloads")>
-        Public Function RegulatorDownloads(Regulator As Regprecise.WebServices.JSONLDM.regulator, ErrLog As Logging.LogFile) As Regprecise.FastaReaders.Regulator
-            Dim Fasta As FASTA.FastaToken = RegulatorDownloads(Regulator.locusTag, ErrLog, Regulator.ToString)
+        Public Function RegulatorDownloads(Regulator As Regprecise.WebServices.JSONLDM.regulator, ErrLog As LogFile) As Regprecise.FastaReaders.Regulator
+            Dim Fasta As FastaToken = RegulatorDownloads(Regulator.locusTag, ErrLog, Regulator.ToString)
             If Fasta Is Nothing Then
                 Return Nothing
             End If

@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::7106d428a8386f43b2f425e1e48a8931, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\MetabolismSystem\DelegateSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.MathematicsModels.EnzymeKinetics
@@ -96,7 +97,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                                               EnzymeKinetics As MathematicsModels.EnzymeKinetics.MichaelisMenten,
                                               Metabolites As Entity.Compound(),
                                               MetabolismEnzymes As EngineSystem.ObjectModels.Feature.MetabolismEnzyme(),
-                                              _LoggingClient As Logging.LogFile) As ObjectModels.Module.MetabolismFlux
+                                              _LoggingClient As LogFile) As ObjectModels.Module.MetabolismFlux
 
             If Model.IsEnzymaticMetabolismFlux Then
                 Dim LQuery = (From EnzymeId In Model.Enzymes
@@ -106,7 +107,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
 
                 If LQuery.Count <> Model.Enzymes.Count OrElse LQuery.Count = 0 Then  '说明数据有问题
                     Call _LoggingClient.WriteLine("[ENZYME/FLUX_OBJECT_NOT_FOUND]  Generated enzymatic reaction count is not match with the enzyme counts in the datamodel, the data maybe broken!" & vbCrLf &
-                                                  "Check for the data of metabolism flux object:  " & Model.Identifier, "" & vbCrLf & "Try to ignore this error!", Type:=Logging.MSG_TYPES.ERR)
+                                                  "Check for the data of metabolism flux object:  " & Model.Identifier, "" & vbCrLf & "Try to ignore this error!", Type:=MSG_TYPES.ERR)
                 End If
                 Return ObjectModels.Module.EnzymaticFlux.CreateObject(Model, LQuery, EnzymeKinetics, Metabolites)
             Else

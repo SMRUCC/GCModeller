@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::8b6a4a48146a49c05a6b0c8f8c85b6e4, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\vbc\Prefix.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 ''' <summary>
@@ -60,11 +61,11 @@ Public Class Prefix
             Try
                 Call FileIO.FileSystem.CreateDirectory(Dir)
             Catch ex As Exception
-                Call EngineKernel.SystemLogging.WriteLine(String.Format("Could not create directory at location ""{0}""{1}{2}", Dir, vbCrLf, ex.ToString), "MemoryDump(ARGV As String) As Action", Type:=Logging.MSG_TYPES.ERR)
+                Call EngineKernel.SystemLogging.WriteLine(String.Format("Could not create directory at location ""{0}""{1}{2}", Dir, vbCrLf, ex.ToString), "MemoryDump(ARGV As String) As Action", Type:=MSG_TYPES.ERR)
                 Dir = Settings.DataCache
             End Try
 
-            Dim Action As Action = Sub() Call EngineKernel.MemoryDump(String.Format("{0}/MEMORY_DUMP_{1}/", Dir, Logging.LogFile.NowTimeNormalizedString))
+            Dim Action As Action = Sub() Call EngineKernel.MemoryDump(String.Format("{0}/MEMORY_DUMP_{1}/", Dir, LogFile.NowTimeNormalizedString))
 #If DEBUG Then
             Action = Sub() Console.WriteLine("Trigger Start!")
 #End If

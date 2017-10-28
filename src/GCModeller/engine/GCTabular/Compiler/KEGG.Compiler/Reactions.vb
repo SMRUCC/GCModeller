@@ -28,10 +28,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml.Nodes
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
@@ -71,7 +71,7 @@ Namespace KEGG.Compiler
                                       ModelLoader As FileStream.IO.XmlresxLoader,
                                       ReactionsDownloads As String,
                                       CompoundsDownloads As String,
-                                      Logging As Logging.LogFile) As List(Of FileStream.MetabolismFlux)
+                                      Logging As LogFile) As List(Of FileStream.MetabolismFlux)
 
             Dim Models = KEGGReactions.ToDictionary(Function(item As Reaction) item.Entry)
             Dim CARMEN = SMRUCC.genomics.Interops.CARMEN.Merge(CARMEN_DIR, EnzymaticOnly:=True)
@@ -119,11 +119,10 @@ Namespace KEGG.Compiler
                                       MetaCyc As SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder,
                                       Sbml As Level2.XmlFile,
                                       CompoundsDownloads As String,
-                                      ReactionDownloads As String, Logging As Logging.LogFile) _
+                                      ReactionDownloads As String, Logging As LogFile) _
             As List(Of FileStream.MetabolismFlux)
 
-            Dim Reactions As Dictionary(Of String, KeyValuePair(Of List(Of String), SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction)) =
-                New Dictionary(Of String, KeyValuePair(Of List(Of String), SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction))
+            Dim Reactions As New Dictionary(Of String, KeyValuePair(Of List(Of String), SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction))
             Dim i As Integer
             Dim MetaCycEnzymaticsReactions = MetaCyc.GetReactions.getECDictionary
             Dim SbmlModels = Sbml.Model.listOfReactions.ToDictionary(Function(item As Level2.Elements.Reaction) item.id)
@@ -200,7 +199,7 @@ Namespace KEGG.Compiler
                                                        Sbml As Dictionary(Of String, Level2.Elements.Reaction),
                                                        Metabolites As Dictionary(Of String, FileStream.Metabolite),
                                                        DownloadDir As String,
-                                                       ByRef DownloadList As List(Of FileStream.Metabolite), Logging As Logging.LogFile) _
+                                                       ByRef DownloadList As List(Of FileStream.Metabolite), Logging As LogFile) _
             As FileStream.MetabolismFlux()
 
             Dim TempList = DownloadList
@@ -224,7 +223,7 @@ Namespace KEGG.Compiler
                                        Metabolites As Dictionary(Of String, FileStream.Metabolite),
                                        Enzymes As IEnumerable(Of String),
                                        DownloadDir As String,
-                                       ByRef DownloadList As List(Of FileStream.Metabolite), Logging As Logging.LogFile) As FileStream.MetabolismFlux
+                                       ByRef DownloadList As List(Of FileStream.Metabolite), Logging As LogFile) As FileStream.MetabolismFlux
             Dim fluxModel As FileStream.MetabolismFlux = New FileStream.MetabolismFlux With {
                 .Identifier = Model.Entry,
                 .CommonName = Model.Comments

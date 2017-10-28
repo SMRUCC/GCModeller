@@ -1,35 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::7f1b7488854679f9b0ffe52796fd54c6, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\ManageSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Logging
 
 Namespace EngineSystem.Services.DataAcquisition
 
@@ -50,7 +49,7 @@ Namespace EngineSystem.Services.DataAcquisition
         Dim DumpDataTrigger As DumpData
         Protected Friend _SuppressPeriodicMessage As Boolean = False
 
-        Protected Friend ReadOnly Property SystemLogging As Logging.LogFile
+        Protected Friend ReadOnly Property SystemLogging As LogFile
             Get
                 Return Kernel.SystemLogging
             End Get
@@ -116,7 +115,7 @@ Namespace EngineSystem.Services.DataAcquisition
                 Call Me.SystemLogging.WriteLine("Data storage service pointer to a mysql service.", "data_manage -> connect(data_storage_service_url)")
                 If TestMySQL(Url) = False Then
                     Call Me.SystemLogging.WriteLine("MySQL connection test failure, operation abort!", "data_manage -> connect(data_storage_service_url)",
-                                      Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                                      MSG_TYPES.ERR)
                     Return -1
                 End If
 
@@ -138,7 +137,7 @@ Namespace EngineSystem.Services.DataAcquisition
                     Call Me.SystemLogging.WriteLine("[OUT_OF_MEMORY_EXCEPTION_WARNING]  gchost have detected that the running bacterial model is much larger than the gchost program running on a 32 bit platform could handle!" & vbCrLf &
                                       "please consider using the mysql database as storage service, or you may encounter an out of memory exception at later on this 32 bit platform.",
                                       "data_manage -> connect(data_storage_service_url)",
-                                      Microsoft.VisualBasic.Logging.MSG_TYPES.WRN)
+                                      MSG_TYPES.WRN)
                 End If
 
                 Call FileIO.FileSystem.CreateDirectory(directory:=Url)
@@ -153,7 +152,7 @@ Namespace EngineSystem.Services.DataAcquisition
 
             Dim ServiceInitializeLQuery = (From ServiceInstance As IDataAcquisitionService In Me.DataAcquisitionServices Select ServiceInstance.Initialize).ToArray
 
-            Call Me.SystemLogging.WriteLine("[End of function]::ManageSystem->connect()", "ManagementSystem", Logging.MSG_TYPES.INF)
+            Call Me.SystemLogging.WriteLine("[End of function]::ManageSystem->connect()", "ManagementSystem", MSG_TYPES.INF)
 
             Return 0
         End Function
