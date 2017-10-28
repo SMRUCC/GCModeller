@@ -1,35 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::006c6f34f3ff78ea30106906f00e33ce, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\Run.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.Terminal.STDIO
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration
-Imports Microsoft.VisualBasic.Logging
 
 Namespace EngineSystem.Engine
 
@@ -56,12 +54,8 @@ Namespace EngineSystem.Engine
             Sub New(ExternalModuleRegistry As PlugIns.ModuleRegistry, CommandLine As CommandLine.CommandLine, Configuration As Engine.Configuration.Configurations)
                 Me._configurationsData = New Configuration.ConfigReader(Configuration)
                 Me.ModelFile = CommandLine("-i")
-                Me.Logging = New Microsoft.VisualBasic.Logging.LogFile(
-                    Path:=Settings.LogDIR & String.Format("GCModeller__{0}_{1}.log", FileIO.FileSystem.GetFileInfo(ModelFile).Name.ToUpper, Microsoft.VisualBasic.Logging.LogFile.NowTimeNormalizedString))
-                Me.Logging.ColorfulOutput = String.Equals(CommandLine("-color_message").ToUpper, "T")
-
-                Me.Logging.SuppressError = _configurationsData.SuppressErrorMessage
-                Me.Logging.SuppressWarns = _configurationsData.SuppressWarnMessage
+                Me.Logging = New LogFile(
+                    Path:=Settings.LogDIR & String.Format("GCModeller__{0}_{1}.log", FileIO.FileSystem.GetFileInfo(ModelFile).Name.ToUpper, LogFile.NowTimeNormalizedString))
 
                 GCModellerCommons.LoggingClient = Logging
 
@@ -111,11 +105,11 @@ Namespace EngineSystem.Engine
 
             Private Function CheckArguments() As Integer
                 If String.IsNullOrEmpty(ModelFile) Then
-                    Logging.WriteLine("User not specific the model file, could not start the calculation!", "gchost -> main()", Type:=Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                    Logging.WriteLine("User not specific the model file, could not start the calculation!", "gchost -> main()", Type:=MSG_TYPES.ERR)
                     Logging.Save()
                     Return -1
                 ElseIf Not FileIO.FileSystem.FileExists(ModelFile) Then
-                    Logging.WriteLine(String.Format("Could not start the modelling engine, operation aborted! (_FILE_NOT_FOUND_ ""{0}"")", ModelFile), "gchost -> main()", Type:=Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                    Logging.WriteLine(String.Format("Could not start the modelling engine, operation aborted! (_FILE_NOT_FOUND_ ""{0}"")", ModelFile), "gchost -> main()", Type:=MSG_TYPES.ERR)
                     Logging.Save()
                     Return -2
                 End If
@@ -123,7 +117,7 @@ Namespace EngineSystem.Engine
                 If String.IsNullOrEmpty(Me._configurationsData.DataStorageURL.Value) Then
                     Logging.WriteLine("Data storage connection url string was not specific by user, could not initialize the data acquisition service.",
                                   "gchost -> main()",
-                                  Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                                  MSG_TYPES.ERR)
                     Return -3
                 End If
 
@@ -135,7 +129,7 @@ Namespace EngineSystem.Engine
                 Call EngineKernel.Initialize()   '对整个计算引擎做最基本的初始化操作
 
                 If EngineKernel.ConnectDataService(ServiceURL:=Me._configurationsData.DataStorageURL.Value) < 0 Then
-                    Logging.WriteLine("ERROR in connect to the data storage service.", "gchost -> main()", Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                    Logging.WriteLine("ERROR in connect to the data storage service.", "gchost -> main()", MSG_TYPES.ERR)
                     Return -11
                 Else
                     Logging.WriteLine("Modeller engine connect to data storage service successfully!", "gchost -> main()")
@@ -169,7 +163,7 @@ Namespace EngineSystem.Engine
                 Dim SuccessFlag As Integer = Me.CheckArguments
 
                 If SuccessFlag Then
-                    Call Logging.WriteLine("INITIALIZE_ARGUMENTS_ERROR, program terminated!", "", Type:=Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                    Call Logging.WriteLine("INITIALIZE_ARGUMENTS_ERROR, program terminated!", "", Type:=MSG_TYPES.ERR)
                     Call Logging.Save()
                     Return Nothing
                 End If
@@ -189,7 +183,7 @@ Namespace EngineSystem.Engine
                     ModellerEngine.KernelProfile = Me._configurationsData
                     SuccessFlag = Me.InitializeKernel(EngineKernel:=ModellerEngine)
                 Catch ex As Exception
-                    Call Logging.WriteLine("Engine kernel was not success initialize due to an unexpected exception:" & vbCrLf & ex.ToString, "", Type:=Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                    Call Logging.WriteLine("Engine kernel was not success initialize due to an unexpected exception:" & vbCrLf & ex.ToString, "", Type:=MSG_TYPES.ERR)
                     Call Logging.WriteLine("INITIALIZE_ENGINE_KERNEL_NOT_SUCCESSFUL, gchost program exit.", "gchost -> main()")
                     Call Logging.Save()
                     Throw
@@ -217,7 +211,7 @@ Namespace EngineSystem.Engine
                 Return -1
             End If
 
-            Dim Logging As Microsoft.VisualBasic.Logging.LogFile = ModellerEngine.SystemLogging
+            Dim Logging As LogFile = ModellerEngine.SystemLogging
 
             Logging.WriteLine("Start gcmodeller engine main thread, gchost main thread wait for exit", "gchost -> main()")
             Logging.WriteLine("Kernel Running...", "gchost -> main()")
@@ -234,7 +228,7 @@ Namespace EngineSystem.Engine
                     Call ModellerEngine.Run()
                 Catch ex As Exception
                     Call Logging.WriteLine("A critical unhandle exception was occured while the gcmodell kernel main thread was running and the engine was unable recovery from this error:" &
-                                  vbCrLf & ex.ToString, "gchost -> main() UNHANDLE_EXCEPTION_THREAD_HOST", Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                                  vbCrLf & ex.ToString, "gchost -> main() UNHANDLE_EXCEPTION_THREAD_HOST", MSG_TYPES.ERR)
                     If String.IsNullOrEmpty(ModellerEngine.ConfigurationData.DumpData) Then
                         Call New Threading.Thread(Sub() Call ModellerEngine.MemoryDump(Settings.TEMP & "/GCHOST_ERROR-MemoryDump.xml")).Start()
                     Else
@@ -252,7 +246,7 @@ Namespace EngineSystem.Engine
 #If Not Debug Then
             Catch ex As Exception
                 Call Logging.WriteLine("GCModeller engine main thread exit, gchost main thread continute", "gchost -> main()")
-                Call Logging.WriteLine(Format("An unexpect error occur!\nDebug information for developer:\n%s", ex.ToString), "gchost -> main()", Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                Call Logging.WriteLine(Format("An unexpect error occur!\nDebug information for developer:\n%s", ex.ToString), "gchost -> main()", MSG_TYPES.ERR)
                 Call Logging.WriteLine("gchost program exit.", "gchost -> main()")
             End Try
 #End If

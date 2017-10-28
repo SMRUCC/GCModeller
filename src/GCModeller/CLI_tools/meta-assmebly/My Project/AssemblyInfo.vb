@@ -11,7 +11,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("Metagenome assembly analysis tool")>
 <Assembly: AssemblyDescription("Metagenome assembly analysis tool")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("meta-assmebly")>
+<Assembly: AssemblyProduct("GCModeller")>
 <Assembly: AssemblyCopyright("Copyright © SMRUCC 2017")>
 <Assembly: AssemblyTrademark("")>
 

@@ -1,35 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::f592a8e5feb11946fae85200dfa43cd4, ..\GCModeller\engine\GCModeller.Framework.Kernel_Driver\Compiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Logging
 Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 
 ''' <summary>
@@ -39,7 +38,6 @@ Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 ''' <remarks></remarks>
 Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     Implements IDisposable
-    Implements ISupportLoggingClient
 
     Protected Friend CompiledModel As TModel
     Protected Friend _Logging As LogFile
@@ -50,7 +48,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
         End Get
     End Property
 
-    Public ReadOnly Property CompileLogging As LogFile Implements ISupportLoggingClient.Logging
+    Public ReadOnly Property CompileLogging As LogFile
         Get
             Return _Logging
         End Get
@@ -167,7 +165,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     End Sub
 #End Region
 
-    Public Function WriteLog() As Boolean Implements ISupportLoggingClient.WriteLog
+    Public Function WriteLog() As Boolean
         If Not _Logging Is Nothing Then
             Return _Logging.Save()
         End If

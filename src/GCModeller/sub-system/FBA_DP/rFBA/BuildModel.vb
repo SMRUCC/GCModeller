@@ -1,38 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::9618c5354aaf37f0f46b5119f2e0b619, ..\GCModeller\sub-system\FBA_DP\rFBA\BuildModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Logging
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Framework
@@ -78,7 +76,7 @@ Namespace rFBA
         ''' <param name="Model"></param>
         ''' <remarks></remarks>
         Private Sub FixError(Model As rFBA.DataModel.CellSystem)
-            Using LogFile As LogFile = New LogFile(FileIO.FileSystem.GetParentPath(Model.ObjectiveFunctionModel.Value) & "/FlixError.log")
+            Using LogFile As New LogFile(FileIO.FileSystem.GetParentPath(Model.ObjectiveFunctionModel.Value) & "/FlixError.log")
                 Dim lstLocus = Model.TranscriptionModel.Value.LoadCsv(Of ModelReader.GeneExpression)(False)
                 Dim MetabolismFluxs = Model.MetabolismModel.Value.LoadCsv(Of ModelReader.MetabolismFlux)(False)
                 Dim AvgRPKM = (From item In lstLocus Select item.RPKM).Average
@@ -88,7 +86,7 @@ Namespace rFBA
                         Dim LQuery = (From GeneObject In lstLocus.AsParallel Where String.Equals(GeneObject.AccessionId, Gene) Select 1).ToArray
                         If LQuery.IsNullOrEmpty Then '目标基因不存在，则修复此错误
                             Call lstLocus.Add(New ModelReader.GeneExpression With {.AccessionId = Gene, .BasalExpression = 1, .RPKM = AvgRPKM})
-                            Call LogFile.WriteLine(String.Format("Required enzyme {0} is not found in the genome, error was auto-fixed!", Gene), "BuildModel -> FixError()", Logging.MSG_TYPES.WRN)
+                            Call LogFile.WriteLine(String.Format("Required enzyme {0} is not found in the genome, error was auto-fixed!", Gene), "BuildModel -> FixError()", MSG_TYPES.WRN)
                         End If
                     Next
                 Next

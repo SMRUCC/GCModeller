@@ -1,34 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::ec174eeb41c5dbc48c3152cd91826a3b, ..\core\Bio.Assembly\SequenceModel\ISequenceModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace SequenceModel
 
@@ -65,6 +64,7 @@ Namespace SequenceModel
         ''' </summary>
         ''' <returns></returns>
         Public Overridable ReadOnly Property Length As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Len(SequenceData)
             End Get
@@ -90,36 +90,36 @@ Namespace SequenceModel
         ''' <summary>
         ''' Get the composition vector for a sequence model using a specific composition description.
         ''' </summary>
-        ''' <param name="SequenceModel"></param>
+        ''' <param name="seq"></param>
         ''' <param name="compositions">This always should be the constant string of <see cref="ISequenceModel.AA_CHARS_ALL">amino acid</see>
         ''' or <see cref="ISequenceModel.NA_CHARS_ALL">nucleotide</see>.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function Get_CompositionVector(SequenceModel As IPolymerSequenceModel, compositions As Char()) As Integer()
-            Dim CompositionVector As Integer() = New Integer(compositions.Length - 1) {}
-            Dim SequenceData As Char() = SequenceModel.SequenceData.ToUpper
+        Public Shared Function GetCompositionVector(seq As IPolymerSequenceModel, compositions As Char()) As Integer()
+            Dim composition%() = New Integer(compositions.Length - 1) {}
 
-            For i As Integer = 0 To compositions.Length - 1
-                Dim ch As Char = compositions(i)
-                Dim LQuery = (From c In SequenceData Where ch = c Select 1).Count
-                CompositionVector(i) = LQuery
-            Next
+            With seq.SequenceData.ToUpper()
+                For i As Integer = 0 To compositions.Length - 1
+                    composition(i) = .Count(compositions(i))
+                Next
+            End With
 
-            Return CompositionVector
+            Return composition
         End Function
 
         ''' <summary>
         ''' 目标序列数据是否为一条蛋白质序列
         ''' </summary>
-        ''' <param name="SequenceData"></param>
+        ''' <param name="seq"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function IsProteinSource(SequenceData As IPolymerSequenceModel) As Boolean
-            Dim LQuery = (From c As Char
-                          In SequenceData.SequenceData.ToUpper
-                          Where c <> "N"c AndAlso AA_CHARS_ALL.IndexOf(c) > -1
-                          Select 100).FirstOrDefault   '
-            Return LQuery > 10
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function IsProteinSource(seq As IPolymerSequenceModel) As Boolean
+            Return seq.SequenceData _
+                .ToUpper _
+                .Where(Function(c) c <> "N"c AndAlso AA_CHARS_ALL.IndexOf(c) > -1) _
+                .FirstOrDefault _
+                .CharCode > 0
         End Function
 #End Region
     End Class

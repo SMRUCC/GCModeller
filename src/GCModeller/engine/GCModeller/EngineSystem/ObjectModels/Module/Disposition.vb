@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization
@@ -70,7 +71,7 @@ Namespace EngineSystem.ObjectModels.Module
             Return PretendedSubstrate.Identifier
         End Function
 
-        Public Overrides Function Initialize(Metabolites() As Entity.Compound, SystemLogging As Logging.LogFile) As Integer
+        Public Overrides Function Initialize(Metabolites() As Entity.Compound, SystemLogging As LogFile) As Integer
             Return MyBase.Initialize(Metabolites, SystemLogging)
         End Function
 
@@ -186,7 +187,7 @@ Namespace EngineSystem.ObjectModels.Module
                                                       Products As EngineSystem.ObjectModels.Entity.Compound(),
                                                       Metabolites As EngineSystem.ObjectModels.Entity.Compound(),
                                                       EnzymeKinetics As MathematicsModels.EnzymeKinetics.MichaelisMenten,
-                                                      SystemLogging As Microsoft.VisualBasic.Logging.LogFile) As DisposableCompound(Of MolecularType)
+                                                      SystemLogging As LogFile) As DisposableCompound(Of MolecularType)
 
             Dim DisposableCompound As DisposableCompound(Of MolecularType) = CreateBasicalObject(Of DisposableCompound(Of MolecularType))(FluxModelBase)
 

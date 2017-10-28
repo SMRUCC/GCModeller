@@ -30,6 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -192,7 +193,7 @@ Namespace Analysis.GenomeMotifFootPrints
 
         Private Sub __pathwaysInfo(pwyGeneObjs As String(),
                                    OperonData As PredictedRegulationFootprint(),
-                                   data As Generic.IEnumerable(Of PredictedRegulationFootprint),
+                                   data As IEnumerable(Of PredictedRegulationFootprint),
                                    ByRef chunkBuffer As List(Of PredictedRegulationFootprint))
 
             Dim PathwayRelatedOperon As String() = (From GeneId As String In pwyGeneObjs
@@ -336,8 +337,8 @@ Namespace Analysis.GenomeMotifFootPrints
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("Site.Diff")>
-        Public Function Diff(data1 As Generic.IEnumerable(Of VirtualFootprints),
-                             data2 As Generic.IEnumerable(Of VirtualFootprints),
+        Public Function Diff(data1 As IEnumerable(Of VirtualFootprints),
+                             data2 As IEnumerable(Of VirtualFootprints),
                              export As String,
                              Optional data1Tag As String = "data1",
                              Optional data2Tag As String = "data2") As Boolean
@@ -479,7 +480,7 @@ Namespace Analysis.GenomeMotifFootPrints
         End Class
 
         <ExportAPI("Data.Filtering.Empty")>
-        Public Function FilteringEmptyData(data As Generic.IEnumerable(Of PredictedRegulationFootprint)) As PredictedRegulationFootprint()
+        Public Function FilteringEmptyData(data As IEnumerable(Of PredictedRegulationFootprint)) As PredictedRegulationFootprint()
             Dim LQuery = (From prf As PredictedRegulationFootprint
                           In data.AsParallel
                           Where Not String.IsNullOrEmpty(prf.ORF) AndAlso
@@ -562,7 +563,7 @@ Namespace Analysis.GenomeMotifFootPrints
                                 RegulatorMatches As IEnumerable(Of RegpreciseMPBBH),
                                 GenomeBrief As PTTDbLoader,
                                 Door As String,
-                                KEGG_Pathways As Generic.IEnumerable(Of KEGG.Archives.Csv.Pathway),
+                                KEGG_Pathways As IEnumerable(Of KEGG.Archives.Csv.Pathway),
                                 Optional PccMatrix As PccMatrix = Nothing,
                                 <Parameter("Direction.Ignored")> Optional ignoreDirection As Boolean = True,
                                 <Parameter("PCC.Cutoff")> Optional pccCutoff As Double = 0.85,
@@ -653,7 +654,7 @@ Namespace Analysis.GenomeMotifFootPrints
         ''' <returns></returns>
         ''' <remarks></remarks>
         <ExportAPI("write.csv.cytoscape_network", Info:="Export a cytoscape network file from the predicted footprint data.")>
-        Public Function GenerateNetwork(Regulations As Generic.IEnumerable(Of PredictedRegulationFootprint), saveto As String) As Boolean
+        Public Function GenerateNetwork(Regulations As IEnumerable(Of PredictedRegulationFootprint), saveto As String) As Boolean
             'Dim FiltedData As PredictedRegulationFootprint() = (From footprint_regulation As PredictedRegulationFootprint
             '                                                    In Regulations.AsParallel
             '                                                    Where Not (String.IsNullOrEmpty(footprint_regulation.ORF) OrElse String.IsNullOrEmpty(footprint_regulation.Regulator)'s.IsNullOrEmpty)

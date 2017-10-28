@@ -1,47 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::182c873f15be14ab7e83feb482193fd0, ..\CLI_tools\MEME\Cli\MotifSimilarity\SWTOM.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Drawing
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.GCModeller.Workbench
 Imports SMRUCC.genomics.Interops.NBCR
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.GenomeMotifFootPrints
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.MotifScans
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Analysis.Similarity.TOMQuery
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -88,7 +85,7 @@ Partial Module CLI
         Dim inQuery As String = args("/query")
         Dim inSubject As String = args("/subject")
         Dim method As String = args.GetValue("/method", "pcc")
-        Dim out As String = args.GetValue("/out", inQuery.TrimSuffix & "-" & basename(inSubject) & "." & method)
+        Dim out As String = args.GetValue("/out", inQuery.TrimSuffix & "-" & BaseName(inSubject) & "." & method)
         Dim query = inQuery.LoadXml(Of AnnotationModel)
         Dim subject = inSubject.LoadXml(Of AnnotationModel)
         Dim result = SWTom.Compare(query, subject, method)
@@ -159,14 +156,14 @@ Partial Module CLI
     Public Function SWTomComparesBatch(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
-        Dim outDIR As String = args.GetValue("/out", query.TrimSuffix & "." & basename(subject))
+        Dim outDIR As String = args.GetValue("/out", query.TrimSuffix & "." & BaseName(subject))
         Dim subjects = subject.LoadSourceEntryList({"*.txt"})
         Dim params As New Parameters
         Dim results As New List(Of Output)
 
         For Each qx As String In FileIO.FileSystem.GetFiles(query, FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
             Dim queryLDM = AnnotationModel.LoadDocument(qx)
-            Dim qName As String = basename(qx)
+            Dim qName As String = BaseName(qx)
             Dim subjectLDM = (From file In subjects Where InStr(file.Key, qName) = 1 Select AnnotationModel.LoadDocument(file.Value)).Unlist
 
             For Each x In queryLDM
@@ -192,7 +189,7 @@ Partial Module CLI
     Public Function SWTomCompares(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
-        Dim outDIR As String = args.GetValue("/out", query.TrimSuffix & "." & basename(subject))
+        Dim outDIR As String = args.GetValue("/out", query.TrimSuffix & "." & BaseName(subject))
         Dim queryLDM = AnnotationModel.LoadDocument(query)
         Dim subjectLDM = AnnotationModel.LoadDocument(subject)
         Dim params As New Parameters
@@ -264,7 +261,7 @@ Partial Module CLI
         Public out As CompareResult() = Nothing
 
         Sub New(memeText As String, params As Parameters, noHTML As Boolean, out As String)
-            Dim sId As String = basename(memeText)
+            Dim sId As String = BaseName(memeText)
             Me.out = __SWQueryCommon(memeText, params, noHTML, out & "/" & sId, Me.hits)
         End Sub
     End Class
@@ -273,7 +270,7 @@ Partial Module CLI
     Public Function SiteScan(args As CommandLine) As Integer
         Dim query As String = args("/query")
         Dim subject As String = args("/subject")
-        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & basename(subject))
+        Dim out As String = args.GetValue("/out", query.TrimSuffix & "-" & BaseName(subject))
         Dim profiles = Parameters.SiteScanProfile
         Dim reuslt = SiteScanner.Scan(query.LoadXml(Of AnnotationModel), New FastaToken(subject), profiles)
         Return TomReport.WriteHTML(reuslt, outDIR:=out).CLICode

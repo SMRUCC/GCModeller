@@ -76,7 +76,7 @@ AAGCGAACAAATGTTCTATA"
         ''' 方便通过<see cref="FASTA.FastaToken.AddAttribute">Add接口</see>向<see cref="FASTA.FastaToken.Attributes">Attribute列表</see>中添加数据
         ''' </summary>
         ''' <remarks></remarks>
-        Dim _InnerList As List(Of String)
+        Dim innerList As List(Of String)
 
         ''' <summary>
         ''' The attribute header of this FASTA file. The fasta header usually have some format which can be parsed by some 
@@ -86,10 +86,10 @@ AAGCGAACAAATGTTCTATA"
         ''' <remarks></remarks>
         Public Overridable Property Attributes As String() Implements IAbstractFastaToken.Attributes, I_FastaProvider.Attributes
             Get
-                Return _InnerList.ToArray
+                Return innerList.ToArray
             End Get
             Set(value As String())
-                _InnerList = value.AsList
+                innerList = value.AsList
             End Set
         End Property
 
@@ -134,28 +134,28 @@ AAGCGAACAAATGTTCTATA"
 
 #Region "Header Attributes Operations"
         Public Sub AddAttribute(attrValue As String)
-            Call _InnerList.Add(attrValue)
+            Call innerList.Add(attrValue)
         End Sub
 
         Public Sub InsertAttribute(attrValue As String, Index As Integer)
-            If _InnerList.Count - 1 > Index Then
-                Call _InnerList.Insert(Index, attrValue)
+            If innerList.Count - 1 > Index Then
+                Call innerList.Insert(Index, attrValue)
             Else
-                Call _InnerList.Add(attrValue)
+                Call innerList.Add(attrValue)
             End If
         End Sub
 
         Public Sub RemoveAttribute(attrIndex As Integer)
-            If _InnerList.Count - 1 > attrIndex Then
-                Call _InnerList.RemoveAt(attrIndex)
+            If innerList.Count - 1 > attrIndex Then
+                Call innerList.RemoveAt(attrIndex)
             End If
         End Sub
 
         Public Sub SetAttribute(attrIndex As Integer, value As String)
-            If _InnerList.Count - 1 > attrIndex Then
-                _InnerList(attrIndex) = value
+            If innerList.Count - 1 > attrIndex Then
+                innerList(attrIndex) = value
             Else
-                Call _InnerList.Add(value)
+                Call innerList.Add(value)
             End If
         End Sub
 #End Region
