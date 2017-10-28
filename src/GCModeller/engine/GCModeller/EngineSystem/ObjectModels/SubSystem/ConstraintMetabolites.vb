@@ -1,32 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::f04bd77c005f46a7e908ce3819b45a4c, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\ConstraintMetabolites.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 
 #Const DEBUG = 1
 
@@ -171,9 +171,9 @@ Namespace EngineSystem.ObjectModels.SubSystem
 
             Public Sub InvokeATP_Compensate()
                 Dim LQuery = (From Association In ATP_Compensate Select Association.Quantity).ToArray.Sum
-                CONSTRAINT_ATP.Quantity = CONSTRAINT_ATP.DataSource.Value + Global.System.Math.Log(LQuery + Global.System.Math.E)
+                CONSTRAINT_ATP.Quantity = CONSTRAINT_ATP.DataSource.value + Global.System.Math.Log(LQuery + Global.System.Math.E)
 #If DEBUG Then
-                CONSTRAINT_ATP.Quantity = CONSTRAINT_ATP.DataSource.Value + 100000
+                CONSTRAINT_ATP.Quantity = CONSTRAINT_ATP.DataSource.value + 100000
 #End If
             End Sub
 
@@ -336,7 +336,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                 Catch ex As Exception
                     Call MetabolismSystem.SystemLogging.WriteLine("The constraints condition was broken!" & vbCrLf & vbCrLf & "   ----->  " & ex.ToString,
                                                                   "Initialize(MetabolismSystem As ObjectModels.System.MetabolismCompartment)",
-                                                                  Type:=Logging.MSG_TYPES.ERR)
+                                                                  Type:=MSG_TYPES.ERR)
                     Throw ex
                 End Try
             End Sub

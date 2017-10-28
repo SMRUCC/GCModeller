@@ -1,35 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::4c122a6bf871fc7b9d75af11a4b7ed1c, ..\GCModeller\engine\vcsm\CLI\Run.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Terminal.STDIO
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.GCModeller
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Assembly.GCTabular
@@ -86,7 +85,7 @@ Public Module CommandLines
     Const _VIRTUALCELL_HOST_DEFAULT_CONF As String = "/virtualcell_host_default.conf.inf"
 
     <ExportAPI("load.model.csv_tabular", Info:="The csv_tabular format model file is the alternative format of the GCModeller virtual cell modle, as the GCModeller only support the GCML xml file as the modelling data source, so that you should using this command to load the csv_tabular format model file as the GCML format.")>
-    Public Function LoadCsv(ModelFile As String, LogFile As Microsoft.VisualBasic.Logging.LogFile, argvs As Microsoft.VisualBasic.CommandLine.CommandLine) _
+    Public Function LoadCsv(ModelFile As String, LogFile As LogFile, argvs As Microsoft.VisualBasic.CommandLine.CommandLine) _
         As ModellingEngine.EngineSystem.Engine.GCModeller
 
         Dim Model As GCMarkupLanguage.BacterialModel = New DataModel.CellSystem(ModelFile, LogFile).LoadAction

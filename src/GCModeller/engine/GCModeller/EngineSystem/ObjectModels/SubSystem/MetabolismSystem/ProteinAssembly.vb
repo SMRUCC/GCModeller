@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::9d444118f97419856100e9374f12da74, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\MetabolismSystem\ProteinAssembly.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.GCModeller.Assembly
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
@@ -53,7 +54,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             Dim CellSystem = DirectCast(Me._CellComponentContainer, SubSystem.MetabolismCompartment)._CellSystem
 
             Me.Proteins = GetProteins()
-            Call _SystemLogging.WriteLine(String.Format("Get {0} protein compounds", Me.Proteins.Count), "ProteinAssembly -> initialize()", Type:=Logging.MSG_TYPES.INF)
+            Call _SystemLogging.WriteLine(String.Format("Get {0} protein compounds", Me.Proteins.Count), "ProteinAssembly -> initialize()", Type:=MSG_TYPES.INF)
 
             If CellSystem.DataModel.ProteinAssemblies.IsNullOrEmpty Then
                 MyBase._DynamicsExprs = New ObjectModels.Module.MetabolismFlux() {}
@@ -94,7 +95,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             As EngineSystem.ObjectModels.Entity.Peptide
 
             If Metabolite Is Nothing Then
-                Call LoggingClient.WriteLine(String.Format("Could not found the data model for protein {0}!.", Protein.Identifier), "CreatePolypeptideObject()", Type:=Logging.MSG_TYPES.ERR)
+                Call LoggingClient.WriteLine(String.Format("Could not found the data model for protein {0}!.", Protein.Identifier), "CreatePolypeptideObject()", Type:=MSG_TYPES.ERR)
             End If
 
             Dim Polypeptide As EngineSystem.ObjectModels.Entity.Peptide = New Entity.Peptide With {
@@ -141,7 +142,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             Dim CellSystem = DirectCast(Me._CellComponentContainer, SubSystem.MetabolismCompartment)._CellSystem
 
             If CellSystem.DataModel.RibosomeAssembly.IsNullOrEmpty Then
-                Call _SystemLogging.WriteLine("[Error] No ribosome assembly data was found, cell system structure is corrupted!", "RibosomalAssembly -> Initialize()", Type:=Logging.MSG_TYPES.ERR)
+                Call _SystemLogging.WriteLine("[Error] No ribosome assembly data was found, cell system structure is corrupted!", "RibosomalAssembly -> Initialize()", Type:=MSG_TYPES.ERR)
                 Throw New DataException("[Error] No ribosome assembly data was found, cell system structure is corrupted!")
             Else
                 Dim LQuery = From model As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction
@@ -175,7 +176,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
             Dim CellSystem = DirectCast(Me._CellComponentContainer, SubSystem.MetabolismCompartment)._CellSystem
 
             If CellSystem.DataModel.RibosomeAssembly.IsNullOrEmpty Then
-                Call _SystemLogging.WriteLine("[Error] No ribosome assembly data was found, cell system structure is corrupted!", "RibosomalAssembly -> Initialize()", Type:=Logging.MSG_TYPES.ERR)
+                Call _SystemLogging.WriteLine("[Error] No ribosome assembly data was found, cell system structure is corrupted!", "RibosomalAssembly -> Initialize()", Type:=MSG_TYPES.ERR)
                 Throw New DataException("[Error] No ribosome assembly data was found, cell system structure is corrupted!")
             Else
                 Dim LQuery = From model As GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.Reaction

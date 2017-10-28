@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::e6d17e630fa3d53595ab6dab07da281a, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\SubSystem\MetabolismSystem\PathwayCollection.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.Serialization
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.RuntimeObjects
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.Services
@@ -43,7 +44,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
 
         Public Overrides Function CreateServiceSerials() As IDataAcquisitionService()
             If MyBase._DynamicsExprs.IsNullOrEmpty Then
-                Call SystemLogging.WriteLine("There is no pathway data define in the data model, will not create the data service for the pathway collection.", "", Type:=Logging.MSG_TYPES.INF)
+                Call SystemLogging.WriteLine("There is no pathway data define in the data model, will not create the data service for the pathway collection.", "", Type:=MSG_TYPES.INF)
                 Return New IDataAcquisitionService() {}
             Else
                 Return New IDataAcquisitionService() {
@@ -58,7 +59,7 @@ Namespace EngineSystem.ObjectModels.SubSystem
                 MyBase._DynamicsExprs = New ObjectModels.Module.Pathway() {}
             Else
                 MyBase._DynamicsExprs = (From item In CellSystem.DataModel.Metabolism.Pathways Select EngineSystem.ObjectModels.Module.Pathway.CreateObject(item, CellSystem.Metabolism)).ToArray
-                Call SystemLogging.WriteLine(NetworkComponents.Count & " pathway objects was defined in the data model.", "", Type:=Logging.MSG_TYPES.INF)
+                Call SystemLogging.WriteLine(NetworkComponents.Count & " pathway objects was defined in the data model.", "", Type:=MSG_TYPES.INF)
             End If
 
             Return 0

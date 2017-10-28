@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::666afd8005919324da2874fc2232b1f5, ..\GCModeller\engine\GCModeller\EngineSystem\ObjectModels\ExperimentSystem\TriggerSystem\TriggerSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
@@ -86,7 +87,7 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
             Dim ExperimentFile As String = MyBase.I_RuntimeContainer.GetArguments("-experiments")
 
             If String.IsNullOrEmpty(ExperimentFile) Then
-                Call SystemLogging.WriteLine("User not specific the trigger experiment....", "", Type:=Logging.MSG_TYPES.INF)
+                Call SystemLogging.WriteLine("User not specific the trigger experiment....", "", Type:=MSG_TYPES.INF)
                 _Triggers = New ExperimentSystem.Triggers.ConditionalTrigger() {}
                 Return 0
             End If
@@ -104,14 +105,14 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
                 Call SystemLogging.WriteLine("No conditional experiments trigger was define....")
                 Return 0
             Else
-                Call SystemLogging.WriteLine(String.Format("User have define {0} trigger in the experiment data.", LQuery.Count), "TriggerSystem->Initialize()", Type:=Logging.MSG_TYPES.INF)
+                Call SystemLogging.WriteLine(String.Format("User have define {0} trigger in the experiment data.", LQuery.Count), "TriggerSystem->Initialize()", Type:=MSG_TYPES.INF)
             End If
 
             For Each Expression In LQuery
                 Call VBC.AddTestModel(Expression.Key, Expression.Value)
             Next
 
-            Call SystemLogging.WriteLine("Start to compile the trigger system into a dynamic assembly module!", "", Type:=Logging.MSG_TYPES.INF)
+            Call SystemLogging.WriteLine("Start to compile the trigger system into a dynamic assembly module!", "", Type:=MSG_TYPES.INF)
 
             Dim DynamicAssembly As Global.System.Reflection.Assembly = VBC.Compile
             Dim TestMethods As Global.System.Reflection.MethodInfo() =
@@ -119,7 +120,7 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
                     .GetMethods(Reflection.BindingFlags.Public Or Reflection.BindingFlags.Static)
             Dim ScriptCompiler As Prefix.ActionScript = New Prefix.ActionScript(Me.I_RuntimeContainer)
 
-            Call SystemLogging.WriteLine("Link the action script to the trigger...", "", Type:=Logging.MSG_TYPES.INF)
+            Call SystemLogging.WriteLine("Link the action script to the trigger...", "", Type:=MSG_TYPES.INF)
 
             Me._Triggers = (From TestMethod In TestMethods Select EngineSystem.ObjectModels.ExperimentSystem.Triggers.ConditionalTrigger.CreateObject(TestMethod, TriggerSystem:=Me)).ToArray '触发条件在这里初始化完毕，在接下来的代码中则仅需要根据Handle值连接动作模型即可
             For Each Trigger In _Triggers
@@ -127,14 +128,14 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
                 Dim Experiment = ExperimentModels(Handle)
                 Trigger._strCondition = String.Format("[{0}]     {1} ==> {2}", Handle, Experiment.TriggedCondition, Experiment.TargetAction)
 
-                Call SystemLogging.WriteLine(String.Format("    Initialize trigger done:  {0}", Trigger._strCondition), "", Type:=Logging.MSG_TYPES.INF)
+                Call SystemLogging.WriteLine(String.Format("    Initialize trigger done:  {0}", Trigger._strCondition), "", Type:=MSG_TYPES.INF)
 
                 Dim ActionScript As String = Experiment.TargetAction.Replace("""""", """")
                 Dim Actions As Action() = ScriptCompiler.GetActions(ActionScript)
                 Trigger.Invoke = Function() TriggerInvokes(Actions)
             Next
 
-            Call SystemLogging.WriteLine("TriggerSystem initialize job completed!", "", Type:=Logging.MSG_TYPES.INF)
+            Call SystemLogging.WriteLine("TriggerSystem initialize job completed!", "", Type:=MSG_TYPES.INF)
             Call SystemLogging.WriteLine("")
 
             Return 0
