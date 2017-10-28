@@ -38,7 +38,6 @@ Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
 ''' <remarks></remarks>
 Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     Implements IDisposable
-    Implements ISupportLoggingClient
 
     Protected Friend CompiledModel As TModel
     Protected Friend _Logging As LogFile
@@ -49,7 +48,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
         End Get
     End Property
 
-    Public ReadOnly Property CompileLogging As LogFile Implements ISupportLoggingClient.Logging
+    Public ReadOnly Property CompileLogging As LogFile
         Get
             Return _Logging
         End Get
@@ -166,7 +165,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     End Sub
 #End Region
 
-    Public Function WriteLog() As Boolean Implements ISupportLoggingClient.WriteLog
+    Public Function WriteLog() As Boolean
         If Not _Logging Is Nothing Then
             Return _Logging.Save()
         End If

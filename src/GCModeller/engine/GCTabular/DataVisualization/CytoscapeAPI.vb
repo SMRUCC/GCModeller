@@ -69,16 +69,6 @@ Namespace DataVisualization
             Return network.Save(outDIR, Encodings.ASCII)
         End Function
 
-        <ExportAPI("create.path_finder")>
-        Public Function CreateFindPath(Network As Interactions()) As PathFinder(Of Interactions)
-            Return New PathFinder(Of Interactions)(Network)
-        End Function
-
-        <ExportAPI("find.paths")>
-        Public Function FindAllPath([operator] As PathFinder(Of Interactions), start As String, ends As String) As KeyValuePair(Of Integer, Interactions())()
-            Return [operator].FindAllPath(start, ends)
-        End Function
-
         <ExportAPI("save.paths")>
         Public Function SaveResult(path As KeyValuePair(Of Integer, Interactions())(), saveto As String) As Boolean
             Dim CsvData As IO.File = New IO.File
