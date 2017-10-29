@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::58f8fad97ec855536302e6f1050fc65a, ..\GCModeller\engine\GCModeller\EngineSystem\Services\DataAcquisition\DataAcquisitionService\DataAcquisitionService.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.DataAcquisition.DataSerializer
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services.MySQL
@@ -47,7 +48,7 @@ Namespace EngineSystem.Services.DataAcquisition.Services
         ''' </summary>
         ''' <remarks></remarks>
         Protected Friend CommitInterval As Integer
-        Protected Friend SystemLogging As Logging.LogFile
+        Protected Friend SystemLogging As LogFile
 
         Protected IRuntimeContainer As IContainerSystemRuntimeEnvironment
 
@@ -91,8 +92,8 @@ Namespace EngineSystem.Services.DataAcquisition.Services
                 If DataStorage.CommitData(arg:=TableName) <> 0 Then
                     SystemLogging.WriteLine("[EXCEPTION][RTime:=" & RTime & "]Data commit failure, roll back the data commit transaction.",
                                                         "DataAcquisition->CommitData(); Table:= " & TableName,
-                                                        Logging.MSG_TYPES.ERR)
-                    SystemLogging.WriteLine("System unexpected break down!", "", Logging.MSG_TYPES.ERR)
+                                                        MSG_TYPES.ERR)
+                    SystemLogging.WriteLine("System unexpected break down!", "", MSG_TYPES.ERR)
                     Call DataStorage.GetErrMessage.SaveTo(Settings.TEMP & "/TRANSACTION_DUMP.log")
                     Throw New Exception(Me.DataStorage.GetErrMessage.Split(CChar("</SQL>")).First)
                 Else

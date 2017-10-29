@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::60afc73c7ffb3493b0891bb236780ab7, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\Linq\VectorShadows.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Dynamic
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -94,6 +95,8 @@ Namespace Language
         ''' Returns property names and function names
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function GetDynamicMemberNames() As IEnumerable(Of String)
             Return type.GetDynamicMemberNames
         End Function
@@ -127,13 +130,18 @@ Namespace Language
         ''' <param name="binder"></param>
         ''' <param name="result"></param>
         ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function TryGetMember(binder As GetMemberBinder, ByRef result As Object) As Boolean
-            With type.TryGetMember(binder)
+            Return TryGetMember(binder.Name, result)
+        End Function
+
+        Public Overloads Function TryGetMember(name$, ByRef result As Object) As Boolean
+            With type.TryGetMember(name, False)
                 If .IsNothing Then
                     Return False
                 Else
                     Dim type As Type = .PropertyType
-                    Dim source = linq.Evaluate(binder.Name)
+                    Dim source = linq.Evaluate(name)
                     result = CreateVector(DirectCast(source, IEnumerable), type)
                     Return True
                 End If
@@ -208,7 +216,7 @@ Namespace Language
 
             If op Is Nothing Then
                 If vector.type Is GetType(String) Then
-                    If type.ImplementsInterface(GetType(IEnumerable(Of String))) Then
+                    If type.ImplementInterface(GetType(IEnumerable(Of String))) Then
                         ' 如果是字符串的集合，则分别添加字符串
                         Dim out$() = New String(vector.Length - 1) {}
 
@@ -273,7 +281,7 @@ Namespace Language
                         Dim str$ = obj.ToString
 
                         Return New VectorShadows(Of Boolean)(vector.Select(Function(s) CStrSafe(s) Like str))
-                    ElseIf type.ImplementsInterface(GetType(IEnumerable(Of String))) Then
+                    ElseIf type.ImplementInterface(GetType(IEnumerable(Of String))) Then
                         Dim out As Boolean() = New Boolean(vector.Length - 1) {}
 
                         For Each s In DirectCast(obj, IEnumerable(Of String)).SeqIterator

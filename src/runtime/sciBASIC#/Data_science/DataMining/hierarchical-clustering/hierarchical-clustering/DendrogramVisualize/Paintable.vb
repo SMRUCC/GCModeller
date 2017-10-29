@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49704e63c31c28025dea3c9319af231e, ..\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\DendrogramVisualize\Paintable.vb"
+﻿#Region "Microsoft.VisualBasic::2b2b45b649160b9659354f77c130ed35, ..\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\DendrogramVisualize\Paintable.vb"
 
     ' Author:
     ' 
@@ -57,16 +57,20 @@ Namespace DendrogramVisualize
     ''' 
     ''' </summary>
     Public Interface IPaintable
-        Sub paint(g As Graphics2D, args As PainterArguments, ByRef labels As List(Of NamedValue(Of PointF)))
+        Sub Paint(g As Graphics2D, args As PainterArguments, ByRef labels As List(Of NamedValue(Of PointF)))
     End Interface
 
+    ''' <summary>
+    ''' 对于绘制水平和竖直布局的层次聚类树而言，只需要在计算布局的时候将xy交换一下即可
+    ''' </summary>
     Public Structure PainterArguments
 
         Dim xDisplayOffset%, yDisplayOffset%, xDisplayFactor#, yDisplayFactor#
         Dim decorated As Boolean
         Dim classHeight!
+        Dim layout As Layouts
         ''' <summary>
-        ''' ``<see cref="Cluster.Label"/> --> Color``
+        ''' ``<see cref="Cluster.Name"/> --> Color``
         ''' </summary>
         Dim classTable As Dictionary(Of String, String)
         Dim stroke As Pen

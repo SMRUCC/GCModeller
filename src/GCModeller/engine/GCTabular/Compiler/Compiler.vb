@@ -1,32 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::c99a75938d42c2d01857c7a4ccd6e539, ..\GCModeller\engine\GCTabular\Compiler\Compiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
@@ -35,7 +37,6 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Logging
 Imports SMRUCC.genomics.Assembly.Expasy.AnnotationsTool
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem
@@ -89,12 +90,12 @@ Namespace Compiler
             Dim LogFile As String = argvs("-logging")
 
             If Not String.IsNullOrEmpty(LogFile) Then
-                Me._Logging = New Logging.LogFile(LogFile)
+                Me._Logging = New LogFile(LogFile)
             Else
-                Me._Logging = New Logging.LogFile(My.Computer.FileSystem.SpecialDirectories.Temp & "/gcmodeller_compiler.log")
+                Me._Logging = New LogFile(My.Computer.FileSystem.SpecialDirectories.Temp & "/gcmodeller_compiler.log")
             End If
 
-            Call Me._Logging.WriteLine(argvs.GetCommandsOverview, "CSV_COMPILER::PRE_COMPILE", Type:=Logging.MSG_TYPES.INF)
+            Call Me._Logging.WriteLine(argvs.GetCommandsOverview, "CSV_COMPILER::PRE_COMPILE", Type:=MSG_TYPES.INF)
             Call __Initialize_MetaCyc(DatabaseLoadder.CreateInstance(argvs("-metacyc")))
 
             MyBase.CompiledModel = New CellSystemXmlModel
@@ -398,7 +399,7 @@ Namespace Compiler
             If Gene Is Nothing Then
                 Call Me._Logging.WriteLine(String.Format("Could not found Metacyc gene for {0}", UniqueId),
                                            "GenerateCompositionVectors(Transcripts As FileStream.Transcript())",
-                                           Microsoft.VisualBasic.Logging.MSG_TYPES.WRN)
+                                           MSG_TYPES.WRN)
                 UniqueId = FsaObject.AccessionId
             Else
                 UniqueId = Gene.Accession1
@@ -417,7 +418,7 @@ Namespace Compiler
             If LQuery.IsNullOrEmpty Then
                 Call Me._Logging.WriteLine(String.Format("Could not found Metacyc protein for {0}", UniqueId),
                                            "GenerateCompositionVectors(Transcripts As FileStream.Transcript())",
-                                           Type:=Logging.MSG_TYPES.WRN)
+                                           Type:=MSG_TYPES.WRN)
                 UniqueId = FsaObject.UniqueId
             Else
                 UniqueId = LQuery.First
@@ -443,7 +444,7 @@ Namespace Compiler
                 Else
                     Call Me._Logging.WriteLine(String.Format("{0}, Gene sequence not found!", AccessionId),
                                                "GenerateCompositionVectors(Transcripts As FileStream.Transcript())",
-                                               Microsoft.VisualBasic.Logging.MSG_TYPES.ERR)
+                                               MSG_TYPES.ERR)
                 End If
                 If Not ProteinSequence.IsNullOrEmpty Then
                     TranscriptObject.PolypeptideCompositionVector = SMRUCC.genomics.SequenceModel.Polypeptides.Polypeptides.GetCompositionVector(ProteinSequence.First.Value)

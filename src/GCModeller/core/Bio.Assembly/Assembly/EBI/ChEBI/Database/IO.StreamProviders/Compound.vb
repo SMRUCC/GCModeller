@@ -35,8 +35,7 @@ Imports Microsoft.VisualBasic.Text
 
 Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv
 
-    Public Class Compound
-        Implements INamedValue
+    Public Class Compound : Implements INamedValue
 
         Public Property ID As String
         Public Property STATUS As String

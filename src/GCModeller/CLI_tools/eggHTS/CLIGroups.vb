@@ -32,10 +32,18 @@ Friend NotInheritable Class CLIGroups
     Public Const SamplesExpressions_CLI$ = "0. Samples expression analysis"
     Public Const Annotation_CLI As String = "1. uniprot annotation CLI tools"
     Public Const DEP_CLI As String = "2. DEP analysis CLI tools"
+
+#Region "Functional enrichment tools"
     Public Const Enrichment_CLI As String = "3. Enrichment analysis tools"
+    Public Const KOBAS$ = Enrichment_CLI & ": KOBAS"
+    Public Const DAVID$ = Enrichment_CLI & ": DAVID"
+    Public Const ClusterProfiler$ = Enrichment_CLI & ": clusterProfiler"
     Public Const NetworkEnrichment_CLI$ = "4. Network enrichment visualize tools"
+#End Region
 
     Public Const Repository_CLI$ = "Repository data tools"
+
+    Public Const iTraqTool$ = "iTraq data analysis tool"
 
     Private Sub New()
     End Sub

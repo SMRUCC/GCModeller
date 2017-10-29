@@ -32,16 +32,17 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.csv
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
@@ -56,49 +57,6 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Data.csv")
         Return iTraq_csvReader.StripCsv([in]).Save(out,)
-    End Function
-
-    ''' <summary>
-    ''' 将perseus软件的输出转换为csv文档并且导出uniprot编号以方便进行注释
-    ''' </summary>
-    ''' <param name="args"></param>
-    ''' <returns></returns>
-    <ExportAPI("/Perseus.Table",
-               Usage:="/Perseus.Table /in <proteinGroups.txt> [/out <out.csv>]")>
-    <Group(CLIGroups.Samples_CLI)>
-    Public Function PerseusTable(args As CommandLine) As Integer
-        Dim [in] As String = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".csv")
-        Dim data As Perseus() = [in].LoadTsv(Of Perseus)
-        Dim idlist As String() = data _
-            .Select(Function(prot) prot.ProteinIDs) _
-            .IteratesALL _
-            .Distinct _
-            .ToArray
-        Dim uniprotIDs$() = idlist _
-            .Select(Function(s) s.Split("|"c, ":"c)(1)) _
-            .Distinct _
-            .ToArray
-
-        Call idlist.SaveTo(out.TrimSuffix & ".proteinIDs.txt")
-        Call uniprotIDs.SaveTo(out.TrimSuffix & ".uniprotIDs.txt")
-
-        Return data.SaveTo(out).CLICode
-    End Function
-
-    <ExportAPI("/Perseus.Stat", Usage:="/Perseus.Stat /in <proteinGroups.txt> [/out <out.csv>]")>
-    <Group(CLIGroups.Samples_CLI)>
-    Public Function PerseusStatics(args As CommandLine) As Integer
-        Dim [in] = args("/in")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".perseus.Stat.csv")
-        Dim data As Perseus() = [in].LoadTsv(Of Perseus)
-        Dim csv As New IO.File
-
-        Call csv.AppendLine({"MS/MS", CStr(Perseus.TotalMSDivideMS(data))})
-        Call csv.AppendLine({"Peptides", CStr(Perseus.TotalPeptides(data))})
-        Call csv.AppendLine({"ProteinGroups", CStr(data.Length)})
-
-        Return csv.Save(out, Encodings.ASCII).CLICode
     End Function
 
     ''' <summary>
@@ -296,7 +254,7 @@ Partial Module CLI
 
     <ExportAPI("/plot.pimw")>
     <Description("'calc. pI' - 'MW [kDa]' scatter plot of the protomics raw sample data.")>
-    <Usage("/plot.pimw /in <samples.csv> [/field.pi <default=""calc. pI""> /field.mw <default=""MW [kDa]""> /legend.fontsize <20> /legend.size (100,30) /quantile.removes <default=1> /out <pimw.png> /size <1600,1200> /color <black> /pt.size <8>]")>
+    <Usage("/plot.pimw /in <samples.csv> [/field.pi <default=""calc. pI""> /field.mw <default=""MW [kDa]""> /legend.fontsize <20> /legend.size (100,30) /quantile.removes <default=1> /out <pimw.png> /size <1600,1200> /color <black> /ticks.Y <-1> /pt.size <8>]")>
     <Argument("/field.pi", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The field name that records the pI value of the protein samples, default is using iTraq result out format: ``calc. pI``")>
@@ -324,10 +282,12 @@ Partial Module CLI
         Dim legendFontSize! = args.GetValue("/legend.fontsize", 20.0#)
         Dim legendSize$ = (args <= "/legend.size") Or "100,30".AsDefault
         Dim quantileRemoves# = args.GetValue("/quantile.removes", 1.0#)
+        Dim yTicks# = args.GetValue("/ticks.Y", -1.0R)
         Dim res As GraphicsData = {
             ScatterSerials(File.Load([in]), pi, mw, color, ptSize) _
             .RemovesYOutlier(q:=quantileRemoves)
         }.Plot(size:=size,
+               padding:=g.DefaultLargerPadding,
                drawLine:=False,
                XaxisAbsoluteScalling:=True,
                absoluteScaling:=False,
@@ -335,11 +295,13 @@ Partial Module CLI
                legendSize:=legendSize,
                Xlabel:="Calc.pI",
                Ylabel:="MW [kDa]",
+               ticksY:=yTicks,
                legendRegionBorder:=New Stroke With {
                    .fill = "Black",
                    .dash = DashStyle.Solid,
                    .width = 2
-               })
+               },
+               htmlLabel:=False)
 
         Return res.Save(out).CLICode
     End Function

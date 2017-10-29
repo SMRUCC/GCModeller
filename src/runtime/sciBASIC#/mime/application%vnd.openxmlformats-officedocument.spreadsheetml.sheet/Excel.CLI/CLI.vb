@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e70b41a26a2c1d33209d727c2ba6d07, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel.CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::8cb6ca66283671e62502b813d2454fff, ..\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel.CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,7 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 <CLI> Module CLI
 
     <ExportAPI("/Cbind")>
-    <Usage("/cbind /in <a.csv> /append <b.csv> [/out <ALL.csv>]")>
+    <Usage("/cbind /in <a.csv> /append <b.csv> [/token0.ID <deli, default=<SPACE> /out <ALL.csv>]")>
     <Description("Join of two table by a unique ID.")>
     <Argument("/in", False, CLITypes.File,
               Description:="The table for append by column, its row ID can be duplicated.")>
@@ -54,7 +54,15 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & "+" & append.BaseName & ".csv").AsDefault
         Dim a = EntityObject.LoadDataSet([in])
         Dim b = Contract.Load(append)
-        
+
+        With args <= "/token0.ID"
+            If Not String.IsNullOrEmpty(.ref) Then
+                For Each obj As EntityObject In a
+                    obj.ID = Strings.Split(obj.ID, Delimiter:= .ref)(0)
+                Next
+            End If
+        End With
+
         Return Contract.Append(a, b) _
             .SaveTo(out) _
             .CLICode
@@ -128,4 +136,3 @@ Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
         End With
     End Function
 End Module
-

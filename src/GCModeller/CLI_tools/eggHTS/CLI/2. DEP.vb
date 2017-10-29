@@ -28,20 +28,28 @@
 
 Imports System.ComponentModel
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.visualize.DataMining
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.KEGG
@@ -239,6 +247,9 @@ Partial Module CLI
     <ExportAPI("/DEP.venn",
                Info:="Generate the VennDiagram plot data and the venn plot tiff. The default parameter profile is using for the iTraq data.",
                Usage:="/DEP.venn /data <Directory> [/title <VennDiagram title> /out <out.DIR>]")>
+    <Argument("/data", False, CLITypes.File, PipelineTypes.std_in, Description:="A directory path which it contains the DEPs matrix csv files from the sample groups's analysis result.")>
+    <Argument("/out", True, CLITypes.File, Description:="A directory path which it will contains the venn data result, includes venn matrix, venn plot tiff image, etc.")>
+    <Argument("/title", True, CLITypes.String, Description:="The main title of the venn plot.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function VennData(args As CommandLine) As Integer
         Dim DIR$ = args("/data")
@@ -253,15 +264,27 @@ Partial Module CLI
         Return 0
     End Function
 
+    <Extension>
+    Private Function unionDATA(handle$) As Dictionary(Of String, Dictionary(Of DEP_iTraq))
+        Dim files As IEnumerable(Of String)
+
+        If handle.FileLength > 0 Then
+            files = {handle}
+        Else
+            files = ls - l - r - "*.csv" <= handle
+        End If
+
+        Return files.ToDictionary(
+            Function(path) path.BaseName,
+            Function(path)
+                Return EntityObject _
+                    .LoadDataSet(Of DEP_iTraq)(path) _
+                    .ToDictionary
+            End Function)
+    End Function
+
     Public Function Union(DIR$, tlog2 As Boolean, ZERO$, nonDEP_blank As Boolean, outGroup As Boolean) As List(Of EntityObject)
-        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) =
-          (ls - l - r - "*.csv" <= DIR) _
-          .ToDictionary(Function(path) path.BaseName,
-                        Function(path)
-                            Return EntityObject _
-                                .LoadDataSet(Of DEP_iTraq)(path) _
-                                .ToDictionary
-                        End Function)
+        Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = DIR.unionDATA
         Dim allDEPs = data.Values _
             .IteratesALL _
             .Where(Function(x) x.Value.isDEP) _
@@ -414,15 +437,33 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /size <size, default=2000,3000> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /hide.labels /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument was set, then the KO class information for uniprotID will be draw on the output heatmap.")>
     <Argument("/sampleInfo", True, CLITypes.File,
+              Extensions:="*.csv",
               AcceptTypes:={GetType(SampleInfo)},
               Description:="Describ the experimental group information")>
+    <Argument("/data", False, CLITypes.File, PipelineTypes.std_in,
+              Description:="This file path parameter can be both a directory which contains a set of DEPs result or a single csv file path.")>
+    <Argument("/hide.labels", True, CLITypes.Boolean,
+              Description:="Hide the row labels?")>
+    <Argument("/cluster.n", True, CLITypes.Integer,
+              Description:="Expects the kmeans cluster result number, default is output 6 kmeans clusters.")>
+    <Argument("/schema", True, CLITypes.String,
+              Description:="The color patterns of the heatmap visualize, by default is using ``ColorBrewer`` colors.")>
+    <Argument("/out", True, CLITypes.File,
+              Extensions:="*.csv, *.svg, *.png",
+              Description:="A directory path where will save the output heatmap plot image and the kmeans cluster details info.")>
+    <Argument("/title", True,
+              Description:="The main title of this chart plot.")>
+    <Argument("/t.log2", True, CLITypes.Boolean, Description:="If this parameter is presented, then it will means apply the log2 transform on the matrix cell value before the heatmap plot.")>
+    <Argument("/tick", True, CLITypes.Double, Description:="The ticks value of the color legend, by default value -1 means generates ticks automatically.")>
+    <Argument("/no-clrev", True, CLITypes.Boolean, Description:="Do not reverse the color sequence.")>
+    <Argument("/size", True, CLITypes.String, AcceptTypes:={GetType(Size)}, Description:="The canvas size.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap_DEPs(args As CommandLine) As Integer
         Dim DIR$ = args <= "/data"
@@ -440,8 +481,14 @@ Partial Module CLI
             .Kmeans(expected:=args.GetValue("/cluster.n", 6)) _
             .SaveTo(dataOUT)
 
+        Dim min# = matrix.Select(Function(d) d.Properties.Values).IteratesALL.Min
         Dim schema$ = args.GetValue("/schema", Colors.ColorBrewer.DivergingSchemes.RdYlGn11)
         Dim revColorSequence As Boolean = Not args.IsTrue("/no-clrev")
+        Dim tick# = args.GetValue("/tick", -1.0#)
+
+        If min >= 0 Then
+            min = 0
+        End If
 
         If args.IsTrue("/KO.class") Then
             Dim groupInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
@@ -461,10 +508,117 @@ Partial Module CLI
                 mainTitle:=title, rowLabelfontStyle:=CSSFont.Win7Small,
                 colLabelFontStyle:=CSSFont.Win7Large,
                 mapName:=schema,
-                reverseClrSeq:=revColorSequence).Save(out & "/plot.png")
+                reverseClrSeq:=revColorSequence,
+                min:=min,
+                tick:=tick).AsGDIImage _
+                         .CorpBlank(30, Color.White) _
+                         .SaveAs(out & "/plot.png")
         End If
 
         Return 0
+    End Function
+
+    <ExportAPI("/DEP.kmeans.scatter2D")>
+    <Usage("/DEP.kmeans.scatter2D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/t.log <default=-1> /cluster.prefix <default=""cluster: #""> /size <1600,1400> /schema <default=clusters> /out <out.png>]")>
+    <Group(CLIGroups.DEP_CLI)>
+    Public Function DEPKmeansScatter2D(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+        Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
+        Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
+        Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter2D.png").AsDefault
+        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
+        Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
+        Dim tlog# = args.GetValue("/t.log", -1.0R)
+
+        If Not prefix.StringEmpty Then
+            For Each protein As EntityLDM In clusterData
+                protein.Cluster = prefix & protein.Cluster
+            Next
+        End If
+
+        If tlog > 0 Then
+            For Each protein In clusterData
+                For Each key In protein.Properties.Keys.ToArray
+                    ' +1S 防止log(0)出现
+                    protein.Properties(key) = Math.Log(protein.Properties(key) + +1S, newBase:=tlog)
+                Next
+            Next
+        End If
+
+        Dim category As Dictionary(Of NamedCollection(Of String)) = sampleInfo.ToCategory
+        Dim keys = category.Keys.ToArray
+        Dim A As New NamedCollection(Of String) With {.Name = keys(0), .Value = category(.Name).Value}
+        Dim B As New NamedCollection(Of String) With {.Name = keys(1), .Value = category(.Name).Value}
+
+        Return Kmeans.Scatter2D(clusterData, (A, B), size, schema:=schema) _
+            .AsGDIImage _
+            .CorpBlank(30, Color.White) _
+            .SaveAs(out) _
+            .CLICode
+    End Function
+
+    ''' <summary>
+    ''' 进行差异表达蛋白的聚类结果的3D scatter散点图的绘制可视化
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/DEP.heatmap.scatter.3D")>
+    <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
+    <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.png>]")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(EntityLDM)},
+              Extensions:="*.csv",
+              Description:="The kmeans cluster result from ``/DEP.heatmap`` command.")>
+    <Argument("/sampleInfo", False, CLITypes.File,
+              AcceptTypes:={GetType(SampleInfo)},
+              Extensions:="*.csv",
+              Description:="Sample info fot grouping the matrix column data and generates the 3d plot ``<x,y,z>`` coordinations.")>
+    <Argument("/cluster.prefix", True, CLITypes.String,
+              Description:="The term prefix of the kmeans cluster name when display on the legend title.")>
+    <Argument("/size", True,
+              AcceptTypes:={GetType(Size)},
+              Description:="The output 3D scatter plot image size.")>
+    <Argument("/view.angle", True,
+              Description:="The view angle of the 3D scatter plot objects, in 3D direction of ``<X>,<Y>,<Z>``")>
+    <Argument("/view.distance", True, CLITypes.Integer,
+              Description:="The view distance from the 3D camera screen to the 3D objects.")>
+    <Argument("/out", True, CLITypes.File,
+              Extensions:="*.png, *.svg",
+              Description:="The file path of the output plot image.")>
+    <Group(CLIGroups.DEP_CLI)>
+    Public Function DEPHeatmap3D(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
+        Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
+        Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
+        Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter.png").AsDefault
+        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
+        Dim viewAngle As Vector = (args <= "/view.angle") Or "30,60,-56.25".AsDefault
+        Dim viewDistance# = args.GetValue("/view.distance", 2500)
+        Dim camera As New Camera With {
+            .fov = 500000,
+            .screen = size.SizeParser,
+            .ViewDistance = viewDistance,
+            .angleX = viewAngle(0),
+            .angleY = viewAngle(1),
+            .angleZ = viewAngle(2)
+        }
+        Dim category As Dictionary(Of NamedCollection(Of String)) = sampleInfo.ToCategory
+        Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
+
+        If Not prefix.StringEmpty Then
+            For Each protein As EntityLDM In clusterData
+                protein.Cluster = prefix & protein.Cluster
+            Next
+        End If
+
+        Return clusterData _
+            .Scatter3D(category, camera, size, schema:=schema) _
+            .AsGDIImage _
+            .CorpBlank(30, Color.White) _
+            .SaveAs(path:=out) _
+            .CLICode
     End Function
 
     ''' <summary>
@@ -639,7 +793,8 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/DEP.logFC.Volcano", Usage:="/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/level <default=1.5> /colors <up=red;down=green;other=black> /size <1600,1400> /out <plot.csv>]")>
+    <ExportAPI("/DEP.logFC.Volcano")>
+    <Usage("/DEP.logFC.Volcano /in <DEP-log2FC.t.test-table.csv> [/title <title> /p.value <default=0.05> /level <default=1.5> /colors <up=red;down=green;other=black> /size <1400,1400> /display.count /out <plot.csv>]")>
     <Description("Volcano plot of the DEPs' analysis result.")>
     <Argument("/size", True, CLITypes.String,
               Description:="The canvas size of the output image.")>
@@ -648,11 +803,16 @@ Partial Module CLI
               Description:="The input DEPs t.test result, should contains at least 3 columns which are names: ``ID``, ``log2FC`` and ``p.value``")>
     <Argument("/colors", True, CLITypes.String,
               Description:="The color profile for the DEPs and proteins that no-changes, value string in format like: key=value, and seperated by ``;`` symbol.")>
+    <Argument("/title", True, CLITypes.String, Description:="The plot main title.")>
+    <Argument("/p.value", True, CLITypes.Double, Description:="The p.value cutoff threshold, default is 0.05.")>
+    <Argument("/level", True, CLITypes.Double, Description:="The log2FC value cutoff threshold, default is ``log2(1.5)``.")>
+    <Argument("/display.count", True, CLITypes.Boolean, Description:="Display the protein counts in the legend label? by default is not.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function logFCVolcano(args As CommandLine) As Integer
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".DEPs.vocano.plot.png")
         Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)(args <= "/in")
-        Dim size$ = args.GetValue("/size", "1600,1400")
+        Dim size$ = args.GetValue("/size", "1400,1400")
+        Dim title$ = (args <= "/title") Or ("Volcano plot of " & (args <= "/in").BaseName).AsDefault
         Dim colors As Dictionary(Of Integer, Color) = args _
             .GetDictionary("/colors", [default]:="up=red;down=green;other=black") _
             .ToDictionary(Function(type)
@@ -662,8 +822,11 @@ Partial Module CLI
                               Return color.Value.TranslateColor
                           End Function)
         Dim log2FCLevel# = args.GetValue("/level", 1.5)
+        Dim pvalue# = args.GetValue("/p.value", 0.05)
+        Dim P = -Math.Log10(pvalue)
+        Dim displayCount As Boolean = args.IsTrue("/display.count")
         Dim toFactor = Function(x As DEGModel)
-                           If x.pvalue < Volcano.PValueThreshold Then
+                           If x.pvalue < P Then
                                Return 0
                            ElseIf Math.Abs(x.logFC) < Math.Log(log2FCLevel, 2) Then
                                Return 0
@@ -682,8 +845,13 @@ Partial Module CLI
                             padding:="padding: 50 50 150 150",
                             displayLabel:=LabelTypes.None,
                             size:=size,
-                            log2Threshold:=log2FCLevel) _
-            .Save(out) _
+                            log2Threshold:=log2FCLevel,
+                            pvalueThreshold:=pvalue,
+                            title:=title,
+                            displayCount:=displayCount) _
+            .AsGDIImage _
+            .CorpBlank(30, Color.White) _
+            .SaveAs(out) _
             .CLICode
     End Function
 
@@ -691,6 +859,8 @@ Partial Module CLI
                Info:="https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R",
                Usage:="/DEPs.stat /in <log2.test.csv> [/log2FC <default=log2FC> /out <out.stat.csv>]")>
     <Argument("/log2FC", True, CLITypes.String, Description:="The field name that stores the log2FC value of the average FoldChange")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in, Extensions:="*.csv", Description:="The DEPs' t.test result in csv file format.")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out, Description:="The stat count output file path.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function DEPStatics(args As CommandLine) As Integer
         Dim in$ = args <= "/in"

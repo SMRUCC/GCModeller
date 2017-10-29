@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::fb3e4c2382ec4278561303d641a4092c, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\Linq\List(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::cf8156b0a36089b4df4de648f8b909e0, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\Linq\List(Of T).vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -426,6 +426,16 @@ Namespace Language
         End Operator
 
         ''' <summary>
+        ''' 从输入的向量数组之中移除掉列表之中的指定元素，然后返回<paramref name="vector"/>的剩余元素
+        ''' </summary>
+        ''' <param name="vector"></param>
+        ''' <param name="list"></param>
+        ''' <returns></returns>
+        Public Shared Operator -(vector As T(), list As List(Of T)) As List(Of T)
+            Return vector.AsList - DirectCast(list, IEnumerable(Of T))
+        End Operator
+
+        ''' <summary>
         ''' 将这个列表对象隐式转换为向量数组
         ''' </summary>
         ''' <param name="list"></param>
@@ -511,6 +521,22 @@ Namespace Language
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator >(source As List(Of T), path As String) As Boolean
             Return CollectionIO.DefaultHandle()(source, path, System.Text.Encoding.UTF8)
+        End Operator
+
+        ''' <summary>
+        ''' <see cref="Count"/> of <paramref name="list"/> &gt; <paramref name="n"/>
+        ''' </summary>
+        ''' <param name="list"></param>
+        ''' <param name="n%"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator >(list As List(Of T), n%) As Boolean
+            Return list.Count > n
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator <(list As List(Of T), n%) As Boolean
+            Return Not list > n
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

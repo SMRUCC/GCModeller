@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da3e43079ea6d675bbf09fad4667a058, ..\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\PrintHelper.vb"
+﻿#Region "Microsoft.VisualBasic::eaffc540afecb371890fe930727abc5f, ..\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\PrintHelper.vb"
 
     ' Author:
     ' 
@@ -64,11 +64,11 @@ Public Module PrintHelper
 
         With c
             ' 获取当前的cluster的显示文本
-            Dim name$ = .Label & (If(.IsLeaf, " (leaf)", "")) & (If(.Distance IsNot Nothing, "  distance: " & .Distance.ToString, ""))
+            Dim name$ = .Name & (If(.Leaf, " (leaf)", "")) & (If(.Distance IsNot Nothing, "  distance: " & .Distance.ToString, ""))
             Call sb.AppendLine(name)
 
             ' 然后递归的将所有子节点的文本也生成出来
-            For Each child As Cluster In .Childs
+            For Each child As Cluster In .Children
                 Call child.__consoleLine(sb, indent + 1)
             Next
         End With

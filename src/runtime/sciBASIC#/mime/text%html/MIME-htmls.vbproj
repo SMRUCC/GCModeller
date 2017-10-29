@@ -301,9 +301,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Controls.Ribbon" />
@@ -324,8 +321,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HTML\CSS\Size.vb" />
+    <Compile Include="HTML\CSS\Parser\Enums.vb" />
     <Compile Include="HTML\CSS\Fill.vb" />
     <Compile Include="HTML\CSS\ICSSValue.vb" />
+    <Compile Include="HTML\CSS\Parser\Parser.vb" />
+    <Compile Include="HTML\CSS\Parser\File.vb" />
     <Compile Include="HTML\CSS\Stroke.vb" />
     <Compile Include="HTML\CSS\FontStyle.vb" />
     <Compile Include="HTML\CSS\Padding.vb" />
@@ -414,11 +415,8 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="HTML\CSS\Render\CSS\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>

@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::e67263d5fdd6a7b8a3da8e42a8a12bbe, ..\interops\meme_suite\MEME\Analysis\FootprintTrace\MotifMatchMast.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -334,7 +335,7 @@ Namespace Analysis.FootprintTraceAPI
         <ExportAPI("Compile.Single")>
         Public Function CompileSingle(MEME As String, MAST_OUT As String) As MatchResult
             Dim DIRs = FileIO.FileSystem.GetDirectories(MAST_OUT, FileIO.SearchOption.SearchTopLevelOnly)  ' 获取某个模块的顶层的文件夹列表，下面是Motif家族的文件夹列表
-            Dim source As String = basename(MEME)
+            Dim source As String = BaseName(MEME)
             Dim masts As MotifSiteHit() = (From DIR As String In DIRs
                                            Let mast As MAST = (DIR & "/mast.xml").LoadXml(Of MAST)(ThrowEx:=False)
                                            Where Not mast Is Nothing
@@ -384,7 +385,7 @@ Namespace Analysis.FootprintTraceAPI
 
             Dim list As New List(Of MotifSiteHit)
             Dim Family As String =
-                basename(MAST.Sequences.Databases.First.name)
+                BaseName(MAST.Sequences.Databases.First.name)
 
             For Each x As SequenceDescript In MAST.Sequences.SequenceList
                 If x.Segments.IsNullOrEmpty Then

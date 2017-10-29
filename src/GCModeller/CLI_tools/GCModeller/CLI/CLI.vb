@@ -29,9 +29,10 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -41,6 +42,30 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Services
 
 <Package("GCModeller.CLI", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.CLI_MAN, Url:="http://gcmodeller.org")>
 Public Module CLI
+
+    <ExportAPI("/Intersect")>
+    <Usage("/Intersect /a <list.txt> /b <list.txt> [/out <list.txt>]")>
+    Public Function Intersect(args As CommandLine) As Integer
+        Dim a$() = (args <= "/a").ReadAllLines
+        Dim b$() = (args <= "/b").ReadAllLines
+        Dim out$ = args.GetValue("/out", (args <= "/a").TrimSuffix & "-" & (args <= "/b").BaseName & ".txt")
+        Return a.Intersect(b).FlushAllLines(out).CLICode
+    End Function
+
+    <ExportAPI("/kmeans")>
+    <Usage("/kmeans /in <matrix.csv> [/cluster.n <default=6> /out <out.csv>]")>
+    Public Function Kmeans(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim n% = args.GetValue("/cluster.n", 6)
+        Dim out$ = (args <= "/out") Or ([in].TrimSuffix & $"-clusters={n}.csv").AsDefault
+        Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim clusters = matrix _
+            .ToKMeansModels _
+            .Kmeans(expected:=n) _
+            .ToArray
+
+        Return clusters.SaveTo(out).CLICode
+    End Function
 
     <ExportAPI("help", Example:="gc help", Usage:="gc help", Info:="Show help information about this program.")>
     Public Function About() As Integer

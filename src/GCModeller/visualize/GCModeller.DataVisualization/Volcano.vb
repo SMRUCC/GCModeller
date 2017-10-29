@@ -157,15 +157,17 @@ Public Module Volcano
                                        Optional ylab$ = "-log<sub>10</sub>(p-value)",
                                        Optional title$ = "Volcano plot",
                                        Optional log2Threshold# = 2,
+                                       Optional pvalueThreshold# = 0.05,
                                        Optional thresholdStroke$ = Stroke.AxisGridStroke,
                                        Optional ptSize! = 5,
                                        Optional translate As Func(Of Double, Double) = Nothing,
                                        Optional displayLabel As LabelTypes = LabelTypes.None,
                                        Optional labelFontStyle$ = CSSFont.PlotTitle,
-                                       Optional legendFont$ = CSSFont.UbuntuNormal,
+                                       Optional legendFont$ = CSSFont.Win7LargeBold,
                                        Optional titleFontStyle$ = CSSFont.Win7Large,
-                                       Optional ticksFontStyle$ = CSSFont.Win10Normal,
-                                       Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO) As GraphicsData
+                                       Optional ticksFontStyle$ = CSSFont.Win7LargerBold,
+                                       Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO,
+                                       Optional displayCount As Boolean = True) As GraphicsData
 
         Dim DEG_matrix As DEGModel() = genes.CreateModel(translate Or P)
 
@@ -267,7 +269,7 @@ Public Module Volcano
                 Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
 
                 ' 在绘制出pvalue的临界值虚线
-                top = plotRegion.Bottom - y(-Math.Log10(0.05))
+                top = plotRegion.Bottom - y(-Math.Log10(pvalueThreshold))
                 Call g.DrawLine(thresholdPen, New Point(plotRegion.Left, top), New Point(plotRegion.Right, top))
 
                 For Each gene As DEGModel In DEG_matrix
@@ -299,31 +301,31 @@ Public Module Volcano
                 Next
 
                 With region
-                    Dim legends = colors.GetLegends(legendFont, (up, down))
+                    Dim legends = colors.GetLegends(legendFont, (up, down), displayCount)
                     Dim lsize As SizeF = legends.MaxLegendSize(g)
 
                     px = .Size.Width - .Padding.Left - (lsize.Width + 50)
                     py = plotRegion.Top + .Padding.Top / 2
                     point = New PointF(px, py)
 
-                    Call g.DrawLegends(point.ToPoint, legends)
+                    Call g.DrawLegends(point.ToPoint, legends, gSize:="40,40")
                 End With
             End Sub
     End Function
 
     <Extension>
-    Private Function GetLegends(colors As Dictionary(Of Integer, Color), font$, count As (up%, down%)) As Legend()
+    Private Function GetLegends(colors As Dictionary(Of Integer, Color), font$, count As (up%, down%), displayCount As Boolean) As Legend()
         Dim up As New Legend With {
             .color = colors(1).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
-            .title = $"({count.up}) log2FC >= UP"
+            .title = "log2FC >= UP" Or $"({count.up}) log2FC >= UP".AsDefault(Function() displayCount)
         }
         Dim down As New Legend With {
             .color = colors(-1).RGBExpression,
             .fontstyle = font,
             .style = LegendStyles.Circle,
-            .title = $"({count.down}) log2FC <= DOWN"
+            .title = "log2FC <= DOWN" Or $"({count.down}) log2FC <= DOWN".AsDefault(Function() displayCount)
         }
         Dim normal As New Legend With {
             .color = colors(0).RGBExpression,

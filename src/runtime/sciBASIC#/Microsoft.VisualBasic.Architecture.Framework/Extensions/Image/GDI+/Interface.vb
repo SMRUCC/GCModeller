@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bad7ad4c354370073a6f353e07ddef62, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\Interface.vb"
+﻿#Region "Microsoft.VisualBasic::d97bba05fc0646920abfaa973a9212f6, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\Interface.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@ Imports System.Drawing.Text
 Namespace Imaging
 
     ''' <summary>
-    ''' Encapsulates a GDI+/SVG etc drawing surface. This class must be inherited.
+    ''' Encapsulates a GDI+(bitmap, wmf)/SVG etc drawing surface. This class must be inherited.
     ''' </summary>
     Public MustInherit Class IGraphics
         Implements IDisposable

@@ -37,8 +37,15 @@ Imports SMRUCC.genomics.foundation.OBO_Foundry
 Partial Module CLI
 
     <ExportAPI("/Imports.Go.obo.mysql")>
-    <Description("")>
+    <Description("Dumping GO obo database as mysql database files.")>
     <Usage("/Imports.Go.obo.mysql /in <go.obo> [/out <out.sql>]")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.obo",
+              Description:="The Go obo database file.")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+              Extensions:="*.sql",
+              Out:=True,
+              Description:="The output file path of the generated sql database file. If this argument is not presented in the CLI inputs, then all of the generated content will be output to the console.")>
     <Group(CLIGroups.Repository_CLI)>
     Public Function DumpGOAsMySQL(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
@@ -51,6 +58,14 @@ Partial Module CLI
 
     <ExportAPI("/Imports.Uniprot.Xml")>
     <Usage("/Imports.Uniprot.Xml /in <uniprot.xml> [/out <out.sql>]")>
+    <Description("Dumping the UniprotKB XML database as mysql database file.")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.xml",
+              Description:="The uniprotKB XML database file.")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+              Extensions:="*.sql",
+              Out:=True,
+              Description:="The output file path of the generated sql database file. If this argument is not presented in the CLI inputs, then all of the generated content will be output to the console.")>
     <Group(CLIGroups.Repository_CLI)>
     Public Function DumpUniprot(args As CommandLine) As Integer
         Dim in$ = args <= "/in"

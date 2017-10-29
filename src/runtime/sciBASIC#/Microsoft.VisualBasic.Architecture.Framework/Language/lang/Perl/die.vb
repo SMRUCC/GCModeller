@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d793e1836113bd743bf3e04b19cce6f6, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\lang\Perl\die.vb"
+﻿#Region "Microsoft.VisualBasic::cce0299c551e5db9a4d0953c15245dd0, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\lang\Perl\die.vb"
 
     ' Author:
     ' 
@@ -46,8 +46,11 @@ Namespace Language.Perl
             With obj.GetType
                 If .ref Is GetType(Boolean) Then
                     Return False = DirectCast(obj, Boolean)
+
+                    ' 对于字符串而言，判断是否为空的标准则是看字符串是否为空或者空字符串
                 ElseIf .ref Is GetType(String) Then
                     Return String.IsNullOrEmpty(DirectCast(obj, String))
+
                 ElseIf .ref.IsInheritsFrom(GetType(Array)) Then
                     Return DirectCast(obj, Array).Length = 0
                     'ElseIf .ref.IsInheritsFrom(GetType(IEnumerable)) Then

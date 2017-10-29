@@ -151,6 +151,27 @@ Namespace Language
             End If
         End Function
 
+        Public Function TryGetMember(ByRef name$, caseSensitive As Boolean) As PropertyInfo
+            If PropertyNames.IndexOf(name) = -1 Then
+                If Not caseSensitive Then
+                    name = PropertyNames _
+                        .Objects _
+                        .Where(AddressOf name.TextEquals) _
+                        .FirstOrDefault
+
+                    If name.StringEmpty Then
+                        Return Nothing
+                    Else
+                        Return propertyList(name)
+                    End If
+                Else
+                    Return Nothing
+                End If
+            Else
+                Return propertyList(name)
+            End If
+        End Function
+
         ''' <summary>
         ''' Property Set
         ''' </summary>
@@ -215,7 +236,7 @@ Namespace Language
                 Return method
             End If
 
-            If type.ImplementsInterface(GetType(IEnumerable)) Then
+            If type.ImplementInterface(GetType(IEnumerable)) Then
                 vector = True
                 type = type.GetInterfaces _
                     .Where(Function(i) i.Name = NameOf(IEnumerable)) _
@@ -267,7 +288,7 @@ Namespace Language
             End With
 
             ' target还是空值的话，则尝试将目标参数转换为集合类型
-            If Not type.ImplementsInterface(GetType(IEnumerable)) Then
+            If Not type.ImplementInterface(GetType(IEnumerable)) Then
                 Return Nothing
             Else
                 type = type.GetInterfaces _

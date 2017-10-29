@@ -59,7 +59,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
         Sub New()
             Try
-                Dim res As New SoftwareToolkits.Resources(GetType(EntryAPI).Assembly)
+                Dim res As New ApplicationServices.Resources(GetType(EntryAPI).Assembly)
                 __cacheList = __loadList(res.GetString("KEGG_Organism_Complete_Genomes"))
                 __spHash = __cacheList.ToArray.ToDictionary(Function(x) x.KEGGId)
             Catch ex As Exception
@@ -112,7 +112,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' <returns></returns>
         <ExportAPI("list.Load", Info:="Load KEGG organism list from the internal resource.")>
         Public Function GetOrganismListFromResource() As KEGGOrganism
-            Dim res As New SoftwareToolkits.Resources(GetType(EntryAPI).Assembly)
+            Dim res As New ApplicationServices.Resources(GetType(EntryAPI).Assembly)
             Dim html As String = res.GetString("KEGG_Organisms__Complete_Genomes")
             Return __loadList(html)
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6bbb93ec751e3ecc810e5d8f7477b0e0, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::04211be7d8266c45845c927b9567fa14, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Reflection.vb"
 
     ' Author:
     ' 
@@ -29,6 +29,7 @@
 Imports System.ComponentModel
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
@@ -160,20 +161,20 @@ NULL:       If Not strict Then
 
     <ExportAPI("GET.Assembly.Details")>
     <Extension>
-    Public Function GetAssemblyDetails(path As String) As SoftwareToolkits.ApplicationDetails
-        Return New SoftwareToolkits.ApplicationDetails(Assembly.LoadFile(path))
+    Public Function GetAssemblyDetails(path As String) As ApplicationDetails
+        Return New ApplicationDetails(Assembly.LoadFile(path))
     End Function
 
     <ExportAPI("GET.Assembly.Details")>
     <Extension>
-    Public Function GetAssemblyDetails(def As Type) As SoftwareToolkits.ApplicationDetails
-        Return New SoftwareToolkits.ApplicationDetails(def.Assembly)
+    Public Function GetAssemblyDetails(def As Type) As ApplicationDetails
+        Return New ApplicationDetails(def.Assembly)
     End Function
 
     <ExportAPI("GET.Assembly.Details")>
     <Extension>
-    Public Function GetAssemblyDetails(assm As Assembly) As SoftwareToolkits.ApplicationDetails
-        Return New SoftwareToolkits.ApplicationDetails(assm)
+    Public Function GetAssemblyDetails(assm As Assembly) As ApplicationDetails
+        Return New ApplicationDetails(assm)
     End Function
 
     ''' <summary>
@@ -209,10 +210,15 @@ NULL:       If Not strict Then
     '''
     <ExportAPI("Get.Version")>
     Public Function GetVersion(Product As String) As Version
-        Dim assm As System.Reflection.Assembly = System.Reflection.Assembly.LoadFile(Product)
+        Dim assm As Assembly = Assembly.LoadFile(Product)
         Return assm.GetVersion
     End Function
 
+    ''' <summary>
+    ''' 如果不存在<see cref="DescriptionAttribute"/>定义则会返回空白字符串
+    ''' </summary>
+    ''' <param name="prop"></param>
+    ''' <returns></returns>
     <ExportAPI("Get.Description")>
     <Extension> Public Function Description(prop As PropertyInfo) As String
         Dim attrs As Object() = prop.GetCustomAttributes(GetType(DescriptionAttribute), inherit:=True)

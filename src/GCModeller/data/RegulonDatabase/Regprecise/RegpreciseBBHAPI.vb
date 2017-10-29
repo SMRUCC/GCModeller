@@ -28,15 +28,14 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Data.Xfam.Pfam
 Imports SMRUCC.genomics.Data.Xfam.Pfam.PfamString
 Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture
@@ -61,7 +60,7 @@ Namespace Regprecise
         ''' <remarks></remarks>
         '''
         <ExportAPI("Regprecise.MP_Cutoff", Info:="cutoff is recommended using value 0.85")>
-        Public Function MPCutoff(data As Generic.IEnumerable(Of RegpreciseMPBBH), cutoff As Double) As RegpreciseMPBBH()
+        Public Function MPCutoff(data As IEnumerable(Of RegpreciseMPBBH), cutoff As Double) As RegpreciseMPBBH()
             Dim LQuery = (From item In data.AsParallel Where item.Similarity > cutoff Select item).ToArray
             Return LQuery
         End Function
@@ -105,7 +104,7 @@ Namespace Regprecise
         ''' <remarks></remarks>
         '''
         <ExportAPI("Family.distributions")>
-        Public Function FamilyStatics(data As Generic.IEnumerable(Of RegpreciseMPBBH)) As IO.File
+        Public Function FamilyStatics(data As IEnumerable(Of RegpreciseMPBBH)) As IO.File
             Dim ProteinFamilies = (From Protein As String
                                    In (From item In data Select item.QueryName Distinct).ToArray
                                    Let Families = (From item In data Where String.Equals(Protein, item.QueryName) Select item.Family Distinct).ToArray
@@ -202,7 +201,7 @@ Namespace Regprecise
         Public Function Match(ResultRegpreciseBidirectionalBh As RegpreciseMPBBH(),
                               Regprecise As Regprecise.TranscriptionFactors,
                               Optional RegpreciseRegulators_Fasta As FASTA.FastaFile = Nothing,
-                              Optional Myva_COG As Generic.IEnumerable(Of MyvaCOG) = Nothing,
+                              Optional Myva_COG As IEnumerable(Of MyvaCOG) = Nothing,
                               Optional PfamStrings As PfamString() = Nothing) As RegpreciseMPBBH()
 
             Dim RegpreciseRegulators As Regulator() = Regprecise.Get_Regulators(Regulator.Types.TF)
@@ -271,7 +270,7 @@ Namespace Regprecise
         End Function
 
         <ExportAPI("Write.Csv.Regprecise.bbh")>
-        Public Function WriteData(data As Generic.IEnumerable(Of RegpreciseMPBBH), saveto As String) As Boolean
+        Public Function WriteData(data As IEnumerable(Of RegpreciseMPBBH), saveto As String) As Boolean
             Return data.SaveTo(saveto, False)
         End Function
 
@@ -302,7 +301,7 @@ Namespace Regprecise
             Return LQuery
         End Function
 
-        Public Function Match(BidirectionalBhRegulators As Generic.IEnumerable(Of RegpreciseMPBBH), Regprecise As Regprecise.TranscriptionFactors) As RegpreciseMPBBH()
+        Public Function Match(BidirectionalBhRegulators As IEnumerable(Of RegpreciseMPBBH), Regprecise As Regprecise.TranscriptionFactors) As RegpreciseMPBBH()
             Dim RegpreciseRegulators = Regprecise.ListAllRegulators.ToEntryDictionary
             Dim LQuery = (From MatchedItem As RegpreciseMPBBH In BidirectionalBhRegulators.AsParallel
                           Let TfId As String = MatchedItem.HitName.Split(CChar(":")).Last

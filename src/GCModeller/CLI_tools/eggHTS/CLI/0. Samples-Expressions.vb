@@ -128,7 +128,7 @@ Partial Module CLI
                             groupLabels.Add(gl, labels)
                         End Sub
 
-        For Each group In groups
+        For Each group As IGrouping(Of String, Designer) In groups
             labels = group _
                 .Select(Function(d) d.Experiment) _
                 .ToArray

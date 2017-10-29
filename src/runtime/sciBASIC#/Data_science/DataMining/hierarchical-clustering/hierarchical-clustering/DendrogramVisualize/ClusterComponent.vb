@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::422d17dbe0761b9ee40eee04db13a6a5, ..\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\DendrogramVisualize\ClusterComponent.vb"
+﻿#Region "Microsoft.VisualBasic::bece7e605b7ec84448a671f408e7d98f, ..\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\DendrogramVisualize\ClusterComponent.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,6 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Language
@@ -54,19 +53,17 @@ Imports sys = System.Math
 
 Namespace DendrogramVisualize
 
-    ''' <summary>
-    ''' 树
-    ''' </summary>
-    Public Class ClusterComponent : Inherits AbstractTree(Of ClusterComponent)
+    Public Class ClusterComponent
         Implements IPaintable
 
+        Public Property Children As New List(Of ClusterComponent)
         Public Property NamePadding As Integer = 6
         Public Property LinkPoint As PointF
         Public Property InitPoint As PointF
         Public Property Cluster As Cluster
         Public Property PrintName As Boolean
 
-#Region "Layout"
+#Region "layout property"
 
         Public ReadOnly Property RectMinX As Double
             Get
@@ -74,7 +71,7 @@ Namespace DendrogramVisualize
                 ' TODO Better use closure / callback here
                 '  Debug.Assert(InitPoint IsNot Nothing AndAlso LinkPoint IsNot Nothing)
                 Dim val As Double = sys.Min(InitPoint.X, LinkPoint.X)
-                For Each child As ClusterComponent In Childs
+                For Each child As ClusterComponent In Children
                     val = sys.Min(val, child.RectMinX)
                 Next
                 Return val
@@ -87,7 +84,7 @@ Namespace DendrogramVisualize
                 ' TODO Better use closure here
                 ' Debug.Assert(InitPoint IsNot Nothing AndAlso LinkPoint IsNot Nothing)
                 Dim val As Double = sys.Min(InitPoint.Y, LinkPoint.Y)
-                For Each child As ClusterComponent In Childs
+                For Each child As ClusterComponent In Children
                     val = sys.Min(val, child.RectMinY)
                 Next
                 Return val
@@ -100,7 +97,7 @@ Namespace DendrogramVisualize
                 ' TODO Better use closure here
                 ' Debug.Assert(InitPoint IsNot Nothing AndAlso LinkPoint IsNot Nothing)
                 Dim val As Double = Math.Max(InitPoint.X, LinkPoint.X)
-                For Each child As ClusterComponent In Childs
+                For Each child As ClusterComponent In Children
                     val = Math.Max(val, child.RectMaxX)
                 Next
                 Return val
@@ -113,7 +110,7 @@ Namespace DendrogramVisualize
                 ' TODO Better use closure here
                 '  Debug.Assert(InitPoint IsNot Nothing AndAlso LinkPoint IsNot Nothing)
                 Dim val As Double = Math.Max(InitPoint.Y, LinkPoint.Y)
-                For Each child As ClusterComponent In Childs
+                For Each child As ClusterComponent In Children
                     val = Math.Max(val, child.RectMaxY)
                 Next
                 Return val
@@ -132,50 +129,85 @@ Namespace DendrogramVisualize
         ''' 绘制具体的聚类结果
         ''' </summary>
         ''' <param name="g"></param>
-        Public Sub paint(g As Graphics2D, args As PainterArguments, ByRef labels As List(Of NamedValue(Of PointF))) Implements IPaintable.paint
+        ''' <remarks>
+        ''' 在进行绘制的时候，默认的布局样式是竖直样式的
+        ''' 对于绘制水平方向的层次聚类树，则只需要将竖直布局样式的的点的x, y交换一下即可
+        ''' 对于弧形布局的层次聚类树的绘制，则是将竖直样式的点的y映射为圆弧的度，x映射为圆弧的半径即可
+        ''' </remarks>
+        Public Sub Paint(g As Graphics2D, args As PainterArguments, ByRef labels As List(Of NamedValue(Of PointF))) Implements IPaintable.Paint
             Dim x1, y1, x2, y2 As Integer
             Dim fontMetrics As FontMetrics = g.FontMetrics
 
             With args
 
-                x1 = CInt(Fix(InitPoint.X * .xDisplayFactor + .xDisplayOffset))
-                y1 = CInt(Fix(InitPoint.Y * .yDisplayFactor + .yDisplayOffset))
-                x2 = CInt(Fix(LinkPoint.X * .xDisplayFactor + .xDisplayOffset))
-                y2 = y1
+                If .layout = Layouts.Vertical Then
+                    x1 = CInt(Fix(InitPoint.X * .xDisplayFactor + .xDisplayOffset))
+                    y1 = CInt(Fix(InitPoint.Y * .yDisplayFactor + .yDisplayOffset))
+                    x2 = CInt(Fix(LinkPoint.X * .xDisplayFactor + .xDisplayOffset))
+                    y2 = y1  ' 只变化X，Y不变，表示树枝在竖直布局下的水平延伸
+                Else
+                    y1 = CInt(Fix(InitPoint.X * .xDisplayFactor + .yDisplayOffset))
+                    x1 = CInt(Fix(InitPoint.Y * .yDisplayFactor + .xDisplayOffset))
+                    y2 = CInt(Fix(LinkPoint.X * .xDisplayFactor + .yDisplayOffset))
+                    x2 = x1  ' 只变化Y，X不变，表示树枝在水平布局下的竖直延伸
+                End If
 
                 If .LinkDotRadius > 0 Then
                     Dim dotRadius = .LinkDotRadius
                     Dim d% = dotRadius * 2
+
                     g.FillEllipse(Brushes.Black, x1 - dotRadius, y1 - dotRadius, d, d)
                 End If
+
                 g.DrawLine(.stroke, x1, y1, x2, y2)
 
-                If Cluster.IsLeaf Then
-                    Dim nx! = x1 + NamePadding
-                    Dim ny! = y1
+                If Cluster.Leaf Then
+
+                    ' 如果目标是叶节点才会进行标签字符串的绘制操作
+                    Dim nx!
+                    Dim ny!
+
+                    If .layout = Layouts.Vertical Then
+                        nx = x1 + NamePadding
+                        ny = y1 - (fontMetrics.Height / 2) - 2
+                    Else
+                        nx = x1 - g.MeasureString(Cluster.Name, g.Font).Width / 2
+                        ny = y1 + 5
+                    End If
+
                     Dim location As New PointF With {
                         .X = nx,
-                        .Y = y1 - (fontMetrics.Height / 2) - 2
+                        .Y = ny
                     }
 
                     ' 绘制叶节点
                     If args.ShowLabelName Then
-                        g.DrawString(Cluster.Label, fontMetrics, Brushes.Black, location)
+                        g.DrawString(Cluster.Name, fontMetrics, Brushes.Black, location)
                     End If
+
                     labels += New NamedValue(Of PointF) With {
-                        .Name = Cluster.Label,
+                        .Name = Cluster.Name,
                         .Value = location
                     }
 
                     If Not .classTable Is Nothing Then
+
                         ' 如果还存在分类信息的话，会绘制分类的颜色条
-                        Dim color As Brush = .classTable(Cluster.Label).GetBrush
-                        Dim topleft As New PointF(nx + .classLegendPadding, y1 - .classLegendSize.Height / 2)
+                        Dim color As Brush = .classTable(Cluster.Name).GetBrush
+                        Dim topleft As PointF
+
+                        If .layout = Layouts.Vertical Then
+                            topleft = New PointF(nx + .classLegendPadding, y1 - .classLegendSize.Height / 2)
+                        Else
+                            topleft = New PointF(x1 - .classLegendSize.Width / 2, y1 + .classLegendPadding)
+                        End If
+
                         Dim rect As New RectangleF(topleft, .classLegendSize)
 
                         g.FillRectangle(color, rect)
                     End If
                 End If
+
                 If .decorated AndAlso
                     Cluster.Distance IsNot Nothing AndAlso
                     (Not Cluster.Distance.NaN) AndAlso
@@ -191,34 +223,48 @@ Namespace DendrogramVisualize
                     g.DrawString(s, fontMetrics, Brushes.Black, location)
                 End If
 
+                ' 进行递归绘制
                 x1 = x2
                 y1 = y2
-                y2 = CInt(Fix(LinkPoint.Y * .yDisplayFactor + .yDisplayOffset))
+
+                If .layout = Layouts.Vertical Then
+                    ' 变y，表示树枝在递归绘图的时候在竖直方向上延伸
+                    y2 = CInt(Fix(LinkPoint.Y * .yDisplayFactor + .yDisplayOffset))
+                Else
+                    ' 变X，表示树枝在递归绘图的时候在水平方向上延伸
+                    x2 = CInt(Fix(LinkPoint.Y * .xDisplayFactor + .yDisplayOffset))
+                End If
+
                 g.DrawLine(.stroke, x1, y1, x2, y2)
 
-                For Each child As ClusterComponent In Childs
-                    child.paint(g, args, labels)
+                ' 进行递归绘制
+                For Each child As ClusterComponent In Children
+                    child.Paint(g, args, labels)
                 Next
             End With
         End Sub
 
-        Public Function GetNameWidth(g As Graphics2D, includeNonLeafs As Boolean) As Integer
+        Private Function getNameWidth(g As Graphics2D, includeNonLeafs As Boolean) As Integer
             Dim width As Integer = 0
-            If includeNonLeafs OrElse Cluster.IsLeaf Then
-                Dim rect As RectangleF = g.FontMetrics.GetStringBounds(Cluster.Label, g.Graphics)
+            If includeNonLeafs OrElse Cluster.Leaf Then
+                Dim rect As RectangleF = g.FontMetrics.GetStringBounds(Cluster.Name, g.Graphics)
                 width = CInt(Fix(rect.Width))
             End If
             Return width
         End Function
 
         Public Function GetMaxNameWidth(g As Graphics2D, includeNonLeafs As Boolean) As Integer
-            Dim width As Integer = GetNameWidth(g, includeNonLeafs)
-            For Each comp As ClusterComponent In Childs
+            Dim width As Integer = getNameWidth(g, includeNonLeafs)
+
+            For Each comp As ClusterComponent In Children
                 Dim childWidth As Integer = comp.GetMaxNameWidth(g, includeNonLeafs)
-                If childWidth > width Then width = childWidth
-            Next comp
+
+                If childWidth > width Then
+                    width = childWidth
+                End If
+            Next
+
             Return width
         End Function
     End Class
-
 End Namespace

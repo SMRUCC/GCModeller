@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6cbbafb65a313d2d5727b01ccaf3f23b, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\core.Test\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::5aba667920bb9c6fb79d7ef5a020f704, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\core.Test\CLI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,7 @@ Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 
+<ExceptionHelp("12345", "XXXXXX", "gg@sssss.com")>
 Module CLI
 
     Function Main() As Integer
@@ -48,5 +49,10 @@ Module CLI
     Public Function CLIDocumentTest(args As CommandLine) As Integer
 
     End Function
-End Module
 
+    <ExportAPI("/ExceptionHandler.Test")>
+    <Usage("Whatever")>
+    Public Function ExceptionHandlerTest(args As CommandLine) As Integer
+        Throw New Exception
+    End Function
+End Module

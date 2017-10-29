@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20c137fce00eaec8abea5929330c9c36, ..\sciBASIC#\Data\DataFrame\IO\Generic\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::3d63dce240b976219426cdd208d3410a, ..\sciBASIC#\Data\DataFrame\IO\Generic\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.Expressions
 
 Namespace IO
 
@@ -84,6 +85,7 @@ Namespace IO
         ''' <param name="data"></param>
         ''' <param name="keys$"></param>
         ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Project(data As IEnumerable(Of DataSet), keys$()) As IEnumerable(Of DataSet)
             Return data _
@@ -97,6 +99,31 @@ Namespace IO
                         End Function)
         End Function
 
+        ''' <summary>
+        ''' Grouping of the property value by property names
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="groupKeys"></param>
+        ''' <param name="aggregate$"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function GroupBy(data As IEnumerable(Of DataSet), groupKeys As Dictionary(Of String, String()), Optional aggregate$ = "average") As IEnumerable(Of DataSet)
+            With aggregate.GetAggregateFunction
+                Return data _
+                    .Select(Function(x)
+                                Dim values = groupKeys.ToDictionary(
+                                    Function(k) k.Key,
+                                    Function(k) .ref(x(k.Value)))
+
+                                Return New DataSet With {
+                                    .ID = x.ID,
+                                    .Properties = values
+                                }
+                            End Function)
+            End With
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function PropertyNames(table As IDictionary(Of String, DataSet)) As String()
             Return table.Values.PropertyNames
@@ -107,6 +134,8 @@ Namespace IO
         ''' </summary>
         ''' <param name="list"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function PropertyNames(list As IEnumerable(Of DataSet)) As String()
             Return list _
@@ -116,6 +145,7 @@ Namespace IO
                 .ToArray
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Vector(datasets As IEnumerable(Of DataSet), property$) As Double()
             Return datasets _
@@ -123,6 +153,7 @@ Namespace IO
                 .ToArray
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function NamedMatrix(data As IEnumerable(Of DataSet)) As NamedValue(Of Dictionary(Of String, Double))()
             Return data _
@@ -177,11 +208,18 @@ Namespace IO
         ''' <param name="data"></param>
         ''' <param name="key$"></param>
         ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Values(data As IEnumerable(Of EntityObject), key$) As String()
             Return data _
                 .Select(Function(r) r(key$)) _
                 .ToArray
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function AsDataSet(data As IEnumerable(Of NamedValue(Of Dictionary(Of String, Double)))) As IEnumerable(Of DataSet)
+            Return data.Select(Function(obj) New DataSet With {.ID = obj.Name, .Properties = obj.Value})
         End Function
 
         <Extension>

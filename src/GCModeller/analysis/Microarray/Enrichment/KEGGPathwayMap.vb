@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports System.Drawing
 
 Public Module KEGGPathwayMap
 
@@ -35,7 +36,7 @@ Public Module KEGGPathwayMap
                 Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
                 Dim path$ = EXPORT & "/" & pngName & $"-pvalue={term.Pvalue}" & ".png"
 
-                If Not (path.FileLength > 0) Then
+                If Not (path.FileLength > 0) OrElse path.MapImageInvalid Then
                     Call PathwayMapping.ShowEnrichmentPathway(term.Link, save:=path)
                     Call Thread.Sleep(2000)
                 Else
@@ -48,6 +49,17 @@ Public Module KEGGPathwayMap
         End Using
 
         Return failures
+    End Function
+
+    <Extension>
+    Private Function MapImageInvalid(path$) As Boolean
+        Try
+            Using Image.FromFile(path)
+                Return False
+            End Using
+        Catch ex As Exception
+            Return True
+        End Try
     End Function
 
     ''' <summary>

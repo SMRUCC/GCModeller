@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d475f74c584f80e484e9e8b585e6c37, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\Linq\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::ba0350705be0bc07ae8d0229ffdc1888, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\Linq\Vector.vb"
 
     ' Author:
     ' 
@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Dynamic
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Linq
@@ -52,6 +53,7 @@ Namespace Language
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Length As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return buffer.Length
             End Get
@@ -250,7 +252,7 @@ Namespace Language
         ''' <returns></returns>
         Default Public Overridable Overloads Property Item(booleans As IEnumerable(Of Boolean)) As Vector(Of T)
             Get
-                Return New Vector(Of T)(Me(Which.IsTrue(booleans)))
+                Return New Vector(Of T)(Me(indices:=Which.IsTrue(booleans)))
             End Get
             Set(value As Vector(Of T))
                 For Each i In booleans.SeqIterator

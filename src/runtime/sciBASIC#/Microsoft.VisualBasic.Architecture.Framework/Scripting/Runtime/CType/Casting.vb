@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c5098e0951a80063164da3d3b5412c55, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Scripting\Runtime\CType\Casting.vb"
+﻿#Region "Microsoft.VisualBasic::3217fc4eafcc16dd357fdd7c8d2a4e38, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Scripting\Runtime\CType\Casting.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
@@ -42,6 +43,12 @@ Namespace Scripting.Runtime
     ''' Methods for convert the <see cref="System.String"/> to some .NET data types.
     ''' </summary>
     Public Module Casting
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function ScriptValue(size As Size) As String
+            Return $"{size.Width},{size.Height}"
+        End Function
 
         <Extension>
         Public Iterator Function [As](Of T)(source As IEnumerable) As IEnumerable(Of T)
@@ -303,8 +310,8 @@ Namespace Scripting.Runtime
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function CastLogFile(path As String) As Logging.LogFile
-            Return New Logging.LogFile(path)
+        Public Function CastLogFile(path As String) As LogFile
+            Return New LogFile(path)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

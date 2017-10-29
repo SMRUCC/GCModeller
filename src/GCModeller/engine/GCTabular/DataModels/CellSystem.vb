@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::a28bd2bb1bfa158e367993ffb4d28d32, ..\GCModeller\engine\GCTabular\DataModels\CellSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
@@ -50,24 +51,24 @@ Namespace DataModel
     <[Namespace]("csv_model.stream_service")>
     Public Class CellSystem : Implements System.IDisposable
 
-        Dim _Logging As Microsoft.VisualBasic.Logging.LogFile
+        Dim _Logging As LogFile
         Dim _CellSystemModel As FileStream.IO.XmlresxLoader
 
-        Sub New(CellSystem As String, SystemLogging As Microsoft.VisualBasic.Logging.LogFile)
+        Sub New(CellSystem As String, SystemLogging As LogFile)
             Me._Logging = SystemLogging
             Call _Logging.WriteLine($"Load csv model data from ""{CellSystem}"" and create new object stream!",
                                     "CellSystemDataReader->Constructor()",
-                                    Microsoft.VisualBasic.Logging.MSG_TYPES.INF)
+                                    MSG_TYPES.INF)
             Me._CellSystemModel = New FileStream.IO.XmlresxLoader(CellSystem)
         End Sub
 
-        Sub New(CellSystem As FileStream.IO.XmlresxLoader, SystemLogging As Microsoft.VisualBasic.Logging.LogFile)
+        Sub New(CellSystem As FileStream.IO.XmlresxLoader, SystemLogging As LogFile)
             Me._Logging = SystemLogging
             Me._CellSystemModel = CellSystem
         End Sub
 
         Public Function GetMetabolismNetwork() As DataModel.FluxObject()
-            Call _Logging.WriteLine("Start to generate the metabolism network!", "GetMetabolismNetwork()", Microsoft.VisualBasic.Logging.MSG_TYPES.INF)
+            Call _Logging.WriteLine("Start to generate the metabolism network!", "GetMetabolismNetwork()", MSG_TYPES.INF)
 
             Dim LQuery = (From item In Me._CellSystemModel.MetabolismModel.AsParallel Select item.CreateObject).ToArray
             Return LQuery
@@ -116,22 +117,22 @@ Namespace DataModel
             "argument ""model"" is the main xml file of the virtual cell model file.")>
         Public Shared Function LoadModel(model As String, Optional logging_at As String = "") As GCMarkupLanguage.BacterialModel
             If String.IsNullOrEmpty(logging_at) Then
-                logging_at = String.Format("{0}/csv_compiler__{1}.log", Settings.DataCache, Microsoft.VisualBasic.Logging.LogFile.NowTimeNormalizedString)
+                logging_at = String.Format("{0}/csv_compiler__{1}.log", Settings.DataCache, LogFile.NowTimeNormalizedString)
             End If
-            Return New CellSystem(model, New Logging.LogFile(Path:=logging_at)).LoadAction
+            Return New CellSystem(model, New LogFile(Path:=logging_at)).LoadAction
         End Function
 
         <ExportAPI("stream.from_model")>
         Public Shared Function LoadModel(model As FileStream.IO.XmlresxLoader, Optional logging_at As String = "") As GCMarkupLanguage.BacterialModel
             If String.IsNullOrEmpty(logging_at) Then
-                logging_at = String.Format("{0}/csv_compiler__{1}.log", Settings.DataCache, Microsoft.VisualBasic.Logging.LogFile.NowTimeNormalizedString)
+                logging_at = String.Format("{0}/csv_compiler__{1}.log", Settings.DataCache, LogFile.NowTimeNormalizedString)
             End If
-            Return New CellSystem(model, New Logging.LogFile(Path:=logging_at)).LoadAction
+            Return New CellSystem(model, New LogFile(Path:=logging_at)).LoadAction
         End Function
 
         Public Function LoadAction() As GCMarkupLanguage.BacterialModel
 
-            Call _Logging.WriteLine("Start to streaming csv data into gcml data model!", "LoadAction()", Microsoft.VisualBasic.Logging.MSG_TYPES.INF)
+            Call _Logging.WriteLine("Start to streaming csv data into gcml data model!", "LoadAction()", MSG_TYPES.INF)
 
             Dim Dispositions = New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant() {
                 New GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism.DispositionReactant With {
@@ -292,7 +293,7 @@ Namespace DataModel
             Model.BacteriaGenome.OperonCounts = Me._CellSystemModel.CellSystemModel.OperonCounts
             Model.SystemVariables = Me._CellSystemModel.SystemVariables.ToArray
             Model.Metabolism.ConstraintMetaboliteMaps = _CellSystemModel.ConstraintMetabolites.ToArray
-            Call _Logging.WriteLine("Streaming job done!", "LoadAction()", Microsoft.VisualBasic.Logging.MSG_TYPES.INF)
+            Call _Logging.WriteLine("Streaming job done!", "LoadAction()", MSG_TYPES.INF)
 
             Return Model
         End Function
@@ -357,7 +358,7 @@ Namespace DataModel
             For Each Item As TCS.SensorInducers In Inducers
 
                 If Item.Inducers.IsNullOrEmpty Then
-                    Call _Logging.WriteLine(String.Format("Chemotaxis sensing profile for MCP ""{0}"" is null!", Item.SensorId), "CreateSignalTransductionNetwork", Type:=Logging.MSG_TYPES.WRN)
+                    Call _Logging.WriteLine(String.Format("Chemotaxis sensing profile for MCP ""{0}"" is null!", Item.SensorId), "CreateSignalTransductionNetwork", Type:=MSG_TYPES.WRN)
                     Continue For
                 End If
 
@@ -479,7 +480,7 @@ Namespace DataModel
                         Regulator.ProteinAssembly = Regulator.Identifier
                         Call SubstrateList.Add(Regulator.ProteinAssembly)
                         Call TranscriptionModel._add_Regulator("", Regulator)
-                        Call _Logging.WriteLine(String.Format("Link TCS {0} with regulation model {1}", Tf.TF, TranscriptionModel.ToString), "", Type:=Logging.MSG_TYPES.INF, WriteToScreen:=False)
+                        Call _Logging.WriteLine(String.Format("Link TCS {0} with regulation model {1}", Tf.TF, TranscriptionModel.ToString), "", Type:=MSG_TYPES.INF)
                     End If
 
                     If Not Tf.TCSSystem.IsNullOrEmpty Then '磷酸化之后的RR与TF形成复合物
@@ -509,7 +510,7 @@ Namespace DataModel
                                                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.StoiChiometry = 1, .Identifier = Regulator.ProteinAssembly}}
                                        }
                             Call TFActive.Add(FLUX)
-                            Call _Logging.WriteLine(String.Format("Link TCS {0} with regulation model {1}", Tf.TF, TranscriptionModel.ToString), "", Type:=Logging.MSG_TYPES.INF, WriteToScreen:=False)
+                            Call _Logging.WriteLine(String.Format("Link TCS {0} with regulation model {1}", Tf.TF, TranscriptionModel.ToString), "", Type:=MSG_TYPES.INF)
                         Next
 
                     End If

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::580d39f69db6f3006368be59fa7e412f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Math\Math.vb"
+﻿#Region "Microsoft.VisualBasic::2d7f10528e47fd3ed6d8422def08c43f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Math\Math.vb"
 
     ' Author:
     ' 
@@ -1444,18 +1444,14 @@ Namespace Math
         Public Function Round(d As Decimal) As Decimal
             Return sys.Round(d)
         End Function
-        '
-        ' Summary:
-        '     Returns the square root of a specified number.
-        '
-        ' Parameters:
-        '   d:
-        '     The number whose square root is to be found.
-        '
-        ' Returns:
-        '     One of the values in the following table. d parameter Return value Zero or positive
-        '     The positive square root of d. Negative System.Double.NaNEquals System.Double.NaNSystem.Double.NaNEquals
-        '     System.Double.PositiveInfinitySystem.Double.PositiveInfinity
+
+        ''' <summary>
+        ''' Returns the square root of a specified number.
+        ''' </summary>
+        ''' <param name="d">The number whose square root is to be found.</param>
+        ''' <returns>One of the values in the following table. d parameter Return value Zero or positive
+        ''' The positive square root of d. Negative System.Double.NaNEquals System.Double.NaNSystem.Double.NaNEquals
+        ''' System.Double.PositiveInfinitySystem.Double.PositiveInfinity</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)> <SecuritySafeCritical>
         Public Function Sqrt(d As Double) As Double

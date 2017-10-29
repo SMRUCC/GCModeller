@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::46773dc9ae6e5a527082b1051f0da259, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
+﻿#Region "Microsoft.VisualBasic::d68f66a87406ca7dc9b483abb479cb31, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Interpolation
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 
 Namespace Drawing2D.Colors
 
@@ -141,6 +142,11 @@ Namespace Drawing2D.Colors
                  End Function) _
          .ToArray
 
+        Public ReadOnly Property ConsoleColors As Color() = Enums(Of ConsoleColor) _
+            .Select(Function(c) c.ToString) _
+            .Select(AddressOf TranslateColor) _
+            .ToArray
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -195,6 +201,7 @@ Namespace Drawing2D.Colors
 
                 Dim colors As Dictionary(Of String, String()) = My.Resources _
                     .designer_colors _
+                    .GetString(Encodings.UTF8) _
                     .LoadObject(Of Dictionary(Of String, String()))
                 Dim valids As New Dictionary(Of Color, Color())
 
@@ -205,9 +212,10 @@ Namespace Drawing2D.Colors
 
                 AvailableInterpolates = valids
 
-                Dim ns = Regex.Matches(My.Resources.colorbrewer, """\d+""") _
+                Dim colorBrewerJSON$ = My.Resources.colorbrewer.GetString(Encodings.UTF8)
+                Dim ns = Regex.Matches(colorBrewerJSON, """\d+""") _
                     .ToArray(Function(m) m.Trim(""""c))
-                Dim sb As New StringBuilder(My.Resources.colorbrewer)
+                Dim sb As New StringBuilder(colorBrewerJSON)
 
                 For Each n In ns.Distinct
                     Call sb.Replace($"""{n}""", $"""c{n}""")
@@ -306,6 +314,8 @@ Namespace Drawing2D.Colors
 
             If term.TextEquals("material") Then
                 Return MaterialPalette
+            ElseIf term.TextEquals("console.colors") Then
+                Return ConsoleColors
             ElseIf term.TextEquals("TSF") Then
                 Return TSF
             ElseIf term.TextEquals("rainbow") Then

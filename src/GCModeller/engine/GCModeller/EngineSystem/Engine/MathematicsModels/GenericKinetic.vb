@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::bf48184e9a85a7d327421775d9f30c76, ..\GCModeller\engine\GCModeller\EngineSystem\Engine\MathematicsModels\GenericKinetic.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.Serialization
 
 Namespace EngineSystem.MathematicsModels
@@ -38,7 +39,7 @@ Namespace EngineSystem.MathematicsModels
         <DumpNode> Protected KA, KP As Double
 
         Protected get_ValueMethod As Func(Of Double)
-        Protected Friend SystemLogging As Microsoft.VisualBasic.Logging.LogFile
+        Protected Friend SystemLogging As LogFile
         ''' <summary>
         ''' 不要使用<see cref="DumpNode">Dump特性</see>，否则会出现无限递归
         ''' </summary>
@@ -49,7 +50,7 @@ Namespace EngineSystem.MathematicsModels
         Protected Sub New()
         End Sub
 
-        Public Sub New(FluxObject As EngineSystem.ObjectModels.Module.MetabolismFlux, SystemLogging As Logging.LogFile, UPPER_BOUND As Double, LOWER_BOUND As Double, K1 As Double, k2 As Double)
+        Public Sub New(FluxObject As EngineSystem.ObjectModels.Module.MetabolismFlux, SystemLogging As LogFile, UPPER_BOUND As Double, LOWER_BOUND As Double, K1 As Double, k2 As Double)
             Me.SystemLogging = SystemLogging
 
             Me.VF = UPPER_BOUND
@@ -59,7 +60,7 @@ Namespace EngineSystem.MathematicsModels
 
             If VF = 0.0R AndAlso VB = 0.0R Then
                 Dim ErrMessage As String = String.Format("[{0}] :: Factor is calculate as infinity, can not initalize this mathematics model!", FluxObject.Identifier)
-                Call SystemLogging.WriteLine("An critical error was unable to handle: " & vbCrLf & ErrMessage, "", Type:=Logging.MSG_TYPES.ERR)
+                Call SystemLogging.WriteLine("An critical error was unable to handle: " & vbCrLf & ErrMessage, "", Type:=MSG_TYPES.ERR)
                 Throw New DataException(ErrMessage)
             End If
 
@@ -94,7 +95,7 @@ Namespace EngineSystem.MathematicsModels
             Me._FluxObject = FluxObject
         End Sub
 
-        Sub New(FluxObject As EngineSystem.ObjectModels.Module.MetabolismFlux, SystemLogging As Microsoft.VisualBasic.Logging.LogFile)
+        Sub New(FluxObject As EngineSystem.ObjectModels.Module.MetabolismFlux, SystemLogging As LogFile)
             Me.SystemLogging = SystemLogging
 
             Me.VF = FluxObject.UPPER_BOUND
@@ -104,7 +105,7 @@ Namespace EngineSystem.MathematicsModels
 
             If VF = 0.0R AndAlso VB = 0.0R Then
                 Dim ErrMessage As String = String.Format("[{0}] :: Factor is calculate as infinity, can not initalize this mathematics model!", FluxObject.Identifier)
-                Call SystemLogging.WriteLine("An critical error was unable to handle: " & vbCrLf & ErrMessage, "", Type:=Logging.MSG_TYPES.ERR)
+                Call SystemLogging.WriteLine("An critical error was unable to handle: " & vbCrLf & ErrMessage, "", Type:=MSG_TYPES.ERR)
                 Throw New DataException(ErrMessage)
             End If
 
@@ -175,7 +176,7 @@ Namespace EngineSystem.MathematicsModels
                 value = Me._FluxObject.UPPER_BOUND
             ElseIf Double.IsNaN(value) Then
                 value = 0
-                Call SystemLogging.WriteLine("NaN Exception occur in flux object: " & _FluxObject.Identifier, "GCModeller::GenericKinetic", Type:=Logging.MSG_TYPES.ERR)
+                Call SystemLogging.WriteLine("NaN Exception occur in flux object: " & _FluxObject.Identifier, "GCModeller::GenericKinetic", Type:=MSG_TYPES.ERR)
             End If
             Return value
         End Function
@@ -187,7 +188,7 @@ Namespace EngineSystem.MathematicsModels
                 If Metabolite.EntityCompound.Quantity < 0 Then
                     Call SystemLogging.WriteLine(String.Format("NEGATIVE_DATA_EXCEPTION: {0}:={1}, value was set to ZERO! #{2}", Metabolite.Identifier, Metabolite.EntityCompound.Quantity, _FluxObject.Identifier),
                                                  "",
-                                                 Type:=Logging.MSG_TYPES.ERR)
+                                                 Type:=MSG_TYPES.ERR)
                     Metabolite.EntityCompound.Quantity = 0
                 End If
             Next
@@ -195,7 +196,7 @@ Namespace EngineSystem.MathematicsModels
                 If Metabolite.EntityCompound.Quantity < 0 Then
                     Call SystemLogging.WriteLine(String.Format("NEGATIVE_DATA_EXCEPTION: {0}:={1}, value was set to ZERO! #{2}", Metabolite.Identifier, Metabolite.EntityCompound.Quantity, _FluxObject.Identifier),
                                                  "",
-                                                 Type:=Logging.MSG_TYPES.ERR)
+                                                 Type:=MSG_TYPES.ERR)
                     Metabolite.EntityCompound.Quantity = 0
                 End If
             Next
@@ -212,7 +213,7 @@ Namespace EngineSystem.MathematicsModels
 
             If Double.IsNaN(Numerator) AndAlso Double.IsNaN(Denominator) Then
                 Call HandleDenominatorEqualsNaNException()
-                Call SystemLogging.WriteLine("NAN_EXCEPTION, Numerator is also NaN, return value set to 1!", "GetInreversibleFluxValue()", Type:=Logging.MSG_TYPES.ERR)
+                Call SystemLogging.WriteLine("NAN_EXCEPTION, Numerator is also NaN, return value set to 1!", "GetInreversibleFluxValue()", Type:=MSG_TYPES.ERR)
                 Return 1
             ElseIf Double.IsNaN(Denominator) Then
                 Call HandleDenominatorEqualsNaNException()
@@ -230,7 +231,7 @@ Namespace EngineSystem.MathematicsModels
                 If Metabolite.EntityCompound.Quantity < 0 Then
                     Call SystemLogging.WriteLine(String.Format("NEGATIVE_DATA_EXCEPTION: {0}:={1}, value was set to ZERO! #{2}", Metabolite.Identifier, Metabolite.EntityCompound.Quantity, _FluxObject.Identifier),
                                                  "",
-                                                 Type:=Logging.MSG_TYPES.ERR)
+                                                 Type:=MSG_TYPES.ERR)
                     Metabolite.EntityCompound.Quantity = 0
                 End If
             Next
@@ -245,7 +246,7 @@ Namespace EngineSystem.MathematicsModels
 
             If Double.IsNaN(Numerator) AndAlso Double.IsNaN(Denominator) Then
                 Call HandleDenominatorEqualsNaNException()
-                Call SystemLogging.WriteLine("NAN_EXCEPTION, Numerator is also NaN, return value set to 1!", "GetInreversibleFluxValue()", Type:=Logging.MSG_TYPES.ERR)
+                Call SystemLogging.WriteLine("NAN_EXCEPTION, Numerator is also NaN, return value set to 1!", "GetInreversibleFluxValue()", Type:=MSG_TYPES.ERR)
                 Return 1
             ElseIf Double.IsNaN(Denominator) Then
                 Call HandleDenominatorEqualsNaNException()
@@ -277,7 +278,7 @@ Namespace EngineSystem.MathematicsModels
                 Call ErrMessage.AppendLine(String.Format("  {0} x {1}:= {2}(mmol/mml)", item.Stoichiometry, item.Identifier, item.EntityCompound.Quantity))
             Next
 
-            Call SystemLogging.WriteLine(ErrMessage.ToString, "GCModeller::GenericKinetic", Type:=Logging.MSG_TYPES.ERR)
+            Call SystemLogging.WriteLine(ErrMessage.ToString, "GCModeller::GenericKinetic", Type:=MSG_TYPES.ERR)
         End Sub
 
         Protected Sub HandleDenominatorEqualsZeroException()
@@ -294,7 +295,7 @@ Namespace EngineSystem.MathematicsModels
                 Call ErrMessage.AppendLine(String.Format("  {0} x {1}:= {2}(mmol/mml)", item.Stoichiometry, item.Identifier, item.EntityCompound.Quantity))
             Next
 
-            Call SystemLogging.WriteLine(ErrMessage.ToString, "GCModeller::GenericKinetic", Type:=Logging.MSG_TYPES.ERR)
+            Call SystemLogging.WriteLine(ErrMessage.ToString, "GCModeller::GenericKinetic", Type:=MSG_TYPES.ERR)
         End Sub
     End Class
 End Namespace

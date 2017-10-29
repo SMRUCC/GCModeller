@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f73afee797372f78495c7773df5c8e09, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\lang\UnixBash\PS1.vb"
+﻿#Region "Microsoft.VisualBasic::634dbe616b698b47e77bc25d42608aa9, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\lang\UnixBash\PS1.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,7 @@
 
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.SoftwareToolkits
+Imports Microsoft.VisualBasic.ApplicationServices
 
 Namespace Language.UnixBash
 

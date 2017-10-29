@@ -26,10 +26,11 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 
 Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 
@@ -80,6 +81,19 @@ Namespace Assembly.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
             Dim ppmd# = Math.Abs(measured - actualValue) / actualValue
             ppmd = ppmd * 1000000
             Return ppmd
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function ChemicalModel(table As IEnumerable(Of ChemicalData)) As Dictionary(Of String, Dictionary(Of String, ChemicalData()))
+            Return table _
+                .GroupBy(Function(c) c.COMPOUND_ID) _
+                .ToDictionary(Function(c) c.Key,
+                              Function(c)
+                                  Return c _
+                                      .GroupBy(Function(x) x.TYPE) _
+                                      .ToDictionary(Function(t) t.Key,
+                                                    Function(list) list.ToArray)
+                              End Function)
         End Function
 
         Public Overrides Function ToString() As String

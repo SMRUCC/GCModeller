@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
@@ -187,7 +188,7 @@ Public Module EnrichPlot
         Call g.DrawLegends(
             ltopLeft,
             legends,
-            graphicSize:=New Size(60, 35),
+            gSize:="60,35",
             regionBorder:=New Stroke With {
                 .fill = "Black",
                 .dash = DashStyle.Solid,

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::923be7e15bf8886a81448d6fd6a16eac, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\d3js\labeler\Anchor.vb"
+﻿#Region "Microsoft.VisualBasic::403c079189721e90b797654722e3ed47, ..\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\d3js\labeler\Anchor.vb"
 
     ' Author:
     ' 
@@ -27,6 +27,7 @@
 #End Region
 
 Imports System.Drawing
+Imports sys = System.Math
 
 Namespace d3js.Layout
 
@@ -47,6 +48,19 @@ Namespace d3js.Layout
         ''' </summary>
         ''' <returns></returns>
         Public Property r As Double
+
+        Sub New()
+        End Sub
+
+        ''' <summary>
+        ''' 目标节点的绘图模型
+        ''' </summary>
+        ''' <param name="circle">假设anchor是一个圆，画圆的时候是依据矩形框来建模的</param>
+        Sub New(circle As Rectangle)
+            r = sys.Min(circle.Width, circle.Height) / 2
+            x = circle.Left + r
+            y = circle.Top + r
+        End Sub
 
         Public Shared Widening Operator CType(anchor As Anchor) As Point
             With anchor
@@ -76,4 +90,3 @@ Namespace d3js.Layout
         End Operator
     End Class
 End Namespace
-

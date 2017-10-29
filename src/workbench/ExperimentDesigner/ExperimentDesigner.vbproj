@@ -109,6 +109,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalysisDesigner.vb" />
     <Compile Include="Time_series.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="SampleInfo.vb" />

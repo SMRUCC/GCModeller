@@ -32,6 +32,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
@@ -272,17 +273,28 @@ Partial Module CLI
     ''' 1. 总蛋白注释
     ''' </summary>
     ''' <returns></returns>
-    <ExportAPI("/protein.annotations",
-               Info:="Total proteins functional annotation by using uniprot database.",
-               Usage:="/protein.annotations /uniprot <uniprot.XML> [/accession.ID /iTraq /list <uniprot.id.list.txt/rawtable.csv> /mapping <mappings.tab/tsv> /out <out.csv>]")>
+    <ExportAPI("/protein.annotations")>
+    <Description("Total proteins functional annotation by using uniprot database.")>
+    <Usage("/protein.annotations /uniprot <uniprot.XML> [/accession.ID /iTraq /list <uniprot.id.list.txt/rawtable.csv> /mapping <mappings.tab/tsv> /out <out.csv>]")>
     <Argument("/list", True, CLITypes.File,
               AcceptTypes:={GetType(String())},
+              Extensions:="*.txt, *.csv",
               Description:="Using for the iTraq method result.")>
     <Argument("/iTraq", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="Using for the iTraq method result.")>
-    <Argument("/mapping",
+    <Argument("/mapping", True, CLITypes.File,
+              Extensions:="*.tsv, *.txt",
               Description:="The id mapping table, only works when the argument ``/list`` is presented.")>
+    <Argument("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(UniProtXML)},
+              Extensions:="*.xml",
+              Description:="The Uniprot protein database in XML file format.")>
+    <Argument("/accession.ID", True, CLITypes.Boolean,
+              Description:="Using the uniprot protein ID from the ``/uniprot`` input as the generated dataset's ID value, instead of using the numeric sequence as the ID value.")>
+    <Argument("/out", True, CLITypes.File,
+              Extensions:="*.csv",
+              Description:="The file path for output protein annotation table where to save.")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function SampleAnnotations(args As CommandLine) As Integer
         Dim list As String = args("/list")
@@ -423,6 +435,7 @@ Partial Module CLI
     <Argument("/label.right", True, CLITypes.Boolean,
               Description:="Plot GO term their label will be alignment on right. default is alignment left if this aegument is not present.")>
     <Argument("/in", False, CLITypes.File,
+              Extensions:="*.csv",
               Description:="Uniprot XML database export result from ``/protein.annotations`` command.")>
     <Argument("/tick", True, CLITypes.Double,
               Description:="The Axis ticking interval, if this argument is not present in the CLI, then program will create this interval value automatically.")>
@@ -431,6 +444,7 @@ Partial Module CLI
     <Argument("/selects", True, CLITypes.String,
               Description:="The quantity selector for the bar plot content, by default is using quartile Q3 value, which means the term should have at least greater than Q3 quantitle then it will be draw on the bar plot.")>
     <Argument("/out", True, CLITypes.File,
+              Extensions:="*.csv, *.png",
               Description:="A directory path which will created for save the output result. The output result from this command contains a bar plot png image and a csv file for view the Go terms distribution in the sample uniprot annotation data.")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function ProteinsGoPlot(args As CommandLine) As Integer
@@ -486,7 +500,7 @@ Partial Module CLI
     ''' <param name="args"></param>
     ''' <returns></returns>
     <ExportAPI("/proteins.KEGG.plot")>
-    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
+    <Usage("/proteins.KEGG.plot /in <proteins-uniprot-annotations.csv> [/label.right /custom <sp00001.keg> /size <2200,2000> /tick 20 /out <out.DIR>]")>
     <Description("KEGG function catalog profiling plot of the TP sample.")>
     <Argument("/custom",
               Description:="Custom KO classification set can be download from: http://www.kegg.jp/kegg-bin/get_htext?ko00001.keg")>
@@ -497,6 +511,7 @@ Partial Module CLI
         Dim tick! = args.GetValue("/tick", 20.0!)
         Dim out As String = args.GetValue("/out", [in].ParentPath & "/KEGG/")
         Dim sample = [in].LoadSample
+        Dim labelRight As Boolean = args.IsTrue("/label.right")
         Dim maps As NamedValue(Of String)() = sample _
             .Where(Function(prot) Not prot("KO").StringEmpty) _
             .Select(Function(prot)
@@ -522,12 +537,17 @@ Partial Module CLI
             End If
         End With
 
+        KO_counts.SaveTo(out & "/KO_counts.csv")
+        catalogs _
+            .DataFrame _
+            .SaveTo(out & "/KOCatalogs.csv")
         profile.ProfilesPlot("KEGG Orthology Profiling",
                              size:=size,
                              tick:=tick,
-                             axisTitle:="Number Of Proteins").Save(out & "/plot.png")
-        KO_counts.SaveTo(out & "/KO_counts.csv")
-        catalogs.DataFrame.SaveTo(out & "/KOCatalogs.csv")
+                             axisTitle:="Number Of Proteins",
+                             labelRightAlignment:=labelRight,
+                             valueFormat:="F0") _
+               .Save(out & "/plot.png")
 
         Return 0
     End Function
@@ -538,6 +558,15 @@ Partial Module CLI
     <Argument("/sp", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="The organism scientific name.")>
+    <Argument("/uniprot", False, CLITypes.File, PipelineTypes.std_in,
+              AcceptTypes:={GetType(UniProtXML)},
+              Extensions:="*.xml",
+              Description:="The Uniprot protein database in XML file format.")>
+    <Argument("/exclude", True, CLITypes.Boolean,
+              Description:="Exclude the specific organism by ``/sp`` scientific name instead of only include it?")>
+    <Argument("/out", True, CLITypes.File,
+              Extensions:="*.fa, *.fasta, *.txt",
+              Description:="The saved file path for output protein sequence fasta file.")>
     <Group(CLIGroups.Annotation_CLI)>
     Public Function proteinEXPORT(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
@@ -643,6 +672,9 @@ Partial Module CLI
     <ExportAPI("/COG.profiling.plot",
                Info:="Plots the COGs category statics profiling of the target genome from the COG annotation file.",
                Usage:="/COG.profiling.plot /in <myvacog.csv> [/size <image_size, default=1800,1200> /out <out.png>]")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.csv",
+              Description:="The COG annotation result.")>
     Public Function COGCatalogProfilingPlot(args As CommandLine) As Integer
         Dim [in] = args("/in")
         Dim size$ = args.GetValue("/size", "1800,1200")

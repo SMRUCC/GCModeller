@@ -1,9 +1,38 @@
-﻿Imports System.Drawing
+﻿#Region "Microsoft.VisualBasic::0898448aa13c7e08aa81c170bd39d915, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\3D\Device\Element3D.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
+Imports Microsoft.VisualBasic.Imaging.Math2D
 
 Namespace Plot3D.Device
 
@@ -15,7 +44,7 @@ Namespace Plot3D.Device
 
         Public Property Location As Point3D
 
-        Public MustOverride Sub Draw(g As IGraphics)
+        Public MustOverride Sub Draw(g As IGraphics, offset As PointF)
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Sub Transform(camera As Camera)
@@ -23,7 +52,7 @@ Namespace Plot3D.Device
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Protected Function GetPosition(g As IGraphics) As Point
+        Public Function GetPosition(g As IGraphics) As Point
             Return Location.PointXY(g.Size)
         End Function
 
@@ -32,14 +61,23 @@ Namespace Plot3D.Device
         End Function
     End Class
 
+    Public Class Polygon : Inherits Element3D
+
+        Public Property Path As PointF()
+
+        Public Overrides Sub Draw(g As IGraphics, offset As PointF)
+
+        End Sub
+    End Class
+
     Public Class Label : Inherits Element3D
 
         Public Property Text As String
         Public Property Font As Font
         Public Property Color As Brush
 
-        Public Overrides Sub Draw(g As IGraphics)
-            Call g.DrawString(Text, Font, Color, GetPosition(g))
+        Public Overrides Sub Draw(g As IGraphics, offset As PointF)
+            Call g.DrawString(Text, Font, Color, GetPosition(g).OffSet2D(offset))
         End Sub
     End Class
 
@@ -65,9 +103,9 @@ Namespace Plot3D.Device
             }
         End Sub
 
-        Public Overrides Sub Draw(g As IGraphics)
-            Dim p1 As Point = A.PointXY(g.Size)
-            Dim p2 As Point = B.PointXY(g.Size)
+        Public Overrides Sub Draw(g As IGraphics, offset As PointF)
+            Dim p1 As Point = A.PointXY(g.Size).OffSet2D(offset)
+            Dim p2 As Point = B.PointXY(g.Size).OffSet2D(offset)
 
             Call g.DrawLine(Stroke, p1, p2)
         End Sub
@@ -88,8 +126,8 @@ Namespace Plot3D.Device
         Public Property Fill As Brush
         Public Property Style As LegendStyles
 
-        Public Overrides Sub Draw(g As IGraphics)
-            Dim position As Point = GetPosition(g)
+        Public Overrides Sub Draw(g As IGraphics, offset As PointF)
+            Dim position As Point = GetPosition(g).OffSet2D(offset)
             Call g.DrawLegendShape(position, Size, Style, Fill)
         End Sub
     End Class

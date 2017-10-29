@@ -27,8 +27,8 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Text
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Net.Http
@@ -74,7 +74,7 @@ Namespace Assembly.KEGG.WebServices
                 .Select(AddressOf Area.Parse) _
                 .ToArray
 
-            With "http://www.genome.jp/" & img.ImageSource
+            With "http://www.genome.jp/" & img.src
                 Call .DownloadFile(tmp)
 
                 img = tmp.LoadImage.ToBase64String

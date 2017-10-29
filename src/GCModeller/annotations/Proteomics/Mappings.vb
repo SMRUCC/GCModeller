@@ -1,8 +1,13 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Values
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 
+''' <summary>
+''' 编号处理模块
+''' </summary>
 Public Module Mappings
 
     ''' <summary>
@@ -29,5 +34,23 @@ Public Module Mappings
         End With
 
         Return DEPgenes
+    End Function
+
+    <Extension>
+    Public Function SplitID(DEGgenes As IEnumerable(Of EntityObject)) As EntityObject()
+        Return DEGgenes _
+            .Select(Function(gene)
+                        Return gene.ID _
+                            .Split(";"c) _
+                            .Select(AddressOf Trim) _
+                            .Select(Function(id)
+                                        Return New EntityObject With {
+                                            .ID = id,
+                                            .Properties = gene.Properties.Clone
+                                        }
+                                    End Function)
+                    End Function) _
+            .IteratesALL _
+            .ToArray
     End Function
 End Module

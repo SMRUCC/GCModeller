@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
@@ -74,7 +75,7 @@ Public Module iTraq_csvReader
         Dim i As int = headers
 
         Do While Not (row = [in](++i)).IsNullOrEmpty
-            If Not row.value.First.StringEmpty Then
+            If Not row.Value.First.StringEmpty Then
                 Dim h = UniprotFasta.SimpleHeaderParser(header:=(+row)(1))
                 proteins += (+row)
                 Call (+row).Insert(1, h("UniprotID"))

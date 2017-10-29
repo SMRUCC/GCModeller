@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8dc7b4e1de32e0527649a35272547fcb, ..\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\HierarchyLink.vb"
+﻿#Region "Microsoft.VisualBasic::391c318010fad69352d63a0740b3c266, ..\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\HierarchyLink.vb"
 
     ' Author:
     ' 
@@ -66,8 +66,8 @@ Namespace Hierarchy
         End Function
 
         Public Function hashCodePair(lCluster As Cluster, rCluster As Cluster) As String
-            Dim lName = lCluster.Label
-            Dim rName = rCluster.Label
+            Dim lName = lCluster.Name
+            Dim rName = rCluster.Name
 
             If lName.CompareTo(rName) < 0 Then
                 Return lName & "~~~" & rName ' getlCluster().hashCode() + 31 * (getrCluster().hashCode());

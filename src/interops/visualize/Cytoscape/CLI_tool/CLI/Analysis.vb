@@ -1,5 +1,4 @@
-﻿Imports System.Drawing
-Imports Microsoft.VisualBasic.CommandLine
+﻿Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -8,6 +7,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -63,23 +63,7 @@ Partial Module CLI
 
         ' 需要转换一次csv再转换回来，从而才能进行排序和填充零，进行相似度矩阵运算
         Dim csv = objects.ToCsvDoc(False, metaBlank:=0)
-        Dim vectors As NamedValue(Of Double())() = csv _
-            .AsDataSource(Of DataSet) _
-            .NamedMatrix _
-            .Select(Function(x)
-                        Return New NamedValue(Of Double()) With {
-                            .Name = x.Name,
-                            .Value = x.Value.Values.ToArray
-                        }
-                    End Function) _
-            .ToArray
-        Dim matrix As NamedValue(Of Dictionary(Of String, Double))()
-
-        If spcc Then
-            matrix = vectors.CorrelationMatrix(compute:=AddressOf Spearman)
-        Else
-            matrix = vectors.CorrelationMatrix(compute:=AddressOf GetPearson)
-        End If
+        Dim matrix = csv.AsDataSource(Of DataSet).CorrelationMatrix
 
         Call objects.SaveTo(out & "/links.csv")
         Call matrix.SaveTo(out & "/matrix.csv")

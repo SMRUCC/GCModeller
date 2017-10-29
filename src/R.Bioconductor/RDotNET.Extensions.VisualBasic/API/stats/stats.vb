@@ -28,6 +28,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 
@@ -274,7 +275,50 @@ Namespace API
 
             Dim a = base.c(x)
             Dim b = base.c(y)
-            Return Ttest(a, b, alternative, mu, paired, varEqual, conf_level)
+
+            Try
+                Return Ttest(a, b, alternative, mu, paired, varEqual, conf_level)
+            Catch ex As Exception
+
+                ' 2017-10-10
+
+                ' Microsoft R Open 3.4.1
+                ' The enhanced R distribution from Microsoft
+                ' Microsoft packages Copyright (C) 2017 Microsoft Corporation
+
+                ' Using the Intel MKL For parallel mathematical computing(Using 4 cores).
+
+                ' Default CRAN mirror snapshot taken On 2017-05-01.
+                ' See:                https : //mran.microsoft.com/.
+
+                ' Error in t.test.default(tmp000o0, tmp000o1, alternative = "two.sided",  :
+                '   'x'观察值数量不够
+                ' [ERROR 2017/10/10 上午 0150:51] <Print>:System.Exception : print ---> System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> RDotNET.EvaluationException: Error in t.test.default(tmp000o0, tmp000o1, alternative = "two.sided",  
+                '   'x'观察值数量不够
+
+                '    在 RDotNET.REngine.Parse(String statement, StringBuilder incompleteStatement) 位置 G:\GCModeller\src\R.Bioconductor\RDotNET\R.NET\REngine.vb:行号 673
+                '    在 RDotNET.REngine.VB$StateMachine_49_Defer.MoveNext() 位置 G:\GCModeller\src\R.Bioconductor\RDotNET\R.NET\REngine.vb:行号 607
+                '    在 System.Linq.Enumerable.LastOrDefault[TSource](IEnumerable`1 source)
+                '    在 RDotNET.REngine.Evaluate(String statement) 位置 G:\GCModeller\src\R.Bioconductor\RDotNET\R.NET\REngine.vb:行号 577
+                '    在 RDotNET.Extensions.VisualBasic.API.stats.Ttest(String x, String y, String alternative, Double mu, Boolean paired, Boolean varEqual, Double conf_level) 位置 G:\GCModeller\src\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\stats\stats.vb:行号 333
+                '    在 SMRUCC.genomics.Analysis.HTS.Proteomics.LabelFreeTtest._Closure$__0-0._Lambda$__0(DataSet protein) 位置 G:\GCModeller\src\GCModeller\annotations\Proteomics\LabelFree\LabelFreeTtest.vb:行号 38
+                '    在 System.Linq.Enumerable.WhereSelectArrayIterator`2.MoveNext()
+                '    在 System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+                '    在 System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+                '    在 Microsoft.VisualBasic.Language.VectorShadows`1..ctor(IEnumerable`1 source) 位置 G:\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\Linq\VectorShadows.vb:行号 89
+                '    在 SMRUCC.genomics.Analysis.HTS.Proteomics.AnalysisCommon.ApplyDEPFilter(IEnumerable`1 proteins, Double level, Double pvalue, Double FDR_threshold) 位置 G:\GCModeller\src\GCModeller\annotations\Proteomics\AnalysisCommon.vb:行号 24
+                '    在 eggHTS.CLI.labelFreeTtest(CommandLine args) 位置 G:\GCModeller\src\GCModeller\CLI_tools\eggHTS\CLI\Samples\LabelFree.vb:行号 82
+                '    --- 内部异常堆栈跟踪的结尾 ---
+                '    在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+                '    在 System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+                '    在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+                '    在 System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+                '    在 Microsoft.VisualBasic.CommandLine.Reflection.EntryPoints.APIEntryPoint.__directInvoke(Object[] callParameters, Object target, Boolean Throw) 位置 G:\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\Reflection\EntryPoints\APIEntryPoint.vb:行号 209
+                '    --- 内部异常堆栈跟踪的结尾 ---
+
+                ex = New Exception($"x:={x.GetJson}, y:={y.GetJson}", ex)
+                Throw ex
+            End Try
         End Function
 
         ''' <summary>

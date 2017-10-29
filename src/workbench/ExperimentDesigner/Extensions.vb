@@ -1,9 +1,39 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 
 Public Module Extensions
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function TakeGroup(sampleInfo As IEnumerable(Of SampleInfo), groupLabel$) As SampleInfo()
+        Return sampleInfo _
+            .Where(Function(sample) sample.sample_group = groupLabel) _
+            .ToArray
+    End Function
+
+    <Extension>
+    Public Function ToCategory(sampleInfo As IEnumerable(Of SampleInfo)) As Dictionary(Of NamedCollection(Of String))
+        Return sampleInfo _
+            .GroupBy(Function(sample) sample.sample_group) _
+            .Select(Function(group)
+                        Return New NamedCollection(Of String) With {
+                            .Name = group.Key,
+                            .Value = group.SampleNames
+                        }
+                    End Function) _
+            .ToDictionary
+    End Function
+
+    <Extension>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function SampleNames(sampleInfo As IEnumerable(Of SampleInfo)) As String()
+        Return sampleInfo _
+            .Select(Function(sample) sample.sample_name) _
+            .ToArray
+    End Function
 
     ''' <summary>
     ''' ``<see cref="SampleInfo.ID"/> -> <see cref="SampleInfo.sample_group"/>``
@@ -27,10 +57,10 @@ Public Module Extensions
     ''' </summary>
     ''' <param name="sampleInfo"></param>
     ''' <param name="analysis">
-    ''' <see cref="ExperimentAnalysis.Controls"/>和<see cref="ExperimentAnalysis.Experimental"/>都是组别名称
+    ''' <see cref="AnalysisDesigner.Controls"/>和<see cref="AnalysisDesigner.Experimental"/>都是组别名称
     ''' </param>
     ''' <returns>
-    ''' 经过这个函数转换之后，<see cref="ExperimentAnalysis.Controls"/>和<see cref="ExperimentAnalysis.Experimental"/>
+    ''' 经过这个函数转换之后，<see cref="AnalysisDesigner.Controls"/>和<see cref="AnalysisDesigner.Experimental"/>
     ''' 都分别被转换为样品标记了
     ''' </returns>
     ''' <remarks>
@@ -51,7 +81,7 @@ Public Module Extensions
     ''' 故而需要使用这个函数将组别标记转换为实际计算分析所要使用到的样品标记
     ''' </remarks>
     <Extension>
-    Public Function DataAnalysisDesign(sampleInfo As IEnumerable(Of SampleInfo), analysis As IEnumerable(Of ExperimentAnalysis)) As Dictionary(Of String, ExperimentAnalysis())
+    Public Function DataAnalysisDesign(sampleInfo As IEnumerable(Of SampleInfo), analysis As IEnumerable(Of AnalysisDesigner)) As Dictionary(Of String, AnalysisDesigner())
         Dim sampleGroups = sampleInfo _
             .GroupBy(Function(label) label.sample_group) _
             .ToDictionary(Function(x) x.Key,
@@ -67,7 +97,7 @@ Public Module Extensions
                     .Select(Function(c)
                                 Return experimentals _
                                     .Select(Function(e)
-                                                Return New ExperimentAnalysis With {
+                                                Return New AnalysisDesigner With {
                                                     .Controls = c.sample_name,
                                                     .Experimental = e.sample_name
                                                 }
@@ -79,21 +109,45 @@ Public Module Extensions
 
         Return designs
     End Function
+
+    ''' <summary>
+    ''' Ensure all of the name label in <paramref name="allSamples"/> were paired in groups.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="sampleInfo">Probably this is the part of the sample name collection</param>
+    ''' <param name="allSamples$">Contains all sample names, <paramref name="sampleInfo"/> maybe is the subset of it.</param>
+    ''' <param name="groupCreated$"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function EnsureGroupPaired(Of T As {New, SampleGroup})(sampleInfo As IEnumerable(Of T), allSamples$(), Optional groupCreated$ = "Control") As NamedCollection(Of T)()
+        Dim vector = sampleInfo.ToArray
+        Dim groups = vector _
+            .GroupBy(Function(s) s.sample_group) _
+            .Select(Function(g)
+                        Return New NamedCollection(Of T) With {
+                            .Name = g.Key,
+                            .Value = g.ToArray
+                        }
+                    End Function) _
+            .ToArray
+        Dim controls$() = allSamples - vector.Keys
+
+        If controls.Length > 0 Then
+
+            ' returns case + control
+            Return groups.AsList + New NamedCollection(Of T) With {
+                .Name = groupCreated,
+                .Value = controls _
+                    .Select(Function(name)
+                                Return New T With {
+                                    .sample_name = name,
+                                    .sample_group = groupCreated
+                                }
+                            End Function) _
+                    .ToArray
+            }
+        Else
+            Return groups
+        End If
+    End Function
 End Module
-
-<Template("ExperimentDesigner")> Public Class ExperimentAnalysis
-
-    Public Property Controls As String
-    Public Property Experimental As String
-
-    Public Overrides Function ToString() As String
-        Return $"{Controls}/{Experimental}"
-    End Function
-
-    Public Function Swap() As ExperimentAnalysis
-        Return New ExperimentAnalysis With {
-            .Controls = Experimental,
-            .Experimental = Controls
-        }
-    End Function
-End Class

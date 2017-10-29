@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FunctionalNetwork\AnalysisAPI.vb" />
+    <Compile Include="FunctionalNetwork\GraphModel.vb" />
     <Compile Include="TCS\MisT2API.vb" />
     <Compile Include="FunctionalNetwork\FunctionalEnrichmentNetwork.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

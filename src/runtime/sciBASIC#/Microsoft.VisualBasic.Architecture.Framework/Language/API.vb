@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c9f6bb4124102dad1f40328bb324148, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\API.vb"
+﻿#Region "Microsoft.VisualBasic::12ad60cc7bed08ba1c63091c514e4e54, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\API.vb"
 
     ' Author:
     ' 
@@ -66,6 +66,7 @@ Namespace Language
         ''' <param name="x"></param>
         ''' <param name="isNothing"></param>
         ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function [Default](Of T)(x As T, Optional isNothing As Assert(Of Object) = Nothing) As DefaultValue(Of T)
             Return New DefaultValue(Of T) With {
                 .Value = x,
@@ -78,11 +79,12 @@ Namespace Language
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="x"></param>
-        ''' <param name="isNothing"></param>
+        ''' <param name="[If]"></param>
         ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function AsDefault(Of T)(x As T, Optional isNothing As Assert(Of Object) = Nothing) As DefaultValue(Of T)
-            Return [Default](x, isNothing)
+        Public Function AsDefault(Of T)(x As T, Optional [If] As Assert(Of Object) = Nothing) As DefaultValue(Of T)
+            Return [Default](x, [If])
         End Function
 
         ''' <summary>
@@ -95,6 +97,7 @@ Namespace Language
         ''' <typeparam name="T"></typeparam>
         ''' <param name="value"></param>
         ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Let$(Of T)(value As T)
             Try
                 Return CStrSafe(value)
@@ -124,6 +127,7 @@ Namespace Language
         ''' <typeparam name="T"></typeparam>
         ''' <param name="x"></param>
         ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function IsNothing(Of T As Class)(x As T) As Boolean
             Return x Is Nothing

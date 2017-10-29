@@ -26,8 +26,8 @@
 
 #End Region
 
-Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -275,10 +275,11 @@ Public Module CatalogPlots
     End Function
 
     <Extension>
-    Public Function EnrichmentPlot(data As IEnumerable(Of FunctionCluster), Optional size$ = "2200,2000") As GraphicsData
+    Public Function EnrichmentPlot(data As IEnumerable(Of FunctionCluster), Optional size$ = "2200,2000", Optional tick# = 1, Optional pvalue# = 0.05) As GraphicsData
         Dim profile As New Dictionary(Of String, NamedValue(Of Double)())
         Dim g = From x As FunctionCluster
                 In data
+                Where x.PValue <= pvalue
                 Select x
                 Group x By x.Category Into Group
 
@@ -308,7 +309,7 @@ Public Module CatalogPlots
             "GO enrichment",
             size:=size,
             axisTitle:="-Log10(p-value)",
-            tick:=1)
+            tick:=tick)
     End Function
 
     ''' <summary>
