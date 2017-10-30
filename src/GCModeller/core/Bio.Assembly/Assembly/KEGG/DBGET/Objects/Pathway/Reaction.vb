@@ -1,37 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::fc9fdf6c3987a6a409b381909975f9fe, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports r = System.Text.RegularExpressions.Regex
@@ -121,24 +119,26 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <remarks></remarks>
         Public Function GetSubstrateCompounds() As String()
             Dim fluxModel = Me.ReactionModel
-            Dim allCompounds$() = LinqAPI.Exec(Of String) <=
+            Dim allCompounds$() = LinqAPI.Exec(Of String) _
  _
-                From csr As DefaultTypes.CompoundSpecieReference
-                In {
-                    fluxModel.Reactants,
-                    fluxModel.Products
-                }.IteratesALL
-                Select csr.ID
-                Distinct
+                () <= From csr As DefaultTypes.CompoundSpecieReference
+                      In fluxModel.Reactants.AsList + fluxModel.Products
+                      Select csr.ID
+                      Distinct
 
             Return allCompounds
         End Function
 
+        ''' <summary>
+        ''' 通过查看化合物的编号是否有交集来判断这两个代谢过程是否是应该相连的？
+        ''' </summary>
+        ''' <param name="[next]"></param>
+        ''' <returns></returns>
         Public Function IsConnectWith([next] As Reaction) As Boolean
             Dim a = GetSubstrateCompounds(),
                 b = [next].GetSubstrateCompounds
 
-            For Each s In a
+            For Each s As String In a
                 If Array.IndexOf(b, s) > -1 Then
                     Return True
                 End If
