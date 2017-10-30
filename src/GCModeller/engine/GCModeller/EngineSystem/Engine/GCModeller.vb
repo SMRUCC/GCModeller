@@ -309,7 +309,7 @@ EXIT_:      Call DataAcquisitionService.CloseStorageService()
             Call _CultivatingMediums.TICK()
             Call DataAcquisitionService.Tick(_RTime)
             Call ExperimentSystem.Tick(_RTime)
-            Call Me.SystemLogging.WriteLine(String.Format(" TICK()  TIME_LAST:={0}ms", stw.ElapsedMilliseconds), "gcmodeller -> ticker()", Type:=MSG_TYPES.INF, WriteToScreen:=Not Me.DataAcquisitionService._SuppressPeriodicMessage)
+            Call Me.SystemLogging.WriteLine(String.Format(" TICK()  TIME_LAST:={0}ms", stw.ElapsedMilliseconds), "gcmodeller -> ticker()", Type:=MSG_TYPES.INF)
             Call Me.InternalRecordActivityStatus()
             Call Me.ShellScriptDevie.Tick(_RTime)
 

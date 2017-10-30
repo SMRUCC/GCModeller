@@ -112,7 +112,7 @@ Namespace EngineSystem.ObjectModels.ExperimentSystem
 
             Public Sub Tick(RtTime As Integer)
                 If RtTime >= NextTime Then
-                    Call _SystemLogging.WriteLine(String.Format("Start experiment on {0}: {0} {1} {2}", Target.Identifier, Me.DisturbType.ToString, Value), "ExperimentSystem->TICK()", Type:=MSG_TYPES.INF, WriteToScreen:=Not _SuppressPeriodicMessage)
+                    Call _SystemLogging.WriteLine(String.Format("Start experiment on {0}: {0} {1} {2}", Target.Identifier, Me.DisturbType.ToString, Value), "ExperimentSystem->TICK()", Type:=MSG_TYPES.INF)
                     Call TargetInvoke_SetValue(Methods(DisturbType)(TargetInvoke_GetValue(), Value))
                     NextTime = Interval + RtTime
                     Kicks -= 1

@@ -56,10 +56,6 @@ Namespace EngineSystem.Engine
                 Me.ModelFile = CommandLine("-i")
                 Me.Logging = New LogFile(
                     Path:=Settings.LogDIR & String.Format("GCModeller__{0}_{1}.log", FileIO.FileSystem.GetFileInfo(ModelFile).Name.ToUpper, LogFile.NowTimeNormalizedString))
-                Me.Logging.ColorfulOutput = String.Equals(CommandLine("-color_message").ToUpper, "T")
-
-                Me.Logging.SuppressError = _configurationsData.SuppressErrorMessage
-                Me.Logging.SuppressWarns = _configurationsData.SuppressWarnMessage
 
                 GCModellerCommons.LoggingClient = Logging
 

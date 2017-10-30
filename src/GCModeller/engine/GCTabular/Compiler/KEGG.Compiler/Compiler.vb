@@ -77,13 +77,9 @@ Namespace KEGG.Compiler
             Dim LogFile As String = argvs("-logging")
 
             If Not String.IsNullOrEmpty(LogFile) Then
-                Me._Logging = New LogFile(LogFile, True) With {.SuppressError = False, .SuppressWarns = False, .ColorfulOutput = False}
+                Me._Logging = New LogFile(LogFile, True)
             Else
-                Me._Logging = New LogFile(String.Format("{0}/gcmodeller_kegg.compiler__{1}.log", Settings.LogDIR, LogClient.NowTimeNormalizedString), True) With {
-                    .SuppressError = False,
-                    .SuppressWarns = False,
-                    .ColorfulOutput = False
-                }
+                Me._Logging = New LogFile(String.Format("{0}/gcmodeller_kegg.compiler__{1}.log", Settings.LogDIR, LogClient.NowTimeNormalizedString), True)
             End If
 
             Call CheckRequiredParameter(argvs, New String() {"-kegg.compounds", "-kegg.reactions", "-mist2", "-export", "-door", "-footprints", "-kegg.pathways", "-kegg.modules", "-metacyc_all"}, head:="KEGG.Compiler::PreCompile()")

@@ -480,7 +480,7 @@ Namespace DataModel
                         Regulator.ProteinAssembly = Regulator.Identifier
                         Call SubstrateList.Add(Regulator.ProteinAssembly)
                         Call TranscriptionModel._add_Regulator("", Regulator)
-                        Call _Logging.WriteLine(String.Format("Link TCS {0} with regulation model {1}", Tf.TF, TranscriptionModel.ToString), "", Type:=MSG_TYPES.INF, WriteToScreen:=False)
+                        Call _Logging.WriteLine(String.Format("Link TCS {0} with regulation model {1}", Tf.TF, TranscriptionModel.ToString), "", Type:=MSG_TYPES.INF)
                     End If
 
                     If Not Tf.TCSSystem.IsNullOrEmpty Then '磷酸化之后的RR与TF形成复合物
@@ -510,7 +510,7 @@ Namespace DataModel
                                                New GCMarkupLanguage.GCML_Documents.ComponentModels.CompoundSpeciesReference With {.StoiChiometry = 1, .Identifier = Regulator.ProteinAssembly}}
                                        }
                             Call TFActive.Add(FLUX)
-                            Call _Logging.WriteLine(String.Format("Link TCS {0} with regulation model {1}", Tf.TF, TranscriptionModel.ToString), "", Type:=MSG_TYPES.INF, WriteToScreen:=False)
+                            Call _Logging.WriteLine(String.Format("Link TCS {0} with regulation model {1}", Tf.TF, TranscriptionModel.ToString), "", Type:=MSG_TYPES.INF)
                         Next
 
                     End If
