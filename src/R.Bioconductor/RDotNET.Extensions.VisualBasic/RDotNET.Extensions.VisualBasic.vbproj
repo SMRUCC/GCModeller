@@ -352,9 +352,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RDotNET\RDotNET2.vbproj">
+    <ProjectReference Include="..\RDotNET\RDotNET.vbproj">
       <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
-      <Name>RDotNET2</Name>
+      <Name>RDotNET</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
