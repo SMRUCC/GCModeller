@@ -279,8 +279,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.cd" />
     <None Include="packages.config" />
-    <None Include="packageViewser.cd" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -306,9 +306,9 @@
       <Project>{ab6e71b0-1be2-4418-ab4b-91d5554cf5a1}</Project>
       <Name>RDotNET.Extensions.VisualBasic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RDotNET\RDotNet.vbproj">
+    <ProjectReference Include="..\RDotNET\RDotNET2.vbproj">
       <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
-      <Name>RDotNet</Name>
+      <Name>RDotNET2</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
