@@ -20,7 +20,7 @@ Module WriteMemoryInternal
                 Case Else
                     Call numericWriter _
                         .MakeGenericMethod(x.GetType) _
-                        .Invoke(Nothing, {x})
+                        .Invoke(Nothing, {var, x})
             End Select
         End If
     End Sub
@@ -41,7 +41,7 @@ Module WriteMemoryInternal
                 Case Else
                     Call numericsWriter _
                         .MakeGenericMethod(baseType) _
-                        .Invoke(Nothing, {x})
+                        .Invoke(Nothing, {var, x})
             End Select
         End If
     End Sub

@@ -43,7 +43,11 @@ Public Module rda
     ''' <param name="obj"></param>
     ''' <returns></returns>
     Public Function Push(obj As Object) As String
-        Dim type As Type = obj.GetType
+        Dim type As Type = obj?.GetType
+
+        If type Is Nothing Then
+            Return "NULL"
+        End If
 
         If DataFramework.IsPrimitive(type) Then
             Dim var$ = App.NextTempName

@@ -155,7 +155,7 @@ Namespace SymbolBuilder
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function Rstring(s As String) As String
-            Return $"""{s}"""
+            Return $"""{s.R_Escaping}"""
         End Function
 
         ''' <summary>

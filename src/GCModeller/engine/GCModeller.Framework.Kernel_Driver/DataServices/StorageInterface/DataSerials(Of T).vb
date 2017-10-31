@@ -102,7 +102,7 @@ Namespace DataStorage.FileModel
             Dim LQuery = (From x As DataSerials(Of T) In data
                           Let xSet As String() = (From n As T In x.Samples Let strValue As String = n.ToString Select strValue).ToArray
                           Let strVector As String() = {x.UniqueId}.Join(xSet).ToArray
-                          Select strVector.ToCsvRow).ToArray
+                          Select New RowObject(strVector)).ToArray
 
             Call File.Add(New RowObject(head))
             Call File.AppendRange(LQuery)
