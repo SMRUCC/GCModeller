@@ -37,7 +37,7 @@ Namespace SymbolBuilder
         ''' <summary>
         ''' "NA" 字符串，而不是NA空值常量
         ''' </summary>
-        Public ReadOnly Property NA As RExpression = New RExpression("NA")
+        Public ReadOnly Property NA As New RExpression("NA")
 
         Public Const [TRUE] As String = "TRUE"
         Public Const [FALSE] As String = "FALSE"
@@ -152,8 +152,10 @@ Namespace SymbolBuilder
         ''' </summary>
         ''' <param name="s">Input value</param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function Rstring(s As String) As String
-            Return $"""{s}"""
+            Return $"""{s.R_Escaping}"""
         End Function
 
         ''' <summary>
@@ -161,8 +163,10 @@ Namespace SymbolBuilder
         ''' </summary>
         ''' <param name="b"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Rbool(b As Boolean) As String
-            Return New RBoolean(b).RScript
+            Return b.ToString.ToUpper
         End Function
 
         Public Function par(x As String) As String

@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::28638b01d2fd1030a251d4691799dc44, ..\CLI_tools\MEME\Cli\Views + Stats\FamilyStatics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -30,6 +30,7 @@ Imports MEME.Analysis
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting
 Imports RDotNET.Extensions.Bioinformatics.VennDiagram.ModelAPI
@@ -77,14 +78,14 @@ Partial Module CLI
 
         doc += {"Type", "Class", "Category", "Modules", "Families", "sites", "genes"}
         doc += modFamilies.ToArray(
-            Function(mm) New String() {
+            Function(mm) New RowObject({
                 modBrites(mm.Key).Category,
                 modBrites(mm.Key).Class,
                 modBrites(mm.Key).SubCategory,
                 mm.Key,
                 (From name As String In mm.Value Select name Distinct Order By name Ascending).ToArray.JoinBy("; "),
                 mm.Value.Length,
-                modDetails(mm.Key).GetPathwayGenes.Length}.ToCsvRow)
+                modDetails(mm.Key).GetPathwayGenes.Length}))
 
         Call doc.Save(input.TrimSuffix & ".modFamilies.csv")
 
@@ -127,7 +128,7 @@ Partial Module CLI
                                              Function(ss) ss.Group.ToArray(Function(obj) obj.mod))
         doc = New IO.File + {"Family", "Modules"} +
             FamilyMods.ToArray(
-                Function(fm) New String() {fm.Key, fm.Value.Distinct.JoinBy("; ")}.ToCsvRow)
+                Function(fm) New RowObject({fm.Key, fm.Value.Distinct.JoinBy("; ")}))
         Call doc.Save(input.TrimSuffix & ".FamilyMods.csv")
 
         Dim ffff = VectorMapper(FamilyMods.ToArray(Function(f) TryCast(f.Value.Distinct.ToArray, IEnumerable(Of String))))

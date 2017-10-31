@@ -49,8 +49,8 @@ Namespace Runtime.MMU.PageMapping
         Public Function Convertable(sourceType As Type) As Boolean
             Dim convertType As Type = Me.TypeOf
             Dim YON As Boolean =
-                ToStrings.ContainsKey(convertType) AndAlso
-                ToStrings.ContainsKey(sourceType)
+                StringBuilders.ContainsKey(convertType) AndAlso
+                StringBuilders.ContainsKey(sourceType)
             Return YON
         End Function
     End Class
