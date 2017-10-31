@@ -152,6 +152,8 @@ Namespace SymbolBuilder
         ''' </summary>
         ''' <param name="s">Input value</param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function Rstring(s As String) As String
             Return $"""{s}"""
         End Function
