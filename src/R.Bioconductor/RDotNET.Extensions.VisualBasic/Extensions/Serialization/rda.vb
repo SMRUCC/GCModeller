@@ -17,6 +17,27 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Public Module rda
 
     ''' <summary>
+    ''' Save Any .NET object as a *.rda data file. And then you can load the saved <paramref name="obj"/> 
+    ''' by using ``data()`` or ``load()`` function in R language.
+    ''' </summary>
+    ''' <param name="obj"></param>
+    ''' <param name="file$"></param>
+    ''' <param name="name$"></param>
+    ''' <returns></returns>
+    Public Function save(obj As Object, file$, Optional name$ = ".save") As Boolean
+        Dim var$ = rda.Push(obj)
+
+        SyncLock R
+            With R
+                .call = $"{name} <- {var};"
+                base.save({name}, file)
+            End With
+        End SyncLock
+
+        Return True
+    End Function
+
+    ''' <summary>
     ''' Write Any .NET object into R memory
     ''' </summary>
     ''' <param name="obj"></param>
