@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.Linq
 
 Public Structure MapLabelLayout
 
