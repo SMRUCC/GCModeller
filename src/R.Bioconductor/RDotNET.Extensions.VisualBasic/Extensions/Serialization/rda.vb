@@ -23,62 +23,71 @@ Public Module rda
     ''' <returns></returns>
     Public Function Push(obj As Object) As String
         Dim type As Type = obj.GetType
-        Dim var$ = App.NextTempName
 
         If DataFramework.IsPrimitive(type) Then
-            Call WriteMemoryInternal.WritePrimitive(var, obj)
+            Dim var$ = App.NextTempName
+            WriteMemoryInternal.WritePrimitive(var, obj)
+            Return var
         ElseIf type.ImplementInterface(GetType(IEnumerable)) Then
-            Dim base As Type = type.GetTypeElement(False)
-
-            If DataFramework.IsPrimitive(base) Then
-                ' 全部都是基础类型，则写为一个向量
-                Call WriteMemoryInternal.WritePrimitive(var, DirectCast(obj, IEnumerable))
-            Else
-                SyncLock R
-                    With R
-                        .call = $"{var} <- list();"
-                    End With
-                End SyncLock
-
-                ' 是非基础类型，如果是简单的非基础类型，则写为一个data.frame
-                ' 反之复杂的非基础类型写为一个list
-                If DataFramework.IscomplexType(base) Then
-                    ' write as list
-                    ' 如果实现了INamedValue接口，则使用key属性作为键名
-                    ' 反之使用索引号
-
-                    If base.ImplementInterface(GetType(INamedValue)) Then
-                        For Each x As Object In DirectCast(obj, IEnumerable)
-                            Dim key$ = DirectCast(x, INamedValue).Key
-
-                            SyncLock R
-                                With R
-                                    .call = $"{var}[[{Rstring(key)}]] <- {PushComplexObject(x)};"
-                                End With
-                            End SyncLock
-                        Next
-                    Else
-                        For Each x As SeqValue(Of Object) In DirectCast(obj, IEnumerable).SeqIterator
-                            Dim key$ = x.i + 1 ' R 之中的下标是从1开始的 
-
-                            SyncLock R
-                                With R
-                                    .call = $"{var}[[{key}]] <- {PushComplexObject(x)};"
-                                End With
-                            End SyncLock
-                        Next
-                    End If
-
-                Else
-                    ' write as dataframe
-                    With App.GetAppSysTempFile(, App.PID)
-                        Call DirectCast(obj, IEnumerable).SaveTable(.ref, type:=base)
-                        Return utils.read.csv(.ref)
-                    End With
-                End If
-            End If
+            Return PushList(DirectCast(obj, IEnumerable))
         Else
             Return PushComplexObject(obj)
+        End If
+    End Function
+
+    Public Function PushList(list As IEnumerable) As String
+        Dim type As Type = CObj(list).GetType
+        Dim base As Type = type.GetTypeElement(False)
+        Dim var$ = App.NextTempName
+
+        If DataFramework.IsPrimitive(base) Then
+            ' 全部都是基础类型，则写为一个向量
+            Call WriteMemoryInternal.WritePrimitive(var, list)
+            Return var
+        End If
+
+        SyncLock R
+            With R
+                .call = $"{var} <- list();"
+            End With
+        End SyncLock
+
+        ' 是非基础类型，如果是简单的非基础类型，则写为一个data.frame
+        ' 反之复杂的非基础类型写为一个list
+        If DataFramework.IscomplexType(base) Then
+
+            ' write as list
+            ' 如果实现了INamedValue接口，则使用key属性作为键名
+            ' 反之使用索引号
+
+            If base.ImplementInterface(GetType(INamedValue)) Then
+                For Each x As Object In list
+                    Dim key$ = DirectCast(x, INamedValue).Key
+
+                    SyncLock R
+                        With R
+                            .call = $"{var}[[{Rstring(key)}]] <- {PushComplexObject(x)};"
+                        End With
+                    End SyncLock
+                Next
+            Else
+                For Each x As SeqValue(Of Object) In list.SeqIterator
+                    Dim key$ = x.i + 1 ' R 之中的下标是从1开始的 
+
+                    SyncLock R
+                        With R
+                            .call = $"{var}[[{key}]] <- {PushComplexObject(x)};"
+                        End With
+                    End SyncLock
+                Next
+            End If
+
+        Else
+            ' write as dataframe
+            With App.GetAppSysTempFile(, App.PID)
+                Call list.SaveTable(.ref, type:=base)
+                Return utils.read.csv(.ref)
+            End With
         End If
 
         Return var
