@@ -29,14 +29,14 @@
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.DataFrameColumnAttribute
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNET.SymbolicExpressionExtension
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 ''' <summary>
 ''' Convert the R object into a .NET object from the specific type schema information.
@@ -90,7 +90,7 @@ Public Module Serialization
     ''' <param name="RData"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function InternalLoadS4Object(RData As RDotNET.SymbolicExpression, type As System.Type, DebugLevel As Integer) As Object
+    Private Function InternalLoadS4Object(RData As RDotNET.SymbolicExpression, type As Type, DebugLevel As Integer) As Object
         Dim mappings As Dictionary(Of BindProperty(Of SchemaMaps.DataFrameColumnAttribute)) =
             LoadMapping(type, mapsAll:=True)
         Dim obj As Object = Activator.CreateInstance(type)
@@ -162,7 +162,7 @@ Public Module Serialization
     ''' <param name="obj"></param>
     ''' <param name="pTypeInfo"></param>
     ''' <remarks></remarks>
-    Private Sub __mappingCollectionType(value As Object, pInfo As PropertyInfo, ByRef obj As Object, pTypeInfo As System.Type)
+    Private Sub __mappingCollectionType(value As Object, pInfo As PropertyInfo, ByRef obj As Object, pTypeInfo As Type)
         Dim type As Type = pTypeInfo.GetElementType
         Dim source As Object() = (From val As Object In DirectCast(value, IEnumerable) Select val).ToArray
         Dim list As Array = Array.CreateInstance(type, source.Length)
@@ -183,7 +183,7 @@ Public Module Serialization
     ''' <remarks></remarks>
     ''' 
     <Extension>
-    Private Function __loadFromStream(RData As RDotNET.SymbolicExpression, TypeInfo As System.Type, DebugLevel As Integer) As Object
+    Private Function __loadFromStream(RData As RDotNET.SymbolicExpression, TypeInfo As Type, DebugLevel As Integer) As Object
         If RData Is Nothing Then
             Return Nothing
         Else
@@ -230,11 +230,13 @@ Public Module Serialization
     ''' <returns></returns>
     Private Function __createMatrix(RData As RDotNET.SymbolicExpression, typeInfo As Type, debugLv As Integer) As Object
         Dim list As SymbolicExpression() = RData.AsList.ToArray
-        Dim mat As Object = LinqAPI.Exec(Of Object) <=
-            From vec As SymbolicExpression
-            In list
-            Select __loadFromStream(vec, typeInfo, debugLv)
+        Dim matrix As Object = LinqAPI.Exec(Of Object) _
+ _
+            () <= From vec As SymbolicExpression
+                  In list
+                  Let obj As Object = __loadFromStream(vec, typeInfo, debugLv)
+                  Select obj
 
-        Return mat
+        Return matrix
     End Function
 End Module

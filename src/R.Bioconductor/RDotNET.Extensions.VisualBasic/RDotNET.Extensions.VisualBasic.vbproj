@@ -255,6 +255,7 @@
     <Compile Include="API\utils\write.vb" />
     <Compile Include="API\utils\install.vb" />
     <Compile Include="API\utils\utils.vb" />
+    <Compile Include="Extensions\Serialization\rda.vb" />
     <Compile Include="Extensions\Serialization\Vector.vb" />
     <Compile Include="ScriptBuilder\ParameterList.vb" />
     <Compile Include="ScriptBuilder\EscapingHelper.vb" />
