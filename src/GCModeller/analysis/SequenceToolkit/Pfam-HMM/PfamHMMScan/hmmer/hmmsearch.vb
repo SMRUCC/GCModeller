@@ -71,7 +71,9 @@ Public Class hmmsearch
                      Group By tag Into Group
         Dim hash As Dictionary(Of String, AlignmentHit()) =
             Groups.ToDictionary(Function(x) x.tag,
-                                Function(x) x.Group.ToArray(Function(o) o.o))
+                                Function(x)
+                                    Return x.Group.Select(Function(o) o.o).ToArray
+                                End Function)
         Return hash
     End Function
 

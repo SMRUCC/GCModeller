@@ -84,9 +84,14 @@ Public Structure ActiveSite : Implements INamedValue
                           int
                       Group By id Into Group) _
                               .ToDictionary(Function(x) x.id,
-                                            Function(x) New RE With {
-                                                .ID = x.id,
-                                                .Value = x.Group.ToArray(Function(t) t.int)})
+                                            Function(x)
+                                                Return New RE With {
+                                                    .ID = x.id,
+                                                    .Value = x.Group _
+                                                        .Select(Function(t) t.int) _
+                                                        .ToArray
+                                                }
+                                            End Function)
         Return LQuery
     End Function
 End Structure

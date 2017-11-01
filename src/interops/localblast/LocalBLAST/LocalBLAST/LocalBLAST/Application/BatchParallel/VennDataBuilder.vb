@@ -93,7 +93,7 @@ Namespace LocalBLAST.Application.BatchParallel
 
             On Error Resume Next
 
-            Return FileList.ToArray(AddressOf LogNameParser)
+            Return FileList.Select(AddressOf LogNameParser).ToArray
         End Function
 
         ''' <summary>
@@ -127,7 +127,7 @@ Namespace LocalBLAST.Application.BatchParallel
 
             ' On Error Resume Next
 
-            Return FileList.ToArray(AddressOf LogNameParser)
+            Return FileList.Select(AddressOf LogNameParser).ToArray
         End Function
 
 #End Region
@@ -179,7 +179,7 @@ Namespace LocalBLAST.Application.BatchParallel
 
             ' On Error Resume Next
 
-            Return fileList.ToArray(AddressOf LogNameParser)
+            Return fileList.Select(AddressOf LogNameParser).ToArray
         End Function
 
         Public Const QUERY_LINKS_SUBJECT As String = "_vs__"
