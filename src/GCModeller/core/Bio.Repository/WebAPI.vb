@@ -47,7 +47,7 @@ Public Module DownloaderWebAPI
     Public Function DownloadGBK(list As IEnumerable(Of String), EXPORT As String, num_threads As Integer) As Integer
         Using pb As New CBusyIndicator(_start:=True)
             Dim downloads As New __genbankDownloadHelper With {.EXPORT = EXPORT}
-            Dim tasks As Action() = list.ToArray(AddressOf downloads.Download)
+            Dim tasks As Action() = list.Select(AddressOf downloads.Download).ToArray
             Return tasks.Invoke(numOfThreads:=num_threads)
         End Using
     End Function

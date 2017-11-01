@@ -118,7 +118,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             End If
 
             Dim Tokens = Regex.Split(text, "^>", RegexOptions.Multiline).Skip(1).ToArray
-            Dim LQuery As SubjectHit() = Tokens.ToArray(AddressOf SubjectHit.TryParse)
+            Dim LQuery As SubjectHit() = Tokens.Select(AddressOf SubjectHit.TryParse).ToArray
             Return LQuery
         End Function
 

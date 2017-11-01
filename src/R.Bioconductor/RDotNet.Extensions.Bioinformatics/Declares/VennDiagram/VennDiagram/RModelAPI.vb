@@ -81,7 +81,7 @@ Namespace VennDiagram.ModelAPI
         ''' <returns>为了保证一一对应的映射关系，这个函数里面不再使用并行化拓展</returns>
         <Extension>
         Public Function VectorMapper(entities As IEnumerable(Of String), lTokens As Func(Of String, String())) As String()
-            Dim Tokens As String()() = entities.ToArray(Function(entity) lTokens(entity))
+            Dim Tokens As String()() = entities.Select(Function(entity) lTokens(entity)).ToArray
             Return VectorMapper(entities:=Tokens)
         End Function
 
@@ -93,18 +93,18 @@ Namespace VennDiagram.ModelAPI
         <Extension>
         Public Function VectorMapper(Of T As IEnumerable(Of IEnumerable(Of String)))(entities As T) As String()
             Dim dictTokens As Dictionary(Of String, Integer) =
-            entities.IteratesALL.Distinct.ToArray(
+            entities.IteratesALL.Distinct.Select(
               Function(name, idx) New With {.name = name, .idx = idx}) _
                   .ToDictionary(Function(entity) entity.name,
                                 Function(entity) entity.idx)
-            Dim Mappings = entities.ToArray(Function(entity) entity.ToArray(Function(name) dictTokens(name)))
-            Dim resultSet As String() = Mappings.ToArray(Function(entity) entity.JoinBy(","))
+            Dim Mappings = entities.Select(Function(entity) entity.Select(Function(name) dictTokens(name))).ToArray
+            Dim resultSet As String() = Mappings.Select(Function(entity) entity.JoinBy(",")).ToArray
             Return resultSet
         End Function
 
         <Extension>
         Public Function VectorMapper(Of T, Tvalue)(source As Dictionary(Of T, Tvalue), lTokens As Func(Of Tvalue, String())) As Dictionary(Of T, String)
-            Dim lst As String()() = source.ToArray(Function(x) lTokens(x.Value))
+            Dim lst As String()() = source.Select(Function(x) lTokens(x.Value)).ToArray
             Dim mapps = VectorMapper(lst)
             Dim result As New Dictionary(Of T, String)
             Dim i As int = 0

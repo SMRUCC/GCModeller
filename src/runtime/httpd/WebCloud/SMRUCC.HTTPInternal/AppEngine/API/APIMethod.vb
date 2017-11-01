@@ -71,7 +71,7 @@ Namespace AppEngine.APIMethods
             Else
                 Dim sbr As New StringBuilder("<strong>Parameters:</strong><br /><table>")
 
-                For Each param In attrs.ToArray(Function(value) DirectCast(value, Argument))
+                For Each param In attrs.Select(Function(value) DirectCast(value, Argument))
                     Call sbr.AppendLine($"  <tr>
     <td>{param.Name}</td>
 <td>{If(param.Optional, "<i>Optional</i>", "")}</td>
@@ -102,7 +102,7 @@ Namespace AppEngine.APIMethods
             If String.Equals("System.Collections.Generic", typeDef.Namespace) Then
 
                 Dim generics = typeDef.GetGenericArguments
-                Dim genericArgs = String.Join(", ", generics.ToArray(Function(type) __getFullName(type)))
+                Dim genericArgs = String.Join(", ", generics.Select(Function(type) __getFullName(type)).ToArray)
                 Dim name = $"{typeDef.Namespace}.{typeDef.Name}(Of {genericArgs})"
                 Return name
 

@@ -101,8 +101,8 @@ Namespace HTML
 
                 <h2>Installed Modules</h2>
                 <p>Currently there are {SPMgrDb.NamespaceCollection.Length} packages({(From ns In SPMgrDb.NamespaceCollection
-                                                                                       Select (From api In ns.API Select api.OverloadsNumber).ToArray.Sum).ToArray.Sum} API in totally) have been installed on your ShoalShell system:
-                </p><p><br /><br />   {QuickNavigation(Namespaces.ToArray(Function(ns) ns.Namespace))}<br /><br /><br />
+                                                                                       Select (From api In ns.API Select api.OverloadsNumber).Sum).Sum} API in totally) have been installed on your ShoalShell system:
+                </p><p><br /><br />   {QuickNavigation(Namespaces.Select(Function(ns) ns.Namespace).ToArray)}<br /><br /><br />
              <table>
                            <tr>
                             <th></th>

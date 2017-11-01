@@ -333,7 +333,7 @@ Namespace Runtime
                                             Where param.IsOptional
                                             Select param.DefaultValue).ToArray
                 Dim args As Object() = New Object(EntryPoint.EntryPoint.GetParameters.Length - 1) {}
-                Dim inputs As Object() = argsValue.ToArray(Function(arg, idx) Alignment.FunctionCalls.AlignType(params(idx).ParameterType, arg.Value))
+                Dim inputs As Object() = argsValue.Select(Function(arg, idx) Alignment.FunctionCalls.AlignType(params(idx).ParameterType, arg.Value)).ToArray
                 Dim offset As Integer = args.Length - inputs.Length
 
                 Call Array.ConstrainedCopy(inputs, Scan0, args, Scan0, inputs.Length)

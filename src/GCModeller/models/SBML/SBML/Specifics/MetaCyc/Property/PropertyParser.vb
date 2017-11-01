@@ -91,7 +91,7 @@ Namespace Specifics.MetaCyc
         ''' <returns></returns>
         Public Function GetGenes(value As String) As String()
             Dim ms As String() = Regex.Matches(value, "\(.+?\)").ToArray
-            ms = ms.ToArray(Function(s) Mid(s, 2, s.Length - 2))
+            ms = ms.Select(Function(s) Mid(s, 2, s.Length - 2)).ToArray
             Return ms
         End Function
 

@@ -83,8 +83,10 @@ Namespace AppEngine
             End If
 
             Dim Apps As WebApp() =
-                types.ToArray(Of WebApp)(
-                Function(typeDef As Type) DirectCast(Activator.CreateInstance(typeDef, {platform}), WebApp))
+                types.Select(Of WebApp)(Function(typeDef As Type)
+                                            Return DirectCast(Activator.CreateInstance(typeDef, {platform}), WebApp)
+                                        End Function) _
+                     .ToArray
 
             For Each app As WebApp In Apps
                 Call platform.AppManager.Register(app)

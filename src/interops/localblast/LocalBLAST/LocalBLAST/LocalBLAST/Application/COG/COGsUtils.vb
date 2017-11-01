@@ -89,7 +89,8 @@ Namespace LocalBLAST.Application.RpsBLAST
 
             Dim MyvaCOG As MyvaCOG() =
                 source _
-                .ToArray(AddressOf RpsBLAST.MyvaCOG.CreateObject)
+                .Select(AddressOf RpsBLAST.MyvaCOG.CreateObject) _
+                .ToArray
 
             If Not descriptParser Is Nothing Then
                 For i As Integer = 0 To queriesName.Length - 1

@@ -49,7 +49,7 @@ Namespace ExportServices
         ''' <returns></returns>
         <ExportAPI("IntersectSets")>
         <Extension> Public Function KEGGReactions(sbml As XmlFile, KEGG As IEnumerable(Of bGetObject.Reaction)) As Elements.Reaction()
-            Dim KEGGModels = KEGG.ToArray(Function(x) New KeyValuePairObject(Of bGetObject.Reaction, Equation)(x, x.ReactionModel))
+            Dim KEGGModels = KEGG.Select(Function(x) New KeyValuePairObject(Of bGetObject.Reaction, Equation)(x, x.ReactionModel)).ToArray
             Dim pendings = sbml.GetReactions.ToDictionary(Function(x) x, Function(x) x.ReactionModel)
             Dim LQuery = (From x As KeyValuePair(Of bGetObject.Reaction, Equation)
                           In pendings.AsParallel

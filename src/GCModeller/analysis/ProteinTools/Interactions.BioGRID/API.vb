@@ -70,8 +70,7 @@ Public Module API
                 sid = x.A.Split(":"c).Last
             Group By sid Into Group) _
                  .ToDictionary(Function(x) x.sid,
-                               Function(x) x.Group.ToArray(
-                               Function(o) o.x))
+                               Function(x) x.Group.Select(Function(o) o.x).ToArray)
         Dim ToHash As Dictionary(Of String, ALLmitab()) = (
             From x As ALLmitab
             In FromHash.Values.IteratesALL
@@ -79,8 +78,7 @@ Public Module API
                 sid = x.B.Split(":"c).Last
             Group By sid Into Group) _
                  .ToDictionary(Function(x) x.sid,
-                               Function(x) x.Group.ToArray(
-                               Function(o) o.x))
+                               Function(x) x.Group.Select(Function(o) o.x).ToArray)
 
         For Each x As EntityObject In source
             Dim key As String = x.ID

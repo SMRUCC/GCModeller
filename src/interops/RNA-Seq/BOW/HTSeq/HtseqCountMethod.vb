@@ -181,7 +181,7 @@ Public Module HtseqCountMethod
                 Call $"Warning! There are duplicated tag value ""{Feature}"" ===> ""{locusId}"" in the experiment data!".__DEBUG_ECHO
             End If
 
-            Dim data As String() = (From obj In dataExpr0 Select If(obj.expr.IsNullOrEmpty, 0, obj.expr.First.Counts)).ToArray(Function(x) CStr(x))
+            Dim data As String() = (From obj In dataExpr0 Select If(obj.expr.IsNullOrEmpty, 0, obj.expr.First.Counts)).Select(Function(x) CStr(x)).ToArray
 
             Call Row.AddRange(data)
             Call ChunkBuffer.Add(Row)
@@ -262,8 +262,15 @@ Anders, S., Pyl, P. T., & Huber, W. (2015). HTSeq--a Python framework to work wi
                           Select loci,
                                   RPKMValue = HtseqCountMethod.RPKM(loci.Counts, totalLen, MappedReads)
                           Order By loci.Feature Ascending).ToArray
-        Dim array As CountResult() =
-                RPKMValues.ToArray(Function(x) New CountResult With {.Feature = x.loci.Feature, .Counts = x.RPKMValue})
+        Dim array As CountResult() = RPKMValues _
+            .Select(Function(x)
+                        Return New CountResult With {
+                            .Feature = x.loci.Feature,
+                            .Counts = x.RPKMValue
+                        }
+                    End Function) _
+            .ToArray
+
         Return array
     End Function
 
@@ -318,7 +325,7 @@ Anders, S., Pyl, P. T., & Huber, W. (2015). HTSeq--a Python framework to work wi
 
     <ExportAPI("HtSeq-count.Doc"), Extension>
     Public Function ToDoc(source As IEnumerable(Of CountResult)) As String
-        Dim array As String() = source.ToArray(Function(x) x.ToString)
+        Dim array As String() = source.Select(Function(x) x.ToString).ToArray
         Dim doc As String = String.Join(vbCrLf, array)
         Return doc
     End Function
@@ -449,14 +456,14 @@ Anders, S., Pyl, P. T., & Huber, W. (2015). HTSeq--a Python framework to work wi
                           Select name = feature.attributes("name").ToUpper).ToArray
             For Each loci In counts
                 Dim feature As Value(Of Integer) = features(loci)
-                feature.value += 1
+                feature.Value += 1
             Next
         Next
 
         Dim Lines As CountResult() = (From Feature In features
                                       Let count As CountResult = New CountResult With {
                                               .Feature = Feature.Key,
-                                              .Counts = CDbl(Feature.Value.value)
+                                              .Counts = CDbl(Feature.Value.Value)
                                           }
                                       Select count).ToArray
         Return Lines

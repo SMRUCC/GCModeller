@@ -46,7 +46,7 @@ Namespace ExportServices
                                 Select cp, sp
                                 Group By cp Into Group) _
                                         .ToDictionary(Function(x) x.cp,
-                                                      Function(x) x.Group.ToArray(Function(xx) xx.sp))
+                                                      Function(x) x.Group.Select(Function(xx) xx.sp).ToArray)
             Dim Meta2KEGG As Dictionary(Of String, String) =
                 (From x In allCompounds.AsParallel
                  Select (From xx As Specie In x.Value

@@ -75,7 +75,7 @@ Namespace SangerSNPs
             SNPsAlignment.DetectSNPs(fasta, pure_mode, output_monomorphic, args)
             SNPsAlignment.GetBasesForEachSNP(fasta, bases_for_snps, args)
 
-            Dim SNPsBases As String() = bases_for_snps.MatrixTranspose.ToArray(Function(x) New String(x))
+            Dim SNPsBases As String() = bases_for_snps.MatrixTranspose.Select(Function(x) New String(x)).ToArray
             Dim output_filename_base As String = fasta.FilePath
 
             If output_vcf_file <> 0 Then
