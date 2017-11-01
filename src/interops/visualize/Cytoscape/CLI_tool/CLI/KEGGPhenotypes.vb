@@ -91,12 +91,12 @@ Partial Module CLI
         Next
 
         Dim l As Integer = footprints.Length
-        Dim sets As EntityLDM() = Entities.ToArray(
+        Dim sets As EntityLDM() = Entities.Select(
             Function(x) New EntityLDM With {
                 .ID = x.EntryId,
                 .Properties = x.hash.ToDictionary(Function(prop) prop.Key,
                                                   Function(prop) prop.Value.Value / l)
-        })
+        }).ToArray
 
         Call sets.SaveTo(out.TrimSuffix & ".resultSet.Csv")
 

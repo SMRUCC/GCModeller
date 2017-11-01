@@ -126,7 +126,7 @@ Partial Module CLI
         Dim task As Func(Of Dictionary(Of String, String), String) =
             Function(source) _
                 $"{api} /bbh {source(NameOf(bbh)).CLIPath} /PTT {source(NameOf(PTT)).CLIPath} /TF-bbh {source(NameOf(TFs)).CLIPath} /out {(out & source(NameOf(PTT)).BaseName & ".regulons.csv").CLIPath} /regprecise {regprecise.CLIPath}"
-        Dim CLI As String() = pairs.ToArray(task)
+        Dim CLI As String() = pairs.Select(task).ToArray
 
         Return App.SelfFolks(CLI, n)
     End Function
@@ -248,7 +248,7 @@ Partial Module CLI
         End If
 
         If members.Count = 1 Then
-            Return members.Values.First.ToArray(
+            Return members.Values.First.Select(
                 Function(sid) New RegPreciseOperon(regulon,
                                                    TF,
                                                    {sid},
