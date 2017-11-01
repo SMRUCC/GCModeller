@@ -122,7 +122,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
     Private Function Interacts(query As bbhMappings(), subject As bbhMappings()) As bbhMappings()
         Dim s1 = New [Set](query.Select(Function(x) x.query_name))
         Dim s2 = New [Set](subject.Select(Function(x) x.query_name))
-        Dim inters = (s1 And s2).ToArray(Of String)
+        Dim inters = (s1 And s2).Select(Of String)
         Dim LQuery = (From x In query Where Array.IndexOf(inters, x.query_name) > -1 Select x).ToArray
         Return LQuery
     End Function

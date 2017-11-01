@@ -64,7 +64,7 @@ Public Module KEGG
                                   subX.ToLower,
                                   subX).ToArray).ToVector _
                      .GroupBy(Function(x) x.ToLower) _
-                     .Select(Function(x) Family.FileSystem.Family.CreateObject(x.First.subX, x.Select(Function(xx) xx.stringPfam))) _
+                     .Select(Function(x) Family.FileSystem.Family.CreateObject(x.First.subX, x.Select(Function(xx) xx.stringPfam).ToArray)) _
                      .OrderBy(Function(x) x.Family).ToArray
         Dim FamilyDb As New FamilyPfam With {
             .Build = Now.ToString,

@@ -263,10 +263,10 @@ Huber, W.",
             Dim Conditions = (From column As String() In sampleTable.Columns.Skip(2)   '遍历每一个Factor，取得矩阵之中的每一列的数据作为DataFrame之中的一列
                               Let Factor As String = column(Scan0)
                               Select Factor, init = $"{Factor} <- factor(c({String.Join(", ", (From s In column.Skip(1) Select """" & s & """").ToArray)}))").ToArray
-            Call sbr.Replace("{WRITE_FACTOR_CONDITIONS}", String.Join(vbCrLf, Conditions.ToArray(Of String)(Function(obj) obj.init)))
-            Call sbr.Replace("{FACTOR_LIST}", String.Join(", ", Conditions.ToArray(Of String)(Function(obj) obj.Factor)))
+            Call sbr.Replace("{WRITE_FACTOR_CONDITIONS}", String.Join(vbCrLf, Conditions.Select(Of String)(Function(obj) obj.init)))
+            Call sbr.Replace("{FACTOR_LIST}", String.Join(", ", Conditions.Select(Of String)(Function(obj) obj.Factor)))
             Call sbr.Replace("{Condition-Design}", design)
-            Call sbr.Replace("{ColumnNames}", String.Join(", ", SampleTables.ToArray(Of String)(Function(obj) """" & obj.sampleName & """")))
+            Call sbr.Replace("{ColumnNames}", String.Join(", ", SampleTables.Select(Of String)(Function(obj) """" & obj.sampleName & """")))
             Call sbr.Replace("{DIR_EXPORT}", FileIO.FileSystem.GetParentPath(countData).Replace("\", "/"))
             Call sbr.Replace("{ConditionLength}", Conditions.Length)
 

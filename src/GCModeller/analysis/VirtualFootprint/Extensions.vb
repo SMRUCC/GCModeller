@@ -59,7 +59,7 @@ Public Module Extensions
 
     <Extension> Public Function KEGGRegulons(footprints As IEnumerable(Of RegulatesFootprints), cats As ModuleClassAPI) As KEGGRegulon()
         Dim uids = (From x As RegulatesFootprints In footprints.AsParallel Select x.__uid, x Group By __uid Into Group).ToArray
-        Dim LQuery = (From x In uids Select x.Group.Select(Function(o) o.x).KEGGRegulon(cats)).ToArray
+        Dim LQuery = (From x In uids Select x.Group.Select(Function(o) o.x).ToArray.KEGGRegulon(cats)).ToArray
         Return LQuery
     End Function
 

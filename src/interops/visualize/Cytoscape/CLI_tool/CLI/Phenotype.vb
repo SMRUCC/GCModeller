@@ -203,7 +203,7 @@ Partial Module CLI
             Dim mapSet As [Set] = New [Set](resultSet.Select(Function(x) x.ID))
             Dim delta = all - mapSet
 
-            For Each unMap As String In delta.ToArray(Of String)
+            For Each unMap As String In delta.Select(Of String)
                 result(unMap).Properties(sId) = 0R
             Next
 

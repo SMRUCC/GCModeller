@@ -185,7 +185,7 @@ Partial Module CLI
         Dim qPattern$ = args.GetValue("/q.pattern", "-")
 
         Using IO As New WriteStream(Of BestHit)(out)
-            Dim handle As Action(Of Query) = IO.ToArray(Of Query)(
+            Dim handle As Action(Of Query) = IO.Select(Of Query)(
                 Function(query) v228.SBHLines(query, coverage:=coverage, identities:=idetities))
             Call Transform(inFile, 1024 * 1024 * 256, handle, grep:=(qPattern, sPattern))
         End Using

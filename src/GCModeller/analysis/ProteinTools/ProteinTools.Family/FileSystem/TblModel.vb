@@ -206,9 +206,11 @@ Namespace FileSystem
         End Function
 
         Public Shared Function CreateObject(Name As String, proteins As Pfam.PfamString.PfamString()) As Family
-            Dim prot As PfamString() = proteins.ToArray(
-                Function(x) FileSystem.PfamString.CreateObject(x),
-                where:=Function(x) Not StringHelpers.IsNullOrEmpty(x.PfamString))
+            Dim prot As PfamString() = proteins _
+                .Where(Function(x) Not StringHelpers.IsNullOrEmpty(x.PfamString)) _
+                .Select(Function(x) FileSystem.PfamString.CreateObject(x)) _
+                .ToArray
+
             Return CreateObject(Name, prot)
         End Function
     End Class

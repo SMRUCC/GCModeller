@@ -615,7 +615,7 @@ DownloadSites:
                 Call sites.GetXml.SaveTo(Path)
             End If
 
-            Dim siteTags As String() = sites.ToArray(Of String)(Function(site) $"{site.geneLocusTag}:{site.geneVIMSSId}:{site.position}").Distinct.ToArray
+            Dim siteTags As String() = sites.Select(Of String)(Function(site) $"{site.geneLocusTag}:{site.geneVIMSSId}:{site.position}").Distinct.ToArray
             Dim sitesFasta = sites.Select(Function(site) FastaReaders.Site.CreateFrom(site, genome.name))
 
             Path = $"{repository}/Fasta/{NameOf(sites)}/{regulon.regulonId}.{genome.name.NormalizePathString}.fasta"

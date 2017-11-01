@@ -250,7 +250,7 @@ Partial Module CLI
             ' 超大
             Using IO As New WriteStream(Of BlastnMapping)(out, metaKeys:={})
                 Dim handle As Action(Of Query) =
-                    IO.ToArray(Of Query)(AddressOf MapsAPI.CreateObject)
+                    IO.Select(Of Query)(AddressOf MapsAPI.CreateObject)
                 Call BlastPlus.Transform(in$, 1024 * 1024 * 256L, handle)
             End Using
         Else
