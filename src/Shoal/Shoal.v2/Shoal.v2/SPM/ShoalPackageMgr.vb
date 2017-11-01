@@ -128,8 +128,8 @@ Namespace SPM
                 Return DbValue
             End If
 
-            Dim Tokens = DbValue.Split(";"c).ToArray(Function(name) name.Split(","c)).Unlist
-            Dim mToken = Merge.Split(";"c).ToArray(Function(name) name.Split(","c)).Unlist
+            Dim Tokens = DbValue.Split(";"c).Select(Function(name) name.Split(","c)).Unlist
+            Dim mToken = Merge.Split(";"c).Select(Function(name) name.Split(","c)).Unlist
             Dim Values As List(Of String) = Tokens.Join(mToken)
             Dim GroupName = (From name As String
                              In Values
@@ -137,7 +137,7 @@ Namespace SPM
                              Where Not String.IsNullOrEmpty(tName)
                              Select tName.ToUpper, tName
                              Group By ToUpper Into Group).ToArray
-            Dim Names As String() = GroupName.ToArray(Function(ng) ng.Group.First.tName)
+            Dim Names As String() = GroupName.Select(Function(ng) ng.Group.First.tName).ToArray
             Return String.Join(", ", Names)
         End Function
 

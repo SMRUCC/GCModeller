@@ -110,7 +110,8 @@ Namespace Assembly.KEGG.Archives.Csv
         Public Shared Function LoadData(DIR As String, spCode As String) As Pathway()
             Dim XMLFiles As KEGG.DBGET.bGetObject.Pathway() =
                 (ls - l - r - wildcards("*.xml") <= DIR) _
-                .ToArray(AddressOf SafeLoadXml(Of bGetObject.Pathway))
+                .Select(AddressOf SafeLoadXml(Of bGetObject.Pathway)) _
+                .ToArray
             Return CreateObjects(XMLFiles, spCode)
         End Function
 

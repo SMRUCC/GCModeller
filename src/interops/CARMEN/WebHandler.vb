@@ -67,13 +67,14 @@ Public Module WebHandler
         Dim webPage As String = If(fromOnline, URL.GET, My.Resources.CARMEN)
         Dim Pages As String() = Regex.Matches(webPage, "<select name.+?</select>").ToArray
         Dim Session As Dictionary(Of String, HtmlElement()) =
-            Pages.ToArray(Function(x) New With {
+            Pages.Select(Function(x) New With {
             .name = Regex.Match(x, "<select name="".+?""").Value,
             .lst = Regex.Matches(x, "<option value="".+?"">.+?</option>").ToArray}) _
             .ToDictionary(Function(x) Regex.Match(x.name, """.+?""").Value.GetString,
-                          Function(x) x.lst.ToArray(
-                          Function(s) HtmlElement.SingleNodeParser(s)))
-        _lstOrganisms = Session("organism").ToArray(Function(x) x("value").Value)
+                          Function(x)
+                              Return x.lst.Select(Function(s) HtmlElement.SingleNodeParser(s)).ToArray
+                          End Function)
+        _lstOrganisms = Session("organism").Select(Function(x) x("value").Value).ToArray
         _lstPathways = Session("pathways").ToDictionary(
             Function(x) x("value").Value,
             Function(x) x.HtmlElements(Scan0).InnerText)

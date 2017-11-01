@@ -63,7 +63,7 @@ Public Structure ActiveSite : Implements INamedValue
                           value
                       Group By tag Into Group) _
                               .ToDictionary(Function(x) x.tag,
-                                            Function(x) x.Group.ToArray(Function(o) o.value))
+                                            Function(x) x.Group.Select(Function(o) o.value).ToArray)
         Dim pfam As New ActiveSite With {
             .ID = LQuery.TryGetValue(NameOf(pfam.ID)).DefaultFirst,
             .RE = __RLhash(LQuery.TryGetValue(NameOf(pfam.RE))),
@@ -84,9 +84,14 @@ Public Structure ActiveSite : Implements INamedValue
                           int
                       Group By id Into Group) _
                               .ToDictionary(Function(x) x.id,
-                                            Function(x) New RE With {
-                                                .ID = x.id,
-                                                .Value = x.Group.ToArray(Function(t) t.int)})
+                                            Function(x)
+                                                Return New RE With {
+                                                    .ID = x.id,
+                                                    .Value = x.Group _
+                                                        .Select(Function(t) t.int) _
+                                                        .ToArray
+                                                }
+                                            End Function)
         Return LQuery
     End Function
 End Structure

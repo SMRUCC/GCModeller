@@ -90,7 +90,7 @@ Namespace ComponentModel.EquaionModel
             End If
 
             Dim tokens As String() = Strings.Split(expr, EQUATION_SPECIES_CONNECTOR)
-            Dim LQuery As T() = tokens.ToArray(AddressOf __tryParse(Of T))
+            Dim LQuery As T() = tokens.Select(AddressOf __tryParse(Of T)).ToArray
             Return LQuery
         End Function
 

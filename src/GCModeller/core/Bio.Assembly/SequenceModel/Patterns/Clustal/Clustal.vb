@@ -74,7 +74,7 @@ Namespace SequenceModel.Patterns.Clustal
                                       Return DirectCast(y.value.Alphabets, IReadOnlyDictionary(Of Char, Double))
                                   End Function)
             _Frequency = dict
-            _Conservation = dict.ToArray(Function(x) __getSite(x))
+            _Conservation = dict.Select(Function(x) __getSite(x)).ToArray
         End Sub
 
         Private Shared Function __getSite(x As KeyValuePair(Of Integer, IReadOnlyDictionary(Of Char, Double))) As SR

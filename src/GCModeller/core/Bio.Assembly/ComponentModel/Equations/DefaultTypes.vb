@@ -72,8 +72,8 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         End Sub
 
         Sub New(left As IEnumerable(Of ICompoundSpecies), right As IEnumerable(Of ICompoundSpecies), canReverse As Boolean)
-            Reactants = left.ToArray(Function(x) New CompoundSpecieReference(x))
-            Products = right.ToArray(Function(x) New CompoundSpecieReference(x))
+            Reactants = left.Select(Function(x) New CompoundSpecieReference(x))
+            Products = right.Select(Function(x) New CompoundSpecieReference(x))
             Reversible = canReverse
         End Sub
 
@@ -81,16 +81,16 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
                 idMaps As Dictionary(Of String, String),
                 canReverse As Boolean)
 
-            Reactants = left.ToArray(
+            Reactants = left.Select(
                 Function(x) New CompoundSpecieReference With {
                     .ID = idMaps(x.Key),
                     .StoiChiometry = x.StoiChiometry
-                })
-            Products = right.ToArray(
+                }).ToArray
+            Products = right.Select(
                 Function(x) New CompoundSpecieReference With {
                     .ID = idMaps(x.Key),
                     .StoiChiometry = x.StoiChiometry
-                })
+                }).ToArray
             Reversible = canReverse
         End Sub
 

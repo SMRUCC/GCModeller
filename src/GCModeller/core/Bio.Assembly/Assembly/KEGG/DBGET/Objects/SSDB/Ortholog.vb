@@ -64,7 +64,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
         End Function
 
         Public Shared Function CreateObjects(result As SSDB.OrthologREST) As Ortholog()
-            Return result.Orthologs.ToArray(Function(x) __createObject(result, x))
+            Return result.Orthologs.Select(Function(x) __createObject(result, x)).ToArray
         End Function
 
         Private Shared Function __createObject(result As SSDB.OrthologREST, hit As SShit) As Ortholog

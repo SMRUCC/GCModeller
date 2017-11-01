@@ -122,7 +122,7 @@ Namespace SequenceModel.Patterns
         ''' <returns></returns>
         Public Function GetVariation(ref As FASTA.FastaToken, cutoff As Double) As Double()
             Dim refs As Char() = ref.SequenceData.ToUpper.ToCharArray
-            Return Residues.ToArray(Function(x, i) x.Variation(refs(i), cutoff))
+            Return Residues.Select(Function(x, i) x.Variation(refs(i), cutoff)).ToArray
         End Function
 
         Public Iterator Function PWM() As IEnumerable(Of IPatternSite) Implements IPatternProvider.PWM

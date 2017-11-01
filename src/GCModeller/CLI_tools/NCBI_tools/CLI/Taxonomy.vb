@@ -237,7 +237,7 @@ Partial Module CLI
         Dim CLI As Func(Of String, String) =
             Function(file) $"{GetType(CLI).API(NameOf(SplitByTaxid))} /in {file.CLIPath} /out {(out & "/" & file.BaseName.Trim).CLIPath}"
         Dim n As Integer = args.GetValue("/num_threads", -1)
-        Dim tasks$() = (ls - l - r - wildcards("*.fasta") <= [in]).ToArray(CLI)
+        Dim tasks$() = (ls - l - r - wildcards("*.fasta") <= [in]).Select(CLI).ToArray
 
         Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
     End Function
@@ -408,7 +408,7 @@ Partial Module CLI
                     .Value = CInt(Val(t(1)))
                 }
         Else
-            taxids = taxid.IterateAllLines.ToArray(Function(s) New NamedValue(Of Integer)("", CInt(Val(s))))
+            taxids = taxid.IterateAllLines.Select(Function(s) New NamedValue(Of Integer)("", CInt(Val(s)))).ToArray
         End If
 
         For Each x As NamedValue(Of Integer) In taxids

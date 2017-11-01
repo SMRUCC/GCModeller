@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::1d581f022a6842f85d0c53f9b667af30, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\DESeq\DESeq.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
@@ -330,13 +331,13 @@ Huber, W.",
                                <Parameter("Factors",
                                           "Column name of the experiments variables.")>
                                Factors As IEnumerable(Of String),
-                               Experiments As IEnumerable(Of Generic.IEnumerable(Of String))) As Boolean
+                               Experiments As IEnumerable(Of IEnumerable(Of String))) As Boolean
             Dim colDataMAT As New IO.File    ' For matrix input: a DataFrame or data.frame with at least a single column. Rows of colData correspond to columns of countData.
             Dim HeadRow = New IO.RowObject From {""}
             Call HeadRow.AddRange(Factors) '为了保持一一对应关系，在这里不再使用并行化拓展
             Call colDataMAT.Add(HeadRow)
-            Call colDataMAT.AppendRange((From Experiment In Experiments Select Experiment.AsList.ToCsvRow).ToArray)
-            Dim colData As String = $"{FileIO.FileSystem.GetParentPath(countData)}/{basename(countData)}.colData.csv"
+            Call colDataMAT.AppendRange((From Experiment In Experiments Select New RowObject(Experiment)).ToArray)
+            Dim colData As String = $"{FileIO.FileSystem.GetParentPath(countData)}/{BaseName(countData)}.colData.csv"
             Call colDataMAT.Save(colData, Encoding:=Encoding.ASCII)
             Dim ScriptBuilder As StringBuilder = New StringBuilder(My.Resources.DEseq2_Template)
             Call ScriptBuilder.Replace("{countData.MAT.csv}", countData.Replace("\", "/"))
@@ -353,7 +354,7 @@ Huber, W.",
             Call ScriptBuilder.Replace("{DIR_EXPORT}", FileIO.FileSystem.GetParentPath(countData).Replace("\", "/"))
             Call ScriptBuilder.Replace("{ConditionLength}", Factors.Count)
 
-            Dim ScriptPath As String = $"{FileIO.FileSystem.GetParentPath(countData)}/{basename(countData)}.R.DESeq.txt"
+            Dim ScriptPath As String = $"{FileIO.FileSystem.GetParentPath(countData)}/{BaseName(countData)}.R.DESeq.txt"
             Call ScriptBuilder.SaveTo(ScriptPath)
             Call $"Script file saved to {ScriptPath.ToFileURL}...".__DEBUG_ECHO
             Call "Start running R analysis....".__DEBUG_ECHO
@@ -409,16 +410,16 @@ Huber, W.",
 
             If PairedEnd Then
                 '进行排序
-                Dim Sorted As String = SAM.value & ".ordered"
-                Call $"The input Sam data file {SAM.value.ToFileURL} is paired-end data, needs to be sorted.....".__DEBUG_ECHO
+                Dim Sorted As String = SAM.Value & ".ordered"
+                Call $"The input Sam data file {SAM.Value.ToFileURL} is paired-end data, needs to be sorted.....".__DEBUG_ECHO
                 Call "Start to sorting the sam file....".__DEBUG_ECHO
 
                 '将sam转换为bam
                 '根据gff文件查找*.fna基因组序列文件
-                Dim GFF_ID As String = basename(GFF)
+                Dim GFF_ID As String = BaseName(GFF)
                 Dim Fna As String = (From path As String
                                      In FileIO.FileSystem.GetFiles(FileIO.FileSystem.GetParentPath(GFF), FileIO.SearchOption.SearchTopLevelOnly, "*.fna")
-                                     Let FNA_ID As String = basename(path)
+                                     Let FNA_ID As String = BaseName(path)
                                      Where String.Equals(FNA_ID, GFF_ID, StringComparison.OrdinalIgnoreCase)
                                      Select path).FirstOrDefault
                 If Not Fna.FileExists Then '找不到基因组序列文件
@@ -427,15 +428,15 @@ Huber, W.",
                 End If
 
                 Fna = Samtools.Indexing(Fna)
-                Call Samtools.Import(SAM, Fna, SAM = (SAM.value & ".bam"))
+                Call Samtools.Import(SAM, Fna, SAM = (SAM.Value & ".bam"))
                 Call Samtools.Sort(SAM, Sorted)
                 Call $"Samtools sorts job done! Sorted file saved at {Sorted.ToFileURL}".__DEBUG_ECHO
                 SAM = Sorted & ".bam"
             End If
 
             Dim Cli As String = If(PairedEnd,
-                $"-m HTSeq.scripts.count -r name -f bam {SAM.value.CLIPath} {GFF.CLIPath}",
-                $"-m HTSeq.scripts.count {SAM.value.CLIPath} {GFF.CLIPath}") 'bam文件还需要加一些开关来指定格式？
+                $"-m HTSeq.scripts.count -r name -f bam {SAM.Value.CLIPath} {GFF.CLIPath}",
+                $"-m HTSeq.scripts.count {SAM.Value.CLIPath} {GFF.CLIPath}") 'bam文件还需要加一些开关来指定格式？
             Dim HTseq As IIORedirectAbstract = New IORedirectFile(Settings.Session.SettingsFile.Python, Cli)
             Dim i As Boolean = 0 = HTseq.Run()
 

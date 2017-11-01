@@ -136,8 +136,8 @@ Namespace SequenceModel.NucleotideModels.Translation
         End Function
 
         Private Shared Function __parseHash(tokens As String()) As Dictionary(Of Codon, AminoAcid)
-            Dim MAT = tokens.ToArray(Function(token As String) Regex.Split(token, "\s+"))
-            Dim Codons = MAT.ToArray(Function(line) __split(line)).Unlist
+            Dim MAT = tokens.Select(Function(token As String) Regex.Split(token, "\s+")).ToArray
+            Dim Codons = MAT.Select(Function(line) __split(line)).Unlist
             Dim LQuery = (From Token As String() In Codons Select code = New Codon(Token), AA = Token(1).First).ToArray
             Dim hash = LQuery.ToDictionary(Function(obj) obj.code, Function(obj) SequenceModel.Polypeptides.ToEnums(obj.AA))
             Return hash

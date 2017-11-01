@@ -255,6 +255,8 @@
     <Compile Include="API\utils\write.vb" />
     <Compile Include="API\utils\install.vb" />
     <Compile Include="API\utils\utils.vb" />
+    <Compile Include="Extensions\Serialization\WriteMemoryInternal.vb" />
+    <Compile Include="Extensions\Serialization\rda.vb" />
     <Compile Include="Extensions\Serialization\Vector.vb" />
     <Compile Include="ScriptBuilder\ParameterList.vb" />
     <Compile Include="ScriptBuilder\EscapingHelper.vb" />
@@ -352,9 +354,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RDotNET\RDotNET.vbproj">
+    <ProjectReference Include="..\RDotNET\RDotNet.vbproj">
       <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
-      <Name>RDotNET</Name>
+      <Name>RDotNet</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

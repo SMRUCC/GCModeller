@@ -29,7 +29,7 @@
 Imports System.Data.Linq.Mapping
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -108,7 +108,7 @@ Namespace hmmscan
             Return (LinqAPI.MakeList(Of ScanTable) <=
                 From x As Hit
                 In uncertain.SafeQuery
-                Select __getTable(x)) + Hits.ToArray(AddressOf __getTable)
+                Select __getTable(x)) + Hits.Select(AddressOf __getTable)
         End Function
 
         Private Function __getTable(x As Hit) As IEnumerable(Of ScanTable)

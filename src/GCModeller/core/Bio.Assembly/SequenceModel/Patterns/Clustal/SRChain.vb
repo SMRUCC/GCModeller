@@ -58,7 +58,7 @@ Namespace SequenceModel.Patterns.Clustal
         End Property
 
         Public Overrides Function ToString() As String
-            Return New String(lstSR.ToArray(Function(x) x.Residue))
+            Return New String(lstSR.Select(Function(x) x.Residue).ToArray)
         End Function
     End Class
 End Namespace

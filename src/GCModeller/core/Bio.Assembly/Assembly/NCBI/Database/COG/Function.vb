@@ -189,7 +189,7 @@ Namespace Assembly.NCBI.COG
                 }
             End If
 
-            Return COG.ToArray(Function(x) __getCategory(x))
+            Return COG.Select(Function(x) __getCategory(x)).ToArray
         End Function
 
         ''' <summary>
@@ -275,7 +275,8 @@ Namespace Assembly.NCBI.COG
             For Each [class] In LQuery
                 table([class].category) = [class] _
                     .Group _
-                    .ToArray(Function(obj) obj.geneid)
+                    .Select(Function(obj) obj.geneid) _
+                    .ToArray
             Next
 
             Return table

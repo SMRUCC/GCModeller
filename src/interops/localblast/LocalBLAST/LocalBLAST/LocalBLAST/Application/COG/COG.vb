@@ -80,7 +80,7 @@ Namespace LocalBLAST.Application.RpsBLAST
         End Function
 
         Public Shared Function ToMyvaCOG(source As IEnumerable(Of MGACOG)) As MyvaCOG()
-            Return source.ToArray(Function(x) x.ToMyvaCOG)
+            Return source.Select(Function(x) x.ToMyvaCOG).ToArray
         End Function
     End Class
 

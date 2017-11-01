@@ -51,7 +51,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Shared Function TryParseWebPage(url As String) As PathwayEntry()
             Dim html As String = url.GET
             Dim sbuf As String() = Regex.Matches(html, ENTRY_ITEM, RegexICSng).ToArray
-            Dim result As PathwayEntry() = sbuf.ToArray(AddressOf __parserEntry)
+            Dim result As PathwayEntry() = sbuf.Select(AddressOf __parserEntry).ToArray
 
             Return result
         End Function

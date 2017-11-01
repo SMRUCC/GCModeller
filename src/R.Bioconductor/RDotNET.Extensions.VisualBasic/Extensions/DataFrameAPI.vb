@@ -140,9 +140,9 @@ Public Module DataFrameAPI
                         Case GetType(String)
                             cc = RScripts.c(col.value)
                         Case GetType(Boolean)
-                            cc = RScripts.c(col.value.ToArray(AddressOf ParseBoolean))
+                            cc = RScripts.c(col.value.Select(AddressOf ParseBoolean))
                         Case Else
-                            cc = RScripts.c(col.value.ToArray(Function(x) DirectCast(x, Object)))
+                            cc = RScripts.c(col.value.Select(Function(x) DirectCast(x, Object)))
                     End Select
 
                     refNames(col.i) = $"{ref}$""{name}"""

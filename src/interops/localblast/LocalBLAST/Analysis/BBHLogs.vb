@@ -61,7 +61,7 @@ Namespace Analysis
         <ExportAPI("LoadEntries")>
         <Extension>
         Public Function LoadEntries(DIR As String, Optional ext As String = "*.txt") As AlignEntry()
-            Dim Logs As AlignEntry() = (ls - l - wildcards(ext) <= DIR).ToArray(AddressOf LogNameParser)
+            Dim Logs As AlignEntry() = (ls - l - wildcards(ext) <= DIR).Select(AddressOf LogNameParser).ToArray
             Return Logs
         End Function
 
@@ -113,13 +113,13 @@ Namespace Analysis
         ''' <returns></returns>
         <ExportAPI("Load.SBHEntry")>
         Public Function LoadSBHEntry(DIR As String, query As String) As String()
-            Dim LQuery As AlignEntry() = (ls - l - wildcards("*.*") <= DIR).ToArray(AddressOf LogNameParser)
-            Dim Paths As String() =
-                LinqAPI.Exec(Of String) <=
-                From entry As AlignEntry
-                In LQuery.AsParallel
-                Where String.Equals(query, entry.QueryName, StringComparison.OrdinalIgnoreCase)
-                Select entry.FilePath
+            Dim LQuery As AlignEntry() = (ls - l - wildcards("*.*") <= DIR).Select(AddressOf LogNameParser).ToArray
+            Dim Paths$() = LinqAPI.Exec(Of String) _
+ _
+                () <= From entry As AlignEntry
+                      In LQuery.AsParallel
+                      Where String.Equals(query, entry.QueryName, StringComparison.OrdinalIgnoreCase)
+                      Select entry.FilePath
 
             Return Paths
         End Function
@@ -398,7 +398,7 @@ RETURN_VALUE:
                     New HitCollection With {
                         .QueryName = query,
                         .Description = hits.First.desc,
-                        .Hits = hits.ToArray(Function(x) x.hhh)
+                        .Hits = hits.Select(Function(x) x.hhh).ToArray
                     }
                 Select hitCol
 

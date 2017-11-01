@@ -217,19 +217,19 @@ both of these relationships hold
                                    Select (From m As Match
                                            In Regex.Matches(ss, xRef, RegexOptions.IgnoreCase + RegexOptions.Singleline)
                                            Select m.Value)).ToVector
-            Dim Values = DBs.ToArray(Function(lnk) __xRefParser(lnk)).ToVector
+            Dim Values = DBs.Select(Function(lnk) __xRefParser(lnk)).ToVector
             Return Values
         End Function
 
         Private Function __xRefParser(lnk As String) As TripleKeyValuesPair()
             Dim Name As String = Regex.Match(lnk, "<div.+?</div>").Value.GetValue.Split(":"c).First
             Dim Links = (From m As Match In Regex.Matches(lnk, "<a.+?</a>") Select m.Value).ToArray
-            Dim values As TripleKeyValuesPair() = Links.ToArray(
+            Dim values As TripleKeyValuesPair() = Links.Select(
                 Function(ss) New TripleKeyValuesPair With {
                     .Key = Name,
                     .Value1 = ss.href,
                     .Value2 = ss.GetValue
-                })
+                }).ToArray
             Return values
         End Function
 

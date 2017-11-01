@@ -46,12 +46,12 @@ Namespace Assembly.NCBI.COG
         End Function
 
         Public Function ToArray() As COGFunction()
-            Return SubClasses.ToArray(
+            Return SubClasses.Select(
                 Function(x) New COGFunction With {
                     .Category = [Class],
                     .Catalog = x.Key,
                     .Description = x.Value
-            })
+            }).ToArray
         End Function
 
         Public Function GetDescription(COG As Char, ByRef description As String) As Boolean

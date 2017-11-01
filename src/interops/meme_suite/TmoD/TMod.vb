@@ -184,7 +184,7 @@ Public Module TMod
                       Let stdOUT As String = systemShell.StandardOutput
                       Select out,
                           outSave = stdOUT.SaveTo(out)).ToArray
-        Return LQuery.ToArray(Function(x) x.out)
+        Return LQuery.Select(Function(x) x.out).ToArray
     End Function
 
     ''' <summary>

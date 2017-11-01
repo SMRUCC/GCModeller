@@ -93,7 +93,7 @@ Namespace Assembly.NCBI.GenBank
         Public Function ToGff(gb As GBFF.File) As GFFTable
             Dim Gff As New GFFTable With {
                 .Date = gb.Locus.UpdateTime,
-                .Features = gb.Features.ToArray(Function(x) x.ToGff),
+                .Features = gb.Features.Select(Function(x) x.ToGff).ToArray,
                 .GffVersion = 3,
                 .SeqRegion = New SeqRegion With {
                       .AccessId = gb.Accession.AccessionId,

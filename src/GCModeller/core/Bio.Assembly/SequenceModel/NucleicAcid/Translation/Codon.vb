@@ -81,7 +81,10 @@ Namespace SequenceModel.NucleotideModels.Translation
                 IsStopCodon = True
             End If
 
-            Dim Codon = tokens(Scan0).ToArray(Function(ntch) nucleotideConvert(ntch))
+            Dim Codon = tokens(Scan0) _
+                .Select(Function(ntch) NucleotideConvert(ntch)) _
+                .ToArray
+
             X = Codon(Scan0)
             Y = Codon(1)
             Z = Codon(2)
