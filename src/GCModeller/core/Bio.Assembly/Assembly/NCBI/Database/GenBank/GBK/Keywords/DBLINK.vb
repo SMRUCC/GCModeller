@@ -50,7 +50,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Dim links$() = Me.Links.ToArray(Function(x) $"{x.Name}: {x.Value}")
+            Dim links$() = Me.Links.Select(Function(x) $"{x.Name}: {x.Value}").ToArray
             Dim sb As New StringBuilder("DBLINK      " & links(Scan0))
 
             For Each l$ In links.Skip(1)

@@ -103,7 +103,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
                 Dim s As String = New String(" ", __INDEX_LEN - index.Length) & index & " "
 
                 Call sbr.Append(s)
-                Call sbr.AppendLine(String.Join(" ", buffer.ToArray(Function(x) New String(x))))
+                Call sbr.AppendLine(String.Join(" ", buffer.Select(Function(x) New String(x)).ToArray))
             Next
 
             Return sbr.ToString

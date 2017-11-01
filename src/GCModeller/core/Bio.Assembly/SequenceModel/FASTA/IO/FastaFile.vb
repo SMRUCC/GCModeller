@@ -91,11 +91,11 @@ Namespace SequenceModel.FASTA
         End Sub
 
         Sub New(fa As IEnumerable(Of FASTA.IAbstractFastaToken))
-            Call Me.New(fa.ToArray(Function(x) New FastaToken(x)))
+            Call Me.New(fa.Select(Function(x) New FastaToken(x)))
         End Sub
 
         Sub New(fa As IEnumerable(Of FASTA.I_FastaProvider))
-            Call Me.New(fa.ToArray(Function(x) New FastaToken(x)))
+            Call Me.New(fa.Select(Function(x) New FastaToken(x)))
         End Sub
 
         Sub New(path As String, Optional deli As Char() = Nothing, Optional throwEx As Boolean = True)

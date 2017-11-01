@@ -88,7 +88,7 @@ Namespace SymbolBuilder
                              param
                          Order By __isOptional Ascending)
             Dim parameters As String() =
-                props.ToArray(Function(x) __getExpr(token, x.prop, x.func, x.param))
+                props.Select(Function(x) __getExpr(token, x.prop, x.func, x.param)).ToArray
             Dim args As String() = LinqAPI.Exec(Of String) <=
  _
                 From p As String

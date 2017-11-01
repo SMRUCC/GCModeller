@@ -68,7 +68,7 @@ Namespace Assembly.MetaCyc.File.DataFiles
         End Property
 
         Public Function GetCompoundsAbstract() As ICompoundObject()
-            Return Values.ToArray(Function(x) DirectCast(x, ICompoundObject))
+            Return Values.Select(Function(x) DirectCast(x, ICompoundObject)).ToArray
         End Function
 
         ''' <summary>

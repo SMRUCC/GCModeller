@@ -105,7 +105,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Private Function __orthologyParser(s As String) As TripleKeyValuesPair()
             Dim ms As String() = Regex.Matches(s, "K\d+<.+?\[EC.+?\]", RegexOptions.IgnoreCase).ToArray
-            Dim result As TripleKeyValuesPair() = ms.ToArray(AddressOf __innerOrthParser)
+            Dim result As TripleKeyValuesPair() = ms.Select(AddressOf __innerOrthParser).ToArray
             Return result
         End Function
 

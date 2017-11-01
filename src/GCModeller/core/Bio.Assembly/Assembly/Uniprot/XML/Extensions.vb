@@ -41,8 +41,8 @@ Namespace Assembly.Uniprot.XML
             Return protein?. _
                 protein?. _
                 recommendedName?. _
-                ecNumber.
-                ToArray(Function(ec) ec.value)
+                ecNumber.Select(Function(ec) ec.value) _
+                .ToArray
         End Function
 
         <Extension>
@@ -101,12 +101,15 @@ Namespace Assembly.Uniprot.XML
         <Extension>
         Public Function GetDomainData(prot As entry) As DomainModel()
             Dim features As feature() = prot.features.Takes("domain")
-            Dim out As DomainModel() = features.ToArray(
-                Function(f) New DomainModel With {
-                    .DomainId = f.description,
-                    .Start = f.location.begin.position,
-                    .End = f.location.end.position
-                })
+            Dim out As DomainModel() = features _
+                .Select(Function(f)
+                            Return New DomainModel With {
+                                .DomainId = f.description,
+                                .Start = f.location.begin.position,
+                                .End = f.location.end.position
+                            }
+                        End Function) _
+                .ToArray
             Return out
         End Function
 

@@ -70,7 +70,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.SSDB
 
         Private Sub __fillMotifs(ByRef prot As ProteinModel.Protein, table As String)
             Dim rows As String() = HtmlParser.GetRowsHTML(table)
-            prot.Domains = rows.Skip(1).ToArray(Function(s) s.__parsingDomain)
+            prot.Domains = rows.Skip(1).Select(Function(s) s.__parsingDomain).ToArray
         End Sub
 
         <Extension>

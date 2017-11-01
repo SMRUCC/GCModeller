@@ -125,7 +125,8 @@ Namespace Assembly.NCBI.COG.COGs
                 .Skip(1) _
                 .ToArray
             Dim codes As COGFunc() = tokens _
-                .ToArray(Function(s) New COGFunc(s))
+                .Select(Function(s) New COGFunc(s)) _
+                .ToArray
             Return codes
         End Function
     End Class
@@ -178,7 +179,9 @@ Namespace Assembly.NCBI.COG.COGs
         Public Shared Function LoadDoc(path As String) As Genomes()
             Dim tokens As String() = IO.File.ReadAllLines(path).Skip(1).ToArray
             Dim genomes As Genomes() = tokens _
-                .ToArray(Function(line) New Genomes(line))
+                .Select(Function(line) New Genomes(line)) _
+                .ToArray
+
             Return genomes
         End Function
     End Class
@@ -219,7 +222,8 @@ Namespace Assembly.NCBI.COG.COGs
                 .Skip(1) _
                 .ToArray
             Dim prots As COGProt() = tokens _
-                .ToArray(Function(line) New COGProt(line), parallel:=True)
+                .Select(Function(line) New COGProt(line)) _
+                .ToArray
             Return prots
         End Function
     End Class

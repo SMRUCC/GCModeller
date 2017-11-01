@@ -643,7 +643,7 @@ Namespace API
                                      Optional ncol As Integer = -1,
                                      Optional byrow As Boolean = False,
                                      Optional dimnames As String = NULL) As String
-            Dim strings$() = data.ToArray(AddressOf Scripting.ToString)
+            Dim strings$() = data.Select(AddressOf Scripting.ToString).ToArray
             Dim vec As String = c(strings, recursive:=False)
             Return matrix(vec, nrow, ncol, byrow, dimnames)
         End Function
