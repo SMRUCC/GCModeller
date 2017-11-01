@@ -277,12 +277,12 @@ Partial Module CLI
         Call $"Start loading mast documents from source {args("/source")}".__DEBUG_ECHO
 
         Dim masts = FileIO.FileSystem.GetFiles(args("/source"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
-            .Select(Function(xml) New NamedValue(Of XmlOutput.MAST.MAST)(xml, xml.LoadXml(Of XmlOutput.MAST.MAST)(ThrowEx:=False)))
+            .Select(Function(xml) New NamedValue(Of XmlOutput.MAST.MAST)(xml, xml.LoadXml(Of XmlOutput.MAST.MAST)(ThrowEx:=False))).ToArray
         masts = (From obj In masts Where Not obj.Value.__isNothing Select obj).ToArray
         Call $"Start compile {masts.Length} mast documents...".__DEBUG_ECHO
         Dim sites As MastSites()  ' 导出扫描得到的位点
         If args.GetBoolean("/no-meme") Then
-            sites = masts.Select(Function(mast) MastSites.Compile(mast.Value, mast.Name), parallel:=True).ToVector
+            sites = masts.Select(Function(mast) MastSites.Compile(mast.Value, mast.Name)).ToVector
         Else
             Dim pwmFa As String = RegpreciseRoot & "/MEME/pwm"
             Dim mastLDM As String = args.GetValue("/mast-ldm", MotifLDM)
@@ -295,8 +295,7 @@ Partial Module CLI
                 Function(mast) MastSites.Compile(
                 mast.Value,
                 mastLDM,
-                faDIR:=pwmFa),
-                parallel:=True).ToVector
+                faDIR:=pwmFa)).ToVector
         End If
 
         Dim pvalue As Double = args.GetValue("/p-value", 0.001)  ' 过滤掉不需要的位点

@@ -408,7 +408,7 @@ Namespace Analysis.FootprintTraceAPI
         End Function
 
         Private Function __toSites(segment As Segment) As MotifSiteHit()
-            Dim sites = segment.Hits.ToArray(
+            Dim sites = segment.Hits.Select(
                 Function(x) New MotifSiteHit With {
                     .Pvalue = x.pvalue,
                     .gStart = segment.start + x.pos,

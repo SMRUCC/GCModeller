@@ -201,7 +201,7 @@ Namespace Analysis.MotifScans
                             Select LDM)
                 models = LDMs.Unlist
             Else
-                models = files.Select(Function(x) AnnotationModel.LoadDocument(x), parallel:=True).Unlist
+                models = files.Select(Function(x) AnnotationModel.LoadDocument(x)).Unlist
             End If
 
             If trimMotifId Then

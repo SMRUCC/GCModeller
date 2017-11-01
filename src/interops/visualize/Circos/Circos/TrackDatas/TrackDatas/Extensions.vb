@@ -60,7 +60,7 @@ Namespace TrackDatas
                                               Select x,
                                                   uid = $"{x.start}..{x.end}"
                                               Group By uid Into Group) _
-                                                 .Select(Function(x) x.Group.First.x)
+                                                 .Select(Function(x) x.Group.First.x).ToArray
             Return LQuery
         End Function
 

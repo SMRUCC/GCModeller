@@ -74,7 +74,7 @@ Namespace Models
             fluxColumns = New ReadOnlyCollection(Of String)(array)  ' 直接赋值为什么会有BUG？？
             array = (From x As Equation
                      In _reactions.Values.AsParallel
-                     Select x.GetMetabolites.ToArray(
+                     Select x.GetMetabolites.Select(
                          Function(m) m.ID)).IteratesALL.Distinct.ToArray
             allCompounds = New ReadOnlyCollection(Of String)(array)
         End Sub

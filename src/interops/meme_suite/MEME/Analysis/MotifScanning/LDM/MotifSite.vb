@@ -119,7 +119,7 @@ Namespace Analysis.MotifScans
         End Function
 
         Private Function __toFootprints(g As LDM.Site, site As MotifSiteHit) As GenomeMotifFootPrints.PredictedRegulationFootprint()
-            Return site.Regulators.ToArray(
+            Return site.Regulators.Select(
                 Function(reg) New GenomeMotifFootPrints.PredictedRegulationFootprint With {
                     .MotifFamily = site.Family,
                     .MotifId = site.Trace,

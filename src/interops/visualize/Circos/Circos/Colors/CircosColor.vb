@@ -90,7 +90,7 @@ Namespace Colors
                             Select item,
                                 ClName = item.Name.Trim,
                                 TokensValues = RGB.Split(","c)).ToArray
-            Dim RGBList As NamedValue(Of String)() = RGBValue.Select(Function(x) x.item)
+            Dim RGBList As NamedValue(Of String)() = RGBValue.Select(Function(x) x.item).ToArray
             Dim NameEquals =
                 LinqAPI.Exec(Of NamedValue(Of String)) <= From item As NamedValue(Of String)
                                                           In Value.AsParallel

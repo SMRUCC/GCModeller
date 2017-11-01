@@ -95,7 +95,7 @@ Partial Module CLI
             Function(genome) _
                 $"{GetType(CLI).API(NameOf(CLI.TFDensity))} /TF {TFs.CLIPath} /PTT {genome.CLIPath} /ranges {ranges} /out {out & $"/{genome.BaseName}.Csv"} {cis} {unstrand} /batch"
 
-        Dim CLIs As String() = genomes.ToArray(task)
+        Dim CLIs As String() = genomes.Select(task).ToArray
 
         Return App.SelfFolks(CLIs, LQuerySchedule.CPU_NUMBER) ' 使用Linq线程模块配置计算的并发数
     End Function
@@ -228,7 +228,7 @@ Partial Module CLI
         For Each operon As RegPreciseOperon In regulons
             Dim path As String =
                 out & "/" & (operon.Pathway & "-" & operon.source).NormalizePathString(True).Replace(" ", "_") & ".fasta"
-            Dim members As String() = operon.Operon.ToArray(maps)
+            Dim members As String() = operon.Operon.Select(maps).ToArray
             Dim sitesLoci As SimpleSegment() =
                 LinqAPI.Exec(Of SimpleSegment) <= From sId As String
                                                   In members
