@@ -39,7 +39,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         Public Property Queries As BlastX.Components.Query()
 
         Public Function BlastXHits() As BlastXHit()
-            Return ExportAllBestHist(0, 0).ToArray(Function(x) DirectCast(x, BlastXHit))
+            Return ExportAllBestHist(0, 0).Select(Function(x) DirectCast(x, BlastXHit)).ToArray
         End Function
 
         Public Overrides Function ExportAllBestHist(Optional coverage As Double = 0.5, Optional identities_cutoff As Double = 0.15) As BBH.BestHit()

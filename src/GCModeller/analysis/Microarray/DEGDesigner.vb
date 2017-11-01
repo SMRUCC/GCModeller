@@ -374,10 +374,10 @@ Public Module DEGDesigner
         Dim name$ = path.BaseName
 
         For Each group As KeyValuePair(Of String, Designer()) In groups
-            Dim labels = group.Value.ToArray(Function(l) l.GetLabel(label.label, label.delimiter))
+            Dim labels = group.Value.Select(Function(l) l.GetLabel(label.label, label.delimiter)).ToArray
             Dim file As New StringBuilder
-            Dim experiments = labels.ToArray(Function(l) l.exp)
-            Dim controls = labels.ToArray(Function(l) l.control)
+            Dim experiments = labels.Select(Function(l) l.exp).ToArray
+            Dim controls = labels.Select(Function(l) l.control).ToArray
             Dim line As New List(Of String)
             Dim appendLine = Sub()
                                  Call file.AppendLine(line.JoinBy(vbTab))
@@ -435,8 +435,8 @@ Public Module DEGDesigner
                         End Function) _
                 .ToArray
             Dim file As New List(Of String)
-            Dim experiments = labels.ToArray(Function(l) l.exp)
-            Dim controls = labels.ToArray(Function(l) l.control)
+            Dim experiments = labels.Select(Function(l) l.exp).ToArray
+            Dim controls = labels.Select(Function(l) l.control).ToArray
             Dim line As New List(Of String)
 
             ' 生成表头

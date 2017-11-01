@@ -82,7 +82,7 @@ Partial Module Utilities
         Dim task As Func(Of String, String) =
             Function(fa) _
                 $"{api} /in {fa.CLIPath} /min {min} /max {max} /min-appears {minAp} /out {out.CLIPath} /cutoff {cutoff} /max-dist {maxDist} /partitions {parts} /batch {onlyPalindrome}"
-        Dim CLI As String() = files.ToArray(task)
+        Dim CLI As String() = files.Select(task).ToArray
 
         Return App.SelfFolks(CLI, parallel:=n)
     End Function

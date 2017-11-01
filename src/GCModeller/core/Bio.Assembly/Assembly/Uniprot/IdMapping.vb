@@ -94,7 +94,7 @@ Namespace Assembly.Uniprot
                 If lines.IsNullOrEmpty Then
                     Continue Do
                 End If
-                Dim data As IdMapping() = lines.ToArray(Function(line) __createObject(line))
+                Dim data As IdMapping() = lines.Select(Function(line) __createObject(line)).ToArray
                 Call list.AddRange(data)
             Loop
 

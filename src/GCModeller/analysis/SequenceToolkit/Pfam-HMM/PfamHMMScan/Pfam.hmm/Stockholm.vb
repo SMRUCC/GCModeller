@@ -81,7 +81,7 @@ Public Class Stockholm : Implements INamedValue
 
             Dim tmp As String = hash.TryGetValue(NameOf(x.GA)).DefaultFirst
             If Not String.IsNullOrEmpty(tmp) Then
-                x.GA = Strings.Split(tmp, ";").ToArray(Function(s) Val(s), where:=Function(s) Not s.StringEmpty)
+                x.GA = Strings.Split(tmp, ";").Where(Function(s) Not s.StringEmpty).Select(Function(s) Val(s)).ToArray
             End If
 
             x.ID = hash.TryGetValue(NameOf(x.ID)).DefaultFirst
@@ -103,8 +103,10 @@ Public Class Stockholm : Implements INamedValue
                       Select ts.First, ts.Last
                       Group By First Into Group)
 
-        Dim hash As Dictionary(Of String, String()) =
-            LQuery.ToDictionary(Function(x) x.First, Function(x) x.Group.ToArray(Function(ts) ts.Last))
-        Return hash
+        Dim table As Dictionary(Of String, String()) = LQuery.ToDictionary(
+            Function(x) x.First,
+            Function(x) x.Group.Select(Function(ts) ts.Last).ToArray)
+
+        Return table
     End Function
 End Class

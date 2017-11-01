@@ -136,7 +136,7 @@ Namespace Assembly.Expasy.Database
         End Function
 
         Public Sub Export(ByRef Classes As csv.Enzyme(), ByRef SwissProt As csv.SwissProt())
-            Classes = Enzymes.ToArray(AddressOf csv.Enzyme.CreateObject)
+            Classes = Enzymes.Select(AddressOf csv.Enzyme.CreateObject).ToArray
             SwissProt = Enzymes _
                 .Select(AddressOf csv.SwissProt.CreateObjects) _
                 .ToVector

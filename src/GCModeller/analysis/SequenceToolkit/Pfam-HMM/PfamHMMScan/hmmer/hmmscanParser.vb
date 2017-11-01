@@ -110,7 +110,7 @@ Namespace hmmscan
         Private Function __alignmentParser(buf As IEnumerable(Of String)) As Alignment()
             Dim blocks As IEnumerable(Of String()) =
                 buf.FlagSplit(Function(s) s.IndexOf(">>") = 0 OrElse s.IndexOf("Internal") = 0)
-            Return blocks.ToArray(Function(x) __alignmentParser(x))
+            Return blocks.Select(Function(x) __alignmentParser(x)).ToArray
         End Function
 
         Private Function __alignmentParser(buf As String()) As Alignment

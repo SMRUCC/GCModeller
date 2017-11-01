@@ -92,7 +92,7 @@ Public Module HMMParserAPI
             .STATS = stats,
             .HMM = New HMM With {
                 .COMPO = NodeParser(blocks(Scan0)),
-                .nodes = blocks.Skip(1).ToArray(Function(block) NodeParser(block))
+                .nodes = blocks.Skip(1).Select(Function(block) NodeParser(block)).ToArray
             },
             .ACC = fields.TryGetValue(NameOf(HMMParser.ACC)),
             .ALPH = fields.TryGetValue(NameOf(HMMParser.ALPH)),
@@ -104,17 +104,17 @@ Public Module HMMParserAPI
             .DATE = fields.TryGetValue(NameOf(HMMParser.DATE)),
             .DESC = fields.TryGetValue(NameOf(HMMParser.DESC)),
             .EFFN = Val(fields.TryGetValue(NameOf(HMMParser.EFFN))),
-            .GA = fields.TryGetValue(NameOf(HMMParser.GA)).Split.TrimNull.ToArray(Function(sg) Val(sg)),
+            .GA = fields.TryGetValue(NameOf(HMMParser.GA)).Split.TrimNull.Select(Function(sg) Val(sg)).ToArray,
             .LENG = CInt(fields.TryGetValue(NameOf(HMMParser.LENG))),
             .MAP = fields.TryGetValue(NameOf(HMMParser.MAP)),
             .MAXL = CInt(fields.TryGetValue(NameOf(HMMParser.MAXL))),
             .MM = fields.TryGetValue(NameOf(HMMParser.MM)),
             .NAME = fields.TryGetValue(NameOf(HMMParser.NAME)),
-            .NC = fields.TryGetValue(NameOf(HMMParser.NC)).Split.TrimNull.ToArray(Function(sg) Val(sg)),
+            .NC = fields.TryGetValue(NameOf(HMMParser.NC)).Split.TrimNull.Select(Function(sg) Val(sg)).ToArray,
             .NSEQ = CInt(fields.TryGetValue(NameOf(HMMParser.NSEQ))),
             .RF = fields.TryGetValue(NameOf(HMMParser.RF)),
             .SM = fields.TryGetValue(NameOf(HMMParser.SM)),
-            .TC = fields.TryGetValue(NameOf(HMMParser.TC)).Split.TrimNull.ToArray(Function(sg) Val(sg))
+            .TC = fields.TryGetValue(NameOf(HMMParser.TC)).Split.TrimNull.Select(Function(sg) Val(sg)).ToArray
         }
     End Function
 
@@ -150,17 +150,17 @@ Public Module HMMParserAPI
             ' 后面没有东西的
             Return New Node With {
                 .Address = 0,
-                .Match = m.Skip(1).ToArray(AddressOf __probability),
-                .Insert = i.ToArray(AddressOf __probability),
-                .StateTransitions = s.ToArray(AddressOf __probability)
+                .Match = m.Skip(1).Select(AddressOf __probability).ToArray,
+                .Insert = i.Select(AddressOf __probability).ToArray,
+                .StateTransitions = s.Select(AddressOf __probability).ToArray
             }
         Else
             Dim addr As Long = Scripting.CTypeDynamic(Of Long)(m(Scan0))
             Return New Node With {
                 .Address = addr,
-                .Match = m.Skip(1).Take(20).ToArray(AddressOf __probability),
-                .Insert = i.ToArray(AddressOf __probability),
-                .StateTransitions = s.ToArray(AddressOf __probability)
+                .Match = m.Skip(1).Take(20).Select(AddressOf __probability).ToArray,
+                .Insert = i.Select(AddressOf __probability).ToArray,
+                .StateTransitions = s.Select(AddressOf __probability).ToArray
             }
         End If
     End Function
@@ -171,9 +171,9 @@ Public Module HMMParserAPI
         forwards = forwards.Substring(21).Trim
 
         Return New STATS With {
-            .MSV = msv.Split.ToArray(Function(s) Val(s)),
-            .VITERBI = viterbi.Split.ToArray(Function(s) Val(s)),
-            .FORWARD = forwards.Split.ToArray(Function(s) Val(s))
+            .MSV = msv.Split.Select(Function(s) Val(s)).ToArray,
+            .VITERBI = viterbi.Split.Select(Function(s) Val(s)).ToArray,
+            .FORWARD = forwards.Split.Select(Function(s) Val(s)).ToArray
         }
     End Function
 End Module

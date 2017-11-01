@@ -158,7 +158,7 @@ Partial Module CLI
                     Dim group = cat.ToArray
 
                     Call group.SaveTo(file)
-                    Call lstRegulators.Add(group.ToArray(Function(x) x.Regulator))
+                    Call lstRegulators.Add(group.Select(Function(x) x.Regulator).ToArray)
                 Next
             Next
 
@@ -170,7 +170,7 @@ Partial Module CLI
             Call modRegulators.Remove(nameMode)
         Next
 
-        Dim venn = __modsVenn(modRegulators, regulations.ToArray(Function(r) r.Type).Distinct.ToArray)
+        Dim venn = __modsVenn(modRegulators, regulations.Select(Function(r) r.Type).Distinct.ToArray)
         venn.Title = "KEGG Modules Regulations Compares"
         venn.saveTiff = out & "/kMod.venn.tiff"
         venn.SaveTo(out & "/kMod.venn.R")

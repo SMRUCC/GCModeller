@@ -60,7 +60,7 @@ Namespace Models
             Me.__fluxObjective = New ReadOnlyCollection(Of String)(objectiveFunction)
             Me.fluxColumns = New ReadOnlyCollection(Of String)(_fluxs.Keys.ToArray)
             Me.allCompounds = New ReadOnlyCollection(Of String)((From x As Reaction In _fluxs.Values.AsParallel
-                                                                 Select x.GetMetabolites.ToArray(
+                                                                 Select x.GetMetabolites.Select(
                                                                      Function(m) m.species)).IteratesALL.Distinct.ToArray)
             If forceEnzymeRev Then
                 For Each x In Me._fluxs.Values

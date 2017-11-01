@@ -95,7 +95,7 @@ Partial Module CLI
             Function(genome) _
                 $"{GetType(CLI).API(NameOf(CLI.TFDensity))} /TF {TFs.CLIPath} /PTT {genome.CLIPath} /ranges {ranges} /out {out & $"/{genome.BaseName}.Csv"} {cis} {unstrand} /batch"
 
-        Dim CLIs As String() = genomes.ToArray(task)
+        Dim CLIs As String() = genomes.Select(task).ToArray
 
         Return App.SelfFolks(CLIs, LQuerySchedule.CPU_NUMBER) ' 使用Linq线程模块配置计算的并发数
     End Function
@@ -155,7 +155,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-" & sites.BaseName & "/")
         Dim pathways As bGetObject.Pathway() =
             (ls - l - r - wildcards("*.Xml") <= [in]) _
-            .ToArray(AddressOf LoadXml(Of bGetObject.Pathway))
+            .Select(AddressOf LoadXml(Of bGetObject.Pathway))
         Dim siteHash = (From x As SimpleSegment
                         In (ls - l - r - wildcards("*.Csv") <= sites) _
                            .Select(AddressOf csv.Extensions.LoadCsv(Of SimpleSegment)) _
@@ -165,7 +165,7 @@ Partial Module CLI
                             x
                         Group By sId Into Group) _
                            .ToDictionary(Function(x) x.sId,
-                                         Function(x) x.Group.ToArray(Function(o) o.x))
+                                         Function(x) x.Group.Select(Function(o) o.x))
 
         For Each pathway As bGetObject.Pathway In pathways
             Dim locis As SimpleSegment() =
@@ -181,7 +181,7 @@ Partial Module CLI
                      Where x.SequenceData.Length >= 8  ' MEME要求序列的长度至少8个字符
                      Select x
                      Group x By x.ID Into Group) _
-                          .ToArray(Function(x) (From site As SimpleSegment
+                          .Select(Function(x) (From site As SimpleSegment
                                                 In x.Group
                                                 Select site
                                                 Order By site.SequenceData.Length Descending).First)
@@ -214,7 +214,7 @@ Partial Module CLI
                             x
                         Group By sId Into Group) _
                         .ToDictionary(Function(x) x.sId,
-                                      Function(x) x.Group.ToArray(Function(o) o.x))
+                                      Function(x) x.Group.Select(Function(o) o.x))
         Dim PTT As String = args("/map")
         Dim maps As Func(Of String, String)
 
@@ -228,7 +228,7 @@ Partial Module CLI
         For Each operon As RegPreciseOperon In regulons
             Dim path As String =
                 out & "/" & (operon.Pathway & "-" & operon.source).NormalizePathString(True).Replace(" ", "_") & ".fasta"
-            Dim members As String() = operon.Operon.ToArray(maps)
+            Dim members As String() = operon.Operon.Select(maps).ToArray
             Dim sitesLoci As SimpleSegment() =
                 LinqAPI.Exec(Of SimpleSegment) <= From sId As String
                                                   In members
@@ -238,7 +238,7 @@ Partial Module CLI
                          In sitesLoci
                          Select x
                          Group x By x.ID.Split(":"c).First Into Group) _
-                              .ToArray(Function(x) (From site As SimpleSegment
+                              .Select(Function(x) (From site As SimpleSegment
                                                     In x.Group
                                                     Select site
                                                     Order By site.SequenceData.Length Descending).First)

@@ -197,7 +197,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Return New String() {}
             End If
 
-            Return PathwayGenes.ToArray(Function(x) x.key)
+            Return PathwayGenes.Select(Function(x) x.Key).ToArray
         End Function
     End Class
 End Namespace

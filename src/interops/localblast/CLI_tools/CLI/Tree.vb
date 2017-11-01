@@ -44,7 +44,7 @@ Partial Module CLI
         Dim hist = args("/hits").LoadCsv(Of BBH.BestHit)
         Dim query = New FastaFile(args("/query")).ToDictionary(Function(x) x.Title.Split.First)
         Dim subject = New FastaFile(args("/subject")).ToDictionary(Function(x) x.Title.Split.First)
-        Dim AllLocus As String() = hist.ToArray(Function(x) x.QueryName).Join(hist.ToArray(Function(x) x.HitName)).Distinct.ToArray
+        Dim AllLocus As String() = hist.Select(Function(x) x.QueryName).Join(hist.Select(Function(x) x.HitName)).Distinct.ToArray
         Dim GetFasta = LinqAPI.MakeList(Of FastaToken) <= From id As String In AllLocus Where query.ContainsKey(id) Select query(id)
 
         GetFasta += From id As String

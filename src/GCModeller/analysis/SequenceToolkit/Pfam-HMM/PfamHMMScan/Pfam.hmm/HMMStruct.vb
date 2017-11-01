@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::6bc3118942702a246c5e5fc6b5461088, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\Pfam.hmm\HMMStruct.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -159,8 +159,8 @@ Public Class HMMStruct : Inherits BaseClass
         Me.ModelLength = data.LENG
         Me.Name = data.NAME
         Me.PfamAccessionNumber = data.ACC
-        Me.MatchEmission = data.HMM.nodes.ToArray(Function(x) x.Match)
-        Me.InsertEmission = data.HMM.nodes.ToArray(Function(x) x.Insert)
+        Me.MatchEmission = data.HMM.nodes.Select(Function(x) x.Match).ToArray
+        Me.InsertEmission = data.HMM.nodes.Select(Function(x) x.Insert).ToArray
         Me.NullEmission = data.HMM.COMPO.Match
 
         ' 最后一行数据之中：
@@ -172,7 +172,12 @@ Public Class HMMStruct : Inherits BaseClass
         ' Mk->Mk+1; Ik; Dk+1; Ik->Mk+1; Ik; Dk->Mk+1; Dk+1.
         ' 0         1   2     3         4   5         6
 
-        Me.DeleteX = {data.HMM.nodes.ToArray(Function(x) x.StateTransitions(5))}
+        Me.DeleteX = {
+            data.HMM _
+            .nodes _
+            .Select(Function(x) x.StateTransitions(5)) _
+            .ToArray
+        }
     End Sub
 
     Sub New()

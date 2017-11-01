@@ -212,7 +212,7 @@ Public Module Serialization
             Case Internals.SymbolicExpressionType.LanguageObject
                 Dim lang As Language = RData.AsLanguage
                 Dim calls As Symbol() = lang.FunctionCall.ToArray
-                Dim result = calls.ToArray(Function(x) x.PrintName)
+                Dim result = calls.Select(Function(x) x.PrintName).ToArray
                 Return result
 
             Case Else

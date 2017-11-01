@@ -106,7 +106,8 @@ Namespace LocalBLAST.Application.RpsBLAST
                     ' 居然有些COG编号还是没有分类的
                     Dim catalogs = cogs _
                         .Where(AddressOf table.ContainsKey) _
-                        .ToArray(Function(c) table(c))
+                        .Select(Function(c) table(c)) _
+                        .ToArray
                     Dim catalog$ = catalogs _
                         .Select(Function(c) c.Func.ToCharArray) _
                         .IteratesALL _

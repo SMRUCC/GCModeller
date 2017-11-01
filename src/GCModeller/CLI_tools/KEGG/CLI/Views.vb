@@ -92,7 +92,7 @@ Partial Module CLI
             If(ispathway,
             ModuleClassAPI.FromPathway(inDIR),
             ModuleClassAPI.FromModules(inDIR))
-        Dim locusId As String() = EntityObject.LoadDataSet(locus, locus_map).ToArray(Function(x) x.ID)
+        Dim locusId As String() = EntityObject.LoadDataSet(locus, locus_map).Select(Function(x) x.ID)
         Dim LQuery = LinqAPI.MakeList(Of (entryId$, locus_id As String())) <=
             From x As PathwayBrief
             In modsCls.Modules

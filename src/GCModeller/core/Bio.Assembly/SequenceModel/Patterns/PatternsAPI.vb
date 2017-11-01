@@ -46,8 +46,8 @@ Namespace SequenceModel.Patterns
         Public Sub Frequency(<Parameter("Path.Fasta")> Fasta As String, Optional offset As Integer = 0)
             Dim data As PatternModel = Frequency(FastaFile.Read(Fasta))
             Dim doc As New StringBuilder(NameOf(Frequency) & ",")
-            Call doc.AppendLine(String.Join(",", DirectCast(data.PWM.First, SimpleSite).Alphabets.Keys.ToArray(Function(c) CStr(c))))
-            Call doc.AppendLine(String.Join(vbCrLf, data.PWM.ToArray(Function(obj, i) $"{i + offset },{String.Join(",", obj.EnumerateValues.ToArray(Of String)(Function(oo) CStr(oo)))}")))
+            Call doc.AppendLine(String.Join(",", DirectCast(data.PWM.First, SimpleSite).Alphabets.Keys.Select(Function(c) CStr(c)).ToArray))
+            Call doc.AppendLine(String.Join(vbCrLf, data.PWM.Select(Function(obj, i) $"{i + offset },{String.Join(",", obj.EnumerateValues.Select(Of String)(Function(oo) CStr(oo)).ToArray)}").ToArray))
 
             Call doc.ToString.SaveTo(Fasta & ".csv")
         End Sub
@@ -81,7 +81,7 @@ Namespace SequenceModel.Patterns
                    Polypeptides.ToChar.Values.ToArray, New Char() {"A"c, "T"c, "G"c, "C"c})
 
             ' Converts the alphabets in the sequence data to upper case.
-            Dim fasta As New FastaFile(source.ToArray(Function(x) x.ToUpper))
+            Dim fasta As New FastaFile(source.Select(Function(x) x.ToUpper))
             Dim LQuery = (From pos As Integer
                           In len.Sequence.AsParallel
                           Select pos,
@@ -132,7 +132,7 @@ Namespace SequenceModel.Patterns
                                      Optional cutoff As Double = 0.75) As Double()
             Dim frq As PatternModel = Frequency(Fasta)
             Dim refSeq As String = ref.SequenceData.ToUpper
-            Dim var As Double() = refSeq.ToArray(Function(ch, pos) __variation(ch, pos, cutoff, frq))
+            Dim var As Double() = refSeq.Select(Function(ch, pos) __variation(ch, pos, cutoff, frq)).ToArray
             Return var
         End Function
 

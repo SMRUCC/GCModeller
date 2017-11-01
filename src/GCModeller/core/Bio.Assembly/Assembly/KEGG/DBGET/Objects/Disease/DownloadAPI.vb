@@ -88,7 +88,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Friend Function __otherDBs(html$) As KeyValuePair()
             Dim lines$() = html _
                 .DivInternals _
-                .ToArray(Function(s) s.StripHTMLTags(stripBlank:=True))
+                .Select(Function(s) s.StripHTMLTags(stripBlank:=True)) _
+                .ToArray
             Dim slides = lines.SlideWindows(2, offset:=2)
             Dim out As New List(Of KeyValuePair)
 
@@ -110,7 +111,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 .Select(Function(s) s.StripHTMLTags(stripBlank:=True)) _
                 .Where(Function(s) Not s.StringEmpty) _
                 .ToArray
-            Dim out As KeyValuePair() = lines.ToArray(parser)
+            Dim out As KeyValuePair() = lines.Select(parser).ToArray
             Return out
         End Function
 

@@ -74,7 +74,7 @@ Namespace Models
             fluxColumns = New ReadOnlyCollection(Of String)(array)  ' 直接赋值为什么会有BUG？？
             array = (From x As Equation
                      In _reactions.Values.AsParallel
-                     Select x.GetMetabolites.ToArray(
+                     Select x.GetMetabolites.Select(
                          Function(m) m.ID)).IteratesALL.Distinct.ToArray
             allCompounds = New ReadOnlyCollection(Of String)(array)
         End Sub
@@ -96,7 +96,7 @@ Namespace Models
                           In locus
                           Let map As Nodes.EC_Mapping = _model.GetMaps(x)
                           Where Not map Is Nothing
-                          Select map.ECMaps.ToArray(Function(m) m.Reactions).IteratesALL).IteratesALL
+                          Select map.ECMaps.Select(Function(m) m.Reactions).IteratesALL).IteratesALL
             Dim rxns As String() = LQuery.Distinct.ToArray
             Call SetObjectiveFunc(factors:=rxns)
         End Sub

@@ -86,6 +86,6 @@ Public Class ID
 
     Public Shared Function FieldParser(raw As String) As ID()
         Dim tokens As String() = raw.Split("|"c)
-        Return tokens.ToArray(Function(s) New ID(s))
+        Return tokens.Select(Function(s) New ID(s)).ToArray
     End Function
 End Class

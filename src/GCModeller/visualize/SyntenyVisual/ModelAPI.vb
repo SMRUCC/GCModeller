@@ -50,7 +50,7 @@ Public Module ModelAPI
         ReadOnly __refMaps As Dictionary(Of String, String())
 
         Sub New(model As Analysis.BestHit, mgr As ColorMgr)
-            __reference = model.hits.ToArray(Function(x) x.QueryName)
+            __reference = model.hits.Select(Function(x) x.QueryName).ToArray
             __clProfiles = mgr
 
             Dim LQuery = (From x As HitCollection
@@ -63,7 +63,7 @@ Public Module ModelAPI
                          Select x
                          Group x By x.HitName Into Group) _
                               .ToDictionary(Function(x) x.HitName,
-                                            Function(x) x.Group.ToArray(Function(o) o.QueryName))
+                                            Function(x) x.Group.Select(Function(o) o.QueryName).ToArray)
         End Sub
 
         ''' <summary>
@@ -164,7 +164,7 @@ Public Module ModelAPI
             End If
 
             links += OrthologAPI.FromBBH(
-                buf.Group.ToArray(Function(x) x.x),
+                buf.Group.Select(Function(x) x.x),
                 query,
                 hitBrief,
                 AddressOf colorMaps.GetColor,

@@ -188,9 +188,9 @@ Namespace SymbolBuilder.packages.gplots
             high = Mid(high, 3, high.Length - 3)
             color = Mid(color, 3, color.Length - 3)
 
-            Dim lows As Double() = low.Split(","c).ToArray(Function(s) Val(s.Trim))
-            Dim highs As Double() = high.Split(","c).ToArray(Function(s) Val(s.Trim))
-            Dim colors As String() = color.Split(","c).ToArray(Function(s) s.Trim)
+            Dim lows As Double() = low.Split(","c).Select(Function(s) Val(s.Trim)).ToArray
+            Dim highs As Double() = high.Split(","c).Select(Function(s) Val(s.Trim)).ToArray
+            Dim colors As String() = color.Split(","c).Select(Function(s) s.Trim).ToArray
 
             Return LinqAPI.Exec(Of colorTable) <=
                 From lp As SeqValue(Of String)

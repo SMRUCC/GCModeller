@@ -62,7 +62,7 @@ Namespace TrackDatas.NtProps
                 Dim raw As Double() = GCProps.GetGCContentForGENOME(
                     nt,
                     winSize,
-                    steps).ToArray(getValue)
+                    steps).Select(getValue).ToArray
                 Dim chr As String = nt.Title.Split("."c).First
 
                 chr = chrs(chr)

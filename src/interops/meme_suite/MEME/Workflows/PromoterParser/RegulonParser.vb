@@ -50,7 +50,7 @@ Namespace Workflows.PromoterParser
         End Sub
 
         Public Function RegulonParser(regulon As Regprecise.Regulator, len As Integer, Optional method As GetLocusTags = GetLocusTags.UniDOOR) As FastaFile
-            Dim regulates As String() = regulon.Regulates.ToArray(Function(x) x.LocusId).Distinct.ToArray
+            Dim regulates As String() = regulon.Regulates.Select(Function(x) x.LocusId).Distinct.ToArray
             Dim GetDOORUni As IGetLocusTag = ParserLocus.CreateMethod(_DOOR, method)
             Dim uniOpr As String() = (From sId As String
                                       In regulates
@@ -72,7 +72,7 @@ Namespace Workflows.PromoterParser
         End Function
 
         Public Function RegulonParser(inDIR As String, outDIR As String) As Boolean
-            Dim genomes = inDIR.LoadSourceEntryList({"*.xml"}).ToArray(Function(x) x.Value.LoadXml(Of Regprecise.BacteriaGenome))
+            Dim genomes = inDIR.LoadSourceEntryList({"*.xml"}).Select(Function(x) x.Value.LoadXml(Of Regprecise.BacteriaGenome))
 
             For Each genome As Regprecise.BacteriaGenome In genomes
                 If Not genome.Regulons Is Nothing AndAlso Not genome.Regulons.Regulators.IsNullOrEmpty Then

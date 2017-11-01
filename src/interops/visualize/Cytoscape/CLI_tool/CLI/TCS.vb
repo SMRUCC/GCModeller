@@ -50,12 +50,12 @@ Partial Module CLI
         Dim regulations As String = args("/regulations")
         Dim out As String = args("/out")
         Dim TCSProfiles = FileIO.FileSystem.GetFiles(TCSDir, FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _
-            .ToArray(Function(file) _
+            .Select(Function(file) _
                          file.LoadCsv(Of CrossTalks)).Unlist
         Dim virtualFootprints = regulations.LoadCsv(Of PredictedRegulationFootprint)
 
-        Dim HK As String() = (From name As String In TCSProfiles.ToArray(Function(cTk) cTk.Kinase) Select name Distinct Order By name Ascending).ToArray
-        Dim RR As String() = (From name As String In TCSProfiles.ToArray(Function(cTK) cTK.Regulator) Select name Distinct Order By name).ToArray
+        Dim HK As String() = (From name As String In TCSProfiles.Select(Function(cTk) cTk.Kinase) Select name Distinct Order By name Ascending).ToArray
+        Dim RR As String() = (From name As String In TCSProfiles.Select(Function(cTK) cTK.Regulator) Select name Distinct Order By name).ToArray
         Dim Regulators As String() =
             LinqAPI.Exec(Of String) <= From name As String
                                        In virtualFootprints.Select(Function(regulate) regulate.Regulator)
@@ -81,7 +81,7 @@ Partial Module CLI
                                                       End If
                                                   End Function
 
-        Call Edges.Add(TCSProfiles.ToArray(Function(cTk) New Interaction With {
+        Call Edges.Add(TCSProfiles.Select(Function(cTk) New Interaction With {
                                                .value = cTk.Probability,
                                                .FromNode = cTk.Kinase,
                                                .ToNode = cTk.Regulator,

@@ -79,10 +79,10 @@ Namespace SequenceLogo
         ''' <returns></returns>
         Public Shared Function AAResidue(x As ILogoResidue) As Residue
             Dim Residue As Residue = New Residue With {
-                .Alphabets = ColorSchema.AA.ToArray(
+                .Alphabets = ColorSchema.AA.Select(
                     Function(r) New Alphabet With {
                         .Alphabet = r,
-                        .RelativeFrequency = x(r)}),
+                        .RelativeFrequency = x(r)}).ToArray,
                 .Bits = x.Bits
             }
 
@@ -118,7 +118,7 @@ Namespace SequenceLogo
             Dim ic As Double() = New Double(npos - 1) {}
             For i As Integer = 0 To npos - 1
                 Dim idx As Integer = i
-                ic(i) = 2 + Sum(pwm.Residues.ToArray(Of Double)(
+                ic(i) = 2 + Sum(pwm.Residues.Select(Of Double)(
                                 Function(x) If(x.Alphabets(idx).RelativeFrequency > 0,
                                 x.Alphabets(idx).RelativeFrequency * Math.Log(x.Alphabets(idx).RelativeFrequency, 2),
                                 0)))

@@ -48,7 +48,7 @@ Partial Module CLI
         Dim inFile As String = args("/DOOR")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".COGs.Csv")
         Dim DOOR As DOOR = DOOR_API.Load(inFile)
-        Dim COGs As MyvaCOG() = DOOR.Genes.ToArray(
+        Dim COGs As MyvaCOG() = DOOR.Genes.Select(
             Function(x) New MyvaCOG With {
                 .COG = x.COG_number,
                 .Description = x.Product,

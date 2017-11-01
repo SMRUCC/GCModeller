@@ -59,7 +59,7 @@ Public Module CLI
         Dim cTkDIR As String = args("/swiss")
         Dim outDIR As String = args.GetValue("/out", App.CurrentDirectory)
         Dim CrossTalks = FileIO.FileSystem.GetFiles(cTkDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _
-            .ToArray(Function(csv) csv.LoadCsv(Of CrossTalks)).Unlist
+            .Select(Function(csv) csv.LoadCsv(Of CrossTalks)).Unlist
 
         For Each rep As Replicon In MiST2.MajorModules
 

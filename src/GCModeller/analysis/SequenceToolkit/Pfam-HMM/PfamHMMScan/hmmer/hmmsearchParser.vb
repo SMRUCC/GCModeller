@@ -40,7 +40,7 @@ Public Module hmmsearchParser
         Dim lines As IEnumerable(Of String) = BufferedStream.LinesIterator(path)
         Dim head As String() = lines.Take(10).ToArray
         Dim sections As IEnumerable(Of String()) = lines.Skip(10).Split("//")
-        Dim query As PfamQuery() = sections.ToArray(AddressOf QueryParser)
+        Dim query As PfamQuery() = sections.Select(AddressOf QueryParser).ToArray
         Dim searchResult As New hmmsearch With {
             .HMM = Mid(head(5), 22).Trim,
             .source = Mid(head(6), 32).Trim,
@@ -120,7 +120,7 @@ Public Module hmmsearchParser
     Private Function __alignmentParser(buf As IEnumerable(Of String)) As AlignmentHit()
         Dim blocks As IEnumerable(Of String()) =
                 buf.FlagSplit(Function(s) s.IndexOf(">>") = 0 OrElse s.IndexOf("Internal") = 0)
-        Return blocks.ToArray(Function(x) __alignmentParser(x))
+        Return blocks.Select(Function(x) __alignmentParser(x)).ToArray
     End Function
 
     Private Function __alignmentParser(buf As String()) As AlignmentHit

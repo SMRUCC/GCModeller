@@ -64,20 +64,20 @@ Partial Module CLI
                           [mod]).ToArray
 
         Dim modDetails = FileIO.FileSystem.GetFiles(args("/mods"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
-            .ToArray(Function(file) file.LoadXml(Of bGetObject.Module), parallel:=True) _
+            .Select(Function(file) file.LoadXml(Of bGetObject.Module)) _
             .ToDictionary(Function([mod]) [mod].EntryId.Split("_"c).Last.ToUpper)
 
         Dim modFamilies = (From site In LQuery
                            Select site
                            Group site By site.mod Into Group) _
                                 .ToDictionary(Function([mod]) [mod].mod,
-                                              Function(mm) mm.Group.ToArray(Function(dd) dd.Family).ToArray)
+                                              Function(mm) mm.Group.Select(Function(dd) dd.Family).ToArray)
         Dim modBrites = BriteHEntry.Module.LoadFromResource.ToDictionary(Function([mod]) [mod].Entry.Key)
 
         Dim doc As New IO.File
 
         doc += {"Type", "Class", "Category", "Modules", "Families", "sites", "genes"}
-        doc += modFamilies.ToArray(
+        doc += modFamilies.Select(
             Function(mm) New RowObject({
                 modBrites(mm.Key).Category,
                 modBrites(mm.Key).Class,
@@ -116,7 +116,7 @@ Partial Module CLI
             End If
 
             ' type   fami1, fam2, fam3
-            Dim row = type.Join(AllFamilies.ToArray(Function(fName) If(typeDescrib.ContainsKey(fName), CStr(typeDescrib(fName)), "0")))
+            Dim row = type.Join(AllFamilies.Select(Function(fName) If(typeDescrib.ContainsKey(fName), CStr(typeDescrib(fName)), "0")))
             doc += row
         Next
         Call doc.Save(input.TrimSuffix & ".modFamilies.TypeStat.csv")
@@ -125,19 +125,19 @@ Partial Module CLI
                           Select site
                           Group site By site.Family Into Group) _
                                .ToDictionary(Function(ss) ss.Family,
-                                             Function(ss) ss.Group.ToArray(Function(obj) obj.mod))
+                                             Function(ss) ss.Group.Select(Function(obj) obj.mod))
         doc = New IO.File + {"Family", "Modules"} +
-            FamilyMods.ToArray(
+            FamilyMods.Select(
                 Function(fm) New RowObject({fm.Key, fm.Value.Distinct.JoinBy("; ")}))
         Call doc.Save(input.TrimSuffix & ".FamilyMods.csv")
 
-        Dim ffff = VectorMapper(FamilyMods.ToArray(Function(f) TryCast(f.Value.Distinct.ToArray, IEnumerable(Of String))))
+        Dim ffff = VectorMapper(FamilyMods.Select(Function(f) TryCast(f.Value.Distinct.ToArray, IEnumerable(Of String))))
         Dim colors = RSystem.ColorMaps(ffff.Sequence)
-        Dim serials = FamilyMods.ToArray(
+        Dim serials = FamilyMods.Select(
             Function(fm, idx) New Partition With {
                 .Name = fm.Key,
                 .Vector = ffff(idx),
-                .Color = colors(idx)})
+                .Color = colors(idx)}).ToArray
         Dim venn As New VennDiagram With {
             .saveTiff = "./Families.venn.tiff",
             .partitions = serials,

@@ -77,13 +77,13 @@ Public Class HSP : Inherits Match
     End Function
 
     Public Shared Function CreateHSP(Of T)(sw As GSW(Of T), asChar As ToChar(Of T), ByRef best As HSP, cutoff As Double) As HSP()
-        Dim query As String = New String(sw.query.ToArray(Function(x) asChar(x)))
-        Dim subject As String = New String(sw.subject.ToArray(Function(x) asChar(x)))
+        Dim query As String = New String(sw.query.Select(Function(x) asChar(x)))
+        Dim subject As String = New String(sw.subject.Select(Function(x) asChar(x)))
         Dim matches = sw.Matches(cutoff).AsList
-        Dim hsp = matches.ToArray(Function(x) CreateObject(x, query, subject))
+        Dim hsp = matches.Select(Function(x) CreateObject(x, query, subject))
 
         Try
-            Dim lstb = SimpleChaining.chaining(hsp.ToArray(Function(x) DirectCast(x, Match)).AsList, False)
+            Dim lstb = SimpleChaining.chaining(hsp.Select(Function(x) DirectCast(x, Match)).AsList, False)
             lstb = (From x In lstb Select x Order By x.Score Descending).AsList
             If Not lstb.IsNullOrEmpty Then
                 best = CreateObject(lstb.FirstOrDefault, query, subject)

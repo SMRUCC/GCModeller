@@ -118,7 +118,7 @@ Namespace Network
                 Call nodesTable.Add(tf, NameOf(tf))
             Next
 
-            net += nodes.Distinct.ToArray(Function(x) New FileStream.Node(x, nodesTable(x)))
+            net += nodes.Distinct.Select(Function(x) New FileStream.Node(x, nodesTable(x)))
             net += From o In (From x As Regulation
                               In regs
                               Select x

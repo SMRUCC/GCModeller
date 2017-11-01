@@ -16,7 +16,7 @@ Namespace HTML
                     Return ns.Cites
                 End If
             Else
-                Return cites.ToArray(Function(c) c.HTML(120)).JoinBy("<br /><br />")
+                Return cites.Select(Function(c) c.HTML(120)).JoinBy("<br /><br />")
             End If
         End Function
     End Module

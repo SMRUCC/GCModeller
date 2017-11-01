@@ -116,9 +116,9 @@ Namespace ComponentModel.EquaionModel
             ID = ID.ToLower
 
             If __leftHash.ContainsKey(ID) Then
-                Return -1 * __leftHash(ID).ToArray(Function(x) x.StoiChiometry).Sum
+                Return -1 * __leftHash(ID).Select(Function(x) x.StoiChiometry).Sum
             ElseIf __rightHash.ContainsKey(ID) Then
-                Return __rightHash(ID).ToArray(Function(x) x.StoiChiometry).Sum
+                Return __rightHash(ID).Select(Function(x) x.StoiChiometry).Sum
             Else
                 Return 0
             End If

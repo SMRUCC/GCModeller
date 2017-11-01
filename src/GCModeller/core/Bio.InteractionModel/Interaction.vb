@@ -120,7 +120,7 @@ Public Class Interaction(Of T As INamedValue)
     End Function
 
     Public Shared Function Generate(data As IEnumerable(Of Interaction(Of T))) As String()
-        Dim result$() = data.ToArray(Function(iter) iter.ToString)
+        Dim result$() = data.Select(Function(iter) iter.ToString)
         Return result
     End Function
 End Class

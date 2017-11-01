@@ -58,14 +58,14 @@ Public Module NetAPI
                       Select x
                       Group x By x.Regulator Into Group) _
                            .ToDictionary(Function(x) x.Regulator,
-                                         Function(x) x.Group.ToArray(Function(xx) xx.ORF).Distinct.Count)
+                                         Function(x) x.Group.Select(Function(xx) xx.ORF).Distinct.Count)
         Dim RegsMe = (From x As PredictedRegulationFootprint
                       In LQuery
                       Select x
                       Group x By x.ORF Into Group) _
                            .ToDictionary(Function(x) x.ORF,
-                                         Function(x) x.Group.ToArray(Function(xx) xx.Regulator).Distinct.Count)
-        Dim TF = allTFs.ToArray(
+                                         Function(x) x.Group.Select(Function(xx) xx.Regulator).Distinct.Count)
+        Dim TF = allTFs.Select(
             Function(x) New FileStream.Node(x) With {
                 .NodeType = "TF",
                 .Properties = New Dictionary(Of String, String) From {

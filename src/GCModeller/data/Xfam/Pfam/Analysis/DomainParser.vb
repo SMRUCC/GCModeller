@@ -163,14 +163,14 @@ Public Module DomainParser
                      Select DomainId = domainLDM.Key, locations).ToArray
         Dim ClearOverlap = (From lstDomain In Group
                             Let segments As Location() =
-                                lstDomain.locations.ToArray(Function(loci) DirectCast(loci, IMotifSite).Site)
+                                lstDomain.locations.Select(Function(loci) DirectCast(loci, IMotifSite).Site).ToArray
                             Select lstDomain.DomainId,
                                 CleanLocations = FragmentAssembly(segments, lenOffset)).ToArray
         Dim domains As DomainModel() =
             LinqAPI.Exec(Of DomainModel) <= From x
                                             In ClearOverlap
                                             Let merge As DomainModel() =
-                                                x.CleanLocations.ToArray(Function(n) New DomainModel(x.DomainId, n))
+                                                x.CleanLocations.Select(Function(n) New DomainModel(x.DomainId, n)).ToArray
                                             Select merge
         Return domains
     End Function

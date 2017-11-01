@@ -50,7 +50,7 @@ into this version of engine, for more details information please visit:  http://
 
         Public ReadOnly Property ImportsAPI As String()
             Get
-                Return Interpreter.EPMDevice.ImportedAPI.ToArray(Function(api) api.Value.Name)
+                Return Interpreter.EPMDevice.ImportedAPI.Select(Function(api) api.Value.Name).ToArray
             End Get
         End Property
 

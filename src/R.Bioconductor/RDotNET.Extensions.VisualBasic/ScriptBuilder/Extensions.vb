@@ -110,7 +110,7 @@ Namespace SymbolBuilder
         ''' <param name="b"></param>
         ''' <returns></returns>
         Public Function c(ParamArray b As Boolean()) As String
-            Dim cx As String = String.Join(", ", b.ToArray(AddressOf λ))
+            Dim cx As String = String.Join(", ", b.Select(AddressOf λ).ToArray)
             Return $"c({cx})"
         End Function
 
@@ -120,7 +120,7 @@ Namespace SymbolBuilder
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function c(ParamArray x As String()) As String
-            Dim cx As String = String.Join(", ", x.ToArray(Function(s) $"""{s}"""))
+            Dim cx As String = String.Join(", ", x.Select(Function(s) $"""{s}""").ToArray)
             Return $"c({cx})"
         End Function
 
@@ -129,8 +129,10 @@ Namespace SymbolBuilder
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function c(Of T)(ParamArray x As T()) As String
-            Dim cx As String = String.Join(",", x.ToArray(Function(o) Scripting.ToString(o, NULL)))
+            Dim cx As String = String.Join(",", x.Select(Function(o) Scripting.ToString(o, NULL)).ToArray)
             Return $"c({cx})"
         End Function
 
@@ -139,6 +141,8 @@ Namespace SymbolBuilder
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function c(Of T)(x As IEnumerable(Of T)) As String
             Return c(x.ToArray)
         End Function
@@ -155,7 +159,11 @@ Namespace SymbolBuilder
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function Rstring(s As String) As String
-            Return $"""{s.R_Escaping}"""
+            If s = """" OrElse s = "\""" Then
+                Return """\"""""
+            Else
+                Return $"""{s.R_Escaping}"""
+            End If
         End Function
 
         ''' <summary>
@@ -182,6 +190,7 @@ Namespace SymbolBuilder
             Return $"media({x})"
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function library([lib] As String) As String
             Return $"library({[lib]})"
         End Function
@@ -248,6 +257,8 @@ Namespace SymbolBuilder
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function list(ParamArray x As String()) As String
             Return $"list({String.Join(", ", x)})"
         End Function

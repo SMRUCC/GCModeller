@@ -70,7 +70,7 @@ Namespace SymbolBuilder.packages.base.Extremes
     Public Class max : Inherits extremes
 
         Sub New(ParamArray x As String())
-            Me.x = x.ToArray(Function(s) New RExpression(s))
+            Me.x = x.Select(Function(s) New RExpression(s)).ToArray
         End Sub
     End Class
 
@@ -78,7 +78,7 @@ Namespace SymbolBuilder.packages.base.Extremes
     Public Class min : Inherits extremes
 
         Sub New(ParamArray x As String())
-            Me.x = x.ToArray(Function(s) New RExpression(s))
+            Me.x = x.Select(Function(s) New RExpression(s)).ToArray
         End Sub
     End Class
 
@@ -86,7 +86,7 @@ Namespace SymbolBuilder.packages.base.Extremes
     Public Class pmax : Inherits extremes
 
         Sub New(ParamArray x As String())
-            Me.x = x.ToArray(Function(s) New RExpression(s))
+            Me.x = x.Select(Function(s) New RExpression(s)).ToArray
         End Sub
     End Class
 
@@ -94,7 +94,7 @@ Namespace SymbolBuilder.packages.base.Extremes
     Public Class pmin : Inherits extremes
 
         Sub New(ParamArray x As String())
-            Me.x = x.ToArray(Function(s) New RExpression(s))
+            Me.x = x.Select(Function(s) New RExpression(s)).ToArray
         End Sub
     End Class
 
@@ -102,7 +102,7 @@ Namespace SymbolBuilder.packages.base.Extremes
     Public Class pmaxInt : Inherits extremes
 
         Sub New(ParamArray x As String())
-            Me.x = x.ToArray(Function(s) New RExpression(s))
+            Me.x = x.Select(Function(s) New RExpression(s)).ToArray
         End Sub
     End Class
 
@@ -110,7 +110,7 @@ Namespace SymbolBuilder.packages.base.Extremes
     Public Class pminInt : Inherits extremes
 
         Sub New(ParamArray x As String())
-            Me.x = x.ToArray(Function(s) New RExpression(s))
+            Me.x = x.Select(Function(s) New RExpression(s)).ToArray
         End Sub
     End Class
 End Namespace

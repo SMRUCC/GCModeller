@@ -178,7 +178,7 @@ Public Module BioAssemblyExtensions
     End Function
 
     <Extension> Public Function CreatePTTObject(contigs As IEnumerable(Of SimpleSegment)) As TabularFormat.PTT
-        Dim genes As GeneBrief() = contigs.ToArray(Function(gene) gene.ToPTTGene)
+        Dim genes As GeneBrief() = contigs.Select(Function(gene) gene.ToPTTGene).ToArray
         Dim PTT As New TabularFormat.PTT(genes)
         Return PTT
     End Function

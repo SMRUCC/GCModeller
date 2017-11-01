@@ -182,7 +182,7 @@ Namespace Analysis.FootprintTraceAPI
                 If Not memeHash.ContainsKey(id) Then
                     Call VBDebugger.Warning("???? NOT FOUND:  " & site.Trace)
                 Else
-                    site.source = memeHash(id).Sites.ToArray(Function(x) x.Name)
+                    site.source = memeHash(id).Sites.Select(Function(x) x.Name)
                 End If
             Next
 
@@ -211,14 +211,14 @@ Namespace Analysis.FootprintTraceAPI
                           Select x
                           Group x By x.HitName Into Group) _
                                .ToDictionary(Function(x) x.HitName,
-                                             Function(x) x.Group.ToArray(Function(o) o.QueryName).Distinct.ToArray)
+                                             Function(x) x.Group.Select(Function(o) o.QueryName).Distinct.ToArray)
             Else
                 TFhash = (From x As BBHIndex
                           In bbh
                           Select x
                           Group x By x.QueryName Into Group) _
                                .ToDictionary(Function(x) x.QueryName,
-                                             Function(x) x.Group.ToArray(Function(o) o.HitName).Distinct.ToArray)
+                                             Function(x) x.Group.Select(Function(o) o.HitName).Distinct.ToArray)
             End If
 
             Dim result As New List(Of PredictedRegulationFootprint)
@@ -392,7 +392,7 @@ Namespace Analysis.FootprintTraceAPI
                     Continue For
                 End If
 
-                Dim sites As MotifSiteHit() = x.Segments.ToArray(AddressOf __toSites).ToVector
+                Dim sites As MotifSiteHit() = x.Segments.Select(AddressOf __toSites).ToVector
                 Dim RegPrecise As String = x.name.Split("|"c).First
 
                 For Each site As MotifSiteHit In sites
@@ -408,7 +408,7 @@ Namespace Analysis.FootprintTraceAPI
         End Function
 
         Private Function __toSites(segment As Segment) As MotifSiteHit()
-            Dim sites = segment.Hits.ToArray(
+            Dim sites = segment.Hits.Select(
                 Function(x) New MotifSiteHit With {
                     .Pvalue = x.pvalue,
                     .gStart = segment.start + x.pos,

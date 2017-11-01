@@ -43,7 +43,7 @@ Public Module SequenceLogoAPI
 
 #Region "Model API"
     Public Function CreateObject(LDM As Analysis.MotifScans.AnnotationModel) As DrawingModel
-        Dim residues As Residue() = LDM.PspMatrix.ToArray(AddressOf DrawingModel.NTResidue)
+        Dim residues As Residue() = LDM.PspMatrix.Select(AddressOf DrawingModel.NTResidue)
         Dim model As DrawingModel = New DrawingModel With {
                 .ModelsId = LDM.ToString,
                 .Residues = residues.WriteAddress.ToArray

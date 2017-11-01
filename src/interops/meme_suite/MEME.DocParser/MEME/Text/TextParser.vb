@@ -263,8 +263,8 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
             Return hash
 #If DEBUG Then
             Catch ex As Exception
-                Dim DuplicatedPreviews = LQuery.ToArray(Function(obj) obj.ID).CheckDuplicated(Function(s) s.ToLower)
-                Dim Previews As String = String.Join(",  ", DuplicatedPreviews.ToArray(Function(obj) obj.Group(Scan0)))
+                Dim DuplicatedPreviews = LQuery.Select(Function(obj) obj.ID).CheckDuplicated(Function(s) s.ToLower)
+                Dim Previews As String = String.Join(",  ", DuplicatedPreviews.Select(Function(obj) obj.Group(Scan0)))
                 Throw New Exception(Previews, ex)
             End Try
 #End If

@@ -249,7 +249,7 @@ Module CLI
                           Select x
                           Group x By x.condition Into Group) _
                                .ToDictionary(Function(x) x.condition,
-                                             Function(x) x.Group.ToArray(Function(xx) xx.sampleName))
+                                             Function(x) x.Group.Select(Function(xx) xx.sampleName))
         Dim calb = conditions.First
         Dim cblb = conditions.Last
         Dim LQuery = (From x As DESeq2.ResultData In inDiff

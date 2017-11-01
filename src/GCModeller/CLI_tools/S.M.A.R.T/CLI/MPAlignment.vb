@@ -96,7 +96,7 @@ Partial Module CLI
 
         Call $"Alignment Done! Export to {out}".__DEBUG_ECHO
         Call resultSet.GetXml.SaveTo(out & "/MPAlignment.xml")
-        Call resultSet.ToArray(Function(x) x.ToRow).SaveTo($"{out}/MPAlignment.csv")
+        Call resultSet.Select(Function(x) x.ToRow).SaveTo($"{out}/MPAlignment.csv")
 
         Return 0
     End Function
@@ -138,7 +138,7 @@ Partial Module CLI
         Dim inBBH = input.LoadCsv(Of BiDirectionalBesthit)
         Dim align = MotifParallelAlignment.AlignProteins(inBBH, query.LoadCsv(Of Pfam.PfamString.PfamString), subject.LoadCsv(Of Pfam.PfamString.PfamString))
         Call align.ToArray.GetXml.SaveTo($"{out}/{basename(input)}.xml")
-        Call align.ToArray(Function(x) x.ToRow).SaveTo($"{out}/{basename(input)}.csv")
+        Call align.Select(Function(x) x.ToRow).SaveTo($"{out}/{basename(input)}.csv")
 
         Dim Regprecise = GCModeller.FileSystem.KEGGFamilies.LoadCsv(Of FastaReaders.Regulator) _
                 .ToDictionary(Function(prot) prot.LocusTag) '.LoadXml(Of SMRUCC.genomics.DatabaseServices.Regprecise.WebServices.Regulations)
@@ -154,7 +154,7 @@ Partial Module CLI
                               subjectId = mm.SubjectPfam.ProteinId
                           Group By ProteinId Into Group) _
                              .ToDictionary(Function(match) match.ProteinId,
-                                           Function(match) match.Group.ToArray(Function(prot) prot.subjectId))
+                                           Function(match) match.Group.Select(Function(prot) prot.subjectId))
 
         Dim matchesBBH = (From match In inBBH.AsParallel
                           Where havMatches.ContainsKey(match.QueryName) AndAlso
@@ -200,9 +200,9 @@ Partial Module CLI
         Dim aln = args("/aln").LoadCsv(Of Pfam.ProteinDomainArchitecture.MPAlignment.MPCsvArchive)
 
         If String.IsNullOrEmpty(id) Then
-            lstId = aln.ToArray(Function(x) x.QueryName).Join(aln.ToArray(Function(x) x.HitName)).Distinct.ToArray
+            lstId = aln.Select(Function(x) x.QueryName).Join(aln.Select(Function(x) x.HitName)).Distinct.ToArray
         Else
-            Dim ql = aln.ToArray(Function(x) x.QueryName)
+            Dim ql = aln.Select(Function(x) x.QueryName)
             Dim subSet As Pfam.ProteinDomainArchitecture.MPAlignment.MPCsvArchive()
 
             If Array.IndexOf(ql, id) > -1 Then
@@ -211,7 +211,7 @@ Partial Module CLI
                 subSet = (From x In aln Where String.Equals(id, x.HitName, StringComparison.OrdinalIgnoreCase) Select x).ToArray
             End If
 
-            lstId = subSet.ToArray(Function(x) x.QueryName).Join(subSet.ToArray(Function(x) x.HitName)).Distinct.ToArray
+            lstId = subSet.Select(Function(x) x.QueryName).Join(subSet.Select(Function(x) x.HitName)).Distinct.ToArray
         End If
 
 GET_ID:

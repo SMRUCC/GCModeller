@@ -234,7 +234,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                 Call sb.AppendLine($"{[Property].Name} {str}")
             Next
 
-            Call sb.AppendLine(String.Join(vbCrLf, Features.ToArray(AddressOf FeatureParser.ToString)))
+            Call sb.AppendLine(String.Join(vbCrLf, Features.Select(AddressOf FeatureParser.ToString).ToArray))
 
             Return sb.ToString
         End Function
@@ -286,7 +286,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                          Group By Name Into Group '
             Dim hash As Dictionary(Of String, String) =
                 LQuery.ToDictionary(Function(obj) obj.Name.ToLower,
-                                    Function(obj) obj.Group.ToArray(Function(x) x.Value).JoinBy("; "))
+                                    Function(obj) obj.Group.Select(Function(x) x.Value).JoinBy("; "))
 
             Call $"There are {hash.Count} meta data was parsed from the gff file.".__DEBUG_ECHO
 
@@ -330,7 +330,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Dim helper As New __parserHelper With {
                 .version = version
             }
-            Dim Features As Feature() = loadBuffer.ToArray(AddressOf helper.CreateObject)
+            Dim Features As Feature() = loadBuffer.Select(AddressOf helper.CreateObject).ToArray
             Return Features
         End Function
 

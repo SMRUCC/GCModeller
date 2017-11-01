@@ -95,7 +95,7 @@ Namespace BlastAPI
                               pathValue = path.Value
                               Group By genomeID Into Group) _
                              .ToDictionary(Function(g) g.genomeID,
-                                           Function(g) g.Group.ToArray(Function(gp) gp.pathValue))
+                                           Function(g) g.Group.Select(Function(gp) gp.pathValue).ToArray)
 
             Call (From genome In selecteds Select genome.Besthits).IteratesALL.SaveTo(EXPORT & "/Besthits.csv", False)
             Call "Start to copy genome proteins data...".__DEBUG_ECHO

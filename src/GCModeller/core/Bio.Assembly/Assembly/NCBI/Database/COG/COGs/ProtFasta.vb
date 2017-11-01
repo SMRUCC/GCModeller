@@ -77,7 +77,7 @@ Namespace Assembly.NCBI.COG.COGs
         Public Overloads Shared Function LoadDocument(File As String) As ProtFasta()
             Dim fasta = FastaFile.Read(File)
             Call $"Load fasta stream job done! Start fasta parsing job".__DEBUG_ECHO
-            Return fasta.ToArray(Function(fa) ProtFasta.Parser(fa), parallel:=True)
+            Return fasta.Select(Function(fa) ProtFasta.Parser(fa)).ToArray
         End Function
     End Class
 End Namespace

@@ -115,7 +115,7 @@ Public Module LociExtensions
 
     <Extension>
     Public Function ToLocis(x As IEnumerable(Of PalindromeLoci)) As SimpleSegment()
-        Return x.ToArray(AddressOf ToLoci)
+        Return x.Select(AddressOf ToLoci).ToArray
     End Function
 
     <Extension>
@@ -140,7 +140,7 @@ Public Module LociExtensions
 
     <Extension>
     Public Function ToLocis(x As IEnumerable(Of Topologically.ImperfectPalindrome)) As SimpleSegment()
-        Return x.ToArray(AddressOf ToLoci)
+        Return x.Select(AddressOf ToLoci).ToArray
     End Function
 
     ''' <summary>

@@ -60,13 +60,13 @@ Namespace TrackDatas
                                               Select x,
                                                   uid = $"{x.start}..{x.end}"
                                               Group By uid Into Group) _
-                                                 .ToArray(Function(x) x.Group.First.x)
+                                                 .Select(Function(x) x.Group.First.x).ToArray
             Return LQuery
         End Function
 
         <Extension>
         Public Function Ranges(data As IEnumerable(Of ValueTrackData)) As DoubleRange
-            Dim bufs As Double() = data.ToArray(Function(x) x.value)
+            Dim bufs As Double() = data.Select(Function(x) x.value).ToArray
             Return New DoubleRange(bufs)
         End Function
     End Module

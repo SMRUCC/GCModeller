@@ -55,7 +55,7 @@ Namespace CytoscapeGraphView.XGMML
         End Property
 
         Public Overrides Function ToString() As String
-            Dim array As String() = Attributes.ToArray(AddressOf Scripting.ToString)
+            Dim array As String() = Attributes.Select(AddressOf Scripting.ToString)
             Return String.Format("{0} ""{1}""  ==> {2}", id, label, String.Join("; ", array))
         End Function
     End Class

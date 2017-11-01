@@ -83,7 +83,7 @@ Public Module PlasmidComparative
     Public Function CreateDeltaMatrix(partitions As IEnumerable(Of PartitioningData)) As File
         Dim df As New IO.File
         Dim cache = (From part As PartitioningData In partitions Select CacheData = New NucleicAcid(part.SequenceData), part).ToArray ' 因为要保持一一对应关系，所以这里不可以使用并行化拓展了
-        Dim y As NucleicAcid() = cache.ToArray(Function(x) x.CacheData)
+        Dim y As NucleicAcid() = cache.Select(Function(x) x.CacheData).ToArray
 
         df += ("X/Y" + (From part As PartitioningData In partitions Select part.PartitioningTag).AsList)
         df += From x In cache

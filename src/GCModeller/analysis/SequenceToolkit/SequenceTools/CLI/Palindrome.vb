@@ -524,7 +524,7 @@ Partial Module Utilities
         Dim out As String = args("/out")
         Dim size As Integer = args.GetInt32("/size")
         Dim vector = Topologically.Palindrome.ImperfectPalindromeVector(inDIR, size, min, max)
-        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out).CLICode
+        Return vector.Select(Function(n) CStr(n)).FlushAllLines(out).CLICode
     End Function
 
     <ExportAPI("/Mirror.Vector",

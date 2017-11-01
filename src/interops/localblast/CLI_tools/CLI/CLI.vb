@@ -130,7 +130,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
         Next
 
         Dim Allbbh = (From hitPair As BiDirectionalBesthit
-                      In ParsingTask.ToArray(Function(sp) sp.bbh).IteratesALL.AsParallel
+                      In ParsingTask.Select(Function(sp) sp.bbh).IteratesALL.AsParallel
                       Where hitPair.Matched
                       Select hitPair).ToArray  ' 最后将所有的结果进行合并然后保存
         Dim inDIR As String = FileIO.FileSystem.GetParentPath(entries.First.Key.FilePath)
@@ -238,7 +238,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
         Dim queryBesthits = query.ExportAllBestHist(coverage, identities)
         Dim subjectBesthits = subject.ExportAllBestHist(coverage, identities)
         Dim allBBH = BBHParser.GetDirreBhAll2(subjectBesthits, queryBesthits)
-        allBBH = allBBH.ToArray(Function(prot) __assignAddition(prot, queryBrite))
+        allBBH = allBBH.Select(Function(prot) __assignAddition(prot, queryBrite)).ToArray
         Return allBBH
     End Function
 
@@ -295,7 +295,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of
     Public Function Copys(args As CommandLine) As Integer
         Dim inDIR As String = args("/imports")
         Dim gbs = FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.gbk", "*.gb") _
-            .ToArray(Function(s) GBFF.File.LoadDatabase(s), parallel:=True).IteratesALL
+            .Select(Function(s) GBFF.File.LoadDatabase(s)).IteratesALL
         Dim out As String = args.GetValue("/out", inDIR & ".fasta/")
 
         For Each gb As GBFF.File In gbs

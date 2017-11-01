@@ -89,7 +89,7 @@ Statistics as Topic",
     Public Module Algorithm
 
         <Extension> Public Function Edits(align As DomainAlignment()) As String
-            Return New String(align.ToArray(Function(x) If(x.IsMatch, "m"c, "-"c)))
+            Return New String(align.Select(Function(x) If(x.IsMatch, "m"c, "-"c)).ToArray)
         End Function
 
         ''' <summary>

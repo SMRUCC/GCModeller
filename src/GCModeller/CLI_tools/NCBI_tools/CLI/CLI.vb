@@ -133,7 +133,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                 End If
             Next
 
-            data = LQuery.ToArray(Function(x) x.x)
+            data = LQuery.Select(Function(x) x.x).ToArray
 
             Call data.SaveTo(out)
         Next
@@ -355,7 +355,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
             args("/ls") _
             .ReadAllLines _
             .Where(Function(s) Not String.IsNullOrEmpty(Trim(s))) _
-            .ToArray(Function(s) s.Trim.ToLower)
+            .Select(Function(s) s.Trim.ToLower) _
+            .ToArray
         Dim outDIR As String = args.GetValue("/out", [in].TrimDIR & ".associates.tsv")
         Dim index As String =
             args.GetValue("/index", NameOf(NamedValue(Of Object).Name))
@@ -560,7 +561,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
         End If
 
         Dim tasks$() =
-            (ls - l - R - wildcards("*.fasta") <= [in]).ToArray(CLI)
+            (ls - l - r - wildcards("*.fasta") <= [in]).Select(CLI).ToArray
 
         Return App.SelfFolks(tasks, LQuerySchedule.AutoConfig(n))
     End Function

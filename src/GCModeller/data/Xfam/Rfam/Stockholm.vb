@@ -312,7 +312,7 @@ Public Class Stockholm
                       Select name, value
                       Group By name Into Group) _
                          .ToDictionary(Function(x) x.name,
-                                       Function(x) x.Group.ToArray(Function(xx) xx.value).JoinBy(" "))
+                                       Function(x) x.Group.Select(Function(xx) xx.value).JoinBy(" "))
         Return LQuery
     End Function
 

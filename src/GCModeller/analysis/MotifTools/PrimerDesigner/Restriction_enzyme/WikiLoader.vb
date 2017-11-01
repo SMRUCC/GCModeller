@@ -91,7 +91,7 @@ Namespace Restriction_enzyme
             html = Strings.Split(html, EnzymeSection).Last
             html = Regex.Match(html, TableStart, RegexOptions.Singleline Or RegexOptions.IgnoreCase).Value
             Dim rows As String() = Regex.Matches(html, "<tr>.+?</tr>", RegexOptions.Singleline Or RegexOptions.IgnoreCase).ToArray
-            Dim enzymes As Enzyme() = rows.Skip(1).ToArray(Function(row) row.__enzymeParser)
+            Dim enzymes As Enzyme() = rows.Skip(1).Select(Function(row) row.__enzymeParser).ToArray
             Return enzymes
         End Function
 
@@ -133,12 +133,12 @@ Namespace Restriction_enzyme
 
         <Extension> Public Function __cutsParser(s As String) As Cut()
             Dim sides As String() = Regex.Matches(s, "<code>.+?</code>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray(Function(ss) Regex.Replace(ss.GetValue, htmlTag, "@"))
-            Return sides.ToArray(Function(ss) Cut.Parser(ss))
+            Return sides.Select(Function(ss) Cut.Parser(ss)).ToArray
         End Function
 
         <Extension> Public Function __isoschizomersParser(s As String) As String()
             s = Regex.Replace(s, htmlTag, "").Trim
-            Dim tokens As String() = s.Split(","c).ToArray(Function(ss) ss.Trim)
+            Dim tokens As String() = s.Split(","c).Select(Function(ss) ss.Trim).ToArray
             tokens = (From ss As String In tokens Where Not String.IsNullOrEmpty(ss) Select ss).ToArray
             Return tokens
         End Function

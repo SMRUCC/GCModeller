@@ -60,8 +60,8 @@ Namespace clusterProfiler
                                  Optional TERM2NAME As IEnumerable(Of NamedValue(Of String)) = Nothing) As enrichResult
 
             Dim t2g = TERM2GENE.dataframe(MappingsHelper.NamedValueMapsWrite("goID", "geneID"))
-            Dim genes = base.c(gene.ToArray(AddressOf Rstring))
-            Dim background = base.c(universe.ToArray(AddressOf Rstring))
+            Dim genes = base.c(gene.Select(AddressOf Rstring))
+            Dim background = base.c(universe.Select(AddressOf Rstring))
 
             Return enricherS4(gene:=genes,
                               universe:=background,

@@ -42,7 +42,7 @@ Namespace SymbolBuilder.packages.dynamicTreeCut
         ''' Passes all its arguments unchaged to the standard print function; after the execution of print it flushes the console, if possible.
         ''' </remarks>
         Public Function printFlush(ParamArray args As Object()) As String
-            Dim x As String() = args.ToArray(Function(obj) Scripting.ToString(obj))
+            Dim x As String() = args.Select(Function(obj) Scripting.ToString(obj)).ToArray
             Dim xs As String = String.Join(", ", x)
             Return $"printFlush({xs})"
         End Function

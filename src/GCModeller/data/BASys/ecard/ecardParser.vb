@@ -139,8 +139,7 @@ Public Module ecardParser
                          Group x By x.Name Into Group '
 
             Yield Groups.ToDictionary(Function(x) x.Name,
-                                      Function(x) x.Group.ToArray(
-                                      Function(o) o.Value))
+                                      Function(x) x.Group.Select(Function(o) o.Value).ToArray)
         Next
     End Function
 End Module

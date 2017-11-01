@@ -159,7 +159,7 @@
 '            Next
 
 '            Dim exp As Exception = Nothing
-'            Dim t As String = String.Join(vbCrLf, Transaction.ToArray(Function(ds) ds.GetInsertSQL))
+'            Dim t As String = String.Join(vbCrLf, Transaction.Select(Function(ds) ds.GetInsertSQL))
 
 '            If Not MySQL.CommitTransaction(t, exp) Then
 '                Call App.LogException(exp)
@@ -187,7 +187,7 @@
 '    '                        .g2_entity = p2,
 '    '                        .spcc = sPccMAT.GetValue(p1, p2, Parallel:=False),
 '    '                        .wgcna_weight = WGCNA_MAT.GetValue(p1, p2, Parallel:=False)}).ToArray _
-'    '                            .ToArray(Function(row) row.GetInsertSQL, Parallel:=False))), Parallel:=True).ToArray
+'    '                            .Select(Function(row) row.GetInsertSQL, Parallel:=False))), Parallel:=True).ToArray
 
 '    'Call "Job Done!".__DEBUG_ECHO
 'End Module
