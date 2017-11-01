@@ -126,7 +126,7 @@ Public Module CLI
     End Function
 
     Private Function __vectorCommon(vectors As Double()()) As Double()
-        Dim LQuery As Double() = vectors(Scan0).ToArray(
+        Dim LQuery As Double() = vectors(Scan0).Select(
             Function(null, idx) vectors.Select(Function(genome) genome(idx)).Average)
         Return LQuery
     End Function

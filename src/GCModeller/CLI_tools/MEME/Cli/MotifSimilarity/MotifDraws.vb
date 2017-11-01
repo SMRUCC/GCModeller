@@ -53,7 +53,7 @@ Public Module MotifDraws
                             Family
                         Group By Family Into Group) _
                             .ToDictionary(Function(x) x.Family,
-                                          Function(x) x.Group.Select(Function(xx) xx.Value))
+                                          Function(x) x.Group.Select(Function(xx) xx.Value).ToArray)
     End Sub
 
     ''' <summary>

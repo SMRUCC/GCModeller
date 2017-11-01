@@ -291,7 +291,7 @@ Partial Module CLI
                 pwmFa = ""
             End If
 
-            sites = masts.ToArray(
+            sites = masts.Select(
                 Function(mast) MastSites.Compile(
                 mast.Value,
                 mastLDM,
@@ -487,7 +487,7 @@ Partial Module CLI
                                        FileIO.SearchOption.SearchAllSubDirectories,
                                        "*.fasta").Select(Function(fasta) FastaReaders.Regulator.LoadDocument(FastaToken.Load(fasta)))
         Dim regprecise = FileIO.FileSystem.GetFiles(RegpreciseRoot & "/regulators/",
-                                                    FileIO.SearchOption.SearchAllSubDirectories, "*.xml").ToArray(
+                                                    FileIO.SearchOption.SearchAllSubDirectories, "*.xml").Select(
                                                     Function(xml) xml.LoadXml(Of JSONLDM.regulator())).Unlist
         Dim regpreciseGroup = (From regulator In regprecise
                                Where Not regulator Is Nothing AndAlso
@@ -497,7 +497,7 @@ Partial Module CLI
         Dim regpreciseRegulators = regpreciseGroup _
                .ToDictionary(Function(regulator) regulator.locusTag,
                              Function(regulator) regulator.Group.First)
-        Dim table As Model_Repository.Regulator() = regulators.ToArray(
+        Dim table As Model_Repository.Regulator() = regulators.Select(
             Function(regulator) _
                 New Model_Repository.Regulator With {
                     .Definition = regulator.Definition,
@@ -508,7 +508,7 @@ Partial Module CLI
                     .Sites = regulator.Sites,
                     .Species = regulator.SpeciesCode,
                     .vimssId = regpreciseRegulators.TryGetValue(Of Integer)(regulator.KEGG.Split(":"c).Last, NameOf(Model_Repository.Regulator.vimssId))
-               })
+               }).ToArray
         Return table.SaveTo(RegpreciseRoot & "/MEME/regulators.csv").CLICode
     End Function
 
@@ -547,7 +547,7 @@ Partial Module CLI
                         .QueryName = x.LocusTag.Value})
             Else
                 bbhs = FileIO.FileSystem.GetFiles(
-                    args("/bbh"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").ToArray(
+                    args("/bbh"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").Select(
                         Function(csv) csv.LoadCsv(Of BBHIndex)).Unlist
             End If
         End If
@@ -560,7 +560,7 @@ Partial Module CLI
                              reg = regprecise(regEntry),
                              KEGGFamily = KEGGFamilies(regEntry)
 
-        Dim result As bbhMappings() = bbhsPaired.ToArray(
+        Dim result As bbhMappings() = bbhsPaired.Select(
             Function(regulator) New bbhMappings With {
                 .definition = regulator.reg.Definition,
                 .Family = regulator.KEGGFamily.KEGGFamily,
@@ -569,7 +569,7 @@ Partial Module CLI
                 .Positive = regulator.pair.Positive,
                 .query_name = regulator.pair.QueryName,
                 .vimssId = regulator.reg.vimssId
-           })
+           }).ToArray
 
         If direct Then
             For Each pair In result
@@ -691,8 +691,8 @@ Partial Module CLI
         Dim footprints = args("/footprint").LoadCsv(Of PredictedRegulationFootprint)
         Dim Pathways = FileIO.FileSystem.GetFiles(args("/pathways"),
                                                   FileIO.SearchOption.SearchAllSubDirectories,
-                                                  "*.xml").ToArray(
-                                                        Function(Xml) Xml.LoadXml(Of bGetObject.Pathway))
+                                                  "*.xml").Select(
+                                                        Function(Xml) Xml.LoadXml(Of bGetObject.Pathway)).ToArray
         Dim TCS As String() = MiST2.MajorModules.First.TwoComponent.get_HisKinase.Join(MiST2.MajorModules.First.TwoComponent.GetRR).Distinct.ToArray
         Dim LQuery = (From regu As PredictedRegulationFootprint
                       In footprints.AsParallel

@@ -225,7 +225,7 @@ Partial Module CLI
             Dim rpkm = stat.LoadCsv(Of DESeq2.ExprStats)
             Call lpModel.SetRPKM(rpkm, sampleName)
 
-            Dim rpkmSets = lpModel.GeneFactors.ToArray(
+            Dim rpkmSets = lpModel.GeneFactors.Select(
                 Function(x) New RPKMStat With {
                     .Locus = x.Key,
                     .Properties = New Dictionary(Of String, Double) From {
@@ -308,9 +308,8 @@ PLANT:          objective.Associates = file.ReadAllLines
         Dim rpkm As List(Of ExprStats) = DIR.RPKM.LoadCsv(Of ExprStats)
 
         If Not footprints.IsNullOrEmpty Then
-            Dim TF As String() = footprints.ToArray(
-                Function(x) x.Regulator,
-                Function(x) Not String.IsNullOrEmpty(x.Regulator)).Distinct.ToArray
+            Dim TF As String() = footprints.Where(Function(x) Not String.IsNullOrEmpty(x.Regulator)).Select(
+                Function(x) x.Regulator).Distinct.ToArray
             rpkm = (From x As ExprStats In rpkm
                     Where Array.IndexOf(TF, x.locus) > -1
                     Select x).AsList
@@ -340,9 +339,8 @@ PLANT:          objective.Associates = file.ReadAllLines
         Dim rpkm As List(Of ExprStats) = DIR.RPKM.LoadCsv(Of ExprStats)
 
         If Not footprints.IsNullOrEmpty Then
-            Dim TF As String() = footprints.ToArray(
-                Function(x) x.Regulator,
-                Function(x) Not String.IsNullOrEmpty(x.Regulator)).Distinct.ToArray
+            Dim TF As String() = footprints.Where(Function(x) Not String.IsNullOrEmpty(x.Regulator)).Select(
+                Function(x) x.Regulator).Distinct.ToArray
             rpkm = (From x As ExprStats In rpkm
                     Where Array.IndexOf(TF, x.locus) > -1
                     Select x).AsList

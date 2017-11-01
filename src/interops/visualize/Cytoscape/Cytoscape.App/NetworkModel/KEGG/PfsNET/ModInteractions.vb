@@ -162,7 +162,7 @@ Namespace NetworkModel.KEGG
                         x.Regulator,
                         x.ORF,
                         c
-                    Group By uid Into Group).ToArray(
+                    Group By uid Into Group).Select(
                         Function(x) New NetworkEdge With {
                             .FromNode = x.Group.First.Regulator,
                             .ToNode = x.Group.First.ORF,

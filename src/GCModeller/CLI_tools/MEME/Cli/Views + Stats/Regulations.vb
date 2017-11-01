@@ -87,9 +87,9 @@ Partial Module CLI
                 Call modRegulators.Add(pwyBrite.Class, regulators)
             End If
 
-            regulators += doc _
-                .Select(Function(r) r.Regulator,
-                         Function(r) Not String.IsNullOrEmpty(r.Regulator))
+            regulators += doc.Where(Function(r) Not String.IsNullOrEmpty(r.Regulator)) _
+                .Select(Function(r) r.Regulator)
+
         Next
 
         For Each type In modRegulators.ToArray

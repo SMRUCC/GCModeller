@@ -78,7 +78,7 @@ Namespace NetworkModel.KEGG
                         Select x
                         Group x By x.ID Into Group) _
                              .ToDictionary(Function(x) x.ID,
-                                           Function(x) x.Group.Select(Function(xx) xx.rxn))
+                                           Function(x) x.Group.Select(Function(xx) xx.rxn).ToArray)
             Return hash
         End Function
 
@@ -111,7 +111,7 @@ Namespace NetworkModel.KEGG
                                          .Properties = New Dictionary(Of String, String) From {{"associate", x.Value.Length}}})
             Call nodes.AddRange(nodeTmp)
 
-            Dim edges As FileStream.NetworkEdge() = cpHash.Select(Function(x) __buildNET(x.Key, x.Value), Parallel:=True).ToVector
+            Dim edges As FileStream.NetworkEdge() = cpHash.Select(Function(x) __buildNET(x.Key, x.Value)).ToVector
 
             Return New FileStream.NetworkTables With {
                 .Edges = edges.ToArray,

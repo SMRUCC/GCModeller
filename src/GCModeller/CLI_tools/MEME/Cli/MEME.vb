@@ -275,7 +275,7 @@ Partial Module CLI
         If LocusFromFasta Then
             Dim fastaFile As String = source(ID)
             Dim Fasta = SMRUCC.genomics.SequenceModel.FASTA.FastaFile.Read(fastaFile)
-            Dim GeneLocus As Dictionary(Of String, String) = Fasta.ToArray(
+            Dim GeneLocus As Dictionary(Of String, String) = Fasta.Select(
                 Function(fa) New With {
                     .key = fa.Title.Split().First,
                     .locusTag = __getLocusTag(fa.Title)}) _
@@ -365,8 +365,8 @@ Partial Module CLI
             Call "Associates with regprecise family information...".__DEBUG_ECHO
             Dim Regulations As Regulations = GCModeller.FileSystem.Regulations.LoadXml(Of Regulations)
             Dim setValue = New SetValue(Of MotifSite) <= NameOf(MotifSite.Family)
-            chunkBuffer = chunkBuffer.ToArray(
-                Function(site) setValue(site, Regulations.GetMotifFamily(site.uid.Split("|"c).ElementAtOrDefault(Scan0))))
+            chunkBuffer = chunkBuffer.Select(
+                Function(site) setValue(site, Regulations.GetMotifFamily(site.uid.Split("|"c).ElementAtOrDefault(Scan0)))).ToArray
         End If
 
         Dim novelSites = ResultSet.Select(Function([set]) [set].novels).Unlist.TrimNull

@@ -61,12 +61,12 @@ Namespace NetworkModel.PfsNET
 
         Private Function __getRxnRels(rxnMaps As ReactionMaps(), locus As String) As NetworkEdge()
             Dim rels As NetworkEdge() = (From rId As ReactionMaps In rxnMaps
-                                         Let reactions As NetworkEdge() = rId.Reactions.ToArray(
+                                         Let reactions As NetworkEdge() = rId.Reactions.Select(
                                              Function(sId) New NetworkEdge With {
                                              .FromNode = locus,
                                              .ToNode = sId,
                                              .Interaction = "EnzymeRelated"
-                                         })
+                                         }).ToArray
                                          Select reactions).ToVector
             Return rels
         End Function

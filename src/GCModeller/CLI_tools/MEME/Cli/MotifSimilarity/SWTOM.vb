@@ -328,7 +328,7 @@ Partial Module CLI
                           Select x.Group.First
                           Group First By First.MotifTrace Into Group) _
                                .ToDictionary(Function(x) x.MotifTrace,
-                                             Function(x) x.Group.Select(Function(xx) xx.MotifFamily))
+                                             Function(x) x.Group.Select(Function(xx) xx.MotifFamily).ToArray)
         Dim pheno As ModuleClassAPI =
             If(pathway,
             ModuleClassAPI.FromPathway(args("/KEGG")),

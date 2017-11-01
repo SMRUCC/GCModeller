@@ -67,7 +67,7 @@ Public Module MotifCluster
 
             Dim mapObj As New Entity With {
                 .uid = map.x.Uid,
-                .Properties = mapResult.Select(Function(x) x.Bits + x.PWM.Average, where:=Function(x) Not x Is Nothing)
+                .Properties = mapResult.Where(Function(x) Not x Is Nothing).Select(Function(x) x.Bits + x.PWM.Average)
             }
             Call buffer.Add(mapObj)
         Next

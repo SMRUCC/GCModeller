@@ -135,7 +135,7 @@ Partial Module CLI
                 Call Console.Write(".")
             Next
 
-            Dim resultSet = motif.Value.Select(Function(hit) Similarity.TOMQuery.TomTOm.CreateResult(queryLDM, hit.Key, hit.Value))
+            Dim resultSet = motif.Value.Select(Function(hit) Similarity.TOMQuery.TomTOm.CreateResult(queryLDM, hit.Key, hit.Value)).ToArray
             Dim table As String = resultSet.ToHTMLTable("API")
 
             Call html.AppendLine($"<h3>Query for {queryLDM.ToString}</h3>")

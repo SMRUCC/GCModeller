@@ -42,10 +42,10 @@ Module Phylip
                          Select x
                          Group x By x.QueryName Into Group
         Dim Overviews As New Overview With {
-            .Queries = QueryGroup.ToArray(
+            .Queries = QueryGroup.Select(
                 Function(x) __toQueryOverview(
                     x.QueryName,
-                    x.Group.ToArray))
+                    x.Group.ToArray)).ToArray
         }
         Dim MAT = SelfOverviewsMAT(Overviews)
         Dim Gendist = MatrixFile.Gendist.CreateMotifDistrMAT(MAT)

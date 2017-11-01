@@ -168,9 +168,8 @@ Partial Module CLI
         Dim footprints = footprint.LoadCsv(Of RegulatesFootprints)
 
         If Not footprints.IsNullOrEmpty Then
-            Dim TF As String() = footprints.ToArray(
-                Function(x) x.Regulator,
-                Function(x) Not String.IsNullOrEmpty(x.Regulator)).Distinct.ToArray
+            Dim TF As String() = footprints.Where(Function(x) Not String.IsNullOrEmpty(x.Regulator)).Select(
+                Function(x) x.Regulator).Distinct.ToArray
             RPKMs = (From x As RPKMStat In RPKMs
                      Where Array.IndexOf(TF, x.Locus) > -1
                      Select x).AsList

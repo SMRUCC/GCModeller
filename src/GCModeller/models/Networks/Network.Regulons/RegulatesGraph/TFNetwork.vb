@@ -65,7 +65,7 @@ Public Module NetAPI
                       Group x By x.ORF Into Group) _
                            .ToDictionary(Function(x) x.ORF,
                                          Function(x) x.Group.Select(Function(xx) xx.Regulator).Distinct.Count)
-        Dim TF = allTFs.ToArray(
+        Dim TF = allTFs.Select(
             Function(x) New FileStream.Node(x) With {
                 .NodeType = "TF",
                 .Properties = New Dictionary(Of String, String) From {

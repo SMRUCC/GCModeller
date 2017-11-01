@@ -155,7 +155,7 @@ Default is not, default checks right side and left side.")>
                       In query.AsParallel
                       Where sbh.ContainsKey(x.ProteinId)
                       Let lstId As String() = sbh(x.ProteinId)
-                      Let lstPfam = lstId.Select(Function(sId) subject(sId), where:=Function(sId) subject.ContainsKey(sId))
+                      Let lstPfam = lstId.Where(Function(sId) subject.ContainsKey(sId)).Select(Function(sId) subject(sId)).ToArray
                       Select (From sbj As PfamString
                               In lstPfam
                               Select PfamStringEquals(x, sbj, equals))).IteratesALL
@@ -251,7 +251,7 @@ Default is not, default checks right side and left side.")>
                       Select x
                       Group x By x.QueryName Into Group) _
                          .ToDictionary(Function(x) x.QueryName.Split(":"c).Last,
-                                       Function(x) x.Group.Select(Function(xx) xx.HitName.Split(":"c).Last, where:=Function(xx) xx.Matched))
+                                       Function(x) x.Group.Where(Function(xx) xx.Matched).Select(Function(xx) xx.HitName.Split(":"c).Last).ToArray)
         Return LQuery
     End Function
 

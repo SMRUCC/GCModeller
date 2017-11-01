@@ -110,7 +110,7 @@ Namespace Analysis
 #If DEBUG Then
             footprints = sites.Select(Function(site) __createSites(site, regulators, correlations, regDB)).ToVector
 #Else
-            footprints = sites.Select(Function(site) __createSites(site, regulators, correlations, regDB), Parallel:=True).ToVector
+            footprints = sites.Select(Function(site) __createSites(site, regulators, correlations, regDB)).ToVector
 #End If
             Return footprints
         End Function
@@ -138,7 +138,7 @@ Namespace Analysis
 #If DEBUG Then
             footprints = sites.Select(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff)).ToVector
 #Else
-            footprints = sites.Select(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff), Parallel:=True).ToVector
+            footprints = sites.Select(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff)).ToVector
 #End If
             Return footprints
         End Function

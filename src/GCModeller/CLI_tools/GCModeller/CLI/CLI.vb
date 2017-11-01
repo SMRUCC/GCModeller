@@ -219,7 +219,7 @@ Public Module CLI
         Dim [in] As String = args("/in")
         Dim ext As String = args.GetValue("/ext", "*.txt")
         Dim out As String = args.GetValue("/out", [in].TrimDIR & ext.Replace("*", ""))
-        Dim exts = ext.Split(","c).Select(AddressOf Trim)
+        Dim exts = ext.Split(","c).Select(AddressOf Trim).ToArray
         Dim trimNull = args.GetBoolean("/trim")
         Dim encoding As String = args.GetValue("/encoding", "ascii")
         Dim encodings As Encodings = encoding.ParseEncodingsName

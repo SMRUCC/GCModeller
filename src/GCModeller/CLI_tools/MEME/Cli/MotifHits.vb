@@ -357,7 +357,7 @@ Partial Module CLI
         Dim task As Func(Of String, String) =
             Function(DIR) _
                 $"{GetType(CLI).API(NameOf(SiteMASTScan))} /mast {DIR.CLIPath} /batch /out {(out & "/" & DIR.BaseName & ".Csv").CLIPath}"
-        Dim CLI As String() = DIRs.ToArray(task)
+        Dim CLI As String() = DIRs.Select(task).ToArray
         Dim num As Integer = args.GetValue("/num_threads", -1)
 
         num = LQuerySchedule.AutoConfig(num)

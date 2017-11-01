@@ -191,7 +191,7 @@ Levenshtein Edits: {hsp.Alignment.DistEdits}
     Private Sub __printHSP(ByRef innerHTML As StringBuilder, query As Output, outDIR As String)
         Call innerHTML.AppendLine("<h3>Smith-Waterman HSP</h3><br />")
         Call innerHTML.AppendLine("<table width=""1440px"">")
-        Call innerHTML.AppendLine(query.HSP.Select(Function(x) x.__printHSP(outDIR), parallel:=True).JoinBy(vbCrLf))
+        Call innerHTML.AppendLine(query.HSP.Select(Function(x) x.__printHSP(outDIR)).JoinBy(vbCrLf))
         Call innerHTML.AppendLine("</table>")
     End Sub
 End Module
