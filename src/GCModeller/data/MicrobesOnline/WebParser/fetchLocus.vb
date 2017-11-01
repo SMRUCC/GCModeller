@@ -55,7 +55,7 @@ Public Module fetchLocus
         As <FunctionReturns("The return array has two elements, first element is the prot sequnece and the second element is the nt sequence.")> FastaToken()
         Dim page As String = String.Format(FetchLocus, locusId).GET
         Dim ms = Regex.Matches(page, "<pre>.+?</pre>", RegexOptions.Singleline Or RegexOptions.IgnoreCase)
-        Dim seqs As String() = ms.Select(Function(x) Mid(x, 6).Replace("</pre>", ""))
+        Dim seqs As String() = ms.ToArray(Function(x) Mid(x, 6).Replace("</pre>", ""))
         Dim lstFa As FastaToken() = seqs.Select(Function(seq) FastaToken.TryParse(seq)).ToArray
         Return lstFa.Take(2).ToArray
     End Function

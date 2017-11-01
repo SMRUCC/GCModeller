@@ -118,7 +118,7 @@ Partial Module CLI
         Dim inHits = infile.LoadCsv(Of SSDB.BlastnHit)
         inHits = (From x In inHits Where x.Eval <= evalue Select x).AsList
         Dim KO As String() = inHits _
-            .ToArray([CType]:=Function(x) x.KO,
+            .Select([CType]:=Function(x) x.KO,
                      where:=Function(s) Not String.IsNullOrWhiteSpace(s.KO)) _
             .Distinct _
             .ToArray
