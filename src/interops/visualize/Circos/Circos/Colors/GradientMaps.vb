@@ -131,7 +131,7 @@ Namespace Colors
             Call mapLvs.Min.__DEBUG_ECHO
 
             Dim mappings As Mappings() =
-                mapLvs.ToArray(AddressOf maps.CreateMaps)
+                mapLvs.Select(AddressOf maps.CreateMaps)
             Return mappings
         End Function
 

@@ -81,7 +81,7 @@ Namespace SymbolBuilder.packages.gplots
         End Function
 
         Public Shared Function MeansParser(result As String) As Double()
-            Return Regex.Matches(result, "(-?\d+(\.\d+)?)|(NaN)").ToArray(AddressOf Val)
+            Return Regex.Matches(result, "(-?\d+(\.\d+)?)|(NaN)").Select(AddressOf Val)
         End Function
 
         ''' <summary>

@@ -102,14 +102,14 @@ Namespace Script
                                    .ToDictionary(Function(x) x.Type,
                                                  Function(x) x.Group.ToArray)
 
-            Dim equations = typeTokens(Script.Tokens.Reaction).ToArray(AddressOf sEquationParser)
+            Dim equations = typeTokens(Script.Tokens.Reaction).Select(AddressOf sEquationParser)
             Dim Disturbs As Experiment()
             Dim FinalTime As Integer
             Dim val As New Expression
 
             Dim c =
                 If(typeTokens.ContainsKey(Script.Tokens.Constant),
-                typeTokens(Script.Tokens.Constant).ToArray(AddressOf ScriptParser.ConstantParser),
+                typeTokens(Script.Tokens.Constant).Select(AddressOf ScriptParser.ConstantParser),
                 {})
 
             For Each x As NamedValue(Of String) In c

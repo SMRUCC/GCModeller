@@ -191,7 +191,7 @@ Public Module PlotExtensions
         Dim clData As Color() = If(
             colors.IsNullOrEmpty,
             ChartColors.Shuffles,
-            colors.ToArray(AddressOf ToColor))
+            colors.Select(AddressOf ToColor))
         Dim serials = LinqAPI.Exec(Of NamedValue(Of Color)) <=
  _
             From x As SeqValue(Of ODE)
@@ -310,7 +310,7 @@ Public Module PlotExtensions
         Dim c As Color() = If(
             colors.IsNullOrEmpty,
             ChartColors.Shuffles,
-            colors.ToArray(AddressOf ToColor))
+            colors.Select(AddressOf ToColor))
 
         Return LinqAPI.Exec(Of SerialData) <=
  _

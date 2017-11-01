@@ -163,7 +163,7 @@ Partial Module Utilities
         End Sub
 
         Sub New(query As FASTA.FastaToken, subject As FASTA.FastaToken, cost As Double)
-            Call Me.New(query.Title, query.SequenceData, query.SequenceData.ToArray(AddressOf Asc), subject, cost)
+            Call Me.New(query.Title, query.SequenceData, query.SequenceData.Select(AddressOf Asc), subject, cost)
         End Sub
 
         Sub New(queryTitle As String,

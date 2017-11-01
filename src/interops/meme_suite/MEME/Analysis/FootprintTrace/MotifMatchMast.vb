@@ -392,7 +392,7 @@ Namespace Analysis.FootprintTraceAPI
                     Continue For
                 End If
 
-                Dim sites As MotifSiteHit() = x.Segments.ToArray(AddressOf __toSites).ToVector
+                Dim sites As MotifSiteHit() = x.Segments.Select(AddressOf __toSites).ToVector
                 Dim RegPrecise As String = x.name.Split("|"c).First
 
                 For Each site As MotifSiteHit In sites

@@ -266,7 +266,7 @@ Namespace CytoscapeGraphView.Serialization
                          Order By label Ascending ' Linq查询在这里会被执行两次，不清楚是什么原因
             Return LQuery _
                 .Select(Function(x) x.Group) _
-                .ToArray(AddressOf DefaultFirst) _
+                .Select(AddressOf DefaultFirst) _
                 .WriteAddress  ' 生成节点数据并去除重复
         End Function
 

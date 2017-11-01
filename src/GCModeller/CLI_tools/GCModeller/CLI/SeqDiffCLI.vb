@@ -48,7 +48,7 @@ Partial Module CLI
         Dim slides As Integer = args.GetValue("/slides", 5)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".winsize={winsize},steps={steps},slides={slides}_seqdiff.csv")
         Dim mla As New FastaFile([in])
-        Dim result = mla.ToArray(AddressOf SeqDiff.Parser)
+        Dim result = mla.Select(AddressOf SeqDiff.Parser)
         Dim t As String = args("/toplog")
 
         Call SeqDiff.GCOutlier(mla, result, {0.95, 0.99, 1}, winsize, steps, slides)

@@ -100,7 +100,7 @@ Partial Module CLI
                             .ToDictionary(Function(x) x.uid,
                                           Function(x) x.Group.Select(Function(xx) xx.x))
         Dim genomes As BacteriaGenome() = (ls - l - wildcards("*.Xml") <= inDIR) _
-            .ToArray(AddressOf SafeLoadXml(Of BacteriaGenome))
+            .Select(AddressOf SafeLoadXml(Of BacteriaGenome))
         Dim all As String() = genomes.Select(Function(x) x.ListRegulators).Unlist.Distinct.ToArray
         Dim regulators = (From sid As String In all Where hitsHash.ContainsKey(sid) Select sid, hits = hitsHash(sid)).ToArray
         Dim queryRegulators = (From qx In

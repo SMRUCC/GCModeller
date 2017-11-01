@@ -155,7 +155,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-" & sites.BaseName & "/")
         Dim pathways As bGetObject.Pathway() =
             (ls - l - r - wildcards("*.Xml") <= [in]) _
-            .ToArray(AddressOf LoadXml(Of bGetObject.Pathway))
+            .Select(AddressOf LoadXml(Of bGetObject.Pathway))
         Dim siteHash = (From x As SimpleSegment
                         In (ls - l - r - wildcards("*.Csv") <= sites) _
                            .Select(AddressOf csv.Extensions.LoadCsv(Of SimpleSegment)) _

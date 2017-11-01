@@ -148,7 +148,7 @@ Namespace NetworkModel.KEGG
                     In footprints
                     Where Not String.IsNullOrEmpty(x.Regulator)
                     Select x.Regulator Distinct) _
-                          .ToArray(AddressOf __tfNode)  ' 生成调控因子节点
+                          .Select(AddressOf __tfNode)  ' 生成调控因子节点
 
             If brief Then
                 footprints = (From x In footprints Where True = net ^ x.ORF Select x).ToArray

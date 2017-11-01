@@ -49,7 +49,7 @@ Namespace dataExprMAT
         ''' <returns></returns>
         Public Shared Function GetSamples(expr As String) As Experiment()
             Dim pairs As String() = expr.Split("|"c)
-            Dim samples As Experiment() = pairs.ToArray(AddressOf __sampleTable)
+            Dim samples As Experiment() = pairs.Select(AddressOf __sampleTable)
             Return samples
         End Function
 

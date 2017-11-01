@@ -133,7 +133,7 @@ Namespace Analysis.MotifScans
             End If
             Dim len As Integer = MEME.Text.GetLength(memeText)
             Dim Motifs As AnnotationModel() =
-                MEME.Text.SafelyLoad(memeText).ToArray(AddressOf AnnotationModel.CreateObject)
+                MEME.Text.SafelyLoad(memeText).Select(AddressOf AnnotationModel.CreateObject)
 
             For Each motif As AnnotationModel In Motifs
                 motif.Uid = $"{uid}.{motif.Uid}"

@@ -217,7 +217,7 @@ Public Module Genotype
 
     Public Function Frequencies(field As String) As Frequency()
         Dim fs As String() = Regex.Matches(field, Frequency, RegexICSng).ToArray
-        Return fs.ToArray(AddressOf FrequencyParser)
+        Return fs.Select(AddressOf FrequencyParser)
     End Function
 
     Const Genotype As String = "[ATGC]\|[ATGC]: \d\.\d+ \(\d+\)"

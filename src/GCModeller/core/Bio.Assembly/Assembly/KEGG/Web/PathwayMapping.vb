@@ -158,7 +158,7 @@ Namespace Assembly.KEGG.WebServices
             Const mapLinks$ = "href=""/kegg-bin/show_pathway\?.+?/ko\d+\.args"" target=""_map"""
             Const imgLink$ = "src=""/tmp/mark_pathway.+?/ko\d+.*?\.png"""
 
-            Dim links$() = Regex.Matches(html, mapLinks, RegexICSng).ToArray(AddressOf href)
+            Dim links$() = Regex.Matches(html, mapLinks, RegexICSng).Select(AddressOf href)
             Dim img$
             Dim Ko As Dictionary(Of String, Pathway) = Pathway.LoadFromResource.ToDictionary(Function(x) x.EntryId)
             Dim id$

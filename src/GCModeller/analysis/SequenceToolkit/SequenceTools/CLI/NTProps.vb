@@ -83,7 +83,7 @@ Partial Module Utilities
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".SimpleSegments.Csv")
         Dim data As PalindromeLoci() = [in].LoadCsv(Of PalindromeLoci)
-        Dim sites As SimpleSegment() = data.ToArray(AddressOf MirrorsLoci)
+        Dim sites As SimpleSegment() = data.Select(AddressOf MirrorsLoci)
 
         Return sites.SaveTo(out).CLICode
     End Function
@@ -173,7 +173,7 @@ Partial Module Utilities
         For Each file As String In ls - l - r - wildcards("*.csv") <= [in]
             Dim data As PalindromeLoci() = file.LoadCsv(Of PalindromeLoci)
             Dim path As String = $"{out}/{file.BaseName}.Csv"
-            Dim sites As SimpleSegment() = data.ToArray(AddressOf MirrorsLoci)
+            Dim sites As SimpleSegment() = data.Select(AddressOf MirrorsLoci)
 
             Call sites.SaveTo(path)
         Next
