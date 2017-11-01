@@ -203,7 +203,7 @@ Partial Module CLI
             Dim mapSet As [Set] = New [Set](resultSet.Select(Function(x) x.ID))
             Dim delta = all - mapSet
 
-            For Each unMap As String In delta.Select(Of String)
+            For Each unMap As String In delta.ToArray(Of String)
                 result(unMap).Properties(sId) = 0R
             Next
 
@@ -241,7 +241,7 @@ Partial Module CLI
         '将Entity和sites位点联系起来
         Dim asso = (From x In resultSet Select x, sites = QueryHash(x.ID)).ToArray
         Dim merges = (From gene In (From x In asso Select __expends(x.x, x.sites)).Unlist Select gene Group gene By gene.ID Into Group).ToArray
-        Dim result As EntityLDM() = merges.Select(Function(x) __merges(x.Group.ToArray), parallel:=True)
+        Dim result As EntityLDM() = merges.Select(Function(x) __merges(x.Group.ToArray)).ToArray
 
         Call result.SaveTo(out & "/resultSet.Csv")
 
@@ -385,11 +385,11 @@ Partial Module CLI
         Dim inMAT As String = args("/in")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".Cluster.Csv")
         Dim MAT = inMAT.LoadCsv(Of RPKMStat)(fast:=True)
-        Dim inEntity = MAT.ToArray(
+        Dim inEntity = MAT.Select(
             Function(x) New EntityLDM With {
                 .ID = x.Locus,
                 .Properties = x.Properties
-            })
+            }).ToArray
         Dim saveResult As EntityLDM() = KMeans.TreeCluster(inEntity)
         Return saveResult.SaveTo(out).CLICode
     End Function
@@ -586,12 +586,12 @@ Partial Module CLI
         Next
 
         Dim MATHash = MAT.ToDictionary
-        Dim modsdE As EntityLDM() = modsDist.ToArray(
+        Dim modsdE As EntityLDM() = modsDist.Select(
             Function(Id, modsD) New EntityLDM With {
                 .ID = Id,
                 .Cluster = MATHash(Id).Cluster,
                 .Properties = modsD.ToDictionary(Function(x) x.Key, Function(x) CDbl(x.Value))
-            })
+            }).ToArray
         Call modsdE.SaveTo(out & "/TF-Mods.Csv")
 
         Return net.Save(out, Encodings.ASCII).CLICode

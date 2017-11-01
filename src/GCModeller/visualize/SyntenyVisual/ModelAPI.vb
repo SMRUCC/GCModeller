@@ -50,7 +50,7 @@ Public Module ModelAPI
         ReadOnly __refMaps As Dictionary(Of String, String())
 
         Sub New(model As Analysis.BestHit, mgr As ColorMgr)
-            __reference = model.hits.Select(Function(x) x.QueryName)
+            __reference = model.hits.Select(Function(x) x.QueryName).ToArray
             __clProfiles = mgr
 
             Dim LQuery = (From x As HitCollection

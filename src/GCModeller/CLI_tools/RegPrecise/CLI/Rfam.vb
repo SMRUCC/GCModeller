@@ -66,7 +66,7 @@ Partial Module CLI
              Select x
              Group x By x.rg Into Group) _
                   .ToDictionary(Function(x) x.rg,
-                                Function(x) x.Group.Select(Function(o) o.opr))
+                                Function(x) x.Group.Select(Function(o) o.opr).ToArray)
         Dim out As String = args.GetValue("/out", rfam.TrimSuffix & $".{[in].BaseName}.Csv")
         Dim result As New List(Of RfamRegulon)
 

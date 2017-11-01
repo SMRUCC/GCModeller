@@ -68,7 +68,7 @@ Partial Module CLI
                                            Where Not String.IsNullOrEmpty(x.Regulator)
                                            Select x.Regulator
                                            Distinct
-        Dim Hybrids As String() = (New [Set](TFs) And New [Set](ORF)).Select(Of String)
+        Dim Hybrids As String() = (New [Set](TFs) And New [Set](ORF)).ToArray(Of String)
         For Each sId As String In Hybrids
             Call ORF.Remove(sId)
             Call TFs.Remove(sId)

@@ -175,7 +175,7 @@ Partial Module CLI
                  uid = x.QueryName.Split(":"c).Last  ' 移除KEGG的物种简写代码
              Group By uid Into Group) _
                      .ToDictionary(Function(x) x.uid,
-                                   Function(x) x.Group.Select(Function(o) o.x))
+                                   Function(x) x.Group.Select(Function(o) o.x).ToArray)
         Dim list As New List(Of BBHIndex)
 
         For Each genome As BacteriaGenome In (From path As String In xmls Select path.LoadXml(Of BacteriaGenome))

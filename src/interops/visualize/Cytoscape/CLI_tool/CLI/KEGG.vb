@@ -67,11 +67,11 @@ Partial Module CLI
                           Select x).ToArray
 
         Dim Networks = GeneInteractions.ExportPathwayGraph(Model)
-        Dim regulators = Footprints.Select(Function(x) x.Regulator).Distinct.ToArray(
+        Dim regulators = Footprints.Select(Function(x) x.Regulator).Distinct.Select(
             Function(x) New FileStream.Node With {
                 .ID = x,
                 .NodeType = "TF"
-            })
+            }).ToArray
         Dim regulations = (From x In Footprints
                            Let regulation = New FileStream.NetworkEdge With {
                                .value = x.Pcc,
@@ -128,8 +128,8 @@ Partial Module CLI
                        Select x
                        Group x By x.Class Into Group) _
                             .ToDictionary(Function(x) x.Class,
-                                          Function(x) x.Group.ToArray(
-                                          Function(xx) xx.Pathways.ToArray(
+                                          Function(x) x.Group.Select(
+                                          Function(xx) xx.Pathways.Select(
                                           Function(xxx) networks.TryGetValue(xxx.EntryId))).Unlist)
         Dim dict As Dictionary(Of String, ______NETWORK__) = classes.ToDictionary(Function(x) x.Key,
                                                                                   Function(x) __mergeCommon(x.Value))
@@ -150,8 +150,8 @@ Partial Module CLI
                        Select x
                        Group x By x.Category Into Group) _
                             .ToDictionary(Function(x) x.Category, elementSelector:=
-                                          Function(x) x.Group.ToArray(
-                                          Function(xx) xx.Pathways.ToArray(
+                                          Function(x) x.Group.Select(
+                                          Function(xx) xx.Pathways.Select(
                                           Function(xxx) networks.TryGetValue(xxx.EntryId))).Unlist)
         Dim dict = classes.ToDictionary(Function(x) x.Key,
                                         Function(x) __mergeCommon(x.Value))
@@ -159,9 +159,9 @@ Partial Module CLI
     End Function
 
     Private Function __mergeCommon(source As IEnumerable(Of ______NETWORK__)) As ______NETWORK__
-        Dim Nods = source.Select(Function(x) x.Nodes, where:=Function(x) Not x Is Nothing).Unlist
+        Dim Nods = source.Where(Function(x) Not x Is Nothing).Select(Function(x) x.Nodes).Unlist
         Dim Edges As List(Of FileStream.NetworkEdge) =
-            source.Select(Function(x) x.Edges, where:=Function(x) Not x Is Nothing).Unlist
+            source.Where(Function(x) Not x Is Nothing).Select(Function(x) x.Edges).Unlist
 
         Dim __nodes = LinqAPI.Exec(Of Node) <=
             From node
