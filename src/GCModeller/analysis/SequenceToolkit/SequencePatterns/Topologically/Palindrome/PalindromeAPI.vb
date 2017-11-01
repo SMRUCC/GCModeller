@@ -233,7 +233,7 @@ Namespace Topologically
             Call $"genomes={Vecotrs.Count}".__DEBUG_ECHO
 
             Dim p_vectors As Double() = size.ToArray(Function(index As Integer) As Double
-                                                         Dim site As Integer() = Vecotrs.ToArray(Function(genome) genome(index))
+                                                         Dim site As Integer() = Vecotrs.Select(Function(genome) genome(index)).ToArray
                                                          Dim hashRepeats = (From g As Double In site.AsParallel Where g > 0 Select g).ToArray
                                                          Dim pHas As Double = hashRepeats.Length / site.Length
                                                          Return pHas
@@ -344,14 +344,17 @@ Namespace Topologically
                           Where ml > -1
                           Select loci, ml).ToArray
 
-            Return result.ToArray(
-                Function(site) New PalindromeLoci With {
-                    .Loci = seed,
-                    .Start = site.loci,
-                    .PalEnd = site.ml,
-                    .Palindrome = mirror,
-                    .MirrorSite = reversed
-                })
+            Return result _
+                .Select(Function(site)
+                            Return New PalindromeLoci With {
+                                .Loci = seed,
+                                .Start = site.loci,
+                                .PalEnd = site.ml,
+                                .Palindrome = mirror,
+                                .MirrorSite = reversed
+                            }
+                        End Function) _
+                .ToArray
         End Function
 
         ''' <summary>

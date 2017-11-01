@@ -187,7 +187,7 @@ Public Module DomainAnalysis
                                              identities:=identities,
                                              offset:=offset))
 #Else
-        result = blast_output.Queries.ToArray(Function(queryHits) ToPfamString(queryHits), parallel:=True)
+        result = blast_output.Queries.Select(Function(queryHits) ToPfamString(queryHits)).ToArray
 #End If
         If query.IsNullOrEmpty Then
             Return result

@@ -51,8 +51,8 @@ Namespace Motif.Patterns
             End Get
             Set(value As Residue())
                 __motif = value
-                __regex = New Regex(String.Join("", value.ToArray(Function(x) x.Regex)))
-                __rc = New Regex(String.Join("", value.Reverse.ToArray(Function(x) x.GetComplement.Regex)))
+                __regex = New Regex(String.Join("", value.Select(Function(x) x.Regex).ToArray))
+                __rc = New Regex(String.Join("", value.Reverse.Select(Function(x) x.GetComplement.Regex).ToArray))
             End Set
         End Property
 
@@ -73,7 +73,7 @@ Namespace Motif.Patterns
         End Function
 
         Public Overrides Function ToString() As String
-            Return String.Join("", Motif.ToArray(Function(x) x.Raw))
+            Return String.Join("", Motif.Select(Function(x) x.Raw).ToArray)
         End Function
     End Class
 End Namespace

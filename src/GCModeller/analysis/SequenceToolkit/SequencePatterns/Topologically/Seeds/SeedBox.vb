@@ -29,13 +29,13 @@ Namespace Topologically.Seeding
         Public Iterator Function PopulateSeeds(min%, max%) As IEnumerable(Of Seed())
             Dim base As List(Of String) = __trimAvaliable(Seeds.InitializeSeeds(__chars, min))
 
-            Yield base.ToArray(Function(s) New Seed(s))
+            Yield base.Select(Function(s) New Seed(s)).ToArray
 
             For len As Integer = min To max
                 base = base.ExtendSequence(__chars)
                 base = __trimAvaliable(base)
 
-                Yield base.ToArray(Function(s) New Seed(s))
+                Yield base.Select(Function(s) New Seed(s)).ToArray
             Next
         End Function
 
@@ -59,7 +59,7 @@ Namespace Topologically.Seeding
 
             For Each pack In lg
                 Dim avaliable = pack.Group.Where(Function(s) seq.SequenceData.IndexOf(s.seed) > -1)
-                Dim out As Seed() = avaliable.ToArray(Function(s) New Seed(s.seed))
+                Dim out As Seed() = avaliable.Select(Function(s) New Seed(s.seed)).ToArray
 
                 Yield out
             Next

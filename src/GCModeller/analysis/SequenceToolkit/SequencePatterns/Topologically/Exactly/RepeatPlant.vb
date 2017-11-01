@@ -104,7 +104,9 @@ Namespace Topologically
             Dim views = LinqAPI.Exec(Of RepeatsView) <=
                 From loci
                 In LQuery
-                Let pos As Integer() = loci.Group.ToArray(Function(site) CInt(site.LociLeft))
+                Let pos As Integer() = loci.Group _
+                    .Select(Function(site) CInt(site.LociLeft)) _
+                    .ToArray
                 Select New RepeatsView With {
                     .SequenceData = loci.RepeatLoci,
                     .Left = pos.Min,
@@ -141,7 +143,7 @@ Namespace Topologically
             Dim LQuery As Dictionary(Of Integer, Double) =
                 src.ToDictionary(
                 Function(site) site.site,
-                Function(site) site.Group.ToArray(Function(loci) loci.Hot).Sum)
+                Function(site) site.Group.Select(Function(loci) loci.Hot).Sum)
             Dim vector As Double() = size.ToArray(Function(idx) LQuery.TryGetValue(idx, [default]:=0))
             Return vector
         End Function
@@ -158,7 +160,7 @@ Namespace Topologically
                                 In Me.LociProvider
                                 Select n
                                 Order By n Ascending).CreateSlideWindows(2)
-                Dim avgDist As Double = ordLocis.ToArray(
+                Dim avgDist As Double = ordLocis.Select(
                     Function(loci) _
                         If(loci.Items.IsNullOrEmpty OrElse
                         loci.Items.Length = 1, 1,
@@ -212,7 +214,7 @@ Namespace Topologically
         End Function
 
         Public Overloads Shared Function TrimView(data As IEnumerable(Of RevRepeats)) As RevRepeatsView()
-            Dim LQuery As RevRepeatsView() = data.ToArray(
+            Dim LQuery As RevRepeatsView() = data.Select(
                 Function(loci) _
                     New RevRepeatsView With {
                         .Left = loci.Locations.Min,
@@ -236,7 +238,7 @@ Namespace Topologically
                             In RevLocis
                             Select n
                             Order By n Ascending).CreateSlideWindows(2)
-                Dim avgDist As Double = loci.ToArray(
+                Dim avgDist As Double = loci.Select(
                     Function(lo) _
                         If(lo.Items.IsNullOrEmpty OrElse
                         lo.Items.Length = 1,

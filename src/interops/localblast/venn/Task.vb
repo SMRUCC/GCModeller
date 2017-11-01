@@ -215,7 +215,7 @@ Namespace BlastAPI
                 .Select(run) _
                 .IteratesALL
 
-            Return LQuery.ToArray(AddressOf LogNameParser)
+            Return LQuery.Select(AddressOf LogNameParser).ToArray
         End Function
 
         ''' <summary>

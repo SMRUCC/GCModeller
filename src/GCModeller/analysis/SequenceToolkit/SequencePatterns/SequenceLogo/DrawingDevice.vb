@@ -109,7 +109,7 @@ For example, we identified a new domain, likely to have a role downstream of the
                 If Not String.IsNullOrEmpty(Fasta.FilePath) Then
                     Model.ModelsId = Fasta.FilePath.BaseName
                 Else
-                    Model.ModelsId = New String(PWM.PWM.ToArray(Function(r) r.AsChar))
+                    Model.ModelsId = New String(PWM.PWM.Select(Function(r) r.AsChar).ToArray)
                 End If
             Else
                 Model.ModelsId = title

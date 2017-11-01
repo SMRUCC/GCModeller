@@ -70,7 +70,7 @@ Namespace DeltaSimilarity1998.CAI
             ORF = New NucleicAcid(nt)
             CodonFrequencyStatics =
                 ToChar _
-                .ToArray(Function(aa) __staticsOfMaxFrequencyCodon(aa.Value)) _
+                .Select(Function(aa) __staticsOfMaxFrequencyCodon(aa.Value)) _
                 .ToDictionary(Function(fr) fr.AminoAcid)
         End Sub
 
