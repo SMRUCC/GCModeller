@@ -46,10 +46,10 @@ Namespace dataExprMAT
 
         <ExportAPI("ToSamples")>
         Public Function ToSamples(source As IEnumerable(Of IExprMAT)) As ExprMAT()
-            Return source.ToArray(
+            Return source.Select(
                 Function(x) New ExprMAT With {
                     .dataExpr0 = x.dataExpr0,
-                    .LocusId = x.LocusId})
+                    .LocusId = x.LocusId}).ToArray
         End Function
 
         '<Command("associate.kegg_modules")>

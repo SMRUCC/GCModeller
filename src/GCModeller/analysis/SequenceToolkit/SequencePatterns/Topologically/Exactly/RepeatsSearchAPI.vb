@@ -165,22 +165,22 @@ RETURN_VALUE:
 
             ' 有重复序列的个数的百分比 * 热度的平均值
             Dim p_vectors As Double() =
-                Mla.First.Length.Select(Function(index As Integer) As Double
-                                             Dim site = Vecotrs.Select(Function(genome) genome.repeats(index)).ToArray
-                                             Dim hashRepeats = (From g In site Where g <> 0R Select g).ToArray
-                                             Dim pHas = hashRepeats.Length / site.Length
-                                             Dim hotAvg = hashRepeats.Average
-                                             Return pHas * hotAvg
-                                         End Function)
+                Mla.First.Length.Sequence.Select(Function(index As Integer) As Double
+                                                     Dim site = Vecotrs.Select(Function(genome) genome.repeats(index)).ToArray
+                                                     Dim hashRepeats = (From g In site Where g <> 0R Select g).ToArray
+                                                     Dim pHas = hashRepeats.Length / site.Length
+                                                     Dim hotAvg = hashRepeats.Average
+                                                     Return pHas * hotAvg
+                                                 End Function).ToArray
             ' 有重复序列的个数的百分比 * 热度的平均值
             Dim p_rev_vectors As Double() =
-                Mla.First.Length.Select(Function(index As Integer) As Double
-                                             Dim site = Vecotrs.Select(Function(genome) genome.revRepeats(index)).ToArray
-                                             Dim hashRepeats = (From g In site Where g <> 0R Select g).ToArray
-                                             Dim pHas = hashRepeats.Length / site.Length
-                                             Dim hotAvg = hashRepeats.Average
-                                             Return pHas * hotAvg
-                                         End Function)
+                Mla.First.Length.Sequence.Select(Function(index As Integer) As Double
+                                                     Dim site = Vecotrs.Select(Function(genome) genome.revRepeats(index)).ToArray
+                                                     Dim hashRepeats = (From g In site Where g <> 0R Select g).ToArray
+                                                     Dim pHas = hashRepeats.Length / site.Length
+                                                     Dim hotAvg = hashRepeats.Average
+                                                     Return pHas * hotAvg
+                                                 End Function).ToArray
             Return New KeyValuePair(Of Double(), Double())(p_vectors, p_rev_vectors)
         End Function
 

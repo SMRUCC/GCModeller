@@ -413,10 +413,10 @@ Partial Module Utilities
 
         Segments.SaveTo(input & ".sequenceData.csv")
 
-        Dim SequenceFasta = Segments.ToArray(
+        Dim SequenceFasta = Segments.Select(
             Function(segment) New FASTA.FastaToken With {
                     .SequenceData = segment.SequenceData,
-                    .Attributes = dumpMethod(segment)})
+                    .Attributes = dumpMethod(segment)}).ToArray
         Dim Complements As FastaToken() =
             LinqAPI.Exec(Of FastaToken) <= From segment As SimpleSegment
                                            In Segments

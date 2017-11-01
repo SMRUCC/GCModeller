@@ -94,7 +94,7 @@ Namespace Darwinism.GAF
             Dim fitness As Double = If(
                 weights Is Nothing,
                 fit.Average,
-                fit.WeighedAverage(ynames.Select(Function(var) weights(var))))
+                fit.WeighedAverage(ynames.Select(Function(var) weights(var)).ToArray))
 
             If fitness.IsNaNImaginary Then
                 fitness = Integer.MaxValue * 100.0R

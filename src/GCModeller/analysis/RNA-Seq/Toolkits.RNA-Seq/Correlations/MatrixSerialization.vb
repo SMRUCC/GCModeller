@@ -77,9 +77,7 @@ Public Module MatrixSerialization
 
     <ExportAPI("Save.bin")>
     Public Function SaveBin(MAT As PccMatrix, SaveTo As String) As Boolean
-        Dim LQuery As Byte() =
-            MAT.ToArray(
-                Function(sample) MatrixSerialization.Serialize(sample), Parallel:=False).ToVector
+        Dim LQuery As Byte() = MAT.Select(Function(sample) MatrixSerialization.Serialize(sample)).ToVector
         Return LQuery.FlushStream(SaveTo)
     End Function
 

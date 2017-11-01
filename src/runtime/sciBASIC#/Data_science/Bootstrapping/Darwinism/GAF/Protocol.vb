@@ -262,11 +262,11 @@ Namespace Darwinism.GAF
             Dim vector As var()
 
             If base.IsNullOrEmpty Then
-                vector = vars.ToArray(
+                vector = vars.Select(
                     Function(x) New var With {
                         .Name = x,
                         .value = 0.5R
-                    })
+                    }).ToArray
             Else
                 vector = LinqAPI.Exec(Of var) <=
  _

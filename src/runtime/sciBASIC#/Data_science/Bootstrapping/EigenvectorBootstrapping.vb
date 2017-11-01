@@ -97,11 +97,11 @@ Public Module EigenvectorBootstrapping
 
         Call "Load data complete!".__DEBUG_ECHO
 
-        Dim datasets As Entity() = strTags.ToArray(
+        Dim datasets As Entity() = strTags.Select(
             Function(x) New Entity With {
                 .uid = x.Description,
                 .Properties = x.Value.Tag  ' 在这里使用特征向量作为属性来进行聚类操作
-        })
+        }).ToArray
 
         Call "Creates dataset complete!".__DEBUG_ECHO
 

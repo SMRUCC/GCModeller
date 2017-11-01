@@ -61,8 +61,7 @@ Public Module Extensions
 
     Private Function __createObject(site As Segment, trace As String) As SimpleSegment()
         Dim sequence As String = TrimNewLine(site.SegmentData, "").Replace(vbTab, "").Trim
-        Dim sites As SimpleSegment() = site.Hits.ToArray(
-            Function(hit) __createObject(site.start, hit, sequence, OffSet:=5, trace:=trace))
+        Dim sites As SimpleSegment() = site.Hits.Select(Function(hit) __createObject(site.start, hit, sequence, OffSet:=5, trace:=trace)).ToArray
         Return sites
     End Function
 

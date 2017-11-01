@@ -134,27 +134,25 @@ Public Module API
                                         ByRef outHits As LDM.Hit(),
                                         locusDict As Dictionary(Of String, String))
 
-        Dim hitEdges As LDM.Hit() = hits.ToArray(
+        Dim hitEdges As LDM.Hit() = hits.Where(Function(x) Not __isEmpty(x)).Select(
             Function(x) New LDM.Hit With {
                 .genomePairId = $"{locusDict.TryGetValue(x.locusId)}_vs__{locusDict.TryGetValue(x.Address)}",
                 .query = x.locusId,
                 .subject = x.Address,
                 .weight = x.identities
-        }, where:=Function(x) Not __isEmpty(x))
+        })
 
         If Not hitEdges.IsNullOrEmpty Then
-            Dim proteins As LDM.Protein() = hits.ToArray(
+            Dim proteins As LDM.Protein() = hits.Where(Function(x) Not __isEmpty(x)).Select(
                 Function(x) New BLAST.LDM.Protein With {
                     .Genome = locusDict.TryGetValue(x.locusId),
                     .LocusId = x.locusId
-                },
-                where:=Function(x) Not __isEmpty(x)) ' 生成蛋白质的节点模型
-            Call proteins.Add(hits.ToArray(
+                }) ' 生成蛋白质的节点模型
+            Call proteins.Add(hits.Where(Function(x) Not __isEmpty(x)).Select(
                        Function(x) New LDM.Protein With {
                             .Genome = locusDict.TryGetValue(x.Address),
                             .LocusId = x.Address
-                       },
-                       where:=Function(x) Not __isEmpty(x)))
+                       }))
 
             outProt = proteins
             outHits = hitEdges

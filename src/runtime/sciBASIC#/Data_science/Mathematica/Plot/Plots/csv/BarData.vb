@@ -78,7 +78,7 @@ Namespace csv
 
         <Extension>
         Public Function LoadBarData(csv$, colors$()) As BarDataGroup
-            Return csv.LoadBarData(colors.Select(AddressOf ToColor))
+            Return csv.LoadBarData(colors.Select(AddressOf ToColor).ToArray)
         End Function
 
         <Extension>

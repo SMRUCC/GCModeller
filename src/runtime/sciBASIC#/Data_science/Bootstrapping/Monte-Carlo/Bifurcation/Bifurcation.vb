@@ -148,8 +148,8 @@ Namespace MonteCarlo
                     .IteratesALL _
                     .GroupBy(Function(x) x.Key) _
                     .ToDictionary(Function(k) k.Key,
-                                  Function(o) o.ToArray(
-                                  Function(v) v.Value))
+                                  Function(o) o.Select(
+                                  Function(v) v.Value).ToArray)
 
                 Dim avgs As Dictionary(Of String, Double) =
                     datas.ToDictionary(

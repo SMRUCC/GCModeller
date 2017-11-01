@@ -232,12 +232,12 @@ Namespace Topologically
             Call New String("="c, 120).__DEBUG_ECHO
             Call $"genomes={Vecotrs.Count}".__DEBUG_ECHO
 
-            Dim p_vectors As Double() = size.Select(Function(index As Integer) As Double
-                                                         Dim site As Integer() = Vecotrs.Select(Function(genome) genome(index)).ToArray
-                                                         Dim hashRepeats = (From g As Double In site.AsParallel Where g > 0 Select g).ToArray
-                                                         Dim pHas As Double = hashRepeats.Length / site.Length
-                                                         Return pHas
-                                                     End Function)
+            Dim p_vectors As Double() = size.Sequence.Select(Function(index As Integer) As Double
+                                                                 Dim site As Integer() = Vecotrs.Select(Function(genome) genome(index)).ToArray
+                                                                 Dim hashRepeats = (From g As Double In site.AsParallel Where g > 0 Select g).ToArray
+                                                                 Dim pHas As Double = hashRepeats.Length / site.Length
+                                                                 Return pHas
+                                                             End Function).ToArray
             Return p_vectors
         End Function
 

@@ -214,7 +214,7 @@ Namespace Regprecise
                           Select x
                           Group x By x.uid Into Group) _
                                .ToDictionary(Function(x) x.uid,
-                                             Function(x) x.Group.Select(Function(s) s.LocusId))
+                                             Function(x) x.Group.Select(Function(s) s.LocusId).ToArray)
             Return Groups
         End Function
     End Class

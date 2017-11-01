@@ -161,13 +161,13 @@ Namespace BarPlot.Histogram
         ''' </summary>
         ''' <param name="hist"></param>
         Sub New(hist As Dictionary(Of Double, IntegerTagged(Of Double)), step!)
-            data = hist.ToArray(
+            data = hist.Select(
                 Function(range) New HistogramData With {
                     .x1 = range.Key,
                     .x2 = .x1 + step!,
                     .y = range.Value.Tag,
-                    .pointY = range.Value.value
-                })
+                    .pointY = range.Value.Value
+                }).ToArray
         End Sub
     End Structure
 End Namespace

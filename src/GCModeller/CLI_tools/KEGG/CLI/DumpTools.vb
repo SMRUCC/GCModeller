@@ -118,8 +118,8 @@ Partial Module CLI
         Dim inHits = infile.LoadCsv(Of SSDB.BlastnHit)
         inHits = (From x In inHits Where x.Eval <= evalue Select x).AsList
         Dim KO As String() = inHits _
-            .Select([CType]:=Function(x) x.KO,
-                     where:=Function(s) Not String.IsNullOrWhiteSpace(s.KO)) _
+            .Where(Function(s) Not String.IsNullOrWhiteSpace(s.KO)) _
+            .Select(Function(x) x.KO) _
             .Distinct _
             .ToArray
         Dim brite = BriteHEntry.Pathway.LoadDictionary

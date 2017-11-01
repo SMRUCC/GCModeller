@@ -138,7 +138,7 @@ Public Module BBHAPI
                                                                           Function(xx) xx.Group.AsList))
 
             Call "Dictionary hash table created done!".__DEBUG_ECHO
-            partitions = sbh.Split(102400).Select(Function(x) x.AsList, Parallel:=True)
+            partitions = sbh.Split(102400).Select(Function(x) x.AsList).ToArray
             Call $"{partitions.Length} partitions...".__DEBUG_ECHO
         End Sub
 
