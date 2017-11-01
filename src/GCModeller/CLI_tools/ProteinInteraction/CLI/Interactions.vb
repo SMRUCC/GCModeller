@@ -65,7 +65,7 @@ Partial Module CLI
                            score = __getScore(predictsX, prot, Interactions, clustal)).ToArray
         Dim setValue = New SetValue(Of Pfam.PfamString.PfamString) <=
             NameOf(Pfam.PfamString.PfamString.Description)
-        Dim out = LQuery.ToArray(Function(x) setValue(x.predictsX, CStr(x.score)))
+        Dim out = LQuery.Select(Function(x) setValue(x.predictsX, CStr(x.score)))
         Return out.SaveTo(args("/pfam").TrimSuffix & ".Interactions.csv")
     End Function
 
@@ -78,7 +78,7 @@ Partial Module CLI
             .Attributes = {predict.ProteinId},
             .SequenceData = prot(tokens.First).SequenceData & prot(tokens.Last).SequenceData
         }
-        Dim struct = predict.GetDomainData(False).ToArray(Function(x) x.Name)
+        Dim struct = predict.GetDomainData(False).Select(Function(x) x.Name)
         Dim LQuery = (From x In subject.AsParallel
                       Let fm_tokens As String() = x.Family.Split("+"c)
                       Let score = LevenshteinDistance.Similarity(struct, fm_tokens, 0.95)
@@ -167,7 +167,7 @@ Partial Module CLI
         Dim inPfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim LoadFasta = (From file As String
                          In FileIO.FileSystem.GetFiles(args("/aln"), FileIO.SearchOption.SearchTopLevelOnly, "*.fasta").AsParallel
-                         Select FastaFile.Read(file)).ToArray(Function(x) x.ToDictionary(Function(xx) xx.Title.Split.First.Split(":"c).Last))
+                         Select FastaFile.Read(file)).Select(Function(x) x.ToDictionary(Function(xx) xx.Title.Split.First.Split(":"c).Last))
         Dim LQuery = (From x As Pfam.PfamString.PfamString
                       In inPfam.AsParallel
                       Let order As String = (From id As ProteinModel.DomainObject
@@ -176,8 +176,8 @@ Partial Module CLI
                       Select order, x
                       Group By order Into Group) _
                  .ToDictionary(Function(x) x.order,
-                               elementSelector:=Function(x) x.Group.ToArray(Function(xx) xx.x))
-        Dim Categories = LQuery.ToArray(Function(x) Family.FileSystem.Family.CreateObject(x.Key, x.Value))
+                               elementSelector:=Function(x) x.Group.Select(Function(xx) xx.x))
+        Dim Categories = LQuery.Select(Function(x) Family.FileSystem.Family.CreateObject(x.Key, x.Value))
         Dim list = (From fm As Family.FileSystem.Family
                     In Categories.AsParallel
                     Select __getCategory(fm, LoadFasta)).ToArray
@@ -192,10 +192,10 @@ Partial Module CLI
                   Select hk = Tokens(0), Rg = Tokens(1)).ToArray
         Dim getHk = (From file In loadFasta Let hits = (From x In ct Let hhh = file.TryGetValue(x.hk) Where Not hhh Is Nothing Select hhh).ToArray Select hits Order By hits.Length Descending).First
         Dim getRR = (From file In loadFasta Let hits = (From x In ct Let hhh = file.TryGetValue(x.Rg) Where Not hhh Is Nothing Select hhh).ToArray Select hits Order By hits.Length Descending).First
-        Dim interactions As String() = fm.PfamString.ToArray(Function(x) x.LocusTag)
+        Dim interactions As String() = fm.PfamString.Select(Function(x) x.LocusTag)
         Dim alignments As KeyValuePair() = Nothing
-        Dim rp = AlignLDM((From x In getHk Select x Group By x.Title.Split.First Into Group).ToArray(Function(x) x.Group.First),
-                          (From x In getRR Select x Group By x.Title.Split.First Into Group).ToArray(Function(x) x.Group.First),
+        Dim rp = AlignLDM((From x In getHk Select x Group By x.Title.Split.First Into Group).Select(Function(x) x.Group.First),
+                          (From x In getRR Select x Group By x.Title.Split.First Into Group).Select(Function(x) x.Group.First),
                           interactions,
                           fm.Family,
                           alignments)
@@ -207,7 +207,7 @@ Partial Module CLI
         Dim aln As New FastaFile(args("/in"))
         Dim pCut As Double = args.GetValue("/p-cut", 0.95)
         Dim SRChain As SRChain() = SR.FromAlign(aln, pCut)
-        Dim sig = SRChain.ToArray(Function(x) Signature.CreateObject(x.lstSR, ""))
+        Dim sig = SRChain.Select(Function(x) Signature.CreateObject(x.lstSR, ""))
         Dim fa As New SequenceModel.FASTA.FastaFile(sig)
         Return fa.Save(args("/in").TrimSuffix & "Signatures.fasta")
     End Function
@@ -240,7 +240,7 @@ Partial Module CLI
                 .Key = x.Title,
                 .Value = x.SequenceData})
         Dim SRChain As SRChain() = SR.FromAlign(contracts, 0.95)
-        Dim sig = SRChain.ToArray(Function(x) Signature.CreateObject(x.lstSR, name))
+        Dim sig = SRChain.Select(Function(x) Signature.CreateObject(x.lstSR, name))
         Return sig
     End Function
 
@@ -255,8 +255,8 @@ Partial Module CLI
                       Select order, x
                       Group By order Into Group) _
                          .ToDictionary(Function(x) x.order,
-                                       elementSelector:=Function(x) x.Group.ToArray(Function(xx) xx.x))
-        Dim Categories = LQuery.ToArray(Function(x) Family.FileSystem.Family.CreateObject(x.Key, x.Value))
+                                       elementSelector:=Function(x) x.Group.Select(Function(xx) xx.x))
+        Dim Categories = LQuery.Select(Function(x) Family.FileSystem.Family.CreateObject(x.Key, x.Value))
         Dim Database As New Family.FileSystem.FamilyPfam With {
             .Family = Categories,
             .Title = "SwissTCS"
@@ -275,9 +275,9 @@ Partial Module CLI
                       Let Tokens As String() = id.Split("-"c)
                       Select hk = HisK(Tokens(0)),
                           Rg = RRPro(Tokens(1))).ToArray
-            Dim hkk = New SequenceModel.FASTA.FastaFile((From x In ct Select x.hk, x.hk.Attributes.First.Split.First Group By First Into Group).ToArray(Function(x) x.Group.First.hk))
-            Dim rrg = New SequenceModel.FASTA.FastaFile((From x In ct Select x.Rg, x.Rg.Attributes.First.Split.First Group By First Into Group).ToArray(Function(x) x.Group.First.Rg))
-            Dim interactions As String() = fm.PfamString.ToArray(Function(x) x.LocusTag)
+            Dim hkk = New SequenceModel.FASTA.FastaFile((From x In ct Select x.hk, x.hk.Attributes.First.Split.First Group By First Into Group).Select(Function(x) x.Group.First.hk))
+            Dim rrg = New SequenceModel.FASTA.FastaFile((From x In ct Select x.Rg, x.Rg.Attributes.First.Split.First Group By First Into Group).Select(Function(x) x.Group.First.Rg))
+            Dim interactions As String() = fm.PfamString.Select(Function(x) x.LocusTag)
             Dim HisKFa As String = out & $"/fa/{fm.Family.NormalizePathString}-Hisk.fasta"
             Dim RRFa As String = out & $"/fa/{fm.Family.NormalizePathString}-RR.fasta"
 
@@ -314,7 +314,7 @@ Partial Module CLI
         End Function
 
         Public Function GetSignatureFasta() As SequenceModel.FASTA.FastaFile
-            Dim lstFa = Signature.ToArray(Function(x) New FastaToken(x))
+            Dim lstFa = Signature.Select(Function(x) New FastaToken(x))
             Dim fa As New FastaFile(lstFa)
             Return fa
         End Function
@@ -338,10 +338,10 @@ Partial Module CLI
                 Function(x, index) setValue(Interactions.Signature.CreateObject(x), (level - index) / level))
             Dim ppiCategory As New Interactions.Category With {
                 .Signature = signatures,
-                .Alignments = aln.ToArray(Function(x) New KeyValuePair With {
+                .Alignments = aln.Select(Function(x) New KeyValuePair With {
                 .Key = x.Title,
                 .Value = x.SequenceData}),
-                .PfamString = signatures.ToArray(Function(x) Analysis.ProteinTools.Family.FileSystem.PfamString.CreateObject(x.PfamString)),
+                .PfamString = signatures.Select(Function(x) Analysis.ProteinTools.Family.FileSystem.PfamString.CreateObject(x.PfamString)),
                 .Family = name
             }
             Return ppiCategory
@@ -353,7 +353,7 @@ Partial Module CLI
                                In DIRS
                                Let fa = FastaFile.Read(getFa(DIR), False)
                                Where Not fa.IsNullOrEmpty
-                               Select fa.ToArray(Function(x) New With {
+                               Select fa.Select(Function(x) New With {
                                    .Id = x.Attributes.First.Split.First.Split(":"c).Last,
                                    .fa = x})).ToArray.Unlist
                     Select x
@@ -401,7 +401,7 @@ Partial Module CLI
                 .Key = x.Title,
                 .Value = x.SequenceData})
         Dim SRChain As SRChain() = SR.FromAlign(contracts, 0.9)
-        Dim sig = SRChain.ToArray(Function(x) Signature.CreateObject(x.lstSR, name))
+        Dim sig = SRChain.Select(Function(x) Signature.CreateObject(x.lstSR, name))
         Return sig
     End Function
 
@@ -414,7 +414,7 @@ Partial Module CLI
         Dim Name As String = BaseName(args("/in"))
         Dim file As String = args("/in").TrimSuffix & ".Pfam-String.csv"
         ' Call SRChain.SaveTo(args("/in").TrimFileExt & ".Blocks.csv")
-        Call SRChain.ToArray(Function(x) x.ToPfamString()).SaveTo(file)
+        Call SRChain.Select(Function(x) x.ToPfamString()).SaveTo(file)
         Return 0
     End Function
 End Module

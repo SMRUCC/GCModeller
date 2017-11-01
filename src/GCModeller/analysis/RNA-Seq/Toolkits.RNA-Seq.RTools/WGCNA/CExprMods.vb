@@ -61,7 +61,7 @@ Namespace WGCNA
         Public Function LoadModules(path As String) As CExprMods()
             Dim Tokens As String() = IO.File.ReadAllLines(path).Skip(1).ToArray
             Dim resultSet As CExprMods() =
-                Tokens.ToArray(Function(line) CExprMods.CreateObject(line),
+                Tokens.Select(Function(line) CExprMods.CreateObject(line),
                                Parallel:=True)
             Return resultSet
         End Function
@@ -74,7 +74,7 @@ Namespace WGCNA
                           Group entity By entity.NodesPresent Into Group).ToArray
             Dim resultSet As Dictionary(Of String, String()) =
                 Groups.ToDictionary(Function([mod]) [mod].NodesPresent,
-                                    Function([mod]) [mod].Group.ToArray.ToArray(Function(entity) entity.NodeName))
+                                    Function([mod]) [mod].Group.ToArray.Select(Function(entity) entity.NodeName))
             Return resultSet
         End Function
     End Module

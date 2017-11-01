@@ -53,7 +53,7 @@ Public Module MotifDraws
                             Family
                         Group By Family Into Group) _
                             .ToDictionary(Function(x) x.Family,
-                                          Function(x) x.Group.ToArray(Function(xx) xx.Value))
+                                          Function(x) x.Group.Select(Function(xx) xx.Value))
     End Sub
 
     ''' <summary>
@@ -68,7 +68,7 @@ Public Module MotifDraws
                                 EXPORT As String) As Integer
         Dim LQuery = (From x In Footprints
                       Let model = models(x.Key)
-                      Let subs = x.Value.ToArray(Function(name) FamilyMotifs(name))
+                      Let subs = x.Value.Select(Function(name) FamilyMotifs(name))
                       Select model, subs, x).ToArray
         Dim Views = (From view In (From x In LQuery.AsParallel
                                    Select x.model.CreateViews(x.subs.ToVector, x.x.Key, pheno, EXPORT)).IteratesALL
@@ -102,7 +102,7 @@ Public Module MotifDraws
                                      Select result).ToArray
         Dim list As New List(Of MotifSWTViews)
         Dim queryMotif As String = EXPORT & query.Uid.NormalizePathString & "/query.png"
-        Dim locus As String = query.Sites.ToArray(Function(x) x.Name).JoinBy(", ")
+        Dim locus As String = query.Sites.Select(Function(x) x.Name).JoinBy(", ")
         Dim modX As String = Strings.Split(trace, "::").Last.Split("."c).First
         Dim A As String = Nothing, B As String = Nothing, C As String = Nothing
         Dim modObj = modCat.GetBriteInfo(modX, A, B, C)

@@ -137,7 +137,7 @@ Partial Module CLI
                 .Domains = (From s As String
                             In pfam
                             Select s.Split("("c).First
-                            Distinct).ToArray(Function(s) $"{s}:{s}"),
+                            Distinct).Select(Function(s) $"{s}:{s}"),
                 .ProteinId = x.Key,
                 .Length = len,
                 .Description = title
@@ -149,7 +149,7 @@ Partial Module CLI
 
     <Extension>
     Private Function __getPfam(locus As String, domains As ScanTable(), l As Integer) As PfamString
-        Dim ps As String() = domains.ToArray(Function(x) x.GetPfamToken)
+        Dim ps As String() = domains.Select(Function(x) x.GetPfamToken)
         Dim ds As String() = domains.Select(Function(x) $"{x.model}:{x.model}").Distinct.ToArray
 
         Return New PfamString With {

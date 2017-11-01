@@ -144,7 +144,7 @@ Namespace Topologically
                 src.ToDictionary(
                 Function(site) site.site,
                 Function(site) site.Group.Select(Function(loci) loci.Hot).Sum)
-            Dim vector As Double() = size.ToArray(Function(idx) LQuery.TryGetValue(idx, [default]:=0))
+            Dim vector As Double() = size.Select(Function(idx) LQuery.TryGetValue(idx, [default]:=0))
             Return vector
         End Function
 

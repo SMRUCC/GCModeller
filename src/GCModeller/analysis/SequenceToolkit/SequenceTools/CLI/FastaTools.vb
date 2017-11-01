@@ -406,7 +406,7 @@ Partial Module Utilities
         Dim Fasta As New FASTA.FastaToken(args("/fasta"))
         Dim Complement As Boolean = args.GetBoolean("/complement")
         Dim reversed As Boolean = args.GetBoolean("/reversed")
-        Dim Segments = Regions.ToArray(Function(region) __fillSegment(region, Fasta, Complement, reversed))
+        Dim Segments = Regions.Select(Function(region) __fillSegment(region, Fasta, Complement, reversed))
         Dim briefDump As Boolean = args.GetBoolean("/brief-dump")
         Dim dumpMethod As attrDump = [If](Of attrDump)(briefDump, AddressOf __attrBrief, AddressOf __attrFull)
         Dim input As String = args("/regions").TrimSuffix

@@ -433,7 +433,7 @@ Public Module ShellScriptAPI
     ''' <returns></returns>
     <ExportAPI("MAT.From.Self.Overviews")>
     Public Function SelfOverviewsMAT(overview As Overview) As IO.File
-        Dim lstId As String() = overview.Queries.ToArray(Function(x) x.Id)
+        Dim lstId As String() = overview.Queries.Select(Function(x) x.Id)
         Dim MAT As IO.File =
             New IO.File + "".Join(lstId)
 

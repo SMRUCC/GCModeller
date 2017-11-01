@@ -539,7 +539,7 @@ Public Module ProteinGroups
         proteins = proteins.Where(Function(x) Not x(field).StringEmpty)
 
         If deli Is Nothing Then
-            Return proteins.ToArray(Function(x) New NamedValue(Of String)(x(field), x.ID))
+            Return proteins.Select(Function(x) New NamedValue(Of String)(x(field), x.ID))
         Else
             Dim out As New List(Of NamedValue(Of String))
 

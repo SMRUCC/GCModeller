@@ -350,12 +350,12 @@ Partial Module CLI
             Dim LQuery = (From [set] In ResultSet.AsParallel
                           Let len As Integer = DocumentFormat.MEME.Text.GetLength([set].memeFile)
                           Select HtmlMatching.Match([set].sites, PTT, len) _
-                              .ToArray(Function(site) setTag(site, [set].set.Key))).ToArray
+                              .Select(Function(site) setTag(site, [set].set.Key))).ToArray
             chunkBuffer = LQuery.Unlist
         Else
             Dim LQuery = (From [set]
                           In ResultSet
-                          Select [set].sites.ToArray(Function(site) setTag(site, [set].set.Key))).ToArray
+                          Select [set].sites.Select(Function(site) setTag(site, [set].set.Key))).ToArray
             chunkBuffer = LQuery.Unlist
         End If
 
@@ -369,7 +369,7 @@ Partial Module CLI
                 Function(site) setValue(site, Regulations.GetMotifFamily(site.uid.Split("|"c).ElementAtOrDefault(Scan0))))
         End If
 
-        Dim novelSites = ResultSet.ToArray(Function([set]) [set].novels).Unlist.TrimNull
+        Dim novelSites = ResultSet.Select(Function([set]) [set].novels).Unlist.TrimNull
         Call novelSites.SaveTo(out.TrimSuffix & ".novels.csv")
         Return chunkBuffer.SaveTo(out).CLICode
     End Function
@@ -424,7 +424,7 @@ Partial Module CLI
                             Select x
                             Group x By x.Family Into Group) _
                                  .ToDictionary(Function(x) x.Family,
-                                               Function(x) x.Group.ToArray(Function(xx) xx.RegulatorySites).Unlist)
+                                               Function(x) x.Group.Select(Function(xx) xx.RegulatorySites).Unlist)
         For Each cat As KeyValuePair(Of String, List(Of FastaObject)) In RfamCategory
             Dim path As String = $"{out}/{cat.Key}.fasta"
             Dim fa As New FastaFile(cat.Value)

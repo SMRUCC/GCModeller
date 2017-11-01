@@ -117,7 +117,7 @@ Partial Module Utilities
         Dim resultSet As New List(Of AlignmentResult)
 
         For Each queryToken As FASTA.FastaToken In query
-            Dim queryCache As Integer() = queryToken.SequenceData.ToArray(Function(x) Asc(x))
+            Dim queryCache As Integer() = queryToken.SequenceData.Select(Function(x) Asc(x))
             Dim alignSet As AlignmentResult() =
                 LinqAPI.Exec(Of AlignmentResult) <= From subjectToken As FASTA.FastaToken
                                                     In subject.AsParallel

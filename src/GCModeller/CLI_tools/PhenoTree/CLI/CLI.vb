@@ -73,14 +73,14 @@ Public Module CLI
                          Select x).ToArray
         Dim allProcess As String() = (From name In (From x As MotifLog
                                                     In promoters
-                                                    Let names As String() = x.BiologicalProcess.Split(";"c).ToArray(Function(s) s.Trim)
+                                                    Let names As String() = x.BiologicalProcess.Split(";"c).Select(Function(s) s.Trim)
                                                     Select (From ns As String
                                                             In names
                                                             Select bpName = ns,
                                                                 ns.ToLower)).IteratesALL
                                       Select name
                                       Group name By name.ToLower Into Group) _
-                                           .ToArray(Function(x) x.Group.First.bpName) _
+                                           .Select(Function(x) x.Group.First.bpName) _
                                            .OrderBy(Function(s) s).ToArray
         Dim Genes = (From x As MotifLog
                      In promoters

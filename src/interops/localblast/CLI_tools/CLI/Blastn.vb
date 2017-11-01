@@ -485,7 +485,7 @@ Partial Module CLI
                     In data
                     Select x
                     Group x By x.ReadQuery Into Group) _
-                   .ToArray(Function(x) x.Group.OrderByDescending(Function(r) r.Identities).First)
+                   .Select(Function(x) x.Group.OrderByDescending(Function(r) r.Identities).First)
         Return best.SaveTo(out).CLICode
     End Function
 

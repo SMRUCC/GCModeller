@@ -77,7 +77,7 @@ Namespace SymbolBuilder.packages.gplots
         Public Property colorTable As colorTable()
 
         Public Shared Function IndParser(result As String) As Integer()
-            Return Regex.Matches(result, "\d+").ToArray(Function(s) CastInteger(s))
+            Return Regex.Matches(result, "\d+").Select(Function(s) CastInteger(s))
         End Function
 
         Public Shared Function MeansParser(result As String) As Double()

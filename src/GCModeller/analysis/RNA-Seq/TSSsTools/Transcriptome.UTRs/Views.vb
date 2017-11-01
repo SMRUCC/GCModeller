@@ -187,7 +187,7 @@ Public Module Views
                                Optional ORF As Boolean = True) As FASTA.FastaFile
 
         Dim Source = If(ORF, (From site In data.AsParallel Where Not String.IsNullOrEmpty(site.Synonym) Select site).ToArray, data.ToArray)
-        Source = (From site In Source Select site Group site By site.TSSs Into Group).ToArray.ToArray(Function(obj) obj.Group.First)
+        Source = (From site In Source Select site Group site By site.TSSs Into Group).ToArray.Select(Function(obj) obj.Group.First)
         Dim LQuery = LinqAPI.Exec(Of FASTA.FastaToken) <=
             From i
             In Source.Sequence.AsParallel
@@ -217,7 +217,7 @@ Public Module Views
         Dim FrequencyData As Patterns.PatternModel = Patterns.Frequency(Fasta)
         Dim df As IO.File = New IO.File + {"prob", "A", "T", "G", "C"}
         df += LinqAPI.Exec(Of Patterns.SimpleSite, IO.RowObject)(FrequencyData.Residues) _
-           <= Function(rsd As Patterns.SimpleSite) New IO.RowObject({CStr(pStart + rsd.Address)}.Join(ATGC.ToArray(Function(c) rsd.Probability(c).ToString)))
+           <= Function(rsd As Patterns.SimpleSite) New IO.RowObject({CStr(pStart + rsd.Address)}.Join(ATGC.Select(Function(c) rsd.Probability(c).ToString)))
 
         Return df
     End Function

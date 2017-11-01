@@ -48,7 +48,7 @@ Partial Module CLI
         Dim uids = (From x As PredictedRegulationFootprint In source
                     Let uid As String = $"{x.ORF}.{x.Regulator}.{x.MotifTrace}.{x.MotifId}"
                     Select x, uid
-                    Group By uid Into Group).ToArray(Function(x) x.Group.First.x)
+                    Group By uid Into Group).Select(Function(x) x.Group.First.x)
         Return uids
     End Function
 

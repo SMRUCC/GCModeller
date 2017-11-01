@@ -50,7 +50,7 @@ Public Module KEGG
                 In Pfam.AsParallel
                 Where Not StringHelpers.IsNullOrEmpty(x.PfamString)
                 Select x).AsList
-        Dim dict As Dictionary(Of String, String) = KEGG.ToArray(Function(x) SequenceDump.TitleParser(x.Title)) _
+        Dim dict As Dictionary(Of String, String) = KEGG.Select(Function(x) SequenceDump.TitleParser(x.Title)) _
             .ToDictionary(Function(x) x.Key,
                           Function(x) SequenceDump.KEGGFamily(x.Value))
         Dim seqDict As Dictionary(Of String, String) = KEGG.ToDictionary(Function(x) SequenceDump.TitleParser(x.Title).Key,
@@ -64,7 +64,7 @@ Public Module KEGG
                                   subX.ToLower,
                                   subX).ToArray).ToVector _
                      .GroupBy(Function(x) x.ToLower) _
-                     .ToArray(Function(x) Family.FileSystem.Family.CreateObject(x.First.subX, x.ToArray(Function(xx) xx.stringPfam))) _
+                     .Select(Function(x) Family.FileSystem.Family.CreateObject(x.First.subX, x.Select(Function(xx) xx.stringPfam))) _
                      .OrderBy(Function(x) x.Family).ToArray
         Dim FamilyDb As New FamilyPfam With {
             .Build = Now.ToString,

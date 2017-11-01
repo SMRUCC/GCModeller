@@ -68,7 +68,7 @@ Partial Module Utilities
         Dim keys As String() =
             If(simple,
             fasta.ToArray(AddressOf IdentityResult.SimpleTag),
-            fasta.ToArray(Function(x) x.Title))
+            fasta.Select(Function(x) x.Title))
 
         Using writer As New WriteStream(Of IdentityResult)(out, metaKeys:=keys)
             For Each x As IdentityResult In IdentityResult.SigmaMatrix(fasta, round, simple)

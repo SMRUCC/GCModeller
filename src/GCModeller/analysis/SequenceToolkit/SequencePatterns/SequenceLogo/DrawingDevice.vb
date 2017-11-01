@@ -101,7 +101,7 @@ For example, we identified a new domain, likely to have a role downstream of the
             Dim Model As DrawingModel = New DrawingModel
 
 #If DEBUG Then
-            Dim m As String = New String(PWM.PWM.ToArray(Function(r) r.AsChar))
+            Dim m As String = New String(PWM.PWM.Select(Function(r) r.AsChar))
             Call VBDebugger.WriteLine(m, ConsoleColor.Magenta)
 #End If
 

@@ -186,7 +186,7 @@ Namespace NetworkModel.PfsNET
                 Call Nodes.AddRange((From item In Line.Value.Nodes Select New Enzyme With {
                                                                        .ID = item.ID,
                                                                        .NodeType = item.NodeType,
-                                                                       .EC = If(ECMappings.ContainsKey(item.ID), ECMappings(item.ID).ECMaps.ToArray(Function(x) x.EC), Nothing)}))
+                                                                       .EC = If(ECMappings.ContainsKey(item.ID), ECMappings(item.ID).ECMaps.Select(Function(x) x.EC), Nothing)}))
                 Call Edges.AddRange((From item In Line.Value.Edges Select New Interaction With {
                                                                        .FromNode = item.FromNode,
                                                                        .ToNode = item.ToNode,
@@ -271,7 +271,7 @@ Namespace NetworkModel.PfsNET
                                                 In FromPathway.EC_Mappings.AsParallel
                                                 Select (From r As ReactionMaps
                                                         In ezMap.ECMaps
-                                                        Select r.Reactions.ToArray(Function(x) New NetworkEdge With {
+                                                        Select r.Reactions.Select(Function(x) New NetworkEdge With {
                                                             .FromNode = ezMap.locusId,
                                                             .ToNode = x,
                                                             .Interaction = "EnzymeRelated"}))).Unlist.ToVector

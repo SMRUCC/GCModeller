@@ -144,14 +144,14 @@ Smith-Waterman Score: {hsp.Score}
 <h6>Query PWM</h6>
 <table>
 <tr><td>Bits</td><td>A</td><td>T</td><td>G</td><td>C</td></tr>
-{hsp.Query.PWM.ToArray(Function(x) $"<tr><td>{x.Bits}</td><td>{x.PWM(A)}</td><td>{x.PWM(T)}</td><td>{x.PWM(G)}</td><td>{x.PWM(C)}</td></tr>").JoinBy(vbCrLf)}
+{hsp.Query.PWM.Select(Function(x) $"<tr><td>{x.Bits}</td><td>{x.PWM(A)}</td><td>{x.PWM(T)}</td><td>{x.PWM(G)}</td><td>{x.PWM(C)}</td></tr>").JoinBy(vbCrLf)}
 </table>
 </td>
 <td>
 <h6>Subject PWM</h6>
 <table>
 <tr><td>Bits</td><td>A</td><td>T</td><td>G</td><td>C</td></tr>
-{hsp.Subject.PWM.ToArray(Function(x) $"<tr><td>{x.Bits}</td><td>{x.PWM(A)}</td><td>{x.PWM(T)}</td><td>{x.PWM(G)}</td><td>{x.PWM(C)}</td></tr>").JoinBy(vbCrLf)}
+{hsp.Subject.PWM.Select(Function(x) $"<tr><td>{x.Bits}</td><td>{x.PWM(A)}</td><td>{x.PWM(T)}</td><td>{x.PWM(G)}</td><td>{x.PWM(C)}</td></tr>").JoinBy(vbCrLf)}
 </table>
 </td>
 <td>")
@@ -191,7 +191,7 @@ Levenshtein Edits: {hsp.Alignment.DistEdits}
     Private Sub __printHSP(ByRef innerHTML As StringBuilder, query As Output, outDIR As String)
         Call innerHTML.AppendLine("<h3>Smith-Waterman HSP</h3><br />")
         Call innerHTML.AppendLine("<table width=""1440px"">")
-        Call innerHTML.AppendLine(query.HSP.ToArray(Function(x) x.__printHSP(outDIR), parallel:=True).JoinBy(vbCrLf))
+        Call innerHTML.AppendLine(query.HSP.Select(Function(x) x.__printHSP(outDIR), parallel:=True).JoinBy(vbCrLf))
         Call innerHTML.AppendLine("</table>")
     End Sub
 End Module

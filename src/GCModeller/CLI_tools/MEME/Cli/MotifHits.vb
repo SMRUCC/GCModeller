@@ -71,7 +71,7 @@ Partial Module CLI
         Dim hitsData = hitFile.LoadCsv(Of MotifHit)
         Dim PTT As PTT = TabularFormat.PTT.Load(PTTFile)
         Dim setName = New SetValue(Of bbhMappings) <= NameOf(bbhMappings.query_name)
-        Dim bbhMaps = bbh.LoadCsv(Of bbhMappings).ToArray(Function(x) setName(x, x.query_name.Split(":"c).Last))
+        Dim bbhMaps = bbh.LoadCsv(Of bbhMappings).Select(Function(x) setName(x, x.query_name.Split(":"c).Last))
         Dim LDM As Dictionary(Of AnnotationModel) = AnnotationModel.LoadLDM
         Dim RegDb As Regulations = RegpreciseAPI.LoadRegulationDb
         Dim Regulates = (From x In LDM.AsParallel
@@ -87,7 +87,7 @@ Partial Module CLI
                              Where Not mapped.IsNullOrEmpty
                              Select x.x,
                                  mapped).ToDictionary(Function(x) x.x.Value.Uid,
-                                                      Function(x) x.mapped.ToArray(Function(xx) xx.hit_name).Distinct.ToArray)
+                                                      Function(x) x.mapped.Select(Function(xx) xx.hit_name).Distinct.ToArray)
         Dim sourceLDM = AnnotationModel.LoadMEMEOUT(args("/source"))
         Dim correlations As ICorrelations = Correlation2.LoadAuto(Correlates)
         Dim results = (From hit As MotifHit In hitsData.AsParallel
@@ -115,9 +115,9 @@ Partial Module CLI
         Dim motif As String = query.Motif
         If Not mapsRegulates.ContainsKey(subject.Uid) Then
             ' 没有被Mapping到的调控因子，则只返回位点数据
-            Return query.Sites.ToArray(Function(x) __siteToFootprint(x, query.Uid, motif, subject, PTT))
+            Return query.Sites.Select(Function(x) __siteToFootprint(x, query.Uid, motif, subject, PTT))
         Else
-            Return query.Sites.ToArray(Function(x) __siteToRegulation(x, query.Uid, motif, subject, PTT, correlates, mapsRegulates)).ToVector
+            Return query.Sites.Select(Function(x) __siteToRegulation(x, query.Uid, motif, subject, PTT, correlates, mapsRegulates)).ToVector
         End If
     End Function
 
@@ -405,7 +405,7 @@ Partial Module CLI
 
         For Each model As AnnotationModel In models
             result += scanner.Scan(model.Expression) _
-                .ToArray(Function(x) setId(x, model.Uid))
+                .Select(Function(x) setId(x, model.Uid))
         Next
 
         Return result
@@ -428,7 +428,7 @@ Partial Module CLI
         Dim task As Func(Of String, String, String) =
             Function(site, gff) _
                 $"{GetType(CLI).API(NameOf(MotifInfo))} /loci {site.CLIPath} /motifs {motifs.CLIPath} /gff {gff.CLIPath} /atg-dist {dist} /out {(out & "-" & site.BaseName & ".genomics_context.csv").CLIPath}"
-        Dim CLI As String() = PathMatch.Pairs(sites, gffFiles).ToArray(Function(x) task(x.Pair1, x.Pair2))
+        Dim CLI As String() = PathMatch.Pairs(sites, gffFiles).Select(Function(x) task(x.Pair1, x.Pair2))
         Dim n As Integer = args.GetInt32("/num_threads")
 
         If n = 0 Then

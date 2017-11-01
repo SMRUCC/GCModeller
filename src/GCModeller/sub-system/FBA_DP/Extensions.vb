@@ -37,7 +37,7 @@ Imports Microsoft.VisualBasic.Linq
     Public Const Scan0 = 0
 
     <Extension> Public Function GenerateLine(Line As Double()) As String
-        Return String.Join(", ", Line.ToArray(Function(x) CStr(x)))
+        Return String.Join(", ", Line.Select(Function(x) CStr(x)))
     End Function
 
     <Extension> Public Function PToken(s As Match) As KeyValuePair(Of Integer, Double)

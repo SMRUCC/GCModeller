@@ -96,7 +96,7 @@ Namespace Models
                           In locus
                           Let map As Nodes.EC_Mapping = _model.GetMaps(x)
                           Where Not map Is Nothing
-                          Select map.ECMaps.ToArray(Function(m) m.Reactions).IteratesALL).IteratesALL
+                          Select map.ECMaps.Select(Function(m) m.Reactions).IteratesALL).IteratesALL
             Dim rxns As String() = LQuery.Distinct.ToArray
             Call SetObjectiveFunc(factors:=rxns)
         End Sub

@@ -83,7 +83,7 @@ Namespace NetworkModel.KEGG
             net += (From x In netEdges
                     Select x
                     Group x By x.g Into Group) _
-                         .ToArray(Function(x) (From edge In x.Group
+                         .Select(Function(x) (From edge In x.Group
                                                Select New NetworkEdge With {
                                                    .value = 1,
                                                    .FromNode = edge.__mod.EntryId,

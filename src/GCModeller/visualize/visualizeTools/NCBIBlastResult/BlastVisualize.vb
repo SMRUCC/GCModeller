@@ -312,7 +312,7 @@ Namespace NCBIBlastResult
                                                  Where ORF.ContainsKey(id)
                                                  Select _orf = ORF(id)
                                                  Order By _orf.Left Ascending
-            Dim OrderedHits As String() = SortHits.ToArray(Function(hit) hit.LocusID)
+            Dim OrderedHits As String() = SortHits.Select(Function(hit) hit.LocusID)
 
             If OrderedHits.IsNullOrEmpty Then Return New HitRecord() {}
 
@@ -506,7 +506,7 @@ CONTINUTE:
                         Else
                             COGsColor = RenderingColor.CategoryMapsTextures(
                                 categories:=COGs,
-                                textures:=TextureList.ToArray(Function(obj) obj.Value))
+                                textures:=TextureList.Select(Function(obj) obj.Value))
                         End If
                     End If
 

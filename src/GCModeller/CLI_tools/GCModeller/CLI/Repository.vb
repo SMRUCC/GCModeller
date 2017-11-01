@@ -302,24 +302,24 @@ Partial Module CLI
             Dim LQuery = From x
                          In data
                          Select x.uid,
-                             u = String.Join("-", x.Properties.ToArray(Function(o) CStr(o)))
+                             u = String.Join("-", x.Properties.Select(Function(o) CStr(o)))
                          Group By u Into Group
 
             'Return LQuery.ToArray(
             '    Function(x) New NamedValue(Of String()) With {
             '        .Name = x.u _
             '            .Split("-"c) _
-            '            .ToArray(Function(o) int2Words(CInt(o))) _
+            '            .Select(Function(o) int2Words(CInt(o))) _
             '            .JoinBy(" "),
             '        .x = x.Group _
-            '            .ToArray(Function(o) o.uid)
+            '            .Select(Function(o) o.uid)
             '    }).GetJson _
             '      .SaveTo(out) _
             '      .CLICode
             Return LQuery.Select(
                 Function(x) x.u _
                     .Split("-"c) _
-                    .ToArray(Function(o) int2Words(CInt(o))) _
+                    .Select(Function(o) int2Words(CInt(o))) _
                     .JoinBy(" ")
                 ).OrderBy(Function(s) s) _
                 .FlushAllLines(out) _
@@ -333,11 +333,11 @@ Partial Module CLI
         For Each cluster As KMeansCluster(Of Entity) In cl
             Dim common$() = cluster _
                 .ClusterMean _
-                .ToArray(Function(x) int2Words(CInt(x)))
+                .Select(Function(x) int2Words(CInt(x)))
 
             output += New NamedValue(Of String()) With {
                 .Name = String.Join(" ", common),
-                .Value = cluster.ToArray(Function(x) x.uid)
+                .Value = cluster.Select(Function(x) x.uid)
             }
         Next
 

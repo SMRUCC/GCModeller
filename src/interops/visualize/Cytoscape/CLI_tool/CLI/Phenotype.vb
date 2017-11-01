@@ -107,7 +107,7 @@ Partial Module CLI
             source = AnnotationModel.LoadDocument(query)
         Else
             Dim files = FileIO.FileSystem.GetFiles(query, FileIO.SearchOption.SearchAllSubDirectories, "*.txt")
-            source = files.ToArray(Function(x) AnnotationModel.LoadDocument(x)).ToVector
+            source = files.Select(Function(x) AnnotationModel.LoadDocument(x)).ToVector
         End If
 
         If Not name.FileExists Then
@@ -136,9 +136,9 @@ Partial Module CLI
             Dim array As EntityLDM()
 
             If mapNames Is Nothing Then
-                array = cluster.ToArray(Function(x) setValue(x.ToLDM, CStr(i)))
+                array = cluster.Select(Function(x) setValue(x.ToLDM, CStr(i)))
             Else
-                array = cluster.ToArray(Function(x) setValue(x.ToLDM(mapNames), CStr(i)))
+                array = cluster.Select(Function(x) setValue(x.ToLDM(mapNames), CStr(i)))
             End If
 
             i += 1
@@ -166,9 +166,9 @@ Partial Module CLI
 
         Dim param As New Parameters
         Dim files = FileIO.FileSystem.GetFiles(query, FileIO.SearchOption.SearchAllSubDirectories, "*.txt")
-        Dim source As AnnotationModel() = files.ToArray(Function(x) AnnotationModel.LoadDocument(x)).ToVector
+        Dim source As AnnotationModel() = files.Select(Function(x) AnnotationModel.LoadDocument(x)).ToVector
         Dim result As Dictionary(Of String, EntityLDM) =
-            source.ToArray(Function(x)
+            source.Select(Function(x)
                                Return New EntityLDM With {
                                    .ID = x.Uid,
                                    .Properties = New Dictionary(Of String, Double)
@@ -200,7 +200,7 @@ Partial Module CLI
             Next
 
             Dim all As [Set] = New [Set](result.Keys)
-            Dim mapSet As [Set] = New [Set](resultSet.ToArray(Function(x) x.ID))
+            Dim mapSet As [Set] = New [Set](resultSet.Select(Function(x) x.ID))
             Dim delta = all - mapSet
 
             For Each unMap As String In delta.ToArray(Of String)
@@ -211,10 +211,10 @@ Partial Module CLI
         Next
 
         Dim mapNames = result.First.Value.Properties.Keys.ToArray
-        Dim datas = result.Values.ToArray(Function(x) x.ToModel)
-        Dim names = datas.ToArray(Function(x) x.uid)
+        Dim datas = result.Values.Select(Function(x) x.ToModel)
+        Dim names = datas.Select(Function(x) x.uid)
         Dim Tree As KMeans.Entity() = KMeans.TreeCluster(datas)
-        Dim saveResult = Tree.ToArray(Function(x) x.ToLDM(mapNames))
+        Dim saveResult = Tree.Select(Function(x) x.ToLDM(mapNames))
 
         For Each name In names
             For Each x In saveResult
@@ -241,7 +241,7 @@ Partial Module CLI
         '将Entity和sites位点联系起来
         Dim asso = (From x In resultSet Select x, sites = QueryHash(x.ID)).ToArray
         Dim merges = (From gene In (From x In asso Select __expends(x.x, x.sites)).Unlist Select gene Group gene By gene.ID Into Group).ToArray
-        Dim result As EntityLDM() = merges.ToArray(Function(x) __merges(x.Group.ToArray), parallel:=True)
+        Dim result As EntityLDM() = merges.Select(Function(x) __merges(x.Group.ToArray), parallel:=True)
 
         Call result.SaveTo(out & "/resultSet.Csv")
 
@@ -256,7 +256,7 @@ Partial Module CLI
         Dim prop As New Dictionary(Of String, Double)
 
         For Each key As String In keys
-            Dim value As Double() = source.ToArray(Function(x) x.Properties(key))
+            Dim value As Double() = source.Select(Function(x) x.Properties(key))
             Call prop.Add(key, value.Average)
         Next
 
@@ -323,10 +323,10 @@ Partial Module CLI
 
         If args.GetBoolean("/ldm_loads") Then
             Dim files = FileIO.FileSystem.GetFiles(query, FileIO.SearchOption.SearchAllSubDirectories, "*.xml")
-            source = files.ToArray(Function(x) x.LoadXml(Of AnnotationModel))
+            source = files.Select(Function(x) x.LoadXml(Of AnnotationModel))
         Else
             Dim files = FileIO.FileSystem.GetFiles(query, FileIO.SearchOption.SearchAllSubDirectories, "*.txt")
-            source = files.ToArray(Function(x) AnnotationModel.LoadDocument(x)).ToVector
+            source = files.Select(Function(x) AnnotationModel.LoadDocument(x)).ToVector
         End If
 
         If Not String.IsNullOrEmpty(args("/map")) Then
@@ -489,12 +489,12 @@ Partial Module CLI
         Dim orders = (From x In catQuery
                       Where Not String.Equals(CCM, x.mod, StringComparison.Ordinal)
                       Select x.mod,
-                          ss = x.Group.ToArray(Function(xx) xx.Count).Sum
+                          ss = x.Group.Select(Function(xx) xx.Count).Sum
                       Order By ss Descending).ToArray
 
         modSum = orders.ToDictionary(Function(x) x.mod, Function(x) x.ss)
 
-        Dim out = orders.ToArray(Function(x) x.mod)
+        Dim out = orders.Select(Function(x) x.mod)
         Return out
     End Function
 
@@ -533,7 +533,7 @@ Partial Module CLI
                           Select x
                           Group x By x.hit_name Into Group) _
                                .ToDictionary(Function(x) x.hit_name,
-                                             Function(x) x.Group.ToArray(Function(xx) xx.Family).ToArray)
+                                             Function(x) x.Group.Select(Function(xx) xx.Family).ToArray)
 
         For Each edge As NetworkEdge In net.Edges
             Dim depth As Integer = edge.FromNode.Split("."c).Length
@@ -548,7 +548,7 @@ Partial Module CLI
             Call edge.Properties.Add(NameOf(mName), mName)
         Next
 
-        Dim maxLen As Integer = modsHash.ToArray(Function(x) x.Value.Length).Max
+        Dim maxLen As Integer = modsHash.Select(Function(x) x.Value.Length).Max
 
         For Each node In net.Nodes
             If Not String.Equals(node.NodeType, "Entity", StringComparison.OrdinalIgnoreCase) Then
@@ -741,7 +741,7 @@ Partial Module CLI
                           Select x
                           Group x By x.QueryName Into Group) _
                                .ToDictionary(Function(x) x.QueryName,
-                                             Function(x) x.Group.ToArray(Function(xx) xx.Family).Distinct.ToArray)
+                                             Function(x) x.Group.Select(Function(xx) xx.Family).Distinct.ToArray)
 
         For Each edge As NetworkEdge In net.Edges
             Dim depth As Integer = edge.FromNode.Split("."c).Length

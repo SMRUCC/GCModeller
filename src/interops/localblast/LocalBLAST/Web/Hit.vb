@@ -99,7 +99,7 @@ Namespace NCBIBlastResult
             Get
                 Dim GIList As String() =
                     Regex.Matches(Me.SubjectIDs, "gi\|\d+") _
-                         .ToArray(Function(s)
+                         .Select(Function(s)
                                       Return s.Split("|"c).Last
                                   End Function)
                 Return GIList

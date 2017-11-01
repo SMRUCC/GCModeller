@@ -82,7 +82,7 @@ Public Class RegPreciseRegulon
 
         For Each xGroup In Regulations
             Dim toNodes As String() =
-                xGroup.Group.ToArray(Function(x) x.Members).Unlist.Distinct.ToArray
+                xGroup.Group.Select(Function(x) x.Members).Unlist.Distinct.ToArray
             For Each member As String In toNodes
                 Dim edge As New NetworkEdge With {
                     .FromNode = xGroup.Regulator,
@@ -107,10 +107,10 @@ Public Class RegPreciseRegulon
 
     Private Shared Function __merge(source As IEnumerable(Of Regulator)) As RegPreciseRegulon
         Dim __1st = source.First
-        Dim regulates = (From x In source Select x.Regulates.ToArray(Function(xx) xx.LocusId)).Unlist
+        Dim regulates = (From x In source Select x.Regulates.Select(Function(xx) xx.LocusId)).Unlist
         Dim effectors = (From x In source Select x.Effector Distinct).ToArray
         Dim hits = (From x In source Select x.LocusTag.Value Distinct Order By Value Ascending).ToArray
-        Dim sites = (From x In source Select x.RegulatorySites.ToArray(Function(xx) xx.UniqueId)).Unlist
+        Dim sites = (From x In source Select x.RegulatorySites.Select(Function(xx) xx.UniqueId)).Unlist
         Dim regulon As New RegPreciseRegulon With {
             .Family = __1st.Family,
             .BiologicalProcess = __1st.BiologicalProcess,
@@ -141,7 +141,7 @@ Public Class RegPreciseRegulon
                                    Select x
                                    Group x By x.uid Into Group) _
                                         .ToDictionary(Function(x) x.uid,
-                                                      Function(x) x.Group.ToArray(Function(xxx) xxx.x))).ToArray
+                                                      Function(x) x.Group.Select(Function(xxx) xxx.x))).ToArray
         Dim LQuery = (From x
                       In Groups.AsParallel
                       Select x.parts.Values.ToArray(

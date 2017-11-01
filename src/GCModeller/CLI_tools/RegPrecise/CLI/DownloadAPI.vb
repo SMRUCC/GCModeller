@@ -273,7 +273,7 @@ Imports SMRUCC.genomics.SequenceModel
     <ExportAPI("/Download.Motifs", Usage:="/Download.Motifs /imports <RegPrecise.DIR> [/export <EXPORT_DIR>]")>
     Public Function DownloadMotifSites(args As CommandLine) As Integer
         Dim inDIR As String = args("/imports")
-        Dim genomes = inDIR.EnumerateFiles("*.xml").ToArray(Function(path) path.LoadXml(Of BacteriaGenome))
+        Dim genomes = inDIR.EnumerateFiles("*.xml").Select(Function(path) path.LoadXml(Of BacteriaGenome))
         Dim EXPORT As String = args.GetValue("/export", inDIR.ParentPath & "/Motif_PWM/")
         Dim sites As IEnumerable(Of String) = genomes.ToArray(
             Function(g) g.Regulons.Regulators.ToArray(

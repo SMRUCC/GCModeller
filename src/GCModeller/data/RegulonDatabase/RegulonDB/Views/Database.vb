@@ -42,7 +42,7 @@ Namespace RegulonDB.Views
                             Select index.value,
                                 prop
                             Order By value Ascending).ToArray
-            Return indexing.ToArray(Function(x) x.prop)
+            Return indexing.Select(Function(x) x.prop)
         End Function
 
         Public Function Load(Of T As Class)(path As String) As T()

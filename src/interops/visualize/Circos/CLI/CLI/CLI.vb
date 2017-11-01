@@ -91,13 +91,13 @@ Public Module CLI
                       Select genome,
                           percent = NucleicAcidStaticsProperty.ATPercent(lst(genome), winSize, steps, True)
                       Order By genome Ascending).ToArray
-        Dim vector As Double() = __vectorCommon(LQuery.ToArray(Function(genome) genome.percent))
-        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
+        Dim vector As Double() = __vectorCommon(LQuery.Select(Function(genome) genome.percent))
+        Return vector.Select(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
     Private Function __propertyVector(method As NtProperty, inFasta As FastaToken, out As String, winSize As Integer, steps As Integer) As Integer
         Dim vector As Double() = method(inFasta, winSize, steps, True)
-        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
+        Return vector.Select(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
     ''' <summary>
@@ -121,13 +121,13 @@ Public Module CLI
                       Select genome,
                           skew = SMRUCC.genomics.SequenceModel.NucleotideModels.GCSkew(inFasta(genome), winSize, steps, True)
                       Order By genome Ascending).ToArray  ' 排序是因为可能没有做多序列比对对齐，在这里需要使用第一条序列的长度作为参考
-        Dim vector As Double() = __vectorCommon(LQuery.ToArray(Function(genome) genome.skew))
-        Return vector.ToArray(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
+        Dim vector As Double() = __vectorCommon(LQuery.Select(Function(genome) genome.skew))
+        Return vector.Select(Function(n) CStr(n)).FlushAllLines(out, Encodings.ASCII).CLICode
     End Function
 
     Private Function __vectorCommon(vectors As Double()()) As Double()
         Dim LQuery As Double() = vectors(Scan0).ToArray(
-            Function(null, idx) vectors.ToArray(Function(genome) genome(idx)).Average)
+            Function(null, idx) vectors.Select(Function(genome) genome(idx)).Average)
         Return LQuery
     End Function
 
@@ -171,9 +171,9 @@ Public Module CLI
 
     '    Dim ptt = LoadPTT("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\1329830.5.ED.ptt")
 
-    '    Dim regulons = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\Regulators.csv".LoadCsv(Of Name).ToArray(Function(x) x.ToMeta)
+    '    Dim regulons = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\Regulators.csv".LoadCsv(Of Name).Select(Function(x) x.ToMeta)
     '    Dim resistss = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\resistance.csv".LoadCsv(Of Name)
-    '    regulons.Add(resistss.ToArray(Function(x) x.ToMeta))
+    '    regulons.Add(resistss.Select(Function(x) x.ToMeta))
     '    regulons = TrackDatas.Distinct(regulons)
 
     '    '   Dim labels = New HighlightLabel(regulons)
@@ -195,8 +195,8 @@ Public Module CLI
     '    Dim tblColor = CircosAPI.IdentityColors(iddd.Min, iddd.Max, 512)
     '    doc = CircosAPI.GenerateBlastnAlignment(doc, tbl, 1, 0.2, tblColor)
 
-    '    Dim at = IO.File.ReadAllLines("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.2.ATPercent.txt").ToArray(Function(x) Val(x))
-    '    Dim gc = IO.File.ReadAllLines("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.2.GCSkew.txt").ToArray(Function(x) Val(x))
+    '    Dim at = IO.File.ReadAllLines("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.2.ATPercent.txt").Select(Function(x) Val(x))
+    '    Dim gc = IO.File.ReadAllLines("F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\1329830.5.2.GCSkew.txt").Select(Function(x) Val(x))
 
     '    Dim repeats = "F:\2015.12.26.vir_genome_sequencing\genome_annotations\1329830.5.ED\circos\repeat.csv".LoadCsv(Of Circos.TrackDatas.NtProps.Repeat)
 

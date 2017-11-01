@@ -121,7 +121,7 @@ Public Module EigenvectorBootstrapping
             For Each x As Entity In cluster
                 Dim rawKey As String = x.Properties.GetJson
                 Dim rawParams =
-                    raw(rawKey).ToArray(Function(o) o.Value.Value)
+                    raw(rawKey).Select(Function(o) o.Value.Value)
 
                 tmp += New NamedValue(Of Dictionary(Of String, Double)()) With {
                     .Name = x.uid,
@@ -156,7 +156,7 @@ Public Module EigenvectorBootstrapping
         For Each key As SeqValue(Of String) In eig.Keys.SeqIterator
             out.y(+key) = New NamedCollection(Of Double) With {
                 .Name = +key,
-                .Value = serials(key.i).Split(2).ToArray(Function(o) o(0))
+                .Value = serials(key.i).Split(2).Select(Function(o) o(0))
             }
         Next
 

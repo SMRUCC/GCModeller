@@ -114,7 +114,7 @@ Public Module PhenoCoefficient
             Next
         Next
 
-        Dim exprSamples = hash.ToArray(Function(id, values) New ExprSamples(id, values))
+        Dim exprSamples = hash.Select(Function(id, values) New ExprSamples(id, values))
         Dim MAT As PccMatrix =
             If(PCC, MatrixAPI.CreatePccMAT(exprSamples), MatrixAPI.CreateSPccMAT(exprSamples))
         Dim result As RPKMStat() = (From gene As ExprStats
@@ -151,7 +151,7 @@ Public Module PhenoCoefficient
                 Call hash(flux.Locus).Add(flux.Properties(sample))
             Next
         Next
-        Dim exprSamples = hash.ToArray(Function(id, values) New ExprSamples(id, values))
+        Dim exprSamples = hash.Select(Function(id, values) New ExprSamples(id, values))
         Dim MAT As PccMatrix =
             If(PCC, MatrixAPI.CreatePccMAT(exprSamples), MatrixAPI.CreateSPccMAT(exprSamples))
         Dim result As RPKMStat() = (From gene As RPKMStat

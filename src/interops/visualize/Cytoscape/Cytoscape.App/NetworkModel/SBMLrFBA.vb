@@ -71,7 +71,7 @@ Namespace NetworkModel
                 Function(x) New Node With {
                     .ID = x,
                     .NodeType = "Metabolite"})
-            Dim fluxNodes As Node() = nZ.ToArray(Function(x) __flux2Node(x, fluxValue))
+            Dim fluxNodes As Node() = nZ.Select(Function(x) __flux2Node(x, fluxValue))
             Dim edges As NetworkEdge() = nZ.Select(AddressOf __flux2Edges).ToVector
             Return New NetworkTables With {
                 .Edges = edges,

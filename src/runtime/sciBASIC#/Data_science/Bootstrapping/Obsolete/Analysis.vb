@@ -92,7 +92,7 @@
 
 '            For Each p In pg
 '                Dim array = p.ToArray
-'                Dim vals = array.ToArray(Function(x) x.Value)
+'                Dim vals = array.Select(Function(x) x.Value)
 '                value(p.Key) = New DoubleRange(vals.Min, vals.Max)
 '            Next
 

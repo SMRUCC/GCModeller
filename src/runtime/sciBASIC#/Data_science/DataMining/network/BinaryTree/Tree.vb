@@ -92,7 +92,7 @@ Namespace KMeans
                 list -= LQuery
                 partitions += New Partition With {
                     .Tag = tag,
-                    .uids = LQuery.ToArray(Function(x) x.ID),
+                    .uids = LQuery.Select(Function(x) x.ID),
                     .members = LQuery
                 }
             Next
@@ -100,7 +100,7 @@ Namespace KMeans
             If Not list.IsNullOrEmpty Then
                 partitions += New Partition With {
                     .Tag = "Unclass",
-                    .uids = list.ToArray(Function(x) x.ID),
+                    .uids = list.Select(Function(x) x.ID),
                     .members = list.ToArray
                 }
             End If
@@ -210,7 +210,7 @@ Namespace KMeans
                           Group By cur Into Group).ToArray
 
             For Each part In groups
-                Dim parts = part.Group.ToArray(Function(x) x.x)
+                Dim parts = part.Group.Select(Function(x) x.x)
 
                 If parts.Length = 1 Then ' 叶节点
                     Dim leaf As __edgePath = parts.First

@@ -246,7 +246,7 @@ Namespace Regprecise.WebServices
 
         Public Function GetRegulators(site As String) As String() Implements IRegulationDatabase.GetRegulators
             Dim regulations As Regulation() = GetRegulations(site)
-            Dim TF = regulations.ToArray(Function(x) GetRegulator(x.Regulator))
+            Dim TF = regulations.Select(Function(x) GetRegulator(x.Regulator))
             Dim locus As String() = (From x In TF Where Not x Is Nothing Select x.locusTag).ToArray
             Return locus
         End Function
@@ -254,7 +254,7 @@ Namespace Regprecise.WebServices
         Public Function GetRegulatesSites(regulator As String) As String() Implements IRegulationDatabase.GetRegulatesSites
             Dim regulatorLDM = Me._regulatorsDict(regulator)
             Dim regulations = Me._regulatorRegulations(regulatorLDM.vimssId)
-            Return regulations.ToArray(Function(x) x.Site)
+            Return regulations.Select(Function(x) x.Site)
         End Function
 
         Public Function listRegulators() As String() Implements IRegulationDatabase.listRegulators

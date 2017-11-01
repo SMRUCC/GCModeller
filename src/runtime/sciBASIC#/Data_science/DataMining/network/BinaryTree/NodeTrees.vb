@@ -137,7 +137,7 @@ Namespace KMeans
                                .ToArray
                            Return New Partition() With {
                                 .Tag = cut.FullyQualifiedName,
-                                .uids = allChilds.ToArray(Function(x) x.EntityID),
+                                .uids = allChilds.Select(Function(x) x.EntityID),
                                 .members = allChilds.ToArray(
                                     Function(x) New EntityLDM With {
                                         .ID = x.EntityID,

@@ -63,7 +63,7 @@ Public Class RfamRegulatory : Inherits Rfamily
                                                             .ToDictionary(Function(x) x.Name,
                                                                           Function(x) (From site As Rfamily In x.Group
                                                                                        Select site
-                                                                                       Group site By site.LocusId Into Group).ToArray(Function(xSite) xSite.Group.First))  ' 因为数据库之中会出现重复比对上的记录，所以这里只需要一条就够了
+                                                                                       Group site By site.LocusId Into Group).Select(Function(xSite) xSite.Group.First))  ' 因为数据库之中会出现重复比对上的记录，所以这里只需要一条就够了
         Dim LQuery = (From site In mastSites Select RfamId = site.Trace.Split(":"c).First, site)
         Dim Regulatory = (From site In LQuery.AsParallel Select __createObject(Rfam, site.RfamId, site.site)).ToVector
         Return Regulatory
@@ -75,7 +75,7 @@ Public Class RfamRegulatory : Inherits Rfamily
         End If
 
         Dim lst As Rfamily() = Rfam(RfamId)
-        Dim sites = lst.ToArray(Function(x) __siteCreates(x, site))
+        Dim sites = lst.Select(Function(x) __siteCreates(x, site))
         Return sites
     End Function
 

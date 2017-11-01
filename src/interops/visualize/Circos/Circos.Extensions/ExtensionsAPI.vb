@@ -123,12 +123,12 @@ Public Module ExtensionsAPI
         Dim LQuery = (From x As Regulator
                       In bbh
                       Where Not String.IsNullOrEmpty(x.Pathway)
-                      Let locus As String() = x.Regulates.ToArray(Function(g) g.LocusId)
+                      Let locus As String() = x.Regulates.Select(Function(g) g.LocusId)
                       Let parts = ContinuouParts(locus)
-                      Select parts.ToArray(Function(xx) New With {.func = x.Pathway, .locus_tags = xx})).Unlist
+                      Select parts.Select(Function(xx) New With {.func = x.Pathway, .locus_tags = xx})).Unlist
         Dim trims = (From x In LQuery Where x.locus_tags.Length > 1 Select x Group x By x.func Into Group).ToArray
         LQuery = (From x In trims
-                  Let locus As String() = x.Group.ToArray(Function(xx) xx.locus_tags).ToVector
+                  Let locus As String() = x.Group.Select(Function(xx) xx.locus_tags).ToVector
                   Let parts = ContinuouParts(locus)
                   Select (From part As String()
                           In parts

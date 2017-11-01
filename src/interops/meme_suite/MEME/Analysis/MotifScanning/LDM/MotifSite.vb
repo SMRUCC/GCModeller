@@ -88,7 +88,7 @@ Namespace Analysis.MotifScans
         <XmlElement> Public Property Matches As MotifHits()
 
         Public Function ToFootprints() As IEnumerable(Of GenomeMotifFootPrints.PredictedRegulationFootprint)
-            Return Matches.ToArray(Function(x) x.GetFootprints).IteratesALL
+            Return Matches.Select(Function(x) x.GetFootprints).IteratesALL
         End Function
     End Class
 

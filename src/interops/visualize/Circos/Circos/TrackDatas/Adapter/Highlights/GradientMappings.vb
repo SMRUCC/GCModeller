@@ -64,7 +64,7 @@ Namespace TrackDatas.Highlights
                                                extTails As Boolean,
                                                Optional steps As Integer = 0) As List(Of ValueTrackData)
             Dim values As Double() =
-                length.ToArray(Function(idx) d.TryGetValue(idx, [default]:=0))
+                length.Select(Function(idx) d.TryGetValue(idx, [default]:=0))
 
             Return __initCommon(
                 chr, values, length,
@@ -84,7 +84,7 @@ Namespace TrackDatas.Highlights
 
             If winSize > 0 Then
                 Dim slids = values.CreateSlideWindows(winSize, extTails:=extTails)  '划窗平均值
-                avgs = slids.ToArray(Function(win, idx) win.Average) '- values(idx) / 15)
+                avgs = slids.Select(Function(win, idx) win.Average) '- values(idx) / 15)
             Else
                 avgs = values
             End If
@@ -161,7 +161,7 @@ Namespace TrackDatas.Highlights
 
                 Dim slides = bufs.SlideWindows(winsize, 2048)
 
-                bufs = slides.ToArray(Function(x) x.Average)
+                bufs = slides.Select(Function(x) x.Average)
 
                 Dim chunk As List(Of ValueTrackData) = __initCommon(
                     ch.chr, bufs, length,

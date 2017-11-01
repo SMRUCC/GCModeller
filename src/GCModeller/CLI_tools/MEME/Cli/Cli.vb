@@ -99,10 +99,10 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
     End Function
 
     Private Function __diff(query As bbhMappings(), subject As bbhMappings()) As bbhMappings()
-        Dim s2 = New [Set](subject.ToArray(Function(xx) xx.query_name))
-        Dim expect = (New [Set](query.ToArray(Function(xx) xx.query_name)) - s2).ToArray(Function(xx) DirectCast(xx, String))
+        Dim s2 = New [Set](subject.Select(Function(xx) xx.query_name))
+        Dim expect = (New [Set](query.Select(Function(xx) xx.query_name)) - s2).Select(Function(xx) DirectCast(xx, String))
         Dim xDict = query.ToDictionary(Function(xx) xx.query_name)
-        Dim value = expect.ToArray(Function(xx) xDict(xx))
+        Dim value = expect.Select(Function(xx) xDict(xx))
         Return value
     End Function
 
@@ -120,8 +120,8 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
     End Function
 
     Private Function Interacts(query As bbhMappings(), subject As bbhMappings()) As bbhMappings()
-        Dim s1 = New [Set](query.ToArray(Function(x) x.query_name))
-        Dim s2 = New [Set](subject.ToArray(Function(x) x.query_name))
+        Dim s1 = New [Set](query.Select(Function(x) x.query_name))
+        Dim s2 = New [Set](subject.Select(Function(x) x.query_name))
         Dim inters = (s1 And s2).ToArray(Of String)
         Dim LQuery = (From x In query Where Array.IndexOf(inters, x.query_name) > -1 Select x).ToArray
         Return LQuery

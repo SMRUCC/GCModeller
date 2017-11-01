@@ -105,7 +105,7 @@ Partial Module CLI
                       Select x  ' 对每一个operon的第一个基因按照TF进行分组
                       Group x By x.TF Into Group) _
                            .ToDictionary(Function(x) x.TF,
-                                         Function(x) x.Group.ToArray(Function(g) g.sid).Distinct.OrderBy(Function(sid) sid).ToArray)
+                                         Function(x) x.Group.Select(Function(g) g.sid).Distinct.OrderBy(Function(sid) sid).ToArray)
 
         If Not method = GetLocusTags.locus Then
             DOOR = DOOR_API.Load(opr)
@@ -229,7 +229,7 @@ Partial Module CLI
                       Select uid = fasta.Title,
                           fasta
                       Group By uid Into Group) _
-                         .ToArray(Function(x) x.Group.First.fasta)
+                         .Select(Function(x) x.Group.First.fasta)
             Call New FastaFile(fa).Save(path, Encodings.ASCII)
         Next
 
@@ -253,7 +253,7 @@ Partial Module CLI
         Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
 
         For Each Group In LQuery
-            Dim locus As String() = Group.Group.ToArray(Function(x) x.Gene).Distinct.ToArray
+            Dim locus As String() = Group.Group.Select(Function(x) x.Gene).Distinct.ToArray
             Call GenePromoterRegions.ParsingList(Parser, door, locus, out & "/" & Group.Trace.NormalizePathString)
         Next
 
@@ -270,7 +270,7 @@ Partial Module CLI
         Dim logFold As Double = args.GetValue("/log-fold", 2)
         Dim DEGs = diff.LoadCsv(Of DESeq2.DESeq2Diff)
         DEGs = (From x In DEGs Where Math.Abs(x.log2FoldChange) >= logFold Select x).AsList
-        Dim locus As String() = DEGs.ToArray(Function(x) x.locus_tag)
+        Dim locus As String() = DEGs.Select(Function(x) x.locus_tag)
         Dim PTTDb As New GenBank.TabularFormat.PTTDbLoader(PTT)
         Dim Parser As New PromoterRegionParser(PTTDb.GenomeFasta, PTTDb.ORF_PTT)
         Call GenePromoterRegions.ParsingList(Parser, door, locus, out)

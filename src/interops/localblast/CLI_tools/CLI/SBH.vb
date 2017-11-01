@@ -229,7 +229,7 @@ Partial Module CLI
                       In lst
                       Select BlastPlus.Parser.TryParse(x).ExportAllBestHist).ToArray
         Else
-            blastp = lst.ToArray(Function(x) x.LoadCsv(Of BBH.BestHit).ToArray)
+            blastp = lst.Select(Function(x) x.LoadCsv(Of BBH.BestHit).ToArray)
         End If
 
         Dim LQuery As BBH.BestHit() =

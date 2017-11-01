@@ -77,7 +77,7 @@ Namespace CytoscapeGraphView.XGMML
                                             Select x.Value
                                             Distinct).ToArray
             Dim result As Attribute() =
-                attrsBuffer.ToArray(Function(x) x.First.__setValue(x.values))
+                attrsBuffer.Select(Function(x) x.First.__setValue(x.values))
             Return result
         End Function
 

@@ -165,7 +165,7 @@ Partial Module CLI
                             x
                         Group By sId Into Group) _
                            .ToDictionary(Function(x) x.sId,
-                                         Function(x) x.Group.ToArray(Function(o) o.x))
+                                         Function(x) x.Group.Select(Function(o) o.x))
 
         For Each pathway As bGetObject.Pathway In pathways
             Dim locis As SimpleSegment() =
@@ -181,7 +181,7 @@ Partial Module CLI
                      Where x.SequenceData.Length >= 8  ' MEME要求序列的长度至少8个字符
                      Select x
                      Group x By x.ID Into Group) _
-                          .ToArray(Function(x) (From site As SimpleSegment
+                          .Select(Function(x) (From site As SimpleSegment
                                                 In x.Group
                                                 Select site
                                                 Order By site.SequenceData.Length Descending).First)
@@ -214,7 +214,7 @@ Partial Module CLI
                             x
                         Group By sId Into Group) _
                         .ToDictionary(Function(x) x.sId,
-                                      Function(x) x.Group.ToArray(Function(o) o.x))
+                                      Function(x) x.Group.Select(Function(o) o.x))
         Dim PTT As String = args("/map")
         Dim maps As Func(Of String, String)
 
@@ -238,7 +238,7 @@ Partial Module CLI
                          In sitesLoci
                          Select x
                          Group x By x.ID.Split(":"c).First Into Group) _
-                              .ToArray(Function(x) (From site As SimpleSegment
+                              .Select(Function(x) (From site As SimpleSegment
                                                     In x.Group
                                                     Select site
                                                     Order By site.SequenceData.Length Descending).First)

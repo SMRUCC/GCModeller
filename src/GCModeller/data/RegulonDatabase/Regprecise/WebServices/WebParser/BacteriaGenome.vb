@@ -84,7 +84,7 @@ Namespace Regprecise
         Public Function ListRegulatedGenes() As String()
             Dim list As List(Of String) = (From x As Regulator
                                            In Regulons.Regulators
-                                           Select x.lstOperon.ToArray(Function(o) o.Members.ToArray(Function(g) g.LocusId))).ToArray.Unlist.Unlist
+                                           Select x.lstOperon.Select(Function(o) o.Members.Select(Function(g) g.LocusId))).ToArray.Unlist.Unlist
             Dim dlist As String() = list.Distinct.ToArray
             Return dlist
         End Function

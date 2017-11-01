@@ -84,7 +84,7 @@ Namespace Analysis.MotifScans
         ''' </summary>
         ''' <returns></returns>
         Public Function Complement() As AnnotationModel
-            Dim motif = PWM.ToArray(Function(x) x.Complement)
+            Dim motif = PWM.Select(Function(x) x.Complement)
             Call Array.Reverse(motif)
             Call motif.WriteAddress
 
@@ -105,7 +105,7 @@ Namespace Analysis.MotifScans
         Public ReadOnly Property PspMatrix As MotifPM()
             Get
                 If _PspMatrix Is Nothing Then
-                    _PspMatrix = PWM.ToArray(Function(rsd) rsd.ToNtBase)
+                    _PspMatrix = PWM.Select(Function(rsd) rsd.ToNtBase)
                 End If
                 Return _PspMatrix
             End Get
@@ -117,7 +117,7 @@ Namespace Analysis.MotifScans
 
         Public ReadOnly Property Motif As String
             Get
-                Return New String(PWM.ToArray(Function(x) TOMQuery.TomTOm.ToChar(x)))
+                Return New String(PWM.Select(Function(x) TOMQuery.TomTOm.ToChar(x)))
             End Get
         End Property
 
@@ -145,10 +145,10 @@ Namespace Analysis.MotifScans
 
         Public Shared Function CreateObject(Motif As MEME.LDM.Motif) As AnnotationModel
             Return New AnnotationModel With {
-                .Sites = Motif.Sites.ToArray(Function(site) Analysis.MotifScans.Site.CreateObject(site)),
+                .Sites = Motif.Sites.Select(Function(site) Analysis.MotifScans.Site.CreateObject(site)),
                 .Evalue = Motif.Evalue,
                 .Width = Motif.Width,
-                .PWM = Motif.PspMatrix.ToArray(Function(site) New ResidueSite With {
+                .PWM = Motif.PspMatrix.Select(Function(site) New ResidueSite With {
                     .Bits = site.Bits,
                     .PWM = New Double() {site.A, site.T, site.G, site.C}}),
                 .Expression = Motif.Signature,
@@ -174,7 +174,7 @@ Namespace Analysis.MotifScans
                 source = GCModeller.FileSystem.GetMotifLDM
             End If
             Dim Files As String() = FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").ToArray
-            Dim loads = Files.ToArray(Function(x) x.LoadXml(Of AnnotationModel))
+            Dim loads = Files.Select(Function(x) x.LoadXml(Of AnnotationModel))
             Return loads.ToDictionary
         End Function
 
@@ -201,7 +201,7 @@ Namespace Analysis.MotifScans
                             Select LDM)
                 models = LDMs.Unlist
             Else
-                models = files.ToArray(Function(x) AnnotationModel.LoadDocument(x), parallel:=True).Unlist
+                models = files.Select(Function(x) AnnotationModel.LoadDocument(x), parallel:=True).Unlist
             End If
 
             If trimMotifId Then

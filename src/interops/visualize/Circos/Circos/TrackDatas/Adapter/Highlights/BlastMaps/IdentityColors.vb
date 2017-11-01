@@ -84,7 +84,7 @@ Namespace TrackDatas.Highlights
             Next
 
             Dim maps = GradientMaps.GradientMappings(d, mapName:=mapName, mapLevel:=depth, replaceBase:=True)
-            dCl = maps.ToArray(Function(x) x.CircosColor)
+            dCl = maps.Select(Function(x) x.CircosColor)
         End Sub
 
         Public Overrides Function GetColor(identity As Double) As String

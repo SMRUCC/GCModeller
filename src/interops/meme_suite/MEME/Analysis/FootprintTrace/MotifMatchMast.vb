@@ -182,7 +182,7 @@ Namespace Analysis.FootprintTraceAPI
                 If Not memeHash.ContainsKey(id) Then
                     Call VBDebugger.Warning("???? NOT FOUND:  " & site.Trace)
                 Else
-                    site.source = memeHash(id).Sites.ToArray(Function(x) x.Name)
+                    site.source = memeHash(id).Sites.Select(Function(x) x.Name)
                 End If
             Next
 
@@ -211,14 +211,14 @@ Namespace Analysis.FootprintTraceAPI
                           Select x
                           Group x By x.HitName Into Group) _
                                .ToDictionary(Function(x) x.HitName,
-                                             Function(x) x.Group.ToArray(Function(o) o.QueryName).Distinct.ToArray)
+                                             Function(x) x.Group.Select(Function(o) o.QueryName).Distinct.ToArray)
             Else
                 TFhash = (From x As BBHIndex
                           In bbh
                           Select x
                           Group x By x.QueryName Into Group) _
                                .ToDictionary(Function(x) x.QueryName,
-                                             Function(x) x.Group.ToArray(Function(o) o.HitName).Distinct.ToArray)
+                                             Function(x) x.Group.Select(Function(o) o.HitName).Distinct.ToArray)
             End If
 
             Dim result As New List(Of PredictedRegulationFootprint)

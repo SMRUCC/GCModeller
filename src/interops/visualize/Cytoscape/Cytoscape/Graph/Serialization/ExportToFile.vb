@@ -313,7 +313,7 @@ Namespace CytoscapeGraphView.Serialization
             Dim typeMapping As Func(Of String, String) =
                 __createTypeMapping(EdgeTypeMapping)
             Dim LQuery As XGMML.Edge() =
-                buf.ToArray(Function(x) x.__exportEdge(Nodes, typeMapping)) _
+                buf.Select(Function(x) x.__exportEdge(Nodes, typeMapping)) _
                 .WriteAddress(offset:=Nodes.Count)
             Return LQuery
         End Function

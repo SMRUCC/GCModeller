@@ -53,7 +53,7 @@ Partial Module Utilities
         Dim Codes = Codon.CreateHashTable
         Dim StopCodes = (From code In Codes Where Table.IsStopCoden(code.TranslHash) Select code.CodonValue).ToArray
         Call ($"{Table.ToString} ==> stop_codons={String.Join(",", StopCodes)}" & vbCrLf & vbCrLf).__DEBUG_ECHO
-        Dim PRO = ORF.ToArray(Function(Fasta) Fasta.__translate(Table, Force))
+        Dim PRO = ORF.Select(Function(Fasta) Fasta.__translate(Table, Force))
         Dim PROFasta = CType(PRO, FastaFile)
         Return PROFasta.Save(args("/orf") & ".PRO.fasta").CLICode
     End Function

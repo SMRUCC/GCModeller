@@ -668,7 +668,7 @@ SET_END:    Dim ends = i
                 .Location = New NucleotideLocation(CInt(r.Value1), CInt(r.Value2)),
                 .GC_Content = CDbl(r.Value3)
             })
-        Dim mapsSrc As Integer() = genesPretend.ToArray(Function(g) g.GC_Content).GenerateMapping(100)
+        Dim mapsSrc As Integer() = genesPretend.Select(Function(g) g.GC_Content).GenerateMapping(100)
 
         For i As Integer = 0 To genesPretend.Length - 1
             genesPretend(i).COG = CStr(mapsSrc(i))
@@ -1094,12 +1094,12 @@ SET_END:    Dim ends = i
 
         VBDebugger.Mute = True
 
-        Dim values = length.ToArray(Function(idx) d.TryGetValue(idx, [default]:=0))
+        Dim values = length.Select(Function(idx) d.TryGetValue(idx, [default]:=0))
 
         VBDebugger.Mute = False
 
         Dim slids = values.CreateSlideWindows(10)
-        Dim avgs = slids.ToArray(Function(win) win.Average)
+        Dim avgs = slids.Select(Function(win) win.Average)
         Return avgs
     End Function
 

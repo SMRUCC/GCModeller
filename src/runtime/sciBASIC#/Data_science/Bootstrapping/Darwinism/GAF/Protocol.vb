@@ -245,7 +245,7 @@ Namespace Darwinism.GAF
 #End If
             Call ga.AddDefaultListener(Sub(x)
                                            Call out.Add(x)
-                                           Call print(x, ga.Best.vars.ToArray(Function(v) New var(v)))
+                                           Call print(x, ga.Best.vars.Select(Function(v) New var(v)))
                                        End Sub, threshold)
             Call ga.Evolve(evolIterations%)
 
@@ -476,7 +476,7 @@ Namespace Darwinism.GAF
 
             Call ga.AddDefaultListener(Sub(x)
                                            Call out.Add(x)
-                                           Call print(x, ga.Best.vars.ToArray(Function(v) New var(v)))
+                                           Call print(x, ga.Best.vars.Select(Function(v) New var(v)))
                                        End Sub, threshold)
             Call ga.Evolve(evolIterations%)
 

@@ -144,7 +144,7 @@ Partial Module CLI
             Dim KEGGs = LoadReactions(GCModeller.FileSystem.KEGG.Directories.GetReactions)
             Dim intSets = sbml.KEGGReactions(KEGGs)
             Dim LQuery As RPKMStat() = (From x As Elements.Reaction In intSets Where MAT.ContainsKey(x.id) Select MAT(x.id)).ToArray
-            Dim maps = intSets.ToArray(Function(x) New KeyValuePair(x.id, x.Notes.Text))
+            Dim maps = intSets.Select(Function(x) New KeyValuePair(x.id, x.Notes.Text))
             Dim outMaps As String = out.TrimSuffix & ".KEGG_Maps.Xml"
             Call maps.SaveAsXml(outMaps)
             Return LQuery.SaveTo(out).CLICode

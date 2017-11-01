@@ -90,7 +90,7 @@ Public Class MotifScanner : Inherits IScanner
 
     Public Overloads Shared Function Scan(nt As String, pattern As String, equals As ISimilarity(Of String)) As SimpleSegment()
         Dim words As String() = Patterns.SimpleTokens(pattern)
-        Dim subject As String() = nt.ToArray(Function(c) CStr(c))
+        Dim subject As String() = nt.Select(Function(c) CStr(c))
         Dim GSW As New GSW(Of String)(words, subject, equals, AddressOf ToChar)
         Dim out As Output = GetOutput(GSW, 0, (2 / 3) * words.Length)
 

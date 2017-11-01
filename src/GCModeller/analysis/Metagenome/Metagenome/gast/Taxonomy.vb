@@ -368,9 +368,9 @@ Namespace gast
             End If
 
             taxReturn.Set(2, New Taxonomy(minRank)) ' lowest rank With valid assignment
-            taxReturn.Set(3, New Taxonomy(rankCounts.ToArray(Function(x) x.ToString))) ' number Of different taxa at Each rank
-            taxReturn.Set(4, New Taxonomy(maxPcts.ToArray(Function(x) x.ToString))) ' percentage Of the most popular taxon (!= "NA")
-            taxReturn.Set(5, New Taxonomy(naPcts.ToArray(Function(x) x.ToString))) ' percentage that are unassigned ("NA")
+            taxReturn.Set(3, New Taxonomy(rankCounts.Select(Function(x) x.ToString))) ' number Of different taxa at Each rank
+            taxReturn.Set(4, New Taxonomy(maxPcts.Select(Function(x) x.ToString))) ' percentage Of the most popular taxon (!= "NA")
+            taxReturn.Set(5, New Taxonomy(naPcts.Select(Function(x) x.ToString))) ' percentage that are unassigned ("NA")
 
             Return taxReturn
         End Function

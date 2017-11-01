@@ -52,13 +52,13 @@ Public Module Coverage
 
     <Extension> Public Function QueryLength(source As IEnumerable(Of HSP)) As Integer
         Dim nlst As Coordinate() =
-            source.ToArray(Function(x) New Coordinate With {.X = x.FromA, .Y = x.ToA})
+            source.Select(Function(x) New Coordinate With {.X = x.FromA, .Y = x.ToA})
         Return Length(nlst)
     End Function
 
     <Extension> Public Function SubjectLength(source As IEnumerable(Of HSP)) As Integer
         Dim nlst As Coordinate() =
-            source.ToArray(Function(x) New Coordinate With {.X = x.FromB, .Y = x.ToB})
+            source.Select(Function(x) New Coordinate With {.X = x.FromB, .Y = x.ToB})
         Return Length(nlst)
     End Function
 End Module

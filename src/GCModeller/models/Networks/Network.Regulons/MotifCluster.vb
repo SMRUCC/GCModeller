@@ -67,12 +67,12 @@ Public Module MotifCluster
 
             Dim mapObj As New Entity With {
                 .uid = map.x.Uid,
-                .Properties = mapResult.ToArray(Function(x) x.Bits + x.PWM.Average, where:=Function(x) Not x Is Nothing)
+                .Properties = mapResult.Select(Function(x) x.Bits + x.PWM.Average, where:=Function(x) Not x Is Nothing)
             }
             Call buffer.Add(mapObj)
         Next
 
-        Dim maxL = buffer.ToArray(Function(x) x.Length).Max
+        Dim maxL = buffer.Select(Function(x) x.Length).Max
 
         If maxL = 0 Then
             Return New Entity() {}

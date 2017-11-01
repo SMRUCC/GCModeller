@@ -137,7 +137,7 @@ Namespace Analysis.Similarity.TOMQuery
                                     param As Parameters) As SW_HSP()
             Dim method = TomTOm.GetMethod(param.Method)
             Dim alignment = (From out As SW_HSP
-                             In sw.HSP.ToArray(Function(x) x.__alignInvoke(query, subject, method, param), parallel:=param.Parallel)
+                             In sw.HSP.Select(Function(x) x.__alignInvoke(query, subject, method, param), parallel:=param.Parallel)
                              Where Not out Is Nothing
                              Select out).ToArray
             Return alignment

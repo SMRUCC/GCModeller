@@ -85,7 +85,7 @@ Namespace BarPlot.Histogram
         Sub New(data As IEnumerable(Of HistProfile))
             Samples = data
             Serials = data _
-                .ToArray(Function(x) New NamedValue(Of Color) With {
+                .Select(Function(x) New NamedValue(Of Color) With {
                     .Name = x.legend.title,
                     .Value = x.legend.color.ToColor
                 })
@@ -118,7 +118,7 @@ Namespace BarPlot.Histogram
                 .width = width,
                 .lineType = type,
                 .PointSize = ptSize,
-                .pts = data.ToArray(Function(x) x.LinePoint)
+                .pts = data.Select(Function(x) x.LinePoint)
             }
         End Function
 

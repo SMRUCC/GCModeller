@@ -58,7 +58,7 @@ Module Phylip
     ''' <param name="aln"></param>
     ''' <returns></returns>
     Private Function __mapScore(aln As MPCsvArchive()) As MPCsvArchive()
-        Dim scores = aln.ToArray(Function(x) x.Score)
+        Dim scores = aln.Select(Function(x) x.Score)
         Dim mapps%() = scores.GenerateMapping(1000)
 
         For i As Integer = 0 To aln.Length - 1
@@ -73,7 +73,7 @@ Module Phylip
         Dim query As New BLASTOutput.Views.Query With {
             .Id = name,
             .Hits = hits _
-                .ToArray(Function(x) New BBH.BestHit With {
+                .Select(Function(x) New BBH.BestHit With {
                     .HitName = x.HitName,
                     .identities = x.Similarity,
                     .QueryName = x.QueryName

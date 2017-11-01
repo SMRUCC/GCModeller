@@ -129,7 +129,7 @@ Namespace Analysis.Similarity.TOMQuery
                 If HSP.IsNullOrEmpty Then
                     Return 0
                 End If
-                Dim ls As Double = HSP.ToArray(Function(x) x.Alignment.MatchSimilarity).Average
+                Dim ls As Double = HSP.Select(Function(x) x.Alignment.MatchSimilarity).Average
                 Return ls
             End Get
         End Property

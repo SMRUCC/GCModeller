@@ -67,7 +67,7 @@ Partial Module CLI
                           Select x).ToArray
 
         Dim Networks = GeneInteractions.ExportPathwayGraph(Model)
-        Dim regulators = Footprints.ToArray(Function(x) x.Regulator).Distinct.ToArray(
+        Dim regulators = Footprints.Select(Function(x) x.Regulator).Distinct.ToArray(
             Function(x) New FileStream.Node With {
                 .ID = x,
                 .NodeType = "TF"
@@ -98,7 +98,7 @@ Partial Module CLI
         For Each kMod In Networks
             Dim edges = kMod.Value _
                 .Nodes _
-                .ToArray(Function(x) regulations.TryGetValue(x.ID)) _
+                .Select(Function(x) regulations.TryGetValue(x.ID)) _
                 .Unlist
             Dim Path As String = $"{outDIR}/{kMod.Key}/"
 
@@ -159,9 +159,9 @@ Partial Module CLI
     End Function
 
     Private Function __mergeCommon(source As IEnumerable(Of ______NETWORK__)) As ______NETWORK__
-        Dim Nods = source.ToArray(Function(x) x.Nodes, where:=Function(x) Not x Is Nothing).Unlist
+        Dim Nods = source.Select(Function(x) x.Nodes, where:=Function(x) Not x Is Nothing).Unlist
         Dim Edges As List(Of FileStream.NetworkEdge) =
-            source.ToArray(Function(x) x.Edges, where:=Function(x) Not x Is Nothing).Unlist
+            source.Select(Function(x) x.Edges, where:=Function(x) Not x Is Nothing).Unlist
 
         Dim __nodes = LinqAPI.Exec(Of Node) <=
             From node
@@ -172,7 +172,7 @@ Partial Module CLI
             Select New FileStream.Node With {
                 .ID = node.ID,
                 .NodeType = node.Group _
-                    .ToArray(Function(x) x.NodeType) _
+                    .Select(Function(x) x.NodeType) _
                     .Distinct _
                     .ToArray _
                     .JoinBy("; ")
@@ -181,7 +181,7 @@ Partial Module CLI
                        In Edges
                        Select edge,
                            id = edge.GetDirectedGuid
-                       Group By id Into Group).ToArray(Function(x) x.Group.First.edge)
+                       Group By id Into Group).Select(Function(x) x.Group.First.edge)
         Dim net As ______NETWORK__ = New ______NETWORK__ With {
             .Edges = __edges,
             .Nodes = __nodes
@@ -272,15 +272,15 @@ Partial Module CLI
                               Where String.Equals(x.Interaction, PathwayGene)
                               Select x
                               Group x By x.FromNode Into Group)  ' 代谢途径基因按照模块分组
-                Dim rhaves As String() = footprints.ToArray(Function(x) x.ORF).Distinct.ToArray
+                Dim rhaves As String() = footprints.Select(Function(x) x.ORF).Distinct.ToArray
                 Dim Trim = (From m In LQuery
                             Where (From x As FileStream.NetworkEdge In m.Group
                                    Where Array.IndexOf(rhaves, x.ToNode) > -1
                                    Select x).FirstOrDefault Is Nothing
                             Select m).ToArray
-                nulls = New FileStream.NetworkTables + Trim.ToArray(Function(x) x.Group).IteratesALL ' 添加新的网络节点
+                nulls = New FileStream.NetworkTables + Trim.Select(Function(x) x.Group).IteratesALL ' 添加新的网络节点
                 net -= nulls.Edges  ' 删除旧的网络节点
-                nulls += net <= nulls.Edges.ToArray(Function(x) {x.FromNode, x.ToNode}).IteratesALL
+                nulls += net <= nulls.Edges.Select(Function(x) {x.FromNode, x.ToNode}).IteratesALL
                 net -= nulls.Nodes
             End If
         End If

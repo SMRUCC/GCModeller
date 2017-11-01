@@ -158,7 +158,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
             Dim links As KeyValuePair(Of String, String)() = Regex _
                 .Matches(html, "<a href="".+?"">.+?</a>") _
-                .ToArray(Function(m) New KeyValuePair(Of String, String)(m, m.GetValue))
+                .Select(Function(m) New KeyValuePair(Of String, String)(m, m.GetValue))
             Dim sb As New StringBuilder(html)
 
             For Each l As KeyValuePair(Of String, String) In links

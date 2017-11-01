@@ -80,7 +80,7 @@ Public Module CorrsDbAPI
         End If
 
         Dim Lines As String() = IO.File.ReadAllLines(Path)
-        Dim Tokens = Lines.Skip(1).ToArray(Function(line) Strings.Split(line, vbTab), Parallel:=True)
+        Dim Tokens = Lines.Skip(1).Select(Function(line) Strings.Split(line, vbTab), Parallel:=True)
         Dim weights As WGCNA.Weight() =
             Tokens.ToArray(
                 Function(line) New Weight With {

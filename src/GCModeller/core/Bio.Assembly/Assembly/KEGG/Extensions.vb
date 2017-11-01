@@ -53,7 +53,7 @@ Namespace Assembly.KEGG
         Public Function GetIDpairedList(text$) As Dictionary(Of String, String())
             Dim ids$() = Regex _
                 .Matches(text, "\[.+?\]", RegexICSng) _
-                .ToArray(Function(s) s.GetStackValue("[", "]"))
+                .Select(Function(s) s.GetStackValue("[", "]"))
 
             ' 可能还会存在多重数据，所以在这里不能够直接生成字典
             Dim table As New Dictionary(Of String, List(Of String))

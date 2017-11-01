@@ -45,7 +45,7 @@ Namespace RegulatesGraph
         Public Function Create(sites As String, <Parameter("Dir.Modules")> mods As String) As Graph
             Dim motifSites = sites.LoadCsv(Of MotifSite)
             Dim modDetails = FileIO.FileSystem.GetFiles(mods, FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
-                .ToArray(Function(file) file.LoadXml(Of bGetObject.Module), Parallel:=True) _
+                .Select(Function(file) file.LoadXml(Of bGetObject.Module), Parallel:=True) _
                 .ToDictionary(Function([mod]) [mod].EntryId.Split("_"c).Last.ToUpper)
             Return Create(motifSites, modDetails)
         End Function
@@ -67,7 +67,7 @@ Namespace RegulatesGraph
                                                           Select g
                                                           Group g By g.mod Into Group) _
                                                                .ToDictionary(Function(oo) oo.mod,
-                                                                             Function(gg) gg.Group.ToArray(Function(ggg) ggg.Locus_tag)))
+                                                                             Function(gg) gg.Group.Select(Function(ggg) ggg.Locus_tag)))
             Dim Edges As PathwayRegulates() = LQuery.ToArray(
                 Function(site) site.Value.ToArray(
                 Function(obj, target) __regulates(site.Key, obj, target))).ToVector

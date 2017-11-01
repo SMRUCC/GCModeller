@@ -79,14 +79,14 @@ Namespace FileSystem
         End Function
 
         Private Shared Function __trace(pfam As PfamString()) As String()
-            Dim Pfams As String() = pfam.ToArray(Function(x) x.PfamString.Split("+"c).ToArray(Function(pf) pf.Split("("c).First)).ToVector
+            Dim Pfams As String() = pfam.Select(Function(x) x.PfamString.Split("+"c).Select(Function(pf) pf.Split("("c).First)).ToVector
             Dim Groups = (From x As String In Pfams Select x Group x By x.ToLower Into Group).ToArray
             Dim l As Integer = pfam.Length * 0.95
             Dim lst As String() = (From pf In Groups
                                    Let co As Integer = pf.Group.Count
                                    Where co >= l
                                    Select co, pf.ToLower
-                                   Order By co Descending).ToArray.Take(3).ToArray(Function(x) x.ToLower)
+                                   Order By co Descending).ToArray.Take(3).Select(Function(x) x.ToLower)
             Return lst
         End Function
 
@@ -177,7 +177,7 @@ Namespace FileSystem
         ''' <param name="query"></param>
         ''' <returns></returns>
         Private Function __matchTraceDef(query As Pfam.PfamString.PfamString) As MatchStates
-            Dim queryDomains As String() = query.PfamString.ToArray(Function(x) x.Split("("c).First.ToLower)
+            Dim queryDomains As String() = query.PfamString.Select(Function(x) x.Split("("c).First.ToLower)
             ' 查看是否有交集
             Dim LQuery As Integer = (From x As String
                                      In queryDomains
@@ -192,9 +192,9 @@ Namespace FileSystem
 
         Public Shared Function CreateObject(Name As String, proteins As PfamString(), Optional describ As KeyValuePair() = Nothing) As Family
             Dim Domains As String() = proteins _
-                .ToArray(Function(x) x.Domains) _
+                .Select(Function(x) x.Domains) _
                 .IteratesALL _
-                .ToArray(Function(x) x.Split(":"c).First) _
+                .Select(Function(x) x.Split(":"c).First) _
                 .Distinct _
                 .ToArray
             Return New Family With {

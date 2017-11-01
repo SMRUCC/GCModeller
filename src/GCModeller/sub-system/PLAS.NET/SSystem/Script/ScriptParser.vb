@@ -116,10 +116,10 @@ Namespace Script
                 Call val.Constant.Add(x.Name, expr:=x.Value)
             Next
 
-            Dim inits = typeTokens(Script.Tokens.InitValue).ToArray(Function(x) var.TryParse(x.Text, val))
+            Dim inits = typeTokens(Script.Tokens.InitValue).Select(Function(x) var.TryParse(x.Text, val))
 
             If typeTokens.ContainsKey(Script.Tokens.Disturb) Then
-                Disturbs = typeTokens(Script.Tokens.Disturb).ToArray(Function(x) ExperimentParser(x.Text))
+                Disturbs = typeTokens(Script.Tokens.Disturb).Select(Function(x) ExperimentParser(x.Text))
             Else
                 Disturbs = {}
             End If
@@ -140,7 +140,7 @@ Namespace Script
 
             Dim Comments As String() =
                 If(typeTokens.ContainsKey(Script.Tokens.Comment),
-                typeTokens(Script.Tokens.Comment).ToArray(Function(x) x.Text),
+                typeTokens(Script.Tokens.Comment).Select(Function(x) x.Text),
                 {})
 
             Dim model As New Model With {
@@ -155,7 +155,7 @@ Namespace Script
             Dim NameList As String()
 
             If typeTokens.ContainsKey(Script.Tokens.Alias) Then
-                NameList = typeTokens(Script.Tokens.Alias).ToArray(Function(x) x.Text)
+                NameList = typeTokens(Script.Tokens.Alias).Select(Function(x) x.Text)
             Else
                 NameList = {}
             End If
@@ -179,7 +179,7 @@ Namespace Script
 
             model.UserFunc =
                 If(typeTokens.ContainsKey(Script.Tokens.Function),
-                typeTokens(Script.Tokens.Function).ToArray(Function(x) CType(x.Text, [Function])),
+                typeTokens(Script.Tokens.Function).Select(Function(x) CType(x.Text, [Function])),
                 {})
 
             Return model
