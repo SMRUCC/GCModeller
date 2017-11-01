@@ -49,7 +49,7 @@ Namespace Colors
 
         <Extension>
         Public Function FromAT(source As IEnumerable(Of GeneObjectGC)) As Mappings()
-            Dim AT As Double() = source.Select(Function(x) x.value)
+            Dim AT As Double() = source.Select(Function(x) x.value).ToArray
             Return GradientMaps.GradientMappings(AT)
         End Function
 

@@ -171,7 +171,7 @@ Partial Module CLI
                        Select o
                        Group o By o.n Into Group) _
                             .ToDictionary(Function(x) x.n,
-                                          Function(x) x.Group.Select(Function(o) o.operon))
+                                          Function(x) x.Group.Select(Function(o) o.operon).ToArray)
 
         Using writer As New WriteStream(Of RegulatesFootprints)(out)
             Call New DataStream([in]).ForEachBlock(Of RegulatesFootprints)(
@@ -203,7 +203,7 @@ Partial Module CLI
                         Order By x.sid Ascending
                         Group x By x.sid Into Group) _
                              .ToDictionary(Function(x) x.sid,
-                                           Function(x) x.Group.Select(Function(o) o.opr.source))
+                                           Function(x) x.Group.Select(Function(o) o.opr.source).ToArray)
             Return hash
         End Function
 
@@ -619,7 +619,7 @@ Partial Module CLI
         Dim task As Func(Of String, String) =
             Function(file) _
                 $"{GetType(CLI).API(NameOf(PromoterSites))} /in {file.CLIPath} /out {$"{out}/{file.BaseName}.csv".CLIPath}"
-        Dim CLI As String() = files.ToArray(task)
+        Dim CLI As String() = files.Select(task).ToArray
         Dim n As Integer = args.GetValue("/num_threads", -1)
 
         If n < 0 Then

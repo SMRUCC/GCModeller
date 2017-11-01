@@ -663,11 +663,11 @@ SET_END:    Dim ends = i
             }
         Next
 
-        Dim genesPretend = regions.ToArray(
+        Dim genesPretend = regions.Select(
             Function(r) New GeneDumpInfo With {
                 .Location = New NucleotideLocation(CInt(r.Value1), CInt(r.Value2)),
                 .GC_Content = CDbl(r.Value3)
-            })
+            }).ToArray
         Dim mapsSrc As Integer() = genesPretend.Select(Function(g) g.GC_Content).GenerateMapping(100)
 
         For i As Integer = 0 To genesPretend.Length - 1
@@ -1094,12 +1094,12 @@ SET_END:    Dim ends = i
 
         VBDebugger.Mute = True
 
-        Dim values = length.Select(Function(idx) d.TryGetValue(idx, [default]:=0))
+        Dim values = length.Sequence.Select(Function(idx) d.TryGetValue(idx, [default]:=0))
 
         VBDebugger.Mute = False
 
         Dim slids = values.CreateSlideWindows(10)
-        Dim avgs = slids.Select(Function(win) win.Average)
+        Dim avgs = slids.Select(Function(win) win.Average).ToArray
         Return avgs
     End Function
 

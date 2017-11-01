@@ -65,6 +65,7 @@ Namespace DrawingModels
                                     colorProfiles.TryGetValue(
                                         CStr(c),
                                         [default]:=defaultCOG_color), SolidBrush).Color) _
+                                .ToArray _
                                 .NeutralizeColor
                             gene.Color = New SolidBrush(neuColor)
                         Else

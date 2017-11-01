@@ -144,7 +144,7 @@ Public Class RegPreciseRegulon
                                                       Function(x) x.Group.Select(Function(xxx) xxx.x))).ToArray
         Dim LQuery = (From x
                       In Groups.AsParallel
-                      Select x.parts.Values.ToArray(
+                      Select x.parts.Values.Select(
                           Function(xx) RegPreciseRegulon.Merge(xx))).Unlist.ToVector
         Return LQuery
     End Function

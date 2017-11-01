@@ -66,7 +66,7 @@ Namespace TrackDatas
 
         <Extension>
         Public Function Ranges(data As IEnumerable(Of ValueTrackData)) As DoubleRange
-            Dim bufs As Double() = data.Select(Function(x) x.value)
+            Dim bufs As Double() = data.Select(Function(x) x.value).ToArray
             Return New DoubleRange(bufs)
         End Function
     End Module

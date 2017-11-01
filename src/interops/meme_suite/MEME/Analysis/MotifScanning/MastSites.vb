@@ -196,7 +196,7 @@ Namespace Analysis.MotifScans
                                 site
                             Group By guid Into Group) _
                                 .ToDictionary(Function(site) site.guid,
-                                              Function(site) site.Group.Select(Function(obj) obj.site))
+                                              Function(site) site.Group.Select(Function(obj) obj.site).ToArray)
             Return pwmFasta
         End Function
 

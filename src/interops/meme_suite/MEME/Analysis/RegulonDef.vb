@@ -76,11 +76,11 @@ Namespace Analysis
                 .Select(Function(x) x.LoadCsv(Of Analysis.Similarity.TOMQuery.CompareResult)).ToVector
             Dim tomHash = (From x As Similarity.TOMQuery.CompareResult
                            In tomOUTs
-                           Select uid = basename(x.QueryName),
+                           Select uid = BaseName(x.QueryName),
                                x
                            Group By uid Into Group) _
                                 .ToDictionary(Function(x) x.uid,
-                                              Function(x) x.Group.Select(Function(xx) xx.x))
+                                              Function(x) x.Group.Select(Function(xx) xx.x).ToArray)
             Dim regulonHash = (From x In regulons
                                Where Not x.Regulons Is Nothing
                                Select x.Regulons.Regulators.Select(Function(xx) New With {.uid = uid(xx), .regulon = xx})).ToVector

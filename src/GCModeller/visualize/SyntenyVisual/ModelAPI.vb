@@ -63,7 +63,7 @@ Public Module ModelAPI
                          Select x
                          Group x By x.HitName Into Group) _
                               .ToDictionary(Function(x) x.HitName,
-                                            Function(x) x.Group.Select(Function(o) o.QueryName))
+                                            Function(x) x.Group.Select(Function(o) o.QueryName).ToArray)
         End Sub
 
         ''' <summary>

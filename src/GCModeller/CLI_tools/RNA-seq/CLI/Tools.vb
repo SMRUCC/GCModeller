@@ -285,7 +285,7 @@ Partial Module CLI
 
         If NNNNcontig.FileExists Then
             Dim contigs = NNNNcontig.LoadCsv(Of SimpleSegment)
-            Dim genes = contigs.Select(Function(x) x.ToPTTGene)
+            Dim genes = contigs.Select(Function(x) x.ToPTTGene).ToArray
             genome = New GenomeContextProvider(Of GeneBrief)(genes)
             tagsHash = (From x As SimpleSegment
                         In contigs
@@ -517,7 +517,7 @@ Partial Module CLI
                     Where s <> "0" AndAlso s <> "0.0"
                     Select s
                 If Not String.IsNullOrEmpty(noZERO) Then
-                    nonZEROs += columns.Select(Function(x) x(index))
+                    nonZEROs += columns.Select(Function(x) x(index)).ToArray
                 End If
             Next
 
