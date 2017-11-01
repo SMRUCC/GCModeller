@@ -158,7 +158,7 @@ Partial Module CLI
                     Dim group = cat.ToArray
 
                     Call group.SaveTo(file)
-                    Call lstRegulators.Add(group.Select(Function(x) x.Regulator))
+                    Call lstRegulators.Add(group.Select(Function(x) x.Regulator).ToArray)
                 Next
             Next
 
