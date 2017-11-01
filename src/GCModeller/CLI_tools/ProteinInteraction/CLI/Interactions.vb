@@ -78,7 +78,7 @@ Partial Module CLI
             .Attributes = {predict.ProteinId},
             .SequenceData = prot(tokens.First).SequenceData & prot(tokens.Last).SequenceData
         }
-        Dim struct = predict.GetDomainData(False).Select(Function(x) x.Name)
+        Dim struct = predict.GetDomainData(False).Select(Function(x) x.Name).ToArray
         Dim LQuery = (From x In subject.AsParallel
                       Let fm_tokens As String() = x.Family.Split("+"c)
                       Let score = LevenshteinDistance.Similarity(struct, fm_tokens, 0.95)
@@ -167,7 +167,7 @@ Partial Module CLI
         Dim inPfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim LoadFasta = (From file As String
                          In FileIO.FileSystem.GetFiles(args("/aln"), FileIO.SearchOption.SearchTopLevelOnly, "*.fasta").AsParallel
-                         Select FastaFile.Read(file)).Select(Function(x) x.ToDictionary(Function(xx) xx.Title.Split.First.Split(":"c).Last))
+                         Select FastaFile.Read(file)).Select(Function(x) x.ToDictionary(Function(xx) xx.Title.Split.First.Split(":"c).Last)).ToArray
         Dim LQuery = (From x As Pfam.PfamString.PfamString
                       In inPfam.AsParallel
                       Let order As String = (From id As ProteinModel.DomainObject
@@ -176,7 +176,7 @@ Partial Module CLI
                       Select order, x
                       Group By order Into Group) _
                  .ToDictionary(Function(x) x.order,
-                               elementSelector:=Function(x) x.Group.Select(Function(xx) xx.x))
+                               elementSelector:=Function(x) x.Group.Select(Function(xx) xx.x).ToArray)
         Dim Categories = LQuery.Select(Function(x) Family.FileSystem.Family.CreateObject(x.Key, x.Value))
         Dim list = (From fm As Family.FileSystem.Family
                     In Categories.AsParallel
@@ -230,15 +230,14 @@ Partial Module CLI
                                                              Let id As String = x.Split(":"c).Last
                                                              Let tokens = id.Split("-"c)
                                                              Select New KeyValuePair(Of String, String)(tokens(0), tokens(1))).ToArray
-        Dim contracts = intsList.ToArray(
+        Dim contracts = intsList.Where(Function(x) HiskFa.ContainsKey(x.Key) AndAlso RRFa.ContainsKey(x.Value)).Select(
             Function(x) New SequenceModel.FASTA.FastaToken With {
                 .SequenceData = HiskFa(x.Key).SequenceData & RRFa(x.Value).SequenceData,
-                .Attributes = {$"{x.Key}-{x.Value}"}},
-            where:=Function(x) HiskFa.ContainsKey(x.Key) AndAlso RRFa.ContainsKey(x.Value))
-        alignments = contracts.ToArray(
+                .Attributes = {$"{x.Key}-{x.Value}"}}).ToArray
+        alignments = contracts.Select(
             Function(x) New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {
                 .Key = x.Title,
-                .Value = x.SequenceData})
+                .Value = x.SequenceData}).ToArray
         Dim SRChain As SRChain() = SR.FromAlign(contracts, 0.95)
         Dim sig = SRChain.Select(Function(x) Signature.CreateObject(x.lstSR, name))
         Return sig
@@ -255,7 +254,7 @@ Partial Module CLI
                       Select order, x
                       Group By order Into Group) _
                          .ToDictionary(Function(x) x.order,
-                                       elementSelector:=Function(x) x.Group.Select(Function(xx) xx.x))
+                                       elementSelector:=Function(x) x.Group.Select(Function(xx) xx.x).ToArray)
         Dim Categories = LQuery.Select(Function(x) Family.FileSystem.Family.CreateObject(x.Key, x.Value))
         Dim Database As New Family.FileSystem.FamilyPfam With {
             .Family = Categories,
@@ -320,10 +319,10 @@ Partial Module CLI
         End Function
 
         Public Function Folk(cutoff As Double, level As Integer) As Category
-            Dim aln As FastaToken() = Alignments.ToArray(
+            Dim aln As FastaToken() = Alignments.Select(
                 Function(x) New FastaToken With {
                     .SequenceData = x.Value,
-                    .Attributes = {x.Key}})
+                    .Attributes = {x.Key}}).ToArray
             Return FromAlign(aln, cutoff, name:=Family & "-" & CStr(cutoff), level:=level)
         End Function
 
@@ -334,8 +333,7 @@ Partial Module CLI
             Dim chains = SR.FromAlign(aln, cutoff, level)
             Dim setValue = New SetValue(Of Interactions.Signature) <=
                 NameOf(Interactions.Signature.Level)
-            Dim signatures = chains.ToArray(
-                Function(x, index) setValue(Interactions.Signature.CreateObject(x), (level - index) / level))
+            Dim signatures = chains.Select(Function(x, index) setValue(Interactions.Signature.CreateObject(x), (level - index) / level)).ToArray
             Dim ppiCategory As New Interactions.Category With {
                 .Signature = signatures,
                 .Alignments = aln.Select(Function(x) New KeyValuePair With {
@@ -391,15 +389,15 @@ Partial Module CLI
                                                              Let id As String = x.Split(":"c).Last
                                                              Let tokens = id.Split("-"c)
                                                              Select New KeyValuePair(Of String, String)(tokens(0), tokens(1))).ToArray
-        Dim contracts = intsList.ToArray(
+        Dim contracts = intsList.Where(Function(x) HiskFa.ContainsKey(x.Key) AndAlso RRFa.ContainsKey(x.Value)).Select(
             Function(x) New SequenceModel.FASTA.FastaToken With {
                 .SequenceData = HiskFa(x.Key).SequenceData & RRFa(x.Value).SequenceData,
-                .Attributes = {$"{x.Key}-{x.Value}"}},
-            where:=Function(x) HiskFa.ContainsKey(x.Key) AndAlso RRFa.ContainsKey(x.Value))
-        alignments = contracts.ToArray(
+                .Attributes = {$"{x.Key}-{x.Value}"}}).ToArray
+
+        alignments = contracts.Select(
             Function(x) New Microsoft.VisualBasic.ComponentModel.KeyValuePair With {
                 .Key = x.Title,
-                .Value = x.SequenceData})
+                .Value = x.SequenceData}).ToArray
         Dim SRChain As SRChain() = SR.FromAlign(contracts, 0.9)
         Dim sig = SRChain.Select(Function(x) Signature.CreateObject(x.lstSR, name))
         Return sig

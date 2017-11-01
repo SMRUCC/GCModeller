@@ -416,7 +416,7 @@ Namespace Assembly.NCBI.Taxonomy
             Dim result As New Dictionary(Of Integer, Integer())
 
             For Each taxid In taxids
-                result(taxid) = flatten(__descendants(taxid)).Select(Of Integer)
+                result(taxid) = flatten(__descendants(taxid)).ToArray(Of Integer)
             Next
 
             Return result

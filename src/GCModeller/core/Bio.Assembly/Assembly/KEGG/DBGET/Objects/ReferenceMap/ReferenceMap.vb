@@ -203,7 +203,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         Private Shared Function __DBLinksParser(str As String) As KeyValuePair()
             Dim LQuery As KeyValuePair() =
                 Regex.Matches(str, DB_LINK_PATTERN) _
-                    .Select(AddressOf __parserLinks) _
+                    .ToArray(AddressOf __parserLinks) _
                     .ToVector
             Return LQuery
         End Function

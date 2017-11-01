@@ -62,7 +62,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
             If Not String.IsNullOrEmpty(sValue) Then
                 Dim IDs As String() = Regex _
                     .Matches(sValue, ENTRY_PATTERN, RegexOptions.IgnoreCase) _
-                    .Select(Function(m) m.Split(CChar(":")).Last)
+                    .ToArray(Function(m) m.Split(CChar(":")).Last)
                 Dim genes = LinqAPI.Exec(Of NamedCollection(Of QueryEntry)) <=
  _
                     From EntryID As String

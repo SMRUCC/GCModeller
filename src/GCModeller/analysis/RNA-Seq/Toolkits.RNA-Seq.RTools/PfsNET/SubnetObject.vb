@@ -75,7 +75,7 @@ Namespace PfsNET
                 LinqAPI.Exec(Of Vector) <= From strLine As String
                                            In Regex.Matches(strTemp, "c\(\d+(,\d+)*\)", RegexOptions.IgnoreCase).ToArray
                                            Select New Vector With {
-                                               .x = Regex.Matches(strLine, "-?\d+(\.\d+)?").Select(AddressOf Val)
+                                               .x = Regex.Matches(strLine, "-?\d+(\.\d+)?").ToArray(AddressOf Val)
                                            }
             Dim subnet As NetDetails = NetDetails.TryParse(strData)
 

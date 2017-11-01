@@ -99,7 +99,7 @@ Namespace Restriction_enzyme
 
         <Extension> Private Function __enzymeParser(row As String) As Enzyme
             Dim cols As String() = Regex.Matches(row.Replace("&nbsp;", " "), "<td>.+?</td>", RegexOptions.Singleline Or RegexOptions.IgnoreCase) _
-                .Select(Function(s) s.TrimNewLine("").Trim)
+                .ToArray(Function(s) s.TrimNewLine("").Trim)
             Dim enzyme As New Enzyme
             Dim p As New Pointer(Of String)
 
@@ -121,7 +121,7 @@ Namespace Restriction_enzyme
 
         <Extension>
         Private Function __recognitionParser(s As String) As Recognition
-            Dim sides As String() = Regex.Matches(s, "<code>.+?</code>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).Select(Function(ss) ss.GetValue)
+            Dim sides As String() = Regex.Matches(s, "<code>.+?</code>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray(Function(ss) ss.GetValue)
             Dim sh = (From ss As String In sides Let sd As String = Regex.Match(ss, "\d'").Value Select sd, seq = ss.Replace(sd, "").Trim).ToArray
             Dim F As String = (From x In sh Where String.Equals(x.sd, "5'") Select x.seq).FirstOrDefault
             Dim R As String = (From x In sh Where String.Equals(x.sd, "3'") Select x.seq).FirstOrDefault
@@ -132,7 +132,7 @@ Namespace Restriction_enzyme
         End Function
 
         <Extension> Public Function __cutsParser(s As String) As Cut()
-            Dim sides As String() = Regex.Matches(s, "<code>.+?</code>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).Select(Function(ss) Regex.Replace(ss.GetValue, htmlTag, "@"))
+            Dim sides As String() = Regex.Matches(s, "<code>.+?</code>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray(Function(ss) Regex.Replace(ss.GetValue, htmlTag, "@"))
             Return sides.Select(Function(ss) Cut.Parser(ss)).ToArray
         End Function
 
