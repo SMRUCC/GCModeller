@@ -206,7 +206,7 @@ Namespace Regprecise
             Dim LQuery = (From g As BacteriaGenome
                           In Me.BacteriaGenomes
                           Where Not g.Regulons Is Nothing
-                          Select g.Regulons.Regulators.ToArray(Function(x) (From site As Regtransbase.WebServices.FastaObject
+                          Select g.Regulons.Regulators.Select(Function(x) (From site As Regtransbase.WebServices.FastaObject
                                                                             In x.RegulatorySites
                                                                             Select uid = $"{site.LocusTag}:{site.Position}",
                                                                                 x.LocusId)).IteratesALL).IteratesALL
@@ -214,7 +214,7 @@ Namespace Regprecise
                           Select x
                           Group x By x.uid Into Group) _
                                .ToDictionary(Function(x) x.uid,
-                                             Function(x) x.Group.ToArray(Function(s) s.LocusId))
+                                             Function(x) x.Group.Select(Function(s) s.LocusId).ToArray)
             Return Groups
         End Function
     End Class

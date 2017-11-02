@@ -47,7 +47,7 @@ Partial Module CLI
     Public Function PathwayRegulations(args As CommandLine) As Integer
         Dim Footprints = args("-footprints").LoadCsv(Of PredictedRegulationFootprint)
         Dim Pathways = FileIO.FileSystem.GetFiles(args("/pathway"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
-            .ToArray(Function(file) file.LoadXml(Of bGetObject.Pathway))
+            .Select(Function(file) file.LoadXml(Of bGetObject.Pathway))
         Dim PathwayBrites = BriteHEntry.Pathway.LoadFromResource.ToDictionary(Function(entry) entry.EntryId)
         Dim outDIR As String = args.GetValue("/out", args("-footprints").TrimSuffix)
         Dim modRegulators As Dictionary(Of String, List(Of String)) =
@@ -87,9 +87,9 @@ Partial Module CLI
                 Call modRegulators.Add(pwyBrite.Class, regulators)
             End If
 
-            regulators += doc _
-                .ToArray(Function(r) r.Regulator,
-                         Function(r) Not String.IsNullOrEmpty(r.Regulator))
+            regulators += doc.Where(Function(r) Not String.IsNullOrEmpty(r.Regulator)) _
+                .Select(Function(r) r.Regulator)
+
         Next
 
         For Each type In modRegulators.ToArray
@@ -102,14 +102,14 @@ Partial Module CLI
         Next
 
         ' 求所有代谢途径之中都出现的核心的调控因子
-        Dim sets = modRegulators.ToArray(Function(x) New [Set](x.Value))
+        Dim sets = modRegulators.Select(Function(x) New [Set](x.Value))
         Dim core As [Set] = sets.First
 
         For Each [set] As [Set] In sets
             core = core And [set]
         Next
 
-        Dim coreRegulators = core.ToArray.ToArray(Function(x) Scripting.ToString(x))
+        Dim coreRegulators = core.ToArray.Select(Function(x) Scripting.ToString(x))
         Call coreRegulators.FlushAllLines(
             outDIR & "/Core.Regulators.txt", Encodings.ASCII)
         Dim coreRegulations = (From regulate In Footprints.AsParallel
@@ -131,7 +131,7 @@ Partial Module CLI
         '            .Identifier = id,
         '            .NodeType = "ORF"}).ToDictionary(Function(x) x.Identifier)
 
-        'For Each regulator As String In coreRegulations.ToArray(Function(x) x.Regulator).Distinct
+        'For Each regulator As String In coreRegulations.Select(Function(x) x.Regulator).Distinct
         '    If nodes.ContainsKey(regulator) Then
         '        nodes(regulator).NodeType &= "; TF"
         '    Else
@@ -152,14 +152,14 @@ Partial Module CLI
                         Select regu
                         Group regu By regu.Regulator Into Group).ToArray
         For Each regulatss In Promotes
-            Dim fa = regulatss.Group.ToArray(Function(x, idx) New FastaToken With {.Attributes = {x.ORF & "_" & idx}, .SequenceData = x.Sequence})
+            Dim fa = regulatss.Group.Select(Function(x, idx) New FastaToken With {.Attributes = {x.ORF & "_" & idx}, .SequenceData = x.Sequence})
             Dim path As String = outDIR & $"/MEME/UP/fa/{regulatss.Regulator}.fasta"
             Call New FastaFile(fa).Save(path)
         Next
 
         Promotes = (From regu In coreRegulations Where regu.Pcc < 0 Select regu Group regu By regu.Regulator Into Group).ToArray
         For Each regulatss In Promotes
-            Dim fa = regulatss.Group.ToArray(Function(x, idx) New FastaToken With {.Attributes = {x.ORF & "_" & idx}, .SequenceData = x.Sequence})
+            Dim fa = regulatss.Group.Select(Function(x, idx) New FastaToken With {.Attributes = {x.ORF & "_" & idx}, .SequenceData = x.Sequence})
             Dim path As String = outDIR & $"/MEME/Supress/fa/{regulatss.Regulator}.fasta"
             Call New FastaFile(fa).Save(path)
         Next

@@ -360,7 +360,7 @@ Namespace Metagenome
             For Each edge As NetworkEdge In edges
                 taxids = edge.Interaction.Split("-"c)
                 colorPaired = taxids _
-                    .ToArray(Function(t) colors(t)) _
+                    .Select(Function(t) colors(t)) _
                     .Select(AddressOf ColorTranslator.FromHtml) _
                     .ToArray
                 color = (

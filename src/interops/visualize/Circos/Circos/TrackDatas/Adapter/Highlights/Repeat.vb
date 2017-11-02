@@ -43,7 +43,7 @@ Namespace TrackDatas.Highlights
             Dim clMaps As IdentityColors = New IdentityGradients(attrs.Min, attrs.Max, 512)
             Dim v As Double() = attrs.ToArray
             Me.__source = New List(Of ValueTrackData)(
-                repeat.ToArray(Function(x) __creates(x, maps:=clMaps, attrs:=v)))
+                repeat.Select(Function(x) __creates(x, maps:=clMaps, attrs:=v)))
         End Sub
 
         Private Shared Function __creates(loci As NtProps.Repeat, maps As IdentityColors, attrs As Double()) As ValueTrackData

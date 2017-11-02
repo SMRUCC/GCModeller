@@ -41,7 +41,7 @@ Namespace Interpro.Xml
         End Function
 
         Public Shared Function CreateObject(interpro As Xml.Interpro, dict As Dictionary(Of String, Xml.Interpro)) As Family
-            Dim includes = interpro.contains.ToArray(Function(x) dict(x.ipr_ref))
+            Dim includes = interpro.contains.Select(Function(x) dict(x.ipr_ref))
             Dim Pfam = (From x In interpro.member_list
                         Where String.Equals(x.db, "PFAM", StringComparison.OrdinalIgnoreCase)
                         Select x.dbkey).ToArray

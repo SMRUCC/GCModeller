@@ -42,7 +42,7 @@ Namespace OBO
         Public Property is_a As NamedValue(Of String)()
 
         Sub New(term As Term)
-            is_a = term.is_a.ToArray(Function(s) s.GetTagValue(" ! ", trim:=True))
+            is_a = term.is_a.Select(Function(s) s.GetTagValue(" ! ", trim:=True)).ToArray
         End Sub
     End Class
 End Namespace

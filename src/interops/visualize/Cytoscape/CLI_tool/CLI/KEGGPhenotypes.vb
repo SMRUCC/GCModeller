@@ -48,7 +48,7 @@ Partial Module CLI
         Dim uids = (From x As PredictedRegulationFootprint In source
                     Let uid As String = $"{x.ORF}.{x.Regulator}.{x.MotifTrace}.{x.MotifId}"
                     Select x, uid
-                    Group By uid Into Group).ToArray(Function(x) x.Group.First.x)
+                    Group By uid Into Group).Select(Function(x) x.Group.First.x)
         Return uids
     End Function
 
@@ -91,12 +91,12 @@ Partial Module CLI
         Next
 
         Dim l As Integer = footprints.Length
-        Dim sets As EntityLDM() = Entities.ToArray(
+        Dim sets As EntityLDM() = Entities.Select(
             Function(x) New EntityLDM With {
                 .ID = x.EntryId,
                 .Properties = x.hash.ToDictionary(Function(prop) prop.Key,
                                                   Function(prop) prop.Value.Value / l)
-        })
+        }).ToArray
 
         Call sets.SaveTo(out.TrimSuffix & ".resultSet.Csv")
 

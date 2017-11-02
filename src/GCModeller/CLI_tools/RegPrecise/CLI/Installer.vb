@@ -46,7 +46,7 @@ Partial Module CLI
     Public Function InstallRegPreciseMotifs(args As CommandLine) As Integer
         Dim importsDIR As String = args("/imports")
         Dim files = FileIO.FileSystem.GetFiles(importsDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.xml")
-        Dim motifs = files.ToArray(Function(m) m.LoadXml(Of MotifSitelog))
+        Dim motifs = files.Select(Function(m) m.LoadXml(Of MotifSitelog))
         Dim EXPORT As String = GCModeller.FileSystem.RegpreciseRoot & "/MotifSites/"
 
         For Each motif As MotifSitelog In motifs
@@ -63,7 +63,7 @@ Partial Module CLI
             Dim path As String = __path(EXPORT, motif)
 
             Do While fa.NumberOfFasta < 6
-                Dim copy = sites.ToArray(Function(x) New FastaToken({__title(x.Attributes.First, i)}, x.SequenceData))
+                Dim copy = sites.Select(Function(x) New FastaToken({__title(x.Attributes.First, i)}, x.SequenceData))
                 Call fa.AddRange(copy)
                 i += 1
             Loop
@@ -123,7 +123,7 @@ Partial Module CLI
         Next
 
         If args.GetBoolean("/locus-out") Then
-            Dim outLocus As String() = prot.ToArray(Function(x) x.Attributes(Scan0))
+            Dim outLocus As String() = prot.Select(Function(x) x.Attributes(Scan0))
             Call outLocus.FlushAllLines(out.TrimSuffix & "-locus_tags.txt")
         End If
 
@@ -175,7 +175,7 @@ Partial Module CLI
                  uid = x.QueryName.Split(":"c).Last  ' 移除KEGG的物种简写代码
              Group By uid Into Group) _
                      .ToDictionary(Function(x) x.uid,
-                                   Function(x) x.Group.ToArray(Function(o) o.x))
+                                   Function(x) x.Group.Select(Function(o) o.x).ToArray)
         Dim list As New List(Of BBHIndex)
 
         For Each genome As BacteriaGenome In (From path As String In xmls Select path.LoadXml(Of BacteriaGenome))

@@ -163,7 +163,7 @@ Public Module API
                                  reader As IPolymerSequenceModel,
                                  <Parameter("Source.Directed?")>
                                  Optional sourceDirect As Boolean = True) As Rfamily()
-        Dim lstData As Rfamily() = blastn.ToArray(Function(x) __createObject(Rfam, x, PTT, reader, sourceDirect))
+        Dim lstData As Rfamily() = blastn.Select(Function(x) __createObject(Rfam, x, PTT, reader, sourceDirect))
         Return lstData
     End Function
 
@@ -181,9 +181,9 @@ Public Module API
         Dim related = PTT.GetRelatedGenes(result.MappingLocation)
 
         result.SequenceData = reader.CutSequenceLinear(result.MappingLocation).SequenceData
-        result.Location = related.ToArray(Function(x) x.ToString).JoinBy("; ")
-        result.Relates = related.ToArray(Function(g) g.Gene.Synonym)
-        result.rLociStrand = New String(related.ToArray(Function(g) g.Gene.Location.Strand.GetBriefCode.First))
+        result.Location = related.Select(Function(x) x.ToString).JoinBy("; ")
+        result.Relates = related.Select(Function(g) g.Gene.Synonym)
+        result.rLociStrand = New String(related.Select(Function(g) g.Gene.Location.Strand.GetBriefCode.First))
 
         If String.IsNullOrEmpty(result.Location) Then
             result.Location = "Intergenic Region"
@@ -237,7 +237,7 @@ Public Module API
     Private Function __assignPrefix(prefix As String, PTT As PTT, data As Rfamily(), offset As Integer) As Rfamily()
         If String.IsNullOrEmpty(prefix) Then
             Dim allPrefix As String = (From pid In (From pf As String
-                                                    In PTT.GeneObjects.ToArray(Function(g) Regex.Replace(g.Synonym, "\d+", ""))
+                                                    In PTT.GeneObjects.Select(Function(g) Regex.Replace(g.Synonym, "\d+", ""))
                                                     Select pf
                                                     Group pf By pf Into Count)
                                        Select pid

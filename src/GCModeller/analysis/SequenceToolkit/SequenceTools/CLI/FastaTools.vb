@@ -406,17 +406,17 @@ Partial Module Utilities
         Dim Fasta As New FASTA.FastaToken(args("/fasta"))
         Dim Complement As Boolean = args.GetBoolean("/complement")
         Dim reversed As Boolean = args.GetBoolean("/reversed")
-        Dim Segments = Regions.ToArray(Function(region) __fillSegment(region, Fasta, Complement, reversed))
+        Dim Segments = Regions.Select(Function(region) __fillSegment(region, Fasta, Complement, reversed))
         Dim briefDump As Boolean = args.GetBoolean("/brief-dump")
         Dim dumpMethod As attrDump = [If](Of attrDump)(briefDump, AddressOf __attrBrief, AddressOf __attrFull)
         Dim input As String = args("/regions").TrimSuffix
 
         Segments.SaveTo(input & ".sequenceData.csv")
 
-        Dim SequenceFasta = Segments.ToArray(
+        Dim SequenceFasta = Segments.Select(
             Function(segment) New FASTA.FastaToken With {
                     .SequenceData = segment.SequenceData,
-                    .Attributes = dumpMethod(segment)})
+                    .Attributes = dumpMethod(segment)}).ToArray
         Dim Complements As FastaToken() =
             LinqAPI.Exec(Of FastaToken) <= From segment As SimpleSegment
                                            In Segments

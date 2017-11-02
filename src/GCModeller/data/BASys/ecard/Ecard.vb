@@ -89,8 +89,7 @@ Public Class Ecard : Inherits BaseClass
         Dim keys As String() = tokens.Select(
             Function(x) x.Keys).IteratesALL.Distinct.ToArray
         Dim schema = EcardValue.Schema
-        Dim values As EcardValue() = tokens.ToArray(
-            Function(x) EcardValue.[New](x, schema))
+        Dim values As EcardValue() = tokens.Select(Function(x) EcardValue.[New](x, schema)).ToArray
 
         Return New Ecard With {
             .Name = tag,

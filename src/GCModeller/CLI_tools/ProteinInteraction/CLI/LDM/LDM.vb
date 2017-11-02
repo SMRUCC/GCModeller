@@ -72,7 +72,7 @@ Public Class Signature : Implements IAbstractFastaToken
     Public Shared Function CreateObject(SRChain As SR(), Name As String) As Signature
         Return New Signature With {
             .PfamString = GetPfamString(SRChain, Name),
-            .SequenceData = New String(SRChain.ToArray(Function(x) x.Residue))
+            .SequenceData = New String(SRChain.Select(Function(x) x.Residue))
         }
     End Function
 

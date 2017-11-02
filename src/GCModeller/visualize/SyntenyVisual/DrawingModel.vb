@@ -48,7 +48,7 @@ Public Class DrawingModel
     Public Function Visualize() As Image
         Dim font As New Font(FontFace.MicrosoftYaHei, 12, FontStyle.Italic)  ' 默认的字体
         Dim cssFont$ = New CSSFont(font).CSSValue
-        Dim texts As Image() = briefs.ToArray(Function(x) TextRender.DrawHtmlText(x.Name, cssFont))
+        Dim texts As Image() = briefs.Select(Function(x) TextRender.DrawHtmlText(x.Name, cssFont))
         Dim maxtLen As Integer = texts.Select(Function(x) x.Width).Max
         Dim cl As SolidBrush = New SolidBrush(Color.Black)
         Dim dh As Integer = GraphicsExtensions.MeasureString(briefs.First.Name, font).Height / 2

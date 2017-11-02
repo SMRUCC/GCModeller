@@ -122,7 +122,7 @@ Public Module BIOM
             getTax = Function(tax) tax _
                 .Split(";"c) _
                 .SeqIterator _
-                .ToArray(Function(s) BIOMPrefix(s.i) & s.value) _
+                .Select(Function(s) BIOMPrefix(s.i) & s.value) _
                 .JoinBy(";")
         End If
 

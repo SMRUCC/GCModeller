@@ -724,8 +724,8 @@ Partial Module CLI
             If level = "A" Then
                 Call result.ToDictionary(
                     Function(x) x.Key,
-                    Function(v) v.Value.ToArray(
-                    Function(x) New NamedValue(Of Double)(x.Name, x.Value))) _
+                    Function(v) v.Value.Select(
+                    Function(x) New NamedValue(Of Double)(x.Name, x.Value)).ToArray) _
                         .Plot() _
                         .Save(out & "/kegg-level-A.png")
             End If

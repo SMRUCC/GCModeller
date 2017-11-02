@@ -59,7 +59,7 @@ Public Module Extensions
 
     <Extension> Public Function KEGGRegulons(footprints As IEnumerable(Of RegulatesFootprints), cats As ModuleClassAPI) As KEGGRegulon()
         Dim uids = (From x As RegulatesFootprints In footprints.AsParallel Select x.__uid, x Group By __uid Into Group).ToArray
-        Dim LQuery = (From x In uids Select x.Group.ToArray(Function(o) o.x).KEGGRegulon(cats)).ToArray
+        Dim LQuery = (From x In uids Select x.Group.Select(Function(o) o.x).ToArray.KEGGRegulon(cats)).ToArray
         Return LQuery
     End Function
 
@@ -70,10 +70,10 @@ Public Module Extensions
         Dim modX = cats.GetBriteInfo(modId, A, B, C)
 
         Return New KEGGRegulon With {
-            .Family = footprints.ToArray(Function(x) x.MotifFamily).Distinct.ToArray,
-            .Members = footprints.ToArray(Function(x) x.ORF).Distinct.ToArray,
+            .Family = footprints.Select(Function(x) x.MotifFamily).Distinct.ToArray,
+            .Members = footprints.Select(Function(x) x.ORF).Distinct.ToArray,
             .ModId = modId,
-            .Regulator = footprints.ToArray(Function(x) x.Regulator).Distinct.ToArray,
+            .Regulator = footprints.Select(Function(x) x.Regulator).Distinct.ToArray,
             .Category = C,
             .Class = B,
             .Type = A,

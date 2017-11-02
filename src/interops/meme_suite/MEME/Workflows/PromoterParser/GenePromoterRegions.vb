@@ -81,7 +81,7 @@ Namespace Workflows.PromoterParser
 
             Dim Modules As bGetObject.Module() =
                 FileIO.FileSystem.GetFiles(modsDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
-                    .ToArray(Function(xml) xml.LoadXml(Of bGetObject.Module))
+                    .Select(Function(xml) xml.LoadXml(Of bGetObject.Module))
             Dim DoorOperon = DOOR_API.Load(DOOR)
             Dim GetDOORUni As IGetLocusTag = ParserLocus.CreateMethod(DoorOperon, method)
 
@@ -117,7 +117,7 @@ Namespace Workflows.PromoterParser
 
             Dim Modules As bGetObject.Pathway() =
                FileIO.FileSystem.GetFiles(PathwaysDIR, FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
-                   .ToArray(Function(xml) xml.LoadXml(Of bGetObject.Pathway))
+                   .Select(Function(xml) xml.LoadXml(Of bGetObject.Pathway))
             Dim DoorOperon = DOOR_API.Load(DOOR)
             Dim GetDOORUni As IGetLocusTag = ParserLocus.CreateMethod(DoorOperon, method)
             Dim prefix As String = BaseName(EXPORT)

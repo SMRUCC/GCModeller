@@ -71,19 +71,19 @@ Namespace Analysis
             VBDebugger.Mute = True
 
             Dim regulons = FileIO.FileSystem.GetFiles(regulonBBH, FileIO.SearchOption.SearchTopLevelOnly, "*.xml") _
-                .ToArray(Function(x) x.LoadXml(Of Regprecise.BacteriaGenome))
+                .Select(Function(x) x.LoadXml(Of Regprecise.BacteriaGenome))
             Dim tomOUTs = FileIO.FileSystem.GetFiles(tomOUT, FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _
-                .ToArray(Function(x) x.LoadCsv(Of Analysis.Similarity.TOMQuery.CompareResult)).ToVector
+                .Select(Function(x) x.LoadCsv(Of Analysis.Similarity.TOMQuery.CompareResult)).ToVector
             Dim tomHash = (From x As Similarity.TOMQuery.CompareResult
                            In tomOUTs
-                           Select uid = basename(x.QueryName),
+                           Select uid = BaseName(x.QueryName),
                                x
                            Group By uid Into Group) _
                                 .ToDictionary(Function(x) x.uid,
-                                              Function(x) x.Group.ToArray(Function(xx) xx.x))
+                                              Function(x) x.Group.Select(Function(xx) xx.x).ToArray)
             Dim regulonHash = (From x In regulons
                                Where Not x.Regulons Is Nothing
-                               Select x.Regulons.Regulators.ToArray(Function(xx) New With {.uid = uid(xx), .regulon = xx})).ToVector
+                               Select x.Regulons.Regulators.Select(Function(xx) New With {.uid = uid(xx), .regulon = xx})).ToVector
             Dim regulonResults = (From x In regulonHash Where tomHash.ContainsKey(x.uid) Select x.regulon.__creates(tomHash(x.uid))).ToVector
             Return regulonResults
         End Function
@@ -93,7 +93,7 @@ Namespace Analysis
         End Function
 
         <Extension> Private Function __creates(regulon As Regprecise.Regulator, query As Similarity.TOMQuery.CompareResult()) As Regulon()
-            Return query.ToArray(Function(x) regulon.__creates(x))
+            Return query.Select(Function(x) regulon.__creates(x))
         End Function
 
         <Extension> Private Function __creates(regulonRef As Regprecise.Regulator, query As Similarity.TOMQuery.CompareResult) As Regulon
@@ -106,7 +106,7 @@ Namespace Analysis
                 .Motif = query.QueryMotif,
                 .Pathway = regulonRef.Pathway,
                 .refLocus = regulonRef.LocusTag.Value,
-                .Regulates = regulonRef.Regulates.ToArray(Function(x) x.LocusId),
+                .Regulates = regulonRef.Regulates.Select(Function(x) x.LocusId),
                 .Regulator = regulonRef.LocusTag.Key,
                 .Similarity = query.Similarity,
                 .Consensus = query.Consensus,

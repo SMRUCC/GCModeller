@@ -49,11 +49,13 @@ Namespace Models.rFBA
         <Extension> Public Function DumpModel(model As rFBAMetabolism) As Simpheny.RXN()
             Dim upBounds As Double() = model.__getUpbound
             Dim lowBound As Double() = model.__getLowerbound
-            Dim rxns As Simpheny.RXN() = model.fluxColumns.ToArray(
-                Function(sId, i) __creates(model._fluxs(sId),
+            Dim rxns As Simpheny.RXN() = model.fluxColumns _
+                .Select(Function(sId, i)
+                            Return __creates(model._fluxs(sId),
                                            upBounds(i),
                                            lowBound(i),
-                                           If(model.__fluxObjective.IndexOf(sId) = -1, 0, 1)))
+                                           If(model.__fluxObjective.IndexOf(sId) = -1, 0, 1))
+                        End Function)
             Return rxns
         End Function
 

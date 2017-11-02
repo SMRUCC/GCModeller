@@ -115,7 +115,7 @@ Partial Module CLI
 
     Private Function __memeTOMQuery(query As String, out As String, threshold As Double, cost As Double, method As String) As Similarity.TOMQuery.CompareResult()
         Dim result = Similarity.TOMQuery.TomTOm.CompareBest(query, method, cost, threshold)
-        Dim LQuery = (From x In result Select x.Value.ToArray(Function(hit) Similarity.TOMQuery.TomTOm.CreateResult(x.Key, hit.Key, hit.Value))).ToVector
+        Dim LQuery = (From x In result Select x.Value.Select(Function(hit) Similarity.TOMQuery.TomTOm.CreateResult(x.Key, hit.Key, hit.Value))).ToVector
         Dim html As New StringBuilder(4096)
 
         Call LQuery.SaveTo($"{out}/TomQuery.Csv")
@@ -135,7 +135,7 @@ Partial Module CLI
                 Call Console.Write(".")
             Next
 
-            Dim resultSet = motif.Value.ToArray(Function(hit) Similarity.TOMQuery.TomTOm.CreateResult(queryLDM, hit.Key, hit.Value))
+            Dim resultSet = motif.Value.Select(Function(hit) Similarity.TOMQuery.TomTOm.CreateResult(queryLDM, hit.Key, hit.Value)).ToArray
             Dim table As String = resultSet.ToHTMLTable("API")
 
             Call html.AppendLine($"<h3>Query for {queryLDM.ToString}</h3>")
@@ -171,7 +171,7 @@ Partial Module CLI
         Else
             Dim queryLDM = query.LoadXml(Of AnnotationModel)
             Dim result = Similarity.TOMQuery.TomTOm.CompareBest(queryLDM, method, cost, threshold)
-            Dim resultSet = result.ToArray(Function(x) Similarity.TOMQuery.TomTOm.CreateResult(queryLDM, x.Key, x.Value))
+            Dim resultSet = result.Select(Function(x) Similarity.TOMQuery.TomTOm.CreateResult(queryLDM, x.Key, x.Value))
             Call resultSet.SaveTo($"{out}/TomQuery.Csv")
 
             For Each hit As KeyValuePair(Of AnnotationModel, DistResult) In result

@@ -77,7 +77,7 @@ Namespace Output
                           Loci = New Location(left, right),
                           LociLeft = left,
                           LociRight = right).ToArray
-            Dim locis = LQuery.ToArray(Function(x) x.Loci)
+            Dim locis = LQuery.Select(Function(x) x.Loci).ToArray
             Dim unConserved = LinqAPI.Exec(Of CRISPR) <=
                 From loci
                 In data.Sites.AsParallel
@@ -148,7 +148,7 @@ Namespace Output
                   Let doc = g.CRISPR.GetXml
                   Select doc.SaveTo(xml)).ToArray
 
-            Return LQuery.ToArray(Function(x) x.CRISPR)
+            Return LQuery.Select(Function(x) x.CRISPR).ToArray
         End Function
 
         <ExportAPI("batch.export_csv")>

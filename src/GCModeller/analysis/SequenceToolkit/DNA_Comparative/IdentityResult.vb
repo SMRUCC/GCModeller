@@ -61,7 +61,7 @@ Public Class IdentityResult : Implements INamedValue
     ''' <param name="simple"></param>
     ''' <returns></returns>
     Public Shared Iterator Function SigmaMatrix(source As FastaFile, Optional round% = -1, Optional simple As Boolean = True) As IEnumerable(Of IdentityResult)
-        Dim nts As NucleicAcid() = source.ToArray(Function(x) New NucleicAcid(x), parallel:=True)
+        Dim nts As NucleicAcid() = source.Select(Function(x) New NucleicAcid(x)).ToArray
         Dim getTag As Func(Of NucleicAcid, String)
 
         If simple Then
@@ -115,7 +115,7 @@ Public Class IdentityResult : Implements INamedValue
     ''' <returns></returns>
     Public Shared Iterator Function SigmaMatrix(source As IEnumerable(Of GBFF.File), Optional round% = -1, Optional simple As Boolean = True) As IEnumerable(Of IdentityResult)
         Dim data As GBFF.File() = source.ToArray
-        Dim nts As NucleicAcid() = data.ToArray(Function(x) New NucleicAcid(x.Origin.ToFasta), parallel:=True)
+        Dim nts As NucleicAcid() = data.Select(Function(x) New NucleicAcid(x.Origin.ToFasta)).ToArray
         Dim getTag As Func(Of NucleicAcid, String)
 
         If simple Then

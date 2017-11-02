@@ -136,7 +136,7 @@ Public Module GCPlot
         Dim lvMAT As NamedValue(Of Integer())() = v _
             .Split(ntArray(Scan0).Value.Length) _
             .SeqIterator _
-            .ToArray(Function(i) New NamedValue(Of Integer()) With {
+            .Select(Function(i) New NamedValue(Of Integer()) With {
                 .Name = ntArray(i).Name,
                 .Value = i.value
             })

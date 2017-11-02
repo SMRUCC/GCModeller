@@ -105,7 +105,7 @@ Namespace SequenceModel.Patterns.Clustal
         ''' <param name="cutoff"></param>
         ''' <returns></returns>
         Private Shared Function __allocBlock(source As SR()(), cutoff As Double) As SR()()
-            Dim chains As SR()() = source.First.Length.ToArray(Function(row) source.Select(Function(x) x(row)).ToArray)
+            Dim chains As SR()() = source.First.Length.Sequence.Select(Function(row) source.Select(Function(x) x(row)).ToArray).ToArray
             Dim LQuery As SR()() = chains.Select(Function(x) __allocBlock(x, cutoff)).ToArray
             Return LQuery
         End Function

@@ -94,7 +94,7 @@ Partial Module CLI
             Dim offset As Integer = args.GetValue("/offset", CInt(LQuery.Average(Function(x) x.Length) * (2 / 3)))
             Dim Grouping = LQuery.Groups(offset)
             Dim Fasta As New FastaFile(
-                Grouping.ToArray(Function(x) New FastaToken({$"{x.Tag} {x.First.MotifFamily}"}, x.First.Sequence)))
+                Grouping.Select(Function(x) New FastaToken({$"{x.Tag} {x.First.MotifFamily}"}, x.First.Sequence)))
             Return Fasta.Save(out & ".fasta", Encodings.ASCII)
         Else
             Dim EXPORT As String = out
@@ -171,7 +171,7 @@ Partial Module CLI
                        Select o
                        Group o By o.n Into Group) _
                             .ToDictionary(Function(x) x.n,
-                                          Function(x) x.Group.ToArray(Function(o) o.operon))
+                                          Function(x) x.Group.Select(Function(o) o.operon).ToArray)
 
         Using writer As New WriteStream(Of RegulatesFootprints)(out)
             Call New DataStream([in]).ForEachBlock(Of RegulatesFootprints)(
@@ -203,7 +203,7 @@ Partial Module CLI
                         Order By x.sid Ascending
                         Group x By x.sid Into Group) _
                              .ToDictionary(Function(x) x.sid,
-                                           Function(x) x.Group.ToArray(Function(o) o.opr.source))
+                                           Function(x) x.Group.Select(Function(o) o.opr.source).ToArray)
             Return hash
         End Function
 
@@ -530,7 +530,7 @@ Partial Module CLI
                                   Select bioProc = proc.Trim,
                                       site = x).IteratesALL
             For Each gr In (From x In Familys Select x Group x By x.bioProc Into Group)
-                Dim source As MotifLog() = gr.Group.ToArray(Function(x) x.site)
+                Dim source As MotifLog() = gr.Group.Select(Function(x) x.site)
                 Dim Groups = source.Groups(offset)
 
                 For Each dGr In Groups
@@ -619,7 +619,7 @@ Partial Module CLI
         Dim task As Func(Of String, String) =
             Function(file) _
                 $"{GetType(CLI).API(NameOf(PromoterSites))} /in {file.CLIPath} /out {$"{out}/{file.BaseName}.csv".CLIPath}"
-        Dim CLI As String() = files.ToArray(task)
+        Dim CLI As String() = files.Select(task).ToArray
         Dim n As Integer = args.GetValue("/num_threads", -1)
 
         If n < 0 Then

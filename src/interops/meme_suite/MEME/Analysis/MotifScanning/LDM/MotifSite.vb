@@ -88,7 +88,7 @@ Namespace Analysis.MotifScans
         <XmlElement> Public Property Matches As MotifHits()
 
         Public Function ToFootprints() As IEnumerable(Of GenomeMotifFootPrints.PredictedRegulationFootprint)
-            Return Matches.ToArray(Function(x) x.GetFootprints).IteratesALL
+            Return Matches.Select(Function(x) x.GetFootprints).IteratesALL
         End Function
     End Class
 
@@ -119,7 +119,7 @@ Namespace Analysis.MotifScans
         End Function
 
         Private Function __toFootprints(g As LDM.Site, site As MotifSiteHit) As GenomeMotifFootPrints.PredictedRegulationFootprint()
-            Return site.Regulators.ToArray(
+            Return site.Regulators.Select(
                 Function(reg) New GenomeMotifFootPrints.PredictedRegulationFootprint With {
                     .MotifFamily = site.Family,
                     .MotifId = site.Trace,

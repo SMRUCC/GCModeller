@@ -107,7 +107,7 @@ Public Module ToolsAPI
                      Group By x.PartitioningTag Into Group
         Dim Partitions = (From part
                           In dGroup
-                          Let id As String() = part.Group.ToArray(Function(x) x.ORF)
+                          Let id As String() = part.Group.Select(Function(x) x.ORF).ToArray
                           Select part.PartitioningTag,
                               id).ToArray
         Dim ORFPartitions = From ORF As GeneBrief

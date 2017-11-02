@@ -90,7 +90,7 @@ Namespace Topologically
                     In LQuery
                     Where Not loci Is Nothing
                     Select loci
-                    Group loci By loci.__hash Into Group).ToArray(Function(loci) DirectCast(loci.Group.First, RevRepeatsLoci))
+                    Group loci By loci.__hash Into Group).Select(Function(loci) DirectCast(loci.Group.First, RevRepeatsLoci)).ToArray
         End Function
     End Class
 
@@ -142,10 +142,10 @@ Namespace Topologically
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overridable Function GenerateDocumentSegment() As Topologically.RepeatsLoci()
-            Return Me.Locations.ToArray(
+            Return Me.Locations.Select(
                 Function(loci) New Topologically.RepeatsLoci With {
                     .LociLeft = loci,
-                    .RepeatLoci = Me.SequenceData})
+                    .RepeatLoci = Me.SequenceData}).ToArray
         End Function
 
         Public Shared Function CreateDocument(data As IEnumerable(Of Repeats)) As Topologically.RepeatsLoci()
@@ -156,8 +156,7 @@ Namespace Topologically
                     In LQuery
                     Where Not loci Is Nothing
                     Select loci
-                    Group loci By loci.__hash Into Group).ToArray(
-                        Function(loci) loci.Group.First)
+                    Group loci By loci.__hash Into Group).Select(Function(loci) loci.Group.First).ToArray
         End Function
     End Class
 End Namespace

@@ -58,7 +58,7 @@ Namespace Topologically.SimilarityMatches
                                                   maxDist As Integer) As NamedValue(Of Integer)
 
             Dim mrStart As Integer = Loci + l  ' 左端的起始位置
-            Dim ref As Integer() = Mirror.ToArray(AddressOf Asc)
+            Dim ref As Integer() = Mirror.Select(AddressOf Asc).ToArray
 
             For i As Integer = 0 To maxDist
                 Dim mMirr As String = Mid(Sequence, mrStart, l)
@@ -100,14 +100,14 @@ Namespace Topologically.SimilarityMatches
                           Where ml.Value > -1
                           Select loci,
                               ml).ToArray
-            Return Result.ToArray(
+            Return Result.Select(
                 Function(site) New PalindromeLoci With {
                     .Loci = Segment,
                     .Start = site.loci,
                     .PalEnd = site.ml.Value,
                     .Palindrome = site.ml.Name,
                     .MirrorSite = Mirror
-                })
+                }).ToArray
         End Function
     End Module
 

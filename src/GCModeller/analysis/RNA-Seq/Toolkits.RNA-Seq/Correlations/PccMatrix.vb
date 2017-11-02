@@ -76,7 +76,7 @@ Public Class PccMatrix
             If value Is Nothing Then
                 __ordinalHash = New Dictionary(Of String, Integer)
             Else
-                __ordinalHash = value.ToArray(
+                __ordinalHash = value.Select(
                     Function(id, i) New KeyValuePair(Of String, Integer)(id, i)).ToDictionary
             End If
         End Set

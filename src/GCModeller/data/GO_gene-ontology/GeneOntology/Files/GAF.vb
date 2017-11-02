@@ -415,7 +415,7 @@ Public Class GAF
             Select x
             Order By x.Field.Index Ascending
 
-        Dim ClassSchema = schemaBufs.ToArray(Function(x) DirectCast(x.member, PropertyInfo))
+        Dim ClassSchema = schemaBufs.Select(Function(x) DirectCast(x.member, PropertyInfo)).ToArray
         Dim LQuery As GAF() = LinqAPI.Exec(Of GAF) <=
             From strLine As String
             In strLines

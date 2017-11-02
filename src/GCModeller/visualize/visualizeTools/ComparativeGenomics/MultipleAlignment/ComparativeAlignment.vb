@@ -329,14 +329,14 @@ Namespace ComparativeAlignment
                                                  .IteratesALL _
                                                  .COGsColorBrush(, COGColors)
             Dim LQuery As GenomeModel() =
-                loadPTT.ToArray(Function(x) ModelAPI.CreateObject(x.GeneObjects,
+                loadPTT.Select(Function(x) ModelAPI.CreateObject(x.GeneObjects,
                                                                   x.Length,
                                                                   x.Title,
                                                                   __getId:=Function(g) g.Synonym,
                                                                   COGsColor:=COGsBrush)) ' 将PTT文件之中的所有数据都转换为模型数据
             Dim QueryCOGs As Dictionary(Of String, Brush) = Nothing
             Dim QueryModel As GenomeModel = ModelAPI.CreateObject(Query_anno.ToArray, Query_nt, COGsColor:=QueryCOGs)
-            Dim QueryIDList As String() = queryBBH.First.BBH.ToArray(Function(x) x.QueryName)
+            Dim QueryIDList As String() = queryBBH.First.BBH.Select(Function(x) x.QueryName)
 
             For Each Color As KeyValuePair(Of String, Brush) In QueryCOGs
                 If Not COGColors.ContainsKey(Color.Key) Then

@@ -129,7 +129,7 @@ Public Module Volcano
 
     <Extension>
     Private Function CreateModel(Of T As IDeg)(source As IEnumerable(Of T), pvalueTranslate As Func(Of Double, Double)) As IEnumerable(Of DEGModel)
-        Return source.ToArray(
+        Return source.Select(
             Function(g) New DEGModel With {
                 .label = g.label,
                 .logFC = g.log2FC,

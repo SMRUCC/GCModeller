@@ -56,10 +56,10 @@ Partial Module CLI
     Private Sub __downloads(inDIR As String)
         Dim Hisk As String() = FileIO.FileSystem.GetFiles(inDIR & "/HisK/",
                                                         FileIO.SearchOption.SearchTopLevelOnly,
-                                                        "*.csv").ToArray(Function(x) basename(x))
+                                                        "*.csv").Select(Function(x) basename(x))
         Dim RR As String() = FileIO.FileSystem.GetFiles(inDIR & "/RR/",
                                                         FileIO.SearchOption.SearchTopLevelOnly,
-                                                        "*.csv").ToArray(Function(x) basename(x))
+                                                        "*.csv").Select(Function(x) basename(x))
         Dim fa = SMRUCC.genomics.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, Hisk)
         If Not fa Is Nothing Then Call fa.Save(inDIR & "/HisK.fasta")
         fa = SMRUCC.genomics.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, RR)
@@ -140,7 +140,7 @@ Partial Module CLI
                                           elementSelector:=Function(x) x.Group.First)
         Dim LQuery = (From dir As String In source
                       Select FileIO.FileSystem.GetFiles(dir, FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _
-                          .ToArray(Function(x) x.LoadCsv(Of CrossTalks))).ToArray.Unlist.Unlist
+                          .Select(Function(x) x.LoadCsv(Of CrossTalks))).ToArray.Unlist.Unlist
         Dim CL = (From Ctk As CrossTalks In LQuery.AsParallel
                   Where swissTCS.ContainsKey(Ctk.Kinase) AndAlso
                       swissTCS.ContainsKey(Ctk.Regulator)
@@ -173,7 +173,7 @@ Partial Module CLI
             .ProteinId = $"{HisK.ProteinId}-{RR.ProteinId.Split(":"c).Last}",
             .Length = HisK.Length + RR.Length,
             .Description = CrossTalk.Probability,
-            .Domains = (dsa + dsb).ToArray.ToArray(Function(x) DirectCast(x, String))
+            .Domains = (dsa + dsb).ToArray.Select(Function(x) DirectCast(x, String))
         }
         Dim hDomains = HisK.GetDomainData(False)
         Dim rDomains = RR.GetDomainData(False)
@@ -184,7 +184,7 @@ Partial Module CLI
         Next
 
         Call lst.AddRange(rDomains)
-        PfamString.PfamString = lst.ToArray(Function(x) $"{x.Name}({x.Position.Left}|{x.Position.Right})")
+        PfamString.PfamString = lst.Select(Function(x) $"{x.Name}({x.Position.Left}|{x.Position.Right})")
 
         Return PfamString
     End Function
@@ -260,7 +260,7 @@ Partial Module CLI
             Return
         End If
 
-        Dim score As Double = LQuery.ToArray(Function(x) x.MatchSimilarity).Average
+        Dim score As Double = LQuery.Select(Function(x) x.MatchSimilarity).Average
         If score <= 0 Then
             Return
         End If

@@ -39,7 +39,7 @@ Public Module Extensions
     ''' <param name="lstId"></param>
     ''' <returns></returns>
     Public Function IsContinuous(lstId As IEnumerable(Of String)) As Boolean
-        Dim n As Integer() = lstId.ToArray(Function(x) CInt(Val(Regex.Matches(x, "\d+").ToArray.LastOrDefault)))
+        Dim n As Integer() = lstId.Select(Function(x) CInt(Val(Regex.Matches(x, "\d+").ToArray.LastOrDefault)))
         n = (From x In n Select x Order By x Ascending).ToArray
         Dim pre As Integer = n.First
 

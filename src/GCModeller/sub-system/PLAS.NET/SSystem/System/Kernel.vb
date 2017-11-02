@@ -191,7 +191,7 @@ Namespace Kernel
                 __engine(x.UniqueId) = x.Value
             Next
 
-            Me.Channels = script.sEquations.ToArray(Function(x) New Equation(x, __engine))
+            Me.Channels = script.sEquations.Select(Function(x) New Equation(x, __engine))
 
             For i As Integer = 0 To Channels.Length - 1
                 Channels(i).Set(Me)

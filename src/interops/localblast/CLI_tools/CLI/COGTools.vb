@@ -111,7 +111,7 @@ Partial Module CLI
 
             If String.Equals(ext, ".csv", StringComparison.OrdinalIgnoreCase) Then
                 Dim temp = EntityObject.LoadDataSet(locus, args.GetValue("/locusMap", "Gene"))
-                locusTag = temp.ToArray(Function(x) x.ID)
+                locusTag = temp.Select(Function(x) x.ID)
             Else
                 locusTag = locus.ReadAllLines
             End If

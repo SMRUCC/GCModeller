@@ -153,7 +153,7 @@ Module CLI
             GeneList = args("-i").ReadAllLines()
         Else
             Dim gb = GBFF.File.Load(args("-i"))
-            GeneList = gb.GeneList.ToArray(Function(g) g.Name)
+            GeneList = gb.GeneList.Select(Function(g) g.Name)
         End If
 
         If Not GBK Then

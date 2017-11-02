@@ -87,7 +87,7 @@ Public Module Genotype
             End If
         Next
 
-        Dim gns = notZEROs(1).Skip(1).ToArray(Function(x) CInt(x))
+        Dim gns = notZEROs(1).Skip(1).Select(Function(x) CInt(x)).ToArray
         Dim max As Integer = gns.Max
 
         For i As Integer = 0 To gns.Length - 1
@@ -112,20 +112,20 @@ Public Module Genotype
         Dim total As Integer() = New Integer(source.First.Skip(1).Count) {}
 
         For Each line In source.Skip(1)
-            Dim ns As Integer() = line.Skip(1).ToArray(Function(s) CInt(Val(s)))
+            Dim ns As Integer() = line.Skip(1).Select(Function(s) CInt(Val(s)))
 
             For Each x In ns.SeqIterator
                 total(x.i) += x.value
             Next
 
             row = New RowObject From {line.First}
-            row.AddRange(ns.ToArray(Function(n) n.ToString))
+            row.AddRange(ns.Select(Function(n) n.ToString))
             out.AppendLine(row)
         Next
 
         out.AppendLine()
         row = New RowObject From {"total"}
-        row.AddRange(total.ToArray(Function(x) x.ToString))
+        row.AddRange(total.Select(Function(x) x.ToString))
         out.AppendLine(row)
         out.AppendLine()
 
@@ -133,11 +133,11 @@ Public Module Genotype
 
         ' no
         For Each line In source.Skip(1)
-            Dim ns As Integer() = line.Skip(1).ToArray(Function(s) CInt(Val(s)))
+            Dim ns As Integer() = line.Skip(1).Select(Function(s) CInt(Val(s)))
 
             row = New RowObject From {"no-" & line.First}
-            ns = ns.SeqIterator.ToArray(Function(x) total(x.i) - x.value)
-            row.AddRange(ns.ToArray(Function(x) x.ToString))
+            ns = ns.SeqIterator.Select(Function(x) total(x.i) - x.value)
+            row.AddRange(ns.Select(Function(x) x.ToString))
             out.AppendLine(row)
             nn += ns
         Next
@@ -145,14 +145,14 @@ Public Module Genotype
         out.AppendLine()
 
         For Each line In source.Skip(1).SeqIterator
-            Dim ns As Integer() = line.value.Skip(1).ToArray(Function(s) CInt(Val(s))) 'A/A
+            Dim ns As Integer() = line.value.Skip(1).Select(Function(s) CInt(Val(s))) 'A/A
             Dim no As Integer() = nn(line.i)  ' no-A/A
 
             row = New RowObject From {line.value.First}
-            row.AddRange(ns.ToArray(Function(x) x.ToString))
+            row.AddRange(ns.Select(Function(x) x.ToString))
             out.AppendLine(row)
             row = New RowObject From {"no-" & line.value.First}
-            row.AddRange(no.ToArray(Function(x) x.ToString))
+            row.AddRange(no.Select(Function(x) x.ToString))
             out.AppendLine(row)
             out.AppendLine()
         Next
@@ -169,7 +169,7 @@ Public Module Genotype
     Public Function TransViews(source As IEnumerable(Of GenotypeDetails)) As IO.File
         Dim out As New IO.File
         Dim array As GenotypeDetails() = source.ToArray()
-        Dim allTag As String() = array.ToArray(Function(x) x.Population.Split(":"c).Last)
+        Dim allTag As String() = array.Select(Function(x) x.Population.Split(":"c).Last)
         Dim all = Comb(Of Char).CreateCompleteObjectPairs({"A"c, "T"c, "G"c, "C"c}).IteratesALL
         Dim head As New RowObject From {"types"}
 
@@ -217,7 +217,7 @@ Public Module Genotype
 
     Public Function Frequencies(field As String) As Frequency()
         Dim fs As String() = Regex.Matches(field, Frequency, RegexICSng).ToArray
-        Return fs.ToArray(AddressOf FrequencyParser)
+        Return fs.Select(AddressOf FrequencyParser)
     End Function
 
     Const Genotype As String = "[ATGC]\|[ATGC]: \d\.\d+ \(\d+\)"
@@ -245,7 +245,7 @@ Public Class GenotypeDetails
     <Column("Allele: frequency (count)")>
     Public Property AlleleFrequency As String
         Get
-            Return String.Join("", Frequency.ToArray(Function(x) x.ToString))
+            Return String.Join("", Frequency.Select(Function(x) x.ToString))
         End Get
         Set(value As String)
             _Frequency = Genotype.Frequencies(value)
@@ -255,7 +255,7 @@ Public Class GenotypeDetails
     <Column("Genotype: frequency (count)")>
     Public Property GenotypeFreqnency As String
         Get
-            Return String.Join("", Genotypes.ToArray(Function(x) x.ToString))
+            Return String.Join("", Genotypes.Select(Function(x) x.ToString))
         End Get
         Set(value As String)
             _Genotypes = Genotype.Genotypes(value)

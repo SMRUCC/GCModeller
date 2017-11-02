@@ -199,8 +199,8 @@ Partial Module CLI
             .LoadCsv(Of UniprotAnnotations) _
             .GroupBy(Function(p) p.ORF) _
             .ToDictionary(Function(p) p.Key,
-                          Function(g) g.ToArray(
-                          Function(p) p.ID))
+                          Function(g) g.Select(
+                          Function(p) p.ID).ToArray)
         Dim list$() = DEP_data _
             .Select(Function(d) sampleData(d.ID)) _
             .IteratesALL _

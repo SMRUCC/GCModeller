@@ -191,7 +191,7 @@ Namespace Models.rFBA
                 If enzymes.IsNullOrEmpty Then     ' 非酶促过程，则使用sbml里面的默认设置
                     Call list.Add(bound)
                 Else
-                    Dim factors As Double() = enzymes.ToArray(AddressOf __calFactor)
+                    Dim factors As Double() = enzymes.Select(AddressOf __calFactor)
                     factors = (From x In factors Where x > 0 Select x).ToArray ' 负调控，则没有表达，不再计算该酶分子的影响
 
                     ' bound 就是base

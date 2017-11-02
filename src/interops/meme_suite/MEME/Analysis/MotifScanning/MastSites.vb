@@ -169,7 +169,7 @@ Namespace Analysis.MotifScans
             End If
 
             Dim mastSites = mast.Sequences.SequenceList(Scan0) _
-                .Segments.ToArray(Function(loci) __createObject(loci, memePWMs, pwmSites, memePWM))
+                .Segments.Select(Function(loci) __createObject(loci, memePWMs, pwmSites, memePWM))
             Dim FamilyName As String = mast.Motifs.BriefName
             Dim setValue = New SetValue(Of Analysis.MotifScans.MastSites)() _
                 .GetSet(NameOf(Analysis.MotifScans.MastSites.Family))
@@ -196,7 +196,7 @@ Namespace Analysis.MotifScans
                                 site
                             Group By guid Into Group) _
                                 .ToDictionary(Function(site) site.guid,
-                                              Function(site) site.Group.ToArray(Function(obj) obj.site))
+                                              Function(site) site.Group.Select(Function(obj) obj.site).ToArray)
             Return pwmFasta
         End Function
 
@@ -209,7 +209,7 @@ Namespace Analysis.MotifScans
                 mast.Sequences.SequenceList.IsNullOrEmpty Then
                 Return New MastSites() {}
             End If
-            Dim mastSites = mast.Sequences.SequenceList().ToArray(Function(x) __toSites(x, FamilyName))
+            Dim mastSites = mast.Sequences.SequenceList().Select(Function(x) __toSites(x, FamilyName))
             Dim setValue = New SetValue(Of MastSites) <=
                 NameOf(Analysis.MotifScans.MastSites.Family)
             Dim result As MastSites() =
@@ -220,7 +220,7 @@ Namespace Analysis.MotifScans
         End Function
 
         Private Shared Function __toSites(seq As SequenceDescript, familyName As String) As MastSites()()
-            Return seq.Segments.ToArray(Function(loci) __createObject(loci, familyName))
+            Return seq.Segments.Select(Function(loci) __createObject(loci, familyName))
         End Function
 
         Private Shared Function __createObject(site As DocumentFormat.XmlOutput.MAST.Segment,
@@ -228,14 +228,14 @@ Namespace Analysis.MotifScans
                                                pwmSites As Dictionary(Of String, Regprecise.FastaReaders.Site()),
                                                trace As String) As MastSites()
             Dim sequence As String = TrimNewLine(site.SegmentData, "").Replace(vbTab, "").Trim
-            Dim sites As MastSites() = site.Hits.ToArray(Of MastSites)(
+            Dim sites As MastSites() = site.Hits.Select(Of MastSites)(
                 Function(hit) __createObject(site.start, hit, sequence, pwms, pwmSites, offset:=5, trace:=trace))
             Return sites
         End Function
 
         Private Shared Function __createObject(site As DocumentFormat.XmlOutput.MAST.Segment, trace As String) As MastSites()
             Dim sequence As String = TrimNewLine(site.SegmentData, "").Replace(vbTab, "").Trim
-            Dim sites As MastSites() = site.Hits.ToArray(Of MastSites)(
+            Dim sites As MastSites() = site.Hits.Select(Of MastSites)(
                 Function(hit) __createObject(site.start, hit, sequence, OffSet:=5, trace:=trace))
             Return sites
         End Function
@@ -245,7 +245,7 @@ Namespace Analysis.MotifScans
                 ' Call $"Motif source site {name} was unable to found in pwm source!".__DEBUG_ECHO
                 Return Nothing
             Else
-                Return sites(name).ToArray(Function(site) site.geneVIMSSId)
+                Return sites(name).Select(Function(site) site.geneVIMSSId)
             End If
         End Function
 
@@ -305,10 +305,10 @@ Namespace Analysis.MotifScans
 
             Dim pwmSite As AnnotationModel = pwms(id)
             Dim sites As Integer() = (From siteId As Integer
-                                      In pwmSite.Sites.ToArray(Function(siteRef) __getsVIMSSID(siteRef.Name, pwmSites)).Unlist
+                                      In pwmSite.Sites.Select(Function(siteRef) __getsVIMSSID(siteRef.Name, pwmSites)).Unlist
                                       Select siteId
                                       Distinct).ToArray
-            Dim regulators As Integer()() = pwmSite.Sites.ToArray(Function(siteRef) siteRef.Regulators)
+            Dim regulators As Integer()() = pwmSite.Sites.Select(Function(siteRef) siteRef.Regulators)
             Dim mastSite As MastSites = __createObject(start, hit, sequence, offset, trace)
 
             mastSite.evalue = pwmSite.Evalue

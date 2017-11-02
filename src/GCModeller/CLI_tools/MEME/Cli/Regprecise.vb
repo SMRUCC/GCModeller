@@ -167,7 +167,7 @@ Partial Module CLI
         Dim RegPrecise = (From file As String
                           In FileIO.FileSystem.GetFiles(DbDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml").AsParallel
                           Select file.LoadXml(Of Regprecise.BacteriaGenome)).ToArray
-        Dim regulators As String() = RegPrecise.ToArray(Function(x) x.ListRegulators).ToVector
+        Dim regulators As String() = RegPrecise.Select(Function(x) x.ListRegulators).ToVector
         Dim regBBH = (From sId As String In regulators.AsParallel Where dict.ContainsKey(sId) Select dict(sId)).ToArray.Unlist
         Return regBBH.SaveTo(out)
     End Function
@@ -277,12 +277,12 @@ Partial Module CLI
         Call $"Start loading mast documents from source {args("/source")}".__DEBUG_ECHO
 
         Dim masts = FileIO.FileSystem.GetFiles(args("/source"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
-            .ToArray(Function(xml) New NamedValue(Of XmlOutput.MAST.MAST)(xml, xml.LoadXml(Of XmlOutput.MAST.MAST)(ThrowEx:=False)))
+            .Select(Function(xml) New NamedValue(Of XmlOutput.MAST.MAST)(xml, xml.LoadXml(Of XmlOutput.MAST.MAST)(ThrowEx:=False))).ToArray
         masts = (From obj In masts Where Not obj.Value.__isNothing Select obj).ToArray
         Call $"Start compile {masts.Length} mast documents...".__DEBUG_ECHO
         Dim sites As MastSites()  ' 导出扫描得到的位点
         If args.GetBoolean("/no-meme") Then
-            sites = masts.ToArray(Function(mast) MastSites.Compile(mast.Value, mast.Name), parallel:=True).ToVector
+            sites = masts.Select(Function(mast) MastSites.Compile(mast.Value, mast.Name)).ToVector
         Else
             Dim pwmFa As String = RegpreciseRoot & "/MEME/pwm"
             Dim mastLDM As String = args.GetValue("/mast-ldm", MotifLDM)
@@ -291,12 +291,11 @@ Partial Module CLI
                 pwmFa = ""
             End If
 
-            sites = masts.ToArray(
+            sites = masts.Select(
                 Function(mast) MastSites.Compile(
                 mast.Value,
                 mastLDM,
-                faDIR:=pwmFa),
-                parallel:=True).ToVector
+                faDIR:=pwmFa)).ToVector
         End If
 
         Dim pvalue As Double = args.GetValue("/p-value", 0.001)  ' 过滤掉不需要的位点
@@ -340,7 +339,7 @@ Partial Module CLI
         Dim LQuery As MastSites() =
             LinqAPI.Exec(Of MastSites) <= From site
                                           In allRelated.AsParallel
-                                          Select __extract(site.site, site.related.ToArray(Function(g) g.Gene))
+                                          Select __extract(site.site, site.related.Select(Function(g) g.Gene))
         Return LQuery
     End Function
 
@@ -397,7 +396,7 @@ Partial Module CLI
 
         ' 只需要将mast文档里面的位置取出来就可以了
         ' 由于只是扫描自己的基因组，所以mast文档里面只有一条序列的
-        Dim sites As MastSites() = mastHits.ToArray(Function(seq) __compile(seq, MEMEMotifs, offset)).ToVector
+        Dim sites As MastSites() = mastHits.Select(Function(seq) __compile(seq, MEMEMotifs, offset)).ToVector
         Dim table = (From site As MastSites
                      In sites.AsParallel
                      Where Not site Is Nothing
@@ -410,7 +409,7 @@ Partial Module CLI
 
     Private Function __compile(hit As XmlOutput.MAST.Segment, MEMEMotifs As Dictionary(Of String, Motif), offset As Integer) As MastSites()
         Dim sequence As String = hit.SegmentData.TrimNewLine("")
-        Dim resultSet = hit.Hits.ToArray(Function(loci) __compile(loci, MEMEMotifs, sequence, offset, hit.start))
+        Dim resultSet = hit.Hits.Select(Function(loci) __compile(loci, MEMEMotifs, sequence, offset, hit.start))
         Return resultSet
     End Function
 
@@ -448,7 +447,7 @@ Partial Module CLI
             .pValue = loci.pvalue,
             .SequenceData = sequence,
             .StrandRaw = strand,
-            .Family = $"{MEMEMotif.uid}::{ String.Join(";", source.ToArray(Function(ll) ll.Name))}"
+            .Family = $"{MEMEMotif.uid}::{ String.Join(";", source.Select(Function(ll) ll.Name))}"
         }
     End Function
 
@@ -486,9 +485,9 @@ Partial Module CLI
         Dim regulators As FastaReaders.Regulator() =
             FileIO.FileSystem.GetFiles(regulatorsRepository,
                                        FileIO.SearchOption.SearchAllSubDirectories,
-                                       "*.fasta").ToArray(Function(fasta) FastaReaders.Regulator.LoadDocument(FastaToken.Load(fasta)))
+                                       "*.fasta").Select(Function(fasta) FastaReaders.Regulator.LoadDocument(FastaToken.Load(fasta)))
         Dim regprecise = FileIO.FileSystem.GetFiles(RegpreciseRoot & "/regulators/",
-                                                    FileIO.SearchOption.SearchAllSubDirectories, "*.xml").ToArray(
+                                                    FileIO.SearchOption.SearchAllSubDirectories, "*.xml").Select(
                                                     Function(xml) xml.LoadXml(Of JSONLDM.regulator())).Unlist
         Dim regpreciseGroup = (From regulator In regprecise
                                Where Not regulator Is Nothing AndAlso
@@ -498,7 +497,7 @@ Partial Module CLI
         Dim regpreciseRegulators = regpreciseGroup _
                .ToDictionary(Function(regulator) regulator.locusTag,
                              Function(regulator) regulator.Group.First)
-        Dim table As Model_Repository.Regulator() = regulators.ToArray(
+        Dim table As Model_Repository.Regulator() = regulators.Select(
             Function(regulator) _
                 New Model_Repository.Regulator With {
                     .Definition = regulator.Definition,
@@ -509,7 +508,7 @@ Partial Module CLI
                     .Sites = regulator.Sites,
                     .Species = regulator.SpeciesCode,
                     .vimssId = regpreciseRegulators.TryGetValue(Of Integer)(regulator.KEGG.Split(":"c).Last, NameOf(Model_Repository.Regulator.vimssId))
-               })
+               }).ToArray
         Return table.SaveTo(RegpreciseRoot & "/MEME/regulators.csv").CLICode
     End Function
 
@@ -548,7 +547,7 @@ Partial Module CLI
                         .QueryName = x.LocusTag.Value})
             Else
                 bbhs = FileIO.FileSystem.GetFiles(
-                    args("/bbh"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").ToArray(
+                    args("/bbh"), FileIO.SearchOption.SearchTopLevelOnly, "*.csv").Select(
                         Function(csv) csv.LoadCsv(Of BBHIndex)).Unlist
             End If
         End If
@@ -561,7 +560,7 @@ Partial Module CLI
                              reg = regprecise(regEntry),
                              KEGGFamily = KEGGFamilies(regEntry)
 
-        Dim result As bbhMappings() = bbhsPaired.ToArray(
+        Dim result As bbhMappings() = bbhsPaired.Select(
             Function(regulator) New bbhMappings With {
                 .definition = regulator.reg.Definition,
                 .Family = regulator.KEGGFamily.KEGGFamily,
@@ -570,7 +569,7 @@ Partial Module CLI
                 .Positive = regulator.pair.Positive,
                 .query_name = regulator.pair.QueryName,
                 .vimssId = regulator.reg.vimssId
-           })
+           }).ToArray
 
         If direct Then
             For Each pair In result
@@ -660,10 +659,10 @@ Partial Module CLI
     <Group(CLIGrouping.RegPreciseTools)>
     Public Function TCSRegulations(args As CommandLine) As Integer
         Dim TCS = FileIO.FileSystem.GetFiles(args("/TCS"), FileIO.SearchOption.SearchAllSubDirectories, "*.csv") _
-            .ToArray(Function(file) _
+            .Select(Function(file) _
                      file.LoadCsv(Of SwissTCS.CrossTalks)).Unlist
         Dim mods = FileIO.FileSystem.GetFiles(args("/modules"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
-            .ToArray(Function(file) file.LoadCsv(Of bGetObject.Module))
+            .Select(Function(file) file.LoadCsv(Of bGetObject.Module))
         Dim ModsRegulation = args("/regulations").LoadCsv(Of PredictedRegulationFootprint)
         ModsRegulation = LinqAPI.MakeList(Of PredictedRegulationFootprint) <=
             From regulates As PredictedRegulationFootprint
@@ -672,7 +671,7 @@ Partial Module CLI
             Select regulates
 
         ' 所有的双组分系统的反应调控蛋白
-        Dim RR As String() = TCS.ToArray(Function(cTk) cTk.Regulator).Distinct.ToArray
+        Dim RR As String() = TCS.Select(Function(cTk) cTk.Regulator).Distinct.ToArray
         '  Dim RRMods As Dictionary(Of String, String()) =      ' 调控的代谢途径
     End Function
 
@@ -692,8 +691,8 @@ Partial Module CLI
         Dim footprints = args("/footprint").LoadCsv(Of PredictedRegulationFootprint)
         Dim Pathways = FileIO.FileSystem.GetFiles(args("/pathways"),
                                                   FileIO.SearchOption.SearchAllSubDirectories,
-                                                  "*.xml").ToArray(
-                                                        Function(Xml) Xml.LoadXml(Of bGetObject.Pathway))
+                                                  "*.xml").Select(
+                                                        Function(Xml) Xml.LoadXml(Of bGetObject.Pathway)).ToArray
         Dim TCS As String() = MiST2.MajorModules.First.TwoComponent.get_HisKinase.Join(MiST2.MajorModules.First.TwoComponent.GetRR).Distinct.ToArray
         Dim LQuery = (From regu As PredictedRegulationFootprint
                       In footprints.AsParallel
@@ -716,7 +715,7 @@ Partial Module CLI
 
         For Each pwy In pwyGroup
             For Each subPwy In pwy.cate
-                Dim genes = subPwy.Group.ToArray(Function(x) x.pwy.GetPathwayGenes).Unlist.Distinct.ToArray
+                Dim genes = subPwy.Group.Select(Function(x) x.pwy.GetPathwayGenes).Unlist.Distinct.ToArray
                 Dim fLQuery = (From regu In LQuery Where Array.IndexOf(genes, regu.ORF) > -1 Select regu).ToArray
                 Call Csv.Add(pwy.Class, subPwy.Category, CStr(fLQuery.Length))
             Next
@@ -767,7 +766,7 @@ Partial Module CLI
         Dim FamilyDb As New FamilyPfam With {
             .Build = Now.ToString,
             .Family = (From x In FamilyGroups
-                       Let source As FastaReaders.Regulator() = x.Group.ToArray(Function(xx) xx.TF)
+                       Let source As FastaReaders.Regulator() = x.Group.Select(Function(xx) xx.TF)
                        Where source.Length >= 3
                        Select fs = __buildFamily(x.Family, source, pfamHash)
                        Order By fs.Family Ascending).ToArray

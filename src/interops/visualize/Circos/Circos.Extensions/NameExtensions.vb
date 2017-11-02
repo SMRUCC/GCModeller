@@ -43,7 +43,7 @@ Public Module NameExtensions
     ''' <returns></returns>
     Public Function DumpNames(DIR As String, gb As PTT) As Name()
         Dim genes = __loadCommon(DIR, gb)
-        Return genes.ToArray(Function(x) New Name With {
+        Return genes.Select(Function(x) New Name With {
                                  .Name = $"[{x.Key}]  {x.Value.Product}",
                                  .Maximum = CInt(x.Value.Location.Right),
                                  .Minimum = CInt(x.Value.Location.Left)})
@@ -70,18 +70,18 @@ Public Module NameExtensions
                      s.Locus,
                      s
                  Group By Locus Into Group) _
-                    .ToArray(Function(x) New KeyValuePair(Of String, GeneBrief)(
-                          x.Group.ToArray(Function(og) og.s.Family).Distinct.JoinBy("; "),
+                    .Select(Function(x) New KeyValuePair(Of String, GeneBrief)(
+                          x.Group.Select(Function(og) og.s.Family).Distinct.JoinBy("; "),
                           x.Group.First.gg))
         Return g
     End Function
 
     Public Function RegulonRegulators(DIR As String, gb As PTT) As ValueTrackData()
-        Dim g = __loadCommon(DIR, gb).ToArray(Function(x) x.Value)
-        Dim list = g.ToArray(Function(x) New Name With {
+        Dim g = __loadCommon(DIR, gb).Select(Function(x) x.Value)
+        Dim list = g.Select(Function(x) New Name With {
                                  .Name = x.Product,
                                  .Maximum = CInt(x.Location.Right),
                                  .Minimum = CInt(x.Location.Left)})
-        Return list.ToArray(Function(x) x.ToMeta)
+        Return list.Select(Function(x) x.ToMeta)
     End Function
 End Module

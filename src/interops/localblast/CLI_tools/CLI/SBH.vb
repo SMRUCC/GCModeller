@@ -229,15 +229,13 @@ Partial Module CLI
                       In lst
                       Select BlastPlus.Parser.TryParse(x).ExportAllBestHist).ToArray
         Else
-            blastp = lst.ToArray(Function(x) x.LoadCsv(Of BBH.BestHit).ToArray)
+            blastp = lst.Select(Function(x) x.LoadCsv(Of BBH.BestHit).ToArray)
         End If
 
         Dim LQuery As BBH.BestHit() =
             LinqAPI.Exec(Of BestHit) <= From x As BBH.BestHit()
                                         In blastp
-                                        Select x.ToArray(
-                                            Function(xx) xx,
-                                            Function(xx) xx.Matched)
+                                        Select x.Where(Function(xx) xx.Matched)
         Return LQuery.SaveTo(out).CLICode
     End Function
 

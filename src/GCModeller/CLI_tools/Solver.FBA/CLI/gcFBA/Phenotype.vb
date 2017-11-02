@@ -225,7 +225,7 @@ Partial Module CLI
             Dim rpkm = stat.LoadCsv(Of DESeq2.ExprStats)
             Call lpModel.SetRPKM(rpkm, sampleName)
 
-            Dim rpkmSets = lpModel.GeneFactors.ToArray(
+            Dim rpkmSets = lpModel.GeneFactors.Select(
                 Function(x) New RPKMStat With {
                     .Locus = x.Key,
                     .Properties = New Dictionary(Of String, Double) From {
@@ -308,9 +308,8 @@ PLANT:          objective.Associates = file.ReadAllLines
         Dim rpkm As List(Of ExprStats) = DIR.RPKM.LoadCsv(Of ExprStats)
 
         If Not footprints.IsNullOrEmpty Then
-            Dim TF As String() = footprints.ToArray(
-                Function(x) x.Regulator,
-                Function(x) Not String.IsNullOrEmpty(x.Regulator)).Distinct.ToArray
+            Dim TF As String() = footprints.Where(Function(x) Not String.IsNullOrEmpty(x.Regulator)).Select(
+                Function(x) x.Regulator).Distinct.ToArray
             rpkm = (From x As ExprStats In rpkm
                     Where Array.IndexOf(TF, x.locus) > -1
                     Select x).AsList
@@ -340,9 +339,8 @@ PLANT:          objective.Associates = file.ReadAllLines
         Dim rpkm As List(Of ExprStats) = DIR.RPKM.LoadCsv(Of ExprStats)
 
         If Not footprints.IsNullOrEmpty Then
-            Dim TF As String() = footprints.ToArray(
-                Function(x) x.Regulator,
-                Function(x) Not String.IsNullOrEmpty(x.Regulator)).Distinct.ToArray
+            Dim TF As String() = footprints.Where(Function(x) Not String.IsNullOrEmpty(x.Regulator)).Select(
+                Function(x) x.Regulator).Distinct.ToArray
             rpkm = (From x As ExprStats In rpkm
                     Where Array.IndexOf(TF, x.locus) > -1
                     Select x).AsList
@@ -379,7 +377,7 @@ PLANT:          objective.Associates = file.ReadAllLines
         Dim intSets = model.KEGGReactions(KEGGs)
         Dim fluxHash = fluxs.ToDictionary
         Dim LQuery As PhenoOUT() = (From x In intSets Where fluxHash.ContainsKey(x.id) Select fluxHash(x.id)).ToArray
-        Dim maps = intSets.ToArray(Function(x) New KeyValuePair(x.id, x.Notes.Text))
+        Dim maps = intSets.Select(Function(x) New KeyValuePair(x.id, x.Notes.Text))
         Dim outMaps As String = out.TrimSuffix & ".KEGG_Maps.Xml"
         Call maps.SaveAsXml(outMaps)
         Return LQuery.SaveTo(out).CLICode

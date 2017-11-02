@@ -146,7 +146,7 @@ Namespace BlastAPI
             End If
 
             Dim dataframe As IO.File = indexQuery.ExportCsv(TrimNull)
-            Dim sps As String() = indexQuery.hits.First.Hits.ToArray(Function(x) x.tag)
+            Dim sps As String() = indexQuery.hits.First.Hits.Select(Function(x) x.tag).ToArray
 
             For deltaIndex As Integer = 0 To dataHash.Count - 1
                 Dim subMain As BestHit = dataHash.Values(deltaIndex)

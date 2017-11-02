@@ -98,10 +98,10 @@ Partial Module CLI
                             x
                         Group By uid Into Group) _
                             .ToDictionary(Function(x) x.uid,
-                                          Function(x) x.Group.ToArray(Function(xx) xx.x))
+                                          Function(x) x.Group.Select(Function(xx) xx.x))
         Dim genomes As BacteriaGenome() = (ls - l - wildcards("*.Xml") <= inDIR) _
-            .ToArray(AddressOf SafeLoadXml(Of BacteriaGenome))
-        Dim all As String() = genomes.ToArray(Function(x) x.ListRegulators).Unlist.Distinct.ToArray
+            .Select(AddressOf SafeLoadXml(Of BacteriaGenome))
+        Dim all As String() = genomes.Select(Function(x) x.ListRegulators).Unlist.Distinct.ToArray
         Dim regulators = (From sid As String In all Where hitsHash.ContainsKey(sid) Select sid, hits = hitsHash(sid)).ToArray
         Dim queryRegulators = (From qx In
                                    (From x In regulators
@@ -111,26 +111,26 @@ Partial Module CLI
                                                 x.sid)).IteratesALL
                                Select qx
                                Group qx By qx.query.QueryName Into Group).ToArray
-        bbh = (From x In queryRegulators Select x.Group.ToArray(Function(xx) xx.query)).Unlist
+        bbh = (From x In queryRegulators Select x.Group.Select(Function(xx) xx.query)).Unlist
         ' 将Regulators的bbh结果分离出来了
         Call bbh.SaveTo(out & "/Regulators.bbh.csv")
 
         Dim regs = (From reg As Regulator
-                    In genomes.ToArray(Function(x) x.Regulons.Regulators).IteratesALL
+                    In genomes.Select(Function(x) x.Regulons.Regulators).IteratesALL
                     Select reg
                     Group reg By reg.LocusId Into Group) _
                          .ToDictionary(Function(x) x.LocusId,
                                        Function(x) x.Group.ToArray)
         Dim motifs = (From query In queryRegulators
                       Let qName As String = query.QueryName
-                      Let sites = (From reg In query.Group Let hit = reg.sid Let ss = regs(hit) Select ss).IteratesALL.ToArray(Function(x) x.RegulatorySites).Unlist
+                      Let sites = (From reg In query.Group Let hit = reg.sid Let ss = regs(hit) Select ss).IteratesALL.Select(Function(x) x.RegulatorySites).Unlist
                       Select qName, sites).ToArray
         For Each query In motifs
             Dim path As String = $"{out}/{query.qName}.fasta"
             Dim duplicates = (From x In query.sites Select x Group x By x.UniqueId Into Group).ToArray
-            Dim fa As New FastaFile(duplicates.ToArray(Function(x) x.Group.First))
+            Dim fa As New FastaFile(duplicates.Select(Function(x) x.Group.First))
             Dim setSeq = New SetValue(Of FastaToken) <= NameOf(FastaToken.SequenceData)
-            fa = New FastaFile(fa.ToArray(Function(x) setSeq(x, Regtransbase.WebServices.Regulator.SequenceTrimming(x.SequenceData))))
+            fa = New FastaFile(fa.Select(Function(x) setSeq(x, Regtransbase.WebServices.Regulator.SequenceTrimming(x.SequenceData))))
             Call fa.Save(-1, path, Encodings.ASCII)
         Next
 
