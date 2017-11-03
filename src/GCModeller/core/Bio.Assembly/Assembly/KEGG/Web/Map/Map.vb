@@ -42,7 +42,15 @@ Namespace Assembly.KEGG.WebServices
 
     Public Class Map
 
-        <XmlElement> Public Property Areas As Area()
+        <XmlAttribute> Public Property ID As String
+        <XmlAttribute> Public Property Name As String
+
+        ''' <summary>
+        ''' 节点的位置，在这里面包含有代谢物(小圆圈)以及基因(方块)的位置定义
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement>
+        Public Property Areas As Area()
 
         ''' <summary>
         ''' base64 image
@@ -128,7 +136,7 @@ Namespace Assembly.KEGG.WebServices
         Public ReadOnly Property Type As String
             Get
                 If InStr(href, "/dbget-bin/www_bget") = 1 Then
-                    With IdList.First
+                    With IDVector.First
                         If .IsPattern("[CDG]\d+") Then
                             ' compound, drug, glycan
                             Return NameOf(Compound)
@@ -148,7 +156,7 @@ Namespace Assembly.KEGG.WebServices
             End Get
         End Property
 
-        Public ReadOnly Property IdList As String()
+        Public ReadOnly Property IDVector As String()
             Get
                 Return href.Split("?"c).Last.Split("+"c)
             End Get
