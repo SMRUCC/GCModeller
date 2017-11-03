@@ -730,7 +730,7 @@ CONTINUTE:
                 Dim internalGetColor = Function(hit As HitRecord) getSubjectHitColor(arg1:=getScore(hit), arg2:=ColorSchema)
                 Dim IDannos As New Dictionary(Of Integer, String)
 
-                Using proc As New ProgressBar("Drawing alignment hit regions...", cls:=True)
+                Using proc As New ProgressBar("Drawing alignment hit regions...", 1, CLS:=True)
                     Dim pp As New ProgressProvider(spList.Length)
                     Dim p_ID As Integer = 1
 
