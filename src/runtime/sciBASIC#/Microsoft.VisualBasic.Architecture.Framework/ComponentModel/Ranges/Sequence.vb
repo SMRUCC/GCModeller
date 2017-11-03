@@ -4,6 +4,7 @@ Imports System.Xml.Serialization
 
 Namespace ComponentModel.Ranges
 
+    <XmlType("numeric-sequence")>
     Public Class Sequence : Implements IRanges(Of Double)
 
         <XmlElement("range")>
@@ -30,6 +31,11 @@ Namespace ComponentModel.Ranges
                 Return Range.Max
             End Get
         End Property
+
+        Sub New(a#, b#, n%)
+            Me.Range = New DoubleRange(a, b)
+            Me.n = n
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function IsInside(x As Double) As Boolean Implements IRanges(Of Double).IsInside
