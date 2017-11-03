@@ -48,7 +48,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim all As BriteHText() = htext.Hierarchical.EnumerateEntries.ToArray
             Dim failures As New List(Of String)
 
-            Using progress As New ProgressBar("Download KEGG disease data...",, True)
+            Using progress As New ProgressBar("Download KEGG disease data...", 1, CLS:=True)
                 Dim tick As New ProgressProvider(all.Length)
                 Dim path As New Value(Of String)
                 Dim disease As Disease
