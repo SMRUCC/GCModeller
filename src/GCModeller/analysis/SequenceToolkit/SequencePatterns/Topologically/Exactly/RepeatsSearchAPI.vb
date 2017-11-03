@@ -206,7 +206,8 @@ RETURN_VALUE:
 
             VBDebugger.Mute = True
 
-            Dim Vecotrs = (From genome In files.AsParallel
+            Dim Vecotrs = (From genome
+                           In files.AsParallel
                            Select genome.ID,
                                vector = RepeatsView.ToVector(genome.context, size)) _
                               .ToDictionary(Function(genome) genome.ID,
@@ -224,18 +225,22 @@ RETURN_VALUE:
             Call $"cutoff={cutoff}".__DEBUG_ECHO
             Call $"genomes={Vecotrs.Count}".__DEBUG_ECHO
 
-            Dim p_vectors As Double() = size.Sequence.Select(Function(index As Integer) As Double
-                                                                 Dim refV As Double = refGenome(index)
+            Dim p_vectors As Double() = size _
+                .Sequence _
+                .Select(Function(index As Integer) As Double
+                            Dim refV As Double = refGenome(index)
 
-                                                                 If refV <= cutoff Then
-                                                                     Return 0
-                                                                 End If
+                            If refV <= cutoff Then
+                                Return 0
+                            End If
 
-                                                                 Dim site = Vecotrs.Select(Function(genome) genome.Value(index)).ToArray
-                                                                 Dim hashRepeats = (From g As Double In site.AsParallel Where g >= cutoff Select g).ToArray
-                                                                 Dim pHas As Double = hashRepeats.Length / site.Length
-                                                                 Return pHas
-                                                             End Function).ToArray
+                            Dim site = Vecotrs.Select(Function(genome) genome.Value(index)).ToArray
+                            Dim hashRepeats = (From g As Double In site.AsParallel Where g >= cutoff Select g).ToArray
+                            Dim pHas As Double = hashRepeats.Length / site.Length
+                            Return pHas
+                        End Function) _
+                .ToArray
+
             Return p_vectors
         End Function
 

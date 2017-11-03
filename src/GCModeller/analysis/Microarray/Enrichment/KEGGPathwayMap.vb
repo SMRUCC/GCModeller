@@ -28,7 +28,7 @@ Public Module KEGGPathwayMap
                 .ToArray
         End If
 
-        Using progress As New ProgressBar("KEGG pathway map visualization....",, CLS:=True)
+        Using progress As New ProgressBar("KEGG pathway map visualization....", 1, CLS:=True)
             Dim tick As New ProgressProvider(all.Length)
             Dim ETA$
 

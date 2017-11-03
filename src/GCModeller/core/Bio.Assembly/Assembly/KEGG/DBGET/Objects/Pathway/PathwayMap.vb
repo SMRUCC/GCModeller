@@ -201,7 +201,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                    KEGG.DBGET.BriteHEntry.Pathway.LoadData(BriefFile))
             Dim rtvl As Integer = Scan0
 
-            Using progress As New ProgressBar("Download KEGG pathway reference map data...",, True)
+            Using progress As New ProgressBar("Download KEGG pathway reference map data...", 1, CLS:=True)
                 Dim tick As New ProgressProvider(BriefEntries.Length)
 
                 Call tick.StepProgress()
