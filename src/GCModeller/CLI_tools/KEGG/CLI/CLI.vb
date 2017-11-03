@@ -355,7 +355,7 @@ Module CLI
             .Distinct _
             .ToArray
 
-        Using progress As New Terminal.ProgressBar("Download KO database...",, True)
+        Using progress As New Terminal.ProgressBar("Download KO database...", 1, CLS:=True)
             Dim tick As New Terminal.ProgressProvider(entries.Length)
 
             WebServiceUtils.Proxy = "http://127.0.0.1:8087/"

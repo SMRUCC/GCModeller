@@ -76,7 +76,7 @@ Public Module SSRSearch
                                         ' Do Nothing
                                     End Sub)
                 Else
-                    Using progress As New ProgressBar($"Search for Pure SSR on {strand} strand...",, CLS:=True)
+                    Using progress As New ProgressBar($"Search for Pure SSR on {strand} strand...", 1, CLS:=True)
                         Dim tick As New ProgressProvider(repeatUnit.Count)
                         Dim ETA$
                         Dim msg$
@@ -145,7 +145,7 @@ Public Module SSRSearch
 
         Dim SearchInternal =
            Sub(strand$)
-               Using progress As New ProgressBar($"Search for Compound SSR on {strand} strand...",, CLS:=True)
+               Using progress As New ProgressBar($"Search for Compound SSR on {strand} strand...", 1, CLS:=True)
                    Dim tick As New ProgressProvider(repeatUnit.Count)
                    Dim ETA$
                    Dim msg$
