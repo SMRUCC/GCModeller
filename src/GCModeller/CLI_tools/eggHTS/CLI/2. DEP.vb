@@ -437,7 +437,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /hide.labels /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -464,17 +464,29 @@ Partial Module CLI
     <Argument("/tick", True, CLITypes.Double, Description:="The ticks value of the color legend, by default value -1 means generates ticks automatically.")>
     <Argument("/no-clrev", True, CLITypes.Boolean, Description:="Do not reverse the color sequence.")>
     <Argument("/size", True, CLITypes.String, AcceptTypes:={GetType(Size)}, Description:="The canvas size.")>
+    <Argument("/is.matrix", True,
+              CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="The input data is a data matrix, can be using for heatmap drawing directly.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap_DEPs(args As CommandLine) As Integer
-        Dim DIR$ = args <= "/data"
-        Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".heatmap/")
+        Dim input$ = args <= "/data"
+        Dim out As String = args.GetValue("/out", input.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
         Dim size$ = args.GetValue("/size", "2000,3000")
         Dim title$ = args.GetValue("/title", "Heatmap of DEPs log2FC")
         Dim tlog2 As Boolean = args.IsTrue("/t.log2")
-        Dim matrix As List(Of DataSet) = Union(DIR, tlog2, 0, args.GetBoolean("/non_DEP.blank"), False) _
-            .AsDataSet _
-            .AsList
+        Dim matrix As List(Of DataSet)
+
+        If args.IsTrue("/is.matrix") Then
+            matrix = DataSet _
+                .LoadDataSet(input) _
+                .AsList
+        Else
+            matrix = Union(input, tlog2, 0, args.GetBoolean("/non_DEP.blank"), False) _
+                .AsDataSet _
+                .AsList
+        End If
 
         Call matrix _
             .ToKMeansModels _
