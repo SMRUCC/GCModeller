@@ -27,13 +27,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.Linq
 Imports Oracle.LinuxCompatibility.MySQL
 Imports SMRUCC.WebCloud.GIS.MaxMind.geolite2
 
@@ -92,7 +89,7 @@ Namespace MaxMind
         End Function
 
         <Extension>
-        Public Function ImportsLargeBlock(Of T As SQLTable)(mysql As MySQL, df As String) As Boolean
+        Public Function ImportsLargeBlock(Of T As MySQLTable)(mysql As MySQL, df As String) As Boolean
             Dim SQL As New Value(Of String)
 
             Using reader As New DataStream(df,, 1024 * 1024 * 10)
@@ -137,7 +134,7 @@ Namespace MaxMind
         End Function
 
         <Extension>
-        Public Function ImportsLocationFiles(Of T As SQLTable)(mysql As MySQL, files As IEnumerable(Of String), Optional invoke As Action(Of T) = Nothing) As Boolean
+        Public Function ImportsLocationFiles(Of T As MySQLTable)(mysql As MySQL, files As IEnumerable(Of String), Optional invoke As Action(Of T) = Nothing) As Boolean
             Call mysql.ClearTable(Of T)
 
             If invoke Is Nothing Then
@@ -155,63 +152,63 @@ Namespace MaxMind
             Return True
         End Function
 
-        ''' <summary>
-        ''' 重新生成<see cref="geographical_information_view"/>表数据
-        ''' </summary>
-        ''' <param name="mysql"></param>
-        ''' <param name="locale"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function UpdateGeographicalView(mysql As MySQL, Optional locale As String = "en") As String
-            Dim indexed As New List(Of Long)
-            Dim err As New Value(Of String)
+        '''' <summary>
+        '''' 重新生成<see cref="geographical_information_view"/>表数据
+        '''' </summary>
+        '''' <param name="mysql"></param>
+        '''' <param name="locale"></param>
+        '''' <returns></returns>
+        '<Extension>
+        'Public Function UpdateGeographicalView(mysql As MySQL, Optional locale As String = "en") As String
+        '    Dim indexed As New List(Of Long)
+        '    Dim err As New Value(Of String)
 
-            If Not (err = mysql.ClearTable(Of geographical_information_view)) Is Nothing Then
-                Return err
-            Else
-                mysql = New MySQL(New ConnectionUri(mysql.UriMySQL))
-                mysql.UriMySQL.TimeOut = 0
-            End If
+        '    If Not (err = mysql.ClearTable(Of geographical_information_view)) Is Nothing Then
+        '        Return err
+        '    Else
+        '        mysql = New MySQL(New ConnectionUri(mysql.UriMySQL))
+        '        mysql.UriMySQL.TimeOut = 0
+        '    End If
 
-            Dim geonames As geolite2_city_locations() = mysql.Query(Of geolite2_city_locations)(
-                $"SELECT * FROM maxmind_geolite2.geolite2_city_locations WHERE locale_code = '{locale}';"
-            )
-            Dim geoHash = (From x As geolite2_city_locations
-                           In geonames
-                           Select x
-                           Group x By x.geoname_id Into Group) _
-                                .ToDictionary(Function(x) x.geoname_id,
-                                              Function(x) x.Group.First)
+        '    Dim geonames As geolite2_city_locations() = mysql.Query(Of geolite2_city_locations)(
+        '        $"SELECT * FROM maxmind_geolite2.geolite2_city_locations WHERE locale_code = '{locale}';"
+        '    )
+        '    Dim geoHash = (From x As geolite2_city_locations
+        '                   In geonames
+        '                   Select x
+        '                   Group x By x.geoname_id Into Group) _
+        '                        .ToDictionary(Function(x) x.geoname_id,
+        '                                      Function(x) x.Group.First)
 
-            Call mysql.ForEach(Of geolite2_city_blocks_ipv4)(
-                "SELECT * FROM maxmind_geolite2.geolite2_city_blocks_ipv4;",
-                Sub(x)
-                    If indexed.IndexOf(x.geoname_id) > -1 Then
-                        Return  ' 跳过已经存在的记录
-                    Else
-                        indexed += x.geoname_id
-                    End If
-                    If Not geoHash.ContainsKey(x.geoname_id) Then
-                        Return
-                    End If
+        '    Call mysql.ForEach(Of geolite2_city_blocks_ipv4)(
+        '        "SELECT * FROM maxmind_geolite2.geolite2_city_blocks_ipv4;",
+        '        Sub(x)
+        '            If indexed.IndexOf(x.geoname_id) > -1 Then
+        '                Return  ' 跳过已经存在的记录
+        '            Else
+        '                indexed += x.geoname_id
+        '            End If
+        '            If Not geoHash.ContainsKey(x.geoname_id) Then
+        '                Return
+        '            End If
 
-                    Dim info As geolite2_city_locations = geoHash(x.geoname_id)
-                    Dim view As New geographical_information_view With {
-                        .city_name = MySqlEscaping(info.city_name),
-                        .country_iso_code = info.country_iso_code,
-                        .geoname_id = x.geoname_id,
-                        .country_name = info.country_name,
-                        .latitude = x.latitude,
-                        .longitude = x.longitude,
-                        .subdivision_1_name = MySqlEscaping(info.subdivision_1_name),
-                        .subdivision_2_name = MySqlEscaping(info.subdivision_2_name)
-                    }
+        '            Dim info As geolite2_city_locations = geoHash(x.geoname_id)
+        '            Dim view As New geographical_information_view With {
+        '                .city_name = MySqlEscaping(info.city_name),
+        '                .country_iso_code = info.country_iso_code,
+        '                .geoname_id = x.geoname_id,
+        '                .country_name = info.country_name,
+        '                .latitude = x.latitude,
+        '                .longitude = x.longitude,
+        '                .subdivision_1_name = MySqlEscaping(info.subdivision_1_name),
+        '                .subdivision_2_name = MySqlEscaping(info.subdivision_2_name)
+        '            }
 
-                    Call mysql.ExecInsert(view)
-                    Call Console.Write(".")
-                End Sub)
+        '            Call mysql.ExecInsert(view)
+        '            Call Console.Write(".")
+        '        End Sub)
 
-            Return Nothing
-        End Function
+        '    Return Nothing
+        'End Function
     End Module
 End Namespace
