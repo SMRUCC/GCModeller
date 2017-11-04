@@ -3,7 +3,6 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
@@ -55,47 +54,16 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & "-Groups/")
         Dim matrix As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
 
-        With sampleInfo.DataAnalysisDesign(analysis:=designer)
+        For Each group In matrix.MatrixSplit(sampleInfo, designer)
+            Dim groupName$ = group.Name
+            Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
+            Dim data As DataSet() = group.Value
 
-            For Each group In .ref
-                Dim groupName$ = group.Key
-                Dim labels = group.Value
-                Dim data = matrix _
-                    .Select(Function(x)
-                                Dim values As New List(Of KeyValuePair(Of String, Double))
-
-                                For Each label In labels
-                                    With label.ToString
-                                        If x.HasProperty(.ref) Then
-                                            Call values.Add(.ref, x(.ref))
-                                        Else
-                                            ' 可能是在进行质谱实验的时候将顺序颠倒了，在这里将标签颠倒一下试试
-                                            With label.Swap.ToString
-                                                If x.HasProperty(.ref) Then
-                                                    ' 由于在取出值之后使用1除来进行翻转，所以在这里标签还是用原来的顺序，不需要进行颠倒了
-                                                    values.Add(label.ToString, 1 / x(.ref))
-                                                End If
-                                            End With
-                                        End If
-                                    End With
-                                Next
-
-                                Return New DataSet With {
-                                    .ID = x.ID,
-                                    .Properties = values _
-                                        .OrderBy(Function(d) d.Key) _
-                                        .ToDictionary()
-                                }
-                            End Function) _
-                    .ToArray
-                Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
-
-                If Not data.All(Function(x) x.Properties.Count = 0) Then
-                    Call data.SaveTo(path)
-                    Call StripNaN(path, replaceAs:="NA")
-                End If
-            Next
-        End With
+            If Not data.All(Function(x) x.Properties.Count = 0) Then
+                Call data.SaveTo(path)
+                Call StripNaN(path, replaceAs:="NA")
+            End If
+        Next
 
         Return 0
     End Function
