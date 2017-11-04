@@ -437,7 +437,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /legend.size <size, default=600,100> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -482,6 +482,10 @@ Partial Module CLI
             matrix = DataSet _
                 .LoadDataSet(input) _
                 .AsList
+
+            If tlog2 Then
+                matrix = matrix.Log2.AsList
+            End If
         Else
             matrix = Union(input, tlog2, 0, args.GetBoolean("/non_DEP.blank"), False) _
                 .AsDataSet _
@@ -497,6 +501,7 @@ Partial Module CLI
         Dim schema$ = args.GetValue("/schema", Colors.ColorBrewer.DivergingSchemes.RdYlGn11)
         Dim revColorSequence As Boolean = Not args.IsTrue("/no-clrev")
         Dim tick# = args.GetValue("/tick", -1.0#)
+        Dim legendSize$ = (args <= "/legend.size") Or "600,100".AsDefault
 
         If min >= 0 Then
             min = 0
@@ -521,6 +526,7 @@ Partial Module CLI
                 colLabelFontStyle:=CSSFont.Win7Large,
                 mapName:=schema,
                 reverseClrSeq:=revColorSequence,
+                legendSize:=legendSize,
                 min:=min,
                 tick:=tick).AsGDIImage _
                          .CorpBlank(30, Color.White) _
