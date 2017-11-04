@@ -218,6 +218,10 @@
       <Project>{2C34A044-1BDE-44E8-A86E-E9971C87DA21}</Project>
       <Name>LibMySQL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame.Extensions\+VB_DataFrame.Extensions.vbproj">
+      <Project>{344bf0cf-107f-45d2-9074-9865d8f86506}</Project>
+      <Name>+VB_DataFrame.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283C179-F852-4EAD-8D8F-B82EF2CBD7DB}</Project>
       <Name>+VB_DataFrame</Name>

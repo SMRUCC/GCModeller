@@ -136,6 +136,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="iTraq\iTraqSample.vb" />
     <Compile Include="LabelFree\LabelFreeTtest.vb" />
     <Compile Include="AnalysisCommon.vb" />
     <Compile Include="RSDPdensity.vb" />
