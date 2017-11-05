@@ -155,6 +155,7 @@ Imports SMRUCC.WebCloud.HTTPInternal.Platform
     Public Function RunDll(args As CommandLine) As Integer
         Dim api$ = args <= "/api"
         Dim run As Boolean = False
+        Dim params$() = args.Tokens.Skip(3).ToArray
 
         For Each dll As String In ls - l - r - "*.dll" <= App.HOME
             Dim method As MethodInfo = RunDllEntryPoint.GetDllMethod(Assembly.LoadFile(dll), api)
@@ -163,7 +164,7 @@ Imports SMRUCC.WebCloud.HTTPInternal.Platform
 #End If
             If Not method Is Nothing Then
                 run = True
-                Call method.Invoke(Nothing, Nothing)
+                Call method.Invoke(Nothing, params)
             End If
         Next
 
