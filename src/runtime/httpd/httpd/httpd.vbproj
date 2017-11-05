@@ -180,8 +180,10 @@
     <DocumentationFile>httpd.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Surveillance-of-infectious-diseases|x64' ">
-    <OutputPath>bin\x64\Release2\</OutputPath>
+    <OutputPath>..\..\..\..\..\Surveillance-of-infectious-diseases\App\</OutputPath>
     <DocumentationFile>httpd.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Surveillance-of-infectious-diseases|x86' ">
     <OutputPath>bin\x86\Release2\</OutputPath>
