@@ -40,7 +40,7 @@ Namespace MaxMind
     ''' <summary>
     ''' XML数据库查询
     ''' </summary>
-    <XmlRoot("geoip")> Public Class Database : Inherits ClassObject
+    <XmlRoot("geoip")> Public Class Database : Inherits BaseClass
 
         <XmlElement> Public Property Countries As Views.Country()
 
