@@ -27,10 +27,11 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Terminal
+Namespace Terminal.ProgressBar
 
     ''' <summary>
     ''' The <see cref="ConsoleColor"/> theme for the <see cref="ProgressBar"/>
@@ -65,6 +66,10 @@ Namespace Terminal
         Public Property ProgressMsgColor As ConsoleColor
         Public Property MessageDetailColor As ConsoleColor
 
+        ''' <summary>
+        ''' Test if all of the property value is equals to ZERO(<see cref="ConsoleColor.Black"/>).
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property IsEmpty As Boolean
             Get
                 Return BackgroundColor = 0 AndAlso
@@ -74,6 +79,15 @@ Namespace Terminal
             End Get
         End Property
 
+        ''' <summary>
+        ''' Default value for optional parameter
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' ###### 2017-11-5
+        ''' 
+        ''' This property will cause bug in reflection.
+        ''' </remarks>
         Public Shared ReadOnly Property DefaultTheme As New DefaultValue(Of ColorTheme) With {
             .LazyValue = Function() [Default](),
             .assert = Function(t)
@@ -81,6 +95,10 @@ Namespace Terminal
                       End Function
         }
 
+        ''' <summary>
+        ''' The default color theme values
+        ''' </summary>
+        ''' <returns></returns>
         Public Shared Function [Default]() As ColorTheme
             Return New ColorTheme With {
                 .BackgroundColor = ConsoleColor.Cyan,
@@ -92,7 +110,7 @@ Namespace Terminal
     End Structure
 
     ''' <summary>
-    ''' 
+    ''' Progress bar for the <see cref="Console"/> Screen.
     ''' </summary>
     ''' <remarks>
     ''' http://www.cnblogs.com/masonlu/p/4668232.html
@@ -103,14 +121,17 @@ Namespace Terminal
         Dim colorBack As ConsoleColor = Console.BackgroundColor
         Dim colorFore As ConsoleColor = Console.ForegroundColor
 
+        ''' <summary>
+        ''' The current progress percentage: [0, 100]
+        ''' </summary>
         Dim current%
         Dim y%
         Dim theme As ColorTheme
 
         ''' <summary>
-        ''' 
+        ''' Create a console progress bar object with custom configuration.
         ''' </summary>
-        ''' <param name="title"></param>
+        ''' <param name="title">The title of the task which will takes long time for running.</param>
         ''' <param name="Y">The row position number of the progress bar.</param>
         ''' <param name="CLS">Clear the console screen?</param>
         Sub New(title$, Y%, Optional CLS As Boolean = False, Optional theme As ColorTheme = Nothing)
@@ -133,9 +154,10 @@ Namespace Terminal
         End Sub
 
         ''' <summary>
-        ''' 在当前位置之后设置进度条，这个构造函数不会清除整个终端屏幕
+        ''' Create a console progress bar with default theme color <see cref="ColorTheme.DefaultTheme"/>
+        ''' (在当前位置之后设置进度条，这个构造函数不会清除整个终端屏幕)
         ''' </summary>
-        ''' <param name="title$"></param>
+        ''' <param name="title$">The task title</param>
         Sub New(title$)
             Call Me.New(title, Y:=Console.CursorTop, CLS:=False)
         End Sub
@@ -164,6 +186,7 @@ Namespace Terminal
         ''' <summary>
         ''' 将终端的输出位置放置到详细信息的下一行
         ''' </summary>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub SetToEchoLine()
             Console.SetCursorPosition(0, y + 3)
         End Sub
@@ -182,6 +205,7 @@ Namespace Terminal
         ''' 一个只读长整型，表示当前实例测量得出的总毫秒数。
         ''' </returns>
         Public ReadOnly Property ElapsedMilliseconds As Long
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return timer.ElapsedMilliseconds
             End Get
