@@ -129,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="markmarkoh_datamaps\fills.vb" />
+    <Compile Include="MaxMind\geographical_information_view.vb" />
     <Compile Include="MaxMind\MySQL\geolite2\geolite2_city_blocks_ipv6.vb" />
     <Compile Include="MaxMind\MySQL\geolite2\geolite2_country_blocks_ipv4.vb" />
     <Compile Include="MaxMind\MySQL\geolite2\geolite2_country_blocks_ipv6.vb" />
