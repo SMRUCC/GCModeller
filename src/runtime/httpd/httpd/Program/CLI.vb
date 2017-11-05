@@ -65,6 +65,9 @@ Imports SMRUCC.WebCloud.HTTPInternal.Platform
         Dim threads As Integer = args.GetValue("/threads", -1)
         Dim cacheMode As Boolean = args.GetBoolean("/cache")
 
+#If DEBUG Then
+        threads = 2
+#End If
         Return New PlatformEngine(HOME, port,
                                   True,
                                   threads:=threads,
