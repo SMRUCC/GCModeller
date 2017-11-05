@@ -158,7 +158,7 @@ Imports SMRUCC.WebCloud.HTTPInternal.Platform
         Dim params$() = args.Tokens.Skip(3).ToArray
 
         For Each dll As String In ls - l - r - "*.dll" <= App.HOME
-            Dim method As MethodInfo = RunDllEntryPoint.GetDllMethod(Assembly.LoadFile(dll), api)
+            Dim method As MethodInfo = RunDllEntryPoint.GetDllMethod(Assembly.LoadFrom(dll), api)
 #If DEBUG Then
             Call dll.__INFO_ECHO
 #End If

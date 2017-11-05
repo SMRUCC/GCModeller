@@ -30,7 +30,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Terminal
+Namespace Terminal.ProgressBar
 
     ''' <summary>
     ''' The <see cref="ConsoleColor"/> theme for the <see cref="ProgressBar"/>
@@ -74,6 +74,15 @@ Namespace Terminal
             End Get
         End Property
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' ###### 2017-11-5
+        ''' 
+        ''' This property will cause bug in reflection.
+        ''' </remarks>
         Public Shared ReadOnly Property DefaultTheme As New DefaultValue(Of ColorTheme) With {
             .LazyValue = Function() [Default](),
             .assert = Function(t)
