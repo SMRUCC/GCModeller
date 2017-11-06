@@ -99,7 +99,8 @@ Public Module Extensions
                                     .Select(Function(e)
                                                 Return New AnalysisDesigner With {
                                                     .Controls = c.sample_name,
-                                                    .Experimental = e.sample_name
+                                                    .Experimental = e.sample_name,
+                                                    .Reversed = designer.Reversed
                                                 }
                                             End Function)
                             End Function) _

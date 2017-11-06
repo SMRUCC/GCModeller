@@ -1,7 +1,9 @@
-﻿''' <summary>
+﻿Imports Microsoft.VisualBasic.Data.csv
+
+''' <summary>
 ''' iTraq信号标记替换
 ''' </summary>
-Public Class iTraqSymbols
+<Template("iTraq")> Public Class iTraqSymbols
 
     ''' <summary>
     ''' iTraq信号标记

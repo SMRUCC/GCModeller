@@ -159,11 +159,14 @@ Namespace SymbolBuilder
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function Rstring(s As String) As String
-            If s = """" OrElse s = "\""" Then
-                Return """\"""""
-            Else
-                Return $"""{s.R_Escaping}"""
-            End If
+            Select Case s
+                Case """", "\"""
+                    Return """\"""""
+                Case "\n", "\t"
+                    Return $"""{s}"""
+                Case Else
+                    Return $"""{s.R_Escaping}"""
+            End Select
         End Function
 
         ''' <summary>

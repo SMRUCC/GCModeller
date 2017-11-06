@@ -264,7 +264,7 @@
     <Compile Include="userFunctions\Tools.vb" />
     <Compile Include="var.vb" />
     <Compile Include="Extensions\out.vb" />
-    <Compile Include="Extensions\DataFrameAPI.vb" />
+    <Compile Include="Extensions\Serialization\DataFrameAPI.vb" />
     <Compile Include="Extensions\RInit.vb" />
     <Compile Include="Extensions\RScriptInvoke.vb" />
     <Compile Include="ScriptBuilder\Abstract\IRToken.vb" />

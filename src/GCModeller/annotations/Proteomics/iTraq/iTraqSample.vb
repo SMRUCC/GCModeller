@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.PrintAsTable
 
 Public Module iTraqSample
 
@@ -18,7 +19,12 @@ Public Module iTraqSample
                                          sampleInfo As IEnumerable(Of SampleInfo),
                                          designer As IEnumerable(Of AnalysisDesigner)) As IEnumerable(Of NamedCollection(Of DataSet))
 
-        With sampleInfo.DataAnalysisDesign(analysis:=designer)
+        Dim analysisDesign = designer.ToArray
+
+        Call VBDebugger.WaitOutput()
+        Call Console.WriteLine(analysisDesign.Print)
+
+        With sampleInfo.DataAnalysisDesign(analysisDesign)
 
             For Each group As NamedCollection(Of AnalysisDesigner) In .ref.IterateNameCollections
                 Dim groupName$ = group.Name
@@ -47,7 +53,11 @@ Public Module iTraqSample
                     With label.Swap.ToString
                         If data.HasProperty(.ref) Then
                             ' 由于在取出值之后使用1除来进行翻转，所以在这里标签还是用原来的顺序，不需要进行颠倒了
-                            values.Add(label.ToString, 1 / data(.ref))
+                            If label.Reversed Then
+                                values.Add(label.ToString, 1 / data(.ref))
+                            Else
+                                values.Add(label.ToString, data(.ref))
+                            End If
                         End If
                     End With
                 End If
