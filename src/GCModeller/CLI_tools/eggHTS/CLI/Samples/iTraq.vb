@@ -3,15 +3,19 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
 Partial Module CLI
 
     <ExportAPI("/iTraq.Symbol.Replacement")>
     <Description("* Using this CLI tool for processing the tag header of iTraq result at first.")>
-    <Usage("/iTraq.Symbol.Replacement /in <iTraq.data.csv> /symbols <symbols.csv> [/out <out.DIR>]")>
+    <Usage("/iTraq.Symbol.Replacement /in <iTraq.data.csv/xlsx> /symbols <symbols.csv> [/sheet.name <Sheet1> /out <out.DIR>]")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.csv, *.xlsx",
               AcceptTypes:={GetType(iTraqReader)},
               Description:="")>
     <Argument("/symbols", False, CLITypes.File,
@@ -22,8 +26,21 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].ParentPath)
         Dim symbols = (args <= "/symbols").LoadCsv(Of iTraqSymbols)
+        Dim input$
 
-        With [in].LoadCsv(Of iTraqReader)
+        If [in].ExtensionSuffix.TextEquals("csv") Then
+            input = [in]
+        Else
+            input = App.GetAppSysTempFile(".csv", App.PID)
+
+            Dim sheet$ = args <= "/sheet.Name"
+
+            Call Xlsx.Open([in]) _
+                .GetTable(sheet Or "Sheet1".AsDefault) _
+                .Save(input, encoding:=Encodings.UTF8)
+        End If
+
+        With [input].LoadCsv(Of iTraqReader)
             Call .iTraqMatrix(symbols) _
                  .ToArray _
                  .SaveTo(out & "/matrix.csv")
