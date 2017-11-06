@@ -77,7 +77,8 @@ Public Module RSDPdensity
                 labX:="RSD", labY:="-log10(P.value)",
                 htmlLabel:=False,
                 xMax:={1.25, ticksX.Max}.Max,
-                yMin:=0)
+                yMin:=0,
+                xMin:=0)
 
         End With
     End Function
