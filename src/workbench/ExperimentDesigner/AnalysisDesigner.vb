@@ -11,6 +11,7 @@ Imports Microsoft.VisualBasic.Data.csv
 
     Public Property Controls As String
     Public Property Experimental As String
+    Public Property Reversed As Boolean
 
     ''' <summary>
     ''' 对于iTraq实验数据而言，这里是具体的样品的编号的比对
@@ -19,7 +20,11 @@ Imports Microsoft.VisualBasic.Data.csv
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
-        Return $"{Controls}/{Experimental}"
+        If Reversed Then
+            Return $"{Controls}/{Experimental}"
+        Else
+            Return $"{Experimental}/{Controls}"
+        End If
     End Function
 
     Public Function Swap() As AnalysisDesigner

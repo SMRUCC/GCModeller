@@ -60,7 +60,7 @@ Partial Module CLI
     ''' 
     <ExportAPI("/iTraq.matrix.split")>
     <Description("Split the raw matrix into different compare group based on the experimental designer information.")>
-    <Usage("/iTraq.matrix.split /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis.design.csv> [/no.swap /out <out.Dir>]")>
+    <Usage("/iTraq.matrix.split /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis.design.csv> [/out <out.Dir>]")>
     <Group(CLIGroups.iTraqTool)>
     <Argument("/sampleInfo", False, CLITypes.File, AcceptTypes:={GetType(SampleInfo)})>
     <Argument("/designer", False, CLITypes.File, AcceptTypes:={GetType(AnalysisDesigner)},
@@ -70,9 +70,8 @@ Partial Module CLI
         Dim designer = (args <= "/designer").LoadCsv(Of AnalysisDesigner)
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & "-Groups/")
         Dim matrix As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
-        Dim noSwap As Boolean = args.IsTrue("/no.swap")
 
-        For Each group In matrix.MatrixSplit(sampleInfo, designer, swap:=Not noSwap)
+        For Each group In matrix.MatrixSplit(sampleInfo, designer)
             Dim groupName$ = group.Name
             Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
             Dim data As DataSet() = group.Value
