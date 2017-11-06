@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Data.csv
 
 ''' <summary>
@@ -9,8 +10,11 @@ Imports Microsoft.VisualBasic.Data.csv
 ''' </summary>
 <Template("ExperimentDesigner")> Public Class AnalysisDesigner
 
+    <XmlAttribute("control")>
     Public Property Controls As String
+    <XmlAttribute("experimental")>
     Public Property Experimental As String
+    <XmlAttribute("reversed?")>
     Public Property Reversed As Boolean
 
     ''' <summary>
@@ -30,7 +34,8 @@ Imports Microsoft.VisualBasic.Data.csv
     Public Function Swap() As AnalysisDesigner
         Return New AnalysisDesigner With {
             .Controls = Experimental,
-            .Experimental = Controls
+            .Experimental = Controls,
+            .Reversed = Reversed
         }
     End Function
 End Class
