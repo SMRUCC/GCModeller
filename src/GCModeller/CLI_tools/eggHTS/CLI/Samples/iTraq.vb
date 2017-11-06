@@ -85,6 +85,30 @@ Partial Module CLI
         Return 0
     End Function
 
+    ''' <summary>
+    ''' 可视化样本的一致重复性
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/iTraq.RSD-P.Density")>
+    <Usage("/iTraq.RSD-P.Density /in <matrix.csv> [/out <out.png>]")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.csv",
+              Description:="A data matrix which is comes from the ``/iTraq.matrix.split`` command.")>
+    <Group(CLIGroups.iTraqTool)>
+    Public Function iTraqRSDPvalueDensityPlot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.RSD-P.density.png".AsDefault
+        Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim n% = matrix.PropertyNames.Distinct.Count
+
+        Return matrix _
+            .RSDP(n) _
+            .RSDPdensity() _
+            .Save(out) _
+            .CLICode
+    End Function
+
     <ExportAPI("/iTraq.t.test")>
     <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
     <Group(CLIGroups.iTraqTool)>
