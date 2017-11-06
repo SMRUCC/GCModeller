@@ -1,40 +1,39 @@
 ﻿#Region "Microsoft.VisualBasic::a4913b433faf764f47deed826fbcd162, ..\httpd\WebCloud\SMRUCC.WebCloud.GIS\markmarkoh_datamaps\fills.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Mathematical
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Language
 
 Namespace d3js.markmarkoh_datamaps
 
@@ -67,7 +66,7 @@ Namespace d3js.markmarkoh_datamaps
         ''' </summary>
         ''' <returns></returns>
         Public Function GetJson() As String
-            Dim keys As String() = fills.Values.ToArray(Function(x) $"""{x.Name}"": ""{x.value}""")
+            Dim keys As String() = fills.Values.Select(Function(x) $"""{x.Name}"": ""{x.Value}""").ToArray
             Return "{ defaultFill: """ & defaultFill & """, " & String.Join(", ", keys) & " }"
         End Function
     End Class
@@ -100,31 +99,30 @@ Namespace d3js.markmarkoh_datamaps
 
                 fills.fills += New NamedValue(Of String) With {
                     .Name = "c" & c.i.ToString,
-                    .value = $"rgb({x.R},{x.G},{x.B})"
+                    .Value = $"rgb({x.R},{x.G},{x.B})"
                 }
             Next
 
-            Dim dataKeys As New List(Of String)
+            Dim dataKeys As New Dictionary(Of String, fill)
 
-            For Each x In levels.SeqIterator
+            For Each x As SeqValue(Of Integer) In levels.SeqIterator
                 Dim c As String = data(x.i).Name
                 Dim k As String = "c" & x.value.ToString
+                Dim fill As New fill With {
+                    .fillKey = k
+                }
 
-                dataKeys += New NamedValue(Of fill) With {
-                    .Name = c,
-                    .Value = New fill With {
-                        .fillKey = k
-                    }
-                }.NamedProperty
+                Call dataKeys.Add(c, fill)
             Next
 
-            fills.data = "{ " & String.Join(", ", dataKeys.ToArray) & " }"
+            fills.data = dataKeys.GetJson
 
             Return fills
         End Function
     End Module
 
     Public Structure fill
+
         Public Property fillKey As String
 
         Public Overrides Function ToString() As String
