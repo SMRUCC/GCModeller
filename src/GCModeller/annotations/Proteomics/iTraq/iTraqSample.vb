@@ -16,7 +16,8 @@ Public Module iTraqSample
     <Extension>
     Public Iterator Function MatrixSplit(matrix As DataSet(),
                                          sampleInfo As IEnumerable(Of SampleInfo),
-                                         designer As IEnumerable(Of AnalysisDesigner)) As IEnumerable(Of NamedCollection(Of DataSet))
+                                         designer As IEnumerable(Of AnalysisDesigner),
+                                         Optional swap As Boolean = False) As IEnumerable(Of NamedCollection(Of DataSet))
 
         With sampleInfo.DataAnalysisDesign(analysis:=designer)
 
@@ -24,7 +25,7 @@ Public Module iTraqSample
                 Dim groupName$ = group.Name
                 Dim labels = group.Value
                 Dim data = matrix _
-                    .Select(Function(x) x.subsetValues(labels)) _
+                    .Select(Function(x) x.subsetValues(labels, swap)) _
                     .ToArray
 
                 Yield New NamedCollection(Of DataSet) With {
@@ -35,7 +36,7 @@ Public Module iTraqSample
         End With
     End Function
 
-    <Extension> Private Function subsetValues(data As DataSet, labels As AnalysisDesigner()) As DataSet
+    <Extension> Private Function subsetValues(data As DataSet, labels As AnalysisDesigner(), swap As Boolean) As DataSet
         Dim values As New List(Of KeyValuePair(Of String, Double))
 
         For Each label As AnalysisDesigner In labels
@@ -47,7 +48,11 @@ Public Module iTraqSample
                     With label.Swap.ToString
                         If data.HasProperty(.ref) Then
                             ' 由于在取出值之后使用1除来进行翻转，所以在这里标签还是用原来的顺序，不需要进行颠倒了
-                            values.Add(label.ToString, 1 / data(.ref))
+                            If swap Then
+                                values.Add(label.ToString, 1 / data(.ref))
+                            Else
+                                values.Add(label.ToString, data(.ref))
+                            End If
                         End If
                     End With
                 End If
