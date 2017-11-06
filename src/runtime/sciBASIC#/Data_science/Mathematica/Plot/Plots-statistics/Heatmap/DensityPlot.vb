@@ -78,7 +78,9 @@ Namespace Heatmap
                              Optional labX$ = "X",
                              Optional labY$ = "Y",
                              <CSSSelector(Types.Font)> Optional labelFontCSS$ = CSSFont.Win10Normal,
-                             Optional htmlLabel As Boolean = True) As GraphicsData
+                             Optional htmlLabel As Boolean = True,
+                             Optional xMax# = Double.NaN,
+                             Optional yMin# = Double.NaN) As GraphicsData
 
             Dim pointVector As VectorModel(Of PointF) = points _
                 .Where(Function(pt)
@@ -95,6 +97,14 @@ Namespace Heatmap
                 .GetColors(schema, levels) _
                 .Select(Function(c) c.ToHtmlColor) _
                 .ToArray
+
+            If Not xMax.IsNaNImaginary Then
+                xrange = {xrange.Min, xMax}
+            End If
+            If Not yMin.IsNaNImaginary Then
+                yrange = {yMin, yrange.Max}
+            End If
+
             Dim density = (xrange, yrange) _
                 .Grid(steps.FloatSizeParser) _
                 .DensityMatrix(

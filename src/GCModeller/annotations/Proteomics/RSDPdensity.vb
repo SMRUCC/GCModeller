@@ -74,7 +74,10 @@ Public Module RSDPdensity
                 .ref,
                 size, padding, bg, schema, levels:=100,
                 ablines:=ablines,
-                labX:="RSD", labY:="-log10(P.value)", htmlLabel:=False)
+                labX:="RSD", labY:="-log10(P.value)",
+                htmlLabel:=False,
+                xMax:={1.25, ticksX.Max}.Max,
+                yMin:=0)
 
         End With
     End Function
