@@ -11,11 +11,11 @@ Public Module Extensions
     ''' </summary>
     ''' <param name="sampleInfo"></param>
     ''' <param name="analysisDesign"></param>
-    ''' <param name="pairedSample"></param>
+    ''' <param name="sampleTuple"></param>
     ''' <returns></returns>
     Public Function PairedAnalysisSamples(sampleInfo As IEnumerable(Of SampleInfo),
                                           analysisDesign As AnalysisDesigner,
-                                          pairedSample As (sample1$, sample2$)()) As AnalysisDesigner()
+                                          sampleTuple As IEnumerable(Of SampleTuple)) As AnalysisDesigner()
 
         With sampleInfo _
             .DataAnalysisDesign({analysisDesign}) _
@@ -24,8 +24,8 @@ Public Module Extensions
 
             ' 将成对比较的标签选出来
             Return .Where(Function(ad)
-                              For Each pair In pairedSample
-                                  If ad.EqualsToTuplePair(pair) Then
+                              For Each tuple As SampleTuple In sampleTuple
+                                  If ad.EqualsToTuple(tuple) Then
                                       Return True
                                   End If
                               Next
@@ -37,10 +37,10 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Private Function EqualsToTuplePair(ad As AnalysisDesigner, pair As (sample1$, sample2$)) As Boolean
-        If ad.Controls = pair.sample1 AndAlso ad.Experimental = pair.sample2 Then
+    Private Function EqualsToTuple(ad As AnalysisDesigner, tuple As SampleTuple) As Boolean
+        If ad.Controls = tuple.Sample1 AndAlso ad.Experimental = tuple.Sample2 Then
             Return True
-        ElseIf ad.Experimental = pair.sample1 AndAlso ad.Controls = pair.sample2 Then
+        ElseIf ad.Experimental = tuple.Sample1 AndAlso ad.Controls = tuple.Sample2 Then
             Return True
         Else
             Return False
