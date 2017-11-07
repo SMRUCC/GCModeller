@@ -1,9 +1,9 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.PrintAsTable
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.PrintAsTable
 
 Public Module iTraqSample
 
