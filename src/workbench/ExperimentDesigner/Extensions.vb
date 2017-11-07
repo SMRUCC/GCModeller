@@ -6,6 +6,47 @@ Imports Microsoft.VisualBasic.Linq
 
 Public Module Extensions
 
+    ''' <summary>
+    ''' 为成对数据的T检验设计的帮助函数
+    ''' </summary>
+    ''' <param name="sampleInfo"></param>
+    ''' <param name="analysisDesign"></param>
+    ''' <param name="pairedSample"></param>
+    ''' <returns></returns>
+    Public Function PairedAnalysisSamples(sampleInfo As IEnumerable(Of SampleInfo),
+                                          analysisDesign As AnalysisDesigner,
+                                          pairedSample As (sample1$, sample2$)()) As AnalysisDesigner()
+
+        With sampleInfo _
+            .DataAnalysisDesign({analysisDesign}) _
+            .First _
+            .Value
+
+            ' 将成对比较的标签选出来
+            Return .Where(Function(ad)
+                              For Each pair In pairedSample
+                                  If ad.EqualsToTuplePair(pair) Then
+                                      Return True
+                                  End If
+                              Next
+
+                              Return False
+                          End Function) _
+                   .ToArray
+        End With
+    End Function
+
+    <Extension>
+    Private Function EqualsToTuplePair(ad As AnalysisDesigner, pair As (sample1$, sample2$)) As Boolean
+        If ad.Controls = pair.sample1 AndAlso ad.Experimental = pair.sample2 Then
+            Return True
+        ElseIf ad.Experimental = pair.sample1 AndAlso ad.Controls = pair.sample2 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function TakeGroup(sampleInfo As IEnumerable(Of SampleInfo), groupLabel$) As SampleInfo()
@@ -14,6 +55,7 @@ Public Module Extensions
             .ToArray
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ToCategory(sampleInfo As IEnumerable(Of SampleInfo)) As Dictionary(Of NamedCollection(Of String))
         Return sampleInfo _
@@ -27,8 +69,8 @@ Public Module Extensions
             .ToDictionary
     End Function
 
-    <Extension>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
     Public Function SampleNames(sampleInfo As IEnumerable(Of SampleInfo)) As String()
         Return sampleInfo _
             .Select(Function(sample) sample.sample_name) _
@@ -40,6 +82,7 @@ Public Module Extensions
     ''' </summary>
     ''' <param name="sampleInfo"></param>
     ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function SampleGroupInfo(sampleInfo As IEnumerable(Of SampleInfo)) As Dictionary(Of String, String)
         Return sampleInfo.ToDictionary(
