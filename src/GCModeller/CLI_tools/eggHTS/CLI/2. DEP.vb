@@ -71,7 +71,7 @@ Partial Module CLI
         Dim designer$ = args <= "/designer"
         Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}_{designer.BaseName}_sampleTuple".AsDefault
 
-        For Each group As NamedCollection(Of AnalysisDesigner) In [in] _
+        For Each group As NamedCollection(Of SampleTuple) In [in] _
             .LoadCsv(Of SampleInfo) _
             .PairedAnalysisSamples(
                 designer.LoadCsv(Of AnalysisDesigner),

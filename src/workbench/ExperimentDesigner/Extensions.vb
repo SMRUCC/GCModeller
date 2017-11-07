@@ -23,7 +23,7 @@ Public Module Extensions
     <Extension>
     Public Iterator Function PairedAnalysisSamples(sampleInfo As IEnumerable(Of SampleInfo),
                                                    analysisDesign As IEnumerable(Of AnalysisDesigner),
-                                                   sampleTuple As IEnumerable(Of SampleTuple)) As IEnumerable(Of NamedCollection(Of AnalysisDesigner))
+                                                   sampleTuple As IEnumerable(Of SampleTuple)) As IEnumerable(Of NamedCollection(Of SampleTuple))
 
         With sampleInfo.DataAnalysisDesign(analysisDesign)
 
@@ -41,9 +41,15 @@ Public Module Extensions
 
                                Return False
                            End Function) _
+                    .Select(Function(ad)
+                                Return New SampleTuple With {
+                                    .Sample1 = ad.Controls,
+                                    .Sample2 = ad.Experimental
+                                }
+                            End Function) _
                     .ToArray
 
-                Yield New NamedCollection(Of AnalysisDesigner) With {
+                Yield New NamedCollection(Of SampleTuple) With {
                     .Name = group.Name,
                     .Value = designer
                 }
