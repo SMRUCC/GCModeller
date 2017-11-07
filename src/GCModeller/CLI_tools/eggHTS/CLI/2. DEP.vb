@@ -65,13 +65,24 @@ Partial Module CLI
 #Region "DEG data experiment designer"
 
     <ExportAPI("/paired.sample.designer")>
-    <Usage("/paired.sample.designer /sampleinfo <sampleInfo.csv> /designer <analysisDesigner.csv> /tuple <sampleTuple.csv> [/out <designer.out.csv>]")>
+    <Usage("/paired.sample.designer /sampleinfo <sampleInfo.csv> /designer <analysisDesigner.csv> /tuple <sampleTuple.csv> [/out <designer.out.csv.Directory>]")>
     Public Function PairedSampleDesigner(args As CommandLine) As Integer
         Dim in$ = args <= "/sampleInfo"
         Dim designer$ = args <= "/designer"
-        Dim sampleTuple$ = args <= "/tuple"
-        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}_{designer.BaseName}_sampleTuple.csv".AsDefault
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}_{designer.BaseName}_sampleTuple".AsDefault
 
+        For Each group As NamedCollection(Of AnalysisDesigner) In [in] _
+            .LoadCsv(Of SampleInfo) _
+            .PairedAnalysisSamples(
+                designer.LoadCsv(Of AnalysisDesigner),
+                (args <= "/tuple").LoadCsv(Of SampleTuple))
+
+            With group
+                Call .Value.SaveTo($"{out}/{ .Name.NormalizePathString}.csv")
+            End With
+        Next
+
+        Return 0
     End Function
 
     <ExportAPI("/edgeR.Designer")>

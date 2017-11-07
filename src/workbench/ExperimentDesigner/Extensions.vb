@@ -20,6 +20,7 @@ Public Module Extensions
     ''' <param name="analysisDesign"></param>
     ''' <param name="sampleTuple"></param>
     ''' <returns></returns>
+    <Extension>
     Public Iterator Function PairedAnalysisSamples(sampleInfo As IEnumerable(Of SampleInfo),
                                                    analysisDesign As IEnumerable(Of AnalysisDesigner),
                                                    sampleTuple As IEnumerable(Of SampleTuple)) As IEnumerable(Of NamedCollection(Of AnalysisDesigner))
@@ -31,7 +32,7 @@ Public Module Extensions
                 ' 将成对比较的标签选出来
                 Dim designer = group _
                     .Value _
-                    .Where(Function(ad)
+                    .Where(Function(ad As AnalysisDesigner)
                                For Each tuple As SampleTuple In sampleTuple
                                    If ad.EqualsToTuple(tuple) Then
                                        Return True
