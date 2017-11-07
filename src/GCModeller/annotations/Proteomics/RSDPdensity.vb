@@ -61,7 +61,7 @@ Public Module RSDPdensity
             ' RSD线是竖向的，即(RSD,minY) (RSD, maxY)
             Dim P = P_threshold
             Dim line As Pen = Stroke.TryParse(lineStroke).GDIObject
-            Dim xMax# = {1.25, ticksX.Max}.Max
+            Dim xMax# = {1, ticksX.Max}.Max
 
             Dim Pa As New PointF(0!, P)
             Dim Pb As New PointF(xMax, P)

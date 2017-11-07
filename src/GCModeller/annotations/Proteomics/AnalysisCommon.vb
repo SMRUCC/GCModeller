@@ -36,7 +36,7 @@ Module AnalysisCommon
             SyncLock RServer.R
                 With RServer.R
 
-                    ' read the Rserver memory from the pointer and 
+                    ' read the Rserver memory from the memory pointer and 
                     ' then convert the symbol to a numeric vector
                     FDR = .Evaluate(var) _
                           .AsNumeric _
@@ -50,6 +50,7 @@ Module AnalysisCommon
 
                 ' apply FDR selector if the threshold is less than 1
                 .FDR = FDR
+
                 If FDR_threshold < 1 Then
                     test = test & (FDR <= FDR_threshold)
                 End If
@@ -59,9 +60,9 @@ Module AnalysisCommon
                 With Which.IsTrue(test).Count
                     Call println("resulted %s DEPs from %s proteins!", .ref, n)
                 End With
-
-                Return DirectCast(!Me, VectorShadows(Of DEP_iTraq))
             End With
+
+            Return .ref
         End With
     End Function
 End Module
