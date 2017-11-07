@@ -61,10 +61,11 @@ Public Module RSDPdensity
             ' RSD线是竖向的，即(RSD,minY) (RSD, maxY)
             Dim P = P_threshold
             Dim line As Pen = Stroke.TryParse(lineStroke).GDIObject
+            Dim xMax# = {1.25, ticksX.Max}.Max
 
             Dim Pa As New PointF(0!, P)
-            Dim Pb As New PointF(CSng(ticksX.Max), P)
-            Dim Ra As New PointF(CSng(RSD), CSng(ticksY.Min))
+            Dim Pb As New PointF(xMax, P)
+            Dim Ra As New PointF(CSng(RSD), 0)
             Dim Rb As New PointF(CSng(RSD), CSng(ticksY.Max))
             Dim ablines = {
                 New Line(Pa, Pb, line), New Line(Ra, Rb, line)
@@ -74,7 +75,11 @@ Public Module RSDPdensity
                 .ref,
                 size, padding, bg, schema, levels:=100,
                 ablines:=ablines,
-                labX:="RSD", labY:="-log10(P.value)", htmlLabel:=False)
+                labX:="RSD", labY:="-log10(P.value)",
+                htmlLabel:=False,
+                xMax:=xMax,
+                yMin:=0,
+                xMin:=0)
 
         End With
     End Function

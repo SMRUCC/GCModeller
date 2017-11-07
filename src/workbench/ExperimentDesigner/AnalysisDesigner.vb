@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Data.csv
 
 ''' <summary>
@@ -9,8 +10,12 @@ Imports Microsoft.VisualBasic.Data.csv
 ''' </summary>
 <Template("ExperimentDesigner")> Public Class AnalysisDesigner
 
+    <XmlAttribute("control")>
     Public Property Controls As String
+    <XmlAttribute("experimental")>
     Public Property Experimental As String
+    <XmlAttribute("reversed?")>
+    Public Property Reversed As Boolean
 
     ''' <summary>
     ''' 对于iTraq实验数据而言，这里是具体的样品的编号的比对
@@ -19,13 +24,18 @@ Imports Microsoft.VisualBasic.Data.csv
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
-        Return $"{Controls}/{Experimental}"
+        If Reversed Then
+            Return $"{Controls}/{Experimental}"
+        Else
+            Return $"{Experimental}/{Controls}"
+        End If
     End Function
 
     Public Function Swap() As AnalysisDesigner
         Return New AnalysisDesigner With {
             .Controls = Experimental,
-            .Experimental = Controls
+            .Experimental = Controls,
+            .Reversed = Reversed
         }
     End Function
 End Class
