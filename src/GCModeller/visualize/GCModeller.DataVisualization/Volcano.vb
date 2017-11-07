@@ -169,7 +169,9 @@ Public Module Volcano
                                        Optional axisLayout As YAxisLayoutStyles = YAxisLayoutStyles.ZERO,
                                        Optional displayCount As Boolean = True) As GraphicsData
 
-        Dim DEG_matrix As DEGModel() = genes.CreateModel(translate Or P)
+        Dim DEG_matrix As DEGModel() = genes _
+            .CreateModel(translate Or P) _
+            .ToArray
 
         ' 下面分别得到了log2fc的对称range，以及pvalue范围
         Dim xRange As DoubleRange = DEG_matrix _
