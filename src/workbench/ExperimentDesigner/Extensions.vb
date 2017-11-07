@@ -2,9 +2,15 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq
 
 Public Module Extensions
+
+    ''' <summary>
+    ''' ``ExperimentDesigner`` category for the <see cref="TemplateAttribute"/>
+    ''' </summary>
+    Public Const ExperimentDesigner$ = NameOf(ExperimentDesigner)
 
     ''' <summary>
     ''' 为成对数据的T检验设计的帮助函数

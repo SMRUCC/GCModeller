@@ -8,7 +8,8 @@ Imports Microsoft.VisualBasic.Data.csv
 ''' ```
 ''' 这个对象描述了如何设计一个比对计算实验分析
 ''' </summary>
-<Template("ExperimentDesigner")> Public Class AnalysisDesigner
+<Template(ExperimentDesigner)>
+Public Class AnalysisDesigner
 
     <XmlAttribute("control")>
     Public Property Controls As String
