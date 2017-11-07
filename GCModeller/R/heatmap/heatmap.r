@@ -80,10 +80,16 @@ plotDEPs <- function(csv,
 		res       = 300,                       # 300 pixels per inch
 		pointsize = 8)                         # smaller font size
 
+	row.labels = NULL;
+	
+	if (row.lab.removes) {
+		row.labels = NA;
+	}
+		
 	tryCatch({
 		heatmap.2(matrix.data,
 			scale        = scale,
-			labRow       = NA,
+			labRow       = row.labels,
 			# labCol       = NA,
 			main         = title,            # heat map title
 			notecol      = "black",          # change font color of cell labels to black
