@@ -119,7 +119,11 @@ Public Module ParserIO
                      Group x By x.Name Into Group
 
         Return LQuery.ToDictionary(Function(x) x.Name,
-                                   Function(x) x.Group.Select(Function(value) value.Value).ToArray)
+                                   Function(x)
+                                       Return x.Group _
+                                           .Select(Function(value) value.Value) _
+                                           .ToArray
+                                   End Function)
     End Function
 
     ''' <summary>

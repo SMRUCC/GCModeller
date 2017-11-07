@@ -222,21 +222,23 @@ Public Module CatalogPlots
                 top = x _
                     .ApplySelector(Function(o) o.Value, selects) _
                     .Select(Function(o)
-                                 Return New NamedValue(Of Double) With {
-                                     .Name = o.Description,
-                                     .Value = o.Value
-                                 }
-                             End Function)
+                                Return New NamedValue(Of Double) With {
+                                    .Name = o.Description,
+                                    .Value = o.Value
+                                }
+                            End Function) _
+                    .ToArray
 
             Else
 
                 top = x _
                     .Select(Function(o)
-                                 Return New NamedValue(Of Double) With {
-                                     .Name = o.Description,
-                                     .Value = o.Value
-                                 }
-                             End Function)
+                                Return New NamedValue(Of Double) With {
+                                    .Name = o.Description,
+                                    .Value = o.Value
+                                }
+                            End Function) _
+                    .ToArray
             End If
 
             Call data.Add(k.Key, top)

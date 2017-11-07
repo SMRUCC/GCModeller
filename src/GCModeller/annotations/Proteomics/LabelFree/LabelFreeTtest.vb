@@ -26,7 +26,7 @@ Public Module LabelFreeTtest
                               Optional pvalue# = 0.05,
                               Optional fdrThreshold# = 0.05) As DEP_iTraq()
 
-        Dim experiment$() = sampleInfo.TakeGroup(analysis.Experimental).SampleNames
+        Dim experiment$() = sampleInfo.TakeGroup(analysis.Treatment).SampleNames
         Dim controls$() = sampleInfo.TakeGroup(analysis.Controls).SampleNames
         Dim allSamples$() = experiment.AsList + controls
 

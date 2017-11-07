@@ -60,7 +60,7 @@ Partial Module CLI
     ''' 
     <ExportAPI("/iTraq.matrix.split")>
     <Description("Split the raw matrix into different compare group based on the experimental designer information.")>
-    <Usage("/iTraq.matrix.split /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis.design.csv> [/out <out.Dir>]")>
+    <Usage("/iTraq.matrix.split /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis.design.csv> [/allowed.swap /out <out.Dir>]")>
     <Group(CLIGroups.iTraqTool)>
     <Argument("/sampleInfo", False, CLITypes.File, AcceptTypes:={GetType(SampleInfo)})>
     <Argument("/designer", False, CLITypes.File, AcceptTypes:={GetType(AnalysisDesigner)},
@@ -70,8 +70,9 @@ Partial Module CLI
         Dim designer = (args <= "/designer").LoadCsv(Of AnalysisDesigner)
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & "-Groups/")
         Dim matrix As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
+        Dim allowedSwap As Boolean = args.IsTrue("/allowed.swap")
 
-        For Each group In matrix.MatrixSplit(sampleInfo, designer)
+        For Each group In matrix.MatrixSplit(sampleInfo, designer, allowedSwap)
             Dim groupName$ = group.Name
             Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
             Dim data As DataSet() = group.Value
@@ -110,7 +111,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/iTraq.t.test")>
-    <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
+    <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /pairInfo <sampleTuple.csv> /out <out.csv>]")>
     <Group(CLIGroups.iTraqTool)>
     <Argument("/FDR", True, CLITypes.Double,
               Description:="do FDR adjust on the p.value result? If this argument value is set to 1, means no adjustment.")>
@@ -119,8 +120,18 @@ Partial Module CLI
         Dim level# = args.GetValue("/level", 1.5)
         Dim pvalue# = args.GetValue("/p.value", 0.05)
         Dim FDR# = args.GetValue("/FDR", 0.05)
-        Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".log2FC.t.test.csv")
-        Dim DEPs As DEP_iTraq() = data.logFCtest(level, pvalue, FDR)
+        Dim pairInfo$ = args <= "/pairInfo"
+        Dim out$
+
+        If pairInfo.FileExists Then
+            out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.paired.t-test.csv".AsDefault
+        Else
+            out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.t.test.csv".AsDefault
+        End If
+
+        Dim DEPs As DEP_iTraq() = data.logFCtest(
+            level, pvalue, FDR,
+            pairInfo:=pairInfo.LoadCsv(Of SampleTuple))
 
         Return DEPs _
             .Where(Function(x) x.log2FC <> 0R) _

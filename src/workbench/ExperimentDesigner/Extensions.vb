@@ -2,9 +2,71 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 Public Module Extensions
+
+    ''' <summary>
+    ''' ``ExperimentDesigner`` category for the <see cref="TemplateAttribute"/>
+    ''' </summary>
+    Public Const ExperimentDesigner$ = NameOf(ExperimentDesigner)
+
+    ''' <summary>
+    ''' 为成对数据的T检验设计的帮助函数
+    ''' </summary>
+    ''' <param name="sampleInfo"></param>
+    ''' <param name="analysisDesign"></param>
+    ''' <param name="sampleTuple"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function PairedAnalysisSamples(sampleInfo As IEnumerable(Of SampleInfo),
+                                                   analysisDesign As IEnumerable(Of AnalysisDesigner),
+                                                   sampleTuple As IEnumerable(Of SampleTuple)) As IEnumerable(Of NamedCollection(Of SampleTuple))
+
+        With sampleInfo.DataAnalysisDesign(analysisDesign)
+
+            For Each group In .ref.IterateNameCollections
+
+                ' 将成对比较的标签选出来
+                Dim designer = group _
+                    .Value _
+                    .Where(Function(ad As AnalysisDesigner)
+                               For Each tuple As SampleTuple In sampleTuple
+                                   If ad.EqualsToTuple(tuple) Then
+                                       Return True
+                                   End If
+                               Next
+
+                               Return False
+                           End Function) _
+                    .Select(Function(ad)
+                                Return New SampleTuple With {
+                                    .Sample1 = ad.Controls,
+                                    .Sample2 = ad.Treatment
+                                }
+                            End Function) _
+                    .ToArray
+
+                Yield New NamedCollection(Of SampleTuple) With {
+                    .Name = group.Name,
+                    .Value = designer
+                }
+            Next
+        End With
+    End Function
+
+    <Extension>
+    Private Function EqualsToTuple(ad As AnalysisDesigner, tuple As SampleTuple) As Boolean
+        If ad.Controls = tuple.Sample1 AndAlso ad.Treatment = tuple.Sample2 Then
+            Return True
+        ElseIf ad.Treatment = tuple.Sample1 AndAlso ad.Controls = tuple.Sample2 Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
@@ -14,6 +76,7 @@ Public Module Extensions
             .ToArray
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ToCategory(sampleInfo As IEnumerable(Of SampleInfo)) As Dictionary(Of NamedCollection(Of String))
         Return sampleInfo _
@@ -27,8 +90,8 @@ Public Module Extensions
             .ToDictionary
     End Function
 
-    <Extension>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
     Public Function SampleNames(sampleInfo As IEnumerable(Of SampleInfo)) As String()
         Return sampleInfo _
             .Select(Function(sample) sample.sample_name) _
@@ -40,6 +103,7 @@ Public Module Extensions
     ''' </summary>
     ''' <param name="sampleInfo"></param>
     ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function SampleGroupInfo(sampleInfo As IEnumerable(Of SampleInfo)) As Dictionary(Of String, String)
         Return sampleInfo.ToDictionary(
@@ -57,10 +121,10 @@ Public Module Extensions
     ''' </summary>
     ''' <param name="sampleInfo"></param>
     ''' <param name="analysis">
-    ''' <see cref="AnalysisDesigner.Controls"/>和<see cref="AnalysisDesigner.Experimental"/>都是组别名称
+    ''' <see cref="AnalysisDesigner.Controls"/>和<see cref="AnalysisDesigner.Treatment"/>都是组别名称
     ''' </param>
     ''' <returns>
-    ''' 经过这个函数转换之后，<see cref="AnalysisDesigner.Controls"/>和<see cref="AnalysisDesigner.Experimental"/>
+    ''' 经过这个函数转换之后，<see cref="AnalysisDesigner.Controls"/>和<see cref="AnalysisDesigner.Treatment"/>
     ''' 都分别被转换为样品标记了
     ''' </returns>
     ''' <remarks>
@@ -90,7 +154,7 @@ Public Module Extensions
             Function(name) name.ToString,
             Function(designer)
                 Dim control = sampleGroups(designer.Controls)
-                Dim experimentals = sampleGroups(designer.Experimental)
+                Dim experimentals = sampleGroups(designer.Treatment)
 
                 ' 对照 vs 处理 
                 Return control _
@@ -99,8 +163,7 @@ Public Module Extensions
                                     .Select(Function(e)
                                                 Return New AnalysisDesigner With {
                                                     .Controls = c.sample_name,
-                                                    .Experimental = e.sample_name,
-                                                    .Reversed = designer.Reversed
+                                                    .Treatment = e.sample_name
                                                 }
                                             End Function)
                             End Function) _
