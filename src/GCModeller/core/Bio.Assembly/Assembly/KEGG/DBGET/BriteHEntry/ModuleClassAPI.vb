@@ -157,7 +157,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                           Select x
                           Group x By x.g Into Group) _
                            .ToDictionary(Function(x) x.g,
-                                         Function(x) x.Group.ToArray(Function(d) d.modX))
+                                         Function(x) x.Group.Select(Function(d) d.modX).ToArray)
             Return Groups
         End Function
 

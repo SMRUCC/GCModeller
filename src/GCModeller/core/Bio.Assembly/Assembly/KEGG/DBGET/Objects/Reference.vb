@@ -84,7 +84,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <param name="data"></param>
         ''' <returns></returns>
         Public Shared Function References(data As String()) As Reference()
-            Return data.ToArray(AddressOf ReferenceParserHTML)
+            Return data.Select(AddressOf ReferenceParserHTML).ToArray
         End Function
 
         Const REF_ITEM As String = "<td .+?</div></td></tr>"

@@ -67,11 +67,11 @@ Namespace NetworkModel
                                 In nZ
                                 Select x.GetMetabolites.Select(
                                     Function(xx) xx.species)).IteratesALL.Distinct.ToArray
-            Dim nodes = allCompounds.ToArray(
+            Dim nodes = allCompounds.Select(
                 Function(x) New Node With {
                     .ID = x,
-                    .NodeType = "Metabolite"})
-            Dim fluxNodes As Node() = nZ.ToArray(Function(x) __flux2Node(x, fluxValue))
+                    .NodeType = "Metabolite"}).ToArray
+            Dim fluxNodes As Node() = nZ.Select(Function(x) __flux2Node(x, fluxValue))
             Dim edges As NetworkEdge() = nZ.Select(AddressOf __flux2Edges).ToVector
             Return New NetworkTables With {
                 .Edges = edges,
@@ -80,16 +80,16 @@ Namespace NetworkModel
         End Function
 
         Private Function __flux2Edges(flux As Reaction) As NetworkEdge()
-            Dim from As NetworkEdge() = flux.Reactants.ToArray(
+            Dim from As NetworkEdge() = flux.Reactants.Select(
                 Function(x) New NetworkEdge With {
                     .FromNode = x.species,
                     .Interaction = "Reactant",
-                    .ToNode = flux.id})
-            Dim toEdges As NetworkEdge() = flux.Products.ToArray(
+                    .ToNode = flux.id}).ToArray
+            Dim toEdges As NetworkEdge() = flux.Products.Select(
                 Function(x) New NetworkEdge With {
                     .FromNode = flux.id,
                     .ToNode = x.species,
-                    .Interaction = "Product"})
+                    .Interaction = "Product"}).ToArray
             Return from.Join(toEdges).ToArray
         End Function
 

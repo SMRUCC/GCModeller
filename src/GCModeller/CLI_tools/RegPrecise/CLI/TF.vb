@@ -103,7 +103,7 @@ Partial Module CLI
                 .ProteinId = x.Identifier,
                 .Length = l,
                 .Description = x.Description,
-                .PfamString = motifs.ToArray(Function(d) $"{d.Name.Split(":"c).Last}({d.Position.Left}|{d.Position.Right})"),
+                .PfamString = motifs.Select(Function(d) $"{d.Name.Split(":"c).Last}({d.Position.Left}|{d.Position.Right})"),
                 .Domains =
                     LinqAPI.Exec(Of String) <= From d As ProteinModel.DomainObject
                                                In motifs
@@ -133,7 +133,7 @@ Partial Module CLI
                             x
                         Group By uid Into Group) _
                             .ToDictionary(Function(x) x.uid,
-                                          Function(x) x.Group.ToArray(Function(xx) xx.x))
+                                          Function(x) x.Group.Select(Function(xx) xx.x))
         Dim genomes As IEnumerable(Of BacteriaGenome) = inDIR.LoadXml(Of TranscriptionFactors).BacteriaGenomes
         Dim all = (From x As BacteriaGenome In genomes
                    Where Not x.Regulons Is Nothing AndAlso
@@ -151,7 +151,7 @@ Partial Module CLI
                                             Select query = hit, x.sid, x.Family).ToArray).Unlist
                                Select qx
                                Group qx By qx.query.QueryName Into Group).ToArray
-        bbh = (From x In queryRegulators Select x.Group.ToArray(Function(xx) xx.query)).Unlist
+        bbh = (From x In queryRegulators Select x.Group.Select(Function(xx) xx.query)).Unlist
         Call bbh.SaveTo(out & "/Regulators.bbh.csv") ' 将Regulators的bbh结果分离出来了
 
         Dim FamilyBriefs As IEnumerable(Of FamilyHit) =
@@ -171,7 +171,7 @@ Partial Module CLI
                         x
                     Group By uid Into Group) _
                             .ToDictionary(Function(x) x.uid,
-                                          Function(x) x.Group.ToArray(Function(o) o.x))
+                                          Function(x) x.Group.Select(Function(o) o.x))
 
         Dim key As String = args.GetValue("/pfamKey", "query.pfam-string")
         Dim LQuery = (From x In queryRegulators

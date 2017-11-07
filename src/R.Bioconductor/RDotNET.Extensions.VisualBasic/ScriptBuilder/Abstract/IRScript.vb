@@ -44,7 +44,7 @@ Namespace SymbolBuilder.Abstract
         ''' </summary>
         ''' <returns></returns>
         Public NotOverridable Overrides Function RScript() As String
-            Dim libraries As String() = Requires.ToArray(Function(name) $"library({name})")
+            Dim libraries As String() = Requires.Select(Function(name) $"library({name})").ToArray
             Return libraries.JoinBy(vbCrLf) & vbCrLf & vbCrLf & __R_script()
         End Function
 

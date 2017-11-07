@@ -53,8 +53,8 @@ Namespace Regprecise
             If Not String.Equals(a.LocusId, b.LocusId, StringComparison.OrdinalIgnoreCase) Then
                 Return False
             End If
-            Dim aList As String() = a.Regulates.ToArray(Function(x) x.LocusId)
-            Dim bList As String() = b.Regulates.ToArray(Function(x) x.LocusId)
+            Dim aList As String() = a.Regulates.Select(Function(x) x.LocusId)
+            Dim bList As String() = b.Regulates.Select(Function(x) x.LocusId)
             Dim na, nb As Integer
 
             For Each sId As String In aList
@@ -230,14 +230,14 @@ Namespace Regprecise
                                                       .GI = x.vimssId
                                                   }
             Else
-                oprGenes = mappings.ToArray(Function(x) DOOR.GetGene(x.LocusId))
+                oprGenes = mappings.Select(Function(x) DOOR.GetGene(x.LocusId))
             End If
             Dim opr = (From x As OperonGene In oprGenes
                        Select x
                        Group x By x.OperonID Into Group) _
-                            .ToArray(Function(x) New Operon With {
+                            .Select(Function(x) New Operon With {
                                 .sId = x.Group.First.OperonID,
-                                .Members = x.Group.ToArray(Function(name) mapHash(name.Synonym)).ToVector})
+                                .Members = x.Group.Select(Function(name) mapHash(name.Synonym)).ToVector})
             ' 补齐基因的功能描述信息
             For Each gene As RegulatedGene In mappings
                 If String.IsNullOrEmpty(gene.Function) Then

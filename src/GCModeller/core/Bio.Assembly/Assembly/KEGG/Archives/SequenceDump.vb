@@ -112,7 +112,10 @@ Namespace Assembly.KEGG.Archives
                 Return fam.First
             End If
 
-            Dim Tokens As String() = def.Split.ToArray(Function(s) Regex.Replace(s, "[;,]", "").Trim)
+            Dim Tokens As String() = def _
+                .Split _
+                .Select(Function(s) Regex.Replace(s, "[;,]", "").Trim) _
+                .ToArray
             def = [default]
             Dim LQuery = (From t As String In Tokens Where String.Equals(def, t, StringComparison.OrdinalIgnoreCase) Select t).FirstOrDefault
             If String.IsNullOrEmpty(LQuery) Then

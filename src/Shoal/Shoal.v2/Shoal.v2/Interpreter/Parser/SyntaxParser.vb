@@ -299,7 +299,7 @@ Namespace Interpreter
             Dim Expr = New Source(Expression) With {
                 .LeftAssigned = New LeftAssignedVariable(Tokens(Scan0).GetTokenValue),
                 .Path = New InternalExpression(args.Name),
-                .args = args.ToArgumentVector.ToArray(AddressOf __arg)
+                .args = args.ToArgumentVector.Select(AddressOf __arg).ToArray
             }
 
             Return Expr
@@ -972,7 +972,7 @@ Namespace Interpreter
                                      value = New InternalExpression(obj.Value)) _
                                      .ToDictionary(Function(obj) obj.Name,
                                                    Function(obj) obj.value))
-            bools = Parser.ToArray(AddressOf TrimParamPrefix)
+            bools = Parser.Select(AddressOf TrimParamPrefix).ToArray
         End Sub
 #End Region
     End Module

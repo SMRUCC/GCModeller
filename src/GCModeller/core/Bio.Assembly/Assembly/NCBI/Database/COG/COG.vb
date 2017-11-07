@@ -59,17 +59,17 @@ Namespace Assembly.NCBI.COG
         End Function
 
         Public Shared Function GetClass(Of T As ICOGDigest)(source As IEnumerable(Of T), func As [Function]) As COGFunction()
-            Dim hash = func.Catalogs.ToArray(
+            Dim hash = func.Catalogs.Select(
                 Function(x) x.ToArray).IteratesALL _
                         .ToDictionary(Function(x) x.Catalog.First,
                                       Function(x) New With {
                                         .fun = x,
                                         .count = New List(Of String)})
-            Dim locus = source.ToArray(
+            Dim locus = source.Select(
                 Function(x) New With {
                     x.Key,
                     .COG = Strings.UCase([Function].__trimCOGs(x.COG))
-                })
+                }).ToArray
 
             hash.Add("-", New With {.fun = __notAssigned(), .count = New List(Of String)})
 
@@ -80,7 +80,9 @@ Namespace Assembly.NCBI.COG
             Next
 
             Dim setValue = New SetValue(Of COGFunction)().GetSet(NameOf(COGFunction.IDs))
-            Return hash.Values.ToArray(Function(x) setValue(x.fun, x.count.ToArray))
+            Return hash.Values _
+                .Select(Function(x) setValue(x.fun, x.count.ToArray)) _
+                .ToArray
         End Function
     End Class
 End Namespace

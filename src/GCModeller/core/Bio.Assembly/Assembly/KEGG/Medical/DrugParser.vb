@@ -70,9 +70,11 @@ Namespace Assembly.KEGG.Medical
                 .Comments = getValue("COMMENT").JoinBy(" "),
                 .Targets = getValue("TARGET"),
                 .Metabolism = getValue("METABOLISM") _
-                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
+                    .Select(Function(s) s.GetTagValue(":", trim:=True)) _
+                    .ToArray,
                 .Interaction = getValue("INTERACTION") _
-                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
+                    .Select(Function(s) s.GetTagValue(":", trim:=True)) _
+                    .ToArray,
                 .Members = getValue("MEMBER"),
                 .Class = getValue("CLASS").__classGroup
             }
@@ -142,11 +144,13 @@ Namespace Assembly.KEGG.Medical
                 .Comments = getValue("COMMENT"),
                 .Targets = getValue("TARGET"),
                 .Metabolism = getValue("METABOLISM") _
-                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
+                    .Select(Function(s) s.GetTagValue(":", trim:=True)) _
+                    .ToArray,
                 .Interaction = getValue("INTERACTION") _
-                    .ToArray(Function(s) s.GetTagValue(":", trim:=True)),
+                    .Select(Function(s) s.GetTagValue(":", trim:=True)) _
+                    .ToArray,
                 .Source = getValue("SOURCE") _
-                    .ToArray(Function(s) s.StringSplit(",\s+")) _
+                    .Select(Function(s) s.StringSplit(",\s+")) _
                     .IteratesALL _
                     .ToArray
             }

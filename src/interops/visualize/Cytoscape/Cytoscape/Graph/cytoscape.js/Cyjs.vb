@@ -55,8 +55,8 @@ Namespace CytoscapeGraphView.Cyjs
             End If
 
             Dim Graph = Serialization.Export(Of NodeData, EdgeData)(
-                elements.nodes.ToArray(Function(x) x.data),
-                elements.edges.ToArray(Function(x) x.data),
+                elements.nodes.Select(Function(x) x.data),
+                elements.edges.Select(Function(x) x.data),
                 data.shared_name)
             Return Graph
         End Function

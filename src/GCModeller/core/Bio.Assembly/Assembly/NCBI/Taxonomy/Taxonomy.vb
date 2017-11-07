@@ -131,7 +131,7 @@ Namespace Assembly.NCBI.Taxonomy
         Private Iterator Function __gi2Taxid(dmp As String) As IEnumerable(Of Integer())
             For Each line As String In dmp.IterateAllLines
                 Dim tokens As String() = line.Split(tab)
-                Dim ns = tokens.ToArray(Function(s) CInt(s))
+                Dim ns = tokens.Select(Function(s) CInt(s)).ToArray
 
                 Yield ns
             Next
@@ -151,7 +151,8 @@ Namespace Assembly.NCBI.Taxonomy
                     Dim tokens As String() = line.Split(tab)
                     Dim byts As Byte() = tokens _
                         .Select(Function(s) CInt(s)) _
-                        .ToArray(AddressOf BitConverter.GetBytes).ToVector
+                        .Select(AddressOf BitConverter.GetBytes) _
+                        .ToVector
                     Call writer.BaseStream.Write(byts, Scan0, byts.Length)
                 Next
             End Using

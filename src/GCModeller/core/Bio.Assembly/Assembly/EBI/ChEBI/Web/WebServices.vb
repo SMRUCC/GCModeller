@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Terminal
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.EBI.ChEBI.XML
 
 Namespace Assembly.EBI.ChEBI.WebServices

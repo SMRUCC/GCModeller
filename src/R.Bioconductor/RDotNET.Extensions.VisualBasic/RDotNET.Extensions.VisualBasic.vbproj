@@ -218,9 +218,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -255,6 +252,8 @@
     <Compile Include="API\utils\write.vb" />
     <Compile Include="API\utils\install.vb" />
     <Compile Include="API\utils\utils.vb" />
+    <Compile Include="Extensions\Serialization\WriteMemoryInternal.vb" />
+    <Compile Include="Extensions\Serialization\rda.vb" />
     <Compile Include="Extensions\Serialization\Vector.vb" />
     <Compile Include="ScriptBuilder\ParameterList.vb" />
     <Compile Include="ScriptBuilder\EscapingHelper.vb" />
@@ -262,7 +261,7 @@
     <Compile Include="userFunctions\Tools.vb" />
     <Compile Include="var.vb" />
     <Compile Include="Extensions\out.vb" />
-    <Compile Include="Extensions\DataFrameAPI.vb" />
+    <Compile Include="Extensions\Serialization\DataFrameAPI.vb" />
     <Compile Include="Extensions\RInit.vb" />
     <Compile Include="Extensions\RScriptInvoke.vb" />
     <Compile Include="ScriptBuilder\Abstract\IRToken.vb" />
@@ -341,7 +340,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">

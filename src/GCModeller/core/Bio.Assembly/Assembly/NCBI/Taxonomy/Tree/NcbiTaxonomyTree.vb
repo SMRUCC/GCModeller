@@ -548,7 +548,7 @@ Namespace Assembly.NCBI.Taxonomy
                 Where node.Value.rank = rank
                 Select node
 
-            Dim out = LQuery.ToArray(Function(x) x.Key)
+            Dim out = LQuery.Select(Function(x) x.Key).ToArray
             Return out
         End Function
 

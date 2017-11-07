@@ -875,7 +875,7 @@ Public Module ProgramPathSearchTool
             Call files.AddRange(BranchRule(ProgramFilesX86, keyword))
         End If
         Call files.AddRange(DriveRoot)
-        Call files.AddRange(DriveRoot.ToArray(Function(rootDir) BranchRule(rootDir, keyword)).Unlist)
+        Call files.AddRange(DriveRoot.Select(Function(rootDir) BranchRule(rootDir, keyword)).Unlist)
 
         Return files.ToArray
     End Function
@@ -1022,8 +1022,8 @@ Public Module ProgramPathSearchTool
     ''' Gets the full path of the specific directory.
     ''' </summary>
     ''' <param name="dir"></param>
+    ''' <param name="stack">当程序出错误的时候记录进入日志的一个追踪目标参数，调试用</param>
     ''' <returns></returns>
-    '''
     <ExportAPI("Dir.FullPath", Info:="Gets the full path of the directory.")>
     <Extension> Public Function GetDirectoryFullPath(dir$, <CallerMemberName> Optional stack$ = Nothing) As String
         Try

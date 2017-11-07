@@ -75,12 +75,12 @@ READ_CDD_DIR:
         Dim Domains = (From x As Pfam.PfamString.PfamString
                        In input
                        Where Not StringHelpers.IsNullOrEmpty(x.Domains)
-                       Select x.Domains.ToArray(Function(name) name.Split(":"c).First)).ToArray.Unlist.Distinct.ToArray
+                       Select x.Domains.Select(Function(name) name.Split(":"c).First)).ToArray.Unlist.Distinct.ToArray
 
         Domains = (From name As String In Domains Select name Order By name Ascending).ToArray
 
         Dim Pfam = New SMRUCC.genomics.Assembly.NCBI.CDD.Database(GCModeller.FileSystem.RepositoryRoot & "/CDD/").DomainInfo.Pfam
-        Dim DomainPn = Domains.ToArray(Function(x) Pfam(x))
+        Dim DomainPn = Domains.Select(Function(x) Pfam(x))
 
         Return DomainPn.SaveTo(args("/in").TrimSuffix & "-Domain.Pn.csv")
     End Function

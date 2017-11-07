@@ -47,7 +47,7 @@ Namespace RegulonDB
         End Function
 
         Private Shared Function __export(table As Generic.IEnumerable(Of Tables.site)) As FastaFile
-            Dim fasta = table.ToArray(Function(site) __export(site))
+            Dim fasta = table.Select(Function(site) __export(site))
             Return CType(fasta, FastaFile)
         End Function
 

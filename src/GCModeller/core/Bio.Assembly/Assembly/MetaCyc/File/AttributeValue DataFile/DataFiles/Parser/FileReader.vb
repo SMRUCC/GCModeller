@@ -56,7 +56,9 @@ Namespace Assembly.MetaCyc.File
             Dim lines As String() = path.ReadAllLines
 
             prop = GetDbProperty(lines)
-            objs = GetData(lines).ToArray(Function(array) ObjectModel.ModelParser(array))
+            objs = GetData(lines) _
+                .Select(Function(array) ObjectModel.ModelParser(array)) _
+                .ToArray
 
             Return ""
         End Function

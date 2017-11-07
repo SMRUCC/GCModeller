@@ -64,6 +64,27 @@ Partial Module CLI
 
 #Region "DEG data experiment designer"
 
+    <ExportAPI("/paired.sample.designer")>
+    <Usage("/paired.sample.designer /sampleinfo <sampleInfo.csv> /designer <analysisDesigner.csv> /tuple <sampleTuple.csv> [/out <designer.out.csv.Directory>]")>
+    Public Function PairedSampleDesigner(args As CommandLine) As Integer
+        Dim in$ = args <= "/sampleInfo"
+        Dim designer$ = args <= "/designer"
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}_{designer.BaseName}_sampleTuple".AsDefault
+
+        For Each group As NamedCollection(Of SampleTuple) In [in] _
+            .LoadCsv(Of SampleInfo) _
+            .PairedAnalysisSamples(
+                designer.LoadCsv(Of AnalysisDesigner),
+                (args <= "/tuple").LoadCsv(Of SampleTuple))
+
+            With group
+                Call .Value.SaveTo($"{out}/{ .Name.NormalizePathString}.csv")
+            End With
+        Next
+
+        Return 0
+    End Function
+
     <ExportAPI("/edgeR.Designer")>
     <Description("Generates the edgeR inputs table")>
     <Usage("/edgeR.Designer /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
@@ -199,8 +220,8 @@ Partial Module CLI
             .LoadCsv(Of UniprotAnnotations) _
             .GroupBy(Function(p) p.ORF) _
             .ToDictionary(Function(p) p.Key,
-                          Function(g) g.ToArray(
-                          Function(p) p.ID))
+                          Function(g) g.Select(
+                          Function(p) p.ID).ToArray)
         Dim list$() = DEP_data _
             .Select(Function(d) sampleData(d.ID)) _
             .IteratesALL _
@@ -437,7 +458,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /hide.labels /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /out <out.DIR>]")>
+    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /legend.size <size, default=600,100> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -464,17 +485,60 @@ Partial Module CLI
     <Argument("/tick", True, CLITypes.Double, Description:="The ticks value of the color legend, by default value -1 means generates ticks automatically.")>
     <Argument("/no-clrev", True, CLITypes.Boolean, Description:="Do not reverse the color sequence.")>
     <Argument("/size", True, CLITypes.String, AcceptTypes:={GetType(Size)}, Description:="The canvas size.")>
+    <Argument("/is.matrix", True,
+              CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="The input data is a data matrix, can be using for heatmap drawing directly.")>
+    <Argument("/row.labels.geneName", True, CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="This option will use the ``geneName``(from the annotation data) as the row display label instead of using uniprotID or geneID. This option required of the ``/annotation`` presented.")>
+    <Argument("/annotation", True, CLITypes.File,
+              AcceptTypes:={GetType(EntityObject)},
+              Extensions:="*.csv",
+              Description:="The protein annotation data that extract from the uniprot database. Some advanced heatmap plot feature required of this annotation data presented.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function Heatmap_DEPs(args As CommandLine) As Integer
-        Dim DIR$ = args <= "/data"
-        Dim out As String = args.GetValue("/out", DIR.TrimDIR & ".heatmap/")
+        Dim input$ = args <= "/data"
+        Dim out As String = args.GetValue("/out", input.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
         Dim size$ = args.GetValue("/size", "2000,3000")
         Dim title$ = args.GetValue("/title", "Heatmap of DEPs log2FC")
         Dim tlog2 As Boolean = args.IsTrue("/t.log2")
-        Dim matrix As List(Of DataSet) = Union(DIR, tlog2, 0, args.GetBoolean("/non_DEP.blank"), False) _
-            .AsDataSet _
-            .AsList
+        Dim matrix As List(Of DataSet)
+        Dim annotations As EntityObject() = EntityObject _
+            .LoadDataSet(args <= "/annotation") _
+            .ToArray
+
+        If args.IsTrue("/is.matrix") Then
+            matrix = DataSet _
+                .LoadDataSet(input) _
+                .AsList
+
+            If tlog2 Then
+                matrix = matrix.Log2.AsList
+            End If
+        Else
+            matrix = Union(input, tlog2, 0, args.GetBoolean("/non_DEP.blank"), False) _
+                .AsDataSet _
+                .AsList
+        End If
+
+        If args.IsTrue("/row.labels.geneName") Then
+            ' 将matrix之中的编号替换为geneName
+            Dim ID2names = annotations.ToDictionary(Function(x) x.ID,
+                                                    Function(x) x!geneName)
+            For Each protein As DataSet In matrix
+                If ID2names.ContainsKey(protein.ID) Then
+                    ' 可能有些蛋白是还没有基因名的，则这个时候会是空的字符串
+                    ' 这些空字符串还可能会出现多个蛋白上面，从而导致后面的程序崩溃
+                    ' 所以在这里需要跳过那些空的基因名的蛋白质
+
+                    If Not Strings.Trim(ID2names(protein.ID)).StringEmpty Then
+                        protein.ID = ID2names(protein.ID).Trim
+                    End If
+                End If
+            Next
+        End If
 
         Call matrix _
             .ToKMeansModels _
@@ -485,6 +549,7 @@ Partial Module CLI
         Dim schema$ = args.GetValue("/schema", Colors.ColorBrewer.DivergingSchemes.RdYlGn11)
         Dim revColorSequence As Boolean = Not args.IsTrue("/no-clrev")
         Dim tick# = args.GetValue("/tick", -1.0#)
+        Dim legendSize$ = (args <= "/legend.size") Or "600,100".AsDefault
 
         If min >= 0 Then
             min = 0
@@ -505,10 +570,12 @@ Partial Module CLI
                 matrix,
                 size:=size,
                 drawScaleMethod:=DrawElements.Rows,
-                mainTitle:=title, rowLabelfontStyle:=CSSFont.Win7Small,
-                colLabelFontStyle:=CSSFont.Win7Large,
+                mainTitle:=title,
+                rowLabelfontStyle:=CSSFont.Win7LargerNormal,
+                colLabelFontStyle:=CSSFont.Win7LittleLarge,
                 mapName:=schema,
                 reverseClrSeq:=revColorSequence,
+                legendSize:=legendSize,
                 min:=min,
                 tick:=tick).AsGDIImage _
                          .CorpBlank(30, Color.White) _
@@ -838,6 +905,11 @@ Partial Module CLI
                                Return -1
                            End If
                        End Function
+
+        If log2FCLevel = 0R Then
+            Call "log2FC level can not be ZERO! please check for the /level parameter!".Warning
+            Throw New ArgumentOutOfRangeException("/level")
+        End If
 
         Return Volcano.Plot(sample,
                             colors:=colors,

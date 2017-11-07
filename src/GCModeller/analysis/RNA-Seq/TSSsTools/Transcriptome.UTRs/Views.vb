@@ -68,7 +68,7 @@ Public Module Views
         Dim Csv As New File
         Call Csv.Add({"Numbers Of TSSs", "Numbers Of Genes"})
         For i As Integer = 0 To Max - 2
-            Call Csv.Add(({i + 1, Numbers(i)}).ToArray(Of String)(Function(n) CStr(n)))
+            Call Csv.Add(({i + 1, Numbers(i)}).Select(Of String)(Function(n) CStr(n)))
         Next
         Call Csv.Add({">=" & Max, CStr(Numbers(Numbers.Length - 2))})
 
@@ -93,7 +93,7 @@ Public Module Views
 
         Call CSV.Add({"5'UTR Length", "Numbers Of Genes"})
         For i As Integer = 0 To Max - 2
-            Call CSV.Add(({i + 1, Numbers(i)}).ToArray(Of String)(Function(n) CStr(n)))
+            Call CSV.Add(({i + 1, Numbers(i)}).Select(Of String)(Function(n) CStr(n)))
         Next
         Call CSV.Add({">=" & Max, CStr(Numbers(Numbers.Length - 2))})
 
@@ -133,19 +133,19 @@ Public Module Views
         Next
 
         Dim Csv As New File
-        Dim Categories = COGCategories.Catalogs.ToArray(Of COGCategories)(Function(obj) obj.Class).AsList
+        Dim Categories = COGCategories.Catalogs.Select(Of COGCategories)(Function(obj) obj.Class).AsList
         Call Categories.Add(Assembly.NCBI.COG.COGCategories.NotAssigned)
 
-        Call Csv.Add(({"Numbers Of TSSs"}).Join(Categories.ToArray(Of String)(Function(cat) cat.Description).Join({"", "Numbers Of Genes"})))
+        Call Csv.Add(({"Numbers Of TSSs"}).Join(Categories.Select(Of String)(Function(cat) cat.Description).Join({"", "Numbers Of Genes"})))
         For i As Integer = 0 To Max - 2
             Dim NumberValue = Numbers(i)
             Call Csv.Add((New String() {i + 1}).Join((From cat
                                                           In Categories
-                                                      Select CStr(NumberValue(cat).value)).ToArray).Join({"", CStr(NumberValue.Values.ToArray(Of Integer)(Function(num) num.value).Sum)}))
+                                                      Select CStr(NumberValue(cat).value)).ToArray).Join({"", CStr(NumberValue.Values.Select(Of Integer)(Function(num) num.value).Sum)}))
         Next
         Call Csv.Add((New String() {">=" & Max}).Join((From cat
                                                            In Categories
-                                                       Select CStr(Numbers(Numbers.Length - 2)(cat).value)).ToArray.Join({"", Numbers(Numbers.Length - 2).Values.ToArray(Of Integer)(Function(num) num.value).Sum})))
+                                                       Select CStr(Numbers(Numbers.Length - 2)(cat).value)).ToArray.Join({"", Numbers(Numbers.Length - 2).Values.Select(Of Integer)(Function(num) num.value).Sum})))
 
         Return Csv
     End Function
@@ -173,7 +173,7 @@ Public Module Views
 
         Call CSV.Add({"5'UTR Length", "Numbers Of Genes"})
         For i As Integer = 0 To Max - 2
-            Call CSV.Add(({i + 1, Numbers(i)}).ToArray(Of String)(Function(n) CStr(n)))
+            Call CSV.Add(({i + 1, Numbers(i)}).Select(Of String)(Function(n) CStr(n)))
         Next
         Call CSV.Add({">=" & Max, CStr(Numbers(Numbers.Length - 2))})
 
@@ -187,7 +187,7 @@ Public Module Views
                                Optional ORF As Boolean = True) As FASTA.FastaFile
 
         Dim Source = If(ORF, (From site In data.AsParallel Where Not String.IsNullOrEmpty(site.Synonym) Select site).ToArray, data.ToArray)
-        Source = (From site In Source Select site Group site By site.TSSs Into Group).ToArray.ToArray(Function(obj) obj.Group.First)
+        Source = (From site In Source Select site Group site By site.TSSs Into Group).ToArray.Select(Function(obj) obj.Group.First)
         Dim LQuery = LinqAPI.Exec(Of FASTA.FastaToken) <=
             From i
             In Source.Sequence.AsParallel
@@ -217,7 +217,7 @@ Public Module Views
         Dim FrequencyData As Patterns.PatternModel = Patterns.Frequency(Fasta)
         Dim df As IO.File = New IO.File + {"prob", "A", "T", "G", "C"}
         df += LinqAPI.Exec(Of Patterns.SimpleSite, IO.RowObject)(FrequencyData.Residues) _
-           <= Function(rsd As Patterns.SimpleSite) New IO.RowObject({CStr(pStart + rsd.Address)}.Join(ATGC.ToArray(Function(c) rsd.Probability(c).ToString)))
+           <= Function(rsd As Patterns.SimpleSite) New IO.RowObject({CStr(pStart + rsd.Address)}.Join(ATGC.Select(Function(c) rsd.Probability(c).ToString)))
 
         Return df
     End Function
@@ -254,7 +254,7 @@ Public Module Views
             Select New FASTA.FastaToken With {
                 .Attributes = {
                     "lcl_" & site.TSSs,
-                    String.Join(",", site.Group.ToArray(Of String)(Function(obj) obj.Synonym))
+                    String.Join(",", site.Group.Select(Of String)(Function(obj) obj.Synonym))
                 },
                 .SequenceData = Sequence.SequenceData
             }

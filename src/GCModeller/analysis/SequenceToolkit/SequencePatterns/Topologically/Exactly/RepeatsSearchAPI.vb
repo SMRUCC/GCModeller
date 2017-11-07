@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::63d04383d28186b5756ac47e02302783, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\RepeatsSearchAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -165,22 +165,22 @@ RETURN_VALUE:
 
             ' 有重复序列的个数的百分比 * 热度的平均值
             Dim p_vectors As Double() =
-                Mla.First.Length.ToArray(Function(index As Integer) As Double
-                                             Dim site = Vecotrs.ToArray(Function(genome) genome.repeats(index))
-                                             Dim hashRepeats = (From g In site Where g <> 0R Select g).ToArray
-                                             Dim pHas = hashRepeats.Length / site.Length
-                                             Dim hotAvg = hashRepeats.Average
-                                             Return pHas * hotAvg
-                                         End Function)
+                Mla.First.Length.Sequence.Select(Function(index As Integer) As Double
+                                                     Dim site = Vecotrs.Select(Function(genome) genome.repeats(index)).ToArray
+                                                     Dim hashRepeats = (From g In site Where g <> 0R Select g).ToArray
+                                                     Dim pHas = hashRepeats.Length / site.Length
+                                                     Dim hotAvg = hashRepeats.Average
+                                                     Return pHas * hotAvg
+                                                 End Function).ToArray
             ' 有重复序列的个数的百分比 * 热度的平均值
             Dim p_rev_vectors As Double() =
-                Mla.First.Length.ToArray(Function(index As Integer) As Double
-                                             Dim site = Vecotrs.ToArray(Function(genome) genome.revRepeats(index))
-                                             Dim hashRepeats = (From g In site Where g <> 0R Select g).ToArray
-                                             Dim pHas = hashRepeats.Length / site.Length
-                                             Dim hotAvg = hashRepeats.Average
-                                             Return pHas * hotAvg
-                                         End Function)
+                Mla.First.Length.Sequence.Select(Function(index As Integer) As Double
+                                                     Dim site = Vecotrs.Select(Function(genome) genome.revRepeats(index)).ToArray
+                                                     Dim hashRepeats = (From g In site Where g <> 0R Select g).ToArray
+                                                     Dim pHas = hashRepeats.Length / site.Length
+                                                     Dim hotAvg = hashRepeats.Average
+                                                     Return pHas * hotAvg
+                                                 End Function).ToArray
             Return New KeyValuePair(Of Double(), Double())(p_vectors, p_rev_vectors)
         End Function
 
@@ -200,13 +200,14 @@ RETURN_VALUE:
         ''' <returns></returns>
         Public Function Density(Of TView As RepeatsView)(DIR As String, size As Integer, ref As String, cutoff As Double) As Double()
             Dim files = FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.csv") _
-                .ToArray(Function(file) New With {
-                    .ID = basename(file),
-                    .context = file.LoadCsv(Of TView)})
+                .Select(Function(file) New With {
+                    .ID = BaseName(file),
+                    .context = file.LoadCsv(Of TView)}).ToArray
 
             VBDebugger.Mute = True
 
-            Dim Vecotrs = (From genome In files.AsParallel
+            Dim Vecotrs = (From genome
+                           In files.AsParallel
                            Select genome.ID,
                                vector = RepeatsView.ToVector(genome.context, size)) _
                               .ToDictionary(Function(genome) genome.ID,
@@ -224,18 +225,22 @@ RETURN_VALUE:
             Call $"cutoff={cutoff}".__DEBUG_ECHO
             Call $"genomes={Vecotrs.Count}".__DEBUG_ECHO
 
-            Dim p_vectors As Double() = size.ToArray(Function(index As Integer) As Double
-                                                         Dim refV As Double = refGenome(index)
+            Dim p_vectors As Double() = size _
+                .Sequence _
+                .Select(Function(index As Integer) As Double
+                            Dim refV As Double = refGenome(index)
 
-                                                         If refV <= cutoff Then
-                                                             Return 0
-                                                         End If
+                            If refV <= cutoff Then
+                                Return 0
+                            End If
 
-                                                         Dim site = Vecotrs.ToArray(Function(genome) genome.Value(index))
-                                                         Dim hashRepeats = (From g As Double In site.AsParallel Where g >= cutoff Select g).ToArray
-                                                         Dim pHas As Double = hashRepeats.Length / site.Length
-                                                         Return pHas
-                                                     End Function)
+                            Dim site = Vecotrs.Select(Function(genome) genome.Value(index)).ToArray
+                            Dim hashRepeats = (From g As Double In site.AsParallel Where g >= cutoff Select g).ToArray
+                            Dim pHas As Double = hashRepeats.Length / site.Length
+                            Return pHas
+                        End Function) _
+                .ToArray
+
             Return p_vectors
         End Function
 
@@ -316,8 +321,8 @@ RETURN_VALUE:
 
         <ExportAPI("Write.Density")>
         Public Function SaveDensity(data As KeyValuePair(Of Double(), Double()), SaveDIR As String) As Boolean
-            Call IO.File.WriteAllLines(SaveDIR & "/repeats.density.txt", data.Key.ToArray(Function(d) CStr(d)))
-            Call IO.File.WriteAllLines(SaveDIR & "/rev-repeats.density.txt", data.Value.ToArray(Function(d) CStr(d)))
+            Call IO.File.WriteAllLines(SaveDIR & "/repeats.density.txt", data.Key.Select(Function(d) CStr(d)).ToArray)
+            Call IO.File.WriteAllLines(SaveDIR & "/rev-repeats.density.txt", data.Value.Select(Function(d) CStr(d)).ToArray)
             Return True
         End Function
     End Module

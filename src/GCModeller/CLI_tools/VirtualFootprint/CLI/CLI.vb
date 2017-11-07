@@ -114,7 +114,7 @@ Module CLI
         Dim mal As String = args("/mal")
         Dim q As Double() = args.GetValue("/q", "0.95,0.99,1") _
             .Split(","c) _
-            .ToArray(Function(x) Val(x.Trim))
+            .Select(Function(x) Val(x.Trim))
         Dim method As String = args.GetValue("/method", "gccontent")
         Dim win As Integer = args.GetValue("/win", 250)
         Dim steps As Integer = args.GetValue("/steps", 50)

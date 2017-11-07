@@ -43,7 +43,7 @@ Namespace Analysis.MotifScans
 
         <ExportAPI("Fa.LDM")>
         <Extension> Public Function CreateModel(fa As SequenceModel.FASTA.FastaToken) As AnnotationModel
-            Dim seq As ResidueSite() = Time(Function() fa.SequenceData.ToArray(Function(x) New ResidueSite(x)))
+            Dim seq As ResidueSite() = Time(Function() fa.SequenceData.Select(Function(x) New ResidueSite(x)))
             Return New AnnotationModel With {
                 .Uid = fa.Title,
                 .Sites = {

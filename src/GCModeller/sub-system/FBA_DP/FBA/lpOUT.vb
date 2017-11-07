@@ -42,7 +42,7 @@ Public Class lpOUT
     Public Function CreateDataFile(lpSolveRModel As lpSolveRModel) As TabularOUT()
         printf("Generating the EXCEL file...")
 
-        Dim LQuery = FluxsDistribution.ToArray(
+        Dim LQuery = FluxsDistribution.Select(
             Function(id, i) New TabularOUT With {
                 .Flux = Val(id),
                 .Rxn = lpSolveRModel.fluxColumns(i)})

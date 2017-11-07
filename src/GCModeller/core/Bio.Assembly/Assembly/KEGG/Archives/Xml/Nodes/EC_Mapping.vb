@@ -86,7 +86,7 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
         End Function
 
         Public Overrides Function ToString() As String
-            Return locusId & "  --> " & String.Join(Of String)(", ", ECMaps.ToArray(Function(x) x.EC))
+            Return locusId & "  --> " & String.Join(Of String)(", ", ECMaps.Select(Function(x) x.EC).ToArray)
         End Function
 
         Public Shared Function Generate_ECMappings(Model As XmlModel) As EC_Mapping()
@@ -128,7 +128,7 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
                                                         Select rxn
             Return New ReactionMaps With {
                 .EC = mappedEC,
-                .Reactions = LQuery.ToArray(Function(x) x.Entry)
+                .Reactions = LQuery.Select(Function(x) x.Entry).ToArray
             }
         End Function
 
@@ -149,7 +149,9 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
         End Function
 
         Private Shared Function __mapFlux(model As XmlModel, mappedEC As String()) As ReactionMaps()
-            Return mappedEC.ToArray(Function(cls) __mapFlux(model, cls))
+            Return mappedEC _
+                .Select(Function(cls) __mapFlux(model, cls)) _
+                .ToArray
         End Function
     End Class
 End Namespace

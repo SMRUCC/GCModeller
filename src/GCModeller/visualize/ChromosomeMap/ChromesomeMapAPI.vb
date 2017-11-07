@@ -67,7 +67,7 @@ Public Module ChromesomeMapAPI
         Dim TSSs = (From obj In nSites.AsParallel
                     Select New DrawingModels.TSSs With {
                         .Left = obj.loci.Left,
-                        .Comments = obj.relateds.ToArray(Function(x) x.ToString).JoinBy(vbCrLf),
+                        .Comments = obj.relateds.Select(Function(x) x.ToString).JoinBy(vbCrLf),
                         .Right = obj.loci.Right,
                         .Strand = obj.loci.Strand,
                         .SiteName = obj.GetHashCode,

@@ -83,7 +83,7 @@ Namespace NetworkModel.KEGG
             net += (From x In netEdges
                     Select x
                     Group x By x.g Into Group) _
-                         .ToArray(Function(x) (From edge In x.Group
+                         .Select(Function(x) (From edge In x.Group
                                                Select New NetworkEdge With {
                                                    .value = 1,
                                                    .FromNode = edge.__mod.EntryId,
@@ -148,7 +148,7 @@ Namespace NetworkModel.KEGG
                     In footprints
                     Where Not String.IsNullOrEmpty(x.Regulator)
                     Select x.Regulator Distinct) _
-                          .ToArray(AddressOf __tfNode)  ' 生成调控因子节点
+                          .Select(AddressOf __tfNode)  ' 生成调控因子节点
 
             If brief Then
                 footprints = (From x In footprints Where True = net ^ x.ORF Select x).ToArray
@@ -162,7 +162,7 @@ Namespace NetworkModel.KEGG
                         x.Regulator,
                         x.ORF,
                         c
-                    Group By uid Into Group).ToArray(
+                    Group By uid Into Group).Select(
                         Function(x) New NetworkEdge With {
                             .FromNode = x.Group.First.Regulator,
                             .ToNode = x.Group.First.ORF,

@@ -1,39 +1,119 @@
 ﻿#Region "Microsoft.VisualBasic::42bcbf47e5542586ab32549823ae7247, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ApplicationServices\Terminal\ProgressBar\ProgressBar.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Serialization
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Terminal
+Namespace Terminal.ProgressBar
 
     ''' <summary>
-    ''' 
+    ''' The <see cref="ConsoleColor"/> theme for the <see cref="ProgressBar"/>
+    ''' </summary>
+    Public Structure ColorTheme
+
+        ' [ERROR 2017/11/5 下午 0704:37] <Print>:System.Exception: Print 
+        '  ---> System.Reflection.TargetInvocationException: 调用的目标发生了异常。 
+        '  ---> System.Exception: [
+        '           "未能从程序集“Microsoft.VisualBasic.Architecture.Framework_v3.0_22.0.76.201__8da45dcd8060cc9a, Version=3.0.32.34335, Culture=neutral, PublicKeyToken=null”中加载类型“Microsoft.VisualBasic.Terminal.ColorTheme”。",
+        '           "未能从程序集“Microsoft.VisualBasic.Architecture.Framework_v3.0_22.0.76.201__8da45dcd8060cc9a, Version=3.0.32.34335, Culture=neutral, PublicKeyToken=null”中加载类型“Microsoft.VisualBasic.Terminal.ColorTheme”。"
+        '       ] 
+        '  ---> System.Reflection.ReflectionTypeLoadException: 无法加载一个或多个请求的类型。有关更多信息，请检索 LoaderExceptions 属性。
+
+        ' 在 System.Reflection.RuntimeModule.GetTypes(RuntimeModule Module)
+        ' 在 System.Reflection.Assembly.GetTypes()
+        ' 在 Microsoft.VisualBasic.CommandLine.Reflection.RunDllEntryPoint.GetTypes(Assembly assm)
+        ' --- 内部异常堆栈跟踪的结尾 ---
+        ' 在 Microsoft.VisualBasic.CommandLine.Reflection.RunDllEntryPoint.GetTypes(Assembly assm)
+        ' 在 Microsoft.VisualBasic.CommandLine.Reflection.RunDllEntryPoint.GetDllMethod(Assembly assembly, String entryPoint)
+        ' 在 SMRUCC.WebCloud.httpd.CLI.RunDll(CommandLine args)
+        ' --- 内部异常堆栈跟踪的结尾 ---
+        ' 在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+        ' 在 System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+        ' 在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+        ' 在 System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+        ' 在 Microsoft.VisualBasic.CommandLine.Reflection.EntryPoints.APIEntryPoint.__directInvoke(Object[] callParameters, Object target, Boolean Throw)
+        ' --- 内部异常堆栈跟踪的结尾 ---
+
+        Public Property BackgroundColor As ConsoleColor
+        Public Property ProgressBarColor As ConsoleColor
+        Public Property ProgressMsgColor As ConsoleColor
+        Public Property MessageDetailColor As ConsoleColor
+
+        ''' <summary>
+        ''' Test if all of the property value is equals to ZERO(<see cref="ConsoleColor.Black"/>).
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property IsEmpty As Boolean
+            Get
+                Return BackgroundColor = 0 AndAlso
+                    ProgressBarColor = 0 AndAlso
+                    ProgressMsgColor = 0 AndAlso
+                    MessageDetailColor = 0
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Default value for optional parameter
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' ###### 2017-11-5
+        ''' This property will cause bug in reflection.
+        ''' 
+        ''' ###### 2017-11-6
+        ''' Change from property to function to avoid bug caused application crashed
+        ''' </remarks>
+        Public Shared Function DefaultTheme() As DefaultValue(Of ColorTheme)
+            Return New DefaultValue(Of ColorTheme) With {
+                .Value = [Default](),
+                .assert = Function(t)
+                              Return DirectCast(t, ColorTheme).IsEmpty
+                          End Function
+            }
+        End Function
+        ''' <summary>
+        ''' The default color theme values
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared Function [Default]() As ColorTheme
+            Return New ColorTheme With {
+                .BackgroundColor = ConsoleColor.Cyan,
+                .MessageDetailColor = ConsoleColor.White,
+                .ProgressBarColor = ConsoleColor.Yellow,
+                .ProgressMsgColor = ConsoleColor.Green
+            }
+        End Function
+    End Structure
+
+    ''' <summary>
+    ''' Progress bar for the <see cref="Console"/> Screen.
     ''' </summary>
     ''' <remarks>
     ''' http://www.cnblogs.com/masonlu/p/4668232.html
@@ -44,23 +124,29 @@ Namespace Terminal
         Dim colorBack As ConsoleColor = Console.BackgroundColor
         Dim colorFore As ConsoleColor = Console.ForegroundColor
 
+        ''' <summary>
+        ''' The current progress percentage: [0, 100]
+        ''' </summary>
         Dim current%
         Dim y%
+        Dim theme As ColorTheme
 
         ''' <summary>
-        ''' 
+        ''' Create a console progress bar object with custom configuration.
         ''' </summary>
-        ''' <param name="title"></param>
-        ''' <param name="Y"></param>
+        ''' <param name="title">The title of the task which will takes long time for running.</param>
+        ''' <param name="Y">The row position number of the progress bar.</param>
         ''' <param name="CLS">Clear the console screen?</param>
-        Sub New(title$, Optional Y As Integer = 1, Optional CLS As Boolean = False)
+        Sub New(title$, Y%, Optional CLS As Boolean = False, Optional theme As ColorTheme = Nothing)
             If CLS AndAlso App.IsConsoleApp Then
                 Call Console.Clear()
             End If
 
             Call Console.WriteLine(title)
 
+            Me.theme = theme Or ColorTheme.DefaultTheme
             Me.y = Y
+
             AddHandler TerminalEvents.Resize, AddressOf __resize
 
             Try
@@ -68,6 +154,15 @@ Namespace Terminal
             Catch ex As Exception
 
             End Try
+        End Sub
+
+        ''' <summary>
+        ''' Create a console progress bar with default theme color <see cref="ColorTheme.DefaultTheme"/>
+        ''' (在当前位置之后设置进度条，这个构造函数不会清除整个终端屏幕)
+        ''' </summary>
+        ''' <param name="title$">The task title</param>
+        Sub New(title$)
+            Call Me.New(title, Y:=Console.CursorTop, CLS:=False)
         End Sub
 
         Private Sub __resize(size As Size, old As Size)
@@ -85,6 +180,16 @@ Namespace Terminal
             Call SetToEchoLine()
         End Sub
 
+        ' title
+        ' progress bar
+        ' details
+        '
+        ' echo
+
+        ''' <summary>
+        ''' 将终端的输出位置放置到详细信息的下一行
+        ''' </summary>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub SetToEchoLine()
             Console.SetCursorPosition(0, y + 3)
         End Sub
@@ -103,12 +208,18 @@ Namespace Terminal
         ''' 一个只读长整型，表示当前实例测量得出的总毫秒数。
         ''' </returns>
         Public ReadOnly Property ElapsedMilliseconds As Long
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return timer.ElapsedMilliseconds
             End Get
         End Property
 
-        Private Sub __tick(p As Integer, details As String)
+        ''' <summary>
+        ''' 更新进度条的当前状态信息
+        ''' </summary>
+        ''' <param name="p%"></param>
+        ''' <param name="details$"></param>
+        Private Sub __tick(p%, details$)
             Console.BackgroundColor = ConsoleColor.Yellow
             ' /运算返回完整的商，包括余数，SetCursorPosition会自动四舍五入
             Dim cx As Integer = p * (Console.WindowWidth - 2) / 100

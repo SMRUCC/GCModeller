@@ -49,7 +49,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         Public Function TryParseOutput(Path As String) As v228_BlastX
             Dim SourceText As String = FileIO.FileSystem.ReadAllText(Path)
             Dim Sections As String() = Regex.Matches(SourceText, SECTION_REGEX, RegexOptions.Singleline).ToArray
-            Dim LQuery As Components.Query() = Sections.ToArray(AddressOf __queryParser)
+            Dim LQuery As Components.Query() = Sections.Select(AddressOf __queryParser).ToArray
 
             Return New v228_BlastX With {
                 .FilePath = Path & ".xml",
@@ -166,7 +166,7 @@ ENTRY_INFO_PARSER:
                 .Where(Function(ss) Not String.IsNullOrEmpty(ss)) _
                 .CreateSlideWindows(3, offset:=3)
             Dim LQuery As HitSegment() =
-                hsp.ToArray(Function(x) HitSegment.TryParse(x.Items))
+                hsp.Select(Function(x) HitSegment.TryParse(x.Items)).ToArray
 
             Return New Components.HitFragment With {
                 .Score = __scoreParser(Score),

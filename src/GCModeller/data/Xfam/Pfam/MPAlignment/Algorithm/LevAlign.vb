@@ -43,7 +43,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
 
         Public Property Codes As KeyValuePairObject(Of String, Char)()
             Get
-                Return DomainCodes.ToArray(Function(row) New KeyValuePairObject(Of String, Char)(row))
+                Return DomainCodes.Select(Function(row) New KeyValuePairObject(Of String, Char)(row)).ToArray
             End Get
             Set(value As KeyValuePairObject(Of String, Char)())
                 _DomainCodes = value.ToDictionary(Function(row) row.Key, Function(row) row.Value)
@@ -103,7 +103,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
             DomainCodes = (From domain In domainA.Join(domainB)
                            Select domain
                            Group domain By domain.Name Into Group) _
-                                    .ToArray(Function(name, idx) New With {
+                                    .Select(Function(name, idx) New With {
                                         .ch = ChrW(idx + LevAlign.A),
                                         .Name = name.Name}) _
                                             .ToDictionary(Function(name) name.Name,
@@ -116,7 +116,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
                 Dim distTable As Double(,) = New Double(domainA.Length, domainB.Length) {}
 
                 Me.DistEdits = result.AlignmentResult.Edits
-                Me.DistTable = distTable.ToVectorList.ToArray(Function(x) New Streams.Array.[Double](x))
+                Me.DistTable = distTable.ToVectorList.Select(Function(x) New Streams.Array.[Double](x)).ToArray
                 Me.Matches = DistEdits
                 Me.DistTable(domainA.Length).Values(domainB.Length) = result.FullScore - result.Score
             Else
@@ -125,8 +125,8 @@ Namespace ProteinDomainArchitecture.MPAlignment
 
             Me.Reference = prot_a.ProteinId
             Me.Hypotheses = prot_b.ProteinId
-            Me.Query = New String(domainA.ToArray(AddressOf __asChar))
-            Me.Subject = New String(domainB.ToArray(AddressOf __asChar))
+            Me.Query = New String(domainA.Select(AddressOf __asChar).ToArray)
+            Me.Subject = New String(domainB.Select(AddressOf __asChar).ToArray)
             Me.QueryPfam = prot_a
             Me.SubjectPfam = prot_b
         End Sub

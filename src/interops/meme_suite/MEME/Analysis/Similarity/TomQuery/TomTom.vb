@@ -380,8 +380,8 @@ comparison function for the construction of familial binding profiles.")>
             ''' Dim bits = (Math.Min(a.Bits, b.Bits) + 1) / (Math.Max(a.Bits, b.Bits) + 1) ' bits信息量的相似度
             ''' </returns>
             Public Shared Function BitsEquals(a As IEnumerable(Of ResidueSite), b As IEnumerable(Of ResidueSite)) As Double
-                Dim ba As Double() = a.ToArray(Function(x) x.Bits)
-                Dim bb As Double() = b.ToArray(Function(x) x.Bits)
+                Dim ba As Double() = a.Select(Function(x) x.Bits)
+                Dim bb As Double() = b.Select(Function(x) x.Bits)
                 Return Correlations.GetPearson(ba, bb)
             End Function
         End Class

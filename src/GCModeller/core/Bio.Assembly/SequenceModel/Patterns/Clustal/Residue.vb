@@ -86,15 +86,15 @@ Namespace SequenceModel.Patterns.Clustal
         End Function
 
         Private Shared Function __createSafly(aln As IEnumerable(Of FastaToken), block As Double, levels As Integer) As SRChain()
-            Dim chMAT = aln.ToArray(Function(x) x.SequenceData.ToArray).ToArray
+            Dim chMAT = aln.Select(Function(x) x.SequenceData.ToArray).ToArray
             Dim width As Integer = chMAT.Length
             Dim chain As SR()() = (From idx As Integer
                                    In chMAT(Scan0).Sequence
                                    Select __getSite(chMAT, idx, width, levels)).ToArray
-            Dim lstChain As SRChain() = __allocBlock(chain, block).ToArray(
+            Dim lstChain As SRChain() = __allocBlock(chain, block).Select(
                 Function(x, idx) New SRChain With {
                     .lstSR = x,
-                    .Name = idx})
+                    .Name = idx}).ToArray
             Return lstChain
         End Function
 
@@ -105,8 +105,8 @@ Namespace SequenceModel.Patterns.Clustal
         ''' <param name="cutoff"></param>
         ''' <returns></returns>
         Private Shared Function __allocBlock(source As SR()(), cutoff As Double) As SR()()
-            Dim chains As SR()() = source.First.Length.ToArray(Function(row) source.ToArray(Function(x) x(row)))
-            Dim LQuery As SR()() = chains.ToArray(Function(x) __allocBlock(x, cutoff))
+            Dim chains As SR()() = source.First.Length.Sequence.Select(Function(row) source.Select(Function(x) x(row)).ToArray).ToArray
+            Dim LQuery As SR()() = chains.Select(Function(x) __allocBlock(x, cutoff)).ToArray
             Return LQuery
         End Function
 
@@ -136,7 +136,7 @@ Namespace SequenceModel.Patterns.Clustal
         ''' <param name="width"></param>
         ''' <returns></returns>
         Private Shared Function __getSite(chMAT As Char()(), index As Integer, width As Integer, levels As Integer) As SR()
-            Dim nList As Char() = chMAT.ToArray(Function(x) x(index))
+            Dim nList As Char() = chMAT.Select(Function(x) x(index)).ToArray
             Dim ng = (From ch As Char In nList Select ch Group ch By ch Into Count).ToArray
             Dim orders = (From ch In ng Where ch.ch <> "-"c Select ch Order By ch.Count Descending).ToArray
 
@@ -147,7 +147,7 @@ Namespace SequenceModel.Patterns.Clustal
                         .Frq = 1,
                         .Index = index})
             Else
-                Dim lst = orders.Take(10).ToArray(Function(x) New KeyValuePair(Of Char, Integer)(x.ch, x.Count))
+                Dim lst = orders.Take(10).Select(Function(x) New KeyValuePair(Of Char, Integer)(x.ch, x.Count)).ToArray
                 Dim block As New List(Of KeyValuePair(Of Char, Integer))
                 Dim p As Integer = 0
                 Dim pp As Double = 1   ' 上限
@@ -172,11 +172,15 @@ Namespace SequenceModel.Patterns.Clustal
                     End If
                 Next
 
-                Return block.ToArray(Function(x) New SR With {
-                    .Residue = x.Key,
-                    .Frq = x.Value / width,
-                    .Index = index
-                })
+                Return block _
+                    .Select(Function(x)
+                                Return New SR With {
+                                    .Residue = x.Key,
+                                    .Frq = x.Value / width,
+                                    .Index = index
+                                }
+                            End Function) _
+                    .ToArray
             End If
         End Function
     End Class

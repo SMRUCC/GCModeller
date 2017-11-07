@@ -100,7 +100,7 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         Private Function __dumpRegulatory(features As Feature()) As GeneDumpInfo()
-            Dim dump As GeneDumpInfo() = features.ToArray(
+            Dim dump As GeneDumpInfo() = features.Select(
                 Function(feature) New GeneDumpInfo With {
                     .COG = "regulatory",
                     .Function = feature("regulatory_class"),
@@ -111,13 +111,13 @@ Namespace Assembly.NCBI.GenBank
                     .Translation = feature("translation"),
                     .ProteinId = feature("protein_id"),
                     .CDS = feature.SequenceData
-               })
+               }).ToArray
             Return dump
         End Function
 
         <Extension>
         Private Function __dumpCDS(features As Feature()) As GeneDumpInfo()
-            Dim dump As GeneDumpInfo() = features.ToArray(
+            Dim dump As GeneDumpInfo() = features.Select(
                 Function(feature) New GeneDumpInfo With {
                     .COG = "CDS",
                     .Function = feature("function"),
@@ -128,12 +128,12 @@ Namespace Assembly.NCBI.GenBank
                     .Translation = feature("translation"),
                     .ProteinId = feature("protein_id"),
                     .CDS = feature.SequenceData
-               })
+               }).ToArray
             Return dump
         End Function
 
         <Extension> Private Function __dump5UTRs(features As Feature()) As GeneDumpInfo()
-            Dim dump As GeneDumpInfo() = features.ToArray(
+            Dim dump As GeneDumpInfo() = features.Select(
                 Function(feature) New GeneDumpInfo With {
                     .COG = "5'UTR",
                     .Function = feature("function"),
@@ -142,12 +142,12 @@ Namespace Assembly.NCBI.GenBank
                     .LocusID = $"5'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
                     .GeneName = $"5'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
                     .CDS = feature.SequenceData
-                })
+                }).ToArray
             Return dump
         End Function
 
         <Extension> Private Function __dump3UTRs(features As Feature()) As GeneDumpInfo()
-            Dim dump As GeneDumpInfo() = features.ToArray(
+            Dim dump As GeneDumpInfo() = features.Select(
                 Function(feature) New GeneDumpInfo With {
                     .COG = "3'UTR",
                     .Function = feature("function"),
@@ -156,7 +156,7 @@ Namespace Assembly.NCBI.GenBank
                     .LocusID = $"3'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
                     .GeneName = $"3'UTR_{feature.Location.ContiguousRegion.Left}..{feature.Location.ContiguousRegion.Right}",
                     .CDS = feature.SequenceData
-                })
+                }).ToArray
             Return dump
         End Function
 #End Region

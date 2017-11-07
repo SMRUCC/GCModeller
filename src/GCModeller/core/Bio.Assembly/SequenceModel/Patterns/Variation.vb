@@ -70,7 +70,7 @@ Namespace SequenceModel.Patterns
 
         Public Function NtVariation(SequenceModel As IPolymerSequenceModel, SlideWindowSize As Integer, Steps As Integer, Circular As Boolean) As Double()
             Dim nt As Char() = SequenceModel.SequenceData.ToUpper.Replace("N", "-")
-            Dim array As Variations() = nt.SeqIterator.ToArray(Function(base) Variation(ref(base), +base, Strict))
+            Dim array As Variations() = nt.SeqIterator.Select(Function(base) Variation(ref(base), +base, Strict)).ToArray
             Dim blocks = array.SlideWindows(SlideWindowSize, offset:=Steps)
             Dim out As New List(Of Double)
 

@@ -48,7 +48,7 @@ Partial Module CLI
         Dim inDIR As String = args("/in")
         Dim out As String = args("/out")
         Dim inDIRS = FileIO.FileSystem.GetDirectories(inDIR)
-        Dim lst = FileIO.FileSystem.GetDirectories(inDIRS.First).ToArray(Function(x) FileIO.FileSystem.GetDirectoryInfo(x).Name)
+        Dim lst = FileIO.FileSystem.GetDirectories(inDIRS.First).Select(Function(x) FileIO.FileSystem.GetDirectoryInfo(x).Name)
 
         For Each DIR As String In inDIRS
             Dim Name As String = FileIO.FileSystem.GetDirectoryInfo(DIR).Name
@@ -135,10 +135,10 @@ Partial Module CLI
 
         Dim LQuery = (From x As Output
                       In result
-                      Select x.HSP.ToArray(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).Unlist
+                      Select x.HSP.Select(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).Unlist
         Call LQuery.SaveTo(out & "/Query.Csv")
 
-        hits = result.ToArray(Function(x) MotifHit.CreateObject(x))
+        hits = result.Select(Function(x) MotifHit.CreateObject(x))
 
         Dim index As New StringBuilder
         Call index.AppendLine(LQuery.ToHTMLTable)
@@ -178,10 +178,10 @@ Partial Module CLI
 
         Dim LQuery = (From x As Output
                       In results
-                      Select x.HSP.ToArray(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).Unlist
+                      Select x.HSP.Select(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).Unlist
         Call LQuery.SaveTo(outDIR & "/Compares.Csv")
 
-        Dim hits = results.ToArray(Function(x) MotifHit.CreateObject(x))
+        Dim hits = results.Select(Function(x) MotifHit.CreateObject(x))
         Return hits.SaveTo(outDIR & "/MotifHits.Csv")
     End Function
 
@@ -206,10 +206,10 @@ Partial Module CLI
 
         Dim LQuery = (From x As Output
                       In results
-                      Select x.HSP.ToArray(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).Unlist
+                      Select x.HSP.Select(Function(hsp) CreateResult(x.Query, x.Subject, hsp.Alignment))).Unlist
         Call LQuery.SaveTo(outDIR & "/Compares.Csv")
 
-        Dim hits = results.ToArray(Function(x) MotifHit.CreateObject(x))
+        Dim hits = results.Select(Function(x) MotifHit.CreateObject(x))
 
         Return hits.SaveTo(outDIR & "/MotifHits.Csv")
     End Function
@@ -250,8 +250,8 @@ Partial Module CLI
                              params,
                              noHTML,
                              out)).ToArray
-        Call BatchTask.ToArray(Function(x) x.out).Unlist.SaveTo(out & "/SW-TOM.Query.csv")
-        Call BatchTask.ToArray(Function(x) x.hits).Unlist.SaveTo(out & "/SW-TOM.Hits.Csv")
+        Call BatchTask.Select(Function(x) x.out).Unlist.SaveTo(out & "/SW-TOM.Query.csv")
+        Call BatchTask.Select(Function(x) x.hits).Unlist.SaveTo(out & "/SW-TOM.Hits.Csv")
 
         Return 0
     End Function
@@ -328,7 +328,7 @@ Partial Module CLI
                           Select x.Group.First
                           Group First By First.MotifTrace Into Group) _
                                .ToDictionary(Function(x) x.MotifTrace,
-                                             Function(x) x.Group.ToArray(Function(xx) xx.MotifFamily))
+                                             Function(x) x.Group.Select(Function(xx) xx.MotifFamily).ToArray)
         Dim pheno As ModuleClassAPI =
             If(pathway,
             ModuleClassAPI.FromPathway(args("/KEGG")),

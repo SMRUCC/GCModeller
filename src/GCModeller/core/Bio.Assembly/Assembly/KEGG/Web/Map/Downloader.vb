@@ -2,6 +2,7 @@
 Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 
 Namespace Assembly.KEGG.WebServices
@@ -27,7 +28,7 @@ Namespace Assembly.KEGG.WebServices
                             End If
                         End Function
 
-            Using progress As New ProgressBar("Downloads KEGG pathway map data...", CLS:=True)
+            Using progress As New ProgressBar("Downloads KEGG pathway map data...", 1, CLS:=True)
                 For Each entry In briefEntries
                     Dim id$ = getID(entry)
                     Dim url$ = $"http://www.genome.jp/kegg-bin/show_pathway?{id}"

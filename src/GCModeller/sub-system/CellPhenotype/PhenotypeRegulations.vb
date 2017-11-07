@@ -778,11 +778,13 @@ Public Module PhenotypeRegulations
         Call PhenotypeRegulations.SaveTo(Export & "/Edges.csv", False)
         Call {PhenotypeNodes, PhenotypeRegulatorNodes}.ToVector.SaveTo(Export & "/Nodes.csv", False)
 
-        Dim DetailsCsv As IO.File = New IO.File
+        Dim DetailsCsv As New IO.File
         Call DetailsCsv.Add(New String() {"Phenotype", "Rank Scores"})
-        Call DetailsCsv.AppendRange((From Phenotype In EvaluateRanks
-                                     Let Regulators = (From item In Phenotype.Regulators Select String.Format("{0} ({1})", item.Regulator, item.RankedScore)).ToArray
-                                     Let row = (New String() {Phenotype.Phenotype, String.Join("; ", Regulators)}).ToCsvRow Select row).ToArray)
+        Call DetailsCsv.AppendRange(From Phenotype In EvaluateRanks
+                                    Let Regulators = (From item In Phenotype.Regulators Select String.Format("{0} ({1})", item.Regulator, item.RankedScore)).ToArray
+                                    Let row = New RowObject({Phenotype.Phenotype, String.Join("; ", Regulators)})
+                                    Select row)
+
         Call DetailsCsv.Save(Export & "/RankScores.csv", False)
 
         Return (From row In EvaluateRanks
@@ -814,9 +816,9 @@ Public Module PhenotypeRegulations
                                                                         Select ScoredData(0).Family, Scores = (From item In ScoredData Select item.Key).ToArray.Sum Order By Scores Descending).ToArray).ToArray
         Dim Result As IO.File = New IO.File
         Call Result.Add(New String() {"Phenotype", "Regulator-Family-Scores"})
-        Call Result.AppendRange((From Phenotype In LQuery
-                                 Let Scores = (From item In Phenotype.FamilyScores Select String.Format("{0} ({1})", item.Family, item.Scores)).ToArray
-                                 Select New String() {Phenotype.phenotype, String.Join("; ", Scores)}.ToCsvRow).ToArray)
+        Call Result.AppendRange(From Phenotype In LQuery
+                                Let Scores = (From item In Phenotype.FamilyScores Select String.Format("{0} ({1})", item.Family, item.Scores)).ToArray
+                                Select New RowObject({Phenotype.phenotype, String.Join("; ", Scores)}))
         Return Result
     End Function
 

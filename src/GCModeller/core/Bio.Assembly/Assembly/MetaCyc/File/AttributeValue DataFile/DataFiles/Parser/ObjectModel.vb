@@ -68,7 +68,7 @@ Namespace Assembly.MetaCyc.File
                         Select x
                         Group x By x.Key Into Group) _
                              .ToDictionary(Function(x) x.Key,
-                                           Function(x) x.Group.ToArray(Function(v) v.Value))
+                                           Function(x) x.Group.Select(Function(v) v.Value).ToArray)
             Return New ObjectModel With {
                 .uid = hash.TryGetValue(UNIQUE_ID).FirstOrDefault,
                 .Properties = hash

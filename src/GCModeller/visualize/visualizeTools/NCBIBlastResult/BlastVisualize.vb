@@ -40,6 +40,7 @@ Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Terminal
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
@@ -312,7 +313,7 @@ Namespace NCBIBlastResult
                                                  Where ORF.ContainsKey(id)
                                                  Select _orf = ORF(id)
                                                  Order By _orf.Left Ascending
-            Dim OrderedHits As String() = SortHits.ToArray(Function(hit) hit.LocusID)
+            Dim OrderedHits As String() = SortHits.Select(Function(hit) hit.LocusID)
 
             If OrderedHits.IsNullOrEmpty Then Return New HitRecord() {}
 
@@ -506,7 +507,7 @@ CONTINUTE:
                         Else
                             COGsColor = RenderingColor.CategoryMapsTextures(
                                 categories:=COGs,
-                                textures:=TextureList.ToArray(Function(obj) obj.Value))
+                                textures:=TextureList.Select(Function(obj) obj.Value))
                         End If
                     End If
 
@@ -730,7 +731,7 @@ CONTINUTE:
                 Dim internalGetColor = Function(hit As HitRecord) getSubjectHitColor(arg1:=getScore(hit), arg2:=ColorSchema)
                 Dim IDannos As New Dictionary(Of Integer, String)
 
-                Using proc As New ProgressBar("Drawing alignment hit regions...", cls:=True)
+                Using proc As New ProgressBar("Drawing alignment hit regions...", 1, CLS:=True)
                     Dim pp As New ProgressProvider(spList.Length)
                     Dim p_ID As Integer = 1
 

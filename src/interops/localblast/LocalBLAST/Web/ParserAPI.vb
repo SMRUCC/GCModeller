@@ -78,7 +78,7 @@ Namespace NCBIBlastResult
         <Extension>
         Private Function __parseTable(lines$(), path$, header$(), headerSplit As Boolean) As AlignmentTable
             Dim hits As HitRecord() = lines _
-                .ToArray(AddressOf HitRecord.Mapper)
+                .Select(AddressOf HitRecord.Mapper).ToArray
             Dim headAttrs As Dictionary(Of String, String) =
                 header _
                 .Skip(1) _

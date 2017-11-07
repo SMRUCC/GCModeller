@@ -160,7 +160,7 @@ Principal Component Analysis",
             Call WGCNA.Replace("[TOMsave]", basename(dataExpr) & ".TOMsave")
             Call WGCNA.Replace("[Annotations.csv]", annotations.GetFullPath)
 
-            Dim mods As String() = modules.ToLower.Trim.Split("|"c).ToArray(Function(sCl) $"""{sCl}""")
+            Dim mods As String() = modules.ToLower.Trim.Split("|"c).Select(Function(sCl) $"""{sCl}""")
             Call WGCNA.Replace("[list.MODs]", String.Join(", ", mods))
             Call WGCNA.SaveTo($"{outDIR}/{basename(dataExpr)}.WGCNACallInvoke.R", System.Text.Encoding.ASCII)
 

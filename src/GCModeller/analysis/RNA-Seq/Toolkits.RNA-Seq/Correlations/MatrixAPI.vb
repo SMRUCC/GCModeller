@@ -60,13 +60,13 @@ Public Module MatrixAPI
         Call "Start parsing samples data from the raw matrix...".__DEBUG_ECHO
 
         Dim sw As Stopwatch = Stopwatch.StartNew
-        Dim lstId As String() = ds.ToArray(Function(row) row.First, parallel:=False)
+        Dim lstId As String() = ds.Select(Function(row) row.First).ToArray
         Dim LQuery = (From row As RowObject
                       In ds.AsParallel   ' 在后面通过查字典的方式保证一一对应关系，所以这里可以使用并行化
                       Let sample As ExprSamples = ExprSamples.ConvertObject(row)
                       Select sample).ToDictionary(Function(sample) sample.locusId)
         Call "Ordering data...".__DEBUG_ECHO
-        Dim samples As ExprSamples() = lstId.ToArray(Function(id) LQuery(id))
+        Dim samples As ExprSamples() = lstId.Select(Function(id) LQuery(id))
 
         Call $"Parsing samples work complete!   {sw.ElapsedMilliseconds}ms....".__DEBUG_ECHO
 

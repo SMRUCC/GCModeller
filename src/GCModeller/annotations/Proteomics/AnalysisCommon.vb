@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.SyntaxAPI.Vectors
 Imports RDotNET
@@ -21,13 +22,13 @@ Module AnalysisCommon
     Public Function ApplyDEPFilter(proteins As IEnumerable(Of DEP_iTraq), level#, pvalue#, FDR_threshold#) As DEP_iTraq()
 
         ' enable vector programming language feature
-        With proteins.VectorShadows
+        With proteins.Shadows
 
-            Dim n% = DirectCast(!Me, VectorShadows(Of DEP_iTraq)).Length
             Dim test As BooleanVector
-            Dim log2FC As Vector = DirectCast(.log2FC, VectorShadows(Of Double))
-            Dim p As Vector = DirectCast(.pvalue, VectorShadows(Of Double))
+            Dim log2FC As Vector = !log2FC
+            Dim p As Vector = !pvalue
             Dim FDR As Vector
+            Dim n% = .Length
 
             ' obtain the memory pointer to the R server memory
             Dim var$ = stats.padjust(p, n:=p.Length)
@@ -35,7 +36,7 @@ Module AnalysisCommon
             SyncLock RServer.R
                 With RServer.R
 
-                    ' read the Rserver memory from the pointer and 
+                    ' read the Rserver memory from the memory pointer and 
                     ' then convert the symbol to a numeric vector
                     FDR = .Evaluate(var) _
                           .AsNumeric _
@@ -43,21 +44,25 @@ Module AnalysisCommon
                 End With
             End SyncLock
 
-            .FDR = FDR
+            With CObj(.ref)
 
-            test = (Math.Log(level, 2) <= Vector.Abs(log2FC)) & (p <= pvalue)
+                test = (Math.Log(level, 2) <= Vector.Abs(log2FC)) & (p <= pvalue)
 
-            If FDR_threshold < 1 Then
-                test = test & (FDR <= FDR_threshold)
-            End If
+                ' apply FDR selector if the threshold is less than 1
+                .FDR = FDR
 
-            .isDEP = test
+                If FDR_threshold < 1 Then
+                    test = test & (FDR <= FDR_threshold)
+                End If
 
-            With Which.IsTrue(test).Count
-                Call println("resulted %s DEPs from %s proteins!", .ref, n)
+                .isDEP = test
+
+                With Which.IsTrue(test).Count
+                    Call println("resulted %s DEPs from %s proteins!", .ref, n)
+                End With
             End With
 
-            Return DirectCast(!Me, VectorShadows(Of DEP_iTraq))
+            Return .ref
         End With
     End Function
 End Module

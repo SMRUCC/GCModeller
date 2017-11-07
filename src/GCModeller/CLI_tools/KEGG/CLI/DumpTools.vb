@@ -85,8 +85,8 @@ Partial Module CLI
     <ExportAPI("--Get.KO", Usage:="--Get.KO /in <KASS-query.txt>")>
     Public Function GetKOAnnotation(args As CommandLine) As Integer
         Dim input As String = args("/in")
-        Dim buffer = input.ReadAllLines.ToArray(Function(x) Strings.Split(x, vbTab))
-        Dim tbl = buffer.ToArray(Function(x) New KeyValuePair With {.Key = x(Scan0), .Value = x.ElementAtOrDefault(1)})
+        Dim buffer = input.ReadAllLines.Select(Function(x) Strings.Split(x, vbTab))
+        Dim tbl = buffer.Select(Function(x) New KeyValuePair With {.Key = x(Scan0), .Value = x.ElementAtOrDefault(1)})
         Dim brite = BriteHEntry.Pathway.LoadDictionary
         Dim LQuery = (From prot In tbl Select __queryKO(prot.Key, prot.Value, brite)).ToArray.Unlist
         Return LQuery.SaveTo(input.TrimSuffix & ".KO.csv")
@@ -118,13 +118,13 @@ Partial Module CLI
         Dim inHits = infile.LoadCsv(Of SSDB.BlastnHit)
         inHits = (From x In inHits Where x.Eval <= evalue Select x).AsList
         Dim KO As String() = inHits _
-            .ToArray([CType]:=Function(x) x.KO,
-                     where:=Function(s) Not String.IsNullOrWhiteSpace(s.KO)) _
+            .Where(Function(s) Not String.IsNullOrWhiteSpace(s.KO)) _
+            .Select(Function(x) x.KO) _
             .Distinct _
             .ToArray
         Dim brite = BriteHEntry.Pathway.LoadDictionary
         Dim name As String = infile.BaseName
-        Dim anno = KO.ToArray(Function(sKO) __queryKO(name, sKO, brite)).Unlist
+        Dim anno = KO.Select(Function(sKO) __queryKO(name, sKO, brite)).Unlist
         Call anno.SaveTo(out)
     End Sub
 
@@ -166,15 +166,15 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Return New KOAnno With {
             .QueryId = prot,
             .KO = KO,
-            .COG = orthology.GetXRef("COG").ToArray(Function(x) x.Value2).JoinBy("; "),
+            .COG = orthology.GetXRef("COG").Select(Function(x) x.Value2).JoinBy("; "),
             .Definition = orthology.Definition,
             .Name = orthology.Name,
-            .GO = orthology.GetXRef("GO").ToArray(Function(x) "GO:" & x.Value2),
+            .GO = orthology.GetXRef("GO").Select(Function(x) "GO:" & x.Value2),
             .Category = pwyBrite.Category,
             .Class = pwyBrite.Class,
             .PathwayId = pathway.Key,
             .PathwayName = pwyBrite.Entry.Value,
-            .Reactions = orthology.GetXRef("RN").ToArray(Function(x) x.Value2)
+            .Reactions = orthology.GetXRef("RN").Select(Function(x) x.Value2)
         }
     End Function
 
@@ -200,15 +200,15 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Dim ref As New FastaFile(args("/ref"))
         Dim out As String = args.GetValue("/out", args("/source").TrimSuffix & $".{args("/ref").BaseName}.fasta")
         Dim sourceKEGG As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump() =
-            source.ToArray(Function(x) SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump.Create(x))
+            source.Select(Function(x) SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump.Create(x))
         Dim refKEGG As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump() =
-            ref.ToArray(Function(x) SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump.Create(x))
+            ref.Select(Function(x) SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump.Create(x))
         Dim sourceDict = (From x As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump
                           In sourceKEGG
                           Select x
                           Group x By x.SpeciesId Into Group) _
                              .ToDictionary(Function(x) x.SpeciesId, elementSelector:=Function(x) x.Group.ToArray)
-        Dim refId As String() = refKEGG.ToArray(Function(x) x.SpeciesId).Distinct.ToArray
+        Dim refId As String() = refKEGG.Select(Function(x) x.SpeciesId).Distinct.ToArray
         Dim LQuery = (From sId As String In refId Where sourceDict.ContainsKey(sId) Select sourceDict(sId)).ToArray.Unlist
         Dim outFa As FastaFile = New FastaFile(LQuery)
 
@@ -224,7 +224,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
     Public Function DumpOrganisms(args As CommandLine) As Integer
         Dim res As String = args.GetValue("/res", "http://www.kegg.jp/kegg/catalog/org_list.html")
         Dim result As KEGGOrganism = EntryAPI.FromResource(res)
-        Dim table As List(Of Prokaryote) = result.Prokaryote.AsList + result.Eukaryotes.ToArray(Function(x) New Prokaryote(x))
+        Dim table As List(Of Prokaryote) = result.Prokaryote.AsList + result.Eukaryotes.Select(Function(x) New Prokaryote(x))
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/KEGG_Organism.csv")
         Return table.SaveTo(out)
     End Function

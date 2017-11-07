@@ -366,7 +366,7 @@ Namespace SequenceModel.NucleotideModels
         End Function
 
         Public Overloads Shared Function ToString(nt As IEnumerable(Of DNA)) As String
-            Dim array As Char() = nt.ToArray(Function(x) Conversion.NucleotideAsChar(x))
+            Dim array As Char() = nt.Select(Function(x) Conversion.NucleotideAsChar(x)).ToArray
             Return New String(array)
         End Function
 

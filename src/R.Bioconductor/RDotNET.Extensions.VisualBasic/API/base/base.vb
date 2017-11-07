@@ -443,6 +443,29 @@ Namespace API
         End Function
 
         ''' <summary>
+        ''' Get or set the length of vectors (including lists) and factors, 
+        ''' and of any other R object for which a method has been defined.
+        ''' </summary>
+        ''' <param name="x$">an R object. For replacement, a vector or factor.</param>
+        ''' <returns>a non-negative integer or double (which will be rounded down).</returns>
+        Public Property length(x$) As Integer
+            Get
+                SyncLock R
+                    With R
+                        Return .Evaluate($"length({x})").AsInteger.ToArray.First
+                    End With
+                End SyncLock
+            End Get
+            Set(value As Integer)
+                SyncLock R
+                    With R
+                        .call = $"length({x}) <- {value};"
+                    End With
+                End SyncLock
+            End Set
+        End Property
+
+        ''' <summary>
         ''' Loading/Attaching and Listing of Packages, library and require load and attach add-on packages.
         ''' Load a available R package which was installed in the R system.(加载一个可用的R包)
         ''' </summary>
@@ -643,7 +666,7 @@ Namespace API
                                      Optional ncol As Integer = -1,
                                      Optional byrow As Boolean = False,
                                      Optional dimnames As String = NULL) As String
-            Dim strings$() = data.ToArray(AddressOf Scripting.ToString)
+            Dim strings$() = data.Select(AddressOf Scripting.ToString).ToArray
             Dim vec As String = c(strings, recursive:=False)
             Return matrix(vec, nrow, ncol, byrow, dimnames)
         End Function

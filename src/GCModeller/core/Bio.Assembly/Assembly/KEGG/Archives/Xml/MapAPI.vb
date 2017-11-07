@@ -61,7 +61,7 @@ Namespace Assembly.KEGG.Archives.Xml
         ''' <param name="source"></param>
         ''' <returns></returns>
         Public Function GetReactions(from As bGetObject.Pathway, source As bGetObject.Reaction()) As bGetObject.Reaction()
-            Dim allCompounds As String() = from.Compound.ToArray(Function(x) x.Key)
+            Dim allCompounds As String() = from.Compound.Select(Function(x) x.Key).ToArray
             Return GetReactions(allCompounds, source)
         End Function
 

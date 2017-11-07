@@ -127,8 +127,8 @@ Namespace ProteinModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function SimilarTo(Protein1 As Protein, Protein2 As Protein, Optional threshold As Double = 0.3) As Boolean
-            Dim a As String() = Protein1.Domains.ToArray(Function(x) x.Name)
-            Dim b As String() = Protein2.Domains.ToArray(Function(x) x.Name)
+            Dim a As String() = Protein1.Domains.Select(Function(x) x.Name).ToArray
+            Dim b As String() = Protein2.Domains.Select(Function(x) x.Name).ToArray
             Dim edits As DistResult = LevenshteinDistance.ComputeDistance(a, b, AddressOf __equals, Function(c) "")
             Return edits.MatchSimilarity >= threshold
         End Function

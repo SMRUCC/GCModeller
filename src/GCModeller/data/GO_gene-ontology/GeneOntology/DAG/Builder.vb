@@ -66,16 +66,29 @@ Namespace DAG
         ''' <param name="term"></param>
         ''' <returns></returns>
         <Extension> Public Function ConstructNode(term As Term) As TermNode
-            Dim is_a = term.is_a.ToArray(Function(s) New is_a(s$))
-            Dim rels = term.relationship.ToArray(Function(s) New Relationship(s$))
-            Dim synonym = term.synonym.ToArray(Function(s) New synonym(s$))
+            Dim is_a = term.is_a _
+                .SafeQuery _
+                .Select(Function(s) New is_a(s$)) _
+                .ToArray
+            Dim rels = term.relationship _
+                .SafeQuery _
+                .Select(Function(s) New Relationship(s$)) _
+                .ToArray
+            Dim synonym = term.synonym _
+                .SafeQuery _
+                .Select(Function(s) New synonym(s$)) _
+                .ToArray
+            Dim xrefValues = term.xref _
+                .SafeQuery _
+                .Select(AddressOf xrefParser) _
+                .ToArray
 
             Return New TermNode With {
                 .id = term.id,
                 .is_a = is_a,
                 .relationship = rels,
                 .synonym = synonym,
-                .xref = term.xref.ToArray(AddressOf xrefParser),
+                .xref = xrefValues,
                 .namespace = term.namespace,
                 .GO_term = term
             }

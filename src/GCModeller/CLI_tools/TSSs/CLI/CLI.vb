@@ -102,7 +102,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
             genomeSize = max + 1
         End If
 
-        Dim sharedReads As Integer() = readsShared.Split(","c).ToArray(Function(s) CInt(Val(s)))
+        Dim sharedReads As Integer() = readsShared.Split(","c).Select(Function(s) CInt(Val(s)))
         Dim Result As DocumentFormat.Transcript() =
             Transcriptome.UTRs.IdentifyUTRs.siRNAPredictes(Source,
             genomeSize,
@@ -259,7 +259,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
         '        End If
         '    Next
 
-        '    Call ResultList.AddRange(LQuery.ToArray(Function(x) x.associatedGene))
+        '    Call ResultList.AddRange(LQuery.Select(Function(x) x.associatedGene))
         'ElseIf Not ResultList.Count = 0 Then
         '    TSSsLoci.Position = "Intergenic"
         '    Call ResultList.Add(TSSsLoci)

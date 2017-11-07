@@ -108,9 +108,9 @@ Namespace Analysis
             End If
 
 #If DEBUG Then
-            footprints = sites.ToArray(Function(site) __createSites(site, regulators, correlations, regDB)).ToVector
+            footprints = sites.Select(Function(site) __createSites(site, regulators, correlations, regDB)).ToVector
 #Else
-            footprints = sites.ToArray(Function(site) __createSites(site, regulators, correlations, regDB), Parallel:=True).ToVector
+            footprints = sites.Select(Function(site) __createSites(site, regulators, correlations, regDB)).ToVector
 #End If
             Return footprints
         End Function
@@ -136,9 +136,9 @@ Namespace Analysis
             End If
 
 #If DEBUG Then
-            footprints = sites.ToArray(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff)).ToVector
+            footprints = sites.Select(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff)).ToVector
 #Else
-            footprints = sites.ToArray(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff), Parallel:=True).ToVector
+            footprints = sites.Select(Function(site) __createSites(site, regulators, regDB, KEGG, correlations, cutoff)).ToVector
 #End If
             Return footprints
         End Function
@@ -156,7 +156,7 @@ Namespace Analysis
                                        correlations As ICorrelations,
                                        cutoff As Double) As List(Of PredictedRegulationFootprint)
             Dim siteUid As String = site.uid.Split("|"c).ElementAtOrDefault(Scan0) ' 得到Motif编号
-            Dim regVimssId As Integer() = regDB.GetRegulations(siteUid).ToArray(Function(reg) reg.Regulator)  ' 该Motif在基因组内可能被多个调控因子调控
+            Dim regVimssId As Integer() = regDB.GetRegulations(siteUid).Select(Function(reg) reg.Regulator)  ' 该Motif在基因组内可能被多个调控因子调控
             Dim footprints = __regulationMappings(site, regVimssId, regulators, correlations, site.Signature, regDB, site.Tag, site.uid)
             Dim TagData As String() = (From s As String In site.Tag.Replace("\", "/").Split("/"c) Where Not String.IsNullOrEmpty(s) Select s).ToArray
             Dim modId As String = TagData.ElementAtOrDefault(1)
@@ -338,7 +338,7 @@ Namespace Analysis
             '                                                               Group By hit_name Into Group) _
             '                                                                .ToDictionary(Function(regulator) regulator.hit_name,
             '                                                                              elementSelector:=Function(familiesEntry) _
-            '                                                                                                   familiesEntry.Group.ToArray.ToArray(Function(family) family.Family).Distinct.ToArray)
+            '                                                                                                   familiesEntry.Group.ToArray.Select(Function(family) family.Family).Distinct.ToArray)
 
             '            Dim filters As Dictionary(Of String, Double) = __correlationFilter(site.Gene, mappedRegulators, correlations, cutoff)
             Dim footprints = __regulationMappings(site, site.Regulators, regulators, correlations, "", regDb, site.Trace, site.Trace)

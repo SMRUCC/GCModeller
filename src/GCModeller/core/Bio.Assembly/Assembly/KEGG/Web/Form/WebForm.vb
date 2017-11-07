@@ -189,7 +189,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         ''' <remarks></remarks>
         Public Function GetValue(KeyWord As String) As String()
             If _strData.ContainsKey(KeyWord) Then
-                Return _strData.Item(KeyWord).ToArray(Function(x) x.Value)
+                Return _strData.Item(KeyWord).Select(Function(x) x.Value).ToArray
             Else
                 Return New String() {""}
             End If
@@ -197,7 +197,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
         Public Function GetRaw(Keyword As String) As String()
             If _strData.ContainsKey(Keyword) Then
-                Return _strData.Item(Keyword).ToArray(Function(x) x.Value)
+                Return _strData.Item(Keyword).Select(Function(x) x.Value).ToArray
             Else
                 Return New String() {""}
             End If
@@ -231,7 +231,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of String, String())) Implements IEnumerable(Of KeyValuePair(Of String, String())).GetEnumerator
             For Each Item As KeyValuePair(Of String, NamedValue(Of String)()) In Me._strData
-                Yield New KeyValuePair(Of String, String())(Item.Key, Item.Value.ToArray(Function(obj) obj.Value))
+                Yield New KeyValuePair(Of String, String())(Item.Key, Item.Value.Select(Function(obj) obj.Value).ToArray)
             Next
         End Function
 
@@ -260,7 +260,7 @@ Namespace Assembly.KEGG.WebServices.InternalWebFormParsers
         Public Function TryGetValue(key As String, ByRef value As String()) As Boolean Implements IReadOnlyDictionary(Of String, String()).TryGetValue
             Dim raw As NamedValue(Of String)() = Nothing
             Dim f As Boolean = _strData.TryGetValue(key, raw)
-            value = raw.ToArray(Function(obj) obj.Value)
+            value = raw.Select(Function(obj) obj.Value).ToArray
             Return f
         End Function
 

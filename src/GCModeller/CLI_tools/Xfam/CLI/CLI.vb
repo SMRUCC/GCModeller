@@ -137,7 +137,7 @@ TEST:       Call $"{inFile.ToFileURL} is in ultra large size, start lazy loading
             Dim noParallel As Boolean = args.GetBoolean("/no_parallel")
 
             If noParallel Then
-                Call lstFiles.ToArray(Function(x) __batchExportOpr(inFile:=x.Value))
+                Call lstFiles.Select(Function(x) __batchExportOpr(inFile:=x.Value))
             Else
                 Call BatchTask(lstFiles,
                                getExe:=getThis,

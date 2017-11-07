@@ -100,6 +100,14 @@ Namespace ComponentModel.Ranges
             Call Me.New(range.Min, range.Max)
         End Sub
 
+        ''' <summary>
+        ''' Value copy
+        ''' </summary>
+        ''' <param name="range"></param>
+        Sub New(range As DoubleRange)
+            Call Me.New(range.Min, range.Max)
+        End Sub
+
         Sub New()
         End Sub
 
@@ -207,14 +215,18 @@ Namespace ComponentModel.Ranges
         ''' <param name="n%">所返回来的数组的元素的个数</param>
         ''' <returns></returns>
         Public Function Enumerate(n%) As Double()
-            Dim delta# = Length / n
-            Dim out As New List(Of Double)
+            If Length = 0 Then
+                Return {}
+            Else
+                Dim delta# = Length / n
+                Dim out As New List(Of Double)
 
-            For x As Double = Min To Max Step delta
-                out += x
-            Next
+                For x As Double = Min To Max Step delta
+                    out += x
+                Next
 
-            Return out
+                Return out
+            End If
         End Function
 
         ''' <summary>
@@ -231,7 +243,7 @@ Namespace ComponentModel.Ranges
             Return value
         End Function
 
-        Public Iterator Function GetEnumerator() As IEnumerator(Of Double) Implements IEnumerable(Of Double).GetEnumerator
+        Public Overridable Iterator Function GetEnumerator() As IEnumerator(Of Double) Implements IEnumerable(Of Double).GetEnumerator
             For Each x In Me.Enumerate(100)
                 Yield x
             Next

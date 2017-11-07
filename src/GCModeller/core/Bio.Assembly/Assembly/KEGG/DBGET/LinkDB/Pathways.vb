@@ -31,7 +31,7 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Terminal
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -85,7 +85,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             Dim briefHash As Dictionary(Of String, BriteHEntry.Pathway) =
                 BriteHEntry.Pathway.LoadDictionary
             Dim Downloader As New WebClient()
-            Dim Progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways....", CLS:=True)
+            Dim Progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways....", 1, CLS:=True)
             Dim failures As New List(Of String)
 
             ' VBDebugger.Mute = True

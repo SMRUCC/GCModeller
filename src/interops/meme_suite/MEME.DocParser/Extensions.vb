@@ -49,20 +49,19 @@ Public Module Extensions
     <Extension>
     Public Function MASTSites(mast As XmlOutput.MAST.MAST) As SimpleSegment()
         Dim name As String = mast.Motifs.BriefName
-        Dim result = mast.Sequences.SequenceList.ToArray(Function(x) x.__toSites(name))
+        Dim result = mast.Sequences.SequenceList.Select(Function(x) x.__toSites(name))
         Dim sites As SimpleSegment() = result.IteratesALL.ToVector
         Return sites
     End Function
 
     <Extension>
     Private Function __toSites(seq As SequenceDescript, familyName As String) As SimpleSegment()()
-        Return seq.Segments.ToArray(Function(loci) __createObject(loci, familyName))
+        Return seq.Segments.Select(Function(loci) __createObject(loci, familyName))
     End Function
 
     Private Function __createObject(site As Segment, trace As String) As SimpleSegment()
         Dim sequence As String = TrimNewLine(site.SegmentData, "").Replace(vbTab, "").Trim
-        Dim sites As SimpleSegment() = site.Hits.ToArray(
-            Function(hit) __createObject(site.start, hit, sequence, OffSet:=5, trace:=trace))
+        Dim sites As SimpleSegment() = site.Hits.Select(Function(hit) __createObject(site.start, hit, sequence, OffSet:=5, trace:=trace)).ToArray
         Return sites
     End Function
 

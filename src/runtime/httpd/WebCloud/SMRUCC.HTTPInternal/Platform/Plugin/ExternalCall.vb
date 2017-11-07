@@ -65,9 +65,12 @@ Namespace Platform.Plugins
                 Return New PluginBase() {}
             End If
 
-            Dim plugins As PluginBase() =
-                types.ToArray(Of PluginBase)(
-                Function(typeDef As Type) DirectCast(Activator.CreateInstance(typeDef, {platform}), PluginBase))
+            Dim plugins As PluginBase() = types _
+                .Select(Of PluginBase)(Function(typeDef As Type)
+                                           Return DirectCast(Activator.CreateInstance(typeDef, {platform}), PluginBase)
+                                       End Function) _
+                .ToArray
+
             Return plugins
         End Function
     End Module

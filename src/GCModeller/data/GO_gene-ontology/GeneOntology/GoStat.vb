@@ -112,7 +112,7 @@ Public Module GoStat
     Public Function CountStat(Of gene)(genes As IEnumerable(Of gene), getGO As Func(Of gene, String()), GO_terms As Dictionary(Of String, Term)) As Dictionary(Of String, NamedValue(Of Integer)())
         Return genes _
             .CountStat(Function(g)
-                           Return getGO(g).ToArray(Function(id) (id, 1))
+                           Return getGO(g).Select(Function(id) (id, 1)).ToArray
                        End Function, GO_terms)
     End Function
 

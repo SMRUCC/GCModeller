@@ -4,15 +4,18 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
 
 Partial Module CLI
 
     <ExportAPI("/iTraq.Symbol.Replacement")>
     <Description("* Using this CLI tool for processing the tag header of iTraq result at first.")>
-    <Usage("/iTraq.Symbol.Replacement /in <iTraq.data.csv> /symbols <symbols.csv> [/out <out.DIR>]")>
+    <Usage("/iTraq.Symbol.Replacement /in <iTraq.data.csv/xlsx> /symbols <symbols.csv> [/sheet.name <Sheet1> /out <out.DIR>]")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.csv, *.xlsx",
               AcceptTypes:={GetType(iTraqReader)},
               Description:="")>
     <Argument("/symbols", False, CLITypes.File,
@@ -23,8 +26,21 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].ParentPath)
         Dim symbols = (args <= "/symbols").LoadCsv(Of iTraqSymbols)
+        Dim input$
 
-        With [in].LoadCsv(Of iTraqReader)
+        If [in].ExtensionSuffix.TextEquals("csv") Then
+            input = [in]
+        Else
+            input = App.GetAppSysTempFile(".csv", App.PID)
+
+            Dim sheet$ = args <= "/sheet.Name"
+
+            Call Xlsx.Open([in]) _
+                .GetTable(sheet Or "Sheet1".AsDefault) _
+                .Save(input, encoding:=Encodings.UTF8)
+        End If
+
+        With [input].LoadCsv(Of iTraqReader)
             Call .iTraqMatrix(symbols) _
                  .ToArray _
                  .SaveTo(out & "/matrix.csv")
@@ -44,7 +60,7 @@ Partial Module CLI
     ''' 
     <ExportAPI("/iTraq.matrix.split")>
     <Description("Split the raw matrix into different compare group based on the experimental designer information.")>
-    <Usage("/iTraq.matrix.split /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis.design.csv> [/out <out.Dir>]")>
+    <Usage("/iTraq.matrix.split /in <matrix.csv> /sampleInfo <sampleInfo.csv> /designer <analysis.design.csv> [/allowed.swap /out <out.Dir>]")>
     <Group(CLIGroups.iTraqTool)>
     <Argument("/sampleInfo", False, CLITypes.File, AcceptTypes:={GetType(SampleInfo)})>
     <Argument("/designer", False, CLITypes.File, AcceptTypes:={GetType(AnalysisDesigner)},
@@ -54,54 +70,48 @@ Partial Module CLI
         Dim designer = (args <= "/designer").LoadCsv(Of AnalysisDesigner)
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & "-Groups/")
         Dim matrix As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
+        Dim allowedSwap As Boolean = args.IsTrue("/allowed.swap")
 
-        With sampleInfo.DataAnalysisDesign(analysis:=designer)
+        For Each group In matrix.MatrixSplit(sampleInfo, designer, allowedSwap)
+            Dim groupName$ = group.Name
+            Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
+            Dim data As DataSet() = group.Value
 
-            For Each group In .ref
-                Dim groupName$ = group.Key
-                Dim labels = group.Value
-                Dim data = matrix _
-                    .Select(Function(x)
-                                Dim values As New List(Of KeyValuePair(Of String, Double))
-
-                                For Each label In labels
-                                    With label.ToString
-                                        If x.HasProperty(.ref) Then
-                                            Call values.Add(.ref, x(.ref))
-                                        Else
-                                            ' 可能是在进行质谱实验的时候将顺序颠倒了，在这里将标签颠倒一下试试
-                                            With label.Swap.ToString
-                                                If x.HasProperty(.ref) Then
-                                                    ' 由于在取出值之后使用1除来进行翻转，所以在这里标签还是用原来的顺序，不需要进行颠倒了
-                                                    values.Add(label.ToString, 1 / x(.ref))
-                                                End If
-                                            End With
-                                        End If
-                                    End With
-                                Next
-
-                                Return New DataSet With {
-                                    .ID = x.ID,
-                                    .Properties = values _
-                                        .OrderBy(Function(d) d.Key) _
-                                        .ToDictionary()
-                                }
-                            End Function) _
-                    .ToArray
-                Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
-
-                If Not data.All(Function(x) x.Properties.Count = 0) Then
-                    Call data.SaveTo(path)
-                    Call StripNaN(path, replaceAs:="NA")
-                End If
-            Next
-        End With
+            If Not data.All(Function(x) x.Properties.Count = 0) Then
+                Call data.SaveTo(path)
+                Call StripNaN(path, replaceAs:="NA")
+            End If
+        Next
 
         Return 0
     End Function
 
+    ''' <summary>
+    ''' 可视化样本的一致重复性
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/iTraq.RSD-P.Density")>
+    <Usage("/iTraq.RSD-P.Density /in <matrix.csv> [/out <out.png>]")>
+    <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.csv",
+              Description:="A data matrix which is comes from the ``/iTraq.matrix.split`` command.")>
+    <Group(CLIGroups.iTraqTool)>
+    Public Function iTraqRSDPvalueDensityPlot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.RSD-P.density.png".AsDefault
+        Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim n% = matrix.PropertyNames.Distinct.Count
+
+        Return matrix _
+            .RSDP(n) _
+            .RSDPdensity() _
+            .Save(out) _
+            .CLICode
+    End Function
+
     <ExportAPI("/iTraq.t.test")>
-    <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
+    <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /pairInfo <sampleTuple.csv> /out <out.csv>]")>
     <Group(CLIGroups.iTraqTool)>
     <Argument("/FDR", True, CLITypes.Double,
               Description:="do FDR adjust on the p.value result? If this argument value is set to 1, means no adjustment.")>
@@ -110,8 +120,18 @@ Partial Module CLI
         Dim level# = args.GetValue("/level", 1.5)
         Dim pvalue# = args.GetValue("/p.value", 0.05)
         Dim FDR# = args.GetValue("/FDR", 0.05)
-        Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".log2FC.t.test.csv")
-        Dim DEPs As DEP_iTraq() = data.logFCtest(level, pvalue, FDR)
+        Dim pairInfo$ = args <= "/pairInfo"
+        Dim out$
+
+        If pairInfo.FileExists Then
+            out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.paired.t-test.csv".AsDefault
+        Else
+            out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.t.test.csv".AsDefault
+        End If
+
+        Dim DEPs As DEP_iTraq() = data.logFCtest(
+            level, pvalue, FDR,
+            pairInfo:=pairInfo.LoadCsv(Of SampleTuple))
 
         Return DEPs _
             .Where(Function(x) x.log2FC <> 0R) _

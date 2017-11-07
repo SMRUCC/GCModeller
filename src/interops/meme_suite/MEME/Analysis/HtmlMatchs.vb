@@ -129,13 +129,13 @@ Namespace Analysis
         ''' <param name="matches"></param>
         ''' <returns></returns>
         Public Function NovelSites(Motifs As IEnumerable(Of MEME.LDM.Motif), matches As IEnumerable(Of MotifSite)) As ComponentModel.MotifSite()
-            Dim Matched = matches.ToArray(Function(m) m.Tag).Distinct.ToArray
+            Dim Matched = matches.Select(Function(m) m.Tag).Distinct.ToArray
             Dim NonSingleMotifs = (From motif In Motifs
                                    Let id = motif.Id
                                    Where Not motif.__isSingle AndAlso ' 不是单一重复所照成的并且没有在结果之中被匹配上的就可能是novel的motif位点
                                        Array.IndexOf(Matched, id) = -1
                                    Select motif).ToArray  ' 不是由于带一个基因重复所照成的
-            Dim resultSet = NonSingleMotifs.ToArray(Function(motif) motif.__createObject)
+            Dim resultSet = NonSingleMotifs.Select(Function(motif) motif.__createObject)
             Return resultSet
         End Function
 
@@ -169,7 +169,7 @@ Namespace Analysis
         ''' <returns></returns>
         <ExportAPI("Match")>
         Public Function Match(sites As IEnumerable(Of MotifSite), PTT As PTT, Length As Integer) As MotifSite()
-            Return sites.ToArray(Function(site) Match(site, PTT(site.Locus_tag), Length))
+            Return sites.Select(Function(site) Match(site, PTT(site.Locus_tag), Length))
         End Function
 
         Private Function Match(site As ComponentModel.MotifSite, gene As GeneBrief, Length As Integer) As ComponentModel.MotifSite
@@ -221,12 +221,12 @@ Namespace Analysis
 
         Private Function __match(Motifs As Dictionary(Of String, MEME.LDM.Motif),
                                  seq As DocumentFormat.XmlOutput.MAST.SequenceDescript) As MotifSite()
-            Dim resultSet = seq.Segments.ToArray(Function(site) __match(Motifs, site, seq.name))
+            Dim resultSet = seq.Segments.Select(Function(site) __match(Motifs, site, seq.name))
             Return resultSet.ToVector
         End Function
 
         Private Function __match(Motifs As Dictionary(Of String, MEME.LDM.Motif), site As XmlOutput.MAST.Segment, uid As String) As MotifSite()
-            Return site.Hits.ToArray(Function(loci) __match(Motifs, loci, uid)).ToVector
+            Return site.Hits.Select(Function(loci) __match(Motifs, loci, uid)).ToVector
         End Function
 
         Private Function __match(Motifs As Dictionary(Of String, MEME.LDM.Motif), site As XmlOutput.MAST.HitResult, uid As String) As MotifSite()

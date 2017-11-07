@@ -114,7 +114,7 @@ Namespace VennDiagram.ModelAPI
         ''' <returns></returns>
         Public ReadOnly Property categoryNames As String()
             Get
-                Return partitions.ToArray(Function(x) x.DisplName)
+                Return partitions.Select(Function(x) x.DisplName).ToArray
             End Get
         End Property
 
@@ -183,7 +183,7 @@ Namespace VennDiagram.ModelAPI
                 End If
             Next
 
-            plot.categoryNames = c(partitions.ToArray(Function(x) x.DisplName))
+            plot.categoryNames = c(partitions.Select(Function(x) x.DisplName))
 
             R += $"input_data <- list({dataList.JoinBy(",")})"
             R += $"fill_color <- {c(color.ToArray)}"

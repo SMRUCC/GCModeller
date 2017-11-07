@@ -61,7 +61,7 @@ Partial Module CLI
     End Function
 
     Private Function __getNodes(footprints As List(Of PredictedRegulationFootprint)) As FileStream.Node()
-        Dim ORF = footprints.ToArray(Function(x) x.ORF).Distinct.AsList
+        Dim ORF = footprints.Select(Function(x) x.ORF).Distinct.AsList
         Dim TFs As List(Of String) =
             LinqAPI.MakeList(Of String) <= From x As PredictedRegulationFootprint
                                            In footprints
@@ -74,9 +74,9 @@ Partial Module CLI
             Call TFs.Remove(sId)
         Next
 
-        Dim Nodes = ORF.ToArray(Function(sId) New FileStream.Node With {.ID = sId, .NodeType = "ORF"}).AsList
-        Nodes += TFs.ToArray(Function(sId) New FileStream.Node With {.ID = sId, .NodeType = "Regulator"})
-        Nodes += Hybrids.ToArray(Function(sId) New FileStream.Node With {.ID = sId, .NodeType = "ORF+TF"})
+        Dim Nodes = ORF.Select(Function(sId) New FileStream.Node With {.ID = sId, .NodeType = "ORF"}).AsList
+        Nodes += TFs.Select(Function(sId) New FileStream.Node With {.ID = sId, .NodeType = "Regulator"})
+        Nodes += Hybrids.Select(Function(sId) New FileStream.Node With {.ID = sId, .NodeType = "ORF+TF"})
         Return Nodes
     End Function
 

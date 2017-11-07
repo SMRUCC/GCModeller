@@ -66,7 +66,7 @@ Namespace Components
         <XmlText> Public Property Text As String
 
         Public Function GetProperties() As [Property]()
-            Return Passage.ToArray(Function(s) [Property].Parser(s))
+            Return Passage.Select(Function(s) [Property].Parser(s)).ToArray
         End Function
 
         Public Overrides Function ToString() As String

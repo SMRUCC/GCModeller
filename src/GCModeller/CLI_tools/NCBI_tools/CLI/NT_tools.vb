@@ -52,7 +52,7 @@ Partial Module CLI
             list _
             .ReadAllLines _
             .Where(Function(s) Not s.StringEmpty) _
-            .ToArray(Function(s) s.Trim.ToLower)
+            .Select(Function(s) s.Trim.ToLower).ToArray
         Dim words As Dictionary(Of String, String()) =
             (From term In (From line As String
                            In terms

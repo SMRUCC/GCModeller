@@ -68,9 +68,9 @@ Public Module RelativeStatics
             Dim result As New List(Of RankView)
 
             For Each g In Groups
-                Dim gg As View() = g.Group.ToArray(Function(x) x.x)
+                Dim gg As View() = g.Group.Select(Function(x) x.x)
                 result += New RankView With {
-                    .OTUs = gg.ToArray(Function(x) x.OTU),
+                    .OTUs = gg.Select(Function(x) x.OTU),
                     .TaxonomyName = gg.First.TaxonTree(rank.i),
                     .Tree = g.tree,
                     .Samples = (From o As KeyValuePair(Of String, Double)

@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Terminal
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
@@ -253,7 +254,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 .Select(AddressOf BaseName) _
                 .Indexing
 
-            Using progress As New ProgressBar("Downloads others", CLS:=True)
+            Using progress As New ProgressBar("Downloads others", 1, CLS:=True)
                 Dim tick As New ProgressProvider(maxID)
                 Dim saveDIR = EXPORT & "/OtherUnknowns/"
                 Dim skip As Boolean = False
@@ -333,7 +334,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                        End Function) _
                 .ToArray
 
-            Using progress As New ProgressBar("Downloads " & key, CLS:=True)
+            Using progress As New ProgressBar("Downloads " & key, 1, CLS:=True)
                 Dim tick As New ProgressProvider(keys.Length)
                 Dim skip As Boolean = False
 

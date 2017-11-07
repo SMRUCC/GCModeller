@@ -119,13 +119,13 @@ Namespace LocalBLAST.BLASTOutput.XmlFile
 
         Public Overrides Function ExportOverview() As Overview
             Return New Views.Overview With {
-                .Queries = Iterations.ToArray(AddressOf __toQuery)
+                .Queries = Iterations.Select(AddressOf __toQuery).ToArray
             }
         End Function
 
         Private Shared Function __toQuery(query As Iteration) As Views.Query
             Dim queryName As String = query.QueryId
-            Dim hits = query.Hits.ToArray(Function(x) __toHit(x, query))
+            Dim hits = query.Hits.Select(Function(x) __toHit(x, query)).ToArray
             Return New Views.Query With {
                 .Id = queryName,
                 .Hits = hits.ToVector
@@ -133,18 +133,23 @@ Namespace LocalBLAST.BLASTOutput.XmlFile
         End Function
 
         Private Shared Function __toHit(hit As XmlFile.Hits.Hit, query As Iteration) As BestHit()
-            Dim list = hit.Hsps.ToArray(Function(hsp) New BestHit With {
-                .HitName = hit.Id & "| " & hit.Def,
-                .hit_length = hit.HitLength,
-                .length_hit = hit.Len,
-                .identities = hsp.Identity,
-                .QueryName = query.QueryId & "| " & query.QueryDef,
-                .query_length = query.QueryLen,
-                .length_query = hsp.AlignLen,
-                .evalue = hsp.Evalue,
-                .length_hsp = hsp.AlignLen,
-                .Positive = hsp.Positive,
-                .Score = hsp.BitScore})
+            Dim list = hit.Hsps _
+                .Select(Function(hsp)
+                            Return New BestHit With {
+                                .HitName = hit.Id & "| " & hit.Def,
+                                .hit_length = hit.HitLength,
+                                .length_hit = hit.Len,
+                                .identities = hsp.Identity,
+                                .QueryName = query.QueryId & "| " & query.QueryDef,
+                                .query_length = query.QueryLen,
+                                .length_query = hsp.AlignLen,
+                                .evalue = hsp.Evalue,
+                                .length_hsp = hsp.AlignLen,
+                                .Positive = hsp.Positive,
+                                .Score = hsp.BitScore
+                            }
+                        End Function) _
+                .ToArray
             Return list
         End Function
 

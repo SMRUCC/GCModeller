@@ -132,7 +132,7 @@ Namespace Assembly.KEGG.Archives.Xml
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function GetAllPathways() As bGetObject.Pathway()
-            Dim LQuery = Pathways.ToArray(Function(x) x.Pathways).ToVector
+            Dim LQuery = Pathways.Select(Function(x) x.Pathways).ToVector
             Return LQuery
         End Function
 

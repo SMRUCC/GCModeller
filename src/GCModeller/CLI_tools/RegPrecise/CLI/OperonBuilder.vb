@@ -91,8 +91,8 @@ Partial Module CLI
         Dim ooo = (From x As SeqValue(Of RegPreciseOperon())
                    In its.SeqIterator
                    Select x.i,
-                       x.value.ToArray(Function(xx) xx.Operon).IteratesALL.Distinct.ToArray,
-                       TF = x.value.ToArray(Function(xx) xx.Regulators).IteratesALL.Distinct.ToArray).ToArray
+                       x.value.Select(Function(xx) xx.Operon).IteratesALL.Distinct.ToArray,
+                       TF = x.value.Select(Function(xx) xx.Regulators).IteratesALL.Distinct.ToArray).ToArray
 
         Call ooo.SaveTo(out.TrimSuffix & ".Csv")
 
@@ -126,7 +126,7 @@ Partial Module CLI
         Dim task As Func(Of Dictionary(Of String, String), String) =
             Function(source) _
                 $"{api} /bbh {source(NameOf(bbh)).CLIPath} /PTT {source(NameOf(PTT)).CLIPath} /TF-bbh {source(NameOf(TFs)).CLIPath} /out {(out & source(NameOf(PTT)).BaseName & ".regulons.csv").CLIPath} /regprecise {regprecise.CLIPath}"
-        Dim CLI As String() = pairs.ToArray(task)
+        Dim CLI As String() = pairs.Select(task).ToArray
 
         Return App.SelfFolks(CLI, n)
     End Function
@@ -163,7 +163,7 @@ Partial Module CLI
                         Select x
                         Group x By x.QueryName.Split(":"c).Last Into Group) _
                              .ToDictionary(Function(x) x.Last,
-                                           Function(x) x.Group.ToArray(Function(xx) xx.HitName))
+                                           Function(x) x.Group.Select(Function(xx) xx.HitName))
         Dim tfHash As Dictionary(Of String, String()) =
             BBHIndex.BuildHitsHash(tfBBH.LoadCsv(Of BBHIndex), args.GetBoolean("/tfHit_hash"))
         Dim result As New List(Of RegPreciseOperon)
@@ -248,7 +248,7 @@ Partial Module CLI
         End If
 
         If members.Count = 1 Then
-            Return members.Values.First.ToArray(
+            Return members.Values.First.Select(
                 Function(sid) New RegPreciseOperon(regulon,
                                                    TF,
                                                    {sid},

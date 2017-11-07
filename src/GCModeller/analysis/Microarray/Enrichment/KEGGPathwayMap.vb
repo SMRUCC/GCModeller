@@ -1,11 +1,12 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Terminal
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports System.Drawing
 
 Public Module KEGGPathwayMap
 
@@ -28,7 +29,7 @@ Public Module KEGGPathwayMap
                 .ToArray
         End If
 
-        Using progress As New ProgressBar("KEGG pathway map visualization....",, CLS:=True)
+        Using progress As New ProgressBar("KEGG pathway map visualization....", 1, CLS:=True)
             Dim tick As New ProgressProvider(all.Length)
             Dim ETA$
 

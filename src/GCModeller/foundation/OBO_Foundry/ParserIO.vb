@@ -84,7 +84,7 @@ Public Module ParserIO
         Next
 
 #If DEVELOPMENT Then
-        Dim names As String() = schema.Values.ToArray(Function(x) x.Field._Name)
+        Dim names As String() = schema.Values.Select(Function(x) x.Field._Name).ToArray
 
         For Each key$ In data.Keys
             If Array.IndexOf(names, key$) = -1 Then
@@ -119,7 +119,11 @@ Public Module ParserIO
                      Group x By x.Name Into Group
 
         Return LQuery.ToDictionary(Function(x) x.Name,
-                                   Function(x) x.Group.ToArray(Function(value) value.Value))
+                                   Function(x)
+                                       Return x.Group _
+                                           .Select(Function(value) value.Value) _
+                                           .ToArray
+                                   End Function)
     End Function
 
     ''' <summary>

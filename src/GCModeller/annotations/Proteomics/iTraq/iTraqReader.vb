@@ -36,15 +36,21 @@ Public Class iTraqReader : Inherits DataSet
     ''' <returns></returns>
     Public Function GetSampleGroups(symbols As IEnumerable(Of iTraqSymbols)) As Dictionary(Of SampleValue)
         Dim groups As New List(Of SampleValue)
+        Dim count$
+        Dim var$
 
         For Each group As iTraqSymbols In symbols
             If Properties.ContainsKey(group.Symbol) Then
+                count = group.Symbol & " Count"
+                var = group.Symbol & " Variability [%]"
+
                 ' FoldChange
+                ' 因为这里主要是为了获取FoldChange数据，所以对于其他的可能不存在的数据就直接忽略掉了
                 groups += New SampleValue With {
                     .Group = group.AnalysisID,
-                    .Count = Properties(group.Symbol & " Count"),
+                    .Count = Properties.TryGetValue(count),
                     .FoldChange = Properties(group.Symbol),
-                    .Variability = Properties(group.Symbol & " Variability [%]")
+                    .Variability = Properties.TryGetValue(var)
                 }
             End If
         Next

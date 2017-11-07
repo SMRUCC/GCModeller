@@ -60,7 +60,7 @@ Namespace Assembly.NCBI.Taxonomy
         ''' <returns></returns>
         Public Shared Function Taxonomy(tree As TaxonomyNode(), Optional delimiter As String = ",") As String
             tree = tree.Reverse.ToArray
-            Return String.Join(delimiter, tree.ToArray(Function(x) x.name))
+            Return String.Join(delimiter, tree.Select(Function(x) x.name).ToArray)
         End Function
 
         Public Shared Function ToHash(tree As IEnumerable(Of TaxonomyNode)) As Dictionary(Of String, String)

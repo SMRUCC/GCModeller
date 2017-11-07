@@ -32,7 +32,7 @@ Namespace Assembly.KEGG.WebServices
             Dim rect As Area = map _
                 .Areas _
                 .Where(Function(ar)
-                           Return ar.shape.TextEquals("rect") AndAlso ar.IdList.IndexOf(mapName) > -1
+                           Return ar.shape.TextEquals("rect") AndAlso ar.IDVector.IndexOf(mapName) > -1
                        End Function) _
                 .FirstOrDefault
 
@@ -70,7 +70,7 @@ Namespace Assembly.KEGG.WebServices
             For Each map As String In Me.mapTable.Keys
                 Dim id$() = mapTable(map) _
                     .Areas _
-                    .Select(Function(ar) ar.IdList) _
+                    .Select(Function(ar) ar.IDVector) _
                     .IteratesALL _
                     .ToArray
                 Dim intersects = list _
@@ -162,7 +162,7 @@ Namespace Assembly.KEGG.WebServices
                 .Where(Function(x) x.Type = type) _
                 .Select(Function(x)
                             Dim titles = x.Names
-                            Return x.IdList _
+                            Return x.IDVector _
                                 .SeqIterator _
                                 .Select(Function(cpd) New NamedValue(Of Area) With {
                                     .Name = cpd.value,

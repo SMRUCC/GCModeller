@@ -83,7 +83,7 @@ Namespace Motif
             Dim n As Integer = fa.NumberOfFasta
             Dim base As Integer = If(fa.First.IsProtSource, 20, 4)
             Dim E As Double = (1 / Math.Log(2)) * ((base - 1) / (2 * n))
-            Dim H As Double() = f.Residues.ToArray(Function(x) x.Alphabets.__hi)
+            Dim H As Double() = f.Residues.Select(Function(x) x.Alphabets.__hi).ToArray
             Dim PWM As ResidueSite() =
                 LinqAPI.Exec(Of SimpleSite, ResidueSite) _
                (f.Residues) <= Function(x, i) __residue(x.Alphabets, H(i), E, base, i)

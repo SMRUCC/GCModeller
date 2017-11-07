@@ -90,7 +90,9 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 
         Public Function ToPTT() As PTT
             Return New PTT With {
-                .GeneObjects = Proteins.ToArray(Function(prot) prot.ToPTTGene)
+                .GeneObjects = Proteins _
+                    .Select(Function(prot) prot.ToPTTGene) _
+                    .ToArray
             }
         End Function
     End Class

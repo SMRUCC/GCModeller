@@ -44,9 +44,9 @@ Namespace Regprecise
         <XmlElement> Public Property Members As RegulatedGene()
 
         Public Overrides Function ToString() As String
-            Dim lstName As String = Members.ToArray(Function(g) g.Name).JoinBy(", ")
+            Dim lstName As String = Members.Select(Function(g) g.Name).JoinBy(", ")
             If String.IsNullOrEmpty(lstName) Then
-                lstName = Members.ToArray(Function(g) g.LocusId).JoinBy(", ")
+                lstName = Members.Select(Function(g) g.LocusId).JoinBy(", ")
             End If
 
             Return lstName
@@ -57,7 +57,7 @@ Namespace Regprecise
             Dim Tokens As String() = Regex.Matches(page, "<tr>.+?</tr>", RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray
             Dim locus = __locusParser(page)
             Tokens = (From row As String In Tokens Where InStr(row, "<div class=""operon"">") > 0 Select row).ToArray
-            Dim lstOperons As Operon() = Tokens.ToArray(Function(value) __operonParser(value, locus))
+            Dim lstOperons As Operon() = Tokens.Select(Function(value) __operonParser(value, locus))
             Return lstOperons
         End Function
 
@@ -66,7 +66,7 @@ Namespace Regprecise
             genes = (From s As String In genes Where InStr(s, "Locus", CompareMethod.Text) > 0 Select s).ToArray
 
             Try
-                Dim lstGenes As RegulatedGene() = genes.ToArray(Function(s) __geneParser(s, locus))
+                Dim lstGenes As RegulatedGene() = genes.Select(Function(s) __geneParser(s, locus))
                 Return New Operon With {
                     .Members = lstGenes
                 }

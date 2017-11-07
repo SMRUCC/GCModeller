@@ -114,9 +114,6 @@
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -136,6 +133,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="iTraq\iTraqSample.vb" />
     <Compile Include="LabelFree\LabelFreeTtest.vb" />
     <Compile Include="AnalysisCommon.vb" />
     <Compile Include="RSDPdensity.vb" />
@@ -184,7 +182,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET.Extensions.VisualBasic\RDotNET.Extensions.VisualBasic.vbproj">
@@ -194,6 +191,10 @@
     <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
       <Project>{21C35138-455B-4833-9756-B2629F972A22}</Project>
       <Name>RDotNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame.Extensions\+VB_DataFrame.Extensions.vbproj">
+      <Project>{344bf0cf-107f-45d2-9074-9865d8f86506}</Project>
+      <Name>+VB_DataFrame.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
       <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>

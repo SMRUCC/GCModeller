@@ -64,7 +64,7 @@ Public Module Blastn
 
     Public Function Parser(page As String) As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.BlastnHit()
         Dim hits As String() = Strings.Split(page, """checkbox""").Skip(1).ToArray
-        Dim parsing = hits.ToArray(Function(x) __parser(x))
+        Dim parsing = hits.Select(Function(x) __parser(x))
         Return parsing
     End Function
 

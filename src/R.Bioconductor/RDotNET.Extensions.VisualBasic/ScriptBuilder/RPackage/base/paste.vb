@@ -41,7 +41,7 @@ Namespace SymbolBuilder.packages.base
 
         Public Function Func(ParamArray x As String()) As String
             Dim action As paste0 = Me.ShadowsCopy
-            action.x = x.ToArray(Function(s) New RExpression(s))
+            action.x = x.Select(Function(s) New RExpression(s)).ToArray
             Return action.RScript
         End Function
     End Class

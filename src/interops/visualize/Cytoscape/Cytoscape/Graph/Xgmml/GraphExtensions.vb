@@ -42,7 +42,7 @@ Namespace CytoscapeGraphView.XGMML
                          Select edge
                          Group edge By edge.__internalUID Into Group
             Dim buf As Edge() = LQuery.Select(Function(x) x.Group) _
-                .ToArray(AddressOf MergeEdges, Parallel:=True) _
+                .Select(AddressOf MergeEdges) _
                 .WriteAddress.ToArray
             Return buf
         End Function
@@ -77,7 +77,7 @@ Namespace CytoscapeGraphView.XGMML
                                             Select x.Value
                                             Distinct).ToArray
             Dim result As Attribute() =
-                attrsBuffer.ToArray(Function(x) x.First.__setValue(x.values))
+                attrsBuffer.Select(Function(x) x.First.__setValue(x.values))
             Return result
         End Function
 

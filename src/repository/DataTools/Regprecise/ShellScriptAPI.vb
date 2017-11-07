@@ -187,14 +187,14 @@ Call MEME.Invoke_Batch {Source}, {Export}, 0.001, 100, zoops, -dna"
                 LinqAPI.Exec(Of AnnotationModel) <= From motif As AnnotationModel
                                                     In LQuery.AsParallel
                                                     Let values As Site() =
-                                                        motif.Sites.ToArray(Function(site) __assignRegulations(site, Regulations))
+                                                        motif.Sites.Select(Function(site) __assignRegulations(site, Regulations))
                                                     Select setValue(motif, values)
             Export = Settings.Session.SettingsFile.RepositoryRoot & "/Regprecise/MEME/MAST_LDM/"  ' 在这里导出模型
             Dim Saved = (From Motif As AnnotationModel
                          In assignRegulations.AsParallel
                          Let path As String = $"{Export}/{Motif.Uid}.xml"
                          Select Motif.Uid, b = Motif.GetXml.SaveTo(path)).ToArray
-            Call $"{Saved.ToArray(Function(obj) obj.Uid.Split("."c).First).RemoveDuplicates(Function(obj) obj).Length} regulatory sites family...".__DEBUG_ECHO
+            Call $"{Saved.Select(Function(obj) obj.Uid.Split("."c).First).RemoveDuplicates(Function(obj) obj).Length} regulatory sites family...".__DEBUG_ECHO
         End Sub
 
         <ExportAPI("PWM.Build.Custom")>
@@ -228,7 +228,7 @@ Call MEME.Invoke_Batch {Source}, {Export}, 0.001, 100, zoops, -dna"
             Dim regulationList = regulations.GetRegulations(regulateSite)
 
             If Not regulationList Is Nothing Then
-                site.Regulators = regulationList.ToArray(Function(regulator) regulator.Regulator)
+                site.Regulators = regulationList.Select(Function(regulator) regulator.Regulator)
             Else
                 ' Call $"{uid} unable to found any record!".__DEBUG_ECHO
             End If

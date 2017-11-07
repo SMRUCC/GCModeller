@@ -60,7 +60,7 @@ Namespace DESeq2
                           Where InStr(x.Key, LEVEL) = 1
                           Select x.Key,
                               data = Val(x.Value)).ToArray
-            Return LQuery.ToArray(Function(x) x.data).Max
+            Return LQuery.Select(Function(x) x.data).Max
         End Function
 
         ''' <summary>
@@ -94,7 +94,7 @@ Namespace DESeq2
                 Return InStr(Samples(name), "+") = 1
             Else
                 Dim ex As New Exception("Name: " & name)
-                Dim lst = Samples.Keys.ToArray(Function(x) $"[{x}]")
+                Dim lst = Samples.Keys.Select(Function(x) $"[{x}]")
                 ex = New Exception("Keys:  " & lst.JoinBy("+"), ex)
                 Throw ex
             End If

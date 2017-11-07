@@ -180,9 +180,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -209,6 +206,7 @@
     <Compile Include="Heatmap\DensityPlot.vb" />
     <Compile Include="Heatmap\PlotExtensions.vb" />
     <Compile Include="Bihistogram.vb" />
+    <Compile Include="ScatterExtensions.vb" />
     <Compile Include="QQPlot.vb" />
     <Compile Include="ZScores.vb" />
     <Compile Include="PCAPlot.vb" />
@@ -246,7 +244,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Data\DataFrame\+VB_DataFrame.vbproj">
@@ -261,9 +258,9 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\mime\text%25html\mime-htmls.vbproj">
+    <ProjectReference Include="..\..\..\..\mime\text%25html\MIME-htmls.vbproj">
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>mime-htmls</Name>
+      <Name>MIME-htmls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\DataMining\hierarchical-clustering\hierarchical-clustering\hierarchical-clustering.vbproj">
       <Project>{6ca54af6-cadc-457e-94b9-384f2990f07e}</Project>

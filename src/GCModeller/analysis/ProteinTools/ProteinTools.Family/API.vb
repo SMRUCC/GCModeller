@@ -69,10 +69,10 @@ Public Module API
                       Let stringPfam = PfamString.CreateObject(x)
                       Select stringPfam, family.ToLower, family, describ
                       Group By ToLower Into Group) _
-                         .ToArray(Function(x) FileSystem.Family.CreateObject(
+                         .Select(Function(x) FileSystem.Family.CreateObject(
                             x.Group.First.family,
-                            x.Group.ToArray(Function(xx) xx.stringPfam),
-                            x.Group.ToArray(Function(xx) New KeyValuePair With {
+                            x.Group.Select(Function(xx) xx.stringPfam),
+                            x.Group.Select(Function(xx) New KeyValuePair With {
                                 .Key = xx.stringPfam.LocusTag,
                                 .Value = xx.describ})))
         Dim FamilyDb As New FamilyPfam With {
@@ -191,7 +191,7 @@ Public Module API
 
         Call Csv.Add("Family", "NumberOfProt", "LocusId")
         For Each FamilySet In Groups
-            Call Csv.Add(FamilySet.Family, CStr(FamilySet.Group.Count), FamilySet.Group.ToArray(Function(x) x.LocusId).JoinBy("; "))
+            Call Csv.Add(FamilySet.Family, CStr(FamilySet.Group.Count), FamilySet.Group.Select(Function(x) x.LocusId).JoinBy("; "))
         Next
         Call Csv.AppendLine()
         Call Csv.AppendLine()

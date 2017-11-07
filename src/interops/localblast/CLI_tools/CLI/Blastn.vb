@@ -218,7 +218,7 @@ Partial Module CLI
             Function(fa) _
                 $"{GetType(CLI).API(NameOf(BlastnQuery))} /query {fa.CLIPath} /db {db.CLIPath} /word_size {ws} /evalue {evalue} /thread /out {out.CLIPath} /penalty {penalty} /reward {reward}"
         Dim CLI As String() =
-            (ls - l - r - {"*.fna", "*.fa", "*.fsa", "*.fasta", "*.ffn"} <= [in]).ToArray(task)
+            (ls - l - r - {"*.fna", "*.fa", "*.fsa", "*.fasta", "*.ffn"} <= [in]).Select(task).ToArray
 
         If Not args.GetBoolean("/skip-format") Then
             Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalblast)
@@ -273,7 +273,7 @@ Partial Module CLI
         Dim task As Func(Of String, String) =
             Function(path) _
                 $"{GetType(CLI).API(NameOf(ExportBlastnMaps))} /in {path.CLIPath} {best} /out {(out & "/" & path.BaseName & ".Csv").CLIPath}"
-        Dim CLI As String() = (ls - l - r - wildcards("*.txt") <= [in]).ToArray(task)
+        Dim CLI As String() = (ls - l - r - wildcards("*.txt") <= [in]).Select(task).ToArray
 
         Return App.SelfFolks(CLI, numThreads)
     End Function
@@ -485,7 +485,7 @@ Partial Module CLI
                     In data
                     Select x
                     Group x By x.ReadQuery Into Group) _
-                   .ToArray(Function(x) x.Group.OrderByDescending(Function(r) r.Identities).First)
+                   .Select(Function(x) x.Group.OrderByDescending(Function(r) r.Identities).First)
         Return best.SaveTo(out).CLICode
     End Function
 

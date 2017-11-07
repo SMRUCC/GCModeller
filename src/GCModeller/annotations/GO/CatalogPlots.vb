@@ -221,22 +221,24 @@ Public Module CatalogPlots
             If Not selects.StringEmpty Then
                 top = x _
                     .ApplySelector(Function(o) o.Value, selects) _
-                    .ToArray(Function(o)
-                                 Return New NamedValue(Of Double) With {
-                                     .Name = o.Description,
-                                     .Value = o.Value
-                                 }
-                             End Function)
+                    .Select(Function(o)
+                                Return New NamedValue(Of Double) With {
+                                    .Name = o.Description,
+                                    .Value = o.Value
+                                }
+                            End Function) _
+                    .ToArray
 
             Else
 
                 top = x _
-                    .ToArray(Function(o)
-                                 Return New NamedValue(Of Double) With {
-                                     .Name = o.Description,
-                                     .Value = o.Value
-                                 }
-                             End Function)
+                    .Select(Function(o)
+                                Return New NamedValue(Of Double) With {
+                                    .Name = o.Description,
+                                    .Value = o.Value
+                                }
+                            End Function) _
+                    .ToArray
             End If
 
             Call data.Add(k.Key, top)
@@ -299,7 +301,7 @@ Public Module CatalogPlots
 
             profile(key) = cata _
                 .Group _
-                .ToArray(Function(x) New NamedValue(Of Double) With {
+                .Select(Function(x) New NamedValue(Of Double) With {
                     .Name = x.Term,
                     .Value = -Math.Log10(x.PValue)
                 })

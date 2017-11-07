@@ -155,12 +155,12 @@ Default is not, default checks right side and left side.")>
                       In query.AsParallel
                       Where sbh.ContainsKey(x.ProteinId)
                       Let lstId As String() = sbh(x.ProteinId)
-                      Let lstPfam = lstId.ToArray(Function(sId) subject(sId), where:=Function(sId) subject.ContainsKey(sId))
+                      Let lstPfam = lstId.Where(Function(sId) subject.ContainsKey(sId)).Select(Function(sId) subject(sId)).ToArray
                       Select (From sbj As PfamString
                               In lstPfam
                               Select PfamStringEquals(x, sbj, equals))).IteratesALL
         Dim swap As Boolean = args.GetBoolean("/swap")
-        Dim resultOut As MPCsvArchive() = LQuery.ToArray(Function(x) x.ToRow)
+        Dim resultOut As MPCsvArchive() = LQuery.Select(Function(x) x.ToRow)
 
         If resultOut.IsNullOrEmpty Then  ' 由于没有作任何筛选，但是LQuery是空的，则说明字典不对
             Call VBDebugger.Warning(ResultNullWarning)
@@ -233,7 +233,7 @@ Default is not, default checks right side and left side.")>
 
         If Not path.FileExists Then
             Call "Hits data is not presents... select all data!".__DEBUG_ECHO
-            Dim sbj As String() = subject.ToArray(Function(x) x.ProteinId)
+            Dim sbj As String() = subject.Select(Function(x) x.ProteinId)
             Dim dict = query.ToDictionary(Function(x) x.ProteinId, Function(null) sbj) ' 没有sbh数据的筛选，则默认比对全部的数据
             Return dict
         End If
@@ -251,7 +251,7 @@ Default is not, default checks right side and left side.")>
                       Select x
                       Group x By x.QueryName Into Group) _
                          .ToDictionary(Function(x) x.QueryName.Split(":"c).Last,
-                                       Function(x) x.Group.ToArray(Function(xx) xx.HitName.Split(":"c).Last, where:=Function(xx) xx.Matched))
+                                       Function(x) x.Group.Where(Function(xx) xx.Matched).Select(Function(xx) xx.HitName.Split(":"c).Last).ToArray)
         Return LQuery
     End Function
 
@@ -279,8 +279,8 @@ Default is not, default checks right side and left side.")>
         Dim pfamString As List(Of PfamString) = [in].LoadCsv(Of PfamString)
         Dim hhits As List(Of BBHIndex) = hits.LoadCsv(Of BBHIndex)
         Dim names As String() = If(args.GetBoolean("/hit_name"),
-            hhits.ToArray(Function(x) x.HitName.Split(":"c).Last),
-            hhits.ToArray(Function(x) x.QueryName.Split(":"c).Last))
+            hhits.Select(Function(x) x.HitName.Split(":"c).Last),
+            hhits.Select(Function(x) x.QueryName.Split(":"c).Last))
         Dim LQuery = LinqAPI.MakeList(Of PfamString) <=
             From x As PfamString
             In pfamString

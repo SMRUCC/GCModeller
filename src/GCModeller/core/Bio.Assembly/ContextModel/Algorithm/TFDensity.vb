@@ -62,7 +62,7 @@ Namespace ContextModel
                                                     Optional ranges As Integer = 10000,
                                                     Optional stranded As Boolean = False) As Density()
 
-            Dim TFs As T() = TF.ToArray(AddressOf genome.GetByName)
+            Dim TFs As T() = TF.Select(AddressOf genome.GetByName).ToArray
             Dim getTF As Func(Of Strands, T()) = New __sourceHelper(Of T)(TFs, stranded).__gets
             Dim result As Density() = genome.__worker(getTF, AddressOf __getGenes(Of T), TFs.Length, ranges)
             Return result
@@ -150,7 +150,7 @@ Namespace ContextModel
                 Select New Density With {
                     .locus_tag = gene.Key,
                     .Abundance = related.Length / numTotal,
-                    .Hits = related.ToArray(Function(g) g.Key),
+                    .Hits = related.Select(Function(g) g.Key).ToArray,
                     .loci = gene.Location,
                     .product = gene.Product
                 }
@@ -173,7 +173,7 @@ Namespace ContextModel
                                                  TF As IEnumerable(Of String),
                                     Optional ranges As Integer = 10000) As Density()
 
-            Dim TFs As T() = TF.ToArray(AddressOf genome.GetByName)
+            Dim TFs As T() = TF.Select(AddressOf genome.GetByName).ToArray
             Dim getTF As Func(Of Strands, T()) = New __sourceHelper(Of T)(TFs, True).__gets
             Dim result As Density() =
                 genome.__worker(getTF,

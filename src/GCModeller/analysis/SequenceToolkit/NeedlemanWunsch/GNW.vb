@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::93ef32378e9e16be9d1b902a1d222b3c, ..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\GNW.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.IO
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Linq
+Imports System.Linq
 
 ''' <summary>
 ''' Needleman-Wunsch Algorithm
@@ -217,12 +218,12 @@ Public Class NeedlemanWunsch(Of T)
             output.Write(">SEQUENCE_1|Score:")
             output.Write(Me.Score)
             output.WriteLine()
-            output.Write(New String(Me.getAligned1(0).ToArray(__toChar)))
+            output.Write(New String(Me.getAligned1(0).Select(__toChar).ToArray))
             output.WriteLine()
             output.Write(">SEQUENCE_2|Score:")
             output.Write(Me.Score)
             output.WriteLine()
-            output.Write(New String(Me.getAligned2(0).ToArray(__toChar)))
+            output.Write(New String(Me.getAligned2(0).Select(__toChar).ToArray))
         Else
             For i As Integer = 0 To Me.NumberOfAlignments - 1
                 output.Write(">SEQUENCE_1|Alignment:")
@@ -230,14 +231,14 @@ Public Class NeedlemanWunsch(Of T)
                 output.Write("|Score:")
                 output.Write(Me.Score)
                 output.WriteLine()
-                output.Write(New String(Me.getAligned1(i).ToArray(__toChar)))
+                output.Write(New String(Me.getAligned1(i).Select(__toChar).ToArray))
                 output.WriteLine()
                 output.Write(">SEQUENCE_2|Alignment:")
                 output.Write(i + 1)
                 output.Write("|Score:")
                 output.Write(Me.Score)
                 output.WriteLine()
-                output.Write(New String(Me.getAligned2(i).ToArray(__toChar)))
+                output.Write(New String(Me.getAligned2(i).Select(__toChar).ToArray))
                 output.WriteLine()
             Next
         End If

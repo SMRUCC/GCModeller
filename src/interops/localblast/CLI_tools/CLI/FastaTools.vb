@@ -156,7 +156,7 @@ Partial Module CLI
         Using writer As New WriteStream(Of SeqBrief)(out)
             For Each file As String In ls - l - r - wildcards("*.Xml") <= [in]
                 Dim xml = file.LoadXml(Of TSeqSet)
-                Dim info = xml.TSeq.ToArray(Function(x) DirectCast(x, SeqBrief))
+                Dim info = xml.TSeq.Select(Function(x) DirectCast(x, SeqBrief))
                 Call writer.Flush(info)
             Next
 

@@ -180,14 +180,16 @@ Public Module DomainAnalysis
         Dim result As PfamString.PfamString()
 
 #If DEBUG Then
-        result = blast_output.Queries.ToArray(
-            Function(queryHits) ToPfamString(queryHits,
+        result = blast_output.Queries.Select(
+            Function(queryHits)
+                Return ToPfamString(queryHits,
                                              evalue:=evalue,
                                              coverage:=coverage,
                                              identities:=identities,
-                                             offset:=offset))
+                                             offset:=offset)
+            End Function).ToArray
 #Else
-        result = blast_output.Queries.ToArray(Function(queryHits) ToPfamString(queryHits), parallel:=True)
+        result = blast_output.Queries.Select(Function(queryHits) ToPfamString(queryHits)).ToArray
 #End If
         If query.IsNullOrEmpty Then
             Return result

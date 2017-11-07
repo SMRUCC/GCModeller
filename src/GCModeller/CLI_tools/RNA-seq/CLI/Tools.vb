@@ -285,7 +285,7 @@ Partial Module CLI
 
         If NNNNcontig.FileExists Then
             Dim contigs = NNNNcontig.LoadCsv(Of SimpleSegment)
-            Dim genes = contigs.ToArray(Function(x) x.ToPTTGene)
+            Dim genes = contigs.Select(Function(x) x.ToPTTGene).ToArray
             genome = New GenomeContextProvider(Of GeneBrief)(genes)
             tagsHash = (From x As SimpleSegment
                         In contigs
@@ -383,7 +383,7 @@ Partial Module CLI
               Where Not String.Equals(x.Name, "*")
               Select gi = Regex.Match(x.Name, "\d+").Value,
                   x.Name) _
-                  .ToArray(Function(x) x.gi & vbTab & x.Name) _
+                  .Select(Function(x) x.gi & vbTab & x.Name) _
                   .SaveTo(statOut.TrimSuffix & ".gi_Maps.tsv")
 
         Return New NamedValue(Of Integer)([in].BaseName, ALL) _
@@ -517,7 +517,7 @@ Partial Module CLI
                     Where s <> "0" AndAlso s <> "0.0"
                     Select s
                 If Not String.IsNullOrEmpty(noZERO) Then
-                    nonZEROs += columns.ToArray(Function(x) x(index))
+                    nonZEROs += columns.Select(Function(x) x(index)).ToArray
                 End If
             Next
 

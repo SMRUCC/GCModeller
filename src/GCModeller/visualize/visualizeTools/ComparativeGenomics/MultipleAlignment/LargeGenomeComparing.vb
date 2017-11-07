@@ -202,7 +202,7 @@ Namespace ComparativeAlignment
             Dim Links As List(Of ComparativeGenomics.GeneLink) =
                 LinqAPI.MakeList(Of ComparativeGenomics.GeneLink) <= From LinkGroup
                                                                      In linkGroups
-                                                                     Let id As String() = LinkGroup.Group.ToArray(Function(lnk) lnk.genome2)
+                                                                     Let id As String() = LinkGroup.Group.Select(Function(lnk) lnk.genome2)
                                                                      Let CombLocus = Comb(Of String).CreateCompleteObjectPairs(id)
                                                                      Select From pairs
                                                                             In CombLocus

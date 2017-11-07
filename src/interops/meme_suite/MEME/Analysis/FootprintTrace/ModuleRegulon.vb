@@ -103,8 +103,8 @@ Namespace Analysis.FootprintTraceAPI
                 .evalue = model.Evalue,
                 .module = modX,
                 .motif = model.Motif,
-                .source = footprints.ToArray(Function(x) x.ORF).Distinct.ToArray,
-                .regulators = footprints.ToArray(Function(x) x.Regulator).Distinct.ToArray
+                .source = footprints.Select(Function(x) x.ORF).Distinct.ToArray,
+                .regulators = footprints.Select(Function(x) x.Regulator).Distinct.ToArray
             }
 
             Dim DbModels As AnnotationModel() = GetFamilyMotifs(Family)

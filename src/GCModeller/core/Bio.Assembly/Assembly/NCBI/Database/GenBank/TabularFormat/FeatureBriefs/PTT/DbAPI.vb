@@ -48,7 +48,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
             If gbs.IsNullOrEmpty Then
                 gbs = ls - l - wildcards("*.PTT", "*.ptt") <= DIR
             End If
-            Dim locus As String() = gbs.ToArray(Function(x) x.BaseName).Distinct.ToArray
+            Dim locus As String() = gbs.Select(Function(x) x.BaseName).Distinct.ToArray
             Return locus
         End Function
 
@@ -73,7 +73,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 
         Public Function GetEntryList(DIR As String) As PTTEntry()
             Dim locus As String() = GetDbEntries(DIR)
-            Return locus.ToArray(Function(x) PTTEntry.NewEntry(DIR, x))
+            Return locus.Select(Function(x) PTTEntry.NewEntry(DIR, x)).ToArray
         End Function
     End Module
 

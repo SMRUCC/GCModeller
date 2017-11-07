@@ -61,7 +61,7 @@ Namespace Analysis.MotifScans
             MotifSite = Motif
 
             Me.Delta = delta / 1000
-            Me.Sites = MotifSite.Sites.ToArray(
+            Me.Sites = MotifSite.Sites.Select(
                 Function(site) setValue(New NucleotideModels.NucleicAcid(site.Site), site.Name))
             Me.OffSet = offSet
             Me.Delta2 = delta2

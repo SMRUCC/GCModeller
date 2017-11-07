@@ -224,6 +224,10 @@ AAGCGAACAAATGTTCTATA"
             }
         End Function
 
+        ''' <summary>
+        ''' Convert the <see cref="SequenceData"/> to upper case and then return the new created <see cref="FastaToken"/>.
+        ''' </summary>
+        ''' <returns></returns>
         Public Function ToUpper() As FastaToken
             Return New FastaToken(Attributes, SequenceData.ToUpper)
         End Function
@@ -319,7 +323,7 @@ AAGCGAACAAATGTTCTATA"
             Dim attrs$() = Mid(lines(Scan0), 2).Split(deli)
             Dim removeInvalids = Function(s$) s.Replace(StreamIterator.SOH, "")
 
-            attrs = attrs.ToArray(removeInvalids)
+            attrs = attrs.Select(removeInvalids).ToArray
 
             Dim fa As New FastaToken With {
                 .Attributes = attrs,

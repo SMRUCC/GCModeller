@@ -45,7 +45,7 @@ Namespace RegulatesGraph
         Public Function Create(sites As String, <Parameter("Dir.Modules")> mods As String) As Graph
             Dim motifSites = sites.LoadCsv(Of MotifSite)
             Dim modDetails = FileIO.FileSystem.GetFiles(mods, FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
-                .ToArray(Function(file) file.LoadXml(Of bGetObject.Module), Parallel:=True) _
+                .Select(Function(file) file.LoadXml(Of bGetObject.Module)) _
                 .ToDictionary(Function([mod]) [mod].EntryId.Split("_"c).Last.ToUpper)
             Return Create(motifSites, modDetails)
         End Function
@@ -67,11 +67,11 @@ Namespace RegulatesGraph
                                                           Select g
                                                           Group g By g.mod Into Group) _
                                                                .ToDictionary(Function(oo) oo.mod,
-                                                                             Function(gg) gg.Group.ToArray(Function(ggg) ggg.Locus_tag)))
-            Dim Edges As PathwayRegulates() = LQuery.ToArray(
-                Function(site) site.Value.ToArray(
-                Function(obj, target) __regulates(site.Key, obj, target))).ToVector
-            Dim Nodes = LQuery.ToArray(AddressOf __node).Join(modDetails.ToArray(AddressOf __node))
+                                                                             Function(gg) gg.Group.Select(Function(ggg) ggg.Locus_tag).ToArray))
+            Dim Edges As PathwayRegulates() = LQuery.Select(
+                Function(site) site.Value.Select(
+                Function(obj, target) __regulates(site.Key, obj, target)).ToArray).ToVector
+            Dim Nodes = LQuery.Select(AddressOf __node).Join(modDetails.Select(AddressOf __node))
             Dim doc = ExportToFile.Export(Nodes, Edges)
             Return doc
         End Function

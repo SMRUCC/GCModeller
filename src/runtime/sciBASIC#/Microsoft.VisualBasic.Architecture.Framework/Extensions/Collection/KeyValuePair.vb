@@ -42,6 +42,25 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 ''' </summary>
 Public Module KeyValuePairExtensions
 
+    ''' <summary>
+    ''' 函数会根据<see cref="keys"/>参数来做排序
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="table"></param>
+    ''' <param name="keys$"></param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function Subset(Of T)(table As Dictionary(Of String, T), keys$()) As Dictionary(Of String, T)
+        Return keys _
+            .Select(Function(key)
+                        Return (key:=key, Value:=table(key))
+                    End Function) _
+            .ToDictionary(Function(o) o.key,
+                          Function(o) o.Value)
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Takes(Of T)(table As IDictionary(Of String, T), keys As IEnumerable(Of String), Optional nonExitsNULL As Boolean = True) As T()
@@ -134,12 +153,13 @@ Public Module KeyValuePairExtensions
     Public Function GroupByKey(Of T As INamedValue)(source As IEnumerable(Of T)) As NamedCollection(Of T)()
         Return source _
             .GroupBy(Function(o) o.Key) _
-            .ToArray(Function(g)
-                         Return New NamedCollection(Of T) With {
+            .Select(Function(g)
+                        Return New NamedCollection(Of T) With {
                              .Name = g.Key,
                              .Value = g.ToArray
                          }
-                     End Function)
+                    End Function) _
+            .ToArray
     End Function
 
     ''' <summary>
@@ -271,7 +291,7 @@ Public Module KeyValuePairExtensions
     ''' <param name="usingDescription"></param>
     ''' <returns></returns>
     Public Function EnumParser(Of T As Structure)(Optional lcaseKey As Boolean = True, Optional usingDescription As Boolean = False) As Dictionary(Of String, T)
-        Dim values As [Enum]() = Enums(Of T)().ToArray(Function(e) DirectCast(CType(e, Object), [Enum]))
+        Dim values As [Enum]() = Enums(Of T)().Select(Function(e) DirectCast(CType(e, Object), [Enum])).ToArray
         Dim [case] = If(lcaseKey, Function(key$) LCase(key), Function(key$) key)
 
         If usingDescription Then
@@ -293,11 +313,13 @@ Public Module KeyValuePairExtensions
     End Function
 
     ''' <summary>
-    ''' 将目标字典之中的键值对转换为被命名为的变量值
+    ''' Convert the dictionary table as the <see cref="NamedValue(Of T)"/> collection.
+    ''' (将目标字典之中的键值对转换为被命名为的变量值)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="table"></param>
     ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function NamedValues(Of T)(table As Dictionary(Of String, T)) As NamedValue(Of T)()
         Return table _
@@ -308,6 +330,23 @@ Public Module KeyValuePairExtensions
                         }
                     End Function) _
             .ToArray
+    End Function
+
+    <Extension>
+    Public Iterator Function IterateNameValues(Of T)(table As Dictionary(Of String, T)) As IEnumerable(Of NamedValue(Of T))
+        For Each map As KeyValuePair(Of String, T) In table
+            Yield New NamedValue(Of T) With {
+                .Name = map.Key,
+                .Value = map.Value
+            }
+        Next
+    End Function
+
+    <Extension>
+    Public Iterator Function IterateNameCollections(Of T)(table As Dictionary(Of String, T())) As IEnumerable(Of NamedCollection(Of T))
+        For Each map As KeyValuePair(Of String, T()) In table
+            Yield New NamedCollection(Of T)(map.Key, map.Value)
+        Next
     End Function
 
     <Extension>
@@ -530,5 +569,11 @@ Public Module KeyValuePairExtensions
         Else
             Return keys.Select(Function(k) d(k)).ToArray
         End If
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function [Select](Of K, V, T)(source As IEnumerable(Of KeyValuePair(Of K, V)), project As Func(Of K, V, T)) As IEnumerable(Of T)
+        Return source.Select(Function(value) project(value.Key, value.Value))
     End Function
 End Module
