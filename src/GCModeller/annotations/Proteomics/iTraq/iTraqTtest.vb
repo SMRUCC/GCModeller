@@ -1,9 +1,11 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Public Module iTraqTtest
 
@@ -24,7 +26,8 @@ Public Module iTraqTtest
                               Optional level# = 1.5,
                               Optional pvalue# = 0.05,
                               Optional fdrThreshold# = 0.05,
-                              Optional includesZERO As Boolean = False) As DEP_iTraq()
+                              Optional includesZERO As Boolean = False,
+                              Optional pairInfo As IEnumerable(Of SampleTuple) = Nothing) As DEP_iTraq()
 
         Dim ZERO$ = base.rep(0, times:=data.First.Properties.Count)
         Dim result As New List(Of DEP_iTraq)
@@ -34,12 +37,26 @@ Public Module iTraqTtest
                            Return n = 0R OrElse
                                   n.IsNaNImaginary
                        End Function)
+        Dim sampleTuple$() = pairInfo _
+            .SafeQuery _
+            .Select(Function(t) t.Label) _
+            .ToArray
+
+        If sampleTuple.Length = 0 Then
+            ' 如果没有设置配对，则直接选取所有的数据出来
+            sampleTuple = data _
+                .First _
+                .Properties _
+                .Keys _
+                .ToArray
+        End If
 
         For Each row As DataSet In data
 
             Dim value As New DEP_iTraq With {
                 .ID = row.ID,
                 .Properties = row.Properties _
+                    .Subset(sampleTuple) _
                     .ToDictionary(Function(x) x.Key,
                                   Function(x) Math.Log(x.Value, 2).ToString)
             }

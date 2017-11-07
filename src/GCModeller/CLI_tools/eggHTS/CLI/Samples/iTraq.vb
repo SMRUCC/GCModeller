@@ -110,7 +110,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/iTraq.t.test")>
-    <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /out <out.csv>]")>
+    <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /pairInfo <sampleTuple.csv> /out <out.csv>]")>
     <Group(CLIGroups.iTraqTool)>
     <Argument("/FDR", True, CLITypes.Double,
               Description:="do FDR adjust on the p.value result? If this argument value is set to 1, means no adjustment.")>
@@ -119,8 +119,18 @@ Partial Module CLI
         Dim level# = args.GetValue("/level", 1.5)
         Dim pvalue# = args.GetValue("/p.value", 0.05)
         Dim FDR# = args.GetValue("/FDR", 0.05)
-        Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".log2FC.t.test.csv")
-        Dim DEPs As DEP_iTraq() = data.logFCtest(level, pvalue, FDR)
+        Dim pairInfo$ = args <= "/pairInfo"
+        Dim out$
+
+        If pairInfo.FileExists Then
+            out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.paired.t-test.csv".AsDefault
+        Else
+            out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.t.test.csv".AsDefault
+        End If
+
+        Dim DEPs As DEP_iTraq() = data.logFCtest(
+            level, pvalue, FDR,
+            pairInfo:=pairInfo.LoadCsv(Of SampleTuple))
 
         Return DEPs _
             .Where(Function(x) x.log2FC <> 0R) _
