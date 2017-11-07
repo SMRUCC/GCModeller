@@ -1,34 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::5de66f816c1eab90ee9d9c0203328ef6, ..\CLI_tools\ProteinInteraction\CLI\SwissTCS.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics
@@ -56,10 +57,10 @@ Partial Module CLI
     Private Sub __downloads(inDIR As String)
         Dim Hisk As String() = FileIO.FileSystem.GetFiles(inDIR & "/HisK/",
                                                         FileIO.SearchOption.SearchTopLevelOnly,
-                                                        "*.csv").Select(Function(x) basename(x))
+                                                        "*.csv").Select(Function(x) BaseName(x))
         Dim RR As String() = FileIO.FileSystem.GetFiles(inDIR & "/RR/",
                                                         FileIO.SearchOption.SearchTopLevelOnly,
-                                                        "*.csv").Select(Function(x) basename(x))
+                                                        "*.csv").Select(Function(x) BaseName(x))
         Dim fa = SMRUCC.genomics.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, Hisk)
         If Not fa Is Nothing Then Call fa.Save(inDIR & "/HisK.fasta")
         fa = SMRUCC.genomics.Assembly.KEGG.WebServices.DownloadsBatch(inDIR, RR)
@@ -167,13 +168,13 @@ Partial Module CLI
             Return Nothing
         End If
 
-        Dim dsa As New Microsoft.VisualBasic.ComponentModel.DataStructures.Set(HisK.Domains)
-        Dim dsb As New Microsoft.VisualBasic.ComponentModel.DataStructures.Set(RR.Domains)
+        Dim dsa As New [Set](HisK.Domains)
+        Dim dsb As New [Set](RR.Domains)
         Dim PfamString As New Pfam.PfamString.PfamString With {
             .ProteinId = $"{HisK.ProteinId}-{RR.ProteinId.Split(":"c).Last}",
             .Length = HisK.Length + RR.Length,
             .Description = CrossTalk.Probability,
-            .Domains = (dsa + dsb).ToArray.Select(Function(x) DirectCast(x, String))
+            .Domains = (dsa + dsb).ToArray.Select(Function(x) DirectCast(x, String)).ToArray
         }
         Dim hDomains = HisK.GetDomainData(False)
         Dim rDomains = RR.GetDomainData(False)
@@ -184,7 +185,12 @@ Partial Module CLI
         Next
 
         Call lst.AddRange(rDomains)
-        PfamString.PfamString = lst.Select(Function(x) $"{x.Name}({x.Position.Left}|{x.Position.Right})")
+
+        PfamString.PfamString = lst _
+            .Select(Function(x)
+                        Return $"{x.Name}({x.Position.Left}|{x.Position.Right})"
+                    End Function) _
+            .ToArray
 
         Return PfamString
     End Function
@@ -206,9 +212,13 @@ Partial Module CLI
                                   .Regulator = reg,
                                   .Probability = -1
                               }
-                              Select __contactTrace(hkString, Pfam(reg), pretent)).ToArray).ToArray.Unlist
+                              Select __contactTrace(hkString, Pfam(reg), pretent)).ToArray).Unlist
         Dim out As String = args.GetValue("/out", args("/pfam").TrimSuffix & ".swissTCS.csv")
-        Return (From x In Combos Where Not x Is Nothing Select x).ToArray.SaveTo(out).CLICode
+
+        Return (From x In Combos Where Not x Is Nothing Select x) _
+            .ToArray _
+            .SaveTo(out) _
+            .CLICode
     End Function
 
     ''' <summary>
