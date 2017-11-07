@@ -3,6 +3,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 Public Module Extensions
@@ -19,26 +20,33 @@ Public Module Extensions
     ''' <param name="analysisDesign"></param>
     ''' <param name="sampleTuple"></param>
     ''' <returns></returns>
-    Public Function PairedAnalysisSamples(sampleInfo As IEnumerable(Of SampleInfo),
-                                          analysisDesign As AnalysisDesigner,
-                                          sampleTuple As IEnumerable(Of SampleTuple)) As AnalysisDesigner()
+    Public Iterator Function PairedAnalysisSamples(sampleInfo As IEnumerable(Of SampleInfo),
+                                                   analysisDesign As IEnumerable(Of AnalysisDesigner),
+                                                   sampleTuple As IEnumerable(Of SampleTuple)) As IEnumerable(Of NamedCollection(Of AnalysisDesigner))
 
-        With sampleInfo _
-            .DataAnalysisDesign({analysisDesign}) _
-            .First _
-            .Value
+        With sampleInfo.DataAnalysisDesign(analysisDesign)
 
-            ' 将成对比较的标签选出来
-            Return .Where(Function(ad)
-                              For Each tuple As SampleTuple In sampleTuple
-                                  If ad.EqualsToTuple(tuple) Then
-                                      Return True
-                                  End If
-                              Next
+            For Each group In .ref.IterateNameCollections
 
-                              Return False
-                          End Function) _
-                   .ToArray
+                ' 将成对比较的标签选出来
+                Dim designer = group _
+                    .Value _
+                    .Where(Function(ad)
+                               For Each tuple As SampleTuple In sampleTuple
+                                   If ad.EqualsToTuple(tuple) Then
+                                       Return True
+                                   End If
+                               Next
+
+                               Return False
+                           End Function) _
+                    .ToArray
+
+                Yield New NamedCollection(Of AnalysisDesigner) With {
+                    .Name = group.Name,
+                    .Value = designer
+                }
+            Next
         End With
     End Function
 

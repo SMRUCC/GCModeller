@@ -64,6 +64,16 @@ Partial Module CLI
 
 #Region "DEG data experiment designer"
 
+    <ExportAPI("/paired.sample.designer")>
+    <Usage("/paired.sample.designer /sampleinfo <sampleInfo.csv> /designer <analysisDesigner.csv> /tuple <sampleTuple.csv> [/out <designer.out.csv>]")>
+    Public Function PairedSampleDesigner(args As CommandLine) As Integer
+        Dim in$ = args <= "/sampleInfo"
+        Dim designer$ = args <= "/designer"
+        Dim sampleTuple$ = args <= "/tuple"
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}_{designer.BaseName}_sampleTuple.csv".AsDefault
+
+    End Function
+
     <ExportAPI("/edgeR.Designer")>
     <Description("Generates the edgeR inputs table")>
     <Usage("/edgeR.Designer /in <proteinGroups.csv> /designer <designer.csv> [/label <default is empty> /deli <default=-> /out <out.DIR>]")>
