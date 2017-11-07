@@ -44,7 +44,7 @@ Public Module Extensions
                     .Select(Function(ad)
                                 Return New SampleTuple With {
                                     .Sample1 = ad.Controls,
-                                    .Sample2 = ad.Experimental
+                                    .Sample2 = ad.Treatment
                                 }
                             End Function) _
                     .ToArray
@@ -59,9 +59,9 @@ Public Module Extensions
 
     <Extension>
     Private Function EqualsToTuple(ad As AnalysisDesigner, tuple As SampleTuple) As Boolean
-        If ad.Controls = tuple.Sample1 AndAlso ad.Experimental = tuple.Sample2 Then
+        If ad.Controls = tuple.Sample1 AndAlso ad.Treatment = tuple.Sample2 Then
             Return True
-        ElseIf ad.Experimental = tuple.Sample1 AndAlso ad.Controls = tuple.Sample2 Then
+        ElseIf ad.Treatment = tuple.Sample1 AndAlso ad.Controls = tuple.Sample2 Then
             Return True
         Else
             Return False
@@ -121,10 +121,10 @@ Public Module Extensions
     ''' </summary>
     ''' <param name="sampleInfo"></param>
     ''' <param name="analysis">
-    ''' <see cref="AnalysisDesigner.Controls"/>和<see cref="AnalysisDesigner.Experimental"/>都是组别名称
+    ''' <see cref="AnalysisDesigner.Controls"/>和<see cref="AnalysisDesigner.Treatment"/>都是组别名称
     ''' </param>
     ''' <returns>
-    ''' 经过这个函数转换之后，<see cref="AnalysisDesigner.Controls"/>和<see cref="AnalysisDesigner.Experimental"/>
+    ''' 经过这个函数转换之后，<see cref="AnalysisDesigner.Controls"/>和<see cref="AnalysisDesigner.Treatment"/>
     ''' 都分别被转换为样品标记了
     ''' </returns>
     ''' <remarks>
@@ -154,7 +154,7 @@ Public Module Extensions
             Function(name) name.ToString,
             Function(designer)
                 Dim control = sampleGroups(designer.Controls)
-                Dim experimentals = sampleGroups(designer.Experimental)
+                Dim experimentals = sampleGroups(designer.Treatment)
 
                 ' 对照 vs 处理 
                 Return control _
@@ -163,7 +163,7 @@ Public Module Extensions
                                     .Select(Function(e)
                                                 Return New AnalysisDesigner With {
                                                     .Controls = c.sample_name,
-                                                    .Experimental = e.sample_name,
+                                                    .Treatment = e.sample_name,
                                                     .Reversed = designer.Reversed
                                                 }
                                             End Function)

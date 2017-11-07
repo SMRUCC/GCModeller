@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.Data.csv
 
 ''' <summary>
 ''' ```
-''' <see cref="Controls"/> / <see cref="Experimental"/>
+''' <see cref="Controls"/> / <see cref="Treatment"/>
 ''' ```
 ''' 这个对象描述了如何设计一个比对计算实验分析
 ''' </summary>
@@ -13,8 +13,8 @@ Public Class AnalysisDesigner
 
     <XmlAttribute("control")>
     Public Property Controls As String
-    <XmlAttribute("experimental")>
-    Public Property Experimental As String
+    <XmlAttribute("treatment")>
+    Public Property Treatment As String
     <XmlAttribute("reversed?")>
     Public Property Reversed As Boolean
 
@@ -25,17 +25,17 @@ Public Class AnalysisDesigner
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
-        If Reversed Then
-            Return $"{Controls}/{Experimental}"
+        If Not Reversed Then
+            Return $"{Controls}/{Treatment}"
         Else
-            Return $"{Experimental}/{Controls}"
+            Return $"{Treatment}/{Controls}"
         End If
     End Function
 
     Public Function Swap() As AnalysisDesigner
         Return New AnalysisDesigner With {
-            .Controls = Experimental,
-            .Experimental = Controls,
+            .Controls = Treatment,
+            .Treatment = Controls,
             .Reversed = Reversed
         }
     End Function
