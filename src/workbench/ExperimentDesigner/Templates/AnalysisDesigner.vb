@@ -15,8 +15,6 @@ Public Class AnalysisDesigner
     Public Property Controls As String
     <XmlAttribute("treatment")>
     Public Property Treatment As String
-    <XmlAttribute("reversed?")>
-    Public Property Reversed As Boolean
 
     ''' <summary>
     ''' 对于iTraq实验数据而言，这里是具体的样品的编号的比对
@@ -25,18 +23,13 @@ Public Class AnalysisDesigner
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
-        If Not Reversed Then
-            Return $"{Controls}/{Treatment}"
-        Else
-            Return $"{Treatment}/{Controls}"
-        End If
+        Return $"{Controls}/{Treatment}"
     End Function
 
     Public Function Swap() As AnalysisDesigner
         Return New AnalysisDesigner With {
             .Controls = Treatment,
-            .Treatment = Controls,
-            .Reversed = Reversed
+            .Treatment = Controls
         }
     End Function
 End Class
