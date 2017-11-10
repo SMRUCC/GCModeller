@@ -22,7 +22,7 @@ Namespace My.Resources
     '''<summary>
     '''  A strongly-typed resource class, for looking up localized strings, etc.
     '''</summary>
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0"),  _
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0"),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
      Global.Microsoft.VisualBasic.HideModuleNameAttribute()>  _
@@ -90,9 +90,8 @@ Namespace My.Resources
         '''/* some general treatments up top */
         '''body {
         '''  margin:0; padding:0;
-        '''  background-color: #333333;
-        '''  background-image: url(../images/site_bg.jpg);
-        '''  background-p [rest of string was truncated]&quot;;.
+        '''  background-color: #FFFFFF;
+        '''  background-image: url(../images/site_bg.jpg); [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property bioconductor() As String
             Get
@@ -129,8 +128,7 @@ Namespace My.Resources
         '''	if (fb_lite) {  
         '''		console.log(message);
         '''	} else {
-        '''		if (window.console) {
-        '''			console.log(messag [rest of string was truncated]&quot;;.
+        '''		if (window.cons [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property bioconductor1() As String
             Get
@@ -156,7 +154,7 @@ Namespace My.Resources
         '''  &lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;en-us&quot; /&gt;
         '''  &lt;meta name=&quot;robots&quot; content=&quot;all&quot; /&gt;
         '''  &lt;meta property=&quot;og:image&quot; content=&quot;http://bioconductor.org/images/logo/jpg/bioconductor_logo_rgb.jpg&quot; /&gt;
-        '''  &lt;title [rest of string was truncated]&quot;;.
+        '''  [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property Templates() As String
             Get
