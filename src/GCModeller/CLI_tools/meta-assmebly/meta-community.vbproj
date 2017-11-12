@@ -213,6 +213,10 @@
       <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
       <Name>mime-htmls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\workbench\ExperimentDesigner\ExperimentDesigner.vbproj">
+      <Project>{fce39d85-b8c5-490c-b330-79ff3a5bfa27}</Project>
+      <Name>ExperimentDesigner</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\analysis\Metagenome\Metagenome\Metagenome.vbproj">
       <Project>{ab10b480-33b1-476c-8237-23e15ce635bd}</Project>
       <Name>Metagenome</Name>
