@@ -62,7 +62,7 @@ Namespace ComparativeAlignment
         Private Function __drawing(models As ComparativeGenomics.GenomeModel,
                                    gdi As Graphics2D,
                                    len As Integer,
-                                   maxLenTitleSize As Size,
+                                   maxLenTitleSize As SizeF,
                                    height As Integer,
                                    titleFont As Font,
                                    Font As Font,
@@ -88,7 +88,7 @@ Namespace ComparativeAlignment
             End If
 
             Dim dth As Integer = TrangleHeight / 2
-            Dim IdRegion As New Rectangle
+            Dim IdRegion As New RectangleF
 
             For i As Integer = 0 To models.Count - 1   '绘制基本图形
                 Dim gene As ComparativeGenomics.GeneObject = models(i)
@@ -97,11 +97,11 @@ Namespace ComparativeAlignment
                 preLeft = gene.Left
 
                 Dim rtvlRegion As New Rectangle(New Point(RegionLeft, height - dth), New Size(2, TrangleHeight))
-                Dim sz As Size = gene.locus_tag.MeasureString(locusFont)
-                Dim r As New Rectangle(New Point(rtvlRegion.Left, rtvlRegion.Bottom + 3), sz)
+                Dim sz As SizeF = gene.locus_tag.MeasureString(locusFont)
+                Dim r As New RectangleF(New Point(rtvlRegion.Left, rtvlRegion.Bottom + 3), sz)
 
                 If r.Left <= IdRegion.Right Then
-                    r = New Rectangle(New Point(rtvlRegion.Left, IdRegion.Bottom + 3), sz)
+                    r = New RectangleF(New Point(rtvlRegion.Left, IdRegion.Bottom + 3), sz)
                 End If
 
                 IdRegion = r
@@ -175,7 +175,7 @@ Namespace ComparativeAlignment
             Dim tagFont As New Font(FontFace.MicrosoftYaHei, FontSize)
             Dim titleFont As New Font("Microsoft YaHei", 32, FontStyle.Italic)
 
-            Dim maxLenTitleSize As Size = model.EnumerateTitles.OrderByDescending(Function(s) Len(s)).First.MeasureString(titleFont) '得到最长的标题字符串作为基本的绘制长度的标准
+            Dim maxLenTitleSize As SizeF = model.EnumerateTitles.OrderByDescending(Function(s) Len(s)).First.MeasureString(titleFont) '得到最长的标题字符串作为基本的绘制长度的标准
             Dim devSize As New Size(Margin * 10 + model.Query.Length * InternalConvertFactor + maxLenTitleSize.Width * 2, 5 * Margin + model.aligns.Count * (GenomeInterval + 400))
             Dim Device As Graphics2D = devSize.CreateGDIDevice '创建GDI设备
             Dim Height As Integer = Margin
