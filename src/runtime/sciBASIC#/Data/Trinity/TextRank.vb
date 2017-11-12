@@ -29,7 +29,9 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.Graph.Analysis.PageRank
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Text
+Imports r = System.Text.RegularExpressions.Regex
 
 ''' <summary>
 ''' This module implements TextRank, an unsupervised keyword
@@ -58,6 +60,12 @@ Public Module TextRank
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function Sentences(text$) As String()
         Return text.Split(TextRank.sdeli)
+    End Function
+
+    <Extension> Public Function StripMessy(text$) As String
+        text = r.Replace(text, "\s+", " ")
+
+        Return text
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -90,7 +98,7 @@ Public Module TextRank
     ''' <param name="sentences"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function TextGraph(sentences As IEnumerable(Of String), Optional win_size% = 2, Optional stopwords As StopWords = Nothing) As GraphMatrix
+    Public Function TextRankGraph(sentences As IEnumerable(Of String), Optional win_size% = 2, Optional stopwords As StopWords = Nothing) As GraphMatrix
         Dim g As New Graph.Graph
         Dim source As String() = sentences _
             .Select(AddressOf Trim) _
@@ -123,6 +131,65 @@ Public Module TextRank
             Next
         Next
 
-        Return New GraphMatrix(g, skipCount:=False)
+        Return New GraphMatrix(g)
+    End Function
+
+    <Extension> Public Function TextGraph(text$, Optional similarityCut# = 0.05) As GraphMatrix
+        Dim list$() = text.StripMessy.Sentences.Where(Function(s) Not s.StringEmpty).ToArray
+        Dim words$()() = list _
+            .Select(AddressOf LCase) _
+            .Select(AddressOf TextRank.Words) _
+            .ToArray
+        Dim similarity#
+        Dim g As New Graph.Graph
+
+        For Each sentence As String In list
+            Call g.AddVertex(sentence)
+        Next
+
+        For x As Integer = 0 To words.Length - 1
+            For y As Integer = x To words.Length - 1
+                similarity = TextRank.Similarity(words(x), words(y))
+
+                If similarity >= similarityCut Then
+                    Call g.AddEdge(list(x), list(y), weight:=similarity)
+                    Call g.AddEdge(list(y), list(x), weight:=similarity)
+                End If
+            Next
+        Next
+
+        Return New GraphMatrix(g)
+    End Function
+
+    ''' <summary>
+    ''' 默认的用于计算两个句子相似度的函数。
+    ''' </summary>
+    ''' <param name="wordList1">分别代表两个句子，都是由单词组成的列表</param>
+    ''' <param name="wordList2">分别代表两个句子，都是由单词组成的列表</param>
+    ''' <returns></returns>
+    Public Function Similarity(wordList1$(), wordList2$()) As Double
+        Dim words$() = (wordList1.AsList + wordList2) _
+            .Distinct _
+            .ToArray
+        Dim vector1 As New Vector(From word As String In words Select wordList1.Count(word))
+        Dim vector2 As New Vector(From word As String In words Select wordList2.Count(word))
+
+        ' 使用乘法计算出共同出现的单词的数量
+        Dim vector3 = vector1 * vector2
+        Dim coOccurNum = vector3.Where(Function(n) n > 0).Count
+
+        If coOccurNum <= 0 Then
+            Return 0
+        End If
+
+        Dim denominator =
+            Math.Log(wordList1.Count) +
+            Math.Log(wordList2.Count)
+
+        If Math.Abs(denominator) = 0R Then
+            Return 0
+        End If
+
+        Return coOccurNum / denominator
     End Function
 End Module
