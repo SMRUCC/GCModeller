@@ -43,6 +43,19 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Public Module KeyValuePairExtensions
 
     ''' <summary>
+    ''' Target <paramref name="item"/> contains in <paramref name="define"/> list.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="item"></param>
+    ''' <param name="define"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function IsOneOfA(Of T)(item As T, define As Index(Of T)) As Boolean
+        Return define.IndexOf(item) > -1
+    End Function
+
+    ''' <summary>
     ''' 函数会根据<see cref="keys"/>参数来做排序
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
@@ -59,6 +72,15 @@ Public Module KeyValuePairExtensions
                     End Function) _
             .ToDictionary(Function(o) o.key,
                           Function(o) o.Value)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function Subset(Of K, V)(table As Dictionary(Of K, V), assert As Func(Of K, V, Boolean)) As Dictionary(Of K, V)
+        Return table _
+            .Where(Function(map) assert(map.Key, map.Value)) _
+            .ToDictionary(Function(map) map.Key,
+                          Function(map) map.Value)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
