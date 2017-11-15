@@ -63,7 +63,7 @@ Namespace GeneticClock
             Dim ColorRendering = New ColorRender(SerialsData.Skip(1).ToArray)
             Dim DataChunk = ColorRendering.GetColorRenderingProfiles
             Dim DrawingFont As Font = New Font("Ubuntu", 12)
-            Dim MaxSize As Size = (From item In DataChunk Select item.TagValue Order By Len(TagValue) Ascending).Last.MeasureString(DrawingFont)
+            Dim MaxSize As SizeF = (From item In DataChunk Select item.TagValue Order By Len(TagValue) Ascending).Last.MeasureString(DrawingFont)
             Dim Height As Integer = MaxSize.Height
             Dim ImageOffSet As Integer = MaxSize.Width + 20
             Dim Bitmap As Bitmap = New Bitmap(CInt(DataChunk.First.Profiles.Count * Scale + ImageOffSet + 0.5 * MaxSize.Width), Height * DataChunk.Count + Height * 4)

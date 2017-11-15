@@ -111,7 +111,7 @@ Public Module ClustalVisual
                            Order By l Descending).First
 
         Dim titleFont As Font = New Font(FontFace.Ubuntu, FontSize)
-        Dim StringSize As Size = titleMaxLen.Title.MeasureString(titleFont)
+        Dim StringSize As SizeF = titleMaxLen.Title.MeasureString(titleFont)
         Dim DotSize As Integer = ClustalVisual.DotSize
 
         DotSize = Math.Max(DotSize, StringSize.Height) + 5

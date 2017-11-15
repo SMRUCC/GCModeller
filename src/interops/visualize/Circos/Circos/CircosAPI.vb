@@ -1333,15 +1333,15 @@ then you can using this method to adding the legends on your circos plots image 
 
         Dim AlignmentData = doc.GetBlastAlignmentData
         Dim Font = New Font(FontFace.Ubuntu, 20)
-        Dim sz As Size
+        Dim sz As SizeF
 
         If Not AlignmentData.IsNullOrEmpty Then
             sz = (From s As NamedValue(Of String) In AlignmentData Select s.Name Order By Len(Name) Descending).First.MeasureString(Font)
         Else
-            sz = New Size(1, 20)
+            sz = New SizeF(1, 20)
         End If
 
-        Dim Device = (New Size(CircosImage.Width + 3 * Margin + sz.Width * 2, CInt(CircosImage.Height + Margin * 4))).CreateGDIDevice
+        Dim Device = (New SizeF(CircosImage.Width + 3 * Margin + sz.Width * 2, CInt(CircosImage.Height + Margin * 4))).CreateGDIDevice
         Call Device.Graphics.DrawImage(CircosImage, New Point(Margin, Margin))
 
         Dim refPt As Point = New Point(100, 100)
@@ -1361,14 +1361,14 @@ then you can using this method to adding the legends on your circos plots image 
             Dim dh = CInt(sz.Height)
             Dim Y As Integer = Margin * 3
             Dim X As Integer = CInt(Device.Width - sz.Width - 2 * Margin)
-            Dim ColorBlockSize As New Size(200, sz.Height)
+            Dim ColorBlockSize As New SizeF(200, sz.Height)
 
             Call Device.Graphics.DrawString("Localblast Alignment Order:", Font, Brushes.Black, New Point(X, Y))
             Y += 2 * dh
 
             For Each ID As NamedValue(Of String) In AlignmentData
                 Call Device.Graphics.DrawString(ID.Name, Font, Brushes.Black, New Point(X, Y))
-                Call Device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.Value)), New Rectangle(New Point(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
+                Call Device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.Value)), New RectangleF(New PointF(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
 
                 Y += dh + 3
             Next

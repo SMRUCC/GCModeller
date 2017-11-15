@@ -64,7 +64,7 @@ Namespace ComparativeAlignment
         Private Function __invokeDrawing(Models As GenomeModel,
                                            Device As Graphics2D,
                                            Length As Integer,
-                                           MaxLengthTitleSize As Size,
+                                           MaxLengthTitleSize As SizeF,
                                            Height As Integer,
                                            TitleDrawingFont As Font,
                                            Font As Font,
@@ -149,9 +149,9 @@ Namespace ComparativeAlignment
 
             Dim Font As Font = New Font(FontFace.MicrosoftYaHei, FontSize)
             Dim TitleDrawingFont As New Font("Microsoft YaHei", 20)
-            Dim MaxLengthTitleSize As System.Drawing.Size = (From str As String In New String()() {New String() {Model.Query.Title}, (From mm In Model.aligns Select mm.Title).ToArray}.Unlist
-                                                             Select str
-                                                             Order By Len(str) Descending).First.MeasureString(TitleDrawingFont) '得到最长的标题字符串作为基本的绘制长度的标准
+            Dim MaxLengthTitleSize As SizeF = (From str As String In New String()() {New String() {Model.Query.Title}, (From mm In Model.aligns Select mm.Title).ToArray}.Unlist
+                                               Select str
+                                               Order By Len(str) Descending).First.MeasureString(TitleDrawingFont) '得到最长的标题字符串作为基本的绘制长度的标准
 
             Dim Device = (New Size(Margin * 10 + Model.Query.Length * InternalConvertFactor + MaxLengthTitleSize.Width * 2, 5 * Margin + Model.aligns.Count * (GeneHeight + 400))).CreateGDIDevice '创建GDI设备
             Dim Height As Integer = Margin

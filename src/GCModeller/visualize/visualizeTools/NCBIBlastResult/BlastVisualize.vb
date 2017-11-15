@@ -571,7 +571,7 @@ CONTINUTE:
                           Select hitData
                           Group By hitData.SubjectIDs Into Group).ToArray ' 为了保持原有的顺序，在这里不需要并行化拓展
             Dim drawingFont As Font = New Font(FontFace.Ubuntu, FontSize)
-            Dim MaxIDLength As Size = spList _
+            Dim MaxIDLength As SizeF = spList _
                 .MaxLengthString(Function(sp) sp.SubjectIDs) _
                 .MeasureString(drawingFont, ScaleFactor, ScaleFactor)
             Dim MappingLength As Integer = queryLength * ConvertFactor
