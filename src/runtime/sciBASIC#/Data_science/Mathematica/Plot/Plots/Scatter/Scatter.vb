@@ -64,20 +64,85 @@ Public Module Scatter
         Call canvas.DrawLine(New Pen(color), CSng(p0.X - width), p0.Y, CSng(p0.X + width), p0.Y)
     End Sub
 
+    <Extension>
+    Public Function CreateAxisTicks(array As SerialData(), Optional preferPositive As Boolean = False, Optional scale# = 1.2) As (x As Double(), y As Double())
+        Dim ptX#() = array _
+            .Select(Function(s)
+                        Return s.pts.Select(Function(pt) CDbl(pt.pt.X))
+                    End Function) _
+           .IteratesALL _
+           .ToArray
+        Dim XTicks = ptX _
+           .Range(scale) _
+           .CreateAxisTicks
+        Dim YTicks = array _
+            .Select(Function(s)
+                        Return s.pts _
+                            .Select(Function(pt)
+                                        Return {
+                                            pt.pt.Y - pt.errMinus,
+                                            pt.pt.Y + pt.errPlus
+                                        }
+                                    End Function)
+                    End Function) _
+            .IteratesALL _
+            .IteratesALL _
+            .Range _
+            .CreateAxisTicks
+
+        If preferPositive AndAlso Not ptX.Any(Function(n) n < 0) Then
+            ' 全部都是正实数，则将可能的负实数去掉
+            '
+            ' 因为在下面的Range函数里面，是根据scale来将最大值加上一个delta值，最小值减去一个delta值来得到scale之后的结果，
+            ' 所以假若X有比较接近于零的值得花， scale之后会出现负数
+            ' 这个负数很明显是不合理的，所以在这里将负数删除掉
+            With ptX.Range(scale)
+                XTicks = New DoubleRange(0, .Max).CreateAxisTicks
+            End With
+        End If
+
+        Return (XTicks, YTicks)
+    End Function
+
+    ''' <summary>
+    ''' 线条插值类型
+    ''' </summary>
+    Public Enum Splines As Byte
+        ''' <summary>
+        ''' 无插值操作
+        ''' </summary>
+        None = 0
+        ''' <summary>
+        ''' 二次插值
+        ''' </summary>
+        B_Spline
+        ''' <summary>
+        ''' 贝塞尔曲线插值
+        ''' </summary>
+        Bezier
+        CatmullRomSpline
+        CentripetalCatmullRomSpline
+        ''' <summary>
+        ''' 三次插值处理
+        ''' </summary>
+        CubicSpline
+    End Enum
+
     ''' <summary>
     ''' Scatter plot function.(绘图函数，默认的输出大小为``4300px,2000px``)
     ''' </summary>
     ''' <param name="c"></param>
     ''' <param name="size"></param>
     ''' <param name="bg"></param>
-    ''' <param name="fill">是否进行填充？当这个参数为真的时候就相当于绘制histogram图形了</param>
+    ''' <param name="fill">是否对曲线下的区域进行填充？这个参数只有在<paramref name="drawLine"/>开启的情况下才会发生作用</param>
     ''' <param name="drawLine">
-    ''' 是否绘制两个点之间的连接线段，当这个参数为假的时候，将不会绘制连线，就相当于绘制散点图了，而非折线图
+    ''' 是否绘制两个点之间的连接线段，当这个参数为False的时候，将不会绘制连线，就相当于绘制散点图了，而非折线图
     ''' </param>
     ''' <param name="xaxis">
     ''' 参数<paramref name="xaxis"/>和<paramref name="yaxis"/>必须要同时不为空才会起作用
     ''' </param>
     ''' <param name="legendSize">默认为(120,40)</param>
+    ''' <param name="preferPositive"><see cref="CreateAxisTicks"/></param>
     ''' <returns></returns>
     <Extension>
     Public Function Plot(c As IEnumerable(Of SerialData),
@@ -104,31 +169,18 @@ Public Module Scatter
                          Optional xaxis$ = Nothing,
                          Optional ablines As Line() = Nothing,
                          Optional htmlLabel As Boolean = True,
-                         Optional ticksY# = -1) As GraphicsData
+                         Optional ticksY# = -1,
+                         Optional preferPositive As Boolean = False,
+                         Optional interplot As Splines = Splines.None) As GraphicsData
 
         Dim margin As Padding = padding
         Dim array As SerialData() = c.ToArray
-        Dim XTicks = array _
-            .Select(Function(s)
-                        Return s.pts.Select(Function(pt) CDbl(pt.pt.X))
-                    End Function) _
-            .IteratesALL _
-            .Range(1.2) _
-            .CreateAxisTicks
-        Dim YTicks = array _
-            .Select(Function(s)
-                        Return s.pts _
-                            .Select(Function(pt)
-                                        Return {
-                                            pt.pt.Y - pt.errMinus,
-                                            pt.pt.Y + pt.errPlus
-                                        }
-                                    End Function)
-                    End Function) _
-            .IteratesALL _
-            .IteratesALL _
-            .Range _
-            .CreateAxisTicks
+        Dim XTicks#(), YTicks#()
+
+        With array.CreateAxisTicks(preferPositive)
+            XTicks = .x
+            YTicks = .y
+        End With
 
         If ticksY > 0 Then
             YTicks = AxisScalling.GetAxisByTick(YTicks, tick:=ticksY)
@@ -181,6 +233,7 @@ Public Module Scatter
                         .DashStyle = line.lineType
                     }
                     Dim br As New SolidBrush(line.color)
+                    Dim fillBrush As New SolidBrush(Color.FromArgb(100, baseColor:=line.color))
                     Dim d = line.PointSize
                     Dim r As Single = line.PointSize / 2
                     Dim bottom! = gSize.Height - margin.Bottom
@@ -203,18 +256,26 @@ Public Module Scatter
                         If drawLine Then
                             Call g.DrawLine(pen, pt1, pt2)
                         End If
+
                         If fill Then
                             Dim path As New GraphicsPath
-                            Dim ptbr As New PointF(pt1.X, bottom)
-                            Dim ptbl As New PointF(pt2.X, bottom)
+                            Dim ptc As New PointF(pt2.X, bottom) ' c
+                            Dim ptd As New PointF(pt1.X, bottom) ' d
+
+
+                            '   /-b
+                            ' a-  |
+                            ' |   |
+                            ' |   |
+                            ' d---c
 
                             path.AddLine(pt1, pt2)
-                            path.AddLine(pt2, ptbr)
-                            path.AddLine(ptbr, ptbl)
-                            path.AddLine(ptbl, pt1)
+                            path.AddLine(pt2, ptc)
+                            path.AddLine(ptc, ptd)
+                            path.AddLine(ptd, pt1)
                             path.CloseFigure()
 
-                            Call g.FillPath(br, path)
+                            Call g.FillPath(fillBrush, path)
                         End If
 
                         If fillPie Then
