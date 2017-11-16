@@ -106,20 +106,20 @@ Public Class Engine : Implements IDisposable
     ''' <param name="tokens">右边的表达式</param>
     ''' <returns></returns>
     Private Shared Function __innerNET(x As String, tokens As List(Of Token(Of ExpressionTokens)), nodes As Dictionary(Of Node)) As Edge()
-        Dim xlst As String() = LinqAPI.Exec(Of String) <=
+        Dim xlst$() = LinqAPI.Exec(Of String) _
  _
-            From t As Token(Of ExpressionTokens)
-            In tokens
-            Where t.Type = ExpressionTokens.UNDEFINE
-            Select t.Value
-            Distinct
+            () <= From t As Token(Of ExpressionTokens)
+                  In tokens
+                  Where t.Type = ExpressionTokens.UNDEFINE
+                  Select t.Value
+                  Distinct
 
         Return LinqAPI.Exec(Of Edge) <= From t As String
                                         In xlst
                                         Where nodes & t  ' 方程表达式里面有些是常数来的，故而会在nodes里面不存在
                                         Select New Edge With {
-                                            .Source = nodes <= t,
-                                            .Target = nodes <= x,
+                                            .U = nodes <= t,
+                                            .V = nodes <= x,
                                             .ID = $"{t}->{x}"
                                         }
     End Function

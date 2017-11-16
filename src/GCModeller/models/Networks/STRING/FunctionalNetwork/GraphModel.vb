@@ -30,8 +30,8 @@ Public Module GraphModel
 
         For Each edge As InteractExports In edges
             gEdges += New Edge With {
-                .Source = gNodes(edge.node1),
-                .Target = gNodes(edge.node2),
+                .U = gNodes(edge.node1),
+                .V = gNodes(edge.node2),
                 .Data = New EdgeData With {
                     .weight = edge.combined_score
                 }
