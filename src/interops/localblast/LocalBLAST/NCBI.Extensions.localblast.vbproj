@@ -249,20 +249,18 @@
     <Compile Include="Analysis\Models\Besthit.vb" />
     <Compile Include="Analysis\Models\KEGG_API.vb" />
     <Compile Include="Analysis\Models\Hits.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\Segment.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\BlastXHit.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\HitFragment.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\BlastXHit.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\HitFragment.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\QuertTextProvider.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Views.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Common\Percentage.vb" />
     <Compile Include="LocalBLAST\BlastOutput\GrepOperation.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\BlastX.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\OutputReader.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\Query.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Parser.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Hits\Blastn.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Hits\Blastp.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Parameters.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\BlastX.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\OutputReader.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\Query.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\Models\Hits\Blastn.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\Models\Hits\Blastp.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parameters.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Xml\Iteration.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\AlignEntry.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\BatchParallel\BashShell.vb" />
@@ -286,15 +284,9 @@
     <Compile Include="LocalBLAST\BlastOutput\BLASTOutput.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Common\Parameter.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Common\Score.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\Query.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\Query.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\v228.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Query.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\v228.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Common\Segment.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Legacy\BLASTOutput.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Legacy\BestHit.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.2.26\v226.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Legacy\Hit.vb" />
-    <Compile Include="LocalBLAST\BlastOutput\Reader\Legacy\Query.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Xml\BlastOutput.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Xml\BireHits.vb" />
     <Compile Include="LocalBLAST\LocalBLAST\Application\PartialBestBLAST.vb" />
@@ -378,6 +370,16 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\" />
+    <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\" />
+    <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\deltablast\" />
+    <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\psiblast\" />
+    <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\rpsblast\" />
+    <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\rpstblastn\" />
+    <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\tblastn\" />
+    <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\tblastx\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,6 +15,8 @@ Public Class AnalysisDesigner
     Public Property Controls As String
     <XmlAttribute("treatment")>
     Public Property Treatment As String
+    <XmlText>
+    Public Property Note As String
 
     ''' <summary>
     ''' 对于iTraq实验数据而言，这里是具体的样品的编号的比对

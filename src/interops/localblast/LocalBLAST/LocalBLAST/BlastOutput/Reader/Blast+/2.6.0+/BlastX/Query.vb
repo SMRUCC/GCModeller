@@ -27,36 +27,42 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components
 
+    ''' <summary>
+    ''' + Query
+    '''   + Subject
+    '''      + Fragment
+    '''         + HSP1
+    '''         + HSP2
+    '''         + HSP3
+    '''      + Fragment
+    '''      ...
+    ''' </summary>
     Public Class Query
-
-        Dim __hits As HitFragment()
 
         Public Property QueryName As String
         Public Property QueryLength As Integer
+        Public Property Subjects As Subject()
+
+        Public Overrides Function ToString() As String
+            If Subjects.IsNullOrEmpty Then
+                Return "***** No hits found *****"
+            Else
+                Return QueryName
+            End If
+        End Function
+    End Class
+
+    Public Class Subject
+
         Public Property SubjectName As String
         Public Property SubjectLength As Integer
         Public Property Hits As HitFragment()
-            Get
-                Return __hits
-            End Get
-            Set(value As HitFragment())
-                __hits = LinqAPI.Exec(Of HitFragment) <=
-                    From x As HitFragment
-                    In value
-                    Select x.SetStack(Me)
-            End Set
-        End Property
 
         Public Overrides Function ToString() As String
-            If Hits.IsNullOrEmpty Then
-                Return String.Format("{0}  <===>  {1}  (HITS_NOT_FOUND)", QueryName, SubjectName)
-            Else
-                Return String.Format("{0}  <===>  {1}", QueryName, SubjectName)
-            End If
+            Return SubjectName
         End Function
 
         ''' <summary>
@@ -66,11 +72,13 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components
         ''' <param name="p">0-1之间的数，用于表示长度的百分比</param>
         ''' <remarks></remarks>
         Public Function FilteringSegments(p As Double) As HitFragment()
-            Dim LQuery =
-                LinqAPI.Exec(Of HitFragment) <= From hsp As HitFragment
-                                                In Hits
-                                                Where hsp.SubjectLength / SubjectLength >= p
-                                                Select hsp
+            Dim LQuery = LinqAPI.Exec(Of HitFragment) _
+ _
+                () <= From hsp As HitFragment
+                      In Hits
+                      Where hsp.SubjectLength / SubjectLength >= p
+                      Select hsp
+
             Return LQuery
         End Function
     End Class

@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::f22d91bf4c0bd37ad449a397a4ccc75a, ..\localblast\LocalBLAST\Web\ParserAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -269,22 +269,25 @@ Namespace NCBIBlastResult
         <Extension> Private Function __hits(id As String, out As v228_BlastX) As IEnumerable(Of HitRecord)
             Return out.Queries _
                 .Select(Function(query) id.__hspHits(query)) _
+                .IteratesALL _
                 .IteratesALL
         End Function
 
         <Extension>
-        Private Function __hspHits(id$, query As BlastX.Components.Query) As IEnumerable(Of HitRecord)
-            Return From hsp As BlastX.Components.HitFragment
-                   In query.Hits
-                   Let row As HitRecord = New HitRecord With {
-                       .Identity = hsp.Score.Identities.Value,
-                       .DebugTag = query.SubjectName,
-                       .SubjectIDs = id,
-                       .BitScore = hsp.Score.RawScore,
-                       .QueryStart = hsp.Hsp.First.Query.Left,
-                       .QueryEnd = hsp.Hsp.Last.Query.Right
-                   }
-                   Select row
+        Private Function __hspHits(id$, query As BlastX.Components.Query) As IEnumerable(Of IEnumerable(Of HitRecord))
+            Return From subject As BlastX.Components.Subject
+                   In query.Subjects
+                   Select From hsp As BlastX.Components.HitFragment
+                          In subject.Hits
+                          Let row As HitRecord = New HitRecord With {
+                              .Identity = hsp.Score.Identities.Value,
+                              .DebugTag = subject.SubjectName,
+                              .SubjectIDs = id,
+                              .BitScore = hsp.Score.RawScore,
+                              .QueryStart = hsp.Hsp.First.Query.Left,
+                              .QueryEnd = hsp.Hsp.Last.Query.Right
+                          }
+                          Select row
         End Function
     End Module
 End Namespace

@@ -1,32 +1,31 @@
 ﻿#Region "Microsoft.VisualBasic::5806b38ff5a35c24c3e9c46fcdea75b5, ..\localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Segment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -43,8 +42,9 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
     Public Class HitSegment
 
         <XmlElement> Public Property Query As Segment
-        <XmlElement> Public Property Sbjct As Segment
-        <XmlAttribute> Public Property Consensus As String
+        <XmlElement> Public Property Subject As Segment
+        <XmlAttribute>
+        Public Property Consensus As String
 
         Public Overrides Function ToString() As String
             Return Consensus
@@ -56,23 +56,23 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         Public Const SUBJECT_INDEX = 2
         Public Const SUBJECT_START As String = "Sbjct: \d+"
 
-        Public Shared Function TryParse(TextLines As String()) As HitSegment
-            If TextLines.IsNullOrEmpty Then
+        Public Shared Function TryParse(hspLines$()) As HitSegment
+            If hspLines.IsNullOrEmpty Then
                 Return Nothing
-            ElseIf TextLines.Length < 3 Then
-                Dim sBuilder As StringBuilder = New StringBuilder(1024)
-                For Each item In TextLines
-                    Call sBuilder.AppendLine(vbTab & vbTab & item)
-                Next
 
-                Call Console.WriteLine("System.IndexOutOfRangeException:" & vbCrLf & "---------------------------------------------------------------------------------------")
-                Call Console.WriteLine(sBuilder.ToString)
-                Return Nothing
+            ElseIf hspLines.Length = 2 Then
+
+                ' 没有同源的片段，但是也是高分区的一部分
+                Return New HitSegment With {
+                    .Query = Segment.TryParse(hspLines(0)),
+                    .Consensus = "",
+                    .Subject = Segment.TryParse(hspLines(1))
+                }
             Else
                 Return New HitSegment With {
-                    .Query = Segment.TryParse(TextLines(QUERY_INDEX)),
-                    .Consensus = TextLines(CONSERVED_INDEX).Trim,
-                    .Sbjct = Segment.TryParse(TextLines(SUBJECT_INDEX))
+                    .Query = Segment.TryParse(hspLines(QUERY_INDEX)),
+                    .Consensus = hspLines(CONSERVED_INDEX).Trim,
+                    .Subject = Segment.TryParse(hspLines(SUBJECT_INDEX))
                 }
             End If
         End Function
