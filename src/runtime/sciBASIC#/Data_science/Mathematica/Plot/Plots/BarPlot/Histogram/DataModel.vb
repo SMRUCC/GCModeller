@@ -54,6 +54,7 @@ Namespace BarPlot.Histogram
         Public pointY#
 
         Public ReadOnly Property LinePoint As PointData
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New PointData With {
                     .pt = New PointF(x1 + width / 2, pointY)
@@ -66,6 +67,7 @@ Namespace BarPlot.Histogram
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property width As Double
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return x2# - x1#
             End Get

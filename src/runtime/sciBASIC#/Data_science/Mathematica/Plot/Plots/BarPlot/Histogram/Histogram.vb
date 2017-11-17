@@ -1,33 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::9eace11007a2cd65f7ecba7fc66f78e6, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\BarPlot\Histogram\Histogram.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.TagData
@@ -179,6 +180,7 @@ Namespace BarPlot.Histogram
                              Optional drawRect As Boolean = True,
                              Optional showTagChartLayer As Boolean = False,
                              Optional xlabel$ = "X",
+                             Optional Ylabel$ = "Y",
                              Optional axisLabelFontStyle$ = CSSFont.Win7LargerBold,
                              Optional xAxis$ = Nothing) As GraphicsData
 
@@ -187,7 +189,7 @@ Namespace BarPlot.Histogram
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
                     Dim scalerData As New Scaling(groups, False)
-                    Dim annotations = groups.Serials.ToDictionary
+                    Dim annotations As Dictionary(Of NamedValue(Of Color)) = groups.Serials.ToDictionary
                     Dim gSize As Size = region.Size
                     Dim X, Y As d3js.scale.LinearScale
                     Dim XTicks#() = groups.XRange.CreateAxisTicks
@@ -198,10 +200,15 @@ Namespace BarPlot.Histogram
                             XTicks = AxisProvider.TryParse(xAxis).AxisTicks
                             X = XTicks.LinearScale.range(integers:={ .Left, .Right})
                         Else
-                            X = d3js.scale.linear.domain(XTicks).range(integers:={ .Left, .Right})
+                            X = d3js.scale.linear _
+                                .domain(XTicks) _
+                                .range(integers:={ .Left, .Right})
                         End If
 
-                        Y = d3js.scale.linear.domain(YTicks).range(integers:={0, .Bottom - .Top}) ' Y 为什么是从零开始的？
+                        ' Y 为什么是从零开始的？
+                        Y = d3js.scale.linear _
+                            .domain(YTicks) _
+                            .range(integers:={0, .Bottom - .Top})
                     End With
 
                     Dim scaler As New DataScaler With {
@@ -211,18 +218,24 @@ Namespace BarPlot.Histogram
                         .AxisTicks = (XTicks, YTicks)
                     }
 
-                    Call g.DrawAxis(size, margin, mapper, showGrid,
-                                    xlabel:=xlabel,
-                                    labelFontStyle:=axisLabelFontStyle)
+                    Call g.DrawAxis(
+                        region, scaler, showGrid, xlabel:=xlabel, ylabel:=Ylabel,
+                        htmlLabel:=False)
 
-                    For Each hist As HistProfile In mapper.ForEach_histSample(gSize, margin)
+                    For Each hist As HistProfile In groups.Samples
                         Dim ann As NamedValue(Of Color) = annotations(hist.legend.title)
                         Dim b As New SolidBrush(Color.FromArgb(alpha, ann.Value))
 
                         For Each block As HistogramData In hist.data
-                            Dim rect As New RectangleF(
-                                New PointF(block.x1, block.y),
-                                New SizeF(block.width, region.PlotRegion.Bottom - block.y))
+                            Dim pos As PointF = scaler.Translate(block.x1, block.y)
+                            Dim sizeF As New SizeF With {
+                                .Width = scaler.TranslateX(block.x2) - scaler.TranslateX(block.x1),
+                                .Height = region.PlotRegion.Bottom - scaler.TranslateY(block.y)
+                            }
+                            Dim rect As New RectangleF With {
+                                .Location = pos,
+                                .Size = sizeF
+                            }
 
                             Call g.FillRectangle(b, rect)
 
@@ -256,15 +269,16 @@ Namespace BarPlot.Histogram
                     End If
 
                     If legendPos.IsEmpty Then
-                        legendPos = New Point(
-                            CInt(gSize.Width * 0.7),
-                            margin.Top)
+                        legendPos = New Point With {
+                            .X = CInt(gSize.Width * 0.7),
+                            .Y = margin.Top
+                        }
                     End If
 
                     Call g.DrawLegends(
                         legendPos,
                         groups.Samples _
-                            .Select(Function(x) x.legend),
+                            .Select(Function(h) h.legend),
                         ,,
                         legendBorder)
                 End Sub
