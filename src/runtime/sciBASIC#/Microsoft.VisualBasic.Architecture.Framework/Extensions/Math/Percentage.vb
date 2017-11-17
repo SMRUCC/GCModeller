@@ -1,36 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::2491e37f1be63c2db660e5d24428b758, ..\localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Percentage.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
-Namespace LocalBLAST.BLASTOutput.ComponentModel
+Namespace Math
 
     ''' <summary>
     ''' 分数，百分比
@@ -56,12 +57,14 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property Value As Double
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Numerator / Denominator
             End Get
         End Property
 
         Public ReadOnly Property FractionExpr As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return $"{Numerator}/{Denominator}"
             End Get
@@ -79,15 +82,15 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="Text">\d+[/]\d+ \(\d+[%]\)</param>
+        ''' <param name="Text">``\d+[/]\d+ \(\d+[%]\)``</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function TryParse(Text As String) As Percentage
             If String.IsNullOrEmpty(Text) Then Return ZERO
 
-            Dim Matchs As String() = Regex.Matches(Text, "\d+").ToArray
-            Dim n As Double = Matchs(0).RegexParseDouble
-            Dim d As Double = Matchs(1).RegexParseDouble
+            Dim matchs$() = Regex.Matches(Text, "\d+").ToArray
+            Dim n As Double = matchs(0).RegexParseDouble
+            Dim d As Double = matchs(1).RegexParseDouble
 
             Return New Percentage With {
                 .Numerator = n,
@@ -95,20 +98,19 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
             }
         End Function
 
-        Public Shared ReadOnly Property ZERO As Percentage
-            Get
-                Return New Percentage(0, 1)
-            End Get
-        End Property
+        Public Shared ReadOnly Property ZERO As Percentage = New Percentage(0, 1)
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Narrowing Operator CType(value As Percentage) As Double
             Return value.Value
         End Operator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator >(value As Percentage, n As Double) As Boolean
             Return value.Value > n
         End Operator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator <(value As Percentage, n As Double) As Boolean
             Return value.Value < n
         End Operator
