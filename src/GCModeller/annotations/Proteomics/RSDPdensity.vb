@@ -79,7 +79,7 @@ Public Module RSDPdensity
                 htmlLabel:=False,
                 xMax:=xMax,
                 yMin:=0,
-                xMin:=0)
+                xMin:=-0.25) ' 做出来的图不从零开始可能会比较好一些
 
         End With
     End Function
