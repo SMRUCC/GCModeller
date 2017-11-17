@@ -192,7 +192,7 @@ Partial Module CLI
     <ExportAPI("/Export.BlastX", Usage:="/Export.BlastX /in <blastx.txt> [/out <out.csv>]")>
     <Group(CLIGrouping.GenbankTools)>
     Public Function ExportBlastX(args As CommandLine) As Integer
-        Dim [in] As String = args - "/in"
+        Dim [in] As String = args <= "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".blastx.csv")
         Dim blastx As BlastPlus.BlastX.v228_BlastX = BlastPlus.BlastX.TryParseOutput([in])
         Dim result = blastx.BlastXHits
@@ -232,7 +232,7 @@ Partial Module CLI
     End Function
 
     <Extension> Private Sub __exportTo(gb As GBFF.File, out As String, simple As Boolean)
-        Dim PTT As TabularFormat.PTT = gb.GbffToORF_PTT
+        Dim PTT As PTT = gb.GbffToORF_PTT
         Dim Faa As New FastaFile(If(simple, gb.ExportProteins_Short, gb.ExportProteins))
         Dim Fna As FastaToken = gb.Origin.ToFasta
         Dim GFF As GFFTable = gb.ToGff

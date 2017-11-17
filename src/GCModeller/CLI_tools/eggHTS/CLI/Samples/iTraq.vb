@@ -111,10 +111,14 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/iTraq.t.test")>
-    <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /pairInfo <sampleTuple.csv> /out <out.csv>]")>
+    <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /skip.significant.test /pairInfo <sampleTuple.csv> /out <out.csv>]")>
     <Group(CLIGroups.iTraqTool)>
     <Argument("/FDR", True, CLITypes.Double,
               Description:="do FDR adjust on the p.value result? If this argument value is set to 1, means no adjustment.")>
+    <Argument("/skip.significant.test", True,
+              CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this option is presented in the CLI input, then the significant test from the p.value and FDR will be disabled.")>
     Public Function iTraqTtest(args As CommandLine) As Integer
         Dim data As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
         Dim level# = args.GetValue("/level", 1.5)
@@ -122,21 +126,34 @@ Partial Module CLI
         Dim FDR# = args.GetValue("/FDR", 0.05)
         Dim pairInfo$ = args <= "/pairInfo"
         Dim out$
+        Dim sst As Boolean = args.IsTrue("/skip.significant.test")
 
         If pairInfo.FileExists Then
             out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.paired.t-test.csv".AsDefault
         Else
-            out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.t.test.csv".AsDefault
+            If sst Then
+                out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.csv".AsDefault
+            Else
+                out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.t.test.csv".AsDefault
+            End If
         End If
 
-        Dim DEPs As DEP_iTraq() = data.logFCtest(
-            level, pvalue, FDR,
-            pairInfo:=pairInfo.LoadCsv(Of SampleTuple))
+        If Not sst Then
+            Dim DEPs As DEP_iTraq() = data.logFCtest(
+                level, pvalue, FDR,
+                pairInfo:=pairInfo.LoadCsv(Of SampleTuple))
 
-        Return DEPs _
-            .Where(Function(x) x.log2FC <> 0R) _
-            .ToArray _
-            .SaveDataSet(out) _
-            .CLICode
+            Return DEPs _
+                .Where(Function(x) x.log2FC <> 0R) _
+                .ToArray _
+                .SaveDataSet(out) _
+                .CLICode
+        Else
+            Return data.log2Test(level) _
+                .Where(Function(x) x.log2FC <> 0) _
+                .ToArray _
+                .SaveDataSet(out) _
+                .CLICode
+        End If
     End Function
 End Module

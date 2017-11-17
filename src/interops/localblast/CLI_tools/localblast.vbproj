@@ -237,11 +237,6 @@
     <Compile Include="CLI\FastaTools.vb" />
     <Compile Include="CLI\Web.vb" />
     <Compile Include="CLI\Taxonomy.vb" />
-    <Compile Include="CLI\VennDiagram\ExportBestHit.vb" />
-    <Compile Include="CLI\VennDiagram\LocalBLAST.vb" />
-    <Compile Include="CLI\VennDiagram\LogFile.vb" />
-    <Compile Include="CLI\VennDiagram\Merge.vb" />
-    <Compile Include="CLI\VennDiagram\VennDiagram.vb" />
     <Compile Include="CLI\gbTools.vb" />
     <Compile Include="CLI\COGTools.vb" />
     <Compile Include="CLI\Tree.vb" />

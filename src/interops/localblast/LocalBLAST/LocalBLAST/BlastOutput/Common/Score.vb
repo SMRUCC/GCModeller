@@ -1,44 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::54e925c4b472b2902ec5db3c53b225d9, ..\localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Score.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace LocalBLAST.BLASTOutput.ComponentModel
 
     Public Class BlastXScore : Inherits Score
 
-        Public Const REGEX_BLASTX_SCORE As String = " Score = .+?Identities\s+=.+?Frame =\s+(\+|-)?\d"
+        Public Const REGEX_BLASTX_SCORE As String = " Score = .+?Identities\s+=.+?Frame =\s+[+-]?\d"
 
         <XmlAttribute>
         Public Property Frame As Integer
+
+        ' Score = 125 bits (313), Expect = 6e-034, Method: Compositional matrix adjust.
+        ' Identities = 90/258 (35%), Positives = 125/258 (48%), Gaps = 14/258 (5%)
+        ' Frame = +3
+
+        Public Shared Function ParseText(scoreText$) As BlastXScore
+            Dim data As Dictionary(Of String, String) = Nothing
+            Dim blastXscore As BlastXScore = TryParse(Of BlastXScore)(scoreText, data)
+            blastXscore.Frame = data!Frame
+            Return blastXscore
+        End Function
 
         Public Overrides Function ToString() As String
             Return String.Format("{0}{1}  {2}", If(Frame > 0, "+", ""), Frame, MyBase.ToString)
@@ -87,34 +99,35 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
             Return TryParse(Of Score)(text)
         End Function
 
-        Public Shared Function TryParse(Of T As Score)(text As String) As T
-            Dim score As T = Activator.CreateInstance(Of T)()
-            score.Expect = Val(Regex.Replace(text.Match(HIT_E_VALUE), "Expect\s+=\s+", "").Trim)
-            score.Identities = Percentage.TryParse(Mid(text.Match(HIT_IDENTITIES), 14))
-            score.Positives = Percentage.TryParse(Mid(text.Match(HIT_POSITIVES), 13))
-            score.Gaps = Percentage.TryParse(Mid(text.Match(HIT_GAPS), 8))
+        Public Shared Function TryParse(Of T As {New, Score})(text$, Optional ByRef table As Dictionary(Of String, String) = Nothing) As T
+            Dim lines = r.Replace(text, "Expect\(\d+\)", "Expect").lTokens
+            Dim items = lines _
+                .Select(Function(l) l.Trim.Split(","c)) _
+                .IteratesALL _
+                .Select(Function(s) s.Trim.GetTagValue("=", trim:=True)) _
+                .ToDictionary _
+                .FlatTable
+            Dim method$ = Strings _
+                .Split(lines(Scan0), "Method:") _
+                .Last _
+                .Trim
+            Dim score$ = items!Score
 
-            text = Regex.Match(text, "Score\s=.+?bits\s+\(\d+\)").Value
+            table = items
+            score = r _
+                .Match(score, "\(\d+\)") _
+                .Value _
+                .GetStackValue("(", ")")
 
-            Dim Scores As String() = Regex.Matches(text, _DOUBLE).ToArray
-
-            If Scores.Length >= 2 Then
-                score.Score = Scores(0).RegexParseDouble
-                score.RawScore = Scores(1).RegexParseDouble
-                score.Method = Mid(Regex.Match(text, "Method: .+?$", RegexOptions.Multiline).Value, 9)
-
-                If Not String.IsNullOrEmpty(score.Method) Then
-                    score.Method = Mid(score.Method, 1, Len(score.Method) - 2)
-                End If
-            Else
-
-                Dim ex As New Exception("[DEBUG] Exception Snaps:" & vbCrLf & vbCrLf & text)
-
-                Call App.LogException(ex)
-                Call ex.PrintException
-            End If
-
-            Return score
+            Return New T With {
+                .Expect = items!Expect,
+                .Method = method,
+                .Gaps = Percentage.TryParse(items!Gaps),
+                .Identities = Percentage.TryParse(items!Identities),
+                .Positives = Percentage.TryParse(items!Positives),
+                .Score = Val(items!Score),
+                .RawScore = Val(score)
+            }
         End Function
     End Class
 End Namespace

@@ -316,7 +316,7 @@ RETURN_VALUE:
                                         Select Path = item.Path,
                                             descrMatches)
 
-            Dim result = GetDescriptionResult.GetAnonymousTypeList
+            Dim result = GetDescriptionResult.CopyTypeDef
 
             For Each EntryHit In GetDescriptionResult '保存临时数据
                 Dim FileName As String = EXPORT & "/" & EntryHit.Path.FilePath.BaseName & ".bibesthit.csv"

@@ -26,19 +26,18 @@
 
 #End Region
 
-Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Histogram
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
 Public Module Plots
 
@@ -55,13 +54,15 @@ Public Module Plots
             .Open(obo) _
             .ToDictionary(Function(x) x.id)
         Dim getData = Function(gene As EnrichmentTerm) (gene.ID, gene.number)
-        Return input.Where(Function(x) x.P <= p#).Plot(getData, GO_terms)
+
+        Return input _
+            .Where(Function(x) x.P <= p#) _
+            .Plot(getData, GO_terms)
     End Function
 
-    <Extension>
-    Public Function VennData(files As IEnumerable(Of String)) As IO.File
+    <Extension> Public Function VennData(files As IEnumerable(Of String)) As csv
         Dim datas = files.ToDictionary(Function(f) f.BaseName, Function(f) f.LoadSample.ToDictionary)
-        Dim out As New IO.File
+        Dim out As New csv
         Dim keys$() = datas.Keys.ToArray
         Dim ALL_locus$() = datas _
             .Select(Function(x) x.Value.Select(Function(o) o.Value.ID)) _
@@ -75,7 +76,7 @@ Public Module Plots
         For Each ID As String In ALL_locus
             Dim row As New List(Of String)
 
-            For Each sample In keys
+            For Each sample As String In keys
                 If datas(sample).ContainsKey(ID) Then
                     row += ID
                 Else
@@ -94,23 +95,27 @@ Public Module Plots
     ''' 但是假若数据是有生物学重复，即可以计算出pvalue的时候，通常是绘制火山图
     ''' </summary>
     ''' <param name="data"></param>
-    ''' <param name="tag$"></param>
     ''' <param name="serialTitle$"></param>
     ''' <param name="step!"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function logFCHistogram(data As IEnumerable(Of EntityObject),
-                                   Optional tag$ = "logFC",
-                                   Optional serialTitle$ = "Frequency(logFC)",
+    Public Function logFCHistogram(data As IEnumerable(Of DEP_iTraq),
+                                   Optional serialTitle$ = "Frequency(log2FC)",
                                    Optional step! = 1,
                                    Optional size$ = "1600,1200",
                                    Optional padding$ = "padding: 100 180 100 180",
                                    Optional xAxis$ = Nothing,
-                                   Optional color$ = "lightblue") As GraphicsData
-        Dim logFC#() = data _
-            .Select(Function(prot) prot(tag).ParseNumeric) _
-            .ToArray
+                                   Optional color$ = "lightblue",
+                                   Optional type$ = NameOf(DEP_iTraq.log2FC)) As GraphicsData
+
         Dim histData As IntegerTagged(Of Double)() = Nothing
+        Dim logFC As Vector
+
+        If type.TextEquals(NameOf(DEP_iTraq.log2FC)) Then
+            logFC = data.Shadows!log2FC
+        Else
+            logFC = data.Shadows!FCavg
+        End If
 
         Try
             Return logFC.HistogramPlot(
@@ -119,12 +124,14 @@ Public Module Plots
                 histData:=histData,
                 size:=size,
                 padding:=padding,
-                xlabel:=tag,
+                xLabel:="log2FC",
+                yLabel:=serialTitle,
                 xAxis:=xAxis,
-                color:=color)
+                color:=color,
+                showLegend:=False)
         Catch ex As Exception
             ' 有时候标签没有设置正确会导致得到的向量全部为0，则绘图会出错，这个时候显示一下调试信息
-            Dim msg$ = $"tag={tag}, vector={Mid(logFC.GetJson, 1, 256)}..., hist={Mid(histData.GetJson, 1, 300)}..."
+            Dim msg$ = $"tag={NameOf(DEP_iTraq.log2FC)}, vector={Mid(logFC.GetJson, 1, 256)}..., hist={Mid(histData.GetJson, 1, 300)}..."
             Throw New Exception(msg, ex)
         End Try
     End Function
