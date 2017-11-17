@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Scripting
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
@@ -94,5 +95,35 @@ Public Module iTraqTtest
         Next
 
         Return result.ApplyDEPFilter(level, pvalue, fdrThreshold)
+    End Function
+
+    ''' <summary>
+    ''' 不做生物学重复检验，只计算log2FC结果来获取差异蛋白结果
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="level#"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function log2Test(data As IEnumerable(Of DataSet), Optional level# = 1.5) As DEP_iTraq()
+        Dim log2FCThreshold# = Math.Log(level, 2)
+
+        Return data _
+            .Select(Function(protein)
+                        Dim FC As Double = protein.Properties.Values.Average
+                        Dim log2FC = Log2(FC)
+
+                        Return New DEP_iTraq With {
+                            .ID = protein.ID,
+                            .log2FC = log2FC,
+                            .FCavg = FC,
+                            .FDR = 0,
+                            .pvalue = 0,
+                            .Properties = protein _
+                                .Properties _
+                                .AsCharacter,
+                            .isDEP = Math.Abs(.log2FC) >= log2FCThreshold
+                        }
+                    End Function) _
+            .ToArray
     End Function
 End Module
