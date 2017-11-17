@@ -88,6 +88,10 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             Yield buffer.JoinBy(ASCII.LF)
         End Function
 
+        Private Function subjectParser(subject$) As Components.Subject
+
+        End Function
+
         Private Function __hitFragments(sec As String) As List(Of Components.HitFragment)
             Dim HSP As String() = Regex.Matches(sec, BlastXScore.REGEX_BLASTX_SCORE, RegexOptions.Singleline).ToArray
 
@@ -138,46 +142,23 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             }
         End Function
 
-        Private Iterator Function hitsIterator() As IEnumerable
-
-        End Function
-
         <Extension>
         Private Function __queryParser(block$, queryInfo As NamedValue(Of Integer)) As Components.Query
-            Dim bufs As New List(Of Components.HitFragment)
-            Dim names As String() = Regex.Split(block, "^>", RegexOptions.Multiline).Skip(1).ToArray
+            Dim bufs As New List(Of Components.Subject)
+            Dim parts$() = r _
+                .Split(block, "^>", RegexOptions.Multiline) _
+                .Skip(1) _
+                .ToArray
 
-            For i As Integer = 0 To names.Length - 2
-                Dim sec As String = names(i)
-                bufs += __hitFragments(sec).ToArray
+            For Each subject As String In parts
+                bufs += subjectParser(subject)
             Next
 
-            Dim last As String = names.Last
-            last = Regex.Split(last, "Lambda\s+K", RegexOptions.Singleline).First
-
-            bufs += __hitFragments(last).ToArray
-
-ENTRY_INFO_PARSER:
-
-            Dim Tokens As String() = LinqAPI.Exec(Of String) <=
- _
-                From s As String
-                In Strings.Split(block.Replace(vbCr, ""), vbLf)
-                Where Not String.IsNullOrEmpty(s)
-                Select s
-
-            Dim p As int = Scan0
-            Dim QueryName As String = __parser(p, "Length=", Tokens).Trim
-            Dim QueryLength As String = Tokens(++p).Trim
-            Dim SubjectName As String = __parser(p, "Length=", Tokens).Trim
-            Dim SubjectLength As String = Tokens(++p).Trim
-
-            QueryName = Mid(QueryName, 7).Trim
-            SubjectName = Mid(SubjectName, 9).Trim
-            QueryLength = Regex.Match(QueryLength, "\d+").Value
-            SubjectLength = Regex.Match(SubjectLength, "\d+").Value
-
-            Return New Components.Query
+            Return New Components.Query With {
+                .QueryLength = queryInfo.Value,
+                .QueryName = queryInfo.Name,
+                .Subjects = bufs
+            }
         End Function
 
         ''' <summary>
@@ -185,7 +166,7 @@ ENTRY_INFO_PARSER:
         ''' </summary>
         ''' <param name="str"></param>
         ''' <returns></returns>
-        Private Function __queryParser(str As String) As Components.Query
+        Private Function __queryParser(str$) As Components.Query
             Dim queryInfo = str.queryInfo
 
             If InStr(str, "***** No hits found *****") Then
@@ -194,7 +175,11 @@ ENTRY_INFO_PARSER:
                     .QueryLength = queryInfo.Value
                 }
             Else
-                Return str.__queryParser(queryInfo)
+                Return r _
+                    .Split(str, "^Lambda\s+", RegexICMul) _
+                    .First _
+                    .Trim _
+                    .__queryParser(queryInfo)
             End If
         End Function
 
