@@ -235,9 +235,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         End Function
 
         Private Function __hspParser(s As String, Score As String) As Components.HitFragment
-            Dim hsp = s.lTokens.CreateSlideWindows(3, offset:=3)
+            Dim hsp = s.lTokens.Split(3, echo:=False)
             Dim LQuery As HitSegment() = hsp _
-                .Select(Function(x) HitSegment.TryParse(x.Items)) _
+                .Select(Function(x) HitSegment.TryParse(x)) _
                 .ToArray
 
             Return New Components.HitFragment With {
