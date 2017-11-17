@@ -124,9 +124,11 @@ Public Module Plots
                 histData:=histData,
                 size:=size,
                 padding:=padding,
-                xlabel:="log2FC",
+                xLabel:="log2FC",
+                yLabel:=serialTitle,
                 xAxis:=xAxis,
-                color:=color)
+                color:=color,
+                showLegend:=False)
         Catch ex As Exception
             ' 有时候标签没有设置正确会导致得到的向量全部为0，则绘图会出错，这个时候显示一下调试信息
             Dim msg$ = $"tag={NameOf(DEP_iTraq.log2FC)}, vector={Mid(logFC.GetJson, 1, 256)}..., hist={Mid(histData.GetJson, 1, 300)}..."

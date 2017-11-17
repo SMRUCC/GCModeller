@@ -176,6 +176,7 @@ Namespace BarPlot.Histogram
                              Optional showGrid As Boolean = True,
                              Optional legendPos As Point = Nothing,
                              Optional legendBorder As Stroke = Nothing,
+                             Optional showLegend As Boolean = True,
                              Optional alpha% = 255,
                              Optional drawRect As Boolean = True,
                              Optional showTagChartLayer As Boolean = False,
@@ -268,19 +269,21 @@ Namespace BarPlot.Histogram
                         Call g.DrawImageUnscaled(chart, New Rectangle(New Point, gSize))
                     End If
 
-                    If legendPos.IsEmpty Then
-                        legendPos = New Point With {
-                            .X = CInt(gSize.Width * 0.7),
-                            .Y = margin.Top
-                        }
-                    End If
+                    If showLegend Then
+                        If legendPos.IsEmpty Then
+                            legendPos = New Point With {
+                                .X = CInt(gSize.Width * 0.7),
+                                .Y = margin.Top
+                            }
+                        End If
 
-                    Call g.DrawLegends(
-                        legendPos,
-                        groups.Samples _
-                            .Select(Function(h) h.legend),
-                        ,,
-                        legendBorder)
+                        Call g.DrawLegends(
+                            legendPos,
+                            groups.Samples _
+                                .Select(Function(h) h.legend),
+                            ,,
+                            legendBorder)
+                    End If
                 End Sub
 
             Return GraphicsPlots(size.SizeParser, margin, bg$, plotInternal)
@@ -307,8 +310,10 @@ Namespace BarPlot.Histogram
                                       Optional padding$ = DefaultPadding,
                                       Optional showGrid As Boolean = True,
                                       Optional ByRef histData As IntegerTagged(Of Double)() = Nothing,
-                                      Optional xlabel$ = "X",
-                                      Optional xAxis$ = Nothing) As GraphicsData
+                                      Optional xLabel$ = "X",
+                                      Optional yLabel$ = "Y",
+                                      Optional xAxis$ = Nothing,
+                                      Optional showLegend As Boolean = True) As GraphicsData
 
             With data.ToArray.Hist([step])
 
@@ -331,8 +336,9 @@ Namespace BarPlot.Histogram
                     bg:=bg, padding:=padding, size:=size,
                     showGrid:=showGrid,
                     showTagChartLayer:=False,
-                    xlabel:=xlabel,
-                    xAxis:=xAxis)
+                    xlabel:=xLabel, Ylabel:=yLabel,
+                    xAxis:=xAxis,
+                    showLegend:=showLegend)
             End With
         End Function
     End Module

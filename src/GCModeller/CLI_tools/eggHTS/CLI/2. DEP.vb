@@ -829,7 +829,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.logFC.hist")>
     <Description("Using for plots the FC histogram when the experiment have no biological replicates.")>
-    <Usage("/DEP.logFC.hist /in <log2test.csv> [/step <0.25> /type <default=log2fc> /legend.title <Frequency(log2FC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1600,1200> /out <out.png>]")>
+    <Usage("/DEP.logFC.hist /in <log2test.csv> [/step <0.25> /type <default=log2fc> /legend.title <Frequency(log2FC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1400,900> /out <out.png>]")>
     <Argument("/type", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
               Description:="Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is ""log2FC"".")>
@@ -844,9 +844,9 @@ Partial Module CLI
         Dim type$ = (args <= "/type") Or NameOf(DEP_iTraq.log2FC).AsDefault
         Dim xAxis As String = args("/x.axis")
         Dim step! = args.GetFloat("/step") Or 0.25!.AsDefault(Function(x) DirectCast(x, Single) = 0!)
-        Dim lTitle$ = args.GetValue("/legend.title", "Frequency(logFC)")
-        Dim color$ = args.GetValue("/color", "lightblue")
-        Dim size$ = (args <= "/size") Or "1600,1200".AsDefault
+        Dim lTitle$ = args.GetValue("/legend.title", "Frequency(log2FC)")
+        Dim color$ = args.GetValue("/color", "darkblue")
+        Dim size$ = (args <= "/size") Or "1440,900".AsDefault
 
         Return data _
             .logFCHistogram(size:=size,
