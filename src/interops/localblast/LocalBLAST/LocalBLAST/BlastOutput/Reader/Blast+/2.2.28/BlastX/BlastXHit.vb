@@ -1,39 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::a62a599583538897959fabbbb18a800e, ..\localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\BlastXHit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
@@ -64,10 +60,14 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         End Function
 
         Public Shared Function CreateObjects(query As Components.Query) As BlastXHit()
-            Dim LQuery As BlastXHit() = LinqAPI.Exec(Of BlastXHit) <=
-                From x As Components.HitFragment
-                In query.Hits
-                Select New BlastXHit(query, x)
+            Dim LQuery As BlastXHit() = LinqAPI.Exec(Of BlastXHit) _
+ _
+                () <= From x As Components.HitFragment
+                      In query.Subjects _
+                          .SafeQuery _
+                          .Select(Function(s) s.Hits) _
+                          .IteratesALL
+                      Select New BlastXHit(query, x)
 
             Return LQuery
         End Function

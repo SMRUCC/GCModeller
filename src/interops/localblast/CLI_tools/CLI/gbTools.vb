@@ -232,7 +232,7 @@ Partial Module CLI
     End Function
 
     <Extension> Private Sub __exportTo(gb As GBFF.File, out As String, simple As Boolean)
-        Dim PTT As TabularFormat.PTT = gb.GbffToORF_PTT
+        Dim PTT As PTT = gb.GbffToORF_PTT
         Dim Faa As New FastaFile(If(simple, gb.ExportProteins_Short, gb.ExportProteins))
         Dim Fna As FastaToken = gb.Origin.ToFasta
         Dim GFF As GFFTable = gb.ToGff

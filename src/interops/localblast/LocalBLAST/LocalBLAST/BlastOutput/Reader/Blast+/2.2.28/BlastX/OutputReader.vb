@@ -27,12 +27,15 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
@@ -44,22 +47,23 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         ''' <summary>
         ''' Try load the blastx output file data.(尝试使用这个方法来加载blastx的输出数据)
         ''' </summary>
-        ''' <param name="Path">The file path of the blastx output file.(blastx输出文件的文件路径)</param>
+        ''' <param name="path">The file path of the blastx output file.(blastx输出文件的文件路径)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function TryParseOutput(Path As String) As v228_BlastX
-            Dim SourceText As String = FileIO.FileSystem.ReadAllText(Path)
-            Dim Sections As String() = Regex.Matches(SourceText, SECTION_REGEX, RegexOptions.Singleline).ToArray
-            Dim LQuery As Components.Query() = Sections.Select(AddressOf __queryParser).ToArray
+        Public Function TryParseOutput(path$, Optional encoding As Encoding = Nothing) As v228_BlastX
+            Dim LQuery As Components.Query() = path _
+                .QueryBlockIterator(encoding:=encoding Or UTF8) _
+                .Select(AddressOf __queryParser) _
+                .ToArray
 
             Return New v228_BlastX With {
-                .FilePath = Path & ".xml",
+                .FilePath = path & ".xml",
                 .Queries = LQuery,
-                .Database = Path.BaseName
+                .Database = path.BaseName
             }
         End Function
 
-        <Extension> Public Iterator Function QueryBlockIterator(path$) As IEnumerable(Of String)
+        <Extension> Public Iterator Function QueryBlockIterator(path$, encoding As Encoding) As IEnumerable(Of String)
             Dim skip As Boolean = True
             Dim buffer As New List(Of String)
 
@@ -67,7 +71,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
                 If InStr(line, "Query=", CompareMethod.Binary) = 1 Then
                     ' 新的block数据块
                     ' 则需要将前面的buffer数据抛出去
-                    Yield buffer.JoinBy(ASCII.LF)
+                    If Not skip Then
+                        Yield buffer.JoinBy(ASCII.LF)
+                    End If
 
                     buffer *= 0
                     buffer += line
@@ -119,14 +125,27 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             Return tmp
         End Function
 
-        Private Function __queryParser(str As String) As Components.Query
+        Const queryInfoRegexp$ = "Query=\s*.+?Length=\d+"
+
+        <Extension> Private Function queryInfo(block$) As NamedValue(Of Integer)
+            Dim info$ = r.Match(block, queryInfoRegexp, RegexICSng).Value.TrimNewLine
+            Dim tuple = Strings.Split(info, "Length=")
+            Dim name$ = tuple(0).GetTagValue("=", trim:=True).Value
+
+            Return New NamedValue(Of Integer) With {
+                .Name = name,
+                .Value = tuple(1)
+            }
+        End Function
+
+        Private Iterator Function hitsIterator() As IEnumerable
+
+        End Function
+
+        <Extension>
+        Private Function __queryParser(block$, queryInfo As NamedValue(Of Integer)) As Components.Query
             Dim bufs As New List(Of Components.HitFragment)
-
-            If InStr(str, "***** No hits found *****") Then
-                GoTo ENTRY_INFO_PARSER
-            End If
-
-            Dim names As String() = Regex.Split(str, "^>", RegexOptions.Multiline).Skip(1).ToArray
+            Dim names As String() = Regex.Split(block, "^>", RegexOptions.Multiline).Skip(1).ToArray
 
             For i As Integer = 0 To names.Length - 2
                 Dim sec As String = names(i)
@@ -143,7 +162,7 @@ ENTRY_INFO_PARSER:
             Dim Tokens As String() = LinqAPI.Exec(Of String) <=
  _
                 From s As String
-                In Strings.Split(str.Replace(vbCr, ""), vbLf)
+                In Strings.Split(block.Replace(vbCr, ""), vbLf)
                 Where Not String.IsNullOrEmpty(s)
                 Select s
 
@@ -158,13 +177,25 @@ ENTRY_INFO_PARSER:
             QueryLength = Regex.Match(QueryLength, "\d+").Value
             SubjectLength = Regex.Match(SubjectLength, "\d+").Value
 
-            Return New Components.Query With {
-                .Hits = bufs.ToArray,
-                .QueryName = QueryName,
-                .QueryLength = Val(QueryLength),
-                .SubjectLength = Val(SubjectLength),
-                .SubjectName = SubjectName
-            }
+            Return New Components.Query
+        End Function
+
+        ''' <summary>
+        ''' 一个query对应多个hits，每一个hit与query之间又会存在多个比对的高分区碎片
+        ''' </summary>
+        ''' <param name="str"></param>
+        ''' <returns></returns>
+        Private Function __queryParser(str As String) As Components.Query
+            Dim queryInfo = str.queryInfo
+
+            If InStr(str, "***** No hits found *****") Then
+                Return New Components.Query With {
+                    .QueryName = queryInfo.Name,
+                    .QueryLength = queryInfo.Value
+                }
+            Else
+                Return str.__queryParser(queryInfo)
+            End If
         End Function
 
         Private Function __parser(ByRef p As Integer, Match As String, Tokens As String()) As String

@@ -70,7 +70,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             End If
             If Not Hits Is Nothing Then
                 For Each QueryObject In Queries
-                    QueryObject.SubjectName = Hits(QueryObject.SubjectName)
+                    For Each subject In QueryObject.Subjects.SafeQuery
+                        subject.SubjectName = Hits(subject.SubjectName)
+                    Next
                 Next
             End If
 
