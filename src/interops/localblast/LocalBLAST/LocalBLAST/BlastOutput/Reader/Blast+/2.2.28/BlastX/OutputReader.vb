@@ -105,7 +105,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
         <Extension> Private Function subjectParser(subject$) As Components.Subject
             Dim info As NamedValue(Of Integer) = subjectInfo(subject)
-            Dim fragments = __hitFragments(subject)
+            Dim fragments = __hitFragments(subject, info)
 
             Return New Components.Subject With {
                 .SubjectName = info.Name,
@@ -134,7 +134,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             Return block
         End Function
 
-        Private Function __hitFragments(block As String) As List(Of Components.HitFragment)
+        Private Function __hitFragments(block$, subjectInfo As NamedValue(Of Integer)) As List(Of Components.HitFragment)
             Dim tmp As New List(Of Components.HitFragment)
             Dim HSP$() = r _
                 .Matches(block, BlastXScore.REGEX_BLASTX_SCORE, RegexICSng) _
@@ -148,22 +148,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
                 pos += score.Length
             Next
 
-            Dim pLast As Integer = InStr(block, HSP.Last)
-            Dim last As String = Regex.Split(Mid(block, pLast), "Lambda\s+K").First.Replace(HSP.Last, "")
-
-            tmp += __hspParser(last, HSP.Last)
-
-            Dim name As String = Strings.Split(block, " Score =", Compare:=CompareMethod.Binary).First
-            Dim len As String = Regex.Match(name, "Length\s*=\s*\d+", RegexOptions.Singleline).Value
-            name = name.Replace(len, "").Trim
-            name = name.lTokens.JoinBy(" ")
-            len = len.Split("="c).Last.Trim
-
-            Dim l As Integer = Scripting.CTypeDynamic(Of Integer)(len)
-
             For Each x In tmp
-                x.HitLen = l
-                x.HitName = name
+                x.HitLen = subjectInfo.Value
+                x.HitName = subjectInfo.Name
             Next
 
             Return tmp

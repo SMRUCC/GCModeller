@@ -47,11 +47,11 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         ' Frame = +3
 
         Public Shared Function ParseText(score$) As BlastXScore
-            Dim lines = score.lTokens
+            Dim lines = r.Replace(score, "Expect\(\d+\)", "Expect").lTokens
             Dim items = lines _
-                .Select(Function(l) l.Split(","c)) _
+                .Select(Function(l) l.Trim.Split(","c)) _
                 .IteratesALL _
-                .Select(Function(s) s.GetTagValue("=", trim:=True)) _
+                .Select(Function(s) s.Trim.GetTagValue("=", trim:=True)) _
                 .ToDictionary _
                 .FlatTable
             Dim method$ = Strings _
