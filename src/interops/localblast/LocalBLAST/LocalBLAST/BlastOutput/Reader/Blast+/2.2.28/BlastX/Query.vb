@@ -27,7 +27,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components
 

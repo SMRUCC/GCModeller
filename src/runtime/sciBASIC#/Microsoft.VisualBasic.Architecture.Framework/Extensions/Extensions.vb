@@ -523,8 +523,8 @@ Public Module Extensions
     ''' <param name="source">仅仅是起到类型复制的作用</param>
     ''' <returns></returns>
     <Extension> Public Function CopyTypeDef(Of TKey, TValue)(source As Dictionary(Of TKey, TValue)) As Dictionary(Of TKey, TValue)
-        Dim hash As New Dictionary(Of TKey, TValue)
-        Return hash
+        Dim table As New Dictionary(Of TKey, TValue)
+        Return table
     End Function
 
     ''' <summary>
@@ -542,23 +542,23 @@ Public Module Extensions
     ''' </summary>
     ''' <typeparam name="TKey"></typeparam>
     ''' <typeparam name="TValue"></typeparam>
-    ''' <param name="hash"></param>
+    ''' <param name="table"></param>
     ''' <param name="index"></param>
     ''' <param name="[default]"></param>
     ''' <returns></returns>
-    <Extension> Public Function TryGetValue(Of TKey, TValue)(hash As Dictionary(Of TKey, TValue),
+    <Extension> Public Function TryGetValue(Of TKey, TValue)(table As Dictionary(Of TKey, TValue),
                                                              index As TKey,
                                                              Optional [default] As TValue = Nothing,
                                                              <CallerMemberName> Optional trace$ = Nothing) As TValue
-        If hash Is Nothing Then
+        If table Is Nothing Then
 #If DEBUG Then
             Call PrintException("hash table is nothing!")
 #End If
             Return [default]
         End If
 
-        If hash.ContainsKey(index) Then
-            Return hash(index)
+        If table.ContainsKey(index) Then
+            Return table(index)
         Else
 #If DEBUG Then
             Call PrintException($"missing_index:={Scripting.ToString(index)}!", trace)
@@ -587,15 +587,15 @@ Public Module Extensions
         Return DirectCast(value, TProp)
     End Function
 
-    <Extension> Public Function AddRange(Of TKey, TValue)(ByRef hash As Dictionary(Of TKey, TValue), data As IEnumerable(Of KeyValuePair(Of TKey, TValue))) As Dictionary(Of TKey, TValue)
+    <Extension> Public Function AddRange(Of TKey, TValue)(ByRef table As Dictionary(Of TKey, TValue), data As IEnumerable(Of KeyValuePair(Of TKey, TValue))) As Dictionary(Of TKey, TValue)
         If data.IsNullOrEmpty Then
-            Return hash
+            Return table
         End If
 
         For Each obj In data
-            Call hash.Add(obj.Key, obj.Value)
+            Call table.Add(obj.Key, obj.Value)
         Next
-        Return hash
+        Return table
     End Function
 
     ''' <summary>
@@ -672,7 +672,7 @@ Public Module Extensions
     ''' <param name="parTokens">每一个子集合之中的元素的数目</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    '''
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function Split(Of T)(source As IEnumerable(Of T), parTokens As Integer, Optional echo As Boolean = True) As T()()
         Return source.SplitIterator(parTokens, echo).ToArray
     End Function
@@ -730,6 +730,7 @@ Public Module Extensions
         Return srcList
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function Join(Of T)(source As IEnumerable(Of T), ParamArray data As T()) As List(Of T)
         Return source.Join(target:=data)
     End Function

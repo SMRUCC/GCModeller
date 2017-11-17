@@ -1,36 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::db2f43a7d455f25bef5a3331f1496347, ..\localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.2.28\BlastX\OutputReader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
@@ -56,6 +57,29 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
                 .Queries = LQuery,
                 .Database = Path.BaseName
             }
+        End Function
+
+        <Extension> Public Iterator Function QueryBlockIterator(path$) As IEnumerable(Of String)
+            Dim skip As Boolean = True
+            Dim buffer As New List(Of String)
+
+            For Each line As String In path.IterateAllLines
+                If InStr(line, "Query=", CompareMethod.Binary) = 1 Then
+                    ' 新的block数据块
+                    ' 则需要将前面的buffer数据抛出去
+                    Yield buffer.JoinBy(ASCII.LF)
+
+                    buffer *= 0
+                    buffer += line
+                    skip = False
+                Else
+                    If Not skip Then
+                        buffer += line
+                    End If
+                End If
+            Next
+
+            Yield buffer.JoinBy(ASCII.LF)
         End Function
 
         Private Function __hitFragments(sec As String) As List(Of Components.HitFragment)
