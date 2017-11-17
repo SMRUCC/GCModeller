@@ -114,28 +114,46 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             }
         End Function
 
-        Private Function __hitFragments(sec As String) As List(Of Components.HitFragment)
-            Dim HSP As String() = Regex.Matches(sec, BlastXScore.REGEX_BLASTX_SCORE, RegexOptions.Singleline).ToArray
+        <Extension> Private Function parseFragment(block$, scores$, pos%) As String
+            Dim start% = InStr(pos, block, scores)
+            Dim end% = InStr(start + 5, block, " Score =")
 
+            block = Mid(block, start)
+
+            If [end] > 0 Then
+                block = Mid(block, 1, [end] - start)
+            End If
+
+            block = block _
+                .lTokens _
+                .Skip(3) _
+                .Where(Function(s) Not s.StringEmpty) _
+                .JoinBy(ASCII.LF) _
+                .Trim
+
+            Return block
+        End Function
+
+        Private Function __hitFragments(block As String) As List(Of Components.HitFragment)
             Dim tmp As New List(Of Components.HitFragment)
+            Dim HSP$() = r _
+                .Matches(block, BlastXScore.REGEX_BLASTX_SCORE, RegexICSng) _
+                .ToArray
+            Dim pos% = 1
+            Dim hspRegion$
 
-            For j As Integer = 0 To HSP.Length - 2
-                Dim s As String = HSP(j)
-                Dim pp As Integer = InStr(sec, s)
-                Dim pNext As Integer = InStr(sec, HSP(j + 1))
-                Dim lennn As Integer = pNext - pp
-                Dim s1 As String = Mid(sec, pp, lennn)
-                Dim sss As String = Regex.Split(s1.Replace(s, ""), "^>", RegexOptions.Multiline).First
-
-                tmp += __hspParser(sss, s)
+            For Each score As String In HSP
+                hspRegion = parseFragment(block, score, pos)
+                tmp += __hspParser(hspRegion, score)
+                pos += score.Length
             Next
 
-            Dim pLast As Integer = InStr(sec, HSP.Last)
-            Dim last As String = Regex.Split(Mid(sec, pLast), "Lambda\s+K").First.Replace(HSP.Last, "")
+            Dim pLast As Integer = InStr(block, HSP.Last)
+            Dim last As String = Regex.Split(Mid(block, pLast), "Lambda\s+K").First.Replace(HSP.Last, "")
 
             tmp += __hspParser(last, HSP.Last)
 
-            Dim name As String = Strings.Split(sec, " Score =", Compare:=CompareMethod.Binary).First
+            Dim name As String = Strings.Split(block, " Score =", Compare:=CompareMethod.Binary).First
             Dim len As String = Regex.Match(name, "Length\s*=\s*\d+", RegexOptions.Singleline).Value
             name = name.Replace(len, "").Trim
             name = name.lTokens.JoinBy(" ")
@@ -171,6 +189,10 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
                 .Split(block, "^>", RegexOptions.Multiline) _
                 .Skip(1) _
                 .ToArray
+
+            If queryInfo.Name = "TRINITY_DN15819_c0_g2 Trans_ID=TRINITY_DN15819_c0_g2_i4" Then
+                Console.WriteLine()
+            End If
 
             For Each subject As String In parts
                 bufs += subject _
@@ -226,30 +248,15 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         End Function
 
         Private Function __hspParser(s As String, Score As String) As Components.HitFragment
-            Dim hsp = s.lTokens _
-                .Where(Function(ss) Not String.IsNullOrEmpty(ss)) _
-                .CreateSlideWindows(3, offset:=3)
-            Dim LQuery As HitSegment() =
-                hsp.Select(Function(x) HitSegment.TryParse(x.Items)).ToArray
+            Dim hsp = s.lTokens.CreateSlideWindows(3, offset:=3)
+            Dim LQuery As HitSegment() = hsp _
+                .Select(Function(x) HitSegment.TryParse(x.Items)) _
+                .ToArray
 
             Return New Components.HitFragment With {
-                .Score = __scoreParser(Score),
+                .Score = BlastXScore.ParseText(Score),
                 .Hsp = LQuery
             }
-        End Function
-
-        Private Function __scoreParser(s As String) As BlastXScore
-            Dim Tokens As String() = LinqAPI.Exec(Of String) <=
- _
-                From str As String
-                In Strings.Split(s.Replace(vbCr, ""), vbLf)
-                Where Not String.IsNullOrEmpty(str)
-                Select str
-
-            Dim Score As BlastXScore = BlastXScore.TryParse(Of BlastXScore)(s)
-            Score.Frame = Val(Tokens.Last.Replace("Frame =", "").Trim)
-
-            Return Score
         End Function
     End Module
 End Namespace
