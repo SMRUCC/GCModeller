@@ -1,32 +1,31 @@
 ﻿#Region "Microsoft.VisualBasic::5806b38ff5a35c24c3e9c46fcdea75b5, ..\localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Segment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -43,7 +42,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
     Public Class HitSegment
 
         <XmlElement> Public Property Query As Segment
-        <XmlElement> Public Property Sbjct As Segment
+        <XmlElement> Public Property Subject As Segment
         <XmlAttribute>
         Public Property Consensus As String
 
@@ -67,13 +66,13 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
                 Return New HitSegment With {
                     .Query = Segment.TryParse(hspLines(0)),
                     .Consensus = "",
-                    .Sbjct = Segment.TryParse(hspLines(1))
+                    .Subject = Segment.TryParse(hspLines(1))
                 }
             Else
                 Return New HitSegment With {
                     .Query = Segment.TryParse(hspLines(QUERY_INDEX)),
                     .Consensus = hspLines(CONSERVED_INDEX).Trim,
-                    .Sbjct = Segment.TryParse(hspLines(SUBJECT_INDEX))
+                    .Subject = Segment.TryParse(hspLines(SUBJECT_INDEX))
                 }
             End If
         End Function

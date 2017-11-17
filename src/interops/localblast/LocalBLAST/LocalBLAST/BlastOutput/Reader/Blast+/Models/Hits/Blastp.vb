@@ -62,8 +62,8 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
         Public Overridable ReadOnly Property SubjectLocation As Location
             Get
-                Dim left As Integer = If(Hsp.IsNullOrEmpty, 0, Hsp.First.Sbjct.Left)
-                Dim right As Integer = If(Hsp.IsNullOrEmpty, 0, Hsp.Last.Sbjct.Right)
+                Dim left As Integer = If(Hsp.IsNullOrEmpty, 0, Hsp.First.Subject.Left)
+                Dim right As Integer = If(Hsp.IsNullOrEmpty, 0, Hsp.Last.Subject.Right)
                 Return New Location(left, right)
             End Get
         End Property
@@ -92,7 +92,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                     LinqAPI.Exec(Of Integer) <= From Segment As HitSegment
                                                 In Hsp
                                                 Select From ch As Char
-                                                       In Segment.Sbjct.SequenceData
+                                                       In Segment.Subject.SequenceData
                                                        Where ch = "-"c
                                                        Select 1
                 Dim value As Integer = LQuery.Sum

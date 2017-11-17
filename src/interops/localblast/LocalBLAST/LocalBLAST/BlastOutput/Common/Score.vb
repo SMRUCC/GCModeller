@@ -26,10 +26,8 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -46,35 +44,11 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         ' Identities = 90/258 (35%), Positives = 125/258 (48%), Gaps = 14/258 (5%)
         ' Frame = +3
 
-        Public Shared Function ParseText(score$) As BlastXScore
-            Dim lines = r.Replace(score, "Expect\(\d+\)", "Expect").lTokens
-            Dim items = lines _
-                .Select(Function(l) l.Trim.Split(","c)) _
-                .IteratesALL _
-                .Select(Function(s) s.Trim.GetTagValue("=", trim:=True)) _
-                .ToDictionary _
-                .FlatTable
-            Dim method$ = Strings _
-                .Split(lines(Scan0), "Method:") _
-                .Last _
-                .Trim
-
-            score = items!Score
-            score = r _
-                .Match(score, "\(\d+\)") _
-                .Value _
-                .GetStackValue("(", ")")
-
-            Return New BlastXScore With {
-                .Expect = items!Expect,
-                .Method = method,
-                .Frame = items!Frame,
-                .Gaps = Percentage.TryParse(items!Gaps),
-                .Identities = Percentage.TryParse(items!Identities),
-                .Positives = Percentage.TryParse(items!Positives),
-                .Score = Val(items!Score),
-                .RawScore = Val(score)
-            }
+        Public Shared Function ParseText(scoreText$) As BlastXScore
+            Dim data As Dictionary(Of String, String) = Nothing
+            Dim blastXscore As BlastXScore = TryParse(Of BlastXScore)(scoreText, data)
+            blastXscore.Frame = data!Frame
+            Return blastXscore
         End Function
 
         Public Overrides Function ToString() As String
@@ -124,34 +98,35 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
             Return TryParse(Of Score)(text)
         End Function
 
-        Public Shared Function TryParse(Of T As Score)(text As String) As T
-            Dim score As T = Activator.CreateInstance(Of T)()
-            score.Expect = Val(Regex.Replace(text.Match(HIT_E_VALUE), "Expect\s+=\s+", "").Trim)
-            score.Identities = Percentage.TryParse(Mid(text.Match(HIT_IDENTITIES), 14))
-            score.Positives = Percentage.TryParse(Mid(text.Match(HIT_POSITIVES), 13))
-            score.Gaps = Percentage.TryParse(Mid(text.Match(HIT_GAPS), 8))
+        Public Shared Function TryParse(Of T As {New, Score})(text$, Optional ByRef table As Dictionary(Of String, String) = Nothing) As T
+            Dim lines = r.Replace(text, "Expect\(\d+\)", "Expect").lTokens
+            Dim items = lines _
+                .Select(Function(l) l.Trim.Split(","c)) _
+                .IteratesALL _
+                .Select(Function(s) s.Trim.GetTagValue("=", trim:=True)) _
+                .ToDictionary _
+                .FlatTable
+            Dim method$ = Strings _
+                .Split(lines(Scan0), "Method:") _
+                .Last _
+                .Trim
+            Dim score$ = items!Score
 
-            text = Regex.Match(text, "Score\s=.+?bits\s+\(\d+\)").Value
+            table = items
+            score = r _
+                .Match(score, "\(\d+\)") _
+                .Value _
+                .GetStackValue("(", ")")
 
-            Dim Scores As String() = Regex.Matches(text, _DOUBLE).ToArray
-
-            If Scores.Length >= 2 Then
-                score.Score = Scores(0).RegexParseDouble
-                score.RawScore = Scores(1).RegexParseDouble
-                score.Method = Mid(Regex.Match(text, "Method: .+?$", RegexOptions.Multiline).Value, 9)
-
-                If Not String.IsNullOrEmpty(score.Method) Then
-                    score.Method = Mid(score.Method, 1, Len(score.Method) - 2)
-                End If
-            Else
-
-                Dim ex As New Exception("[DEBUG] Exception Snaps:" & vbCrLf & vbCrLf & text)
-
-                Call App.LogException(ex)
-                Call ex.PrintException
-            End If
-
-            Return score
+            Return New T With {
+                .Expect = items!Expect,
+                .Method = method,
+                .Gaps = Percentage.TryParse(items!Gaps),
+                .Identities = Percentage.TryParse(items!Identities),
+                .Positives = Percentage.TryParse(items!Positives),
+                .Score = Val(items!Score),
+                .RawScore = Val(score)
+            }
         End Function
     End Class
 End Namespace

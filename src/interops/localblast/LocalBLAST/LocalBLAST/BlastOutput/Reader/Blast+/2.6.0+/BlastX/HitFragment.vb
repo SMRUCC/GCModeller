@@ -39,7 +39,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components
 
         Public ReadOnly Property SubjectLength As Integer
             Get
-                Return Math.Abs(Hsp.Last.Sbjct.Right - Hsp.First.Sbjct.Left)
+                Return Math.Abs(Hsp.Last.Subject.Right - Hsp.First.Subject.Left)
             End Get
         End Property
 
