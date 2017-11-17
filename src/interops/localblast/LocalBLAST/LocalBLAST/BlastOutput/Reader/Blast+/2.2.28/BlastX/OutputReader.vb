@@ -88,8 +88,30 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             Yield buffer.JoinBy(ASCII.LF)
         End Function
 
-        Private Function subjectParser(subject$) As Components.Subject
+        Const subjectInfoRegexp$ = ".+?Length=\d+"
 
+        Private Function subjectInfo(block$) As NamedValue(Of Integer)
+            Dim info$ = r.Match(block, subjectInfoRegexp, RegexICSng) _
+                .Value _
+                .TrimNewLine
+            Dim tuple = Strings.Split(info, "Length=")
+            Dim name$ = tuple(0)
+
+            Return New NamedValue(Of Integer) With {
+                .Name = name,
+                .Value = tuple(1)
+            }
+        End Function
+
+        <Extension> Private Function subjectParser(subject$) As Components.Subject
+            Dim info As NamedValue(Of Integer) = subjectInfo(subject)
+            Dim fragments = __hitFragments(subject)
+
+            Return New Components.Subject With {
+                .SubjectName = info.Name,
+                .SubjectLength = info.Value,
+                .Hits = fragments
+            }
         End Function
 
         Private Function __hitFragments(sec As String) As List(Of Components.HitFragment)
@@ -151,7 +173,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
                 .ToArray
 
             For Each subject As String In parts
-                bufs += subjectParser(subject)
+                bufs += subject _
+                    .Trim _
+                    .subjectParser()
             Next
 
             Return New Components.Query With {
