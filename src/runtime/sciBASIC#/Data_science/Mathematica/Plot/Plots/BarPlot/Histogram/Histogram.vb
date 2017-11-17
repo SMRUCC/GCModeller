@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.d3js.scale
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -186,22 +187,33 @@ Namespace BarPlot.Histogram
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
                     Dim scalerData As New Scaling(groups, False)
-                    Dim mapper As Mapper ' 这里也不是使用y值来表示数量的，也用相对值
                     Dim annotations = groups.Serials.ToDictionary
                     Dim gSize As Size = region.Size
+                    Dim X, Y As d3js.scale.LinearScale
+                    Dim XTicks#() = groups.XRange.CreateAxisTicks
+                    Dim YTicks#() = groups.YRange.CreateAxisTicks
 
-                    If xAxis.StringEmpty Then
-                        mapper = New Mapper(scalerData)
-                    Else
-                        mapper = New Mapper(
-                            xAxis,
-                            y:=New AxisProvider(scalerData.yrange.GetAxisValues),
-                            range:=scalerData)
-                    End If
+                    With region.PlotRegion
+                        If Not xAxis.StringEmpty Then
+                            XTicks = AxisProvider.TryParse(xAxis).AxisTicks
+                            X = XTicks.LinearScale.range(integers:={ .Left, .Right})
+                        Else
+                            X = d3js.scale.linear.domain(XTicks).range(integers:={ .Left, .Right})
+                        End If
 
-                    'Call g.DrawAxis(size, margin, mapper, showGrid,
-                    '                xlabel:=xlabel,
-                    '                labelFontStyle:=axisLabelFontStyle)
+                        Y = d3js.scale.linear.domain(YTicks).range(integers:={0, .Bottom - .Top}) ' Y 为什么是从零开始的？
+                    End With
+
+                    Dim scaler As New DataScaler With {
+                        .X = X,
+                        .Y = Y,
+                        .ChartRegion = region.PlotRegion,
+                        .AxisTicks = (XTicks, YTicks)
+                    }
+
+                    Call g.DrawAxis(size, margin, mapper, showGrid,
+                                    xlabel:=xlabel,
+                                    labelFontStyle:=axisLabelFontStyle)
 
                     For Each hist As HistProfile In mapper.ForEach_histSample(gSize, margin)
                         Dim ann As NamedValue(Of Color) = annotations(hist.legend.title)

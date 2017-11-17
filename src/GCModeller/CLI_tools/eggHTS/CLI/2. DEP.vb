@@ -829,28 +829,32 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.logFC.hist")>
     <Description("Using for plots the FC histogram when the experiment have no biological replicates.")>
-    <Usage("/DEP.logFC.hist /in <log2test.csv> [/step <0.5> /tag <logFC> /legend.title <Frequency(logFC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1600,1200> /out <out.png>]")>
-    <Argument("/tag", True, CLITypes.String,
+    <Usage("/DEP.logFC.hist /in <log2test.csv> [/step <0.25> /type <default=log2fc> /legend.title <Frequency(log2FC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1600,1200> /out <out.png>]")>
+    <Argument("/type", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
-              Description:="Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is ""logFC"".")>
+              Description:="Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is ""log2FC"".")>
+    <Argument("/step", True, CLITypes.Double,
+              AcceptTypes:={GetType(Single)},
+              Description:="The steps for generates the histogram test data.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function logFCHistogram(args As CommandLine) As Integer
         Dim [in] = args("/in")
-        Dim tag As String = args.GetValue("/tag", "logFC")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".{tag.NormalizePathString}.histogram.png")
-        Dim data = EntityObject.LoadDataSet([in])
+        Dim out As String = (args <= "/out") Or $"{[in].TrimSuffix}.log2FC.histogram.png".AsDefault
+        Dim data = [in].LoadCsv(Of DEP_iTraq)
+        Dim type$ = (args <= "/type") Or NameOf(DEP_iTraq.log2FC).AsDefault
         Dim xAxis As String = args("/x.axis")
-        Dim step! = args.GetValue("/step", 0.5!)
+        Dim step! = args.GetFloat("/step") Or 0.25!.AsDefault(Function(x) DirectCast(x, Single) = 0!)
         Dim lTitle$ = args.GetValue("/legend.title", "Frequency(logFC)")
         Dim color$ = args.GetValue("/color", "lightblue")
+        Dim size$ = (args <= "/size") Or "1600,1200".AsDefault
 
         Return data _
-            .logFCHistogram(tag,
-                            size:=(args <= "/size") Or "1600,1200".AsDefault,
+            .logFCHistogram(size:=size,
                             [step]:=[step],
                             xAxis:=xAxis,
                             serialTitle:=lTitle,
-                            color:=color) _
+                            color:=color,
+                            type:=type) _
             .Save(out) _
             .CLICode
     End Function
