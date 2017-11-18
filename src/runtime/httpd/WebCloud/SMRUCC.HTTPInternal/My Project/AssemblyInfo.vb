@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("SMRUCC.HTTPInternal")> 
+<Assembly: AssemblyTitle("HTTP Internal platform")>
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("SMRUCC.HTTPInternal")> 
-<Assembly: AssemblyCopyright("Copyright ©  2016")> 
+<Assembly: AssemblyProduct("SMRUCC.HTTPInternal")>
+<Assembly: AssemblyCopyright("Copyright © xie.guigang@gcmodeller.org 2017")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
