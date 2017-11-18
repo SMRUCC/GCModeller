@@ -36,7 +36,7 @@ Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.WebCloud.HTTPInternal.Scripting
+Imports SMRUCC.WebCloud.HTTPInternal.Platform.Plugins
 
 Namespace Core
 
@@ -196,7 +196,7 @@ Namespace Core
             If file.FileExists Then
                 ' 判断是否为vbhtml文件？
                 If file.ExtensionSuffix.TextEquals("vbhtml") Then
-                    Dim html$ = Scripting.ReadHTML(wwwroot.FullName, file)
+                    Dim html$ = ScriptingExtensions.ReadHTML(wwwroot.FullName, file)
                     Return Encoding.UTF8.GetBytes(html)
                 Else
                     Return IO.File.ReadAllBytes(file)

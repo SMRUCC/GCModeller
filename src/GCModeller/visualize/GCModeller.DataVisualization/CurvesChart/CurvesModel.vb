@@ -27,9 +27,9 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Math.Statistics
 
 Public MustInherit Class CurvesModel
 
@@ -47,7 +47,7 @@ Public MustInherit Class CurvesModel
     Protected PlotBrush As SolidBrush = Brushes.DarkGreen
 
     Public Function Draw(source As Image, buf As Double(), location As Point, size As Size) As Image
-        Dim sample As DataSample(Of Double) = DataSampleAPI.DoubleSample(buf)
+        Dim sample As DataSample(Of Double) = buf.DoubleSample
 
         Using g As IGraphics = source.CreateCanvas2D
             Call Draw(g, sample, location, size)

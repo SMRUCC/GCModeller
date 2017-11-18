@@ -27,8 +27,8 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Math.Statistics
 
 Public Class Line : Inherits CurvesModel
 
@@ -38,7 +38,7 @@ Public Class Line : Inherits CurvesModel
 
         Call DrawAixs(g, location, size, tagFont, data.Min, data.Max)
 
-        Dim X_ScaleFactor As Double = size.Width / data.Length
+        Dim X_ScaleFactor As Double = size.Width / data.SampleSize
         Dim Y_ScaleFactor As Double = size.Height / (data.Max - data.Min)
         Dim X As Double = location.X, Y As Integer
         Dim Y_avg As Double = location.Y - (data.Average - data.Min) * Y_ScaleFactor
@@ -62,7 +62,7 @@ Public Class Line : Inherits CurvesModel
 
         Dim Region As Rectangle
 
-        For Each n As Double In data.data
+        For Each n As Double In data
             Y = location.Y - (n - data.Min) * Y_ScaleFactor
 
             If Y > Y_avg Then '小于平均值，则Y颠倒过来
