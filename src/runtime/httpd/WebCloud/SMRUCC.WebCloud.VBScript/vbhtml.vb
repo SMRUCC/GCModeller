@@ -2,6 +2,7 @@
 Imports System.Text
 Imports System.Xml
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.Expressions
 Imports Microsoft.VisualBasic.Text
@@ -22,12 +23,37 @@ Public Module vbhtml
     ''' <param name="wwwroot">Using for reading strings.XML resource file.</param>
     ''' <returns></returns>
     <Scripting("*.vbhtml")>
-    <Extension> Public Function ReadHTML(wwwroot$, path$, Optional encoding As Encodings = Encodings.UTF8) As String
-        Dim codepage As Encoding = encoding.CodePage
+    <Extension> Public Function ReadHTML(wwwroot$, path$, variables As Dictionary(Of String, Object), Optional encoding As Encodings = Encodings.UTF8) As String
+        Dim html As New StringBuilder(path.ReadAllText(encoding.CodePage))
         Dim parent$ = path.ParentPath
-        Dim html As New StringBuilder(path.ReadAllText(codepage))
         Dim strings = (wwwroot & "/includes/strings.XML").LoadStrings
-        Return html.TemplateInterplot(parent, codepage, Nothing, strings)
+        Dim values = variables _
+            .Where(Function(map)
+                       Return map.Value.GetType Is GetType(String)
+                   End Function) _
+            .ToDictionary(Function(map) map.Key,
+                          Function(str)
+                              Return DirectCast(str.Value, String)
+                          End Function)
+        Dim data = variables _
+            .Where(Function(map)
+                       Return map.Value _
+                           .GetType _
+                           .ImplementInterface(GetType(IEnumerable))
+                   End Function) _
+            .ToDictionary(Function(map) map.Key,
+                          Function(list)
+                              Return DirectCast(list.Value, IEnumerable)
+                          End Function)
+        Dim args As New InterpolateArgs With {
+            .data = data,
+            .codepage = encoding.CodePage,
+            .resource = strings,
+            .variables = values,
+            .wwwroot = wwwroot
+        }
+
+        Return html.TemplateInterplot(parent, args)
     End Function
 
     Public Function ParseVariables(html As String) As (raw$, expr As NamedValue(Of String))()
@@ -43,6 +69,7 @@ Public Module vbhtml
                             .Value = .Value.GetStackValue("""", """")
                             .Name = .Name.Trim("$"c, " "c)
                         End With
+
                         Return (s, exp)
                     End Function) _
             .ToArray
@@ -50,31 +77,32 @@ Public Module vbhtml
         Return table
     End Function
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="html"></param>
-    ''' <param name="codepage"></param>
-    ''' <param name="stringsXML">String resource from loader: <see cref="LoadStrings(String)"/></param>
-    ''' <returns></returns>
     <Extension>
-    Public Function TemplateInterplot(html As StringBuilder, parent$, codepage As Encoding, variables As Dictionary(Of String, String), stringsXML As Dictionary(Of String, String)) As String
+    Public Function GetIncludesPath(ref As String) As String
+        Dim rel_path$ = ref.Trim("<"c, ">"c, "%"c)
+        ' 去除等号
+        rel_path = Mid(rel_path, 2).Trim
+        Return rel_path
+    End Function
+
+    <Extension>
+    Public Function TemplateInterplot(vbhtml As StringBuilder, parent$, args As InterpolateArgs) As String
+        Dim html As StringBuilder = vbhtml.Iterates(parent, args)
         Dim includes$() = r _
-            .Matches(html.ToString, vbhtml.PartialIncludes, RegexICSng) _
+            .Matches(html.ToString, PartialIncludes, RegexICSng) _
             .ToArray
         Dim table = ParseVariables(html.ToString)
-        ' <%= @Key %>
         Dim strings As New Dictionary(Of String, String)
 
         ' <%= include_path %>
         For Each include As String In includes
-            Dim rel_path$ = include.Trim("<"c, ">"c, "%"c)
-            ' 去除等号
-            rel_path = Mid(rel_path, 2).Trim
+            Dim rel_path As String = include.GetIncludesPath
 
             If rel_path.First = "@"c Then
                 ' 因为对资源的引用可能会在多处有重复的引用
                 ' 所以在这里不能够直接进行添加
+
+                ' <%= @Key %>
                 strings(include) = rel_path.Substring(1)
                 Continue For
             Else
@@ -83,8 +111,11 @@ Public Module vbhtml
             End If
 
             ' 在这里会产生一个递归树，将其余的模板也进行插值处理
-            Dim content As StringBuilder = rel_path.ReadAllText(codepage).CreateBuilder
-            Call content.TemplateInterplot(rel_path.ParentPath, codepage, variables, stringsXML)
+            Dim content As StringBuilder = rel_path _
+                .ReadAllText(args.codepage) _
+                .CreateBuilder
+
+            Call content.TemplateInterplot(rel_path.ParentPath, args)
             Call html.Replace(include, content.ToString)
         Next
 
@@ -113,32 +144,36 @@ Public Module vbhtml
         End If
 
         ' variables主要是为ForLoop表达式所准备的
-        If Not variables.IsNullOrEmpty Then
-            Call html.Interpolate(variables.GetValue)
+        If Not args.variables.IsNullOrEmpty Then
+            Call html.Interpolate(args.variables.GetValue)
         End If
 
         If strings.Count > 0 Then
-            Call html.ApplyStrings(strings, stringsXML)
+            Call html.ApplyStrings(strings, args.resource)
         End If
 
         Return html.ToString
     End Function
 
     <Extension> Public Function LoadStrings(pathXML As String) As Dictionary(Of String, String)
-        Dim xml As XmlDocument = pathXML.LoadXmlDocument
-        Dim XmlNodeList As XmlNodeList = xml.GetElementsByTagName("string")
-        Dim values As New Dictionary(Of String, String)
+        If pathXML.FileExists Then
+            Dim xml As XmlDocument = pathXML.LoadXmlDocument
+            Dim XmlNodeList As XmlNodeList = xml.GetElementsByTagName("string")
+            Dim values As New Dictionary(Of String, String)
 
-        For Each xmlNode As XmlNode In XmlNodeList
-            For Each a As XmlAttribute In xmlNode.Attributes
-                If a.Name = "name" Then
-                    values.Add(a.InnerText, xmlNode.InnerText)
-                    Exit For
-                End If
+            For Each xmlNode As XmlNode In XmlNodeList
+                For Each a As XmlAttribute In xmlNode.Attributes
+                    If a.Name = "name" Then
+                        values.Add(a.InnerText, xmlNode.InnerText)
+                        Exit For
+                    End If
+                Next
             Next
-        Next
 
-        Return values
+            Return values
+        Else
+            Return New Dictionary(Of String, String)
+        End If
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Syntax.md" />
+    <Compile Include="InterpolateArgs.vb" />
     <Compile Include="ForEach.vb" />
     <Compile Include="ReflectionExtensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
