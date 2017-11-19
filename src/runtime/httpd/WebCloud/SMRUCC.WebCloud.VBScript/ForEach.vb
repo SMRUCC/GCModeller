@@ -1,4 +1,5 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -39,8 +40,21 @@ Partial Module vbhtml
     End Function
 
     <Extension>
-    Public Function GetVariables(def As Type, obj As Object) As NamedValueList(Of String)
+    Public Function GetVariables(schema As Dictionary(Of String, PropertyInfo), name$, obj As Object) As NamedValueList(Of String)
+        Dim list As New NamedValueList(Of String)
 
+        For Each [property] In schema
+            Dim propertyName$ = name & "." & [property].Key
+            Dim o As Object = [property].Value.GetValue(obj)
+            Dim value$ = Scripting.ToString(o, "null")
+
+            list += New NamedValue(Of String) With {
+                .Name = propertyName,
+                .Value = value
+            }
+        Next
+
+        Return list
     End Function
 
     <Extension>
@@ -55,6 +69,7 @@ Partial Module vbhtml
             Dim list As New List(Of String)
             Dim variables As New Dictionary(Of String, String)(args.variables)
             Dim type As Type = source.GetType.GetTypeElement(True)
+            Dim schema = type.Schema(PropertyAccess.Readable, PublicProperty, True)
 
             For Each obj As Object In source
                 Dim vbhtml As New StringBuilder(template)
@@ -62,7 +77,7 @@ Partial Module vbhtml
                     .codepage = args.codepage,
                     .data = args.data,
                     .resource = args.resource,
-                    .variables = variables + type.GetVariables(obj),
+                    .variables = variables + schema.GetVariables(exp.Name, obj),
                     .wwwroot = args.wwwroot
                 }
 
