@@ -16,6 +16,8 @@ Public Class RegisterObject
 
     <XmlAttribute>
     Public Property UI As String
+    <XmlAttribute>
+    Public Property MajorTopicYN As String
     <XmlText>
     Public Property Value As String
 End Class

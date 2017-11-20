@@ -84,8 +84,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\PubDate.vb" />
     <Compile Include="MedlineCitation\Components.vb" />
     <Compile Include="MedlineCitation\Article.vb" />
+    <Compile Include="PubmedData\Data.vb" />
     <Compile Include="PubMedServicesExtensions.vb" />
     <Compile Include="PubmedArticle.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -123,9 +125,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="PubmedData\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>

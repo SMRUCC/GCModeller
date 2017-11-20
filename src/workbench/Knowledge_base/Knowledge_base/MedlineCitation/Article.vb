@@ -92,9 +92,17 @@ Public Class Pagination
 End Class
 
 Public Class Journal
+    Public Property ISSN As ISSN
     Public Property JournalIssue As JournalIssue
     Public Property Title As String
     Public Property ISOAbbreviation As String
+End Class
+
+Public Class ISSN
+    <XmlAttribute>
+    Public Property IssnType As String
+    <XmlText>
+    Public Property ID As String
 End Class
 
 Public Class JournalIssue
@@ -103,20 +111,4 @@ Public Class JournalIssue
     Public Property Volume As String
     Public Property Issue As String
     Public Property PubDate As PubDate
-End Class
-
-Public Class PubDate
-    <XmlAttribute>
-    Public Property DateType As String
-    Public Property Year As String
-    Public Property Month As String
-    Public Property Day As String
-
-    Public Overrides Function ToString() As String
-        Return CType(Me, Date).ToString
-    End Function
-
-    Public Overloads Shared Narrowing Operator CType(d As PubDate) As Date
-        Return New Date(d.Year, ValueTypes.GetMonthInteger(d.Month), d.Day)
-    End Operator
 End Class
