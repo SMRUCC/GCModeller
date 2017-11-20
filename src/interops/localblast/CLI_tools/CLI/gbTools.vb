@@ -197,6 +197,11 @@ Partial Module CLI
         Dim [in] As String = args <= "/in"
         Dim top As Boolean = args.IsTrue("/top")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{If(top, "top", "")}.blastx.csv")
+
+        If top Then
+            Call "The top one will be output...".__INFO_ECHO
+        End If
+
         Dim blastx As BlastPlus.BlastX.v228_BlastX = BlastPlus.BlastX.TryParseOutput([in], top:=top)
         Dim result = blastx.BlastXHits
         Return result.SaveTo(out)

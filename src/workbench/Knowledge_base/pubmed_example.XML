@@ -1,0 +1,241 @@
+<?xml version="1.0" standalone="true" encoding="utf-8"?>
+<PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+        <PMID Version="1">22007635</PMID>
+        <DateCreated>
+            <Year>2011</Year>
+            <Month>12</Month>
+            <Day>05</Day>
+        </DateCreated>
+        <DateCompleted>
+            <Year>2012</Year>
+            <Month>03</Month>
+            <Day>25</Day>
+        </DateCompleted>
+        <DateRevised>
+            <Year>2015</Year>
+            <Month>11</Month>
+            <Day>19</Day>
+        </DateRevised>
+        <Article PubModel="Print-Electronic">
+            <Journal>
+                <ISSN IssnType="Electronic">1535-3907</ISSN>
+                <JournalIssue CitedMedium="Internet">
+                    <Volume>10</Volume>
+                    <Issue>12</Issue>
+                    <PubDate>
+                        <Year>2011</Year>
+                        <Month>Dec</Month>
+                        <Day>02</Day>
+                    </PubDate>
+                </JournalIssue>
+                <Title>Journal of proteome research</Title>
+                <ISOAbbreviation>J. Proteome Res.</ISOAbbreviation>
+            </Journal>
+            <ArticleTitle>Metabolomic profiling to identify potential serum biomarkers for schizophrenia and risperidone action.</ArticleTitle>
+            <Pagination>
+                <MedlinePgn>5433-43</MedlinePgn>
+            </Pagination>
+            <ELocationID EIdType="doi" ValidYN="Y">10.1021/pr2006796</ELocationID>
+            <Abstract>
+                <AbstractText>Despite recent advances in understanding the pathophysiology of schizophrenia and the mechanisms of antipsychotic drug action, the development of biomarkers for diagnosis and therapeutic monitoring in schizophrenia remains challenging. Metabolomics provides a powerful approach to discover diagnostic and therapeutic biomarkers by analyzing global changes in an individual's metabolic profile in response to pathophysiological stimuli or drug intervention. In this study, we performed gas chromatography-mass spectrometry based metabolomic profiling in serum of unmedicated schizophrenic patients before and after an 8-week risperidone monotherapy, to detect potential biomarkers associated with schizophrenia and risperidone treatment. Twenty-two marker metabolites contributing to the complete separation of schizophrenic patients from matched healthy controls were identified, with citrate, palmitic acid, myo-inositol, and allantoin exhibiting the best combined classification performance. Twenty marker metabolites contributing to the complete separation between posttreatment and pretreatment patients were identified, with myo-inositol, uric acid, and tryptophan showing the maximum combined classification performance. Metabolic pathways including energy metabolism, antioxidant defense systems, neurotransmitter metabolism, fatty acid biosynthesis, and phospholipid metabolism were found to be disturbed in schizophrenic patients and partially normalized following risperidone therapy. Further study of these metabolites may facilitate the development of noninvasive biomarkers and more efficient therapeutic strategies for schizophrenia.</AbstractText>
+            </Abstract>
+            <AuthorList CompleteYN="Y">
+                <Author ValidYN="Y">
+                    <LastName>Xuan</LastName>
+                    <ForeName>Jiekun</ForeName>
+                    <Initials>J</Initials>
+                    <AffiliationInfo>
+                        <Affiliation>Bio-X Institutes, Key Laboratory for the Genetics of Developmental and Neuropsychiatric Disorders (Ministry of Education), Shanghai Jiao Tong University, Shanghai 200030, China.</Affiliation>
+                    </AffiliationInfo>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Pan</LastName>
+                    <ForeName>Guihua</ForeName>
+                    <Initials>G</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Qiu</LastName>
+                    <ForeName>Yunping</ForeName>
+                    <Initials>Y</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Yang</LastName>
+                    <ForeName>Lun</ForeName>
+                    <Initials>L</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Su</LastName>
+                    <ForeName>Mingming</ForeName>
+                    <Initials>M</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Liu</LastName>
+                    <ForeName>Yumin</ForeName>
+                    <Initials>Y</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Chen</LastName>
+                    <ForeName>Jian</ForeName>
+                    <Initials>J</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Feng</LastName>
+                    <ForeName>Guoyin</ForeName>
+                    <Initials>G</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Fang</LastName>
+                    <ForeName>Yiru</ForeName>
+                    <Initials>Y</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Jia</LastName>
+                    <ForeName>Wei</ForeName>
+                    <Initials>W</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>Xing</LastName>
+                    <ForeName>Qinghe</ForeName>
+                    <Initials>Q</Initials>
+                </Author>
+                <Author ValidYN="Y">
+                    <LastName>He</LastName>
+                    <ForeName>Lin</ForeName>
+                    <Initials>L</Initials>
+                </Author>
+            </AuthorList>
+            <Language>eng</Language>
+            <PublicationTypeList>
+                <PublicationType UI="D016428">Journal Article</PublicationType>
+                <PublicationType UI="D013485">Research Support, Non-U.S. Gov't</PublicationType>
+            </PublicationTypeList>
+            <ArticleDate DateType="Electronic">
+                <Year>2011</Year>
+                <Month>11</Month>
+                <Day>08</Day>
+            </ArticleDate>
+        </Article>
+        <MedlineJournalInfo>
+            <Country>United States</Country>
+            <MedlineTA>J Proteome Res</MedlineTA>
+            <NlmUniqueID>101128775</NlmUniqueID>
+            <ISSNLinking>1535-3893</ISSNLinking>
+        </MedlineJournalInfo>
+        <ChemicalList>
+            <Chemical>
+                <RegistryNumber>0</RegistryNumber>
+                <NameOfSubstance UI="D015415">Biomarkers</NameOfSubstance>
+            </Chemical>
+            <Chemical>
+                <RegistryNumber>268B43MJ25</RegistryNumber>
+                <NameOfSubstance UI="D014527">Uric Acid</NameOfSubstance>
+            </Chemical>
+            <Chemical>
+                <RegistryNumber>2968PHW8QP</RegistryNumber>
+                <NameOfSubstance UI="D019343">Citric Acid</NameOfSubstance>
+            </Chemical>
+            <Chemical>
+                <RegistryNumber>2V16EO95H1</RegistryNumber>
+                <NameOfSubstance UI="D019308">Palmitic Acid</NameOfSubstance>
+            </Chemical>
+            <Chemical>
+                <RegistryNumber>L6UH7ZF8HC</RegistryNumber>
+                <NameOfSubstance UI="D018967">Risperidone</NameOfSubstance>
+            </Chemical>
+        </ChemicalList>
+        <CitationSubset>IM</CitationSubset>
+        <MeshHeadingList>
+            <MeshHeading>
+                <DescriptorName UI="D000328" MajorTopicYN="N">Adult</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D015415" MajorTopicYN="N">Biomarkers</DescriptorName>
+                <QualifierName UI="Q000032" MajorTopicYN="N">analysis</QualifierName>
+                <QualifierName UI="Q000097" MajorTopicYN="N">blood</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D016022" MajorTopicYN="N">Case-Control Studies</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D019343" MajorTopicYN="N">Citric Acid</DescriptorName>
+                <QualifierName UI="Q000097" MajorTopicYN="N">blood</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D004734" MajorTopicYN="N">Energy Metabolism</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D005260" MajorTopicYN="N">Female</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D008401" MajorTopicYN="N">Gas Chromatography-Mass Spectrometry</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D006801" MajorTopicYN="N">Humans</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D008297" MajorTopicYN="N">Male</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D053858" MajorTopicYN="N">Metabolic Networks and Pathways</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D055442" MajorTopicYN="Y">Metabolome</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D008875" MajorTopicYN="N">Middle Aged</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D019308" MajorTopicYN="N">Palmitic Acid</DescriptorName>
+                <QualifierName UI="Q000097" MajorTopicYN="N">blood</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D025341" MajorTopicYN="N">Principal Component Analysis</DescriptorName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D018967" MajorTopicYN="N">Risperidone</DescriptorName>
+                <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D012559" MajorTopicYN="N">Schizophrenia</DescriptorName>
+                <QualifierName UI="Q000097" MajorTopicYN="Y">blood</QualifierName>
+                <QualifierName UI="Q000175" MajorTopicYN="Y">diagnosis</QualifierName>
+                <QualifierName UI="Q000188" MajorTopicYN="N">drug therapy</QualifierName>
+            </MeshHeading>
+            <MeshHeading>
+                <DescriptorName UI="D014527" MajorTopicYN="N">Uric Acid</DescriptorName>
+                <QualifierName UI="Q000097" MajorTopicYN="N">blood</QualifierName>
+            </MeshHeading>
+        </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+        <History>
+            <PubMedPubDate PubStatus="entrez">
+                <Year>2011</Year>
+                <Month>10</Month>
+                <Day>20</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="pubmed">
+                <Year>2011</Year>
+                <Month>10</Month>
+                <Day>20</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+            <PubMedPubDate PubStatus="medline">
+                <Year>2012</Year>
+                <Month>3</Month>
+                <Day>27</Day>
+                <Hour>6</Hour>
+                <Minute>0</Minute>
+            </PubMedPubDate>
+        </History>
+        <PublicationStatus>ppublish</PublicationStatus>
+        <ArticleIdList>
+            <ArticleId IdType="pubmed">22007635</ArticleId>
+            <ArticleId IdType="doi">10.1021/pr2006796</ArticleId>
+        </ArticleIdList>
+    </PubmedData>
+</PubmedArticle>
