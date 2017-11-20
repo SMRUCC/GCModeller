@@ -1,4 +1,5 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Class PMID
 
@@ -8,7 +9,7 @@ Public Class PMID
     Public Property ID As String
 
     Public Overrides Function ToString() As String
-        Return Me.getjson
+        Return Me.GetJson
     End Function
 End Class
 
