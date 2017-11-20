@@ -287,6 +287,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Platform\PlatformEngine.vb" />
+    <Compile Include="Platform\Plugin\Scripting.vb" />
     <Compile Include="Platform\Submodule.vb" />
     <Compile Include="Platform\Plugin\ExternalCall.vb" />
     <Compile Include="Platform\Plugin\PluginBase.vb" />
@@ -294,7 +295,6 @@
     <Compile Include="AppEngine\POSTReader\HttpPostedFile.vb" />
     <Compile Include="AppEngine\POSTReader\PostReader.vb" />
     <Compile Include="AppEngine\POSTReader\ReadSubStream.vb" />
-    <Compile Include="Scripting\vbhtml.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

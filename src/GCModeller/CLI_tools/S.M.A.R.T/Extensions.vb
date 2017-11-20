@@ -90,19 +90,6 @@ Module Extensions
         Return Query.ToArray.Count > 0
     End Function
 
-    ''' <summary>
-    ''' 获取所有Hit对象的标识号
-    ''' </summary>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    <Extension> Public Function GetAllHits(BlastLog As LocalBLAST.BLASTOutput.Legacy.BLASTOutput) As String()
-        Dim List As List(Of String) = New List(Of String)
-        Dim LQuery = From Query In BlastLog.Queries Where Not Query.Hits Is Nothing Select List.Append((From Hit In Query.Hits Select Hit.Name).ToArray) ' 
-        LQuery = LQuery.ToArray
-
-        Return List.ToArray
-    End Function
-
     <Extension> Public Function Append(Of T)(List As List(Of T), Collection As Generic.IEnumerable(Of T)) As Integer
         Call List.AddRange(Collection)
         Return List.Count
