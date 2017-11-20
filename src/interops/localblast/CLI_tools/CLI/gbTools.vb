@@ -189,12 +189,15 @@ Partial Module CLI
         Return fasta.Save(out, Encodings.ASCII)
     End Function
 
-    <ExportAPI("/Export.BlastX", Usage:="/Export.BlastX /in <blastx.txt> [/out <out.csv>]")>
+    <ExportAPI("/Export.BlastX", Usage:="/Export.BlastX /in <blastx.txt> [/top /out <out.csv>]")>
+    <Argument("/top", True, CLITypes.Boolean,
+              Description:="Only output the top first alignment result? Default is not.")>
     <Group(CLIGrouping.GenbankTools)>
     Public Function ExportBlastX(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".blastx.csv")
-        Dim blastx As BlastPlus.BlastX.v228_BlastX = BlastPlus.BlastX.TryParseOutput([in])
+        Dim top As Boolean = args.IsTrue("/top")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{If(top, "top", "")}.blastx.csv")
+        Dim blastx As BlastPlus.BlastX.v228_BlastX = BlastPlus.BlastX.TryParseOutput([in], top:=top)
         Dim result = blastx.BlastXHits
         Return result.SaveTo(out)
     End Function
