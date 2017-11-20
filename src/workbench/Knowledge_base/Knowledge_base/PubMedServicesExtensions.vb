@@ -12,7 +12,10 @@
     Public Function GetArticleInfo(term As String) As PubmedArticle
         Dim url$ = $"https://www.ncbi.nlm.nih.gov/pubmed/?term={term}&report=xml"
         Dim html$ = url.GET()
-        Dim xml$
+        Dim xml$ = html _
+            .GetBetween("<pre>", "</pre>") _
+            .Replace("&lt;", "<") _
+            .Replace("&gt;", ">")
         Dim info As PubmedArticle = xml.CreateObjectFromXmlFragment(Of PubmedArticle)
         Return info
     End Function
