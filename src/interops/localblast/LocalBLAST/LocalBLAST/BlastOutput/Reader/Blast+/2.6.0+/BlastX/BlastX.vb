@@ -35,8 +35,15 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
+    ''' <summary>
+    ''' The output result data model of the blastx output text file.
+    ''' </summary>
     Public Class v228_BlastX : Inherits IBlastOutput
 
+        ''' <summary>
+        ''' The blastx query inputs
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Queries As BlastX.Components.Query()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

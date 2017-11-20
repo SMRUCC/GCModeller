@@ -32,7 +32,16 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components
 
     Public Class HitFragment
 
+        ''' <summary>
+        ''' The score of this fragment
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Score As ComponentModel.BlastXScore
+
+        ''' <summary>
+        ''' The alignment high score region.
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Hsp As ComponentModel.HitSegment()
         Public Property HitName As String
         Public Property HitLen As Integer
