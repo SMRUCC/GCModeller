@@ -38,6 +38,10 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
 
         Public Const REGEX_BLASTX_SCORE As String = " Score = .+?Identities\s+=.+?Frame =\s+[+-]?\d"
 
+        ''' <summary>
+        ''' The triple codon offset.
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute>
         Public Property Frame As Integer
 
