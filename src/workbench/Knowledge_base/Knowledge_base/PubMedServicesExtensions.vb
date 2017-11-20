@@ -3,8 +3,10 @@
     ReadOnly tool_info As Dictionary(Of String, String)
 
     ''' <summary>
+    ''' Example
+    ''' 
     ''' ```
-    ''' https://www.ncbi.nlm.nih.gov/pubmed/?term=22007635&report=xml
+    ''' https://www.ncbi.nlm.nih.gov/pubmed/?term=22007635&amp;report=xml
     ''' ```
     ''' </summary>
     ''' <param name="term"></param>
