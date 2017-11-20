@@ -25,13 +25,15 @@ Public Class Article
     Public Property Language As String
     Public Property PublicationTypeList As PublicationTypeList
     Public Property ArticleDate As PubDate
+
+    Public Overrides Function ToString() As String
+        Return ArticleTitle
+    End Function
 End Class
 
 Public Class PublicationTypeList
     <XmlElement("PublicationType")> Public Property PublicationType As RegisterObject()
 End Class
-
-
 
 Public Class AuthorList
     <XmlAttribute>
@@ -47,14 +49,30 @@ Public Class Author
     Public Property ForeName As String
     Public Property Initials As String
     Public Property AffiliationInfo As AffiliationInfo
+
+    Public Overrides Function ToString() As String
+        Dim disp$ = $"{Initials} {ForeName} {LastName}"
+        If AffiliationInfo Is Nothing Then
+            disp &= $" ({AffiliationInfo.Affiliation})"
+        End If
+        Return disp
+    End Function
 End Class
 
 Public Class AffiliationInfo
     Public Property Affiliation As String
+
+    Public Overrides Function ToString() As String
+        Return Affiliation
+    End Function
 End Class
 
 Public Class Abstract
     Public Property AbstractText As String
+
+    Public Overrides Function ToString() As String
+        Return AbstractText
+    End Function
 End Class
 
 Public Class ELocationID
@@ -63,6 +81,10 @@ Public Class ELocationID
 
     <XmlText>
     Public Property Value As String
+
+    Public Overrides Function ToString() As String
+        Return EIdType & ": " & Value
+    End Function
 End Class
 
 Public Class Pagination
@@ -89,4 +111,12 @@ Public Class PubDate
     Public Property Year As String
     Public Property Month As String
     Public Property Day As String
+
+    Public Overrides Function ToString() As String
+        Return CType(Me, Date).ToString
+    End Function
+
+    Public Overloads Shared Narrowing Operator CType(d As PubDate) As Date
+        Return New Date(d.Year, ValueTypes.GetMonthInteger(d.Month), d.Day)
+    End Operator
 End Class
