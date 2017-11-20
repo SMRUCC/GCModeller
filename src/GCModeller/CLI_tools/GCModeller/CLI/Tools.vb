@@ -118,7 +118,7 @@ Partial Module CLI
         For Each x In types
             Dim exePrint As String = " " & x.Name & New String(" "c, exeMAX - Len(x.Name))
             Dim lines$() = Paragraph _
-                .Split(x.Value.Description, 60) _
+                .SplitParagraph(x.Value.Description, 60) _
                 .ToArray
 
             Console.WriteLine("{0}{1}", exePrint, lines.FirstOrDefault)
