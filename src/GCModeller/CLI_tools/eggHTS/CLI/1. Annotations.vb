@@ -670,6 +670,9 @@ Partial Module CLI
         Dim alignHits As Dictionary(Of String, BBHIndex) = bbh _
             .LoadCsv(Of BBHIndex) _
             .ToDictionary(Function(x)
+                              If Not x.HitName.StringEmpty Then
+                                  x.HitName = x.HitName.Split("|"c)(1)
+                              End If
                               Return x.QueryName.Split("|"c)(1)
                           End Function)
 
