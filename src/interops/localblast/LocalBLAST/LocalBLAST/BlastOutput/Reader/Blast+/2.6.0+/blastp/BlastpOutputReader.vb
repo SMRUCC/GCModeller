@@ -63,10 +63,6 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 .Skip(1) _
                 .ToArray
 
-            'If queryInfo.Name = "TRINITY_DN15819_c0_g2 Trans_ID=TRINITY_DN15819_c0_g2_i4" Then
-            '    Console.WriteLine()
-            'End If
-
             For Each subject As String In parts
                 bufs += subject _
                     .Trim _
