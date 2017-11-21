@@ -52,7 +52,19 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
         Private Function QueryParser(block As String) As Query
             Dim queryInfo As NamedValue(Of Integer) = BlastX.OutputReader.queryInfo(block)
-            Return __queryParser(block, queryInfo, top:=False)
+
+            If InStr(block, "***** No hits found *****") Then
+                Return New Query With {
+                    .QueryName = queryInfo.Name,
+                    .QueryLength = queryInfo.Value
+                }
+            Else
+                Return r _
+                    .Split(block, "^Lambda\s+", RegexICMul) _
+                    .First _
+                    .Trim _
+                    .__queryParser(queryInfo, top:=False)
+            End If
         End Function
 
         <Extension>

@@ -198,6 +198,7 @@ Partial Module CLI
                 Next
 
                 Call handle(query)
+                Call Console.Write(".")
             Next
         End Using
 
