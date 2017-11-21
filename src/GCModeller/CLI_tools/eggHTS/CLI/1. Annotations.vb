@@ -658,6 +658,7 @@ Partial Module CLI
     <Description("Replace the source ID to a unify organism protein ID by using ``bbh`` method. 
     This tools required the protein in ``datatset.csv`` associated with the alignment result in ``bbh.csv`` by using the ``query_name`` property.")>
     <Usage("/ID.Replace.bbh /in <dataset.csv> /bbh <bbh.csv> [/out <ID.replaced.csv>]")>
+    <Group(CLIGroups.Annotation_CLI)>
     Public Function BBHReplace(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim bbh$ = args <= "/bbh"
