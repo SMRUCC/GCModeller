@@ -94,14 +94,16 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 Return Nothing
             End If
 
-            Dim LQuery As SubjectHit() = LinqAPI.Exec(Of SubjectHit) <=
+            Dim LQuery As SubjectHit() = LinqAPI.Exec(Of SubjectHit) _
  _
-                From hit As SubjectHit
-                In SubjectHits
-                Where hit.LengthQuery / QueryLength >= coverage AndAlso
-                    hit.Score.Identities.Value >= identities
-                Select hit
-                Order By hit.Score.RawScore Descending
+                () <= From hit As SubjectHit
+                      In SubjectHits
+                      Let identity = If(hit.Score Is Nothing, DirectCast(hit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.Identities.Value).Average, hit.Score.Identities.Value)
+                      Let rawScore = If(hit.Score Is Nothing, DirectCast(hit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.RawScore).Average, hit.Score.RawScore)
+                      Where hit.LengthQuery / QueryLength >= coverage AndAlso
+                          identity >= identities
+                      Order By rawScore Descending
+                      Select hit
 
             Return LQuery
         End Function
@@ -112,7 +114,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <param name="strText"></param>
         ''' <returns></returns>
         Public Shared Function TryParse(strText As String) As Query
-            Dim Query As Query = New Query With {
+            Dim Query As New Query With {
                 .QueryName = GetQueryName(strText),
                 .QueryLength = GetQueryLength(strText)
             }

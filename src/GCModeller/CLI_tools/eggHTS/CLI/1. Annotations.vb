@@ -58,6 +58,7 @@ Imports SMRUCC.genomics.Data.GeneOntology.GoStat
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 
@@ -601,8 +602,8 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Species.Normalization",
-               Usage:="/Species.Normalization /bbh <bbh.csv> /uniprot <uniprot.XML> /idMapping <refSeq2uniprotKB_mappings.tsv> /annotations <annotations.csv> [/out <out.csv>]")>
+    <ExportAPI("/Species.Normalization")>
+    <Usage("/Species.Normalization /bbh <bbh.csv> /uniprot <uniprot.XML> /idMapping <refSeq2uniprotKB_mappings.tsv> /annotations <annotations.csv> [/out <out.csv>]")>
     <Argument("/bbh", False, CLITypes.File,
               Description:="The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.")>
     <Group(CLIGroups.Annotation_CLI)>
@@ -647,6 +648,44 @@ Partial Module CLI
         Next
 
         Return output.SaveTo(out).CLICode
+    End Function
+
+    ''' <summary>
+    ''' bbh的结果是通过<see cref="BBHIndex.QueryName"/>来和数据集中的<see cref="EntityObject.ID"/>进行关联的，所以这就要求<see cref="BBHIndex.QueryName"/>必须是唯一的
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/ID.Replace.bbh")>
+    <Description("Replace the source ID to a unify organism protein ID by using ``bbh`` method. 
+    This tools required the protein in ``datatset.csv`` associated with the alignment result in ``bbh.csv`` by using the ``query_name`` property.")>
+    <Usage("/ID.Replace.bbh /in <dataset.csv> /bbh <bbh.csv> [/out <ID.replaced.csv>]")>
+    <Group(CLIGroups.Annotation_CLI)>
+    Public Function BBHReplace(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim bbh$ = args <= "/bbh"
+        Dim out$ = (args <= "/out") Or $"{in$.TrimSuffix}_replaced.csv".AsDefault
+        Dim dataset As EntityObject() = EntityObject _
+            .LoadDataSet([in]) _
+            .ToArray
+        Dim alignHits As Dictionary(Of String, BBHIndex) = bbh _
+            .LoadCsv(Of BBHIndex) _
+            .ToDictionary(Function(x)
+                              Return x.QueryName.Split("|"c)(1)
+                          End Function)
+
+        For Each protein As EntityObject In dataset
+            If alignHits.ContainsKey(protein.ID) Then
+                With alignHits(protein.ID).HitName
+                    If Not .StringEmpty AndAlso .ref <> IBlastOutput.HITS_NOT_FOUND Then
+                        protein.ID = .ref
+                    End If
+                End With
+            End If
+        Next
+
+        Return dataset _
+            .SaveTo(out) _
+            .CLICode
     End Function
 
     <ExportAPI("/COG.profiling.plot",

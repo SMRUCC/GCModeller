@@ -260,6 +260,18 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return LQuery
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function BuildGrepScript(script As String) As TextGrepMethod
+            If script.StringEmpty OrElse script = "-" Then
+                Return Function(str) str
+            Else
+                Return TextGrepScriptEngine _
+                    .Compile(script) _
+                    .PipelinePointer
+            End If
+        End Function
+
         ''' <summary>
         ''' File processor for the file size which is greater than 10GB.
         ''' (处理非常大的blast输出文件的时候所需要的，大小大于10GB的文件建议使用这个方法处理)

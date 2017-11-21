@@ -89,7 +89,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
         Const subjectInfoRegexp$ = ".+?Length=\d+"
 
-        Private Function subjectInfo(block$) As NamedValue(Of Integer)
+        Friend Function subjectInfo(block$) As NamedValue(Of Integer)
             Dim info$ = r.Match(block, subjectInfoRegexp, RegexICSng) _
                 .Value _
                 .TrimNewLine
@@ -113,7 +113,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             }
         End Function
 
-        <Extension> Private Function parseFragment(block$, scores$, pos%) As String
+        <Extension> Friend Function parseFragment(block$, scores$, pos%) As String
             Dim start% = InStr(pos, block, scores)
             Dim end% = InStr(start + 5, block, " Score =")
 
@@ -157,7 +157,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
         Const queryInfoRegexp$ = "Query=\s*.+?Length=\d+"
 
-        <Extension> Private Function queryInfo(block$) As NamedValue(Of Integer)
+        <Extension> Friend Function queryInfo(block$) As NamedValue(Of Integer)
             Dim info$ = r.Match(block, queryInfoRegexp, RegexICSng).Value.TrimNewLine
             Dim tuple = Strings.Split(info, "Length=")
             Dim name$ = tuple(0).GetTagValue("=", trim:=True).Value

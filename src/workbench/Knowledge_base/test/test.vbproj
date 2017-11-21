@@ -110,6 +110,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\Microsoft.VisualBasic.Webservices.Bing.vbproj">
+      <Project>{4cc91a21-9bda-45c3-a412-711711bccdd8}</Project>
+      <Name>Microsoft.VisualBasic.Webservices.Bing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Knowledge_base\Knowledge_base.vbproj">
       <Project>{93e00cb0-0e25-44cb-9d66-c18d3190a413}</Project>
       <Name>Knowledge_base</Name>
