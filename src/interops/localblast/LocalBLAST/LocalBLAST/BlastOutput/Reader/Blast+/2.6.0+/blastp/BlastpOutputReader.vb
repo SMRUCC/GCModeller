@@ -100,7 +100,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim subjectInfo As NamedValue(Of Integer) = BlastX.OutputReader.subjectInfo(block)
             Dim tmp As New List(Of FragmentHit)
             Dim HSP$() = r _
-                .Matches(block, BlastXScore.REGEX_BLASTX_SCORE, RegexICSng) _
+                .Matches(block, REGEX_BLASTP_SCORE, RegexICSng) _
                 .ToArray
             Dim pos% = 1
             Dim hspRegion$
