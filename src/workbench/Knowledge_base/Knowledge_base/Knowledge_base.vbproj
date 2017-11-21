@@ -84,12 +84,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\PubDate.vb" />
-    <Compile Include="MedlineCitation\Components.vb" />
-    <Compile Include="MedlineCitation\Article.vb" />
-    <Compile Include="PubmedData\Data.vb" />
-    <Compile Include="PubMedServicesExtensions.vb" />
-    <Compile Include="PubmedArticle.vb" />
+    <Compile Include="PubMed\Components\PubDate.vb" />
+    <Compile Include="PubMed\MedlineCitation\Components.vb" />
+    <Compile Include="PubMed\MedlineCitation\Article.vb" />
+    <Compile Include="PubMed\PubmedData\Data.vb" />
+    <Compile Include="PubMed\PubMedServicesExtensions.vb" />
+    <Compile Include="PubMed\PubmedArticle.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -125,11 +125,17 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="NLP\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\Microsoft.VisualBasic.Webservices.Bing.vbproj">
+      <Project>{4cc91a21-9bda-45c3-a412-711711bccdd8}</Project>
+      <Name>Microsoft.VisualBasic.Webservices.Bing</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
