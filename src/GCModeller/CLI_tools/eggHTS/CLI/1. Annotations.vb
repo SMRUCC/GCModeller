@@ -58,6 +58,7 @@ Imports SMRUCC.genomics.Data.GeneOntology.GoStat
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 
@@ -673,11 +674,13 @@ Partial Module CLI
                           End Function)
 
         For Each protein As EntityObject In dataset
-            With alignHits(protein.ID).HitName
-                If Not .StringEmpty Then
-                    protein.ID = .ref
-                End If
-            End With
+            If alignHits.ContainsKey(protein.ID) Then
+                With alignHits(protein.ID).HitName
+                    If Not .StringEmpty AndAlso .ref <> IBlastOutput.HITS_NOT_FOUND Then
+                        protein.ID = .ref
+                    End If
+                End With
+            End If
         Next
 
         Return dataset _
