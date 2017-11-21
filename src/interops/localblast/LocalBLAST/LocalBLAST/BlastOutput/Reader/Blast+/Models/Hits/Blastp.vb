@@ -36,6 +36,62 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Componen
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 
+    Public Class BlastpSubjectHit : Inherits SubjectHit
+        Public Property FragmentHits As FragmentHit()
+
+        Public Overrides Property Hsp As HitSegment()
+            Get
+                Return FragmentHits _
+                    .Select(Function(f) f.Hsp) _
+                    .IteratesALL _
+                    .ToArray
+            End Get
+            Set(value As HitSegment())
+                MyBase.Hsp = value
+            End Set
+        End Property
+
+        Public Overrides ReadOnly Property LengthHit As Integer
+            Get
+                Dim LQuery As IEnumerable(Of Integer) =
+                    LinqAPI.Exec(Of Integer) <= From Segment As HitSegment
+                                                In Hsp
+                                                Select From ch As Char
+                                                       In Segment.Query.SequenceData
+                                                       Where ch = "-"c
+                                                       Select 1
+                Dim value As Integer = LQuery.Sum
+                Return FragmentHits.Select(Function(s) s.Score.Gaps.Denominator).Sum - value  ' 减去插入的空格就是比对上的长度了
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property LengthQuery As Integer
+            Get
+                Dim LQuery As Integer() =
+                    LinqAPI.Exec(Of Integer) <= From Segment As HitSegment
+                                                In Hsp
+                                                Select From ch As Char
+                                                       In Segment.Subject.SequenceData
+                                                       Where ch = "-"c
+                                                       Select 1
+                Dim value As Integer = LQuery.Sum
+                Return FragmentHits.Select(Function(s) s.Score.Gaps.Denominator).Sum - value
+            End Get
+        End Property
+    End Class
+
+    Public Class FragmentHit
+
+        Public Property HitName As String
+        Public Property HitLength As Integer
+        Public Property Score As Score
+        Public Property Hsp As HitSegment()
+
+        Public Overrides Function ToString() As String
+            Return HitName
+        End Function
+    End Class
+
     Public Class SubjectHit
 
         <XmlAttribute> Public Property Name As String
@@ -46,7 +102,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         <XmlAttribute> Public Property Length As Long
         <XmlElement> Public Property Score As Score
 
-        Public Property Hsp As HitSegment()
+        Public Overridable Property Hsp As HitSegment()
 
         ''' <summary>
         ''' Hit position on the query sequence.
@@ -72,7 +128,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' 高分区的hit片段的长度
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property LengthHit As Integer
+        Public Overridable ReadOnly Property LengthHit As Integer
             Get
                 Dim LQuery As IEnumerable(Of Integer) =
                     LinqAPI.Exec(Of Integer) <= From Segment As HitSegment
@@ -86,7 +142,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             End Get
         End Property
 
-        Public ReadOnly Property LengthQuery As Integer
+        Public Overridable ReadOnly Property LengthQuery As Integer
             Get
                 Dim LQuery As Integer() =
                     LinqAPI.Exec(Of Integer) <= From Segment As HitSegment

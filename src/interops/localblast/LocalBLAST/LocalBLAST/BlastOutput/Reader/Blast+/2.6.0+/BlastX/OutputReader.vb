@@ -113,7 +113,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             }
         End Function
 
-        <Extension> Private Function parseFragment(block$, scores$, pos%) As String
+        <Extension> Friend Function parseFragment(block$, scores$, pos%) As String
             Dim start% = InStr(pos, block, scores)
             Dim end% = InStr(start + 5, block, " Score =")
 

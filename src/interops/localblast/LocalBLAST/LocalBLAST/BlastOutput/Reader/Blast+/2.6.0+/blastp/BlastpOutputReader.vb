@@ -98,26 +98,40 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         <Extension>
         Private Function subjectParser(block$) As SubjectHit
             Dim subjectInfo As NamedValue(Of Integer) = BlastX.OutputReader.subjectInfo(block)
-            Dim tmp As New List(Of HitSegment)
-            Dim scoreText$ = r _
-                .Match(block, REGEX_BLASTP_SCORE, RegexICSng) _
-                .Value
-            Dim score As Score = Score.TryParse(scoreText)
-            Dim hsp = Strings.Split(block, scoreText) _
-                .Last _
-                .lTokens _
-                .Where(Function(s) Not s.StringEmpty) _
-                .CreateSlideWindows(slideWindowSize:=3, offset:=3) _
+            Dim tmp As New List(Of FragmentHit)
+            Dim HSP$() = r _
+                .Matches(block, BlastXScore.REGEX_BLASTX_SCORE, RegexICSng) _
                 .ToArray
-            Dim segments = hsp _
-                .Select(Function(h) HitSegment.TryParse(h.ToArray)) _
-                .ToArray
+            Dim pos% = 1
+            Dim hspRegion$
 
-            Return New SubjectHit With {
-                .Hsp = segments,
+            For Each score As String In HSP
+                hspRegion = BlastX.parseFragment(block, score, pos)
+                tmp += __hspParser(hspRegion, score)
+                pos += score.Length
+            Next
+
+            For Each x In tmp
+                x.HitLength = subjectInfo.Value
+                x.HitName = subjectInfo.Name
+            Next
+
+            Return New BlastpSubjectHit With {
                 .Length = subjectInfo.Value,
                 .Name = subjectInfo.Name,
-                .Score = score
+                .FragmentHits = tmp
+            }
+        End Function
+
+        Private Function __hspParser(s As String, scoreText As String) As FragmentHit
+            Dim hsp = s.lTokens.Split(3, echo:=False)
+            Dim LQuery As HitSegment() = hsp _
+                .Select(Function(x) HitSegment.TryParse(x)) _
+                .ToArray
+
+            Return New FragmentHit With {
+                .Score = Score.TryParse(scoreText),
+                .Hsp = LQuery
             }
         End Function
     End Module
