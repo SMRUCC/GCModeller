@@ -181,13 +181,25 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".sbh.Csv")
         Dim idetities As Double = args.GetValue("/identities", 0.15)
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
-        Dim sPattern$ = args.GetValue("/s.pattern", "-")
-        Dim qPattern$ = args.GetValue("/q.pattern", "-")
+        Dim sPattern = args.GetValue("/s.pattern", "-").BuildGrepScript
+        Dim qPattern = args.GetValue("/q.pattern", "-").BuildGrepScript
 
         Using IO As New WriteStream(Of BestHit)(out)
-            Dim handle As Action(Of Query) = IO.ToArray(Of Query)(
-                Function(query) v228.SBHLines(query, coverage:=coverage, identities:=idetities))
-            Call Transform(inFile, 1024 * 1024 * 256, handle, grep:=(qPattern, sPattern))
+            Dim handle As Action(Of Query) = IO _
+                .ToArray(Of Query)(Function(query)
+                                       Return v228.SBHLines(query, coverage:=coverage, identities:=idetities)
+                                   End Function)
+
+            For Each query As Query In BlastpOutputReader.RunParser(inFile)
+                query.QueryName = qPattern(query.QueryName)
+
+                For Each hits In query.SubjectHits.SafeQuery
+                    hits.Name = sPattern(hits.Name)
+                Next
+
+                Call handle(query)
+                Call Console.Write(".")
+            Next
         End Using
 
         Return 0

@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::98e5aeb026afc2d497d63e004365bb55, ..\localblast\CLI_tools\CLI\gbTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
@@ -46,6 +47,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -189,13 +191,32 @@ Partial Module CLI
         Return fasta.Save(out, Encodings.ASCII)
     End Function
 
-    <ExportAPI("/Export.BlastX", Usage:="/Export.BlastX /in <blastx.txt> [/out <out.csv>]")>
+    <ExportAPI("/Export.BlastX")>
+    <Usage("/Export.BlastX /in <blastx.txt> [/top /out <out.csv>]")>
+    <Description("Export the blastx alignment result into a csv table.")>
+    <Argument("/top", True, CLITypes.Boolean,
+              Description:="Only output the top first alignment result? Default is not.")>
+    <Argument("/in", False, CLITypes.File,
+              PipelineTypes.std_in,
+              Extensions:="*.txt",
+              Description:="The text file content output from the blastx command in NCBI blast+ suite.")>
     <Group(CLIGrouping.GenbankTools)>
     Public Function ExportBlastX(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".blastx.csv")
-        Dim blastx As BlastPlus.BlastX.v228_BlastX = BlastPlus.BlastX.TryParseOutput([in])
+        Dim top As Boolean = args.IsTrue("/top")
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{If(top, "top", "")}.blastx.csv")
+
+        If top Then
+            Call "The top one will be output...".__INFO_ECHO
+        End If
+
+        Dim blastx As v228_BlastX = BlastPlus.BlastX.TryParseOutput([in])
         Dim result = blastx.BlastXHits
+
+        If top Then
+            result = result.TopBest
+        End If
+
         Return result.SaveTo(out)
     End Function
 

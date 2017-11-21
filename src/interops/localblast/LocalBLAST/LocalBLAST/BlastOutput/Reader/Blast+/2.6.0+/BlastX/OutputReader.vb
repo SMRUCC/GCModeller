@@ -29,7 +29,6 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -50,10 +49,10 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         ''' <param name="path">The file path of the blastx output file.(blastx输出文件的文件路径)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function TryParseOutput(path$, Optional encoding As Encoding = Nothing) As v228_BlastX
+        Public Function TryParseOutput(path$, Optional top As Boolean = False, Optional encoding As Encoding = Nothing) As v228_BlastX
             Dim LQuery As Components.Query() = path _
                 .QueryBlockIterator(encoding:=encoding Or UTF8) _
-                .Select(AddressOf __queryParser) _
+                .Select(Function(block) __queryParser(block, top)) _
                 .ToArray
 
             Return New v228_BlastX With {
@@ -90,7 +89,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
         Const subjectInfoRegexp$ = ".+?Length=\d+"
 
-        Private Function subjectInfo(block$) As NamedValue(Of Integer)
+        Friend Function subjectInfo(block$) As NamedValue(Of Integer)
             Dim info$ = r.Match(block, subjectInfoRegexp, RegexICSng) _
                 .Value _
                 .TrimNewLine
@@ -114,7 +113,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             }
         End Function
 
-        <Extension> Private Function parseFragment(block$, scores$, pos%) As String
+        <Extension> Friend Function parseFragment(block$, scores$, pos%) As String
             Dim start% = InStr(pos, block, scores)
             Dim end% = InStr(start + 5, block, " Score =")
 
@@ -158,7 +157,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
         Const queryInfoRegexp$ = "Query=\s*.+?Length=\d+"
 
-        <Extension> Private Function queryInfo(block$) As NamedValue(Of Integer)
+        <Extension> Friend Function queryInfo(block$) As NamedValue(Of Integer)
             Dim info$ = r.Match(block, queryInfoRegexp, RegexICSng).Value.TrimNewLine
             Dim tuple = Strings.Split(info, "Length=")
             Dim name$ = tuple(0).GetTagValue("=", trim:=True).Value
@@ -170,7 +169,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         End Function
 
         <Extension>
-        Private Function __queryParser(block$, queryInfo As NamedValue(Of Integer)) As Components.Query
+        Private Function __queryParser(block$, queryInfo As NamedValue(Of Integer), top As Boolean) As Components.Query
             Dim bufs As New List(Of Components.Subject)
             Dim parts$() = r _
                 .Split(block, "^>", RegexOptions.Multiline) _
@@ -185,6 +184,11 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
                 bufs += subject _
                     .Trim _
                     .subjectParser()
+
+                ' 只导出最好的第一条比对结果？
+                If top Then
+                    Exit For
+                End If
             Next
 
             Return New Components.Query With {
@@ -199,7 +203,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         ''' </summary>
         ''' <param name="str"></param>
         ''' <returns></returns>
-        Private Function __queryParser(str$) As Components.Query
+        Private Function __queryParser(str$, top As Boolean) As Components.Query
             Dim queryInfo = str.queryInfo
 
             If InStr(str, "***** No hits found *****") Then
@@ -212,7 +216,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
                     .Split(str, "^Lambda\s+", RegexICMul) _
                     .First _
                     .Trim _
-                    .__queryParser(queryInfo)
+                    .__queryParser(queryInfo, top)
             End If
         End Function
 

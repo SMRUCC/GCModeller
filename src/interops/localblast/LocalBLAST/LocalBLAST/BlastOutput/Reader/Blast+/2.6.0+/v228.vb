@@ -202,36 +202,44 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function ExportAllBestHist(Optional coverage As Double = 0.5, Optional identities_cutoff As Double = 0.15) As BestHit()
-            Dim LQuery = LinqAPI.Exec(Of BestHit) <= From query As Query
-                                                     In Queries
-                                                     Select SBHLines(query, coverage, identities_cutoff) '
+            Dim LQuery = LinqAPI.Exec(Of BestHit) _
+ _
+                () <= From query As Query
+                      In Queries
+                      Select SBHLines(query, coverage, identities_cutoff) '
+
             Return LQuery
         End Function
 
         Public Shared Function ExportBesthits(QueryName$, QueryLength%, Besthits As SubjectHit()) As BestHit()
-            Dim locusId As String = QueryName.Split.First
-            Dim sbh As BestHit() = LinqAPI.Exec(Of BestHit) <=
+            Dim locusID$ = QueryName.Split.First
+            Dim sbh As BestHit() = LinqAPI.Exec(Of BestHit) _
  _
-                From besthit As SubjectHit
-                In Besthits
-                Let Score As Score = besthit.Score
-                Let hitName = besthit.Name.Trim
-                Let hitID = hitName.Split.First
-                Let def As String = Mid(hitName, Len(hitID) + 1).Trim  ' 因为在进行blast搜索的时候，query还是未知的，所以描述信息这里应该是取hits 的
-                Select New BestHit With {
-                    .QueryName = locusId,
-                    .HitName = hitID,
-                    .query_length = QueryLength,
-                    .hit_length = besthit.Length,
-                    .Score = Score.RawScore,
-                    .evalue = Score.Expect,
-                    .identities = Score.Identities.Value,
-                    .Positive = Score.Positives.Value,
-                    .length_hit = besthit.LengthHit,
-                    .length_query = besthit.LengthQuery,
-                    .length_hsp = besthit.Score.Gaps.Denominator,
-                    .description = def
-                }
+                () <= From besthit As SubjectHit
+                      In Besthits
+                      Let Score As Score = besthit.Score
+                      Let hitName = besthit.Name.Trim
+                      Let hitID = hitName.Split.First
+                      Let def As String = Mid(hitName, Len(hitID) + 1).Trim  ' 因为在进行blast搜索的时候，query还是未知的，所以描述信息这里应该是取hits的
+                      Let rawScore = If(Score Is Nothing, DirectCast(besthit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.RawScore).Average, Score.RawScore)
+                      Let exp = If(Score Is Nothing, DirectCast(besthit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.Expect).Average, Score.Expect)
+                      Let identity = If(Score Is Nothing, DirectCast(besthit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.Identities.Value).Average, Score.Identities.Value)
+                      Let pos = If(Score Is Nothing, DirectCast(besthit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.Positives.Value).Average, Score.Positives.Value)
+                      Let gaps = If(Score Is Nothing, DirectCast(besthit, BlastpSubjectHit).FragmentHits.Select(Function(s) s.Score.Gaps.Value).Average, Score.Gaps.Value)
+                      Select New BestHit With {
+                          .QueryName = locusID,
+                          .HitName = hitID,
+                          .query_length = QueryLength,
+                          .hit_length = besthit.Length,
+                          .Score = rawScore,
+                          .evalue = exp,
+                          .identities = identity,
+                          .Positive = pos,
+                          .length_hit = besthit.LengthHit,
+                          .length_query = besthit.LengthQuery,
+                          .length_hsp = gaps,
+                          .description = def
+                      }
 
             Return sbh
         End Function

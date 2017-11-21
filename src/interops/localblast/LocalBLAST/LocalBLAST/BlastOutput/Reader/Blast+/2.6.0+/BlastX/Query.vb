@@ -31,6 +31,9 @@ Imports Microsoft.VisualBasic.Language
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components
 
     ''' <summary>
+    ''' The blastx query input result data.
+    ''' 
+    ''' ```
     ''' + Query
     '''   + Subject
     '''      + Fragment
@@ -39,11 +42,17 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components
     '''         + HSP3
     '''      + Fragment
     '''      ...
+    ''' ```
     ''' </summary>
     Public Class Query
 
         Public Property QueryName As String
         Public Property QueryLength As Integer
+
+        ''' <summary>
+        ''' The hits result in target protein sequence database.
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Subjects As Subject()
 
         Public Overrides Function ToString() As String
@@ -55,10 +64,17 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX.Components
         End Function
     End Class
 
+    ''' <summary>
+    ''' The hits result in target protein sequence database.
+    ''' </summary>
     Public Class Subject
 
         Public Property SubjectName As String
         Public Property SubjectLength As Integer
+        ''' <summary>
+        ''' The blastx subject hit is consist with sevral fragment.
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Hits As HitFragment()
 
         Public Overrides Function ToString() As String

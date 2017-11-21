@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
@@ -38,6 +39,10 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
 
         Public Const REGEX_BLASTX_SCORE As String = " Score = .+?Identities\s+=.+?Frame =\s+[+-]?\d"
 
+        ''' <summary>
+        ''' The triple codon offset.
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute>
         Public Property Frame As Integer
 
@@ -95,6 +100,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
             Return Me.GetJson
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function TryParse(text As String) As Score
             Return TryParse(Of Score)(text)
         End Function

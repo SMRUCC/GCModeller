@@ -43,7 +43,6 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         Sub New(query As Components.Query, hit As Components.HitFragment)
             Me.evalue = hit.Score.Expect
             Me.Frame = hit.ReadingFrameOffSet
-            Me.HitName = hit.HitName
             Me.hit_length = hit.HitLen
             Me.identities = hit.Score.Identities
             Me.length_hit = hit.SubjectLength
@@ -53,6 +52,11 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             Me.QueryName = query.QueryName
             Me.query_length = query.QueryLength
             Me.Score = hit.Score.Score
+
+            With hit.HitName.GetTagValue(" ", trim:=True)
+                HitName = .Name
+                description = .Value
+            End With
         End Sub
 
         Public Overrides Function ToString() As String
