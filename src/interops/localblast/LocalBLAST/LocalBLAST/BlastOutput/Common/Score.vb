@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
@@ -99,6 +100,7 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
             Return Me.GetJson
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function TryParse(text As String) As Score
             Return TryParse(Of Score)(text)
         End Function

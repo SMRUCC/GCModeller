@@ -112,7 +112,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <param name="strText"></param>
         ''' <returns></returns>
         Public Shared Function TryParse(strText As String) As Query
-            Dim Query As Query = New Query With {
+            Dim Query As New Query With {
                 .QueryName = GetQueryName(strText),
                 .QueryLength = GetQueryLength(strText)
             }

@@ -89,7 +89,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
         Const subjectInfoRegexp$ = ".+?Length=\d+"
 
-        Private Function subjectInfo(block$) As NamedValue(Of Integer)
+        Friend Function subjectInfo(block$) As NamedValue(Of Integer)
             Dim info$ = r.Match(block, subjectInfoRegexp, RegexICSng) _
                 .Value _
                 .TrimNewLine
@@ -157,7 +157,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
         Const queryInfoRegexp$ = "Query=\s*.+?Length=\d+"
 
-        <Extension> Private Function queryInfo(block$) As NamedValue(Of Integer)
+        <Extension> Friend Function queryInfo(block$) As NamedValue(Of Integer)
             Dim info$ = r.Match(block, queryInfoRegexp, RegexICSng).Value.TrimNewLine
             Dim tuple = Strings.Split(info, "Length=")
             Dim name$ = tuple(0).GetTagValue("=", trim:=True).Value

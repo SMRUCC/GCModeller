@@ -249,6 +249,7 @@
     <Compile Include="Analysis\Models\Besthit.vb" />
     <Compile Include="Analysis\Models\KEGG_API.vb" />
     <Compile Include="Analysis\Models\Hits.vb" />
+    <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\BlastpOutputReader.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\BlastXHit.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\HitFragment.vb" />
     <Compile Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastX\Extensions.vb" />
@@ -374,7 +375,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastn\" />
-    <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\" />
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\deltablast\" />
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\psiblast\" />
     <Folder Include="LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\rpsblast\" />
