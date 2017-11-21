@@ -59,6 +59,7 @@ Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 
@@ -687,6 +688,33 @@ Partial Module CLI
         Next
 
         Return dataset _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/blastX.fill.ORF")>
+    <Description("")>
+    <Usage("/blastX.fill.ORF /in <annotations.csv> /blastx <blastx.csv> [/out <out.csv>]")>
+    <Group(CLIGroups.Annotation_CLI)>
+    Public Function BlastXFillORF(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim blastx$ = args <= "/blastx"
+        Dim out$ = (args <= "/out") Or $"{in$.TrimSuffix}-blastx.ORF.csv".AsDefault
+        Dim proteins As EntityObject() = EntityObject _
+            .LoadDataSet([in]) _
+            .ToArray
+        Dim blastXhits = blastx _
+            .LoadCsv(Of BlastXHit) _
+            .ToDictionary(Function(hit) hit.HitName.Split("|"c)(1),
+                          Function(query) query.QueryName)
+
+        For Each protein In proteins
+            If blastXhits.ContainsKey(protein.ID) Then
+                protein!ORF = blastXhits(protein.ID)
+            End If
+        Next
+
+        Return proteins _
             .SaveTo(out) _
             .CLICode
     End Function
