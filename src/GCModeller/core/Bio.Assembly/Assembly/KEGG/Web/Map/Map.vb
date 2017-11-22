@@ -28,6 +28,7 @@
 
 Imports System.Drawing
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -68,6 +69,24 @@ Namespace Assembly.KEGG.WebServices
 
         Const data$ = "<map name=""mapdata"">.+?</map>"
 
+        '<html>
+        '<!---
+        'ENTRY       map01100
+        'DEFINITION  Metabolic pathways - Reference pathway
+        '--->
+
+        Private Shared Function GetEntryInfo(html As String) As NamedValue(Of String)
+            Dim comment$ = html.GetHtmlComments.First
+            Dim text = comment.lTokens
+            Dim entry = text(1).GetTagValue(" ", trim:=True).Value
+            Dim definition = text(2).GetTagValue(" ", trim:=True).Value
+
+            Return New NamedValue(Of String) With {
+                .Name = entry,
+                .Value = definition
+            }
+        End Function
+
         Public Shared Function ParseHTML(url$) As Map
             Dim html$ = url.GET
             Dim map$ = r.Match(html, data, RegexICSng).Value
@@ -86,9 +105,13 @@ Namespace Assembly.KEGG.WebServices
                 img = FastaToken.SequenceLineBreak(200, img)
             End With
 
+            Dim info As NamedValue(Of String) = GetEntryInfo(html)
+
             Return New Map With {
                 .PathwayImage = img,
-                .Areas = shapes
+                .Areas = shapes,
+                .ID = info.Name,
+                .Name = info.Value
             }
         End Function
     End Class

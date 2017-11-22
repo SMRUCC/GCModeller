@@ -8,7 +8,10 @@ Imports PathwayEntry = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
 
 Namespace Assembly.KEGG.WebServices
 
-    Public Module Downloader
+    ''' <summary>
+    ''' KEGG reference map downloader API
+    ''' </summary>
+    Public Module MapDownloader
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function loadEntryAuto(file As String) As PathwayEntry()
@@ -19,6 +22,12 @@ Namespace Assembly.KEGG.WebServices
             End If
         End Function
 
+        ''' <summary>
+        ''' Download the KEGG reference map data.
+        ''' </summary>
+        ''' <param name="EXPORT$"></param>
+        ''' <param name="briefFile$"></param>
+        ''' <returns></returns>
         Public Function Downloads(EXPORT$, Optional briefFile$ = Nothing) As String()
             Dim briefEntries As PathwayEntry() = loadEntryAuto(briefFile)
             Dim failures As New List(Of String)
@@ -75,7 +84,7 @@ Namespace Assembly.KEGG.WebServices
                 Throw New UnauthorizedAccessException
             End If
 
-            Return Downloader.Downloads(EXPORT, briefFile:=temp)
+            Return MapDownloader.Downloads(EXPORT, briefFile:=temp)
         End Function
     End Module
 End Namespace
