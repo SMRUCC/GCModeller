@@ -42,9 +42,10 @@ Public Module PathwayMap
                                           Return list.ToArray
                                       End Function)
 
-                    Dim compounds$, genes$
+                    Dim compounds$, genes$, reactions$
                     Dim compoundList$()
                     Dim geneList$()
+                    Dim reactionList$()
 
                     With groups
 
@@ -66,6 +67,16 @@ Public Module PathwayMap
                             geneList = {}
                         End If
 
+                        If .ContainsKey("Reaction") Then
+                            reactionList = !Reaction _
+                               .Select(Function(a) a.IDVector) _
+                               .IteratesALL _
+                               .ToArray
+                        Else
+                            reactionList = {}
+                        End If
+
+                        reactions = base.c(reactionList, stringVector:=True)
                         genes = base.c(geneList, stringVector:=True)
                         compounds = base.c(compoundList, stringVector:=True)
                     End With
@@ -73,11 +84,12 @@ Public Module PathwayMap
                     .call = $"{map}           <- list();"
                     .call = $"{map}$compounds <- {compounds};"
                     .call = $"{map}$genes     <- {genes};"
+                    .call = $"{map}$reactions <- {reactions};"
                     .call = $"{map}$ID        <- {Rstring(pathway.ID)};"
                     .call = $"{map}$Name      <- {Rstring(pathway.Name)};"
                     .call = $"{pathwayList}[[""{pathway.ID}""]] <- {map};"
 
-                    For Each ID As String In compoundList.AsList + geneList
+                    For Each ID As String In compoundList.AsList + geneList + reactionList
                         If Not assign.ContainsKey(ID) Then
                             Call assign.Add(ID, New List(Of String))
                         End If
