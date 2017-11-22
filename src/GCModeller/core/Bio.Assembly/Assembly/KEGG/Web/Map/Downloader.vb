@@ -4,6 +4,7 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.Text
 Imports PathwayEntry = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
 
 Namespace Assembly.KEGG.WebServices
@@ -58,7 +59,7 @@ Namespace Assembly.KEGG.WebServices
                         If Not save.FileExists(True) Then
                             Call Map.ParseHTML(url) _
                                 .GetXml _
-                                .SaveTo(save)
+                                .SaveTo(save, TextEncodings.UTF8WithoutBOM)
                             Call Thread.Sleep(2500)
                         End If
                     Catch ex As Exception
