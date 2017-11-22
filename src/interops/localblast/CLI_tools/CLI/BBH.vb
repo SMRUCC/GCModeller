@@ -102,9 +102,9 @@ Partial Module CLI
         Return meta.SaveAsXml(out).CLICode
     End Function
 
-    <ExportAPI("/sbh2bbh",
-               Info:="Export bbh result from the sbh pairs.",
-               Usage:="/sbh2bbh /qvs <qvs.sbh.csv> /svq <svq.sbh.csv> [/trim /identities <-1> /coverage <-1> /all /out <bbh.csv>]")>
+    <ExportAPI("/sbh2bbh")>
+    <Description("Export bbh result from the sbh pairs.")>
+    <Usage("/sbh2bbh /qvs <qvs.sbh.csv> /svq <svq.sbh.csv> [/trim /identities <-1> /coverage <-1> /all /out <bbh.csv>]")>
     <Argument("/identities", True, CLITypes.Double,
               Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
     <Argument("/coverage", True, CLITypes.Double,
@@ -129,9 +129,35 @@ Partial Module CLI
             Next
         End If
 
-        Dim bbh As BiDirectionalBesthit() = If(all,
-            BBHParser.GetDirreBhAll2(qsbh.ToArray, ssbh.ToArray, identities, coverage),
-            BBHParser.GetBBHTop(qsbh.ToArray, ssbh.ToArray, identities, coverage))
+        Dim bbh As BiDirectionalBesthit()
+
+        If all Then
+            bbh = BBHParser.GetDirreBhAll2(qsbh.ToArray, ssbh.ToArray, identities, coverage)
+        Else
+            bbh = BBHParser.GetBBHTop(qsbh.ToArray, ssbh.ToArray, identities, coverage) _
+                .GroupBy(Function(hit) hit.HitName) _
+                .Select(Function(g)
+                            If g.Key.StringEmpty OrElse g.Key = IBlastOutput.HITS_NOT_FOUND Then
+                                Return g.ToArray
+                            Else
+                                Dim top = g.OrderByDescending(Function(hit) hit.Identities).First
+
+                                For Each x As BiDirectionalBesthit In g
+                                    If Not x Is top Then
+                                        x.HitName = ""
+                                        x.Identities = 0
+                                        x.Positive = 0
+                                        x.Length = 0
+                                    End If
+                                Next
+
+                                Return g.ToArray
+                            End If
+                        End Function) _
+                .IteratesALL _
+                .ToArray
+        End If
+
         Dim out$ = (args <= "/out") Or (qvs.TrimSuffix & $"{If(all, "-all", "")},{identities},{coverage}.bbh.csv").AsDefault
         Return bbh.SaveTo(out).CLICode
     End Function
