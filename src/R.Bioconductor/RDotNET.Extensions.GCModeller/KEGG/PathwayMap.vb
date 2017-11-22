@@ -77,7 +77,7 @@ Public Module PathwayMap
                     .call = $"{map}$Name      <- {Rstring(pathway.Name)};"
                     .call = $"{pathwayList}[[""{pathway.ID}""]] <- {map};"
 
-                    For Each ID As String In compounds.AsList + genes
+                    For Each ID As String In compoundList.AsList + geneList
                         If Not assign.ContainsKey(ID) Then
                             Call assign.Add(ID, New List(Of String))
                         End If
