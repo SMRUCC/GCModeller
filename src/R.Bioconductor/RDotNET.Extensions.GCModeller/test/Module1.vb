@@ -4,6 +4,6 @@ Module Module1
 
     Sub Main()
 
-        Call MapDownloader.Downloads("./")
+        Call MapDownloader.Downloads("./KEGGMaps/")
     End Sub
 End Module

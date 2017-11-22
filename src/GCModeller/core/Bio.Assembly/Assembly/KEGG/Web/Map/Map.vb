@@ -28,7 +28,9 @@
 
 Imports System.Drawing
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -38,10 +40,11 @@ Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.WebServices
 
-    Public Class Map
+    Public Class Map : Implements INamedValue
 
-        <XmlAttribute> Public Property ID As String
-        <XmlAttribute> Public Property Name As String
+        <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
+        <XmlElement>
+        Public Property Name As String
 
         ''' <summary>
         ''' 节点的位置，在这里面包含有代谢物(小圆圈)以及基因(方块)的位置定义
