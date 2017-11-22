@@ -369,9 +369,16 @@ Namespace API
         ''' This Is a primitive function.
         ''' </remarks>
         Public Function c(list As IEnumerable(Of String), Optional recursive As Boolean = False) As String
-            Dim out As String = App.NextTempName
-            Call $"{out} <- c({list.JoinBy(", ")}, recursive = {recursive.λ})".__call
-            Return out
+            With list.SafeQuery.ToArray
+                If .Length = 0 Then
+                    Return "NULL"
+                Else
+                    Dim out$ = App.NextTempName
+                    Dim exp$ = $"c({ .JoinBy(", ")}, recursive = {CStr(recursive).ToUpper})"
+                    Call $"{out} <- {exp}".__call
+                    Return out
+                End If
+            End With
         End Function
 
         ''' <summary>

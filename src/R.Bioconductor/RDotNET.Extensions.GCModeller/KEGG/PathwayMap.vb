@@ -41,14 +41,20 @@ Public Module PathwayMap
                     Dim geneList$()
 
                     With groups
+
                         compoundList = !Compound _
                             .Select(Function(a) a.IDVector) _
                             .IteratesALL _
                             .ToArray
-                        geneList = !Gene _
-                            .Select(Function(a) a.IDVector) _
-                            .IteratesALL _
-                            .ToArray
+
+                        If .ContainsKey("Gene") Then
+                            geneList = !Gene _
+                                .Select(Function(a) a.IDVector) _
+                                .IteratesALL _
+                                .ToArray
+                        Else
+                            geneList = {}
+                        End If
 
                         genes = base.c(geneList, stringVector:=True)
                         compounds = base.c(compoundList, stringVector:=True)

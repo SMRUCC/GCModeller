@@ -6,10 +6,10 @@ Module Module1
 
     Sub Main()
 
-        Call MapDownloader.Downloads("./KEGGMaps/")
+        ' Call MapDownloader.Downloads("./KEGGMaps/")
 
 
-        Call (ls - l - r - "*.XML" <= "./KEGGMaps/") _
+        Call (ls - l - r - "*.XML" <= "D:\smartnucl_integrative\biodeepDB\protocols\biodeepMSMS1\biodeepMSMS\data\KEGGMaps") _
             .Select(AddressOf LoadXml(Of Map)) _
             .SaveRda("./KEGG.rda")
     End Sub
