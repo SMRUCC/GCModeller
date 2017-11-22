@@ -1,23 +1,30 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
+Imports PathwayEntry = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
 
 Namespace Assembly.KEGG.WebServices
 
     Public Module Downloader
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function loadEntryAuto(file As String) As PathwayEntry()
+            If file.FileExists Then
+                Return PathwayEntry.LoadData(file)
+            Else
+                Return PathwayEntry.LoadFromResource()
+            End If
+        End Function
+
         Public Function Downloads(EXPORT$, Optional briefFile$ = Nothing) As String()
-            Dim briefEntries As BriteHEntry.Pathway() =
-                If(String.IsNullOrEmpty(briefFile),
-                    BriteHEntry.Pathway.LoadFromResource,
-                    BriteHEntry.Pathway.LoadData(briefFile))
+            Dim briefEntries As PathwayEntry() = loadEntryAuto(briefFile)
             Dim failures As New List(Of String)
             Dim tick As New ProgressProvider(briefEntries.Length)
             Dim msg$
-            Dim getID = Function(entry As BriteHEntry.Pathway)
+            Dim getID = Function(entry As PathwayEntry)
                             If briefFile Is Nothing Then
                                 Return "map" & entry.EntryId
                             Else
