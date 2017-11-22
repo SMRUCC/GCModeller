@@ -30,7 +30,13 @@ Public Module PathwayMap
                     Dim map As String = App.NextTempName
                     Dim groups = pathway _
                         .Areas _
-                        .GroupBy(Function(x) x.Type) _
+                        .GroupBy(Function(x)
+                                     Try
+                                         Return x.Type
+                                     Catch ex As Exception
+                                         Return ""
+                                     End Try
+                                 End Function) _
                         .ToDictionary(Function(g) g.Key,
                                       Function(list)
                                           Return list.ToArray
@@ -42,10 +48,14 @@ Public Module PathwayMap
 
                     With groups
 
-                        compoundList = !Compound _
-                            .Select(Function(a) a.IDVector) _
-                            .IteratesALL _
-                            .ToArray
+                        If .ContainsKey("Compound") Then
+                            compoundList = !Compound _
+                                .Select(Function(a) a.IDVector) _
+                                .IteratesALL _
+                                .ToArray
+                        Else
+                            compoundList = {}
+                        End If
 
                         If .ContainsKey("Gene") Then
                             geneList = !Gene _

@@ -42,7 +42,7 @@ Namespace Assembly.KEGG.WebServices
         End Property
 
         ''' <summary>
-        ''' Compound, Gene, Pathway
+        ''' Compound, Gene, Pathway, Reaction
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Type As String
@@ -54,8 +54,12 @@ Namespace Assembly.KEGG.WebServices
                             Return NameOf(Compound)
                         ElseIf .IndexOf(":"c) > -1 Then
                             Return "Gene"
+                        ElseIf .IsPattern("R\d+") Then
+                            Return "Reaction"
                         ElseIf shape = "rect" AndAlso .IndexOf(":"c) = -1 Then
                             Return NameOf(Pathway)
+                        ElseIf shape = "poly" Then
+                            Return "Reaction"
                         Else
                             Throw New NotImplementedException(Me.GetXml)
                         End If
