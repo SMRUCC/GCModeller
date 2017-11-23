@@ -118,6 +118,9 @@ Public Module PathwayMap
 
         SyncLock R
             With R
+
+                .call = $"{slot} <- list();"
+
                 For Each entity As IDMap In assign
                     With entity
                         mapID = Rstring(.Key)
