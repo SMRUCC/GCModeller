@@ -11,6 +11,6 @@ Module Module1
 
         Call (ls - l - r - "*.XML" <= "D:\smartnucl_integrative\biodeepDB\protocols\biodeepMSMS1\biodeepMSMS\data\KEGGMaps") _
             .Select(AddressOf LoadXml(Of Map)) _
-            .SaveRda("./KEGG.rda")
+            .SaveRda("D:\smartnucl_integrative\DATA\KEGG\medicus\drug\drug", "./KEGG.rda")
     End Sub
 End Module

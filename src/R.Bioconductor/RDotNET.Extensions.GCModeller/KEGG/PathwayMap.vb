@@ -4,6 +4,8 @@ Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.Assembly.KEGG.Medical
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports IDMap = System.Collections.Generic.KeyValuePair(Of String, Microsoft.VisualBasic.Language.List(Of String))
 
@@ -18,10 +20,11 @@ Public Module PathwayMap
     ''' <param name="maps"></param>
     ''' <param name="rda$"></param>
     ''' <returns></returns>
-    <Extension> Public Function SaveRda(maps As IEnumerable(Of Map), rda$) As Boolean
+    <Extension> Public Function SaveRda(maps As IEnumerable(Of Map), drug$, rda$) As Boolean
         Dim assignGenes As New Dictionary(Of String, List(Of String))
         Dim assignCompounds As New Dictionary(Of String, List(Of String))
         Dim assignReactions As New Dictionary(Of String, List(Of String))
+        Dim drugs = DrugParser.ParseStream(drug).ToDictionary()
 
         ' Connect to R server
         SyncLock R
@@ -79,6 +82,21 @@ Public Module PathwayMap
                         Else
                             reactionList = {}
                         End If
+
+                        ' 可能会有药物的编号，将他们转换为Compound编号
+                        For i As Integer = 0 To compoundList.Length - 1
+                            With compoundList(i)
+                                If drugs.ContainsKey(.ref) Then
+                                    With drugs(.ref)
+                                        With .TheSameAs
+                                            If Not .StringEmpty Then
+                                                compoundList(i) = .ref
+                                            End If
+                                        End With
+                                    End With
+                                End If
+                            End With
+                        Next
 
                         reactions = base.c(reactionList, stringVector:=True)
                         genes = base.c(geneList, stringVector:=True)

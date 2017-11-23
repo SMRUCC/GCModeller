@@ -57,7 +57,7 @@ Namespace Assembly.KEGG.Medical
         End Function
 
         ''' <summary>
-        ''' Using remarks the same as map drug to compounds
+        ''' Using remarks the ``same as`` map compound to drug
         ''' </summary>
         ''' <param name="drugs"></param>
         ''' <returns></returns>
