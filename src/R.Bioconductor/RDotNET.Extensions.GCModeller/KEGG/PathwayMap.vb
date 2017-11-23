@@ -5,8 +5,12 @@ Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports IDMap = System.Collections.Generic.KeyValuePair(Of String, Microsoft.VisualBasic.Language.List(Of String))
 
 Public Module PathwayMap
+
+    Const pathwayAssign$ = "pathway.assigns"
+    Const pathwayList$ = "pathway.list"
 
     ''' <summary>
     ''' 将KEGG的参考代谢途径的注释信息和代谢反应的连接信息保存至``*.rda``数据集之中
@@ -15,13 +19,13 @@ Public Module PathwayMap
     ''' <param name="rda$"></param>
     ''' <returns></returns>
     <Extension> Public Function SaveRda(maps As IEnumerable(Of Map), rda$) As Boolean
-        Dim pathwayList$ = "pathway.list"
-        Dim pathwayAssign$ = "pathway.assigns"
+        Dim assignGenes As New Dictionary(Of String, List(Of String))
+        Dim assignCompounds As New Dictionary(Of String, List(Of String))
+        Dim assignReactions As New Dictionary(Of String, List(Of String))
 
+        ' Connect to R server
         SyncLock R
             With R
-
-                Dim assign As New Dictionary(Of String, List(Of String))
 
                 .call = $"{pathwayList}   <- list();"
                 .call = $"{pathwayAssign} <- list();"
@@ -34,7 +38,7 @@ Public Module PathwayMap
                                      Try
                                          Return x.Type
                                      Catch ex As Exception
-                                         Return ""
+                                         Return "Compound"
                                      End Try
                                  End Function) _
                         .ToDictionary(Function(g) g.Key,
@@ -87,27 +91,19 @@ Public Module PathwayMap
                     .call = $"{map}$reactions <- {reactions};"
                     .call = $"{map}$ID        <- {Rstring(pathway.ID)};"
                     .call = $"{map}$Name      <- {Rstring(pathway.Name)};"
-                    .call = $"{pathwayList}[[""{pathway.ID}""]] <- {map};"
 
-                    For Each ID As String In compoundList.AsList + geneList + reactionList
-                        If Not assign.ContainsKey(ID) Then
-                            Call assign.Add(ID, New List(Of String))
-                        End If
+                    .call = $"{pathwayList}[[{Rstring(pathway.ID)}]] <- {map};"
 
-                        Call assign(ID).Add(pathway.ID)
-                    Next
+                    Call assignCompounds.append(compoundList, pathway.ID)
+                    Call assignGenes.append(geneList, pathway.ID)
+                    Call assignReactions.append(reactionList, pathway.ID)
                 Next
 
-                Dim mapID$, members$
-
-                For Each entity In assign
-                    With entity
-                        mapID = Rstring(.Key)
-                        members = base.c(.Value, stringVector:=True)
-                    End With
-
-                    .call = $"{pathwayAssign}[[{mapID}]] <- {members};"
-                Next
+                .call = $"{pathwayAssign} <- list(
+                    Compound = {assignCompounds.buildAssign("Compound")},
+                    Gene     = {assignGenes.buildAssign("Gene")},
+                    Reaction = {assignReactions.buildAssign("Reaction")}
+                );"
             End With
         End SyncLock
 
@@ -115,4 +111,35 @@ Public Module PathwayMap
 
         Return True
     End Function
+
+    <Extension>
+    Private Function buildAssign(assign As Dictionary(Of String, List(Of String)), slot$) As String
+        Dim mapID$, members$
+
+        SyncLock R
+            With R
+                For Each entity As IDMap In assign
+                    With entity
+                        mapID = Rstring(.Key)
+                        members = base.c(.Value, stringVector:=True)
+                    End With
+
+                    .call = $"{slot}[[{mapID}]] <- {members};"
+                Next
+            End With
+        End SyncLock
+
+        Return slot
+    End Function
+
+    <Extension>
+    Private Sub append(assign As Dictionary(Of String, List(Of String)), list$(), pathwayID$)
+        For Each ID As String In list
+            If Not assign.ContainsKey(ID) Then
+                Call assign.Add(ID, New List(Of String))
+            End If
+
+            Call assign(ID).Add(pathwayID)
+        Next
+    End Sub
 End Module
