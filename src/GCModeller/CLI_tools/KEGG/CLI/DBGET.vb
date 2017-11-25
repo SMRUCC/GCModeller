@@ -39,7 +39,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
-Imports kegMap = SMRUCC.genomics.Assembly.KEGG.WebServices.Downloader
+Imports kegMap = SMRUCC.genomics.Assembly.KEGG.WebServices.MapDownloader
 
 Partial Module CLI
 

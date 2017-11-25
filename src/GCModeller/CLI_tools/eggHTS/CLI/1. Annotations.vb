@@ -560,6 +560,9 @@ Partial Module CLI
             If(exclude, "-exclude", "") & "-" & sp.NormalizePathString.Replace(" ", "_"))
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{suffix}.fasta")
 
+        ' 1GB buffer size?
+        Call App.SetBufferSize(128 * 1024 * 1024)
+
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
             Dim source As IEnumerable(Of Uniprot.XML.entry) = UniProtXML.EnumerateEntries(path:=[in])
 

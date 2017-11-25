@@ -2,7 +2,6 @@
 Imports System.Text
 Imports System.Xml
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.Expressions
 Imports Microsoft.VisualBasic.Text
@@ -28,23 +27,12 @@ Public Module vbhtml
         Dim parent$ = path.ParentPath
         Dim strings = (wwwroot & "/includes/strings.XML").LoadStrings
         Dim values = variables _
-            .Where(Function(map)
-                       Return map.Value.GetType Is GetType(String)
-                   End Function) _
-            .ToDictionary(Function(map) map.Key,
-                          Function(str)
-                              Return DirectCast(str.Value, String)
-                          End Function)
+            .Where(Function(map) IsVariableType(map.Value)) _
+            .CreateVariables
         Dim data = variables _
-            .Where(Function(map)
-                       Return map.Value _
-                           .GetType _
-                           .ImplementInterface(GetType(IEnumerable))
-                   End Function) _
+            .Where(Function(map) IsCollectionType(map.Value)) _
             .ToDictionary(Function(map) map.Key,
-                          Function(list)
-                              Return DirectCast(list.Value, IEnumerable)
-                          End Function)
+                          Function(obj) DirectCast(obj.Value, IEnumerable))
         Dim args As New InterpolateArgs With {
             .data = data,
             .codepage = encoding.CodePage,
@@ -115,7 +103,9 @@ Public Module vbhtml
                 .ReadAllText(args.codepage) _
                 .CreateBuilder
 
-            Call content.TemplateInterplot(rel_path.ParentPath, args)
+            rel_path = rel_path.ParentPath
+
+            Call content.TemplateInterplot(rel_path, args)
             Call html.Replace(include, content.ToString)
         Next
 
