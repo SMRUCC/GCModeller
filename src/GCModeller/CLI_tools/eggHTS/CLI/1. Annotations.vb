@@ -561,7 +561,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{suffix}.fasta")
 
         ' 1GB buffer size?
-        Call App.SetBufferSize(1024 * 1024 * 1024)
+        Call App.SetBufferSize(128 * 1024 * 1024)
 
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
             Dim source As IEnumerable(Of Uniprot.XML.entry) = UniProtXML.EnumerateEntries(path:=[in])
