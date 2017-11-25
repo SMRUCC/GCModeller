@@ -3,6 +3,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports r = System.Text.RegularExpressions.Regex
@@ -42,9 +43,12 @@ Partial Module vbhtml
     <Extension>
     Public Function GetVariables(schema As Dictionary(Of String, PropertyInfo), name$, obj As Object) As NamedValueList(Of String)
         Dim list As New NamedValueList(Of String)
+        Dim makeName = Function(key As String)
+                           Return key Or $"{name}.{key}".AsDefault(Function() Not name.StringEmpty)
+                       End Function
 
         For Each [property] In schema
-            Dim propertyName$ = name & "." & [property].Key
+            Dim propertyName$ = makeName([property].Key)
             Dim o As Object = [property].Value.GetValue(obj)
             Dim value$ = Scripting.ToString(o, "null")
 
@@ -65,7 +69,7 @@ Partial Module vbhtml
             Dim path$ = parent & "/" & exp.Value.GetIncludesPath
             Dim pathParent$ = path.ParentPath
             Dim template$ = path.ReadAllText(args.codepage)
-            Dim source As IEnumerable = args.data(exp.Name)
+            Dim source As IEnumerable = args.data(exp.Name.Trim("$"c))
             Dim list As New List(Of String)
             Dim variables As New Dictionary(Of String, String)(args.variables)
             Dim type As Type = source.GetType.GetTypeElement(True)
@@ -77,11 +81,11 @@ Partial Module vbhtml
                     .codepage = args.codepage,
                     .data = args.data,
                     .resource = args.resource,
-                    .variables = variables + schema.GetVariables(exp.Name, obj),
+                    .variables = variables + schema.GetVariables("", obj),
                     .wwwroot = args.wwwroot
                 }
 
-                list += vbhtml.TemplateInterplot(parent, args)
+                list += vbhtml.TemplateInterplot(parent, stackArgvs)
             Next
 
             ' 从模板生成html之后开始进行替换
