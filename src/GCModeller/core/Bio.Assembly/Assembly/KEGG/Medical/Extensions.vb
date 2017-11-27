@@ -74,5 +74,37 @@ Namespace Assembly.KEGG.Medical
                                            .ToArray)
             Return compoundDrugs
         End Function
+
+        <Extension>
+        Public Function BuildDrugCompoundMaps(drugs As IEnumerable(Of Drug), groups As IEnumerable(Of DrugGroup)) As Dictionary(Of String, String())
+            Dim maps As New Dictionary(Of String, String())
+            Dim DGmaps = groups.ToDictionary
+
+            For Each drug As Drug In drugs
+                Dim theSameAs$ = drug.TheSameAs
+
+                If theSameAs.StringEmpty Then
+                    ' 可能是drug group
+                    Dim DGid$ = drug.RemarksTable.TryGetValue("Chemical group")
+
+                    If Not DGid.StringEmpty Then
+                        Dim DG = DGmaps.TryGetValue(DGid)
+
+                        If Not DG Is Nothing Then
+                            Dim members = DG.Members _
+                                .Where(Function(s) s.First = "C"c) _
+                                .Select(Function(s) s.Split.First) _
+                                .ToArray
+
+                            maps.Add(drug.Entry, members)
+                        End If
+                    End If
+                Else
+                    maps.Add(drug.Entry, theSameAs.Split)
+                End If
+            Next
+
+            Return maps
+        End Function
     End Module
 End Namespace
