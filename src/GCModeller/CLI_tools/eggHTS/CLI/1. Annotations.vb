@@ -68,6 +68,7 @@ Partial Module CLI
 
     <ExportAPI("/KEGG.Color.Pathway")>
     <Usage("/KEGG.Color.Pathway /in <protein.annotations.csv> /ref <KEGG.ref.pathwayMap.directory repository> [/out <out.directory>]")>
+    <Group(CLIGroups.Annotation_CLI)>
     Public Function ColorKEGGPathwayMap(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim ref$ = args <= "/ref"
@@ -95,6 +96,7 @@ Partial Module CLI
     <ExportAPI("/UniRef.UniprotKB")>
     <Usage("/UniRef.UniprotKB /in <uniref.xml> [/out <maps.csv>]")>
     <Argument("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
+    <Group(CLIGroups.Annotation_CLI)>
     Public Function UniRef2UniprotKB(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-uniref_uniprotKB.csv")
