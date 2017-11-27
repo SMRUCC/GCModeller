@@ -192,7 +192,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.BlastX")>
-    <Usage("/Export.BlastX /in <blastx.txt> [/top /out <out.csv>]")>
+    <Usage("/Export.BlastX /in <blastx.txt> [/top /Uncharacterized.exclude /out <out.csv>]")>
     <Description("Export the blastx alignment result into a csv table.")>
     <Argument("/top", True, CLITypes.Boolean,
               Description:="Only output the top first alignment result? Default is not.")>
@@ -204,13 +204,14 @@ Partial Module CLI
     Public Function ExportBlastX(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
         Dim top As Boolean = args.IsTrue("/top")
+        Dim UncharacterizedExclude As Boolean = args.IsTrue("/Uncharacterized.exclude")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{If(top, "top", "")}.blastx.csv")
 
         If top Then
             Call "The top one will be output...".__INFO_ECHO
         End If
 
-        Dim blastx As v228_BlastX = BlastPlus.BlastX.TryParseOutput([in])
+        Dim blastx As v228_BlastX = BlastPlus.BlastX.TryParseOutput([in], UncharacterizedExclude)
         Dim result = blastx.BlastXHits
 
         If top Then
