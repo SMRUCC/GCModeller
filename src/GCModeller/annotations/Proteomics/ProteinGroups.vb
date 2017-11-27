@@ -134,7 +134,7 @@ Public Module ProteinGroups
 
             For Each protein As Uniprot.XML.entry In uniprotProteomics.EnumerateEntries(uniprotXML)
                 If protein.accessions.Any(Function(acc) acc.IsOneOfA(idlist)) Then
-                    Dim uniprot As Dictionary(Of Uniprot.XML.entry) = {protein}.ToDictionary
+                    Dim uniprot As Dictionary(Of Uniprot.XML.entry) = protein.ShadowCopy.ToDictionary
                     Dim list$() = protein.accessions
                     Dim geneID$
 
