@@ -49,10 +49,10 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         ''' <param name="path">The file path of the blastx output file.(blastx输出文件的文件路径)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function TryParseOutput(path$, Optional top As Boolean = False, Optional encoding As Encoding = Nothing) As v228_BlastX
+        Public Function TryParseOutput(path$, Optional UncharacterizedExclude As Boolean = False, Optional encoding As Encoding = Nothing) As v228_BlastX
             Dim LQuery As Components.Query() = path _
                 .QueryBlockIterator(encoding:=encoding Or UTF8) _
-                .Select(Function(block) __queryParser(block, top)) _
+                .Select(Function(block) __queryParser(block, UncharacterizedExclude)) _
                 .ToArray
 
             Return New v228_BlastX With {
@@ -169,7 +169,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         End Function
 
         <Extension>
-        Private Function __queryParser(block$, queryInfo As NamedValue(Of Integer), top As Boolean) As Components.Query
+        Private Function __queryParser(block$, queryInfo As NamedValue(Of Integer), UncharacterizedExclude As Boolean) As Components.Query
             Dim bufs As New List(Of Components.Subject)
             Dim parts$() = r _
                 .Split(block, "^>", RegexOptions.Multiline) _
@@ -184,12 +184,27 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
                 bufs += subject _
                     .Trim _
                     .subjectParser()
-
-                ' 只导出最好的第一条比对结果？
-                If top Then
-                    Exit For
-                End If
             Next
+
+            ' 只导出最好的第一条比对结果？
+            If UncharacterizedExclude Then
+                Dim tmp = bufs _
+                    .Where(Function(sbj)
+                               Return InStr(sbj.SubjectName, "Uncharacterized", CompareMethod.Text) = 0 AndAlso
+                                      InStr(sbj.SubjectName, "Uncharacter", CompareMethod.Text) = 0 AndAlso
+                                      InStr(sbj.SubjectName, "Unknow", CompareMethod.Text) = 0
+                           End Function) _
+                    .AsList
+
+                If tmp = 0 Then
+                    ' 说明所有的hits蛋白都是未鉴定的，则没有办法只能够返回原始结果
+                    ' 则在这里不做任何修改
+                    Call cat("~")
+                Else
+                    ' tmp是已经有功能鉴定的蛋白结果，替换掉bufs原先的值
+                    bufs = tmp
+                End If
+            End If
 
             Return New Components.Query With {
                 .QueryLength = queryInfo.Value,
@@ -203,7 +218,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         ''' </summary>
         ''' <param name="str"></param>
         ''' <returns></returns>
-        Private Function __queryParser(str$, top As Boolean) As Components.Query
+        Private Function __queryParser(str$, UncharacterizedExclude As Boolean) As Components.Query
             Dim queryInfo = str.queryInfo
 
             If InStr(str, "***** No hits found *****") Then
@@ -216,7 +231,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
                     .Split(str, "^Lambda\s+", RegexICMul) _
                     .First _
                     .Trim _
-                    .__queryParser(queryInfo, top)
+                    .__queryParser(queryInfo, UncharacterizedExclude)
             End If
         End Function
 

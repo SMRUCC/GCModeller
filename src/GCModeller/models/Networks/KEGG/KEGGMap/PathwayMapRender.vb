@@ -72,11 +72,11 @@ Public Module PathwayMapRender
         Next
     End Function
 
-    Public Function RenderMaps(repo$, idlist$(), out$) As NamedValue(Of String)()
+    Public Function RenderMaps(repo$, idlist$(), out$, Optional scale$ = "1.5,1.5") As NamedValue(Of String)()
         Dim render As LocalRender = LocalRender.FromRepository(repo)
         Dim maplist As New List(Of NamedValue(Of String))
 
-        For Each map As NamedValue(Of Image) In render.QueryMaps(idlist,, scale:="1.5,1.5", throwException:=False)
+        For Each map As NamedValue(Of Image) In render.QueryMaps(idlist,, scale:=scale, throwException:=False)
             Dim save$ = $"{out}/{map.Name}.png"
 
             map.Value.SaveAs(save, ImageFormats.Png)

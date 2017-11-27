@@ -127,27 +127,53 @@ Public Module ProteinGroups
                                                  Optional iTraq As Boolean = False,
                                                  Optional accID As Boolean = False) As IEnumerable(Of (protein, String()))
 
-        Dim uniprot As Dictionary(Of Uniprot.XML.entry) =
-            uniprotProteomics _
-            .LoadDictionary(uniprotXML)
-        Dim geneID$
+        If uniprotXML.FileLength > 1024 * 1024 * 1024L Then
+            ' ultra large size mode
+            Dim idlist As Index(Of String) = ID.Indexing
+            Dim seq As int = 0
 
-        For Each Idtags As SeqValue(Of String) In ID.SeqIterator
-            Dim list$() = (+Idtags).Split(deli)
-            Dim i As Integer = Idtags.i + 1
+            For Each protein As Uniprot.XML.entry In uniprotProteomics.EnumerateEntries(uniprotXML)
+                If protein.accessions.Any(Function(acc) acc.IsOneOfA(idlist)) Then
+                    Dim uniprot As Dictionary(Of Uniprot.XML.entry) = protein.ShadowCopy.ToDictionary
+                    Dim list$() = protein.accessions
+                    Dim geneID$
 
-            If accID Then
-                geneID = +Idtags
-            Else
-                geneID = i
-            End If
+                    If accID Then
+                        geneID = list.Where(Function(acc) acc.IsOneOfA(idlist)).First
+                    Else
+                        geneID = ++seq
+                    End If
 
-            Yield list.__applyInternal(
-                New Dictionary(Of String, String),
-                mappings, uniprot, prefix, geneID,
-                scientifcName,
-                iTraq)
-        Next
+                    Yield list.__applyInternal(
+                        New Dictionary(Of String, String),
+                        mappings, uniprot, prefix, geneID,
+                        scientifcName,
+                        iTraq)
+                End If
+            Next
+        Else
+            Dim uniprot As Dictionary(Of Uniprot.XML.entry) =
+                uniprotProteomics _
+                .LoadDictionary(uniprotXML)
+            Dim geneID$
+
+            For Each Idtags As SeqValue(Of String) In ID.SeqIterator
+                Dim list$() = (+Idtags).Split(deli)
+                Dim i As Integer = Idtags.i + 1
+
+                If accID Then
+                    geneID = +Idtags
+                Else
+                    geneID = i
+                End If
+
+                Yield list.__applyInternal(
+                    New Dictionary(Of String, String),
+                    mappings, uniprot, prefix, geneID,
+                    scientifcName,
+                    iTraq)
+            Next
+        End If
     End Function
 
     <Extension>

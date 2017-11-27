@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Correlations
 
 ''' <summary>
 ''' ``Rank Abundance``曲线

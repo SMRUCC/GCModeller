@@ -4,6 +4,8 @@ Imports Microsoft.VisualBasic.Linq
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.API
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
+Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.Assembly.KEGG.Medical
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports IDMap = System.Collections.Generic.KeyValuePair(Of String, Microsoft.VisualBasic.Language.List(Of String))
 
@@ -18,7 +20,7 @@ Public Module PathwayMap
     ''' <param name="maps"></param>
     ''' <param name="rda$"></param>
     ''' <returns></returns>
-    <Extension> Public Function SaveRda(maps As IEnumerable(Of Map), rda$) As Boolean
+    <Extension> Public Function SaveRda(maps As IEnumerable(Of Map), drugs As Dictionary(Of String, String()), rda$) As Boolean
         Dim assignGenes As New Dictionary(Of String, List(Of String))
         Dim assignCompounds As New Dictionary(Of String, List(Of String))
         Dim assignReactions As New Dictionary(Of String, List(Of String))
@@ -80,6 +82,22 @@ Public Module PathwayMap
                             reactionList = {}
                         End If
 
+                        Dim replaceList As New List(Of String)
+
+                        ' 可能会有药物的编号，将他们转换为Compound编号
+                        For Each cpdID As String In compoundList
+                            If drugs.ContainsKey(cpdID) Then
+                                With drugs(cpdID)
+                                    If Not .IsNullOrEmpty Then
+                                        replaceList += .ref
+                                    End If
+                                End With
+                            Else
+                                replaceList += cpdID
+                            End If
+                        Next
+
+                        compoundList = replaceList
                         reactions = base.c(reactionList, stringVector:=True)
                         genes = base.c(geneList, stringVector:=True)
                         compounds = base.c(compoundList, stringVector:=True)

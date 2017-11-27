@@ -34,8 +34,7 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.Medical
 
-    Public Class Drug
-        Implements INamedValue, IKEGGRemarks
+    Public Class Drug : Implements INamedValue, IKEGGRemarks
 
         Public Property Entry As String Implements INamedValue.Key
         Public Property Names As String()
