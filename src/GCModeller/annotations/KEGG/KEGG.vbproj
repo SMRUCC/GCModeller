@@ -217,6 +217,10 @@
       <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
       <Name>Bio.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\models\Networks\KEGG\KEGG.vbproj">
+      <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
+      <Name>KEGG</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\visualize\GCModeller.DataVisualization\DataVisualizationExtensions.vbproj">
       <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
       <Name>DataVisualizationExtensions</Name>
