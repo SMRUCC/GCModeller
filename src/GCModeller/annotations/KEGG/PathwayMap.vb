@@ -43,8 +43,8 @@ Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 Public Module PathwayMapVisualize
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function LocalRenderMaps(idlist$(), repo$, output$) As NamedValue(Of String)()
-        Return PathwayMapRender.RenderMaps(repo, idlist, output)
+    Public Function LocalRenderMaps(idlist$(), repo$, output$, Optional scale$ = "1,1") As NamedValue(Of String)()
+        Return PathwayMapRender.RenderMaps(repo, idlist, output, scale:=scale)
     End Function
 
     ''' <summary>
