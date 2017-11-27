@@ -46,7 +46,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -214,14 +214,14 @@ Partial Module CLI
             Call "The Uncharacterized protein will be Excluded...".__INFO_ECHO
         End If
 
-        Dim blastx As v228_BlastX = BlastPlus.BlastX.TryParseOutput([in], UncharacterizedExclude)
-        Dim result = blastx.BlastXHits
+        Dim blastxOut As v228_BlastX = BlastX.TryParseOutput([in], UncharacterizedExclude)
+        Dim result = blastxOut.BlastXHits
 
         If top Then
-            result = result.TopBest
+            Return result.TopBest.SaveTo(out).CLICode
+        Else
+            Return result.SaveTo(out).CLICode
         End If
-
-        Return result.SaveTo(out)
     End Function
 
     <ExportAPI("/Export.gb",

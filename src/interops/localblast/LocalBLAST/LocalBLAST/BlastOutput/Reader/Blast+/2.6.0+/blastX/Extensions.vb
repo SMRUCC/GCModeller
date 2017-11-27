@@ -17,6 +17,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
             ' 首先按照hits分组，然后再在hits分组中按照query分组，
             ' 计算出得分最高的query作为top best
             Dim hitsGroup = result.GroupBy(Function(hit) hit.HitName).ToArray
+            ' 经过group之后，现在hit是唯一的了
             Dim top = hitsGroup _
                 .Select(Function(hits)
                             Return hits _
