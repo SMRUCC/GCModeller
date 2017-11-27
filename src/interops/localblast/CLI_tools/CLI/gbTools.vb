@@ -210,6 +210,9 @@ Partial Module CLI
         If top Then
             Call "The top one will be output...".__INFO_ECHO
         End If
+        If UncharacterizedExclude Then
+            Call "The Uncharacterized protein will be Excluded...".__INFO_ECHO
+        End If
 
         Dim blastx As v228_BlastX = BlastPlus.BlastX.TryParseOutput([in], UncharacterizedExclude)
         Dim result = blastx.BlastXHits
