@@ -199,6 +199,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
                 If tmp = 0 Then
                     ' 说明所有的hits蛋白都是未鉴定的，则没有办法只能够返回原始结果
                     ' 则在这里不做任何修改
+                    Call cat("~")
                 Else
                     ' tmp是已经有功能鉴定的蛋白结果，替换掉bufs原先的值
                     bufs = tmp
