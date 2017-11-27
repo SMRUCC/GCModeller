@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -73,6 +74,7 @@ Namespace Assembly.KEGG.WebServices
         End Property
 
         Public ReadOnly Property IDVector As String()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return href.Split("?"c).Last.Split("+"c)
             End Get
@@ -86,7 +88,7 @@ Namespace Assembly.KEGG.WebServices
                     .Select(Function(s)
                                 Dim name = s.GetTagValue(" ")
                                 Return New NamedValue(Of String) With {
-                                    .name = name.Name,
+                                    .Name = name.Name,
                                     .Value = name.Value.GetStackValue("(", ")")
                                 }
                             End Function) _
@@ -97,7 +99,7 @@ Namespace Assembly.KEGG.WebServices
         End Property
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return $"[{shape}] {IDVector.GetJson}"
         End Function
 
         Public Shared Function Parse(line$) As Area
