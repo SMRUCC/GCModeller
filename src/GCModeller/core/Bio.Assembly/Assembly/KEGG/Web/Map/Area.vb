@@ -49,15 +49,15 @@ Namespace Assembly.KEGG.WebServices
         Public ReadOnly Property Type As String
             Get
                 If InStr(href, "/dbget-bin/www_bget") = 1 Then
-                    With IDVector.First
-                        If .IsPattern("[CDG]\d+") Then
+                    With IDVector
+                        If .First.IsPattern("[CDG]\d+") Then
                             ' compound, drug, glycan
                             Return NameOf(Compound)
-                        ElseIf .IndexOf(":"c) > -1 Then
+                        ElseIf (shape = "rect" AndAlso .Any(Function(id) id.IsPattern("K\d+"))) OrElse .First.IndexOf(":"c) > -1 Then
                             Return "Gene"
-                        ElseIf .IsPattern("R\d+") Then
+                        ElseIf .First.IsPattern("R\d+") Then
                             Return "Reaction"
-                        ElseIf shape = "rect" AndAlso .IndexOf(":"c) = -1 Then
+                        ElseIf shape = "rect" AndAlso .First.IndexOf(":"c) = -1 Then
                             Return NameOf(Pathway)
                         ElseIf shape = "poly" Then
                             Return "Reaction"
