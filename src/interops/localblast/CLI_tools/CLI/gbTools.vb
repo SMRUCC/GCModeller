@@ -46,6 +46,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -215,13 +216,23 @@ Partial Module CLI
         End If
 
         Dim blastxOut As v228_BlastX = BlastX.TryParseOutput([in], UncharacterizedExclude)
-        Dim result = blastxOut.BlastXHits
+        Dim result As BlastXHit() = blastxOut.BlastXHits
 
         If top Then
             Return result.TopBest.SaveTo(out).CLICode
         Else
             Return result.SaveTo(out).CLICode
         End If
+    End Function
+
+    <ExportAPI("/hits.ID.list")>
+    <Usage("/hits.ID.list /in <bbhindex.csv> [/out <out.txt>]")>
+    Public Function HitsIDList(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.hits_id.list.txt".AsDefault
+        Dim hits As BBHIndex() = [in].LoadCsv(Of BBHIndex)
+        Dim list = hits.Select(Function(h) h.HitName).Distinct.ToArray
+        Return list.SaveTo(out).CLICode
     End Function
 
     <ExportAPI("/Export.gb",
