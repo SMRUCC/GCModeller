@@ -32,6 +32,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.FileIO.FileSystem
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Parallel.Tasks
@@ -90,20 +91,15 @@ Namespace Core
 
             Call MyBase.New(port, threads)
 
-            If Not FileIO.FileSystem.DirectoryExists(root) Then
-                Call FileIO.FileSystem.CreateDirectory(root)
+            If Not root.DirectoryExists Then
+                Call root.MkDIR
             End If
 
             _nullAsExists = nullExists
             wwwroot = FileIO.FileSystem.GetDirectoryInfo(root)
-            FileIO.FileSystem.CurrentDirectory = root
+            App.CurrentDirectory = root
             _virtualMappings = New Dictionary(Of String, String)
-
-            If requestResource Is Nothing Then
-                RequestStream = AddressOf GetResource
-            Else
-                RequestStream = requestResource
-            End If
+            RequestStream = requestResource Or defaultResource
 
             If cache Then
                 _cache = CachedFile.CacheAllFiles(wwwroot.FullName)
@@ -137,7 +133,7 @@ Namespace Core
         End Sub
 
         ''' <summary>
-        ''' Maps the http request url as server file system path.
+        ''' Maps the http request url as server file system path.(这个函数返回Nothing的时候表示目标资源不存在)
         ''' </summary>
         ''' <param name="res"></param>
         ''' <returns></returns>
@@ -150,6 +146,8 @@ Namespace Core
                 If file.DirectoryExists Then
                     Dim index As String = file & "/index.html"
 
+                    ' 这是一个存在的文件夹，则返回该文件夹下面的index.html或者index.vbhtml
+
                     If index.FileExists Then
                         res = file
                         file = index
@@ -160,6 +158,10 @@ Namespace Core
                             file = index
                         End If
                     End If
+                ElseIf file.Last = "/"c OrElse file.Last = "\"c Then
+                    ' 这是一个不存在的文件夹
+                    ' 返回Nothing
+                    Return Nothing
                 End If
             End If
 
@@ -173,6 +175,8 @@ Namespace Core
         ''' </summary>
         Const NoData As String = "[ERR_EMPTY_RESPONSE::No data send]"
 
+        ReadOnly defaultResource As DefaultValue(Of IGetResource) = New IGetResource(AddressOf GetResource)
+
         ''' <summary>
         ''' 默认的资源获取函数:<see cref="HttpFileSystem.GetResource(ByRef String)"/>.(默认是获取文件数据)
         ''' </summary>
@@ -184,6 +188,11 @@ Namespace Core
             Try
                 file = MapPath(res)
                 res = file
+
+                ' 目标资源不存在，则什么数据也不返回
+                If file Is Nothing Then
+                    Return {}
+                End If
             Catch ex As Exception
                 ex = New Exception(res, ex)
                 Throw ex
