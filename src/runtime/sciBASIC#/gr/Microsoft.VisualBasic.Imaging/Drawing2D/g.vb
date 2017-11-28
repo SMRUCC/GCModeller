@@ -112,6 +112,14 @@ Namespace Drawing2D
             End If
         End Function
 
+        Public Function MeasureWidthOrHeight(wh#, length%) As Single
+            If wh > 0 AndAlso wh <= 1 Then
+                Return wh * length
+            Else
+                Return wh
+            End If
+        End Function
+
         ''' <summary>
         ''' Data plots graphics engine. Default: <paramref name="size"/>:=(4300, 2000), <paramref name="padding"/>:=(100,100,100,100).
         ''' (用户可以通过命令行设置环境变量``graphic_driver``来切换图形引擎)
