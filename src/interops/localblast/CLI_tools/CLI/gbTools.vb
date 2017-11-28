@@ -46,7 +46,8 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -192,7 +193,7 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.BlastX")>
-    <Usage("/Export.BlastX /in <blastx.txt> [/top /out <out.csv>]")>
+    <Usage("/Export.BlastX /in <blastx.txt> [/top /Uncharacterized.exclude /out <out.csv>]")>
     <Description("Export the blastx alignment result into a csv table.")>
     <Argument("/top", True, CLITypes.Boolean,
               Description:="Only output the top first alignment result? Default is not.")>
@@ -204,20 +205,34 @@ Partial Module CLI
     Public Function ExportBlastX(args As CommandLine) As Integer
         Dim [in] As String = args <= "/in"
         Dim top As Boolean = args.IsTrue("/top")
+        Dim UncharacterizedExclude As Boolean = args.IsTrue("/Uncharacterized.exclude")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{If(top, "top", "")}.blastx.csv")
 
         If top Then
             Call "The top one will be output...".__INFO_ECHO
         End If
-
-        Dim blastx As v228_BlastX = BlastPlus.BlastX.TryParseOutput([in])
-        Dim result = blastx.BlastXHits
-
-        If top Then
-            result = result.TopBest
+        If UncharacterizedExclude Then
+            Call "The Uncharacterized protein will be Excluded...".__INFO_ECHO
         End If
 
-        Return result.SaveTo(out)
+        Dim blastxOut As v228_BlastX = BlastX.TryParseOutput([in], UncharacterizedExclude)
+        Dim result As BlastXHit() = blastxOut.BlastXHits
+
+        If top Then
+            Return result.TopBest.SaveTo(out).CLICode
+        Else
+            Return result.SaveTo(out).CLICode
+        End If
+    End Function
+
+    <ExportAPI("/hits.ID.list")>
+    <Usage("/hits.ID.list /in <bbhindex.csv> [/out <out.txt>]")>
+    Public Function HitsIDList(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.hits_id.list.txt".AsDefault
+        Dim hits As BBHIndex() = [in].LoadCsv(Of BBHIndex)
+        Dim list = hits.Select(Function(h) h.HitName).Distinct.ToArray
+        Return list.SaveTo(out).CLICode
     End Function
 
     <ExportAPI("/Export.gb",

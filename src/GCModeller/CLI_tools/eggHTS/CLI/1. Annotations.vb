@@ -40,6 +40,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
@@ -65,6 +66,28 @@ Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
 
+    <ExportAPI("/KEGG.Color.Pathway")>
+    <Usage("/KEGG.Color.Pathway /in <protein.annotations.csv> /ref <KEGG.ref.pathwayMap.directory repository> [/out <out.directory>]")>
+    <Group(CLIGroups.Annotation_CLI)>
+    Public Function ColorKEGGPathwayMap(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim ref$ = args <= "/ref"
+        Dim out$ = (args <= "/out") Or [in].TrimSuffix.AsDefault
+        Dim listID$() = EntityObject.LoadDataSet([in]) _
+            .Select(Function(protein) protein!KO) _
+            .Where(Function(id) Not id.StringEmpty) _
+            .Select(Function(s) s.StringSplit(";\s*")) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+        Return PathwayMapVisualize _
+            .LocalRenderMaps(listID, repo:=ref, output:=out) _
+            .GetJson _
+            .SaveTo(out & "/list.json") _
+            .CLICode
+    End Function
+
     ''' <summary>
     ''' 将每一个参考cluster之中的代表序列的uniprot编号取出来生成映射
     ''' </summary>
@@ -73,6 +96,7 @@ Partial Module CLI
     <ExportAPI("/UniRef.UniprotKB")>
     <Usage("/UniRef.UniprotKB /in <uniref.xml> [/out <maps.csv>]")>
     <Argument("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
+    <Group(CLIGroups.Annotation_CLI)>
     Public Function UniRef2UniprotKB(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-uniref_uniprotKB.csv")
@@ -708,7 +732,13 @@ Partial Module CLI
             .ToArray
         Dim blastXhits = blastx _
             .LoadCsv(Of BlastXHit) _
-            .ToDictionary(Function(hit) hit.HitName.Split("|"c)(1),
+            .ToDictionary(Function(hit)
+                              If hit.HitName.IndexOf("|"c) > -1 Then
+                                  Return hit.HitName.Split("|"c)(1)
+                              Else
+                                  Return hit.HitName
+                              End If
+                          End Function,
                           Function(query) query.QueryName)
 
         For Each protein In proteins
