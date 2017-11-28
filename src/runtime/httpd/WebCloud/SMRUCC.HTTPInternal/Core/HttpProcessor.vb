@@ -286,6 +286,7 @@ Namespace Core
             End While
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub handleGETRequest()
             Call srv.handleGETRequest(Me)
         End Sub
@@ -361,21 +362,24 @@ Namespace Core
             End Try
         End Sub
 
+        Const PoweredBy$ = "microsoft-visualbasic-servlet(*.vbs)"
+        Const XPoweredBy$ = "X-Powered-By: " & PoweredBy
+
         Private Sub __writeSuccess(content_type As String, content As Content)
             ' this is the successful HTTP response line
-            outputStream.WriteLine("HTTP/1.0 200 OK")
+            Call outputStream.WriteLine("HTTP/1.0 200 OK")
             ' these are the HTTP headers...          
-            outputStream.WriteLine("Content-Length: " & content.Length)
-            outputStream.WriteLine("Content-Type: " & content_type)
-            outputStream.WriteLine("Connection: close")
+            Call outputStream.WriteLine("Content-Length: " & content.Length)
+            Call outputStream.WriteLine("Content-Type: " & content_type)
+            Call outputStream.WriteLine("Connection: close")
             ' ..add your own headers here if you like
 
             ' Call content.WriteHeader(outputStream)
 
-            outputStream.WriteLine("X-Powered-By: Microsoft VisualBasic")
-            outputStream.WriteLine("")
+            Call outputStream.WriteLine(XPoweredBy)
+            Call outputStream.WriteLine("")
             ' this terminates the HTTP headers.. everything after this is HTTP body..
-            outputStream.Flush()
+            Call outputStream.Flush()
         End Sub
 
         Public Sub writeSuccess(content As Content)

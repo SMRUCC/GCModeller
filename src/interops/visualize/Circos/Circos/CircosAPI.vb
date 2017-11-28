@@ -37,6 +37,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
@@ -1336,13 +1337,13 @@ then you can using this method to adding the legends on your circos plots image 
         Dim sz As SizeF
 
         If Not AlignmentData.IsNullOrEmpty Then
-            sz = (From s As NamedValue(Of String) In AlignmentData Select s.Name Order By Len(Name) Descending).First.MeasureString(Font)
+            sz = AlignmentData.Keys.MaxLengthString.MeasureSize(New Size(1, 1).CreateGDIDevice, Font)
         Else
             sz = New SizeF(1, 20)
         End If
 
-        Dim Device = (New SizeF(CircosImage.Width + 3 * Margin + sz.Width * 2, CInt(CircosImage.Height + Margin * 4))).CreateGDIDevice
-        Call Device.Graphics.DrawImage(CircosImage, New Point(Margin, Margin))
+        Dim device = (New SizeF(CircosImage.Width + 3 * Margin + sz.Width * 2, CInt(CircosImage.Height + Margin * 4))).CreateGDIDevice
+        Call device.Graphics.DrawImage(CircosImage, New Point(Margin, Margin))
 
         Dim refPt As Point = New Point(100, 100)
 
@@ -1356,25 +1357,25 @@ then you can using this method to adding the legends on your circos plots image 
         If Not AlignmentData.IsNullOrEmpty Then
 
             Font = New Font(FontFace.Ubuntu, 28)
-            sz = (From s As NamedValue(Of String) In AlignmentData Select s.Name Order By Len(Name) Descending).First.MeasureString(Font)
+            sz = AlignmentData.Keys.MaxLengthString.MeasureSize(device, Font)
 
             Dim dh = CInt(sz.Height)
             Dim Y As Integer = Margin * 3
-            Dim X As Integer = CInt(Device.Width - sz.Width - 2 * Margin)
+            Dim X As Integer = CInt(device.Width - sz.Width - 2 * Margin)
             Dim ColorBlockSize As New SizeF(200, sz.Height)
 
-            Call Device.Graphics.DrawString("Localblast Alignment Order:", Font, Brushes.Black, New Point(X, Y))
+            Call device.Graphics.DrawString("Localblast Alignment Order:", Font, Brushes.Black, New Point(X, Y))
             Y += 2 * dh
 
             For Each ID As NamedValue(Of String) In AlignmentData
-                Call Device.Graphics.DrawString(ID.Name, Font, Brushes.Black, New Point(X, Y))
-                Call Device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.Value)), New RectangleF(New PointF(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
+                Call device.Graphics.DrawString(ID.Name, Font, Brushes.Black, New Point(X, Y))
+                Call device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.Value)), New RectangleF(New PointF(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
 
                 Y += dh + 3
             Next
         End If
 
-        Return Device.ImageResource
+        Return device.ImageResource
     End Function
 
     <ExportAPI("PTT2Dump")>

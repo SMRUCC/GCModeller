@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
@@ -225,6 +226,33 @@ Partial Module CLI
 
         Return StackedBarPlot.Plot(
             data, size:=size, interval:=internal, YaxisTitle:="Relative abundance", columnCount:=columnCount, legendLabelFontCSS:=CSSFont.Win7LargerNormal) _
+            .Save(out) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/Relative_abundance.stacked.barplot")>
+    <Usage("/Relative_abundance.stacked.barplot /in <dataset.csv> [/group <sample_group.csv> /out <out.png>]")>
+    Public Function Relative_abundance_stackedbarplot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim group$ = args <= "/group"
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.Relative_abundance.stacked.barplot.png".AsDefault
+        Dim data = BarPlotDataExtensions _
+            .LoadDataSet([in]) _
+            .Normalize
+        Dim classGroup As Dictionary(Of String, String) = Nothing
+
+        If group.FileExists Then
+            Dim sampleGroup = group.LoadCsv(Of SampleGroup).ToArray
+            Dim colors As Color() = Designer.GetColors("scibasic.category31()")
+
+            classGroup = sampleGroup _
+                .SampleGroupColor(colors) _
+                .ToDictionary(Function(map) map.Key,
+                              Function(map) map.Value.RGBExpression)
+        End If
+
+        Return HistStackedBarplot _
+            .Plot(data, sampleGroup:=classGroup) _
             .Save(out) _
             .CLICode
     End Function

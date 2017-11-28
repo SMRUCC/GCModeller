@@ -29,6 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -72,11 +73,12 @@ Namespace NCBIBlastResult
             End If
 
             Dim list As New List(Of HitCollection)
-            Dim start As HitCollection = LinqAPI.DefaultFirst(Of HitCollection) <=
-                From hit As HitCollection
-                In bh.hits
-                Where String.Equals(hit.QueryName, range_start, StringComparison.OrdinalIgnoreCase)
-                Select hit
+            Dim start = LinqAPI.DefaultFirst(Of HitCollection) _
+ _
+                () <= From hit As HitCollection
+                      In bh.hits
+                      Where String.Equals(hit.QueryName, range_start, StringComparison.OrdinalIgnoreCase)
+                      Select hit
 
             Dim i% = Array.IndexOf(bh.hits, start)
 
@@ -86,16 +88,17 @@ Namespace NCBIBlastResult
 
             Dim TagFont As Font = CSSFont.TryParse(tagFontCSS).GDIObject
             Dim table = MatrixDrawing.CreateAlphabetTagSerials(bh.hits.First.Hits.Select(Function(h) h.tag).ToArray)
-            Dim maxIdLength = (From s As String
-                               In (From item In list
-                                   Let mat = {
-                                       New String() {item.QueryName},
-                                       (From nnnnn In item.Hits Select nnnnn.HitName).ToArray
-                                   }
-                                   Let id_cols As String() = mat.ToVector
-                                   Select id_cols).ToVector
-                               Select s
-                               Order By Len(s) Descending).First.MeasureString(TagFont)
+            Dim maxIdLength = (From hits As HitCollection
+                               In list
+                               Let mat = {
+                                   New String() {hits.QueryName},
+                                   (From nnnnn In hits.Hits Select nnnnn.HitName).ToArray
+                               }
+                               Let id_cols As String() = mat.ToVector
+                               Select id_cols).ToVector _
+                                              .MaxLengthString _
+                                              .MeasureSize(New Size(1, 1).CreateGDIDevice, TagFont)
+
             Dim dotSize As New Size(maxIdLength.Width + 5, maxIdLength.Height + 10)
             Dim devSize As New Size(
                 (list.First.Hits.Count + 2) * dotSize.Width + 4 * Margin,

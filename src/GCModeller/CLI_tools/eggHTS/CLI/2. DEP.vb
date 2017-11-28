@@ -59,6 +59,7 @@ Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB
 Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB.UniprotKBEngine
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
+Imports ColorDesigner = Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Designer
 
 Partial Module CLI
 
@@ -560,9 +561,10 @@ Partial Module CLI
             Dim KOinfo As Dictionary(Of String, String) = matrix _
                 .Keys _
                 .GetKOTable(MySQLExtensions.GetMySQLClient(DBName:=UniprotKBEngine.DbName))
+            Dim colors As Color() = ColorDesigner.GetColors("scibasic.category31()")
 
             Call DEPsKOHeatmap _
-                .Plot(matrix, groupInfo.SampleGroupInfo, groupInfo.SampleGroupColor, KOInfo:=KOinfo, schema:=schema) _
+                .Plot(matrix, groupInfo.SampleGroupInfo, groupInfo.SampleGroupColor(colors), KOInfo:=KOinfo, schema:=schema) _
                 .Save(out & "/plot.png")
         Else
             ' 绘制普通的热图

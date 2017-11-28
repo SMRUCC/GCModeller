@@ -28,6 +28,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Math.Statistics
 
 Public Class Histogram : Inherits CurvesModel
@@ -85,8 +86,12 @@ Public Class Histogram : Inherits CurvesModel
         LinePen = New Pen(PlotBrush, 2)
 
         If ShowAverageLine Then  ' 绘制中间的平均线
+            Dim pos As New Point With {
+                .X = location.X - YValueOffset,
+                .Y = Y_avg - "0".MeasureSize(g, tagFont).Height / 2
+            }
             Call g.DrawLine(New Pen(Brushes.LightGray, 3), New Point(location.X, Y_avg), New Point(location.X + size.Width, Y_avg))
-            Call g.DrawString(data.Average.ToString("F2"), tagFont, Brushes.Black, New Point(location.X - YValueOffset, Y_avg - "0".MeasureString(tagFont).Height / 2))
+            Call g.DrawString(data.Average.ToString("F2"), tagFont, Brushes.Black, pos)
         End If
 
         Dim rect As Rectangle
