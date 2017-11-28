@@ -35,7 +35,9 @@ Public Module HistStackedBarplot
                          Optional legendTitleFontCSS$ = CSSFont.Win7LargerBold,
                          Optional dtreeBar! = 25,
                          Optional dbarbox! = 25,
-                         Optional dboxLabel! = 10) As GraphicsData
+                         Optional dboxLabel! = 10,
+                         Optional dbarInterval! = 30,
+                         Optional dboxInterval! = 3) As GraphicsData
 
         Dim array As DataSet() = data.Samples _
             .Select(Function(sample)
@@ -100,7 +102,11 @@ Public Module HistStackedBarplot
                     .Height = plotRegion.Height
                 }
 
-                Dim barplotHeight! = plotRegion.Height / data.Samples.Length
+                Dim barplotHeight! = StackedBarPlot.BarWidth(
+                    plotRegion.Height,
+                    data.Samples.Length,
+                    dbarInterval
+                )
 
                 ' 在这里的barplot是横向的位于层次聚类树的右侧
                 For Each group As BarDataSample In data.Samples
@@ -124,7 +130,7 @@ Public Module HistStackedBarplot
                         x += width
                     Next
 
-                    top += barplotHeight
+                    top += barplotHeight + dbarInterval
                 Next
 
                 ' 现在开始绘制legend
@@ -141,7 +147,7 @@ Public Module HistStackedBarplot
                     Call g.FillRectangle(color, left, top, boxSize)
                     Call g.DrawString(label.Name, legendTitleFont, Brushes.Black, pos)
 
-                    top += boxSize.Width
+                    top += boxSize.Width + dboxInterval
                 Next
             End Sub
 
