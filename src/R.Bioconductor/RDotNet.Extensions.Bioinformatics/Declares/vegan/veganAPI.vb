@@ -51,9 +51,9 @@
         ''' <param name="stress#">Use stress type 1 or 2 (see Details).</param>
         ''' <param name="scaling">Scale final scores to unit root mean squares.</param>
         ''' <param name="pc">Rotate final scores to principal components.</param>
-        ''' <param name="smin#">Convergence criteria: iterations stop when stress drops below smin, scale factor of the gradient drops below sfgrmin, or stress ratio between two iterations goes over sratmax (but is still < 1).</param>
-        ''' <param name="sfgrmin#">Convergence criteria: iterations stop when stress drops below smin, scale factor of the gradient drops below sfgrmin, or stress ratio between two iterations goes over sratmax (but is still < 1).</param>
-        ''' <param name="sratmax#">Convergence criteria: iterations stop when stress drops below smin, scale factor of the gradient drops below sfgrmin, or stress ratio between two iterations goes over sratmax (but is still < 1).</param>
+        ''' <param name="smin#">Convergence criteria: iterations stop when stress drops below smin, scale factor of the gradient drops below sfgrmin, or stress ratio between two iterations goes over sratmax (but is still &lt; 1).</param>
+        ''' <param name="sfgrmin#">Convergence criteria: iterations stop when stress drops below smin, scale factor of the gradient drops below sfgrmin, or stress ratio between two iterations goes over sratmax (but is still &lt; 1).</param>
+        ''' <param name="sratmax#">Convergence criteria: iterations stop when stress drops below smin, scale factor of the gradient drops below sfgrmin, or stress ratio between two iterations goes over sratmax (but is still &lt; 1).</param>
         ''' <param name="additionals"></param>
         ''' <returns></returns>
         Public Function monoMDS(dist$, y$, Optional k# = 2, Optional model As Models = Models.global,
