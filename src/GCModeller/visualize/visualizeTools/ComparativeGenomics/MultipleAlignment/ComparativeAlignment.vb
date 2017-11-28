@@ -47,6 +47,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ComparativeGenomics
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 
 Namespace ComparativeAlignment
 
@@ -147,11 +148,11 @@ Namespace ComparativeAlignment
                                       Optional QueryMiddle As Boolean = False,
                                       Optional color_overrides As String = "") As Image
 
-            Dim Font As Font = New Font(FontFace.MicrosoftYaHei, FontSize)
+            Dim Font As New Font(FontFace.MicrosoftYaHei, FontSize)
             Dim TitleDrawingFont As New Font("Microsoft YaHei", 20)
             Dim MaxLengthTitleSize As SizeF = (From str As String In New String()() {New String() {Model.Query.Title}, (From mm In Model.aligns Select mm.Title).ToArray}.Unlist
                                                Select str
-                                               Order By Len(str) Descending).First.MeasureString(TitleDrawingFont) '得到最长的标题字符串作为基本的绘制长度的标准
+                                               Order By Len(str) Descending).First.MeasureSize(New Size(1, 1).CreateGDIDevice, TitleDrawingFont) '得到最长的标题字符串作为基本的绘制长度的标准
 
             Dim Device = (New Size(Margin * 10 + Model.Query.Length * InternalConvertFactor + MaxLengthTitleSize.Width * 2, 5 * Margin + Model.aligns.Count * (GeneHeight + 400))).CreateGDIDevice '创建GDI设备
             Dim Height As Integer = Margin

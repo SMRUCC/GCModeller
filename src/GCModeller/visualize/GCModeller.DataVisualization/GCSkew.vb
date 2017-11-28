@@ -102,7 +102,7 @@ Public Module GCSkew
     ''' <param name="size"></param>
     ''' <param name="tagFont"></param>
     Public Sub DrawAixs(g As IGraphics, location As Point, size As Size, tagFont As Font, min As Double, max As Double)
-        Dim aixsSize As SizeF = "0".MeasureString(tagFont)
+        Dim aixsSize As SizeF = g.MeasureString("0", tagFont)
         Dim vertex As New Point(location.X, location.Y - size.Height)
         Dim tmpLoci As New Point With {
             .X = location.X - YValueOffset,

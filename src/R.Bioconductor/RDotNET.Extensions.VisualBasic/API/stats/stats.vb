@@ -27,7 +27,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
@@ -35,6 +34,20 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Namespace API
 
     Public Module stats
+
+        ''' <summary>
+        ''' Compute analysis of variance (or deviance) tables for one or more fitted model objects.
+        ''' </summary>
+        ''' <param name="object$">an object containing the results returned by a model fitting function (e.g., lm or glm).</param>
+        ''' <param name="additional"></param>
+        ''' <returns>
+        ''' This (generic) function returns an object of class anova. These objects represent analysis-of-variance and analysis-of-deviance tables. When given a single argument it produces a table which tests whether the model terms are significant.
+        ''' When given a sequence of objects, anova tests the models against one another in the order specified.
+        ''' The print method for anova objects prints tables in a ‘pretty’ form.
+        ''' </returns>
+        Public Function anova(object$, Optional additional As Dictionary(Of String, String) = Nothing) As String
+
+        End Function
 
         ''' <summary>
         ''' Fit an ARIMA model to a univariate time series.
