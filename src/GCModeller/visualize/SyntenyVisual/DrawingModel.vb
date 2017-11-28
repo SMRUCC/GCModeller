@@ -28,6 +28,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -51,10 +52,11 @@ Public Class DrawingModel
         Dim texts As Image() = briefs.Select(Function(x) TextRender.DrawHtmlText(x.Name, cssFont))
         Dim maxtLen As Integer = texts.Select(Function(x) x.Width).Max
         Dim cl As SolidBrush = New SolidBrush(Color.Black)
-        Dim dh As Integer = GraphicsExtensions.MeasureString(briefs.First.Name, font).Height / 2
         Dim totalSize As New Size(size.Width + maxtLen * 1.5, size.Height)
 
         Using gdi As Graphics2D = totalSize.CreateGDIDevice
+            Dim dh As Integer = briefs.First.Name.MeasureSize(gdi, font).Height / 2
+
             For Each lnk As Line In Links   ' 首先绘制连线
                 Call lnk.Draw(gdi, penWidth)
             Next

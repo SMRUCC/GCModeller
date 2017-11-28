@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::dc1ffb9f371b3141268fc9db536e6b1d, ..\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\LargeGenomeComparing.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Imaging
 Imports System.Drawing.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 
 Namespace ComparativeAlignment
 
@@ -97,7 +98,7 @@ Namespace ComparativeAlignment
                 preLeft = gene.Left
 
                 Dim rtvlRegion As New Rectangle(New Point(RegionLeft, height - dth), New Size(2, TrangleHeight))
-                Dim sz As SizeF = gene.locus_tag.MeasureString(locusFont)
+                Dim sz As SizeF = gene.locus_tag.MeasureSize(gdi, locusFont)
                 Dim r As New RectangleF(New Point(rtvlRegion.Left, rtvlRegion.Bottom + 3), sz)
 
                 If r.Left <= IdRegion.Right Then
@@ -140,11 +141,11 @@ Namespace ComparativeAlignment
                 gdi.Graphics.DrawString(preLeft, Font, Brushes.Black, loci)
             End If
 
-            height = height - "0".MeasureString(titleFont).Height / 2
+            height = height - "0".MeasureSize(gdi, titleFont).Height / 2
             gdi.Graphics.DrawString(models.Title.Split.First, titleFont, Brushes.Black, New Point(Margin - 45, height))
 
             Dim spFont As New Font(titleFont.Name, titleFont.Size)
-            loci = New Point(Margin - 45 + models.Title.Split.First.MeasureString(titleFont).Width + 2, height)
+            loci = New Point(Margin - 45 + models.Title.Split.First.MeasureSize(gdi, titleFont).Width + 2, height)
             gdi.Graphics.DrawString(Mid(models.Title, Strings.Len(models.Title.Split.First) + 1), spFont, Brushes.Black, loci)
 
             Return gDrawingRegions
@@ -175,18 +176,18 @@ Namespace ComparativeAlignment
             Dim tagFont As New Font(FontFace.MicrosoftYaHei, FontSize)
             Dim titleFont As New Font("Microsoft YaHei", 32, FontStyle.Italic)
 
-            Dim maxLenTitleSize As SizeF = model.EnumerateTitles.OrderByDescending(Function(s) Len(s)).First.MeasureString(titleFont) '得到最长的标题字符串作为基本的绘制长度的标准
+            Dim maxLenTitleSize As SizeF = model.EnumerateTitles.OrderByDescending(Function(s) Len(s)).First.MeasureSize(New Size(1, 1).CreateGDIDevice, titleFont) '得到最长的标题字符串作为基本的绘制长度的标准
             Dim devSize As New Size(Margin * 10 + model.Query.Length * InternalConvertFactor + maxLenTitleSize.Width * 2, 5 * Margin + model.aligns.Count * (GenomeInterval + 400))
-            Dim Device As Graphics2D = devSize.CreateGDIDevice '创建GDI设备
+            Dim device As Graphics2D = devSize.CreateGDIDevice '创建GDI设备
             Dim Height As Integer = Margin
-            Dim Length As Integer = Device.Width - 3 * Margin - maxLenTitleSize.Width + 20  '基因组的绘制区域的长度已经被固定下来了
+            Dim Length As Integer = device.Width - 3 * Margin - maxLenTitleSize.Width + 20  '基因组的绘制区域的长度已经被固定下来了
 
             Height += 3 * Margin + GenomeInterval
 
             Dim RECT_ALIGN As Dictionary(Of String, Rectangle)
             Dim RECT_1 As Dictionary(Of String, Rectangle) =
                 __drawing(model.Query,
-                          Device,
+                          device,
                           Length,
                           maxLenTitleSize,
                           Height,
@@ -231,7 +232,7 @@ Namespace ComparativeAlignment
                     Height2 += dHeight
                 End If
 
-                RECT_ALIGN = __drawing(hit, Device, Length, maxLenTitleSize, Height, titleFont, tagFont, DispGeneID, DisplayRule)
+                RECT_ALIGN = __drawing(hit, device, Length, maxLenTitleSize, Height, titleFont, tagFont, DispGeneID, DisplayRule)
 
                 Dim GNModel___1 = model.Query.ToDictionary(Function(g) g.locus_tag),
                     GNModel___2 = model.aligns.First.ToDictionary(Function(g) g.locus_tag)
@@ -275,7 +276,7 @@ Namespace ComparativeAlignment
                         Call p3.SwapWith(p4)
                     End If
 
-                    Call Device.Graphics.DrawLine(LinkPen, p1, p4)
+                    Call device.Graphics.DrawLine(LinkPen, p1, p4)
                 Next
 
                 If Not Up Then
@@ -286,8 +287,8 @@ Namespace ComparativeAlignment
             Next
 
             Dim X, Y As Integer
-            X = Device.Width * 0.25
-            Y = Device.Height - Margin - "0".MeasureString(titleFont).Height
+            X = device.Width * 0.25
+            Y = device.Height - Margin - "0".MeasureSize(device, titleFont).Height
             titleFont = New Font(FontFace.MicrosoftYaHei, 30, FontStyle.Bold)
 
             Dim __drawTrangle = Sub(color As Color, Direction As Integer)
@@ -298,7 +299,7 @@ Namespace ComparativeAlignment
                                     Call Tr.AddLine(New Point(X1, Y - TrangleLength / 2), New Point(X1, Y + TrangleLength / 2))
                                     Call Tr.AddLine(New Point(X1, Y + TrangleLength / 2), New Point(X, Y))
 
-                                    Call Device.Graphics.FillPath(New SolidBrush(color), Tr)
+                                    Call device.Graphics.FillPath(New SolidBrush(color), Tr)
                                 End Sub
 
             For Each cl In model.Legends.Values
@@ -306,11 +307,11 @@ Namespace ComparativeAlignment
                 Call __drawTrangle(cl.color, 1)
                 X += TrangleLength * 2 + 10
                 Call __drawTrangle(cl.color, -1)
-                Call Device.Graphics.DrawString(cl.type, titleFont, Brushes.Black, New Point(X + TrangleLength + 15, Y - TrangleLength / 2))
-                X += 10 + cl.type.MeasureString(titleFont).Width + TrangleLength * 2 + 10 + 10
+                Call device.Graphics.DrawString(cl.type, titleFont, Brushes.Black, New Point(X + TrangleLength + 15, Y - TrangleLength / 2))
+                X += 10 + cl.type.MeasureSize(device, titleFont).Width + TrangleLength * 2 + 10 + 10
             Next
 
-            Return Device.ImageResource
+            Return device.ImageResource
         End Function
     End Module
 End Namespace
