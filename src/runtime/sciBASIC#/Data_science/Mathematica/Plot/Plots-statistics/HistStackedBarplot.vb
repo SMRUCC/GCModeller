@@ -27,12 +27,15 @@ Public Module HistStackedBarplot
     ''' <param name="sampleGroup"><see cref="DendrogramPanel.ClassTable"/></param>
     ''' <returns></returns>
     Public Function Plot(data As BarDataGroup,
-                         Optional size$ = "3000,2700",
+                         Optional size$ = "2700,2100",
                          Optional margin$ = g.DefaultPadding,
                          Optional bg$ = "white",
-                         Optional treeWidth# = 0.2,
+                         Optional treeWidth# = 0.1,
                          Optional sampleGroup As Dictionary(Of String, String) = Nothing,
-                         Optional legendTitleFontCSS$ = CSSFont.Win7LargerBold) As GraphicsData
+                         Optional legendTitleFontCSS$ = CSSFont.Win7LargerBold,
+                         Optional dtreeBar! = 25,
+                         Optional dbarbox! = 25,
+                         Optional dboxLabel! = 10) As GraphicsData
 
         Dim array As DataSet() = data.Samples _
             .Select(Function(sample)
@@ -77,7 +80,7 @@ Public Module HistStackedBarplot
                     .OrderBy(Function(x) x.Value.Y) _
                     .Keys
 
-                Dim left! = treeRegion.Right
+                Dim left! = treeRegion.Right + dtreeBar
                 Dim top! = treeRegion.Top
                 Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleFontCSS).GDIObject
                 Dim maxLabelSize As SizeF = data _
@@ -90,7 +93,10 @@ Public Module HistStackedBarplot
                 plotRegion = New Rectangle With {
                     .X = left,
                     .Y = top,
-                    .Width = plotRegion.Width - treeRegion.Width - boxSize.Width - maxLabelSize.Width,  ' barplot绘制的宽度为总宽度减去层次聚类树宽度减去legend标签宽度减去legend颜色标签宽度
+                    .Width = plotRegion.Width _
+                             - dtreeBar - treeRegion.Width _
+                             - dbarbox - boxSize.Width _
+                             - dboxLabel - maxLabelSize.Width,  ' barplot绘制的宽度为总宽度减去层次聚类树宽度减去legend标签宽度减去legend颜色标签宽度
                     .Height = plotRegion.Height
                 }
 
@@ -123,13 +129,17 @@ Public Module HistStackedBarplot
 
                 ' 现在开始绘制legend
                 top = plotRegion.Top
-                left += plotRegion.Width
+                left += plotRegion.Width + dbarbox
 
                 For Each label As NamedValue(Of Color) In data.Serials
                     Dim color As New SolidBrush(label.Value)
+                    Dim pos As New PointF With {
+                        .X = left + boxSize.Width + dboxLabel,
+                        .Y = top
+                    }
 
                     Call g.FillRectangle(color, left, top, boxSize)
-                    Call g.DrawString(label.Name, legendTitleFont, Brushes.Black, left + boxSize.Width, top)
+                    Call g.DrawString(label.Name, legendTitleFont, Brushes.Black, pos)
 
                     top += boxSize.Width
                 Next
