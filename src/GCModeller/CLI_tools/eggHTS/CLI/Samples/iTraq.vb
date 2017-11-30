@@ -64,7 +64,8 @@ Partial Module CLI
     <Group(CLIGroups.iTraqTool)>
     <Argument("/sampleInfo", False, CLITypes.File, AcceptTypes:={GetType(SampleInfo)})>
     <Argument("/designer", False, CLITypes.File, AcceptTypes:={GetType(AnalysisDesigner)},
-              Description:="The analysis designer in csv file format for the DEPs calculation, should contains at least two column: <Controls><Experimental>")>
+              Description:="The analysis designer in csv file format for the DEPs calculation, should contains at least two column: ``<Controls>,<Experimental>``. 
+              The analysis design: ``controls vs experimental`` means formula ``experimental/controls`` in the FoldChange calculation.")>
     Public Function iTraqAnalysisMatrixSplit(args As CommandLine) As Integer
         Dim sampleInfo = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
         Dim designer = (args <= "/designer").LoadCsv(Of AnalysisDesigner)
