@@ -74,13 +74,17 @@ Partial Module CLI
         Dim allowedSwap As Boolean = args.IsTrue("/allowed.swap")
 
         For Each group In matrix.MatrixSplit(sampleInfo, designer, allowedSwap)
-            Dim groupName$ = group.Name
+            Dim groupName$ = AnalysisDesigner.CreateTitle(group.Name)
             Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
             Dim data As DataSet() = group.Value
 
             If Not data.All(Function(x) x.Properties.Count = 0) Then
-                Call data.SaveTo(path)
-                Call StripNaN(path, replaceAs:="NA")
+                Call data _
+                    .InvalidsAsRLangNA("NA") _
+                    .ToArray _
+                    .SaveTo(path)
+            Else
+                Call $"``{groupName}`` have no values, please check for the labels...".Warning
             End If
         Next
 

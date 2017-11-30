@@ -56,4 +56,10 @@ Public Class AnalysisDesigner
             .Treatment = Controls
         }
     End Function
+
+    Public Shared Function CreateTitle(label As String) As String
+        With label.Split("/"c)
+            Return $"{ .Last} vs { .First}"
+        End With
+    End Function
 End Class

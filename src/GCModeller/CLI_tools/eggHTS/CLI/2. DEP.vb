@@ -885,7 +885,6 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".DEPs.vocano.plot.png")
         Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)(args <= "/in")
         Dim size$ = args.GetValue("/size", "1400,1400")
-        Dim title$ = (args <= "/title") Or ("Volcano plot of " & (args <= "/in").BaseName).AsDefault
         Dim colors As Dictionary(Of Integer, Color) = args _
             .GetDictionary("/colors", [default]:="up=red;down=green;other=black") _
             .ToDictionary(Function(type)
@@ -911,6 +910,10 @@ Partial Module CLI
                                Return -1
                            End If
                        End Function
+
+        ' 如果是使用系统生成默认的名称的话，则文件名的模式为： groupName.log2FC.t.test.csv
+        ' 使用split取第一个字符串即可得到groupName
+        Dim title$ = (args <= "/title") Or ("Volcano plot of " & (args <= "/in").BaseName.Split("."c).First).AsDefault
 
         If log2FCLevel = 0R Then
             Call "log2FC level can not be ZERO! please check for the /level parameter!".Warning
