@@ -30,9 +30,9 @@ Public Module Clusters
     End Sub
 
     <Extension>
-    Public Function KMeans(data As IEnumerable(Of DataSet), Optional expected% = 20) As EntityLDM()
-        Dim models As EntityLDM() = data.ToKMeansModels
-        Dim clusters As EntityLDM() = models.Kmeans(expected:=expected)
+    Public Function KMeans(data As IEnumerable(Of DataSet), Optional expected% = 20) As EntityClusterModel()
+        Dim models As EntityClusterModel() = data.ToKMeansModels
+        Dim clusters As EntityClusterModel() = models.Kmeans(expected:=expected)
         Return clusters
     End Function
 End Module

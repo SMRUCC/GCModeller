@@ -62,7 +62,7 @@ Partial Module CLI
         Call arguments.Add("cut", cut)
 
         Dim matrix As DataSet() = fasta.SimilarityMatrix(arguments)
-        Dim clusters As EntityLDM() = matrix.KMeans(expected)
+        Dim clusters As EntityClusterModel() = matrix.KMeans(expected)
         Dim colors As Color() = Designer.GetColors(args <= "/colors", expected)
         Dim clusterColors As Dictionary(Of String, Color) = clusters _
             .Select(Function(x) x.Cluster) _

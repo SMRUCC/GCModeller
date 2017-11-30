@@ -457,9 +457,9 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/DEP.heatmap")>
+    <ExportAPI("/DEPs.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /legend.size <size, default=600,100> /out <out.DIR>]")>
+    <Usage("/DEPs.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /legend.size <size, default=600,100> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -498,7 +498,7 @@ Partial Module CLI
               Extensions:="*.csv",
               Description:="The protein annotation data that extract from the uniprot database. Some advanced heatmap plot feature required of this annotation data presented.")>
     <Group(CLIGroups.DEP_CLI)>
-    Public Function Heatmap_DEPs(args As CommandLine) As Integer
+    Public Function DEPs_heatmapKmeans(args As CommandLine) As Integer
         Dim input$ = args <= "/data"
         Dim out As String = args.GetValue("/out", input.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
@@ -541,16 +541,30 @@ Partial Module CLI
             Next
         End If
 
-        Call matrix _
+        With matrix _
             .ToKMeansModels _
-            .Kmeans(expected:=args.GetValue("/cluster.n", 6)) _
-            .SaveTo(dataOUT)
+            .Kmeans(expected:=args.GetValue("/cluster.n", 6))
 
-        Dim min# = matrix.Select(Function(d) d.Properties.Values).IteratesALL.Min
+            ' 保存用于绘制3D/2D聚类图的数据集
+            Call .ToEntityObjects _
+                 .ToArray _
+                 .SaveDataSet(dataOUT, Encodings.UTF8)
+
+            ' 保存能够应用于R脚本进行热图绘制的矩阵数据
+            Call .Select(Function(d) DirectCast(d, DataSet)) _
+                 .AsCharacter _
+                 .ToArray _
+                 .SaveDataSet(dataOUT.TrimSuffix & ".heampa_Matrix.csv", Encodings.UTF8)
+        End With
+
         Dim schema$ = args.GetValue("/schema", Colors.ColorBrewer.DivergingSchemes.RdYlGn11)
         Dim revColorSequence As Boolean = Not args.IsTrue("/no-clrev")
         Dim tick# = args.GetValue("/tick", -1.0#)
         Dim legendSize$ = (args <= "/legend.size") Or "600,100".AsDefault
+        Dim min# = matrix _
+            .Select(Function(d) d.Properties.Values) _
+            .IteratesALL _
+            .Min
 
         If min >= 0 Then
             min = 0
@@ -596,12 +610,12 @@ Partial Module CLI
         Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
         Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter2D.png").AsDefault
-        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
+        Dim clusterData As EntityClusterModel() = DataSet.LoadDataSet(Of EntityClusterModel)([in]).ToArray
         Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
         Dim tlog# = args.GetValue("/t.log", -1.0R)
 
         If Not prefix.StringEmpty Then
-            For Each protein As EntityLDM In clusterData
+            For Each protein As EntityClusterModel In clusterData
                 protein.Cluster = prefix & protein.Cluster
             Next
         End If
@@ -636,7 +650,7 @@ Partial Module CLI
     <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
     <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.png>]")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
-              AcceptTypes:={GetType(EntityLDM)},
+              AcceptTypes:={GetType(EntityClusterModel)},
               Extensions:="*.csv",
               Description:="The kmeans cluster result from ``/DEP.heatmap`` command.")>
     <Argument("/sampleInfo", False, CLITypes.File,
@@ -662,7 +676,7 @@ Partial Module CLI
         Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
         Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter.png").AsDefault
-        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
+        Dim clusterData As EntityClusterModel() = DataSet.LoadDataSet(Of EntityClusterModel)([in]).ToArray
         Dim viewAngle As Vector = (args <= "/view.angle") Or "30,60,-56.25".AsDefault
         Dim viewDistance# = args.GetValue("/view.distance", 2500)
         Dim camera As New Camera With {
@@ -677,7 +691,7 @@ Partial Module CLI
         Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
 
         If Not prefix.StringEmpty Then
-            For Each protein As EntityLDM In clusterData
+            For Each protein As EntityClusterModel In clusterData
                 protein.Cluster = prefix & protein.Cluster
             Next
         End If

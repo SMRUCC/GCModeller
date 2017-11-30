@@ -64,7 +64,7 @@ Partial Module CLI
         Dim inFile As String = args - "/cluster"
         Dim cog As String = args - "/cogs"
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & $"-{cog.BaseName}.bTree/")
-        Dim clusters = inFile.LoadCsv(Of EntityLDM)
+        Dim clusters = inFile.LoadCsv(Of EntityClusterModel)
         Dim bTree As NetworkTables = clusters.bTreeNET
         Dim state = COGFunction.GetClass(cog.LoadCsv(Of MyvaCOG), func)
         Dim COGs = (From x As COGFunction
@@ -126,14 +126,14 @@ Partial Module CLI
         Return result.SaveTo(out).CLICode
     End Function
 
-    Private Function __clusteringCommon(nClusters As Integer, Maps As KMeans.Entity(), mapNames As String()) As List(Of EntityLDM)
+    Private Function __clusteringCommon(nClusters As Integer, Maps As KMeans.Entity(), mapNames As String()) As List(Of EntityClusterModel)
         Dim Clusters As ClusterCollection(Of KMeans.Entity) = Maps.ClusterDataSet(nClusters)
-        Dim result As New List(Of EntityLDM)
+        Dim result As New List(Of EntityClusterModel)
         Dim i As Integer = 1
-        Dim setValue = New SetValue(Of EntityLDM) <= NameOf(EntityLDM.Cluster)
+        Dim setValue = New SetValue(Of EntityClusterModel) <= NameOf(EntityClusterModel.Cluster)
 
         For Each cluster As KMeansCluster(Of KMeans.Entity) In Clusters
-            Dim array As EntityLDM()
+            Dim array As EntityClusterModel()
 
             If mapNames Is Nothing Then
                 array = cluster.Select(Function(x) setValue(x.ToLDM, CStr(i)))
@@ -167,9 +167,9 @@ Partial Module CLI
         Dim param As New Parameters
         Dim files = FileIO.FileSystem.GetFiles(query, FileIO.SearchOption.SearchAllSubDirectories, "*.txt")
         Dim source As AnnotationModel() = files.Select(Function(x) AnnotationModel.LoadDocument(x)).ToVector
-        Dim result As Dictionary(Of String, EntityLDM) =
+        Dim result As Dictionary(Of String, EntityClusterModel) =
             source.Select(Function(x)
-                               Return New EntityLDM With {
+                               Return New EntityClusterModel With {
                                    .ID = x.Uid,
                                    .Properties = New Dictionary(Of String, Double)
                                }
@@ -189,13 +189,13 @@ Partial Module CLI
                 Continue For
             End If
 
-            Dim resultSet As List(Of EntityLDM) = __clusteringCommon(nClusters, Maps, Nothing)
+            Dim resultSet As List(Of EntityClusterModel) = __clusteringCommon(nClusters, Maps, Nothing)
             Dim sId As String = BaseName(xml)
             Dim outFile As String = out & "/" & sId & ".Csv"
 
             Call resultSet.SaveTo(outFile)
 
-            For Each map As EntityLDM In resultSet
+            For Each map As EntityClusterModel In resultSet
                 result(map.ID).Properties(sId) = map.Cluster
             Next
 
@@ -236,22 +236,22 @@ Partial Module CLI
         Dim loads = (From file As String
                      In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.txt")
                      Select AnnotationModel.LoadDocument(file)).Unlist
-        Dim resultSet As EntityLDM() = __clusterFastCommon(loads, args("/ldm"))
+        Dim resultSet As EntityClusterModel() = __clusterFastCommon(loads, args("/ldm"))
         Dim QueryHash As Dictionary(Of AnnotationModel) = loads.ToDictionary
         '将Entity和sites位点联系起来
         Dim asso = (From x In resultSet Select x, sites = QueryHash(x.ID)).ToArray
         Dim merges = (From gene In (From x In asso Select __expends(x.x, x.sites)).Unlist Select gene Group gene By gene.ID Into Group).ToArray
-        Dim result As EntityLDM() = merges.Select(Function(x) __merges(x.Group.ToArray)).ToArray
+        Dim result As EntityClusterModel() = merges.Select(Function(x) __merges(x.Group.ToArray)).ToArray
 
         Call result.SaveTo(out & "/resultSet.Csv")
 
         ' 树形聚类
-        Dim saveResult As EntityLDM() = KMeans.TreeCluster(result)
+        Dim saveResult As EntityClusterModel() = KMeans.TreeCluster(result)
         out = out & "/TreeCluster.Csv"
         Return saveResult.SaveTo(out).CLICode
     End Function
 
-    Private Function __merges(source As EntityLDM()) As EntityLDM
+    Private Function __merges(source As EntityClusterModel()) As EntityClusterModel
         Dim keys = source.First.Properties.Keys.ToArray
         Dim prop As New Dictionary(Of String, Double)
 
@@ -260,23 +260,23 @@ Partial Module CLI
             Call prop.Add(key, value.Average)
         Next
 
-        Return New EntityLDM With {
+        Return New EntityClusterModel With {
             .ID = source.First.ID,
             .Properties = prop
         }
     End Function
 
-    Private Function __expends(source As EntityLDM, site As AnnotationModel) As EntityLDM()
+    Private Function __expends(source As EntityClusterModel, site As AnnotationModel) As EntityClusterModel()
         Dim LQuery = (From x As LDM.Site
                       In site.Sites
-                      Select New EntityLDM With {
+                      Select New EntityClusterModel With {
                           .ID = x.Name,
                           .Cluster = source.Cluster,
                           .Properties = New Dictionary(Of String, Double)(source.Properties)}).ToArray
         Return LQuery
     End Function
 
-    Private Function __clusterFastCommon(source As IEnumerable(Of AnnotationModel), LDM As String) As EntityLDM()
+    Private Function __clusterFastCommon(source As IEnumerable(Of AnnotationModel), LDM As String) As EntityClusterModel()
         If Not LDM.DirectoryExists Then
             LDM = GCModeller.FileSystem.GetMotifLDM
         End If
@@ -296,7 +296,7 @@ Partial Module CLI
                                   In loadLDMs
                                   Select SWTom.Compare(x, hit, param)).ToArray).ToArray
         Dim resultSet = (From x In LQuery   ' 生成数据集
-                         Select New EntityLDM With {
+                         Select New EntityClusterModel With {
                              .ID = x.x.Uid,
                              .Properties = (From hit As Output In x.prop
                                             Select hit.Subject.Uid,
@@ -353,7 +353,7 @@ Partial Module CLI
             source = (From x In source Where x.PWM.Length <= maxw Select x).ToArray
         End If
 
-        Dim resultSet As EntityLDM() = __clusterFastCommon(source, LDM)
+        Dim resultSet As EntityClusterModel() = __clusterFastCommon(source, LDM)
         Call resultSet.SaveTo(query & "/resultSet.Csv")
 
         ' 树形聚类
@@ -371,10 +371,10 @@ Partial Module CLI
         Dim maps As Dictionary(Of String, String) = Nothing
 
         If Not String.IsNullOrEmpty(map) Then  ' 提升对其他的数据源的兼容性
-            maps = New Dictionary(Of String, String) From {{map, NameOf(EntityLDM.ID)}}
+            maps = New Dictionary(Of String, String) From {{map, NameOf(EntityClusterModel.ID)}}
         End If
 
-        Dim inEntity = inMAT.LoadCsv(Of EntityLDM)(maps:=maps)
+        Dim inEntity = inMAT.LoadCsv(Of EntityClusterModel)(maps:=maps)
         Dim saveResult = KMeans.TreeCluster(inEntity)
         Return saveResult.SaveTo(out).CLICode
     End Function
@@ -386,11 +386,11 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".Cluster.Csv")
         Dim MAT = inMAT.LoadCsv(Of RPKMStat)(fast:=True)
         Dim inEntity = MAT.Select(
-            Function(x) New EntityLDM With {
+            Function(x) New EntityClusterModel With {
                 .ID = x.Locus,
                 .Properties = x.Properties
             }).ToArray
-        Dim saveResult As EntityLDM() = KMeans.TreeCluster(inEntity)
+        Dim saveResult As EntityClusterModel() = KMeans.TreeCluster(inEntity)
         Return saveResult.SaveTo(out).CLICode
     End Function
 
@@ -401,7 +401,7 @@ Partial Module CLI
         Dim upFile As String = args("/up")
         Dim downFile As String = args("/down")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
-        Dim MAT = inMAT.LoadCsv(Of EntityLDM)
+        Dim MAT = inMAT.LoadCsv(Of EntityClusterModel)
         Dim net As NetworkTables = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
 
@@ -430,10 +430,10 @@ Partial Module CLI
     ''' <param name="cut"></param>
     ''' <param name="maps"></param>
     ''' <returns></returns>
-    Private Function __getMaxRelates(source As IEnumerable(Of EntityLDM), cut As Double, maps As Dictionary(Of String, String)) As List(Of EntityLDM)
-        Dim setValue = New SetValue(Of EntityLDM) <= NameOf(EntityLDM.Properties)
+    Private Function __getMaxRelates(source As IEnumerable(Of EntityClusterModel), cut As Double, maps As Dictionary(Of String, String)) As List(Of EntityClusterModel)
+        Dim setValue = New SetValue(Of EntityClusterModel) <= NameOf(EntityClusterModel.Properties)
         Dim LQuery =
-            LinqAPI.MakeList(Of EntityLDM) <= From x As EntityLDM
+            LinqAPI.MakeList(Of EntityClusterModel) <= From x As EntityClusterModel
                                               In source
                                               Let cuts As Dictionary(Of String, Double) = (
                                                   From p
@@ -451,7 +451,7 @@ Partial Module CLI
     ''' <param name="source"></param>
     ''' <param name="modDIR"></param>
     ''' <returns></returns>
-    Private Function __getMaxMods(source As IEnumerable(Of EntityLDM),
+    Private Function __getMaxMods(source As IEnumerable(Of EntityClusterModel),
                                   modDIR As String,
                                   ByRef modsDist As Dictionary(Of String, Dictionary(Of String, Integer))) As Dictionary(Of String, String())
         Dim mods = (From file As String
@@ -464,7 +464,7 @@ Partial Module CLI
         Dim result As New Dictionary(Of String, String())
         modsDist = New Dictionary(Of String, Dictionary(Of String, Integer))
 
-        For Each x As EntityLDM In source
+        For Each x As EntityClusterModel In source
             Dim dist As Dictionary(Of String, Integer) =
                 New Dictionary(Of String, Integer)
             Dim modsId As String() = __getMods(x.Properties.Keys.ToArray, mods, cats, dist)
@@ -511,7 +511,7 @@ Partial Module CLI
         Dim inMAT As String = args("/in")
         Dim maps As String = args("/maps")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
-        Dim MAT = inMAT.LoadCsv(Of EntityLDM)
+        Dim MAT = inMAT.LoadCsv(Of EntityClusterModel)
         Dim net As NetworkTables = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
         Dim cut As Double = args.GetValue("/cuts", 0.8)
@@ -586,8 +586,8 @@ Partial Module CLI
         Next
 
         Dim MATHash = MAT.ToDictionary
-        Dim modsdE As EntityLDM() = modsDist.Select(
-            Function(Id, modsD) New EntityLDM With {
+        Dim modsdE As EntityClusterModel() = modsDist.Select(
+            Function(Id, modsD) New EntityClusterModel With {
                 .ID = Id,
                 .Cluster = MATHash(Id).Cluster,
                 .Properties = modsD.ToDictionary(Function(x) x.Key, Function(x) CDbl(x.Value))
@@ -603,7 +603,7 @@ Partial Module CLI
         Dim inMAT As String = args("/in")
         Dim mods As String = args("/mods")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
-        Dim MAT = inMAT.LoadCsv(Of EntityLDM)
+        Dim MAT = inMAT.LoadCsv(Of EntityClusterModel)
         Dim net As NetworkTables = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
 
@@ -662,7 +662,7 @@ Partial Module CLI
         Dim inMAT As String = args("/in")
         Dim mods As String = args("/mods")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
-        Dim MAT = inMAT.LoadCsv(Of EntityLDM)
+        Dim MAT = inMAT.LoadCsv(Of EntityClusterModel)
         Dim net As NetworkTables = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
 
@@ -731,7 +731,7 @@ Partial Module CLI
     Public Function BuildTreeNET_MergeRegulons(args As CommandLine) As Integer
         Dim inMAT As String = args("/in")
         Dim out As String = args.GetValue("/out", inMAT.TrimSuffix & ".TreeNET/")
-        Dim MAT = inMAT.LoadCsv(Of EntityLDM)
+        Dim MAT = inMAT.LoadCsv(Of EntityClusterModel)
         Dim net As NetworkTables = MAT.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
 
@@ -787,7 +787,7 @@ Partial Module CLI
     Public Function BuildTreeNET(args As CommandLine) As Integer
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".Tree.NET/")
-        Dim inData = inFile.LoadCsv(Of EntityLDM)
+        Dim inData = inFile.LoadCsv(Of EntityClusterModel)
         Dim net As NetworkTables = inData.bTreeNET
         Dim brief As Boolean = args.GetBoolean("/brief")
 
