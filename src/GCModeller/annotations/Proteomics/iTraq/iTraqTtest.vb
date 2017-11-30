@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports RDotNET
 Imports RDotNET.Extensions.VisualBasic.API
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
