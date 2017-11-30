@@ -705,28 +705,6 @@ Partial Module CLI
     End Function
 
     ''' <summary>
-    ''' 获取DEPs的原始数据的热图数据
-    ''' </summary>
-    ''' <returns></returns>
-    ''' 
-    <ExportAPI("/DEP.heatmap.raw")>
-    <Description("All of the NA value was replaced by value ``1``, as the FC value when it equals 1, then ``log2(1) = 0``, which means it has no changes.")>
-    <Usage("/DEP.heatmap.raw /DEPs <DEPs.csv.folder> [/DEP.tag <default=is.DEP> /out <out.csv>]")>
-    <Group(CLIGroups.DEP_CLI)>
-    Public Function DEPsHeatmapRaw(args As CommandLine) As Integer
-        Dim in$ = args <= "/DEPs"
-        Dim raw$ = args <= "/raw"
-        Dim DEPTag$ = args.GetValue("/DEP.tag", "is.DEP")
-        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".heatmap.raw/")
-        Dim dataOUT = out & "/DEP.heatmap.raw.csv"
-
-        Return DEGDesigner _
-            .GetDEPsRawValues([in], DEPTag) _
-            .SaveDataSet(dataOUT) _
-            .CLICode
-    End Function
-
-    ''' <summary>
     ''' 如果data参数不存在则默认只取出DEP的输入数据之中的is.DEP为真的部分
     ''' </summary>
     ''' <param name="args"></param>
