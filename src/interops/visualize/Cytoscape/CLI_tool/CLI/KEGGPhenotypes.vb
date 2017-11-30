@@ -91,8 +91,8 @@ Partial Module CLI
         Next
 
         Dim l As Integer = footprints.Length
-        Dim sets As EntityLDM() = Entities.Select(
-            Function(x) New EntityLDM With {
+        Dim sets As EntityClusterModel() = Entities.Select(
+            Function(x) New EntityClusterModel With {
                 .ID = x.EntryId,
                 .Properties = x.hash.ToDictionary(Function(prop) prop.Key,
                                                   Function(prop) prop.Value.Value / l)

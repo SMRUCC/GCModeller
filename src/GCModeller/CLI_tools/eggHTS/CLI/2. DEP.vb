@@ -305,6 +305,15 @@ Partial Module CLI
             End Function)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="DIR$"></param>
+    ''' <param name="tlog2"></param>
+    ''' <param name="ZERO$"></param>
+    ''' <param name="nonDEP_blank"></param>
+    ''' <param name="outGroup">如果这个参数为真，说明是生成的文氏图的数据矩阵</param>
+    ''' <returns></returns>
     Public Function Union(DIR$, tlog2 As Boolean, ZERO$, nonDEP_blank As Boolean, outGroup As Boolean) As List(Of EntityObject)
         Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = DIR.unionDATA
         Dim allDEPs = data.Values _
@@ -325,14 +334,14 @@ Partial Module CLI
                 With group.Value
                     If .ContainsKey(id) Then
                         With .ref(id)
-                            If .ref.isDEP Then
+                            If .isDEP Then
                                 If outGroup Then
 
-                                    FClog2.Add(group.Key, .ref.log2FC)
+                                    FClog2.Add(group.Key, .log2FC)
 
                                 Else
 
-                                    For Each prop In .ref.Properties
+                                    For Each prop In .Properties
                                         If prop.Value.TextEquals("NA") Then
                                             FClog2.Add(prop.Key, ZERO)
                                         Else
@@ -354,7 +363,7 @@ Partial Module CLI
 
                                     Else
 
-                                        For Each prop In .ref.Properties
+                                        For Each prop In .Properties
                                             FClog2.Add(prop.Key, ZERO) ' log2(1) = 0
                                         Next
 
@@ -364,11 +373,11 @@ Partial Module CLI
 
                                     If outGroup Then
 
-                                        FClog2.Add(group.Key, .ref.log2FC)
+                                        FClog2.Add(group.Key, .log2FC)
 
                                     Else
 
-                                        For Each prop In .ref.Properties
+                                        For Each prop In .Properties
                                             If prop.Value.TextEquals("NA") Then
                                                 FClog2.Add(prop.Key, ZERO)
                                             Else
@@ -408,6 +417,22 @@ Partial Module CLI
                 .Properties = FClog2
             }
         Next
+
+        If outGroup Then
+            matrix = matrix _
+                .Select(Function(d)
+                            Return New EntityObject With {
+                                .ID = d.ID,
+                                .Properties = d _
+                                    .Properties _
+                                    .ToDictionary(Function(map)
+                                                      Return map.Key.Split("."c).First
+                                                  End Function,
+                                                  Function(map) map.Value)
+                            }
+                        End Function) _
+                .AsList
+        End If
 
         Return matrix
     End Function
@@ -457,9 +482,9 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/DEP.heatmap")>
+    <ExportAPI("/DEPs.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /legend.size <size, default=600,100> /out <out.DIR>]")>
+    <Usage("/DEPs.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /legend.size <size, default=600,100> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -498,7 +523,7 @@ Partial Module CLI
               Extensions:="*.csv",
               Description:="The protein annotation data that extract from the uniprot database. Some advanced heatmap plot feature required of this annotation data presented.")>
     <Group(CLIGroups.DEP_CLI)>
-    Public Function Heatmap_DEPs(args As CommandLine) As Integer
+    Public Function DEPs_heatmapKmeans(args As CommandLine) As Integer
         Dim input$ = args <= "/data"
         Dim out As String = args.GetValue("/out", input.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
@@ -541,16 +566,36 @@ Partial Module CLI
             Next
         End If
 
-        Call matrix _
-            .ToKMeansModels _
-            .Kmeans(expected:=args.GetValue("/cluster.n", 6)) _
-            .SaveTo(dataOUT)
+        matrix = matrix _
+            .Where(Function(d)
+                       Return d.Properties.Values.Any(Function(n) n <> 0R)
+                   End Function) _
+            .AsList
 
-        Dim min# = matrix.Select(Function(d) d.Properties.Values).IteratesALL.Min
+        With matrix _
+            .ToKMeansModels _
+            .Kmeans(expected:=args.GetValue("/cluster.n", 6))
+
+            ' 保存用于绘制3D/2D聚类图的数据集
+            Call .ToEntityObjects _
+                 .ToArray _
+                 .SaveDataSet(dataOUT, Encodings.UTF8)
+
+            ' 保存能够应用于R脚本进行热图绘制的矩阵数据
+            Call .Select(Function(d) DirectCast(d, DataSet)) _
+                 .AsCharacter _
+                 .ToArray _
+                 .SaveDataSet(dataOUT.TrimSuffix & ".heampa_Matrix.csv", Encodings.UTF8)
+        End With
+
         Dim schema$ = args.GetValue("/schema", Colors.ColorBrewer.DivergingSchemes.RdYlGn11)
         Dim revColorSequence As Boolean = Not args.IsTrue("/no-clrev")
         Dim tick# = args.GetValue("/tick", -1.0#)
         Dim legendSize$ = (args <= "/legend.size") Or "600,100".AsDefault
+        Dim min# = matrix _
+            .Select(Function(d) d.Properties.Values) _
+            .IteratesALL _
+            .Min
 
         If min >= 0 Then
             min = 0
@@ -596,12 +641,12 @@ Partial Module CLI
         Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
         Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter2D.png").AsDefault
-        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
+        Dim clusterData As EntityClusterModel() = DataSet.LoadDataSet(Of EntityClusterModel)([in]).ToArray
         Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
         Dim tlog# = args.GetValue("/t.log", -1.0R)
 
         If Not prefix.StringEmpty Then
-            For Each protein As EntityLDM In clusterData
+            For Each protein As EntityClusterModel In clusterData
                 protein.Cluster = prefix & protein.Cluster
             Next
         End If
@@ -636,7 +681,7 @@ Partial Module CLI
     <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
     <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.png>]")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
-              AcceptTypes:={GetType(EntityLDM)},
+              AcceptTypes:={GetType(EntityClusterModel)},
               Extensions:="*.csv",
               Description:="The kmeans cluster result from ``/DEP.heatmap`` command.")>
     <Argument("/sampleInfo", False, CLITypes.File,
@@ -662,7 +707,7 @@ Partial Module CLI
         Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
         Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter.png").AsDefault
-        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
+        Dim clusterData As EntityClusterModel() = DataSet.LoadDataSet(Of EntityClusterModel)([in]).ToArray
         Dim viewAngle As Vector = (args <= "/view.angle") Or "30,60,-56.25".AsDefault
         Dim viewDistance# = args.GetValue("/view.distance", 2500)
         Dim camera As New Camera With {
@@ -677,7 +722,7 @@ Partial Module CLI
         Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
 
         If Not prefix.StringEmpty Then
-            For Each protein As EntityLDM In clusterData
+            For Each protein As EntityClusterModel In clusterData
                 protein.Cluster = prefix & protein.Cluster
             Next
         End If
@@ -687,28 +732,6 @@ Partial Module CLI
             .AsGDIImage _
             .CorpBlank(30, Color.White) _
             .SaveAs(path:=out) _
-            .CLICode
-    End Function
-
-    ''' <summary>
-    ''' 获取DEPs的原始数据的热图数据
-    ''' </summary>
-    ''' <returns></returns>
-    ''' 
-    <ExportAPI("/DEP.heatmap.raw")>
-    <Description("All of the NA value was replaced by value ``1``, as the FC value when it equals 1, then ``log2(1) = 0``, which means it has no changes.")>
-    <Usage("/DEP.heatmap.raw /DEPs <DEPs.csv.folder> [/DEP.tag <default=is.DEP> /out <out.csv>]")>
-    <Group(CLIGroups.DEP_CLI)>
-    Public Function DEPsHeatmapRaw(args As CommandLine) As Integer
-        Dim in$ = args <= "/DEPs"
-        Dim raw$ = args <= "/raw"
-        Dim DEPTag$ = args.GetValue("/DEP.tag", "is.DEP")
-        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".heatmap.raw/")
-        Dim dataOUT = out & "/DEP.heatmap.raw.csv"
-
-        Return DEGDesigner _
-            .GetDEPsRawValues([in], DEPTag) _
-            .SaveDataSet(dataOUT) _
             .CLICode
     End Function
 
@@ -885,7 +908,6 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".DEPs.vocano.plot.png")
         Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)(args <= "/in")
         Dim size$ = args.GetValue("/size", "1400,1400")
-        Dim title$ = (args <= "/title") Or ("Volcano plot of " & (args <= "/in").BaseName).AsDefault
         Dim colors As Dictionary(Of Integer, Color) = args _
             .GetDictionary("/colors", [default]:="up=red;down=green;other=black") _
             .ToDictionary(Function(type)
@@ -911,6 +933,10 @@ Partial Module CLI
                                Return -1
                            End If
                        End Function
+
+        ' 如果是使用系统生成默认的名称的话，则文件名的模式为： groupName.log2FC.t.test.csv
+        ' 使用split取第一个字符串即可得到groupName
+        Dim title$ = (args <= "/title") Or ("Volcano plot of " & (args <= "/in").BaseName.Split("."c).First).AsDefault
 
         If log2FCLevel = 0R Then
             Call "log2FC level can not be ZERO! please check for the /level parameter!".Warning

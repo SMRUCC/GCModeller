@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::b72eb059e708db7e240d55ae500adabe, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Bitmap\Utils.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports System.Drawing.Drawing2D
 Imports System.Drawing.Text
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Imaging.BitmapImage
@@ -59,15 +60,30 @@ Namespace Imaging.BitmapImage
         End Function
 
         <ExportAPI("Image.Resize")>
+        <Extension>
         Public Function Resize(Image As Image, newSize As Size) As Image
             SyncLock Image
-                Using g As Graphics2D = newSize.CreateGDIDevice
+                ' 在这里不适用默认的白色做填充，而是使用透明色来进行填充
+                ' 因为图片可能会是透明的，使用默认的白色填充会导致结果图片失去了透明
+                Using g As Graphics2D = newSize.CreateGDIDevice(Color.Transparent)
                     With g
                         Call .DrawImage(Image, 0, 0, newSize.Width, newSize.Height)
                         Return .ImageResource
                     End With
                 End Using
             End SyncLock
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function ResizeUnscaled(image As Image, width%) As Image
+            Return image.Resize(New Size(width, image.Height * (width / image.Width)))
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function ResizeUnscaledByHeight(image As Image, height%) As Image
+            Return image.Resize(New Size(image.Width * (height / image.Height), height))
         End Function
 
         ''' <summary>
@@ -262,6 +278,41 @@ Namespace Imaging.BitmapImage
             Else
                 Return res
             End If
+        End Function
+
+        ''' <summary>
+        ''' A, R, G, B
+        ''' </summary>
+        Const PixelSize% = 4
+        Const RGBSize% = 3
+
+        ''' <summary>
+        ''' Color replace using memory pointer
+        ''' </summary>
+        ''' <param name="image"></param>
+        ''' <param name="subject"></param>
+        ''' <param name="replaceAs"></param>
+        ''' <returns></returns>
+        <Extension> Public Function ColorReplace(image As Bitmap, subject As Color, replaceAs As Color) As Bitmap
+            Using bitmap As BitmapBuffer = BitmapBuffer.FromBitmap(image)
+                Dim byts As BitmapBuffer = bitmap
+
+                For x As Integer = 0 To byts.Width - 1
+                    For y As Integer = 0 To byts.Height - 1
+                        If GDIColors.Equals(byts.GetPixel(x, y), subject) Then
+                            Call byts.SetPixel(x, y, replaceAs)
+                        End If
+                    Next
+                Next
+            End Using
+
+            Return image
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function ColorReplace(image As Image, subject As Color, replaceAs As Color) As Bitmap
+            Return New Bitmap(image).ColorReplace(subject, replaceAs)
         End Function
     End Module
 End Namespace
