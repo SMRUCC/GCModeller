@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::58f26b85db4a9cf8846f04f229b36be2, ..\R.Bioconductor\VennDiagram\VennDiagram\CLI\VennDiagram.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -44,15 +45,12 @@ Imports RDotNET.Extensions.VisualBasic.RSystem
 <GroupingDefine(Program.PlotTools, Description:="The R language API tools for invoke the venn diagram plot.")>
 Public Module CLI
 
-    <ExportAPI(".Draw",
-               Info:="Draw the venn diagram from a csv data file, you can specific the diagram drawing options from this command switch value. " &
-                     "The generated venn dragram will be saved as tiff file format.",
-        Usage:=".Draw -i <csv_file> [-t <diagram_title> -o <_diagram_saved_path> -s <partitions_option_pairs/*.csv> /First.ID.Skip -rbin <r_bin_directory>]",
-        Example:=".Draw -i /home/xieguigang/Desktop/genomes.csv -t genome-compared -o ~/Desktop/xcc8004.tiff -s ""Xcc8004,blue,Xcc 8004;ecoli,green,Ecoli. K12;pa14,yellow,PA14;ftn,black,FTN;aciad,red,ACIAD""")>
-    <Argument("-i",
-        Description:="The csv data source file for drawing the venn diagram graph.")>
-    <Argument("-t", True,
-        Description:="Optional, the venn diagram title text")>
+    <ExportAPI(".Draw", Example:=".Draw -i /home/xieguigang/Desktop/genomes.csv -t genome-compared -o ~/Desktop/xcc8004.tiff -s ""Xcc8004,blue,Xcc 8004;ecoli,green,Ecoli. K12;pa14,yellow,PA14;ftn,black,FTN;aciad,red,ACIAD""")>
+    <Usage(".Draw -i <csv_file> [-t <diagram_title> -o <_diagram_saved_path> -s <partitions_option_pairs/*.csv> /First.ID.Skip -rbin <r_bin_directory>]")>
+    <Description("Draw the venn diagram from a csv data file, you can specific the diagram drawing options from this command switch value. " &
+    "The generated venn dragram will be saved as tiff file format.")>
+    <Argument("-i", Description:="The csv data source file for drawing the venn diagram graph.")>
+    <Argument("-t", True, Description:="Optional, the venn diagram title text")>
     <Argument("-o", True,
         Description:="Optional, the saved file location for the venn diagram, if this switch value is not specific by the user then \n" &
                      "the program will save the generated venn diagram to user desktop folder and using the file name of the input csv file as default.")>
@@ -98,7 +96,7 @@ Public Module CLI
     ''' <param name="R_HOME"></param>
     ''' <returns></returns>
     Private Function __run(inData As String, title As String, options As String, out As String, R_HOME As String, skipFirstID As Boolean) As Integer
-        Dim dataset As New IO.File(inData)
+        Dim dataset As New File(inData)
 
         If skipFirstID Then
             dataset = dataset.Columns.Skip(1).JoinColumns
@@ -134,7 +132,7 @@ Public Module CLI
             Call TryInit(R_HOME)
         End If
 
-        Call ("#" & vbCrLf & vbCrLf & RScript).SaveTo(EXPORT, Encodings.ASCII.CodePage)
+        Call ("#" & vbCrLf & vbCrLf & RScript).SaveTo(EXPORT, TextEncodings.UTF8WithoutBOM)
         Call source(EXPORT)
         Call VennDiagram.SaveAsXml(EXPORT.TrimSuffix & ".Xml")
 

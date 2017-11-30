@@ -305,6 +305,15 @@ Partial Module CLI
             End Function)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="DIR$"></param>
+    ''' <param name="tlog2"></param>
+    ''' <param name="ZERO$"></param>
+    ''' <param name="nonDEP_blank"></param>
+    ''' <param name="outGroup">如果这个参数为真，说明是生成的文氏图的数据矩阵</param>
+    ''' <returns></returns>
     Public Function Union(DIR$, tlog2 As Boolean, ZERO$, nonDEP_blank As Boolean, outGroup As Boolean) As List(Of EntityObject)
         Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = DIR.unionDATA
         Dim allDEPs = data.Values _
@@ -325,14 +334,14 @@ Partial Module CLI
                 With group.Value
                     If .ContainsKey(id) Then
                         With .ref(id)
-                            If .ref.isDEP Then
+                            If .isDEP Then
                                 If outGroup Then
 
-                                    FClog2.Add(group.Key, .ref.log2FC)
+                                    FClog2.Add(group.Key, .log2FC)
 
                                 Else
 
-                                    For Each prop In .ref.Properties
+                                    For Each prop In .Properties
                                         If prop.Value.TextEquals("NA") Then
                                             FClog2.Add(prop.Key, ZERO)
                                         Else
@@ -354,7 +363,7 @@ Partial Module CLI
 
                                     Else
 
-                                        For Each prop In .ref.Properties
+                                        For Each prop In .Properties
                                             FClog2.Add(prop.Key, ZERO) ' log2(1) = 0
                                         Next
 
@@ -364,11 +373,11 @@ Partial Module CLI
 
                                     If outGroup Then
 
-                                        FClog2.Add(group.Key, .ref.log2FC)
+                                        FClog2.Add(group.Key, .log2FC)
 
                                     Else
 
-                                        For Each prop In .ref.Properties
+                                        For Each prop In .Properties
                                             If prop.Value.TextEquals("NA") Then
                                                 FClog2.Add(prop.Key, ZERO)
                                             Else
@@ -408,6 +417,22 @@ Partial Module CLI
                 .Properties = FClog2
             }
         Next
+
+        If outGroup Then
+            matrix = matrix _
+                .Select(Function(d)
+                            Return New EntityObject With {
+                                .ID = d.ID,
+                                .Properties = d _
+                                    .Properties _
+                                    .ToDictionary(Function(map)
+                                                      Return map.Key.Split("."c).First
+                                                  End Function,
+                                                  Function(map) map.Value)
+                            }
+                        End Function) _
+                .AsList
+        End If
 
         Return matrix
     End Function
@@ -540,6 +565,12 @@ Partial Module CLI
                 End If
             Next
         End If
+
+        matrix = matrix _
+            .Where(Function(d)
+                       Return d.Properties.Values.Any(Function(n) n <> 0R)
+                   End Function) _
+            .AsList
 
         With matrix _
             .ToKMeansModels _
