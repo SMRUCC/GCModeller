@@ -170,38 +170,53 @@ Partial Module CLI
     ''' 使用这个函数来处理iTraq实验结果之中与分析需求单的FC比对方式颠倒的情况
     ''' 
     ''' 假设所输入的文件的第一列为标识符
-    ''' 最后的三列为结果数据
-    ''' 则中间的剩余的列数据都是FC值
+    ''' 最后的所有的剩余的列数据都是FC值
     ''' 
-    ''' ``Accession	T1.C1	T1.C2	T2.C1	T2.C2	FC.avg	p.value	is.DEP``
+    ''' ``Accession	T1.C1	T1.C2	T2.C1	T2.C2``
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/iTraq.Reverse.FC",
-               Info:="Reverse the FC value from the source result.",
-               Usage:="/iTraq.Reverse.FC /in <data.csv> [/out <Reverse.csv>]")>
-    <Group(CLIGroups.DEP_CLI)>
+    <ExportAPI("/FoldChange.Matrix.Invert")>
+    <Description("Reverse the FoldChange value from the source result matrix.")>
+    <Usage("/FoldChange.Matrix.Invert /in <data.csv> [/log2FC /out <invert.csv>]")>
+    <Argument("/log2FC", True, CLITypes.Boolean,
+              Description:="This boolean flag indicated that the fold change value is log2FC, which required of power 2 and then invert by divided by 1.")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+              Extensions:="*.csv",
+              Description:="This function will output a FoldChange matrix.")>
+    <Group(CLIGroups.SamplesExpressions_CLI)>
     Public Function iTraqInvert(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".reverse.csv")
-        Dim data As File = File.Load([in])
-        Dim start = 1
-        Dim ends = (data.Width - 1) - 3
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".invert.csv")
+        Dim data As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim isLog2FC As Boolean = args.IsTrue("/log2FC")
+        Dim invert As New List(Of DataSet)
 
-        For Each row As RowObject In data.Skip(1)
-            For i As Integer = start To ends
-                Dim s$ = row(i)
+        For Each protein As DataSet In data
+            invert += New DataSet With {
+                .ID = protein.ID,
+                .Properties = protein _
+                    .Properties _
+                    .ToDictionary(Function(map)
+                                      ' 假设列的标题是A/B，则颠倒过来之后应该是B/A
+                                      With map.Key.Split("/"c)
+                                          Return $"{ .Last}/{ .First}"
+                                      End With
+                                  End Function,
+                                  Function(map)
+                                      Dim foldChange# = map.Value
 
-                If s = "NA" OrElse s.TextEquals("NaN") Then
-                    Continue For
-                Else
-                    row(i) = 1 / Val(s)
-                End If
-            Next
+                                      If isLog2FC Then
+                                          foldChange = 2 ^ foldChange
+                                      End If
+
+                                      Return 1 / foldChange
+                                  End Function)
+            }
         Next
 
-        Return data _
-            .Save(out, Encodings.ASCII) _
+        Return invert _
+            .SaveTo(out) _
             .CLICode
     End Function
 
