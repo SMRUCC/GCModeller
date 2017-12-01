@@ -11,6 +11,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "test", "test\test.vbproj", 
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Microsoft.VisualBasic.Webservices.Bing", "..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\Microsoft.VisualBasic.Webservices.Bing.vbproj", "{4CC91A21-9BDA-45C3-A412-711711BCCDD8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "runtime", "runtime", "{58246625-4F88-469D-8B5F-17B1D8C41ADF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Biodeep|Any CPU = Biodeep|Any CPU
@@ -315,6 +317,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99} = {58246625-4F88-469D-8B5F-17B1D8C41ADF}
+		{4CC91A21-9BDA-45C3-A412-711711BCCDD8} = {58246625-4F88-469D-8B5F-17B1D8C41ADF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66149273-35D5-405E-A34F-77BDB6B202AC}
