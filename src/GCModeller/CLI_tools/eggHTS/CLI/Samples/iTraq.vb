@@ -157,7 +157,7 @@ Partial Module CLI
             Return data.log2Test(level) _
                 .Where(Function(x) x.log2FC <> 0) _
                 .ToArray _
-                .SaveDataSet(out) _
+                .SaveDataSet(out, Encodings.UTF8) _
                 .CLICode
         End If
     End Function
