@@ -73,7 +73,7 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
             Dim NCBICollection As Dictionary(Of String, String()) = New Dictionary(Of String, String())
             Dim MetaCycGene = MetaCyc.GetGenes
 
-            For Each item In MetaCycData
+            For Each item As KeyValuePair(Of String, String()) In MetaCycData
                 Call NCBICollection.Add(item.Key, (From strid As String In item.Value Select MetaCycGene.Item(strid).Accession1).ToArray)
             Next
 

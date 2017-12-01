@@ -49,7 +49,7 @@ Namespace ComponentModel
             Dim sBuilder As StringBuilder = New StringBuilder(New String("-"c, 120) & vbCrLf, capacity:=2048)
             Dim max As Integer = (From item In data Select Len(item.Key)).Max
 
-            For Each item In data
+            For Each item As KeyValuePair In data
                 Dim s = String.Format("  {0} {1} ==> {2}", item.Key, New String(" "c, max - Len(item.Key) + 2), item.Value)
                 Call sBuilder.AppendLine(s)
             Next

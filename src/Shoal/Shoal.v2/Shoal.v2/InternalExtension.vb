@@ -192,7 +192,7 @@ Public Module InternalExtension
         Dim currentWork As String = My.Computer.FileSystem.CurrentDirectory
 
         If Not args.IsNullOrEmpty Then
-            For Each item In args
+            For Each item As KeyValuePair(Of String, Object) In args
                 Call Environment.MMUDevice.InitLocals(item.Key, item.Value, "string")
             Next
         End If

@@ -101,7 +101,7 @@ Namespace Assembly.Expasy.AnnotationsTool
             Dim EValues As Double() = New Double(ECList.Length - 1) {}
             Dim n As Integer() = New Integer(ECList.Length - 1) {}
 
-            For Each item In data
+            For Each item As T_EnzymeClass_BLAST_OUT In data
                 Dim idx As Integer = Array.IndexOf(ECList, item.Class)
 
                 Identities(idx) += item.Identity

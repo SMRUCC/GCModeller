@@ -55,7 +55,7 @@ Namespace Assembly.MetaCyc.Schema
 
         Public Overloads Shared Function ToString(PropertyValue As String, attributes As KeyValuePair(Of String, String)()) As String
             Dim sBuilder As StringBuilder = New StringBuilder(PropertyValue, 1024)
-            For Each item In attributes
+            For Each item As KeyValuePair(Of String, String) In attributes
                 Call sBuilder.Append(String.Format(" [^{0} - {1}]", item.Key, item.Value))
             Next
 

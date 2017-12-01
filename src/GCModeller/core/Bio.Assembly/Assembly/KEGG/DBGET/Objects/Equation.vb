@@ -46,7 +46,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Public Overrides Function ToString() As String
             Dim sBuilder As StringBuilder = New StringBuilder(1024)
-            For Each Item In Left
+            For Each Item As SpeciesReference In Left
                 Call sBuilder.Append(Item.ToString & " + ")
             Next
             Call sBuilder.Remove(sBuilder.Length - 3, 3)
@@ -56,7 +56,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Call sBuilder.Append(" ==> ")
             End If
 
-            For Each Item In Right
+            For Each Item As SpeciesReference In Right
                 Call sBuilder.Append(Item.ToString, " + ")
             Next
             Call sBuilder.Remove(sBuilder.Length - 3, 3)

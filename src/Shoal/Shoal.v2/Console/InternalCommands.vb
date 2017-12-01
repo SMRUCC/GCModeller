@@ -123,7 +123,7 @@ Public Module InternalCommands
 
     <ExportAPI("and")>
     Public Function [AND](logicals As Boolean()) As Boolean
-        For Each item In logicals
+        For Each item As Boolean In logicals
             If item = False Then
                 Return False
             End If
