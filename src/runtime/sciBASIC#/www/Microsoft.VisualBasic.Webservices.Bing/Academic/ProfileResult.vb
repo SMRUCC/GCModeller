@@ -30,7 +30,7 @@ Namespace Academic
 
         <Extension>
         Public Function GetProfileID(article As ArticleProfile) As String
-            Return article.URL.RequestParser!id
+            Return article.URL.QueryStringParameters!id
         End Function
 
         Public Function GetProfile(url As String) As ArticleProfile
@@ -102,6 +102,14 @@ Namespace Academic
                         .Matches(HtmlLink) _
                         .Select(AddressOf GetTarget) _
                         .ToArray
+
+                    If abstract.StringEmpty Then
+
+                        ' 因为split之后，<div被去掉后会留下class=...>，StripHTMLTags会因为标记不完整而无法去除
+                        ' 所以需要在开头额外添加标签标记来完成html标签的删除
+                        abstract = ("<null " & !Introduction.Value.SplitBy("<div").Last) _
+                            .StripHTMLTags(stripBlank:=True)
+                    End If
                 End With
             End If
 

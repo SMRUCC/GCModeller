@@ -35,7 +35,7 @@ Namespace Academic
         Public Property source As Link()
 
         Public Overrides Function ToString() As String
-            Return title
+            Return $"[{GetProfileID}] {title}"
         End Function
     End Class
 
@@ -45,6 +45,10 @@ Namespace Academic
         <XmlAttribute> Public Property attr As String
         <XmlText>
         Public Property href As String
+
+        Public Overrides Function ToString() As String
+            Return $"{title} ({href})"
+        End Function
     End Structure
 
     Public Structure cites
@@ -55,7 +59,7 @@ Namespace Academic
         Public Property Volume As Integer
 
         Public Overrides Function ToString() As String
-            Return $"{Me.Date} = {Volume}"
+            Return $"{Me.Date} := {Volume}"
         End Function
     End Structure
 End Namespace

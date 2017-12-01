@@ -786,6 +786,12 @@ Public Module StringHelpers
         End If
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function SplitBy(str$, deli$) As String()
+        Return Strings.Split(str, deli)
+    End Function
+
     ''' <summary>
     ''' 将正则匹配成功的字符串替换为指定的目标字符串：<paramref name="replaceAs"/>
     ''' </summary>
