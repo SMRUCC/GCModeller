@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>HMP_client</RootNamespace>
-    <AssemblyName>HMP_client</AssemblyName>
+    <RootNamespace>SMRUCC.genomics.Data.Repository.NIH.HMP</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Data.Repository.NIH.HMP</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
@@ -18,7 +18,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>HMP_client.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.Repository.NIH.HMP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -27,7 +27,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>HMP_client.xml</DocumentationFile>
+    <DocumentationFile>SMRUCC.genomics.Data.Repository.NIH.HMP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
