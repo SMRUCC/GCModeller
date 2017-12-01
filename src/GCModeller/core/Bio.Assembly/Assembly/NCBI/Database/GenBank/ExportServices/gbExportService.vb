@@ -316,16 +316,16 @@ Namespace Assembly.NCBI.GenBank
                                     reader,
                                     GeneFastaDump).ToArray
 
-            For Each item In ExportLQuery
-                Call GeneChunkList.AddRange(item.GenesTempChunk)
-                Call ExportList.Add(item.Entry, item.Entry.AccessionID)
-                Call item.FastaDump.Save(FastaExport & "/Orf/" & item.Entry.AccessionID & ".fasta")
-                Call item.Plasmid.SaveTo(FastaExport & "/Genomes/" & item.Entry.AccessionID & ".fasta")
-                Call item.GeneFastaDump.Save(FastaExport & "/Genes/" & item.Entry.AccessionID & ".fasta")
+            For Each gene In ExportLQuery
+                Call GeneChunkList.AddRange(gene.GenesTempChunk)
+                Call ExportList.Add(gene.Entry, gene.Entry.AccessionID)
+                Call gene.FastaDump.Save(FastaExport & "/Orf/" & gene.Entry.AccessionID & ".fasta")
+                Call gene.Plasmid.SaveTo(FastaExport & "/Genomes/" & gene.Entry.AccessionID & ".fasta")
+                Call gene.GeneFastaDump.Save(FastaExport & "/Genes/" & gene.Entry.AccessionID & ".fasta")
 
-                Call FastaFile.AddRange(item.FastaDump)
-                Call PlasmidList.Add(item.Plasmid)
-                Call GeneSequenceList.AddRange(item.GeneFastaDump)
+                Call FastaFile.AddRange(gene.FastaDump)
+                Call PlasmidList.Add(gene.Plasmid)
+                Call GeneSequenceList.AddRange(gene.GeneFastaDump)
             Next
 
             GeneList = GeneChunkList.ToArray
