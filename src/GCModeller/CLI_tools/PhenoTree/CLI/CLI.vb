@@ -86,7 +86,7 @@ Public Module CLI
                      In promoters
                      Select x
                      Group x By x.ID Into Group)
-        Dim Entity As New List(Of EntityLDM)
+        Dim Entity As New List(Of EntityClusterModel)
 
         VBDebugger.Mute = True
 
@@ -102,7 +102,7 @@ Public Module CLI
                 allProcess.ToDictionary(Function(name) name,
                                         Function(name) hash.TryGetValue(name) / sum)
 
-            Entity += New EntityLDM With {
+            Entity += New EntityClusterModel With {
                 .ID = g.ID,
                 .Properties = props
             }
@@ -111,7 +111,7 @@ Public Module CLI
         VBDebugger.Mute = False
 
         Dim parallel As Boolean = args.GetBoolean("/parallel")
-        Dim result As List(Of EntityLDM) = Entity.TreeCluster(parallel).AsList
+        Dim result As List(Of EntityClusterModel) = Entity.TreeCluster(parallel).AsList
         Return result > out
     End Function
 
@@ -161,7 +161,7 @@ Public Module CLI
         Dim GO_anno As IO.File = IO.File.LoadTsv(anno)
         '  Dim term2gene$ = GO_anno.PushAsTable(False)
         ' Dim go2name$ = clusterProfiler.LoadGoBriefTable(IO.File.Load(goBrief))
-        Dim clusters = [in].ReadAllText.LoadObject(Of Dictionary(Of String, EntityLDM()))
+        Dim clusters = [in].ReadAllText.LoadObject(Of Dictionary(Of String, EntityClusterModel()))
 
         For Each cluster In clusters.Values
             Dim genes$() = cluster.Select(Function(g) g.ID.Split.First).Distinct.ToArray
@@ -178,7 +178,7 @@ Public Module CLI
         Dim inFile As String = args - "/cluster"
         Dim depth As Integer = args.GetValue("/depth", -1)
         Dim EXPORT As String = args.GetValue("/out", inFile.TrimSuffix & $".depth={depth}/")
-        Dim partitions As List(Of Partition) = inFile.LoadCsv(Of EntityLDM).Partitioning(depth)
+        Dim partitions As List(Of Partition) = inFile.LoadCsv(Of EntityClusterModel).Partitioning(depth)
         Dim myva As String = args <= "/myva"
         Dim COGs As MyvaCOG() = myva.LoadCsv(Of MyvaCOG)
 

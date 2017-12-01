@@ -64,7 +64,8 @@ Partial Module CLI
     <Group(CLIGroups.iTraqTool)>
     <Argument("/sampleInfo", False, CLITypes.File, AcceptTypes:={GetType(SampleInfo)})>
     <Argument("/designer", False, CLITypes.File, AcceptTypes:={GetType(AnalysisDesigner)},
-              Description:="The analysis designer in csv file format for the DEPs calculation, should contains at least two column: <Controls><Experimental>")>
+              Description:="The analysis designer in csv file format for the DEPs calculation, should contains at least two column: ``<Controls>,<Experimental>``. 
+              The analysis design: ``controls vs experimental`` means formula ``experimental/controls`` in the FoldChange calculation.")>
     Public Function iTraqAnalysisMatrixSplit(args As CommandLine) As Integer
         Dim sampleInfo = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
         Dim designer = (args <= "/designer").LoadCsv(Of AnalysisDesigner)
@@ -73,13 +74,17 @@ Partial Module CLI
         Dim allowedSwap As Boolean = args.IsTrue("/allowed.swap")
 
         For Each group In matrix.MatrixSplit(sampleInfo, designer, allowedSwap)
-            Dim groupName$ = group.Name
+            Dim groupName$ = AnalysisDesigner.CreateTitle(group.Name)
             Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
             Dim data As DataSet() = group.Value
 
             If Not data.All(Function(x) x.Properties.Count = 0) Then
-                Call data.SaveTo(path)
-                Call StripNaN(path, replaceAs:="NA")
+                Call data _
+                    .InvalidsAsRLangNA("NA") _
+                    .ToArray _
+                    .SaveTo(path)
+            Else
+                Call $"``{groupName}`` have no values, please check for the labels...".Warning
             End If
         Next
 
@@ -152,7 +157,7 @@ Partial Module CLI
             Return data.log2Test(level) _
                 .Where(Function(x) x.log2FC <> 0) _
                 .ToArray _
-                .SaveDataSet(out) _
+                .SaveDataSet(out, Encodings.UTF8) _
                 .CLICode
         End If
     End Function

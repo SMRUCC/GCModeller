@@ -141,7 +141,7 @@ Partial Module CLI
                Info:="Converts a generic distance matrix or kmeans clustering result to network model.",
                Usage:="/Matrix.NET /in <kmeans-out.csv> [/out <net.DIR> /generic /colors <clusters> /cutoff 0 /cutoff.paired]")>
     <Group(CLIGrouping.Metagenomics)>
-    <Argument("/in", AcceptTypes:={GetType(EntityLDM), GetType(DataSet)})>
+    <Argument("/in", AcceptTypes:={GetType(EntityClusterModel), GetType(DataSet)})>
     <Argument("/generic", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument parameter was presents, then the ""/in"" input data is a generic matrix(DataSet) type, otherwise is a kmeans output result csv file.")>
@@ -149,12 +149,12 @@ Partial Module CLI
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".network/")
         Dim colors$ = args.GetValue("/colors", "clusters")
-        Dim data As EntityLDM()
+        Dim data As EntityClusterModel()
 
         If args.GetBoolean("/generic") Then
             data = DataSet.LoadDataSet(inFile).ToKMeansModels
         Else
-            data = inFile.LoadCsv(Of EntityLDM)
+            data = inFile.LoadCsv(Of EntityClusterModel)
         End If
 
         Dim cutoff As Double = args.GetDouble("/cutoff")
