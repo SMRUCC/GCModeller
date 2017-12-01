@@ -17,7 +17,7 @@ Namespace Academic
         ''' <summary>
         ''' 按照年计数的被引用量
         ''' </summary>
-        Public Property CitesCount As NamedValue(Of Integer)()
+        Public Property CitesCount As CitedCount()
         Public Property Pages As String
         ''' <summary>
         ''' 卷号

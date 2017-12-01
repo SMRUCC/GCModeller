@@ -546,6 +546,10 @@ Public Module StringHelpers
     Public Function GetBetween(str$, strStart$, strEnd$) As String
         Dim start%, end%
 
+        If str.StringEmpty Then
+            Return Nothing
+        End If
+
         If str.Contains(strStart) AndAlso str.Contains(strEnd) Then
             start = str.IndexOf(strStart, 0) + strStart.Length
             [end] = str.IndexOf(strEnd, start)

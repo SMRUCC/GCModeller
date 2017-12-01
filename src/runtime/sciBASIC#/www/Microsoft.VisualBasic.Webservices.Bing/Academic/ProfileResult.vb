@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports r = System.Text.RegularExpressions.Regex
@@ -27,13 +28,23 @@ Namespace Academic
             }
         End Function
 
+        Public Structure CitedCount
+            Public Property [Date] As String
+            Public Property Volume As Integer
+        End Structure
+
         Public Function GetProfile(url As String) As ArticleProfile
             Dim html$ = url.GET _
-                .RemovesJavaScript _
                 .RemovesCSSstyles _
                 .RemovesImageLinks _
                 .RemovesHtmlHead _
                 .RemovesFooter
+            Dim count As CitedCount() = html _
+                .GetBetween("""BarData""", "BarChart.render") _
+                .GetStackValue(":", "}") _
+                .LoadObject(Of CitedCount())
+
+            html = html.RemovesJavaScript
 
             Dim title$ = r.Match(html, "<li class=""aca_title"">.+?</li>", RegexICSng) _
                 .Value _
@@ -60,7 +71,6 @@ Namespace Academic
             Dim volumn$
             Dim issue$
             Dim pageSpan$
-            Dim citeCount$
             Dim doi$
             Dim areas As NamedValue(Of String)()
 
@@ -71,7 +81,6 @@ Namespace Academic
                 volumn = contents("卷　　号").GetBetween("<div>", "</div>")
                 issue = contents("期　　号").GetBetween("<div>", "</div>")
                 pageSpan = contents("页码范围").GetBetween("<div>", "</div>")
-                citeCount = contents("被 引 量").GetBetween("<div>", "</div>")
                 doi = contents("DOI").GetBetween("<div>", "</div>")
                 areas = contents("研究领域") _
                     .Matches("<a .+?</a>") _
@@ -85,7 +94,6 @@ Namespace Academic
                     volumn = !Volume.GetBetween("<div>", "</div>")
                     issue = !Issue.GetBetween("<div>", "</div>")
                     pageSpan = !Pages.GetBetween("<div>", "</div>")
-                    citeCount = contents("Cited by").GetBetween("<div>", "</div>")
                     doi = !DOI.GetBetween("<div>", "</div>")
                     areas = !Keywords _
                         .Matches(HtmlLink) _
@@ -123,7 +131,8 @@ Namespace Academic
                 .Volume = volumn,
                 .PubDate = pubDate,
                 .source = source,
-                .Areas = areas
+                .Areas = areas,
+                .CitesCount = count
             }
         End Function
     End Module
