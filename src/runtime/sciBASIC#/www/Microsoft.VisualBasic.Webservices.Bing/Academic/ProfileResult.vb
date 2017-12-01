@@ -1,6 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.HtmlParser
 Imports r = System.Text.RegularExpressions.Regex
@@ -94,36 +93,36 @@ Namespace Academic
             End If
 
             Dim source = Strings _
-                    .Split(html, "<div class=""aca_source"">") _
-                    .Last _
-                    .Matches("<a .+?</a>", RegexICSng) _
-                    .Where(Function(a)
-                               Return InStr(a, "</span>", CompareMethod.Text) > 0
-                           End Function) _
-                    .Select(AddressOf GetTarget) _
-                    .ToArray
+                .Split(html, "<div class=""aca_source"">") _
+                .Last _
+                .Matches("<a .+?</a>", RegexICSng) _
+                .Where(Function(a)
+                           Return InStr(a, "</span>", CompareMethod.Text) > 0
+                       End Function) _
+                .Select(AddressOf GetTarget) _
+                .ToArray
 
-                Dim pubDate As Date
+            Dim pubDate As Date
 
-                If time.IsPattern("\d+") Then
-                    pubDate = New Date(time, 1, 1)
-                Else
-                    pubDate = Date.Parse(time)
-                End If
+            If time.IsPattern("\d+") Then
+                pubDate = New Date(time, 1, 1)
+            Else
+                pubDate = Date.Parse(time)
+            End If
 
-                Return New ArticleProfile With {
-                    .Title = title,
-                    .Abstract = abstract,
-                    .Authors = authors,
-                    .DOI = doi,
-                    .Issue = issue,
-                    .Journal = journal,
-                    .Pages = pageSpan,
-                    .Volume = volumn,
-                    .PubDate = pubDate,
-                    .source = source,
-                    .Areas = areas
-                }
+            Return New ArticleProfile With {
+                .Title = title,
+                .Abstract = abstract,
+                .Authors = authors,
+                .DOI = doi,
+                .Issue = issue,
+                .Journal = journal,
+                .Pages = pageSpan,
+                .Volume = volumn,
+                .PubDate = pubDate,
+                .source = source,
+                .Areas = areas
+            }
         End Function
     End Module
 End Namespace
