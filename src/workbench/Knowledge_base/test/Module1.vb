@@ -10,13 +10,17 @@ Module Module1
 
         'Dim id = article.GetProfileID
 
+        Call Academic.Build_KB("xanthomonas", "./test1111111/", pages:=20)
 
-        'Dim list = Academic.Search("xanthomonas")
-        'Dim info = List(1).GetDetails
+        Pause()
 
-        Dim info = ProfileResult.GetProfile("https://cn.bing.com/academic/profile?id=0588ab54a3fe72d189a969a73d29c7f5&encoded=0&v=paper_preview&mkt=zh-cn")
 
-        Call info.GetXml.SaveTo($"./{info.GetProfileID}.xml")
+        Dim list = Academic.Search("xanthomonas")
+        Dim info = list(1).GetDetails
+
+        Dim info3333 = ProfileResult.GetProfile("https://cn.bing.com/academic/profile?id=0588ab54a3fe72d189a969a73d29c7f5&encoded=0&v=paper_preview&mkt=zh-cn")
+
+        Call info3333.GetXml.SaveTo($"./{info.GetProfileID}.xml")
 
 
         Pause()
