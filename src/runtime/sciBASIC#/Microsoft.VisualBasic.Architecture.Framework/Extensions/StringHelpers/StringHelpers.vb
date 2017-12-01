@@ -307,6 +307,8 @@ Public Module StringHelpers
     ''' <param name="s1"></param>
     ''' <param name="s2"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function TextEquals(s1$, s2$) As Boolean
         'If {s1, s2}.All(Function(s) s Is Nothing) Then
@@ -642,6 +644,8 @@ Public Module StringHelpers
     ''' <param name="str"></param>
     ''' <param name="regex"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("Matched?")>
     <Extension> Public Function MatchPattern(str$, regex$, Optional opt As RegexOptions = RegexICSng) As Boolean
         Return r.Match(str, regex).Success
@@ -658,7 +662,11 @@ Public Module StringHelpers
     <Extension> Public Function Match(<Parameter("input", "The string to search for a match.")> input$,
                                       <Parameter("Pattern", "The regular expression pattern to match.")> pattern$,
                                       Optional options As RegexOptions = RegexOptions.Multiline) As String
-        Return Regex.Match(input, pattern, options).Value
+        If input.StringEmpty Then
+            Return ""
+        Else
+            Return r.Match(input, pattern, options).Value
+        End If
     End Function
 
     ''' <summary>
@@ -675,8 +683,12 @@ Public Module StringHelpers
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function Matches(input As String, pattern$, Optional options As RegexOptions = RegexICSng) As String()
-        Return r.Matches(input, pattern, options).ToArray
+    Public Function Matches(input As String, pattern$, Optional options As RegexOptions = RegexICSng) As IEnumerable(Of String)
+        If input Is Nothing OrElse input.Length = 0 Then
+            Return {}
+        Else
+            Return r.Matches(input, pattern, options).EachValue
+        End If
     End Function
 
     ''' <summary>

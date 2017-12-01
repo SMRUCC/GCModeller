@@ -9,6 +9,11 @@ Module Module1
         Dim list = Academic.Search("xanthomonas")
         Dim info = List(1).GetDetails
 
+        Call info.GetXml.SaveTo("./testssssss.xml")
+
+
+        Pause()
+
         Dim info2 = ProfileResult.GetProfile("D:\GCModeller\src\workbench\Knowledge_base\bing\profile.html")
 
 
