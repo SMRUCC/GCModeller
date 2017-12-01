@@ -9,7 +9,7 @@ Module Module1
         Dim list = Academic.Search("xanthomonas")
         Dim info = List(1).GetDetails
 
-        Call info.GetXml.SaveTo("./testssssss.xml")
+        Call info.GetXml.SaveTo($"./{info.GetProfileID}.xml")
 
 
         Pause()

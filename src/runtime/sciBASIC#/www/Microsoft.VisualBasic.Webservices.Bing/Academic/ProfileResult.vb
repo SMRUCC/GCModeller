@@ -28,6 +28,11 @@ Namespace Academic
             }
         End Function
 
+        <Extension>
+        Public Function GetProfileID(article As ArticleProfile) As String
+            Return article.URL.RequestParser!id
+        End Function
+
         Public Function GetProfile(url As String) As ArticleProfile
             Dim html$ = url.GET _
                 .RemovesCSSstyles _
@@ -130,7 +135,8 @@ Namespace Academic
                 .PubDate = pubDate,
                 .source = source.Where(Function(l) l.href <> "javascript:void(0);").ToArray,
                 .keywords = areas.Where(Function(l) l.href <> "javascript:void(0);").ToArray,
-                .cites = count
+                .cites = count,
+                .URL = url
             }
         End Function
     End Module

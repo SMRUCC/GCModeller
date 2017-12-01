@@ -8,6 +8,7 @@ Namespace Academic
     Public Class ArticleProfile
 
         Public Property title As String
+        Public Property URL As String
         Public Property authors As Link()
         Public Property abstract As String
         <XmlElement("pub-date")>
