@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.Graph
 Imports Microsoft.VisualBasic.Data.Graph.Analysis.PageRank
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -161,16 +162,26 @@ Public Module TextRank
             Call g.AddVertex(sentence)
         Next
 
-        For x As Integer = 0 To words.Length - 1
-            For y As Integer = x To words.Length - 1
-                similarity = TextRank.Similarity(words(x), words(y))
+        Using progress As New ProgressBar("Build Text Graph...", 1, CLS:=True)
+            Dim tick As New ProgressProvider(words.Length)
+            Dim ETA$, msg$
 
-                If similarity >= similarityCut Then
-                    Call g.AddEdge(list(x), list(y), weight:=similarity)
-                    Call g.AddEdge(list(y), list(x), weight:=similarity)
-                End If
+            For x As Integer = 0 To words.Length - 1
+                For y As Integer = x To words.Length - 1
+                    similarity = TextRank.Similarity(words(x), words(y))
+
+                    If similarity >= similarityCut Then
+                        Call g.AddEdge(list(x), list(y), weight:=similarity)
+                        Call g.AddEdge(list(y), list(x), weight:=similarity)
+                    End If
+                Next
+
+                ETA = tick.ETA(progress.ElapsedMilliseconds).FormatTime
+                msg = list(x) & " " & ETA
+
+                Call progress.SetProgress(tick.StepProgress, details:=msg)
             Next
-        Next
+        End Using
 
         Return g
     End Function
