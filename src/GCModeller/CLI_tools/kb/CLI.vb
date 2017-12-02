@@ -11,7 +11,7 @@ Module CLI
         Dim out$ = args.GetValue("/out", App.CurrentDirectory & "/" & term.NormalizePathString)
         Dim pages% = args.GetValue("/pages", 20)
 
-        Call Academic.Build_KB(term, out, pages)
+        Call Academic.Build_KB(term, out, pages, flat:=False)
 
         Return 0
     End Function
