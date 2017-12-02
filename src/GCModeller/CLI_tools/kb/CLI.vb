@@ -15,4 +15,11 @@ Module CLI
 
         Return 0
     End Function
+
+    <ExportAPI("/kb.abstract")>
+    <Usage("/kb.abstract /in <kb.directory> [/out <out.xml>]")>
+    Public Function GetKBAbstractInformation(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args.GetValue("/out", [in].TrimDIR & ".abstract.xml")
+    End Function
 End Module
