@@ -30,6 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.Graph
 Imports Microsoft.VisualBasic.Data.Graph.Analysis.PageRank
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Text
@@ -155,7 +156,6 @@ Public Module TextRank
             .Select(AddressOf LCase) _
             .Select(AddressOf TextRank.Words) _
             .ToArray
-        Dim similarity#
         Dim g As New WeightedPRGraph
 
         For Each sentence As String In list
@@ -167,12 +167,21 @@ Public Module TextRank
             Dim ETA$, msg$
 
             For x As Integer = 0 To words.Length - 1
-                For y As Integer = x To words.Length - 1
-                    similarity = TextRank.Similarity(words(x), words(y))
+                Dim refIndex = x
+                Dim vector = seq(x, words.Length - 1, by:=1) _
+                    .AsParallel _
+                    .Select(Function(y)
+                                Dim i% = CInt(y)
+                                Dim similarity# = TextRank.Similarity(words(refIndex), words(i))
+                                Return (y:=i, similarity:=similarity)
+                            End Function)
+
+                For Each sentence In vector
+                    Dim similarity = sentence.similarity
 
                     If similarity >= similarityCut Then
-                        Call g.AddEdge(list(x), list(y), weight:=similarity)
-                        Call g.AddEdge(list(y), list(x), weight:=similarity)
+                        Call g.AddEdge(list(x), list(sentence.y), weight:=similarity)
+                        Call g.AddEdge(list(sentence.y), list(x), weight:=similarity)
                     End If
                 Next
 
