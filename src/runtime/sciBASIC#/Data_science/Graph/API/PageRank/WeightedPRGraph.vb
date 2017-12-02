@@ -45,9 +45,16 @@ Namespace Analysis.PageRank
             Return AddEdge(buffer(i).Label, buffer(j).Label, weight)
         End Function
 
+        ''' <summary>
+        ''' <paramref name="u"/>和<paramref name="v"/>都是<see cref="WeightedPRNode.Label"/>
+        ''' </summary>
+        ''' <param name="u"></param>
+        ''' <param name="v"></param>
+        ''' <param name="weight"></param>
+        ''' <returns></returns>
         Public Overrides Function AddEdge(u As String, v As String, Optional weight As Double = 0) As WeightedPRGraph
-            Dim edgeKey$ = Edge.EdgeKey(u, v)
             Dim j% = vertices(v).ID
+            Dim edgeKey$ = Edge.EdgeKey(vertices(u).ID, j)
 
             vertices(u).Outbound += weight
 
