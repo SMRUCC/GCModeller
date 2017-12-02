@@ -185,6 +185,12 @@ Namespace Core
         Public Function GetResource(ByRef res$) As Byte()
             Dim file$
 
+            ' 这个资源是一个网络路径，本地文件系统上面肯定是没有这个资源的，直接返回404
+            If InStr(res, "http://", CompareMethod.Text) > 0 OrElse InStr(res, "https://", CompareMethod.Text) > 0 Then
+                res = Nothing
+                Return {}
+            End If
+
             Try
                 file = MapPath(res)
                 res = file
