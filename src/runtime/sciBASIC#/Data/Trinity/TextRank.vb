@@ -142,14 +142,20 @@ Public Module TextRank
         Return New GraphMatrix(g)
     End Function
 
-    <Extension> Public Function TextGraph(text$, Optional similarityCut# = 0.05) As GraphMatrix
+    ''' <summary>
+    ''' Using for generate article's <see cref="NLPExtensions.Abstract(GraphMatrix, Integer, Double)"/>
+    ''' </summary>
+    ''' <param name="text$"></param>
+    ''' <param name="similarityCut#"></param>
+    ''' <returns></returns>
+    <Extension> Public Function TextGraph(text$, Optional similarityCut# = 0.05) As WeightedPRGraph
         Dim list$() = text.StripMessy.Sentences.ToArray
         Dim words$()() = list _
             .Select(AddressOf LCase) _
             .Select(AddressOf TextRank.Words) _
             .ToArray
         Dim similarity#
-        Dim g As New Graph.Graph
+        Dim g As New WeightedPRGraph
 
         For Each sentence As String In list
             Call g.AddVertex(sentence)
@@ -166,7 +172,7 @@ Public Module TextRank
             Next
         Next
 
-        Return New GraphMatrix(g)
+        Return g
     End Function
 
     ''' <summary>
