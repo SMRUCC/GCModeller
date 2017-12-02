@@ -133,8 +133,14 @@ Namespace ComponentModel
             Call Add(source)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Contains(x As T) As Boolean
             Return Not Me(x.Address) Is Nothing
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Contains(index As Integer) As Boolean
+            Return Not Me(index) Is Nothing
         End Function
 
         Public Sub Clear()
@@ -167,8 +173,14 @@ Namespace ComponentModel
             list(x.Address) = x
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Narrowing Operator CType(src As HashList(Of T)) As T()
             Return src.ToArray
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(array As T()) As HashList(Of T)
+            Return New HashList(Of T)(array)
         End Operator
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of T) Implements IEnumerable(Of T).GetEnumerator

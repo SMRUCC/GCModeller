@@ -109,7 +109,7 @@ Namespace AppEngine
             If Not APPEngine.GetParameter(url, application, api, parameters) Then
                 Return False
             Else
-                request.URLParameters = parameters.RequestParser
+                request.URLParameters = parameters.QueryStringParameters
             End If
 
             If dynamics.ContainsKey(api) Then
@@ -142,7 +142,7 @@ Namespace AppEngine
             If Not APPEngine.GetParameter(url, application, api, parameters) Then
                 Return False
             Else
-                request.URLParameters = parameters.RequestParser
+                request.URLParameters = parameters.QueryStringParameters
             End If
 
             If Not applications.ContainsKey(application) Then ' 找不到相对应的WebApp，则默认返回失败 

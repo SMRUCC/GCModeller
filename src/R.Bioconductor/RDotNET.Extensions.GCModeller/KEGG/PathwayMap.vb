@@ -25,7 +25,7 @@ Public Module PathwayMap
         Dim assignCompounds As New Dictionary(Of String, List(Of String))
         Dim assignReactions As New Dictionary(Of String, List(Of String))
 
-        ' Connect to R server
+        ' Connect to R server, and gets the memory pointer for read/write
         SyncLock R
             With R
 
@@ -103,6 +103,7 @@ Public Module PathwayMap
                         compounds = base.c(compoundList, stringVector:=True)
                     End With
 
+                    ' Create dictionary table in R language, and then set the result value for sevral keys.
                     .call = $"{map}           <- list();"
                     .call = $"{map}$compounds <- {compounds};"
                     .call = $"{map}$genes     <- {genes};"
@@ -110,6 +111,7 @@ Public Module PathwayMap
                     .call = $"{map}$ID        <- {Rstring(pathway.ID)};"
                     .call = $"{map}$Name      <- {Rstring(pathway.Name)};"
 
+                    ' add the map dictionary table into a larger dictionary.
                     .call = $"{pathwayList}[[{Rstring(pathway.ID)}]] <- {map};"
 
                     Call assignCompounds.append(compoundList, pathway.ID)
@@ -117,6 +119,7 @@ Public Module PathwayMap
                     Call assignReactions.append(reactionList, pathway.ID)
                 Next
 
+                ' At last create pathway assign tuple.
                 .call = $"{pathwayAssign} <- list(
                     Compound = {assignCompounds.buildAssign("Compound")},
                     Gene     = {assignGenes.buildAssign("Gene")},
