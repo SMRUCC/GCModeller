@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports WeightTable = System.Collections.Generic.Dictionary(Of Integer, Double)
 
 Namespace Analysis.PageRank
 
@@ -9,7 +10,7 @@ Namespace Analysis.PageRank
 
         Public Property Weight As Double
         Public Property Outbound As Double
-        Public Property ConnectedTargets As Dictionary(Of Integer, Double)
+        Public Property ConnectedTargets As WeightTable
 
     End Class
 
@@ -20,7 +21,7 @@ Namespace Analysis.PageRank
             Dim v As New WeightedPRNode With {
                 .ID = id,
                 .Label = id,
-                .ConnectedTargets = New Dictionary(Of Integer, Double)
+                .ConnectedTargets = New WeightTable
             }
             Call AddVertex(v)
         End Sub
@@ -64,6 +65,10 @@ Namespace Analysis.PageRank
 
             With edges(edgeKey)
                 .Weight += weight
+
+                If .U.ConnectedTargets Is Nothing Then
+                    .U.ConnectedTargets = New WeightTable
+                End If
 
                 If Not .U.ConnectedTargets.ContainsKey(j) Then
                     .U.ConnectedTargets.Add(j, 0)
@@ -114,7 +119,7 @@ Namespace Analysis.PageRank
 
             Do While d >= e
 
-                Dim nodes As New Dictionary(Of Integer, Double)
+                Dim nodes As New WeightTable
                 Dim leak# = 0
 
                 For Each v As WeightedPRNode In g.Vertex
