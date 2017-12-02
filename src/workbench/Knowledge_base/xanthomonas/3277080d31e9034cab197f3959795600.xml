@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArticleProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <title>The Xanthomonas campestris type III effector XopJ proteolytically degrades proteasome subunit RPT6.</title>
+  <URL>https://cn.bing.com/academic/profile?id=3277080d31e9034cab197f3959795600&amp;encoded=0&amp;v=paper_preview&amp;mkt=zh-cn</URL>
+  <authors>
+    <link title="Suayib Ustun" attr="ID=SERP,5097.1">/academic/search?q=Suayib+Ustun&amp;amp;mkt=zh-cn</link>
+    <link title="Frederik Bornke" attr="ID=SERP,5098.1">/academic/profile?id=1984201881&amp;amp;mkt=zh-cn</link>
+  </authors>
+  <abstract>Plants have been threatened by microbial infections throughout their phylogenetic history and thus evolved a sophisticated and multilayered immune system (Jones and Dangl, 2006). Phytohormonal signaling is instrumental to many aspects of plant defense, and salicylic acid (SA) has emerged as the central regulator of signaling pathways during induced immunity (Pieterse et al., 2012). SA signaling plays major roles during systemic acquired resistance (SAR), basal defense responses, and gene-for-gene resistance.#R##N##R##N#Nonexpressor of PR1 (NPR1) represents an essential component of SA signaling that acts as a transcriptional coactivator to induce transcriptional reprogramming, including the induction of PR (for pathogenesis-related) genes and genes associated with secretion (Wang et al., 2005; Pieterse et al., 2012). Upon pathogen attack, SA levels increase within the cytoplasm of the host cell, which then leads to the monomerization of NPR1 and translocation of the protein into the nucleus. Once in the nucleus, NPR1 can interact with different TGACG SEQUENCE-SPECIFIC BINDING PROTEIN transcription factors and drives the activation of SA-responsive gene expression (Fu and Dong, 2013). Subsequent phosphorylation serves as a signal for the ubiquitination of NPR1, mediating its degradation via the 26S proteasome and thereby returning the target gene promoter to the initial state (Spoel et al., 2009). It is assumed that the rate of NPR1 degradation by the proteasome determines the rate of mRNA production from SA-responsive genes (Spoel et al., 2009).#R##N##R##N#The significance of the proteasomal turnover of NPR1 during SA-mediated defense signaling highlights the important role of the proteasome in plant defense. Accordingly, Arabidopsis (Arabidopsis thaliana) mutant lines defective in proteasome function are impaired in certain immune responses (Yao et al., 2012), and particular proteasomal subunits have been proposed to act as a caspase-like enzyme during the induction of programmed cell death in response to avirulent bacterial strains (Hatsugai et al., 2009). Thus, the 26S proteasome seems to control defense mechanisms alongside its usual role as a multicatalytic protein complex that is essential for the degradation of ubiquitinated proteins. The 26S proteasome itself is composed of a 20S core particle (CP) that is capped on either end by a 19S regulatory particle (RP; Vierstra, 2009). The RP recognizes and binds ubiquitinated proteins, deubiquitinates and unfolds these substrates in an ATP-dependent manner, and controls the entry of unfolded target proteins to the proteolytic channel of the CP (Vierstra, 2009).#R##N##R##N#The injection of type III effector (T3E) proteins or bacterial toxins into the host cell is an efficient mechanism employed by many bacterial pathogens to suppress plant immunity and to promote disease development (Galan and Wolf-Watz, 2006). In accordance with its central role in a wide array of cellular processes, including defense, the proteasome is targeted or exploited by bacterial toxins or T3E proteins (Dudler, 2013). Certain strains of Pseudomonas syringae pv syringae secrete syringolin A (SylA), which is a small nonribosomal peptide that inhibits proteasome activity through binding to the catalytic subunits of the 20S CP and is required for full virulence on host plants, such as bean (Phaseolus vulgaris; Groll et al., 2008). The initial discovery of the interaction between the bacterial T3E protein Xanthomonas outer protein J (XopJ) from Xanthomonas campestris pv vesicatoria (Xcv) and Regulatory Particle AAA-ATPase6 (RPT6), a subunit of the 19S RP, provided, to our knowledge, the first example of a bacterial T3E directly targeting the proteasome (Ustun et al., 2013). The interaction of XopJ with RPT6 leads to the inhibition of the proteasome, which subsequently interferes with SA-dependent defense responses to attenuate the onset of necrosis in infected tissue and to alter host transcription. The development of XopJ-associated phenotypes on susceptible pepper (Capsicum annuum) plants was shown to be dependent on NPR1 (Ustun et al., 2013). Another T3E effector targeting RPT6 to inhibit proteasome activity is Hypersensitivity and pathogenesis-dependent outer protein Z4 (HopZ4) from Pseudomonas syringae pv lachrymans (Ustun et al., 2014). Both T3Es belong to the widespread yersinia outer protein J (YopJ) family of effector proteins that are present among plant and animal pathogenic bacteria and were originally classified as Cys proteases (Lewis et al., 2011). However, recent studies indicate that these effectors, in particular the archetypal member YopJ from Yersinia pestis, HopZ1a from P. syringae pv syringae, and Avirulence protein AvrBsT from Xanthomonas euvesicatoria, act as acetyltransferases on their targets or decoys to suppress immunity in animals and plants (Mukherjee et al., 2006; Lee et al., 2012; Jiang et al., 2013; Lewis et al., 2013; Cheong et al., 2014). In some cases, these effectors also display weak protease activity and lead to the degradation of potential target proteins, opening the possibility that YopJ family effectors can also act proteolytically (Ma et al., 2005; Szczesny et al., 2010; Zhou et al., 2011). However, the mechanism through which the interaction of XopJ with RPT6 leads to the inhibition of the proteasome and the role of NPR1 in this context are currently unknown. Here, we show that XopJ acts as a protease to directly degrade its target protein, RPT6, in a process that is dependent on the localization of XopJ at the plasma membrane and on an intact catalytic triad of the effector. Interaction of RPT6 with XopJ is dependent on the ATP-binding activity of RPT6, but proteolytic cleavage additionally requires its ATPase activity. The malfunction of the proteasome impairs the proteasomal turnover of NPR1 and thus results in the accumulation of ubiquitinated NPR1. We conclude that XopJ-mediated degradation of RPT6 connected with the inhibition of the proteasome prevents the proteasomal turnover of NPR1 and thereby suppresses SA-mediated defense signaling.</abstract>
+  <pub-date>2015-01-01T00:00:00</pub-date>
+  <journal title="Plant Physiology" attr="ID=SERP,5099.1">/academic/search?q=Plant+Physiology</journal>
+  <DOI>10.1104/pp.15.00132</DOI>
+  <keywords />
+  <cites>
+    <cites date="2015" volumn="3" />
+    <cites date="2016" volumn="6" />
+    <cites date="2017" volumn="2" />
+  </cites>
+  <pages>107-119</pages>
+  <volume>168</volume>
+  <issue>1</issue>
+  <source>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5100.1">http://www.plantphysiol.org/content/168/1/107.full?cited-by=yesl168/1/107</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5101.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.full.pdf</link>
+    <link title="intl.plantphysiol.org" attr="ID=SERP,5102.1">http://intl.plantphysiol.org/content/168/1/107.full.pdf+html</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5103.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.short?rss=1cpp.15.00132v1</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5104.1">http://www.plantphysiol.org/content/168/1/107.full.pdf+html?frame=header</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5105.1">http://www.ncbi.nlm.nih.gov/pubmed/25739698</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5100.2">http://www.plantphysiol.org/content/168/1/107.full?cited-by=yesl168/1/107</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5101.2">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.full.pdf</link>
+    <link title="intl.plantphysiol.org" attr="ID=SERP,5102.2">http://intl.plantphysiol.org/content/168/1/107.full.pdf+html</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5103.2">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.short?rss=1cpp.15.00132v1</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5104.2">http://www.plantphysiol.org/content/168/1/107.full.pdf+html?frame=header</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5105.2">http://www.ncbi.nlm.nih.gov/pubmed/25739698</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5106.1">http://www.plantphysiol.org/content/168/1/107.full.pdf+html?frame=sidebar</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5107.1">http://www.plantphysiol.org/content/168/1/107.abstract.pdf.zh+html?frame=sidebar</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5108.1">http://www.plantphysiol.org/content/168/1/107.full.pdf+html?with-ds=yes</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5109.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132?cited-by=yeslpp.15.00132v1</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5110.1">http://www.plantphysiol.org/content/168/1/107.short?rss=1c168/1/107</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5111.1">http://www.plantphysiol.org/content/168/1/107.abstract.pdf.zh+html?frame=sidebarc168/1/107</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5112.1">http://www.plantphysiol.org/content/plantphysiol/168/1/107.full.pdf</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5113.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.full.pdf+html?frame=header</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5114.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.full.pdf+html</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5115.1">http://www.plantphysiol.org/content/168/1/107.short?rss=1</link>
+    <link title="intl.plantphysiol.org" attr="ID=SERP,5116.1">http://intl.plantphysiol.org/content/168/1/107.abstract.pdf.zh+html</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5117.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.abstract</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5118.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.abstract?cited-by=yeslpp.15.00132v1</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5119.1">http://www.plantphysiol.org/content/168/1/107.full.pdf+html?frame=sidebar&amp;amp;with-ds=yes</link>
+    <link title="ncbi.nlm.nih.gov" attr="ID=SERP,5120.1">https://ncbi.nlm.nih.gov/pubmed/25739698</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5121.1">http://www.plantphysiol.org/content/168/1/107.abstract.pdf.zh+html?frame=header</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5122.1">http://www.plantphysiol.org/content/168/1/107.abstract?cited-by=yesl168/1/107</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5123.1">http://www.plantphysiol.org/lookup/doi/10.1104/pp.15.00132</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5124.1">http://www.plantphysiol.org/content/168/1/107</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5125.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5126.1">http://www.plantphysiol.org/content/168/1/107.abstract</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5127.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.short?rss=1</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5128.1">http://www.plantphysiol.org/content/168/1/107.full.pdf+html</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5129.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.full.pdf+html?with-ds=yes</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5130.1">http://www.plantphysiol.org/content/168/1/107.short?cited-by=yesl168/1/107</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5131.1">http://www.plantphysiol.org/content/168/1/107?cited-by=yesl168/1/107</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5132.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.full.pdf+html?frame=sidebar&amp;amp;with-ds=yes</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5133.1">http://www.plantphysiol.org/content/168/1/107.full.pdf</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5134.1">http://www.plantphysiol.org/content/plantphysiol/early/2015/03/04/pp.15.00132.full.pdf</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5135.1">http://www.plantphysiol.org/content/168/1/107.abstract?abspop=1c168/1/107</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5136.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.short</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5137.1">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4424027/</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5138.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.full.pdf+html?frame=sidebar</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5139.1">http://www.plantphysiol.org/content/168/1/107.full</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5140.1">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4424027/</link>
+    <link title="www.plantphysiol.org" attr="ID=SERP,5141.1">http://www.plantphysiol.org/content/early/2015/03/04/pp.15.00132.short?cited-by=yeslpp.15.00132v1</link>
+  </source>
+</ArticleProfile>

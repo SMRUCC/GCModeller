@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArticleProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <title>The Xanthomonas Ax21 protein is processed by the general secretory system and is secreted in association with outer membrane vesicles</title>
+  <URL>https://cn.bing.com/academic/profile?id=472f95da9d588c885eb838a1184ec9e5&amp;encoded=0&amp;v=paper_preview&amp;mkt=zh-cn</URL>
+  <authors>
+    <link title="Ofir Bahar" attr="ID=SERP,5097.1">/academic/profile?id=2104713968&amp;amp;mkt=zh-cn</link>
+    <link title="Rory Pruitt" attr="ID=SERP,5098.1">/academic/profile?id=2001973790&amp;amp;mkt=zh-cn</link>
+    <link title="Dee Dee Luu" attr="ID=SERP,5099.1">/academic/search?q=Dee+Dee+Luu&amp;amp;mkt=zh-cn</link>
+    <link title="Benjamin Schwessinger" attr="ID=SERP,5100.1">/academic/profile?id=1608977344&amp;amp;mkt=zh-cn</link>
+    <link title="Arsalan Daudi" attr="ID=SERP,5101.1">/academic/search?q=Arsalan+Daudi&amp;amp;mkt=zh-cn</link>
+    <link title="Furong Liu" attr="ID=SERP,5102.1">/academic/search?q=Furong+Liu&amp;amp;mkt=zh-cn</link>
+    <link title="Randy Ruan" attr="ID=SERP,5103.1">/academic/profile?id=1997073432&amp;amp;mkt=zh-cn</link>
+    <link title="Lisa Fontainebodin" attr="ID=SERP,5104.1">/academic/search?q=Lisa+Fontainebodin&amp;amp;mkt=zh-cn</link>
+    <link title="Ralf Koebnik" attr="ID=SERP,5105.1">/academic/profile?id=300969086&amp;amp;mkt=zh-cn</link>
+    <link title="Pamela C Ronald" attr="ID=SERP,5106.1">/academic/profile?id=2241524386&amp;amp;mkt=zh-cn</link>
+  </authors>
+  <abstract>Pattern recognition receptors (PRRs) play an important role in detecting invading pathogens and mounting a robust defense response to restrict infection. In rice, one of the best characterized PRRs is XA21, a leucine rich repeat receptor-like kinase that confers broad-spectrum resistance to multiple strains of the bacterial pathogen Xanthomonas oryzae pv. oryzae (Xoo). In 2009 we reported that an Xoo protein, called Ax21, is secreted by a type I-secretion system and that it serves to activate XA21-mediated immunity. This report has recently been retracted. Here we present data that corrects our previous model. We first show that Ax21 secretion does not depend on the predicted type I secretion system and that it is processed by the general secretion (Sec) system. We further show that Ax21 is an outer membrane protein, secreted in association with outer membrane vesicles. Finally, we provide data showing that ax21 knockout strains do not overcome XA21-mediated immunity.</abstract>
+  <pub-date>2014-01-01T00:00:00</pub-date>
+  <journal title="PeerJ" attr="ID=SERP,5112.1">/academic/search?q=PeerJ</journal>
+  <DOI>10.7717/peerj.242</DOI>
+  <keywords>
+    <link title="Bioinformatics" attr="ID=SERP,5107.1">/academic/profile?id=60644358&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Secretion" attr="ID=SERP,5108.1">/academic/profile?id=49039625&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Text mining" attr="ID=SERP,5109.1">/academic/profile?id=71472368&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Pathogen-associated molecular pattern" attr="ID=SERP,5110.1">/academic/profile?id=188899842&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Medical research" attr="ID=SERP,5111.1">/academic/profile?id=106977388&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+  </keywords>
+  <cites>
+    <cites date="2012" volumn="1" />
+    <cites date="2014" volumn="8" />
+    <cites date="2015" volumn="6" />
+    <cites date="2016" volumn="10" />
+    <cites date="2017" volumn="3" />
+  </cites>
+  <volume>2</volume>
+  <source>
+    <link title="europepmc.org" attr="ID=SERP,5113.1">http://europepmc.org/articles/PMC3897388?pdf=render</link>
+    <link title="peerj.com" attr="ID=SERP,5114.1">https://peerj.com/articles/242/supp-1</link>
+    <link title="peerj.com" attr="ID=SERP,5115.1">https://peerj.com/articles/242/supp-4</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5116.1">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3897388/</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5117.1">http://www.ncbi.nlm.nih.gov/pubmed/24482761</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5118.1">http://www.ncbi.nlm.nih.gov/pmc/articles/instance/3897388/</link>
+    <link title="europepmc.org" attr="ID=SERP,5113.2">http://europepmc.org/articles/PMC3897388?pdf=render</link>
+    <link title="peerj.com" attr="ID=SERP,5114.2">https://peerj.com/articles/242/supp-1</link>
+    <link title="peerj.com" attr="ID=SERP,5115.2">https://peerj.com/articles/242/supp-4</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5116.2">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3897388/</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5117.2">http://www.ncbi.nlm.nih.gov/pubmed/24482761</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5118.2">http://www.ncbi.nlm.nih.gov/pmc/articles/instance/3897388/</link>
+    <link title="peerj.com" attr="ID=SERP,5119.1">https://peerj.com/articles/242/fig-1</link>
+    <link title="peerj.com" attr="ID=SERP,5120.1">https://peerj.com/articles/242/</link>
+    <link title="peerj.com" attr="ID=SERP,5121.1">https://peerj.com/articles/242/supp-2</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5122.1">https://www.ncbi.nlm.nih.gov/pmc/articles/pmid/24482761/</link>
+    <link title="europepmc.org" attr="ID=SERP,5123.1">http://europepmc.org/abstract/MED/24482761</link>
+    <link title="peerj.com" attr="ID=SERP,5124.1">https://peerj.com/articles/242/fig-2</link>
+    <link title="peerj.com" attr="ID=SERP,5125.1">https://peerj.com/articles/242/fig-3</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5126.1">https://www.ncbi.nlm.nih.gov/pubmed/24482761/</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5127.1">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3897388/figure/fig-1/</link>
+    <link title="peerj.com" attr="ID=SERP,5128.1">https://peerj.com/articles/242/fig-4</link>
+    <link title="peerj.com" attr="ID=SERP,5129.1">https://peerj.com/articles/242.pdf</link>
+    <link title="peerj.com" attr="ID=SERP,5130.1">https://peerj.com/articles/242/supp-5</link>
+    <link title="www.readcube.com" attr="ID=SERP,5131.1">http://www.readcube.com/articles/10.7717/peerj.242</link>
+    <link title="europepmc.org" attr="ID=SERP,5132.1">http://europepmc.org/articles/PMC3897388</link>
+    <link title="peerj.com" attr="ID=SERP,5133.1">https://peerj.com/preprints/109/</link>
+    <link title="peerj.com" attr="ID=SERP,5134.1">https://peerj.com/articles/242/supp-6</link>
+    <link title="peerj.com" attr="ID=SERP,5135.1">https://peerj.com/preprints/109v1.pdf</link>
+    <link title="peerj.com" attr="ID=SERP,5136.1">https://peerj.com/articles/242/supp-3</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5137.1">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3897388/</link>
+  </source>
+</ArticleProfile>
