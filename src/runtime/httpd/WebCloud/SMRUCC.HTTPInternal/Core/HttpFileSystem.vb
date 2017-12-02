@@ -194,8 +194,7 @@ Namespace Core
                     Return {}
                 End If
             Catch ex As Exception
-                ex = New Exception(res, ex)
-                Throw ex
+                Throw New Exception(res, ex)
             End Try
 
             If _cacheMode AndAlso _cache.ContainsKey(file) Then
@@ -203,6 +202,7 @@ Namespace Core
             End If
 
             If file.FileExists Then
+
                 ' 判断是否为vbhtml文件？
                 If file.ExtensionSuffix.TextEquals("vbhtml") Then
                     Dim html$ = ScriptingExtensions.ReadHTML(wwwroot.FullName, file)
@@ -300,9 +300,22 @@ Namespace Core
             End If
         End Sub
 
-        Private Function __handleFileGET(res As String, p As HttpProcessor) As Boolean
-            Dim buf As Byte() = RequestStream(res) ' 由于子文件夹可能会是以/的方式请求index.html，所以在这里res的值可能会变化，文件拓展名放在变化之后再解析
-            Dim ext As String = GetFileInfo(res).Extension.ToLower
+        Private Function __handleFileGET(res$, p As HttpProcessor) As Boolean
+
+            ' 由于子文件夹可能会是以/的方式请求index.html，所以在这里res的值可能会变化，文件拓展名放在变化之后再解析
+            Dim buf As Byte() = RequestStream(res)
+
+            ' 假若目标请求是以/结尾的目录路径，并且该目录路径下的index.html并不存在
+            ' 那么使用默认的GetResource函数的话，会返回空值，则直接调用下面的
+            ' GetFileInfo函数就会报错，所以在这里要判断一下res字符串是否为空，
+            ' 尽量减少Throw Exception来提升服务器性能
+            If res.StringEmpty Then
+                Return False
+            End If
+
+            Dim ext$ = GetFileInfo(res) _
+                .Extension _
+                .ToLower
 
             If ext.TextEquals(".html") OrElse
                ext.TextEquals(".htm") OrElse
