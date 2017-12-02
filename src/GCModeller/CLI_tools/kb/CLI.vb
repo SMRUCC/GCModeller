@@ -26,7 +26,7 @@ Module CLI
     Public Function GetKBAbstractInformation(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim minWeight# = args.GetValue("/min.weight", 0.05)
-        Dim out$ = args("/out") Or $"{[in].TrimDIR}.abstract(min_weight={minWeight}).xml"
+        Dim out$ = args("/out") Or $"{[in].TrimDIR}.abstract(min_weight={minWeight}).txt"
         Dim kb As IEnumerable(Of ArticleProfile) = (ls - l - r - "*.xml" <= [in]).Select(AddressOf LoadXml(Of ArticleProfile))
         Dim abstract = kb.InformationAbstract(minWeight:=minWeight)
         Dim abstractText$ = abstract.Keys.JoinBy(" ")
