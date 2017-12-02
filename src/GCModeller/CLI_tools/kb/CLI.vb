@@ -22,12 +22,13 @@ Module CLI
     End Function
 
     <ExportAPI("/kb.abstract")>
-    <Usage("/kb.abstract /in <kb.directory> [/out <out.txt>]")>
+    <Usage("/kb.abstract /in <kb.directory> [/min.weight <default=0.05> /out <out.txt>]")>
     Public Function GetKBAbstractInformation(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out$ = args("/out") Or $"{[in].TrimDIR}.abstract.xml"
+        Dim minWeight# = args.GetValue("/min.weight", 0.05)
+        Dim out$ = args("/out") Or $"{[in].TrimDIR}.abstract(min_weight={minWeight}).xml"
         Dim kb As IEnumerable(Of ArticleProfile) = (ls - l - r - "*.xml" <= [in]).Select(AddressOf LoadXml(Of ArticleProfile))
-        Dim abstract = kb.InformationAbstract
+        Dim abstract = kb.InformationAbstract(minWeight:=minWeight)
         Dim abstractText$ = abstract.Keys.JoinBy(" ")
         Dim scores = abstract.GetJson(indent:=True)
 

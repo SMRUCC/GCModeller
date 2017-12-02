@@ -6,12 +6,12 @@ Imports Microsoft.VisualBasic.Data.NLP
 Public Module NLPExtensions
 
     <Extension>
-    Public Function InformationAbstract(kb As IEnumerable(Of ArticleProfile)) As Dictionary(Of String, Double)
+    Public Function InformationAbstract(kb As IEnumerable(Of ArticleProfile), Optional minWeight# = 0.05) As Dictionary(Of String, Double)
         Dim text$ = kb _
             .Select(Function(a) a.abstract) _
             .Where(Function(s) Not s.StringEmpty) _
             .JoinBy(ASCII.LF)
-        Dim abstract = text.TextGraph.Abstract
+        Dim abstract = text.TextGraph.Abstract(minWeight:=minWeight)
 
         Return abstract
     End Function

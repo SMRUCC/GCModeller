@@ -169,19 +169,21 @@ Public Module TextRank
             For x As Integer = 0 To words.Length - 1
                 Dim refIndex = x
                 Dim vector = seq(x, words.Length - 1, by:=1) _
-                    .AsParallel _
                     .Select(Function(y)
                                 Dim i% = CInt(y)
                                 Dim similarity# = TextRank.Similarity(words(refIndex), words(i))
                                 Return (y:=i, similarity:=similarity)
-                            End Function)
+                            End Function) _
+                    .AsParallel _
+                    .ToArray
 
-                For Each sentence In vector
+                For Each sentence As (i%, similarity#) In vector
                     Dim similarity = sentence.similarity
+                    Dim i% = sentence.i
 
                     If similarity >= similarityCut Then
-                        Call g.AddEdge(list(x), list(sentence.y), weight:=similarity)
-                        Call g.AddEdge(list(sentence.y), list(x), weight:=similarity)
+                        Call g.AddEdge(list(x), list(i), weight:=similarity)
+                        Call g.AddEdge(list(i), list(x), weight:=similarity)
                     End If
                 Next
 

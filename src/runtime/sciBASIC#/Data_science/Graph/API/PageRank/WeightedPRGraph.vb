@@ -103,7 +103,11 @@ Namespace Analysis.PageRank
 
             For Each vertex As WeightedPRNode In g _
                 .Vertex _
-                .Where(Function(v) v.ConnectedTargets.Count > 0) _
+                .Where(Function(v)
+                           Return Not v _
+                               .ConnectedTargets _
+                               .IsNullOrEmpty
+                       End Function) _
                 .ToArray
 
                 If vertex.Outbound > 0 Then
@@ -115,6 +119,10 @@ Namespace Analysis.PageRank
 
             For Each vertex As WeightedPRNode In g.Vertex
                 vertex.Weight = inverse
+
+                If vertex.ConnectedTargets Is Nothing Then
+                    vertex.ConnectedTargets = New WeightTable
+                End If
             Next
 
             Do While d >= e
@@ -151,6 +159,8 @@ Namespace Analysis.PageRank
                 Next
             Loop
 
+            ' 在这里不可以按照weight从大到小排序，因为这会打乱原文的顺序，
+            ' 可能会造成NLP模块所产生的摘要文本语句之间的逻辑不顺
             Return g _
                 .Vertex _
                 .ToDictionary(Function(v) v.Label,
