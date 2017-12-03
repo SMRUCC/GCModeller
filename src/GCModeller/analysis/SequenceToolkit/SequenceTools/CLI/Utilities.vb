@@ -163,7 +163,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
             FASTA = GbkFile.ExportProteins
         End If
 
-        Dim File As String = BaseName(Input)
+        Dim File As String = Input.BaseName
         Dim Csv = SequencePatterns.Pattern.PatternSearch.Match(Seq:=FASTA, pattern:=pattern)
         Dim Complement = SequencePatterns.Pattern.PatternSearch.Match(Seq:=FASTA.Complement, pattern:=pattern)
         Dim Reverse = SequencePatterns.Pattern.PatternSearch.Match(Seq:=FASTA.Reverse, pattern:=pattern)

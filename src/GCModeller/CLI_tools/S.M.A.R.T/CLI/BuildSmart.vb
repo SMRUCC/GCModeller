@@ -1,37 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::bd5eae0c0a0545dfd2507b4fb8f0f691, ..\CLI_tools\S.M.A.R.T\CLI\BuildSmart.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Analysis.ProteinTools.Family.API
-Imports SMRUCC.genomics.Analysis.ProteinTools.Family.FileSystem
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.Xfam
@@ -97,7 +97,7 @@ READ_CDD_DIR:
         Dim regprecise = FastaReaders.Regulator.LoadDocument(inFile).ToDictionary(Function(x) x.KEGG)
         Dim pfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim FamilyDb = SMRUCC.genomics.Analysis.ProteinTools.Family.API.FamilyDomains(regprecise, pfam)
-        Dim Name As String = basename(inFile)
+        Dim Name As String = inFile.BaseName
         Return SMRUCC.genomics.Analysis.ProteinTools.Family.SaveRepository(FamilyDb, Name).CLICode
     End Function
 

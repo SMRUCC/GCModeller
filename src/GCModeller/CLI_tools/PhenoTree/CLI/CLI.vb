@@ -154,7 +154,7 @@ Public Module CLI
     <ExportAPI("/Cluster.Enrichment",
                Usage:="/Cluster.Enrichment /in <partitions.json> /go.anno <proteins.go.annos.csv> [/go.brief <go_brief.csv> /out <out.DIR>]")>
     Public Function ClusterEnrichment(args As CommandLine) As Integer
-        Dim [in] = args("/in")
+        Dim in$ = args("/in")
         Dim anno As String = args("/go.anno")
         Dim goBrief As String = args.GetValue("/go.brief", GCModeller.FileSystem.GO & "/go_brief.csv")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".go.enrichment/")

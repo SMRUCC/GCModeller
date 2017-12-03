@@ -351,8 +351,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                Usage:="/Associates.Brief /in <in.DIR> /ls <ls.txt> [/index <Name> /out <out.tsv>]")>
     Public Function Associates(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim lsWords$() =
-            args("/ls") _
+        Dim lsWords$() = (args <= "/ls") _
             .ReadAllLines _
             .Where(Function(s) Not String.IsNullOrEmpty(Trim(s))) _
             .Select(Function(s) s.Trim.ToLower) _

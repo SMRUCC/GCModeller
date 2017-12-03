@@ -160,7 +160,7 @@ Namespace Compiler
 
             Dim MyvaCog = If(ModelProperty Is Nothing OrElse String.IsNullOrEmpty(ModelProperty("-myva_cog")),
                              New MyvaCOG() {},
-                             ModelProperty("-myva_cog").AsDataSource(Of MyvaCOG)(, False))
+                             (ModelProperty <= "-myva_cog").AsDataSource(Of MyvaCOG)(, False))
 
             Dim SabiorkCompounds As String = ModelProperty("-sabiork")
             If Not String.IsNullOrEmpty(SabiorkCompounds) Then

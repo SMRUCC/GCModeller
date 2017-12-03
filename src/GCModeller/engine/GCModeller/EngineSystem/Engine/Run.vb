@@ -27,6 +27,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.CommandLine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration
 
 Namespace EngineSystem.Engine
@@ -48,23 +49,23 @@ Namespace EngineSystem.Engine
             ''' Configuration 之中的配置数据总是会被非空的命令行参数所复写
             ''' </summary>
             ''' <param name="ExternalModuleRegistry"></param>
-            ''' <param name="CommandLine"></param>
+            ''' <param name="args"></param>
             ''' <param name="Configuration"></param>
             ''' <remarks></remarks>
-            Sub New(ExternalModuleRegistry As PlugIns.ModuleRegistry, CommandLine As CommandLine.CommandLine, Configuration As Engine.Configuration.Configurations)
+            Sub New(ExternalModuleRegistry As PlugIns.ModuleRegistry, args As CommandLine, Configuration As Engine.Configuration.Configurations)
                 Me._configurationsData = New Configuration.ConfigReader(Configuration)
-                Me.ModelFile = CommandLine("-i")
+                Me.ModelFile = args("-i")
                 Me.Logging = New LogFile(
                     Path:=Settings.LogDIR & String.Format("GCModeller__{0}_{1}.log", FileIO.FileSystem.GetFileInfo(ModelFile).Name.ToUpper, LogFile.NowTimeNormalizedString))
 
                 GCModellerCommons.LoggingClient = Logging
 
-                Logging.WriteLine(String.Format("Call gchost.exe {0}", CommandLine.ToString), "gchost -> main()")
+                Logging.WriteLine(String.Format("Call gchost.exe {0}", args.ToString), "gchost -> main()")
                 Logging.WriteLine(String.Format("Model file: {0}", Me.ModelFile), "gchost -> main()")
 
-                Dim Loops = Val(CommandLine("-t"))
+                Dim Loops = Val(args("-t"))
                 If Loops > 0 Then Configuration.KernelCycles = Loops
-                Dim ModuleMetabolismSystem = CommandLine("-metabolism")
+                Dim ModuleMetabolismSystem = args("-metabolism")
                 If String.IsNullOrEmpty(ModuleMetabolismSystem) Then
                     If String.IsNullOrEmpty(Configuration.MetabolismModel) Then
                         Configuration.MetabolismModel = ""
@@ -73,7 +74,7 @@ Namespace EngineSystem.Engine
                     Configuration.MetabolismModel = ModuleMetabolismSystem
                 End If
 
-                Dim ExpressionRegulationSystem = CommandLine("-expression")
+                Dim ExpressionRegulationSystem = args("-expression")
                 If String.IsNullOrEmpty(ExpressionRegulationSystem) Then
                     If String.IsNullOrEmpty(Configuration.ExpressionRegulationNetwork) Then
                         Configuration.ExpressionRegulationNetwork = ""
@@ -82,25 +83,25 @@ Namespace EngineSystem.Engine
                     Configuration.ExpressionRegulationNetwork = ExpressionRegulationSystem
                 End If
 
-                Dim CultivatingMediums = CommandLine("-cultivation_mediums")
+                Dim CultivatingMediums = args("-cultivation_mediums")
                 If Not String.IsNullOrEmpty(CultivatingMediums) Then
                     _configurationsData.Configs.CultivationMediums = CultivatingMediums
                 End If
 
-                Dim DataStorageURL = CommandLine("-url")
+                Dim DataStorageURL = args("-url")
                 If Not String.IsNullOrEmpty(DataStorageURL) Then
                     Configuration.DataStorageUrl = DataStorageURL
                 End If
 
-                Dim MutationData As String = CommandLine("-mutation_genes")
+                Dim MutationData As String = args("-mutation_genes")
                 If Not String.IsNullOrEmpty(MutationData) Then
                     Configuration.GeneMutations = MutationData
                 End If
 
-                Dim CommitInterval = Val(CommandLine("-interval")) : If CommitInterval > 0 Then Configuration.CommitLoopsInterval = CommitInterval
+                Dim CommitInterval = Val(args("-interval")) : If CommitInterval > 0 Then Configuration.CommitLoopsInterval = CommitInterval
                 If Configuration.CommitLoopsInterval < 1 Then Configuration.CommitLoopsInterval = 10
-                Me.FileFormat = If(String.Equals(CommandLine("-f").ToLower, "gcml"), "GCML", "CSV_TABULAR")
-                Me._OriginalARGV = CommandLine
+                Me.FileFormat = If(String.Equals((args <= "-f").ToLower, "gcml"), "GCML", "CSV_TABULAR")
+                Me._OriginalARGV = args
             End Sub
 
             Private Function CheckArguments() As Integer
@@ -201,7 +202,7 @@ Namespace EngineSystem.Engine
 
         Public Function Invoke(ExternalModuleRegistry As SMRUCC.genomics.GCModeller.ModellingEngine.PlugIns.ModuleRegistry,
                                Configurations As SMRUCC.genomics.GCModeller.ModellingEngine.EngineSystem.Engine.Configuration.Configurations,
-                               argvs As CommandLine.CommandLine) As Integer
+                               argvs As CommandLine) As Integer
 
             Call Settings.Session.Initialize()
 

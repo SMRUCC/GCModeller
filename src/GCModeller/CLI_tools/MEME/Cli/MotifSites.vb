@@ -48,7 +48,7 @@ Partial Module CLI
 
     <ExportAPI("/MotifSites.Fasta", Usage:="/MotifSites.Fasta /in <mast_motifsites.csv> [/out <out.fasta>]")>
     Public Function MotifSites2Fasta(args As CommandLine) As Integer
-        Dim [in] = args("/in")
+        Dim in$ = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".fasta")
         Dim sites = [in].LoadCsv(Of MastSites)
         Dim fasta = sites.Select(
