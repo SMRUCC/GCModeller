@@ -170,7 +170,7 @@ Namespace KEGG.Compiler
 
             Dim MyvaCog = If(argvs Is Nothing OrElse String.IsNullOrEmpty(argvs("-myva_cog")),
                              New MyvaCOG() {},
-                             argvs("-myva_cog").AsDataSource(Of MyvaCOG)(, False))
+                             (argvs <= "-myva_cog").AsDataSource(Of MyvaCOG)(, False))
             Dim EC = argvs("-ec").LoadCsv(Of SMRUCC.genomics.Assembly.Expasy.AnnotationsTool.T_EnzymeClass_BLAST_OUT)
 
             Using MappingCreator = New Mapping(_MetaCyc, Me._ModelIO.MetabolitesModel.Values.ToArray)
@@ -195,7 +195,7 @@ Namespace KEGG.Compiler
                     Me.KEGGPathways,
                     Me.KEGGModules,
                     Me.KEGGReactions.Value,
-                    argvs("-species_code"))
+                    (argvs <= "-species_code"))
 
             Call Link()
 
