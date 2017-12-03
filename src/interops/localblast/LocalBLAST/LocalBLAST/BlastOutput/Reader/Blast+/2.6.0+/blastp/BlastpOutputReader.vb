@@ -1,8 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 Imports r = System.Text.RegularExpressions.Regex

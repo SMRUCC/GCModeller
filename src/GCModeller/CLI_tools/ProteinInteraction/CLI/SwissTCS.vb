@@ -213,7 +213,7 @@ Partial Module CLI
                                   .Probability = -1
                               }
                               Select __contactTrace(hkString, Pfam(reg), pretent)).ToArray).Unlist
-        Dim out As String = args.GetValue("/out", args("/pfam").TrimSuffix & ".swissTCS.csv")
+        Dim out As String = args.GetValue("/out", (args <= "/pfam").TrimSuffix & ".swissTCS.csv")
 
         Return (From x In Combos Where Not x Is Nothing Select x) _
             .ToArray _
@@ -229,9 +229,10 @@ Partial Module CLI
     <ExportAPI("--CrossTalks.Probability",
                Usage:="--CrossTalks.Probability /query <pfam-string.csv> /swiss <swissTCS_pfam-string.csv> [/out <out.CrossTalks.csv> /test <queryName>]")>
     Public Function CrossTalksCal(args As CommandLine) As Integer
-        Dim Query = args("/query").LoadCsv(Of Pfam.PfamString.PfamString).ToArray
+        Dim queryFile$ = args <= "/query"
+        Dim Query = queryFile.LoadCsv(Of Pfam.PfamString.PfamString).ToArray
         Dim SwissTCS = args("/swiss").LoadCsv(Of Pfam.PfamString.PfamString).ToArray
-        Dim out As String = args.GetValue("/out", args("/query").TrimSuffix & ".CrossTalks.csv")
+        Dim out As String = args.GetValue("/out", queryFile.TrimSuffix & ".CrossTalks.csv")
         Dim CrossTalks As New List(Of CrossTalks)
         Dim test As String = args("/test")
 

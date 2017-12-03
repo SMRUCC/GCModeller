@@ -258,7 +258,7 @@ Partial Module CLI
                          genes = site.GetRelatedUpstream(PTT, atgDist))
         Call "Extract duplicated genes".__DEBUG_ECHO
         Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.Unlist
-        Return LQuery.SaveTo(args("/mast").TrimSuffix & ".csv").CLICode
+        Return LQuery.SaveTo((args <= "/mast").TrimSuffix & ".csv").CLICode
     End Function
 
 
@@ -404,7 +404,7 @@ Partial Module CLI
                          genes = site.GetRelatedUpstream(PTT, atgDist))
         Call "Extract duplicated genes".__DEBUG_ECHO
         Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.Unlist
-        Return LQuery.SaveTo(args("/mast").TrimSuffix & ".csv").CLICode
+        Return LQuery.SaveTo((args <= "/mast").TrimSuffix & ".csv").CLICode
     End Function
 
     Private Function __compile(hit As XmlOutput.MAST.Segment, MEMEMotifs As Dictionary(Of String, Motif), offset As Integer) As MastSites()

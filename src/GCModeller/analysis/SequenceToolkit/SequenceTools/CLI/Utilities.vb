@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools
@@ -235,7 +236,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
 
         For Each l In parser.PromoterRegions
             Dim save$ = $"{out}-promoter-regions/-{l.Tag}bp.fasta"
-            Call New FastaFile(l.value.Values).Save(120, save, Encodings.ASCII)
+            Call New FastaFile(l.Value.Values).Save(120, save, Encodings.ASCII)
         Next
 
         Return 0

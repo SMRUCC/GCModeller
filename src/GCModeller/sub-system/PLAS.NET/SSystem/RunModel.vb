@@ -70,7 +70,8 @@ Public Module RunModel
     <Extension>
     Public Function RunModel(Model As Script.Model, args As CommandLine) As Integer
         Dim t As Double = args.GetDouble("/time")
-        Dim out As String = args.GetValue("-o", args("-i").TrimSuffix & ".out.Csv")
+        Dim in$ = BuildArgs() <= "-i"
+        Dim out As String = args.GetValue("-o", in$.TrimSuffix & ".out.Csv")
 
         If t > 0 Then
             Model.FinalTime = t

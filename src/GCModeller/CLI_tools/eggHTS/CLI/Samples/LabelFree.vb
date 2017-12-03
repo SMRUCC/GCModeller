@@ -43,7 +43,7 @@ Partial Module CLI
     <Usage("/Perseus.Stat /in <proteinGroups.txt> [/out <out.csv>]")>
     <Group(CLIGroups.Samples_CLI)>
     Public Function PerseusStatics(args As CommandLine) As Integer
-        Dim [in] = args("/in")
+        Dim in$ = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".perseus.Stat.csv")
         Dim data As Perseus() = [in].LoadTsv(Of Perseus)
         Dim csv As New IO.File

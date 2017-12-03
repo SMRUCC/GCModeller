@@ -27,9 +27,9 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq
 Imports SMRUCC.genomics.Assembly
@@ -38,11 +38,8 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
-Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
-Imports SMRUCC.genomics.Model.Network.STRING.Models
-Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.Model.SBML
 Imports LogClient = Microsoft.VisualBasic.ApplicationServices.Debugging.Logging.LogFile
 
@@ -73,7 +70,7 @@ Namespace KEGG.Compiler
         <Argument("-kegg.modules")>
         <Argument("-metacyc_all")>
         <Argument("-chipdata")>
-        Public Overrides Function PreCompile(argvs As CommandLine.CommandLine) As Integer
+        Public Overrides Function PreCompile(argvs As CommandLine) As Integer
             Dim LogFile As String = argvs("-logging")
 
             If Not String.IsNullOrEmpty(LogFile) Then
@@ -144,7 +141,7 @@ Namespace KEGG.Compiler
         <Argument("-myva_cog", True, Description:="")>
         <Argument("-metacyc")>
         <Argument("-regprecise")>
-        Public Overrides Function Compile(Optional argvs As CommandLine.CommandLine = Nothing) As FileStream.XmlFormat.CellSystemXmlModel
+        Public Overrides Function Compile(Optional argvs As CommandLine = Nothing) As FileStream.XmlFormat.CellSystemXmlModel
             Call Me.CheckRequiredParameter(argvs, New String() {"-carmen", "-ec", "-mist2_strp", "-ptt", "-cross_talks", "-myva_cog", "-string-db", "-regulator_bh", "-metacyc", "-regprecise", "-species_code"}, "KEGG.Compiler::Compile()")
 
             Call __Initialize_MetaCyc(SMRUCC.genomics.Assembly.MetaCyc.File.FileSystem.DatabaseLoadder.CreateInstance(argvs("-metacyc")))
@@ -357,7 +354,7 @@ Namespace KEGG.Compiler
             Return PathwayModel
         End Function
 
-        Private Function CheckRequiredParameter(argvs As CommandLine.CommandLine, list As String(), head As String) As Boolean
+        Private Function CheckRequiredParameter(argvs As CommandLine, list As String(), head As String) As Boolean
             Dim required As String() = argvs.CheckMissingRequiredArguments(list)
 
             Call _Logging.WriteLine(argvs.GetCommandsOverview)

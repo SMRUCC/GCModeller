@@ -37,7 +37,7 @@ Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Terminal.Utility
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.v228
-Imports defaultEncoding = Microsoft.VisualBasic.Language.DefaultValue(Of System.Text.Encoding)
+Imports defaultEncoding = Microsoft.VisualBasic.Language.Default.DefaultValue(Of System.Text.Encoding)
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus
 

@@ -30,7 +30,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.Perl
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Language
+Namespace Language.Default
 
     Public Delegate Function Assert(Of T)(obj As T) As Boolean
 

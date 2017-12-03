@@ -28,9 +28,8 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -61,7 +60,7 @@ Partial Module CLI
             For Each Db In New NCBI.CDD.Database("").Paths
                 Call List.AddRange(Export(Db, Keywords, CaseSense, IsMethodAny))
             Next
-            Dim Saved = CType(List, SMRUCC.genomics.SequenceModel.FASTA.FastaFile).Distinct
+            Dim Saved = CType(List, FastaFile).Distinct
             Call Saved.Save(Output)
             Call FileIO.FileSystem.WriteAllText(Output & "_idlist.txt", Saved.GetIdList, append:=False)
         Else

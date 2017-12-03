@@ -63,8 +63,8 @@ Partial Module CLI
 
     <ExportAPI("/Cut_sequence.upstream", Usage:="/Cut_sequence.upstream /in <list.txt> /PTT <genome.ptt> /org <kegg_sp> [/len <100bp> /overrides /out <outDIR>]")>
     Public Function CutSequence_Upstream(args As CommandLine) As Integer
-        Dim [in] = args("/in")
-        Dim PTT = args("/PTT")
+        Dim in$ = args("/in")
+        Dim PTT$ = args("/PTT")
         Dim len = args.GetValue("/len", 100)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-{len}bp.fasta")
         Dim genome As PTT = SMRUCC.genomics.Assembly.NCBI.GenBank.LoadPTT(PTT)

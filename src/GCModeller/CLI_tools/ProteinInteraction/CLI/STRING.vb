@@ -91,7 +91,7 @@ Partial Module CLI
                Usage:="/STRING.Network /id <uniprot_idMappings.tsv> /links <protein.actions-links.tsv> [/sub <idlist.txt> /attributes <dataset.csv> /id_field <ID> /all_links <protein.links.txt> /out <outDIR>]")>
     <Group(CLIGroupping.STRING_tools)>
     Public Function StringNetwork(args As CommandLine) As Integer
-        Dim idTsv = args("/id")
+        Dim idTsv$ = args("/id")
         Dim links$ = args("/links")
         Dim alllinks As String = args("/all_links")
         Dim sublist As String = args("/sub")
@@ -99,7 +99,7 @@ Partial Module CLI
             "/out",
             idTsv.TrimSuffix & "-" & links.BaseName & $"{If(sublist.FileExists, "-" & sublist.BaseName, "")}/")
         Dim maps = Uniprot.Web.SingleMappings(idTsv)
-        Dim dataset = args("/attributes")
+        Dim dataset$ = args("/attributes")
 
         If sublist.FileExists Then
             Dim list = sublist.ReadAllLines

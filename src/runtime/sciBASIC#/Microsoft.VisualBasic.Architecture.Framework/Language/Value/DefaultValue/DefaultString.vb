@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.Language.Perl
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace Language
+Namespace Language.Default
 
     Public Structure DefaultString : Implements IDefaultValue(Of String)
 
@@ -55,6 +55,11 @@ Namespace Language
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator &(s1 As DefaultString, s2$) As String
             Return s1.DefaultValue & s2
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator &(s1$, s2 As DefaultString) As String
+            Return s1 & s2.DefaultValue
         End Operator
     End Structure
 
