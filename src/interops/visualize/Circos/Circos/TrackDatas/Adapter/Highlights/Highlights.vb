@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e4e979eb7565acb8537fc7e22948a42, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Highlights.vb"
+﻿#Region "Microsoft.VisualBasic::db734a6283fdb6e1ae46c6e83e74592c, ..\interops\visualize\Circos\Circos\TrackDatas\Adapter\Highlights\Highlights.vb"
 
     ' Author:
     ' 

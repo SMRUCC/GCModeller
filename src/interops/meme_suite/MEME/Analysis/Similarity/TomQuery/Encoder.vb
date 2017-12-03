@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee85713cac0c8a84a5a727e23ac989d1, ..\interops\meme_suite\MEME\Analysis\Similarity\TomQuery\Encoder.vb"
+﻿#Region "Microsoft.VisualBasic::7badad72177114b42f945b3ee7aa9591, ..\interops\meme_suite\MEME\Analysis\Similarity\TomQuery\Encoder.vb"
 
     ' Author:
     ' 

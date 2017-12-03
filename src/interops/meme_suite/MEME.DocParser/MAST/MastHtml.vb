@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::018db23cb7092fdcff9bde2588c20e4c, ..\interops\meme_suite\MEME.DocParser\MAST\MastHtml.vb"
+﻿#Region "Microsoft.VisualBasic::3108349cc2ad0f6eeed6ea9d904c2f40, ..\interops\meme_suite\MEME.DocParser\MAST\MastHtml.vb"
 
     ' Author:
     ' 

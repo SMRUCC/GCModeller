@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::451ab725b87c1119f30395d0f7403d14, ..\interops\meme_suite\MEME\Analysis\VirtualFootprints\MotifDb\Motif.vb"
+﻿#Region "Microsoft.VisualBasic::3c8601bae7123c2cf4ca72fc4aa8a776, ..\interops\meme_suite\MEME\Analysis\VirtualFootprints\MotifDb\Motif.vb"
 
     ' Author:
     ' 

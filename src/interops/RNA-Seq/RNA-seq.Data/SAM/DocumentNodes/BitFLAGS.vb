@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd37f227566a208e6c921a5aa95252c2, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\BitFLAGS.vb"
+﻿#Region "Microsoft.VisualBasic::ed5b651774a076d3bcf90ccad7f3aa1f, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\BitFLAGS.vb"
 
     ' Author:
     ' 

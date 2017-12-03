@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e9122a07279eca8fb067e08f872fff0, ..\interops\meme_suite\MEME\Workflows\PromoterParser\OperonPromoterParser.vb"
+﻿#Region "Microsoft.VisualBasic::26902d0e564313b4cd7a29ec146dd8a7, ..\interops\meme_suite\MEME\Workflows\PromoterParser\OperonPromoterParser.vb"
 
     ' Author:
     ' 
