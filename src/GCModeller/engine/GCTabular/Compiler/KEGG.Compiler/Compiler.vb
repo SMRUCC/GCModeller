@@ -38,8 +38,10 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
+Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.Model.SBML
 Imports LogClient = Microsoft.VisualBasic.ApplicationServices.Debugging.Logging.LogFile
 
@@ -91,7 +93,7 @@ Namespace KEGG.Compiler
             Me._ModelIO.SystemVariables = SystemVariables.CreateDefault.AsList
 
             Dim Door = SMRUCC.genomics.Assembly.DOOR.Load(path:=argvs("-door"))
-            Dim Footprints = argvs("-footprints").LoadCsv(Of RegulatesFootprints)(False)
+            Dim Footprints = argvs("-footprints").LoadCsv(Of RegulatesFootprints)
 
             'Me.PccMatrix = SMRUCC.genomics.Toolkits.RNASeq.ChipData.LoadChipData(argvs("-chipdata")).CalculatePccMatrix
             Me._ModelIO.DoorOperon = (From Operon In Door.DOOROperonView.Operons Select Operon.ConvertToCsvData).ToArray
@@ -154,7 +156,7 @@ Namespace KEGG.Compiler
                                                                                 KEGGCompounds.Key,
                                                                                 Me._Logging).AsList
             Me._ModelIO.EffectorMapping = Effectors.MappingEffectors(MetaCycAll, _ModelIO.MetabolitesModel.Values.AsList, argvs("-regprecise").LoadXml(Of TranscriptionFactors))
-            Me._RegpreciseRegulatorBh = argvs("-regulator_bh").LoadCsv(Of RegpreciseMPBBH)(False).ToArray
+            Me._RegpreciseRegulatorBh = argvs("-regulator_bh").LoadCsv(Of RegpreciseMPBBH).ToArray
             'Me._ModelIO.EffectorMapping = MappingKEGGCompoundsRegprecise(KEGGCompounds:=_ModelIO.MetabolitesModel.Values.ToArray, Regprecise:=_RegpreciseRegulatorBh)
 
             Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of SimpleCsv.Network)()
@@ -169,7 +171,7 @@ Namespace KEGG.Compiler
             Dim MyvaCog = If(argvs Is Nothing OrElse String.IsNullOrEmpty(argvs("-myva_cog")),
                              New MyvaCOG() {},
                              argvs("-myva_cog").AsDataSource(Of MyvaCOG)(, False))
-            Dim EC = argvs("-ec").LoadCsv(Of SMRUCC.genomics.Assembly.Expasy.AnnotationsTool.T_EnzymeClass_BLAST_OUT)(False)
+            Dim EC = argvs("-ec").LoadCsv(Of SMRUCC.genomics.Assembly.Expasy.AnnotationsTool.T_EnzymeClass_BLAST_OUT)
 
             Using MappingCreator = New Mapping(_MetaCyc, Me._ModelIO.MetabolitesModel.Values.ToArray)
                 Me._ModelIO.EnzymeMapping = MappingCreator.CreateEnzrxnGeneMap.AsList
@@ -393,7 +395,7 @@ Namespace KEGG.Compiler
         <Argument("-metacyc_all")>
         <Argument("-chipdata")>
         <Argument("-footprints", Description:="The predicted footprint regulation data for the target bacteria genome.")>
-        Public Overloads Shared Function PreCompile([operator] As Compiler, argvs As CommandLine.CommandLine) As Integer
+        Public Overloads Shared Function PreCompile([operator] As Compiler, argvs As CommandLine) As Integer
             Try
                 Return [operator].PreCompile(argvs)
             Catch ex As Exception
@@ -409,7 +411,7 @@ Namespace KEGG.Compiler
         <Argument("-myva_cog", True, Description:="")>
         <Argument("-metacyc")>
         <Argument("-regprecise")>
-        Public Overloads Shared Function Compile([operator] As Compiler, argvs As CommandLine.CommandLine) As FileStream.XmlFormat.CellSystemXmlModel
+        Public Overloads Shared Function Compile([operator] As Compiler, argvs As CommandLine) As FileStream.XmlFormat.CellSystemXmlModel
             Try
                 Return [operator].Compile(argvs)
             Catch ex As Exception

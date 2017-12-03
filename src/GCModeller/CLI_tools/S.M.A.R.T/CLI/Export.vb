@@ -29,6 +29,7 @@
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -47,7 +48,7 @@ Partial Module CLI
         Description:="The keyword list will be use for the sequence record search, each keyword should seperated by comma character.")>
     Public Function Export(args As CommandLine) As Integer
         Dim Db As String = args("-d")
-        Dim Keywords As String() = args("-keyword").Split(CChar(","))
+        Dim Keywords As String() = args("-keyword").Split(",")
         Dim Output As String = args("-o")
         Dim CaseSense As CompareMethod = IIf(String.Equals(args("-casesense"), "T"), CompareMethod.Binary, CompareMethod.Text)
         Dim IsMethodAny As Boolean = IIf(String.Equals(args("-m"), "any"), True, False)
