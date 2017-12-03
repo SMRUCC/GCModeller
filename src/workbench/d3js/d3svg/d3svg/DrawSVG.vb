@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9d5ea3519f60cffb17d375d1c187e0f, ..\workbench\d3js\d3svg\d3svg\DrawSVG.vb"
+﻿#Region "Microsoft.VisualBasic::db772c4c080090bc340e3fcc4654bbff, ..\workbench\d3js\d3svg\d3svg\DrawSVG.vb"
 
     ' Author:
     ' 
@@ -115,4 +115,3 @@ Public Class DrawSVG
         End If
     End Sub
 End Class
-

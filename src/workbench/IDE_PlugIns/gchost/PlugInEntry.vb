@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3492ebd1ffe7f80fc8ce825d9e61b0db, ..\workbench\IDE_PlugIns\gchost\PlugInEntry.vb"
+﻿#Region "Microsoft.VisualBasic::40edc612139eb78c06f5ff6e1014e139, ..\workbench\IDE_PlugIns\gchost\PlugInEntry.vb"
 
     ' Author:
     ' 
@@ -53,4 +53,3 @@ Module PlugInEntry
         Return 0
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::405b4bb56e242caea022513334203cd0, ..\workbench\IDE_PlugIns\FastaViewer\FormViwer.vb"
+﻿#Region "Microsoft.VisualBasic::a81a105c3db856cf9ad8333fb678e986, ..\workbench\IDE_PlugIns\FastaViewer\FormViwer.vb"
 
     ' Author:
     ' 
@@ -147,4 +147,3 @@ Public Class FormViwer
         Return sb.ToString
     End Function
 End Class
-

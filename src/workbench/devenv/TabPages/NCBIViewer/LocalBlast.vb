@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1b8d1f670a809628c116ff74ac5d22a, ..\workbench\devenv\TabPages\NCBIViewer\LocalBlast.vb"
+﻿#Region "Microsoft.VisualBasic::d22e9c410674762b1338b3acc749d100, ..\workbench\devenv\TabPages\NCBIViewer\LocalBlast.vb"
 
     ' Author:
     ' 
@@ -102,4 +102,3 @@ Friend Class LocalBlast
         End If
     End Sub
 End Class
-

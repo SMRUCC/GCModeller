@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de86934d1515e4dd1623f4ad2a9322ba, ..\workbench\devenv\Controls\ShellScriptTerm.vb"
+﻿#Region "Microsoft.VisualBasic::8bb63072b5911dfdb140295e07ced44c, ..\workbench\devenv\Controls\ShellScriptTerm.vb"
 
     ' Author:
     ' 
@@ -52,4 +52,3 @@ Public Class ShellScriptTerm
         Loop
     End Sub
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85c29feff5322fd1a2eb6a9ca2b35bba, ..\workbench\GenomicsBrowser\GenomeBrowser\VectorScriptProject.vb"
+﻿#Region "Microsoft.VisualBasic::c8099e63a22d6ca8d2bad7a2e09f7e42, ..\workbench\GenomicsBrowser\GenomeBrowser\VectorScriptProject.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' 根据gff文档的描述生成VectorScript，然后再根据VectorScript生成图形数据，保存文件的时候是保存VectorScript的
@@ -75,4 +74,3 @@ Module VectorScriptProject
     End Function
 
 End Module
-

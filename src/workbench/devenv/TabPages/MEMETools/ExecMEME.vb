@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24161cf8b9c81bbf54039212eed3a594, ..\workbench\devenv\TabPages\MEMETools\ExecMEME.vb"
+﻿#Region "Microsoft.VisualBasic::00fee676fda0a36d7c34bb0bd526cec7, ..\workbench\devenv\TabPages\MEMETools\ExecMEME.vb"
 
     ' Author:
     ' 
@@ -29,4 +29,3 @@
 Public Class ExecMEME
 
 End Class
-

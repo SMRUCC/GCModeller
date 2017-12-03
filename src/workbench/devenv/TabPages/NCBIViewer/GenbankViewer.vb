@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ee159869762848be2f6e81f952c9e22, ..\workbench\devenv\TabPages\NCBIViewer\GenbankViewer.vb"
+﻿#Region "Microsoft.VisualBasic::fd0bcbb3f2f53e5a1255de08839a158a, ..\workbench\devenv\TabPages\NCBIViewer\GenbankViewer.vb"
 
     ' Author:
     ' 
@@ -111,4 +111,3 @@ Friend Class GenbankViewer
         AddHandler Viewer.Button5.Click, Sub() Call LocalBLAST()
     End Sub
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e0ccbe00e29372ce695a7c15c16547b, ..\workbench\devenv\Methods.vb"
+﻿#Region "Microsoft.VisualBasic::3c4c5726c9f5948c43535694d71f941f, ..\workbench\devenv\Methods.vb"
 
     ' Author:
     ' 
@@ -38,4 +38,3 @@ Module Methods
         End Using
     End Function
 End Module
-

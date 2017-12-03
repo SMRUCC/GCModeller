@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e7d9089ad852a3a2f04779a9d8cb1a5, ..\workbench\devenv\GlobalSuppressions.vb"
+﻿#Region "Microsoft.VisualBasic::eb044e55ecb52cb3ee979b3ecdad026c, ..\workbench\devenv\GlobalSuppressions.vb"
 
     ' Author:
     ' 
@@ -42,4 +42,3 @@
 <Assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Scope:="member", Target:="LANS.SystemsBiology.GCModeller.Workbench.FormSplash.#GetClassLong(System.Int32,System.Int32)")> 
 <Assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass", Scope:="member", Target:="LANS.SystemsBiology.GCModeller.Workbench.FormSplash.#SetClassLong(System.Int32,System.Int32,System.Int32)")> 
 <Assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times", Scope:="member", Target:="LANS.SystemsBiology.GCModeller.Workbench.Program.#Initialize()")> 
-

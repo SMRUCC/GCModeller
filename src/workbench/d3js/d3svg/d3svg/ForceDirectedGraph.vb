@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9715e95695ea3d76f80071640a6e6afd, ..\workbench\d3js\d3svg\d3svg\ForceDirectedGraph.vb"
+﻿#Region "Microsoft.VisualBasic::82c9f50ef85dff2a74cabf1b1ee8d26b, ..\workbench\d3js\d3svg\d3svg\ForceDirectedGraph.vb"
 
     ' Author:
     ' 
@@ -46,4 +46,3 @@ Public Class ForceDirectedGraph : Inherits D3Parser
         Return svg
     End Function
 End Class
-

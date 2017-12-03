@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33fda24f0a2ce98edae0c6e579d7948c, ..\workbench\ReportBuilder\HTML.vb"
+﻿#Region "Microsoft.VisualBasic::1f4ba2a208c94eda9ebca92ff1299ca7, ..\workbench\ReportBuilder\HTML.vb"
 
     ' Author:
     ' 
@@ -103,4 +103,3 @@ Public Module HTML
     Public ReadOnly Property Error404 As String = GetHTML("<p>Oops! Something bad just happened......  <font size=""4""><strong>:-(</strong></font><br />
  </p><p>%EXCEPTION%</p>" & BackPreviousPage, "GCModeller Server ERROR")
 End Module
-
