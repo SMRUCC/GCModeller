@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::92745c35b27e50b899fde8fcdf2da96a, ..\CLI_tools\MEME\Cli\Regprecise.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -258,7 +259,7 @@ Partial Module CLI
                          genes = site.GetRelatedUpstream(PTT, atgDist))
         Call "Extract duplicated genes".__DEBUG_ECHO
         Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.Unlist
-        Return LQuery.SaveTo(args("/mast").TrimSuffix & ".csv").CLICode
+        Return LQuery.SaveTo((args <= "/mast").TrimSuffix & ".csv").CLICode
     End Function
 
 
@@ -404,7 +405,7 @@ Partial Module CLI
                          genes = site.GetRelatedUpstream(PTT, atgDist))
         Call "Extract duplicated genes".__DEBUG_ECHO
         Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.Unlist
-        Return LQuery.SaveTo(args("/mast").TrimSuffix & ".csv").CLICode
+        Return LQuery.SaveTo((args <= "/mast").TrimSuffix & ".csv").CLICode
     End Function
 
     Private Function __compile(hit As XmlOutput.MAST.Segment, MEMEMotifs As Dictionary(Of String, Motif), offset As Integer) As MastSites()
@@ -577,7 +578,7 @@ Partial Module CLI
             Next
         End If
 
-        If args("/maps").FileExists Then
+        If (args <= "/maps").FileExists Then
             Dim gb As GBFF.File = GBFF.File.Load(args("/maps"))
             Dim maps As Dictionary(Of String, String) = gb.LocusMaps
 
@@ -643,7 +644,7 @@ Partial Module CLI
     Public Function BuildFromMotifSites(args As CommandLine) As Integer
         Dim bbh = RegpreciseSummary.LoadRegpreciseBBH(args("/bbh"))
         Dim motifSites = args("/motifs").LoadCsv(Of MotifSite)
-        Dim virtualFootprints = RegpreciseSummary.GenerateRegulations(bbh, motifSites, args("/sp"), args.GetValue("/cutoff", 0.6))
+        Dim virtualFootprints = RegpreciseSummary.GenerateRegulations(bbh, motifSites, args <= "/sp", args.GetValue("/cutoff", 0.6))
         Dim out As String = args("/out")
         Dim brief As Boolean = args.GetBoolean("/brief")
 

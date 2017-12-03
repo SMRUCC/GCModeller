@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
 Imports Microsoft.VisualBasic.Linq
@@ -257,7 +258,7 @@ Partial Module CLI
                 Next
             Next
         Else
-            Dim out As String = args.GetValue("/out", args("/gb").TrimSuffix)
+            Dim out As String = args("/out") Or args("/gb").TrimSuffix
 
             For Each x As GBFF.File In GBFF.File.LoadDatabase(gb)
                 Call x.__exportTo(out, simple)

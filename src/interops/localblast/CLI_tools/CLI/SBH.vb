@@ -37,6 +37,7 @@ Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.BBHLogs
@@ -136,7 +137,7 @@ Partial Module CLI
     <ExportAPI("/MAT.evalue", Usage:="/MAT.evalue /in <sbh.csv> [/out <mat.csv> /flip]")>
     Public Function EvalueMatrix(args As CommandLine) As Integer
         Dim sbh As List(Of BestHit) = args("/in").LoadCsv(Of BestHit)
-        Dim out As String = args.GetValue("/out", args("/in").TrimSuffix & ".Evalue.Csv")
+        Dim out As String = args("/out") Or (args("/in").TrimSuffix & ".Evalue.Csv")
         Dim contigs = (From x As BestHit
                        In sbh
                        Select x

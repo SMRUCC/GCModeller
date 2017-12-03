@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::dec3939845a6957c7a3cab91ee9cdec2, ..\CLI_tools\S.M.A.R.T\CLI\MPAlignment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,6 +31,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text.Levenshtein
 Imports ProteinTools.SMART.Common.Extensions
@@ -73,7 +74,7 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", App.CurrentDirectory)
         Dim resultSet As New List(Of LevAlign)
 
-        out = $"{out}/{basename(args("/query"))}_vs.{basename(args("/subject"))}"
+        out = $"{out}/{BaseName(args("/query"))}_vs.{BaseName(args("/subject"))}"
 
         Dim outHTML As String = out & "/HTML/"
 
@@ -85,7 +86,7 @@ Partial Module CLI
             resultSet += alignInvoke
 
             For Each paired In alignInvoke
-                Dim html As String = paired.htmlVisualize
+                Dim html As String = paired.HTMLVisualize
                 Dim path As String = outHTML & $"/{paired.QueryPfam.ProteinId.NormalizePathString}_vs.{paired.SubjectPfam.ProteinId.NormalizePathString}.html"
                 Call html.SaveTo(path)
             Next
@@ -110,7 +111,7 @@ Partial Module CLI
         out = $"{out}/{query.ProteinId.NormalizePathString}_vs.{subject.ProteinId.NormalizePathString}"
 
         Call result.GetXml.SaveTo($"{out}/MPAlignment.xml")
-        Call result.htmlVisualize.SaveTo(out & "/MPAlignment.html")
+        Call result.HTMLVisualize.SaveTo(out & "/MPAlignment.html")
 
         Dim outTxt As String = result.ToString
         Call Console.WriteLine(outTxt)
@@ -137,8 +138,8 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", input.ParentDirName & "/MPAlignment/")
         Dim inBBH = input.LoadCsv(Of BiDirectionalBesthit)
         Dim align = MotifParallelAlignment.AlignProteins(inBBH, query.LoadCsv(Of Pfam.PfamString.PfamString), subject.LoadCsv(Of Pfam.PfamString.PfamString))
-        Call align.ToArray.GetXml.SaveTo($"{out}/{basename(input)}.xml")
-        Call align.Select(Function(x) x.ToRow).SaveTo($"{out}/{basename(input)}.csv")
+        Call align.ToArray.GetXml.SaveTo($"{out}/{input.BaseName}.xml")
+        Call align.Select(Function(x) x.ToRow).SaveTo($"{out}/{input.BaseName}.csv")
 
         Dim Regprecise = GCModeller.FileSystem.KEGGFamilies.LoadCsv(Of FastaReaders.Regulator) _
                 .ToDictionary(Function(prot) prot.LocusTag) '.LoadXml(Of SMRUCC.genomics.DatabaseServices.Regprecise.WebServices.Regulations)
@@ -161,7 +162,7 @@ Partial Module CLI
                               Array.IndexOf(havMatches(match.QueryName), match.HitName) > -1
                           Select match).ToArray
 
-        Call matchesBBH.SaveTo($"{out}/{basename(input)}.bbh_matches.csv")
+        Call matchesBBH.SaveTo($"{out}/{input.BaseName}.bbh_matches.csv")
 
         Return 0
     End Function

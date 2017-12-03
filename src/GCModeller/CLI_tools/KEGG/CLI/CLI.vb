@@ -149,10 +149,12 @@ Module CLI
         Dim GBK As Boolean = args.GetBoolean("/gbk")
         Dim GeneList As String()
         Dim ExportedDir As String = args("-export")
+        Dim in$ = args <= "-i"
+
         If Not GBK Then
-            GeneList = args("-i").ReadAllLines()
+            GeneList = in$.ReadAllLines()
         Else
-            Dim gb = GBFF.File.Load(args("-i"))
+            Dim gb = GBFF.File.Load([in])
             GeneList = gb.GeneList.Select(Function(g) g.Name)
         End If
 
@@ -296,13 +298,13 @@ Module CLI
     <ExportAPI("-query.orthology", Usage:="-query.orthology -keyword <gene_name> -o <output_csv>")>
     Public Function QueryOrthology(argvs As CommandLine) As Integer
         Dim EntryList = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.HandleQuery(argvs("-keyword"))
-        Dim GeneEntries As List(Of QueryEntry) = New List(Of QueryEntry)
+        Dim GeneEntries As New List(Of QueryEntry)
 
         For Each EntryPoint As QueryEntry In EntryList
             Call GeneEntries.AddRange(SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.HandleDownload(EntryPoint.LocusId))
         Next
 
-        Call GeneEntries.SaveTo(argvs("-o"), False)
+        Call GeneEntries.SaveTo(argvs <= "-o", False)
 
         Return 0
     End Function

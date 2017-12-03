@@ -62,7 +62,7 @@ Partial Module CLI
     Public Function ModuleRegulations(args As CommandLine) As Integer
         Dim Model = args("/model").LoadXml(Of XmlModel)
         Dim Footprints = (From x
-                          In args("/footprints").LoadCsv(Of PredictedRegulationFootprint)
+                          In (args <= "/footprints").LoadCsv(Of PredictedRegulationFootprint)
                           Where Not String.IsNullOrEmpty(x.Regulator)
                           Select x).ToArray
 

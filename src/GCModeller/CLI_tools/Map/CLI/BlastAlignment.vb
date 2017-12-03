@@ -65,7 +65,7 @@ Partial Module CLI
         Dim PTTfile As String = args("/PTT")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".visualize.png")
         Dim meta As Analysis.BestHit = [in].LoadXml(Of Analysis.BestHit)
-        Dim limits As String() = args("/limits").ReadAllLines
+        Dim limits As String() = (args <= "/limits").ReadAllLines
         Dim density As String = args("/density")
 
         If Not limits.IsNullOrEmpty Then

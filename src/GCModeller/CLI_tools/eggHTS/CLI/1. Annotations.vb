@@ -397,7 +397,7 @@ Partial Module CLI
     <ExportAPI("/Perseus.Table.annotations",
                Usage:="/Perseus.Table.annotations /in <proteinGroups.csv> /uniprot <uniprot.XML> [/scientifcName <""""> /out <out.csv>]")>
     Public Function PerseusTableAnnotations(args As CommandLine) As Integer
-        Dim [in] = args("/in")
+        Dim in$ = args("/in")
         Dim uniprot As String = args("/uniprot")
         Dim out = args.GetValue("/out", [in].TrimSuffix & ".proteins.annotation.csv")
         Dim table As Perseus() = [in].LoadCsv(Of Perseus)
@@ -759,7 +759,7 @@ Partial Module CLI
               Extensions:="*.csv",
               Description:="The COG annotation result.")>
     Public Function COGCatalogProfilingPlot(args As CommandLine) As Integer
-        Dim [in] = args("/in")
+        Dim in$ = args("/in")
         Dim size$ = args.GetValue("/size", "1800,1200")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".COG.profiling.png")
         Dim COGs As IEnumerable(Of MyvaCOG) = [in].LoadCsv(Of MyvaCOG)

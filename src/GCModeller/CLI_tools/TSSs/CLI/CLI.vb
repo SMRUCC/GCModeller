@@ -176,7 +176,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
 
         Call $"{NameOf(ATG)}:={ATG}".__DEBUG_ECHO
         Call $"{NameOf(TrimShared)}:={TrimShared}".__DEBUG_ECHO
-        Call $"{NameOf(Forwards)}={ Forwards.Length};   { NameOf(Reversed)}={ Reversed.Length}    from {args("-ptt").ToFileURL}".__DEBUG_ECHO
+        Call $"{NameOf(Forwards)}={ Forwards.Length};   { NameOf(Reversed)}={ Reversed.Length}  from {(args <= "-ptt").ToFileURL}".__DEBUG_ECHO
         Call $"{NameOf(LociData)}={LociData.Count }".__DEBUG_ECHO
 
         LociData = (From loci In LociData.AsParallel Where loci.TSSsShared >= TrimShared Select loci).AsList

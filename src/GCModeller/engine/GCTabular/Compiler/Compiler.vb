@@ -115,7 +115,7 @@ Namespace Compiler
 #If Not DEBUG Then
         Try
 #End If
-            Me._TranscriptRegulations = argvs("-transcript_regulation").LoadCsv(Of TranscriptRegulation)(False).ToArray
+            Me._TranscriptRegulations = argvs("-transcript_regulation").LoadCsv(Of TranscriptRegulation).ToArray
             Me._ModelIO.StringInteractions = argvs("-string-db").LoadXml(Of SimpleCsv.Network)()
 
             Using MappingCreator = New Mapping(_MetaCyc, Me._ModelIO.MetabolitesModel.Values.ToArray)
@@ -155,12 +155,12 @@ Namespace Compiler
             '     MyBase.CompiledModel.ChipData = New Microsoft.VisualBasic.ComponentModel.Href With {.Value = ModelProperty("-chipdata")}
 
             Me._argvs_Compile = ModelProperty
-            Me._ECProfiles = ModelProperty("-ec").LoadCsv(Of T_EnzymeClass_BLAST_OUT)(False).ToArray
+            Me._ECProfiles = ModelProperty("-ec").LoadCsv(Of T_EnzymeClass_BLAST_OUT).ToArray
             Call MyBase.WriteProperty(ModelProperty, MyBase.CompiledModel)
 
             Dim MyvaCog = If(ModelProperty Is Nothing OrElse String.IsNullOrEmpty(ModelProperty("-myva_cog")),
                              New MyvaCOG() {},
-                             ModelProperty("-myva_cog").AsDataSource(Of MyvaCOG)(, False))
+                             (ModelProperty <= "-myva_cog").AsDataSource(Of MyvaCOG)(, False))
 
             Dim SabiorkCompounds As String = ModelProperty("-sabiork")
             If Not String.IsNullOrEmpty(SabiorkCompounds) Then
