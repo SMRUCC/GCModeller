@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa056bfcdabbd3d49b0181ca39f24161, ..\CLI_tools\MEME\RegpreciseSummary.vb"
+﻿#Region "Microsoft.VisualBasic::1e0a4ca1bb7d36b246586bfc9ee6c52a, ..\GCModeller\CLI_tools\MEME\RegpreciseSummary.vb"
 
     ' Author:
     ' 

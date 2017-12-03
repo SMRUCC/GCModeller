@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b13f714e234e02386a8aa19fc0b8a07, ..\CLI_tools\c2\Workflows\RegulationNetwork\PromoterParser.vb"
+﻿#Region "Microsoft.VisualBasic::4b13f714e234e02386a8aa19fc0b8a07, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\PromoterParser.vb"
 
     ' Author:
     ' 

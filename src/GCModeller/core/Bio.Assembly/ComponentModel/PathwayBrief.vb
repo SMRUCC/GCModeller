@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae989e93d402501ead44c97c83455e60, ..\core\Bio.Assembly\ComponentModel\PathwayBrief.vb"
+﻿#Region "Microsoft.VisualBasic::ae989e93d402501ead44c97c83455e60, ..\GCModeller\core\Bio.Assembly\ComponentModel\PathwayBrief.vb"
 
     ' Author:
     ' 

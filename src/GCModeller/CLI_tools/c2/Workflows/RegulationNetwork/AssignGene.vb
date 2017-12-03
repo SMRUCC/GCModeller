@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eed203627ec6793384e2f46a3d4d606f, ..\CLI_tools\c2\Workflows\RegulationNetwork\AssignGene.vb"
+﻿#Region "Microsoft.VisualBasic::eed203627ec6793384e2f46a3d4d606f, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\AssignGene.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21c653407fefa1c4fdffb96a564b8248, ..\core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::21c653407fefa1c4fdffb96a564b8248, ..\GCModeller\core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
 
     ' Author:
     ' 

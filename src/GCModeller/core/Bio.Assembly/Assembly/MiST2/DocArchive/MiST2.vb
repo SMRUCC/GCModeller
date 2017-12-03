@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::038afd6db047392d27be075c7af0f3e3, ..\core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
+﻿#Region "Microsoft.VisualBasic::038afd6db047392d27be075c7af0f3e3, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
 
     ' Author:
     ' 

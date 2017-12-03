@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0156a54f04758985c5cc7e4fa5be1b1, ..\CLI_tools\RNA-seq\CLI\calcFst.vb"
+﻿#Region "Microsoft.VisualBasic::b0156a54f04758985c5cc7e4fa5be1b1, ..\GCModeller\CLI_tools\RNA-seq\CLI\calcFst.vb"
 
     ' Author:
     ' 

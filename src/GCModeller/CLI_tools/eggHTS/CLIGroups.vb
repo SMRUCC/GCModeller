@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e442408a1131716378f7e04ac159db5, ..\CLI_tools\eggHTS\CLIGroups.vb"
+﻿#Region "Microsoft.VisualBasic::67824a2e4b5e5cb84eb51c08156dcd86, ..\GCModeller\CLI_tools\eggHTS\CLIGroups.vb"
 
     ' Author:
     ' 
@@ -49,4 +49,3 @@ Friend NotInheritable Class CLIGroups
     End Sub
 
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0731f62dc8596bdb9282c8a3bee9b9c, ..\core\Bio.InteractionModel\Interaction.vb"
+﻿#Region "Microsoft.VisualBasic::4ffa30380526276b58ad49ed6b967b98, ..\GCModeller\core\Bio.InteractionModel\Interaction.vb"
 
     ' Author:
     ' 

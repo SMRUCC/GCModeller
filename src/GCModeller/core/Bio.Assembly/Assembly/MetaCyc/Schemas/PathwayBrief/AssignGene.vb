@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c9bc795d3cfd51c0384d52888940a9c, ..\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\AssignGene.vb"
+﻿#Region "Microsoft.VisualBasic::2a5da0b7d3ab168be947b586571ed237, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\AssignGene.vb"
 
     ' Author:
     ' 

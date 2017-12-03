@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33b5391a48f1ee7b35248ff2c438e0c1, ..\core\Bio.Assembly\Assembly\Uniprot\IdMapping.vb"
+﻿#Region "Microsoft.VisualBasic::040bdedcbb0a6b43df4317fb270d465c, ..\GCModeller\core\Bio.Assembly\Assembly\UniProt\IdMapping.vb"
 
     ' Author:
     ' 

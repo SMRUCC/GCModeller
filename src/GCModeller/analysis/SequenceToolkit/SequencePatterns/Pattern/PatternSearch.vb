@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e22985cff605a8881ee29018b9e90723, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Pattern\PatternSearch.vb"
+﻿#Region "Microsoft.VisualBasic::e97e8e3dfffa8c8e15d09abd9aa71200, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Pattern\PatternSearch.vb"
 
     ' Author:
     ' 

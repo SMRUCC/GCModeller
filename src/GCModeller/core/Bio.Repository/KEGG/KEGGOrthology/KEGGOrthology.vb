@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9f3a7d6bfd94eeab9644c378759aef1, ..\core\Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::570bd6746c3dd2985ea7e36e92d74d0f, ..\GCModeller\core\Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
 
     ' Author:
     ' 

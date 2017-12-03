@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::220c6193804ea7fd8537daf2fe68d99a, ..\CLI_tools\KEGG\CLIGroups.vb"
+﻿#Region "Microsoft.VisualBasic::d0cf5aa99c5e129cf5887103097a81d8, ..\GCModeller\CLI_tools\KEGG\CLIGroups.vb"
 
     ' Author:
     ' 
@@ -31,4 +31,3 @@ Module CLIGroups
     Public Const DBGET_tools$ = "KEGG dbget API tools"
 
 End Module
-

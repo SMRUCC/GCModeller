@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2c68c085763990a48f93b7118008897, ..\GCModeller\data\RCSB PDB\WebServices\ProtInDb\ProteinChain.vb"
+﻿#Region "Microsoft.VisualBasic::49ea087e77bd6b0395da437848c416ab, ..\GCModeller\data\RCSB PDB\WebServices\ProtInDb\ProteinChain.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90a0acbf045f71823d860fb937e9799c, ..\CLI_tools\MEME\Cli\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::90a0acbf045f71823d860fb937e9799c, ..\GCModeller\CLI_tools\MEME\Cli\WGCNA.vb"
 
     ' Author:
     ' 

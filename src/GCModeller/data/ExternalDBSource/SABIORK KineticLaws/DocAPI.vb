@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0304c67b1a8c9ba4de93c8b258d420f1, ..\GCModeller\data\ExternalDBSource\SABIORK KineticLaws\DocAPI.vb"
+﻿#Region "Microsoft.VisualBasic::ebc824c9dc853086e3704218e51870ae, ..\GCModeller\data\ExternalDBSource\SABIORK KineticLaws\DocAPI.vb"
 
     ' Author:
     ' 

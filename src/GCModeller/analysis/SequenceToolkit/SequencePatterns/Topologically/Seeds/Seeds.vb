@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8efdf74d7e79f8777c61345fb7d614e, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds.vb"
+﻿#Region "Microsoft.VisualBasic::73d0e48610ef67168950c77e183590ec, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\Seeds.vb"
 
     ' Author:
     ' 

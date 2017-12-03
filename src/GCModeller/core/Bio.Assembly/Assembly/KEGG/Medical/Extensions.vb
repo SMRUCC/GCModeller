@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d019fd3e5afc41ff8c5e071a87813b6, ..\core\Bio.Assembly\Assembly\KEGG\Medical\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::418b9fadda3e630af1feadda0eefe5d3, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\Extensions.vb"
 
     ' Author:
     ' 

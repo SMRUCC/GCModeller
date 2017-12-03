@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4347dfcd36797fdb681f46df213db56, ..\GCModeller\data\BASys\ecard\Ecard.vb"
+﻿#Region "Microsoft.VisualBasic::f7760d6d3d4deb46f814abcfc4123055, ..\GCModeller\data\BASys\ecard\Ecard.vb"
 
     ' Author:
     ' 

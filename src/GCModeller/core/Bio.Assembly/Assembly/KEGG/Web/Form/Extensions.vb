@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc1e5ecb03b4bdd3ded29df5029b9aa8, ..\core\Bio.Assembly\Assembly\KEGG\Web\Form\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::dc1e5ecb03b4bdd3ded29df5029b9aa8, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Form\Extensions.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36b23946c2bda8e3823fc956e03efd35, ..\CLI_tools\meta-assmebly\CLIGroups.vb"
+﻿#Region "Microsoft.VisualBasic::0ba918659e962870417dae3d0c35fd03, ..\GCModeller\CLI_tools\meta-assmebly\CLIGroups.vb"
 
     ' Author:
     ' 
@@ -33,4 +33,3 @@ Friend NotInheritable Class CLIGroups
 
     Public Const Alpha_Diversity$ = "02. Alpha diversity analysis tools"
 End Class
-

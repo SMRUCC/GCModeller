@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7975b3446612c457b0e31db6d5dd0936, ..\CLI_tools\KEGG\Tools\OrthologExport.vb"
+﻿#Region "Microsoft.VisualBasic::7975b3446612c457b0e31db6d5dd0936, ..\GCModeller\CLI_tools\KEGG\Tools\OrthologExport.vb"
 
     ' Author:
     ' 
