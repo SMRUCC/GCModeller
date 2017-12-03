@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e8a99a38afc6f578e8e4cd78381bd8c, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequenceLogo\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::e6f804f0c25550daea96f9f3c8f5eec6, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequenceLogo\DrawingDevice.vb"
 
     ' Author:
     ' 

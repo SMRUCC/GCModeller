@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90182e72ad74908a0a16abba78633f72, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\Sigma\PlasmidComparative.vb"
+﻿#Region "Microsoft.VisualBasic::93fc467af74ff4bbaedabc30e583c694, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PlasmidComparative.vb"
 
     ' Author:
     ' 

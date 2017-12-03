@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb9194aefc7dcc5d6cb3f8613458627f, ..\CLI_tools\MEME\Cli\Views + Stats\Regulations.vb"
+﻿#Region "Microsoft.VisualBasic::62a8b00d542db00f13eb57674c9e0c34, ..\GCModeller\CLI_tools\MEME\Cli\Views + Stats\Regulations.vb"
 
     ' Author:
     ' 

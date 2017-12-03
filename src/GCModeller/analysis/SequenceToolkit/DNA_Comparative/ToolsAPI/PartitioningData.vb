@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::949c17c91b6253d64f2c06cc31dec32e, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PartitioningData.vb"
+﻿#Region "Microsoft.VisualBasic::9d545f8244c1f77a454d6e32a3766833, ..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PartitioningData.vb"
 
     ' Author:
     ' 

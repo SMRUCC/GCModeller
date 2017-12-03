@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43d6740a0b88596b6e1b0d4c700aa2c6, ..\CLI_tools\MEME\Cli\MEME.vb"
+﻿#Region "Microsoft.VisualBasic::86c01daee8c3d3bc9c24660aaaa8c6dd, ..\GCModeller\CLI_tools\MEME\Cli\MEME.vb"
 
     ' Author:
     ' 

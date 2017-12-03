@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1b89bb8391a7924a3dc126f7d5e85ce, ..\interops\visualize\Circos\Circos.Extensions\Project\Project.vb"
+﻿#Region "Microsoft.VisualBasic::802b3d16866f900175cabc7d8cd21a81, ..\interops\visualize\Circos\Circos.Extensions\Project\Project.vb"
 
     ' Author:
     ' 
@@ -29,4 +29,3 @@
 Public Class Project
 
 End Class
-

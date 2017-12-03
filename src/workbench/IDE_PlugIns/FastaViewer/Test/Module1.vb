@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::679b8dd52ec01d5649e4f1701b0a3895, ..\workbench\IDE_PlugIns\FastaViewer\Test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::059c50380b6a96d91f8ab02c98ecfe48, ..\workbench\IDE_PlugIns\FastaViewer\Test\Module1.vb"
 
     ' Author:
     ' 
@@ -38,4 +38,3 @@ Module Module1
         Call New FastaViewer.FormViwer().ShowDialog()
     End Sub
 End Module
-

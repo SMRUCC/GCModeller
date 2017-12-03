@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0924b3d9761e27273458369d766f40bf, ..\GCModeller\data\Xfam\Pfam\MPAlignment\Algorithm\DomainEquals.vb"
+﻿#Region "Microsoft.VisualBasic::367943cafefa600f6c3b1652773c6020, ..\GCModeller\data\Xfam\Pfam\MPAlignment\Algorithm\DomainEquals.vb"
 
     ' Author:
     ' 

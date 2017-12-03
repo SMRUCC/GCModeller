@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::acc93205f22754f9a126e1b6a2600365, ..\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GenbankExportInfo.vb"
+﻿#Region "Microsoft.VisualBasic::acc93205f22754f9a126e1b6a2600365, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GenbankExportInfo.vb"
 
     ' Author:
     ' 

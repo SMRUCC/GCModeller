@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35bce5304245eb80643d45aced88b749, ..\workbench\d3js\d3svg\Test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::8ad065048aa531f06fe2fae913c8b8ad, ..\workbench\d3js\d3svg\Test\Program.vb"
 
     ' Author:
     ' 
@@ -57,4 +57,3 @@ Module Program
                               "F:\GCModeller.Workbench\d3js\d3svg\data\example_svg.png", format:=Microsoft.VisualBasic.Imaging.ImageFormats.Jpeg)
     End Sub
 End Module
-

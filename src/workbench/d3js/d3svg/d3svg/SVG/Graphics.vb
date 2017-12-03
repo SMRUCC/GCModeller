@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a59b49e06af226c0cecacf26d088c82, ..\workbench\d3js\d3svg\d3svg\SVG\Graphics.vb"
+﻿#Region "Microsoft.VisualBasic::f480cd53d8d5526eb84d988bbc179690, ..\workbench\d3js\d3svg\d3svg\SVG\Graphics.vb"
 
     ' Author:
     ' 
@@ -1029,4 +1029,3 @@ Public Class Graphics : Inherits IGraphics
         Throw New NotImplementedException()
     End Function
 End Class
-

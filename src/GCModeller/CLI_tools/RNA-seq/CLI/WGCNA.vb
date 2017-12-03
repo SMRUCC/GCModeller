@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::935d7c995a2597f1ee17ef7b55b27e68, ..\CLI_tools\RNA-seq\CLI\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::935d7c995a2597f1ee17ef7b55b27e68, ..\GCModeller\CLI_tools\RNA-seq\CLI\WGCNA.vb"
 
     ' Author:
     ' 

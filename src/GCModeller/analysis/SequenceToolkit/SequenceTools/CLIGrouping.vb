@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::167b0c69950395c453a444abc237173d, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLIGrouping.vb"
+﻿#Region "Microsoft.VisualBasic::72c874c9264b4b2078cf171a3fff8503, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLIGrouping.vb"
 
     ' Author:
     ' 
@@ -47,4 +47,3 @@ Public Class CLIGrouping
     Public Const DNA_ComparativeTools As String = "DNA_Comparative tools"
 
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3d29bc98b6a93efb66ea5e5861c02ff, ..\core\Bio.Assembly\Assembly\MiST2\WebHandler.vb"
+﻿#Region "Microsoft.VisualBasic::66e5bff75890f257f507040f66d7b4e9, ..\GCModeller\core\Bio.Assembly\Assembly\MiST2\WebHandler.vb"
 
     ' Author:
     ' 

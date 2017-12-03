@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7076359cb2430de4f3d8ccff21b38945, ..\workbench\devenv\Controls\LabelButton.vb"
+﻿#Region "Microsoft.VisualBasic::c78387c86ff4f60a20fd614d77ac0977, ..\workbench\devenv\Controls\LabelButton.vb"
 
     ' Author:
     ' 
@@ -66,4 +66,3 @@ Public Class LabelButton
             .Active = My.Resources.LabelButtonPrelight}
     End Sub
 End Class
-

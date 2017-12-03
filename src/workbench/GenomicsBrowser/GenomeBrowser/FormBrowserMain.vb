@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cca0df4a251224cd07efb0cddd5ce27d, ..\workbench\GenomicsBrowser\GenomeBrowser\FormBrowserMain.vb"
+﻿#Region "Microsoft.VisualBasic::fa42f6a0d387a5d4a4e99a9503f76563, ..\workbench\GenomicsBrowser\GenomeBrowser\FormBrowserMain.vb"
 
     ' Author:
     ' 
@@ -61,4 +61,3 @@ Public Class FormBrowserMain
         End Using
     End Sub
 End Class
-

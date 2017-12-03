@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8d26d553ed4794a63e7d257d5dc89bb, ..\core\Bio.Assembly\ContextModel\Algorithm\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::f8d26d553ed4794a63e7d257d5dc89bb, ..\GCModeller\core\Bio.Assembly\ContextModel\Algorithm\Operon.vb"
 
     ' Author:
     ' 

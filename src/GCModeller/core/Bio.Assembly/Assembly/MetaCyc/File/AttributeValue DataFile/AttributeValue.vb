@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f35789e0e89e9c3dc550e1f1d2cc162, ..\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\AttributeValue.vb"
+﻿#Region "Microsoft.VisualBasic::24bddf01eb9b3c137a9afd0588de1023, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\AttributeValue.vb"
 
     ' Author:
     ' 

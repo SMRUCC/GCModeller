@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b5438fc7d1d551a53cb9af04740df06, ..\core\Bio.Assembly\Assembly\KEGG\Medical\DrugGroup.vb"
+﻿#Region "Microsoft.VisualBasic::7ecbe89e31b9a096d942a914ea1fabcd, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\DrugGroup.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel

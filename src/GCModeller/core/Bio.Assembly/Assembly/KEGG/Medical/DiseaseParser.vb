@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80d7cf11f16a9a297662960d6bb251cf, ..\core\Bio.Assembly\Assembly\KEGG\Medical\DiseaseParser.vb"
+﻿#Region "Microsoft.VisualBasic::d61605d708499cb04f4fc5bc34493334, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\DiseaseParser.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject

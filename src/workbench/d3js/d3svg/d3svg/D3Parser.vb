@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ac6caa139f4fb4ce64d588279b8d5de, ..\workbench\d3js\d3svg\d3svg\D3Parser.vb"
+﻿#Region "Microsoft.VisualBasic::2003cc8e88dffce13caf38df35802979, ..\workbench\d3js\d3svg\d3svg\D3Parser.vb"
 
     ' Author:
     ' 
@@ -59,4 +59,3 @@ Public MustInherit Class D3Parser
     Protected MustOverride Function __css(html As String) As String
     Protected MustOverride Function __svgNode(html As String) As String
 End Class
-

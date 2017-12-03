@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::080d33af9f4972584902823e27cf5754, ..\GCModeller\data\Xfam\Pfam\Analysis\DomainParser.vb"
+﻿#Region "Microsoft.VisualBasic::dd8ff9a2a730cabd6ec417aed8a24aa3, ..\GCModeller\data\Xfam\Pfam\Analysis\DomainParser.vb"
 
     ' Author:
     ' 

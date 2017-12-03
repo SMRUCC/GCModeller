@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1dcc072b1ce4d52b3b97f14fc0927d08, ..\CLI_tools\c2\Reconstruction\Genome\Promoter\RegulonDBPromoter.vb"
+﻿#Region "Microsoft.VisualBasic::1dcc072b1ce4d52b3b97f14fc0927d08, ..\GCModeller\CLI_tools\c2\Reconstruction\Genome\Promoter\RegulonDBPromoter.vb"
 
     ' Author:
     ' 

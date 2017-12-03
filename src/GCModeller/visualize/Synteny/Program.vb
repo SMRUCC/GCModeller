@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e06210273e720553f60262bc083593c1, ..\visualize\Synteny\Program.vb"
+﻿#Region "Microsoft.VisualBasic::e06210273e720553f60262bc083593c1, ..\GCModeller\visualize\Synteny\Program.vb"
 
     ' Author:
     ' 

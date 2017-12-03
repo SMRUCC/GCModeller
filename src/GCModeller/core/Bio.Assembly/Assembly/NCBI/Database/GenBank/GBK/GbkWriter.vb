@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::951300fc1d91dbf8d5db2d223a067d12, ..\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
+﻿#Region "Microsoft.VisualBasic::d1c4d808ccd8a9b16b1d210e27f7e4fb, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
 
     ' Author:
     ' 

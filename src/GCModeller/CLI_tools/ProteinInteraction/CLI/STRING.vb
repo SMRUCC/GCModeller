@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a92898b364682b025f2dab5366b10f91, ..\CLI_tools\ProteinInteraction\CLI\STRING.vb"
+﻿#Region "Microsoft.VisualBasic::c0cb273ac21d77f8984642f3083f8076, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\STRING.vb"
 
     ' Author:
     ' 

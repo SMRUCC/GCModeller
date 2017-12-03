@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::96dc85d27d4f7c251f347bfda9cd1df6, ..\workbench\devenv\IDEInstance.vb"
+﻿#Region "Microsoft.VisualBasic::6dd245a2bf3e4c38167da092e191056a, ..\workbench\devenv\IDEInstance.vb"
 
     ' Author:
     ' 
@@ -25,7 +25,6 @@
     ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
-
 
 ''' <summary>
 ''' 本对象是传递进入插件模块之中的用于存储本IDE程序内所有对外开放的对象的容器
@@ -61,4 +60,3 @@ Public Class IDEInstance
         Call Program.IDEStatueText(s, Color)
     End Sub
 End Class
-

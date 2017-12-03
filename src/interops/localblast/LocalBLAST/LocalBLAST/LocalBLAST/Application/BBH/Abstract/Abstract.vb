@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7865cf369c249c1b7619148419c23ac, ..\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::631d9dbc8f80f18e45d634228bba6c4b, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
 
     ' Author:
     ' 
@@ -121,4 +121,3 @@ Namespace LocalBLAST.Application.BBH.Abstract
         End Function
     End Class
 End Namespace
-

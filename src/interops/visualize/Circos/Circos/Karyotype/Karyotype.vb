@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d5029a8ef96504ba8e64305bf592426, ..\interops\visualize\Circos\Circos\Karyotype\Karyotype.vb"
+﻿#Region "Microsoft.VisualBasic::085946951c52a692e6791a8074dd5d59, ..\interops\visualize\Circos\Circos\Karyotype\Karyotype.vb"
 
     ' Author:
     ' 

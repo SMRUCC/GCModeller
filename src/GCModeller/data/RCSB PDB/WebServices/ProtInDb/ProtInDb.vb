@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5efd454b5bb47b66e6401e0bcad141cc, ..\GCModeller\data\RCSB PDB\WebServices\ProtInDb\ProtInDb.vb"
+﻿#Region "Microsoft.VisualBasic::381bfa005cfd25e2d13fe14c9d247b43, ..\GCModeller\data\RCSB PDB\WebServices\ProtInDb\ProtInDb.vb"
 
     ' Author:
     ' 

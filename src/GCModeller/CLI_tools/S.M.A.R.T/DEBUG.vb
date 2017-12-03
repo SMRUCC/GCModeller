@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b7e403e0408633ea81dd3466213a15a, ..\CLI_tools\S.M.A.R.T\DEBUG.vb"
+﻿#Region "Microsoft.VisualBasic::9b7e403e0408633ea81dd3466213a15a, ..\GCModeller\CLI_tools\S.M.A.R.T\DEBUG.vb"
 
     ' Author:
     ' 

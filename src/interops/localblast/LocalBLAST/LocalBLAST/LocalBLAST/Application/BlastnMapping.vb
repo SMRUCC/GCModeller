@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fc1598a381d7920beea8dfdca32cafa, ..\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BlastnMapping.vb"
+﻿#Region "Microsoft.VisualBasic::1fc1598a381d7920beea8dfdca32cafa, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BlastnMapping.vb"
 
     ' Author:
     ' 

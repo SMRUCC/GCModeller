@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99f1fa86cbe0848d5342f5d253fa7258, ..\workbench\ReportBuilder\EMailMsg.vb"
+﻿#Region "Microsoft.VisualBasic::67552911f65ee2c416346ab5aa13513b, ..\workbench\ReportBuilder\EMailMsg.vb"
 
     ' Author:
     ' 
@@ -42,4 +42,3 @@ Public Module EMailMsg
         Return html.ToString
     End Function
 End Module
-

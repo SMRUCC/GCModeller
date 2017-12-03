@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b24305501b610cf8746c581647cb741, ..\CLI_tools\c2\CommandLines\MEME_Workflows.vb"
+﻿#Region "Microsoft.VisualBasic::8b24305501b610cf8746c581647cb741, ..\GCModeller\CLI_tools\c2\CommandLines\MEME_Workflows.vb"
 
     ' Author:
     ' 
