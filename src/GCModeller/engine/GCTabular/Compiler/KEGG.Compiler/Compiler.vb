@@ -41,6 +41,7 @@ Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.ComponentModels
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Model.Network.STRING.Models
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.Model.SBML
 Imports LogClient = Microsoft.VisualBasic.ApplicationServices.Debugging.Logging.LogFile
