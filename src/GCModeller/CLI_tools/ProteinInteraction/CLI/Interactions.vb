@@ -56,7 +56,7 @@ Partial Module CLI
     <ExportAPI("--predicts.TCS", Usage:="--predicts.TCS /pfam <pfam-string.csv> /prot <prot.fasta> /Db <interaction.xml>")>
     Public Function Predicts(args As CommandLine) As Integer
         Dim Interactions = args("/db").LoadXml(Of Category())
-        Dim predictSource = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
+        Dim predictSource = (args <= "/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim prot = FastaFile.Read(args("/prot")).ToDictionary(Function(x) x.Attributes.First.Split.First.Split(":"c).Last)
         Dim clustal As ClustalOrg.Clustal = ClustalOrg.Clustal.CreateSession
         Dim LQuery = (From predictsX As Pfam.PfamString.PfamString
@@ -66,7 +66,7 @@ Partial Module CLI
         Dim setValue = New SetValue(Of Pfam.PfamString.PfamString) <=
             NameOf(Pfam.PfamString.PfamString.Description)
         Dim out = LQuery.Select(Function(x) setValue(x.predictsX, CStr(x.score)))
-        Return out.SaveTo(args("/pfam").TrimSuffix & ".Interactions.csv")
+        Return out.SaveTo((args <= "/pfam").TrimSuffix & ".Interactions.csv")
     End Function
 
     Private Function __getScore(predict As Pfam.PfamString.PfamString,
@@ -164,7 +164,7 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("--Db.From.Exists", Usage:="--Db.From.Exists /aln <clustal-aln.DIR> /pfam <pfam-string.csv>")>
     Public Function DbMergeFromExists(args As CommandLine) As Integer
-        Dim inPfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
+        Dim inPfam = (args <= "/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim LoadFasta = (From file As String
                          In FileIO.FileSystem.GetFiles(args("/aln"), FileIO.SearchOption.SearchTopLevelOnly, "*.fasta").AsParallel
                          Select FastaFile.Read(file)).Select(Function(x) x.ToDictionary(Function(xx) xx.Title.Split.First.Split(":"c).Last)).ToArray
@@ -181,7 +181,7 @@ Partial Module CLI
         Dim list = (From fm As Family.FileSystem.Family
                     In Categories.AsParallel
                     Select __getCategory(fm, LoadFasta)).ToArray
-        Return list.GetXml.SaveTo(args("/pfam").TrimSuffix & ".PfamMPAln.xml").CLICode
+        Return list.GetXml.SaveTo((args <= "/pfam").TrimSuffix & ".PfamMPAln.xml").CLICode
     End Function
 
     Private Function __getCategory(fm As Family.FileSystem.Family, loadFasta As Dictionary(Of String, SequenceModel.FASTA.FastaToken)()) As Category
@@ -209,7 +209,7 @@ Partial Module CLI
         Dim SRChain As SRChain() = SR.FromAlign(aln, pCut)
         Dim sig = SRChain.Select(Function(x) Signature.CreateObject(x.lstSR, ""))
         Dim fa As New SequenceModel.FASTA.FastaFile(sig)
-        Return fa.Save(args("/in").TrimSuffix & "Signatures.fasta")
+        Return fa.Save((args <= "/in").TrimSuffix & "Signatures.fasta")
     End Function
 
     ''' <summary>
@@ -245,7 +245,7 @@ Partial Module CLI
 
     <ExportAPI("--domain.Interactions", Usage:="--domain.Interactions /pfam <pfam-string.csv> /swissTCS <swissTCS.DIR>")>
     Public Function DomainInteractions(args As CommandLine) As Integer
-        Dim inPfam = args("/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
+        Dim inPfam = (args <= "/pfam").LoadCsv(Of Pfam.PfamString.PfamString)
         Dim LQuery = (From x As Pfam.PfamString.PfamString
                       In inPfam.AsParallel
                       Let order As String = (From id As ProteinModel.DomainObject
@@ -293,7 +293,7 @@ Partial Module CLI
             Call list.Add(Category.CreateObject(fm, rp, alignments))
         Next
 
-        Return list.ToArray.GetXml.SaveTo(args("/pfam").TrimSuffix & ".PfamMPAln.xml").CLICode
+        Return list.ToArray.GetXml.SaveTo((args <= "/pfam").TrimSuffix & ".PfamMPAln.xml").CLICode
     End Function
 
     Public Class Category : Inherits Family.FileSystem.Family
@@ -405,12 +405,12 @@ Partial Module CLI
 
     <ExportAPI("--align.LDM", Usage:="--align.LDM /in <source.fasta>")>
     Public Function GenerateModel(args As CommandLine) As Integer
-        Dim input = args("/in")
+        Dim input$ = args("/in")
         Dim clustal = ClustalOrg.Clustal.CreateSession
         Dim align = clustal.MultipleAlignment(input)
         Dim SRChain As SRChain() = SR.FromAlign(align, 0.85)
         Dim Name As String = BaseName(args("/in"))
-        Dim file As String = args("/in").TrimSuffix & ".Pfam-String.csv"
+        Dim file As String = input$.TrimSuffix & ".Pfam-String.csv"
         ' Call SRChain.SaveTo(args("/in").TrimFileExt & ".Blocks.csv")
         Call SRChain.Select(Function(x) x.ToPfamString()).SaveTo(file)
         Return 0

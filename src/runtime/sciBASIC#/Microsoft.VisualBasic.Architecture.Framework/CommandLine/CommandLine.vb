@@ -134,6 +134,7 @@ Namespace CommandLine
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property CLICommandArgvs As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return _CLICommandArgvs
             End Get
@@ -146,7 +147,7 @@ Namespace CommandLine
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Default Public ReadOnly Property Item(paramName As String) As DefaultValue(Of String)
+        Default Public ReadOnly Property Item(paramName As String) As DefaultString
             Get
                 Dim LQuery As NamedValue(Of String) =
                     __arguments _
@@ -167,14 +168,9 @@ Namespace CommandLine
                     value = value.Interpolate(__envir, escape:=False)
                 End If
 
-                Return value.AsDefault(AddressOf assertIsNothing)
+                Return New DefaultString(value)
             End Get
         End Property
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Shared Function assertIsNothing(o As Object) As Boolean
-            Return o Is Nothing OrElse String.IsNullOrEmpty(DirectCast(o, String))
-        End Function
 
         ReadOnly __envir As Func(Of String, String) = AddressOf App.GetVariable
 

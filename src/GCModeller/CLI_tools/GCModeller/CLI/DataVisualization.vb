@@ -81,7 +81,7 @@ Partial Module CLI
         Dim blastOut As String = args("/blast_out")
         Dim outLog = BlastPlus.Parser.TryParse(blastOut)
         Dim MAT = SelfOverviewsGendist(outLog)
-        Dim path As String = args("/blast_out").TrimSuffix & "Gendist.txt"
+        Dim path As String = blastOut.TrimSuffix & "Gendist.txt"
         Call MAT.GenerateDocument.SaveTo(path)
         Return MAT.lstID.SaveTo(path.TrimSuffix & ".lstID.csv")
     End Function
@@ -99,7 +99,7 @@ Partial Module CLI
     <ExportAPI("--Get.Subset.lstID", Usage:="--Get.Subset.lstID /subset <lstID.txt> /lstID <lstID.csv>")>
     Public Function GetSubsetID(args As CommandLine) As Integer
         Dim subset As String() = IO.File.ReadAllLines(args("/subset"))
-        Dim lstID = args("/lstID").LoadCsv(Of KeyValuePair)
+        Dim lstID = (args <= "/lstID").LoadCsv(Of KeyValuePair)
         Dim LQuery As String() = LinqAPI.Exec(Of String) <=
  _
             From sId As String
@@ -111,7 +111,7 @@ Partial Module CLI
             Where Not String.IsNullOrEmpty(getID)
             Select getID
 
-        Dim path As String = args("/subset").TrimSuffix & ".lstID.txt"
+        Dim path As String = (args <= "/subset").TrimSuffix & ".lstID.txt"
         Return LQuery.FlushAllLines(path, Encodings.ASCII).CLICode
     End Function
 
