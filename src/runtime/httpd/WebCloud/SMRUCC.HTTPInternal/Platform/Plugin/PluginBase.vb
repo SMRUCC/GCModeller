@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f15ed3d1ea25945dc284bf28cd47d5cd, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\Plugin\PluginBase.vb"
+﻿#Region "Microsoft.VisualBasic::ca888e8bb2e02f1a7feb80433c7698cd, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\Plugin\PluginBase.vb"
 
     ' Author:
     ' 
