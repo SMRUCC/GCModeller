@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2eaebb7351ac282f111cdceab3ee9d3c, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\DataFrameAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5da10561ee14841eaf3e607fd5cb98fd, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\Serialization\DataFrameAPI.vb"
 
     ' Author:
     ' 
