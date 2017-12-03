@@ -703,6 +703,7 @@
     <Compile Include="Extensions\Reflection\Parameters\ParamLogUtility.vb" />
     <Compile Include="Extensions\WebServices\HttpGet.vb" />
     <Compile Include="Language\Value\DefaultValue\DefaultString.vb" />
+    <Compile Include="Language\Value\DefaultValue\DefaultExtensions.vb" />
     <Compile Include="Scripting\Expressions\Aggregate.vb" />
     <Compile Include="Serialization\Abstract.vb" />
     <Compile Include="Text\StringSimilarity\IEqualityComparer.vb" />

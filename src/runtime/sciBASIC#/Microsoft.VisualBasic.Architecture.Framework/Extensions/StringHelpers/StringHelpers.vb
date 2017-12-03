@@ -54,6 +54,11 @@ Public Module StringHelpers
         Return New StringBuilder(s)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function IgnoreCase(flag As Boolean) As CompareMethod
+        Return If(flag, CompareMethod.Text, CompareMethod.Binary)
+    End Function
+
     ''' <summary>
     ''' Using <see cref="[String].Empty"/> as default value
     ''' </summary>
