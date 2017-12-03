@@ -59,6 +59,18 @@ Public Module Extensions
         Call __initStreamIO_pointer()
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function LoadCsv(Of T As Class)(path As DefaultString) As List(Of T)
+        Return path.DefaultValue.LoadCsv(Of T)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function LoadTsv(Of T As Class)(path As DefaultString) As T()
+        Return path.DefaultValue.LoadTsv(Of T)
+    End Function
+
     ''' <summary>
     ''' Anonymous type data reader helper.(System.MissingMethodException occurred
     '''  HResult=0x80131513
