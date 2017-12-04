@@ -57,7 +57,20 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         <Extension>
         Public Function GetBacteriaList(resource As htext) As Taxonomy()
-            Throw New NotImplementedException
+            Dim bacteriaAll As BriteHText = resource _
+                .Hierarchical _
+                .CategoryItems _
+                .Select("Prokaryotes\s+\(\d+\)") _
+                .First _
+                .CategoryItems _
+                .Select("Bacteria\s+\(\d+\)") _
+                .First
+            Dim table = bacteriaAll _
+                .EnumerateEntries _
+                .Where(AddressOf IsSpeciesLevel) _
+                .FillTaxonomyTable
+
+            Return table
         End Function
 
         <Extension>
