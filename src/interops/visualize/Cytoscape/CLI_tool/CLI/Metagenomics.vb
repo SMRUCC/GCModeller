@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::7af52f23cc41cfdb83dd6c87f3b94ef0, ..\interops\visualize\Cytoscape\CLI_tool\CLI\Metagenomics.vb"
+﻿#Region "Microsoft.VisualBasic::9209dadb2802267f2a24a994d0d3fab4, ..\interops\visualize\Cytoscape\CLI_tool\CLI\Metagenomics.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
@@ -141,7 +142,7 @@ Partial Module CLI
                Info:="Converts a generic distance matrix or kmeans clustering result to network model.",
                Usage:="/Matrix.NET /in <kmeans-out.csv> [/out <net.DIR> /generic /colors <clusters> /cutoff 0 /cutoff.paired]")>
     <Group(CLIGrouping.Metagenomics)>
-    <Argument("/in", AcceptTypes:={GetType(EntityLDM), GetType(DataSet)})>
+    <Argument("/in", AcceptTypes:={GetType(EntityClusterModel), GetType(DataSet)})>
     <Argument("/generic", True, CLITypes.Boolean,
               AcceptTypes:={GetType(Boolean)},
               Description:="If this argument parameter was presents, then the ""/in"" input data is a generic matrix(DataSet) type, otherwise is a kmeans output result csv file.")>
@@ -149,12 +150,12 @@ Partial Module CLI
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".network/")
         Dim colors$ = args.GetValue("/colors", "clusters")
-        Dim data As EntityLDM()
+        Dim data As EntityClusterModel()
 
         If args.GetBoolean("/generic") Then
             data = DataSet.LoadDataSet(inFile).ToKMeansModels
         Else
-            data = inFile.LoadCsv(Of EntityLDM)
+            data = inFile.LoadCsv(Of EntityClusterModel)
         End If
 
         Dim cutoff As Double = args.GetDouble("/cutoff")

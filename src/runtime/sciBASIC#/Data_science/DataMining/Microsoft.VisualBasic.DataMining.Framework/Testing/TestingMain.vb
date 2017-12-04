@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13bb62e53c66c6f324f57420a816b0cf, ..\sciBASIC#\Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\Testing\TestingMain.vb"
+﻿#Region "Microsoft.VisualBasic::8596537a0ea4f46d1daec5553cfbfab2, ..\sciBASIC#\Data_science\DataMining\Microsoft.VisualBasic.DataMining.Framework\Testing\TestingMain.vb"
 
     ' Author:
     ' 
@@ -208,7 +208,7 @@ Module TestingMain
 
         Call datad.SaveTo("./Bezier.csv")
 
-        Dim DFT = New Microsoft.VisualBasic.DataMining.TFftAlgorithm(datad)
+        Dim DFT = New Microsoft.VisualBasic.Math.TFftAlgorithm(datad)
         '   Call MAT(1).SerialsData.SaveTo("./vec.csv")
 
         Call DFT.FourierTransformation()
@@ -221,7 +221,7 @@ Module TestingMain
         Call DFT.y.SaveTo("./dft.y.csv")
 
 
-        Call Microsoft.VisualBasic.DataMining.WaveletTransform.FWT(datad)
+        Call Microsoft.VisualBasic.Math.WaveletTransform.FWT(datad)
         Call datad.SaveTo("./wat.csv")
 
         Dim Factors = New List(Of Microsoft.VisualBasic.DataMining.DFL_Driver.I_FactorElement)

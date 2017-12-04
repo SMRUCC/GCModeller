@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d7f10528e47fd3ed6d8422def08c43f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Math\Math.vb"
+﻿#Region "Microsoft.VisualBasic::d25f92a23643a1dded031e2fe2cb83cc, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Math\Math.vb"
 
     ' Author:
     ' 
@@ -139,19 +139,13 @@ Namespace Math
                 Return val2
             End If
         End Function
-        '
-        ' Summary:
-        '     Returns the larger of two 64-bit unsigned integers.
-        '
-        ' Parameters:
-        '   val1:
-        '     The first of two 64-bit unsigned integers to compare.
-        '
-        '   val2:
-        '     The second of two 64-bit unsigned integers to compare.
-        '
-        ' Returns:
-        '     Parameter val1 or val2, whichever is larger.
+
+        ''' <summary>
+        ''' Returns the larger of two 64-bit unsigned integers.
+        ''' </summary>
+        ''' <param name="val1">The first of two 64-bit unsigned integers to compare.</param>
+        ''' <param name="val2">The second of two 64-bit unsigned integers to compare.</param>
+        ''' <returns>Parameter val1 or val2, whichever is larger.</returns>
         <CLSCompliant(False)> <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Max(val1 As ULong, val2 As ULong) As ULong
@@ -161,19 +155,13 @@ Namespace Math
                 Return val2
             End If
         End Function
-        '
-        ' Summary:
-        '     Returns the larger of two 64-bit signed integers.
-        '
-        ' Parameters:
-        '   val1:
-        '     The first of two 64-bit signed integers to compare.
-        '
-        '   val2:
-        '     The second of two 64-bit signed integers to compare.
-        '
-        ' Returns:
-        '     Parameter val1 or val2, whichever is larger.
+
+        ''' <summary>
+        ''' Returns the larger of two 64-bit signed integers.
+        ''' </summary>
+        ''' <param name="val1">The first of two 64-bit signed integers to compare.</param>
+        ''' <param name="val2">The second of two 64-bit signed integers to compare.</param>
+        ''' <returns>Parameter val1 or val2, whichever is larger.</returns>
         <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Max(val1 As Long, val2 As Long) As Long
@@ -183,19 +171,13 @@ Namespace Math
                 Return val2
             End If
         End Function
-        '
-        ' Summary:
-        '     Returns the larger of two 32-bit unsigned integers.
-        '
-        ' Parameters:
-        '   val1:
-        '     The first of two 32-bit unsigned integers to compare.
-        '
-        '   val2:
-        '     The second of two 32-bit unsigned integers to compare.
-        '
-        ' Returns:
-        '     Parameter val1 or val2, whichever is larger.
+
+        ''' <summary>
+        ''' Returns the larger of two 32-bit unsigned integers.
+        ''' </summary>
+        ''' <param name="val1">The first of two 32-bit unsigned integers to compare.</param>
+        ''' <param name="val2">The second of two 32-bit unsigned integers to compare.</param>
+        ''' <returns>Parameter val1 or val2, whichever is larger.</returns>
         <CLSCompliant(False)> <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Max(val1 As UInteger, val2 As UInteger) As UInteger
@@ -748,17 +730,15 @@ Namespace Math
                 Return 0
             End If
         End Function
-        '
-        ' Summary:
-        '     Returns the absolute value of a single-precision floating-point number.
-        '
-        ' Parameters:
-        '   value:
-        '     A number that is greater than or equal to System.Single.MinValue, but less than
-        '     or equal to System.Single.MaxValue.
-        '
-        ' Returns:
-        '     A single-precision floating-point number, x, such that 0 ≤ x ≤System.Single.MaxValue.
+
+        ''' <summary>
+        ''' Returns the absolute value of a single-precision floating-point number.
+        ''' </summary>
+        ''' <param name="value">A number that is greater than or equal to System.Single.MinValue, but less than
+        ''' or equal to System.Single.MaxValue.</param>
+        ''' <returns>
+        ''' A single-precision floating-point number, x, such that 0 ≤ x ≤System.Single.MaxValue.
+        ''' </returns>
         <SecuritySafeCritical>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Abs(value As Single) As Single
@@ -768,21 +748,14 @@ Namespace Math
                 Return value
             End If
         End Function
-        '
-        ' Summary:
-        '     Returns the absolute value of a 64-bit signed integer.
-        '
-        ' Parameters:
-        '   value:
-        '     A number that is greater than System.Int64.MinValue, but less than or equal to
-        '     System.Int64.MaxValue.
-        '
-        ' Returns:
-        '     A 64-bit signed integer, x, such that 0 ≤ x ≤System.Int64.MaxValue.
-        '
-        ' Exceptions:
-        '   T:System.OverflowException:
-        '     value equals System.Int64.MinValue.
+
+        ''' <summary>
+        ''' Returns the absolute value of a 64-bit signed integer.
+        ''' </summary>
+        ''' <param name="value">
+        ''' A number that is greater than System.Int64.MinValue, but less than or equal to
+        ''' System.Int64.MaxValue.</param>
+        ''' <returns>A 64-bit signed integer, x, such that 0 ≤ x ≤System.Int64.MaxValue.</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Abs(value As Long) As Long
             If value < 0 Then
@@ -791,21 +764,15 @@ Namespace Math
                 Return value
             End If
         End Function
-        '
-        ' Summary:
-        '     Returns the absolute value of a 32-bit signed integer.
-        '
-        ' Parameters:
-        '   value:
-        '     A number that is greater than System.Int32.MinValue, but less than or equal to
-        '     System.Int32.MaxValue.
-        '
-        ' Returns:
-        '     A 32-bit signed integer, x, such that 0 ≤ x ≤System.Int32.MaxValue.
-        '
-        ' Exceptions:
-        '   T:System.OverflowException:
-        '     value equals System.Int32.MinValue.
+
+        ''' <summary>
+        ''' Returns the absolute value of a 32-bit signed integer.
+        ''' </summary>
+        ''' <param name="value">
+        ''' A number that is greater than System.Int32.MinValue, but less than or equal to
+        ''' System.Int32.MaxValue.
+        ''' </param>
+        ''' <returns>A 32-bit signed integer, x, such that 0 ≤ x ≤System.Int32.MaxValue.</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Abs(value As Integer) As Integer
             If value < 0 Then

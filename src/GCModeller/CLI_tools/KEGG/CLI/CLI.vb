@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bcaf45db28ad44a4ea864da0775fbfe9, ..\CLI_tools\KEGG\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::323b688b92fb35060955a6d2f67afe34, ..\GCModeller\CLI_tools\KEGG\CLI\CLI.vb"
 
 ' Author:
 ' 
@@ -28,6 +28,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
@@ -124,7 +125,7 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
                   Category:=APICategories.CLI_MAN,
                   Url:="http://www.kegg.jp/",
                   Description:="KEGG web services API tools.")>
-Module CLI
+<CLI> Module CLI
 
     <ExportAPI("/blastn", Usage:="/blastn /query <query.fasta> [/out <outDIR>]", Info:="Blastn analysis of your DNA sequence on KEGG server for the functional analysis.")>
     Public Function Blastn(args As CommandLine) As Integer
@@ -149,10 +150,12 @@ Module CLI
         Dim GBK As Boolean = args.GetBoolean("/gbk")
         Dim GeneList As String()
         Dim ExportedDir As String = args("-export")
+        Dim in$ = args <= "-i"
+
         If Not GBK Then
-            GeneList = args("-i").ReadAllLines()
+            GeneList = in$.ReadAllLines()
         Else
-            Dim gb = GBFF.File.Load(args("-i"))
+            Dim gb = GBFF.File.Load([in])
             GeneList = gb.GeneList.Select(Function(g) g.Name)
         End If
 
@@ -296,13 +299,13 @@ Module CLI
     <ExportAPI("-query.orthology", Usage:="-query.orthology -keyword <gene_name> -o <output_csv>")>
     Public Function QueryOrthology(argvs As CommandLine) As Integer
         Dim EntryList = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.HandleQuery(argvs("-keyword"))
-        Dim GeneEntries As List(Of QueryEntry) = New List(Of QueryEntry)
+        Dim GeneEntries As New List(Of QueryEntry)
 
         For Each EntryPoint As QueryEntry In EntryList
             Call GeneEntries.AddRange(SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.HandleDownload(EntryPoint.LocusId))
         Next
 
-        Call GeneEntries.SaveTo(argvs("-o"), False)
+        Call GeneEntries.SaveTo(argvs <= "-o", False)
 
         Return 0
     End Function
@@ -310,11 +313,6 @@ Module CLI
     Sub New()
         Call Settings.Session.Initialize()
     End Sub
-
-    <ExportAPI("--Export.KO")>
-    Public Function ExportKO(args As CommandLine) As Integer
-
-    End Function
 
     ''' <summary>
     ''' 从KEGG数据库之中读取数据到本地数据库之中

@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::d85fc9b2c304ad82676249bb66c09ac5, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::9bccf06c280c2376d5030d0580668965, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\HttpFileSystem.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,11 +32,12 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.FileIO.FileSystem
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Net.Protocols
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.WebCloud.HTTPInternal.Scripting
+Imports SMRUCC.WebCloud.HTTPInternal.Platform.Plugins
 
 Namespace Core
 
@@ -90,20 +91,15 @@ Namespace Core
 
             Call MyBase.New(port, threads)
 
-            If Not FileIO.FileSystem.DirectoryExists(root) Then
-                Call FileIO.FileSystem.CreateDirectory(root)
+            If Not root.DirectoryExists Then
+                Call root.MkDIR
             End If
 
             _nullAsExists = nullExists
             wwwroot = FileIO.FileSystem.GetDirectoryInfo(root)
-            FileIO.FileSystem.CurrentDirectory = root
+            App.CurrentDirectory = root
             _virtualMappings = New Dictionary(Of String, String)
-
-            If requestResource Is Nothing Then
-                RequestStream = AddressOf GetResource
-            Else
-                RequestStream = requestResource
-            End If
+            RequestStream = requestResource Or defaultResource
 
             If cache Then
                 _cache = CachedFile.CacheAllFiles(wwwroot.FullName)
@@ -137,7 +133,7 @@ Namespace Core
         End Sub
 
         ''' <summary>
-        ''' Maps the http request url as server file system path.
+        ''' Maps the http request url as server file system path.(这个函数返回Nothing的时候表示目标资源不存在)
         ''' </summary>
         ''' <param name="res"></param>
         ''' <returns></returns>
@@ -150,6 +146,8 @@ Namespace Core
                 If file.DirectoryExists Then
                     Dim index As String = file & "/index.html"
 
+                    ' 这是一个存在的文件夹，则返回该文件夹下面的index.html或者index.vbhtml
+
                     If index.FileExists Then
                         res = file
                         file = index
@@ -160,6 +158,10 @@ Namespace Core
                             file = index
                         End If
                     End If
+                ElseIf file.Last = "/"c OrElse file.Last = "\"c Then
+                    ' 这是一个不存在的文件夹
+                    ' 返回Nothing
+                    Return Nothing
                 End If
             End If
 
@@ -173,6 +175,8 @@ Namespace Core
         ''' </summary>
         Const NoData As String = "[ERR_EMPTY_RESPONSE::No data send]"
 
+        ReadOnly defaultResource As DefaultValue(Of IGetResource) = New IGetResource(AddressOf GetResource)
+
         ''' <summary>
         ''' 默认的资源获取函数:<see cref="HttpFileSystem.GetResource(ByRef String)"/>.(默认是获取文件数据)
         ''' </summary>
@@ -181,12 +185,22 @@ Namespace Core
         Public Function GetResource(ByRef res$) As Byte()
             Dim file$
 
+            ' 这个资源是一个网络路径，本地文件系统上面肯定是没有这个资源的，直接返回404
+            If InStr(res, "http://", CompareMethod.Text) > 0 OrElse InStr(res, "https://", CompareMethod.Text) > 0 Then
+                res = Nothing
+                Return {}
+            End If
+
             Try
                 file = MapPath(res)
                 res = file
+
+                ' 目标资源不存在，则什么数据也不返回
+                If file Is Nothing Then
+                    Return {}
+                End If
             Catch ex As Exception
-                ex = New Exception(res, ex)
-                Throw ex
+                Throw New Exception(res, ex)
             End Try
 
             If _cacheMode AndAlso _cache.ContainsKey(file) Then
@@ -194,9 +208,10 @@ Namespace Core
             End If
 
             If file.FileExists Then
+
                 ' 判断是否为vbhtml文件？
                 If file.ExtensionSuffix.TextEquals("vbhtml") Then
-                    Dim html$ = Scripting.ReadHTML(wwwroot.FullName, file)
+                    Dim html$ = ScriptingExtensions.ReadHTML(wwwroot.FullName, file)
                     Return Encoding.UTF8.GetBytes(html)
                 Else
                     Return IO.File.ReadAllBytes(file)
@@ -291,9 +306,22 @@ Namespace Core
             End If
         End Sub
 
-        Private Function __handleFileGET(res As String, p As HttpProcessor) As Boolean
-            Dim buf As Byte() = RequestStream(res) ' 由于子文件夹可能会是以/的方式请求index.html，所以在这里res的值可能会变化，文件拓展名放在变化之后再解析
-            Dim ext As String = GetFileInfo(res).Extension.ToLower
+        Private Function __handleFileGET(res$, p As HttpProcessor) As Boolean
+
+            ' 由于子文件夹可能会是以/的方式请求index.html，所以在这里res的值可能会变化，文件拓展名放在变化之后再解析
+            Dim buf As Byte() = RequestStream(res)
+
+            ' 假若目标请求是以/结尾的目录路径，并且该目录路径下的index.html并不存在
+            ' 那么使用默认的GetResource函数的话，会返回空值，则直接调用下面的
+            ' GetFileInfo函数就会报错，所以在这里要判断一下res字符串是否为空，
+            ' 尽量减少Throw Exception来提升服务器性能
+            If res.StringEmpty Then
+                Return False
+            End If
+
+            Dim ext$ = GetFileInfo(res) _
+                .Extension _
+                .ToLower
 
             If ext.TextEquals(".html") OrElse
                ext.TextEquals(".htm") OrElse

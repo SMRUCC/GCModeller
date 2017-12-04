@@ -1,4 +1,33 @@
-﻿Imports Microsoft.VisualBasic.CommandLine
+﻿#Region "Microsoft.VisualBasic::ba08a4c7eba61fd947e075c5de49dbb4, ..\GCModeller\CLI_tools\meta-assmebly\CLI\Difference.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Drawing
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
@@ -225,6 +254,33 @@ Partial Module CLI
 
         Return StackedBarPlot.Plot(
             data, size:=size, interval:=internal, YaxisTitle:="Relative abundance", columnCount:=columnCount, legendLabelFontCSS:=CSSFont.Win7LargerNormal) _
+            .Save(out) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/Relative_abundance.stacked.barplot")>
+    <Usage("/Relative_abundance.stacked.barplot /in <dataset.csv> [/group <sample_group.csv> /out <out.png>]")>
+    Public Function Relative_abundance_stackedbarplot(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim group$ = args <= "/group"
+        Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}.Relative_abundance.stacked.barplot.png".AsDefault
+        Dim data = BarPlotDataExtensions _
+            .LoadDataSet([in]) _
+            .Normalize
+        Dim classGroup As Dictionary(Of String, String) = Nothing
+
+        If group.FileExists Then
+            Dim sampleGroup = group.LoadCsv(Of SampleGroup).ToArray
+            Dim colors As Color() = Designer.GetColors("scibasic.category31()")
+
+            classGroup = sampleGroup _
+                .SampleGroupColor(colors) _
+                .ToDictionary(Function(map) map.Key,
+                              Function(map) map.Value.RGBExpression)
+        End If
+
+        Return HistStackedBarplot _
+            .Plot(data, sampleGroup:=classGroup) _
             .Save(out) _
             .CLICode
     End Function

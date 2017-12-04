@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b39c70fa92c43ce521d1a793150fa40, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\GDIColors.vb"
+﻿#Region "Microsoft.VisualBasic::f9e9670e884e1fbce585c4dd9b307df8, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Colors\GDIColors.vb"
 
     ' Author:
     ' 
@@ -32,6 +32,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 
 Namespace Imaging
 
@@ -70,6 +71,12 @@ Namespace Imaging
                 End With
             Next
             Return out
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function Alpha(c As Color, alphaValue%) As Color
+            Return Color.FromArgb(alphaValue, c.R, c.G, c.B)
         End Function
 
         <Extension>
@@ -290,8 +297,16 @@ Namespace Imaging
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function IsNullOrEmpty(Color As Color) As Boolean
             Return Color = Nothing OrElse Color.IsEmpty
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function AsDefaultColor(color As Color) As DefaultValue(Of Color)
+            Return color.AsDefault(Function(c) DirectCast(c, Color).IsNullOrEmpty)
         End Function
 
         ' 透明色

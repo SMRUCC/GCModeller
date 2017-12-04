@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5df2d2a3beca1cd18e9491ecc69e88e0, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\PWM.vb"
+﻿#Region "Microsoft.VisualBasic::5858a2982d0638982f40dfd6935dfc9b, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\PWM.vb"
 
     ' Author:
     ' 

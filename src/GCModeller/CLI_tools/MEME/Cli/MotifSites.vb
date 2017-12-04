@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ffb8f161858e6aff5d44effecbfa553, ..\CLI_tools\MEME\Cli\MotifSites.vb"
+﻿#Region "Microsoft.VisualBasic::035d4ac62341dd7e2e0d5ffc12a38b8d, ..\GCModeller\CLI_tools\MEME\Cli\MotifSites.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@ Partial Module CLI
 
     <ExportAPI("/MotifSites.Fasta", Usage:="/MotifSites.Fasta /in <mast_motifsites.csv> [/out <out.fasta>]")>
     Public Function MotifSites2Fasta(args As CommandLine) As Integer
-        Dim [in] = args("/in")
+        Dim in$ = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".fasta")
         Dim sites = [in].LoadCsv(Of MastSites)
         Dim fasta = sites.Select(

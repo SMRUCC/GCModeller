@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2e8b21719006992fe244e9a14f0484c0, ..\CLI_tools\MEME\Cli\Database.vb"
+﻿#Region "Microsoft.VisualBasic::52917d87bd429d0198f0dbe65ed39549, ..\GCModeller\CLI_tools\MEME\Cli\Database.vb"
 
     ' Author:
     ' 
@@ -28,6 +28,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Annotations.RegpreciseRegulations
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -53,15 +54,15 @@ Partial Module CLI
         Dim len As Integer = args.GetValue("/len", 100)
         Dim strict As Boolean = args.GetBoolean("/strict")
         Dim PTT As PTT = TabularFormat.PTT.Read(args("/ptt"))
-        Dim outDIR As String = args.GetValue("/o", args("/nt").TrimSuffix & $".intergenic.{len}bp.{If(strict, "strict", "")}.fasta")
+        Dim outDIR As String = args("/o") Or (args("/nt").TrimSuffix & $".intergenic.{len}bp.{If(strict, "strict", "")}.fasta")
         Dim NT As New FASTA.FastaToken(args("/nt"))
         Dim fa As FASTA.FastaFile =
             IntergenicSigma70.Sigma70Parser(NT, PTT, Length:=len, StrictOverlap:=strict)
         Return fa.Save(outDIR).CLICode
     End Function
 
-    <ExportAPI("/Export.Regprecise.Motifs", 
-               Info:="This commandline tool have no argument parameters.", 
+    <ExportAPI("/Export.Regprecise.Motifs",
+               Info:="This commandline tool have no argument parameters.",
                Usage:="/Export.Regprecise.Motifs")>
     <Group(CLIGrouping.DatabaseTools)>
     Public Function ExportRegpreciseMotifs(args As CommandLine) As Integer

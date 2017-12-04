@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::40ea7fe021774cb039ab5e9815f2db11, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ApplicationServices\VBDev\XmlDoc\ProjectMember.vb"
+﻿#Region "Microsoft.VisualBasic::b55834792f2d68294f7be4aa8d6a6806, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ApplicationServices\VBDev\XmlDoc\ProjectMember.vb"
 
     ' Author:
     ' 
@@ -29,6 +29,7 @@
 ' Copyright (c) Bendyline LLC. All rights reserved. Licensed under the Apache License, Version 2.0.
 '    You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0. 
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml
 Imports Microsoft.VisualBasic.ApplicationServices.Development.XmlDoc.Serialization
 Imports Microsoft.VisualBasic.Language
@@ -55,6 +56,7 @@ Namespace ApplicationServices.Development.XmlDoc.Assembly
         Public Property [Declare] As String
 
         Public ReadOnly Property Type() As ProjectType
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Me.projectType
             End Get
@@ -90,11 +92,15 @@ Namespace ApplicationServices.Development.XmlDoc.Assembly
 
             If Not ns Is Nothing Then
                 Dim args As New List(Of param)
+                Dim text$
 
                 For Each x As XmlNode In ns
+                    text = x.InnerText Or "-".AsDefault(Function()
+                                                            Return Strings.Trim(x.InnerText).IsNullOrEmpty
+                                                        End Function)
                     args += New param With {
                         .name = x.Attributes.GetNamedItem("name").InnerText,
-                        .text = If(Trim(x.InnerText).IsNullOrEmpty, "-", x.InnerText)
+                        .text = (text)
                     }
                 Next
 

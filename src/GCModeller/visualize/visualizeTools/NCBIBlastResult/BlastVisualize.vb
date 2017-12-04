@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::439397fdf80b3d9df6f581dfc36797de, ..\visualize\visualizeTools\NCBIBlastResult\BlastVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::46690d49351967023e5794878dedee07, ..\GCModeller\visualize\visualizeTools\NCBIBlastResult\BlastVisualize.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -570,16 +571,16 @@ CONTINUTE:
                           In alignment.Hits
                           Select hitData
                           Group By hitData.SubjectIDs Into Group).ToArray ' 为了保持原有的顺序，在这里不需要并行化拓展
-            Dim drawingFont As Font = New Font(FontFace.Ubuntu, FontSize)
-            Dim MaxIDLength As Size = spList _
+            Dim drawingFont As New Font(FontFace.Ubuntu, FontSize)
+            Dim MaxIDLength As SizeF = spList _
                 .MaxLengthString(Function(sp) sp.SubjectIDs) _
-                .MeasureString(drawingFont, ScaleFactor, ScaleFactor)
+                .MeasureSize(New Size(1, 1).CreateGDIDevice, drawingFont, (ScaleFactor, ScaleFactor))
             Dim MappingLength As Integer = queryLength * ConvertFactor
             Dim BlockSize As New Size(100, MaxIDLength.Height + 20)
             Dim dSize As New Size With {
                 .Width = (margin * 2 + MappingLength + MaxIDLength.Width) * ScaleFactor,
                 .Height = (If(AltIDAnnotation,
-                    ("0".MeasureString(drawingFont, ScaleFactor, ScaleFactor).Height + 3) * (spList.Length + 5), 0) + margin + spList.Length * (MaxIDLength.Height + 5) + 10 * (BlockSize.Height + 8)) * ScaleFactor
+                    ("0".MeasureSize(New Size(1, 1).CreateGDIDevice, drawingFont, (ScaleFactor, ScaleFactor)).Height + 3) * (spList.Length + 5), 0) + margin + spList.Length * (MaxIDLength.Height + 5) + 10 * (BlockSize.Height + 8)) * ScaleFactor
             }
             Dim X, Y As Integer
             Dim ColorSchema As RangeList(Of Double, NamedValue(Of Color))
@@ -788,15 +789,15 @@ CONTINUTE:
 
                 If Not QueryNT Is Nothing Then
                     Call device.DrawString("Window Size   =   " & GCSkew.WindowSize, drawingFont, Brushes.Black, New Point(X, Y))
-                    Call device.DrawString("Steps         =   " & GCSkew.Steps, drawingFont, Brushes.Black, New Point(X, Y + 10 + "0".MeasureString(drawingFont, ScaleFactor, ScaleFactor).Height))
+                    Call device.DrawString("Steps         =   " & GCSkew.Steps, drawingFont, Brushes.Black, New Point(X, Y + 10 + "0".MeasureSize(device, drawingFont, (ScaleFactor, ScaleFactor)).Height))
                 End If
 
                 Dim n As Integer
 
                 If AltIDAnnotation Then
 
-                    n = (IDannos.First.Value.MeasureString(drawingFont, ScaleFactor, ScaleFactor).Height + 2)
-                    X = device.Width - IDannos.MaxLengthString(Function(k) k.Value).MeasureString(drawingFont, ScaleFactor, ScaleFactor).Width * 3 - margin
+                    n = (IDannos.First.Value.MeasureSize(device, drawingFont, (ScaleFactor, ScaleFactor)).Height + 2)
+                    X = device.Width - IDannos.MaxLengthString(Function(k) k.Value).MeasureSize(device, drawingFont, (ScaleFactor, ScaleFactor)).Width * 3 - margin
                     Y = YT
 
                     '在下面标出物种编号

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5268293083a2dd637c41e670fc5b9cf, ..\workbench\devenv\TabPages\NCBIViewer\NCBIViewer.vb"
+﻿#Region "Microsoft.VisualBasic::ec0e6d7c7ec563f51c56f8926a76dbca, ..\workbench\devenv\TabPages\NCBIViewer\NCBIViewer.vb"
 
     ' Author:
     ' 
@@ -105,4 +105,3 @@ Friend Class NCBIViewer
         End Using
     End Sub
 End Class
-

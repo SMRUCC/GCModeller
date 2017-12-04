@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e86b739e6b1772bcbe9ca0dd56d0be49, ..\workbench\IDE_PlugIns\FastaViewer\HTMLRenderer.vb"
+﻿#Region "Microsoft.VisualBasic::4e5bed7834eb7e5102699d5e0271f17b, ..\workbench\IDE_PlugIns\FastaViewer\HTMLRenderer.vb"
 
     ' Author:
     ' 
@@ -80,4 +80,3 @@ Public Module HTMLRenderer
         Return sb.ToString
     End Function
 End Module
-

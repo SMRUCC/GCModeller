@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9dda90f740c6267d6afa9a13b9fa0354, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\Value\Numeric\int.vb"
+﻿#Region "Microsoft.VisualBasic::055efc60ea0d53981d60a448ec719da6, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\Value\Numeric\int.vb"
 
     ' Author:
     ' 
@@ -27,7 +27,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.FileIO
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
 
 Namespace Language
@@ -196,7 +196,7 @@ Namespace Language
 
         Public Shared Operator >(source As IEnumerable, handle As int) As Boolean
             Dim file As FileHandle = FileHandles.__getHandle(handle.Value)
-            Return CollectionIO.DefaultHandle()(source, file.FileName, file.encoding)
+            Return IOHandler.DefaultHandle()(source, file.FileName, file.encoding)
         End Operator
 
         Public Shared Operator <(source As IEnumerable, handle As int) As Boolean

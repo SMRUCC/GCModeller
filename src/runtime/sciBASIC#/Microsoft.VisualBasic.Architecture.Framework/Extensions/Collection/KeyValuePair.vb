@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::02951e6a001cc791ee46a97d8f4d00dc, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\KeyValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::d8e45c8fc8ca07c08d52edd08a3c56ac, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\KeyValuePair.vb"
 
 ' Author:
 ' 
@@ -36,11 +36,53 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports r = System.Text.RegularExpressions.Regex
 
 ''' <summary>
 ''' KeyValue pair data related extensions API.
 ''' </summary>
 Public Module KeyValuePairExtensions
+
+    ''' <summary>
+    ''' Item selector by directly text equals match.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="source"></param>
+    ''' <param name="key$"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function KeyItem(Of T As INamedValue)(source As IEnumerable(Of T), key$) As T
+        Return source _
+            .Where(Function(i) i.Key = key) _
+            .FirstOrDefault
+    End Function
+
+    ''' <summary>
+    ''' Item selector by using regex expression.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="source"></param>
+    ''' <param name="pattern$"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function [Select](Of T As INamedValue)(source As IEnumerable(Of T), pattern$) As IEnumerable(Of T)
+        Return source.Where(Function(i) r.Match(i.Key, pattern, RegexICSng).Success)
+    End Function
+
+    ''' <summary>
+    ''' Target <paramref name="item"/> contains in <paramref name="define"/> list.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="item"></param>
+    ''' <param name="define"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function IsOneOfA(Of T)(item As T, define As Index(Of T)) As Boolean
+        Return define.IndexOf(item) > -1
+    End Function
 
     ''' <summary>
     ''' 函数会根据<see cref="keys"/>参数来做排序
@@ -59,6 +101,15 @@ Public Module KeyValuePairExtensions
                     End Function) _
             .ToDictionary(Function(o) o.key,
                           Function(o) o.Value)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function Subset(Of K, V)(table As Dictionary(Of K, V), assert As Func(Of K, V, Boolean)) As Dictionary(Of K, V)
+        Return table _
+            .Where(Function(map) assert(map.Key, map.Value)) _
+            .ToDictionary(Function(map) map.Key,
+                          Function(map) map.Value)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -502,6 +553,13 @@ Public Module KeyValuePairExtensions
             ex = New Exception("key --> [ " & source(i).Key & " ]", ex)
             Throw ex
         End Try
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function FlatTable(Of T)(table As Dictionary(Of NamedValue(Of T))) As Dictionary(Of String, T)
+        Return table.ToDictionary(Function(item) item.Key,
+                                  Function(item) item.Value.Value)
     End Function
 
     <Extension> Public Function Add(Of TKey, TValue)(ByRef list As List(Of KeyValuePair(Of TKey, TValue)), key As TKey, value As TValue) As List(Of KeyValuePair(Of TKey, TValue))

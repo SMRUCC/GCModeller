@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f6c74aa76d15da3d3d3dec96025b855, ..\core\Bio.Assembly\Assembly\Expasy\API.vb"
+﻿#Region "Microsoft.VisualBasic::5f210ff0e5008835da2d56c335a3ee56, ..\GCModeller\core\Bio.Assembly\Assembly\Expasy\API.vb"
 
     ' Author:
     ' 
@@ -101,7 +101,7 @@ Namespace Assembly.Expasy.AnnotationsTool
             Dim EValues As Double() = New Double(ECList.Length - 1) {}
             Dim n As Integer() = New Integer(ECList.Length - 1) {}
 
-            For Each item In data
+            For Each item As T_EnzymeClass_BLAST_OUT In data
                 Dim idx As Integer = Array.IndexOf(ECList, item.Class)
 
                 Identities(idx) += item.Identity

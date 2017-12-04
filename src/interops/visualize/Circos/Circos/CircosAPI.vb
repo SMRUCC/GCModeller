@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::6312870b61952d012c2e3ca9f9888133, ..\interops\visualize\Circos\Circos\CircosAPI.vb"
+﻿#Region "Microsoft.VisualBasic::2b2d4b70ab3a9409b32ff0d54d7716d7, ..\interops\visualize\Circos\Circos\CircosAPI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -37,6 +37,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
@@ -1333,16 +1334,16 @@ then you can using this method to adding the legends on your circos plots image 
 
         Dim AlignmentData = doc.GetBlastAlignmentData
         Dim Font = New Font(FontFace.Ubuntu, 20)
-        Dim sz As Size
+        Dim sz As SizeF
 
         If Not AlignmentData.IsNullOrEmpty Then
-            sz = (From s As NamedValue(Of String) In AlignmentData Select s.Name Order By Len(Name) Descending).First.MeasureString(Font)
+            sz = AlignmentData.Keys.MaxLengthString.MeasureSize(New Size(1, 1).CreateGDIDevice, Font)
         Else
-            sz = New Size(1, 20)
+            sz = New SizeF(1, 20)
         End If
 
-        Dim Device = (New Size(CircosImage.Width + 3 * Margin + sz.Width * 2, CInt(CircosImage.Height + Margin * 4))).CreateGDIDevice
-        Call Device.Graphics.DrawImage(CircosImage, New Point(Margin, Margin))
+        Dim device = (New SizeF(CircosImage.Width + 3 * Margin + sz.Width * 2, CInt(CircosImage.Height + Margin * 4))).CreateGDIDevice
+        Call device.Graphics.DrawImage(CircosImage, New Point(Margin, Margin))
 
         Dim refPt As Point = New Point(100, 100)
 
@@ -1356,25 +1357,25 @@ then you can using this method to adding the legends on your circos plots image 
         If Not AlignmentData.IsNullOrEmpty Then
 
             Font = New Font(FontFace.Ubuntu, 28)
-            sz = (From s As NamedValue(Of String) In AlignmentData Select s.Name Order By Len(Name) Descending).First.MeasureString(Font)
+            sz = AlignmentData.Keys.MaxLengthString.MeasureSize(device, Font)
 
             Dim dh = CInt(sz.Height)
             Dim Y As Integer = Margin * 3
-            Dim X As Integer = CInt(Device.Width - sz.Width - 2 * Margin)
-            Dim ColorBlockSize As New Size(200, sz.Height)
+            Dim X As Integer = CInt(device.Width - sz.Width - 2 * Margin)
+            Dim ColorBlockSize As New SizeF(200, sz.Height)
 
-            Call Device.Graphics.DrawString("Localblast Alignment Order:", Font, Brushes.Black, New Point(X, Y))
+            Call device.Graphics.DrawString("Localblast Alignment Order:", Font, Brushes.Black, New Point(X, Y))
             Y += 2 * dh
 
             For Each ID As NamedValue(Of String) In AlignmentData
-                Call Device.Graphics.DrawString(ID.Name, Font, Brushes.Black, New Point(X, Y))
-                Call Device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.Value)), New Rectangle(New Point(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
+                Call device.Graphics.DrawString(ID.Name, Font, Brushes.Black, New Point(X, Y))
+                Call device.Graphics.FillRectangle(New SolidBrush(CircosColor.FromKnownColorName(ID.Value)), New RectangleF(New PointF(X - ColorBlockSize.Width - 10, Y), ColorBlockSize))
 
                 Y += dh + 3
             Next
         End If
 
-        Return Device.ImageResource
+        Return device.ImageResource
     End Function
 
     <ExportAPI("PTT2Dump")>

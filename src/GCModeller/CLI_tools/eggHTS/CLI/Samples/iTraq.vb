@@ -1,4 +1,32 @@
-﻿Imports System.ComponentModel
+﻿#Region "Microsoft.VisualBasic::c96d9447c253dd608803cf6fd09f9881, ..\GCModeller\CLI_tools\eggHTS\CLI\Samples\iTraq.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
@@ -64,7 +92,8 @@ Partial Module CLI
     <Group(CLIGroups.iTraqTool)>
     <Argument("/sampleInfo", False, CLITypes.File, AcceptTypes:={GetType(SampleInfo)})>
     <Argument("/designer", False, CLITypes.File, AcceptTypes:={GetType(AnalysisDesigner)},
-              Description:="The analysis designer in csv file format for the DEPs calculation, should contains at least two column: <Controls><Experimental>")>
+              Description:="The analysis designer in csv file format for the DEPs calculation, should contains at least two column: ``<Controls>,<Experimental>``. 
+              The analysis design: ``controls vs experimental`` means formula ``experimental/controls`` in the FoldChange calculation.")>
     Public Function iTraqAnalysisMatrixSplit(args As CommandLine) As Integer
         Dim sampleInfo = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
         Dim designer = (args <= "/designer").LoadCsv(Of AnalysisDesigner)
@@ -73,13 +102,17 @@ Partial Module CLI
         Dim allowedSwap As Boolean = args.IsTrue("/allowed.swap")
 
         For Each group In matrix.MatrixSplit(sampleInfo, designer, allowedSwap)
-            Dim groupName$ = group.Name
+            Dim groupName$ = AnalysisDesigner.CreateTitle(group.Name)
             Dim path$ = out & $"/{groupName.NormalizePathString(False)}.csv"
             Dim data As DataSet() = group.Value
 
             If Not data.All(Function(x) x.Properties.Count = 0) Then
-                Call data.SaveTo(path)
-                Call StripNaN(path, replaceAs:="NA")
+                Call data _
+                    .InvalidsAsRLangNA("NA") _
+                    .ToArray _
+                    .SaveTo(path)
+            Else
+                Call $"``{groupName}`` have no values, please check for the labels...".Warning
             End If
         Next
 
@@ -111,10 +144,14 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/iTraq.t.test")>
-    <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /pairInfo <sampleTuple.csv> /out <out.csv>]")>
+    <Usage("/iTraq.t.test /in <matrix.csv> [/level <default=1.5> /p.value <default=0.05> /FDR <default=0.05> /skip.significant.test /pairInfo <sampleTuple.csv> /out <out.csv>]")>
     <Group(CLIGroups.iTraqTool)>
     <Argument("/FDR", True, CLITypes.Double,
               Description:="do FDR adjust on the p.value result? If this argument value is set to 1, means no adjustment.")>
+    <Argument("/skip.significant.test", True,
+              CLITypes.Boolean,
+              AcceptTypes:={GetType(Boolean)},
+              Description:="If this option is presented in the CLI input, then the significant test from the p.value and FDR will be disabled.")>
     Public Function iTraqTtest(args As CommandLine) As Integer
         Dim data As DataSet() = DataSet.LoadDataSet(args <= "/in").ToArray
         Dim level# = args.GetValue("/level", 1.5)
@@ -122,21 +159,34 @@ Partial Module CLI
         Dim FDR# = args.GetValue("/FDR", 0.05)
         Dim pairInfo$ = args <= "/pairInfo"
         Dim out$
+        Dim sst As Boolean = args.IsTrue("/skip.significant.test")
 
         If pairInfo.FileExists Then
             out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.paired.t-test.csv".AsDefault
         Else
-            out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.t.test.csv".AsDefault
+            If sst Then
+                out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.csv".AsDefault
+            Else
+                out$ = (args <= "/out") Or $"{(args <= "/in").TrimSuffix}.log2FC.t.test.csv".AsDefault
+            End If
         End If
 
-        Dim DEPs As DEP_iTraq() = data.logFCtest(
-            level, pvalue, FDR,
-            pairInfo:=pairInfo.LoadCsv(Of SampleTuple))
+        If Not sst Then
+            Dim DEPs As DEP_iTraq() = data.logFCtest(
+                level, pvalue, FDR,
+                pairInfo:=pairInfo.LoadCsv(Of SampleTuple))
 
-        Return DEPs _
-            .Where(Function(x) x.log2FC <> 0R) _
-            .ToArray _
-            .SaveDataSet(out) _
-            .CLICode
+            Return DEPs _
+                .Where(Function(x) x.log2FC <> 0R) _
+                .ToArray _
+                .SaveDataSet(out) _
+                .CLICode
+        Else
+            Return data.log2Test(level) _
+                .Where(Function(x) x.log2FC <> 0) _
+                .ToArray _
+                .SaveDataSet(out, Encodings.UTF8) _
+                .CLICode
+        End If
     End Function
 End Module

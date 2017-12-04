@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d24f7c2a68fe28e16f08df13ab4c7862, ..\CLI_tools\c2\Workflows\RegulationNetwork\RegulationNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::d24f7c2a68fe28e16f08df13ab4c7862, ..\GCModeller\CLI_tools\c2\Workflows\RegulationNetwork\RegulationNetwork.vb"
 
     ' Author:
     ' 

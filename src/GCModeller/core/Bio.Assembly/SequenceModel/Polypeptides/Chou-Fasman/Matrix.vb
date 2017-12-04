@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7ff64411681bd3437a6dec19eb6f69d, ..\core\Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::9e2df029fb1d170f827d5d84e27384e0, ..\GCModeller\core\Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\Matrix.vb"
 
     ' Author:
     ' 

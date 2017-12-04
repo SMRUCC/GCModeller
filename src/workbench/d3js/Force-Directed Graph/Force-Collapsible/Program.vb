@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c61da02e866fdd4e9d07adfda710e6a8, ..\workbench\d3js\Force-Directed Graph\Force-Collapsible\Program.vb"
+﻿#Region "Microsoft.VisualBasic::e004d821f05f293c0bdfa8100c41837f, ..\workbench\d3js\Force-Directed Graph\Force-Collapsible\Program.vb"
 
     ' Author:
     ' 
@@ -40,4 +40,3 @@ Module Program
         Return json.SaveTo(out)
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a157f4c5b0b42c36776f9106d2c28714, ..\GCModeller\analysis\Metagenome\Metagenome\RelativeStatics.vb"
+﻿#Region "Microsoft.VisualBasic::1a15aed828a41b411d9042a654313e48, ..\GCModeller\analysis\Metagenome\Metagenome\RelativeStatics.vb"
 
     ' Author:
     ' 
@@ -27,13 +27,11 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Metagenomics
 
 Public Module RelativeStatics

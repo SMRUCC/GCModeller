@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae4ad448085a6cc8e1e3ffd87382d8a7, ..\sciBASIC#\Data_science\Bootstrapping\Bootstrapping.Extension\EigenvectorBootstrappingExtension.vb"
+﻿#Region "Microsoft.VisualBasic::e36dd099f8241c4e9cbe275c84b08275, ..\sciBASIC#\Data_science\Bootstrapping\Bootstrapping.Extension\EigenvectorBootstrappingExtension.vb"
 
     ' Author:
     ' 
@@ -57,8 +57,8 @@ Public Module EigenvectorBootstrappingExtension
         Call "Load data complete!".__DEBUG_ECHO
 
         Dim uid As New Uid
-        Dim datasets As EntityLDM() = strTags.Select(
-            Function(x) New EntityLDM With {
+        Dim datasets As EntityClusterModel() = strTags.Select(
+            Function(x) New EntityClusterModel With {
                 .ID = "boot" & uid.Plus,
                 .Properties = x.Value.Tag _
                     .SeqIterator _
@@ -68,7 +68,7 @@ Public Module EigenvectorBootstrappingExtension
 
         Call "Creates dataset complete!".__DEBUG_ECHO
 
-        Dim clusters As EntityLDM() = datasets.TreeCluster(parallel:=True, [stop]:=[stop])
+        Dim clusters As EntityClusterModel() = datasets.TreeCluster(parallel:=True, [stop]:=[stop])
         Dim out As New Dictionary(Of NamedValue(Of Double()), Dictionary(Of String, Double)())
         Dim raw = (From x As NamedValue(Of VectorTagged(Of Dictionary(Of String, Double)))
                    In strTags
@@ -85,7 +85,7 @@ Public Module EigenvectorBootstrappingExtension
             } ' out之中的key
             Dim tmp As New List(Of Dictionary(Of String, Double))   ' out之中的value
 
-            For Each x As EntityLDM In cluster.members
+            For Each x As EntityClusterModel In cluster.members
                 Dim rawKey As String = x.Properties.Values.ToArray.GetJson
                 Dim rawParams = raw(rawKey).Select(Function(o) o.Value.value)
 

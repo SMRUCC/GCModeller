@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::682701a70518f1085f7defbab5bb34df, ..\CLI_tools\eggHTS\CLI\1. Annotations.vb"
+﻿#Region "Microsoft.VisualBasic::a68ebe9c767a38bca243bb30cce8898e, ..\GCModeller\CLI_tools\eggHTS\CLI\1. Annotations.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -40,6 +40,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
@@ -58,10 +59,34 @@ Imports SMRUCC.genomics.Data.GeneOntology.GoStat
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.RpsBLAST
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus.BlastX
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 
 Partial Module CLI
+
+    <ExportAPI("/KEGG.Color.Pathway")>
+    <Usage("/KEGG.Color.Pathway /in <protein.annotations.csv> /ref <KEGG.ref.pathwayMap.directory repository> [/out <out.directory>]")>
+    <Group(CLIGroups.Annotation_CLI)>
+    Public Function ColorKEGGPathwayMap(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim ref$ = args <= "/ref"
+        Dim out$ = (args <= "/out") Or [in].TrimSuffix.AsDefault
+        Dim listID$() = EntityObject.LoadDataSet([in]) _
+            .Select(Function(protein) protein!KO) _
+            .Where(Function(id) Not id.StringEmpty) _
+            .Select(Function(s) s.StringSplit(";\s*")) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+        Return PathwayMapVisualize _
+            .LocalRenderMaps(listID, repo:=ref, output:=out) _
+            .GetJson _
+            .SaveTo(out & "/list.json") _
+            .CLICode
+    End Function
 
     ''' <summary>
     ''' 将每一个参考cluster之中的代表序列的uniprot编号取出来生成映射
@@ -71,6 +96,7 @@ Partial Module CLI
     <ExportAPI("/UniRef.UniprotKB")>
     <Usage("/UniRef.UniprotKB /in <uniref.xml> [/out <maps.csv>]")>
     <Argument("/in", False, CLITypes.File, Description:="The uniRef XML cluster database its file path.")>
+    <Group(CLIGroups.Annotation_CLI)>
     Public Function UniRef2UniprotKB(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & "-uniref_uniprotKB.csv")
@@ -371,7 +397,7 @@ Partial Module CLI
     <ExportAPI("/Perseus.Table.annotations",
                Usage:="/Perseus.Table.annotations /in <proteinGroups.csv> /uniprot <uniprot.XML> [/scientifcName <""""> /out <out.csv>]")>
     Public Function PerseusTableAnnotations(args As CommandLine) As Integer
-        Dim [in] = args("/in")
+        Dim in$ = args("/in")
         Dim uniprot As String = args("/uniprot")
         Dim out = args.GetValue("/out", [in].TrimSuffix & ".proteins.annotation.csv")
         Dim table As Perseus() = [in].LoadCsv(Of Perseus)
@@ -558,6 +584,9 @@ Partial Module CLI
             If(exclude, "-exclude", "") & "-" & sp.NormalizePathString.Replace(" ", "_"))
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{suffix}.fasta")
 
+        ' 1GB buffer size?
+        Call App.SetBufferSize(128 * 1024 * 1024)
+
         Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
             Dim source As IEnumerable(Of Uniprot.XML.entry) = UniProtXML.EnumerateEntries(path:=[in])
 
@@ -601,8 +630,8 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/Species.Normalization",
-               Usage:="/Species.Normalization /bbh <bbh.csv> /uniprot <uniprot.XML> /idMapping <refSeq2uniprotKB_mappings.tsv> /annotations <annotations.csv> [/out <out.csv>]")>
+    <ExportAPI("/Species.Normalization")>
+    <Usage("/Species.Normalization /bbh <bbh.csv> /uniprot <uniprot.XML> /idMapping <refSeq2uniprotKB_mappings.tsv> /annotations <annotations.csv> [/out <out.csv>]")>
     <Argument("/bbh", False, CLITypes.File,
               Description:="The queryName should be the entry accession ID in the uniprot and the subject name is the refSeq proteinID in the NCBI database.")>
     <Group(CLIGroups.Annotation_CLI)>
@@ -649,6 +678,80 @@ Partial Module CLI
         Return output.SaveTo(out).CLICode
     End Function
 
+    ''' <summary>
+    ''' bbh的结果是通过<see cref="BBHIndex.QueryName"/>来和数据集中的<see cref="EntityObject.ID"/>进行关联的，所以这就要求<see cref="BBHIndex.QueryName"/>必须是唯一的
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/ID.Replace.bbh")>
+    <Description("Replace the source ID to a unify organism protein ID by using ``bbh`` method. 
+    This tools required the protein in ``datatset.csv`` associated with the alignment result in ``bbh.csv`` by using the ``query_name`` property.")>
+    <Usage("/ID.Replace.bbh /in <dataset.csv> /bbh <bbh.csv> [/out <ID.replaced.csv>]")>
+    <Group(CLIGroups.Annotation_CLI)>
+    Public Function BBHReplace(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim bbh$ = args <= "/bbh"
+        Dim out$ = (args <= "/out") Or $"{in$.TrimSuffix}_replaced.csv".AsDefault
+        Dim dataset As EntityObject() = EntityObject _
+            .LoadDataSet([in]) _
+            .ToArray
+        Dim alignHits As Dictionary(Of String, BBHIndex) = bbh _
+            .LoadCsv(Of BBHIndex) _
+            .ToDictionary(Function(x)
+                              If Not x.HitName.StringEmpty Then
+                                  x.HitName = x.HitName.Split("|"c)(1)
+                              End If
+                              Return x.QueryName.Split("|"c)(1)
+                          End Function)
+
+        For Each protein As EntityObject In dataset
+            If alignHits.ContainsKey(protein.ID) Then
+                With alignHits(protein.ID).HitName
+                    If Not .StringEmpty AndAlso .ref <> IBlastOutput.HITS_NOT_FOUND Then
+                        protein.ID = .ref
+                    End If
+                End With
+            End If
+        Next
+
+        Return dataset _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
+    <ExportAPI("/blastX.fill.ORF")>
+    <Description("")>
+    <Usage("/blastX.fill.ORF /in <annotations.csv> /blastx <blastx.csv> [/out <out.csv>]")>
+    <Group(CLIGroups.Annotation_CLI)>
+    Public Function BlastXFillORF(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim blastx$ = args <= "/blastx"
+        Dim out$ = (args <= "/out") Or $"{in$.TrimSuffix}-blastx.ORF.csv".AsDefault
+        Dim proteins As EntityObject() = EntityObject _
+            .LoadDataSet([in]) _
+            .ToArray
+        Dim blastXhits = blastx _
+            .LoadCsv(Of BlastXHit) _
+            .ToDictionary(Function(hit)
+                              If hit.HitName.IndexOf("|"c) > -1 Then
+                                  Return hit.HitName.Split("|"c)(1)
+                              Else
+                                  Return hit.HitName
+                              End If
+                          End Function,
+                          Function(query) query.QueryName)
+
+        For Each protein In proteins
+            If blastXhits.ContainsKey(protein.ID) Then
+                protein!ORF = blastXhits(protein.ID)
+            End If
+        Next
+
+        Return proteins _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
     <ExportAPI("/COG.profiling.plot",
                Info:="Plots the COGs category statics profiling of the target genome from the COG annotation file.",
                Usage:="/COG.profiling.plot /in <myvacog.csv> [/size <image_size, default=1800,1200> /out <out.png>]")>
@@ -656,7 +759,7 @@ Partial Module CLI
               Extensions:="*.csv",
               Description:="The COG annotation result.")>
     Public Function COGCatalogProfilingPlot(args As CommandLine) As Integer
-        Dim [in] = args("/in")
+        Dim in$ = args("/in")
         Dim size$ = args.GetValue("/size", "1800,1200")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".COG.profiling.png")
         Dim COGs As IEnumerable(Of MyvaCOG) = [in].LoadCsv(Of MyvaCOG)

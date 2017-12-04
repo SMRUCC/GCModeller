@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4f257d70281f379796ff54df6c3f5af, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\ValuePair\ValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::cde9800d7655a7c378de44183ab63c3e, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\ValuePair\ValuePair.vb"
 
     ' Author:
     ' 
@@ -206,9 +206,10 @@ Namespace ComponentModel
             Return Key
         End Function
 
-        Public Shared Function ToDictionary(ListData As Generic.IEnumerable(Of Key_strArrayValuePair)) As Dictionary(Of String, String())
-            Dim Dictionary As Dictionary(Of String, String()) = New Dictionary(Of String, String())
-            For Each item In ListData
+        Public Shared Function ToDictionary(ListData As IEnumerable(Of Key_strArrayValuePair)) As Dictionary(Of String, String())
+            Dim Dictionary As New Dictionary(Of String, String())
+
+            For Each item As Key_strArrayValuePair In ListData
                 Call Dictionary.Add(item.Key, item.Value)
             Next
 

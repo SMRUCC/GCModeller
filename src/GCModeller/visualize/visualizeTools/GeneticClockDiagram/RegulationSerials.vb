@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71463244aa44624763ce8de0eb49fb4d, ..\visualize\visualizeTools\GeneticClockDiagram\RegulationSerials.vb"
+﻿#Region "Microsoft.VisualBasic::e442887353849c0d8d4197896a30cde1, ..\GCModeller\visualize\visualizeTools\GeneticClockDiagram\RegulationSerials.vb"
 
     ' Author:
     ' 
@@ -26,10 +26,11 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.InteractionModel
 
@@ -60,7 +61,7 @@ Imports SMRUCC.genomics.InteractionModel
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("plot.expression.compares")>
-    Public Function CompareDrawing(source As String, IDList As Generic.IEnumerable(Of String)) As Image
+    Public Function CompareDrawing(source As String, IDList As IEnumerable(Of String)) As Image
         Dim IDc = IDList.ToArray
         Dim Data = (From path In source.LoadSourceEntryList({"*.csv"}).AsParallel
                     Select ID = path.Key, dat = (From row In DataServicesExtension.LoadData(path.Value)
@@ -76,16 +77,17 @@ Imports SMRUCC.genomics.InteractionModel
         Dim InvokeDrawingLQuery = (From item In ReGen Select GeneID = item.GeneID, res = __directDrawing(item.Expr)).ToArray
         Dim IDFont = New Font(FontFace.MicrosoftYaHei, 12)
         Dim FontSize = MeasureMaxSize((From item In ReGen Select item.GeneID).ToArray, IDFont)
-        Dim GRdwh = New Size(Margin * 4 + InvokeDrawingLQuery.First.res.Width, Margin * 5 + (InvokeDrawingLQuery.First.res.Height + FontSize.Height + 5) * ReGen.Count).CreateGDIDevice
 
-        For Each item In InvokeDrawingLQuery
-            Call GRdwh.Graphics.DrawString(item.GeneID, IDFont, Brushes.Black, New Point((GRdwh.Width - item.GeneID.MeasureString(IDFont).Width) / 2, Y))
-            Y += FontSize.Height + 5
-            Call GRdwh.Graphics.DrawImage(item.res, Margin, Y)
-            Y += item.res.Height + 5
-        Next
+        Using g As Graphics2D = New Size(Margin * 4 + InvokeDrawingLQuery.First.res.Width, Margin * 5 + (InvokeDrawingLQuery.First.res.Height + FontSize.Height + 5) * ReGen.Count).CreateGDIDevice
+            For Each item In InvokeDrawingLQuery
+                Call g.Graphics.DrawString(item.GeneID, IDFont, Brushes.Black, New Point((g.Width - item.GeneID.MeasureSize(g, IDFont).Width) / 2, Y))
+                Y += FontSize.Height + 5
+                Call g.Graphics.DrawImage(item.res, Margin, Y)
+                Y += item.res.Height + 5
+            Next
 
-        Return GRdwh.ImageResource
+            Return g.ImageResource
+        End Using
     End Function
 
     <ExportAPI("level.distribution")>
@@ -123,8 +125,11 @@ Imports SMRUCC.genomics.InteractionModel
     End Function
 
     Private Function MeasureMaxSize(StringCol As String(), Font As Font) As Size
-        Dim LQuery = (From s As String In StringCol Select s.MeasureString(Font)).ToArray
-        Dim sz = New Size((From item In LQuery Select item.Width).ToArray.Max, (From item In LQuery Select item.Height).ToArray.Max)
+        With New Size(1, 1).CreateGDIDevice
+            Dim LQuery = (From s As String In StringCol Select s.MeasureSize(.ref, Font)).ToArray
+            Dim sz As New Size((From item In LQuery Select item.Width).Max, (From item In LQuery Select item.Height).Max)
+            Return sz
+        End With
     End Function
 
     Private Function __directDrawing(data As SerialsData()) As Image
@@ -133,19 +138,23 @@ Imports SMRUCC.genomics.InteractionModel
         '创建颜色映射
         Dim ColorMappings = New GeneticClock.ColorRender(data, [Global]:=False)
         Dim TagDrawingFont As Font = New Font(FontFace.MicrosoftYaHei, 10)
-        Dim StringSize = (From s In data Select s.Tag.MeasureString(TagDrawingFont)).ToArray
+        Dim StringSize As SizeF()
 
-        Dim sX = (From sz In StringSize Select n = sz.Height).ToArray.Max
+        With New Size(1, 1).CreateGDIDevice
+            StringSize = (From s In data Select s.Tag.MeasureSize(.ref, TagDrawingFont)).ToArray
+        End With
+
+        Dim sX = (From sz In StringSize Select n = sz.Height).Max
 
         If sX > PointHeight Then
             PointHeight = sX + 1
         End If
 
-        sX = (From sz In StringSize Select n = sz.Width).ToArray.Max
+        sX = (From sz In StringSize Select n = sz.Width).Max
 
         Dim width As Integer = data.First.Length * PointWidth + 20 * Margin + sX
         Dim Height As Integer = data.Count * PointHeight + 2 * Margin
-        Dim Gr = (New Size(width, Height)).CreateGDIDevice '创建绘图设备
+        Dim g = (New Size(width, Height)).CreateGDIDevice '创建绘图设备
 
         Dim Mappings = ColorMappings.GetColorRenderingProfiles
         Dim PointSize = New Size(PointWidth, PointHeight)
@@ -154,25 +163,25 @@ Imports SMRUCC.genomics.InteractionModel
         For i As Integer = 0 To data.Count - 1
             Dim Line = data(i)
 
-            Call Gr.Graphics.DrawString(Line.Tag, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(Margin, Y))
+            Call g.Graphics.DrawString(Line.Tag, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(Margin, Y))
 
             X = Margin + sX + 20
 
             Dim Map = Mappings(i)
 
             For Each p In Line
-                Call Gr.Graphics.FillRectangle(New SolidBrush(Map.GetValue(p)), New Rectangle(New Point(X, Y), PointSize))
+                Call g.Graphics.FillRectangle(New SolidBrush(Map.GetValue(p)), New Rectangle(New Point(X, Y), PointSize))
                 X += RegulationSerials.PointWidth
             Next
 
             Dim Avg As Double = (Map.Max - Map.Average) * 0.25 + Map.Average
 
-            Call Gr.Graphics.DrawString((From item In Map.Profiles Where item.Key > Avg Select item).ToArray.Count, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(X + 5, Y))
+            Call g.Graphics.DrawString((From item In Map.Profiles Where item.Key > Avg Select item).ToArray.Count, New Font(FontFace.MicrosoftYaHei, 12), Brushes.Black, New Point(X + 5, Y))
 
             Y += PointHeight
         Next
 
-        Return Gr.ImageResource
+        Return g.ImageResource
     End Function
 
     Private Function CalculateOffset(data As SerialsData) As SerialsData

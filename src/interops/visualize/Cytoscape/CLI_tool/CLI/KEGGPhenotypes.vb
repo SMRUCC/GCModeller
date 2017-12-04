@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7312f6615fca23295f97a8e71f2cdadf, ..\interops\visualize\Cytoscape\CLI_tool\CLI\KEGGPhenotypes.vb"
+﻿#Region "Microsoft.VisualBasic::295af343543e567c8d240fbd408e012f, ..\interops\visualize\Cytoscape\CLI_tool\CLI\KEGGPhenotypes.vb"
 
     ' Author:
     ' 
@@ -91,8 +91,8 @@ Partial Module CLI
         Next
 
         Dim l As Integer = footprints.Length
-        Dim sets As EntityLDM() = Entities.Select(
-            Function(x) New EntityLDM With {
+        Dim sets As EntityClusterModel() = Entities.Select(
+            Function(x) New EntityClusterModel With {
                 .ID = x.EntryId,
                 .Properties = x.hash.ToDictionary(Function(prop) prop.Key,
                                                   Function(prop) prop.Value.Value / l)

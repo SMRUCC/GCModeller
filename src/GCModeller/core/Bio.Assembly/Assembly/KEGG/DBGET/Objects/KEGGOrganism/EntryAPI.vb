@@ -1,33 +1,34 @@
-﻿#Region "Microsoft.VisualBasic::c01bb16921baec25c31f70d71c35169f, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb"
+﻿#Region "Microsoft.VisualBasic::c87be63cbbe6d8d64042ec7034018a0b, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -46,22 +47,19 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
     Public Module EntryAPI
 
         Public ReadOnly Property Resources As KEGGOrganism
-            Get
-                Return __cacheList
-            End Get
-        End Property
 
-        ReadOnly __cacheList As KEGGOrganism
         ''' <summary>
         ''' {brief_sp, <see cref="organism"/>}
         ''' </summary>
-        ReadOnly __spHash As Dictionary(Of String, Organism)
+        ReadOnly OrgCodes As Dictionary(Of String, Organism)
 
         Sub New()
             Try
-                Dim res As New ApplicationServices.Resources(GetType(EntryAPI).Assembly)
-                __cacheList = __loadList(res.GetString("KEGG_Organism_Complete_Genomes"))
-                __spHash = __cacheList.ToArray.ToDictionary(Function(x) x.KEGGId)
+                Dim mgr As New ResourcesSatellite(GetType(EntryAPI).Assembly)
+                Resources = __loadList(mgr.GetString("KEGG_Organism_Complete_Genomes"))
+                OrgCodes = Resources _
+                    .ToArray _
+                    .ToDictionary(Function(x) x.KEGGId)
             Catch ex As Exception
                 Call App.LogException(ex)
                 Call ex.PrintException
@@ -75,8 +73,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' <param name="sp">The organism brief code in the KEGG database</param>
         ''' <returns></returns>
         Public Function GetValue(sp As String) As Organism
-            If __spHash.ContainsKey(sp) Then
-                Return __spHash(sp)
+            If OrgCodes.ContainsKey(sp) Then
+                Return OrgCodes(sp)
             Else
                 Return Nothing
             End If
@@ -91,18 +89,23 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         <ExportAPI("KEGG.spCode",
                    Info:="Convert the species genome full name into the KEGG 3 letters briefly code.")>
         Public Function GetKEGGSpeciesCode(Name As String) As Organism
-            Dim LQuery = (From x As Organism
-                          In __cacheList.ToArray.AsParallel
-                          Let lev As DistResult = LevenshteinDistance.ComputeDistance(Name, x.Species) ' StatementMatches.Match(Name, x.Species)
-                          Where Not lev Is Nothing AndAlso lev.NumMatches >= 2
-                          Select x, lev
-                          Order By lev.MatchSimilarity Descending).ToArray
-            If LQuery.IsNullOrEmpty OrElse LQuery.First.lev.MatchSimilarity < 0.9 Then
+            Dim LQuery = LinqAPI.Exec(Of (org As Organism, dist As DistResult)) _
+ _
+                () <= From org As Organism
+                      In Resources _
+                          .ToArray _
+                          .AsParallel
+                      Let dist As DistResult = LevenshteinDistance.ComputeDistance(Name, org.Species) ' StatementMatches.Match(Name, x.Species)
+                      Where Not dist Is Nothing AndAlso dist.NumMatches >= 2
+                      Order By dist.MatchSimilarity Descending
+                      Select (org, dist)
+
+            If LQuery.IsNullOrEmpty OrElse LQuery.First.dist.MatchSimilarity < 0.9 Then
                 Call VBDebugger.Warning($"Could not found any entry for ""{Name}"" from KEGG...")
                 Return Nothing
             Else
-                Dim first = LQuery.First
-                Return first.x
+                Dim first = LQuery.First.org
+                Return first
             End If
         End Function
 
@@ -112,7 +115,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' <returns></returns>
         <ExportAPI("list.Load", Info:="Load KEGG organism list from the internal resource.")>
         Public Function GetOrganismListFromResource() As KEGGOrganism
-            Dim res As New ApplicationServices.Resources(GetType(EntryAPI).Assembly)
+            Dim res As New ResourcesSatellite(GetType(EntryAPI).Assembly)
             Dim html As String = res.GetString("KEGG_Organisms__Complete_Genomes")
             Return __loadList(html)
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db4f8edde22614b63698e52189d1f25e, ..\interops\meme_suite\MEME\STAMP.vb"
+﻿#Region "Microsoft.VisualBasic::cc61bb9b1a1cb100c105079b9bddfb75, ..\interops\meme_suite\MEME\STAMP.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::addfbd5ebb1caffccbe3a83c1febbae6, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Algebra\Vector\Class\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::d36cdf4c31a4bcbd2dca9ca9cfdbf91f, ..\sciBASIC#\Data_science\Mathematica\Math\Math\Algebra\Vector\Class\Vector.vb"
 
     ' Author:
     ' 
@@ -319,7 +319,7 @@ Namespace LinearAlgebra
             Dim v2 As New Vector(N0)
 
             For j = 0 To N0 - 1
-                v2(j) = v1(j) - a
+                v2(j) = a - v1(j)
             Next
             Return v2
         End Operator
@@ -497,6 +497,11 @@ Namespace LinearAlgebra
             Return (x1 + x2).Mod
         End Function
 
+        ''' <summary>
+        ''' Returns a numeric vector with all elements is value ``1``
+        ''' </summary>
+        ''' <param name="n"></param>
+        ''' <returns></returns>
         Public Shared Function Ones(n As Integer) As Vector
             Dim result As New Vector(n)
 
@@ -531,6 +536,11 @@ Namespace LinearAlgebra
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Operator ^(v As Vector, n As Integer) As Vector
             Return New Vector(From d As Double In v Select d ^ n)
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Operator ^(n As Double, v As Vector) As Vector
+            Return New Vector(From p As Double In v Select n ^ p)
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

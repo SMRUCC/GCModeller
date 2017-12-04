@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a312225bfed4d6fd3cbe3f0a2f0a8ffc, ..\CLI_tools\S.M.A.R.T\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::a312225bfed4d6fd3cbe3f0a2f0a8ffc, ..\GCModeller\CLI_tools\S.M.A.R.T\CLI\CLI.vb"
 
     ' Author:
     ' 

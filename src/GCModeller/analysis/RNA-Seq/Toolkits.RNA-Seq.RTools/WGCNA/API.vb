@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b88251c990bf931842d2944f594e644, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\WGCNA\API.vb"
+﻿#Region "Microsoft.VisualBasic::399031b850fdd7336fc651d638883ab8, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\WGCNA\API.vb"
 
     ' Author:
     ' 

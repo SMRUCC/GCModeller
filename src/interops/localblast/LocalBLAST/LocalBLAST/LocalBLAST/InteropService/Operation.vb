@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9205d2d9b8bbd2a060c901517a99f3f0, ..\localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\Operation.vb"
+﻿#Region "Microsoft.VisualBasic::45d20c1b69781fa9e082eef269ba355c, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\Operation.vb"
 
     ' Author:
     ' 
@@ -50,8 +50,6 @@ Namespace LocalBLAST.InteropService
 
         Public Overrides Function GetLastLogFile() As BLASTOutput.IBlastOutput
             Select Case ProgramProfile.Name.ToLower
-                Case "localblast"
-                    Return BLASTOutput.Legacy.BLASTOutput.TryParse(_InternalLastBLASTOutputFile)
                 Case "blast+"
                     Return BLASTOutput.BlastPlus.Parser.TryParse(_InternalLastBLASTOutputFile)
                 Case "rpsblast"

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26feeeaeeb415266f1c1cefd74690572, ..\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb"
+﻿#Region "Microsoft.VisualBasic::3a9af48c1cc083ac21643f33ac3c218b, ..\GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb"
 
     ' Author:
     ' 

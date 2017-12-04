@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb9194aefc7dcc5d6cb3f8613458627f, ..\CLI_tools\MEME\Cli\Views + Stats\Regulations.vb"
+﻿#Region "Microsoft.VisualBasic::62a8b00d542db00f13eb57674c9e0c34, ..\GCModeller\CLI_tools\MEME\Cli\Views + Stats\Regulations.vb"
 
     ' Author:
     ' 
@@ -45,11 +45,12 @@ Partial Module CLI
                Info:="Associates of the pathway regulation information for the predicted virtual footprint information.",
                Usage:="--pathway.regulates -footprints <virtualfootprint.csv> /pathway <DIR.KEGG.Pathways> [/out <./PathwayRegulations/>]")>
     Public Function PathwayRegulations(args As CommandLine) As Integer
-        Dim Footprints = args("-footprints").LoadCsv(Of PredictedRegulationFootprint)
+        Dim footprintTable$ = args("-footprints")
+        Dim Footprints = footprintTable.LoadCsv(Of PredictedRegulationFootprint)
         Dim Pathways = FileIO.FileSystem.GetFiles(args("/pathway"), FileIO.SearchOption.SearchAllSubDirectories, "*.xml") _
             .Select(Function(file) file.LoadXml(Of bGetObject.Pathway))
         Dim PathwayBrites = BriteHEntry.Pathway.LoadFromResource.ToDictionary(Function(entry) entry.EntryId)
-        Dim outDIR As String = args.GetValue("/out", args("-footprints").TrimSuffix)
+        Dim outDIR As String = args.GetValue("/out", footprintTable.TrimSuffix)
         Dim modRegulators As Dictionary(Of String, List(Of String)) =
             New Dictionary(Of String, List(Of String))
 

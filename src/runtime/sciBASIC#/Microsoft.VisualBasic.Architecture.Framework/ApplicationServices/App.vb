@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::caecb503cb16b0566e31184493ce0801, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::725cf3eb95b0e1cb4833f76547c0fd87, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ApplicationServices\App.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -155,7 +155,7 @@ Public Module App
     ''' <param name="name$"></param>
     ''' <returns></returns>
     Public Function Argument(Of T)(name$) As T
-        With CommandLine(name)
+        With CommandLine(name).DefaultValue
             If .StringEmpty Then
                 Return Nothing
             Else
@@ -514,7 +514,15 @@ Public Module App
     ''' 其他的模块可能也会依赖于这个初始化参数
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property BufferSize As Integer = 4 * 1024
+    Public ReadOnly Property BufferSize As Integer = 4 * 1024 * 1024
+
+    ''' <summary>
+    ''' Set value of <see cref="BufferSize"/>
+    ''' </summary>
+    ''' <param name="size"></param>
+    Public Sub SetBufferSize(size As Integer)
+        _BufferSize = size
+    End Sub
 
     ''' <summary>
     ''' 假若有些时候函数的参数要求有一个输出流，但是并不想输出任何数据的话，则可以使用这个进行输出

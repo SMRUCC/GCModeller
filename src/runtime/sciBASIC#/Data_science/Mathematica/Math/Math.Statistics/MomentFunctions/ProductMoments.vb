@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbfaa297baf7c4ba143ce972f972d823, ..\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\MomentFunctions\ProductMoments.vb"
+﻿#Region "Microsoft.VisualBasic::16d34404bd9206109b1b5082211699ba, ..\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\MomentFunctions\ProductMoments.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Math.StatisticsMathExtensions
+Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 '

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62ba9f1ffe6427d282057986549aa160, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Bitmap\BitmapBuffer.vb"
+﻿#Region "Microsoft.VisualBasic::50e555decc43a0083cf63d5d6a731dff, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\Bitmap\BitmapBuffer.vb"
 
     ' Author:
     ' 
@@ -28,12 +28,13 @@
 
 Imports System.Drawing
 Imports System.Drawing.Imaging
+Imports System.Runtime.CompilerServices
 Imports sys = System.Math
 
 Namespace Imaging.BitmapImage
 
     ''' <summary>
-    ''' 线程不安全的图片数据对象
+    ''' Unsafe memory pointer of the <see cref="Bitmap"/> data buffer.(线程不安全的图片数据对象)
     ''' </summary>
     Public Class BitmapBuffer : Inherits Emit.Marshal.Byte
         Implements IDisposable
@@ -67,9 +68,21 @@ Namespace Imaging.BitmapImage
         ''' Gets a copy of the original raw image value that which constructed this bitmap object class
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetImage() As Bitmap
             Return DirectCast(__source.Clone, Bitmap)
         End Function
+
+        ' pixel:  (1,1)(2,1)(3,1)(4,1)(1,2)(2,2)(3,2)(4,2)
+        ' buffer: BGRA|BGRA|BGRA|BGRA|BGRA|BGRA|BGRA|BGRA|
+        ' bitmap pixels:
+        ' 
+        '    (1,1)(2,1)(3,1)(4,1)
+        '    (1,2)(2,2)(3,2)(4,2)
+        '
+        ' width  = 4 pixel
+        ' height = 2 pixel
 
         ''' <summary>
         ''' 返回第一个元素的位置
@@ -77,24 +90,33 @@ Namespace Imaging.BitmapImage
         ''' <param name="x"></param>
         ''' <param name="y"></param>
         ''' <returns>B, G, R</returns>
+        ''' <remarks>
+        ''' ###### 2017-11-29 
+        ''' 经过测试，对第一行的数据的计算没有问题
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetIndex(x As Integer, y As Integer) As Integer
             y = y * (Width * 4)
             x = x * 4
             Return x + y
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function OutOfRange(x%, y%) As Boolean
             Return x < 0 OrElse x >= Width OrElse y < 0 OrElse y >= Height
         End Function
 
         ''' <summary>
         ''' Gets the color of the specified pixel in this <see cref="Bitmap"/>.
+        ''' (<paramref name="x"/>和<paramref name="y"/>都是以零为底的)
         ''' </summary>
         ''' <param name="x">The x-coordinate of the pixel to retrieve.</param>
         ''' <param name="y">The y-coordinate of the pixel to retrieve.</param>
         ''' <returns>
         ''' A <see cref="Color"/> structure that represents the color of the specified pixel.
         ''' </returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetPixel(x As Integer, y As Integer) As Color
             Dim i As Integer = GetIndex(x, y)
             Dim iR As Byte = buffer(i + 2)
@@ -112,6 +134,8 @@ Namespace Imaging.BitmapImage
         ''' <param name="color">
         ''' A System.Drawing.Color structure that represents the color to assign to the specified
         ''' pixel.</param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub SetPixel(x As Integer, y As Integer, color As Color)
             Dim i As Integer = GetIndex(x, y)
 
@@ -125,6 +149,8 @@ Namespace Imaging.BitmapImage
         ''' </summary>
         ''' <param name="res"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function FromImage(res As Image) As BitmapBuffer
             Return BitmapBuffer.FromBitmap(New Bitmap(res))
         End Function
@@ -166,6 +192,8 @@ Namespace Imaging.BitmapImage
         ''' <param name="bmp"></param>
         ''' <param name="offset%"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Operator +(bmp As BitmapBuffer, offset%) As BitmapBuffer
             bmp.__index += offset
             Return bmp

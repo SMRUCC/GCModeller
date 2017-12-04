@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84a80ea196c0b955e1eeca69c0a870d4, ..\sciBASIC#\Data\DataFrame\IO\csv\HTMLWriter.vb"
+﻿#Region "Microsoft.VisualBasic::e2813e1a82c9808afb15a03bd828724e, ..\sciBASIC#\Data\DataFrame\IO\csv\HTMLWriter.vb"
 
     ' Author:
     ' 
@@ -164,7 +164,7 @@ Namespace IO
         <Extension> Private Sub __contentRow(row As RowObject, ByRef doc As StringBuilder, removes As Index(Of Integer), alt$)
             Dim rowText$ = row.ToArray _
                 .SeqIterator _
-                .Where(Function(i) removes(i.i) = -1) _
+                .Where(Function(i) removes(x:=i.i) = -1) _
                 .Select(Function(x) $"<td>{+x}</td>") _
                 .JoinBy("")
 

@@ -1,36 +1,99 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::3ededfd62967d161cb7b8369c8cbd35f, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\Organism.vb"
+
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Metagenomics
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
     ''' <summary>
-    ''' br08601
+    ''' ### br08601
+    ''' 
+    ''' > http://www.kegg.jp/kegg-bin/download_htext?htext=br08601.keg&amp;format=htext&amp;filedir=
     ''' </summary>
     Public Module Organism
 
-        <Extension> Public Function FillTaxonomyTable(organisms As htext) As Taxonomy()
+        Public Const HtextKey$ = "br08601"
+
+        ''' <summary>
+        ''' 从卫星资源程序集之中加载数据库数据
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>Load resource using <see cref="ResourcesSatellite"/></remarks>
+        Public Function GetResource() As htext
+            Dim res$ = GetType(Organism) _
+                .Assembly _
+                .ResourcesSatellite() _
+                .GetString(Organism.HtextKey)
+            Dim htext As htext = htext.StreamParser(res)
+            Return htext
+        End Function
+
+        <Extension>
+        Public Function GetBacteriaList(resource As htext) As Taxonomy()
+            Dim bacteriaAll As BriteHText = resource _
+                .Hierarchical _
+                .CategoryItems _
+                .Select("Prokaryotes\s+\(\d+\)") _
+                .First _
+                .CategoryItems _
+                .Select("Bacteria\s+\(\d+\)") _
+                .First
+            Dim table = bacteriaAll _
+                .EnumerateEntries _
+                .Where(AddressOf IsSpeciesLevel) _
+                .FillTaxonomyTable
+
+            Return table
+        End Function
+
+        <Extension>
+        Public Function FillTaxonomyTable(OrgCodes As IEnumerable(Of BriteHText)) As Taxonomy()
             Dim out As New List(Of Taxonomy)
             Dim levels As New Dictionary(Of Char, String)
-            Dim h As BriteHText
-            Dim sp$
+            Dim sp As String, hc As BriteHText
+            Dim name$
 
-            For Each htext As BriteHText In organisms _
-                .Hierarchical _
-                .EnumerateEntries _
-                .Where(Function(hE) hE.CategoryLevel = "E"c)
+            For Each code As BriteHText In OrgCodes
+                hc = code
 
-                h = htext
-
-                Do While h.CategoryLevel <> "/"c
-                    h = h.Parent
-                    levels(h.CategoryLevel) = h.ClassLabel
+                Do While hc.CategoryLevel <> "/"c
+                    hc = hc.Parent
+                    levels(hc.CategoryLevel) = hc.ClassLabel
                 Loop
 
-                sp = htext.ClassLabel
+                name = code.ClassLabel
+                sp = name
                 sp = sp.Split.First
+                name = Mid(name, sp.Length + 1).Trim
                 out += New Taxonomy With {
-                    .scientificName = Mid(htext.ClassLabel, sp.Length + 1).Trim,
+                    .scientificName = name,
                     .species = sp,
                     .genus = levels.TryGetValue("D"c),
                     .family = levels.TryGetValue("C"c),
@@ -41,6 +104,21 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Next
 
             Return out
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function IsSpeciesLevel(htext As BriteHText) As Boolean
+            Return htext.CategoryLevel = "E"c
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension> Public Function FillTaxonomyTable(organisms As htext) As Taxonomy()
+            Return organisms _
+                .Hierarchical _
+                .EnumerateEntries _
+                .Where(AddressOf IsSpeciesLevel) _
+                .FillTaxonomyTable
         End Function
     End Module
 End Namespace

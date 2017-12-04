@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::012e75471893c5902f61cb4d76d535f2, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\userFunctions\Tools.vb"
+﻿#Region "Microsoft.VisualBasic::5496582bd2a9c7228139031b0371ad45, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\userFunctions\Tools.vb"
 
     ' Author:
     ' 
@@ -97,4 +97,3 @@ Namespace Custom
         End Function
     End Module
 End Namespace
-

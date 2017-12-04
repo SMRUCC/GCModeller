@@ -119,6 +119,7 @@
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLI\02_Alpha_Diversity.vb" />
     <Compile Include="CLI\Difference.vb" />
+    <Compile Include="CLI\HMP\HMP.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -164,6 +165,10 @@
     <ProjectReference Include="..\..\..\R.Bioconductor\RDotNET\RDotNet.vbproj">
       <Project>{21c35138-455b-4833-9756-b2629f972a22}</Project>
       <Name>RDotNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\repository\HMP_client\HMP_client.vbproj">
+      <Project>{fc8eb830-58b8-4ab1-b8f7-6001b21cb0d5}</Project>
+      <Name>HMP_client</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame.Extensions\+VB_DataFrame.Extensions.vbproj">
       <Project>{344bf0cf-107f-45d2-9074-9865d8f86506}</Project>
@@ -230,5 +235,6 @@
       <Name>Bio.Assembly</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

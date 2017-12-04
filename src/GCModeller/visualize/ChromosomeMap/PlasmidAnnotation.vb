@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca676fbb39fddcf735b93507d76a24e4, ..\visualize\ChromosomeMap\PlasmidAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::ea24de4660c11e0197ffb0c6ef64a7ba, ..\GCModeller\visualize\ChromosomeMap\PlasmidAnnotation.vb"
 
     ' Author:
     ' 
@@ -163,4 +163,3 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
         Return LQuery
     End Function
 End Class
-

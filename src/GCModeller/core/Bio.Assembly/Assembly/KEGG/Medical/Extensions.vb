@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d019fd3e5afc41ff8c5e071a87813b6, ..\core\Bio.Assembly\Assembly\KEGG\Medical\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::418b9fadda3e630af1feadda0eefe5d3, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\Extensions.vb"
 
     ' Author:
     ' 
@@ -57,7 +57,7 @@ Namespace Assembly.KEGG.Medical
         End Function
 
         ''' <summary>
-        ''' Using remarks the same as map drug to compounds
+        ''' Using remarks the ``same as`` map compound to drug
         ''' </summary>
         ''' <param name="drugs"></param>
         ''' <returns></returns>
@@ -73,6 +73,38 @@ Namespace Assembly.KEGG.Medical
                                            .Select(Function(dr) dr.First) _
                                            .ToArray)
             Return compoundDrugs
+        End Function
+
+        <Extension>
+        Public Function BuildDrugCompoundMaps(drugs As IEnumerable(Of Drug), groups As IEnumerable(Of DrugGroup)) As Dictionary(Of String, String())
+            Dim maps As New Dictionary(Of String, String())
+            Dim DGmaps = groups.ToDictionary
+
+            For Each drug As Drug In drugs
+                Dim theSameAs$ = drug.TheSameAs
+
+                If theSameAs.StringEmpty Then
+                    ' 可能是drug group
+                    Dim DGid$ = drug.RemarksTable.TryGetValue("Chemical group")
+
+                    If Not DGid.StringEmpty Then
+                        Dim DG = DGmaps.TryGetValue(DGid)
+
+                        If Not DG Is Nothing Then
+                            Dim members = DG.Members _
+                                .Where(Function(s) s.First = "C"c) _
+                                .Select(Function(s) s.Split.First) _
+                                .ToArray
+
+                            maps.Add(drug.Entry, members)
+                        End If
+                    End If
+                Else
+                    maps.Add(drug.Entry, theSameAs.Split)
+                End If
+            Next
+
+            Return maps
         End Function
     End Module
 End Namespace

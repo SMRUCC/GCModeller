@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::087bd29ddf2f7fe43cf7fbca8d57c754, ..\GCModeller\annotations\Proteomics\ProteinGroups.vb"
+﻿#Region "Microsoft.VisualBasic::6a341de471fcfd6691457113d5bc79c2, ..\GCModeller\annotations\Proteomics\ProteinGroups.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -127,27 +127,53 @@ Public Module ProteinGroups
                                                  Optional iTraq As Boolean = False,
                                                  Optional accID As Boolean = False) As IEnumerable(Of (protein, String()))
 
-        Dim uniprot As Dictionary(Of Uniprot.XML.entry) =
-            uniprotProteomics _
-            .LoadDictionary(uniprotXML)
-        Dim geneID$
+        If uniprotXML.FileLength > 1024 * 1024 * 1024L Then
+            ' ultra large size mode
+            Dim idlist As Index(Of String) = ID.Indexing
+            Dim seq As int = 0
 
-        For Each Idtags As SeqValue(Of String) In ID.SeqIterator
-            Dim list$() = (+Idtags).Split(deli)
-            Dim i As Integer = Idtags.i + 1
+            For Each protein As Uniprot.XML.entry In uniprotProteomics.EnumerateEntries(uniprotXML)
+                If protein.accessions.Any(Function(acc) acc.IsOneOfA(idlist)) Then
+                    Dim uniprot As Dictionary(Of Uniprot.XML.entry) = protein.ShadowCopy.ToDictionary
+                    Dim list$() = protein.accessions
+                    Dim geneID$
 
-            If accID Then
-                geneID = +Idtags
-            Else
-                geneID = i
-            End If
+                    If accID Then
+                        geneID = list.Where(Function(acc) acc.IsOneOfA(idlist)).First
+                    Else
+                        geneID = ++seq
+                    End If
 
-            Yield list.__applyInternal(
-                New Dictionary(Of String, String),
-                mappings, uniprot, prefix, geneID,
-                scientifcName,
-                iTraq)
-        Next
+                    Yield list.__applyInternal(
+                        New Dictionary(Of String, String),
+                        mappings, uniprot, prefix, geneID,
+                        scientifcName,
+                        iTraq)
+                End If
+            Next
+        Else
+            Dim uniprot As Dictionary(Of Uniprot.XML.entry) =
+                uniprotProteomics _
+                .LoadDictionary(uniprotXML)
+            Dim geneID$
+
+            For Each Idtags As SeqValue(Of String) In ID.SeqIterator
+                Dim list$() = (+Idtags).Split(deli)
+                Dim i As Integer = Idtags.i + 1
+
+                If accID Then
+                    geneID = +Idtags
+                Else
+                    geneID = i
+                End If
+
+                Yield list.__applyInternal(
+                    New Dictionary(Of String, String),
+                    mappings, uniprot, prefix, geneID,
+                    scientifcName,
+                    iTraq)
+            Next
+        End If
     End Function
 
     <Extension>
@@ -611,4 +637,3 @@ Public Module ProteinGroups
         Next
     End Sub
 End Module
-

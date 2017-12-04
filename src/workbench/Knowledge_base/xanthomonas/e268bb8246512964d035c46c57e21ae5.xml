@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArticleProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <title>RNA-seq pinpoints a Xanthomonas TAL-effector activated resistance gene in a large-crop genome</title>
+  <URL>https://cn.bing.com/academic/profile?id=e268bb8246512964d035c46c57e21ae5&amp;encoded=0&amp;v=paper_preview&amp;mkt=zh-cn</URL>
+  <authors>
+    <link title="Tina Straus" attr="ID=SERP,5097.1">/academic/search?q=Tina+Straus&amp;amp;mkt=zh-cn</link>
+    <link title="Remco M P Van Poecke" attr="ID=SERP,5098.1">/academic/search?q=Remco+M+P+Van+Poecke&amp;amp;mkt=zh-cn</link>
+    <link title="Annett Straus" attr="ID=SERP,5099.1">/academic/search?q=Annett+Straus&amp;amp;mkt=zh-cn</link>
+    <link title="Patrick Romer" attr="ID=SERP,5100.1">/academic/search?q=Patrick+Romer&amp;amp;mkt=zh-cn</link>
+    <link title="Gerald V Minsavage" attr="ID=SERP,5101.1">/academic/profile?id=187648800&amp;amp;mkt=zh-cn</link>
+    <link title="Sylvia Singh" attr="ID=SERP,5102.1">/academic/search?q=Sylvia+Singh&amp;amp;mkt=zh-cn</link>
+    <link title="Christina Wolf" attr="ID=SERP,5103.1">/academic/search?q=Christina+Wolf&amp;amp;mkt=zh-cn</link>
+    <link title="Axel Straus" attr="ID=SERP,5104.1">/academic/profile?id=2069861271&amp;amp;mkt=zh-cn</link>
+    <link title="Seungill Kim" attr="ID=SERP,5105.1">/academic/profile?id=2131432493&amp;amp;mkt=zh-cn</link>
+    <link title="Hyunah Lee" attr="ID=SERP,5106.1">/academic/profile?id=2181815475&amp;amp;mkt=zh-cn</link>
+    <link title="Seonin Yeom" attr="ID=SERP,5107.1">/academic/search?q=Seonin+Yeom&amp;amp;mkt=zh-cn</link>
+    <link title="Martin Parniske" attr="ID=SERP,5108.1">/academic/profile?id=1926684109&amp;amp;mkt=zh-cn</link>
+    <link title="R E Stall" attr="ID=SERP,5109.1">/academic/profile?id=2076902446&amp;amp;mkt=zh-cn</link>
+    <link title="Jeffrey B Jones" attr="ID=SERP,5110.1">/academic/profile?id=2172270751&amp;amp;mkt=zh-cn</link>
+    <link title="Doil Choi" attr="ID=SERP,5111.1">/academic/profile?id=2106986020&amp;amp;mkt=zh-cn</link>
+    <link title="Marcel Prins" attr="ID=SERP,5112.1">/academic/search?q=Marcel+Prins&amp;amp;mkt=zh-cn</link>
+    <link title="Thomas Lahaye" attr="ID=SERP,5113.1">/academic/profile?id=2054441841&amp;amp;mkt=zh-cn</link>
+  </authors>
+  <abstract>Transcription activator-like effector (TALE) proteins of the plant pathogenic bacterial genus Xanthomonas bind to and transcriptionally activate host susceptibility genes, promoting disease. Plant immune systems have taken advantage of this mechanism by evolving TALE binding sites upstream of resistance (R) genes. For example, the pepper Bs3 and rice Xa27 genes are hypersensitive reaction plant R genes that are transcriptionally activated by corresponding TALEs. Both R genes have a hallmark expression pattern in which their transcripts are detectable only in the presence and not the absence of the corresponding TALE. By transcriptome profiling using next-generation sequencing (RNA-seq), we tested whether we could avoid laborious positional cloning for the isolation of TALE-induced R genes. In a proof-of-principle experiment, RNA-seq was used to identify a candidate for Bs4C, an R gene from pepper that mediates recognition of the Xanthomonas TALE protein AvrBs4. We identified one major Bs4C candidate transcript by RNA-seq that was expressed exclusively in the presence of AvrBs4. Complementation studies confirmed that the candidate corresponds to the Bs4C gene and that an AvrBs4 binding site in the Bs4C promoter directs its transcriptional activation. Comparison of Bs4C with a nonfunctional allele that is unable to recognize AvrBs4 revealed a 2-bp polymorphism within the TALE binding site of the Bs4C promoter. Bs4C encodes a structurally unique R protein and Bs4C-like genes that are present in many solanaceous genomes seem to be as tightly regulated as pepper Bs4C. These findings demonstrate that TALE-specific R genes can be cloned from large-genome crops with a highly efficient RNA-seq approach.</abstract>
+  <pub-date>2012-01-01T00:00:00</pub-date>
+  <journal title="Proceedings of the National Academy of Sciences of the United States of America" attr="ID=SERP,5117.1">/academic/search?q=Proceedings+of+the+National+Academy+of+Sciences+of+the+United+States+of+America</journal>
+  <DOI>10.1073/pnas.1212415109</DOI>
+  <keywords>
+    <link title="Transcriptome" attr="ID=SERP,5114.1">/academic/profile?id=162317418&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Gene expression profiling" attr="ID=SERP,5115.1">/academic/profile?id=18431079&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Plant disease resistance" attr="ID=SERP,5116.1">/academic/profile?id=93678976&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+  </keywords>
+  <cites>
+    <cites date="2013" volumn="10" />
+    <cites date="2014" volumn="12" />
+    <cites date="2015" volumn="6" />
+    <cites date="2016" volumn="10" />
+    <cites date="2017" volumn="5" />
+  </cites>
+  <pages>19480-19485</pages>
+  <volume>109</volume>
+  <issue>47</issue>
+  <source>
+    <link title="europepmc.org" attr="ID=SERP,5118.1">http://europepmc.org/articles/PMC3511116?pdf=render</link>
+    <link title="www.pnas.org" attr="ID=SERP,5119.1">http://www.pnas.org/content/early/2012/11/06/1212415109.full.pdf+html</link>
+    <link title="www.pnas.org" attr="ID=SERP,5120.1">http://www.pnas.org/lookup/doi/10.1073/pnas.1212415109</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5121.1">http://www.ncbi.nlm.nih.gov/pmc/articles/instance/3511116/</link>
+    <link title="www.pnas.org" attr="ID=SERP,5122.1">http://www.pnas.org/content/early/2012/11/06/1212415109</link>
+    <link title="www.pnas.org" attr="ID=SERP,5123.1">http://www.pnas.org/content/early/2012/11/06/1212415109.abstract?related-urls=yesl1212415109v1</link>
+    <link title="europepmc.org" attr="ID=SERP,5118.2">http://europepmc.org/articles/PMC3511116?pdf=render</link>
+    <link title="www.pnas.org" attr="ID=SERP,5119.2">http://www.pnas.org/content/early/2012/11/06/1212415109.full.pdf+html</link>
+    <link title="www.pnas.org" attr="ID=SERP,5120.2">http://www.pnas.org/lookup/doi/10.1073/pnas.1212415109</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5121.2">http://www.ncbi.nlm.nih.gov/pmc/articles/instance/3511116/</link>
+    <link title="www.pnas.org" attr="ID=SERP,5122.2">http://www.pnas.org/content/early/2012/11/06/1212415109</link>
+    <link title="www.pnas.org" attr="ID=SERP,5123.2">http://www.pnas.org/content/early/2012/11/06/1212415109.abstract?related-urls=yesl1212415109v1</link>
+    <link title="www.pnas.org" attr="ID=SERP,5124.1">http://www.pnas.org/content/early/2012/11/06/1212415109.abstract</link>
+    <link title="www.pnas.org" attr="ID=SERP,5125.1">http://www.pnas.org/content/109/47/19480.full.pdf+html?with-ds=yes</link>
+    <link title="www.pnas.org" attr="ID=SERP,5126.1">http://www.pnas.org/content/early/2012/11/06/1212415109.short?cited-by=yes;1212415109v1</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5127.1">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3511116/</link>
+    <link title="www.pnas.org" attr="ID=SERP,5128.1">http://www.pnas.org/content/early/2012/11/06/1212415109?cited-by=yes;1212415109v1</link>
+    <link title="www.pnas.org" attr="ID=SERP,5129.1">http://www.pnas.org/content/early/2012/11/06/1212415109.short?rss=1r1212415109v1</link>
+    <link title="www.pnas.org" attr="ID=SERP,5130.1">http://www.pnas.org/content/early/2012/11/06/1212415109.full.pdf+html?with-ds=yes</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5131.1">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3511116/figure/fig01/</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5132.1">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3511116/figure/fig02/</link>
+    <link title="www.pnas.org" attr="ID=SERP,5133.1">http://www.pnas.org/content/109/47/19480</link>
+    <link title="www.pnas.org" attr="ID=SERP,5134.1">http://www.pnas.org/content/109/47/19480.abstract?cited-by=yesl109/47/19480</link>
+    <link title="www.pnas.org" attr="ID=SERP,5135.1">http://www.pnas.org/content/109/47/19480.full</link>
+    <link title="www.pnas.org" attr="ID=SERP,5136.1">http://www.pnas.org/content/109/47/19480.short?rss%3D1</link>
+    <link title="www.pnas.org" attr="ID=SERP,5137.1">http://www.pnas.org/content/early/2012/11/06/1212415109.full.pdf</link>
+    <link title="www.pnas.org" attr="ID=SERP,5138.1">http://www.pnas.org/content/early/2012/11/06/1212415109.short?rss=1c1212415109v1</link>
+    <link title="www.pnas.org" attr="ID=SERP,5139.1">http://www.pnas.org/content/109/47/19480.short?cited-by=yes;109/47/19480</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5140.1">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3511116/</link>
+    <link title="www.pnas.org" attr="ID=SERP,5141.1">http://www.pnas.org/content/109/47/19480.figures-only</link>
+    <link title="www.pnas.org" attr="ID=SERP,5142.1">http://www.pnas.org/content/109/47/19480?cited-by=yesl109/47/19480</link>
+    <link title="www.pnas.org" attr="ID=SERP,5143.1">http://www.pnas.org/content/early/2012/11/06/1212415109.short?rss=1</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5144.1">https://www.ncbi.nlm.nih.gov/pmc/articles/instance/3511116/</link>
+    <link title="europepmc.org" attr="ID=SERP,5145.1">http://europepmc.org/articles/PMC3511116</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5146.1">http://www.ncbi.nlm.nih.gov/pubmed/23132937</link>
+    <link title="europepmc.org" attr="ID=SERP,5147.1">http://europepmc.org/abstract/MED/23132937</link>
+    <link title="www.pnas.org" attr="ID=SERP,5148.1">http://www.pnas.org/content/109/47/19480.short?rss%3D1r109/47/19480c109/47/19480</link>
+    <link title="www.pnas.org" attr="ID=SERP,5149.1">http://www.pnas.org/content/109/47/19480.short?rss%3D1r109/47/19480</link>
+    <link title="www.pnas.org" attr="ID=SERP,5150.1">http://www.pnas.org/content/109/47/19480.short?cited-by=yesl109/47/19480</link>
+    <link title="www.pnas.org" attr="ID=SERP,5151.1">http://www.pnas.org/cgi/doi/10.1073/pnas.1212415109</link>
+    <link title="www.pnas.org" attr="ID=SERP,5152.1">http://www.pnas.org/content/109/47/19480.abstract</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5153.1">https://www.ncbi.nlm.nih.gov/pubmed/23132937?dopt=Abstract</link>
+    <link title="www.pnas.org" attr="ID=SERP,5154.1">http://www.pnas.org/content/109/47/19480.full.pdf</link>
+    <link title="www.pnas.org" attr="ID=SERP,5155.1">http://www.pnas.org/content/109/47/19480.abstract?cited-by=yes;109/47/19480</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5156.1">https://www.ncbi.nlm.nih.gov/pmc/articles/pmid/23132937/</link>
+    <link title="www.pnas.org" attr="ID=SERP,5157.1">http://www.pnas.org/content/109/47/19480.full.pdf+html</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5158.1">https://www.ncbi.nlm.nih.gov/pubmed/23132937</link>
+  </source>
+</ArticleProfile>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::571fea8ca9181cf670d1dc7fdcc20255, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ApplicationServices\VBDev\XmlDoc\ProjectNamespace.vb"
+﻿#Region "Microsoft.VisualBasic::378e788fad37df0e428891cb0db35a3e, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ApplicationServices\VBDev\XmlDoc\ProjectNamespace.vb"
 
     ' Author:
     ' 
@@ -29,6 +29,7 @@
 ' Copyright (c) Bendyline LLC. All rights reserved. Licensed under the Apache License, Version 2.0.
 '    You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0. 
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Development.XmlDoc.Serialization
 Imports Microsoft.VisualBasic.Text
@@ -46,10 +47,12 @@ Namespace ApplicationServices.Development.XmlDoc.Assembly
         Public Property Path() As String
 
         Public ReadOnly Property Types() As IEnumerable(Of ProjectType)
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Me._types.Values
             End Get
         End Property
+
         Public Sub New(project As Project)
             Me.project = project
             Me._types = New Dictionary(Of String, ProjectType)()
@@ -124,7 +127,7 @@ title: {Me.Path}
                 text = pageTemplate.Replace("[content]", text)
             End If
 
-            Call text.SaveTo(path, Encoding.UTF8)
+            Call text.SaveTo(path, UTF8WithoutBOM)
         End Sub
     End Class
 End Namespace

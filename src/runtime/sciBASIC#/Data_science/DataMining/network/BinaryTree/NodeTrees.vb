@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0f42f71c1a91b7ed5b6ce662ec24492, ..\sciBASIC#\Data_science\DataMining\network\BinaryTree\NodeTrees.vb"
+﻿#Region "Microsoft.VisualBasic::cc767c91db84c51caa41230fc936d85f, ..\sciBASIC#\Data_science\DataMining\network\BinaryTree\NodeTrees.vb"
 
     ' Author:
     ' 
@@ -82,9 +82,9 @@ Namespace KMeans
         ReadOnly __chars As Char() = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray
 
         <Extension>
-        Public Function PartionTable(parts As IEnumerable(Of Partition)) As Dictionary(Of String, EntityLDM())
+        Public Function PartionTable(parts As IEnumerable(Of Partition)) As Dictionary(Of String, EntityClusterModel())
             Dim g = parts.GroupBy(Function(p) p.Tag)
-            Dim out As New Dictionary(Of String, EntityLDM())
+            Dim out As New Dictionary(Of String, EntityClusterModel())
 
             For Each part As IGrouping(Of String, Partition) In g
                 If part.Count > 1 Then
@@ -139,7 +139,7 @@ Namespace KMeans
                                 .Tag = cut.FullyQualifiedName,
                                 .uids = allChilds.Select(Function(x) x.EntityID),
                                 .members = allChilds.Select(
-                                    Function(x) New EntityLDM With {
+                                    Function(x) New EntityClusterModel With {
                                         .ID = x.EntityID,
                                         .Cluster = x.FullyQualifiedName
                                     }).ToArray

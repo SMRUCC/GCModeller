@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d3e76d4c77090c87719d922f9c7f14f1, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\PlatformEngine.vb"
+﻿#Region "Microsoft.VisualBasic::fec7542aa7ce6cae0b9cd08834721473, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Platform\PlatformEngine.vb"
 
     ' Author:
     ' 

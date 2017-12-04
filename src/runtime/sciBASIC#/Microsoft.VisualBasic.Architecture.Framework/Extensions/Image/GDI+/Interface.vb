@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d97bba05fc0646920abfaa973a9212f6, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\Interface.vb"
+﻿#Region "Microsoft.VisualBasic::04f436e9cb7db7ad9eda76f4150d34dc, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Image\GDI+\Interface.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,7 @@ Imports System.Drawing.Drawing2D
 Imports System.Drawing.Graphics
 Imports System.Drawing.Imaging
 Imports System.Drawing.Text
+Imports System.Runtime.CompilerServices
 
 Namespace Imaging
 
@@ -3749,11 +3750,23 @@ Namespace Imaging
         Public MustOverride Sub FillPolygon(brush As Brush, points() As PointF, fillMode As FillMode)
 
         ''' <summary>
-        ''' Fills the interior of a rectangle specified by a System.Drawing.Rectangle structure.
+        ''' Fills the interior of a rectangle specified by a <see cref="Rectangle"/> structure.
         ''' </summary>
         ''' <param name="brush">System.Drawing.Brush that determines the characteristics of the fill.</param>
         ''' <param name="rect">System.Drawing.Rectangle structure that represents the rectangle to fill.</param>
         Public MustOverride Sub FillRectangle(brush As Brush, rect As Rectangle)
+
+        ''' <summary>
+        ''' <see cref="FillRectangle(Brush, RectangleF)"/> extensions
+        ''' </summary>
+        ''' <param name="brush"></param>
+        ''' <param name="x!"></param>
+        ''' <param name="y!"></param>
+        ''' <param name="size"></param>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub FillRectangle(brush As Brush, x!, y!, size As SizeF)
+            Call FillRectangle(brush, New RectangleF() With {.X = x, .Y = y, .Size = size})
+        End Sub
 
         ''' <summary>
         ''' Fills the interior of a rectangle specified by a System.Drawing.RectangleF structure.

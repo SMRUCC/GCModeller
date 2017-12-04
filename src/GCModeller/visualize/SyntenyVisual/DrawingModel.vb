@@ -1,33 +1,34 @@
-﻿#Region "Microsoft.VisualBasic::1bde824e70b07e2ee1718cad2d61fb52, ..\visualize\SyntenyVisual\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::1b40829adb11015368f4e6080afee59a, ..\GCModeller\visualize\SyntenyVisual\DrawingModel.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Markup.HTML.CSS
@@ -51,10 +52,11 @@ Public Class DrawingModel
         Dim texts As Image() = briefs.Select(Function(x) TextRender.DrawHtmlText(x.Name, cssFont))
         Dim maxtLen As Integer = texts.Select(Function(x) x.Width).Max
         Dim cl As SolidBrush = New SolidBrush(Color.Black)
-        Dim dh As Integer = GraphicsExtensions.MeasureString(briefs.First.Name, font).Height / 2
         Dim totalSize As New Size(size.Width + maxtLen * 1.5, size.Height)
 
         Using gdi As Graphics2D = totalSize.CreateGDIDevice
+            Dim dh As Integer = briefs.First.Name.MeasureSize(gdi, font).Height / 2
+
             For Each lnk As Line In Links   ' 首先绘制连线
                 Call lnk.Draw(gdi, penWidth)
             Next

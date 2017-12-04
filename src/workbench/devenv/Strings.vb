@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10ab4074ac217dee7de76b9034bf6853, ..\workbench\devenv\Strings.vb"
+﻿#Region "Microsoft.VisualBasic::2302b03a90afe5fbf0a3bad1f0b93c87, ..\workbench\devenv\Strings.vb"
 
     ' Author:
     ' 
@@ -59,4 +59,3 @@ Module Strings
 
     Public ReadOnly Languages As String() = {"zh-CN", "en-US", "fr-FR"}
 End Module
-

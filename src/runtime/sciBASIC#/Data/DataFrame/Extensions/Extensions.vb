@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::8acdeb90a2d235e8e88470234baef917, ..\sciBASIC#\Data\DataFrame\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::94d75bc7ba2c8847d0783bcd4baced1c, ..\sciBASIC#\Data\DataFrame\Extensions\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -39,10 +39,12 @@ Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports File_csv = Microsoft.VisualBasic.Data.csv.IO.File
 
 ''' <summary>
 ''' The shortcuts operation for the common csv document operations.
@@ -57,6 +59,18 @@ Public Module Extensions
     Sub New()
         Call __initStreamIO_pointer()
     End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function LoadCsv(Of T As Class)(path As DefaultString) As List(Of T)
+        Return path.DefaultValue.LoadCsv(Of T)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function LoadTsv(Of T As Class)(path As DefaultString) As T()
+        Return path.DefaultValue.LoadTsv(Of T)
+    End Function
 
     ''' <summary>
     ''' Anonymous type data reader helper.(System.MissingMethodException occurred
@@ -295,7 +309,7 @@ Public Module Extensions
     ''' <param name="explicit"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Extension> Public Function AsDataSource(Of T As Class)(dataSet As IO.File,
+    <Extension> Public Function AsDataSource(Of T As Class)(dataSet As File_csv,
                                                             Optional explicit As Boolean = False,
                                                             Optional maps As Dictionary(Of String, String) = Nothing) As T()
         Dim df As DataFrame = IO.DataFrame.CreateObject(dataSet)
@@ -382,12 +396,13 @@ Load {bufs.Count} lines of data from ""{path.ToFileURL}""! ...................{f
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
-    ''' <param name="explicit"></param>
+    ''' <param name="explicit">
+    ''' 列名称隐式解析，即不强制要求属性上面有<see cref="ColumnAttribute"/>标记，默认是，否则只解析出带有<see cref="ColumnAttribute"/>自定义属性标记的属性作为csv的列的数据源
+    ''' </param>
     ''' <returns></returns>
     <Extension> Public Function LoadStream(Of T As Class)(source As IEnumerable(Of String), Optional explicit As Boolean = True, Optional trimBlanks As Boolean = False) As T()
-        Dim dataFrame As IO.File =
-            IO.File.Load(source.ToArray, trimBlanks)
-        Dim buf As T() = dataFrame.AsDataSource(Of T)(explicit)
+        Dim dataFrame As File = File.Load(source.ToArray, trimBlanks)
+        Dim buf As T() = dataFrame.AsDataSource(Of T)(Not explicit)
         Return buf
     End Function
 
@@ -458,10 +473,13 @@ Load {bufs.Count} lines of data from ""{path.ToFileURL}""! ...................{f
     ''' <param name="blank$"></param>
     ''' <param name="reorderKeys"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 对于<see cref="DataSet"/>类型的数据集，可以先使用拓展函数转化为<see cref="EntityObject"/>之后再调用本函数进行保存操作
+    ''' </remarks>
     <Extension>
     Public Function SaveDataSet(Of T As EntityObject)(source As IEnumerable(Of T),
                                                       path$,
-                                                      Optional encoding As Encodings = Encodings.ASCII,
+                                                      Optional encoding As Encodings = Encodings.UTF8,
                                                       Optional KeyMap$ = Nothing,
                                                       Optional blank$ = "",
                                                       Optional reorderKeys As Integer = 0) As Boolean
@@ -503,12 +521,13 @@ Load {bufs.Count} lines of data from ""{path.ToFileURL}""! ...................{f
                                                Optional explicit As Boolean = False,
                                                Optional maps As Dictionary(Of String, String) = Nothing,
                                                Optional metaBlank$ = "",
-                                               Optional reorderKeys% = 0) As IO.File
+                                               Optional reorderKeys% = 0) As File
         Return Reflector.Save(
             source, explicit,
             maps:=maps,
             metaBlank:=metaBlank,
-            reorderKeys:=reorderKeys)
+            reorderKeys:=reorderKeys
+        )
     End Function
 
     ''' <summary>

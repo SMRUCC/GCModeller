@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38f603886d96d6f692e454d931582f1f, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\VennDiagram\VennDiagram\RModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::1c4b823dcdc4cd94b3d6d40692690323, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\VennDiagram\VennDiagram\RModelAPI.vb"
 
     ' Author:
     ' 
@@ -93,12 +93,18 @@ Namespace VennDiagram.ModelAPI
         <Extension>
         Public Function VectorMapper(Of T As IEnumerable(Of IEnumerable(Of String)))(entities As T) As String()
             Dim dictTokens As Dictionary(Of String, Integer) =
-            entities.IteratesALL.Distinct.Select(
-              Function(name, idx) New With {.name = name, .idx = idx}) _
-                  .ToDictionary(Function(entity) entity.name,
-                                Function(entity) entity.idx)
-            Dim Mappings = entities.Select(Function(entity) entity.Select(Function(name) dictTokens(name))).ToArray
-            Dim resultSet As String() = Mappings.Select(Function(entity) entity.JoinBy(",")).ToArray
+                entities _
+                .IteratesALL _
+                .Distinct _
+                .Select(Function(name, idx) (name:=name, idx:=idx)) _
+                .ToDictionary(Function(entity) entity.name,
+                              Function(entity) entity.idx)
+            Dim Mappings = entities _
+                .Select(Function(entity) entity.Select(Function(name) dictTokens(name))) _
+                .ToArray
+            Dim resultSet As String() = Mappings _
+                .Select(Function(entity) entity.JoinBy(",")) _
+                .ToArray
             Return resultSet
         End Function
 

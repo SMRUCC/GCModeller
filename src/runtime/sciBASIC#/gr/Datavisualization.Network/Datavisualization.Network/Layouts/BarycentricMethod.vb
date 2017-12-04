@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42b1bfb586ab2d3f85cc3b68926e2787, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Layouts\BarycentricMethod.vb"
+﻿#Region "Microsoft.VisualBasic::820a1f34670a349d4a728bdce6f3ec81, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Layouts\BarycentricMethod.vb"
 
     ' Author:
     ' 
@@ -97,8 +97,8 @@ Namespace Layouts
                 ' Calculate forces acting on nodes due to edge attractions.
                 For e As Integer = 0 To edges.Length - 1
                     Dim edge As Edge = edges(e)
-                    Dim nodeA As Node = edge.Source
-                    Dim nodeB As Node = edge.Target
+                    Dim nodeA As Node = edge.U
+                    Dim nodeB As Node = edge.V
 
                     Dim deltaX As Double = nodeB.Data.initialPostion.x - nodeA.Data.initialPostion.x
                     Dim deltaY As Double = nodeB.Data.initialPostion.y - nodeA.Data.initialPostion.y

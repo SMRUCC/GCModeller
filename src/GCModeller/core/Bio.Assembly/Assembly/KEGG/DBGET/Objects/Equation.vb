@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36e277f341a731d55dacce0717d18c62, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Equation.vb"
+﻿#Region "Microsoft.VisualBasic::8773c204a937792c123781d4ab2382e9, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Equation.vb"
 
     ' Author:
     ' 
@@ -46,7 +46,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Public Overrides Function ToString() As String
             Dim sBuilder As StringBuilder = New StringBuilder(1024)
-            For Each Item In Left
+            For Each Item As SpeciesReference In Left
                 Call sBuilder.Append(Item.ToString & " + ")
             Next
             Call sBuilder.Remove(sBuilder.Length - 3, 3)
@@ -56,7 +56,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                 Call sBuilder.Append(" ==> ")
             End If
 
-            For Each Item In Right
+            For Each Item As SpeciesReference In Right
                 Call sBuilder.Append(Item.ToString, " + ")
             Next
             Call sBuilder.Remove(sBuilder.Length - 3, 3)

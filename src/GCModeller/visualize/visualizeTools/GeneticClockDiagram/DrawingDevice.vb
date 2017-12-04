@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::803984b129c60f5efabeb91596d40859, ..\visualize\visualizeTools\GeneticClockDiagram\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::7205c85fa11da88da26f2a1a0b808522, ..\GCModeller\visualize\visualizeTools\GeneticClockDiagram\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -29,6 +29,8 @@
 Imports System.Drawing
 Imports SMRUCC.genomics.InteractionModel
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports System.Drawing.Drawing2D
 
 Namespace GeneticClock
 
@@ -63,23 +65,24 @@ Namespace GeneticClock
             Dim ColorRendering = New ColorRender(SerialsData.Skip(1).ToArray)
             Dim DataChunk = ColorRendering.GetColorRenderingProfiles
             Dim DrawingFont As Font = New Font("Ubuntu", 12)
-            Dim MaxSize As Size = (From item In DataChunk Select item.TagValue Order By Len(TagValue) Ascending).Last.MeasureString(DrawingFont)
+            Dim MaxSize As SizeF = (From item In DataChunk Select item.TagValue Order By Len(TagValue) Ascending).Last.MeasureSize(New Size(1, 1).CreateGDIDevice, DrawingFont)
             Dim Height As Integer = MaxSize.Height
             Dim ImageOffSet As Integer = MaxSize.Width + 20
             Dim Bitmap As Bitmap = New Bitmap(CInt(DataChunk.First.Profiles.Count * Scale + ImageOffSet + 0.5 * MaxSize.Width), Height * DataChunk.Count + Height * 4)
 
-            Using Gr As Graphics = Graphics.FromImage(Bitmap)
-                Dim Region As Rectangle = New Rectangle(New Point, Bitmap.Size)
+            Using g As IGraphics = Bitmap.CreateCanvas2D(directAccess:=True)
+                Dim Region As New Rectangle(New Point, Bitmap.Size)
                 Dim y As Integer = 0
 
-                Gr.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
-                Gr.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
-                Call Gr.FillRectangle(Brushes.White, Region)
+                g.CompositingQuality = CompositingQuality.HighQuality
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality
+
+                Call g.FillRectangle(Brushes.White, Region)
 
                 For Each Line In DataChunk
-                    Call Gr.DrawImage(DrawingSerialsLine(Line, Height - 1, Scale), New Point(ImageOffSet, y))
-                    Dim Left As Integer = ImageOffSet - Gr.MeasureString(Line.TagValue, DrawingFont).Width
-                    Call Gr.DrawString(Line.TagValue, DrawingFont, Brushes.Black, New Point(Left, y - 2))
+                    Call g.DrawImage(DrawingSerialsLine(Line, Height - 1, Scale), New Point(ImageOffSet, y))
+                    Dim Left As Integer = ImageOffSet - g.MeasureString(Line.TagValue, DrawingFont).Width
+                    Call g.DrawString(Line.TagValue, DrawingFont, Brushes.Black, New Point(Left, y - 2))
                     y += Height
                 Next
 
@@ -89,7 +92,7 @@ Namespace GeneticClock
                 Dim DrawingPen As Pen = New Pen(Brushes.Black, 1)
                 'Dim ArrowLeft = RuleEndPoint.X - 5, ArrowHeightOffSet = 5
 
-                Call Gr.DrawLine(DrawingPen, New Point(ImageOffSet, y), RuleEndPoint)
+                Call g.DrawLine(DrawingPen, New Point(ImageOffSet, y), RuleEndPoint)
                 'Call Gr.DrawLine(DrawingPen, New Point(ArrowLeft, y - ArrowHeightOffSet), RuleEndPoint)
                 'Call Gr.DrawLine(DrawingPen, New Point(ArrowLeft, y + ArrowHeightOffSet), RuleEndPoint)
 
@@ -106,18 +109,18 @@ Namespace GeneticClock
                 DrawingFont = New Font("Ubuntu", 10)
 
                 For i As Integer = 0 To [step]  '绘制时间标尺
-                    Dim size = Gr.MeasureString(TimeValue.ToString, DrawingFont)
+                    Dim size = g.MeasureString(TimeValue.ToString, DrawingFont)
 
-                    Call Gr.DrawString(TimeValue, DrawingFont, Brushes.Black, New Point(x - size.Width / 2, y))
-                    Call Gr.DrawLine(DrawingPen, New Point(x, Rule_Y - 2), New Point(x, Rule_Y))
+                    Call g.DrawString(TimeValue, DrawingFont, Brushes.Black, New Point(x - size.Width / 2, y))
+                    Call g.DrawLine(DrawingPen, New Point(x, Rule_Y - 2), New Point(x, Rule_Y))
 
                     TimeValue += TimeStep
                     x += DrawStep
                 Next
 
-                MaxSize = SerialsData.First.Tag.MeasureString(DrawingFont)
-                Call Gr.DrawString(SerialsData.First.Tag, DrawingFont, Brushes.Black, New Point(x - 0.5 * DrawStep, y - 3 - MaxSize.Height / 2))
-                Call ColorRendering.GetDesityRule(50).DrawingDensityRule(Gr, New Point(ImageOffSet, y), DrawingFont, ImageWidth)
+                MaxSize = SerialsData.First.Tag.MeasureSize(g, DrawingFont)
+                Call g.DrawString(SerialsData.First.Tag, DrawingFont, Brushes.Black, New Point(x - 0.5 * DrawStep, y - 3 - MaxSize.Height / 2))
+                Call ColorRendering.GetDesityRule(50).DrawingDensityRule(g, New Point(ImageOffSet, y), DrawingFont, ImageWidth)
             End Using
 
             Return Bitmap

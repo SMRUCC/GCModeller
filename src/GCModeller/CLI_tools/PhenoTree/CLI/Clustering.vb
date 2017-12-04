@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90386e4f48b37863fbe6dca381cd1113, ..\CLI_tools\PhenoTree\CLI\Clustering.vb"
+﻿#Region "Microsoft.VisualBasic::102a8b0531a5d9b03fa6844baaf3e75a, ..\GCModeller\CLI_tools\PhenoTree\CLI\Clustering.vb"
 
     ' Author:
     ' 
@@ -62,7 +62,7 @@ Partial Module CLI
         Call arguments.Add("cut", cut)
 
         Dim matrix As DataSet() = fasta.SimilarityMatrix(arguments)
-        Dim clusters As EntityLDM() = matrix.KMeans(expected)
+        Dim clusters As EntityClusterModel() = matrix.KMeans(expected)
         Dim colors As Color() = Designer.GetColors(args <= "/colors", expected)
         Dim clusterColors As Dictionary(Of String, Color) = clusters _
             .Select(Function(x) x.Cluster) _

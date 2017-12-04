@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2af4ce74cd2d6751a646637eefc72c12, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Marshal\IntPtr(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::5119d8d8de1b620492f979ed09180d9e, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Marshal\IntPtr(Of T).vb"
 
     ' Author:
     ' 
@@ -26,6 +26,8 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+
 Namespace Emit.Marshal
 
     ''' <summary>
@@ -48,7 +50,7 @@ Namespace Emit.Marshal
     Public Delegate Sub UnsafeWrite(Of T)(destination As T(), startIndex As Integer, source As System.IntPtr, length As Integer)
 
     ''' <summary>
-    ''' 内存指针
+    ''' Unmanaged Memory pointer in VisualBasic language.(内存指针)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <remarks>只不过这个对象是封装了写内存操作的</remarks>
@@ -56,10 +58,17 @@ Namespace Emit.Marshal
         Implements IDisposable
 
         ''' <summary>
-        ''' 第一个位置
+        ''' The position in the memory region of the first byte for read.(第一个位置)
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Scan0 As System.IntPtr
+
+        ''' <summary>
+        ''' ```vbnet
+        ''' Public Delegate Sub UnsafeWrite(Of T)(destination As T(), startIndex As Integer, source As System.IntPtr, length As Integer)
+        ''' ```
+        ''' </summary>
+        ReadOnly __writeMemory As UnsafeWrite(Of T)
 
         ''' <summary>
         ''' 
@@ -67,10 +76,14 @@ Namespace Emit.Marshal
         ''' <param name="p"></param>
         ''' <param name="chunkSize"></param>
         ''' <param name="unsafeCopys">
+        ''' ```vbnet
         ''' Public Sub UnsafeCopys(Of <typeparamref name="T"/>)(source As <see cref="System.IntPtr"/>, destination As <typeparamref name="T"/>(), startIndex As <see cref="Integer"/>, length As <see cref="Integer"/>)
+        ''' ```
         ''' </param>
         ''' <param name="unsafeWrite">
+        ''' ```vbnet
         ''' Public Sub UnsafeWrite(Of <typeparamref name="T"/>)(destination As <typeparamref name="T"/>(), startIndex As <see cref="Integer"/>, source As <see cref="System.IntPtr"/>, length As <see cref="Integer"/>)
+        ''' ```
         ''' </param>
         Sub New(p As System.IntPtr, chunkSize As Integer, unsafeCopys As UnsafeCopys(Of T), unsafeWrite As UnsafeWrite(Of T))
             __writeMemory = unsafeWrite
@@ -89,11 +102,7 @@ Namespace Emit.Marshal
             Scan0 = p
         End Sub
 
-        ''' <summary>
-        ''' Public Delegate Sub UnsafeWrite(Of T)(destination As T(), startIndex As Integer, source As System.IntPtr, length As Integer)
-        ''' </summary>
-        Dim __writeMemory As UnsafeWrite(Of T)
-
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Sub __unsafeWrite(p As System.IntPtr)
             Call __writeMemory(buffer, 0, p, buffer.Length)
         End Sub
@@ -101,10 +110,19 @@ Namespace Emit.Marshal
         ''' <summary>
         ''' Unsafe write memory
         ''' </summary>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Write()
             Call __unsafeWrite(Scan0)
         End Sub
 
+        ''' <summary>
+        ''' Please be carefull by using this method, if the memory region size of <see cref="Scan0"/> 
+        ''' in this memory pointer is larger than <paramref name="des"/>, this method will caused 
+        ''' exception.
+        ''' </summary>
+        ''' <param name="des"></param>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Write(des As System.IntPtr)
             Call __unsafeWrite(des)
         End Sub
@@ -113,11 +131,23 @@ Namespace Emit.Marshal
             Return $"* {GetType(T).Name} + {__index} --> {Current}  // {Scan0.ToString}"
         End Function
 
+        ''' <summary>
+        ''' Move forward the current position of this memory pointer <paramref name="ptr"/> by a specific step <paramref name="d"/>
+        ''' </summary>
+        ''' <param name="ptr"></param>
+        ''' <param name="d"></param>
+        ''' <returns></returns>
         Public Overloads Shared Operator +(ptr As IntPtr(Of T), d As Integer) As IntPtr(Of T)
             ptr.__index += d
             Return ptr
         End Operator
 
+        ''' <summary>
+        ''' Move backward the current position of this memory pointer <paramref name="ptr"/> by a specific step <paramref name="d"/>
+        ''' </summary>
+        ''' <param name="ptr"></param>
+        ''' <param name="d"></param>
+        ''' <returns></returns>
         Public Overloads Shared Operator -(ptr As IntPtr(Of T), d As Integer) As IntPtr(Of T)
             ptr.__index -= d
             Return ptr

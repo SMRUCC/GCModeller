@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bfca67d5c500498491d740f3f4e5ff22, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Pathways.vb"
+﻿#Region "Microsoft.VisualBasic::7a66c87e0fb429176709fcac3677d2ca, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Pathways.vb"
 
     ' Author:
     ' 
@@ -77,13 +77,9 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         ''' <param name="sp"></param>
         ''' <param name="EXPORT"></param>
         ''' <returns></returns>
-        Public Function Downloads(sp$,
-                                  Optional EXPORT$ = "./LinkDB-Pathways/",
-                                  Optional forceUpdate As Boolean = False) As String()
-
+        Public Function Downloads(sp$, Optional EXPORT$ = "./LinkDB-pathways/", Optional forceUpdate As Boolean = False) As String()
             Dim entries As New List(Of ListEntry)
-            Dim briefHash As Dictionary(Of String, BriteHEntry.Pathway) =
-                BriteHEntry.Pathway.LoadDictionary
+            Dim briteTable As Dictionary(Of String, BriteHEntry.Pathway) = BriteHEntry.Pathway.LoadDictionary
             Dim Downloader As New WebClient()
             Dim Progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways....", 1, CLS:=True)
             Dim failures As New List(Of String)
@@ -91,6 +87,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             ' VBDebugger.Mute = True
 
             Dim all As ListEntry() = AllEntries(sp).ToArray
+            Dim url$
             Dim i As int = 1
 
             For Each entry As ListEntry In all
@@ -99,7 +96,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Dim path As String = EXPORT & "/webpages/" & entry.EntryID & ".html"
                 Dim img As String = EXPORT & $"/{entry.EntryID}.png"
                 Dim bCode As String = Regex.Match(entry.EntryID, "\d+").Value
-                Dim xml$ = BriteHEntry.Pathway.CombineDIR(briefHash(bCode), EXPORT) & $"/{entry.EntryID}.Xml"
+                Dim xml$ = BriteHEntry.Pathway.CombineDIR(briteTable(bCode), EXPORT) & $"/{entry.EntryID}.Xml"
 
                 If xml.FileLength > 0 AndAlso img.FileLength > 0 Then
                     If Not forceUpdate Then
@@ -116,7 +113,8 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                     failures += entry.EntryID
                 Else
                     entries += entry
-                    data.Genes = KEGGgenes.Download($"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}").ToArray
+                    url = $"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}"
+                    data.Genes = KEGGgenes.Download(url).ToArray
 
                     Call data.SaveAsXml(xml)
                 End If
@@ -127,6 +125,7 @@ EXIT_LOOP:      Call Progress.SetProgress(++i / all.Length * 100, entry.GetJson)
 
             ' VBDebugger.Mute = False
 
+            Call Progress.Dispose()
             Call entries.GetJson.SaveTo(EXPORT & $"/{sp}.json")
 
             Return failures

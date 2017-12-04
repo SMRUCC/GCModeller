@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5eb9f206aa21804cfd732be85b447d37, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ApplicationServices\VBDev\XmlDoc\ProjectType.vb"
+﻿#Region "Microsoft.VisualBasic::b1a1ea07fb5ce7820363aefac6bc88f8, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ApplicationServices\VBDev\XmlDoc\ProjectType.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,7 @@
 '    You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0. 
 
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Xml
 Imports Microsoft.VisualBasic.ApplicationServices.Development.XmlDoc.Serialization
@@ -48,6 +49,7 @@ Namespace ApplicationServices.Development.XmlDoc.Assembly
         Dim methods As Dictionary(Of String, ProjectMember)
 
         Public ReadOnly Property [Namespace]() As ProjectNamespace
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Me.projectNamespace
             End Get
@@ -240,7 +242,7 @@ title: {Me.Name}
                 End If
             End If
 
-            Call text.SaveTo(path, UTF8withoutbom)
+            Call text.SaveTo(path, UTF8WithoutBOM)
         End Sub
 
         Public Sub LoadFromNode(xn As XmlNode)
@@ -255,7 +257,6 @@ title: {Me.Name}
                 Remarks = summaryNode.InnerText
             End If
         End Sub
-
 
         Private Function CleanText(incomingText As String) As String
             If incomingText Is Nothing Then

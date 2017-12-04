@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::eaecbc3263e7a07c61b6eb2c6b80cf06, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Scripting\InputHandler.vb"
+﻿#Region "Microsoft.VisualBasic::ee4537ccb845a9af6c0d139a1c4ab046, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Scripting\InputHandler.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -36,6 +36,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports CLI = Microsoft.VisualBasic.CommandLine.CommandLine
 
@@ -81,6 +82,7 @@ Namespace Scripting
             {GetType(SizeF), AddressOf FloatSizeParser}
         }
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function StringParser(type As Type) As DefaultValue(Of Func(Of String, Object))
             Return New Func(Of String, Object)(Function(s$) s.CTypeDynamic(type))
         End Function
@@ -132,6 +134,8 @@ Namespace Scripting
         ''' </summary>
         ''' <param name="targetType"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function IsPrimitive(targetType As Type) As Boolean
             Return CasterString.ContainsKey(targetType)
         End Function
@@ -144,7 +148,7 @@ Namespace Scripting
         ''' <param name="briefName"></param>
         ''' <param name="stringConvertType"></param>
         ''' <param name="cast"></param>
-        Public Sub CapabilityPromise(briefName As String, stringConvertType As Type, cast As LoadObject)
+        Public Sub CapabilityPromise(briefName$, stringConvertType As Type, cast As LoadObject)
             With _CasterString
                 If .ContainsKey(stringConvertType) Then
                     Call .Remove(stringConvertType)
@@ -240,6 +244,8 @@ Namespace Scripting
         ''' <param name="inputType"></param>
         ''' <param name="DefType"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Convertible(inputType As Type, DefType As Type) As Boolean
             Return inputType.Equals([String]) AndAlso CasterString.ContainsKey(DefType)
         End Function
@@ -249,7 +255,9 @@ Namespace Scripting
         ''' </summary>
         ''' <param name="obj"></param>
         ''' <returns></returns>
-        Public Function ToString(obj As Object, Optional null As String = "") As String
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ToString(obj As Object, Optional null$ = "") As String
             Return CStrSafe(obj, null)
         End Function
 

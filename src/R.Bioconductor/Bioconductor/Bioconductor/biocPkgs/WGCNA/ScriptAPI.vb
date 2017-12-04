@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c90f06721acd5a2ffedebc764dd59413, ..\R.Bioconductor\Bioconductor\Bioconductor\biocPkgs\WGCNA\ScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::85c8c844340a337d760fd350eea63e37, ..\R.Bioconductor\Bioconductor\Bioconductor\biocPkgs\WGCNA\ScriptAPI.vb"
 
     ' Author:
     ' 
@@ -29,11 +29,10 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports RDotNET.Extensions.VisualBasic
-Imports RDotNET.Extensions.VisualBasic.SymbolBuilder.Rtypes
 
 Namespace WGCNA
 
-    <PackageNamespace("bioc.WGCNA")>
+    <Package("bioc.WGCNA")>
     Public Module ScriptAPI
 
         <ExportAPI("WGCNA")>

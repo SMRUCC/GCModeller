@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::518e50ccc0940cfc02e6d13a95540c4a, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Graph\GraphTree.vb"
+﻿#Region "Microsoft.VisualBasic::02d5b60d5fa4a605e5857a41adc3f4ec, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Graph\GraphTree.vb"
 
     ' Author:
     ' 
@@ -127,15 +127,15 @@ Namespace Graph
                 Dim [next] As GraphTreeNode = Nothing
 
                 With current
-                    If edge.Source = .Node Then
+                    If edge.U = .Node Then
                         [next] = New GraphTreeNode With {
-                            .Node = edge.Target
+                            .Node = edge.V
                         }
                         [next].Parents.Add(current)
                         .Childs.Add([next])
-                    ElseIf edge.Target = .Node Then
+                    ElseIf edge.v = .Node Then
                         [next] = New GraphTreeNode With {
-                            .Node = edge.Source
+                            .Node = edge.U
                         }
                         [next].Childs.Add(current)
                         .Parents.Add([next])

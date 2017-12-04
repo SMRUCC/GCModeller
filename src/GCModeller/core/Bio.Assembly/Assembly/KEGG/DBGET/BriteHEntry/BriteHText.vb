@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a14e2ebed336aa2ca35f5b3a4d178fb5, ..\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb"
+﻿#Region "Microsoft.VisualBasic::4288b8e3a732f112138be4507be70fa0, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb"
 
 ' Author:
 ' 
@@ -28,7 +28,7 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -38,21 +38,31 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
     ''' BRITE Functional Hierarchies
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class BriteHText
+    Public Class BriteHText : Implements INamedValue
 
         ''' <summary>
         ''' 大分类的标签
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property ClassLabel As String
+        <XmlAttribute> Public Property ClassLabel As String Implements INamedValue.Key
+        <XmlAttribute> Public Property Level As Integer
+        ''' <summary>
+        ''' ``ABCDEFG``, etc...
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property Degree As Char
+
+#Region "Tree"
+
+        <XmlIgnore>
+        Public Property Parent As BriteHText
         ''' <summary>
         ''' 假若这个层次还可以进行细分的话，则这个属性就是当前的小分类的子分类列表
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement> Public Property CategoryItems As BriteHText()
-        <XmlAttribute> Public Property Level As Integer
-        <XmlAttribute> Public Property Degree As Char
-        <XmlIgnore> Public Property Parent As BriteHText
+        <XmlElement>
+        Public Property CategoryItems As BriteHText()
+#End Region
 
         Dim _EntryId As String
 
@@ -64,6 +74,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Get
                 If String.IsNullOrEmpty(_EntryId) Then
                     Dim Tokens As String = ClassLabel.Split.First
+
                     If Regex.Match(Tokens, "[a-z]\d{5}", RegexOptions.IgnoreCase).Success Then
                         _EntryId = Tokens
                     ElseIf Tokens.IsPattern("\d+") Then

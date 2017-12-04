@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e29c6a2a8b607c702a8f4af7d5a5124, ..\CLI_tools\S.M.A.R.T\DomainArchitecture\DomainQuery.vb"
+﻿#Region "Microsoft.VisualBasic::9e29c6a2a8b607c702a8f4af7d5a5124, ..\GCModeller\CLI_tools\S.M.A.R.T\DomainArchitecture\DomainQuery.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16e867032a97480ab9cf20db9534b070, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\ExternalCall.vb"
+﻿#Region "Microsoft.VisualBasic::e08c17a0afa0b44bbe8ddad81ed10aad, ..\httpd\WebCloud\SMRUCC.HTTPInternal\AppEngine\ExternalCall.vb"
 
     ' Author:
     ' 
@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -69,24 +70,26 @@ Namespace AppEngine
         ''' <param name="dll"></param>
         ''' <param name="platform"></param>
         ''' <returns></returns>
-        Public Function ParseDll(dll As String, platform As PlatformEngine) As Integer
-            Dim assm As Reflection.Assembly = Reflection.Assembly.LoadFile(dll)
-            Dim types As Type() =
-                LinqAPI.Exec(Of Type) <= From typeDef As Type
-                                         In assm.GetTypes
-                                         Where typeDef.IsInheritsFrom(GetType(WebApp)) _
-                                             AndAlso
-                                             Not typeDef.IsAbstract
-                                         Select typeDef
+        Public Function ParseDll(dll$, platform As PlatformEngine) As Integer
+            Dim assm As Assembly = Assembly.LoadFile(dll)
+            Dim types As Type() = LinqAPI.Exec(Of Type) _
+ _
+                () <= From typeDef As Type
+                      In EmitReflection.GetTypesHelper(assm)
+                      Where typeDef.IsInheritsFrom(GetType(WebApp)) _
+                          AndAlso Not typeDef.IsAbstract
+                      Select typeDef
+
             If types.Length = 0 Then
                 Return -1
             End If
 
-            Dim Apps As WebApp() =
-                types.Select(Of WebApp)(Function(typeDef As Type)
-                                            Return DirectCast(Activator.CreateInstance(typeDef, {platform}), WebApp)
-                                        End Function) _
-                     .ToArray
+            Dim Apps As WebApp() = types _
+                .Select(Of WebApp)(
+                    Function(typeDef As Type)
+                        Return DirectCast(Activator.CreateInstance(typeDef, {platform}), WebApp)
+                    End Function) _
+                .ToArray
 
             For Each app As WebApp In Apps
                 Call platform.AppManager.Register(app)

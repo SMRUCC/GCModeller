@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::199f789b9bebbd880717bf13001ccc88, ..\GCModeller\analysis\Microarray\DEGDesigner.vb"
+﻿#Region "Microsoft.VisualBasic::fe956a4d2860de7df73c46c19376caab, ..\GCModeller\analysis\Microarray\DEGDesigner.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -104,71 +104,6 @@ Public Module DEGDesigner
 
     Public Function MergeDEPMatrix(DIR$, name$) As gene()
         Return MergeMatrix(DIR, name, DEG:=Math.Log(1.5, 2), Pvalue:=0.05)
-    End Function
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="DEPsDIR$"></param>
-    ''' <param name="DEPstag$"></param>
-    ''' <param name="NA_replaced#">FC值之中的1表示无变化，因为``log2(1) = 0``</param>
-    ''' <returns></returns>
-    Public Function GetDEPsRawValues(DEPsDIR$, Optional DEPstag$ = "is.DEP", Optional NA_replaced$ = "1") As gene()
-        Dim allGenes As gene() = (ls - l - r - "*.csv" <= DEPsDIR) _
-            .Select(Function(csv) gene.LoadDataSet(csv)) _
-            .IteratesALL _
-            .ToArray
-        Dim allDEPs As Index(Of String) = allGenes _
-            .Where(Function(gene) gene(DEPstag).TextEquals("TRUE")) _
-            .Keys _
-            .Distinct _
-            .Indexing
-        ' 这里应该是allgenes，因为取的是实验的DEPs的并集
-        Dim rawValues As gene() = allGenes _
-            .GroupBy(Function(gene) gene.ID) _
-            .Select(Function(g)
-                        Return New gene With {
-                            .ID = g.Key,
-                            .Properties = g _
-                                .Select(Function(x) x.Properties) _
-                                .IteratesALL _
-                                .GroupBy(Function(k) k.Key) _
-                                .ToDictionary(Function(k) k.Key,
-                                              Function(v)
-                                                  ' 对于T-test脚本的输出，这些DEP文件都共同含有一个
-                                                  ' avg.FC和is.DEP字段，在这里直接通过group去重了
-                                                  With v.First.Value
-                                                      If .ref = "0" OrElse .TextEquals("NA") Then
-                                                          Return NA_replaced
-                                                      Else
-                                                          Return .ref
-                                                      End If
-                                                  End With
-                                              End Function)
-                        }
-                    End Function) _
-            .ToArray
-        Dim allDataFields$() = allGenes _
-            .Select(Function(gene) gene.Properties.Keys) _
-            .IteratesALL _
-            .Distinct _
-            .OrderBy(Function(s) s) _
-            .ToArray
-        Dim out = rawValues _
-            .Where(Function(gene)
-                       Return allDEPs.IndexOf(gene.ID) > -1
-                   End Function) _
-            .Select(Function(gene)
-                        Return New gene With {
-                            .ID = gene.ID,
-                            .Properties = allDataFields _
-                                .ToDictionary(Function(key) key,
-                                              Function(field) gene(field))
-                        }
-                    End Function) _
-            .ToArray
-
-        Return out
     End Function
 
     ''' <summary>
@@ -563,4 +498,3 @@ Public Module DEGDesigner
             output)
     End Sub
 End Module
-

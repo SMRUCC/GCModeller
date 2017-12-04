@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::924a48cfc20fd3d1acd0b122799d722c, ..\workbench\devenv\TabPages\MEMETools\MEMETools.vb"
+﻿#Region "Microsoft.VisualBasic::a9abd299048277397137128d1a1da8c7, ..\workbench\devenv\TabPages\MEMETools\MEMETools.vb"
 
     ' Author:
     ' 
@@ -32,4 +32,3 @@ Public Class MEMETools
 
     End Sub
 End Class
-

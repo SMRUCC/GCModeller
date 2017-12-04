@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab9e43e3db491d3a8dccd8c77a5e5f36, ..\CLI_tools\mpl\CLI\Applications.vb"
+﻿#Region "Microsoft.VisualBasic::e0d638a078d642cdae9b566a269b6c5f, ..\GCModeller\CLI_tools\mpl\CLI\Applications.vb"
 
     ' Author:
     ' 
@@ -28,11 +28,11 @@
 
 Imports System.Drawing
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports ProteinTools.Interactions.CLI
 Imports SMRUCC.genomics

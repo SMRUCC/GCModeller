@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::324f8bad94d1116b661b24d2e7b89804, ..\core\Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
+﻿#Region "Microsoft.VisualBasic::f26e16dcd650894ecb749efc992466ee, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
 
     ' Author:
     ' 
@@ -117,7 +117,7 @@ Namespace Assembly.MetaCyc.Schema
         End Function
 
         Private Function SideEqualsExplicit(Side1 As KeyValuePair(Of CompoundSpecieReference, EffectorMap)(), Side2 As ICompoundSpecies()) As Boolean
-            For Each item In Side1
+            For Each item As KeyValuePair(Of CompoundSpecieReference, EffectorMap) In Side1
                 Dim MetaCycItem = Side2.Take(item.Value.MetaCycId)
                 If MetaCycItem Is Nothing Then
                     Return False
@@ -131,7 +131,7 @@ Namespace Assembly.MetaCyc.Schema
         End Function
 
         Private Function SideEqualsNOTExplicit(Side1 As KeyValuePair(Of CompoundSpecieReference, EffectorMap)(), Side2 As ICompoundSpecies()) As Boolean
-            For Each item In Side1
+            For Each item As KeyValuePair(Of CompoundSpecieReference, EffectorMap) In Side1
                 Dim MetaCycItem = Side2.Take(item.Value.MetaCycId)
                 If MetaCycItem Is Nothing Then
                     Return False

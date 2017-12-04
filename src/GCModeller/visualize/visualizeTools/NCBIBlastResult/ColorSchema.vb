@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::226043a9f87352eb56926c06e673d308, ..\visualize\visualizeTools\NCBIBlastResult\ColorSchema.vb"
+﻿#Region "Microsoft.VisualBasic::887afd34e0f8b0f8783fc7005acb2592, ..\GCModeller\visualize\visualizeTools\NCBIBlastResult\ColorSchema.vb"
 
     ' Author:
     ' 

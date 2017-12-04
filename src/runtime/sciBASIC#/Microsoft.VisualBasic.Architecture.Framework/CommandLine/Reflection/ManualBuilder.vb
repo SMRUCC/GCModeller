@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53fac522cbe7f74f47023581ba1fa9d0, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\Reflection\ManualBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::48604e5a9065f5b41761e3e3c4c845e0, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\Reflection\ManualBuilder.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,7 @@ Namespace CommandLine.Reflection
         ''' <param name="api"></param>
         ''' <returns></returns>
         <Extension> Public Function PrintHelp(api As APIEntryPoint) As Integer
-            Dim infoLines = Paragraph.Split(api.Info, 90).ToArray
+            Dim infoLines = Paragraph.SplitParagraph(api.Info, 90).ToArray
             Dim blank$
 
             ' print API name and description
@@ -232,7 +232,7 @@ Namespace CommandLine.Reflection
                     ' 这里的blank调整的是命令开关名称与描述之间的字符间距
                     blank = New String(" "c, helpOffset - l + 2)
                     infoLines$ = Paragraph _
-                        .Split(param.Description, 120) _
+                        .SplitParagraph(param.Description, 120) _
                         .ToArray
 
                     Call Console.Write(blank)

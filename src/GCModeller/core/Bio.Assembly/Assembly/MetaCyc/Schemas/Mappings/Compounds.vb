@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f3530db05837e8c743f5cc1875c8b4c3, ..\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Mappings\Compounds.vb"
+﻿#Region "Microsoft.VisualBasic::f3530db05837e8c743f5cc1875c8b4c3, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Mappings\Compounds.vb"
 
     ' Author:
     ' 

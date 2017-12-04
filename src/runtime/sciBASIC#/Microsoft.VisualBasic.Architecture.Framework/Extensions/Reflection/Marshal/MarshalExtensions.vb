@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::284a8de5bb951a6d773d2fc3c977860b, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Marshal\MarshalExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::a810b6c4ba107323a3ec2d0a908a1d7c, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Marshal\MarshalExtensions.vb"
 
     ' Author:
     ' 
@@ -35,12 +35,15 @@ Imports Microsoft.VisualBasic.Emit.Marshal
 Public Module MarshalExtensions
 
     ''' <summary>
-    ''' 
+    ''' Read unmanaged memory using memory pointer.
     ''' </summary>
-    ''' <typeparam name="T">Integer, Char, Short, Long, Single, Byte, IntPtr, Double</typeparam>
+    ''' <typeparam name="T">
+    ''' <see cref="Integer"/>, <see cref="Char"/>, <see cref="Short"/>, <see cref="Long"/>, <see cref="Single"/>, <see cref="Byte"/>, <see cref="IntPtr"/>, <see cref="Double"/>
+    ''' </typeparam>
     ''' <param name="p"></param>
     ''' <returns></returns>
     ''' <remarks>
+    ''' ```vbnet
     ''' Public Shared Sub Copy(source As IntPtr, destination() As Integer, startIndex As Integer, length As Integer)
     ''' Public Shared Sub Copy(source As IntPtr, destination() As Char, startIndex As Integer, length As Integer)
     ''' Public Shared Sub Copy(source As IntPtr, destination() As Short, startIndex As Integer, length As Integer)
@@ -49,6 +52,7 @@ Public Module MarshalExtensions
     ''' Public Shared Sub Copy(source As IntPtr, destination() As Byte, startIndex As Integer, length As Integer)
     ''' Public Shared Sub Copy(source As IntPtr, destination() As IntPtr, startIndex As Integer, length As Integer)
     ''' Public Shared Sub Copy(source As IntPtr, destination() As Double, startIndex As Integer, length As Integer)
+    ''' ```
     ''' </remarks>
     <Extension> Public Function MarshalAs(Of T)(p As System.IntPtr, chunkSize As Integer) As IntPtr(Of T)
         Select Case GetType(T)

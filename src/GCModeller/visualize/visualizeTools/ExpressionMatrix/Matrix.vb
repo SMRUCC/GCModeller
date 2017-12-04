@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b32e816670550d2787118a0baf52da32, ..\visualize\visualizeTools\ExpressionMatrix\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::c44ca0fab01dd6ad0a5e4daaa58f4678, ..\GCModeller\visualize\visualizeTools\ExpressionMatrix\Matrix.vb"
 
     ' Author:
     ' 
@@ -26,10 +26,10 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports SMRUCC.genomics.InteractionModel
 
 Namespace ExpressionMatrix
@@ -42,7 +42,7 @@ Namespace ExpressionMatrix
             Data = Data.Skip(1).ToArray   '第一个元素为时间
             Dim RenderingColor = New GeneticClock.ColorRender(Data).GetColorRenderingProfiles
             Dim TagFont As Font = New Font("Ubuntu", 4)
-            Dim TagSize = (From item In Data Select item.Tag Order By Len(Tag) Descending).First.MeasureString(TagFont)
+            Dim TagSize = (From item In Data Select item.Tag Order By Len(Tag) Descending).First.MeasureSize(New Size(1, 1).CreateGDIDevice, TagFont)
             Dim Margin As Integer = 10
             Dim DotSize As New Size(20, If(TagSize.Height > 5, TagSize.Height, 5))
             Dim Device = New Size(Data.First.ChunkBuffer.Count * DotSize.Width + Margin * 2, Data.Count * DotSize.Height + Margin * 2).CreateGDIDevice
@@ -78,10 +78,10 @@ Namespace ExpressionMatrix
         ''' <remarks></remarks>
         Public Function NormalMatrix(MAT As IO.File) As Image
             Dim Tags As String() = {(From row In MAT.Skip(1) Select row.First).ToArray, MAT.First.Skip(1).ToArray}.Unlist.Distinct.ToArray
-            Dim TagDict = CreateAlphabetTagSerials(Tags)
+            Dim tagsTable = CreateAlphabetTagSerials(Tags)
             Dim DrawingFont As Font = New Font(FontFace.Ubuntu, 12)
             Dim MatrixValueString = (From s As String In (From row In MAT.Skip(1) Select row.Skip(1).ToArray).Unlist Select s Order By Len(s) Descending).ToArray
-            Dim size = MatrixValueString.First.MeasureString(DrawingFont)
+            Dim size = MatrixValueString.First.MeasureSize(New Size(1, 1).CreateGDIDevice, DrawingFont)
             Dim MatrixValues As Double() = (From s As String In MatrixValueString Select Val(s)).ToArray
             Dim ColorValues = GeneticClock.ColorRender.GetDesityRule(MatrixValues, 100)
             Dim DotSize = New Size(size.Width, size.Height)
@@ -93,7 +93,7 @@ Namespace ExpressionMatrix
 
             For Each col As String In MAT.First.Skip(1)
                 x += size.Width
-                Call Gr.Graphics.DrawString(TagDict(col), DrawingFont, Brushes.Black, New Point(x, y))
+                Call Gr.Graphics.DrawString(tagsTable(col), DrawingFont, Brushes.Black, New Point(x, y))
             Next
 
             y = Margin + size.Height
@@ -101,7 +101,7 @@ Namespace ExpressionMatrix
             For Each row In MAT.Skip(1)
                 x = Margin
 
-                Call Gr.Graphics.DrawString(TagDict(row.First), DrawingFont, Brushes.Black, New Point(x, y))
+                Call Gr.Graphics.DrawString(tagsTable(row.First), DrawingFont, Brushes.Black, New Point(x, y))
 
                 x += size.Width
 
@@ -116,7 +116,6 @@ Namespace ExpressionMatrix
 
             Return Gr.ImageResource
         End Function
-
 
         ''' <summary>
         ''' 绘制上三角形
@@ -136,17 +135,17 @@ Namespace ExpressionMatrix
             Dim TagDict As Dictionary(Of String, String) = CreateAlphabetTagSerials(Tags)
             Dim DrawingFont As Font = New Font(FontFace.Ubuntu, 12)
             Dim MatrixValueString = (From s As String In (From row In MAT.Skip(1) Select row.Skip(1)).Unlist Select s Order By Len(s) Descending).ToArray
-            Dim size = MatrixValueString.First.MeasureString(DrawingFont)
+            Dim size = MatrixValueString.First.MeasureSize(New Size(1, 1).CreateGDIDevice, DrawingFont)
             Dim MatrixValues As Double() = (From s As String In MatrixValueString Select Val(s)).ToArray
             Dim ColorValues = GeneticClock.ColorRender.GetDesityRule(MatrixValues, 100)
             Dim DotSize = New Size(size.Width, size.Height)
-            Dim Gr = (New Size(3 * Margin + DotSize.Width * MAT.Width, 3 * Margin + DotSize.Height * MAT.Count * 2)).CreateGDIDevice
+            Dim g = (New Size(3 * Margin + DotSize.Width * MAT.Width, 3 * Margin + DotSize.Height * MAT.Count * 2)).CreateGDIDevice
 
             Dim x As Integer = Margin, y As Integer = Margin
 
             For Each col As String In MAT.First.Skip(2) '绘制首行的标题
                 x += size.Width
-                Call Gr.Graphics.DrawString(TagDict(col), DrawingFont, Brushes.Black, New Point(x, y))
+                Call g.Graphics.DrawString(TagDict(col), DrawingFont, Brushes.Black, New Point(x, y))
             Next
 
             y = Margin + size.Height
@@ -161,12 +160,12 @@ Namespace ExpressionMatrix
                 x += size.Width * i - i / 2
 
                 For Each col As String In row.Skip(i + 1)
-                    Call Gr.Graphics.FillRectangle(New SolidBrush(ColorValues.GetValue(Val(col))), New Rectangle(New Point(x, y), DotSize))
-                    Call Gr.Graphics.DrawString(col, DrawingFont, Brushes.Black, New Point(x, y))
+                    Call g.Graphics.FillRectangle(New SolidBrush(ColorValues.GetValue(Val(col))), New Rectangle(New Point(x, y), DotSize))
+                    Call g.Graphics.DrawString(col, DrawingFont, Brushes.Black, New Point(x, y))
                     x += size.Width
                 Next
 
-                Call Gr.Graphics.DrawString(TagDict(row.First), DrawingFont, Brushes.Black, New Point(x, y))
+                Call g.Graphics.DrawString(TagDict(row.First), DrawingFont, Brushes.Black, New Point(x, y))
 
                 y += size.Height
                 i += 1
@@ -174,16 +173,16 @@ Namespace ExpressionMatrix
 
             DrawingFont = New Font(FontFace.Ubuntu, 8)
             x = Margin
-            Call ColorValues.DrawingDensityRule(Gr.Graphics, New Point(x, y - 50), DrawingFont, Gr.Width * 0.3)
+            Call ColorValues.DrawingDensityRule(g, New Point(x, y - 50), DrawingFont, g.Width * 0.3)
             y += size.Height
 
             For Each item In TagDict
                 Dim col As String = String.Format("{0}.  {1}", item.Value, item.Key)
-                Call Gr.Graphics.DrawString(col, DrawingFont, Brushes.Black, New Point(x, y))
+                Call g.Graphics.DrawString(col, DrawingFont, Brushes.Black, New Point(x, y))
                 y += size.Height
             Next
 
-            Return Gr.ImageResource
+            Return g.ImageResource
         End Function
 
         Const ALPHABET As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

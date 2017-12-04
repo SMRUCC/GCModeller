@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6379618a4a58a292fdb84910b384cae7, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\NetworkAPI.vb"
+﻿#Region "Microsoft.VisualBasic::31cdec9ca139a9c8484bf1bb22ac83d8, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\NetworkAPI.vb"
 
     ' Author:
     ' 
@@ -46,11 +46,6 @@ Public Module NetworkAPI
     <ExportAPI("Read.Network")>
     Public Function ReadnetWork(file As String) As FileStream.NetworkEdge()
         Return file.LoadCsv(Of FileStream.NetworkEdge)(False).ToArray
-    End Function
-
-    <ExportAPI("Find.Path.Shortest")>
-    <Extension> Public Function FindShortestPath(net As IEnumerable(Of FileStream.NetworkEdge), start As String, ends As String) As FileStream.NetworkEdge()
-
     End Function
 
     <ExportAPI("Get.NetworkEdges")>
@@ -136,20 +131,22 @@ Public Module NetworkAPI
 
         VBDebugger.Mute = True
 
-        Dim nodes As FileStream.Node() =
+        Dim nodes As FileStream.Node() = LinqAPI.Exec(Of FileStream.Node) _
  _
-            LinqAPI.Exec(Of FileStream.Node) <=
- _
-            From v As DataSet
-            In array
-            Let type As String = nodeTypes.TryGetValue(v.ID, [default]:="variable")
-            Select New FileStream.Node With {
-                .ID = v.ID,
-                .NodeType = type,
-                .Properties = v.Properties _
-                    .ToDictionary(Function(k) k.Key,
-                                  Function(k) CStr(k.Value))
-            }
+            () <= From v As DataSet
+                  In array
+                  Let type As String = nodeTypes.TryGetValue(v.ID, [default]:="variable")
+                  Select New FileStream.Node With {
+                      .ID = v.ID,
+                      .NodeType = type,
+                      .Properties = v _
+                          .Properties _
+                          .ToDictionary(Function(k) k.Key,
+                                        Function(k)
+                                            Return CStr(k.Value)
+                                        End Function)
+                  }
+
         Dim edges As New List(Of FileStream.NetworkEdge)
         Dim interact$
         Dim c#

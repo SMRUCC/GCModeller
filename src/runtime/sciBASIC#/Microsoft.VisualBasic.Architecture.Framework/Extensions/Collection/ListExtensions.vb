@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::22182bd87b500f403be1af2d4eaa3d7e, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\ListExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::9a6f1045ae517779aae8e57632bcc1fa, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Collection\ListExtensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -127,13 +127,17 @@ Public Module ListExtensions
         End If
 
         Dim result As T() = New T(index.Length - 1) {}
-        Dim indices As New Index(Of Integer)(
-            index.Select(Function(oi) oi + offSet))
+        Dim indices As Index(Of Integer) = index _
+            .Select(Function(oi) oi + offSet) _
+            .Indexing
 
         For Each x As SeqValue(Of T) In source.SeqIterator
-            Dim i As Integer = indices(x.i)  ' 在这里得到的是x的index在indexs参数之中的索引位置
+            ' 在这里得到的是x的index在indexs参数之中的索引位置
+            Dim i% = indices.IndexOf(x:=x.i)
 
-            If i > -1 Then  ' 当前的原始的下表位于indexs参数值中，则第i个indexs元素所指向的source的元素就是x，将其放入对应的结果列表之中
+            ' 当前的原始的下表位于indexs参数值中，则第i个indexs元素所指向的source的元素
+            ' 就是x， 将其放入对应的结果列表之中
+            If i > -1 Then
                 result(i) = x.value
             End If
         Next
@@ -156,7 +160,7 @@ Public Module ListExtensions
         Dim out As New List(Of T)
 
         For Each x As SeqValue(Of T) In collection.SeqIterator
-            If indices.IndexOf(x.i) = -1 Then  ' 不存在于顶点的列表之中，即符合反选的条件，则添加进入结果之中
+            If indices.IndexOf(x:=x.i) = -1 Then  ' 不存在于顶点的列表之中，即符合反选的条件，则添加进入结果之中
                 out += x.value
             End If
         Next

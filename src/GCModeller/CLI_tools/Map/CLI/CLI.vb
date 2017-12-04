@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15f7480b0889657ebf45ef3a4272c0fb, ..\CLI_tools\Map\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::ded38edba22bedc989fd273d2f325684, ..\GCModeller\CLI_tools\Map\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -123,4 +123,3 @@ Create:     config = ChromosomeMap.GetDefaultConfiguration(conf)
         Return PTT.Draw(COG, confInf, out)
     End Function
 End Module
-

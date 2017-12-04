@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c701032404a47007dd981ec7c6b049d, ..\CLI_tools\RNA-seq\CLI\Tools.vb"
+﻿#Region "Microsoft.VisualBasic::73b98c561ee677feebeea9931c3db60e, ..\GCModeller\CLI_tools\RNA-seq\CLI\Tools.vb"
 
     ' Author:
     ' 
@@ -38,6 +38,7 @@ Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
@@ -343,7 +344,7 @@ Partial Module CLI
 
                     For Each x As SimpleSegment In array
                         If IDstats.ContainsKey(x.ID) Then
-                            IDstats(x.ID).value += 1
+                            IDstats(x.ID).Value += 1
                         Else
                             Call IDstats.Add(
                                 x.ID,
@@ -461,7 +462,7 @@ Partial Module CLI
                Usage:="/Select.Subs /in <in.DIR> /cols <list','> [/out <out.DIR>]")>
     Public Function SelectSubs(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim cols As String() = args("/cols").Split(","c)
+        Dim cols As String() = args("/cols").Split(",")
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".SubSets/")
 
         For Each file As String In ls - l - r - wildcards("*.Csv") <= [in]

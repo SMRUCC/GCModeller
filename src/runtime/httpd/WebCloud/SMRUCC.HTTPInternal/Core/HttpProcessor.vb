@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::1e38025c7829a48e305dea8eec943cc2, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
+﻿#Region "Microsoft.VisualBasic::067bbfd0b756a0e851238959aef19081, ..\httpd\WebCloud\SMRUCC.HTTPInternal\Core\HttpProcessor.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -286,6 +286,7 @@ Namespace Core
             End While
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub handleGETRequest()
             Call srv.handleGETRequest(Me)
         End Sub
@@ -361,21 +362,24 @@ Namespace Core
             End Try
         End Sub
 
+        Const PoweredBy$ = "microsoft-visualbasic-servlet(*.vbs)"
+        Const XPoweredBy$ = "X-Powered-By: " & PoweredBy
+
         Private Sub __writeSuccess(content_type As String, content As Content)
             ' this is the successful HTTP response line
-            outputStream.WriteLine("HTTP/1.0 200 OK")
+            Call outputStream.WriteLine("HTTP/1.0 200 OK")
             ' these are the HTTP headers...          
-            outputStream.WriteLine("Content-Length: " & content.Length)
-            outputStream.WriteLine("Content-Type: " & content_type)
-            outputStream.WriteLine("Connection: close")
+            Call outputStream.WriteLine("Content-Length: " & content.Length)
+            Call outputStream.WriteLine("Content-Type: " & content_type)
+            Call outputStream.WriteLine("Connection: close")
             ' ..add your own headers here if you like
 
             ' Call content.WriteHeader(outputStream)
 
-            outputStream.WriteLine("X-Powered-By: Microsoft VisualBasic")
-            outputStream.WriteLine("")
+            Call outputStream.WriteLine(XPoweredBy)
+            Call outputStream.WriteLine("")
             ' this terminates the HTTP headers.. everything after this is HTTP body..
-            outputStream.Flush()
+            Call outputStream.Flush()
         End Sub
 
         Public Sub writeSuccess(content As Content)

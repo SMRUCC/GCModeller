@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05cf7d451482c49abb5a45b4730260e6, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\BaseClass.vb"
+﻿#Region "Microsoft.VisualBasic::a7a435066925ec335fd2ec1b03d8e61b, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Language\BaseClass.vb"
 
     ' Author:
     ' 
@@ -122,10 +122,6 @@ Namespace Language
         Public Shared Operator &(s As String, x As BaseClass) As String
             Return s & x.__toString
         End Operator
-
-        Protected Sub Copy(ByRef x As BaseClass)
-            x = Me
-        End Sub
 
         Public Shared Operator IsTrue(x As BaseClass) As Boolean
             Return Not x Is Nothing

@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/localblast.exe
+' assembly: D:/GCModeller/GCModeller/bin/localblast.exe
 
 Namespace GCModellerApps
 
@@ -166,15 +166,14 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /BestHits.Filtering /in &lt;besthit.xml> /sp &lt;table.txt> [/out &lt;out.Xml>]
+''' /bbh.topbest /in &lt;bbh.csv> [/out &lt;out.csv>]
 ''' ```
 ''' </summary>
 '''
-Public Function BestHitFiltering(_in As String, _sp As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/BestHits.Filtering")
+Public Function BBHTopBest(_in As String, Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("/bbh.topbest")
 Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/sp " & """" & _sp & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
 End If
@@ -700,16 +699,23 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Export.BlastX /in &lt;blastx.txt> [/out &lt;out.csv>]
+''' /Export.BlastX /in &lt;blastx.txt> [/top /Uncharacterized.exclude /out &lt;out.csv>]
 ''' ```
+''' Export the blastx alignment result into a csv table.
 ''' </summary>
 '''
-Public Function ExportBlastX(_in As String, Optional _out As String = "") As Integer
+Public Function ExportBlastX(_in As String, Optional _out As String = "", Optional _top As Boolean = False, Optional _uncharacterized_exclude As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Export.BlastX")
 Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _top Then
+Call CLI.Append("/top ")
+End If
+If _uncharacterized_exclude Then
+Call CLI.Append("/uncharacterized.exclude ")
 End If
 
 
@@ -884,6 +890,25 @@ Call CLI.Append("/tokens ")
 End If
 If _p Then
 Call CLI.Append("/p ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /hits.ID.list /in &lt;bbhindex.csv> [/out &lt;out.txt>]
+''' ```
+''' </summary>
+'''
+Public Function HitsIDList(_in As String, Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("/hits.ID.list")
+Call CLI.Append(" ")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
 End If
 
 
@@ -1171,17 +1196,23 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /SBH.Export.Large /in &lt;blastp_out.txt> [/trim-kegg /out &lt;sbh.csv> /identities 0.15 /coverage 0.5]
+''' /SBH.Export.Large /in &lt;blastp_out.txt> [/trim-kegg /out &lt;sbh.csv> /s.pattern &lt;default=-> /q.pattern &lt;default=-> /identities 0.15 /coverage 0.5]
 ''' ```
 ''' Using this command for export the sbh result of your blastp raw data.
 ''' </summary>
 '''
-Public Function ExportBBHLarge(_in As String, Optional _out As String = "", Optional _identities As String = "", Optional _coverage As String = "", Optional _trim_kegg As Boolean = False) As Integer
+Public Function ExportBBHLarge(_in As String, Optional _out As String = "", Optional _s_pattern As String = "-", Optional _q_pattern As String = "-", Optional _identities As String = "", Optional _coverage As String = "", Optional _trim_kegg As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/SBH.Export.Large")
 Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If Not _s_pattern.StringEmpty Then
+Call CLI.Append("/s.pattern " & """" & _s_pattern & """ ")
+End If
+If Not _q_pattern.StringEmpty Then
+Call CLI.Append("/q.pattern " & """" & _q_pattern & """ ")
 End If
 If Not _identities.StringEmpty Then
 Call CLI.Append("/identities " & """" & _identities & """ ")
@@ -1191,6 +1222,29 @@ Call CLI.Append("/coverage " & """" & _coverage & """ ")
 End If
 If _trim_kegg Then
 Call CLI.Append("/trim-kegg ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /SBH.tophits /in &lt;sbh.csv> [/uniprotKB /out &lt;out.csv>]
+''' ```
+''' Filtering the sbh result with top SBH Score
+''' </summary>
+'''
+Public Function SBH_topHits(_in As String, Optional _out As String = "", Optional _uniprotkb As Boolean = False) As Integer
+Dim CLI As New StringBuilder("/SBH.tophits")
+Call CLI.Append(" ")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _uniprotkb Then
+Call CLI.Append("/uniprotkb ")
 End If
 
 
@@ -1279,59 +1333,6 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /SSBH2BH_LDM /in &lt;ssbh.csv> [/xml /coverage 0.8 /identities 0.3 /out &lt;out.xml>]
-''' ```
-''' </summary>
-'''
-Public Function KEGGSSOrtholog2Bh(_in As String, Optional _coverage As String = "", Optional _identities As String = "", Optional _out As String = "", Optional _xml As Boolean = False) As Integer
-Dim CLI As New StringBuilder("/SSBH2BH_LDM")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _coverage.StringEmpty Then
-Call CLI.Append("/coverage " & """" & _coverage & """ ")
-End If
-If Not _identities.StringEmpty Then
-Call CLI.Append("/identities " & """" & _identities & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-If _xml Then
-Call CLI.Append("/xml ")
-End If
-
-
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' /SSDB.Export /in &lt;inDIR> [/coverage 0.8 /identities 0.3 /out &lt;out.Xml>]
-''' ```
-''' </summary>
-'''
-Public Function KEGGSSDBExport(_in As String, Optional _coverage As String = "", Optional _identities As String = "", Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/SSDB.Export")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _coverage.StringEmpty Then
-Call CLI.Append("/coverage " & """" & _coverage & """ ")
-End If
-If Not _identities.StringEmpty Then
-Call CLI.Append("/identities " & """" & _identities & """ ")
-End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-
-
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
 ''' /Taxonomy.efetch /in &lt;nt.fasta> [/out &lt;out.DIR>]
 ''' ```
 ''' Fetch the taxonomy information of the fasta sequence from NCBI web server.
@@ -1358,6 +1359,25 @@ End Function
 '''
 Public Function MergeFetchTaxonData(_in As String, Optional _out As String = "") As Integer
 Dim CLI As New StringBuilder("/Taxonomy.efetch.Merge")
+Call CLI.Append(" ")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /to.kobas /in &lt;sbh.csv> [/out &lt;kobas.tsv>]
+''' ```
+''' </summary>
+'''
+Public Function _2_KOBASOutput(_in As String, Optional _out As String = "") As Integer
+Dim CLI As New StringBuilder("/to.kobas")
 Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 If Not _out.StringEmpty Then
@@ -1505,25 +1525,6 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Venn.Single /in &lt;besthits.Xml> [/out &lt;out.csv>]
-''' ```
-''' </summary>
-'''
-Public Function VennSingle(_in As String, Optional _out As String = "") As Integer
-Dim CLI As New StringBuilder("/Venn.Single")
-Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
-End If
-
-
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
 ''' /Whog.XML /in &lt;whog> [/out &lt;whog.XML>]
 ''' ```
 ''' Converts the whog text file into a XML data file.
@@ -1576,31 +1577,6 @@ End Function
 
 ''' <summary>
 ''' ```
-''' blast -i &lt;file_directory> -blast_bin &lt;BLAST_program_directory> -program &lt;program_type_name> [-ld &lt;log_dir> -xld &lt;xml_log_dir>]
-''' ```
-''' In order to draw as venn diagram for a specific set of genome and study the diferrence and consists between these genomes, you should do the blast operation from the protein amino aciad sequence first. The blastp operation can be performenced by the blast+ program which you can download from the NCBI website, this command is a interop service for the NCBI blast program£¬ you should install the blast+ program at first.
-''' </summary>
-'''
-Public Function BLASTA(_i As String, _blast_bin As String, _program As String, Optional _ld As String = "", Optional _xld As String = "") As Integer
-Dim CLI As New StringBuilder("blast")
-Call CLI.Append(" ")
-Call CLI.Append("-i " & """" & _i & """ ")
-Call CLI.Append("-blast_bin " & """" & _blast_bin & """ ")
-Call CLI.Append("-program " & """" & _program & """ ")
-If Not _ld.StringEmpty Then
-Call CLI.Append("-ld " & """" & _ld & """ ")
-End If
-If Not _xld.StringEmpty Then
-Call CLI.Append("-xld " & """" & _xld & """ ")
-End If
-
-
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
 ''' --blast.self /query &lt;query.fasta> [/blast &lt;blast_HOME> /out &lt;out.csv>]
 ''' ```
 ''' Query fasta query against itself for paralogs.
@@ -1615,29 +1591,6 @@ Call CLI.Append("/blast " & """" & _blast & """ ")
 End If
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
-End If
-
-
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' -copy -i &lt;index_file> -os &lt;output_saved> [-osidx &lt;id_column_index> -os_skip_first &lt;T/F>]
-''' ```
-''' </summary>
-'''
-Public Function Copy(_i As String, _os As String, Optional _osidx As String = "", Optional _os_skip_first As String = "") As Integer
-Dim CLI As New StringBuilder("-copy")
-Call CLI.Append(" ")
-Call CLI.Append("-i " & """" & _i & """ ")
-Call CLI.Append("-os " & """" & _os & """ ")
-If Not _osidx.StringEmpty Then
-Call CLI.Append("-osidx " & """" & _osidx & """ ")
-End If
-If Not _os_skip_first.StringEmpty Then
-Call CLI.Append("-os_skip_first " & """" & _os_skip_first & """ ")
 End If
 
 
@@ -1696,102 +1649,6 @@ Call CLI.Append("/prefix " & """" & _prefix & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
 If _txt Then
 Call CLI.Append("/txt ")
-End If
-
-
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' -export_besthit -i &lt;input_csv_file> -o &lt;output_saved_csv>
-''' ```
-''' </summary>
-'''
-Public Function ExportBestHit(_i As String, _o As String) As Integer
-Dim CLI As New StringBuilder("-export_besthit")
-Call CLI.Append(" ")
-Call CLI.Append("-i " & """" & _i & """ ")
-Call CLI.Append("-o " & """" & _o & """ ")
-
-
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' grep -i &lt;xml_log_file> -q &lt;script_statements> -h &lt;script_statements>
-''' ```
-''' The gene id in the blast output log file are not well format for reading and program processing, so before you generate the venn diagram you should call this command to parse the gene id from the log file. You can also done this id parsing job using other tools.
-''' </summary>
-'''
-Public Function Grep(_i As String, _q As String, _h As String) As Integer
-Dim CLI As New StringBuilder("grep")
-Call CLI.Append(" ")
-Call CLI.Append("-i " & """" & _i & """ ")
-Call CLI.Append("-q " & """" & _q & """ ")
-Call CLI.Append("-h " & """" & _h & """ ")
-
-
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' logs_analysis -d &lt;xml_logs_directory> -export &lt;export_csv_file>
-''' ```
-''' Parsing the xml format blast log into a csv data file that use for venn diagram drawing.
-''' </summary>
-'''
-Public Function bLogAnalysis(_d As String, _export As String) As Integer
-Dim CLI As New StringBuilder("logs_analysis")
-Call CLI.Append(" ")
-Call CLI.Append("-d " & """" & _d & """ ")
-Call CLI.Append("-export " & """" & _export & """ ")
-
-
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' merge -d &lt;directory> -o &lt;output_file>
-''' ```
-''' This program can not use the blast parsing result for the venn diagram drawing operation, and this command is using for generate the drawing data for the venn diagram drawing command, this command merge the blast log parsing result and then using the parsing result for drawing a venn diagram.
-''' </summary>
-'''
-Public Function Merge(_d As String, _o As String) As Integer
-Dim CLI As New StringBuilder("merge")
-Call CLI.Append(" ")
-Call CLI.Append("-d " & """" & _d & """ ")
-Call CLI.Append("-o " & """" & _o & """ ")
-
-
-Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
-Return proc.Run()
-End Function
-
-''' <summary>
-''' ```
-''' -merge_besthit -i &lt;input_file_list> -o &lt;output_file> -os &lt;original_idlist_sequence_file> [-osidx &lt;id_column_index> -os_skip_first &lt;T/F>]
-''' ```
-''' </summary>
-'''
-Public Function MergeBestHits(_i As String, _o As String, _os As String, Optional _osidx As String = "", Optional _os_skip_first As String = "") As Integer
-Dim CLI As New StringBuilder("-merge_besthit")
-Call CLI.Append(" ")
-Call CLI.Append("-i " & """" & _i & """ ")
-Call CLI.Append("-o " & """" & _o & """ ")
-Call CLI.Append("-os " & """" & _os & """ ")
-If Not _osidx.StringEmpty Then
-Call CLI.Append("-osidx " & """" & _osidx & """ ")
-End If
-If Not _os_skip_first.StringEmpty Then
-Call CLI.Append("-os_skip_first " & """" & _os_skip_first & """ ")
 End If
 
 

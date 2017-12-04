@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0bee584d6bbc5c39a15960fd0e9f79c0, ..\CLI_tools\MEME\Cli\Cli.vb"
+﻿#Region "Microsoft.VisualBasic::eb9c50cba057ba01f5fbacbec00fbcb1, ..\GCModeller\CLI_tools\MEME\Cli\CLI.vb"
 
     ' Author:
     ' 
@@ -88,13 +88,14 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
     <ExportAPI("--hits.diff", Usage:="--hits.diff /query <bbhh.csv> /subject <bbhh.csv> [/reverse]")>
     Public Function DiffHits(args As CommandLine) As Integer
         Dim reverse As Boolean = args.GetBoolean("/reverse")
-        Dim query = (From x In args("/query").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
-        Dim subject = (From x In args("/subject").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
+        Dim queryFile$ = args <= "/query"
+        Dim query = (From x In queryFile.LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
+        Dim subject = (From x In (args <= "/subject").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
         Dim LQuery = (From x In query Where subject.ContainsKey(x.Key) Select __diff(x.Value, subject(x.Key))).ToArray.Unlist
-        Dim path As String = args("/query").TrimSuffix & $".diff__{BaseName(args("/subject"))}.csv"
+        Dim path As String = queryFile.TrimSuffix & $".diff__{BaseName(args("/subject"))}.csv"
         Dim exclude = (From x In query Where Not subject.ContainsKey(x.Key) Select x.Value).ToArray.Unlist
         Call LQuery.SaveTo(path)
-        path = args("/query").TrimSuffix & $".excludes__{BaseName(args("/subject"))}.csv"
+        path = (args <= "/query").TrimSuffix & $".excludes__{BaseName(args("/subject"))}.csv"
         Return exclude.SaveTo(path).CLICode
     End Function
 
@@ -108,14 +109,14 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
 
     <ExportAPI("--Intersect.Max", Usage:="--Intersect.Max /query <bbhh.csv> /subject <bbhh.csv>")>
     Public Function MaxIntersection(args As CommandLine) As Integer
-        Dim query = (From x In args("/query").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
-        Dim subject = (From x In args("/subject").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
+        Dim query = (From x In (args <= "/query").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
+        Dim subject = (From x In (args <= "/subject").LoadCsv(Of bbhMappings) Select x Group x By x.hit_name Into Group).ToDictionary(Function(x) x.hit_name, elementSelector:=Function(x) x.Group.ToArray)
         Dim LQuery = (From x In query
                       Where subject.ContainsKey(x.Key)
                       Let intr = Interacts(x.Value, subject(x.Key))
                       Select intr
                       Order By intr.Length Descending).ToArray
-        Dim path As String = args("/query").TrimSuffix & $".Intersect.Max.{BaseName(args("/subject"))}.csv"
+        Dim path As String = (args <= "/query").TrimSuffix & $".Intersect.Max.{BaseName(args("/subject"))}.csv"
         Return LQuery.First.SaveTo(path).CLICode
     End Function
 
@@ -129,7 +130,7 @@ Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.Workflows.PromoterParser
 
     <ExportAPI("--GetFasta", Usage:="--GetFasta /bbh <bbhh.csv> /id <subject_id> /regprecise <regprecise.fasta>")>
     Public Function GetFasta(args As CommandLine) As Integer
-        Dim bbh = args("/bbh").LoadCsv(Of bbhMappings)
+        Dim bbh = (args <= "/bbh").LoadCsv(Of bbhMappings)
         Dim id As String = args("/id")
         Dim query = (From x In bbh.AsParallel Where String.Equals(id, x.hit_name, StringComparison.OrdinalIgnoreCase) Select x.query_name).ToArray
         Dim fasta = New SMRUCC.genomics.SequenceModel.FASTA.FastaFile(args("/regprecise")).ToDictionary(Function(x) x.Title.Split.First)

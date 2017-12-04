@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::833e8777434184329ef8dcf6681db1d6, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\StringHelpers\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::3db7eb045625aaa05856e5bf57081070, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\StringHelpers\StringHelpers.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -34,6 +34,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -47,6 +48,22 @@ Imports r = System.Text.RegularExpressions.Regex
 ''' </summary>
 <Package("StringHelpers", Publisher:="amethyst.asuka@gcmodeller.org", Url:="http://gcmodeller.org")>
 Public Module StringHelpers
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function CreateBuilder(s As String) As StringBuilder
+        Return New StringBuilder(s)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function IgnoreCase(flag As Boolean) As CompareMethod
+        Return If(flag, CompareMethod.Text, CompareMethod.Binary)
+    End Function
+
+    ''' <summary>
+    ''' Using <see cref="[String].Empty"/> as default value
+    ''' </summary>
+    Public ReadOnly EmptyString As DefaultValue(Of String) = String.Empty
 
     ''' <summary>
     ''' Replace the <see cref="vbCrLf"/> with the specific string.
@@ -271,7 +288,10 @@ Public Module StringHelpers
             Dim value$ = Mid(s, p + delimiter.Length)
 
             If Not trim.StringEmpty(whitespaceAsEmpty:=False) Then
-                value = value.Trim(trim.ToArray)
+                With trim.ToArray
+                    value = value.Trim(.ref)
+                    key = key.Trim(.ref)
+                End With
             End If
 
             Return New NamedValue(Of String)(key, value, s)
@@ -293,6 +313,8 @@ Public Module StringHelpers
     ''' <param name="s1"></param>
     ''' <param name="s2"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function TextEquals(s1$, s2$) As Boolean
         'If {s1, s2}.All(Function(s) s Is Nothing) Then
@@ -451,6 +473,26 @@ Public Module StringHelpers
     End Function
 
     ''' <summary>
+    ''' Count the phrase in <paramref name="text"/>
+    ''' </summary>
+    ''' <param name="text$"></param>
+    ''' <param name="phrase$"></param>
+    ''' <param name="method"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function Count(text$, phrase$, Optional method As CompareMethod = CompareMethod.Binary) As Integer
+        Dim n%
+        Dim pos% = InStr(text, phrase, method)
+
+        Do While pos > 0
+            n += 1
+            pos = InStr(pos, text, phrase, method)
+        Loop
+
+        Return n
+    End Function
+
+    ''' <summary>
     ''' 获取""或者其他字符所包围的字符串的值，请注意，假若只有一个<paramref name="wrapper"/>的话，字符串将不会进行任何处理
     ''' </summary>
     ''' <param name="s"></param>
@@ -485,7 +527,7 @@ Public Module StringHelpers
             Return ""
         End If
 
-        Dim p As Integer = InStr(str, left) + 1
+        Dim p As Integer = InStr(str, left) + left.Length
         Dim q As Integer = InStrRev(str, right)
 
         If p = 0 Or q = 0 Then
@@ -511,6 +553,10 @@ Public Module StringHelpers
     <Extension>
     Public Function GetBetween(str$, strStart$, strEnd$) As String
         Dim start%, end%
+
+        If str.StringEmpty Then
+            Return Nothing
+        End If
 
         If str.Contains(strStart) AndAlso str.Contains(strEnd) Then
             start = str.IndexOf(strStart, 0) + strStart.Length
@@ -604,6 +650,8 @@ Public Module StringHelpers
     ''' <param name="str"></param>
     ''' <param name="regex"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("Matched?")>
     <Extension> Public Function MatchPattern(str$, regex$, Optional opt As RegexOptions = RegexICSng) As Boolean
         Return r.Match(str, regex).Success
@@ -620,7 +668,11 @@ Public Module StringHelpers
     <Extension> Public Function Match(<Parameter("input", "The string to search for a match.")> input$,
                                       <Parameter("Pattern", "The regular expression pattern to match.")> pattern$,
                                       Optional options As RegexOptions = RegexOptions.Multiline) As String
-        Return Regex.Match(input, pattern, options).Value
+        If input.StringEmpty Then
+            Return ""
+        Else
+            Return r.Match(input, pattern, options).Value
+        End If
     End Function
 
     ''' <summary>
@@ -633,6 +685,16 @@ Public Module StringHelpers
     <ExportAPI("Match")>
     <Extension> Public Function Match(input As Match, pattern$, Optional options As RegexOptions = RegexOptions.Multiline) As String
         Return Regex.Match(input.Value, pattern, options).Value
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function Matches(input As String, pattern$, Optional options As RegexOptions = RegexICSng) As IEnumerable(Of String)
+        If input Is Nothing OrElse input.Length = 0 Then
+            Return {}
+        Else
+            Return r.Matches(input, pattern, options).EachValue
+        End If
     End Function
 
     ''' <summary>
@@ -730,6 +792,12 @@ Public Module StringHelpers
         End If
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function SplitBy(str$, deli$) As String()
+        Return Strings.Split(str, deli)
+    End Function
+
     ''' <summary>
     ''' 将正则匹配成功的字符串替换为指定的目标字符串：<paramref name="replaceAs"/>
     ''' </summary>
@@ -766,8 +834,11 @@ Public Module StringHelpers
         Dim delimiterTest As Assert(Of String)
 
         If regex Then
-            Dim regexp As New Regex(delimiter, opt)
-            delimiterTest = Function(line) regexp.Match(line).Value = line
+            With New Regex(delimiter, opt)
+                delimiterTest = Function(line)
+                                    Return .Match(line).Value = line
+                                End Function
+            End With
         Else
             delimiterTest = Function(line)
                                 Return String.Equals(delimiter, line, StringComparison.Ordinal)
@@ -908,8 +979,9 @@ Public Module StringHelpers
     ''' <returns></returns>
     <Extension>
     <ExportAPI("Equals.Any")>
-    Public Function EqualsAny(source As String, ParamArray compareTo As String()) As String
+    Public Function EqualsAny(source$, ParamArray compareTo As String()) As String
         Dim index As Integer = compareTo.Located(source, False)
+
         If index = -1 Then
             Return ""
         Else

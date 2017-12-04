@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::653f0c3a29754fa8e01096d1c92ece9a, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\WebServices\WebServiceUtils.vb"
+﻿#Region "Microsoft.VisualBasic::650de5a843b9478b8dbfe61d4d402d4e, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\WebServices\WebServiceUtils.vb"
 
     ' Author:
     ' 
@@ -41,8 +41,6 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports Microsoft.VisualBasic.Text.HtmlParser
 
 ''' <summary>
 ''' The extension module for web services works.
@@ -162,12 +160,21 @@ Public Module WebServiceUtils
     ''' <summary>
     ''' 不像<see cref="PostUrlDataParser(String, Boolean)"/>函数，这个函数不会替换掉转义字符，并且所有的Key都已经被默认转换为小写形式的了
     ''' </summary>
-    ''' <param name="argsData">URL parameters</param>
+    ''' <param name="url">URL parameters</param>
     ''' <returns></returns>
     <ExportAPI("Request.Parser")>
-    <Extension> Public Function RequestParser(argsData As String, Optional TransLower As Boolean = True) As NameValueCollection
-        Dim Tokens As String() = argsData.Split("&"c)
-        Return GenerateDictionary(Tokens, TransLower)
+    <Extension> Public Function QueryStringParameters(url$, Optional transLower As Boolean = True) As NameValueCollection
+        Dim tokens$()
+
+        With InStr(url, "://")
+            If .ref < 10 AndAlso .ref > 0 Then
+                url = url.GetTagValue("?").Value
+            End If
+
+            tokens = url.Split("&"c)
+        End With
+
+        Return GenerateDictionary(tokens, transLower)
     End Function
 
     ''' <summary>
@@ -223,6 +230,8 @@ Public Module WebServiceUtils
     ''' <param name="s"></param>
     ''' <param name="encoding"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("URL.Encode")>
     <Extension>
     Public Function UrlEncode(s As String, Optional encoding As Encoding = Nothing) As String
@@ -241,11 +250,10 @@ Public Module WebServiceUtils
     End Sub
 
     ''' <summary>
-    ''' 编码整个URL
+    ''' 编码整个URL，这个函数会自动截取出query string parameter部分，然后对截取出来的query string parameter进行编码
     ''' </summary>
     ''' <param name="s"></param>
     ''' <returns></returns>
-    '''
     <ExportAPI("URL.PathEncode")>
     <Extension>
     Public Function UrlPathEncode(s As String) As String
@@ -255,6 +263,7 @@ Public Module WebServiceUtils
 
         Dim idx As Integer = s.IndexOf("?"c)
         Dim s2 As String = Nothing
+
         If idx <> -1 Then
             s2 = s.Substring(0, idx)
             s2 = HttpUtility.UrlEncode(s2) & s.Substring(idx)
@@ -355,6 +364,16 @@ Public Module WebServiceUtils
                                            errors As SslPolicyErrors) As Boolean
         Return True
     End Function
+
+    ''' <summary>
+    ''' Example for xx-net tool:
+    ''' 
+    ''' ```
+    ''' http://127.0.0.1:8087/
+    ''' ```
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Proxy As String
 
     ''' <summary>
     ''' 
@@ -500,107 +519,6 @@ Public Module WebServiceUtils
         End Using
     End Function
 
-#If FRAMEWORD_CORE Then
-    ''' <summary>
-    ''' Get the html page content from a website request or a html file on the local filesystem.(同时支持http位置或者本地文件，失败或者错误会返回空字符串)
-    ''' </summary>
-    ''' <param name="url">web http request url or a file path handle</param>
-    ''' <param name="retry">发生错误的时候的重试的次数</param>
-    ''' <returns>失败或者错误会返回空字符串</returns>
-    ''' <remarks></remarks>
-    '''
-    <ExportAPI("Webpage.Request", Info:="Get the html page content from a website request Or a html file on the local filesystem.")>
-    <Extension> Public Function [GET](url As String,
-                                      <Parameter("Request.TimeOut")>
-                                      Optional retry As UInt16 = 0,
-                                      <Parameter("FileSystem.Works?", "Is this a local html document on your filesystem?")>
-                                      Optional isFileUrl As Boolean = False,
-                                      Optional headers As Dictionary(Of String, String) = Nothing,
-                                      Optional proxy As String = Nothing,
-                                      Optional doNotRetry404 As Boolean = True,
-                                      Optional UA$ = UserAgent.GoogleChrome) As String
-#Else
-    ''' <summary>
-    ''' Get the html page content from a website request or a html file on the local filesystem.
-    ''' </summary>
-    ''' <param name="url">web http request url or a file path handle</param>
-    ''' <param name="RequestTimeOut">发生错误的时候的重试的次数</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    '''
-    <Extension> Public Function Get_PageContent(url As String, Optional RequestTimeOut As UInteger = 20, Optional FileSystemUrl As Boolean = False) As String
-#End If
-        ' Call $"Request data from: {If(isFileUrl, url.ToFileURL, url)}".__DEBUG_ECHO
-        Call $"GET {If(isFileUrl, url.ToFileURL, url)}".__DEBUG_ECHO
-
-        If FileIO.FileSystem.FileExists(url) Then
-            Call "[Job DONE!]".__DEBUG_ECHO
-            Return FileIO.FileSystem.ReadAllText(url)
-        Else
-            If isFileUrl Then
-                Call $"URL {url.ToFileURL} can not solved on your filesystem!".Warning
-                Return ""
-            End If
-        End If
-
-        Return url.__httpRequest(retry, headers, proxy, doNotRetry404, UA)
-    End Function
-
-    ''' <summary>
-    ''' Example for xx-net tool:
-    ''' 
-    ''' ```
-    ''' http://127.0.0.1:8087/
-    ''' ```
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property Proxy As String
-
-    <Extension>
-    Private Function __httpRequest(url$,
-                                   retries%,
-                                   headers As Dictionary(Of String, String),
-                                   proxy As String,
-                                   DoNotRetry404 As Boolean,
-                                   UA$) As String
-
-        Dim retryTime As Integer = 0
-
-        If String.IsNullOrEmpty(proxy) Then
-            proxy = WebServiceUtils.Proxy
-        End If
-
-        Try
-RETRY:      Return __get(url, headers, proxy, UA)
-        Catch ex As Exception
-            Dim is404 As Boolean =
-                InStr(ex.Message, "(404) Not Found") > 0
-
-            ex = New Exception(url, ex)
-            ex.PrintException
-
-            If retryTime < retries Then
-                If is404 AndAlso DoNotRetry404 Then
-                    Return LogException(url, ex)
-                End If
-
-                retryTime += 1
-                Call "Data download error, retry connect to the server!".PrintException
-                GoTo RETRY
-            Else
-                Return LogException(url, ex)
-            End If
-        End Try
-    End Function
-
-    Private Function LogException(url As String, ex As Exception) As String
-        Dim exMessage As String = String.Format("Unable to get the http request!" & vbCrLf &
-                                                "  Url:=[{0}]" & vbCrLf &
-                                                "  EXCEPTION ===>" & vbCrLf & ex.ToString, url)
-        Call App.LogException(exMessage, NameOf([GET]) & "::HTTP_REQUEST_EXCEPTION")
-        Return ""
-    End Function
-
     <Extension>
     Public Sub SetProxy(ByRef request As HttpWebRequest, proxy As String)
         request.Proxy = proxy.GetProxy
@@ -621,42 +539,6 @@ RETRY:      Return __get(url, headers, proxy, UA)
 
     Public Property DefaultUA As String = UserAgent.GoogleChrome
 
-    Private Function __get(url$, headers As Dictionary(Of String, String), proxy$, UA$) As String
-        Dim timer As Stopwatch = Stopwatch.StartNew
-        Dim webRequest As HttpWebRequest = HttpWebRequest.Create(url)
-
-        webRequest.Headers.Add("Accept-Language", "en-US,en;q=0.8,zh-Hans-CN;q=0.5,zh-Hans;q=0.3")
-        webRequest.UserAgent = If(UA = UserAgent.GoogleChrome, DefaultUA, UA)
-
-        If Not headers.IsNullOrEmpty Then
-            For Each x In headers
-                webRequest.Headers(x.Key) = x.Value
-            Next
-        End If
-        If Not String.IsNullOrEmpty(proxy) Then
-            Call webRequest.SetProxy(proxy)
-        End If
-
-        Using respStream As Stream = webRequest.GetResponse.GetResponseStream,
-            reader As New StreamReader(respStream)
-
-            Dim html As String = reader.ReadToEnd
-            Dim title As String = html.HTMLTitle
-
-            ' 判断是否是由于还没有登陆校园网客户端而导致的错误
-            If InStr(html, "http://www.doctorcom.com", CompareMethod.Text) > 0 Then
-                Call "Please login your Campus Broadband Network Client at first!".PrintException
-                Return ""
-            End If
-
-            Call $"[{title}  {url}] --> sizeOf:={Len(html)} chars; response_time:={timer.ElapsedMilliseconds} ms.".__DEBUG_ECHO
-#If DEBUG Then
-            Call html.SaveTo($"{App.AppSystemTemp}/{App.PID}/{url.NormalizePathString}.html")
-#End If
-            Return html
-        End Using
-    End Function
-
 #If FRAMEWORD_CORE Then
     ''' <summary>
     ''' download the file from <paramref name="strUrl"></paramref> to <paramref name="save">local file</paramref>.
@@ -666,12 +548,15 @@ RETRY:      Return __get(url, headers, proxy, UA)
     ''' <returns></returns>
     ''' <remarks></remarks>
     <ExportAPI("wget", Info:="Download data from the specific URL location.")>
-    <Extension> Public Function DownloadFile(<Parameter("url")> strUrl As String,
+    <Extension> Public Function DownloadFile(<Parameter("url")> strUrl$,
                                              <Parameter("Path.Save", "The saved location of the downloaded file data.")>
-                                             save As String,
-                                             Optional proxy As String = Nothing,
-                                             Optional ua As String = UserAgent.FireFox,
-                                             Optional retry As Integer = 0) As Boolean
+                                             save$,
+                                             Optional proxy$ = Nothing,
+                                             Optional ua$ = UserAgent.FireFox,
+                                             Optional retry% = 0,
+                                             Optional progressHandle As DownloadProgressChangedEventHandler = Nothing,
+                                             <CallerMemberName>
+                                             Optional trace$ = Nothing) As Boolean
 #Else
     ''' <summary>
     ''' download the file from <paramref name="strUrl"></paramref> to <paramref name="SavedPath">local file</paramref>.
@@ -684,23 +569,24 @@ RETRY:      Return __get(url, headers, proxy, UA)
 #End If
 RE0:
         Try
-            Using dwl As New WebClient()
+            Using browser As New WebClient()
                 If Not String.IsNullOrEmpty(proxy) Then
-                    Call dwl.SetProxy(proxy)
+                    Call browser.SetProxy(proxy)
                 End If
 
-                Call dwl.Headers.Add(UserAgent.UAheader, ua)
+                If Not progressHandle Is Nothing Then
+                    AddHandler browser.DownloadProgressChanged, progressHandle
+                End If
+
+                Call browser.Headers.Add(UserAgent.UAheader, ua)
                 Call save.ParentPath.MkDIR
                 Call $"{strUrl} --> {save}".__DEBUG_ECHO
-                Call dwl.DownloadFile(strUrl, save)
+                Call browser.DownloadFile(strUrl, save)
             End Using
+
             Return True
         Catch ex As Exception
-            Dim trace As String = MethodBase.GetCurrentMethod.GetFullName
-
-            Call App.LogException(
-                New Exception(strUrl, ex),
-                trace)
+            Call App.LogException(New Exception(strUrl, ex), trace)
             Call ex.PrintException
 
             If retry > 0 Then

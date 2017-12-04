@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5f5577d7ef34667c9616df28825165a, ..\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Promoters.vb"
+﻿#Region "Microsoft.VisualBasic::a5f5577d7ef34667c9616df28825165a, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Promoters.vb"
 
     ' Author:
     ' 

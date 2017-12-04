@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::645ee7db5b74dd1407f2a3b0fba2f414, ..\sciBASIC#\Data\DataFrame\IO\csv\File.vb"
+﻿#Region "Microsoft.VisualBasic::3fe29bbd50554ecd80fb6115f9f62622, ..\sciBASIC#\Data\DataFrame\IO\csv\File.vb"
 
     ' Author:
     ' 
@@ -46,8 +46,7 @@ Namespace IO
     ''' </summary>
     ''' <remarks></remarks>
     ''' 
-    <ActiveViews(File.ActiveViews)>
-    Public Class File : Inherits ITextFile
+    <ActiveViews(File.ActiveViews)> Public Class File : Inherits ITextFile
         Implements IEnumerable(Of RowObject)
         Implements IList(Of RowObject)
 

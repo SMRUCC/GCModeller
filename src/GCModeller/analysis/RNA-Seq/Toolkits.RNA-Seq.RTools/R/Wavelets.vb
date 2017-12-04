@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a118ab9f1956fda69c00fdb5f84e06e, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\Wavelets.vb"
+﻿#Region "Microsoft.VisualBasic::2de31d28f4311aec1f5c44c6badf8e40, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\R\Wavelets.vb"
 
     ' Author:
     ' 

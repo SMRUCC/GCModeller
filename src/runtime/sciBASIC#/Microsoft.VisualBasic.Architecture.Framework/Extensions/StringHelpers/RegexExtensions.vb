@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9f86ab1cee1e8d39983b4e73af463ab, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\StringHelpers\RegexExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::1fad43b941f9fa8b7b39ac9cce1371bc, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\StringHelpers\RegexExtensions.vb"
 
     ' Author:
     ' 
@@ -40,6 +40,28 @@ Public Module RegexExtensions
         RegexOptions.Multiline Or
         RegexOptions.IgnorePatternWhitespace Or
         RegexOptions.Compiled
+
+    Const TimeoutConfig$ = "REGEX_DEFAULT_MATCH_TIMEOUT"
+
+    Public Property RegexpTimeout As Integer
+        Get
+            Dim domain As AppDomain = AppDomain.CurrentDomain
+            Dim timeout = domain.GetData(TimeoutConfig)
+
+            Return timeout
+        End Get
+        Set(value As Integer)
+            Dim domain As AppDomain = AppDomain.CurrentDomain
+            Dim timeout = TimeSpan.FromSeconds(value)
+
+            ' Set a timeout interval of 2 seconds.
+            Call domain.SetData(TimeoutConfig, timeout)
+        End Set
+    End Property
+
+    Sub New()
+        RegexpTimeout = 5
+    End Sub
 
     ''' <summary>
     ''' Name of <see cref="RegexOptions"/>

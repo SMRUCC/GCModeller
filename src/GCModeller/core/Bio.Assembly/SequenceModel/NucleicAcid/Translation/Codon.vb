@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::715fcfbc2a3089834ddf5ce48b52d044, ..\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\Codon.vb"
+﻿#Region "Microsoft.VisualBasic::6d70f7a860164a69099ee35615f43849, ..\GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\Codon.vb"
 
     ' Author:
     ' 
@@ -149,14 +149,16 @@ Namespace SequenceModel.NucleotideModels.Translation
             Dim NNCols As DNA() = {DNA.dAMP, DNA.dCMP, DNA.dGMP, DNA.dTMP}
             Dim Combos = Combination.CreateCombos(NNCols, NNCols)
             Dim TripleCombos = Combination.CreateCombos(Combos, NNCols)
-            Dim Codens As Codon() =
-                LinqAPI.Exec(Of Codon) <= From coden As Tuple(Of Tuple(Of DNA, DNA), DNA)
-                                          In TripleCombos
-                                          Select New Codon With {
-                                              .X = coden.Item1.Item1,
-                                              .Y = coden.Item1.Item2,
-                                              .Z = coden.Item2
-                                          }
+            Dim Codens() = LinqAPI.Exec(Of Codon) _
+ _
+                () <= From coden As (a As (DNA, DNA), b As DNA)
+                      In TripleCombos
+                      Select New Codon With {
+                          .X = coden.Item1.Item1,
+                          .Y = coden.Item1.Item2,
+                          .Z = coden.Item2
+                      }
+
             Return Codens
         End Function
     End Class

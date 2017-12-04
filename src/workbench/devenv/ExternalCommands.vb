@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a73c7814ea9bd31acddea9050a320290, ..\workbench\devenv\ExternalCommands.vb"
+﻿#Region "Microsoft.VisualBasic::c95c5f884df712132d695d7b9656757f, ..\workbench\devenv\ExternalCommands.vb"
 
     ' Author:
     ' 
@@ -45,4 +45,3 @@ Module ExternalCommands
         Call Microsoft.VisualBasic.Interaction.Shell(Format("%s %s", Reengineering, Arguments))
     End Sub
 End Module
-

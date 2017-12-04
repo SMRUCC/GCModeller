@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4115425a7046c1dad932c9b234204b15, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\ClustalVisual.vb"
+﻿#Region "Microsoft.VisualBasic::3e423f8cfff12bf04dcaf25fd82b1a55, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\ClustalVisual.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -110,8 +111,8 @@ Public Module ClustalVisual
                                fa.Title
                            Order By l Descending).First
 
-        Dim titleFont As Font = New Font(FontFace.Ubuntu, FontSize)
-        Dim StringSize As Size = titleMaxLen.Title.MeasureString(titleFont)
+        Dim titleFont As New Font(FontFace.Ubuntu, FontSize)
+        Dim StringSize As SizeF = titleMaxLen.Title.MeasureSize(New Size(1, 1).CreateGDIDevice, titleFont)
         Dim DotSize As Integer = ClustalVisual.DotSize
 
         DotSize = Math.Max(DotSize, StringSize.Height) + 5

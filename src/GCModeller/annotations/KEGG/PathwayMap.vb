@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88025c351d05553c3690b563ab955afa, ..\GCModeller\annotations\KEGG\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::1af5678879004bfe74d19e72a0f93279, ..\GCModeller\annotations\KEGG\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -27,18 +27,25 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Model.Network.KEGG
 Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
 
 ''' <summary>
 ''' 这个仅支持代谢反应过程，即<see cref="PathwayMap.KEGGReaction"/>集合不能够为空
 ''' </summary>
 Public Module PathwayMapVisualize
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function LocalRenderMaps(idlist$(), repo$, output$, Optional scale$ = "1,1") As NamedValue(Of String)()
+        Return PathwayMapRender.RenderMaps(repo, idlist, output, scale:=scale)
+    End Function
 
     ''' <summary>
     ''' 这个仅支持代谢反应过程，即<see cref="PathwayMap.KEGGReaction"/>集合不能够为空
@@ -111,4 +118,3 @@ Public Module PathwayMapVisualize
         Return out.JoinBy(ASCII.LF)
     End Function
 End Module
-

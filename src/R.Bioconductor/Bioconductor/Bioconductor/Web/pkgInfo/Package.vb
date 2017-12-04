@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec1d039c191674b886069f90c8a23617, ..\R.Bioconductor\Bioconductor\Bioconductor\Web\pkgInfo\Package.vb"
+﻿#Region "Microsoft.VisualBasic::6170101ab4f684a34b1fe8cf523af891, ..\R.Bioconductor\Bioconductor\Bioconductor\Web\pkgInfo\Package.vb"
 
     ' Author:
     ' 
@@ -27,9 +27,8 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Web.Packages

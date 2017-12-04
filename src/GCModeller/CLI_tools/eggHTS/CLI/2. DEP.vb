@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::11f4c70f3bf162d002cd62b42381fa3c, ..\CLI_tools\eggHTS\CLI\2. DEP.vb"
+﻿#Region "Microsoft.VisualBasic::d22af8f87f6747b43b9fab3bf49176aa, ..\GCModeller\CLI_tools\eggHTS\CLI\2. DEP.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -44,6 +44,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -59,6 +60,7 @@ Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB
 Imports SMRUCC.genomics.Data.Repository.kb_UniProtKB.UniprotKBEngine
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
+Imports ColorDesigner = Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Designer
 
 Partial Module CLI
 
@@ -169,38 +171,53 @@ Partial Module CLI
     ''' 使用这个函数来处理iTraq实验结果之中与分析需求单的FC比对方式颠倒的情况
     ''' 
     ''' 假设所输入的文件的第一列为标识符
-    ''' 最后的三列为结果数据
-    ''' 则中间的剩余的列数据都是FC值
+    ''' 最后的所有的剩余的列数据都是FC值
     ''' 
-    ''' ``Accession	T1.C1	T1.C2	T2.C1	T2.C2	FC.avg	p.value	is.DEP``
+    ''' ``Accession	T1.C1	T1.C2	T2.C1	T2.C2``
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/iTraq.Reverse.FC",
-               Info:="Reverse the FC value from the source result.",
-               Usage:="/iTraq.Reverse.FC /in <data.csv> [/out <Reverse.csv>]")>
-    <Group(CLIGroups.DEP_CLI)>
+    <ExportAPI("/FoldChange.Matrix.Invert")>
+    <Description("Reverse the FoldChange value from the source result matrix.")>
+    <Usage("/FoldChange.Matrix.Invert /in <data.csv> [/log2FC /out <invert.csv>]")>
+    <Argument("/log2FC", True, CLITypes.Boolean,
+              Description:="This boolean flag indicated that the fold change value is log2FC, which required of power 2 and then invert by divided by 1.")>
+    <Argument("/out", True, CLITypes.File, PipelineTypes.std_out,
+              Extensions:="*.csv",
+              Description:="This function will output a FoldChange matrix.")>
+    <Group(CLIGroups.SamplesExpressions_CLI)>
     Public Function iTraqInvert(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".reverse.csv")
-        Dim data As File = File.Load([in])
-        Dim start = 1
-        Dim ends = (data.Width - 1) - 3
+        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".invert.csv")
+        Dim data As DataSet() = DataSet.LoadDataSet([in]).ToArray
+        Dim isLog2FC As Boolean = args.IsTrue("/log2FC")
+        Dim invert As New List(Of DataSet)
 
-        For Each row As RowObject In data.Skip(1)
-            For i As Integer = start To ends
-                Dim s$ = row(i)
+        For Each protein As DataSet In data
+            invert += New DataSet With {
+                .ID = protein.ID,
+                .Properties = protein _
+                    .Properties _
+                    .ToDictionary(Function(map)
+                                      ' 假设列的标题是A/B，则颠倒过来之后应该是B/A
+                                      With map.Key.Split("/"c)
+                                          Return $"{ .Last}/{ .First}"
+                                      End With
+                                  End Function,
+                                  Function(map)
+                                      Dim foldChange# = map.Value
 
-                If s = "NA" OrElse s.TextEquals("NaN") Then
-                    Continue For
-                Else
-                    row(i) = 1 / Val(s)
-                End If
-            Next
+                                      If isLog2FC Then
+                                          foldChange = 2 ^ foldChange
+                                      End If
+
+                                      Return 1 / foldChange
+                                  End Function)
+            }
         Next
 
-        Return data _
-            .Save(out, Encodings.ASCII) _
+        Return invert _
+            .SaveTo(out) _
             .CLICode
     End Function
 
@@ -235,7 +252,7 @@ Partial Module CLI
                Usage:="/DEP.uniprot.list2 /in <log2.test.csv> [/DEP.Flag <is.DEP?> /uniprot.Flag <uniprot> /species <scientifcName> /uniprot <uniprotXML> /out <out.txt>]")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function DEPUniprotIDs2(args As CommandLine) As Integer
-        Dim [in] = args("/in")
+        Dim in$ = args("/in")
         Dim DEPFlag As String = args.GetValue("/DEP.flag", "is.DEP?")
         Dim uniprot As String = args.GetValue("/uniprot.Flag", "uniprot")
         Dim data = EntityObject.LoadDataSet([in])
@@ -247,9 +264,7 @@ Partial Module CLI
             .Select(AddressOf Trim) _
             .ToArray
         Dim sciName$ = args("/species")
-        Dim out As String = args.GetValue(
-            "/out",
-            [in].TrimSuffix & $"DEPs={DEPs.Length}.uniprotIDs.txt")
+        Dim out As String = args("/out") Or ([in].TrimSuffix & $"DEPs={DEPs.Length}.uniprotIDs.txt")
 
         uniprot$ = args("/uniprot")
 
@@ -304,6 +319,15 @@ Partial Module CLI
             End Function)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="DIR$"></param>
+    ''' <param name="tlog2"></param>
+    ''' <param name="ZERO$"></param>
+    ''' <param name="nonDEP_blank"></param>
+    ''' <param name="outGroup">如果这个参数为真，说明是生成的文氏图的数据矩阵</param>
+    ''' <returns></returns>
     Public Function Union(DIR$, tlog2 As Boolean, ZERO$, nonDEP_blank As Boolean, outGroup As Boolean) As List(Of EntityObject)
         Dim data As Dictionary(Of String, Dictionary(Of DEP_iTraq)) = DIR.unionDATA
         Dim allDEPs = data.Values _
@@ -324,14 +348,14 @@ Partial Module CLI
                 With group.Value
                     If .ContainsKey(id) Then
                         With .ref(id)
-                            If .ref.isDEP Then
+                            If .isDEP Then
                                 If outGroup Then
 
-                                    FClog2.Add(group.Key, .ref.log2FC)
+                                    FClog2.Add(group.Key, .log2FC)
 
                                 Else
 
-                                    For Each prop In .ref.Properties
+                                    For Each prop In .Properties
                                         If prop.Value.TextEquals("NA") Then
                                             FClog2.Add(prop.Key, ZERO)
                                         Else
@@ -353,7 +377,7 @@ Partial Module CLI
 
                                     Else
 
-                                        For Each prop In .ref.Properties
+                                        For Each prop In .Properties
                                             FClog2.Add(prop.Key, ZERO) ' log2(1) = 0
                                         Next
 
@@ -363,11 +387,11 @@ Partial Module CLI
 
                                     If outGroup Then
 
-                                        FClog2.Add(group.Key, .ref.log2FC)
+                                        FClog2.Add(group.Key, .log2FC)
 
                                     Else
 
-                                        For Each prop In .ref.Properties
+                                        For Each prop In .Properties
                                             If prop.Value.TextEquals("NA") Then
                                                 FClog2.Add(prop.Key, ZERO)
                                             Else
@@ -407,6 +431,22 @@ Partial Module CLI
                 .Properties = FClog2
             }
         Next
+
+        If outGroup Then
+            matrix = matrix _
+                .Select(Function(d)
+                            Return New EntityObject With {
+                                .ID = d.ID,
+                                .Properties = d _
+                                    .Properties _
+                                    .ToDictionary(Function(map)
+                                                      Return map.Key.Split("."c).First
+                                                  End Function,
+                                                  Function(map) map.Value)
+                            }
+                        End Function) _
+                .AsList
+        End If
 
         Return matrix
     End Function
@@ -456,9 +496,9 @@ Partial Module CLI
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
-    <ExportAPI("/DEP.heatmap")>
+    <ExportAPI("/DEPs.heatmap")>
     <Description("Generates the heatmap plot input data. The default label profile is using for the iTraq result.")>
-    <Usage("/DEP.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /legend.size <size, default=600,100> /out <out.DIR>]")>
+    <Usage("/DEPs.heatmap /data <Directory/csv_file> [/schema <color_schema, default=RdYlGn:c11> /no-clrev /KO.class /annotation <annotation.csv> /row.labels.geneName /hide.labels /is.matrix /cluster.n <default=6> /sampleInfo <sampleinfo.csv> /non_DEP.blank /title ""Heatmap of DEPs log2FC"" /t.log2 /tick <-1> /size <size, default=2000,3000> /legend.size <size, default=600,100> /out <out.DIR>]")>
     <Argument("/non_DEP.blank", True, CLITypes.Boolean,
               Description:="If this parameter present, then all of the non-DEP that bring by the DEP set union, will strip as blank on its foldchange value, and set to 1 at finally. Default is reserve this non-DEP foldchange value.")>
     <Argument("/KO.class", True, CLITypes.Boolean,
@@ -497,7 +537,7 @@ Partial Module CLI
               Extensions:="*.csv",
               Description:="The protein annotation data that extract from the uniprot database. Some advanced heatmap plot feature required of this annotation data presented.")>
     <Group(CLIGroups.DEP_CLI)>
-    Public Function Heatmap_DEPs(args As CommandLine) As Integer
+    Public Function DEPs_heatmapKmeans(args As CommandLine) As Integer
         Dim input$ = args <= "/data"
         Dim out As String = args.GetValue("/out", input.TrimDIR & ".heatmap/")
         Dim dataOUT = out & "/DEP.heatmap.csv"
@@ -540,16 +580,36 @@ Partial Module CLI
             Next
         End If
 
-        Call matrix _
-            .ToKMeansModels _
-            .Kmeans(expected:=args.GetValue("/cluster.n", 6)) _
-            .SaveTo(dataOUT)
+        matrix = matrix _
+            .Where(Function(d)
+                       Return d.Properties.Values.Any(Function(n) n <> 0R)
+                   End Function) _
+            .AsList
 
-        Dim min# = matrix.Select(Function(d) d.Properties.Values).IteratesALL.Min
+        With matrix _
+            .ToKMeansModels _
+            .Kmeans(expected:=args.GetValue("/cluster.n", 6))
+
+            ' 保存用于绘制3D/2D聚类图的数据集
+            Call .ToEntityObjects _
+                 .ToArray _
+                 .SaveDataSet(dataOUT, Encodings.UTF8)
+
+            ' 保存能够应用于R脚本进行热图绘制的矩阵数据
+            Call .Select(Function(d) DirectCast(d, DataSet)) _
+                 .AsCharacter _
+                 .ToArray _
+                 .SaveDataSet(dataOUT.TrimSuffix & ".heampa_Matrix.csv", Encodings.UTF8)
+        End With
+
         Dim schema$ = args.GetValue("/schema", Colors.ColorBrewer.DivergingSchemes.RdYlGn11)
         Dim revColorSequence As Boolean = Not args.IsTrue("/no-clrev")
         Dim tick# = args.GetValue("/tick", -1.0#)
         Dim legendSize$ = (args <= "/legend.size") Or "600,100".AsDefault
+        Dim min# = matrix _
+            .Select(Function(d) d.Properties.Values) _
+            .IteratesALL _
+            .Min
 
         If min >= 0 Then
             min = 0
@@ -560,9 +620,10 @@ Partial Module CLI
             Dim KOinfo As Dictionary(Of String, String) = matrix _
                 .Keys _
                 .GetKOTable(MySQLExtensions.GetMySQLClient(DBName:=UniprotKBEngine.DbName))
+            Dim colors As Color() = ColorDesigner.GetColors("scibasic.category31()")
 
             Call DEPsKOHeatmap _
-                .Plot(matrix, groupInfo.SampleGroupInfo, groupInfo.SampleGroupColor, KOInfo:=KOinfo, schema:=schema) _
+                .Plot(matrix, groupInfo.SampleGroupInfo, groupInfo.SampleGroupColor(colors), KOInfo:=KOinfo, schema:=schema) _
                 .Save(out & "/plot.png")
         Else
             ' 绘制普通的热图
@@ -594,12 +655,12 @@ Partial Module CLI
         Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
         Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter2D.png").AsDefault
-        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
+        Dim clusterData As EntityClusterModel() = DataSet.LoadDataSet(Of EntityClusterModel)([in]).ToArray
         Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
         Dim tlog# = args.GetValue("/t.log", -1.0R)
 
         If Not prefix.StringEmpty Then
-            For Each protein As EntityLDM In clusterData
+            For Each protein As EntityClusterModel In clusterData
                 protein.Cluster = prefix & protein.Cluster
             Next
         End If
@@ -634,7 +695,7 @@ Partial Module CLI
     <Description("Visualize the DEPs' kmeans cluster result by using 3D scatter plot.")>
     <Usage("/DEP.heatmap.scatter.3D /in <kmeans.csv> /sampleInfo <sampleInfo.csv> [/cluster.prefix <default=""cluster: #""> /size <default=1600,1400> /schema <default=clusters> /view.angle <default=30,60,-56.25> /view.distance <default=2500> /out <out.png>]")>
     <Argument("/in", False, CLITypes.File, PipelineTypes.std_in,
-              AcceptTypes:={GetType(EntityLDM)},
+              AcceptTypes:={GetType(EntityClusterModel)},
               Extensions:="*.csv",
               Description:="The kmeans cluster result from ``/DEP.heatmap`` command.")>
     <Argument("/sampleInfo", False, CLITypes.File,
@@ -660,7 +721,7 @@ Partial Module CLI
         Dim size$ = (args <= "/size") Or "1600,1400".AsDefault
         Dim schema$ = (args <= "/schema") Or "clusters".AsDefault
         Dim out$ = (args <= "/out") Or ([in].TrimSuffix & ".scatter.png").AsDefault
-        Dim clusterData As EntityLDM() = DataSet.LoadDataSet(Of EntityLDM)([in]).ToArray
+        Dim clusterData As EntityClusterModel() = DataSet.LoadDataSet(Of EntityClusterModel)([in]).ToArray
         Dim viewAngle As Vector = (args <= "/view.angle") Or "30,60,-56.25".AsDefault
         Dim viewDistance# = args.GetValue("/view.distance", 2500)
         Dim camera As New Camera With {
@@ -675,7 +736,7 @@ Partial Module CLI
         Dim prefix$ = (args <= "/cluster.prefix") Or "Cluster:  #".AsDefault
 
         If Not prefix.StringEmpty Then
-            For Each protein As EntityLDM In clusterData
+            For Each protein As EntityClusterModel In clusterData
                 protein.Cluster = prefix & protein.Cluster
             Next
         End If
@@ -685,28 +746,6 @@ Partial Module CLI
             .AsGDIImage _
             .CorpBlank(30, Color.White) _
             .SaveAs(path:=out) _
-            .CLICode
-    End Function
-
-    ''' <summary>
-    ''' 获取DEPs的原始数据的热图数据
-    ''' </summary>
-    ''' <returns></returns>
-    ''' 
-    <ExportAPI("/DEP.heatmap.raw")>
-    <Description("All of the NA value was replaced by value ``1``, as the FC value when it equals 1, then ``log2(1) = 0``, which means it has no changes.")>
-    <Usage("/DEP.heatmap.raw /DEPs <DEPs.csv.folder> [/DEP.tag <default=is.DEP> /out <out.csv>]")>
-    <Group(CLIGroups.DEP_CLI)>
-    Public Function DEPsHeatmapRaw(args As CommandLine) As Integer
-        Dim in$ = args <= "/DEPs"
-        Dim raw$ = args <= "/raw"
-        Dim DEPTag$ = args.GetValue("/DEP.tag", "is.DEP")
-        Dim out As String = args.GetValue("/out", [in].TrimDIR & ".heatmap.raw/")
-        Dim dataOUT = out & "/DEP.heatmap.raw.csv"
-
-        Return DEGDesigner _
-            .GetDEPsRawValues([in], DEPTag) _
-            .SaveDataSet(dataOUT) _
             .CLICode
     End Function
 
@@ -829,28 +868,32 @@ Partial Module CLI
     ''' <returns></returns>
     <ExportAPI("/DEP.logFC.hist")>
     <Description("Using for plots the FC histogram when the experiment have no biological replicates.")>
-    <Usage("/DEP.logFC.hist /in <log2test.csv> [/step <0.5> /tag <logFC> /legend.title <Frequency(logFC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1600,1200> /out <out.png>]")>
-    <Argument("/tag", True, CLITypes.String,
+    <Usage("/DEP.logFC.hist /in <log2test.csv> [/step <0.25> /type <default=log2fc> /legend.title <Frequency(log2FC)> /x.axis ""(min,max),tick=0.25"" /color <lightblue> /size <1400,900> /out <out.png>]")>
+    <Argument("/type", True, CLITypes.String,
               AcceptTypes:={GetType(String)},
-              Description:="Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is ""logFC"".")>
+              Description:="Which field in the input dataframe should be using as the data source for the histogram plot? Default field(column) name is ""log2FC"".")>
+    <Argument("/step", True, CLITypes.Double,
+              AcceptTypes:={GetType(Single)},
+              Description:="The steps for generates the histogram test data.")>
     <Group(CLIGroups.DEP_CLI)>
     Public Function logFCHistogram(args As CommandLine) As Integer
         Dim [in] = args("/in")
-        Dim tag As String = args.GetValue("/tag", "logFC")
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & $".{tag.NormalizePathString}.histogram.png")
-        Dim data = EntityObject.LoadDataSet([in])
+        Dim out As String = (args <= "/out") Or $"{[in].TrimSuffix}.log2FC.histogram.png".AsDefault
+        Dim data = [in].LoadCsv(Of DEP_iTraq)
+        Dim type$ = (args <= "/type") Or NameOf(DEP_iTraq.log2FC).AsDefault
         Dim xAxis As String = args("/x.axis")
-        Dim step! = args.GetValue("/step", 0.5!)
-        Dim lTitle$ = args.GetValue("/legend.title", "Frequency(logFC)")
-        Dim color$ = args.GetValue("/color", "lightblue")
+        Dim step! = args.GetFloat("/step") Or 0.25!.AsDefault(Function(x) DirectCast(x, Single) = 0!)
+        Dim lTitle$ = args.GetValue("/legend.title", "Frequency(log2FC)")
+        Dim color$ = args.GetValue("/color", "darkblue")
+        Dim size$ = (args <= "/size") Or "1440,900".AsDefault
 
         Return data _
-            .logFCHistogram(tag,
-                            size:=(args <= "/size") Or "1600,1200".AsDefault,
+            .logFCHistogram(size:=size,
                             [step]:=[step],
                             xAxis:=xAxis,
                             serialTitle:=lTitle,
-                            color:=color) _
+                            color:=color,
+                            type:=type) _
             .Save(out) _
             .CLICode
     End Function
@@ -879,7 +922,6 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".DEPs.vocano.plot.png")
         Dim sample = EntityObject.LoadDataSet(Of DEP_iTraq)(args <= "/in")
         Dim size$ = args.GetValue("/size", "1400,1400")
-        Dim title$ = (args <= "/title") Or ("Volcano plot of " & (args <= "/in").BaseName).AsDefault
         Dim colors As Dictionary(Of Integer, Color) = args _
             .GetDictionary("/colors", [default]:="up=red;down=green;other=black") _
             .ToDictionary(Function(type)
@@ -905,6 +947,10 @@ Partial Module CLI
                                Return -1
                            End If
                        End Function
+
+        ' 如果是使用系统生成默认的名称的话，则文件名的模式为： groupName.log2FC.t.test.csv
+        ' 使用split取第一个字符串即可得到groupName
+        Dim title$ = (args <= "/title") Or ("Volcano plot of " & (args <= "/in").BaseName.Split("."c).First).AsDefault
 
         If log2FCLevel = 0R Then
             Call "log2FC level can not be ZERO! please check for the /level parameter!".Warning

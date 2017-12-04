@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3096d44d16ecc12ddbecfa4f4020f2f, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\System.Collections.Generic\IndexOf.vb"
+﻿#Region "Microsoft.VisualBasic::fd348fa3764833916b62f9685594e93a, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\System.Collections.Generic\IndexOf.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@ Namespace ComponentModel.Collection
     Public Class Index(Of T) : Implements IEnumerable(Of SeqValue(Of T))
 
         Dim maps As New Dictionary(Of T, Integer)
-        Dim index As List(Of SeqValue(Of T))
+        Dim index As HashList(Of SeqValue(Of T))
 
         ''' <summary>
         ''' 获取包含在<see cref="System.Collections.Generic.Dictionary"/>中的键/值对的数目。
@@ -82,7 +82,7 @@ Namespace ComponentModel.Collection
                 Function(s) New SeqValue(Of T) With {
                     .i = s.Value,
                     .value = s.Key
-                }).AsList
+                }).AsHashList
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -102,6 +102,20 @@ Namespace ComponentModel.Collection
                 Else
                     Return -1
                 End If
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 直接通过索引获取目标对象的值，请注意，如果<typeparamref name="T"/>泛型类型是<see cref="Integer"/>，
+        ''' 则如果需要查找index的话，则必须要显式的指定参数名为``x:=``，否则调用的是当前的这个索引方法，
+        ''' 得到错误的结果
+        ''' </summary>
+        ''' <param name="index%"></param>
+        ''' <returns></returns>
+        Default Public ReadOnly Property IndexOf(index%) As T
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Me.index(index).value
             End Get
         End Property
 
@@ -157,6 +171,11 @@ Namespace ComponentModel.Collection
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Narrowing Operator CType(index As Index(Of T)) As Dictionary(Of T, Integer)
             Return New Dictionary(Of T, Integer)(index.maps)
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(objs As T()) As Index(Of T)
+            Return New Index(Of T)(source:=objs)
         End Operator
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of SeqValue(Of T)) Implements IEnumerable(Of SeqValue(Of T)).GetEnumerator

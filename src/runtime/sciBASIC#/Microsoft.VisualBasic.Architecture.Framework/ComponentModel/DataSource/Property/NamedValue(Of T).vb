@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9725db6f27af286a766654f8bbf4d923, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\DataSource\Property\NamedValue(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::93635673d157d017d442597e1b45ca01, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\ComponentModel\DataSource\Property\NamedValue(Of T).vb"
 
     ' Author:
     ' 
@@ -116,6 +116,24 @@ Namespace ComponentModel.DataSourceModel
 
         Public Shared Operator +(obj As NamedValue(Of T)) As T
             Return obj.Value
+        End Operator
+
+        ''' <summary>
+        ''' 这个函数会将<paramref name="value"/>插入为<paramref name="table"/>的第一个元素
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <param name="table"></param>
+        ''' <returns></returns>
+        Public Shared Operator +(value As NamedValue(Of T), table As Dictionary(Of String, T)) As Dictionary(Of String, T)
+            Dim newTable As New Dictionary(Of String, T) From {
+                {value.Name, value.Value}
+            }
+
+            For Each map As KeyValuePair(Of String, T) In table
+                Call newTable.Add(map.Key, map.Value)
+            Next
+
+            Return newTable
         End Operator
     End Structure
 End Namespace

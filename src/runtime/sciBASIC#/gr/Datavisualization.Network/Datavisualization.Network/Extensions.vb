@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::2f1b03bfcf321fe1a04ffae2be32b805, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\FindPath\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::ea27b60c8ce2a290ac3e5d558873db4a, ..\sciBASIC#\gr\Datavisualization.Network\Datavisualization.Network\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -53,8 +53,8 @@ Namespace FindPath
                               Next
                           End Sub
 
-            Call removes(inputs, Function(edge) edge.Target)  ' 如果是target(output)就removes掉
-            Call removes(output, Function(edge) edge.Source)  ' 如果是source(inputs)就removes掉
+            Call removes(inputs, Function(edge) edge.V)  ' 如果是target(output)就removes掉
+            Call removes(output, Function(edge) edge.U)  ' 如果是source(inputs)就removes掉
 
             Return (inputs, output)
         End Function
@@ -69,7 +69,7 @@ Namespace FindPath
             Dim popEdge = Function(node As Node) As Edge
                               Return network _
                                   .edges _
-                                  .Where(Function(e) e.Source Is node OrElse e.Target Is node) _
+                                  .Where(Function(e) e.U Is node OrElse e.V Is node) _
                                   .FirstOrDefault
                           End Function
 
@@ -78,20 +78,20 @@ Namespace FindPath
                 Dim edge As Edge = network.edges.First
                 Dim list As New List(Of Node)
 
-                Call list.Add(edge.Source)
-                Call list.Add(edge.Target)
+                Call list.Add(edge.U)
+                Call list.Add(edge.V)
 
                 Do While list > 0
-                    subnetwork.AddNode(edge.Source)
-                    subnetwork.AddNode(edge.Target)
+                    subnetwork.AddNode(edge.U)
+                    subnetwork.AddNode(edge.V)
                     subnetwork.AddEdge(edge)
                     network.edges.Remove(edge)
 
-                    If -1 = list.IndexOf(edge.Source) Then
-                        Call list.Add(edge.Source)
+                    If -1 = list.IndexOf(edge.U) Then
+                        Call list.Add(edge.U)
                     End If
-                    If -1 = list.IndexOf(edge.Target) Then
-                        Call list.Add(edge.Target)
+                    If -1 = list.IndexOf(edge.V) Then
+                        Call list.Add(edge.V)
                     End If
 
                     edge = Nothing

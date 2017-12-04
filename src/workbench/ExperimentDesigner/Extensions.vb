@@ -1,7 +1,36 @@
-﻿Imports System.Drawing
+﻿#Region "Microsoft.VisualBasic::ff42d8c329adcffe9513aec191150ce8, ..\workbench\ExperimentDesigner\Extensions.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -111,9 +140,30 @@ Public Module Extensions
             Function(sample) sample.sample_group)
     End Function
 
+    ''' <summary>
+    ''' 相同分组的sample都会被分配到相同的颜色，这个函数主要是为一些分类相关的绘图准备的，例如PCA之类的绘图
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="sampleInfo"></param>
+    ''' <param name="colors">Color for <see cref="SampleGroup.sample_group"/></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function SampleGroupColor(sampleInfo As IEnumerable(Of SampleInfo)) As Dictionary(Of String, Color)
+    Public Function SampleGroupColor(Of T As SampleGroup)(sampleInfo As IEnumerable(Of T), colors As Color()) As Dictionary(Of String, Color)
+        With sampleInfo.ToArray
+            Dim colorList As New LoopArray(Of Color)(colors)
+            Dim groups = .Select(Function(sample)
+                                     Return sample.sample_group
+                                 End Function) _
+                .Distinct _
+                .ToArray
+            Dim groupColors = groups.ToDictionary(Function(label) label,
+                                                  Function() colorList.Next)
 
+            Return .ToDictionary(Function(sample) sample.sample_name,
+                                 Function(sample)
+                                     Return groupColors(sample.sample_group)
+                                 End Function)
+        End With
     End Function
 
     ''' <summary>

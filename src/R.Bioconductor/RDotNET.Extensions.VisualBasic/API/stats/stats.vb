@@ -1,33 +1,32 @@
-﻿#Region "Microsoft.VisualBasic::4cef575fbe73c4ecf9b4de361c50956d, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\stats\stats.vb"
+﻿#Region "Microsoft.VisualBasic::93aef38e388d08e31034a754dfecb006, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\API\stats\stats.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports RDotNET.Extensions.VisualBasic
 Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
@@ -35,6 +34,20 @@ Imports RDotNET.Extensions.VisualBasic.SymbolBuilder
 Namespace API
 
     Public Module stats
+
+        ''' <summary>
+        ''' Compute analysis of variance (or deviance) tables for one or more fitted model objects.
+        ''' </summary>
+        ''' <param name="object$">an object containing the results returned by a model fitting function (e.g., lm or glm).</param>
+        ''' <param name="additional"></param>
+        ''' <returns>
+        ''' This (generic) function returns an object of class anova. These objects represent analysis-of-variance and analysis-of-deviance tables. When given a single argument it produces a table which tests whether the model terms are significant.
+        ''' When given a sequence of objects, anova tests the models against one another in the order specified.
+        ''' The print method for anova objects prints tables in a ‘pretty’ form.
+        ''' </returns>
+        Public Function anova(object$, Optional additional As Dictionary(Of String, String) = Nothing) As String
+
+        End Function
 
         ''' <summary>
         ''' Fit an ARIMA model to a univariate time series.

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13bb29dfb2a0cee55f958d37e1f271f3, ..\visualize\visualizeTools\GeneticClockDiagram\ColorRender.vb"
+﻿#Region "Microsoft.VisualBasic::eb51af3a429b625f9b6a941e5f84ee47, ..\GCModeller\visualize\visualizeTools\GeneticClockDiagram\ColorRender.vb"
 
     ' Author:
     ' 
@@ -26,8 +26,8 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.InteractionModel
-Imports Microsoft.VisualBasic
 
 Namespace GeneticClock
 
@@ -72,33 +72,33 @@ Namespace GeneticClock
             ''' <summary>
             ''' 
             ''' </summary>
-            ''' <param name="Gr"></param>
+            ''' <param name="g"></param>
             ''' <param name="ref">参考位置</param>
             ''' <remarks></remarks>
-            Public Sub DrawingDensityRule(ByRef Gr As Graphics, ref As Point, DrawingFont As Font, ImageWidth As Integer)
+            Public Sub DrawingDensityRule(ByRef g As IGraphics, ref As Point, DrawingFont As Font, ImageWidth As Integer)
                 Dim DensityRule = Me
                 Dim y = ref.Y
                 Dim x = ref.X
                 Dim ImageOffset As Integer = ref.X
 
-                y += 20 + Gr.MeasureString("0", DrawingFont).Height
+                y += 20 + g.MeasureString("0", DrawingFont).Height
 
                 Dim RuleHeight = 10
                 Dim RuleWidth = ImageWidth / DensityRule.Profiles.Count
 
                 For i As Integer = 0 To DensityRule.Profiles.Count - 1
                     Dim Model = New Rectangle(New Point(x, y), New Size(RuleWidth, RuleHeight))
-                    Call Gr.FillRectangle(New SolidBrush(DensityRule.Profiles(i).Value), Model)
+                    Call g.FillRectangle(New SolidBrush(DensityRule.Profiles(i).Value), Model)
                     x += RuleWidth
                 Next
 
                 DrawingFont = New Font("Ubuntu", 5)
 
                 y += RuleHeight + 5
-                Call Gr.DrawLine(Pens.Black, New Point(ImageOffset, y), New Point(x, y))
+                Call g.DrawLine(Pens.Black, New Point(ImageOffset, y), New Point(x, y))
                 y += 2
-                Call Gr.DrawString(CInt(DensityRule.Profiles.First.Key), DrawingFont, Brushes.Black, New Point(ImageOffset - Gr.MeasureString(CInt(DensityRule.Profiles.First.Key), DrawingFont).Width / 2, y))
-                Call Gr.DrawString(CInt(DensityRule.Profiles.Last.Key), DrawingFont, Brushes.Black, New Point(x - Gr.MeasureString(CInt(DensityRule.Profiles.Last.Key), DrawingFont).Width / 2, y))
+                Call g.DrawString(CInt(DensityRule.Profiles.First.Key), DrawingFont, Brushes.Black, New Point(ImageOffset - g.MeasureString(CInt(DensityRule.Profiles.First.Key), DrawingFont).Width / 2, y))
+                Call g.DrawString(CInt(DensityRule.Profiles.Last.Key), DrawingFont, Brushes.Black, New Point(x - g.MeasureString(CInt(DensityRule.Profiles.Last.Key), DrawingFont).Width / 2, y))
             End Sub
         End Structure
 

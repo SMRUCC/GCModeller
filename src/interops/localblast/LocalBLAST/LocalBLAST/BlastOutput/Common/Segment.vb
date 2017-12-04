@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5806b38ff5a35c24c3e9c46fcdea75b5, ..\localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Segment.vb"
+﻿#Region "Microsoft.VisualBasic::39cee1d06401f3f2d10162ca60563c68, ..\interops\localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Segment.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,6 @@
 
 #End Region
 
-Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -43,8 +42,9 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
     Public Class HitSegment
 
         <XmlElement> Public Property Query As Segment
-        <XmlElement> Public Property Sbjct As Segment
-        <XmlAttribute> Public Property Consensus As String
+        <XmlElement> Public Property Subject As Segment
+        <XmlAttribute>
+        Public Property Consensus As String
 
         Public Overrides Function ToString() As String
             Return Consensus
@@ -56,23 +56,23 @@ Namespace LocalBLAST.BLASTOutput.ComponentModel
         Public Const SUBJECT_INDEX = 2
         Public Const SUBJECT_START As String = "Sbjct: \d+"
 
-        Public Shared Function TryParse(TextLines As String()) As HitSegment
-            If TextLines.IsNullOrEmpty Then
+        Public Shared Function TryParse(hspLines$()) As HitSegment
+            If hspLines.IsNullOrEmpty Then
                 Return Nothing
-            ElseIf TextLines.Length < 3 Then
-                Dim sBuilder As StringBuilder = New StringBuilder(1024)
-                For Each item In TextLines
-                    Call sBuilder.AppendLine(vbTab & vbTab & item)
-                Next
 
-                Call Console.WriteLine("System.IndexOutOfRangeException:" & vbCrLf & "---------------------------------------------------------------------------------------")
-                Call Console.WriteLine(sBuilder.ToString)
-                Return Nothing
+            ElseIf hspLines.Length = 2 Then
+
+                ' 没有同源的片段，但是也是高分区的一部分
+                Return New HitSegment With {
+                    .Query = Segment.TryParse(hspLines(0)),
+                    .Consensus = "",
+                    .Subject = Segment.TryParse(hspLines(1))
+                }
             Else
                 Return New HitSegment With {
-                    .Query = Segment.TryParse(TextLines(QUERY_INDEX)),
-                    .Consensus = TextLines(CONSERVED_INDEX).Trim,
-                    .Sbjct = Segment.TryParse(TextLines(SUBJECT_INDEX))
+                    .Query = Segment.TryParse(hspLines(QUERY_INDEX)),
+                    .Consensus = hspLines(CONSERVED_INDEX).Trim,
+                    .Subject = Segment.TryParse(hspLines(SUBJECT_INDEX))
                 }
             End If
         End Function

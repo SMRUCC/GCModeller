@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35ce4bc0b116e3a595feeb6a2cde5d63, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Methods.vb"
+﻿#Region "Microsoft.VisualBasic::52d29e96e84deac7ab78ca926ec61b6d, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\Reflection\Methods.vb"
 
     ' Author:
     ' 
@@ -26,6 +26,7 @@
 
 #End Region
 
+Imports System.Linq.Expressions
 Imports System.Runtime.CompilerServices
 
 Public Module MethodsExtension
@@ -51,5 +52,17 @@ Public Module MethodsExtension
             Call App.LogException(ex)
             Return [default]
         End Try
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function AsLazy(Of T)(factory As Func(Of T)) As Lazy(Of T)
+        Return New Lazy(Of T)(factory)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function AsLazy(Of T)(lambda As LambdaExpression) As Lazy(Of T)
+        Return DirectCast(lambda.Compile, Func(Of T)).AsLazy
     End Function
 End Module

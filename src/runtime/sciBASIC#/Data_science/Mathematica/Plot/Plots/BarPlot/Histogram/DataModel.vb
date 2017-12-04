@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3dc6e40ba22970798d51e182e9aee1ac, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\BarPlot\Histogram\DataModel.vb"
+﻿#Region "Microsoft.VisualBasic::329f25fe438a1d34e349abea124c43ad, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots\BarPlot\Histogram\DataModel.vb"
 
     ' Author:
     ' 
@@ -28,6 +28,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.TagData
@@ -53,6 +54,7 @@ Namespace BarPlot.Histogram
         Public pointY#
 
         Public ReadOnly Property LinePoint As PointData
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New PointData With {
                     .pt = New PointF(x1 + width / 2, pointY)
@@ -65,6 +67,7 @@ Namespace BarPlot.Histogram
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property width As Double
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return x2# - x1#
             End Get
@@ -78,6 +81,33 @@ Namespace BarPlot.Histogram
     Public Class HistogramGroup : Inherits ProfileGroup
 
         Public Property Samples As HistProfile()
+
+        Public ReadOnly Property XRange As DoubleRange
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Samples _
+                    .SafeQuery _
+                    .Select(Function(s)
+                                Return s.data.Select(Function(d) {d.x1, d.x2})
+                            End Function) _
+                    .IteratesALL _
+                    .IteratesALL _
+                    .Range
+            End Get
+        End Property
+
+        Public ReadOnly Property YRange As DoubleRange
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Samples _
+                    .SafeQuery _
+                    .Select(Function(s)
+                                Return s.data.Select(Function(d) d.y)
+                            End Function) _
+                    .IteratesALL _
+                    .Range
+            End Get
+        End Property
 
         Sub New()
         End Sub
@@ -147,7 +177,7 @@ Namespace BarPlot.Histogram
                 From n As Double
                 In array
                 Let x1 As Double = x
-                Let x2 As Double = (x = x.value + delta)
+                Let x2 As Double = (x = x.Value + delta)
                 Where Not n.IsNaNImaginary
                 Select New HistogramData With {
                     .x1 = x1,

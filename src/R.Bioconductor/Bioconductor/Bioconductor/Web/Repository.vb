@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::673e24b92514d1fcde411246a8882b61, ..\R.Bioconductor\Bioconductor\Bioconductor\Web\Repository.vb"
+﻿#Region "Microsoft.VisualBasic::fe7d44b373a9eb4c90138490f7e09fba, ..\R.Bioconductor\Bioconductor\Bioconductor\Web\Repository.vb"
 
     ' Author:
     ' 
@@ -28,6 +28,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text

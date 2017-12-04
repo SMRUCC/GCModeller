@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19791fae3ce42a5d6cfc260b2b1533a1, ..\workbench\d3js\Browser\FormBrowser.vb"
+﻿#Region "Microsoft.VisualBasic::252520a3ebd53fb104d302ace278bdd4, ..\workbench\d3js\Browser\FormBrowser.vb"
 
     ' Author:
     ' 
@@ -72,4 +72,3 @@ Public Class FormBrowser
         Call ToolStripButton1_Click(Nothing, Nothing)
     End Sub
 End Class
-

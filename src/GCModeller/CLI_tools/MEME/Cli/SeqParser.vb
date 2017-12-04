@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03172902ad77db62b66feb2d65501aa6, ..\CLI_tools\MEME\Cli\SeqParser.vb"
+﻿#Region "Microsoft.VisualBasic::84a6e992852bee532d8e0866517a3f12, ..\GCModeller\CLI_tools\MEME\Cli\SeqParser.vb"
 
     ' Author:
     ' 

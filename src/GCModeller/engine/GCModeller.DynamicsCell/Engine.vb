@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::9a261e908552826e7062d96a15d89561, ..\GCModeller\engine\GCModeller.DynamicsCell\Engine.vb"
+﻿#Region "Microsoft.VisualBasic::28b5a98ac85dd53aac802b6c0aab1737, ..\GCModeller\engine\GCModeller.DynamicsCell\Engine.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -106,20 +106,20 @@ Public Class Engine : Implements IDisposable
     ''' <param name="tokens">右边的表达式</param>
     ''' <returns></returns>
     Private Shared Function __innerNET(x As String, tokens As List(Of Token(Of ExpressionTokens)), nodes As Dictionary(Of Node)) As Edge()
-        Dim xlst As String() = LinqAPI.Exec(Of String) <=
+        Dim xlst$() = LinqAPI.Exec(Of String) _
  _
-            From t As Token(Of ExpressionTokens)
-            In tokens
-            Where t.Type = ExpressionTokens.UNDEFINE
-            Select t.Value
-            Distinct
+            () <= From t As Token(Of ExpressionTokens)
+                  In tokens
+                  Where t.Type = ExpressionTokens.UNDEFINE
+                  Select t.Value
+                  Distinct
 
         Return LinqAPI.Exec(Of Edge) <= From t As String
                                         In xlst
                                         Where nodes & t  ' 方程表达式里面有些是常数来的，故而会在nodes里面不存在
                                         Select New Edge With {
-                                            .Source = nodes <= t,
-                                            .Target = nodes <= x,
+                                            .U = nodes <= t,
+                                            .V = nodes <= x,
                                             .ID = $"{t}->{x}"
                                         }
     End Function

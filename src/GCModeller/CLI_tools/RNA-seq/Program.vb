@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74f8093a9d4e15d82034734e94cab12c, ..\CLI_tools\RNA-seq\Program.vb"
+﻿#Region "Microsoft.VisualBasic::74f8093a9d4e15d82034734e94cab12c, ..\GCModeller\CLI_tools\RNA-seq\Program.vb"
 
     ' Author:
     ' 

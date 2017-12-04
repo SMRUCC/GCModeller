@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7085e5780ba9321735a9ef03f6ad687, ..\GCModeller\analysis\ProteinTools\Interactions.BioGRID\API.vb"
+﻿#Region "Microsoft.VisualBasic::1b180ddcef9aab3b9e1e70045939a1e6, ..\GCModeller\analysis\ProteinTools\Interactions.BioGRID\API.vb"
 
     ' Author:
     ' 

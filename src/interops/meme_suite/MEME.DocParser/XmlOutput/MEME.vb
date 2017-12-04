@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f2f3865dd33848ab1dd15d50bcdc3d9, ..\interops\meme_suite\MEME.DocParser\XmlOutput\MEME.vb"
+﻿#Region "Microsoft.VisualBasic::79900489206d5b6dc0102e4baf22e434, ..\interops\meme_suite\MEME.DocParser\XmlOutput\MEME.vb"
 
     ' Author:
     ' 

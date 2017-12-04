@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::2cea27592381599a6deb40c099fc01b6, ..\localblast\CLI_tools\CLI\BBH.vb"
+﻿#Region "Microsoft.VisualBasic::529047bd74b0fc7aef3e42236a989228, ..\interops\localblast\CLI_tools\CLI\BBH.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,7 +31,6 @@ Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -103,9 +102,9 @@ Partial Module CLI
         Return meta.SaveAsXml(out).CLICode
     End Function
 
-    <ExportAPI("/sbh2bbh",
-               Info:="Export bbh result from the sbh pairs.",
-               Usage:="/sbh2bbh /qvs <qvs.sbh.csv> /svq <svq.sbh.csv> [/trim /identities <-1> /coverage <-1> /all /out <bbh.csv>]")>
+    <ExportAPI("/sbh2bbh")>
+    <Description("Export bbh result from the sbh pairs.")>
+    <Usage("/sbh2bbh /qvs <qvs.sbh.csv> /svq <svq.sbh.csv> [/trim /identities <-1> /coverage <-1> /all /out <bbh.csv>]")>
     <Argument("/identities", True, CLITypes.Double,
               Description:="Makes a further filtering on the bbh by using this option, default value is -1, so that this means no filter.")>
     <Argument("/coverage", True, CLITypes.Double,
@@ -130,9 +129,35 @@ Partial Module CLI
             Next
         End If
 
-        Dim bbh As BiDirectionalBesthit() = If(all,
-            BBHParser.GetDirreBhAll2(qsbh.ToArray, ssbh.ToArray, identities, coverage),
-            BBHParser.GetBBHTop(qsbh.ToArray, ssbh.ToArray, identities, coverage))
+        Dim bbh As BiDirectionalBesthit()
+
+        If all Then
+            bbh = BBHParser.GetDirreBhAll2(qsbh.ToArray, ssbh.ToArray, identities, coverage)
+        Else
+            bbh = BBHParser.GetBBHTop(qsbh.ToArray, ssbh.ToArray, identities, coverage) _
+                .GroupBy(Function(hit) hit.HitName) _
+                .Select(Function(g)
+                            If g.Key.StringEmpty OrElse g.Key = IBlastOutput.HITS_NOT_FOUND Then
+                                Return g.ToArray
+                            Else
+                                Dim top = g.OrderByDescending(Function(hit) hit.Identities).First
+
+                                For Each x As BiDirectionalBesthit In g
+                                    If Not x Is top Then
+                                        x.HitName = ""
+                                        x.Identities = 0
+                                        x.Positive = 0
+                                        x.Length = 0
+                                    End If
+                                Next
+
+                                Return g.ToArray
+                            End If
+                        End Function) _
+                .IteratesALL _
+                .ToArray
+        End If
+
         Dim out$ = (args <= "/out") Or (qvs.TrimSuffix & $"{If(all, "-all", "")},{identities},{coverage}.bbh.csv").AsDefault
         Return bbh.SaveTo(out).CLICode
     End Function

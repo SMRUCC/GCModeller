@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2f514d240656e622abd4ed2245a97a8, ..\R.Bioconductor\Bioconductor\Bioconductor\Web\WebService.vb"
+﻿#Region "Microsoft.VisualBasic::61a7534a4f809ef83a60be70b6c805fe, ..\R.Bioconductor\Bioconductor\Bioconductor\Web\WebService.vb"
 
     ' Author:
     ' 
@@ -118,7 +118,7 @@ Namespace Web
         Public Shared Function DownloadList(url As String, cat As BiocTypes) As Package()
             Dim pageHTML As String = url.GET
             Dim ms As String() = Regex.Matches(pageHTML, ROW_FORMAT_REGEX, RegexOptions.Singleline + RegexOptions.IgnoreCase).ToArray
-            Dim packages As Package() = ms.ToArray(Function(token) Package.Parser(token, cat))
+            Dim packages As Package() = ms.Select(Function(token) Package.Parser(token, cat)).ToArray
             Return packages
         End Function
 

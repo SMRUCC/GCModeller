@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::96af9101a1076bd5b25eaef682737fa1, ..\localblast\CLI_tools\CLI\SBH.vb"
+﻿#Region "Microsoft.VisualBasic::de3a7c793ddd31cdd6aa8bbaff884bf4, ..\interops\localblast\CLI_tools\CLI\SBH.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -37,6 +37,7 @@ Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Analysis.BBHLogs
@@ -136,7 +137,7 @@ Partial Module CLI
     <ExportAPI("/MAT.evalue", Usage:="/MAT.evalue /in <sbh.csv> [/out <mat.csv> /flip]")>
     Public Function EvalueMatrix(args As CommandLine) As Integer
         Dim sbh As List(Of BestHit) = args("/in").LoadCsv(Of BestHit)
-        Dim out As String = args.GetValue("/out", args("/in").TrimSuffix & ".Evalue.Csv")
+        Dim out As String = args("/out") Or (args("/in").TrimSuffix & ".Evalue.Csv")
         Dim contigs = (From x As BestHit
                        In sbh
                        Select x
@@ -181,13 +182,25 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".sbh.Csv")
         Dim idetities As Double = args.GetValue("/identities", 0.15)
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
-        Dim sPattern$ = args.GetValue("/s.pattern", "-")
-        Dim qPattern$ = args.GetValue("/q.pattern", "-")
+        Dim sPattern = args.GetValue("/s.pattern", "-").BuildGrepScript
+        Dim qPattern = args.GetValue("/q.pattern", "-").BuildGrepScript
 
         Using IO As New WriteStream(Of BestHit)(out)
-            Dim handle As Action(Of Query) = IO.ToArray(Of Query)(
-                Function(query) v228.SBHLines(query, coverage:=coverage, identities:=idetities))
-            Call Transform(inFile, 1024 * 1024 * 256, handle, grep:=(qPattern, sPattern))
+            Dim handle As Action(Of Query) = IO _
+                .ToArray(Of Query)(Function(query)
+                                       Return v228.SBHLines(query, coverage:=coverage, identities:=idetities)
+                                   End Function)
+
+            For Each query As Query In BlastpOutputReader.RunParser(inFile)
+                query.QueryName = qPattern(query.QueryName)
+
+                For Each hits In query.SubjectHits.SafeQuery
+                    hits.Name = sPattern(hits.Name)
+                Next
+
+                Call handle(query)
+                Call Console.Write(".")
+            Next
         End Using
 
         Return 0

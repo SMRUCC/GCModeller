@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8b3eec10fadd83c32486da11930f12b, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequenceLogo\ColorSchema.vb"
+﻿#Region "Microsoft.VisualBasic::44ea4e0ec087c9c84f161337b5fec3bf, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequenceLogo\ColorSchema.vb"
 
     ' Author:
     ' 

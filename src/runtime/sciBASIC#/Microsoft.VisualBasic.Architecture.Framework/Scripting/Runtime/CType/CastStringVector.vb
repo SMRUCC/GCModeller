@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df5acd57da01f9dfc0f1fefdfc405ef0, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Scripting\Runtime\CType\CastStringVector.vb"
+﻿#Region "Microsoft.VisualBasic::8b0393f4e1d057eef65953bb7218da1b, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Scripting\Runtime\CType\CastStringVector.vb"
 
     ' Author:
     ' 
@@ -33,6 +33,22 @@ Imports Microsoft.VisualBasic.Linq
 Namespace Scripting.Runtime
 
     Public Module CastStringVector
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function AsCharacter(values As Dictionary(Of String, Double)) As Dictionary(Of String, String)
+            Return values.ToDictionary(
+                Function(x) x.Key,
+                Function(x) CStr(x.Value))
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function AsNumeric(values As Dictionary(Of String, String)) As Dictionary(Of String, Double)
+            Return values.ToDictionary(
+                Function(x) x.Key,
+                Function(x) x.Value.ParseNumeric)
+        End Function
 
         <Extension> Public Function AsType(Of T)(source As IEnumerable(Of String)) As IEnumerable(Of T)
             Dim type As Type = GetType(T)

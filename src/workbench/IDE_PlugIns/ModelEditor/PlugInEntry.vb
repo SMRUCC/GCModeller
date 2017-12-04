@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c87024341f1e96166c4c9329f11dd42, ..\workbench\IDE_PlugIns\ModelEditor\PlugInEntry.vb"
+﻿#Region "Microsoft.VisualBasic::b3aaac2a6ab40d0dabe52230c0ca865b, ..\workbench\IDE_PlugIns\ModelEditor\PlugInEntry.vb"
 
     ' Author:
     ' 
@@ -26,7 +26,6 @@
 
 #End Region
 
-
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports PlugIn
@@ -46,4 +45,3 @@ Public Module PlugInEntry
         Return 0
     End Function
 End Module
-

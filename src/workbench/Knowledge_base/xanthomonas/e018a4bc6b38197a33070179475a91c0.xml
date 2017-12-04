@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArticleProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <title>How Xanthomonas type III effectors manipulate the host plant</title>
+  <URL>https://cn.bing.com/academic/profile?id=e018a4bc6b38197a33070179475a91c0&amp;encoded=0&amp;v=paper_preview&amp;mkt=zh-cn</URL>
+  <authors>
+    <link title="Sabine Kay" attr="ID=SERP,5097.1">/academic/search?q=Sabine+Kay&amp;amp;mkt=zh-cn</link>
+    <link title="Ulla Bonas" attr="ID=SERP,5098.1">/academic/profile?id=238873589&amp;amp;mkt=zh-cn</link>
+  </authors>
+  <abstract>Pathogenicity of  Xanthomonas  and most other Gram-negative phytopathogenic bacteria depends on a conserved type III secretion (T3S) system which injects more than 25 different effector proteins into the plant cell. Extensive studies in the last years on the molecular mechanisms of type III effector function revealed that effector proteins with enzymatic functions seem to play important roles in the interaction of  Xanthomonas  with its host plants, for example, the SUMO protease XopD. In addition, xanthomonads express a unique class of type III effectors to pursue another strategy. Effectors of the AvrBs3 family, so far only identified in  Xanthomonas  spp. and  Ralstonia solanacearum , mimic plant transcriptional activators and manipulate the plant transcriptome.</abstract>
+  <pub-date>2009-01-01T00:00:00</pub-date>
+  <journal title="Current Opinion in Microbiology" attr="ID=SERP,5106.1">/academic/search?q=Current+Opinion+in+Microbiology</journal>
+  <DOI>10.1016/j.mib.2008.12.006</DOI>
+  <keywords>
+    <link title="Transcriptome" attr="ID=SERP,5099.1">/academic/profile?id=162317418&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Transcription factor" attr="ID=SERP,5100.1">/academic/profile?id=86339819&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Bacteria" attr="ID=SERP,5101.1">/academic/profile?id=523546767&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Enzyme" attr="ID=SERP,5102.1">/academic/profile?id=181199279&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Host" attr="ID=SERP,5103.1">/academic/profile?id=126831891&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+  </keywords>
+  <cites>
+    <cites date="2009" volumn="11" />
+    <cites date="2010" volumn="17" />
+    <cites date="2011" volumn="18" />
+    <cites date="2012" volumn="21" />
+    <cites date="2013" volumn="16" />
+    <cites date="2014" volumn="14" />
+    <cites date="2015" volumn="16" />
+    <cites date="2016" volumn="7" />
+    <cites date="2017" volumn="9" />
+  </cites>
+  <pages>37-43</pages>
+  <volume>12</volume>
+  <issue>1</issue>
+  <source>
+    <link title="cat.inist.fr" attr="ID=SERP,5107.1">http://cat.inist.fr/?aModele=afficheN&amp;amp;cpsidt=21217235</link>
+    <link title="www.sciencedirect.com" attr="ID=SERP,5108.1">http://www.sciencedirect.com/science/article/pii/S1369527408001914</link>
+    <link title="www.infona.pl" attr="ID=SERP,5109.1">https://www.infona.pl//resource/bwmeta1.element.elsevier-c91fa6c6-cb7f-3458-8664-32291a7f5c8d</link>
+    <link title="www.cabdirect.org" attr="ID=SERP,5110.1">https://www.cabdirect.org/cabdirect/abstract/20093071394</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5111.1">https://www.ncbi.nlm.nih.gov/pubmed/19168386</link>
+    <link title="linkinghub.elsevier.com" attr="ID=SERP,5112.1">http://linkinghub.elsevier.com/retrieve/pii/S1369527408001914</link>
+    <link title="cat.inist.fr" attr="ID=SERP,5107.2">http://cat.inist.fr/?aModele=afficheN&amp;amp;cpsidt=21217235</link>
+    <link title="www.sciencedirect.com" attr="ID=SERP,5108.2">http://www.sciencedirect.com/science/article/pii/S1369527408001914</link>
+    <link title="www.infona.pl" attr="ID=SERP,5109.2">https://www.infona.pl//resource/bwmeta1.element.elsevier-c91fa6c6-cb7f-3458-8664-32291a7f5c8d</link>
+    <link title="www.cabdirect.org" attr="ID=SERP,5110.2">https://www.cabdirect.org/cabdirect/abstract/20093071394</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5111.2">https://www.ncbi.nlm.nih.gov/pubmed/19168386</link>
+    <link title="linkinghub.elsevier.com" attr="ID=SERP,5112.2">http://linkinghub.elsevier.com/retrieve/pii/S1369527408001914</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5113.1">http://www.ncbi.nlm.nih.gov/pubmed/19168386</link>
+    <link title="www.infona.pl" attr="ID=SERP,5114.1">https://www.infona.pl/resource/bwmeta1.element.elsevier-c91fa6c6-cb7f-3458-8664-32291a7f5c8d</link>
+    <link title="www.cabdirect.org" attr="ID=SERP,5115.1">http://www.cabdirect.org/abstracts/20093071394.html</link>
+  </source>
+</ArticleProfile>

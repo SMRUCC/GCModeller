@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3f31427f2a1f06b3fd8acf4ccaebef1, ..\CLI_tools\VirtualFootprint\CLI\Cluster.vb"
+﻿#Region "Microsoft.VisualBasic::741ae2ce18af653ea0abde166642ef87, ..\GCModeller\CLI_tools\VirtualFootprint\CLI\Cluster.vb"
 
     ' Author:
     ' 
@@ -67,7 +67,7 @@ Partial Module CLI
             Call fa.FirstTokenID
         End If
 
-        Dim clusters As EntityLDM() = BinaryKmeans(fa, cut, minw, parallelDepth)
+        Dim clusters As EntityClusterModel() = BinaryKmeans(fa, cut, minw, parallelDepth)
         Dim net As NetworkTables = clusters.bTreeNET(removesProperty:=True)
 
         Call clusters.SaveTo(out & $"/{[in].BaseName}-kmeans.csv")
@@ -91,19 +91,19 @@ Partial Module CLI
         Return histPlot.Save(out).CLICode
     End Function
 
-    Public Function BinaryKmeans(seq As FastaFile, Optional cutoff# = 0.65, Optional minW% = 6, Optional parallelDepth% = 5) As EntityLDM()
+    Public Function BinaryKmeans(seq As FastaFile, Optional cutoff# = 0.65, Optional minW% = 6, Optional parallelDepth% = 5) As EntityClusterModel()
         Dim ms? As Boolean = App.IsMicrosoftPlatform ' optimization for linux
-        Dim LQuery As EntityLDM() = LinqAPI.Exec(Of EntityLDM) <=
+        Dim LQuery As EntityClusterModel() = LinqAPI.Exec(Of EntityClusterModel) <=
  _
             From a As KeyValuePair(Of FastaToken, FastaFile)
             In alloacte(seq, clone:=Not ms).AsParallel  ' 在這裏使用clone而非直接使用原始的對象是爲了提升linux平臺上面的并行計算效率
             Let Name As String = a.Key.Title
-            Select New EntityLDM With {
+            Select New EntityClusterModel With {
                 .ID = Name,
                 .Properties = a.Key.Cluster(a.Value, cutoff, minW)
             }
 
-        Dim tree As EntityLDM() = LQuery.TreeCluster(True, parallelDepth:=parallelDepth)
+        Dim tree As EntityClusterModel() = LQuery.TreeCluster(True, parallelDepth:=parallelDepth)
         Return tree
     End Function
 

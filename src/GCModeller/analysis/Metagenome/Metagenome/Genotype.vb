@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78d7119c354bff652c344787a5ac07e1, ..\GCModeller\analysis\Metagenome\Metagenome\Genotype.vb"
+﻿#Region "Microsoft.VisualBasic::1d6d3f1dd47d5cd44aea4bc083855486, ..\GCModeller\analysis\Metagenome\Metagenome\Genotype.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO

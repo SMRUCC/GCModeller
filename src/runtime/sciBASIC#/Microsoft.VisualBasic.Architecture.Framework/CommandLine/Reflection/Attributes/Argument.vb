@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99576a1618a02163c51b8a2bb7e54106, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\Reflection\Attributes\Argument.vb"
+﻿#Region "Microsoft.VisualBasic::baeb69d3ece0f46c110d64fb28191d93, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\CommandLine\Reflection\Attributes\Argument.vb"
 
     ' Author:
     ' 
@@ -163,7 +163,7 @@ Namespace CommandLine.Reflection
         Public Overrides Function ToString() As String
             Dim sb As New StringBuilder(1024)
             Dim example$ = ExampleValue
-            Dim descripts$() = Paragraph.Split(Description, 80).ToArray
+            Dim descripts$() = Paragraph.SplitParagraph(Description, 80).ToArray
 
             If [Optional] Then
                 sb.AppendLine(String.Format("    [{0}]", Name))

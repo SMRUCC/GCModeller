@@ -1,34 +1,35 @@
-﻿#Region "Microsoft.VisualBasic::404553dc6a2e4981744974ecbf640909, ..\visualize\GCModeller.DataVisualization\CurvesChart\Line.vb"
+﻿#Region "Microsoft.VisualBasic::35748b80e2f421ccaddbfc2022f097fe, ..\GCModeller\visualize\GCModeller.DataVisualization\CurvesChart\Line.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.ComponentModel.Algorithm
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Math.Statistics
 
 Public Class Line : Inherits CurvesModel
 
@@ -38,7 +39,7 @@ Public Class Line : Inherits CurvesModel
 
         Call DrawAixs(g, location, size, tagFont, data.Min, data.Max)
 
-        Dim X_ScaleFactor As Double = size.Width / data.Length
+        Dim X_ScaleFactor As Double = size.Width / data.SampleSize
         Dim Y_ScaleFactor As Double = size.Height / (data.Max - data.Min)
         Dim X As Double = location.X, Y As Integer
         Dim Y_avg As Double = location.Y - (data.Average - data.Min) * Y_ScaleFactor
@@ -51,18 +52,23 @@ Public Class Line : Inherits CurvesModel
             Y += dddd
         Next
 
-        Dim prePt As Point = New Point(X, location.Y - (data.First - data.Min) * Y_ScaleFactor)
+        Dim prePt As New Point(X, location.Y - (data.First - data.Min) * Y_ScaleFactor)
 
         LinePen = New Pen(PlotBrush, 2)
 
         If ShowAverageLine Then  ' 绘制中间的平均线
+            Dim pos As New Point With {
+                .X = location.X - YValueOffset,
+                .Y = Y_avg - "0".MeasureSize(g, tagFont).Height / 2
+            }
+
             Call g.DrawLine(New Pen(Brushes.LightGray, 3), New Point(location.X, Y_avg), New Point(location.X + size.Width, Y_avg))
-            Call g.DrawString(Mid(data.Average, 1, 5), tagFont, Brushes.Black, New Point(location.X - YValueOffset, Y_avg - "0".MeasureString(tagFont).Height / 2))
+            Call g.DrawString(Mid(data.Average, 1, 5), tagFont, Brushes.Black, pos)
         End If
 
         Dim Region As Rectangle
 
-        For Each n As Double In data.data
+        For Each n As Double In data
             Y = location.Y - (n - data.Min) * Y_ScaleFactor
 
             If Y > Y_avg Then '小于平均值，则Y颠倒过来

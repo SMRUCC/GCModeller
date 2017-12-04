@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::38df4f3dec80f3f3545748532baddb3e, ..\core\Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
+﻿#Region "Microsoft.VisualBasic::32c808c09dabc1eb82ca11eedaa59c57, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\QueryEntry.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -149,7 +149,11 @@ Namespace Assembly.KEGG.WebServices
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <remarks>&lt;a href="/dbget-bin/www_bget?ko:K00001">K00001&lt;/a>               E1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]</remarks>
+    ''' <remarks>
+    ''' ```html
+    ''' &lt;a href="/dbget-bin/www_bget?ko:K00001">K00001&lt;/a>               E1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]
+    ''' ```
+    ''' </remarks>
     Public Structure ListEntry
 
         ''' <summary>
@@ -177,11 +181,11 @@ Namespace Assembly.KEGG.WebServices
             Dim urlEntry As String = Regex.Match(s, "<a href="".+?"">.+?</a>").Value
             Dim descr As String = s.Replace(urlEntry, "").Trim
             Dim url As String = "http://www.genome.jp" & urlEntry.href
-            Dim EntryID As String = urlEntry.GetValue
+            Dim ID As String = urlEntry.GetValue
 
             Return New ListEntry With {
                 .Description = descr,
-                .EntryID = EntryID,
+                .EntryID = ID,
                 .Url = url
             }
         End Function

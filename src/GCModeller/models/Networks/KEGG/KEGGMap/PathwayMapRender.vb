@@ -1,4 +1,32 @@
-﻿Imports System.Drawing
+﻿#Region "Microsoft.VisualBasic::410b14a2db37f00fcd6ef054c91c4268, ..\GCModeller\models\Networks\KEGG\KEGGMap\PathwayMapRender.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#End Region
+
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -72,11 +100,11 @@ Public Module PathwayMapRender
         Next
     End Function
 
-    Public Function RenderMaps(repo$, idlist$(), out$) As NamedValue(Of String)()
+    Public Function RenderMaps(repo$, idlist$(), out$, Optional scale$ = "1.5,1.5") As NamedValue(Of String)()
         Dim render As LocalRender = LocalRender.FromRepository(repo)
         Dim maplist As New List(Of NamedValue(Of String))
 
-        For Each map As NamedValue(Of Image) In render.QueryMaps(idlist,, scale:="1.5,1.5", throwException:=False)
+        For Each map As NamedValue(Of Image) In render.QueryMaps(idlist,, scale:=scale, throwException:=False)
             Dim save$ = $"{out}/{map.Name}.png"
 
             map.Value.SaveAs(save, ImageFormats.Png)
@@ -90,3 +118,4 @@ Public Module PathwayMapRender
         Return maplist
     End Function
 End Module
+

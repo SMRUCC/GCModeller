@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f22d91bf4c0bd37ad449a397a4ccc75a, ..\localblast\LocalBLAST\Web\ParserAPI.vb"
+﻿#Region "Microsoft.VisualBasic::4598f3004f50fce0b7227c2993f25c11, ..\interops\localblast\LocalBLAST\Web\ParserAPI.vb"
 
     ' Author:
     ' 
@@ -269,22 +269,25 @@ Namespace NCBIBlastResult
         <Extension> Private Function __hits(id As String, out As v228_BlastX) As IEnumerable(Of HitRecord)
             Return out.Queries _
                 .Select(Function(query) id.__hspHits(query)) _
+                .IteratesALL _
                 .IteratesALL
         End Function
 
         <Extension>
-        Private Function __hspHits(id$, query As BlastX.Components.Query) As IEnumerable(Of HitRecord)
-            Return From hsp As BlastX.Components.HitFragment
-                   In query.Hits
-                   Let row As HitRecord = New HitRecord With {
-                       .Identity = hsp.Score.Identities.Value,
-                       .DebugTag = query.SubjectName,
-                       .SubjectIDs = id,
-                       .BitScore = hsp.Score.RawScore,
-                       .QueryStart = hsp.Hsp.First.Query.Left,
-                       .QueryEnd = hsp.Hsp.Last.Query.Right
-                   }
-                   Select row
+        Private Function __hspHits(id$, query As BlastX.Components.Query) As IEnumerable(Of IEnumerable(Of HitRecord))
+            Return From subject As BlastX.Components.Subject
+                   In query.Subjects
+                   Select From hsp As BlastX.Components.HitFragment
+                          In subject.Hits
+                          Let row As HitRecord = New HitRecord With {
+                              .Identity = hsp.Score.Identities.Value,
+                              .DebugTag = subject.SubjectName,
+                              .SubjectIDs = id,
+                              .BitScore = hsp.Score.RawScore,
+                              .QueryStart = hsp.Hsp.First.Query.Left,
+                              .QueryEnd = hsp.Hsp.Last.Query.Right
+                          }
+                          Select row
         End Function
     End Module
 End Namespace

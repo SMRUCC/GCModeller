@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::0e46f2e8f72af3721b60956c8c6ad026, ..\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::0e3be1d1c1120efa8d1771f7bdb392a9, ..\GCModeller\visualize\visualizeTools\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -47,6 +47,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ComparativeGenomics
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 
 Namespace ComparativeAlignment
 
@@ -64,7 +65,7 @@ Namespace ComparativeAlignment
         Private Function __invokeDrawing(Models As GenomeModel,
                                            Device As Graphics2D,
                                            Length As Integer,
-                                           MaxLengthTitleSize As Size,
+                                           MaxLengthTitleSize As SizeF,
                                            Height As Integer,
                                            TitleDrawingFont As Font,
                                            Font As Font,
@@ -147,11 +148,11 @@ Namespace ComparativeAlignment
                                       Optional QueryMiddle As Boolean = False,
                                       Optional color_overrides As String = "") As Image
 
-            Dim Font As Font = New Font(FontFace.MicrosoftYaHei, FontSize)
+            Dim Font As New Font(FontFace.MicrosoftYaHei, FontSize)
             Dim TitleDrawingFont As New Font("Microsoft YaHei", 20)
-            Dim MaxLengthTitleSize As System.Drawing.Size = (From str As String In New String()() {New String() {Model.Query.Title}, (From mm In Model.aligns Select mm.Title).ToArray}.Unlist
-                                                             Select str
-                                                             Order By Len(str) Descending).First.MeasureString(TitleDrawingFont) '得到最长的标题字符串作为基本的绘制长度的标准
+            Dim MaxLengthTitleSize As SizeF = (From str As String In New String()() {New String() {Model.Query.Title}, (From mm In Model.aligns Select mm.Title).ToArray}.Unlist
+                                               Select str
+                                               Order By Len(str) Descending).First.MeasureSize(New Size(1, 1).CreateGDIDevice, TitleDrawingFont) '得到最长的标题字符串作为基本的绘制长度的标准
 
             Dim Device = (New Size(Margin * 10 + Model.Query.Length * InternalConvertFactor + MaxLengthTitleSize.Width * 2, 5 * Margin + Model.aligns.Count * (GeneHeight + 400))).CreateGDIDevice '创建GDI设备
             Dim Height As Integer = Margin

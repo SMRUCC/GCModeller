@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::092357fff444ca36221f62f6758c334a, ..\CLI_tools\KEGG\CLI\Views.vb"
+﻿#Region "Microsoft.VisualBasic::cda39984c87944d21d9ceb9a927a3ea4, ..\GCModeller\CLI_tools\KEGG\CLI\Views.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -36,7 +36,6 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -44,27 +43,46 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.ProteinModel
 
 Partial Module CLI
 
-    <ExportAPI("/Organism.Table",
-               Usage:="/Organism.Table /in <br08601-htext.keg> [/out <out.csv>]")>
+    <ExportAPI("/Organism.Table")>
+    <Usage("/Organism.Table [/in <br08601-htext.keg> /Bacteria /out <out.csv>]")>
+    <Argument("/in", True, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.keg, *.txt",
+              Description:="If this kegg brite file is not presented in the cli arguments, the internal kegg resource will be used.")>
     Public Function KEGGOrganismTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".table.csv")
-        Dim htext As htext = BriteHEntry.htext.StreamParser([in])
-        Dim table As Taxonomy() = htext.FillTaxonomyTable
-        Return table _
-            .SaveTo(out) _
-            .CLICode
+        Dim out$
+        Dim htext As htext
+        Dim bacteria As Boolean = args.IsTrue("/Bacteria")
+
+        If [in].FileExists Then
+            out = args("/out") Or ([in].TrimSuffix & ".table.csv")
+            htext = htext.StreamParser([in])
+        Else
+            out = args("/out") Or (App.CurrentDirectory & $"/{NameOf(KEGGOrganismTable)}.csv")
+            htext = Organism.GetResource
+        End If
+
+        If bacteria Then
+            Return htext _
+                .GetBacteriaList _
+                .SaveTo(out) _
+                .CLICode
+        Else
+            Return htext _
+                .FillTaxonomyTable _
+                .SaveTo(out) _
+                .CLICode
+        End If
     End Function
 
     <ExportAPI("/Cut_sequence.upstream", Usage:="/Cut_sequence.upstream /in <list.txt> /PTT <genome.ptt> /org <kegg_sp> [/len <100bp> /overrides /out <outDIR>]")>
     Public Function CutSequence_Upstream(args As CommandLine) As Integer
-        Dim [in] = args("/in")
-        Dim PTT = args("/PTT")
+        Dim in$ = args("/in")
+        Dim PTT$ = args("/PTT")
         Dim len = args.GetValue("/len", 100)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"-{len}bp.fasta")
         Dim genome As PTT = SMRUCC.genomics.Assembly.NCBI.GenBank.LoadPTT(PTT)

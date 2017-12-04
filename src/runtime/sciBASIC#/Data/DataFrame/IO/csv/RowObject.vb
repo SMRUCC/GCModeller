@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::883c2545bddefc6c3e8875378e92bbdf, ..\sciBASIC#\Data\DataFrame\IO\csv\RowObject.vb"
+﻿#Region "Microsoft.VisualBasic::782f0e6fea0fba6309c667a11d5ecbbb, ..\sciBASIC#\Data\DataFrame\IO\csv\RowObject.vb"
 
     ' Author:
     ' 
@@ -28,6 +28,7 @@
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Text
 
 Namespace IO
 
@@ -311,8 +312,10 @@ Namespace IO
                 s = s.Replace("""", """""")
             End If
 
-            If s.IndexOf(","c) > -1 Then
-                ' If s.IndexOf(" "c) > -1 OrElse s.IndexOf(","c) > -1 Then
+            If s.IndexOf(","c) > -1 OrElse
+                s.IndexOf(ASCII.LF) > -1 OrElse ' 双引号可以转义换行
+                s.IndexOf(ASCII.CR) > -1 Then
+
                 Return $"""{s}"""
             Else
                 Return s

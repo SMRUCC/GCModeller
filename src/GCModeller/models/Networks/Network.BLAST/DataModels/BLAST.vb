@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f215513a3d173bce6c2ce9276f6d2e3, ..\GCModeller\models\Networks\Network.BLAST\LDM\BLAST.vb"
+﻿#Region "Microsoft.VisualBasic::de91b5d1e038edb7c00b2129781ce67b, ..\GCModeller\models\Networks\Network.BLAST\DataModels\BLAST.vb"
 
     ' Author:
     ' 

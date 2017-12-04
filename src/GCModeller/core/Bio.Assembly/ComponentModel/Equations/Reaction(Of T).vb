@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f162ce5dfc68ec716855946bf32b0f16, ..\core\Bio.Assembly\ComponentModel\Equations\Reaction(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::f162ce5dfc68ec716855946bf32b0f16, ..\GCModeller\core\Bio.Assembly\ComponentModel\Equations\Reaction(Of T).vb"
 
     ' Author:
     ' 

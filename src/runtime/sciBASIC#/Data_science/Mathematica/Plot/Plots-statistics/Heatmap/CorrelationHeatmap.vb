@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a01db339133aa76018585e9782c2fde0, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots-statistics\Heatmap\CorrelationHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::8a9e7eecc1a87bd71fbc6da66de6223f, ..\sciBASIC#\Data_science\Mathematica\Plot\Plots-statistics\Heatmap\CorrelationHeatmap.vb"
 
     ' Author:
     ' 
@@ -198,7 +198,7 @@ Namespace Heatmap
                 .Left = array _
                     .Keys _
                     .MaxLengthString _
-                    .MeasureString(rowLabelFont) _
+                    .MeasureSize(New Size(1, 1).CreateGDIDevice, rowLabelFont) _
                     .Width * 1.5
                 .Bottom = 50
             End With

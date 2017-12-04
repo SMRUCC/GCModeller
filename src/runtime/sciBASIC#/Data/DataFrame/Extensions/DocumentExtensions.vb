@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1622510ea8bd6fb9b8abf9d6893d8bc, ..\sciBASIC#\Data\DataFrame\Extensions\DocumentExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::a07867e88b814c49c0c30f739aed0adc, ..\sciBASIC#\Data\DataFrame\Extensions\DocumentExtensions.vb"
 
     ' Author:
     ' 
@@ -41,6 +41,36 @@ Imports Microsoft.VisualBasic.Text
 ''' The csv document extensions API
 ''' </summary>
 Public Module DocumentExtensions
+
+    <Extension>
+    Public Iterator Function InvalidsAsRLangNA(source As IEnumerable(Of DataSet), Optional replaceAs$ = "NA") As IEnumerable(Of EntityObject)
+        Dim NaN As Index(Of String) = {
+            "正无穷大", "负无穷大", "非数字",
+            "Infinity", "-Infinity",
+            "NaN",
+            "∞", "-∞"
+        }
+
+        For Each data As DataSet In source
+            Dim values = data _
+                .Properties _
+                .ToDictionary(Function(map) map.Key,
+                              Function(map)
+                                  Dim s = map.Value.ToString
+
+                                  If NaN.IndexOf(s) > -1 Then
+                                      Return replaceAs
+                                  Else
+                                      Return s
+                                  End If
+                              End Function)
+
+            Yield New EntityObject With {
+                .ID = data.ID,
+                .Properties = values
+            }
+        Next
+    End Function
 
     ''' <summary>
     ''' 对于一些数学计算的数值结果，无穷大，无穷小或者非实数会被转换为中文，导致R程序无法识别
@@ -305,5 +335,11 @@ Public Module DocumentExtensions
         Else
             Return IO.File.LoadTsv(path, encoding)
         End If
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function ParseDoc(csv$, Optional removesBlank As Boolean = False) As IO.File
+        Return IO.File.Load(csv.lTokens, trimBlanks:=removesBlank)
     End Function
 End Module

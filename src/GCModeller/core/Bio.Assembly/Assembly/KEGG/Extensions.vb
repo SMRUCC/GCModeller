@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9c535a16a8ccbb963028928e63727dd, ..\core\Bio.Assembly\Assembly\KEGG\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::254ec44b06d58a4abcb5f7a773cbefbf, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Extensions.vb"
 
     ' Author:
     ' 
@@ -135,12 +135,25 @@ Namespace Assembly.KEGG
         ''' </summary>
         ''' <param name="s$"></param>
         ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension> Public Function TheSameAs(s$()) As String
             Dim tags As NamedValue(Of String) = s _
                 .Select(Function(l) l.GetTagValue(":", trim:=True)) _
                 .Where(Function(v) v.Name.TextEquals("Same as")) _
                 .FirstOrDefault
             Return tags.Value
+        End Function
+
+        <Extension>
+        Public Function RemarksTable(Of T As IKEGGRemarks)(o As T) As Dictionary(Of String, String)
+            If Not o.Remarks.IsNullOrEmpty Then
+                Return o.Remarks _
+                    .Select(Function(l) l.GetTagValue(":", trim:=True)) _
+                    .ToDictionary(Function(tag) tag.Name,
+                                  Function(tag) tag.Value)
+            Else
+                Return New Dictionary(Of String, String)
+            End If
         End Function
 
         <Extension>
