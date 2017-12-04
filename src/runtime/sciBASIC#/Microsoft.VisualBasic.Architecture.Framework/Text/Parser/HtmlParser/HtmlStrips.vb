@@ -89,6 +89,10 @@ Namespace Text.HtmlParser
         <ExportAPI("Html.Tag.Trim"), Extension> Public Function StripHTMLTags(s$, Optional stripBlank As Boolean = False) As String
             If String.IsNullOrEmpty(s) Then
                 Return ""
+            Else
+                ' 在这里将<br/><br>标签替换为换行符
+                ' 否则文本的排版可能会乱掉的
+                s = r.Replace(s, "[<][/]?br[>]", vbLf, RegexICSng)
             End If
 
             s = Regex.Replace(s, "<[^>]+>", "")
