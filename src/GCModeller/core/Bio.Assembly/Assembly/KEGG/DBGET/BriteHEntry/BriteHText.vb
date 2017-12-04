@@ -28,7 +28,6 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -64,6 +63,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Get
                 If String.IsNullOrEmpty(_EntryId) Then
                     Dim Tokens As String = ClassLabel.Split.First
+
                     If Regex.Match(Tokens, "[a-z]\d{5}", RegexOptions.IgnoreCase).Success Then
                         _EntryId = Tokens
                     ElseIf Tokens.IsPattern("\d+") Then

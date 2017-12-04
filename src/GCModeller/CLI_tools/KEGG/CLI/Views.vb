@@ -43,13 +43,12 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.ProteinModel
 
 Partial Module CLI
 
     <ExportAPI("/Organism.Table")>
-    <Usage("/Organism.Table [/in <br08601-htext.keg> /out <out.csv>]")>
+    <Usage("/Organism.Table [/in <br08601-htext.keg> /Bacteria /out <out.csv>]")>
     <Argument("/in", True, CLITypes.File, PipelineTypes.std_in,
               Extensions:="*.keg, *.txt",
               Description:="If this kegg brite file is not presented in the cli arguments, the internal kegg resource will be used.")>
@@ -57,6 +56,7 @@ Partial Module CLI
         Dim in$ = args <= "/in"
         Dim out$
         Dim htext As htext
+        Dim bacteria As Boolean = args.IsTrue("/Bacteria")
 
         If [in].FileExists Then
             out = args("/out") Or ([in].TrimSuffix & ".table.csv")
@@ -66,10 +66,17 @@ Partial Module CLI
             htext = Organism.GetResource
         End If
 
-        Return htext _
-            .FillTaxonomyTable _
-            .SaveTo(out) _
-            .CLICode
+        If bacteria Then
+            Return htext _
+                .GetBacteriaList _
+                .SaveTo(out) _
+                .CLICode
+        Else
+            Return htext _
+                .FillTaxonomyTable _
+                .SaveTo(out) _
+                .CLICode
+        End If
     End Function
 
     <ExportAPI("/Cut_sequence.upstream", Usage:="/Cut_sequence.upstream /in <list.txt> /PTT <genome.ptt> /org <kegg_sp> [/len <100bp> /overrides /out <outDIR>]")>
