@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/MapPlot.exe
+' assembly: G:/GCModeller/GCModeller/bin/MapPlot.exe
 
 Namespace GCModellerApps
 
@@ -27,11 +27,11 @@ End Sub
 ''' ```
 ''' </summary>
 '''
-Public Function WriteConfigTemplate(Optional _out As String = "") As Integer
+Public Function WriteConfigTemplate(Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Config.Template")
 Call CLI.Append(" ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -46,17 +46,17 @@ End Function
 ''' Visualize the blastp result.
 ''' </summary>
 '''
-Public Function BBHVisual(_in As String, _PTT As String, _density As String, Optional _limits As String = "", Optional _out As String = "") As Integer
+Public Function BBHVisual([in] As String, PTT As String, density As String, Optional limits As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Visual.BBH")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/PTT " & """" & _PTT & """ ")
-Call CLI.Append("/density " & """" & _density & """ ")
-If Not _limits.StringEmpty Then
-Call CLI.Append("/limits " & """" & _limits & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
+Call CLI.Append("/PTT " & """" & PTT & """ ")
+Call CLI.Append("/density " & """" & density & """ ")
+If Not limits.StringEmpty Then
+Call CLI.Append("/limits " & """" & limits & """ ")
 End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -71,21 +71,21 @@ End Function
 ''' Blastn result alignment visualization from the NCBI web blast. This tools is only works for a plasmid blastn search result or a small gene cluster region in a large genome.
 ''' </summary>
 '''
-Public Function BlastnVisualizeWebResult(_in As String, _genbank As String, Optional _orf_catagory As String = "", Optional _region As String = "", Optional _out As String = "", Optional _local As Boolean = False) As Integer
+Public Function BlastnVisualizeWebResult([in] As String, genbank As String, Optional orf_catagory As String = "", Optional region As String = "", Optional out As String = "", Optional local As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Visualize.blastn.alignment")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/genbank " & """" & _genbank & """ ")
-If Not _orf_catagory.StringEmpty Then
-Call CLI.Append("/orf.catagory " & """" & _orf_catagory & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
+Call CLI.Append("/genbank " & """" & genbank & """ ")
+If Not orf_catagory.StringEmpty Then
+Call CLI.Append("/orf.catagory " & """" & orf_catagory & """ ")
 End If
-If Not _region.StringEmpty Then
-Call CLI.Append("/region " & """" & _region & """ ")
+If Not region.StringEmpty Then
+Call CLI.Append("/region " & """" & region & """ ")
 End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
-If _local Then
+If local Then
 Call CLI.Append("/local ")
 End If
 
@@ -101,18 +101,18 @@ End Function
 ''' Drawing the chromosomes map from the PTT object as the basically genome information source.
 ''' </summary>
 '''
-Public Function DrawingChrMap(_ptt As String, Optional _conf As String = "", Optional _out As String = "", Optional _cog As String = "") As Integer
+Public Function DrawingChrMap(ptt As String, Optional conf As String = "", Optional out As String = "", Optional cog As String = "") As Integer
 Dim CLI As New StringBuilder("--Draw.ChromosomeMap")
 Call CLI.Append(" ")
-Call CLI.Append("/ptt " & """" & _ptt & """ ")
-If Not _conf.StringEmpty Then
-Call CLI.Append("/conf " & """" & _conf & """ ")
+Call CLI.Append("/ptt " & """" & ptt & """ ")
+If Not conf.StringEmpty Then
+Call CLI.Append("/conf " & """" & conf & """ ")
 End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
-If Not _cog.StringEmpty Then
-Call CLI.Append("/cog " & """" & _cog & """ ")
+If Not cog.StringEmpty Then
+Call CLI.Append("/cog " & """" & cog & """ ")
 End If
 
 
@@ -126,18 +126,18 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DrawGenbank(_gb As String, Optional _conf As String = "", Optional _out As String = "", Optional _cog As String = "") As Integer
+Public Function DrawGenbank(gb As String, Optional conf As String = "", Optional out As String = "", Optional cog As String = "") As Integer
 Dim CLI As New StringBuilder("--Draw.ChromosomeMap.genbank")
 Call CLI.Append(" ")
-Call CLI.Append("/gb " & """" & _gb & """ ")
-If Not _conf.StringEmpty Then
-Call CLI.Append("/conf " & """" & _conf & """ ")
+Call CLI.Append("/gb " & """" & gb & """ ")
+If Not conf.StringEmpty Then
+Call CLI.Append("/conf " & """" & conf & """ ")
 End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
-If Not _cog.StringEmpty Then
-Call CLI.Append("/cog " & """" & _cog & """ ")
+If Not cog.StringEmpty Then
+Call CLI.Append("/cog " & """" & cog & """ ")
 End If
 
 

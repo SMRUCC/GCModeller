@@ -138,8 +138,8 @@ Partial Module CLI
             EXPORT = $"{out}/{EXPORT}/"
 
             Apps.KEGG_tools.DownloadPathwayMaps(
-                _sp:=code.species,
-                _out:=EXPORT
+                sp:=code.species,
+                out:=EXPORT
             )
         Next
 
