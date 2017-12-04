@@ -27,10 +27,10 @@ End Sub
 ''' ```
 ''' </summary>
 '''
-Public Function BlastXFillORF(in As String, blastx As String, Optional out As String = "") As Integer
+Public Function BlastXFillORF([in] As String, blastx As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/blastX.fill.ORF")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/blastx " & """" & blastx & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -48,10 +48,10 @@ End Function
 ''' Plots the COGs category statics profiling of the target genome from the COG annotation file.
 ''' </summary>
 '''
-Public Function COGCatalogProfilingPlot(in As String, Optional size As String = "1800,1200", Optional out As String = "") As Integer
+Public Function COGCatalogProfilingPlot([in] As String, Optional size As String = "1800,1200", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/COG.profiling.plot")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not size.StringEmpty Then
 Call CLI.Append("/size " & """" & size & """ ")
 End If
@@ -70,10 +70,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AddReMapping(in As String, bbh As String, ID_mappings As String, uniprot As String, Optional id As String = "", Optional out As String = "") As Integer
+Public Function AddReMapping([in] As String, bbh As String, ID_mappings As String, uniprot As String, Optional id As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Data.Add.Mappings")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/bbh " & """" & bbh & """ ")
 Call CLI.Append("/ID.mappings " & """" & ID_mappings & """ ")
 Call CLI.Append("/uniprot " & """" & uniprot & """ ")
@@ -95,10 +95,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DataAddORF(in As String, uniprot As String, Optional id As String = "", Optional out As String = "") As Integer
+Public Function DataAddORF([in] As String, uniprot As String, Optional id As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Data.Add.ORF")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/uniprot " & """" & uniprot & """ ")
 If Not id.StringEmpty Then
 Call CLI.Append("/id " & """" & id & """ ")
@@ -118,10 +118,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DataAddUniprotIDs(in As String, data As String, Optional out As String = "") As Integer
+Public Function DataAddUniprotIDs([in] As String, data As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Data.Add.uniprotIDs")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/data " & """" & data & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -138,10 +138,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SplitDAVID(in As String, Optional out As String = "./") As Integer
+Public Function SplitDAVID([in] As String, Optional out As String = "./") As Integer
 Dim CLI As New StringBuilder("/DAVID.Split")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -158,10 +158,10 @@ End Function
 ''' Visualize the DEPs' kmeans cluster result by using 3D scatter plot.
 ''' </summary>
 '''
-Public Function DEPHeatmap3D(in As String, sampleInfo As String, Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional out As String = "") As Integer
+Public Function DEPHeatmap3D([in] As String, sampleInfo As String, Optional cluster_prefix As String = "cluster: #", Optional size As String = "1600,1400", Optional schema As String = "clusters", Optional view_angle As String = "30,60,-56.25", Optional view_distance As String = "2500", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/DEP.heatmap.scatter.3D")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
 If Not cluster_prefix.StringEmpty Then
 Call CLI.Append("/cluster.prefix " & """" & cluster_prefix & """ ")
@@ -193,10 +193,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DEPKmeansScatter2D(in As String, sampleInfo As String, Optional t_log As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "", Optional schema As String = "clusters", Optional out As String = "") As Integer
+Public Function DEPKmeansScatter2D([in] As String, sampleInfo As String, Optional t_log As String = "-1", Optional cluster_prefix As String = "cluster: #", Optional size As String = "", Optional schema As String = "clusters", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/DEP.kmeans.scatter2D")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
 If Not t_log.StringEmpty Then
 Call CLI.Append("/t.log " & """" & t_log & """ ")
@@ -226,12 +226,12 @@ End Function
 ''' Using for plots the FC histogram when the experiment have no biological replicates.
 ''' </summary>
 '''
-Public Function logFCHistogram(in As String, Optional step As String = "", Optional type As String = "log2fc", Optional legend_title As String = "", Optional x_axis As String = "(min,max),tick=0.25", Optional color As String = "", Optional size As String = "", Optional out As String = "") As Integer
+Public Function logFCHistogram([in] As String, Optional [step] As String = "", Optional type As String = "log2fc", Optional legend_title As String = "", Optional x_axis As String = "(min,max),tick=0.25", Optional color As String = "", Optional size As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/DEP.logFC.hist")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
-If Not step.StringEmpty Then
-Call CLI.Append("/step " & """" & step & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
+If Not [step].StringEmpty Then
+Call CLI.Append("/step " & """" & [step] & """ ")
 End If
 If Not type.StringEmpty Then
 Call CLI.Append("/type " & """" & type & """ ")
@@ -264,10 +264,10 @@ End Function
 ''' Volcano plot of the DEPs' analysis result.
 ''' </summary>
 '''
-Public Function logFCVolcano(in As String, Optional title As String = "", Optional p_value As String = "0.05", Optional level As String = "1.5", Optional colors As String = "", Optional size As String = "", Optional out As String = "", Optional display_count As Boolean = False) As Integer
+Public Function logFCVolcano([in] As String, Optional title As String = "", Optional p_value As String = "0.05", Optional level As String = "1.5", Optional colors As String = "", Optional size As String = "", Optional out As String = "", Optional display_count As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/DEP.logFC.Volcano")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not title.StringEmpty Then
 Call CLI.Append("/title " & """" & title & """ ")
 End If
@@ -321,10 +321,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DEPUniprotIDs2(in As String, Optional dep_flag As String = "", Optional uniprot_flag As String = "", Optional species As String = "", Optional uniprot As String = "", Optional out As String = "") As Integer
+Public Function DEPUniprotIDs2([in] As String, Optional dep_flag As String = "", Optional uniprot_flag As String = "", Optional species As String = "", Optional uniprot As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/DEP.uniprot.list2")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not dep_flag.StringEmpty Then
 Call CLI.Append("/dep.flag " & """" & dep_flag & """ ")
 End If
@@ -441,10 +441,10 @@ End Function
 ''' https://github.com/xieguigang/GCModeller.cli2R/blob/master/GCModeller.cli2R/R/log2FC_t-test.R
 ''' </summary>
 '''
-Public Function DEPStatics(in As String, Optional log2fc As String = "log2FC", Optional out As String = "") As Integer
+Public Function DEPStatics([in] As String, Optional log2fc As String = "log2FC", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/DEPs.stat")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not log2fc.StringEmpty Then
 Call CLI.Append("/log2fc " & """" & log2fc & """ ")
 End If
@@ -463,10 +463,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function TakeDEPsValues(in As String, Optional boolean_tag As String = "is.DEP", Optional by_fc As String = "logFC=log2(1.5)", Optional by_p_value As String = "", Optional data As String = "", Optional out As String = "") As Integer
+Public Function TakeDEPsValues([in] As String, Optional boolean_tag As String = "is.DEP", Optional by_fc As String = "logFC=log2(1.5)", Optional by_p_value As String = "", Optional data As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/DEPs.takes.values")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not boolean_tag.StringEmpty Then
 Call CLI.Append("/boolean.tag " & """" & boolean_tag & """ ")
 End If
@@ -494,10 +494,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DEPsUnion(in As String, Optional fc As String = "logFC", Optional out As String = "") As Integer
+Public Function DEPsUnion([in] As String, Optional fc As String = "logFC", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/DEPs.union")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not fc.StringEmpty Then
 Call CLI.Append("/fc " & """" & fc & """ ")
 End If
@@ -517,10 +517,10 @@ End Function
 ''' Generates the edgeR inputs table
 ''' </summary>
 '''
-Public Function edgeRDesigner(in As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
+Public Function edgeRDesigner([in] As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/edgeR.Designer")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/designer " & """" & designer & """ ")
 If Not label.StringEmpty Then
 Call CLI.Append("/label " & """" & label & """ ")
@@ -544,10 +544,10 @@ End Function
 ''' Create enrichment analysis background based on the uniprot xml database.
 ''' </summary>
 '''
-Public Function Backgrounds(in As String, Optional mapping As String = "", Optional out As String = "") As Integer
+Public Function Backgrounds([in] As String, Optional mapping As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/enricher.background")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not mapping.StringEmpty Then
 Call CLI.Append("/mapping " & """" & mapping & """ ")
 End If
@@ -591,10 +591,10 @@ End Function
 ''' Filter the specific term result from the analysis output by using pattern keyword
 ''' </summary>
 '''
-Public Function EnrichmentTermFilter(in As String, filter As String, Optional out As String = "") As Integer
+Public Function EnrichmentTermFilter([in] As String, filter As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Enrichment.Term.Filter")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/filter " & """" & filter & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -612,10 +612,10 @@ End Function
 ''' Retrive KEGG/GO info for the genes in the enrichment result.
 ''' </summary>
 '''
-Public Function RetriveEnrichmentGeneInfo(in As String, proteins As String, Optional out As String = "", Optional nocut As Boolean = False, Optional orf As Boolean = False) As Integer
+Public Function RetriveEnrichmentGeneInfo([in] As String, proteins As String, Optional out As String = "", Optional nocut As Boolean = False, Optional orf As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Enrichments.ORF.info")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/proteins " & """" & proteins & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -638,10 +638,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ExocartaHits(in As String, annotation As String, exocarta As String, Optional out As String = "") As Integer
+Public Function ExocartaHits([in] As String, annotation As String, exocarta As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Exocarta.Hits")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/annotation " & """" & annotation & """ ")
 Call CLI.Append("/exocarta " & """" & exocarta & """ ")
 If Not out.StringEmpty Then
@@ -659,10 +659,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GetFastaIDlist(in As String, Optional out As String = "") As Integer
+Public Function GetFastaIDlist([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Fasta.IDlist")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -679,10 +679,10 @@ End Function
 ''' Reverse the FoldChange value from the source result matrix.
 ''' </summary>
 '''
-Public Function iTraqInvert(in As String, Optional out As String = "", Optional log2fc As Boolean = False) As Integer
+Public Function iTraqInvert([in] As String, Optional out As String = "", Optional log2fc As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/FoldChange.Matrix.Invert")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -702,10 +702,10 @@ End Function
 ''' DEPs' functional enrichment network based on string-db exports, and color by KEGG pathway.
 ''' </summary>
 '''
-Public Function FunctionalNetworkEnrichment(in As String, uniprot As String, DEP As String, Optional map As String = "", Optional r_range As String = "12,30", Optional log2fc As String = "log2FC", Optional layout As String = "", Optional out As String = "") As Integer
+Public Function FunctionalNetworkEnrichment([in] As String, uniprot As String, DEP As String, Optional map As String = "", Optional r_range As String = "12,30", Optional log2fc As String = "log2FC", Optional layout As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/func.rich.string")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/uniprot " & """" & uniprot & """ ")
 Call CLI.Append("/DEP " & """" & DEP & """ ")
 If Not map.StringEmpty Then
@@ -736,10 +736,10 @@ End Function
 ''' Using this command for generates the gene id list input for the STRING-db search.
 ''' </summary>
 '''
-Public Function GeneIDListFromKOBASResult(in As String, Optional p_value As String = "1", Optional out As String = "") As Integer
+Public Function GeneIDListFromKOBASResult([in] As String, Optional p_value As String = "1", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Gene.list.from.KOBAS")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not p_value.StringEmpty Then
 Call CLI.Append("/p.value " & """" & p_value & """ ")
 End If
@@ -759,10 +759,10 @@ End Function
 ''' Visualize of the subcellular location result from the GO enrichment analysis.
 ''' </summary>
 '''
-Public Function GO_cellularLocationPlot(in As String, Optional go As String = "", Optional colors As String = "Paired:c8", Optional out As String = "", Optional _3d As Boolean = False) As Integer
+Public Function GO_cellularLocationPlot([in] As String, Optional go As String = "", Optional colors As String = "Paired:c8", Optional out As String = "", Optional _3d As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/GO.cellular_location.Plot")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not go.StringEmpty Then
 Call CLI.Append("/go " & """" & go & """ ")
 End If
@@ -787,10 +787,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DAVID_GOplot(in As String, Optional go As String = "", Optional size As String = "1200,1000", Optional tick As String = "", Optional p_value As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
+Public Function DAVID_GOplot([in] As String, Optional go As String = "", Optional size As String = "1200,1000", Optional tick As String = "", Optional p_value As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/GO.enrichment.DAVID")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not go.StringEmpty Then
 Call CLI.Append("/go " & """" & go & """ ")
 End If
@@ -822,10 +822,10 @@ End Function
 ''' Go enrichment plot base on the KOBAS enrichment analysis result.
 ''' </summary>
 '''
-Public Function GO_enrichmentPlot(in As String, Optional r As String = "log(x,1.5)", Optional displays As String = "10", Optional pvalue As String = "", Optional size As String = "", Optional tick As String = "", Optional go As String = "", Optional out As String = "", Optional bubble As Boolean = False, Optional corrected As Boolean = False, Optional plantregmap As Boolean = False, Optional label_right As Boolean = False, Optional gray As Boolean = False) As Integer
+Public Function GO_enrichmentPlot([in] As String, Optional r As String = "log(x,1.5)", Optional displays As String = "10", Optional pvalue As String = "", Optional size As String = "", Optional tick As String = "", Optional go As String = "", Optional out As String = "", Optional bubble As Boolean = False, Optional corrected As Boolean = False, Optional plantregmap As Boolean = False, Optional label_right As Boolean = False, Optional gray As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Go.enrichment.plot")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not r.StringEmpty Then
 Call CLI.Append("/r " & """" & r & """ ")
 End If
@@ -875,10 +875,10 @@ End Function
 ''' Cloud plot of the iBAQ DEPs result.
 ''' </summary>
 '''
-Public Function DEPsCloudPlot(in As String, annotations As String, DEPs As String, tag As String, Optional out As String = "") As Integer
+Public Function DEPsCloudPlot([in] As String, annotations As String, DEPs As String, tag As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/iBAQ.Cloud")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/annotations " & """" & annotations & """ ")
 Call CLI.Append("/DEPs " & """" & DEPs & """ ")
 Call CLI.Append("/tag " & """" & tag & """ ")
@@ -899,10 +899,10 @@ End Function
 ''' This tools required the protein in ``datatset.csv`` associated with the alignment result in ``bbh.csv`` by using the ``query_name`` property.
 ''' </summary>
 '''
-Public Function BBHReplace(in As String, bbh As String, Optional out As String = "") As Integer
+Public Function BBHReplace([in] As String, bbh As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/ID.Replace.bbh")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/bbh " & """" & bbh & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -920,10 +920,10 @@ End Function
 ''' Dumping GO obo database as mysql database files.
 ''' </summary>
 '''
-Public Function DumpGOAsMySQL(in As String, Optional out As String = "") As Integer
+Public Function DumpGOAsMySQL([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Imports.Go.obo.mysql")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -940,10 +940,10 @@ End Function
 ''' Dumping the UniprotKB XML database as mysql database file.
 ''' </summary>
 '''
-Public Function DumpUniprot(in As String, Optional out As String = "") As Integer
+Public Function DumpUniprot([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Imports.Uniprot.Xml")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -960,10 +960,10 @@ End Function
 ''' Split the raw matrix into different compare group based on the experimental designer information.
 ''' </summary>
 '''
-Public Function iTraqAnalysisMatrixSplit(in As String, sampleInfo As String, designer As String, Optional out As String = "", Optional allowed_swap As Boolean = False) As Integer
+Public Function iTraqAnalysisMatrixSplit([in] As String, sampleInfo As String, designer As String, Optional out As String = "", Optional allowed_swap As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/iTraq.matrix.split")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
 Call CLI.Append("/designer " & """" & designer & """ ")
 If Not out.StringEmpty Then
@@ -984,10 +984,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function iTraqRSDPvalueDensityPlot(in As String, Optional out As String = "") As Integer
+Public Function iTraqRSDPvalueDensityPlot([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/iTraq.RSD-P.Density")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1004,10 +1004,10 @@ End Function
 ''' * Using this CLI tool for processing the tag header of iTraq result at first.
 ''' </summary>
 '''
-Public Function iTraqSignReplacement(in As String, symbols As String, Optional sheet_name As String = "", Optional out As String = "") As Integer
+Public Function iTraqSignReplacement([in] As String, symbols As String, Optional sheet_name As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/iTraq.Symbol.Replacement")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/symbols " & """" & symbols & """ ")
 If Not sheet_name.StringEmpty Then
 Call CLI.Append("/sheet.name " & """" & sheet_name & """ ")
@@ -1027,10 +1027,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function iTraqTtest(in As String, Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional pairinfo As String = "", Optional out As String = "", Optional skip_significant_test As Boolean = False) As Integer
+Public Function iTraqTtest([in] As String, Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional pairinfo As String = "", Optional out As String = "", Optional skip_significant_test As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/iTraq.t.test")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not level.StringEmpty Then
 Call CLI.Append("/level " & """" & level & """ ")
 End If
@@ -1061,10 +1061,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ColorKEGGPathwayMap(in As String, ref As String, Optional out As String = "") As Integer
+Public Function ColorKEGGPathwayMap([in] As String, ref As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/KEGG.Color.Pathway")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/ref " & """" & ref & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -1081,10 +1081,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DAVID_KEGGplot(in As String, Optional custom As String = "", Optional size As String = "1200,1000", Optional p_value As String = "0.05", Optional tick As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
+Public Function DAVID_KEGGplot([in] As String, Optional custom As String = "", Optional size As String = "1200,1000", Optional p_value As String = "0.05", Optional tick As String = "", Optional out As String = "", Optional tsv As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/KEGG.enrichment.DAVID")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not custom.StringEmpty Then
 Call CLI.Append("/custom " & """" & custom & """ ")
 End If
@@ -1115,10 +1115,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DAVID_KEGGPathwayMap(in As String, uniprot As String, Optional deps As String = "", Optional colors As String = "red,blue,green", Optional tag As String = "log2FC", Optional pvalue As String = "0.05", Optional out As String = "", Optional tsv As Boolean = False) As Integer
+Public Function DAVID_KEGGPathwayMap([in] As String, uniprot As String, Optional deps As String = "", Optional colors As String = "red,blue,green", Optional tag As String = "log2FC", Optional pvalue As String = "0.05", Optional out As String = "", Optional tsv As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/KEGG.enrichment.DAVID.pathwaymap")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/uniprot " & """" & uniprot & """ ")
 If Not deps.StringEmpty Then
 Call CLI.Append("/deps " & """" & deps & """ ")
@@ -1151,10 +1151,10 @@ End Function
 ''' Show the KEGG pathway map image by using KOBAS KEGG pathway enrichment result.
 ''' </summary>
 '''
-Public Function KEGGEnrichmentPathwayMap(in As String, Optional deps As String = "", Optional colors As String = "red,blue,green", Optional map As String = "", Optional uniprot As String = "", Optional pvalue As String = "0.05", Optional out As String = "") As Integer
+Public Function KEGGEnrichmentPathwayMap([in] As String, Optional deps As String = "", Optional colors As String = "red,blue,green", Optional map As String = "", Optional uniprot As String = "", Optional pvalue As String = "0.05", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/KEGG.Enrichment.PathwayMap")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not deps.StringEmpty Then
 Call CLI.Append("/deps " & """" & deps & """ ")
 End If
@@ -1186,10 +1186,10 @@ End Function
 ''' Bar plots of the KEGG enrichment analysis result.
 ''' </summary>
 '''
-Public Function KEGG_enrichment(in As String, Optional pvalue As String = "", Optional tick As String = "", Optional size As String = "", Optional out As String = "", Optional gray As Boolean = False, Optional label_right As Boolean = False) As Integer
+Public Function KEGG_enrichment([in] As String, Optional pvalue As String = "", Optional tick As String = "", Optional size As String = "", Optional out As String = "", Optional gray As Boolean = False, Optional label_right As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/KEGG.enrichment.plot")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not pvalue.StringEmpty Then
 Call CLI.Append("/pvalue " & """" & pvalue & """ ")
 End If
@@ -1221,10 +1221,10 @@ End Function
 ''' Display the barplot of the KEGG orthology match.
 ''' </summary>
 '''
-Public Function KOCatalogs(in As String, ko As String, Optional key As String = "", Optional mapto As String = "", Optional out As String = "") As Integer
+Public Function KOCatalogs([in] As String, ko As String, Optional key As String = "", Optional mapto As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/KO.Catalogs")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/ko " & """" & ko & """ ")
 If Not key.StringEmpty Then
 Call CLI.Append("/key " & """" & key & """ ")
@@ -1247,10 +1247,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function KOBASaddORFsource(in As String, sample As String, Optional out As String = "") As Integer
+Public Function KOBASaddORFsource([in] As String, sample As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/KOBAS.add.ORF")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/sample " & """" & sample & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -1267,10 +1267,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SimHeatmap(in As String, Optional size As String = "", Optional colors As String = "", Optional out As String = "") As Integer
+Public Function SimHeatmap([in] As String, Optional size As String = "", Optional colors As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/KOBAS.Sim.Heatmap")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not size.StringEmpty Then
 Call CLI.Append("/size " & """" & size & """ ")
 End If
@@ -1316,10 +1316,10 @@ End Function
 ''' Split the KOBAS run output result text file as seperated csv file.
 ''' </summary>
 '''
-Public Function KOBASSplit(in As String, Optional out As String = "") As Integer
+Public Function KOBASSplit([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/KOBAS.split")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1335,10 +1335,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function KOBASKMeans(in As String, Optional n As String = "3", Optional out As String = "") As Integer
+Public Function KOBASKMeans([in] As String, Optional n As String = "3", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/KOBAS.Term.Kmeans")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not n.StringEmpty Then
 Call CLI.Append("/n " & """" & n & """ ")
 End If
@@ -1357,10 +1357,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function labelFreeTtest(in As String, sampleInfo As String, design As String, Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional out As String = "") As Integer
+Public Function labelFreeTtest([in] As String, sampleInfo As String, design As String, Optional level As String = "1.5", Optional p_value As String = "0.05", Optional fdr As String = "0.05", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/labelFree.t.test")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/sampleInfo " & """" & sampleInfo & """ ")
 Call CLI.Append("/design " & """" & design & """ ")
 If Not level.StringEmpty Then
@@ -1388,10 +1388,10 @@ End Function
 ''' Usually using for generates the heatmap plot matrix of the DEPs. This function call will generates two dataset, one is using for the heatmap plot and another is using for the venn diagram plot.
 ''' </summary>
 '''
-Public Function MergeDEPs(in As String, Optional threshold As String = "log(1.5,2)", Optional raw As String = "", Optional out As String = "", Optional log2 As Boolean = False) As Integer
+Public Function MergeDEPs([in] As String, Optional threshold As String = "log(1.5,2)", Optional raw As String = "", Optional out As String = "", Optional log2 As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Merge.DEPs")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not threshold.StringEmpty Then
 Call CLI.Append("/threshold " & """" & threshold & """ ")
 End If
@@ -1416,10 +1416,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function PccNetwork(in As String, Optional cut As String = "0.45", Optional out As String = "") As Integer
+Public Function PccNetwork([in] As String, Optional cut As String = "0.45", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Network.PCC")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not cut.StringEmpty Then
 Call CLI.Append("/cut " & """" & cut & """ ")
 End If
@@ -1460,10 +1460,10 @@ End Function
 ''' Export the uniprot ID list from ``Majority Protein IDs`` row and generates a text file for batch search of the uniprot database.
 ''' </summary>
 '''
-Public Function MajorityProteinIDs(in As String, Optional out As String = "") As Integer
+Public Function MajorityProteinIDs([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Perseus.MajorityProteinIDs")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1479,10 +1479,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function PerseusStatics(in As String, Optional out As String = "") As Integer
+Public Function PerseusStatics([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Perseus.Stat")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1498,10 +1498,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function PerseusTable(in As String, Optional out As String = "") As Integer
+Public Function PerseusTable([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Perseus.Table")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1517,10 +1517,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function PerseusTableAnnotations(in As String, uniprot As String, Optional scientifcname As String = "", Optional out As String = "") As Integer
+Public Function PerseusTableAnnotations([in] As String, uniprot As String, Optional scientifcname As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Perseus.Table.annotations")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/uniprot " & """" & uniprot & """ ")
 If Not scientifcname.StringEmpty Then
 Call CLI.Append("/scientifcname " & """" & scientifcname & """ ")
@@ -1541,10 +1541,10 @@ End Function
 ''' 'calc. pI' - 'MW [kDa]' scatter plot of the protomics raw sample data.
 ''' </summary>
 '''
-Public Function pimwScatterPlot(in As String, Optional field_pi As String = "calc. pI", Optional field_mw As String = "MW [kDa]", Optional legend_fontsize As String = "", Optional legend_size As String = "", Optional quantile_removes As String = "1", Optional out As String = "", Optional size As String = "", Optional color As String = "", Optional ticks_y As String = "", Optional pt_size As String = "") As Integer
+Public Function pimwScatterPlot([in] As String, Optional field_pi As String = "calc. pI", Optional field_mw As String = "MW [kDa]", Optional legend_fontsize As String = "", Optional legend_size As String = "", Optional quantile_removes As String = "1", Optional out As String = "", Optional size As String = "", Optional color As String = "", Optional ticks_y As String = "", Optional pt_size As String = "") As Integer
 Dim CLI As New StringBuilder("/plot.pimw")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not field_pi.StringEmpty Then
 Call CLI.Append("/field.pi " & """" & field_pi & """ ")
 End If
@@ -1644,10 +1644,10 @@ End Function
 ''' Export the protein sequence and save as fasta format from the uniprot database dump XML.
 ''' </summary>
 '''
-Public Function proteinEXPORT(in As String, Optional sp As String = "", Optional out As String = "", Optional exclude As Boolean = False) As Integer
+Public Function proteinEXPORT([in] As String, Optional sp As String = "", Optional out As String = "", Optional exclude As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/protein.EXPORT")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not sp.StringEmpty Then
 Call CLI.Append("/sp " & """" & sp & """ ")
 End If
@@ -1669,10 +1669,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function proteinGroupsVenn(in As String, designer As String, Optional label As String = "", Optional deli As String = "_", Optional out As String = "") As Integer
+Public Function proteinGroupsVenn([in] As String, designer As String, Optional label As String = "", Optional deli As String = "_", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/proteinGroups.venn")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/designer " & """" & designer & """ ")
 If Not label.StringEmpty Then
 Call CLI.Append("/label " & """" & label & """ ")
@@ -1696,10 +1696,10 @@ End Function
 ''' ProteinGroups sample data go profiling plot from the uniprot annotation data.
 ''' </summary>
 '''
-Public Function ProteinsGoPlot(in As String, Optional go As String = "", Optional tick As String = "-1", Optional level As String = "2", Optional selects As String = "", Optional size As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
+Public Function ProteinsGoPlot([in] As String, Optional go As String = "", Optional tick As String = "-1", Optional level As String = "2", Optional selects As String = "", Optional size As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/proteins.Go.plot")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not go.StringEmpty Then
 Call CLI.Append("/go " & """" & go & """ ")
 End If
@@ -1734,10 +1734,10 @@ End Function
 ''' KEGG function catalog profiling plot of the TP sample.
 ''' </summary>
 '''
-Public Function proteinsKEGGPlot(in As String, Optional custom As String = "", Optional size As String = "", Optional tick As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
+Public Function proteinsKEGGPlot([in] As String, Optional custom As String = "", Optional size As String = "", Optional tick As String = "", Optional out As String = "", Optional label_right As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/proteins.KEGG.plot")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not custom.StringEmpty Then
 Call CLI.Append("/custom " & """" & custom & """ ")
 End If
@@ -1766,10 +1766,10 @@ End Function
 ''' Statistics of the relative expression value of the total proteins.
 ''' </summary>
 '''
-Public Function RelativeAmount(in As String, designer As String, Optional uniprot As String = "", Optional label As String = "", Optional deli As String = "_", Optional out As String = "") As Integer
+Public Function RelativeAmount([in] As String, designer As String, Optional uniprot As String = "", Optional label As String = "", Optional deli As String = "_", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Relative.amount")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/designer " & """" & designer & """ ")
 If Not uniprot.StringEmpty Then
 Call CLI.Append("/uniprot " & """" & uniprot & """ ")
@@ -1795,10 +1795,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function KOBASNetwork(in As String, uniprot As String, DEP As String, KOBAS As String, Optional r_range As String = "5,20", Optional fold As String = "", Optional logfc As String = "", Optional layout As String = "", Optional out As String = "", Optional itraq As Boolean = False) As Integer
+Public Function KOBASNetwork([in] As String, uniprot As String, DEP As String, KOBAS As String, Optional r_range As String = "5,20", Optional fold As String = "", Optional logfc As String = "", Optional layout As String = "", Optional out As String = "", Optional itraq As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/richfun.KOBAS")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/uniprot " & """" & uniprot & """ ")
 Call CLI.Append("/DEP " & """" & DEP & """ ")
 Call CLI.Append("/KOBAS " & """" & KOBAS & """ ")
@@ -1861,10 +1861,10 @@ End Function
 ''' Extracts the protein hits from the protomics sample data, and using this ID list for downlaods the uniprot annotation data.
 ''' </summary>
 '''
-Public Function GetIDlistFromSampleTable(in As String, Optional pair As String = "", Optional out As String = "", Optional perseus As Boolean = False, Optional shotgun As Boolean = False) As Integer
+Public Function GetIDlistFromSampleTable([in] As String, Optional pair As String = "", Optional out As String = "", Optional perseus As Boolean = False, Optional shotgun As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Samples.IDlist")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not pair.StringEmpty Then
 Call CLI.Append("/pair " & """" & pair & """ ")
 End If
@@ -1889,10 +1889,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function StripShotgunData(in As String, Optional out As String = "") As Integer
+Public Function StripShotgunData([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Shotgun.Data.Strip")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1931,10 +1931,10 @@ End Function
 ''' Generates the iTraq data t.test DEP method inputs table
 ''' </summary>
 '''
-Public Function TtestDesigner(in As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
+Public Function TtestDesigner([in] As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/T.test.Designer.iTraq")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/designer " & """" & designer & """ ")
 If Not label.StringEmpty Then
 Call CLI.Append("/label " & """" & label & """ ")
@@ -1958,10 +1958,10 @@ End Function
 ''' Generates the LFQ data t.test DEP method inputs table
 ''' </summary>
 '''
-Public Function TtestDesignerLFQ(in As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
+Public Function TtestDesignerLFQ([in] As String, designer As String, Optional label As String = "", Optional deli As String = "-", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/T.test.Designer.LFQ")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/designer " & """" & designer & """ ")
 If Not label.StringEmpty Then
 Call CLI.Append("/label " & """" & label & """ ")
@@ -1984,10 +1984,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function Term2Genes(in As String, Optional term As String = "", Optional id As String = "", Optional out As String = "") As Integer
+Public Function Term2Genes([in] As String, Optional term As String = "", Optional id As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Term2genes")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not term.StringEmpty Then
 Call CLI.Append("/term " & """" & term & """ ")
 End If
@@ -2010,10 +2010,10 @@ End Function
 ''' Retrieve the uniprot annotation data by using ID mapping operations.
 ''' </summary>
 '''
-Public Function UniprotMappings(in As String, Optional type As String = "", Optional out As String = "") As Integer
+Public Function UniprotMappings([in] As String, Optional type As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Uniprot.Mappings")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not type.StringEmpty Then
 Call CLI.Append("/type " & """" & type & """ ")
 End If
@@ -2032,10 +2032,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function UniRefMap2Organism(in As String, Optional org As String = "", Optional out As String = "") As Integer
+Public Function UniRefMap2Organism([in] As String, Optional org As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/UniRef.map.organism")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not org.StringEmpty Then
 Call CLI.Append("/org " & """" & org & """ ")
 End If
@@ -2054,10 +2054,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function UniRef2UniprotKB(in As String, Optional out As String = "") As Integer
+Public Function UniRef2UniprotKB([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/UniRef.UniprotKB")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -2073,10 +2073,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function Update2UniprotMappedID(in As String, mapping As String, Optional out As String = "", Optional source As Boolean = False) As Integer
+Public Function Update2UniprotMappedID([in] As String, mapping As String, Optional out As String = "", Optional source As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/update.uniprot.mapped")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/mapping " & """" & mapping & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")

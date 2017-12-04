@@ -27,10 +27,10 @@ End Sub
 ''' ```
 ''' </summary>
 '''
-Public Function AnalysisNetworkProperty(in As String, Optional colors As String = "", Optional ignores As String = "", Optional tick As String = "", Optional out As String = "") As Integer
+Public Function AnalysisNetworkProperty([in] As String, Optional colors As String = "", Optional ignores As String = "", Optional tick As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Analysis.Graph.Properties")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not colors.StringEmpty Then
 Call CLI.Append("/colors " & """" & colors & """ ")
 End If
@@ -55,10 +55,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function NodeCluster(in As String, Optional size As String = "10000,10000", Optional schema As String = "", Optional out As String = "", Optional spcc As Boolean = False) As Integer
+Public Function NodeCluster([in] As String, Optional size As String = "10000,10000", Optional schema As String = "", Optional out As String = "", Optional spcc As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Analysis.Node.Clusters")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not size.StringEmpty Then
 Call CLI.Append("/size " & """" & size & """ ")
 End If
@@ -83,10 +83,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function Assciates(in As String, nodes As String, Optional out As String = "") As Integer
+Public Function Assciates([in] As String, nodes As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/associate")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/nodes " & """" & nodes & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -103,10 +103,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SimpleBBH(in As String, Optional evalue As String = "", Optional out As String = "") As Integer
+Public Function SimpleBBH([in] As String, Optional evalue As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/BBH.Simple")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not evalue.StringEmpty Then
 Call CLI.Append("/evalue " & """" & evalue & """ ")
 End If
@@ -125,10 +125,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BBHTrimIdentities(in As String, Optional identities As String = "", Optional out As String = "") As Integer
+Public Function BBHTrimIdentities([in] As String, Optional identities As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/bbh.Trim.Indeitites")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not identities.StringEmpty Then
 Call CLI.Append("/identities " & """" & identities & """ ")
 End If
@@ -193,10 +193,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GenerateBlastNetwork(in As String, Optional out As String = "", Optional type As String = "", Optional dict As String = "") As Integer
+Public Function GenerateBlastNetwork([in] As String, Optional out As String = "", Optional type As String = "", Optional dict As String = "") As Integer
 Dim CLI As New StringBuilder("/BLAST.Network")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -218,10 +218,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function MetaBuildBLAST(in As String, Optional out As String = "", Optional dict As String = "") As Integer
+Public Function MetaBuildBLAST([in] As String, Optional out As String = "", Optional dict As String = "") As Integer
 Dim CLI As New StringBuilder("/BLAST.Network.MetaBuild")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -240,10 +240,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNET(in As String, Optional out As String = "", Optional familyinfo As String = "", Optional brief As Boolean = False) As Integer
+Public Function BuildTreeNET([in] As String, Optional out As String = "", Optional familyinfo As String = "", Optional brief As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Build.Tree.NET")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -285,10 +285,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNET_DEGs(in As String, up As String, down As String, Optional out As String = "", Optional brief As Boolean = False) As Integer
+Public Function BuildTreeNET_DEGs([in] As String, up As String, down As String, Optional out As String = "", Optional brief As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Build.Tree.NET.DEGs")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/up " & """" & up & """ ")
 Call CLI.Append("/down " & """" & down & """ ")
 If Not out.StringEmpty Then
@@ -309,10 +309,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNET_KEGGModules(in As String, mods As String, Optional out As String = "", Optional brief As Boolean = False, Optional trim As Boolean = False) As Integer
+Public Function BuildTreeNET_KEGGModules([in] As String, mods As String, Optional out As String = "", Optional brief As Boolean = False, Optional trim As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Build.Tree.NET.KEGG_Modules")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/mods " & """" & mods & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -335,10 +335,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNET_KEGGPathways(in As String, mods As String, Optional out As String = "", Optional brief As Boolean = False, Optional trim As Boolean = False) As Integer
+Public Function BuildTreeNET_KEGGPathways([in] As String, mods As String, Optional out As String = "", Optional brief As Boolean = False, Optional trim As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Build.Tree.NET.KEGG_Pathways")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/mods " & """" & mods & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -361,10 +361,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNET_MergeRegulons(in As String, family As String, Optional out As String = "", Optional brief As Boolean = False) As Integer
+Public Function BuildTreeNET_MergeRegulons([in] As String, family As String, Optional out As String = "", Optional brief As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Build.Tree.NET.Merged_Regulons")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/family " & """" & family & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -384,10 +384,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildTreeNetTF(in As String, maps As String, map As String, mods As String, Optional out As String = "", Optional cuts As String = "", Optional brief As Boolean = False) As Integer
+Public Function BuildTreeNetTF([in] As String, maps As String, map As String, mods As String, Optional out As String = "", Optional cuts As String = "", Optional brief As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Build.Tree.NET.TF")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/maps " & """" & maps & """ ")
 Call CLI.Append("/map " & """" & map & """ ")
 Call CLI.Append("/mods " & """" & mods & """ ")
@@ -412,10 +412,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ModsNET(in As String, Optional out As String = "", Optional footprints As String = "", Optional cut As String = "", Optional pcc As String = "", Optional pathway As Boolean = False, Optional brief As Boolean = False) As Integer
+Public Function ModsNET([in] As String, Optional out As String = "", Optional footprints As String = "", Optional cut As String = "", Optional pcc As String = "", Optional pathway As Boolean = False, Optional brief As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/KEGG.Mods.NET")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -446,10 +446,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function KEGGPathwayMapNetwork(in As String, Optional node As String = "", Optional out As String = "") As Integer
+Public Function KEGGPathwayMapNetwork([in] As String, Optional node As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/KEGG.pathwayMap.Network")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not node.StringEmpty Then
 Call CLI.Append("/node " & """" & node & """ ")
 End If
@@ -468,10 +468,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildKOLinks(in As String, Optional out As String = "") As Integer
+Public Function BuildKOLinks([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/KO.link")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -487,10 +487,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function LinkageKnowledgeNetwork(in As String, Optional schema As String = "", Optional out As String = "", Optional no_type_prefix As Boolean = False) As Integer
+Public Function LinkageKnowledgeNetwork([in] As String, Optional schema As String = "", Optional out As String = "", Optional no_type_prefix As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/linkage.knowledge.network")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not schema.StringEmpty Then
 Call CLI.Append("/schema " & """" & schema & """ ")
 End If
@@ -513,10 +513,10 @@ End Function
 ''' Converts a generic distance matrix or kmeans clustering result to network model.
 ''' </summary>
 '''
-Public Function MatrixToNetwork(in As String, Optional out As String = "", Optional colors As String = "", Optional cutoff As String = "", Optional generic As Boolean = False, Optional cutoff_paired As Boolean = False) As Integer
+Public Function MatrixToNetwork([in] As String, Optional out As String = "", Optional colors As String = "", Optional cutoff As String = "", Optional generic As Boolean = False, Optional cutoff_paired As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Matrix.NET")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -544,10 +544,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SimpleModesNET(in As String, Optional out As String = "", Optional pathway As Boolean = False) As Integer
+Public Function SimpleModesNET([in] As String, Optional out As String = "", Optional pathway As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/modNET.Simple")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -620,10 +620,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function MotifClusterSites(in As String, Optional out As String = "", Optional ldm As String = "") As Integer
+Public Function MotifClusterSites([in] As String, Optional out As String = "", Optional ldm As String = "") As Integer
 Dim CLI As New StringBuilder("/Motif.Cluster.Fast.Sites")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -711,10 +711,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function net_rFBA(in As String, fba_out As String, Optional out As String = "") As Integer
+Public Function net_rFBA([in] As String, fba_out As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Net.rFBA")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/fba.out " & """" & fba_out & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -732,10 +732,10 @@ End Function
 ''' Builds the regulation network between the TF.
 ''' </summary>
 '''
-Public Function TFNet(in As String, Optional out As String = "", Optional cut As String = "") As Integer
+Public Function TFNet([in] As String, Optional out As String = "", Optional cut As String = "") As Integer
 Dim CLI As New StringBuilder("/NetModel.TF_regulates")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -755,11 +755,11 @@ End Function
 ''' Regulator phenotype relationship cluster from virtual footprints.
 ''' </summary>
 '''
-Public Function KEGGModulesPhenotypeRegulates(mods As String, in As String, Optional out As String = "", Optional pathway As Boolean = False) As Integer
+Public Function KEGGModulesPhenotypeRegulates(mods As String, [in] As String, Optional out As String = "", Optional pathway As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Phenotypes.KEGG")
 Call CLI.Append(" ")
 Call CLI.Append("/mods " & """" & mods & """ ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -778,10 +778,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function PlotCytoscapeTable(in As String, Optional size As String = "1600,1440", Optional out As String = "") As Integer
+Public Function PlotCytoscapeTable([in] As String, Optional size As String = "1600,1440", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Plot.Cytoscape.Table")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not size.StringEmpty Then
 Call CLI.Append("/size " & """" & size & """ ")
 End If
@@ -824,10 +824,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function replaceName(in As String, nodes As String, out As String) As Integer
+Public Function replaceName([in] As String, nodes As String, out As String) As Integer
 Dim CLI As New StringBuilder("/replace")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/nodes " & """" & nodes & """ ")
 Call CLI.Append("/out " & """" & out & """ ")
 
@@ -843,10 +843,10 @@ End Function
 ''' This method is not recommended.
 ''' </summary>
 '''
-Public Function TreeCluster(in As String, Optional out As String = "", Optional locus_map As String = "") As Integer
+Public Function TreeCluster([in] As String, Optional out As String = "", Optional locus_map As String = "") As Integer
 Dim CLI As New StringBuilder("/Tree.Cluster")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -865,10 +865,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function rFBATreeCluster(in As String, Optional out As String = "") As Integer
+Public Function rFBATreeCluster([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Tree.Cluster.rFBA")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -884,10 +884,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function WriteReactionTable(in As String, Optional out As String = "") As Integer
+Public Function WriteReactionTable([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Write.Reaction.Table")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -952,7 +952,7 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ModuleRegulations(model As String, footprints As String, out As String, Optional pathway As Boolean = False, Optional class As Boolean = False, Optional type As Boolean = False) As Integer
+Public Function ModuleRegulations(model As String, footprints As String, out As String, Optional pathway As Boolean = False, Optional [class] As Boolean = False, Optional type As Boolean = False) As Integer
 Dim CLI As New StringBuilder("--mod.regulations")
 Call CLI.Append(" ")
 Call CLI.Append("/model " & """" & model & """ ")
@@ -961,7 +961,7 @@ Call CLI.Append("/out " & """" & out & """ ")
 If pathway Then
 Call CLI.Append("/pathway ")
 End If
-If class Then
+If [class] Then
 Call CLI.Append("/class ")
 End If
 If type Then
@@ -979,10 +979,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function TCS(in As String, regulations As String, out As String, Optional fill_pcc As Boolean = False) As Integer
+Public Function TCS([in] As String, regulations As String, out As String, Optional fill_pcc As Boolean = False) As Integer
 Dim CLI As New StringBuilder("--TCS")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/regulations " & """" & regulations & """ ")
 Call CLI.Append("/out " & """" & out & """ ")
 If fill_pcc Then

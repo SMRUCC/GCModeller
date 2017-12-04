@@ -134,10 +134,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function CutSequence_Upstream(in As String, PTT As String, org As String, Optional len As String = "", Optional out As String = "", Optional overrides As Boolean = False) As Integer
+Public Function CutSequence_Upstream([in] As String, PTT As String, org As String, Optional len As String = "", Optional out As String = "", Optional [overrides] As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Cut_sequence.upstream")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/PTT " & """" & PTT & """ ")
 Call CLI.Append("/org " & """" & org & """ ")
 If Not len.StringEmpty Then
@@ -146,7 +146,7 @@ End If
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
-If overrides Then
+If [overrides] Then
 Call CLI.Append("/overrides ")
 End If
 
@@ -189,10 +189,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DownloadHumanGenes(in As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
+Public Function DownloadHumanGenes([in] As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Download.human.genes")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -276,11 +276,11 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DownloadsBacteriasRefMaps(Optional in As String = "", Optional out As String = "", Optional kgml As Boolean = False) As Integer
+Public Function DownloadsBacteriasRefMaps(Optional [in] As String = "", Optional out As String = "", Optional kgml As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Download.Pathway.Maps.Bacteria.All")
 Call CLI.Append(" ")
-If Not in.StringEmpty Then
-Call CLI.Append("/in " & """" & in & """ ")
+If Not [in].StringEmpty Then
+Call CLI.Append("/in " & """" & [in] & """ ")
 End If
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -359,10 +359,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GetFastaBySp(in As String, sp As String, Optional out As String = "") As Integer
+Public Function GetFastaBySp([in] As String, sp As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Fasta.By.Sp")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/sp " & """" & sp & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -447,10 +447,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ImportsDb(in As String, Optional out As String = "") As Integer
+Public Function ImportsDb([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Imports.SSDB")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -488,11 +488,11 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function KEGGOrganismTable(Optional in As String = "", Optional out As String = "", Optional bacteria As Boolean = False) As Integer
+Public Function KEGGOrganismTable(Optional [in] As String = "", Optional out As String = "", Optional bacteria As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Organism.Table")
 Call CLI.Append(" ")
-If Not in.StringEmpty Then
-Call CLI.Append("/in " & """" & in & """ ")
+If Not [in].StringEmpty Then
+Call CLI.Append("/in " & """" & [in] & """ ")
 End If
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -512,10 +512,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function PathwayGeneList(in As String, Optional out As String = "") As Integer
+Public Function PathwayGeneList([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Pathway.geneIDs")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -550,10 +550,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function QueryKOAnno(in As String, Optional out As String = "", Optional evalue As String = "", Optional batch As Boolean = False) As Integer
+Public Function QueryKOAnno([in] As String, Optional out As String = "", Optional evalue As String = "", Optional batch As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Query.KO")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -575,10 +575,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function Stats(in As String, locus As String, Optional locus_map As String = "", Optional out As String = "", Optional pathway As Boolean = False) As Integer
+Public Function Stats([in] As String, locus As String, Optional locus_map As String = "", Optional out As String = "", Optional pathway As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Views.mod_stat")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/locus " & """" & locus & """ ")
 If Not locus_map.StringEmpty Then
 Call CLI.Append("/locus_map " & """" & locus_map & """ ")
@@ -678,10 +678,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GetKOAnnotation(in As String) As Integer
+Public Function GetKOAnnotation([in] As String) As Integer
 Dim CLI As New StringBuilder("--Get.KO")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 
 
 Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())

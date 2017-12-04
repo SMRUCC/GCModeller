@@ -10,7 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Apps\Apps.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps\Cytoscape.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps\eggHTS.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\FBA.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)Apps\KEGG_tools.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\localblast.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\MapPlot.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)Apps\MEME.vb" />

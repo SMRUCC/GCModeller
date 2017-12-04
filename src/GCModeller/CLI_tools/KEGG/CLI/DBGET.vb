@@ -137,10 +137,10 @@ Partial Module CLI
             EXPORT = code.scientificName.NormalizePathString
             EXPORT = $"{out}/{EXPORT}/"
 
-            'Apps.KEGG_tools.DownloadPathwayMaps(
-            '    _sp:=code.species,
-            '    _out:=EXPORT
-            ')
+            Apps.KEGG_tools.DownloadPathwayMaps(
+                sp:=code.species,
+                out:=EXPORT
+            )
         Next
 
         Return 0
