@@ -82,8 +82,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                                   Optional forceUpdate As Boolean = False) As String()
 
             Dim entries As New List(Of ListEntry)
-            Dim briefHash As Dictionary(Of String, BriteHEntry.Pathway) =
-                BriteHEntry.Pathway.LoadDictionary
+            Dim briefHash As Dictionary(Of String, BriteHEntry.Pathway) = BriteHEntry.Pathway.LoadDictionary
             Dim Downloader As New WebClient()
             Dim Progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways....", 1, CLS:=True)
             Dim failures As New List(Of String)

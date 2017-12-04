@@ -1,40 +1,40 @@
 ﻿#Region "Microsoft.VisualBasic::841fc4d4abe99f0d6e199cb011f9d0c7, ..\GCModeller\CLI_tools\KEGG\CLI\DumpTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq.Extensions
+Imports SMRUCC.genomics.Assembly.KEGG.Archives
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
@@ -128,14 +128,13 @@ Partial Module CLI
         Call anno.SaveTo(out)
     End Sub
 
-    Private Function __queryKO(prot As String,
-                               KO As String,
-                               brites As Dictionary(Of String, SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway)) As KOAnno()
+    Private Function __queryKO(prot$, KO$, brites As Dictionary(Of String, BriteHEntry.Pathway)) As KOAnno()
         If String.IsNullOrEmpty(KO) Then
             Return {New KOAnno With {.QueryId = prot}}
         End If
 
-        Dim orthology = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.Query(KO)
+        Dim orthology = SSDB.API.Query(KO)
+
         If orthology.Pathway.IsNullOrEmpty Then
             Dim anno As KOAnno = __create(prot, KO, Nothing, orthology, brites)
             Return {anno}
@@ -148,9 +147,10 @@ Partial Module CLI
     Private Function __create(prot As String,
                               KO As String,
                               pathway As KeyValuePair,
-                              orthology As SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.Orthology,
-                              brites As Dictionary(Of String, SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway)) As KOAnno
-        Dim pwyBrite As SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
+                              orthology As SSDB.Orthology,
+                              brites As Dictionary(Of String, BriteHEntry.Pathway)) As KOAnno
+        Dim pwyBrite As BriteHEntry.Pathway
+
         If Not pathway Is Nothing Then
             pwyBrite = brites.TryGetValue(Regex.Match(pathway.Key, "\d+").Value)
             If pwyBrite Is Nothing Then
@@ -163,6 +163,7 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
                 .Entry = New KeyValuePair
             }
         End If
+
         Return New KOAnno With {
             .QueryId = prot,
             .KO = KO,
@@ -189,7 +190,8 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Public Property Category As String
         Public Property COG As String
         Public Property GO As String()
-        <Collection("lst.RN", "; ")> Public Property Reactions As String()
+        <Collection("lst.RN", "; ")>
+        Public Property Reactions As String()
     End Class
 
     <ExportAPI("--part.from",
@@ -200,15 +202,14 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
         Dim source As New FastaFile(sourceFile)
         Dim ref As New FastaFile(args("/ref"))
         Dim out As String = args.GetValue("/out", sourceFile.TrimSuffix & $".{(args <= "/ref").BaseName}.fasta")
-        Dim sourceKEGG As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump() =
-            source.Select(Function(x) SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump.Create(x))
-        Dim refKEGG As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump() =
-            ref.Select(Function(x) SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump.Create(x))
-        Dim sourceDict = (From x As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump
+        Dim sourceKEGG As SequenceDump() = source.Select(Function(x) SequenceDump.Create(x))
+        Dim refKEGG As SequenceDump() = ref.Select(Function(x) SequenceDump.Create(x))
+        Dim sourceDict = (From x As SequenceDump
                           In sourceKEGG
                           Select x
                           Group x By x.SpeciesId Into Group) _
-                             .ToDictionary(Function(x) x.SpeciesId, elementSelector:=Function(x) x.Group.ToArray)
+                             .ToDictionary(Function(x) x.SpeciesId,
+                                           Function(x) x.Group.ToArray)
         Dim refId As String() = refKEGG.Select(Function(x) x.SpeciesId).Distinct.ToArray
         Dim LQuery = (From sId As String In refId Where sourceDict.ContainsKey(sId) Select sourceDict(sId)).ToArray.Unlist
         Dim outFa As FastaFile = New FastaFile(LQuery)

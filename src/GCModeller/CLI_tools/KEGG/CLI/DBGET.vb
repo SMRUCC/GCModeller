@@ -90,12 +90,13 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Download.Pathway.Maps",
-               Usage:="/Download.Pathway.Maps /sp <kegg.sp_code> [/out <EXPORT_DIR>]")>
+    <ExportAPI("/Download.Pathway.Maps")>
+    <Usage("/Download.Pathway.Maps /sp <kegg.sp_code> [/out <EXPORT_DIR>]")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadPathwayMaps(args As CommandLine) As Integer
         Dim sp As String = args("/sp")
-        Dim EXPORT As String = args.GetValue("/out", App.CurrentDirectory & "/" & sp)
+        Dim EXPORT As String = args("/out") Or (App.CurrentDirectory & "/" & sp)
+
         Return LinkDB.Pathways _
             .Downloads(sp, EXPORT) _
             .SaveTo(EXPORT & "/failures.txt") _
@@ -120,11 +121,9 @@ Partial Module CLI
                Usage:="/Pathways.Downloads.All [/out <outDIR>]")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadsAllPathways(args As CommandLine) As Integer
-        Dim outDIR As String = args.GetValue("/out", App.HOME & "/br08901/")
+        Dim EXPORT = args("/out") Or (App.HOME & "/br08901/")
 
-        WebServiceUtils.Proxy = "http://127.0.0.1:8087/"
-
-        If PathwayMap.DownloadAll(outDIR) <> 0 Then
+        If PathwayMap.DownloadAll(EXPORT) <> 0 Then
             Call "Some maps file download failured, please check error logs for detail information...".Warning
             Return -10
         Else
