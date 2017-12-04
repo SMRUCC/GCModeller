@@ -39,6 +39,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Metagenomics
 Imports kegMap = SMRUCC.genomics.Assembly.KEGG.WebServices.MapDownloader
 
@@ -92,20 +93,30 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Download.Pathway.Maps")>
-    <Usage("/Download.Pathway.Maps /sp <kegg.sp_code> [/out <EXPORT_DIR>]")>
+    <Usage("/Download.Pathway.Maps /sp <kegg.sp_code> [/KGML /out <EXPORT_DIR>]")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadPathwayMaps(args As CommandLine) As Integer
         Dim sp As String = args("/sp")
         Dim EXPORT As String = args("/out") Or (App.CurrentDirectory & "/" & sp)
+        Dim isKGML As Boolean = args.IsTrue("/KGML")
 
-        Return LinkDB.Pathways _
-            .Downloads(sp, EXPORT) _
-            .SaveTo(EXPORT & "/failures.txt") _
-            .CLICode
+        If isKGML AndAlso args("/out").IsEmpty Then
+            EXPORT &= ".KGML/"
+
+            Return MapDownloader _
+                .DownloadsKGML(sp, EXPORT) _
+                .SaveTo(EXPORT & "/failures.txt") _
+                .CLICode
+        Else
+            Return LinkDB.Pathways _
+                .Downloads(sp, EXPORT) _
+                .SaveTo(EXPORT & "/failures.txt") _
+                .CLICode
+        End If
     End Function
 
     <ExportAPI("/Download.Pathway.Maps.Bacteria.All")>
-    <Usage("/Download.Pathway.Maps.Bacteria.All [/in <brite.keg> /out <out.directory>]")>
+    <Usage("/Download.Pathway.Maps.Bacteria.All [/in <brite.keg> /KGML /out <out.directory>]")>
     Public Function DownloadsBacteriasRefMaps(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$
