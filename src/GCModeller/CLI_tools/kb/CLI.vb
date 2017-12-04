@@ -65,7 +65,7 @@ Module CLI
             .SaveTo(out.TrimSuffix & $".abstract(min_weight={minWeight}).txt")
 
         Return weights _
-            .GetJson _
+            .GetJson(indent:=True) _
             .SaveTo(out, TextEncodings.UTF8WithoutBOM) _
             .CLICode
     End Function
