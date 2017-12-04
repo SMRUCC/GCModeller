@@ -1,32 +1,33 @@
 ﻿#Region "Microsoft.VisualBasic::b9391829533e3afe4ba50e5fe070a14e, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Imaging
@@ -188,29 +189,30 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return pathwayMap
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Shared Function SolveEntries(file As String) As BriteHEntry.Pathway()
+            Return If(String.IsNullOrEmpty(file), BriteHEntry.Pathway.LoadFromResource, BriteHEntry.Pathway.LoadData(file))
+        End Function
+
         ''' <summary>
         ''' 函数会返回失败的个数
         ''' </summary>
         ''' <param name="EXPORT"></param>
-        ''' <param name="BriefFile"></param>
+        ''' <param name="briteFile"></param>
         ''' <param name="DirectoryOrganized"></param>
         ''' <returns></returns>
-        Public Shared Function DownloadAll(EXPORT As String, Optional BriefFile As String = "", Optional DirectoryOrganized As Boolean = True, Optional [overrides] As Boolean = False) As Integer
-            Dim BriefEntries As KEGG.DBGET.BriteHEntry.Pathway() =
-                If(String.IsNullOrEmpty(BriefFile),
-                   KEGG.DBGET.BriteHEntry.Pathway.LoadFromResource,
-                   KEGG.DBGET.BriteHEntry.Pathway.LoadData(BriefFile))
-            Dim rtvl As Integer = Scan0
+        Public Shared Function DownloadAll(EXPORT$, Optional briteFile$ = "", Optional DirectoryOrganized As Boolean = True, Optional [overrides] As Boolean = False) As Integer
+            Dim BriefEntries As BriteHEntry.Pathway() = SolveEntries(briteFile)
+            Dim rtvl% = Scan0
 
             Using progress As New ProgressBar("Download KEGG pathway reference map data...", 1, CLS:=True)
                 Dim tick As New ProgressProvider(BriefEntries.Length)
 
                 Call tick.StepProgress()
 
-                For Each Entry As KEGG.DBGET.BriteHEntry.Pathway In BriefEntries
-                    Dim EntryId As String = Entry.Entry.Key
-                    Dim SaveToDir As String = If(DirectoryOrganized, BriteHEntry.Pathway.CombineDIR(Entry, EXPORT), EXPORT)
-
+                For Each entry As BriteHEntry.Pathway In BriefEntries
+                    Dim EntryId As String = entry.Entry.Key
+                    Dim SaveToDir As String = If(DirectoryOrganized, BriteHEntry.Pathway.CombineDIR(entry, EXPORT), EXPORT)
                     Dim XmlFile As String = $"{SaveToDir}/map{EntryId}.xml"
                     Dim PngFile As String = $"{SaveToDir}/map{EntryId}.png"
 
@@ -223,15 +225,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
                     Dim Pathway As PathwayMap = Nothing
 
                     Try
-                        Pathway = Download(Entry)
+                        Pathway = Download(entry)
                     Catch ex As Exception
-                        ex = New Exception(Entry.GetJson, ex)
+                        ex = New Exception(entry.GetJson, ex)
                         Call App.LogException(ex)
                         Call ex.PrintException
                     End Try
 
                     If Pathway Is Nothing Then
-                        Call App.LogException($"{Entry.ToString} is not exists in the kegg!")
+                        Call App.LogException($"{entry.ToString} is not exists in the kegg!")
                         rtvl -= 1
                         GoTo EXIT_LOOP
                     Else

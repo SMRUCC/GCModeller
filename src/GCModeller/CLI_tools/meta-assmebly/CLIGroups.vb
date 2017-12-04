@@ -32,4 +32,5 @@ Friend NotInheritable Class CLIGroups
     End Sub
 
     Public Const Alpha_Diversity$ = "02. Alpha diversity analysis tools"
+    Public Const HMP_cli$ = "03. Human Microbiome Project cli tool"
 End Class

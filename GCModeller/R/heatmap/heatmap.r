@@ -132,7 +132,10 @@ plot.pheatmap <- function(csv, size = c(2000,3000)) {
 		
 	tryCatch({
 	
-		pheatmap(raw,scale="row",show_rownames=F,cluster_cols=FALSE);
+		pheatmap(data, 
+			scale         = "row",
+			show_rownames = FALSE,
+			cluster_cols  = FALSE);
 		
 	}, error = function(e) {
 		print(e);
