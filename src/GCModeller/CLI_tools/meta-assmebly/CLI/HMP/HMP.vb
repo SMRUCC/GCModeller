@@ -38,6 +38,7 @@ Partial Module CLI
 
     <ExportAPI("/handle.hmp.manifest")>
     <Usage("/handle.hmp.manifest /in <manifest.tsv> [/out <save.directory>]")>
+    <Group(CLIGroups.HMP_cli)>
     Public Function Download16sSeq(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = (args <= "/out") Or $"{[in].TrimSuffix}/".AsDefault
@@ -52,6 +53,7 @@ Partial Module CLI
 
     <ExportAPI("/hmp.manifest.files")>
     <Usage("/hmp.manifest.files /in <manifest.tsv> [/out <list.txt>]")>
+    <Group(CLIGroups.HMP_cli)>
     Public Function ExportFileList(args As CommandLine) As Integer
 
         VBDebugger.ForceSTDError = True
@@ -61,6 +63,7 @@ Partial Module CLI
         Dim list$ = manifest _
             .Select(Function(sample) sample.HttpURL) _
             .Where(Function(url) Not url.StringEmpty) _
+            .Distinct _
             .JoinBy(ASCII.LF)
 
         Using out = args.OpenStreamOutput("/out")
