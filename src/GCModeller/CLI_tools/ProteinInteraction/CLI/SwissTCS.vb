@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::5de66f816c1eab90ee9d9c0203328ef6, ..\CLI_tools\ProteinInteraction\CLI\SwissTCS.vb"
+﻿#Region "Microsoft.VisualBasic::a4ef3c01326b0b9983fbfb131e6a0586, ..\GCModeller\CLI_tools\ProteinInteraction\CLI\SwissTCS.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -213,7 +213,7 @@ Partial Module CLI
                                   .Probability = -1
                               }
                               Select __contactTrace(hkString, Pfam(reg), pretent)).ToArray).Unlist
-        Dim out As String = args.GetValue("/out", args("/pfam").TrimSuffix & ".swissTCS.csv")
+        Dim out As String = args.GetValue("/out", (args <= "/pfam").TrimSuffix & ".swissTCS.csv")
 
         Return (From x In Combos Where Not x Is Nothing Select x) _
             .ToArray _
@@ -229,9 +229,10 @@ Partial Module CLI
     <ExportAPI("--CrossTalks.Probability",
                Usage:="--CrossTalks.Probability /query <pfam-string.csv> /swiss <swissTCS_pfam-string.csv> [/out <out.CrossTalks.csv> /test <queryName>]")>
     Public Function CrossTalksCal(args As CommandLine) As Integer
-        Dim Query = args("/query").LoadCsv(Of Pfam.PfamString.PfamString).ToArray
+        Dim queryFile$ = args <= "/query"
+        Dim Query = queryFile.LoadCsv(Of Pfam.PfamString.PfamString).ToArray
         Dim SwissTCS = args("/swiss").LoadCsv(Of Pfam.PfamString.PfamString).ToArray
-        Dim out As String = args.GetValue("/out", args("/query").TrimSuffix & ".CrossTalks.csv")
+        Dim out As String = args.GetValue("/out", queryFile.TrimSuffix & ".CrossTalks.csv")
         Dim CrossTalks As New List(Of CrossTalks)
         Dim test As String = args("/test")
 

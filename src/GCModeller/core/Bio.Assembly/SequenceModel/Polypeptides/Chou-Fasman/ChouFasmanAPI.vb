@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b07eb5616daa9bed0825d0b590e757c, ..\core\Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\ChouFasmanAPI.vb"
+﻿#Region "Microsoft.VisualBasic::60906f1ea5c990eeb9f3e934c217bad8, ..\GCModeller\core\Bio.Assembly\SequenceModel\Polypeptides\Chou-Fasman\ChouFasmanAPI.vb"
 
     ' Author:
     ' 
@@ -125,7 +125,7 @@ Namespace SequenceModel.Polypeptides.SecondaryStructure
             Dim sBuilder As StringBuilder = New StringBuilder(String.Format("Key,Value" & vbCrLf & "SequenceData,{0}" & vbCrLf & "Structure,{1}", aa_Builder.ToString, st_Builder.ToString))
             Call sBuilder.AppendLine()
             Call sBuilder.AppendLine()
-            For Each item In ChouFasman.StructureTypesToChar
+            For Each item As KeyValuePair(Of SecondaryStructures, String) In ChouFasman.StructureTypesToChar
                 Call sBuilder.AppendLine(String.Format("{0},{1}", item.Key.ToString, item.Value))
             Next
             Return sBuilder.ToString

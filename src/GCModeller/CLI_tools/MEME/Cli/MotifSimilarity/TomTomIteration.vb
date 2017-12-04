@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ac1e0f8e74bc4e898c429ad79ae6328, ..\CLI_tools\MEME\Cli\MotifSimilarity\TomTomIteration.vb"
+﻿#Region "Microsoft.VisualBasic::1ac1e0f8e74bc4e898c429ad79ae6328, ..\GCModeller\CLI_tools\MEME\Cli\MotifSimilarity\TomTomIteration.vb"
 
     ' Author:
     ' 

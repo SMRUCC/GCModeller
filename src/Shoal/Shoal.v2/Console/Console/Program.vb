@@ -96,7 +96,7 @@ Program files and source code was distributed under the GPL3 Licensed to "{3}", 
     Private Function __runScriptFile(ScriptEngine As ScriptEngine, ScriptFile As String, args As NamedValue(Of String)()) As Integer
         Call ScriptEngine.Imports(GetType(InternalCommands))
 
-        For Each item In args
+        For Each item As NamedValue(Of String) In args
             Call ScriptEngine.MMUDevice.WriteMemory(item.Name, item.Value)
         Next
 

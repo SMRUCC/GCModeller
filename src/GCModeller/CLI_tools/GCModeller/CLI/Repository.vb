@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f52c83cff57b62031bb2ce56dcf6bc65, ..\CLI_tools\GCModeller\CLI\Repository.vb"
+﻿#Region "Microsoft.VisualBasic::722159e86d7dd8edf68fe5d55d23108b, ..\GCModeller\CLI_tools\GCModeller\CLI\Repository.vb"
 
     ' Author:
     ' 
@@ -28,7 +28,6 @@
 
 Imports System.IO
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -190,9 +189,9 @@ Partial Module CLI
 
     <ExportAPI("/Data.Copy", Usage:="/Data.Copy /imports <DIR> [/ext <*.*> /copy2 <CopyTo> /overrides]")>
     Public Function CopyFiles(args As CommandLine) As Integer
-        Dim importsData = args("/imports")
+        Dim importsData$ = args("/imports")
         Dim ext As String = args.GetValue("/ext", "*.*")
-        Dim copy2 As String = args.GetValue("/copy2", importsData.TrimDIR & "-copy2/")
+        Dim copy2 As String = args("/copy2") Or (importsData.TrimDIR & "-copy2/")
         Dim [overrides] As Boolean = args.GetBoolean("/overrides")
 
         For Each file$ In ls - l - r - ext <= importsData

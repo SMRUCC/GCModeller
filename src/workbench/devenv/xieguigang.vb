@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36318b0df640fe16d0cd62db6ca61146, ..\workbench\devenv\xieguigang.vb"
+﻿#Region "Microsoft.VisualBasic::3d36cd45397555099caca7608439f948, ..\workbench\devenv\xieguigang.vb"
 
     ' Author:
     ' 
@@ -32,4 +32,3 @@ Public Class xieguigang
         Process.Start("mailto:xie.guigang@gmail.com")
     End Sub
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ca7e430af074c1866c8d4df02ef2156, ..\workbench\d3js\Hierarchical-Edge-Bundling\Hierarchical-Edge-Bundling\FlareImports.vb"
+﻿#Region "Microsoft.VisualBasic::7ed61b775ddd6239d07f9c84f923dacc, ..\workbench\d3js\Hierarchical-Edge-Bundling\Hierarchical-Edge-Bundling\FlareImports.vb"
 
     ' Author:
     ' 
@@ -43,4 +43,3 @@ Public Structure FlareImports : Implements sIdEnumerable
         Return Me.GetJson
     End Function
 End Structure
-

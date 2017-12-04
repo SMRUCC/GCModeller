@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::969bedcd38027515cb91d8dcf696d1e9, ..\visualize\ChromosomeMap\Data\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::ba844097c8a88b065ad20c2f28f0961e, ..\GCModeller\visualize\ChromosomeMap\Data\Extensions.vb"
 
     ' Author:
     ' 
@@ -147,4 +147,3 @@ Public Module Extensions
         Return __addMotifSites(Of VirtualFootprints)(model, DataSource)
     End Function
 End Module
-

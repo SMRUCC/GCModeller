@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c62b148d67950d545f0fef8b5d932e4, ..\interops\visualize\Cytoscape\Cytoscape\Graph\Cyjs.vb"
+﻿#Region "Microsoft.VisualBasic::830b0a84584ffaf49c82a7dec023f468, ..\interops\visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Cyjs.vb"
 
     ' Author:
     ' 

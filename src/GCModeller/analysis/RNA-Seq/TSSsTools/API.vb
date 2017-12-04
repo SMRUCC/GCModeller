@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f328de37c82f2e43d1341f47a490217c, ..\GCModeller\analysis\RNA-Seq\TSSsTools\API.vb"
+﻿#Region "Microsoft.VisualBasic::7c86fa86508c1b0b0637cf705b8bbe64, ..\GCModeller\analysis\RNA-Seq\TSSsTools\API.vb"
 
     ' Author:
     ' 

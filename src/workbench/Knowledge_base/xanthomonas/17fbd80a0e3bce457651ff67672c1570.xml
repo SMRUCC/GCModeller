@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArticleProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <title>DNA Barcoding for Efficient Species- and Pathovar-Level Identification of the Quarantine Plant Pathogen Xanthomonas.</title>
+  <URL>https://cn.bing.com/academic/profile?id=17fbd80a0e3bce457651ff67672c1570&amp;encoded=0&amp;v=paper_preview&amp;mkt=zh-cn</URL>
+  <authors>
+    <link title="Qian Tian" attr="ID=SERP,5097.1">/academic/search?q=Qian+Tian&amp;amp;mkt=zh-cn</link>
+    <link title="Wenjun Zhao" attr="ID=SERP,5098.1">/academic/profile?id=2146186380&amp;amp;mkt=zh-cn</link>
+    <link title="Songyu Lu" attr="ID=SERP,5099.1">/academic/search?q=Songyu+Lu&amp;amp;mkt=zh-cn</link>
+    <link title="Shuifang Zhu" attr="ID=SERP,5100.1">/academic/search?q=Shuifang+Zhu&amp;amp;mkt=zh-cn</link>
+    <link title="Shidong Li" attr="ID=SERP,5101.1">/academic/search?q=Shidong+Li&amp;amp;mkt=zh-cn</link>
+  </authors>
+  <abstract>Genus Xanthomonas comprises many economically important plant pathogens that affect a wide range of hosts. Indeed, fourteen Xanthomonas species/pathovars have been regarded as official quarantine bacteria for imports in China. To date, however, a rapid and accurate method capable of identifying all of the quarantine species/pathovars has yet to be developed. In this study, we therefore evaluated the capacity of DNA barcoding as a digital identification method for discriminating quarantine species/pathovars of Xanthomonas. For these analyses, 327 isolates, representing 45 Xanthomonas species/pathovars, as well as five additional species/pathovars from GenBank (50 species/pathovars total), were utilized to test the efficacy of four DNA barcode candidate genes (16S rRNA gene, cpn60, gyrB, and avrBs2). Of these candidate genes, cpn60 displayed the highest rate of PCR amplification and sequencing success. The tree-building (Neighbor-joining), ‘best close match’, and barcode gap methods were subsequently employed to assess the species- and pathovar-level resolution of each gene. Notably, all isolates of each quarantine species/pathovars formed a monophyletic group in the neighbor-joining tree constructed using the cpn60 sequences. Moreover, cpn60 also demonstrated the most satisfactory results in both barcoding gap analysis and the ‘best close match’ test. Thus, compared with the other markers tested, cpn60 proved to be a powerful DNA barcode, providing a reliable and effective means for the species- and pathovar-level identification of the quarantine plant pathogen Xanthomonas.</abstract>
+  <pub-date>2016-01-01T00:00:00</pub-date>
+  <journal title="PLOS ONE" attr="ID=SERP,5106.1">/academic/search?q=PLOS+ONE</journal>
+  <DOI>10.1371/journal.pone.0165995</DOI>
+  <keywords>
+    <link title="Gene duplication" attr="ID=SERP,5102.1">/academic/profile?id=7602840&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="Ribosomal RNA" attr="ID=SERP,5103.1">/academic/profile?id=67905577&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="DNA barcoding" attr="ID=SERP,5104.1">/academic/profile?id=141732470&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+    <link title="DNA" attr="ID=SERP,5105.1">/academic/profile?id=552990157&amp;amp;v=fos_preview&amp;amp;mkt=zh-cn</link>
+  </keywords>
+  <cites>
+    <cites date="2017" volumn="1" />
+  </cites>
+  <volume>11</volume>
+  <issue>11</issue>
+  <source>
+    <link title="journals.plos.org" attr="ID=SERP,5107.1">http://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0165995&amp;amp;type=printable</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5108.1">http://www.ncbi.nlm.nih.gov/pubmed/27861494</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5109.1">https://www.ncbi.nlm.nih.gov/pubmed/27861494</link>
+    <link title="journals.plos.org" attr="ID=SERP,5110.1">http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0165995</link>
+    <link title="dx.plos.org" attr="ID=SERP,5111.1">http://dx.plos.org/10.1371/journal.pone.0165995</link>
+  </source>
+</ArticleProfile>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1dbe1e7b10081f758a91f7b29113c5cc, ..\GCModeller\data\Reactome\Owl\ExtractOwl.vb"
+﻿#Region "Microsoft.VisualBasic::f7b70b79e34f3b674ef07004b66955c6, ..\GCModeller\data\Reactome\Owl\ExtractOwl.vb"
 
     ' Author:
     ' 
@@ -174,7 +174,7 @@ Public Module ExtractOwl
 
         Dim Metabolites = (From strid As String In MetaboliteIdCollection Select doc.ResourceCollection(strid)).ToArray
         Dim MetaboliteList As List(Of Reactome.ObjectModels.Metabolite) = New List(Of ObjectModels.Metabolite)
-        For Each item In Metabolites
+        For Each item As ResourceElement In Metabolites
             Dim Metabolite As Reactome.ObjectModels.Metabolite = Nothing
 
             If TypeOf item Is SmallMolecule Then

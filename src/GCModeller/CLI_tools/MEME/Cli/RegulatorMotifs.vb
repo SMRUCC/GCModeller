@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed8d0fb867da4415a5d95be2283672db, ..\CLI_tools\MEME\Cli\RegulatorMotifs.vb"
+﻿#Region "Microsoft.VisualBasic::755662cfb2ac696053db2ba55144f7bf, ..\GCModeller\CLI_tools\MEME\Cli\RegulatorMotifs.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01112e919ba416e3e8ea47e2dedc9d81, ..\CLI_tools\TSSs\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::ebadfeaa6d38f90f8cdaf49bdcf2aa1b, ..\GCModeller\CLI_tools\TSSs\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -176,7 +176,7 @@ the average number of reads per nucleotide in this Replicate and the specified t
 
         Call $"{NameOf(ATG)}:={ATG}".__DEBUG_ECHO
         Call $"{NameOf(TrimShared)}:={TrimShared}".__DEBUG_ECHO
-        Call $"{NameOf(Forwards)}={ Forwards.Length};   { NameOf(Reversed)}={ Reversed.Length}    from {args("-ptt").ToFileURL}".__DEBUG_ECHO
+        Call $"{NameOf(Forwards)}={ Forwards.Length};   { NameOf(Reversed)}={ Reversed.Length}  from {(args <= "-ptt").ToFileURL}".__DEBUG_ECHO
         Call $"{NameOf(LociData)}={LociData.Count }".__DEBUG_ECHO
 
         LociData = (From loci In LociData.AsParallel Where loci.TSSsShared >= TrimShared Select loci).AsList

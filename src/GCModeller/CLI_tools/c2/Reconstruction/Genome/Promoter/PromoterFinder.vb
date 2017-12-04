@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae3ab11c75d4ac8cedd035b62f26c467, ..\CLI_tools\c2\Reconstruction\Genome\Promoter\PromoterFinder.vb"
+﻿#Region "Microsoft.VisualBasic::ae3ab11c75d4ac8cedd035b62f26c467, ..\GCModeller\CLI_tools\c2\Reconstruction\Genome\Promoter\PromoterFinder.vb"
 
     ' Author:
     ' 

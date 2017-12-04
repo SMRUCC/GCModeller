@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd23231bc81ec61f255a3a3baf15eb00, ..\core\Bio.Repository\Settings.vb"
+﻿#Region "Microsoft.VisualBasic::cd23231bc81ec61f255a3a3baf15eb00, ..\GCModeller\core\Bio.Repository\Settings.vb"
 
     ' Author:
     ' 

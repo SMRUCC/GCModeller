@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::8e9ba5312a6bffc0b4c88d6e7f637e2f, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Palindrome.vb"
+﻿#Region "Microsoft.VisualBasic::eb7bbc18e82f9c15a9a0875587266f1e, ..\GCModeller\analysis\SequenceToolkit\SequenceTools\CLI\Palindrome.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -32,6 +32,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
@@ -97,7 +98,7 @@ Partial Module Utilities
     <Group(CLIGrouping.PalindromeTools)>
     Public Function SearchPalindromeFasta(args As CommandLine) As Integer
         Dim nt As FastaToken = FastaToken.Load(args("/nt"))
-        Dim Out As String = args.GetValue("/out", args("/nt").TrimSuffix & ".csv")
+        Dim Out As String = args("/out") Or (args("/nt").TrimSuffix & ".csv")
         Dim Min As Integer = args.GetValue("/min", 3)
         Dim Max As Integer = args.GetValue("/max", 20)
         Dim Search As New Topologically.PalindromeSearch(nt, Min, Max)
@@ -490,7 +491,7 @@ Partial Module Utilities
         Dim out As String = args.GetValue("/out", App.CurrentDirectory & "/Perfects/")
 
         For Each file In Filter
-            Dim name As String = BaseName(file.file)
+            Dim name As String = file.file.BaseName
             Dim path As String = $"{out}/{name}.csv"
             Call file.perfects.SaveTo(path)
         Next

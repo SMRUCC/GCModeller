@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41cf9ff708c7eea5f6bb79b9f7109f19, ..\CLI_tools\KEGG\CLI\DumpTools.vb"
+﻿#Region "Microsoft.VisualBasic::841fc4d4abe99f0d6e199cb011f9d0c7, ..\GCModeller\CLI_tools\KEGG\CLI\DumpTools.vb"
 
     ' Author:
     ' 
@@ -196,9 +196,10 @@ Null:       pwyBrite = New BriteHEntry.Pathway With {
                Usage:="--part.from /source <source.fasta> /ref <referenceFrom.fasta> [/out <out.fasta> /brief]",
                Info:="source and ref should be in KEGG annotation format.")>
     Public Function GetSource(args As CommandLine) As Integer
-        Dim source As New FastaFile(args("/source"))
+        Dim sourceFile$ = args <= "/source"
+        Dim source As New FastaFile(sourceFile)
         Dim ref As New FastaFile(args("/ref"))
-        Dim out As String = args.GetValue("/out", args("/source").TrimSuffix & $".{args("/ref").BaseName}.fasta")
+        Dim out As String = args.GetValue("/out", sourceFile.TrimSuffix & $".{(args <= "/ref").BaseName}.fasta")
         Dim sourceKEGG As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump() =
             source.Select(Function(x) SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump.Create(x))
         Dim refKEGG As SMRUCC.genomics.Assembly.KEGG.Archives.SequenceDump() =

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::214070017313e919d2e1d02cf2bb9d8c, ..\GCModeller\analysis\Metagenome\Metagenome\OTU.vb"
+﻿#Region "Microsoft.VisualBasic::1f9f96188eb2efab2212a4399f4c598e, ..\GCModeller\analysis\Metagenome\Metagenome\OTU.vb"
 
     ' Author:
     ' 
@@ -110,4 +110,3 @@ Public Module OTU
             }
     End Function
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::daea91fe17c7c2fc2827d98521497d57, ..\core\Bio.Assembly\Assembly\KEGG\Medical\Disease.vb"
+﻿#Region "Microsoft.VisualBasic::8f065beb05839bf4b230432957552449, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\Medical\Disease.vb"
 
     ' Author:
     ' 
@@ -59,4 +59,3 @@ Namespace Assembly.KEGG.Medical
         End Function
     End Class
 End Namespace
-

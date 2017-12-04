@@ -125,7 +125,7 @@ Namespace IO.Properties
                                                                       Let key As String = Mid(strItem, 1, p - 1)
                                                                       Let value As String = Mid(strItem, p + 1)
                                                                       Select New KeyValuePair(Of String, String)(key, value)).ToArray
-            For Each item In propertyDatas
+            For Each item As KeyValuePair(Of String, String) In propertyDatas
                 Call Me._innerTable.Add(item.Key, item.Value)
             Next
         End Sub
@@ -340,7 +340,7 @@ Namespace IO.Properties
         ''' <param name="out">an output stream.</param>
         ''' <remarks></remarks>
         Public Sub list(out As PrintStream)
-            For Each keyItem In _innerTable.Keys
+            For Each keyItem As String In _innerTable.Keys
                 Call out.append(String.Format("{0} = {1}", keyItem.ToString, _innerTable(keyItem).ToString))
             Next
         End Sub

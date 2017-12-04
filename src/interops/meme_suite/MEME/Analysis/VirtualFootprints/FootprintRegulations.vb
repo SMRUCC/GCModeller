@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24a700a8e7211c408a418f8a642dd7b1, ..\interops\meme_suite\MEME\Analysis\VirtualFootprints\FootprintRegulations.vb"
+﻿#Region "Microsoft.VisualBasic::c089379eb80199ac68b6cfb2e196261f, ..\interops\meme_suite\MEME\Analysis\VirtualFootprints\FootprintRegulations.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48b914b836a9420e6b0ac10d990ae75e, ..\workbench\ReportBuilder\Navigation.vb"
+﻿#Region "Microsoft.VisualBasic::46acb5d4b6470e2f504811ddbf8a75db, ..\workbench\ReportBuilder\Navigation.vb"
 
     ' Author:
     ' 
@@ -63,4 +63,3 @@ Public Module Navigation
             {"MEME", "http://services.gcmodeller.org/meme/"},
             {"TomQuery", "http://services.gcmodeller.org/meme/tom-query/"}})
 End Module
-

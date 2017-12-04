@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b86cfa12391da7b0190b9fde264e1e64, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequenceLogo\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::32d4b17477b7ba86268ea208a0339ef9, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequenceLogo\DrawingModel.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::632eb4221df396de21dc1a2c634197d9, ..\GCModeller\models\SBML\SBML\Level2\XmlFile.vb"
+﻿#Region "Microsoft.VisualBasic::c754eb7a77e70cf225e269bb39a2ab50, ..\GCModeller\models\SBML\SBML\Level2\XmlFile.vb"
 
     ' Author:
     ' 

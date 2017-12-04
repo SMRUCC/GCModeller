@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c2213e8beca5858a5bb70895c6ed269, ..\CLI_tools\NCBI_tools\CLI\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::dc40024a05ffa6a5cd7baf3e2f3bcb0d, ..\GCModeller\CLI_tools\NCBI_tools\CLI\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -360,8 +360,8 @@ Partial Module CLI
     <ExportAPI("/OTU.diff", Usage:="/OTU.diff /ref <OTU.Data1.csv> /parts <OTU.Data2.csv> [/out <out.csv>]")>
     <Group(CLIGrouping.TaxonomyTools)>
     Public Function OTUDiff(args As CommandLine) As Integer
-        Dim ref = args("/ref")
-        Dim parts = args("/parts")
+        Dim ref$ = args("/ref")
+        Dim parts$ = args("/parts")
         Dim out = args.GetValue("/out", parts.TrimSuffix & "-" & ref.BaseName & ".diff.csv")
         Dim diff As New List(Of String)
         Dim partsId = parts.LoadCsv(Of OTUData).Select(Function(x) x.OTU).Distinct.AsList
@@ -432,7 +432,7 @@ Partial Module CLI
     Public Function TaxonomyTreeData(args As CommandLine) As Integer
         Dim gi2taxid As String = args("/gi2taxid")
         Dim tax As String = args("/tax")
-        Dim dataFile = args("/data")
+        Dim dataFile$ = args("/data")
         Dim giFieldName = args("/field.gi")
         Dim out As String = args.GetValue("/out", dataFile.TrimSuffix & "-taxonomy.csv")
         Dim data As EntityObject() =

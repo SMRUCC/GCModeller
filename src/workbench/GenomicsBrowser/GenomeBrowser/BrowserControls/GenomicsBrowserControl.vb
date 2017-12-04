@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e689f6e8ed567f005aca146b5ff21892, ..\workbench\GenomicsBrowser\GenomeBrowser\BrowserControls\GenomicsBrowserControl.vb"
+﻿#Region "Microsoft.VisualBasic::db4357668665fbe5c6a196ce91b007e9, ..\workbench\GenomicsBrowser\GenomeBrowser\BrowserControls\GenomicsBrowserControl.vb"
 
     ' Author:
     ' 
@@ -131,4 +131,3 @@ Public Class GenomicsBrowserControl
 
     End Sub
 End Class
-

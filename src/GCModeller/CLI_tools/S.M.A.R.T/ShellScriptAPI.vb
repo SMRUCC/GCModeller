@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abe564eff022fecc7825047c5101d22d, ..\CLI_tools\S.M.A.R.T\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::abe564eff022fecc7825047c5101d22d, ..\GCModeller\CLI_tools\S.M.A.R.T\ShellScriptAPI.vb"
 
     ' Author:
     ' 

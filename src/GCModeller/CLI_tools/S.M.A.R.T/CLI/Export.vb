@@ -1,36 +1,36 @@
-﻿#Region "Microsoft.VisualBasic::419ae7f7c2615627ef66726f2830dd7e, ..\CLI_tools\S.M.A.R.T\CLI\Export.vb"
+﻿#Region "Microsoft.VisualBasic::b1bc75fa8d54e1f03e3c4e833c187622, ..\GCModeller\CLI_tools\S.M.A.R.T\CLI\Export.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports SMRUCC.genomics.Assembly
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -48,7 +48,7 @@ Partial Module CLI
         Description:="The keyword list will be use for the sequence record search, each keyword should seperated by comma character.")>
     Public Function Export(args As CommandLine) As Integer
         Dim Db As String = args("-d")
-        Dim Keywords As String() = args("-keyword").Split(CChar(","))
+        Dim Keywords As String() = args("-keyword").Split(",")
         Dim Output As String = args("-o")
         Dim CaseSense As CompareMethod = IIf(String.Equals(args("-casesense"), "T"), CompareMethod.Binary, CompareMethod.Text)
         Dim IsMethodAny As Boolean = IIf(String.Equals(args("-m"), "any"), True, False)
@@ -61,7 +61,7 @@ Partial Module CLI
             For Each Db In New NCBI.CDD.Database("").Paths
                 Call List.AddRange(Export(Db, Keywords, CaseSense, IsMethodAny))
             Next
-            Dim Saved = CType(List, SMRUCC.genomics.SequenceModel.FASTA.FastaFile).Distinct
+            Dim Saved = CType(List, FastaFile).Distinct
             Call Saved.Save(Output)
             Call FileIO.FileSystem.WriteAllText(Output & "_idlist.txt", Saved.GetIdList, append:=False)
         Else

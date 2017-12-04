@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b84637a988e05ae2ef927c741447b83, ..\interops\meme_suite\MEME\Workflows\PromoterParser\IntergenicSigma70.vb"
+﻿#Region "Microsoft.VisualBasic::f7738a5f6f6447d590e1627245e067db, ..\interops\meme_suite\MEME\Workflows\PromoterParser\IntergenicSigma70.vb"
 
     ' Author:
     ' 

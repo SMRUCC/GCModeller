@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48480181111610bab6cd81928acfff1a, ..\workbench\devenv\Forms\FormAbout.vb"
+﻿#Region "Microsoft.VisualBasic::acd9067a2d4516c6636260b60ab3c6dc, ..\workbench\devenv\Forms\FormAbout.vb"
 
     ' Author:
     ' 
@@ -91,4 +91,3 @@ Friend Class FormAbout : Inherits FormSplash
         Call Process.Start("http://twitter.com/gcmodeller")
     End Sub
 End Class
-

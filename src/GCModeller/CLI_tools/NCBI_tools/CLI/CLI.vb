@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b04c9f5f759d31e62b97ae386b70cf3, ..\CLI_tools\NCBI_tools\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::10d4414d24aae28f1ed8d2df37e0a1bf, ..\GCModeller\CLI_tools\NCBI_tools\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -351,8 +351,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
                Usage:="/Associates.Brief /in <in.DIR> /ls <ls.txt> [/index <Name> /out <out.tsv>]")>
     Public Function Associates(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim lsWords$() =
-            args("/ls") _
+        Dim lsWords$() = (args <= "/ls") _
             .ReadAllLines _
             .Where(Function(s) Not String.IsNullOrEmpty(Trim(s))) _
             .Select(Function(s) s.Trim.ToLower) _

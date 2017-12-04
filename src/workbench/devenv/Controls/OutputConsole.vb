@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf03d5260ae3e1105be7ad613644ae5d, ..\workbench\devenv\Controls\OutputConsole.vb"
+﻿#Region "Microsoft.VisualBasic::381aa9be781857f3bbecdd264b5729a6, ..\workbench\devenv\Controls\OutputConsole.vb"
 
     ' Author:
     ' 
@@ -86,4 +86,3 @@ Public Class OutputConsole
         Sizing = False
     End Sub
 End Class
-

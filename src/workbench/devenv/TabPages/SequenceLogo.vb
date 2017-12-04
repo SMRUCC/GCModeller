@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28938af774efabfe011be150b0450f52, ..\workbench\devenv\TabPages\SequenceLogo.vb"
+﻿#Region "Microsoft.VisualBasic::1e71fd03cfa2b38f5a262d9d62f62638, ..\workbench\devenv\TabPages\SequenceLogo.vb"
 
     ' Author:
     ' 
@@ -75,4 +75,3 @@ Public Class SequenceLogo
 
     End Sub
 End Class
-

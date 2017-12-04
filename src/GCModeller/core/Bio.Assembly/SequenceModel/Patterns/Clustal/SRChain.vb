@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e901f856cb4254ad6425b4e14f1d531, ..\core\Bio.Assembly\SequenceModel\Patterns\Clustal\SRChain.vb"
+﻿#Region "Microsoft.VisualBasic::aee7c31f9a5a60e834d606e9a51c8199, ..\GCModeller\core\Bio.Assembly\SequenceModel\Patterns\Clustal\SRChain.vb"
 
     ' Author:
     ' 

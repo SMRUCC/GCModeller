@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9843b423dd558126606319ae38a8d236, ..\workbench\GenomicsBrowser\GenomeBrowser\Program.vb"
+﻿#Region "Microsoft.VisualBasic::d0c468b684b8674c490fa9392430d5c9, ..\workbench\GenomicsBrowser\GenomeBrowser\Program.vb"
 
     ' Author:
     ' 
@@ -33,4 +33,3 @@ Module Program
     End Sub
 
 End Module
-

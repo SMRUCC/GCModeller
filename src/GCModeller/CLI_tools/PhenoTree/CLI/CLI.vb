@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::657d68c0c85a5698bce5a5e4be83ca61, ..\CLI_tools\PhenoTree\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::6fa0929ed2a9fd00e48f4ae031426bd5, ..\GCModeller\CLI_tools\PhenoTree\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -154,7 +154,7 @@ Public Module CLI
     <ExportAPI("/Cluster.Enrichment",
                Usage:="/Cluster.Enrichment /in <partitions.json> /go.anno <proteins.go.annos.csv> [/go.brief <go_brief.csv> /out <out.DIR>]")>
     Public Function ClusterEnrichment(args As CommandLine) As Integer
-        Dim [in] = args("/in")
+        Dim in$ = args("/in")
         Dim anno As String = args("/go.anno")
         Dim goBrief As String = args.GetValue("/go.brief", GCModeller.FileSystem.GO & "/go_brief.csv")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".go.enrichment/")

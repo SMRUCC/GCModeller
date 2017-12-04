@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92745c35b27e50b899fde8fcdf2da96a, ..\CLI_tools\MEME\Cli\Regprecise.vb"
+﻿#Region "Microsoft.VisualBasic::60275bb9662aa8ea02debb3862152a34, ..\GCModeller\CLI_tools\MEME\Cli\Regprecise.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -258,7 +259,7 @@ Partial Module CLI
                          genes = site.GetRelatedUpstream(PTT, atgDist))
         Call "Extract duplicated genes".__DEBUG_ECHO
         Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.Unlist
-        Return LQuery.SaveTo(args("/mast").TrimSuffix & ".csv").CLICode
+        Return LQuery.SaveTo((args <= "/mast").TrimSuffix & ".csv").CLICode
     End Function
 
 
@@ -404,7 +405,7 @@ Partial Module CLI
                          genes = site.GetRelatedUpstream(PTT, atgDist))
         Call "Extract duplicated genes".__DEBUG_ECHO
         Dim LQuery = (From site In table.AsParallel Select __extract(site.site, site.genes)).ToArray.Unlist
-        Return LQuery.SaveTo(args("/mast").TrimSuffix & ".csv").CLICode
+        Return LQuery.SaveTo((args <= "/mast").TrimSuffix & ".csv").CLICode
     End Function
 
     Private Function __compile(hit As XmlOutput.MAST.Segment, MEMEMotifs As Dictionary(Of String, Motif), offset As Integer) As MastSites()
@@ -577,7 +578,7 @@ Partial Module CLI
             Next
         End If
 
-        If args("/maps").FileExists Then
+        If (args <= "/maps").FileExists Then
             Dim gb As GBFF.File = GBFF.File.Load(args("/maps"))
             Dim maps As Dictionary(Of String, String) = gb.LocusMaps
 
@@ -643,7 +644,7 @@ Partial Module CLI
     Public Function BuildFromMotifSites(args As CommandLine) As Integer
         Dim bbh = RegpreciseSummary.LoadRegpreciseBBH(args("/bbh"))
         Dim motifSites = args("/motifs").LoadCsv(Of MotifSite)
-        Dim virtualFootprints = RegpreciseSummary.GenerateRegulations(bbh, motifSites, args("/sp"), args.GetValue("/cutoff", 0.6))
+        Dim virtualFootprints = RegpreciseSummary.GenerateRegulations(bbh, motifSites, args <= "/sp", args.GetValue("/cutoff", 0.6))
         Dim out As String = args("/out")
         Dim brief As Boolean = args.GetBoolean("/brief")
 

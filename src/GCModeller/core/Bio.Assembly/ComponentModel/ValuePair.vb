@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::302da97a5e9421261b7d0bbc8a700c54, ..\core\Bio.Assembly\ComponentModel\ValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::b03ebf5b7a471770a46f5c85260f4089, ..\GCModeller\core\Bio.Assembly\ComponentModel\ValuePair.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,7 @@ Namespace ComponentModel
             Dim sBuilder As StringBuilder = New StringBuilder(New String("-"c, 120) & vbCrLf, capacity:=2048)
             Dim max As Integer = (From item In data Select Len(item.Key)).Max
 
-            For Each item In data
+            For Each item As KeyValuePair In data
                 Dim s = String.Format("  {0} {1} ==> {2}", item.Key, New String(" "c, max - Len(item.Key) + 2), item.Value)
                 Call sBuilder.AppendLine(s)
             Next

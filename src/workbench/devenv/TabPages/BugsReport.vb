@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::651c7aef4e9ed1082c430e7fb5bfd2f0, ..\workbench\devenv\TabPages\BugsReport.vb"
+﻿#Region "Microsoft.VisualBasic::63f14daf580498f4d8065a827dc01584, ..\workbench\devenv\TabPages\BugsReport.vb"
 
     ' Author:
     ' 
@@ -54,4 +54,3 @@ Public Class BugsReport
         OpenAttachmentFile.Filter = "All type file(*.*)|*.*"
     End Sub
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65ac1884653b52cc9463bcd4d9866531, ..\CLI_tools\Solver.FBA\CLI\gcFBA\BatchWorker.vb"
+﻿#Region "Microsoft.VisualBasic::8aba981b77d6c8af487f733441d9963c, ..\GCModeller\CLI_tools\Solver.FBA\CLI\gcFBA\BatchWorker.vb"
 
     ' Author:
     ' 
@@ -27,8 +27,9 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.CommandLine.InteropService
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language.Default
 
 Partial Module CLI
 

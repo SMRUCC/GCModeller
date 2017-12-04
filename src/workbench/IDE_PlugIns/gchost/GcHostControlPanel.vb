@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffc1a00527e16d441137424e134fd537, ..\workbench\IDE_PlugIns\gchost\GcHostControlPanel.vb"
+﻿#Region "Microsoft.VisualBasic::53fd3c1cc2076acd82d69c94080a657e, ..\workbench\IDE_PlugIns\gchost\GcHostControlPanel.vb"
 
     ' Author:
     ' 
@@ -32,4 +32,3 @@ Public Class GcHostControlPanel
 
     End Sub
 End Class
-

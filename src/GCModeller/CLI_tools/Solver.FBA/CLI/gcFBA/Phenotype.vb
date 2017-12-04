@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be56b1695d1afdcf8df22c411908e000, ..\CLI_tools\Solver.FBA\CLI\gcFBA\Phenotype.vb"
+﻿#Region "Microsoft.VisualBasic::42b00299efe609e9c32fa2704199e0f6, ..\GCModeller\CLI_tools\Solver.FBA\CLI\gcFBA\Phenotype.vb"
 
     ' Author:
     ' 
@@ -26,24 +26,18 @@
 
 #End Region
 
-Imports System.Drawing
-Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.FBA_DP
 Imports SMRUCC.genomics.Analysis.FBA_DP.DocumentFormat
 Imports SMRUCC.genomics.Analysis.FBA_DP.FBA_OUTPUT
 Imports SMRUCC.genomics.Analysis.FBA_DP.Models.rFBA
-Imports SMRUCC.genomics.Analysis.FBA_DP.rFBA
-Imports SMRUCC.genomics.Analysis.FBA_DP.rFBA.DataModel
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.DESeq2
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -282,7 +276,7 @@ Partial Module CLI
                 Call $"Unable to determine objective type:  {type}, using list default".__DEBUG_ECHO
 PLANT:          objective.Associates = file.ReadAllLines
                 objective.Comments = "Plant Assigned"
-                objective.Name = basename(file)
+                objective.Name = file.BaseName
                 objective.Info = file
         End Select
 
@@ -331,7 +325,7 @@ PLANT:          objective.Associates = file.ReadAllLines
         Dim inDIR As String = args("/in")
         Dim spcc As Boolean = args.GetBoolean("/spcc")
         Dim footprintFile As String = args("/footprints")
-        Dim out As String = args.GetValue("/out", args("/func").TrimSuffix & "." & __out(spcc, False, footprintFile))
+        Dim out As String = args("/out") Or (args("/func").TrimSuffix & "." & __out(spcc, False, footprintFile))
         Dim DIR As New rFBADump(inDIR)
         Dim footprints = footprintFile.LoadCsv(Of RegulatesFootprints)  ' footprints的作用是用来筛选出调控因子
         Dim flxus As List(Of RPKMStat) = args("/func").LoadCsv(Of RPKMStat)

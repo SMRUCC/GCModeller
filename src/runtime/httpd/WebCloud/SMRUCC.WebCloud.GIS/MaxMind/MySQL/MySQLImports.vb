@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd6e5a145f3763e5a6affa0aef8b942b, ..\httpd\WebCloud\SMRUCC.WebCloud.GIS\MaxMind\MySqlImports.vb"
+﻿#Region "Microsoft.VisualBasic::452a1e08fb38afdb2b1340ff2d497051, ..\httpd\WebCloud\SMRUCC.WebCloud.GIS\MaxMind\MySQL\MySQLImports.vb"
 
     ' Author:
     ' 

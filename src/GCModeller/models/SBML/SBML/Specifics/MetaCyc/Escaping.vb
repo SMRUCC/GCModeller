@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6269b523d081d03613a9ec10746a15b6, ..\GCModeller\models\SBML\SBML\Specifics\MetaCyc\Escaping.vb"
+﻿#Region "Microsoft.VisualBasic::595765fe58feb376c20e3a210a58436c, ..\GCModeller\models\SBML\SBML\Specifics\MetaCyc\Escaping.vb"
 
     ' Author:
     ' 
@@ -78,7 +78,7 @@ Namespace Specifics.MetaCyc
 
         Private Shared Sub Replace(Of T As Class)(PropertyInfo As Reflection.PropertyInfo, obj As T, ReplacementList As Escaping())
             Dim strTemp As StringBuilder = New StringBuilder(Scripting.ToString(PropertyInfo.GetValue(obj)))
-            For Each item In ReplacementList
+            For Each item As Escaping In ReplacementList
                 Call strTemp.Replace(item.Escape, item.Original)
             Next
             If strTemp.Chars(0) = "_"c Then

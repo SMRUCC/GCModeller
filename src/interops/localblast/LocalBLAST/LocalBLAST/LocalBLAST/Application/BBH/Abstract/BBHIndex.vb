@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37f0878693aff92f491195a607fc5f5e, ..\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb"
+﻿#Region "Microsoft.VisualBasic::37f0878693aff92f491195a607fc5f5e, ..\interops\localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb"
 
     ' Author:
     ' 

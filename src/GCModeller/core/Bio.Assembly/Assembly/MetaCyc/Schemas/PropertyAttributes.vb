@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::993bd1bbd7f20ea99c4712563d26b9bb, ..\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PropertyAttributes.vb"
+﻿#Region "Microsoft.VisualBasic::f760c9de66e3eb398dae78f8b5f07f84, ..\GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PropertyAttributes.vb"
 
     ' Author:
     ' 
@@ -55,7 +55,7 @@ Namespace Assembly.MetaCyc.Schema
 
         Public Overloads Shared Function ToString(PropertyValue As String, attributes As KeyValuePair(Of String, String)()) As String
             Dim sBuilder As StringBuilder = New StringBuilder(PropertyValue, 1024)
-            For Each item In attributes
+            For Each item As KeyValuePair(Of String, String) In attributes
                 Call sBuilder.Append(String.Format(" [^{0} - {1}]", item.Key, item.Value))
             Next
 

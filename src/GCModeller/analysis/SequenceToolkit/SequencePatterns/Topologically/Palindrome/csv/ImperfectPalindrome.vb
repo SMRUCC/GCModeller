@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63725948f5669d17f8901beb05f7d1ca, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\ImperfectPalindrome.vb"
+﻿#Region "Microsoft.VisualBasic::67d0bbd1df33aca91a59ea06ab9e4539, ..\GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\csv\ImperfectPalindrome.vb"
 
     ' Author:
     ' 

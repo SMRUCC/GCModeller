@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dfe8a5e15f126d95c70b8b43cbceb1ce, ..\interops\meme_suite\MEME\Analysis\RegulonDef.vb"
+﻿#Region "Microsoft.VisualBasic::c73755dc986b7478eb3cc85609a3876d, ..\interops\meme_suite\MEME\Analysis\RegulonDef.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ccefa8347e2388917873687960c72ff, ..\workbench\devenv\Forms\FormMain\MultipleTabpageProxy.vb"
+﻿#Region "Microsoft.VisualBasic::1937ca90bea73dbba78d437fc14b97c4, ..\workbench\devenv\Forms\FormMain\MultipleTabpageProxy.vb"
 
     ' Author:
     ' 
@@ -179,4 +179,3 @@ Public Class MultipleTabpageProxy
         Return NewObj
     End Operator
 End Class
-

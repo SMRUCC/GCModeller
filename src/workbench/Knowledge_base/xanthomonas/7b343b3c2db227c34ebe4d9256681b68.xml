@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArticleProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <title>Xanthomonas campestris pv. campestris (cause of black rot of crucifers) in the genomic era is still a worldwide threat to brassica crops</title>
+  <URL>https://cn.bing.com/academic/profile?id=7b343b3c2db227c34ebe4d9256681b68&amp;encoded=0&amp;v=paper_preview&amp;mkt=zh-cn</URL>
+  <authors>
+    <link title="Joana G Vicente" attr="ID=SERP,5097.1">/academic/search?q=Joana+G+Vicente&amp;amp;mkt=zh-cn</link>
+    <link title="Eric B Holub" attr="ID=SERP,5098.1">/academic/profile?id=2018657708&amp;amp;mkt=zh-cn</link>
+  </authors>
+  <abstract>Background#R##N#Xanthomonas campestris pv. campestris (Xcc) (Pammel) Dowson is a Gram-negative bacterium that causes black rot, the most important disease of vegetable brassica crops worldwide. Intensive molecular investigation of Xcc is gaining momentum and several whole genome sequences are available.#R##N##R##N#Taxonomy#R##N#Bacteria; Phylum Proteobacteria; Class Gammaproteobacteria; Order Xanthomonadales; Family Xanthomonadacea; Genus Xanthomonas; Species X. campestris.#R##N##R##N#Host range and symptoms#R##N#Xcc can cause disease in a large number of species of Brassicaceae (ex-Cruciferae), including economically important vegetable Brassica crops and a number of other cruciferous crops, ornamentals and weeds, including the model plant Arabidopsis thaliana. Black rot is a systemic vascular disease. Typical disease symptoms include V-shaped yellow lesions starting from the leaf margins and blackening of the veins.#R##N##R##N#Race structure, pathogenesis and epidemiology#R##N#Collections of Xcc isolates have been differentiated into physiological races based on the response of several brassica species lines. Black rot is a seed-borne disease. The disease is favoured by warm, humid conditions and can spread rapidly from rain dispersal and irrigation water.#R##N##R##N#Disease control#R##N#The control of black rot is difficult and relies on the use of pathogen-free planting material and the elimination of other potential inoculum sources (infected crop debris and cruciferous weeds). Major gene resistance is very rare in B. oleracea (brassica C genome). Resistance is more readily available in other species, including potentially useful sources of broad-spectrum resistance in B. rapa and B. carinata (A and BC genomes, respectively) and in the wild relative A. thaliana.#R##N##R##N#Genome#R##N#The reference genomes of three isolates have been released. The genome consists of a single chromosome of approximately 5 100 000 bp, with a GC content of approximately 65% and an average predicted number of coding DNA sequences (CDS) of 4308.#R##N##R##N#Important genes identified#R##N#Three different secretion systems have been identified and studied in Xcc. The gene clusters xps and xcs encode a type II secretion system and xps genes have been linked to pathogenicity. The role of the type IV secretion system in pathogenicity is still uncertain. The hrp gene cluster encodes a type III secretion system that is associated with pathogenicity. An inventory of candidate effector genes has been assembled based on homology with known effectors. A range of other genes have been associated with virulence and pathogenicity, including the rpf, gum and wxc genes involved in the regulation of the synthesis of extracellular degrading enzymes, xanthan gum and lipopolysaccharides.</abstract>
+  <pub-date>2013-01-01T00:00:00</pub-date>
+  <journal title="Molecular Plant Pathology" attr="ID=SERP,5099.1">/academic/search?q=Molecular+Plant+Pathology</journal>
+  <DOI>10.1111/j.1364-3703.2012.00833.x</DOI>
+  <keywords />
+  <cites>
+    <cites date="2013" volumn="8" />
+    <cites date="2014" volumn="6" />
+    <cites date="2015" volumn="12" />
+    <cites date="2016" volumn="13" />
+    <cites date="2017" volumn="8" />
+  </cites>
+  <pages>2-18</pages>
+  <volume>14</volume>
+  <issue>1</issue>
+  <source>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5100.1">https://www.ncbi.nlm.nih.gov/pubmed/23051837</link>
+    <link title="onlinelibrary.wiley.com" attr="ID=SERP,5101.1">http://onlinelibrary.wiley.com/doi/10.1111/j.1364-3703.2012.00833.x/full</link>
+    <link title="onlinelibrary.wiley.com" attr="ID=SERP,5102.1">http://onlinelibrary.wiley.com/doi/10.1111/j.1364-3703.2012.00833.x/pdf</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5103.1">http://www.ncbi.nlm.nih.gov/pubmed/23051837</link>
+    <link title="wrap.warwick.ac.uk" attr="ID=SERP,5104.1">http://wrap.warwick.ac.uk/id/eprint/51742</link>
+    <link title="onlinelibrary.wiley.com" attr="ID=SERP,5105.1">http://onlinelibrary.wiley.com/doi/10.1111/j.1364-3703.2012.00833.x/references</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5100.2">https://www.ncbi.nlm.nih.gov/pubmed/23051837</link>
+    <link title="onlinelibrary.wiley.com" attr="ID=SERP,5101.2">http://onlinelibrary.wiley.com/doi/10.1111/j.1364-3703.2012.00833.x/full</link>
+    <link title="onlinelibrary.wiley.com" attr="ID=SERP,5102.2">http://onlinelibrary.wiley.com/doi/10.1111/j.1364-3703.2012.00833.x/pdf</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5103.2">http://www.ncbi.nlm.nih.gov/pubmed/23051837</link>
+    <link title="wrap.warwick.ac.uk" attr="ID=SERP,5104.2">http://wrap.warwick.ac.uk/id/eprint/51742</link>
+    <link title="onlinelibrary.wiley.com" attr="ID=SERP,5105.2">http://onlinelibrary.wiley.com/doi/10.1111/j.1364-3703.2012.00833.x/references</link>
+    <link title="www.ncbi.nlm.nih.gov" attr="ID=SERP,5106.1">https://www.ncbi.nlm.nih.gov/pubmed/23051837?access_num=23051837&amp;amp;link_type=MED</link>
+    <link title="onlinelibrary.wiley.com" attr="ID=SERP,5107.1">http://onlinelibrary.wiley.com/doi/10.1111/j.1364-3703.2012.00833.x/abstract</link>
+    <link title="wrap.warwick.ac.uk" attr="ID=SERP,5108.1">http://wrap.warwick.ac.uk/51742/</link>
+    <link title="doi.wiley.com" attr="ID=SERP,5109.1">http://doi.wiley.com/10.1111/j.1364-3703.2012.00833.x</link>
+  </source>
+</ArticleProfile>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fc128572bab994cad0bb17f655073d4, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\hmmer\hmmscanParser.vb"
+﻿#Region "Microsoft.VisualBasic::11547b93c60be96d00b5289bf0a05b68, ..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\hmmer\hmmscanParser.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e6924f6b309098a7b186d2a6d3da06f, ..\GCModeller\analysis\CRISPR\CRT\SearchingModel\KMer.vb"
+﻿#Region "Microsoft.VisualBasic::ea564e5efa374af6056c09d3eaaec89e, ..\GCModeller\analysis\CRISPR\CRT\SearchingModel\KMer.vb"
 
     ' Author:
     ' 

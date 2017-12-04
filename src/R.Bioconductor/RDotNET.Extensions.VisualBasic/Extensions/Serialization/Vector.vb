@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de43c97334ac3e407e7c685459a73e42, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\Serialization\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::ad0888831b1110cca2e3af950fbd935c, ..\R.Bioconductor\RDotNET.Extensions.VisualBasic\Extensions\Serialization\Vector.vb"
 
     ' Author:
     ' 
@@ -64,4 +64,3 @@ Public Module Vector
         End Select
     End Function
 End Module
-

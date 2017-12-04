@@ -1,28 +1,28 @@
-﻿#Region "Microsoft.VisualBasic::bcaf45db28ad44a4ea864da0775fbfe9, ..\CLI_tools\KEGG\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::323b688b92fb35060955a6d2f67afe34, ..\GCModeller\CLI_tools\KEGG\CLI\CLI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xieguigang (xie.guigang@live.com)
-'       xie (genetics@smrucc.org)
-' 
-' Copyright (c) 2016 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xieguigang (xie.guigang@live.com)
+    '       xie (genetics@smrucc.org)
+    ' 
+    ' Copyright (c) 2016 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -149,10 +149,12 @@ Module CLI
         Dim GBK As Boolean = args.GetBoolean("/gbk")
         Dim GeneList As String()
         Dim ExportedDir As String = args("-export")
+        Dim in$ = args <= "-i"
+
         If Not GBK Then
-            GeneList = args("-i").ReadAllLines()
+            GeneList = in$.ReadAllLines()
         Else
-            Dim gb = GBFF.File.Load(args("-i"))
+            Dim gb = GBFF.File.Load([in])
             GeneList = gb.GeneList.Select(Function(g) g.Name)
         End If
 
@@ -296,13 +298,13 @@ Module CLI
     <ExportAPI("-query.orthology", Usage:="-query.orthology -keyword <gene_name> -o <output_csv>")>
     Public Function QueryOrthology(argvs As CommandLine) As Integer
         Dim EntryList = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.HandleQuery(argvs("-keyword"))
-        Dim GeneEntries As List(Of QueryEntry) = New List(Of QueryEntry)
+        Dim GeneEntries As New List(Of QueryEntry)
 
         For Each EntryPoint As QueryEntry In EntryList
             Call GeneEntries.AddRange(SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.HandleDownload(EntryPoint.LocusId))
         Next
 
-        Call GeneEntries.SaveTo(argvs("-o"), False)
+        Call GeneEntries.SaveTo(argvs <= "-o", False)
 
         Return 0
     End Function

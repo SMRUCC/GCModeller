@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a97df32c335d9608e4af133838541003, ..\GCModeller\models\SBML\SBML\Components\Notes.vb"
+﻿#Region "Microsoft.VisualBasic::e6fcf148decc7c6697e43ca7a2a8129b, ..\GCModeller\models\SBML\SBML\Components\Notes.vb"
 
     ' Author:
     ' 

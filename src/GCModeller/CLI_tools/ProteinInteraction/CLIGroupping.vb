@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10d4f50b5e402813a9283eec71bee860, ..\CLI_tools\ProteinInteraction\CLIGroupping.vb"
+﻿#Region "Microsoft.VisualBasic::10d4f50b5e402813a9283eec71bee860, ..\GCModeller\CLI_tools\ProteinInteraction\CLIGroupping.vb"
 
     ' Author:
     ' 

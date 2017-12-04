@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::368bfc394c1e5d740a83eb50f0471503, ..\workbench\GenomicsBrowser\GenomeBrowser\BrowserControls\GeneObject.vb"
+﻿#Region "Microsoft.VisualBasic::f451eb35509a01167667cd4abca29049, ..\workbench\GenomicsBrowser\GenomeBrowser\BrowserControls\GeneObject.vb"
 
     ' Author:
     ' 
@@ -76,4 +76,3 @@ Public Class GeneObject
     End Sub
 
 End Class
-

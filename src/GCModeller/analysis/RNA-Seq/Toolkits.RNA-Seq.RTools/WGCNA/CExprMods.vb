@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05af221b45500866478ec759fed6f066, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\WGCNA\CExprMods.vb"
+﻿#Region "Microsoft.VisualBasic::b17c7aa1d57b2490fde96aee51af781f, ..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\WGCNA\CExprMods.vb"
 
     ' Author:
     ' 

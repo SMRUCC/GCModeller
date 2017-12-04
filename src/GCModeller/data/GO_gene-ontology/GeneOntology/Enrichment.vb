@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::572863c29644ed65006837b6ee3c597a, ..\GCModeller\data\GO_gene-ontology\GeneOntology\Enrichment.vb"
+﻿#Region "Microsoft.VisualBasic::1bf5ffd53de09133691bd19ead2db4ab, ..\GCModeller\data\GO_gene-ontology\GeneOntology\Enrichment.vb"
 
     ' Author:
     ' 
@@ -26,8 +26,6 @@
 
 #End Region
 
-
-
 ''' <summary>
 ''' Gene Ontology可分为分子功能(``Molecular Function``)，生物过程(``biological process``)和细胞组成(``cellular component``)三个部分.
 ''' 蛋白质或者基因可以通过ID对应或者序列注释的方法找到与之对应的GO号,而GO号可对于到Term,即功能类别或者细胞定位.
@@ -54,4 +52,3 @@
 Public Module Enrichment
 
 End Module
-

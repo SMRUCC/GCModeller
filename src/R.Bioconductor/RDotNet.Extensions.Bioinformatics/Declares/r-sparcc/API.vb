@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c773517cd26c5dec4bea274126046819, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\r-sparcc\API.vb"
+﻿#Region "Microsoft.VisualBasic::31230b17bcd3caaa0ae96b61f019d210, ..\R.Bioconductor\RDotNet.Extensions.Bioinformatics\Declares\r-sparcc\API.vb"
 
     ' Author:
     ' 
