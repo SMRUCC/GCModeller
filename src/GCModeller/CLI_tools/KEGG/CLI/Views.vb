@@ -55,10 +55,19 @@ Partial Module CLI
               Description:="If this kegg brite file is not presented in the cli arguments, the internal kegg resource will be used.")>
     Public Function KEGGOrganismTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
-        Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".table.csv")
-        Dim htext As htext = htext.StreamParser([in])
-        Dim table As Taxonomy() = htext.FillTaxonomyTable
-        Return table _
+        Dim out$
+        Dim htext As htext
+
+        If [in].FileExists Then
+            out = args("/out") Or ([in].TrimSuffix & ".table.csv")
+            htext = htext.StreamParser([in])
+        Else
+            out = args("/out") Or (App.CurrentDirectory & $"/{NameOf(KEGGOrganismTable)}.csv")
+            htext = Organism.GetResource
+        End If
+
+        Return htext _
+            .FillTaxonomyTable _
             .SaveTo(out) _
             .CLICode
     End Function
