@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/KEGG_tools.exe
+' assembly: G:/GCModeller/GCModeller/bin/KEGG_tools.exe
 
 Namespace GCModellerApps
 
@@ -28,11 +28,11 @@ End Sub
 ''' Download 16S rRNA data from KEGG.
 ''' </summary>
 '''
-Public Function Download16SRNA(Optional _out As String = "") As Integer
+Public Function Download16SRNA(Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/16s_rna")
 Call CLI.Append(" ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -47,12 +47,12 @@ End Function
 ''' Blastn analysis of your DNA sequence on KEGG server for the functional analysis.
 ''' </summary>
 '''
-Public Function Blastn(_query As String, Optional _out As String = "") As Integer
+Public Function Blastn(query As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/blastn")
 Call CLI.Append(" ")
-Call CLI.Append("/query " & """" & _query & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/query " & """" & query & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -66,11 +66,11 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BuildKORepository(_DIR As String, _repo As String) As Integer
+Public Function BuildKORepository(DIR As String, repo As String) As Integer
 Dim CLI As New StringBuilder("/Build.Ko.repository")
 Call CLI.Append(" ")
-Call CLI.Append("/DIR " & """" & _DIR & """ ")
-Call CLI.Append("/repo " & """" & _repo & """ ")
+Call CLI.Append("/DIR " & """" & DIR & """ ")
+Call CLI.Append("/repo " & """" & repo & """ ")
 
 
 Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -84,14 +84,14 @@ End Function
 ''' KEGG pathway model compiler
 ''' </summary>
 '''
-Public Function Compile(_pathway As String, _mods As String, _sp As String, Optional _out As String = "") As Integer
+Public Function Compile(pathway As String, mods As String, sp As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Compile.Model")
 Call CLI.Append(" ")
-Call CLI.Append("/pathway " & """" & _pathway & """ ")
-Call CLI.Append("/mods " & """" & _mods & """ ")
-Call CLI.Append("/sp " & """" & _sp & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/pathway " & """" & pathway & """ ")
+Call CLI.Append("/mods " & """" & mods & """ ")
+Call CLI.Append("/sp " & """" & sp & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -106,21 +106,21 @@ End Function
 ''' Render draw of the KEGG pathway map by using a given KEGG compound id list.
 ''' </summary>
 '''
-Public Function CompoundMapRender(_list As String, Optional _repo As String = "", Optional _scale As String = "1", Optional _color As String = "red", Optional _out As String = "") As Integer
+Public Function CompoundMapRender(list As String, Optional repo As String = "", Optional scale As String = "1", Optional color As String = "red", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Compound.Map.Render")
 Call CLI.Append(" ")
-Call CLI.Append("/list " & """" & _list & """ ")
-If Not _repo.StringEmpty Then
-Call CLI.Append("/repo " & """" & _repo & """ ")
+Call CLI.Append("/list " & """" & list & """ ")
+If Not repo.StringEmpty Then
+Call CLI.Append("/repo " & """" & repo & """ ")
 End If
-If Not _scale.StringEmpty Then
-Call CLI.Append("/scale " & """" & _scale & """ ")
+If Not scale.StringEmpty Then
+Call CLI.Append("/scale " & """" & scale & """ ")
 End If
-If Not _color.StringEmpty Then
-Call CLI.Append("/color " & """" & _color & """ ")
+If Not color.StringEmpty Then
+Call CLI.Append("/color " & """" & color & """ ")
 End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -134,19 +134,19 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function CutSequence_Upstream(_in As String, _PTT As String, _org As String, Optional _len As String = "", Optional _out As String = "", Optional _overrides As Boolean = False) As Integer
+Public Function CutSequence_Upstream(in As String, PTT As String, org As String, Optional len As String = "", Optional out As String = "", Optional overrides As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Cut_sequence.upstream")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/PTT " & """" & _PTT & """ ")
-Call CLI.Append("/org " & """" & _org & """ ")
-If Not _len.StringEmpty Then
-Call CLI.Append("/len " & """" & _len & """ ")
+Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/PTT " & """" & PTT & """ ")
+Call CLI.Append("/org " & """" & org & """ ")
+If Not len.StringEmpty Then
+Call CLI.Append("/len " & """" & len & """ ")
 End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
-If _overrides Then
+If overrides Then
 Call CLI.Append("/overrides ")
 End If
 
@@ -162,19 +162,19 @@ End Function
 ''' Downloads the KEGG compounds data from KEGG web server using dbget API
 ''' </summary>
 '''
-Public Function DownloadCompounds(Optional _chebi As String = "", Optional _save As String = "", Optional _flat As Boolean = False, Optional _updates As Boolean = False) As Integer
+Public Function DownloadCompounds(Optional chebi As String = "", Optional save As String = "", Optional flat As Boolean = False, Optional updates As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Download.Compounds")
 Call CLI.Append(" ")
-If Not _chebi.StringEmpty Then
-Call CLI.Append("/chebi " & """" & _chebi & """ ")
+If Not chebi.StringEmpty Then
+Call CLI.Append("/chebi " & """" & chebi & """ ")
 End If
-If Not _save.StringEmpty Then
-Call CLI.Append("/save " & """" & _save & """ ")
+If Not save.StringEmpty Then
+Call CLI.Append("/save " & """" & save & """ ")
 End If
-If _flat Then
+If flat Then
 Call CLI.Append("/flat ")
 End If
-If _updates Then
+If updates Then
 Call CLI.Append("/updates ")
 End If
 
@@ -189,14 +189,14 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DownloadHumanGenes(_in As String, Optional _out As String = "", Optional _batch As Boolean = False) As Integer
+Public Function DownloadHumanGenes(in As String, Optional out As String = "", Optional batch As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Download.human.genes")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/in " & """" & in & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
-If _batch Then
+If batch Then
 Call CLI.Append("/batch ")
 End If
 
@@ -212,11 +212,11 @@ End Function
 ''' Download the KEGG reference modules map data.
 ''' </summary>
 '''
-Public Function DownloadReferenceModule(Optional _out As String = "./") As Integer
+Public Function DownloadReferenceModule(Optional out As String = "./") As Integer
 Dim CLI As New StringBuilder("/Download.Module.Maps")
 Call CLI.Append(" ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -231,15 +231,15 @@ End Function
 ''' Downloads the KEGG gene ortholog annotation data from the web server.
 ''' </summary>
 '''
-Public Function DownloadOrthologs(_i As String, _export As String, Optional _sp As String = "", Optional _gbk As Boolean = False) As Integer
+Public Function DownloadOrthologs(i As String, export As String, Optional sp As String = "", Optional gbk As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Download.Ortholog")
 Call CLI.Append(" ")
-Call CLI.Append("-i " & """" & _i & """ ")
-Call CLI.Append("-export " & """" & _export & """ ")
-If Not _sp.StringEmpty Then
-Call CLI.Append("/sp " & """" & _sp & """ ")
+Call CLI.Append("-i " & """" & i & """ ")
+Call CLI.Append("-export " & """" & export & """ ")
+If Not sp.StringEmpty Then
+Call CLI.Append("/sp " & """" & sp & """ ")
 End If
-If _gbk Then
+If gbk Then
 Call CLI.Append("/gbk ")
 End If
 
@@ -250,16 +250,19 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Download.Pathway.Maps /sp &lt;kegg.sp_code> [/out &lt;EXPORT_DIR>]
+''' /Download.Pathway.Maps /sp &lt;kegg.sp_code> [/KGML /out &lt;EXPORT_DIR>]
 ''' ```
 ''' </summary>
 '''
-Public Function DownloadPathwayMaps(_sp As String, Optional _out As String = "") As Integer
+Public Function DownloadPathwayMaps(sp As String, Optional out As String = "", Optional kgml As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Download.Pathway.Maps")
 Call CLI.Append(" ")
-Call CLI.Append("/sp " & """" & _sp & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/sp " & """" & sp & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
+End If
+If kgml Then
+Call CLI.Append("/kgml ")
 End If
 
 
@@ -269,18 +272,21 @@ End Function
 
 ''' <summary>
 ''' ```
-''' /Download.Pathway.Maps.Bacteria.All [/in &lt;brite.keg> /out &lt;out.directory>]
+''' /Download.Pathway.Maps.Bacteria.All [/in &lt;brite.keg> /KGML /out &lt;out.directory>]
 ''' ```
 ''' </summary>
 '''
-Public Function DownloadsBacteriasRefMaps(Optional _in As String = "", Optional _out As String = "") As Integer
+Public Function DownloadsBacteriasRefMaps(Optional in As String = "", Optional out As String = "", Optional kgml As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Download.Pathway.Maps.Bacteria.All")
 Call CLI.Append(" ")
-If Not _in.StringEmpty Then
-Call CLI.Append("/in " & """" & _in & """ ")
+If Not in.StringEmpty Then
+Call CLI.Append("/in " & """" & in & """ ")
 End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
+End If
+If kgml Then
+Call CLI.Append("/kgml ")
 End If
 
 
@@ -294,11 +300,11 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DownloadKEGGReaction(Optional _save As String = "") As Integer
+Public Function DownloadKEGGReaction(Optional save As String = "") As Integer
 Dim CLI As New StringBuilder("/Download.Reaction")
 Call CLI.Append(" ")
-If Not _save.StringEmpty Then
-Call CLI.Append("/save " & """" & _save & """ ")
+If Not save.StringEmpty Then
+Call CLI.Append("/save " & """" & save & """ ")
 End If
 
 
@@ -313,12 +319,12 @@ End Function
 ''' Dumping the KEGG maps database for human species.
 ''' </summary>
 '''
-Public Function DumpKEGGMaps(_htext As String, Optional _out As String = "") As Integer
+Public Function DumpKEGGMaps(htext As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/dump.kegg.maps")
 Call CLI.Append(" ")
-Call CLI.Append("/htext " & """" & _htext & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/htext " & """" & htext & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -332,14 +338,14 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DumpOrganisms(Optional _res As String = "", Optional _out As String = "") As Integer
+Public Function DumpOrganisms(Optional res As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Dump.sp")
 Call CLI.Append(" ")
-If Not _res.StringEmpty Then
-Call CLI.Append("/res " & """" & _res & """ ")
+If Not res.StringEmpty Then
+Call CLI.Append("/res " & """" & res & """ ")
 End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -353,13 +359,13 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GetFastaBySp(_in As String, _sp As String, Optional _out As String = "") As Integer
+Public Function GetFastaBySp(in As String, sp As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Fasta.By.Sp")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/sp " & """" & _sp & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/sp " & """" & sp & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -373,12 +379,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ProteinMotifs(_query As String, Optional _out As String = "") As Integer
+Public Function ProteinMotifs(query As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Get.prot_motif")
 Call CLI.Append(" ")
-Call CLI.Append("/query " & """" & _query & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/query " & """" & query & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -392,20 +398,20 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GetsProteinMotifs(_query As String, Optional _sp As String = "", Optional _out As String = "", Optional _ptt As Boolean = False, Optional _update As Boolean = False) As Integer
+Public Function GetsProteinMotifs(query As String, Optional sp As String = "", Optional out As String = "", Optional ptt As Boolean = False, Optional update As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Gets.prot_motif")
 Call CLI.Append(" ")
-Call CLI.Append("/query " & """" & _query & """ ")
-If Not _sp.StringEmpty Then
-Call CLI.Append("/sp " & """" & _sp & """ ")
+Call CLI.Append("/query " & """" & query & """ ")
+If Not sp.StringEmpty Then
+Call CLI.Append("/sp " & """" & sp & """ ")
 End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
-If _ptt Then
+If ptt Then
 Call CLI.Append("/ptt ")
 End If
-If _update Then
+If update Then
 Call CLI.Append("/update ")
 End If
 
@@ -421,13 +427,13 @@ End Function
 ''' Imports the KEGG reference pathway map and KEGG orthology data as mysql dumps.
 ''' </summary>
 '''
-Public Function ImportsKODatabase(_pathways As String, _KO As String, Optional _save As String = "") As Integer
+Public Function ImportsKODatabase(pathways As String, KO As String, Optional save As String = "") As Integer
 Dim CLI As New StringBuilder("/Imports.KO")
 Call CLI.Append(" ")
-Call CLI.Append("/pathways " & """" & _pathways & """ ")
-Call CLI.Append("/KO " & """" & _KO & """ ")
-If Not _save.StringEmpty Then
-Call CLI.Append("/save " & """" & _save & """ ")
+Call CLI.Append("/pathways " & """" & pathways & """ ")
+Call CLI.Append("/KO " & """" & KO & """ ")
+If Not save.StringEmpty Then
+Call CLI.Append("/save " & """" & save & """ ")
 End If
 
 
@@ -441,12 +447,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ImportsDb(_in As String, Optional _out As String = "") As Integer
+Public Function ImportsDb(in As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Imports.SSDB")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/in " & """" & in & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -460,15 +466,15 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function IndexSubMatch(_index As String, _maps As String, _key As String, _map As String, Optional _out As String = "") As Integer
+Public Function IndexSubMatch(index As String, maps As String, key As String, map As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/ko.index.sub.match")
 Call CLI.Append(" ")
-Call CLI.Append("/index " & """" & _index & """ ")
-Call CLI.Append("/maps " & """" & _maps & """ ")
-Call CLI.Append("/key " & """" & _key & """ ")
-Call CLI.Append("/map " & """" & _map & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/index " & """" & index & """ ")
+Call CLI.Append("/maps " & """" & maps & """ ")
+Call CLI.Append("/key " & """" & key & """ ")
+Call CLI.Append("/map " & """" & map & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -482,16 +488,16 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function KEGGOrganismTable(Optional _in As String = "", Optional _out As String = "", Optional _bacteria As Boolean = False) As Integer
+Public Function KEGGOrganismTable(Optional in As String = "", Optional out As String = "", Optional bacteria As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Organism.Table")
 Call CLI.Append(" ")
-If Not _in.StringEmpty Then
-Call CLI.Append("/in " & """" & _in & """ ")
+If Not in.StringEmpty Then
+Call CLI.Append("/in " & """" & in & """ ")
 End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
-If _bacteria Then
+If bacteria Then
 Call CLI.Append("/bacteria ")
 End If
 
@@ -506,12 +512,12 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function PathwayGeneList(_in As String, Optional _out As String = "") As Integer
+Public Function PathwayGeneList(in As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Pathway.geneIDs")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/in " & """" & in & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -526,11 +532,11 @@ End Function
 ''' Download all of the KEGG reference pathway map data.
 ''' </summary>
 '''
-Public Function DownloadsAllPathways(Optional _out As String = "") As Integer
+Public Function DownloadsAllPathways(Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Pathways.Downloads.All")
 Call CLI.Append(" ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
 
 
@@ -544,17 +550,17 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function QueryKOAnno(_in As String, Optional _out As String = "", Optional _evalue As String = "", Optional _batch As Boolean = False) As Integer
+Public Function QueryKOAnno(in As String, Optional out As String = "", Optional evalue As String = "", Optional batch As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Query.KO")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/in " & """" & in & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
-If Not _evalue.StringEmpty Then
-Call CLI.Append("/evalue " & """" & _evalue & """ ")
+If Not evalue.StringEmpty Then
+Call CLI.Append("/evalue " & """" & evalue & """ ")
 End If
-If _batch Then
+If batch Then
 Call CLI.Append("/batch ")
 End If
 
@@ -569,18 +575,18 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function Stats(_in As String, _locus As String, Optional _locus_map As String = "", Optional _out As String = "", Optional _pathway As Boolean = False) As Integer
+Public Function Stats(in As String, locus As String, Optional locus_map As String = "", Optional out As String = "", Optional pathway As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Views.mod_stat")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
-Call CLI.Append("/locus " & """" & _locus & """ ")
-If Not _locus_map.StringEmpty Then
-Call CLI.Append("/locus_map " & """" & _locus_map & """ ")
+Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/locus " & """" & locus & """ ")
+If Not locus_map.StringEmpty Then
+Call CLI.Append("/locus_map " & """" & locus_map & """ ")
 End If
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
-If _pathway Then
+If pathway Then
 Call CLI.Append("/pathway ")
 End If
 
@@ -596,10 +602,10 @@ End Function
 ''' Download data from KEGG database to local server.
 ''' </summary>
 '''
-Public Function BuildKEGGOrthology(Optional _fill_missing As Boolean = False) As Integer
+Public Function BuildKEGGOrthology(Optional fill_missing As Boolean = False) As Integer
 Dim CLI As New StringBuilder("-Build.KO")
 Call CLI.Append(" ")
-If _fill_missing Then
+If fill_missing Then
 Call CLI.Append("/fill-missing ")
 End If
 
@@ -614,15 +620,15 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DownloadSequence(_query As String, Optional _out As String = "", Optional _source As String = "") As Integer
+Public Function DownloadSequence(query As String, Optional out As String = "", Optional source As String = "") As Integer
 Dim CLI As New StringBuilder("Download.Sequence")
 Call CLI.Append(" ")
-Call CLI.Append("/query " & """" & _query & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/query " & """" & query & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
-If Not _source.StringEmpty Then
-Call CLI.Append("/source " & """" & _source & """ ")
+If Not source.StringEmpty Then
+Call CLI.Append("/source " & """" & source & """ ")
 End If
 
 
@@ -636,14 +642,14 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DumpDb(_KEGG_Pathways As String, _KEGG_Modules As String, _KEGG_Reactions As String, _sp As String, _out As String) As Integer
+Public Function DumpDb(KEGG_Pathways As String, KEGG_Modules As String, KEGG_Reactions As String, sp As String, out As String) As Integer
 Dim CLI As New StringBuilder("--Dump.Db")
 Call CLI.Append(" ")
-Call CLI.Append("/KEGG.Pathways " & """" & _KEGG_Pathways & """ ")
-Call CLI.Append("/KEGG.Modules " & """" & _KEGG_Modules & """ ")
-Call CLI.Append("/KEGG.Reactions " & """" & _KEGG_Reactions & """ ")
-Call CLI.Append("/sp " & """" & _sp & """ ")
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/KEGG.Pathways " & """" & KEGG_Pathways & """ ")
+Call CLI.Append("/KEGG.Modules " & """" & KEGG_Modules & """ ")
+Call CLI.Append("/KEGG.Reactions " & """" & KEGG_Reactions & """ ")
+Call CLI.Append("/sp " & """" & sp & """ ")
+Call CLI.Append("/out " & """" & out & """ ")
 
 
 Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -656,10 +662,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function FunctionAnalysis(_i As String) As Integer
+Public Function FunctionAnalysis(i As String) As Integer
 Dim CLI As New StringBuilder("-function.association.analysis")
 Call CLI.Append(" ")
-Call CLI.Append("-i " & """" & _i & """ ")
+Call CLI.Append("-i " & """" & i & """ ")
 
 
 Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -672,10 +678,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GetKOAnnotation(_in As String) As Integer
+Public Function GetKOAnnotation(in As String) As Integer
 Dim CLI As New StringBuilder("--Get.KO")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & _in & """ ")
+Call CLI.Append("/in " & """" & in & """ ")
 
 
 Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -689,15 +695,15 @@ End Function
 ''' source and ref should be in KEGG annotation format.
 ''' </summary>
 '''
-Public Function GetSource(_source As String, _ref As String, Optional _out As String = "", Optional _brief As Boolean = False) As Integer
+Public Function GetSource(source As String, ref As String, Optional out As String = "", Optional brief As Boolean = False) As Integer
 Dim CLI As New StringBuilder("--part.from")
 Call CLI.Append(" ")
-Call CLI.Append("/source " & """" & _source & """ ")
-Call CLI.Append("/ref " & """" & _ref & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/source " & """" & source & """ ")
+Call CLI.Append("/ref " & """" & ref & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
-If _brief Then
+If brief Then
 Call CLI.Append("/brief ")
 End If
 
@@ -713,11 +719,11 @@ End Function
 ''' Query the KEGG database for nucleotide sequence and protein sequence by using a keywork.
 ''' </summary>
 '''
-Public Function QueryGenes(_keyword As String, _o As String) As Integer
+Public Function QueryGenes(keyword As String, o As String) As Integer
 Dim CLI As New StringBuilder("-query")
 Call CLI.Append(" ")
-Call CLI.Append("-keyword " & """" & _keyword & """ ")
-Call CLI.Append("-o " & """" & _o & """ ")
+Call CLI.Append("-keyword " & """" & keyword & """ ")
+Call CLI.Append("-o " & """" & o & """ ")
 
 
 Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -730,11 +736,11 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function QueryOrthology(_keyword As String, _o As String) As Integer
+Public Function QueryOrthology(keyword As String, o As String) As Integer
 Dim CLI As New StringBuilder("-query.orthology")
 Call CLI.Append(" ")
-Call CLI.Append("-keyword " & """" & _keyword & """ ")
-Call CLI.Append("-o " & """" & _o & """ ")
+Call CLI.Append("-keyword " & """" & keyword & """ ")
+Call CLI.Append("-o " & """" & o & """ ")
 
 
 Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -747,11 +753,11 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DownloadReferenceMap(_id As String, _o As String) As Integer
+Public Function DownloadReferenceMap(id As String, o As String) As Integer
 Dim CLI As New StringBuilder("-query.ref.map")
 Call CLI.Append(" ")
-Call CLI.Append("-id " & """" & _id & """ ")
-Call CLI.Append("-o " & """" & _o & """ ")
+Call CLI.Append("-id " & """" & id & """ ")
+Call CLI.Append("-o " & """" & o & """ ")
 
 
 Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -764,10 +770,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function DownloadReferenceMapDatabase(_o As String) As Integer
+Public Function DownloadReferenceMapDatabase(o As String) As Integer
 Dim CLI As New StringBuilder("-ref.map.download")
 Call CLI.Append(" ")
-Call CLI.Append("-o " & """" & _o & """ ")
+Call CLI.Append("-o " & """" & o & """ ")
 
 
 Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
@@ -780,11 +786,11 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function CreateTABLE(_i As String, _o As String) As Integer
+Public Function CreateTABLE(i As String, o As String) As Integer
 Dim CLI As New StringBuilder("-table.create")
 Call CLI.Append(" ")
-Call CLI.Append("-i " & """" & _i & """ ")
-Call CLI.Append("-o " & """" & _o & """ ")
+Call CLI.Append("-i " & """" & i & """ ")
+Call CLI.Append("-o " & """" & o & """ ")
 
 
 Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
