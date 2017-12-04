@@ -46,12 +46,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
     Public Module EntryAPI
 
         Public ReadOnly Property Resources As KEGGOrganism
-            Get
-                Return __cacheList
-            End Get
-        End Property
 
-        ReadOnly __cacheList As KEGGOrganism
         ''' <summary>
         ''' {brief_sp, <see cref="organism"/>}
         ''' </summary>
@@ -59,9 +54,11 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
         Sub New()
             Try
-                Dim res As New ApplicationServices.Resources(GetType(EntryAPI).Assembly)
-                __cacheList = __loadList(res.GetString("KEGG_Organism_Complete_Genomes"))
-                __spHash = __cacheList.ToArray.ToDictionary(Function(x) x.KEGGId)
+                Dim res As New ApplicationServices.ResourcesSatellite(GetType(EntryAPI).Assembly)
+                Resources = __loadList(res.GetString("KEGG_Organism_Complete_Genomes"))
+                __spHash = Resources _
+                    .ToArray _
+                    .ToDictionary(Function(x) x.KEGGId)
             Catch ex As Exception
                 Call App.LogException(ex)
                 Call ex.PrintException
@@ -112,7 +109,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         ''' <returns></returns>
         <ExportAPI("list.Load", Info:="Load KEGG organism list from the internal resource.")>
         Public Function GetOrganismListFromResource() As KEGGOrganism
-            Dim res As New ApplicationServices.Resources(GetType(EntryAPI).Assembly)
+            Dim res As New ApplicationServices.ResourcesSatellite(GetType(EntryAPI).Assembly)
             Dim html As String = res.GetString("KEGG_Organisms__Complete_Genomes")
             Return __loadList(html)
         End Function

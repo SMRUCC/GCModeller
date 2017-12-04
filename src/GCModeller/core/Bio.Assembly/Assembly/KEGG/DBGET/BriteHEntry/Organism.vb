@@ -33,9 +33,19 @@ Imports SMRUCC.genomics.Metagenomics
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
     ''' <summary>
-    ''' br08601
+    ''' ### br08601
+    ''' 
+    ''' > http://www.kegg.jp/kegg-bin/download_htext?htext=br08601.keg&amp;format=htext&amp;filedir=
     ''' </summary>
     Public Module Organism
+
+        ''' <summary>
+        ''' 从卫星资源程序集之中加载数据库数据
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetResource() As htext
+
+        End Function
 
         <Extension> Public Function FillTaxonomyTable(organisms As htext) As Taxonomy()
             Dim out As New List(Of Taxonomy)

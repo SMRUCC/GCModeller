@@ -36,7 +36,6 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -49,12 +48,15 @@ Imports SMRUCC.genomics.ProteinModel
 
 Partial Module CLI
 
-    <ExportAPI("/Organism.Table",
-               Usage:="/Organism.Table /in <br08601-htext.keg> [/out <out.csv>]")>
+    <ExportAPI("/Organism.Table")>
+    <Usage("/Organism.Table [/in <br08601-htext.keg> /out <out.csv>]")>
+    <Argument("/in", True, CLITypes.File, PipelineTypes.std_in,
+              Extensions:="*.keg, *.txt",
+              Description:="If this kegg brite file is not presented in the cli arguments, the internal kegg resource will be used.")>
     Public Function KEGGOrganismTable(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".table.csv")
-        Dim htext As htext = BriteHEntry.htext.StreamParser([in])
+        Dim htext As htext = htext.StreamParser([in])
         Dim table As Taxonomy() = htext.FillTaxonomyTable
         Return table _
             .SaveTo(out) _
