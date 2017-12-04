@@ -79,7 +79,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         ''' <returns></returns>
         Public Function Downloads(sp$, Optional EXPORT$ = "./LinkDB-pathways/", Optional forceUpdate As Boolean = False) As String()
             Dim entries As New List(Of ListEntry)
-            Dim briefHash As Dictionary(Of String, BriteHEntry.Pathway) = BriteHEntry.Pathway.LoadDictionary
+            Dim briteTable As Dictionary(Of String, BriteHEntry.Pathway) = BriteHEntry.Pathway.LoadDictionary
             Dim Downloader As New WebClient()
             Dim Progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways....", 1, CLS:=True)
             Dim failures As New List(Of String)
@@ -96,7 +96,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                 Dim path As String = EXPORT & "/webpages/" & entry.EntryID & ".html"
                 Dim img As String = EXPORT & $"/{entry.EntryID}.png"
                 Dim bCode As String = Regex.Match(entry.EntryID, "\d+").Value
-                Dim xml$ = BriteHEntry.Pathway.CombineDIR(briefHash(bCode), EXPORT) & $"/{entry.EntryID}.Xml"
+                Dim xml$ = BriteHEntry.Pathway.CombineDIR(briteTable(bCode), EXPORT) & $"/{entry.EntryID}.Xml"
 
                 If xml.FileLength > 0 AndAlso img.FileLength > 0 Then
                     If Not forceUpdate Then
