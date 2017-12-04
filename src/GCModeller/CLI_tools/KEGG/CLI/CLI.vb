@@ -314,11 +314,6 @@ Susumu Goto", Year:=2000, Volume:=28, Issue:="1",
         Call Settings.Session.Initialize()
     End Sub
 
-    <ExportAPI("--Export.KO")>
-    Public Function ExportKO(args As CommandLine) As Integer
-
-    End Function
-
     ''' <summary>
     ''' 从KEGG数据库之中读取数据到本地数据库之中
     ''' </summary>
