@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/seqtools.exe
+' assembly: D:/GCModeller/GCModeller/bin/seqtools.exe
 
 Namespace GCModellerApps
 
@@ -1085,6 +1085,32 @@ Call CLI.Append("/n " & """" & _n & """ ")
 End If
 If Not _out.StringEmpty Then
 Call CLI.Append("/out " & """" & _out & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /SSR /in &lt;nt.fasta> [/range &lt;default=2,6> /parallel /out &lt;out.csv/DIR>]
+''' ```
+''' Search for SSR on a nt sequence.
+''' </summary>
+'''
+Public Function SSRFinder(_in As String, Optional _range As String = "2,6", Optional _out As String = "", Optional _parallel As Boolean = False) As Integer
+Dim CLI As New StringBuilder("/SSR")
+Call CLI.Append(" ")
+Call CLI.Append("/in " & """" & _in & """ ")
+If Not _range.StringEmpty Then
+Call CLI.Append("/range " & """" & _range & """ ")
+End If
+If Not _out.StringEmpty Then
+Call CLI.Append("/out " & """" & _out & """ ")
+End If
+If _parallel Then
+Call CLI.Append("/parallel ")
 End If
 
 
