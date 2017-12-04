@@ -499,6 +499,7 @@ Global
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{74b33a15-1d34-4d11-81a1-2538c45b7a80}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{74b33a15-1d34-4d11-81a1-2538c45b7a80}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{74b33a15-1d34-4d11-81a1-2538c45b7a80}*SharedItemsImports = 4
+		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{76f9e7ee-a0b4-4bc0-a05d-e880f1f85b9d}*SharedItemsImports = 4
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{76f9e7ee-a0b4-4bc0-a05d-e880f1f85b9d}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{76f9e7ee-a0b4-4bc0-a05d-e880f1f85b9d}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{76f9e7ee-a0b4-4bc0-a05d-e880f1f85b9d}*SharedItemsImports = 4
@@ -9886,8 +9887,8 @@ Global
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.Biodeep|x86.Build.0 = Release|Any CPU
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.Debug|x64.Build.0 = Debug|Any CPU
+		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.Debug|x64.ActiveCfg = Debug|x64
+		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.Debug|x64.Build.0 = Debug|x64
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.Debug|x86.Build.0 = Debug|Any CPU
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.DEMO|Any CPU.ActiveCfg = Debug|Any CPU
@@ -9904,8 +9905,8 @@ Global
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.docs|x86.Build.0 = Debug|Any CPU
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.GCModeller(Release_X64)|x64.ActiveCfg = Release|Any CPU
-		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.GCModeller(Release_X64)|x64.Build.0 = Release|Any CPU
+		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
+		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5}.installer_x64|Any CPU.ActiveCfg = Release|Any CPU

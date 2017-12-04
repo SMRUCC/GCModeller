@@ -1,34 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::4288b8e3a732f112138be4507be70fa0, ..\GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -38,21 +38,31 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
     ''' BRITE Functional Hierarchies
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class BriteHText
+    Public Class BriteHText : Implements INamedValue
 
         ''' <summary>
         ''' 大分类的标签
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property ClassLabel As String
+        <XmlAttribute> Public Property ClassLabel As String Implements INamedValue.Key
+        <XmlAttribute> Public Property Level As Integer
+        ''' <summary>
+        ''' ``ABCDEFG``, etc...
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property Degree As Char
+
+#Region "Tree"
+
+        <XmlIgnore>
+        Public Property Parent As BriteHText
         ''' <summary>
         ''' 假若这个层次还可以进行细分的话，则这个属性就是当前的小分类的子分类列表
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement> Public Property CategoryItems As BriteHText()
-        <XmlAttribute> Public Property Level As Integer
-        <XmlAttribute> Public Property Degree As Char
-        <XmlIgnore> Public Property Parent As BriteHText
+        <XmlElement>
+        Public Property CategoryItems As BriteHText()
+#End Region
 
         Dim _EntryId As String
 
@@ -64,6 +74,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Get
                 If String.IsNullOrEmpty(_EntryId) Then
                     Dim Tokens As String = ClassLabel.Split.First
+
                     If Regex.Match(Tokens, "[a-z]\d{5}", RegexOptions.IgnoreCase).Success Then
                         _EntryId = Tokens
                     ElseIf Tokens.IsPattern("\d+") Then

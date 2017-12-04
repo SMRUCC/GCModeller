@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/Cytoscape.exe
+' assembly: D:/GCModeller/GCModeller/bin/Cytoscape.exe
 
 Namespace GCModellerApps
 
@@ -979,14 +979,14 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function TCS(_in As String, _regulations As String, _out As String, Optional _Fill_pcc As Boolean = False) As Integer
+Public Function TCS(_in As String, _regulations As String, _out As String, Optional _fill_pcc As Boolean = False) As Integer
 Dim CLI As New StringBuilder("--TCS")
 Call CLI.Append(" ")
 Call CLI.Append("/in " & """" & _in & """ ")
 Call CLI.Append("/regulations " & """" & _regulations & """ ")
 Call CLI.Append("/out " & """" & _out & """ ")
-If _Fill_pcc Then
-Call CLI.Append("/Fill-pcc ")
+If _fill_pcc Then
+Call CLI.Append("/fill-pcc ")
 End If
 
 

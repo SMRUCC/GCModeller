@@ -1,16 +1,11 @@
 +E	KEGG Organism
 #<h2><a href="/kegg/kegg2.html"><img src="/Fig/bget/kegg3.gif" align="middle" border=0></a> &nbsp; KEGG Organisms</h2>
-#<!---
-#ENTRY       br08601
-#NAME        Organism
-#DEFINITION  KEGG Organisms
-#--->
 !
-A<b>Eukaryotes</b> (346)
+A<b>Eukaryotes</b> (429)
 B
-B  <b>Animals</b> (123)
-C    Vertebrates (72)
-D      Mammals (41)
+B  <b>Animals</b> (175)
+C    Vertebrates (105)
+D      Mammals (52)
 E        hsa  Homo sapiens (human)
 E        ptr  Pan troglodytes (chimpanzee)
 E        pps  Pan paniscus (bonobo)
@@ -21,6 +16,7 @@ E        mcc  Macaca mulatta (rhesus monkey)
 E        mcf  Macaca fascicularis (crab-eating macaque)
 E        csab  Chlorocebus sabaeus (green monkey)
 E        rro  Rhinopithecus roxellana (golden snub-nosed monkey)
+E        rbb  Rhinopithecus bieti (black snub-nosed monkey)
 E        cjc  Callithrix jacchus (white-tufted-ear marmoset)
 E        sbq  Saimiri boliviensis boliviensis (Bolivian squirrel monkey)
 E        mmu  Mus musculus (mouse)
@@ -28,63 +24,95 @@ E        rno  Rattus norvegicus (rat)
 E        cge  Cricetulus griseus (Chinese hamster)
 E        ngi  Nannospalax galili (Upper Galilee mountains blind mole rat)
 E        hgl  Heterocephalus glaber (naked mole rat)
+E        ccan  Castor canadensis (American beaver)
 E        ocu  Oryctolagus cuniculus (rabbit)
 E        tup  Tupaia chinensis (Chinese tree shrew)
 E        cfa  Canis familiaris (dog)
 E        aml  Ailuropoda melanoleuca (giant panda)
 E        umr  Ursus maritimus (polar bear)
+E        oro  Odobenus rosmarus divergens (Pacific walrus)
 E        fca  Felis catus (domestic cat)
 E        ptg  Panthera tigris altaica (Amur tiger)
+E        aju  Acinonyx jubatus (cheetah)
 E        bta  Bos taurus (cow)
 E        bom  Bos mutus (wild yak)
+E        biu  Bos indicus (zebu cattle)
 E        phd  Pantholops hodgsonii (chiru)
 E        chx  Capra hircus (goat)
 E        oas  Ovis aries (sheep)
 E        ssc  Sus scrofa (pig)
 E        cfr  Camelus ferus (Wild Bactrian camel)
+E        cdk  Camelus dromedarius (Arabian camel)
 E        bacu  Balaenoptera acutorostrata scammoni (minke whale)
 E        lve  Lipotes vexillifer (Yangtze River dolphin)
 E        ecb  Equus caballus (horse)
+E        epz  Equus przewalskii (Przewalski's horse)
+E        eai  Equus asinus (ass)
 E        myb  Myotis brandtii (Brandt's bat)
 E        myd  Myotis davidii
+E        hai  Hipposideros armiger (great roundleaf bat)
+E        rss  Rhinolophus sinicus (Chinese rufous horseshoe bat)
 E        pale  Pteropus alecto (black flying fox)
 E        lav  Loxodonta africana (African savanna elephant)
+E        tmu  Trichechus manatus latirostris (Florida manatee)
 E        mdo  Monodelphis domestica (opossum)
 E        shr  Sarcophilus harrisii (Tasmanian devil)
 E        oaa  Ornithorhynchus anatinus (platypus)
-D      Birds (13)
+D      Birds (16)
 E        gga  Gallus gallus (chicken)
 E        mgp  Meleagris gallopavo (turkey)
 E        cjo  Coturnix japonica (Japanese quail)
 E        apla  Anas platyrhynchos (mallard)
+E        acyg  Anser cygnoides domesticus (swan goose)
 E        tgu  Taeniopygia guttata (zebra finch)
 E        gfr  Geospiza fortis (medium ground-finch)
 E        fab  Ficedula albicollis (collared flycatcher)
 E        phi  Pseudopodoces humilis (Tibetan ground-tit)
+E        pmaj  Parus major (Great Tit)
 E        ccw  Corvus cornix (hooded crow)
 E        fpg  Falco peregrinus (peregrine falcon)
 E        fch  Falco cherrug (Saker falcon)
 E        clv  Columba livia (rock pigeon)
+E        egz  Egretta garzetta (little egret)
 E        aam  Apteryx australis mantelli (brown kiwi)
-D      Reptiles (7)
+D      Reptiles (9)
 E        asn  Alligator sinensis (Chinese alligator)
 E        amj  Alligator mississippiensis (American alligator)
 E        pss  Pelodiscus sinensis (Chinese soft-shelled turtle)
 E        cmy  Chelonia mydas (green sea turtle)
+E        cpic  Chrysemys picta (western painted turtle)
 E        acs  Anolis carolinensis (green anole)
+E        pvt  Pogona vitticeps (central bearded dragon)
 E        pbi  Python bivittatus (Burmese python)
 E        gja  Gekko japonicus
-D      Amphibians (2)
+D      Amphibians (3)
 E        xla  Xenopus laevis (African clawed frog)
 E        xtr  Xenopus tropicalis (western clawed frog)
-D      Fishes (8)
+E        npr  Nanorana parkeri
+D      Fishes (24)
 E        dre  Danio rerio (zebrafish)
+E        srx  Sinocyclocheilus rhinocerous
+E        sanh  Sinocyclocheilus anshuiensis
+E        sgh  Sinocyclocheilus grahami
+E        ccar  Cyprinus carpio (common carp)
+E        ipu  Ictalurus punctatus (channel catfish)
+E        amex  Astyanax mexicanus (Mexican tetra)
 E        tru  Takifugu rubripes (torafugu)
 E        tng  Tetraodon nigroviridis (spotted green pufferfish)
+E        lco  Larimichthys crocea (large yellow croaker)
+E        ncc  Notothenia coriiceps (black rockcod)
 E        mze  Maylandia zebra (zebra mbuna)
 E        ola  Oryzias latipes (Japanese medaka)
 E        xma  Xiphophorus maculatus (southern platyfish)
+E        pret  Poecilia reticulata (guppy)
+E        nfu  Nothobranchius furzeri (turquoise killifish)
+E        csem  Cynoglossus semilaevis (tongue sole)
+E        lcf  Lates calcarifer (barramundi perch)
+E        hcq  Hippocampus comes (tiger tail seahorse)
+E        bpec  Boleophthalmus pectinirostris (great blue-spotted mudskipper)
 E        sasa  Salmo salar (Atlantic salmon)
+E        els  Esox lucius (northern pike)
+E        sfm  Scleropages formosus (Asian bonytongue)
 E        lcm  Latimeria chalumnae (coelacanth)
 D      Cartilaginous fishes (1)
 E        cmk  Callorhinchus milii (elephant shark)
@@ -92,12 +120,13 @@ C    Lancelets (1)
 D      bfo  Branchiostoma floridae (Florida lancelet)
 C    Ascidians (1)
 D      cin  Ciona intestinalis (sea squirt)
-C    Echinoderms (1)
+C    Echinoderms (2)
 D      spu  Strongylocentrotus purpuratus (purple sea urchin)
+D      aplc  Acanthaster planci (crown-of-thorns starfish)
 C    Hemichordates (1)
 D      sko  Saccoglossus kowalevskii (acorn worm)
-C    Arthropods (32)
-D      Insects (30)
+C    Arthropods (44)
+D      Insects (41)
 E        dme  Drosophila melanogaster (fruit fly)
 E        dpo  Drosophila pseudoobscura pseudoobscura
 E        dan  Drosophila ananassae
@@ -119,35 +148,54 @@ E        bim  Bombus impatiens (common eastern bumble bee)
 E        bter  Bombus terrestris (buff-tailed bumblebee)
 E        soc  Solenopsis invicta (red fire ant)
 E        aec  Acromyrmex echinatior (Panamanian leafcutter ant)
+E        acep  Atta cephalotes (leaf cutting ant)
+E        pbar  Pogonomyrmex barbatus (red harvester ant)
 E        hst  Harpegnathos saltator (Jerdon's jumping ant)
 E        cfo  Camponotus floridanus (Florida carpenter ant)
+E        lhu  Linepithema humile (Argentine ant)
+E        pgc  Pseudomyrmex gracilis
 E        nvi  Nasonia vitripennis (jewel wasp)
 E        tca  Tribolium castaneum (red flour beetle)
+E        dpa  Dendroctonus ponderosae (mountain pine beetle)
+E        nvl  Nicrophorus vespilloides
 E        bmor  Bombyx mori (domestic silkworm)
 E        dpl  Danaus plexippus (monarch butterfly)
+E        pmac  Papilio machaon (common yellow swallowtail)
+E        prap  Pieris rapae (cabbage white)
 E        pxy  Plutella xylostella (diamondback moth)
 E        api  Acyrthosiphon pisum (pea aphid)
+E        dnx  Diuraphis noxia (Russian wheat aphid)
 E        phu  Pediculus humanus corporis (human body louse)
+E        zne  Zootermopsis nevadensis
+E        fcd  Folsomia candida
 D      Crustaceans (1)
 E        dpx  Daphnia pulex (common water flea)
-D      Mites and ticks (1)
+D      Mites and ticks (2)
 E        isc  Ixodes scapularis (black-legged tick)
-C    Nematodes (5)
+E        tut  Tetranychus urticae (two-spotted spider mite)
+C    Nematodes (6)
 D      cel  Caenorhabditis elegans (nematode)
 D      cbr  Caenorhabditis briggsae
+D      nai  Necator americanus
 D      bmy  Brugia malayi (filaria)
 D      loa  Loa loa (eye worm)
 D      tsp  Trichinella spiralis
 C    Annelids (1)
 D      hro  Helobdella robusta
-C    Mollusks (3)
+C    Mollusks (4)
 D      lgi  Lottia gigantea (owl limpet)
 D      crg  Crassostrea gigas (Pacific oyster)
+D      myi  Mizuhopecten yessoensis (Yesso scallop)
 D      obi  Octopus bimaculoides
-C    Flatworms (1)
+C    Brachiopodas (1)
+D      lak  Lingula anatina
+C    Flatworms (3)
 D      smm  Schistosoma mansoni
-C    Cnidarians (3)
+D      shx  Schistosoma haematobium
+D      ovi  Opisthorchis viverrini
+C    Cnidarians (4)
 D      nve  Nematostella vectensis (sea anemone)
+D      epa  Exaiptasia pallida
 D      adf  Acropora digitifera (stony coral)
 D      hmg  Hydra vulgaris
 C    Placozoans (1)
@@ -155,62 +203,83 @@ D      tad  Trichoplax adhaerens
 C    Poriferans (1)
 D      aqu  Amphimedon queenslandica (sponge)
 B
-B  <b>Plants</b> (65)
-C    Eudicots (38)
-D      Mustard family (7)
+B  <b>Plants</b> (84)
+C    Eudicots (55)
+D      Mustard family (8)
 E        ath  Arabidopsis thaliana (thale cress)
 E        aly  Arabidopsis lyrata (lyrate rockcress)
 E        crb  Capsella rubella
+E        csat  Camelina sativa (false flax)
 E        eus  Eutrema salsugineum
 E        brp  Brassica rapa (field mustard)
 E        bna  Brassica napus (rape)
 E        boe  Brassica oleracea (wild cabbage)
 D      Caper family (1)
 E        thj  Tarenaya hassleriana (spider flower)
+D      Papaya family (1)
+E        cpap  Carica papaya (papaya)
 D      Rue family (2)
 E        cit  Citrus sinensis (Valencia orange)
 E        cic  Citrus clementina (mandarin orange)
-D      Mallow family (2)
+D      Mallow family (3)
 E        tcc  Theobroma cacao (cacao)
 E        gra  Gossypium raimondii
+E        ghi  Gossypium hirsutum (upland cotton)
 D      Myrtle family (1)
 E        egr  Eucalyptus grandis (rose gum)
-D      Pea family (8)
+D      Pea family (11)
 E        gmx  Glycine max (soybean)
 E        pvu  Phaseolus vulgaris (common bean)
 E        vra  Vigna radiata (mung bean)
+E        var  Vigna angularis (adzuki bean)
+E        ccaj  Cajanus cajan (pigeon pea)
 E        mtr  Medicago truncatula (barrel medic)
 E        cam  Cicer arietinum (chickpea)
 E        adu  Arachis duranensis
 E        aip  Arachis ipaensis
 E        lja  Lotus japonicus
-D      Rose family (5)
+E        lang  Lupinus angustifolius (narrow-leaved blue lupine)
+D      Rose family (6)
 E        fve  Fragaria vesca (woodland strawberry)
 E        pper  Prunus persica (peach)
 E        pmum  Prunus mume (Japanese apricot)
+E        pavi  Prunus avium (sweet cherry)
 E        mdm  Malus domestica (apple)
 E        pxb  Pyrus x bretschneideri (Chinese white pear)
-D      Cucumber family (2)
+D      Buckthorn family (1)
+E        zju  Ziziphus jujuba (Chinese jujube)
+D      Cucumber family (3)
 E        csv  Cucumis sativus (cucumber)
 E        cmo  Cucumis melo (muskmelon)
-D      Spurge family (2)
+E        mcha  Momordica charantia (bitter melon)
+D      Spurge family (3)
 E        rcu  Ricinus communis (castor bean)
 E        jcu  Jatropha curcas
+E        hbr  Hevea brasiliensis (rubber tree)
 D      Willow family (1)
 E        pop  Populus trichocarpa (black cottonwood)
 D      Grape family (1)
 E        vvi  Vitis vinifera (wine grape)
-D      Nightshade family (3)
+D      Nightshade family (7)
 E        sly  Solanum lycopersicum (tomato)
 E        spen  Solanum pennellii
 E        sot  Solanum tuberosum (potato)
+E        cann  Capsicum annuum
+E        nta  Nicotiana tabacum (common tobacco)
+E        nsy  Nicotiana sylvestris
+E        nto  Nicotiana tomentosiformis
+D      Morning-glory family (1)
+E        ini  Ipomoea nil (Japanese morning glory)
 D      Sesame family (1)
 E        sind  Sesamum indicum (sesame)
-D      Amaranth family (1)
+D      Daisy family (1)
+E        han  Helianthus annuus (common sunflower)
+D      Amaranth family (2)
 E        bvg  Beta vulgaris (sugar beet)
+E        soe  Spinacia oleracea (spinach)
 D      Lotus family (1)
 E        nnu  Nelumbo nucifera (sacred lotus)
-C    Monocots (11)
+C    Monocots (12)
 D      Grass family (8)
 E        osa  Oryza sativa japonica (Japanese rice) (RefSeq)
 E        dosa  Oryza sativa japonica (Japanese rice) (RAPDB)
@@ -225,6 +294,8 @@ E        pda  Phoenix dactylifera (date palm)
 E        egu  Elaeis guineensis (African oil palm)
 D      Banana family (1)
 E        mus  Musa acuminata (wild Malaysian banana)
+D      Orchid family (1)
+E        dct  Dendrobium catenatum
 C    Basal Magnoliophyta (1)
 D      Amborella family (1)
 E        atr  Amborella trichopoda
@@ -232,9 +303,10 @@ C    Ferns (1)
 D      smo  Selaginella moellendorffii
 C    Mosses (1)
 D      ppp  Physcomitrella patens subsp. patens
-C    Green algae (10)
+C    Green algae (11)
 D      cre  Chlamydomonas reinhardtii
 D      vcn  Volvox carteri f. nagariensis
+D      mng  Monoraphidium neglectum
 D      olu  Ostreococcus lucimarinus
 D      ota  Ostreococcus tauri
 D      bpg  Bathycoccus prasinos
@@ -248,9 +320,9 @@ D      cme  Cyanidioschyzon merolae
 D      gsl  Galdieria sulphuraria
 D      ccp  Chondrus crispus (carragheen)
 B
-B  <b>Fungi</b> (110)
-C    Ascomycetes (76)
-D      Saccharomycetes (27)
+B  <b>Fungi</b> (121)
+C    Ascomycetes (86)
+D      Saccharomycetes (29)
 E        sce  Saccharomyces cerevisiae (budding yeast)
 E        ago  Ashbya gossypii (Eremothecium gossypii)
 E        erc  Eremothecium cymbalariae
@@ -277,32 +349,41 @@ E        cot  Candida orthopsilosis
 E        cdu  Candida dubliniensis
 E        cten  Candida tenuis
 E        yli  Yarrowia lipolytica
-E        clu  Clavispora lusitaniae
-D      Sordariomycetes (19)
+E        clu  Clavispora lusitaniae ATCC 42720
+E        clus  Clavispora lusitaniae CBS 6936
+E        caur  Candida auris
+D      Sordariomycetes (24)
 E        ncr  Neurospora crassa
 E        nte  Neurospora tetrasperma
 E        smp  Sordaria macrospora
 E        pan  Podospora anserina
 E        ttt  Thielavia terrestris
-E        mtm  Myceliophthora thermophila
+E        mtm  Thermothelomyces thermophila
 E        cthr  Chaetomium thermophilum
 E        mgr  Magnaporthe oryzae
 E        tmn  Phaeoacremonium minimum
 E        fgr  Fusarium graminearum
 E        fpu  Fusarium pseudograminearum
+E        fvr  Fusarium verticillioides
+E        fox  Fusarium oxysporum
 E        nhe  Nectria haematococca
 E        tre  Trichoderma reesei
 E        maw  Metarhizium acridum
 E        maj  Metarhizium robertsii
 E        cmt  Cordyceps militaris
+E        plj  Purpureocillium lilacinum
 E        val  Verticillium alfalfae
 E        vda  Verticillium dahliae
+E        cfj  Colletotrichum fioriniae
 E        ela  Eutypa lata
-D      Leotiomycetes (3)
+E        pfy  Pestalotiopsis fici
+D      Leotiomycetes (5)
 E        ssl  Sclerotinia sclerotiorum
 E        bfu  Botrytis cinerea
 E        mbe  Marssonina brunnea
-D      Eurotiomycetes (16)
+E        psco  Phialocephala scopiformis
+E        glz  Glarea lozoyensis
+D      Eurotiomycetes (17)
 E        ani  Aspergillus nidulans
 E        afm  Aspergillus fumigatus
 E        aor  Aspergillus oryzae
@@ -311,6 +392,7 @@ E        afv  Aspergillus flavus
 E        act  Aspergillus clavatus
 E        nfi  Aspergillus fischeri
 E        pcs  Penicillium rubens
+E        pdp  Penicillium digitatum
 E        cim  Coccidioides immitis
 E        cpw  Coccidioides posadasii
 E        pbl  Paracoccidioides lutzii Pb01
@@ -333,12 +415,13 @@ D      Pezizomycetes (1)
 E        tml  Tuber melanosporum
 D      Schizosaccharomycetes (1)
 E        spo  Schizosaccharomyces pombe (fission yeast)
-C    Basidiomycetes (29)
-D      cne  Cryptococcus neoformans JEC21
-D      cnb  Cryptococcus neoformans B-3501A
+C    Basidiomycetes (30)
+D      cne  Cryptococcus neoformans var. neoformans JEC21
+D      cnb  Cryptococcus neoformans var. neoformans B-3501A
 D      cgi  Cryptococcus gattii
 D      tms  Tremella mesenterica
 D      ppl  Postia placenta
+D      tvs  Trametes versicolor
 D      dsq  Dichomitus squalens
 D      pco  Phanerochaete carnosa
 D      shs  Stereum hirsutum
@@ -370,7 +453,7 @@ D      ehe  Encephalitozoon hellem
 D      ero  Encephalitozoon romaleae
 D      nce  Nosema ceranae
 B
-B  <b>Protists</b> (48)
+B  <b>Protists</b> (49)
 C    Choanoflagellates (2)
 D      mbr  Monosiga brevicollis
 D      sre  Salpingoeca rosetta
@@ -409,9 +492,10 @@ E        tet  Tetrahymena thermophila
 E        ptm  Paramecium tetraurelia
 D      Dinoflagellates (1)
 E        smin  Symbiodinium minutum
-C    Stramenopiles (7)
-D      Diatoms (2)
+C    Stramenopiles (8)
+D      Diatoms (3)
 E        pti  Phaeodactylum tricornutum
+E        fcy  Fragilariopsis cylindrus
 E        tps  Thalassiosira pseudonana
 D      Pelagophytes (1)
 E        aaf  Aureococcus anophagefferens
@@ -443,10 +527,10 @@ E        tva  Trichomonas vaginalis
 C    Diplomonads (1)
 D      gla  Giardia lamblia
 #
-A<b>Prokaryotes</b> (4221)
+A<b>Prokaryotes</b> (4738)
 B
-B  <b>Bacteria</b> (3980)
-C    Gammaproteobacteria - Enterobacteria (398)
+B  <b>Bacteria</b> (4476)
+C    Gammaproteobacteria - Enterobacteria (421)
 D      Escherichia (67)
 E        eco  Escherichia coli K-12 MG1655
 E        ecj  Escherichia coli K-12 W3110
@@ -569,7 +653,7 @@ E        ses  Salmonella enterica subsp. arizonae
 E        sbg  Salmonella bongori NCTC 12419
 E        sbz  Salmonella bongori N268-08
 E        sbv  Salmonella bongori serovar 48:z41:--
-D      Shigella (14)
+D      Shigella (13)
 E        sfl  Shigella flexneri 301 (serotype 2a)
 E        sfx  Shigella flexneri 2457T (serotype 2a)
 E        sfv  Shigella flexneri 8401 (serotype 5b)
@@ -578,13 +662,12 @@ E        sfn  Shigella flexneri 2003036
 E        sfs  Shigella flexneri Shi06HN006 (serotype Yv)
 E        sft  Shigella flexneri NCTC1
 E        ssn  Shigella sonnei Ss046
-E        ssj  Shigella sonnei 53G
 E        sbo  Shigella boydii Sb227
 E        sbc  Shigella boydii CDC 3083-94
 E        sdy  Shigella dysenteriae Sd197
 E        sdz  Shigella dysenteriae 1617
 E        shq  Shigella sp. PAMC 28760
-D      Enterobacter (21)
+D      Enterobacter (25)
 E        ent  Enterobacter sp. 638
 E        enc  Enterobacter cloacae subsp. cloacae ATCC 13047
 E        eno  Enterobacter cloacae subsp. cloacae ENHKU01
@@ -600,9 +683,13 @@ E        ecly  Enterobacter cloacae 34977
 E        eclz  Enterobacter cloacae 34983
 E        ecla  Enterobacter cloacae ECNIH3
 E        eclc  Enterobacter cloacae ECR091
-E        esc  Enterobacter lignolyticus
 E        eas  Enterobacter asburiae LF7a
 E        eau  Enterobacter asburiae L1
+E        ehm  Enterobacter hormaechei
+E        ekb  Enterobacter kobei
+E        elg  Enterobacter ludwigii
+E        exf  Enterobacter xiangfangensis
+E        ecls  Enterobacter cloacae complex sp. 35734
 E        enr  Enterobacter sp. R4-368
 E        enx  Enterobacter sp. E20
 E        enf  Enterobacter sp. FY-07
@@ -654,16 +741,22 @@ E        kmi  Klebsiella michiganensis RC10
 E        kok  Klebsiella oxytoca KONIH1
 E        koc  Klebsiella oxytoca CAV1374
 E        kom  Klebsiella oxytoca M1
-E        kle  Klebsiella sp. G5
 E        kqu  Klebsiella quasipneumoniae
-E        eae  Enterobacter aerogenes KCTC 2190
+E        eae  Klebsiella aerogenes KCTC 2190
 E        ear  Enterobacter aerogenes EA1509E
-D      Citrobacter (5)
+E        kqv  Klebsiella quasivariicola
+D      Citrobacter (9)
 E        cko  Citrobacter koseri
 E        cro  Citrobacter rodentium
 E        cfd  Citrobacter freundii
-E        cama  Citrobacter amalonaticus
+E        cbra  Citrobacter braakii
+E        cwe  Citrobacter werkmanii
+E        cama  Citrobacter amalonaticus Y19
+E        caf  Citrobacter amalonaticus FDAARGOS_165
 E        cif  Citrobacter sp. FDAARGOS_156
+E        cfar  Citrobacter farmeri
+D      Gibbsiella (1)
+E        gqu  Gibbsiella quercinecans
 D      Blochmannia (6)
 E        bfl  Candidatus Blochmannia floridanus (Camponotus floridanus)
 E        bpn  Candidatus Blochmannia pennsylvanicus (Camponotus pennsylvanicus)
@@ -678,8 +771,9 @@ E        sect  Secondary endosymbiont of Ctenarytaina eucalypti
 E        sehc  Secondary endosymbiont of Heteropsylla cubana
 D      Unclassified mealybug symbionts (1)
 E        senm  Secondary endosymbiont of Trabutina mannipara
-D      Riesia (1)
+D      Riesia (2)
 E        rip  Candidatus Riesia pediculicola
+E        rig  Candidatus Riesia sp. GBBU
 D      Moranella (2)
 E        men  Candidatus Moranella endobia PCIT
 E        meo  Candidatus Moranella endobia PCVAL
@@ -693,26 +787,36 @@ E        cnt  Cedecea neteri SSMD04
 E        cem  Cedecea neteri
 E        cen  Cedecea neteri
 E        ced  Cedecea neteri
-D      Pluralibacter (1)
+D      Pluralibacter (3)
 E        pge  Pluralibacter gergoviae
-D      Kosakonia (3)
+E        esc  Enterobacter lignolyticus SCF1
+E        kle  Enterobacter lignolyticus G5
+D      Kosakonia (4)
 E        ksa  Kosakonia sacchari
 E        kor  Kosakonia oryzae
 E        krd  Kosakonia radicincitans
-D      Kluyvera (1)
+E        kco  Kosakonia cowanii
+D      Kluyvera (2)
 E        kin  Kluyvera intermedia
+E        kgo  Kluyvera georgiana
 D      Ishikawaella (1)
 E        icp  Candidatus Ishikawaella capsulata
 D      Leclercia (1)
 E        lax  Leclercia adecarboxylata
-D      Lelliottia (1)
+D      Lelliottia (2)
 E        laz  Lelliottia amnigena
-D      Unclassified Enterobacteria (7)
+E        lef  Lelliottia sp. PFL01
+D      Tachikawaea (1)
 E        sbw  Candidatus Tachikawaea gelatinosa
+D      Doolittlea (1)
 E        den  Candidatus Doolittlea endobia
+D      Hoaglandella (1)
 E        hed  Candidatus Hoaglandella endobia
+D      Gullanella (1)
 E        ged  Candidatus Gullanella endobia
+D      Mikella (1)
 E        cmik  Candidatus Mikella endobia
+D      Unclassified Enterobacteria (2)
 E        ebf  Enterobacteriaceae bacterium FGI 57
 E        psts  Plautia stali symbiont
 D      Yersinia (43)
@@ -732,9 +836,9 @@ E        ypw  Yersinia pestis PBM19
 E        ypj  Yersinia pestis Harbin35
 E        ypv  Yersinia pestis Shasta
 E        ypl  Yersinia pestis El Dorado
-E        yps  Yersinia pseudotuberculosis IP32953 (serotype I)
+E        yps  Yersinia pseudotuberculosis IP 32953 (serotype I)
 E        ypo  Yersinia pseudotuberculosis IP 32953 (serotype 1)
-E        ypi  Yersinia pseudotuberculosis IP31758 (serotype O:1b)
+E        ypi  Yersinia pseudotuberculosis IP 31758 (serotype O:1b)
 E        ypy  Yersinia pseudotuberculosis YPIII
 E        ypb  Yersinia pseudotuberculosis PB1/+
 E        ypq  Yersinia pseudotuberculosis ATCC 6904
@@ -773,10 +877,10 @@ E        smw  Serratia marcescens WW4
 E        smar  Serratia marcescens SM39
 E        smac  Serratia marcescens subsp. marcescens Db11
 E        slq  Serratia liquefaciens
-E        serr  Serratia sp. ATCC 39006
 E        serf  Serratia sp. FS14
 E        sers  Serratia sp. SCBI
-E        sfw  Serratia fonticola
+E        sfw  Serratia fonticola DSM 4576
+E        sfg  Serratia fonticola GS2
 E        srz  Serratia rubidaea
 D      Chania (1)
 E        sfo  Chania multitudinisentens
@@ -799,13 +903,16 @@ D      Sodalis (3)
 E        sgl  Sodalis glossinidius (Glossina spp.)
 E        sod  Sodalis praecaptivus
 E        pes  Candidatus Sodalis pierantonius
-D      Dickeya (6)
+D      Dickeya (7)
 E        dda  Dickeya dadantii Ech703
 E        ddd  Dickeya dadantii 3937
 E        dze  Dickeya zeae Ech1591
 E        ddc  Dickeya zeae Ech586
 E        dzc  Dickeya zeae EC1
 E        dso  Dickeya solani
+E        ddq  Dickeya dianthicola
+D      Brenneria (1)
+E        bgj  Brenneria goodwinii
 D      Erwinia (8)
 E        eta  Erwinia tasmaniensis
 E        epy  Erwinia pyrifoliae Ep1/96
@@ -815,7 +922,7 @@ E        eay  Erwinia amylovora ATCC 49946
 E        ebi  Erwinia billingiae
 E        erj  Erwinia sp. Ejp617
 E        ege  Erwinia gerundensis
-D      Buchnera (17)
+D      Buchnera (18)
 E        buc  Buchnera aphidicola APS (Acyrthosiphon pisum)
 E        bap  Buchnera aphidicola 5A (Acyrthosiphon pisum)
 E        bau  Buchnera aphidicola Tuc7 (Acyrthosiphon pisum)
@@ -833,10 +940,11 @@ E        bas  Buchnera aphidicola Sg (Schizaphis graminum)
 E        bab  Buchnera aphidicola Bp (Baizongia pistaciae)
 E        bcc  Buchnera aphidicola BCc
 E        baj  Buchnera aphidicola (Cinara tujafilina)
+E        baph  Buchnera aphidicola (Aphis glycines)
 D      Wigglesworthia (2)
 E        wbr  Wigglesworthia glossinidia brevipalpis (Glossina brevipalpis)
 E        wgl  Wigglesworthia glossinidia morsitans (Glossina morsitans)
-D      Pantoea (12)
+D      Pantoea (15)
 E        pam  Pantoea ananatis LMG 20103
 E        plf  Pantoea ananatis LMG 5342
 E        paj  Pantoea ananatis AJ13355
@@ -848,7 +956,12 @@ E        pant  Pantoea sp. PSNIH1
 E        panp  Pantoea sp. PSNIH2
 E        hhs  Candidatus Pantoea carbekii
 E        pck  Candidatus Pantoea carbekii US
-E        pagg  Pantoea agglomerans
+E        pagg  Pantoea agglomerans FDAARGOS_160
+E        pagc  Pantoea agglomerans C410P1
+E        pstw  Pantoea stewartii subsp. stewartii
+E        palh  Pantoea alhagi
+D      Tatumella (1)
+E        tci  Tatumella citrea
 D      Photorhabdus (3)
 E        plu  Photorhabdus luminescens
 E        pay  Photorhabdus asymbiotica
@@ -865,10 +978,12 @@ E        xnm  Xenorhabdus nematophila AN6/1
 E        xdo  Xenorhabdus doucetiae
 E        xpo  Xenorhabdus poinarii
 E        xho  Xenorhabdus hominickii
-D      Providencia (3)
+D      Providencia (5)
 E        psi  Providencia stuartii MRSN 2154
 E        psx  Providencia stuartii ATCC 33672
+E        psta  Providencia stuartii BE2467
 E        prg  Providencia rettgeri
+E        pala  Providencia alcalifaciens
 D      Morganella (1)
 E        mmk  Morganella morganii
 D      Arsenophonus (1)
@@ -890,7 +1005,7 @@ D      Pragia (1)
 E        pfq  Pragia fontium
 D      Plesiomonas (1)
 E        pshi  Plesiomonas shigelloides
-C    Gammaproteobacteria - Others (559)
+C    Gammaproteobacteria - Others (638)
 D      Haemophilus (21)
 E        hin  Haemophilus influenzae Rd KW20 (serotype d)
 E        hit  Haemophilus influenzae 86-028NP (nontypeable)
@@ -947,7 +1062,7 @@ E        asu  Actinobacillus succinogenes
 E        asi  Actinobacillus suis H91-0380
 E        ass  Actinobacillus suis ATCC 33415
 E        aeu  Actinobacillus equuli
-D      Aggregatibacter (7)
+D      Aggregatibacter (8)
 E        aap  Aggregatibacter aphrophilus NJ8700
 E        aaz  Aggregatibacter aphrophilus W10433
 E        aat  Aggregatibacter actinomycetemcomitans D11S-1
@@ -955,6 +1070,7 @@ E        aao  Aggregatibacter actinomycetemcomitans ANH9381
 E        aan  Aggregatibacter actinomycetemcomitans D7S-1
 E        aah  Aggregatibacter actinomycetemcomitans HK1651
 E        aacn  Aggregatibacter actinomycetemcomitans NUM4039
+E        aact  Aggregatibacter actinomycetemcomitans 624
 D      Gallibacterium (1)
 E        gan  Gallibacterium anatis
 D      Bibersteinia (4)
@@ -962,7 +1078,7 @@ E        bto  Bibersteinia trehalosi USDA-ARS-USMARC-192
 E        btre  Bibersteinia trehalosi USDA-ARS-USMARC-188
 E        btrh  Bibersteinia trehalosi USDA-ARS-USMARC-189
 E        btra  Bibersteinia trehalosi USDA-ARS-USMARC-190
-D      Xylella (7)
+D      Xylella (8)
 E        xfa  Xylella fastidiosa 9a5c
 E        xft  Xylella fastidiosa Temecula1
 E        xfm  Xylella fastidiosa M12
@@ -970,7 +1086,8 @@ E        xfn  Xylella fastidiosa M23
 E        xff  Xylella fastidiosa subsp. fastidiosa GB514
 E        xfl  Xylella fastidiosa MUL0034
 E        xfs  Xylella fastidiosa subsp. sandyi Ann-1
-D      Xanthomonas (27)
+E        xfh  Xylella fastidiosa Hib4
+D      Xanthomonas (33)
 E        xcc  Xanthomonas campestris pv. campestris ATCC 33913
 E        xcb  Xanthomonas campestris pv. campestris 8004
 E        xca  Xanthomonas campestris pv. campestris B100
@@ -998,7 +1115,13 @@ E        xoz  Xanthomonas oryzae pv. oryzicola CFBP7342
 E        xal  Xanthomonas albilineans
 E        xsa  Xanthomonas sacchari
 E        xtn  Xanthomonas translucens
-D      Stenotrophomonas (7)
+E        xfr  Xanthomonas fragariae
+E        xga  Xanthomonas gardneri
+E        xve  Xanthomonas vesicatoria
+E        xpe  Xanthomonas perforans
+E        xhr  Xanthomonas hortorum
+E        xph  Xanthomonas phaseoli
+D      Stenotrophomonas (9)
 E        sml  Stenotrophomonas maltophilia K279a
 E        smt  Stenotrophomonas maltophilia R551-3
 E        buj  Stenotrophomonas maltophilia JV3
@@ -1006,16 +1129,23 @@ E        smz  Stenotrophomonas maltophilia D457
 E        sacz  Stenotrophomonas acidaminiphila
 E        stek  Stenotrophomonas sp. KCTC 12332
 E        srh  Stenotrophomonas rhizophila
+E        slm  Stenotrophomonas sp. LM091
+E        sten  Stenotrophomonas sp. WZN-1
 D      Pseudoxanthomonas (3)
 E        psu  Pseudoxanthomonas suwonensis 11-1
 E        psuw  Pseudoxanthomonas suwonensis J1
 E        psd  Pseudoxanthomonas spadix
-D      Lysobacter (5)
+D      Lysobacter (6)
 E        lab  Lysobacter antibioticus 76
 E        laq  Lysobacter antibioticus ATCC 29479
 E        lcp  Lysobacter capsici
 E        lgu  Lysobacter gummosus
-E        lez  Lysobacter enzymogenes
+E        lez  Lysobacter enzymogenes C3
+E        lem  Lysobacter enzymogenes M497-1
+D      Luteimonas (1)
+E        lum  Luteimonas sp. 100111
+D      Unclassified Xanthomonadaceae (1)
+E        snj  Pseudomonas geniculata
 D      Frateuria (1)
 E        fau  Frateuria aurantia
 D      Rhodanobacter (1)
@@ -1028,7 +1158,7 @@ D      Dokdonella (1)
 E        dko  Dokdonella koreensis
 D      Luteibacter (1)
 E        lrz  Luteibacter rhizovicinus
-D      Vibrio (39)
+D      Vibrio (46)
 E        vch  Vibrio cholerae O1 biovar El Tor N16961
 E        vcf  Vibrio cholerae O1 biovar El Tor FJ147
 E        vce  Vibrio cholerae O1 2010EL-1786
@@ -1056,6 +1186,9 @@ E        vca  Vibrio campbellii
 E        vag  Vibrio alginolyticus
 E        vex  Vibrio antiquarius
 E        vhr  Vibrio harveyi
+E        vna  Vibrio natriegens
+E        vow  Vibrio owensii
+E        vro  Vibrio rotiferianus
 E        vsp  Vibrio tasmaniensis
 E        vej  Vibrio sp. EJY3
 E        vfu  Vibrio furnissii
@@ -1068,17 +1201,24 @@ E        vct  Vibrio coralliilyticus OCN014
 E        vtu  Vibrio tubiashii
 E        vfl  Vibrio fluvialis
 E        vmi  Vibrio mimicus
+E        vbr  Vibrio breoganii
+E        vsc  Vibrio scophthalmi
+E        vga  Vibrio gazogenes
+E        vsh  Vibrio shilonii
 D      Aliivibrio (4)
 E        vfi  Aliivibrio fischeri ES114
 E        vfm  Aiivibrio fischeri MJ11
 E        vsa  Aliivibrio salmonicida
 E        awd  Aliivibrio wodanis
-D      Photobacterium (2)
+D      Photobacterium (3)
 E        ppr  Photobacterium profundum
 E        pgb  Photobacterium gaetbulicola
+E        pds  Photobacterium damselae subsp. damselae
 D      Grimontia (1)
 E        gho  Grimontia hollisae
-D      Pseudomonas (93)
+D      Paraphotobacterium (1)
+E        pmai  Paraphotobacterium marinum
+D      Pseudomonas (102)
 E        pae  Pseudomonas aeruginosa PAO1
 E        paev  Pseudomonas aeruginosa PAO1-VE13
 E        paei  Pseudomonas aeruginosa PAO1-VE2
@@ -1105,6 +1245,7 @@ E        pmk  Pseudomonas mendocina NK-01
 E        pre  Pseudomonas resinovorans
 E        ppse  Pseudomonas pseudoalcaligenes
 E        palc  Pseudomonas alcaligenes
+E        pcq  Pseudomonas citronellolis
 E        ppu  Pseudomonas putida KT2440
 E        ppf  Pseudomonas putida F1
 E        ppg  Pseudomonas putida GB-1
@@ -1139,9 +1280,13 @@ E        pfn  Pseudomonas fluorescens UK4
 E        pfw  Pseudomonas fluorescens PCL1751
 E        pfb  Pseudomonas fluorescens LBUM223
 E        pff  Pseudomonas fluorescens PICF7
+E        pfx  Pseudomonas fluorescens L228
 E        ppz  Pseudomonas poae
 E        pman  Pseudomonas mandelii
 E        ptv  Pseudomonas trivialis
+E        pcg  Pseudomonas corrugata
+E        pvr  Pseudomonas veronii
+E        pazo  Pseudomonas azotoformans
 E        pen  Pseudomonas entomophila
 E        psa  Pseudomonas stutzeri A1501
 E        psz  Pseudomonas stutzeri ATCC 17588
@@ -1155,7 +1300,7 @@ E        pbm  Pseudomonas balearica
 E        pba  Pseudomonas brassicacearum subsp. brassicacearum NFM421
 E        pbc  Pseudomonas brassicacearum DF41
 E        ppuu  Pseudomonas sp. UW4
-E        pdr  Pseudomonas denitrificans
+E        pdr  Pseudomonas sp. ATCC 13867
 E        psv  Pseudomonas sp. VLB120
 E        psk  Pseudomonas sp. TKP
 E        pkc  Pseudomonas knackmussii
@@ -1163,7 +1308,7 @@ E        pch  Pseudomonas chlororaphis PA23
 E        pcz  Pseudomonas chlororaphis PCL1606
 E        pcp  Pseudomonas chlororaphis subsp. aurantiaca
 E        pfz  Pseudomonas fragi
-E        palk  Pseudomonas alkylphenolia
+E        palk  Pseudomonas alkylphenolica
 E        prh  Pseudomonas rhizosphaerae
 E        psw  Pseudomonas cremoricolorata
 E        ppv  Pseudomonas parafulva
@@ -1172,6 +1317,10 @@ E        psem  Pseudomonas sp. MRSN12121
 E        psec  Pseudomonas sp. CCOS 191
 E        ppsy  Pseudomonas psychrophila
 E        psos  Pseudomonas sp. Os17
+E        pkr  Pseudomonas koreensis
+E        pfk  Pseudomonas frederiksbergensis
+E        panr  Pseudomonas antarctica
+E        ppsl  Pseudomonas psychrotolerans
 D      Azotobacter (4)
 E        avn  Azotobacter vinelandii DJ
 E        avl  Azotobacter vinelandii CA
@@ -1179,7 +1328,7 @@ E        avd  Azotobacter vinelandii CA6
 E        acx  Azotobacter chroococcum
 D      Oblitimonas (1)
 E        pbb  Oblitimonas alkaliphila
-D      Psychrobacter (8)
+D      Psychrobacter (10)
 E        par  Psychrobacter arcticus
 E        pcr  Psychrobacter cryohalolentis
 E        prw  Psychrobacter sp. PRwf-1
@@ -1188,7 +1337,9 @@ E        pur  Psychrobacter urativorans
 E        pali  Psychrobacter alimentarius
 E        pspg  Psychrobacter sp. P2G3
 E        psyg  Psychrobacter sp. P11G5
-D      Acinetobacter (30)
+E        psyc  Psychrobacter sp. DAB_AL43B
+E        psya  Psychrobacter sp. AntiMn-1
+D      Acinetobacter (35)
 E        acb  Acinetobacter baumannii ATCC 17978
 E        abm  Acinetobacter baumannii SDF
 E        aby  Acinetobacter baumannii AYE
@@ -1219,6 +1370,11 @@ E        aei  Acinetobacter equi
 E        ajo  Acinetobacter johnsonii
 E        acw  Acinetobacter sp. DUT-2
 E        acv  Acinetobacter sp. TGL-Y2
+E        ahl  Acinetobacter haemolyticus
+E        ajn  Acinetobacter junii
+E        asol  Acinetobacter soli
+E        ala  Acinetobacter larvae
+E        asj  Acinetobacter schindleri
 D      Moraxella (6)
 E        mct  Moraxella catarrhalis BBH18
 E        mcs  Moraxella catarrhalis 25240
@@ -1226,7 +1382,7 @@ E        mcat  Moraxella catarrhalis 25239
 E        moi  Moraxella ovis
 E        mos  Moraxella osloensis
 E        mbl  Moraxella bovoculi
-D      Shewanella (24)
+D      Shewanella (27)
 E        son  Shewanella oneidensis
 E        sdn  Shewanella denitrificans
 E        sfr  Shewanella frigidimarina
@@ -1251,14 +1407,19 @@ E        shl  Shewanella halifaxensis
 E        swd  Shewanella woodyi
 E        swp  Shewanella piezotolerans
 E        svo  Shewanella violacea
-D      Idiomarina (2)
+E        shf  Shewanella sp. FDAARGOS_354
+E        sja  Shewanella japonica
+E        spsw  Shewanella psychrophila
+D      Idiomarina (3)
 E        ilo  Idiomarina loihiensis L2TR
 E        ili  Idiomarina loihiensis GSL 199
-D      Colwellia (3)
+E        ipi  Idiomarina piscisalsi
+D      Colwellia (4)
 E        cps  Colwellia psychrerythraea
 E        com  Colwellia sp. MT41
 E        coz  Colwellia sp. PAMC 20917
-D      Pseudoalteromonas (10)
+E        colw  Colwellia sp. PAMC 21821
+D      Pseudoalteromonas (15)
 E        pha  Pseudoalteromonas haloplanktis
 E        pat  Pseudoalteromonas atlantica
 E        psm  Pseudoalteromonas sp. SM9913
@@ -1269,7 +1430,12 @@ E        pbw  Pseudoalteromonas sp. Bsw20308
 E        prr  Pseudoalteromonas rubra
 E        ptn  Pseudoalteromonas translucida
 E        plz  Pseudoalteromonas luteoviolacea
-D      Marinobacter (9)
+E        paln  Pseudoalteromonas aliena
+E        ppis  Pseudoalteromonas piscicida
+E        pea  Pseudoalteromonas espejiana
+E        pspo  Pseudoalteromonas spongiae
+E        part  Pseudoalteromonas arctica
+D      Marinobacter (10)
 E        maq  Marinobacter hydrocarbonoclasticus VT8
 E        mhc  Marinobacter hydrocarbonoclasticus ATCC 49840
 E        mad  Marinobacter adhaerens
@@ -1279,6 +1445,7 @@ E        msx  Marinobacter similis
 E        mpq  Marinobacter psychrophilus
 E        mari  Marinobacter sp. CP1
 E        mlq  Marinobacter sp. LQ44
+E        msq  Marinobacter salinus
 D      Alteromonas (19)
 E        amc  Alteromonas mediterranea DE
 E        amh  Alteromonas mediterranea 615
@@ -1313,8 +1480,10 @@ D      Ferrimonas (1)
 E        fbl  Ferrimonas balearica
 D      Moritella (1)
 E        mvs  Moritella viscosa
-D      Cellvibrio (1)
+D      Cellvibrio (3)
 E        cja  Cellvibrio japonicus
+E        ceb  Cellvibrio sp. PSBB023
+E        cell  Cellvibrio sp. PSBB006
 D      Saccharophagus (1)
 E        sde  Saccharophagus degradans
 D      Teredinibacter (1)
@@ -1325,9 +1494,14 @@ D      Spongiibacter (1)
 E        spoi  Spongiibacter sp. IMCC21906
 D      Zhongshania (1)
 E        zal  Zhongshania aliphaticivorans
-D      Microbulbifer (2)
+D      Oceanicoccus (1)
+E        osg  Oceanicoccus sagamiensis
+D      Microbulbifer (3)
 E        mthd  Microbulbifer thermotolerans
 E        micc  Microbulbifer sp. CCB-MM1
+E        maga  Microbulbifer agarilyticus
+D      Halioglobus (1)
+E        hja  Halioglobus japonicus
 D      Coxiella (6)
 E        cbu  Coxiella burnetii RSA 493
 E        cbs  Coxiella burnetii RSA 331
@@ -1337,7 +1511,7 @@ E        cbc  Coxiella burnetii CbuK_Q154
 E        cea  Coxiella endosymbiont of Amblyomma americanum
 D      Unclassified Coxiellaceae (1)
 E        cey  Coxiella-like endosymbiont
-D      Legionella (14)
+D      Legionella (15)
 E        lpn  Legionella pneumophila subsp. pneumophila Philadelphia 1
 E        lph  Legionella pneumophila subsp. pneumophila HL06041035
 E        lpo  Legionella pneumophila subsp. pneumophila Lorraine
@@ -1352,17 +1526,21 @@ E        llo  Legionella longbeachae
 E        lfa  Legionella fallonii
 E        lha  Legionella hackeliae
 E        lok  Legionella oakridgensis
+E        lcd  Legionella clemsonensis
 D      Tatlockia (1)
 E        tmc  Tatlockia micdadei
 D      Methylococcus (1)
 E        mca  Methylococcus capsulatus
-D      Methylomonas (3)
+D      Methylomonas (4)
 E        mmt  Methylomonas methanica
 E        mdn  Methylomonas denitrificans
 E        mdh  Methylomonas sp. DH-1
+E        mko  Methylomonas koyamae
 D      Methylomicrobium (1)
 E        mah  Methylomicrobium alcaliphilum
-D      Francisella (35)
+D      Methylovulum (1)
+E        mpsy  Methylovulum psychrotolerans
+D      Francisella (38)
 E        ftu  Francisella tularensis subsp. tularensis SCHU S4
 E        ftq  Francisella tularensis subsp. tularensis SCHU S4 NR-28534
 E        ftf  Francisella tularensis subsp. tularensis FSC198
@@ -1370,7 +1548,7 @@ E        ftw  Francisella tularensis subsp. tularensis WY96-3418
 E        ftr  Francisella tularensis subsp. tularensis NE061598
 E        ftt  Francisella tularensis subsp. tularensis TI0902
 E        fty  Francisella tularensis subsp. tularensis WY96
-E        ftg  Francisella tularensis TIGB03
+E        ftg  Francisella tularensis subsp. tularensis TIGB03
 E        ftl  Francisella tularensis subsp. holarctica LVS
 E        fth  Francisella tularensis subsp. holarctica OSU18
 E        fta  Francisella tularensis subsp. holarctica FTNF002-00
@@ -1398,19 +1576,23 @@ E        fna  Francisella noatunensis subsp. orientalis Toba 04
 E        fnl  Francisella noatunensis subsp. orientalis LADL--07-285A
 E        frf  Francisella sp. FSC1006
 E        fper  Francisella persica
+E        fhi  Francisella hispaniensis
+E        fha  Francisella halioticida
+E        frx  Francisella sp. TX077310
 D      Allofrancisella (1)
 E        fgu  Allofrancisella guangzhouensis
-D      Thiomicrospira (1)
-E        tcx  Thiomicrospira crunogena
-D      Thioalkalimicrobium (2)
-E        tcy  Thioalkalimicrobium cyclicum
-E        tao  Thioalkalimicrobium aerophilum
+D      Hydrogenovibrio (1)
+E        tcx  Hydrogenovibrio crunogenus
+D      Thiomicrospira (2)
+E        tcy  Thiomicrospira cyclica
+E        tao  Thiomicrospira aerophila
 D      Methylophaga (2)
 E        mej  Methylophaga nitratireducenticrescens
 E        mec  Methylophaga frappieri
-D      Cycloclasticus (2)
+D      Cycloclasticus (3)
 E        cyq  Cycloclasticus sp. P1
 E        cza  Cycloclasticus zancles
+E        cyy  Cycloclasticus sp. PY97N
 D      Piscirickettsia (1)
 E        psal  Piscirickettsia salmonis
 D      Thioploca (1)
@@ -1431,6 +1613,8 @@ D      Marichromatium (1)
 E        mpur  Marichromatium purpuratum
 D      Tenderia (1)
 E        tee  Candidatus Tenderia electrophaga
+D      Nitrosoglobus (1)
+E        ntt  Candidatus Nitrosoglobus terrae
 D      Alkalilimnicola (1)
 E        aeh  Alkalilimnicola ehrlichii
 D      Halorhodospira (2)
@@ -1456,17 +1640,23 @@ D      Wenzhouxiangella (1)
 E        wma  Wenzhouxiangella marina
 D      Woeseia (1)
 E        woc  Woeseia oceani
+D      Granulosicoccus (1)
+E        gai  Granulosicoccus antarcticus
 D      Hahella (1)
 E        hch  Hahella chejuensis
 D      Chromohalobacter (1)
 E        csa  Chromohalobacter salexigens
-D      Halomonas (6)
+D      Halomonas (10)
 E        hel  Halomonas elongata
 E        hcs  Halomonas campaniensis
 E        hak  Halomonas sp. KO116
 E        ham  Halomonas sp. R57-5
 E        hhu  Halomonas huangheensis
 E        hco  Halomonas chromatireducens
+E        hsi  Halomonas aestuarii
+E        halo  Halomonas sp. 1513
+E        hhh  Halomonas hydrothermalis
+E        hbe  Halomonas beimenensis
 D      Portiera (9)
 E        ple  Candidatus Portiera aleyrodidarum BT-B
 E        ply  Candidatus Portiera aleyrodidarum BT-B-HRs
@@ -1489,11 +1679,17 @@ D      Evansia (1)
 E        eme  Candidatus Evansia muelleri
 D      Halotalea (1)
 E        haa  Halotalea alkalilenta
-D      Alcanivorax (4)
+D      Cobetia (1)
+E        cmai  Cobetia marina
+D      Kushneria (2)
+E        kus  Kushneria sp. X49
+E        kma  Kushneria marisflavi
+D      Alcanivorax (5)
 E        abo  Alcanivorax borkumensis
 E        adi  Alcanivorax dieselolei
 E        apac  Alcanivorax pacificus
-E        aln  Alcanivorax sp. NBRC
+E        aln  Alcanivorax sp. NBRC 101098
+E        axe  Alcanivorax xenomutans
 D      Kangiella (3)
 E        kko  Kangiella koreensis
 E        kge  Kangiella geojedonensis
@@ -1509,9 +1705,13 @@ D      Oleispira (1)
 E        oai  Oleispira antarctica
 D      Marinobacterium (1)
 E        mars  Marinobacterium sp. ST58-10
+D      Bacterioplanes (1)
+E        bsan  Bacterioplanes sanyensis
 D      Gynuella (1)
 E        gsn  Gynuella sunshinyii
-D      Aeromonas (13)
+D      Oleiphilus (1)
+E        ome  Oleiphilus messinensis
+D      Aeromonas (15)
 E        aha  Aeromonas hydrophila subsp. hydrophila ATCC 7966
 E        ahy  Aeromonas hydrophila ML09-119
 E        ahd  Aeromonas hydrophila YL17
@@ -1525,10 +1725,17 @@ E        avr  Aeromonas veronii B565
 E        avo  Aeromonas veronii TH0426
 E        amed  Aeromonas media
 E        asr  Aeromonas schubertii
+E        aaj  Aeromonas aquatica
+E        aeo  Aeromonas sp. O23A
 D      Tolumonas (1)
 E        tau  Tolumonas auensis
 D      Oceanimonas (1)
 E        oce  Oceanimonas sp. GK1
+D      Oceanisphaera (2)
+E        ocm  Oceanisphaera sp. AMac2203
+E        opf  Oceanisphaera profunda
+D      Zobellella (1)
+E        zdf  Zobellella denitrificans
 D      Dichelobacter (1)
 E        dno  Dichelobacter nodosus
 D      Gilliamella (1)
@@ -1537,22 +1744,29 @@ D      Frischella (1)
 E        fpp  Frischella perrara
 D      Steroidobacter (1)
 E        sdf  Steroidobacter denitrificans
-D      Unclassified Gammaproteobacteria (13)
+D      Immundisolibacter (1)
+E        gbi  Immundisolibacter cernigliae
+D      Thiolapillus (1)
+E        tbn  Thiolapillus brandeum
+D      Sedimenticola (1)
+E        seds  Sedimenticola thiotaurini
+D      Thioglobus (2)
+E        tsn  Candidatus Thioglobus singularis
+E        tho  Candidatus Thioglobus autotrophicus
+D      Pseudohongiella (1)
+E        pspi  Pseudohongiella spirulinae
+D      Ruthia (1)
+E        rma  Candidatus Ruthia magnifica (Calyptogena magnifica)
+D      Unclassified Gammaproteobacteria (7)
+E        vok  Candidatus Vesicomyosocius okutanii (Calyptogena okutanii)
+E        ebh  Endosymbiont of Bathymodiolus septemdierum
 E        bci  Baumannia cicadellinicola Hc (Homalodisca coagulata)
 E        bcib  Candidatus Baumannia cicadellinicola BGSS
 E        bcig  Candidatus Baumannia cicadellinicola B-GSS
-E        rma  Candidatus Ruthia magnifica (Calyptogena magnifica)
-E        vok  Candidatus Vesicomyosocius okutanii (Calyptogena okutanii)
 E        gpb  Gamma proteobacterium HdN1
-E        tbn  Thiolapillus brandeum
-E        seds  Sedimenticola thiotaurini
-E        tsn  Candidatus Thioglobus singularis
-E        tho  Candidatus Thioglobus autotrophicus
-E        pspi  Pseudohongiella spirulinae
-E        gbi  Gammaproteobacteria bacterium TR3.2
 E        enm  Endosymbiont of unidentified scaly snail isolate Monju
-C    Betaproteobacteria (282)
-D      Neisseria (20)
+C    Betaproteobacteria (334)
+D      Neisseria (21)
 E        nma  Neisseria meningitidis Z2491 (serogroup A)
 E        nme  Neisseria meningitidis MC58 (serogroup B)
 E        nmp  Neisseria meningitidis alpha710 (serogroup B)
@@ -1573,10 +1787,15 @@ E        ngk  Neisseria gonorrhoeae NCCP11945
 E        nla  Neisseria lactamica
 E        nel  Neisseria elongata
 E        nwe  Neisseria weaveri
+E        nsi  Neisseria sicca
 D      Snodgrassella (1)
 E        salv  Snodgrassella alvi
 D      Kingella (1)
 E        kki  Kingella kingae
+D      Vitreoscilla (1)
+E        vff  Vitreoscilla filiformis
+D      Eikenella (1)
+E        ecor  Eikenella corrodens
 D      Chromobacterium (2)
 E        cvi  Chromobacterium violaceum
 E        cvc  Chromobacterium vaccinii
@@ -1586,6 +1805,8 @@ D      Pseudogulbenkiania (1)
 E        pse  Pseudogulbenkiania sp. NH8B
 D      Jeongeupia (1)
 E        jeu  Jeongeupia sp. USM3
+D      Aquaspirillum (1)
+E        aql  Aquaspirillum sp. LM1
 D      Ralstonia (11)
 E        rso  Ralstonia solanacearum GMI1000
 E        rsc  Ralstonia solanacearum CFBP2957
@@ -1598,7 +1819,7 @@ E        rpf  Ralstonia pickettii 12D
 E        rpj  Ralstonia pickettii DTP0602
 E        rmn  Ralstonia mannitolilytica
 E        rin  Ralstonia insidiosa
-D      Cupriavidus (7)
+D      Cupriavidus (11)
 E        reu  Ralstonia eutropha JMP134
 E        reh  Ralstonia eutropha H16
 E        cnc  Cupriavidus necator N-1
@@ -1606,7 +1827,11 @@ E        rme  Cupriavidus metallidurans
 E        cti  Cupriavidus taiwanensis
 E        cbw  Cupriavidus basilensis
 E        cgd  Cupriavidus gilardii
-D      Burkholderia (77)
+E        ccup  Cupriavidus sp. USMAHM13
+E        cup  Cupriavidus sp. USMAA1020
+E        cuu  Cupriavidus sp. USMAA2-4
+E        cuh  Cupriavidus sp. NH9
+D      Burkholderia (87)
 E        bma  Burkholderia mallei ATCC 23344
 E        bmv  Burkholderia mallei SAVP1
 E        bml  Burkholderia mallei NCTC 10229
@@ -1633,7 +1858,7 @@ E        bpk  Burkholderia pseudomallei NCTC 13179
 E        bpsh  Burkholderia pseudomallei HBPUB10134a
 E        bpsa  Burkholderia pseudomallei NAU35A-3
 E        bpso  Burkholderia pseudomallei A79A
-E        but  Burkholderia sp. TSV202
+E        but  Burkholderia pseudomallei TSV202
 E        bte  Burkholderia thailandensis E264
 E        btq  Burkholderia thailandensis 2002721723
 E        btj  Burkholderia thailandensis E444
@@ -1664,9 +1889,19 @@ E        bmk  Burkholderia multivorans DDS 15A-1
 E        bmul  Burkholderia multivorans ATCC BAA-247
 E        bct  Burkholderia cepacia GG4
 E        bced  Burkholderia cepacia DDS 7H-2
+E        bcep  Burkholderia cepacia ATCC 25416
 E        bdl  Burkholderia dolosa
 E        bpyr  Burkholderia pyrrocinia
 E        bcon  Burkholderia contaminans
+E        bub  Burkholderia ubonensis
+E        bdf  Burkholderia diffusa
+E        blat  Burkholderia latens
+E        btei  Burkholderia territorii
+E        bsem  Burkholderia seminalis
+E        bpsl  Burkholderia pseudomultivorans
+E        bmec  Burkholderia metallica
+E        bstg  Burkholderia stagnalis
+E        bstl  Burkholderia stabilis
 E        bgl  Burkholderia glumae BGR1
 E        bgp  Burkholderia glumae PG1
 E        bgu  Burkholderia glumae LMG 2196 = ATCC 33617
@@ -1680,11 +1915,11 @@ E        buk  Burkholderia sp. KJ006
 E        buo  Burkholderia sp. RPE64
 E        bue  Burkholderia sp. RPE67
 E        bul  Burkholderia sp. 2002721687
-E        bub  Burkholderia ubonensis
 E        buq  Burkholderia sp. HB1
 E        bpla  Burkholderia plantarii
 E        bud  Burkholderia sp. Bp5365
-D      Paraburkholderia (8)
+E        buz  Burkholderia sp. OLGA172
+D      Paraburkholderia (11)
 E        bxe  Paraburkholderia xenovorans LB400
 E        bxb  Paraburkholderia xenovorans LB400
 E        bph  Paraburkholderia phymatum
@@ -1693,6 +1928,9 @@ E        bpx  Paraburkholderia phenoliruptrix
 E        bpy  Paraburkholderia phytofirmans
 E        bfn  Paraburkholderia fungorum
 E        bcai  Paraburkholderia caribensis
+E        pspw  Paraburkholderia sprentiae
+E        para  Paraburkholderia sp. SOS3
+E        parb  Paraburkholderia sp. BN5
 D      Polynucleobacter (3)
 E        pnu  Polynucleobacter asymbioticus
 E        pne  Polynucleobacter necessarius subsp. necessarius
@@ -1710,7 +1948,7 @@ E        pox  Pandoraea oxalativorans
 E        ptx  Pandoraea thiooxydans
 E        pfg  Pandoraea faecigallinarum
 E        pnr  Pandoraea norimbergensis
-D      Bordetella (17)
+D      Bordetella (21)
 E        bpe  Bordetella pertussis Tohama I
 E        bpc  Bordetella pertussis CS
 E        bper  Bordetella pertussis 18323
@@ -1728,13 +1966,18 @@ E        bho  Bordetella holmesii ATCC 51541
 E        bhm  Bordetella holmesii 44057
 E        bhz  Bordetella hinzii
 E        btrm  Bordetella trematum
-D      Achromobacter (6)
+E        bbro  Bordetella bronchialis
+E        bfz  Bordetella flabilis
+E        bpdz  Bordetella pseudohinzii
+E        boh  Bordetella sp. H567
+D      Achromobacter (7)
 E        axy  Achromobacter xylosoxidans A8
 E        axo  Achromobacter xylosoxidans NH44784-1996
 E        axn  Achromobacter xylosoxidans NBRC 15126 = ATCC 27061
 E        axs  Achromobacter xylosoxidans C54
 E        axx  Achromobacter xylosoxidans NCTC10807
 E        adt  Achromobacter denitrificans
+E        ais  Achromobacter insolitus
 D      Taylorella (5)
 E        teq  Taylorella equigenitalis MCE9
 E        tea  Taylorella equigenitalis ATCC 35865
@@ -1752,32 +1995,47 @@ D      Basilea (1)
 E        bpsi  Basilea psittacipulmonis
 D      Alcaligenes (1)
 E        afa  Alcaligenes faecalis
-D      Rhodoferax (1)
+D      Paenalcaligenes (1)
+E        phn  Paenalcaligenes hominis
+D      Orrella (1)
+E        odi  Orrella dioscoreae
+D      Rhodoferax (4)
 E        rfr  Rhodoferax ferrireducens
+E        rsb  Rhodoferax saidenbachensis
+E        rac  Rhodoferax antarcticus
+E        rhy  Rhodoferax sp. DCY110
 D      Polaromonas (2)
 E        pol  Polaromonas sp. JS666
 E        pna  Polaromonas naphthalenivorans
-D      Acidovorax (6)
+D      Acidovorax (10)
 E        aav  Acidovorax citrulli
 E        ajs  Acidovorax sp. JS42
 E        dia  Acidovorax ebreus
 E        aaa  Acidovorax avenae
 E        ack  Acidovorax sp. KKS102
 E        acra  Acidovorax sp. RAC01
+E        acid  Acidovorax sp. NA2
+E        acip  Acidovorax sp. P4
+E        acin  Acidovorax sp. NA3
+E        acis  Acidovorax sp. P3
 D      Verminephrobacter (1)
 E        vei  Verminephrobacter eiseniae
-D      Delftia (3)
+D      Delftia (4)
 E        dac  Delftia acidovorans
 E        del  Delftia sp. Cs1-4
 E        dts  Delftia tsuruhatensis
-D      Variovorax (4)
+E        dhk  Delftia sp. HK171
+D      Variovorax (5)
 E        vap  Variovorax paradoxus S110
 E        vpe  Variovorax paradoxus EPS
 E        vpd  Variovorax paradoxus B4
 E        vaa  Variovorax sp. PAMC 28711
-D      Comamonas (2)
+E        vbo  Variovorax boronicumulans
+D      Comamonas (4)
 E        ctt  Comamonas testosteroni CNB-2
 E        ctes  Comamonas testosteroni TK102
+E        cke  Comamonas kerstersii
+E        cser  Comamonas serinivorans
 D      Alicycliphilus (2)
 E        adn  Alicycliphilus denitrificans BC
 E        adk  Alicycliphilus denitrificans K601
@@ -1794,6 +2052,8 @@ D      Hydrogenophaga (3)
 E        hyr  Hydrogenophaga sp. RAC07
 E        hyb  Hydrogenophaga sp. PBC
 E        hyl  Hydrogenophaga sp. LPB0072
+D      Diaphorobacter (1)
+E        dpy  Diaphorobacter polyhydroxybutyrativorans
 D      Unclassified Comamonadaceae (2)
 E        cbaa  Comamonadaceae bacterium A1
 E        cbab  Comamonadaceae bacterium B1
@@ -1801,25 +2061,31 @@ D      Methylibium (1)
 E        mpt  Methylibium petroleiphilum
 D      Herminiimonas (1)
 E        har  Herminiimonas arsenicoxydans
-D      Janthinobacterium (4)
+D      Janthinobacterium (6)
 E        mms  Janthinobacterium sp. Marseille
 E        jag  Janthinobacterium agaricidamnosum
 E        jab  Janthinobacterium sp. B9-8
 E        jaz  Janthinobacterium sp. 1_2014MBL_MicDiv
-D      Herbaspirillum (4)
+E        jal  Janthinobacterium sp. LM6
+E        jsv  Janthinobacterium svalbardensis
+D      Herbaspirillum (5)
 E        hse  Herbaspirillum seropedicae SmR1
 E        hsz  Herbaspirillum seropedicae Z67
 E        hht  Herbaspirillum hiltneri
 E        hrb  Herbaspirillum rubrisubalbicans
+E        hee  Herbaspirillum sp. meg3
 D      Zinderia (1)
 E        zin  Candidatus Zinderia insecticola
 D      Collimonas (3)
 E        cfu  Collimonas fungivorans
 E        care  Collimonas arenae
 E        cpra  Collimonas pratensis
-D      Massilia (2)
+D      Massilia (3)
 E        mnr  Massilia sp. NR 4-1
 E        masw  Massilia sp. WG5
+E        mass  Massilia sp. B2
+D      Oxalobacter (1)
+E        ofo  Oxalobacter formigenes
 D      Leptothrix (1)
 E        lch  Leptothrix cholodnii
 D      Thiomonas (2)
@@ -1834,8 +2100,11 @@ D      Paucibacter (1)
 E        pkt  Paucibacter sp. KCTC 42545
 D      Mitsuaria (1)
 E        miu  Mitsuaria sp. 7
-D      Unclassified Burkholderiales (2)
+D      Rhizobacter (1)
+E        rgu  Rhizobacter gummiphilus
+D      Unclassified Burkholderiales (3)
 E        bbag  Burkholderiales bacterium GJ-E10
+E        bbay  Burkholderiales bacterium YL45
 E        pbh  Polyangium brachysporum
 D      Nitrosomonas (6)
 E        neu  Nitrosomonas europaea
@@ -1844,32 +2113,15 @@ E        nit  Nitrosomonas sp. AL212
 E        nii  Nitrosomonas sp. Is79A3
 E        nco  Nitrosomonas communis
 E        nur  Nitrosomonas ureae
-D      Nitrosospira (1)
+D      Nitrosospira (2)
 E        nmu  Nitrosospira multiformis
-D      Aromatoleum (1)
-E        eba  Aromatoleum aromaticum
-D      Azoarcus (4)
-E        azo  Azoarcus sp. BH72
-E        aza  Azoarcus sp. KH32C
-E        azi  Azoarcus sp. CIB
-E        aoa  Azoarcus olearius
-D      Dechloromonas (1)
-E        dar  Dechloromonas aromatica
-D      Thauera (2)
-E        tmz  Thauera sp. MZ1T
-E        thu  Thauera humireducens
-D      Azospira (1)
-E        dsu  Dechlorosoma suillum
+E        nlc  Nitrosospira lacus
 D      Sulfuritalea (1)
 E        shd  Sulfuritalea hydrogenivorans
 D      Methyloversatilis (1)
 E        metr  Methyloversatilis sp. RAC08
-D      Rugosibacter (1)
-E        rbu  Rugosibacter aromaticivorans
 D      Thiobacillus (1)
 E        tbd  Thiobacillus denitrificans
-D      Sulfuricella (1)
-E        sdr  Sulfuricella denitrificans
 D      Methylobacillus (1)
 E        mfa  Methylobacillus flagellatus
 D      Methylotenera (2)
@@ -1883,16 +2135,38 @@ E        mbac  Candidatus Methylopumilus turicensis
 E        mbat  Candidatus Methylopumilus planktonicus
 D      Methylophilus (1)
 E        meu  Methylophilus sp. TWE2
+D      Sideroxydans (1)
+E        slt  Sideroxydans lithotrophicus
+D      Gallionella (1)
+E        gca  Gallionella capsiferriformans
+D      Sulfuricella (1)
+E        sdr  Sulfuricella denitrificans
+D      Sulfuriferula (1)
+E        sulf  Sulfuriferula sp. AH1
+D      Aromatoleum (1)
+E        eba  Aromatoleum aromaticum
+D      Azospira (1)
+E        dsu  Dechlorosoma suillum
+D      Rugosibacter (1)
+E        rbu  Rugosibacter aromaticivorans
+D      Dechloromonas (1)
+E        dar  Dechloromonas aromatica
+D      Azoarcus (4)
+E        azo  Azoarcus sp. BH72
+E        aza  Azoarcus sp. KH32C
+E        azi  Azoarcus sp. CIB
+E        aoa  Azoarcus olearius
+D      Thauera (4)
+E        tmz  Thauera sp. MZ1T
+E        thu  Thauera humireducens
+E        tcl  Thauera chlorobenzoica
+E        thk  Thauera sp. K11
 D      Accumulibacter (1)
 E        app  Accumulibacter phosphatis
 D      Tremblaya (3)
 E        tpn  Candidatus Tremblaya princeps PCIT
 E        tpq  Candidatus Tremblaya princeps PCVAL
 E        tpj  Candidatus Tremblaya phenacola
-D      Sideroxydans (1)
-E        slt  Sideroxydans lithotrophicus
-D      Gallionella (1)
-E        gca  Gallionella capsiferriformans
 D      Kinetoplastibacterium (7)
 E        kci  Candidatus Kinetoplastibacterium crithidii (ex Angomonas deanei ATCC 30255)
 E        kct  Candidatus Kinetoplastibacterium crithidii TCC036E
@@ -1905,11 +2179,12 @@ D      Profftella (1)
 E        ssdc  Candidatus Profftella armatura
 D      Nasuia (1)
 E        ndl  Candidatus Nasuia deltocephalinicola
-D      Unclassified Betaproteobacteria (2)
+D      Unclassified Betaproteobacteria (3)
 E        bprc  Beta proteobacterium CB
 E        beb  Betaproteobacteria bacterium UKL13-2
-C    Epsilonproteobacteria (147)
-D      Helicobacter (72)
+E        beba  Betaproteobacteria bacterium GR16-43
+C    Epsilonproteobacteria (158)
+D      Helicobacter (73)
 E        hpy  Helicobacter pylori 26695
 E        heo  Helicobacter pylori 26695
 E        hpj  Helicobacter pylori J99
@@ -1982,6 +2257,7 @@ E        hcp  Helicobacter cinaedi PAGU611
 E        hcb  Helicobacter cinaedi ATCC BAA-847
 E        hhm  Helicobacter heilmannii
 E        hty  Helicobacter typhlonius
+E        hbl  Helicobacter bilis
 D      Wolinella (1)
 E        wsu  Wolinella succinogenes
 D      Sulfurimonas (2)
@@ -1990,7 +2266,7 @@ E        sua  Sulfurimonas autotrophica
 D      Sulfuricurvum (2)
 E        sku  Sulfuricurvum kujiense
 E        sulr  Candidatus Sulfuricurvum sp. RIFRC-1
-D      Campylobacter (56)
+D      Campylobacter (63)
 E        cje  Campylobacter jejuni subsp. jejuni NCTC 11168 = ATCC 700819
 E        cjb  Campylobacter jejuni subsp. jejuni NCTC 11168-BN148
 E        cjj  Campylobacter jejuni subsp. jejuni 81-176
@@ -2023,7 +2299,8 @@ E        camp  Campylobacter fetus subsp. testudinum 03-427
 E        cfp  Campylobacter fetus subsp. testudinum pet-3
 E        ccv  Campylobacter curvus
 E        cha  Campylobacter hominis
-E        cco  Campylobacter concisus
+E        cco  Campylobacter concisus 13826
+E        ccoc  Campylobacter concisus ATCC 33237
 E        cla  Campylobacter lari RM2100
 E        clr  Campylobacter lari RM16701
 E        clm  Campylobacter lari RM16712
@@ -2047,17 +2324,26 @@ E        csm  Campylobacter subantarcticus LMG 24374
 E        csf  Campylobacter subantarcticus LMG 24377
 E        cgra  Campylobacter gracilis
 E        cure  Campylobacter ureolyticus
-D      Arcobacter (5)
+E        chyo  Campylobacter hyointestinalis
+E        chv  Campylobacter helveticus
+E        cspf  Campylobacter sputorum
+E        cpin  Campylobacter pinnipediorum
+E        ccun  Campylobacter cuniculorum
+E        clx  Campylobacter lanienae
+D      Arcobacter (6)
 E        abu  Arcobacter butzleri RM4018
 E        abt  Arcobacter butzleri ED-1
 E        abl  Arcobacter butzleri 7h1h
 E        ant  Arcobacter nitrofigilis
 E        arc  Arcobacter sp. L
-D      Sulfurospirillum (4)
+E        alp  Arcobacter sp. LPB0137
+D      Sulfurospirillum (6)
 E        sdl  Sulfurospirillum deleyianum
 E        sba  Sulfurospirillum barnesii
 E        smul  Sulfurospirillum multivorans
 E        shal  Sulfurospirillum halorespirans
+E        suls  Sulfurospirillum sp. SL2-1
+E        sulj  Sulfurospirillum sp. JPD-1
 D      Nitratifractor (1)
 E        nsa  Nitratifractor salsuginis
 D      Nitratiruptor (1)
@@ -2067,7 +2353,7 @@ E        sun  Sulfurovum sp. NBC37-1
 E        slh  Sulfurovum lithotrophicum
 D      Nautilia (1)
 E        nam  Nautilia profundicola
-C    Deltaproteobacteria (78)
+C    Deltaproteobacteria (86)
 D      Geobacter (11)
 E        gsu  Geobacter sulfurreducens PCA
 E        gsk  Geobacter sulfurreducens KN400
@@ -2082,13 +2368,15 @@ E        gpi  Geobacter pickeringii
 E        gao  Geobacter anodireducens
 D      Geoalkalibacter (1)
 E        gsb  Geoalkalibacter subterraneus
-D      Pelobacter (2)
+D      Pelobacter (4)
 E        pca  Pelobacter carbinolicus
 E        ppd  Pelobacter propionicus
+E        pace  Pelobacter acetylenicus
+E        pef  Pelobacter sp. SFB93
 D      Desulfuromonas (2)
 E        des  Desulfuromonas soudanensis
 E        deu  Desulfuromonas sp. DDH964
-D      Desulfovibrio (16)
+D      Desulfovibrio (15)
 E        dvu  Desulfovibrio vulgaris Hildenborough
 E        dvl  Desulfovibrio vulgaris DP4
 E        dvm  Desulfovibrio vulgaris Miyazaki F
@@ -2098,13 +2386,16 @@ E        dds  Desulfovibrio desulfuricans ATCC 27774
 E        ddn  Desulfovibrio desulfuricans ND132
 E        dma  Desulfovibrio magneticus
 E        dsa  Desulfovibrio salexigens
-E        das  Desulfovibrio aespoeensis
 E        daf  Desulfovibrio africanus
 E        dhy  Desulfovibrio hydrothermalis
-E        dpi  Desulfovibrio piezophilus
 E        dgg  Desulfovibrio gigas
 E        dfi  Desulfovibrio fairfieldensis
-E        dej  Desulfovibrio sp. J2
+E        dpg  Desulfovibrio piger
+E        def  Desulfovibrio sp. G11
+D      Pseudodesulfovibrio (3)
+E        das  Pseudodesulfovibrio aespoeensis
+E        dpi  Desulfovibrio piezophilus
+E        dej  Pseudodesulfovibrio indicus
 D      Lawsonia (2)
 E        lip  Lawsonia intracellularis PHE/MN1-00
 E        lir  Lawsonia intracellularis N343
@@ -2113,14 +2404,6 @@ E        dba  Desulfomicrobium baculatum
 E        doa  Desulfomicrobium orale
 D      Desulfohalobium (1)
 E        drt  Desulfohalobium retbaense
-D      Bdellovibrio (5)
-E        bba  Bdellovibrio bacteriovorus HD100
-E        bbat  Bdellovibrio bacteriovorus Tiberius
-E        bbw  Bdellovibrio bacteriovorus W
-E        bbac  Bdellovibrio bacteriovorus 109J
-E        bex  Bdellovibrio exovorus
-D      Halobacteriovorax (1)
-E        bmx  Halobacteriovorax marinus
 D      Desulfotalea (1)
 E        dps  Desulfotalea psychrophila
 D      Desulfurivibrio (1)
@@ -2143,17 +2426,22 @@ E        ade  Anaeromyxobacter dehalogenans 2CP-C
 E        acp  Anaeromyxobacter dehalogenans 2CP-1
 E        afw  Anaeromyxobacter sp. Fw109-5
 E        ank  Anaeromyxobacter sp. K
-D      Myxococcus (4)
+D      Myxococcus (5)
 E        mxa  Myxococcus xanthus
 E        mfu  Myxococcus fulvus
 E        msd  Myxococcus stipitatus
 E        mym  Myxococcus hansupus
+E        mmas  Myxococcus macrosporus
 D      Corallococcus (1)
 E        ccx  Corallococcus coralloides
 D      Stigmatella (1)
 E        sur  Stigmatella aurantiaca
 D      Archangium (1)
 E        age  Archangium gephyra
+D      Melittangium (1)
+E        mbd  Melittangium boletus
+D      Cystobacter (1)
+E        cfus  Cystobacter fuscus
 D      Vulgatibacter (1)
 E        vin  Vulgatibacter incomptus
 D      Sorangium (2)
@@ -2165,6 +2453,8 @@ D      Sandaracinus (1)
 E        samy  Sandaracinus amylolyticus
 D      Labilithrix (1)
 E        llu  Labilithrix luteola
+D      Minicystis (1)
+E        mrm  Minicystis rosea
 D      Haliangium (1)
 E        hoh  Haliangium ochraceum
 D      Syntrophus (1)
@@ -2181,9 +2471,17 @@ D      Hippea (1)
 E        hmr  Hippea maritima
 D      Desulfurella (1)
 E        dav  Desulfurella acetivorans
-D      Unclassified Deltaproteobacteria (1)
+D      Babela (1)
 E        dpb  Candidatus Babela massiliensis
-C    Alphaproteobacteria (419)
+D      Bdellovibrio (5)
+E        bba  Bdellovibrio bacteriovorus HD100
+E        bbat  Bdellovibrio bacteriovorus Tiberius
+E        bbw  Bdellovibrio bacteriovorus W
+E        bbac  Bdellovibrio bacteriovorus 109J
+E        bex  Bdellovibrio exovorus
+D      Halobacteriovorax (1)
+E        bmx  Halobacteriovorax marinus
+C    Alphaproteobacteria (499)
 D      Rickettsia (46)
 E        rpr  Rickettsia prowazekii Madrid E
 E        rpo  Rickettsia prowazekii BuV67-CWPP
@@ -2243,12 +2541,13 @@ E        wpi  Wolbachia wPip (Culex quinquefasciatus)
 E        wbm  Wolbachia wBm (Brugia malayi)
 E        woo  Wolbachia wOo (Onchocerca ochengi)
 E        wcl  Wolbachia wCle (Cimex lectularius)
-D      Anaplasma (9)
+D      Anaplasma (10)
 E        ama  Anaplasma marginale St. Maries
 E        amf  Anaplasma marginale Florida
 E        amw  Anaplasma marginale Dawn
 E        amp  Anaplasma marginale Gypsy Plains
 E        acn  Anaplasma centrale
+E        aov  Anaplasma ovis
 E        aph  Anaplasma phagocytophilum HZ
 E        apy  Anaplasma phagocytophilum HZ2
 E        apd  Anaplasma phagocytophilum Dog2
@@ -2280,23 +2579,30 @@ D      Paracaedibacter (1)
 E        paca  Candidatus Paracaedibacter acanthamoebae
 D      Caedibacter (1)
 E        caq  Candidatus Caedibacter acanthamoebae
+D      Nucleicultrix (1)
+E        naf  Candidatus Nucleicultrix amoebiphila
 D      Unclassified Holosporaceae (1)
 E        eaa  Endosymbiont of Acanthamoeba sp. UWC8
-D      Mesorhizobium (5)
-E        mlo  Mesorhizobium loti
+D      Mesorhizobium (8)
+E        mlo  Mesorhizobium loti MAFF303099
+E        mln  Mesorhizobium loti NZP2037
 E        mci  Mesorhizobium ciceri
 E        mop  Mesorhizobium opportunistum
 E        mam  Mesorhizobium australicum
 E        mamo  Mesorhizobium amorphae
+E        meso  Mesorhizobium sp. B7
+E        mesw  Mesorhizobium sp. WSM1497
 D      Chelativorans (1)
 E        mes  Chelativorans sp. BNC1
 D      Hoeflea (1)
 E        hoe  Hoeflea sp. IMCC20628
 D      Aminobacter (1)
 E        aak  Aminobacter aminovorans
+D      Phyllobacterium (1)
+E        pht  Phyllobacterium sp. Tri-48
 D      Parvibaculum (1)
 E        pla  Parvibaculum lavamentivorans
-D      Sinorhizobium (13)
+D      Sinorhizobium (15)
 E        sme  Sinorhizobium meliloti 1021
 E        smk  Sinorhizobium meliloti AK83
 E        smq  Sinorhizobium meliloti BL225C
@@ -2310,10 +2616,13 @@ E        rhi  Sinorhizobium fredii NGR234
 E        sfh  Sinorhizobium fredii HH103
 E        sfd  Sinorhizobium fredii USDA 257
 E        six  Sinorhizobium sp. RAC02
-D      Ensifer (2)
+E        same  Sinorhizobium americanum
+E        sino  Sinorhizobium sp. CCBAU 05631
+D      Ensifer (3)
 E        ead  Ensifer adhaerens OV14
 E        eah  Ensifer adhaerens Casida A
-D      Agrobacterium (7)
+E        esj  Ensifer sojae
+D      Agrobacterium (8)
 E        atu  Agrobacterium fabrum
 E        ara  Agrobacterium radiobacter
 E        atf  Agrobacterium tumefaciens Ach5
@@ -2321,7 +2630,8 @@ E        ata  Agrobacterium tumefaciens S33
 E        avi  Agrobacterium vitis
 E        agr  Agrobacterium sp. H13-3
 E        agc  Agrobacterium sp. RAC06
-D      Rhizobium (15)
+E        aro  Agrobacterium rhizogenes
+D      Rhizobium (18)
 E        ret  Rhizobium etli CFN 42
 E        rec  Rhizobium etli CIAT 652
 E        rel  Rhizobium etli bv. mimosae Mim1
@@ -2337,6 +2647,9 @@ E        rir  Rhizobium sp. IRBG74
 E        rhl  Rhizobium sp. LPU83
 E        rga  Rhizobium gallicum
 E        rhn  Rhizobium sp. N1341
+E        rpha  Rhizobium phaseoli
+E        rht  Rhizobium sp. NT-26
+E        rhx  Rhizobium sp. N731
 D      Neorhizobium (2)
 E        ngl  Neorhizobium galegae bv. officinalis bv. officinalis HAMBI 1141
 E        ngg  Neorhizobium galegae bv. orientalis HAMBI 540
@@ -2393,11 +2706,12 @@ E        bpv  Brucella pinnipedialis 6/566
 E        bcet  Brucella ceti TE10759-12
 E        bcee  Brucella ceti TE28753-12
 E        bvl  Brucella vulpis
-D      Ochrobactrum (3)
+D      Ochrobactrum (4)
 E        oan  Ochrobactrum anthropi ATCC 49188
 E        oah  Ochrobactrum anthropi OAB
 E        ops  Ochrobactrum pseudogrignonense
-D      Bradyrhizobium (10)
+E        och  Ochrobactrum sp. A44
+D      Bradyrhizobium (11)
 E        bja  Bradyrhizobium diazoefficiens USDA 110
 E        bju  Bradyrhizobium japonicum USDA 6
 E        bjp  Bradyrhizobium japonicum E109
@@ -2408,6 +2722,7 @@ E        aol  Bradyrhizobium oligotrophicum
 E        brc  Bradyrhizobium sp. CCGE-LA001
 E        brad  Bradyrhizobium sp. BF49
 E        bic  Bradyrhizobium icense
+E        bro  Bradyrhizobium sp. ORS 285
 D      Rhodopseudomonas (7)
 E        rpa  Rhodopseudomonas palustris CGA009
 E        rpb  Rhodopseudomonas palustris HaA2
@@ -2427,7 +2742,7 @@ D      Bosea (3)
 E        bop  Bosea sp. PAMC 26642
 E        bos  Bosea sp. RAC05
 E        bvv  Bosea vaviloviae
-D      Bartonella (13)
+D      Bartonella (15)
 E        bhe  Bartonella henselae Houston-1
 E        bhn  Bartonella henselae BM1374163
 E        bhs  Bartonella henselae BM1374165
@@ -2441,13 +2756,15 @@ E        bcd  Bartonella clarridgeiae
 E        baus  Bartonella australis
 E        bvn  Bartonella vinsonii
 E        banc  Bartonella ancashensis
+E        bapi  Bartonella apis
+E        bart  Bartonella sp. JB15
 D      Xanthobacter (1)
 E        xau  Xanthobacter autotrophicus
 D      Azorhizobium (1)
 E        azc  Azorhizobium caulinodans
 D      Starkeya (1)
 E        sno  Starkeya novella
-D      Methylobacterium (11)
+D      Methylobacterium (13)
 E        mex  Methylobacterium extorquens PA1
 E        mea  Methylobacterium extorquens AM1
 E        mdi  Methylobacterium extorquens DM4
@@ -2459,12 +2776,17 @@ E        mno  Methylobacterium nodulans
 E        mor  Methylobacterium oryzae
 E        meta  Methylobacterium sp. AMS5
 E        maqu  Methylobacterium aquaticum
+E        mphy  Methylobacterium phyllosphaerae
+E        mza  Methylobacterium zatmanii
+D      Microvirga (1)
+E        moc  Microvirga ossetica
 D      Beijerinckia (1)
 E        bid  Beijerinckia indica
 D      Methylocella (1)
 E        msl  Methylocella silvestris
-D      Chelatococcus (1)
+D      Chelatococcus (2)
 E        chel  Chelatococcus sp. CO-6
+E        cdq  Chelatococcus daeguensis
 D      Hyphomicrobium (4)
 E        hdn  Hyphomicrobium denitrificans ATCC 51888
 E        hdt  Hyphomicrobium denitrificans 1NES1
@@ -2483,11 +2805,15 @@ D      Blastochloris (1)
 E        bvr  Blastochloris viridis
 D      Rhodoplanes (1)
 E        rhz  Rhodoplanes sp. Z2-YC6860
-D      Methylocystis (1)
+D      Methylocystis (2)
 E        msc  Methylocystis sp. SC2
-D      Martelella (2)
+E        mbry  Methylocystis bryophila
+D      Methylosinus (1)
+E        mtw  Methylosinus trichosporium
+D      Martelella (3)
 E        mey  Martelella endophytica
 E        maad  Martelella sp. AD-3
+E        mmed  Martelella mediterranea
 D      Aureimonas (1)
 E        aua  Aureimonas sp. AU20
 D      Hodgkinia (4)
@@ -2497,21 +2823,28 @@ E        hcc  Candidatus Hodgkinia cicadicola TETUND1
 E        hcd  Candidatus Hodgkinia cicadicola TETUND2
 D      Methyloceanibacter (1)
 E        mcg  Methyloceanibacter caenitepidi
+D      Tokpelaia (1)
+E        thd  Candidatus Tokpelaia hoelldoblerii
+D      Pseudorhodoplanes (1)
+E        psin  Pseudorhodoplanes sinuspersici
 D      Unclassified Rhizobiales (1)
 E        rbm  Rhizobiales bacterium NRL2
-D      Caulobacter (5)
+D      Caulobacter (6)
 E        ccr  Caulobacter crescentus CB15
 E        ccs  Caulobacter crescentus NA1000
 E        cak  Caulobacter sp. K31
 E        cse  Caulobacter segnis
 E        chq  Caulobacter henricii
+E        cmb  Caulobacter mirabilis
 D      Phenylobacterium (1)
 E        pzu  Phenylobacterium zucineum
-D      Brevundimonas (4)
+D      Brevundimonas (6)
 E        bsb  Brevundimonas subvibrioides
 E        brd  Brevundimonas sp. DS20
 E        bne  Brevundimonas naejangsanensis
 E        brg  Brevundimonas sp. GW460-12-10-14-LB2
+E        brl  Brevundimonas sp. LM2
+E        bvc  Brevundimonas vesicularis
 D      Asticcacaulis (1)
 E        aex  Asticcacaulis excentricus
 D      Unclassified Caulobacteraceae (1)
@@ -2520,31 +2853,37 @@ D      Ruegeria (3)
 E        sil  Ruegeria pomeroyi
 E        sit  Ruegeria sp. TM1040
 E        rmb  Ruegeria mobilis
-D      Rhodobacter (5)
+D      Rhodobacter (6)
 E        rsp  Rhodobacter sphaeroides 2.4.1
 E        rsh  Rhodobacter sphaeroides ATCC 17029
 E        rsq  Rhodobacter sphaeroides ATCC 17025
 E        rsk  Rhodobacter sphaeroides KD131
 E        rcp  Rhodobacter capsulatus
+E        rhp  Rhodobacter sp. LPB0142
 D      Jannaschia (1)
 E        jan  Jannaschia sp. CCS1
 D      Roseobacter (2)
 E        rde  Roseobacter denitrificans
 E        rli  Roseobacter litoralis
-D      Paracoccus (2)
+D      Paracoccus (4)
 E        pde  Paracoccus denitrificans
 E        pami  Paracoccus aminophilus
+E        pye  Paracoccus yeei
+E        pcon  Paracoccus contaminans
 D      Dinoroseobacter (1)
 E        dsh  Dinoroseobacter shibae
-D      Ketogulonicigenium (2)
+D      Ketogulonicigenium (3)
 E        kvu  Ketogulonicigenium vulgare Y25
 E        kvl  Ketogulonicigenium vulgare WSH-001
+E        kro  Ketogulonicigenium robustum
 D      Pseudovibrio (1)
 E        psf  Pseudovibrio sp. FO-BEG1
-D      Phaeobacter (3)
+D      Phaeobacter (5)
 E        pga  Phaeobacter inhibens DSM 17395
 E        pgl  Phaeobacter inhibens 2.10
 E        pgd  Phaeobacter gallaeciensis DSM 26640
+E        php  Phaeobacter sp. P97
+E        ppic  Phaeobacter piscinae
 D      Octadecabacter (3)
 E        oat  Octadecabacter antarcticus
 E        oar  Octadecabacter arcticus
@@ -2555,27 +2894,50 @@ D      Roseibacterium (1)
 E        red  Roseibacterium elongatum
 D      Planktomarina (1)
 E        ptp  Planktomarina temperata
-D      Celeribacter (2)
+D      Celeribacter (4)
 E        cid  Celeribacter indicus
 E        cmar  Celeribacter marinus
+E        ceh  Celeribacter ethanolicus
+E        cmag  Celeribacter manganoxidans
 D      Marinovum (1)
 E        malg  Marinovum algicola
 D      Confluentimicrobium (1)
 E        con  Confluentimicrobium sp. EMB200-NS6
-D      Rhodovulum (1)
+D      Rhodovulum (3)
 E        rsu  Rhodovulum sulfidophilum
+E        rhm  Rhodovulum sp. MB263
+E        rhc  Rhodovulum sp. P5
 D      Pannonibacter (1)
 E        pphr  Pannonibacter phragmitetus
 D      Halocynthiibacter (1)
 E        hat  Halocynthiibacter arcticus
-D      Labrenzia (1)
+D      Labrenzia (3)
 E        lap  Labrenzia sp. CP4
+E        lagg  Labrenzia aggregata
+E        labr  Labrenzia sp. VG12
 D      Defluviimonas (1)
 E        daa  Defluviimonas alba
 D      Yangia (1)
 E        yan  Yangia sp. CCB-MM3
-D      Sulfitobacter (1)
+D      Sulfitobacter (2)
 E        suam  Sulfitobacter sp. AM1-D1
+E        spse  Sulfitobacter pseudonitzschiae
+D      Donghicola (1)
+E        don  Donghicola sp. JLT3646
+D      Thiobacimonas (1)
+E        tpro  Thiobacimonas profunda
+D      Tateyamaria (1)
+E        tom  Tateyamaria omphalii
+D      Pelagibaca (1)
+E        paby  Pelagibaca abyssi
+D      Thioclava (1)
+E        thw  Thioclava nitratireducens
+D      Roseovarius (1)
+E        rmm  Roseovarius mucosus
+D      Loktanella (1)
+E        lvs  Loktanella vestfoldensis
+D      Antarctobacter (1)
+E        aht  Antarctobacter heliothermus
 D      Maricaulis (1)
 E        mmr  Maricaulis maris
 D      Hyphomonas (1)
@@ -2598,22 +2960,30 @@ E        nar  Novosphingobium aromaticivorans
 E        npp  Novosphingobium sp. PP1Y
 E        npn  Novosphingobium pentaromativorans
 E        nre  Novosphingobium resinovorum
-D      Sphingopyxis (6)
+D      Sphingopyxis (9)
 E        sal  Sphingopyxis alaskensis
 E        sphk  Sphingopyxis fribergensis
 E        sphp  Sphingopyxis sp. 113P3
-E        smag  Sphingopyxis macrogoltabida
+E        smag  Sphingopyxis macrogoltabida EY-1
+E        smaz  Sphingopyxis macrogoltabida 203
 E        ster  Sphingopyxis terrae
 E        sgi  Sphingopyxis granuli
-D      Sphingomonas (7)
+E        sphl  Sphingopyxis sp. LPB0140
+E        sphq  Sphingopyxis sp. QXT-31
+D      Sphingomonas (12)
 E        swi  Sphingomonas wittichii
 E        sphm  Sphingomonas sp. MM-1
 E        stax  Sphingomonas taxi
 E        sphi  Sphingomonas sp. WHSC-8
 E        ssan  Sphingomonas sanxanigenens
-E        snj  Sphingomonas sp. NIC1
 E        smy  Sphingomonas melonis
-D      Sphingobium (8)
+E        span  Sphingomonas panacis
+E        skr  Sphingomonas koreensis
+E        splm  Sphingomonas sp. LM7
+E        splk  Sphingomonas sp. LK11
+E        sphj  Sphingomonas sp. JJ-A5
+E        spkc  Sphingomonas sp. KC8
+D      Sphingobium (12)
 E        sjp  Sphingobium japonicum
 E        sch  Sphingobium chlorophenolicum
 E        ssy  Sphingobium sp. SYK-6
@@ -2622,30 +2992,42 @@ E        sbd  Sphingobium baderi
 E        spmi  Sphingobium sp. MI1205
 E        sphb  Sphingobium sp. EP60837
 E        sphr  Sphingobium sp. RAC03
+E        sinb  Sphingobium indicum
+E        spht  Sphingobium sp. TKS
+E        shyd  Sphingobium hydrophobicum
+E        sya  Sphingobium yanoikuyae
 D      Citromicrobium (1)
 E        cij  Citromicrobium sp. JL477
-D      Sphingorhabdus (1)
+D      Sphingorhabdus (2)
 E        sphg  Sphingorhabdus sp. M41
+E        sfla  Sphingorhabdus flavimaris
 D      Blastomonas (1)
 E        blas  Blastomonas sp. RAC04
-D      Erythrobacter (2)
-E        eli  Erythrobacter litoralis
+D      Rhizorhabdus (1)
+E        rdi  Rhizorhabdus dicambivorans
+D      Erythrobacter (5)
+E        eli  Erythrobacter litoralis HTCC2594
+E        elq  Erythrobacter litoralis DSM 8509
 E        ery  Erythrobacter sp. s21-N3
+E        egn  Erythrobacter gangjinensis
+E        efv  Erythrobacter flavus
 D      Altererythrobacter (5)
 E        aay  Altererythrobacter atlanticus
 E        amx  Altererythrobacter marensis
 E        aep  Altererythrobacter epoxidivorans
 E        anh  Altererythrobacter namhicola
 E        ado  Altererythrobacter dongtanensis
-D      Croceicoccus (1)
+D      Croceicoccus (2)
 E        cna  Croceicoccus naphthovorans
+E        cman  Croceicoccus marinus
 D      Porphyrobacter (2)
 E        pns  Porphyrobacter neustonensis
 E        porl  Porphyrobacter sp. LM 6
-D      Gluconobacter (3)
+D      Gluconobacter (4)
 E        gox  Gluconobacter oxydans 621H
 E        goh  Gluconobacter oxydans H24
 E        goy  Gluconobacter oxydans DSM 3504
+E        gal  Gluconobacter albidus
 D      Granulobacter (4)
 E        gbe  Granulibacter bethesdensis CGDNIH1
 E        gbh  Granulibacter bethesdensis CGDNIH2
@@ -2657,10 +3039,12 @@ E        amv  Acidiphilium multivorum
 D      Gluconacetobacter (2)
 E        gdi  Gluconacetobacter diazotrophicus PAl 5 (Brazil)
 E        gdj  Gluconacetobacter diazotrophicus PA1 5 (JGI)
-D      Komagataeibacter (2)
+D      Komagataeibacter (4)
 E        gxy  Komagataeibacter medellinensis
 E        gxl  Komagataeibacter xylinus
-D      Acetobacter (11)
+E        kna  Komagataeibacter nataicola
+E        keu  Komagataeibacter europaeus
+D      Acetobacter (15)
 E        apt  Acetobacter pasteurianus IFO 3283-01
 E        apw  Acetobacter pasteurianus IFO 3283-01-42C
 E        apf  Acetobacter pasteurianus IFO 3283-03
@@ -2672,20 +3056,30 @@ E        apz  Acetobacter pasteurianus IFO 3283-32
 E        apk  Acetobacter pasteurianus 386B
 E        asz  Acetobacter senegalensis
 E        asv  Acetobacter sp. SLV-7
+E        aace  Acetobacter aceti
+E        aper  Acetobacter persici
+E        apom  Acetobacter pomorum
+E        ato  Acetobacter tropicalis
 D      Asaia (1)
 E        abg  Asaia bogorensis
 D      Kozakia (1)
 E        kba  Kozakia baliensis
+D      Roseomonas (2)
+E        rgi  Roseomonas gilardii
+E        ros  Roseomonas sp. FDAARGOS_362
+D      Neoasaia (1)
+E        nch  Neoasaia chiangmaiensis
 D      Rhodospirillum (3)
 E        rru  Rhodospirillum rubrum ATCC 11170
 E        rrf  Rhodospirillum rubrum F11
 E        rce  Rhodospirillum centenum
 D      Pararhodospirillum (1)
 E        rpm  Pararhodospirillum photometricum
-D      Magnetospirillum (3)
+D      Magnetospirillum (4)
 E        mag  Magnetospirillum magneticum
 E        mgy  Magnetospirillum gryphiswaldense
 E        magx  Magnetospirillum sp. XM-1
+E        magn  Magnetospirillum sp. ME-1
 D      Azospirillum (7)
 E        azl  Azospirillum sp. B510
 E        ali  Azospirillum lipoferum
@@ -2705,6 +3099,8 @@ D      Magnetospira (1)
 E        magq  Magnetospira sp. QH-2
 D      Haematospirillum (1)
 E        hjo  Haematospirillum jordaniae
+D      Nitrospirillum (1)
+E        nao  Nitrospirillum amazonense
 D      Parvularcula (1)
 E        pbr  Parvularcula bermudensis
 D      Magnetococcus (1)
@@ -2729,8 +3125,8 @@ E        afr  Acidithiobacillus ferrooxidans ATCC 23270
 E        acu  Acidithiobacillus caldus SM-1
 E        acz  Acidithiobacillus caldus ATCC 51756
 E        afi  Acidithiobacillus ferrivorans
-C    Firmicutes - Bacilli (620)
-D      Bacillus (117)
+C    Firmicutes - Bacilli (684)
+D      Bacillus (127)
 E        bsu  Bacillus subtilis subsp. subtilis 168
 E        bsr  Bacillus subtilis subsp. subtilis RO-NN-1
 E        bsl  Bacillus subtilis subsp. subtilis BSP1
@@ -2770,6 +3166,7 @@ E        bamc  Bacillus amyloliquefaciens CC178
 E        bamf  Bacillus amyloliquefaciens LFB112
 E        bae  Bacillus atrophaeus 1942
 E        batr  Bacillus atrophaeus NRS 1221A
+E        bvm  Bacillus vallismortis
 E        bha  Bacillus halodurans
 E        ban  Bacillus anthracis Ames
 E        bar  Bacillus anthracis Ames Ancestor
@@ -2812,14 +3209,16 @@ E        btn  Bacillus thuringiensis HD-789
 E        btht  Bacillus thuringiensis serovar thuringiensis IS5056
 E        bthu  Bacillus thuringiensis YBT-1518
 E        btw  Bacillus thuringiensis HD1011
-E        bwe  Bacillus weihenstephanensis KBAB4
-E        bww  Bacillus weihenstephanensis WSBC 10204
-E        bty  Bacillus toyonensis
+E        bthy  Bacillus thuringiensis YWC2-8
+E        bwe  Bacillus mycoides KBAB4
+E        bww  Bacillus mycoides WSBC 10204
 E        bmyc  Bacillus mycoides 219298
 E        bmyo  Bacillus mycoides ATCC 6462
+E        bty  Bacillus toyonensis
 E        bcl  Bacillus clausii
 E        bpu  Bacillus pumilus SAFR-032
 E        bpum  Bacillus pumilus MTCC B6033
+E        bpus  Bacillus pumilus SH-B9
 E        bpf  Bacillus pseudofirmus
 E        bmq  Bacillus megaterium QM B1551
 E        bmd  Bacillus megaterium DSM 319
@@ -2848,11 +3247,20 @@ E        bsm  Bacillus smithii
 E        bsj  Bacillus simplex
 E        bon  Bacillus oceanisediminis
 E        bgy  Bacillus glycinifermentans
+E        bfx  Bacillus flexus
+E        bgi  Bacillus gibsonii
+E        bwh  Bacillus weihaiensis
+E        bxi  Bacillus xiamenensis
+E        bhk  Bacillus horikoshii
+E        bkw  Bacillus krulwichiae
+E        bbev  Bacillus beveridgei
 D      Oceanobacillus (1)
 E        oih  Oceanobacillus iheyensis
-D      Geobacillus (15)
+D      Geobacillus (17)
 E        gka  Geobacillus kaustophilus
-E        gte  Geobacillus thermoleovorans
+E        gte  Geobacillus thermoleovorans CCB_US3_UF5
+E        gtk  Geobacillus thermoleovorans KCTC 3570
+E        gtm  Geobacillus thermocatenulatus
 E        gtn  Geobacillus thermodenitrificans
 E        gwc  Geobacillus sp. WCH70
 E        gyc  Geobacillus sp. Y412MC61
@@ -2867,8 +3275,8 @@ E        gse  Geobacillus stearothermophilus
 E        gsr  Geobacillus subterraneus
 E        gej  Geobacillus sp. JS12
 D      Parageobacillus (2)
-E        gth  Parageobacillus thermoglucosidasius
-E        ptl  Parageobacillus thermoglucosidans
+E        gth  Parageobacillus thermoglucosidasius C56-YS93
+E        ptl  Parageobacillus thermoglucosidasius DSM 2542
 D      Anoxybacillus (5)
 E        afl  Anoxybacillus flavithermus
 E        agn  Anoxybacillus gonensis
@@ -2881,13 +3289,17 @@ D      Lysinibacillus (3)
 E        lsp  Lysinibacillus sphaericus
 E        lgy  Lysinibacillus varians
 E        lfu  Lysinibacillus fusiformis
-D      Halobacillus (1)
+D      Halobacillus (2)
 E        hhd  Halobacillus halophilus
+E        hmn  Halobacillus mangrovi
 D      Terribacillus (1)
 E        tap  Terribacillus aidingensis
-D      Virgibacillus (2)
+D      Virgibacillus (5)
 E        vir  Virgibacillus sp. SK37
 E        vhl  Virgibacillus halodenitrificans
+E        vig  Virgibacillus sp. 6R
+E        vil  Virgibacillus sp. LM2416
+E        vne  Virgibacillus necropolis
 D      Lentibacillus (1)
 E        lao  Lentibacillus amyloliquefaciens
 D      Fictibacillus (2)
@@ -2895,9 +3307,11 @@ E        fpn  Fictibacillus phosphorivorans
 E        far  Fictibacillus arsenicus
 D      Salimicrobium (1)
 E        sje  Salimicrobium jeotgali
+D      Aeribacillus (1)
+E        apak  Aeribacillus pallidus
 D      Unclassified Sporolactobacillaceae (1)
 E        bse  Bacillus selenitireducens
-D      Staphylococcus (77)
+D      Staphylococcus (83)
 E        sau  Staphylococcus aureus subsp. aureus N315 (MRSA/VSSA)
 E        sav  Staphylococcus aureus subsp. aureus Mu50 (MRSA/VISA)
 E        saw  Staphylococcus aureus subsp. aureus Mu3 (MRSA/hetero-VISA)
@@ -2950,6 +3364,7 @@ E        saur  Staphylococcus aureus Bmb9393
 E        saui  Staphylococcus aureus USA300-ISMMS1
 E        saud  Staphylococcus aureus 502A
 E        sauf  Staphylococcus aureus NRS 100
+E        sams  Staphylococcus aureus MS4
 E        suh  Staphylococcus argenteus
 E        sep  Staphylococcus epidermidis ATCC 12228
 E        ser  Staphylococcus epidermidis RP62A
@@ -2975,10 +3390,19 @@ E        sscz  Staphylococcus schleiferi 2317-03
 E        sagq  Staphylococcus agnetis
 E        seqo  Staphylococcus equorum
 E        ssif  Staphylococcus simulans
-D      Macrococcus (1)
+E        scv  Staphylococcus condimenti
+E        spet  Staphylococcus pettenkoferi
+E        slz  Staphylococcus lutrae
+E        scoh  Staphylococcus cohnii
+E        sscu  Staphylococcus sciuri
+D      Macrococcus (3)
 E        mcl  Macrococcus caseolyticus
+E        mcak  Macrococcus canis
+E        macr  Macrococcus sp. IME1552
 D      Salinicoccus (1)
 E        shv  Salinicoccus halodurans
+D      Auricoccucs (1)
+E        sbac  Auricoccus indicus
 D      Listeria (45)
 E        lmo  Listeria monocytogenes EGD-e
 E        lmf  Listeria monocytogenes F2365
@@ -3025,6 +3449,8 @@ E        lii  Listeria ivanovii subsp. ivanovii WSLC 3010
 E        liw  Listeria ivanovii WSLC3009
 E        lia  Listeria ivanovii subsp. londoniensis WSLC 30167
 E        lio  Listeria ivanovii subsp. londoniensis WSLC 30151
+D      Brochothrix (1)
+E        bths  Brochothrix thermosphacta
 D      Exiguobacterium (5)
 E        esi  Exiguobacterium sibiricum
 E        eat  Exiguobacterium sp. AT1b
@@ -3033,10 +3459,11 @@ E        exm  Exiguobacterium sp. MH3
 E        exu  Exiguobacterium sp. U13-1
 D      Gemella (1)
 E        got  Gemella sp. oral taxon 928
-D      Brevibacillus (2)
+D      Brevibacillus (3)
 E        bbe  Brevibacillus brevis
 E        blr  Brevibacillus laterosporus
-D      Paenibacillus (33)
+E        bfm  Brevibacillus formosus
+D      Paenibacillus (38)
 E        pjd  Paenibacillus sp. JDR-2
 E        gym  Paenibacillus sp. Y412MC10
 E        ppy  Paenibacillus polymyxa E681
@@ -3070,19 +3497,29 @@ E        ppeo  Paenibacillus peoriae
 E        pnp  Paenibacillus naphthalenovorans
 E        pow  Paenibacillus sp. 32O-W
 E        pbv  Paenibacillus bovis
+E        pxl  Paenibacillus xylanexedens
+E        pyg  Paenibacillus yonginensis
+E        pswu  Paenibacillus swuensis
+E        pdh  Paenibacillus donghaensis
+E        pib  Paenibacillus ihbetae
 D      Thermobacillus (1)
 E        tco  Thermobacillus composti
-D      Aneurinibacillus (1)
+D      Aneurinibacillus (2)
 E        anx  Aneurinibacillus sp. XH2
+E        asoc  Aneurinibacillus soli
 D      Alicyclobacillus (2)
 E        aac  Alicyclobacillus acidocaldarius subsp. acidocaldarius DSM 446
 E        aad  Alicyclobacillus acidocaldarius subsp. acidocaldarius Tc-4-1
 D      Kyrpidia (1)
 E        bts  Kyrpidia tusciae
-D      Solibacillus (2)
+D      Tumebacillus (2)
+E        tum  Tumebacillus sp. AR23208
+E        tab  Tumebacillus algifaecis
+D      Solibacillus (3)
 E        siv  Solibacillus silvestris StLB046
 E        ssil  Solibacillus silvestris DSM 12223
-D      Planococcus (7)
+E        sob  Solibacillus sp. R5-41
+D      Planococcus (10)
 E        pln  Planococcus sp. PAMC 21323
 E        pku  Planococcus kocurii
 E        prt  Planococcus rifietoensis
@@ -3090,14 +3527,22 @@ E        pll  Planococcus sp. L10.15
 E        pana  Planococcus antarcticus
 E        pdg  Planococcus donghaensis
 E        phc  Planococcus halocryophilus
+E        pmar  Planococcus maritimus
+E        ppla  Planococcus plakortidis
+E        pfae  Planococcus faecalis
 D      Jeotgalibacillus (1)
 E        jeo  Jeotgalibacillus malaysiensis
 D      Kurthia (1)
 E        kur  Kurthia sp. 11kri321
-D      Sporosarcina (1)
+D      Sporosarcina (4)
 E        spsy  Sporosarcina psychrophila
+E        spor  Sporosarcina sp. P33
+E        spop  Sporosarcina sp. P37
+E        sure  Sporosarcina ureae
 D      Rummeliibacillus (1)
 E        rst  Rummeliibacillus stabekisii
+D      Novibacillus (1)
+E        ntr  Novibacillus thermophilus
 D      Lactococcus (16)
 E        lla  Lactococcus lactis subsp. lactis Il1403
 E        llk  Lactococcus lactis subsp. lactis KF147
@@ -3115,7 +3560,7 @@ E        llj  Lactococcus lactis AI06
 E        lgr  Lactococcus garvieae ATCC 49156
 E        lgv  Lactococcus garvieae Lg2
 E        lpk  Lactococcus piscium
-D      Streptococcus (137)
+D      Streptococcus (140)
 E        spy  Streptococcus pyogenes M1 GAS (serotype M1)
 E        spz  Streptococcus pyogenes MGAS5005 (serotype M1)
 E        spym  Streptococcus pyogenes M1 476 (serotype M1)
@@ -3188,6 +3633,7 @@ E        stn  Streptococcus thermophilus ND03
 E        stu  Streptococcus thermophilus JIM 8232
 E        stw  Streptococcus thermophilus MN-ZLW-002
 E        sthe  Streptococcus thermophilus ASCC 1275
+E        sths  Streptococcus thermophilus S9
 E        ssa  Streptococcus sanguinis
 E        ssb  Streptococcus suis BM407
 E        ssu  Streptococcus suis 05ZYH33
@@ -3232,6 +3678,7 @@ E        ssr  Streptococcus salivarius CCHSS3
 E        stf  Streptococcus salivarius 57.I
 E        stj  Streptococcus salivarius JIM8777
 E        strs  Streptococcus salivarius NCTC 8618
+E        ssah  Streptococcus salivarius HSISS4
 E        std  Streptococcus pseudopneumoniae
 E        smn  Streptococcus macedonicus
 E        sif  Streptococcus infantarius
@@ -3253,7 +3700,8 @@ E        slu  Streptococcus lutetiensis
 E        sig  Streptococcus sp. I-G2
 E        sip  Streptococcus sp. I-P16
 E        stv  Streptococcus sp. VT 162
-D      Lactobacillus (75)
+E        spat  Streptococcus pantholopis
+D      Lactobacillus (86)
 E        lpl  Lactobacillus plantarum WCFS1
 E        lpj  Lactobacillus plantarum JDM1
 E        lpt  Lactobacillus plantarum ZJ316
@@ -3280,8 +3728,9 @@ E        ldl  Lactobacillus delbrueckii subsp. bulgaricus 2038
 E        lbr  Lactobacillus brevis ATCC 367
 E        lbk  Lactobacillus brevis KB290
 E        lca  Lactobacillus paracasei ATCC 334
-E        lpi  Lactobacillus paracasei subsp. paracasei 8700:2
 E        lpq  Lactobacillus paracasei N1115
+E        lpi  Lactobacillus paracasei subsp. paracasei 8700:2
+E        lpap  Lactobacillus paracasei subsp. paracasei JCM 8130
 E        lcb  Lactobacillus casei BL23
 E        lcz  Lactobacillus casei Zhang
 E        lcs  Lactobacillus casei BD-II
@@ -3329,6 +3778,16 @@ E        lku  Lactobacillus kunkeei
 E        lgl  Lactobacillus gallinarum
 E        lpx  Lactobacillus paraplantarum
 E        lor  Lactobacillus oris
+E        lpar  Lactobacillus parabuchneri
+E        lle  Lactobacillus lindneri
+E        lpd  Lactobacillus paracollinoides
+E        lje  Lactobacillus jensenii
+E        lcu  Lactobacillus curieae
+E        lct  Lactobacillus crustorum
+E        lbt  Lactobacillus backii
+E        lcv  Lactobacillus curvatus
+E        lah  Lactobacillus amylophilus DSM 20533 = JCM 1125
+E        lamy  Lactobacillus amylolyticus L6
 D      Pediococcus (5)
 E        ppe  Pediococcus pentosaceus ATCC 25745
 E        ppen  Pediococcus pentosaceus SL4
@@ -3360,11 +3819,12 @@ E        mps  Melissococcus plutonius ATCC 35311
 E        mpx  Melissococcus plutonius DAT561
 D      Tetragenococcus (1)
 E        thl  Tetragenococcus halophilus
-D      Vagococcus (1)
+D      Vagococcus (2)
 E        vte  Vagococcus teuberi
+E        vpi  Vagococcus penaei
 D      Oenococcus (1)
 E        ooe  Oenococcus oeni
-D      Leuconostoc (10)
+D      Leuconostoc (11)
 E        lme  Leuconostoc mesenteroides subsp. mesenteroides ATCC 8293
 E        lmm  Leuconostoc mesenteroides subsp. mesenteroides J18
 E        lmk  Leuconostoc mesenteroides KFRI-MG
@@ -3375,12 +3835,15 @@ E        lcn  Leuconostoc carnosum
 E        lgs  Leuconostoc gelidum subsp. gasicomitatum
 E        lge  Leuconostoc gelidum JB7
 E        llf  Leuconostoc lactis
-D      Weissella (5)
+E        lgc  Leuconostoc garlicum
+D      Weissella (7)
 E        wko  Weissella koreensis
 E        wce  Weissella ceti WS08
 E        wct  Weissella ceti WS74
 E        wci  Weissella ceti WS105
 E        wcb  Weissella cibaria
+E        wjo  Weissella jogaejeotgali
+E        wpa  Weissella paramesenteroides
 D      Aerococcus (7)
 E        aur  Aerococcus urinae ACS-120-V-Col10a
 E        aun  Aerococcus urinae CCUG36881
@@ -3396,8 +3859,11 @@ E        caw  Carnobacterium inhibens
 E        carc  Carnobacterium sp. CP1
 D      Marinilactibacillus (1)
 E        marr  Marinilactibacillus sp. 15R
-C    Firmicutes - Clostridia (176)
-D      Clostridium (44)
+D      Jeotgalibaca (2)
+E        jep  Jeotgalibaca sp. PTS2502
+E        jda  Jeotgalibaca dankookensis
+C    Firmicutes - Clostridia (183)
+D      Clostridium (50)
 E        cac  Clostridium acetobutylicum ATCC 824
 E        cae  Clostridium acetobutylicum DSM 1731
 E        cay  Clostridium acetobutylicum EA 2018
@@ -3422,6 +3888,7 @@ E        cbm  Clostridium botulinum F 230613
 E        cbj  Clostridium botulinum H04402 065
 E        cbe  Clostridium beijerinckii NCIMB 8052
 E        cbz  Clostridium beijerinckii ATCC 35702
+E        cbei  Clostridium beijerinckii NCIMB 14988
 E        ckl  Clostridium kluyveri DSM 555
 E        ckr  Clostridium kluyveri NBRC 12016
 E        clj  Clostridium ljungdahlii
@@ -3442,6 +3909,11 @@ E        cace  Clostridium aceticum
 E        cck  Clostridium carboxidivorans
 E        cbut  Clostridium butyricum
 E        ctyk  Clostridium tyrobutyricum
+E        ceu  Clostridium estertheticum
+E        ctae  Clostridium taeniosporum
+E        cfm  Clostridium formicaceticum
+E        cchv  Clostridium chauvoei
+E        carg  Clostridium argentinense
 D      Alkaliphilus (2)
 E        amt  Alkaliphilus metalliredigens
 E        aoe  Alkaliphilus oremlandii
@@ -3471,6 +3943,8 @@ E        rbr  Ruminococcus bromii
 E        rch  Ruminococcus champanellensis
 E        rum  Ruminococcus sp. SR1/5
 E        rus  Ruminococcus bicirculans
+D      Unclassified Ruminococcaceae (1)
+E        rbp  Ruminococcaceae bacterium CPB6
 D      Faecalibacterium (2)
 E        fpr  Faecalibacterium prausnitzii L2-6
 E        fpa  Faecalibacterium prausnitzii SL3/3
@@ -3489,10 +3963,11 @@ E        rim  Roseburia intestinalis M50/1
 D      Coprococcus (2)
 E        coo  Coprococcus sp. ART55/1
 E        cct  Coprococcus catus
-D      Blautia (3)
+D      Blautia (4)
 E        rob  Blautia obeum
 E        byl  Blautia sp. YL58
 E        rto  Ruminococcus torques
+E        bhan  Blautia hansenii
 D      Lachnoclostridium (4)
 E        cpy  Lachnoclostridium phytofermentans
 E        lacy  Lachnoclostridium sp. YL32
@@ -3502,18 +3977,17 @@ D      Anaerostipes (1)
 E        bprl  Anaerostipes hadrus
 D      Herbinix (1)
 E        hsd  Herbinix luporum
-D      Tyzzerella (1)
-E        cpro  Clostridium propionicum
+D      Anaerotignum (1)
+E        cpro  Anaerotignum propionicum
 D      Unclassified Lachnospiraceae (3)
 E        ere  Eubacterium rectale ATCC 33656
 E        ert  Eubacterium rectale DSM 17629
 E        era  Eubacterium rectale M104/1
-D      Clostridioides (6)
+D      Clostridioides (5)
 E        cdf  Clostridioides difficile 630
 E        pdc  Clostridioides difficile 630
 E        cdc  Clostridioides difficile CD196
 E        cdl  Clostridioides difficile R20291
-E        cdg  Clostridioides difficile BI1
 E        pdf  Clostridioides difficile
 D      Peptoclostridium (1)
 E        eac  Peptoclostridium acidaminophilum
@@ -3533,13 +4007,14 @@ E        dhd  Desulfitobacterium hafniense DCB-2
 E        ddh  Desulfitobacterium dehalogenans
 E        ddl  Desulfitobacterium dichloroeliminans
 E        dmt  Desulfitobacterium metallireducens
-D      Desulfotomaculum (6)
+D      Desulfotomaculum (7)
 E        drm  Desulfotomaculum reducens
 E        dae  Desulfotomaculum acetoxidans
 E        dca  Desulfotomaculum nigrificans
 E        dku  Desulfotomaculum kuznetsovii
 E        dru  Desulfotomaculum ruminis
 E        dgi  Desulfotomaculum gibsoniae
+E        dfg  Desulfotomaculum ferrireducens
 D      Pelotomaculum (1)
 E        pth  Pelotomaculum thermopropionicum
 D      Desulforudis (1)
@@ -3570,13 +4045,14 @@ E        tmr  Thermaerobacter marianensis
 D      Sulfobacillus (2)
 E        say  Sulfobacillus acidophilus TPY
 E        sap  Sulfobacillus acidophilus DSM 10332
-D      Unclassified Clostridiales (6)
+D      Intestinimonas (1)
+E        ibu  Intestinimonas butyriciproducens
+D      Flavonifractor (1)
+E        fpla  Flavonifractor plautii
+D      Unclassified Clostridiales (3)
 E        euu  Eubacterium sulci
-E        cad  Clostridium acidurici
 E        bprm  Butyrate-producing bacterium SM4/1
 E        bprs  Butyrate-producing bacterium SS3/4
-E        ibu  Intestinimonas butyriciproducens
-E        fpla  Flavonifractor plautii
 D      Caldanaerobacter (1)
 E        tte  Thermoanaerobacter tengcongensis
 D      Thermoanaerobacter (8)
@@ -3632,7 +4108,7 @@ D      Acetohalobium (1)
 E        aar  Acetohalobium arabaticum
 D      Halobacteroides (1)
 E        hhl  Halobacteroides halobius
-C    Firmicutes - Others (23)
+C    Firmicutes - Others (27)
 D      Finegoldia (1)
 E        fma  Finegoldia magna
 D      Anaerococcus (1)
@@ -3641,16 +4117,21 @@ D      Parvimonas (1)
 E        pmic  Parvimonas micra
 D      Peptoniphilus (1)
 E        ped  Peptoniphilus sp. 1-1
-D      Veillonella (1)
+D      Gottschalkia (1)
+E        cad  Gottschalkia acidurici
+D      Veillonella (2)
 E        vpr  Veillonella parvula
+E        vat  Veillonella atypica
 D      Megasphaera (1)
 E        med  Megasphaera elsdenii
 D      Dialister (1)
 E        dpn  Dialister pneumosintes
-D      Selenomonas (3)
+D      Selenomonas (5)
 E        ssg  Selenomonas sputigena
 E        sri  Selenomonas ruminantium
 E        sele  Selenomonas sp. oral taxon 478
+E        selo  Selenomonas sp. oral taxon 136
+E        selt  Selenomonas sp. oral taxon 920
 D      Megamonas (1)
 E        mhg  Megamonas hypermegale
 D      Pelosinus (2)
@@ -3673,8 +4154,8 @@ D      Unclassified Erysipelotrichaceae (1)
 E        erb  Erysipelotrichaceae bacterium I46
 D      Limnochorda (1)
 E        lpil  Limnochorda pilosa
-C    Tenericutes (122)
-D      Mycoplasma (88)
+C    Tenericutes (128)
+D      Mycoplasma (89)
 E        mge  Mycoplasma genitalium G37
 E        mgu  Mycoplasma genitalium M2288
 E        mgc  Mycoplasma genitalium M2321
@@ -3763,6 +4244,7 @@ E        mcas  Mycoplasma canis LV
 E        mck  Mycoplasma canis PG 14
 E        marg  Mycoplasma arginini
 E        myg  Mycoplasma sp. (ex Biomphalaria glabrata)
+E        mpul  Mycoplasma pullorum
 D      Ureaplasma (4)
 E        uur  Ureaplasma parvum serovar 3 ATCC 700970
 E        upa  Ureaplasma parvum serovar 3 ATCC 27815
@@ -3783,10 +4265,13 @@ E        acl  Acholeplasma laidlawii
 E        abra  Acholeplasma brassicae
 E        apal  Acholeplasma palmae
 E        aoc  Acholeplasma oculi
-D      Mesoplasma (2)
+D      Mesoplasma (5)
 E        mfl  Mesoplasma florum L1
 E        mfw  Mesoplasma florum W37
-D      Spiroplasma (15)
+E        mchc  Mesoplasma chauliocola
+E        mlac  Mesoplasma lactucae
+E        ment  Mesoplasma entomophilum
+D      Spiroplasma (17)
 E        scr  Spiroplasma chrysopicola
 E        ssyr  Spiroplasma syrphidicola
 E        sdi  Spiroplasma diminutum
@@ -3802,10 +4287,12 @@ E        stur  Spiroplasma turonicum
 E        sll  Spiroplasma litorale
 E        skn  Spiroplasma kunkelii
 E        scj  Spiroplasma cantharicola
+E        shj  Spiroplasma helicoides
+E        sck  Spiroplasma citri
 D      Izimaplasma (1)
 E        mbj  Candidatus Izimaplasma sp. HR1
-C    Actinobacteria (478)
-D      Mycobacterium (96)
+C    Actinobacteria (566)
+D      Mycobacterium (104)
 E        mtu  Mycobacterium tuberculosis H37Rv
 E        mtv  Mycobacterium tuberculosis H37Rv
 E        mtc  Mycobacterium tuberculosis CDC1551
@@ -3857,11 +4344,13 @@ E        mavd  Mycobacterium avium subsp. avium DJO-44271
 E        mavr  Mycobacterium avium subsp. avium 2285 (R)
 E        mava  Mycobacterium avium subsp. avium 2285 (S)
 E        mit  Mycobacterium intracellulare MOTT-02
-E        mir  Mycobacterium intracellulare MOTT-64
 E        mia  Mycobacterium intracellulare ATCC 13950
 E        mie  Mycobacterium intracellulare 1956
+E        mir  Mycobacterium paraintracellulare
 E        mid  Mycobacterium indicus pranii
 E        myo  Mycobacterium yongonense
+E        mchi  Mycobacterium chimaera
+E        mmal  Mycobacterium marseillense
 E        msm  Mycobacterium smegmatis MC2 155
 E        msg  Mycobacterium smegmatis MC2 155
 E        msb  Mycobacterium smegmatis MC2 155
@@ -3882,11 +4371,14 @@ E        maz  Mycobacterium abscessus subsp. bolletii 103
 E        mak  Mycobacterium abscessus subsp. abscessus
 E        mys  Mycobacterium abscessus DJO-44274
 E        myc  Mycobacterium abscessus 4529
+E        mche  Mycobacterium chelonae
+E        miz  Mycobacterium immunogenum
 E        mmc  Mycobacterium sp. MCS
 E        mkm  Mycobacterium sp. KMS
 E        mjl  Mycobacterium sp. JLS
 E        mjd  Mycobacterium sinense
-E        mmi  Mycobacterium marinum
+E        mmi  Mycobacterium marinum M
+E        mmae  Mycobacterium marinum E11
 E        mrh  Mycobacterium rhodesiae
 E        mmm  Mycobacterium sp. MOTT36Y
 E        mcb  Mycobacterium chubuense
@@ -3902,9 +4394,12 @@ E        mft  Mycobacterium fortuitum
 E        mhad  Mycobacterium haemophilum
 E        mphl  Mycobacterium phlei
 E        mvq  Mycobacterium vaccae
+E        myn  Mycobacterium sp. NRRL B-3805
+E        mll  Mycobacterium litorale
+E        mdx  Mycobacterium dioxanotrophicus
 D      Amycolicicoccus (1)
 E        asd  Amycolicicoccus subflavus
-D      Corynebacterium (84)
+D      Corynebacterium (95)
 E        cgl  Corynebacterium glutamicum ATCC 13032 (Kyowa Hakko)
 E        cgb  Corynebacterium glutamicum ATCC 13032 (Bielefeld)
 E        cgu  Corynebacterium glutamicum K051
@@ -3929,6 +4424,7 @@ E        cds  Corynebacterium diphtheriae C7
 E        cdd  Corynebacterium diphtheriae CDCE 8392
 E        cdw  Corynebacterium diphtheriae PW8
 E        cdv  Corynebacterium diphtheriae VA01
+E        cdip  Corynebacterium diphtheriae NCTC11397
 E        cjk  Corynebacterium jeikeium
 E        cur  Corynebacterium urealyticum DSM 7109
 E        cua  Corynebacterium urealyticum DSM 7111
@@ -3988,14 +4484,27 @@ E        cut  Corynebacterium uterequi
 E        clw  Corynebacterium lactis
 E        cdx  Corynebacterium deserti
 E        csp  Corynebacterium simulans
+E        csta  Corynebacterium stationis
+E        ccjz  Corynebacterium crudilactis
+E        cfk  Corynebacterium frankenforstense
+E        cpho  Corynebacterium phocae
+E        cfc  Corynebacterium flavescens
+E        cgv  Corynebacterium glaucum
+E        cstr  Corynebacterium striatum
+E        caqu  Corynebacterium aquilae
+E        csph  Corynebacterium sphenisci
+E        camg  Corynebacterium ammoniagenes
 E        bfv  Brevibacterium flavum ZL-1
-D      Nocardia (5)
+D      Nocardia (8)
 E        nfa  Nocardia farcinica IFM 10152
 E        nfr  Nocardia farcinica NCTC11134
 E        ncy  Nocardia cyriacigeorgica
 E        nbr  Nocardia brasiliensis
 E        nno  Nocardia nova
-D      Rhodococcus (11)
+E        nsl  Nocardia soli
+E        nsr  Nocardia seriolae
+E        ntp  Nocardia terpenica
+D      Rhodococcus (15)
 E        rha  Rhodococcus jostii
 E        rer  Rhodococcus erythropolis PR4
 E        rey  Rhodococcus erythropolis CCM2595
@@ -4007,6 +4516,10 @@ E        rpy  Rhodococcus pyridinivorans
 E        rhb  Rhodococcus sp. B7740
 E        rav  Rhodococcus aetherivorans
 E        rfa  Rhodococcus fascians
+E        rhw  Rhodococcus sp. WMMA185
+E        rhs  Rhodococcus sp. PBTS 2
+E        rrz  Rhodococcus ruber
+E        rhu  Rhodococcus sp. PBTS 1
 D      Gordonia (5)
 E        gbr  Gordonia bronchialis
 E        gpo  Gordonia polyisoprenivorans
@@ -4017,9 +4530,11 @@ D      Tsukamurella (1)
 E        tpr  Tsukamurella paurometabola
 D      Segniliparus (1)
 E        srt  Segniliparus rotundus
+D      Dietzia (1)
+E        dtm  Dietzia timorensis
 D      Lawsonella (1)
 E        cbq  Lawsonella clevelandensis
-D      Streptomyces (39)
+D      Streptomyces (56)
 E        sco  Streptomyces coelicolor
 E        sma  Streptomyces avermitilis
 E        sgr  Streptomyces griseus
@@ -4048,7 +4563,7 @@ E        sgu  Streptomyces glaucescens
 E        svt  Streptomyces vietnamensis
 E        stre  Streptomyces sp. 769
 E        scw  Streptomyces cyaneogriseus
-E        sld  Streptomyces lydicus
+E        sld  Streptomyces sp. A02
 E        sxi  Streptomyces xiamenensis
 E        strm  Streptomyces sp. Mg1
 E        strc  Streptomyces sp. CNQ-509
@@ -4059,8 +4574,27 @@ E        scx  Streptomyces sp. CdTB01
 E        srw  Streptomyces reticuli
 E        strf  Streptomyces sp. 4F
 E        sle  Streptomyces leeuwenhoekii
-D      Kitasatospora (1)
+E        srn  Streptomyces rubrolavendulae
+E        spav  Streptomyces parvulus
+E        slc  Streptomyces lydicus
+E        strt  Streptomyces sp. SAT1
+E        sclf  Streptomyces clavuligerus
+E        sgs  Streptomyces griseochromogenes
+E        stsi  Streptomyces sp. S10(2016)
+E        sls  Streptomyces lincolnensis
+E        snr  Streptomyces noursei
+E        splu  Streptomyces pluripotens
+E        strd  Streptomyces sp. CCM_MD2014
+E        snw  Streptomyces niveus
+E        sauo  Streptomyces autolyticus
+E        ssia  Streptomyces silaceus
+E        svu  Streptomyces violaceoruber
+E        spun  Streptomyces puniciscabiei
+E        sgv  Streptomyces gilvosporeus
+D      Kitasatospora (3)
 E        ksk  Kitasatospora setae
+E        kab  Kitasatospora albolonga
+E        kau  Kitasatospora aureofaciens
 D      Tropheryma (2)
 E        twh  Tropheryma whipplei Twist
 E        tws  Tropheryma whipplei TW08/27
@@ -4071,14 +4605,18 @@ D      Clavibacter (4)
 E        cmi  Clavibacter michiganensis subsp. michiganensis
 E        cms  Clavibacter michiganensis subsp. sepedonicus
 E        cmc  Clavibacter michiganensis subsp. nebraskensis
-E        cmh  Clavibacter michiganensis subsp. insidiosus
-D      Microbacterium (6)
+E        cmh  Clavibacter insidiosus
+D      Microbacterium (10)
 E        mts  Microbacterium testaceum
 E        mim  Microbacterium sp. CGR1
 E        mio  Microbacterium sp. No. 7
 E        mix  Microbacterium sp. XT11
 E        mip  Microbacterium sp. PAMC 28756
 E        mcw  Microbacterium chocolatum
+E        mpal  Microbacterium paludicola
+E        mih  Microbacterium sp. BH-3-3-3
+E        micr  Microbacterium sp. 1.5R
+E        maur  Microbacterium aurum
 D      Rhodoluna (2)
 E        rla  Candidatus Rhodoluna lacicola
 E        rpla  Candidatus Rhodoluna planktonica
@@ -4092,12 +4630,17 @@ E        cub  Curtobacterium sp. BH-2-1-1
 D      Microterricola (1)
 E        mvd  Microterricola viridarii
 D      Frondihabitans (1)
-E        frp  Frondihabitans sp. PAMC28766
+E        frp  Frondihabitans sp. PAMC 28766
 D      Agromyces (1)
-E        agy  Agromyces sp. AR33
-D      Cryobacterium (1)
+E        agy  Agromyces aureus
+D      Cryobacterium (2)
 E        cart  Cryobacterium arcticum
-D      Arthrobacter (11)
+E        cry  Cryobacterium sp. LW097
+D      Cnuibacter (1)
+E        cphy  Cnuibacter physcomitrellae
+D      Aurantimicrobium (1)
+E        amin  Aurantimicrobium minutum
+D      Arthrobacter (14)
 E        art  Arthrobacter sp. FB24
 E        arr  Arthrobacter sp. Rue61a
 E        arm  Arthrobacter sp. PAMC 25486
@@ -4109,6 +4652,9 @@ E        arh  Arthrobacter sp. Hiyo8
 E        ary  Arthrobacter sp. YC-RL1
 E        arw  Arthrobacter sp. A3
 E        arz  Arthrobacter sp. ATCC 21022
+E        aru  Arthrobacter sp. U41
+E        arq  Arthrobacter sp. QXT-31
+E        arn  Arthrobacter sp. YN
 D      Paenarthrobacter (1)
 E        aau  Paenarthrobacter aurescens
 D      Pseudarthrobacter (3)
@@ -4135,8 +4681,12 @@ D      Neomicrococcus (1)
 E        nae  Neomicrococcus aestuarii
 D      Beutenbergia (1)
 E        bcv  Beutenbergia cavernae
-D      Brachybacterium (1)
+D      Brachybacterium (5)
 E        bfa  Brachybacterium faecium
+E        brx  Brachybacterium sp. P6-10-X1
+E        brv  Brachybacterium sp. VR2415
+E        bgg  Brachybacterium ginsengisoli
+E        brz  Brachybacterium sp. VM2412
 D      Dermabacter (1)
 E        dva  Dermabacter vaginalis
 D      Jonesia (1)
@@ -4152,12 +4702,16 @@ E        xce  Xylanimonas cellulosilytica
 D      Isoptericola (2)
 E        iva  Isoptericola variabilis
 E        ido  Isoptericola dokdonensis
+D      Cellulosimicrobium (2)
+E        cet  Cellulosimicrobium sp. TH-20
+E        cceu  Cellulosimicrobium cellulans
 D      Sanguibacter (1)
 E        ske  Sanguibacter keddieii
-D      Cellulomonas (3)
+D      Cellulomonas (4)
 E        cfl  Cellulomonas flavigena
 E        cfi  Cellulomonas fimi
 E        cga  Cellulomonas gilvus
+E        cez  Cellulomonas sp. PSBB021
 D      Intrasporangium (1)
 E        ica  Intrasporangium calvum
 D      Arsenicicoccus (1)
@@ -4166,20 +4720,24 @@ D      Serinicoccus (1)
 E        serj  Serinicoccus sp. JLT9
 D      Janibacter (1)
 E        jte  Janibacter terrae
-D      Brevibacterium (1)
-E        bly  Brevibacterium linens
-D      Cutibacterium (12)
+D      Brevibacterium (2)
+E        bly  Brevibacterium linens BS258
+E        blin  Brevibacterium linens SMQ-1335
+D      Dermatophilus (1)
+E        dco  Dermatophilus congolensis
+D      Cutibacterium (13)
 E        pac  Propionibacterium acnes KPA171202
 E        pak  Propionibacterium acnes SK137
 E        pav  Propionibacterium acnes TypeIA2 P.acn17
 E        pax  Propionibacterium acnes TypeIA2 P.acn31
 E        paz  Propionibacterium acnes TypeIA2 P.acn33
 E        paw  Propionibacterium acnes 266
-E        pad  Propionibacterium acnes ATCC 11828
+E        pad  Propionibacterium acnes subsp. defendens ATCC 11828
 E        pcn  Propionibacterium acnes 6609
 E        pacc  Propionibacterium acnes C1
 E        pach  Propionibacterium acnes HL096PA1
 E        pacn  Propionibacterium acnes hdn-1
+E        cacn  Cutibacterium acnes
 E        pra  Cutibacterium avidum
 D      Propionibacterium (3)
 E        pfr  Propionibacterium freudenreichii subsp. shermanii CIRM-BIA1
@@ -4192,6 +4750,11 @@ E        pbo  Acidipropionibacterium acidipropionici ATCC 4875
 E        aaci  Acidipropionibacterium acidipropionici CGMCC 1.2230
 D      Microlunatus (1)
 E        mph  Microlunatus phosphovorus
+D      Tessaracoccus (4)
+E        tfl  Tessaracoccus flavus
+E        tfa  Tessaracoccus flavescens
+E        tes  Tessaracoccus sp. NSG39
+E        tez  Tessaracoccus sp. T2.5-30
 D      Nocardioides (2)
 E        nca  Nocardioides sp. JS614
 E        ndk  Nocardioides dokdonensis
@@ -4203,13 +4766,16 @@ D      Aeromicrobium (1)
 E        aer  Aeromicrobium erythreum
 D      Thermobifida (1)
 E        tfu  Thermobifida fusca
-D      Nocardiopsis (2)
+D      Nocardiopsis (3)
 E        nda  Nocardiopsis dassonvillei
 E        nal  Nocardiopsis alba
+E        ngv  Nocardiopsis gilva
 D      Thermomonospora (1)
 E        tcu  Thermomonospora curvata
 D      Streptosporangium (1)
 E        sro  Streptosporangium roseum
+D      Nonomuraea (1)
+E        noa  Nonomuraea sp. ATCC 55076
 D      Frankia (5)
 E        fra  Frankia sp. CcI3
 E        fre  Frankia sp. EAN1pec
@@ -4249,8 +4815,9 @@ E        pseh  Pseudonocardia sp. HH130629-09
 E        pseq  Pseudonocardia sp. EC080610-09
 E        pecq  Pseudonocardia sp EC080619-01
 E        phh  Pseudonocardia sp. HH130630-07
-D      Actinosynnema (1)
+D      Actinosynnema (2)
 E        ami  Actinosynnema mirum
+E        apre  Actinosynnema pretiosum
 D      Saccharothrix (1)
 E        sesp  Saccharothrix espanaensis
 D      Kutzneria (1)
@@ -4259,10 +4826,15 @@ D      Kibdelosporangium (1)
 E        kphy  Kibdelosporangium phytohabitans
 D      Lentzea (1)
 E        led  Lentzea guizhouensis
-D      Actinoalloteichus (1)
+D      Actinoalloteichus (4)
 E        ahm  Actinoalloteichus hymeniacidonis
+E        acti  Actinoalloteichus sp. GBA129-24
+E        acad  Actinoalloteichus sp. ADI127-7
+E        ahg  Actinoalloteichus hoggarensis
 D      Alloactinosynnema (1)
 E        all  Alloactinosynnema sp. L-07
+D      Prauserella (1)
+E        pmad  Prauserella marina
 D      Salinispora (2)
 E        stp  Salinispora tropica
 E        saq  Salinispora arenicola
@@ -4276,6 +4848,8 @@ E        ams  Actinoplanes missouriensis
 E        ase  Actinoplanes sp. SE50/110
 E        actn  Actinoplanes sp. N902-109
 E        afs  Actinoplanes friuliensis
+D      Plantactinospora (1)
+E        plk  Plantactinospora sp. KBS50
 D      Catenulispora (1)
 E        cai  Catenulispora acidiphila
 D      Stackebrandtia (1)
@@ -4289,12 +4863,13 @@ E        tpy  Trueperella pyogenes TP6375
 E        tpyo  Trueperella pyogenes TP8
 D      Actinotignum (1)
 E        asg  Actinotignum schaalii
-D      Actinomyces (5)
+D      Actinomyces (6)
 E        amy  Actinomyces meyeri
 E        acq  Actinomyces sp. oral taxon 414
 E        aos  Actinomyces oris
 E        ard  Actinomyces radicidentis
 E        avu  Actinomyces sp. VUL4_3
+E        actp  Actinomyces gaoshouyii
 D      Bifidobacterium (54)
 E        blo  Bifidobacterium longum NCC2705
 E        blj  Bifidobacterium longum DJO10A
@@ -4360,6 +4935,19 @@ D      Parascardovia (1)
 E        pdo  Parascardovia denticolens
 D      Thermobispora (1)
 E        tbi  Thermobispora bispora
+D      Actinopolyspora (1)
+E        aey  Actinopolyspora erythraea
+D      Planktophila (4)
+E        plan  Candidatus Planktophila lacus
+E        plak  Candidatus Planktophila dulcis
+E        plim  Candidatus Planktophila limnetica
+E        psuf  Candidatus Planktophila sulfonica
+D      Nanopelagicus (3)
+E        abam  Candidatus Nanopelagicus limnes
+E        nhi  Candidatus Nanopelagicus hibericus
+E        nab  Candidatus Nanopelagicus abundans
+D      Unclassified Actinobacteria (1)
+E        abai  Actinobacteria bacterium IMCC26256
 D      Rubrobacter (2)
 E        rxy  Rubrobacter xylanophilus
 E        rrd  Rubrobacter radiotolerans
@@ -4389,11 +4977,11 @@ E        ols  Olsenella uli
 E        olo  Olsenella sp. oral taxon 807
 D      Coriobacterium (1)
 E        cgo  Coriobacterium glomerans
+D      Collinsella (1)
+E        caer  Collinsella aerofaciens
 D      Unclassified Coriobacteriaceae (1)
 E        cbac  Coriobacteriaceae bacterium 68-1-3
-D      Unclassified Actinobacteria (1)
-E        abai  Actinobacteria bacterium IMCC26256
-C    Cyanobacteria (94)
+C    Cyanobacteria (102)
 D      Synechocystis (7)
 E        syn  Synechocystis sp. PCC 6803
 E        syz  Synechocystis sp. PCC 6803
@@ -4402,7 +4990,7 @@ E        syt  Synechocystis sp. PCC 6803 GT-I
 E        sys  Synechocystis sp. PCC 6803 PCC-N
 E        syq  Synechocystis sp. PCC 6803 PCC-P
 E        syj  Synechocystis sp. PCC 6714
-D      Synechococcus (18)
+D      Synechococcus (19)
 E        syw  Synechococcus sp. WH8102
 E        syc  Synechococcus elongatus PCC6301
 E        syf  Synechococcus elongatus PCC7942
@@ -4421,19 +5009,24 @@ E        synr  Synechococcus sp. KORDI-49
 E        synd  Synechococcus sp. KORDI-52
 E        syu  Synechococcus sp. UTEX 2973
 E        syh  Synechococcus sp. WH 8109
+E        synw  Synechococcus sp. WH 8103
 D      Thermosynechococcus (2)
 E        tel  Thermosynechococcus elongatus
 E        thn  Thermosynechococcus sp. NK55
-D      Cyanobium (1)
+D      Cyanobium (2)
 E        cgc  Cyanobium gracile
+E        cyi  Cyanobium sp. NIES-981
 D      Dactylococcopsis (1)
 E        dsl  Dactylococcopsis salina
 D      Chamaesiphon (1)
 E        cmp  Chamaesiphon minutus
-D      Leptolyngbya (3)
+D      Leptolyngbya (4)
 E        lep  Leptolyngbya sp. PCC 7376
 E        len  Leptolyngbya sp. NIES-3755
 E        let  Leptolyngbya sp. O-77
+E        lbo  Leptolyngbya boryana
+D      Halomicronema (1)
+E        hhg  Halomicronema hongdechloris
 D      Pseudanabaena (1)
 E        pseu  Pseudanabaena sp. PCC 7367
 D      Prochlorococcus (14)
@@ -4463,11 +5056,15 @@ D      Halothece (1)
 E        hao  Halothece sp. PCC 7418
 D      Atelocyanobacterium (1)
 E        cyu  Candidatus Atelocyanobacterium thalassa
+D      Crocosphaera (1)
+E        cwa  Crocosphaera watsonii
 D      Gloeocapsa (1)
 E        glp  Gloeocapsa sp. PCC 7428
 D      Geminocystis (2)
 E        gen  Geminocystis sp. NIES-3709
 E        gee  Geminocystis sp. NIES-3708
+D      Chondrocystis (1)
+E        chon  Chondrocystis sp. NIES-4102
 D      Cyanothece (6)
 E        cyt  Cyanothece sp. ATCC 51142
 E        cyp  Cyanothece sp. PCC 8801
@@ -4499,13 +5096,13 @@ E        npu  Nostoc punctiforme
 E        nos  Nostoc sp. PCC 7107
 E        nop  Nostoc sp. PCC 7524
 E        non  Nostoc sp. NIES-3756
-D      Anabaena (4)
-E        ava  Anabaena variabilis
+D      Trichormus (2)
+E        ava  Trichormus variabilis
+E        naz  'Nostoc azollae' 0708
+D      Anabaena (3)
 E        anb  Anabaena sp. 90
 E        acy  Anabaena cylindrica
 E        awa  Anabaena sp. wa102
-D      Trichormus (1)
-E        naz  Anabaena azollae 0708
 D      Cylindrospermum (1)
 E        csg  Cylindrospermum stagnale
 D      Calothrix (3)
@@ -4516,18 +5113,21 @@ D      Rivularia (1)
 E        riv  Rivularia sp. PCC 7116
 D      Fischerella (1)
 E        fis  Fischerella sp. NIES-3754
+D      Unclassified Nostocales (1)
+E        ncn  Nostocales cyanobacterium HT-58-2
 D      Chroococcidiopsis (1)
 E        cthe  Chroococcidiopsis thermalis
 D      Pleurocapsa (1)
 E        plp  Pleurocapsa sp. PCC 7327
-D      Stanieria (1)
+D      Stanieria (2)
 E        scs  Stanieria cyanosphaera
+E        stan  Stanieria sp. NIES-3757
 D      Unclassified Cyanobacteria (1)
 E        ceo  Cyanobacterium endosymbiont of Epithemia turgida
 C    Melainabacteria (1)
 D      Unclassified Melainabacteria (1)
 E        mbf  Candidatus Melainabacteria bacterium MEL.A1
-C    Chloroflexi (25)
+C    Chloroflexi (27)
 D      Dehalococcoides (12)
 E        det  Dehalococcoides mccartyi 195
 E        deh  Dehalococcoides mccartyi CBDB1
@@ -4541,9 +5141,10 @@ E        dmx  Dehalococcoides mccartyi CG1
 E        dmy  Dehalococcoides mccartyi CG4
 E        dmz  Dehalococcoides mccartyi CG5
 E        duc  Dehalococcoides sp. UCH007
-D      Dehalogenimonas (2)
+D      Dehalogenimonas (3)
 E        dly  Dehalogenimonas lykanthroporepellens
 E        dew  Dehalogenimonas sp. WBC-2
+E        dfo  Dehalogenimonas formicexedens
 D      Roseiflexus (2)
 E        rrs  Roseiflexus sp. RS-1
 E        rca  Roseiflexus castenholzii
@@ -4559,11 +5160,12 @@ D      Sphaerobacterineae (1)
 E        sti  Sphaerobacter thermophilus
 D      Anaerolinea (1)
 E        atm  Anaerolinea thermophila
-D      Unclassified Anaerolineaceae (1)
+D      Unclassified Anaerolineaceae (2)
 E        abao  Anaerolineaceae bacterium oral taxon 439
+E        abat  Anaerolineaceae bacterium CAMBI-1
 D      Caldilinea (1)
 E        cap  Caldilinea aerophila
-C    Deinococcus-Thermus (26)
+C    Deinococcus-Thermus (27)
 D      Deinococcus (11)
 E        dra  Deinococcus radiodurans
 E        dge  Deinococcus geothermalis
@@ -4578,7 +5180,7 @@ E        dab  Deinococcus actinosclerus
 E        dpu  Deinococcus puniceus
 D      Truepera (1)
 E        tra  Truepera radiovictrix
-D      Thermus (9)
+D      Thermus (10)
 E        tth  Thermus thermophilus HB27
 E        ttj  Thermus thermophilus HB8
 E        tts  Thermus thermophilus SG0.5JP17-16
@@ -4588,6 +5190,7 @@ E        thc  Thermus sp. CCB_US3_UF1
 E        tos  Thermus oshimai
 E        taq  Thermus aquaticus
 E        tpar  Thermus parvatiensis
+E        tbc  Thermus brockianus
 D      Meiothermus (3)
 E        mrb  Meiothermus ruber DSM 1279
 E        mre  Meiothermus ruber DSM 1279
@@ -4731,9 +5334,10 @@ E        sng  Simkania negevensis
 C    Verrucomicrobia (9)
 D      Opitutus (1)
 E        ote  Opitutus terrae
-D      Unclassified Opitutaceae (2)
+D      Lacunisphaera (1)
+E        obg  Lacunisphaera limnophila
+D      Unclassified Opitutaceae (1)
 E        obt  Opitutaceae bacterium TAV5
-E        obg  Opitutaceae bacterium IG16b
 D      Coraliomargarita (1)
 E        caa  Coraliomargarita akajimensis
 D      Akkermansia (2)
@@ -4745,7 +5349,7 @@ D      Methylacidiphilum (1)
 E        min  Methylacidiphilum infernorum
 D      Unclassified Verrucomicrobia (1)
 E        vba  Verrucomicrobia bacterium IMCC26134
-C    Planctomycetes (11)
+C    Planctomycetes (16)
 D      Rhodopirellula (1)
 E        rba  Rhodopirellula baltica
 D      Pirellula (2)
@@ -4758,19 +5362,28 @@ E        pbs  Rubinisphaera brasiliensis
 D      Planctomyces (2)
 E        pls  Planctomyces sp. SH-PL14
 E        plh  Planctomyces sp. SH-PL62
+D      Fuerstia (1)
+E        fmr  Fuerstia marisgermanicae
+D      Thermogutta (1)
+E        ttf  Thermogutta terrifontis
 D      Gemmata (1)
 E        ges  Gemmata sp. SH-PL17
 D      Isosphaera (1)
 E        ipa  Isosphaera pallida
 D      Singulisphaera (1)
 E        saci  Singulisphaera acidiphila
+D      Paludisphaera (1)
+E        pbor  Paludisphaera borealis
 D      Phycisphaera (1)
 E        phm  Phycisphaera mikurensis
+D      Unclassified Phycisphaerae (2)
+E        pbu  Phycisphaerae bacterium L21-RPul-D3
+E        pbas  Phycisphaerae bacterium SM-Chi-D1
 C    Kiritimatiellaeota (1)
 D      Kiritimatiella (1)
 E        vbl  Kiritimatiella glycovorans
-C    Spirochaetes (73)
-D      Borreliella (17)
+C    Spirochaetes (77)
+D      Borreliella (19)
 E        bbu  Borrelia burgdorferi B31
 E        bbz  Borrelia burgdorferi ZS7
 E        bbn  Borrelia burgdorferi N40
@@ -4780,6 +5393,7 @@ E        bga  Borreliella bavariensis PBi
 E        bgb  Borrelia garinii BgVir
 E        bgn  Borrelia garinii NMJW1
 E        bgs  Borrelia garinii SZ
+E        bgc  Borreliella garinii CIP 103362
 E        baf  Borrelia afzelii (FLI)
 E        bafz  Borrelia afzelii (Maryland)
 E        bafh  Borrelia afzelii HLJ01
@@ -4788,7 +5402,8 @@ E        bafe  Borrelia afzelii K78
 E        bbs  Borreliella bissettii
 E        bvt  Borreliella valaisiana
 E        bchi  Borreliella chilensis
-D      Borrelia (9)
+E        bmay  Borrelia mayonii
+D      Borrelia (10)
 E        btu  Borrelia turicatae
 E        bhr  Borrelia hermsii DAH
 E        bhi  Borrelia hermsii CC1
@@ -4798,6 +5413,7 @@ E        bcw  Borrelia crocidurae
 E        bmo  Borrelia miyamotoi LB-2001
 E        bmiy  Borrelia miyamotoi CT14D4
 E        bpak  Borrelia parkeri
+E        bane  Borrelia anserina
 D      Treponema (21)
 E        tpa  Treponema pallidum subsp. pallidum Nichols
 E        tpw  Treponema pallidum subsp. pallidum Nichols
@@ -4820,8 +5436,9 @@ E        tped  Treponema pedis
 E        scd  Treponema caldarium
 E        tpk  Treponema putidum
 E        trm  Treponema sp. OMZ 838
-D      Spirochaeta (4)
-E        ssm  Spirochaeta smaragdinae
+D      Sediminispirochaeta (1)
+E        ssm  Sediminispirochaeta smaragdinae
+D      Spirochaeta (3)
 E        sta  Spirochaeta thermophila DSM 6192
 E        stq  Spirochaeta thermophila DSM 6578
 E        sfc  Spirochaeta africana
@@ -4844,8 +5461,9 @@ E        lst  Leptospira santarosai
 E        laj  Leptospira alstonii
 D      Turneriella (1)
 E        tpx  Turneriella parva
-D      Brachyspira (7)
-E        bhy  Brachyspira hyodysenteriae
+D      Brachyspira (8)
+E        bhy  Brachyspira hyodysenteriae WA1
+E        bhd  Brachyspira hyodysenteriae ATCC 27164
 E        brm  Brachyspira murdochii
 E        bpo  Brachyspira pilosicoli 95/1000
 E        bpj  Brachyspira pilosicoli B2904
@@ -4867,20 +5485,17 @@ D      Solibacter (1)
 E        sus  Candidatus Solibacter usitatus
 D      Chloracidobacterium (1)
 E        ctm  Chloracidobacterium thermophilum
-D      Unclassified Acidobacteria (1)
-E        abac  Acidobacteria bacterium DSM 100886
-C    Fibrobacteres (2)
-D      Fibrobacter (2)
-E        fsu  Fibrobacter succinogenes
-E        fsc  Fibrobacter succinogenes
-C    Elusimicrobia (3)
+D      Luteitalea (1)
+E        abac  Luteitalea pratensis
+C    Elusimicrobia (4)
 D      Elusimicrobium (1)
 E        emi  Elusimicrobium minutum
-D      Endomicrobium (1)
+D      Endomicrobium (2)
 E        epo  Endomicrobium proavitum
+E        eti  Candidatus Endomicrobium trichonymphae
 D      Termite group 1 (1)
 E        rsd  Uncultured Termite group 1 bacterium phylotype Rs-D17
-C    Fusobacteria (12)
+C    Fusobacteria (14)
 D      Fusobacterium (6)
 E        fnu  Fusobacterium nucleatum subsp. nucleatum ATCC 25586
 E        fnc  Fusobacterium nucleatum subsp. vincentii 3_1_36A2
@@ -4890,20 +5505,17 @@ E        fne  Fusobacterium nucleatum subsp. animalis 7_1
 E        fhw  Fusobacterium hwasookii
 D      Ilyobacter (1)
 E        ipo  Ilyobacter polytropus
-D      Leptotrichia (2)
+D      Leptotrichia (4)
 E        lba  Leptotrichia buccalis
 E        leo  Leptotrichia sp. oral taxon 212
+E        lot  Leptotrichia sp. oral taxon 847
+E        leq  Leptotrichia sp. oral taxon 498
 D      Sebaldella (1)
 E        str  Sebaldella termitidis
 D      Streptobacillus (1)
 E        smf  Streptobacillus moniliformis
 D      Sneathia (1)
 E        sns  Sneathia amnii
-C    Gemmatimonadetes (2)
-D      Gemmatimonas (1)
-E        gau  Gemmatimonas aurantiaca
-D      Gemmatirosa (1)
-E        gba  Gemmatirosa kalamazoonesis
 C    Synergistetes (6)
 D      Thermanaerovibrio (1)
 E        tai  Thermanaerovibrio acidaminovorans
@@ -4917,8 +5529,18 @@ D      Fretibacterium (1)
 E        sbr  Fretibacterium fastidiosum
 D      Cloacibacillus (1)
 E        cpor  Cloacibacillus porcorum
-C    Bacteroidetes (185)
-D      Bacteroides (15)
+C    Fibrobacteres (2)
+D      Fibrobacter (2)
+E        fsu  Fibrobacter succinogenes
+E        fsc  Fibrobacter succinogenes
+C    Gemmatimonadetes (3)
+D      Gemmatimonas (2)
+E        gau  Gemmatimonas aurantiaca
+E        gph  Gemmatimonas phototrophica
+D      Gemmatirosa (1)
+E        gba  Gemmatirosa kalamazoonesis
+C    Bacteroidetes (227)
+D      Bacteroides (16)
 E        bth  Bacteroides thetaiotaomicron VPI-5482
 E        btho  Bacteroides thetaiotaomicron 7330
 E        bfr  Bacteroides fragilis YCH46
@@ -4933,26 +5555,31 @@ E        bdo  Bacteroides dorei HS1_L_1_B_010
 E        bdh  Bacteroides dorei HS1_L_3_B_079
 E        boa  Bacteroides ovatus
 E        bcel  Bacteroides cellulosilyticus
+E        bcac  Bacteroides caccae
 E        bacc  Bacteroidales bacterium CF
 D      Porphyromonas (4)
 E        pgi  Porphyromonas gingivalis W83
 E        pgn  Porphyromonas gingivalis ATCC 33277
 E        pgt  Porphyromonas gingivalis TDC60
 E        pah  Porphyromonas asaccharolytica
-D      Parabacteroides (2)
-E        pdi  Parabacteroides distasonis
-E        pary  Parabacteroides sp. YL27
+D      Fermentimonas (1)
+E        pbt  Fermentimonas caenicola
+D      Petrimonas (2)
+E        pmuc  Petrimonas mucosa
+E        pet  Petrimonas sp. IBARAKI
 D      Paludibacter (1)
 E        ppn  Paludibacter propionicigenes
+D      Parabacteroides (3)
+E        pdi  Parabacteroides distasonis
+E        pary  Parabacteroides sp. YL27
+E        parc  Parabacteroides sp. CT06
 D      Tannerella (2)
 E        tfo  Tannerella forsythia
 E        toh  Tannerella sp. oral taxon HOT-286
 D      Barnesiella (1)
 E        bvs  Barnesiella viscericola
-D      Fermentimonas (1)
-E        pbt  Fermentimonas caenicola
-D      Petrimonas (1)
-E        pmuc  Petrimonas mucosa
+D      Proteiniphilum (1)
+E        psac  Proteiniphilum saccharofermentans
 D      Odoribacter (1)
 E        osp  Odoribacter splanchnicus
 D      Azobacteroides (1)
@@ -4972,42 +5599,54 @@ E        ash  Alistipes shahii
 D      Mucinivorans (1)
 E        rbc  Mucinivorans hirudinis
 D      Draconibacterium (1)
-E        doi  Draconibacterium orientale
+E        dori  Draconibacterium orientale
+D      Salinivirga (1)
+E        blq  Salinivirga cyanobacteriivorans
+D      Alkalitalea (1)
+E        asx  Alkalitalea saponilacus
 D      Salinibacter (2)
 E        sru  Salinibacter ruber DSM 13855
 E        srm  Salinibacter ruber M8
 D      Rhodothermus (2)
 E        rmr  Rhodothermus marinus DSM 4252
 E        rmg  Rhodothermus marinus SG0.5JP17-172
+D      Unclassified Rhodothermaceae (1)
+E        rbar  Rhodothermaceae bacterium RA
 D      Chitinophaga (1)
 E        cpi  Chitinophaga pinensis
 D      Niastella (1)
 E        nko  Niastella koreensis
 D      Niabella (2)
 E        nso  Niabella soli
-E        nia  Niabella sp. BS26
+E        nia  Niabella ginsenosidivorans
 D      Flavisolibacter (1)
-E        fla  Flavisolibacter sp. LCS9
+E        fla  Flavisolibacter tropicus
 D      Arachidicoccus (1)
 E        arb  Arachidicoccus sp. BS20
+D      Filimonas (1)
+E        fln  Filimonas lacunae
 D      Haliscomenobacter (1)
 E        hhy  Haliscomenobacter hydrossis
 D      Saprospira (1)
 E        sgn  Saprospira grandis
-D      Pedobacter (4)
+D      Pedobacter (5)
 E        phe  Pedobacter heparinus
 E        pep  Pedobacter sp. PACM 27299
 E        pcm  Pedobacter cryoconitis
 E        psty  Pedobacter steynii
+E        pgs  Pedobacter ginsengisoli
 D      Pseudopedobacter (1)
 E        psn  Pseudopedobacter saltans
-D      Sphingobacterium (2)
+D      Sphingobacterium (3)
 E        shg  Sphingobacterium sp. 21
 E        sht  Sphingobacterium sp. ML3W
+E        sphn  Sphingobacterium sp. B29
 D      Solitalea (1)
 E        scn  Solitalea canadensis
-D      Mucilaginibacter (1)
+D      Mucilaginibacter (3)
 E        mup  Mucilaginibacter sp. PAMC 26640
+E        muc  Mucilaginibacter sp. BJC16-A31
+E        mgot  Mucilaginibacter gotjawali
 D      Cyclobacterium (2)
 E        cmr  Cyclobacterium marinum
 E        camu  Cyclobacterium amurskyense
@@ -5021,26 +5660,29 @@ D      Cytophaga (1)
 E        chu  Cytophaga hutchinsonii
 D      Dyadobacter (1)
 E        dfe  Dyadobacter fermentans
-D      Spirosoma (2)
+D      Spirosoma (3)
 E        sli  Spirosoma linguale
 E        srd  Spirosoma radiotolerans
+E        smon  Spirosoma montaniterrae
 D      Leadbetterella (1)
 E        lby  Leadbetterella byssophila
 D      Runella (1)
 E        rsi  Runella slithyformis
-D      Flexibacter (1)
-E        fli  Flexibacter litoralis
 D      Emticicia (1)
 E        eol  Emticicia oligotrophica
-D      Fibrella (1)
+D      Fibrella (2)
 E        fae  Fibrella aestuarina
-D      Hymenobacter (6)
+E        fib  Fibrella sp. ES10-3-2-2
+D      Flexibacter (1)
+E        fli  Bernardetia litoralis
+D      Hymenobacter (7)
 E        hsw  Hymenobacter swuensis
 E        hym  Hymenobacter sp. APR13
 E        hyd  Hymenobacter sp. DG25B
 E        hye  Hymenobacter sp. DG25A
 E        hyg  Hymenobacter sp. DG5B
 E        hyp  Hymenobacter sp. PAMC 26554
+E        hyz  Hymenobacter sp. PAMC 26628
 D      Pontibacter (1)
 E        pko  Pontibacter korlensis
 D      Rufibacter (3)
@@ -5057,10 +5699,13 @@ D      Amoebophilus (1)
 E        aas  Candidatus Amoebophilus asiaticus
 D      Cardinium (1)
 E        che  Cardinium endosymbiont cEper1 (Encarsia pergandiella)
-D      Gramella (1)
+D      Gramella (3)
 E        gfo  Gramella forsetii
-D      Flavobacterium (13)
-E        fjo  Flavobacterium johnsoniae
+E        grl  Gramella sp. LPB0144
+E        gfl  Gramella flava
+D      Flavobacterium (16)
+E        fjo  Flavobacterium johnsoniae UW101
+E        fjg  Flavobacterium johnsoniae GSE09
 E        fps  Flavobacterium psychrophilum JIP02/86
 E        fpc  Flavobacterium psychrophilum CSF259-93
 E        fpy  Flavobacterium psychrophilum FPG101
@@ -5073,11 +5718,14 @@ E        fpsz  Flavobacterium psychrophilum Z2
 E        fbr  Flavobacterium branchiophilum
 E        fco  Flavobacterium columnare
 E        fin  Flavobacterium indicum
-D      Capnocytophaga (4)
+E        fgl  Flavobacterium gilvum
+E        fcm  Flavobacterium commune
+D      Capnocytophaga (5)
 E        coc  Capnocytophaga ochracea
 E        ccm  Capnocytophaga canimorsus
 E        col  Capnocytophaga sp. oral taxon 323
 E        chg  Capnocytophaga haemolytica
+E        capn  Capnocytophaga sp. ChDC OS43
 D      Robiginitalea (1)
 E        rbi  Robiginitalea biformata
 D      Zunongwangia (1)
@@ -5091,9 +5739,11 @@ E        rar  Riemerella anatipestifer RA-GD
 E        rag  Riemerella anatipestifer RA-CH-1
 E        rae  Riemerella anatipestifer RA-CH-2
 E        rat  Riemerella anatipestifer CH3
-D      Maribacter (2)
+D      Maribacter (4)
 E        fbc  Maribacter sp. HTCC2170
 E        marm  Maribacter sp. 1_2014MBL_MicDiv
+E        mart  Maribacter sp. T28
+E        marb  Maribacter sp. B1
 D      Cellulophaga (5)
 E        cao  Cellulophaga algicola
 E        cly  Cellulophaga lytica DSM 7489
@@ -5106,8 +5756,9 @@ D      Dokdonia (3)
 E        kdi  Dokdonia sp. 4H-3-7-5
 E        dok  Dokdonia sp. MED134
 E        ddo  Dokdonia donghaensis
-D      Lacinutrix (1)
+D      Lacinutrix (2)
 E        lan  Lacinutrix sp. 5H-3-7-4
+E        lvn  Lacinutrix venerupis
 D      Zobellia (1)
 E        zga  Zobellia galactanivorans
 D      Muricauda (2)
@@ -5120,46 +5771,66 @@ E        orh  Ornithobacterium rhinotracheale DSM 15997
 E        ori  Ornithobacterium rhinotracheale ORT-UMN 88
 D      Psychroflexus (1)
 E        ptq  Psychroflexus torquis
-D      Nonlabens (2)
+D      Nonlabens (3)
 E        ndo  Nonlabens dokdonensis
 E        nom  Nonlabens sp. MIC269
-D      Polaribacter (2)
+E        nsd  Nonlabens sediminis
+D      Polaribacter (4)
 E        pom  Polaribacter sp. MED152
-E        pob  Polaribacter sp. LPB0003
-D      Elizabethkingia (3)
+E        pob  Polaribacter vadi
+E        prn  Polaribacter reichenbachii
+E        pola  Polaribacter sp. BM10
+D      Elizabethkingia (7)
 E        eao  Elizabethkingia anophelis NUHP1
 E        emn  Elizabethkingia anophelis FMS-007
+E        een  Elizabethkingia anophelis JM-87
 E        elb  Elizabethkingia miricola
+E        emg  Elizabethkingia meningoseptica
+E        ego  Elizabethkingia genomosp. 4
+E        egm  Elizabethkingia genomosp. 3
 D      Myroides (4)
 E        myr  Myroides sp. A21
 E        mpw  Myroides profundi
 E        mod  Myroides odoratimimus
 E        myz  Myroides sp. ZB35
-D      Chryseobacterium (4)
+D      Chryseobacterium (7)
 E        chz  Chryseobacterium sp. StRB126
 E        cgn  Chryseobacterium gallinarum
 E        cih  Chryseobacterium sp. IHB B 17019
 E        chh  Chryseobacterium sp. IHB B 10212
-D      Winogradskyella (1)
+E        cio  Chryseobacterium indologenes
+E        chry  Chryseobacterium sp. T16E-39
+E        cpip  Chryseobacterium piperi
+D      Winogradskyella (2)
 E        win  Winogradskyella sp. PG-2
+E        wij  Winogradskyella sp. J14-2
 D      Siansivirga (1)
 E        sze  Siansivirga zeaxanthinifaciens
 D      Algibacter (1)
 E        ahz  Algibacter alginolytica
 D      Sediminicola (1)
 E        syi  Sediminicola sp. YIK13
-D      Tenacibaculum (1)
+D      Tenacibaculum (3)
 E        tdi  Tenacibaculum dicentrarchi
+E        ten  Tenacibaculum sp. LPB0136
+E        tje  Tenacibaculum jejuense
 D      Lutibacter (2)
-E        lut  Lutibacter sp. LP1
+E        lut  Lutibacter profundi
 E        lul  Lutibacter sp. LPB0138
 D      Wenyingzhuangia (1)
 E        wfu  Wenyingzhuangia fucanilytica
 D      Formosa (2)
 E        for  Formosa sp. Hel1_33_131
 E        foh  Formosa sp. Hel3_A1_48
-D      Unclassified Flavobacteriaceae (1)
+D      Salegentibacter (1)
+E        salt  Salegentibacter sp. T436
+D      Seonamhaeicola (1)
+E        seon  Seonamhaeicola sp. S2-3
+D      Arenibacter (1)
+E        aalg  Arenibacter algicola
+D      Unclassified Flavobacteriaceae (2)
 E        fba  Flavobacteriaceae bacterium 3519-10
+E        fbu  Flavobacteriaceae bacterium UJ101
 D      Sulcia (9)
 E        smg  Candidatus Sulcia muelleri GWSS
 E        sms  Candidatus Sulcia muelleri SMDSEM
@@ -5179,17 +5850,18 @@ E        bbg  Blattabacterium sp. (Blaberus giganteus)
 E        bbq  Blattabacterium sp. (Blatta orientalis)
 E        blp  Blattabacterium sp. (Panesthia angustipennis spadica)
 E        blu  Blattabacterium sp. (Nauphoeta cinerea)
-D      Fluviicola (1)
+D      Fluviicola (2)
 E        fte  Fluviicola taffensis
+E        flu  Candidatus Fluviicola riflensis
 D      Owenweeksia (1)
 E        oho  Owenweeksia hongkongensis
 D      Uzinura (1)
 E        udi  Candidatus Uzinura diaspidicola
-D      Unclassified Flavobacteriia (1)
-E        elv  Endosymbiont of Llaveia axin axin
+D      Walczuchella (1)
+E        elv  Walczuchella monophlebidarum
 D      Unclassified Bacteroidetes (1)
 E        bbau  Bacteroidetes bacterium
-C    Chlorobi (15)
+C    Chlorobi (17)
 D      Chlorobaculum (3)
 E        cte  Chlorobium tepidum
 E        cpc  Chlorobaculum parvum
@@ -5203,15 +5875,20 @@ E        pvi  Chlorobium phaeovibrioides
 D      Pelodictyon (2)
 E        plt  Chlorobium luteolum
 E        pph  Pelodictyon phaeoclathratiforme
-D      Prosthecochloris (2)
+D      Prosthecochloris (4)
 E        paa  Prosthecochloris aestuarii
 E        proc  Prosthecochloris sp. CIB 2401
+E        prs  Prosthecochloris sp. HL-130-GSB
+E        pros  Prosthecochloris sp. GSB1
 D      Chloroherpeton (1)
 E        cts  Chloroherpeton thalassium
 D      Ignavibacterium (1)
 E        ial  Ignavibacterium album
 D      Melioribacter (1)
 E        mro  Melioribacter roseus
+C    Cloacimonetes (1)
+D      Cloacimonas (1)
+E        caci  Candidatus Cloacimonas acidaminovorans
 C    Aquificae (14)
 D      Aquifex (1)
 E        aae  Aquifex aeolicus
@@ -5236,7 +5913,7 @@ D      Thermovibrio (1)
 E        tam  Thermovibrio ammonificans
 D      Desulfurobacterium (1)
 E        dte  Desulfurobacterium thermolithotrophum
-C    Thermotogae (27)
+C    Thermotogae (30)
 D      Thermotoga (13)
 E        tma  Thermotoga maritima MSB8
 E        tmm  Thermotoga maritima MSB8
@@ -5255,17 +5932,20 @@ D      Pseudothermotoga (3)
 E        tle  Pseudothermotoga lettingae
 E        tta  Pseudothermotoga thermarum
 E        phy  Pseudothermotoga hypogea
-D      Thermosipho (2)
+D      Thermosipho (4)
 E        tme  Thermosipho melanesiensis
 E        taf  Thermosipho africanus
+E        thp  Thermosipho sp. 1063
+E        ther  Thermosipho sp. 1070
 D      Fervidobacterium (3)
 E        fno  Fervidobacterium nodosum
 E        fpe  Fervidobacterium pennivorans
 E        fia  Fervidobacterium islandicum
 D      Petrotoga (1)
 E        pmo  Petrotoga mobilis
-D      Marinitoga (1)
+D      Marinitoga (2)
 E        mpz  Marinitoga piezophila
+E        marn  Marinitoga sp. 1137
 D      Defluviitoga (1)
 E        dtn  Defluviitoga tunisiensis
 D      Kosmotoga (2)
@@ -5279,7 +5959,7 @@ E        cex  Caldisericum exile
 C    Chrysiogenetes (1)
 D      Desulfurispirillum (1)
 E        din  Desulfurispirillum indicum
-C    Deferribacteres (5)
+C    Deferribacteres (4)
 D      Deferribacter (1)
 E        ddf  Deferribacter desulfuricans
 D      Denitrovibrio (1)
@@ -5288,19 +5968,21 @@ D      Calditerrivibrio (1)
 E        cni  Calditerrivibrio nitroreducens
 D      Flexistipes (1)
 E        fsi  Flexistipes sinusarabici
+C    Calditrichaeota (1)
 D      Caldithrix (1)
 E        caby  Caldithrix abyssi
 C    Dictyoglomi (2)
 D      Dictyoglomus (2)
 E        dth  Dictyoglomus thermophilum
 E        dtu  Dictyoglomus turgidum
-C    Nitrospirae (8)
+C    Nitrospirae (9)
 D      Thermodesulfovibrio (1)
 E        tye  Thermodesulfovibrio yellowstonii
-D      Nitrospira (3)
+D      Nitrospira (4)
 E        nde  Nitrospira defluvii
 E        nmv  Nitrospira moscoviensis
 E        nio  Candidatus Nitrospira inopinata
+E        nja  Nitrospira japonica
 D      Leptospirillum (4)
 E        lfc  Leptospirillum ferrooxidans
 E        lfi  Leptospirillum ferriphilum ML-04
@@ -5314,14 +5996,19 @@ E        top  Thermodesulfobacterium geofontis
 E        tcm  Thermodesulfobacterium commune
 D      Caldimicrobium (1)
 E        cthi  Caldimicrobium thiodismutans
-C    Other (4)
-D      Saccharibacteria (3)
+C    Saccharibacteria (4)
+D      Saccharimonas (4)
 E        saal  Candidatus Saccharimonas aalborgensis
 E        sbe  Candidatus Saccharibacteria bacterium RAAC3_TM7_1
+E        sbag  Candidatus Saccharibacteria bacterium GW2011_GWC2_44_17
 E        sox  Candidatus Saccharibacteria oral
+C    Peregrinibacteria (1)
+D      Peribacter (1)
+E        prf  Candidatus Peribacter riflensis
+C    Other (1)
 D      Methylomirabilis (1)
 E        mox  Candidatus Methylomirabilis oxyfera
-C    Unclassified Bacteria (12)
+C    Unclassified Bacteria (11)
 D      srb  Candidate division SR1 bacterium RAAC1_SR1_1
 D      srg  Candidate division SR1 bacterium Aalborg_AAW-1
 D      wwe  Candidate division WWE3 bacterium RAAC2_WWE3_1
@@ -5331,12 +6018,11 @@ D      mib  Candidatus Beckwithbacteria bacterium GW2011_GWC1_49_16
 D      wba  Candidatus Woesebacteria bacterium GW2011_GWF1_31_35
 D      pwo  Candidatus Wolfebacteria bacterium GW2011_GWB1_47_1
 D      cgw  Candidatus Campbellbacteria bacterium GW2011_OD1_34_28
-D      prf  Candidatus Peribacter riflensis
 D      tmg  Candidate division TM6 bacterium GW2011_GWF2_28_16
-D      blq  Bacterium L21-Spi-D4
+D      baab  Bacterium AB1
 B
-B  <b>Archaea</b> (241)
-C    Euryarchaeota (159)
+B  <b>Archaea</b> (262)
+C    Euryarchaeota (176)
 D      Methanocaldococcus (6)
 E        mja  Methanocaldococcus jannaschii
 E        mfe  Methanocaldococcus fervens
@@ -5359,7 +6045,7 @@ E        mvn  Methanococcus vannielii
 E        mvo  Methanococcus voltae
 D      Methanothermococcus (1)
 E        mok  Methanothermococcus okinawensis
-D      Methanosarcina (21)
+D      Methanosarcina (22)
 E        mac  Methanosarcina acetivorans
 E        mba  Methanosarcina barkeri Fusaro
 E        mby  Methanosarcina barkeri MS
@@ -5369,6 +6055,7 @@ E        mbak  Methanosarcina barkeri 3
 E        mma  Methanosarcina mazei Go1
 E        mmaz  Methanosarcina mazei Tuc01
 E        mmj  Methanosarcina mazei S-6
+E        mmac  Methanosarcina mazei C16
 E        mvc  Methanosarcina vacuolata
 E        mek  Methanosarcina sp. Kolksee
 E        mls  Methanosarcina lacustris
@@ -5418,10 +6105,11 @@ D      Methanocella (3)
 E        mpd  Methanocella paludicola
 E        mez  Methanocella conradii
 E        rci  Methanocella arvoryzae
-D      Methanothermobacter (3)
+D      Methanothermobacter (4)
 E        mth  Methanothermobacter thermautotrophicus
 E        mmg  Methanothermobacter marburgensis
 E        metc  Methanothermobacter sp. CaT2
+E        mwo  Methanothermobacter wolfeii
 D      Methanosphaera (1)
 E        mst  Methanosphaera stadtmanae
 D      Methanobrevibacter (6)
@@ -5458,6 +6146,14 @@ E        hal  Halobacterium salinarum NRC-1
 E        hsl  Halobacterium salinarum
 E        hdl  Halobacterium sp. DL1
 E        hhb  Halobacterium hubeiense
+D      Halalkalicoccus (1)
+E        hje  Halalkalicoccus jeotgali
+D      Halodesulfurarchaeum (2)
+E        halh  Haloarchaeon HTSR1
+E        hhsr  Haloarchaeon HSR6
+D      Halanaeroarchaeum (2)
+E        hsu  Halanaeroarchaeum sulfurireducens HSR2
+E        hsf  Halanaeroarchaeum sulfurireducens M27-SA2
 D      Haloarcula (4)
 E        hma  Haloarcula marismortui
 E        hhi  Haloarcula hispanica ATCC 33960
@@ -5471,26 +6167,22 @@ E        hut  Halorhabdus utahensis
 E        hti  Halorhabdus tiamatea
 D      Halomicrobium (1)
 E        hmu  Halomicrobium mukohataei
-D      Halalkalicoccus (1)
-E        hje  Halalkalicoccus jeotgali
-D      Halanaeroarchaeum (2)
-E        hsu  Halanaeroarchaeum sulfurireducens HSR2
-E        hsf  Halanaeroarchaeum sulfurireducens M27-SA2
+D      Halorientalis (1)
+E        hali  Halorientalis sp. IM1011
 D      Haloquadratum (2)
 E        hwa  Haloquadratum walsbyi DSM 16790
 E        hwc  Haloquadratum walsbyi C23
-D      Halorubrum (1)
-E        hla  Halorubrum lacusprofundi
 D      Haloferax (3)
 E        hvo  Haloferax volcanii
 E        hme  Haloferax mediterranei
 E        hgi  Haloferax gibbonsii
 D      Halogeometricum (1)
 E        hbo  Halogeometricum borinquense
-D      Halolamina (1)
-E        hsi  Halolamina sediminis
-D      Haloterrigena (1)
+D      Halorubrum (1)
+E        hla  Halorubrum lacusprofundi
+D      Haloterrigena (2)
 E        htu  Haloterrigena turkmenica
+E        hda  Haloterrigena daqingensis
 D      Natrialba (1)
 E        nmg  Natrialba magadii
 D      Halopiger (1)
@@ -5508,16 +6200,20 @@ D      Salinarchaeum (1)
 E        sali  Salinarchaeum sp. Harcht-Bsk1
 D      Halostagnicola (1)
 E        hlr  Halostagnicola larsenii
-D      Unclassified Halobacteria (2)
-E        halh  Haloarchaeon HTSR1
-E        hhsr  Haloarchaeon HSR6
+D      Halobiforma (1)
+E        hlc  Halobiforma lacisalsi
+D      Unclassified Natrialbaceae (1)
+E        naj  Natrialbaceae archaeon JW/NM-HA 15
 D      Thermoplasma (2)
 E        tac  Thermoplasma acidophilum
 E        tvo  Thermoplasma volcanium
 D      Picrophilus (1)
 E        pto  Picrophilus torridus
-D      Ferroplasma (1)
+D      Ferroplasma (2)
 E        fac  Ferroplasma acidarmanus
+E        fai  Ferroplasma acidiphilum
+D      Cuniculiplasma (1)
+E        cdiv  Cuniculiplasma divulgatum
 D      Unclassified Thermoplasmatales (1)
 E        tar  Thermoplasmatales archaeon BRNA1
 D      Methanomethylophilus (1)
@@ -5536,8 +6232,8 @@ E        pfi  Pyrococcus furiosus COM1
 E        pyn  Pyrococcus sp. NA2
 E        pya  Pyrococcus yayanosii
 E        pys  Pyrococcus sp. ST04
-E        pyc  Pyrococcus sp. NCB100
-D      Thermococcus (15)
+E        pyc  Pyrococcus kukulkanii
+D      Thermococcus (25)
 E        tko  Thermococcus kodakarensis
 E        ton  Thermococcus onnurineus
 E        tga  Thermococcus gammatolerans
@@ -5553,12 +6249,22 @@ E        teu  Thermococcus eurythermalis
 E        tgy  Thermococcus guaymasensis
 E        thv  Thermococcus sp. 2319x1
 E        tch  Thermococcus chitonophagus
+E        tpep  Thermococcus peptonophilus
+E        tpie  Thermococcus piezophilus
+E        tgg  Thermococcus gorgonarius
+E        tce  Thermococcus celer
+E        tbs  Thermococcus barossii
+E        thh  Thermococcus sp. 5-4
+E        tsl  Thermococcus siculi
+E        ttd  Thermococcus thioreducens
+E        tprf  Thermococcus profundus
+E        trl  Thermococcus radiotolerans
 D      Palaeococcus (1)
 E        ppac  Palaeococcus pacificus
 D      Aciduliprofundum (2)
 E        abi  Aciduliprofundum boonei
 E        acf  Aciduliprofundum sp. MAR08-339
-C    Crenarchaeota (59)
+C    Crenarchaeota (60)
 D      Aeropyrum (2)
 E        ape  Aeropyrum pernix
 E        acj  Aeropyrum camini
@@ -5569,15 +6275,15 @@ D      Ignicoccus (2)
 E        iho  Ignicoccus hospitalis
 E        iis  Ignicoccus islandicus
 D      Desulfurococcus (3)
-E        dka  Desulfurococcus kamchatkensis
+E        dka  Desulfurococcus amylolyticus 1221n
+E        dfd  Desulfurococcus amylolyticus DSM 16532
 E        dmu  Desulfurococcus mucosus
-E        dfd  Desulfurococcus fermentans
 D      Thermosphaera (1)
 E        tag  Thermosphaera aggregans
 D      Ignisphaera (1)
 E        iag  Ignisphaera aggregans
 D      Thermogladius (1)
-E        thg  Thermogladius cellulolyticus
+E        thg  Thermogladius calderae
 D      Hyperthermus (1)
 E        hbu  Hyperthermus butylicus
 D      Pyrolobus (1)
@@ -5609,8 +6315,9 @@ E        sula  Sulfolobus sp. A20
 D      Metallosphaera (2)
 E        mse  Metallosphaera sedula
 E        mcn  Metallosphaera cuprina
-D      Acidianus (1)
+D      Acidianus (2)
 E        aho  Acidianus hospitalis
+E        aman  Acidianus manzaensis
 D      Pyrobaculum (8)
 E        pai  Pyrobaculum aerophilum
 E        pis  Pyrobaculum islandicum
@@ -5630,16 +6337,16 @@ E        vdi  Vulcanisaeta distributa
 E        vmo  Vulcanisaeta moutnovskia
 D      Thermofilum (4)
 E        tpe  Thermofilum pendens
-E        thb  Thermofilum sp. 1910b
+E        thb  Thermofilum adornatus
 E        tcb  Thermofilum carboxyditrophus
-E        thf  Thermofilum sp. 1807-2
+E        thf  Thermofilum uzonense
 D      Acidilobus (1)
 E        asc  Acidilobus saccharovorans
 D      Caldisphaera (1)
 E        clg  Caldisphaera lagunensis
 D      Fervidicoccus (1)
 E        ffo  Fervidicoccus fontis
-C    Thaumarchaeota (13)
+C    Thaumarchaeota (15)
 D      Nitrosopumilus (4)
 E        nmr  Nitrosopumilus maritimus
 E        nir  Candidatus Nitrosopumilus sp. AR2
@@ -5647,6 +6354,8 @@ E        nid  Candidatus Nitrosopumilus piranensis
 E        nin  Candidatus Nitrosopumilus adriaticus
 D      Nitrosoarchaeum (1)
 E        nkr  Candidatus Nitrosopumilus koreensis
+D      Nitrosomarinus (1)
+E        nct  Candidatus Nitrosomarinus catalina
 D      Cenarchaeum (1)
 E        csy  Cenarchaeum symbiosum
 D      Nitrososphaera (3)
@@ -5654,13 +6363,15 @@ E        nga  Candidatus Nitrososphaera gargensis
 E        nvn  Nitrososphaera viennensis
 E        nev  Candidatus Nitrososphaera evergladensis
 D      Nitrosocosmicus (1)
-E        taa  Thaumarchaeota archaeon MY3
+E        taa  Candidatus Nitrocosmicus oleophilus
 D      Caldiarchaeum (1)
 E        csu  Candidatus Caldiarchaeum subterraneum
 D      Nitrosopelagicus (1)
 E        nbv  Candidatus Nitrosopelagicus brevis
-D      Unclassified Thaumarchaeota (1)
+D      Nitrosotenuis (1)
 E        tah  Candidatus Nitrosotenuis cloacae
+D      Nitrosotalea (1)
+E        ndv  Candidatus Nitrosotalea devanaterra
 C    Nanoarchaeota (2)
 D      Nanoarchaeum (1)
 E        neq  Nanoarchaeum equitans
@@ -5669,16 +6380,19 @@ E        naa  Candidatus Nanopusillus acidilobi
 C    Nanohaloarchaeota (1)
 D      Unclassified Nanohaloarchaea (1)
 E        nac  Nanohaloarchaea archaeon SG9
+C    Micrarchaeota (1)
+D      Unclassified Micrarchaeota (1)
+E        marh  Candidatus Micrarchaeota archaeon Mia14
 C    Korarchaeota (1)
 D      Korarchaeum (1)
 E        kcr  Candidatus Korarchaeum cryptofilum
-C    Lokiarchaeota (1)
-D      Lokiarchaeum (1)
-E        loki  Lokiarchaeum sp. GC14_75
 C    Bathyarchaeota (2)
 D      Unclassified Bathyarchaeota (2)
 E        barc  Bathyarchaeota archaeon BA1
 E        barb  Bathyarchaeota archaeon BA2
+C    Lokiarchaeota (1)
+D      Lokiarchaeum (1)
+E        loki  Lokiarchaeum sp. GC14_75
 C    Unclassified Archaea (3)
 D      hah  Halophilic archaeon DL31
 D      agw  Archaeon GW2011_AR10
@@ -5686,5 +6400,5 @@ D      arg  Archaeon GW2011_AR20
 !
 #<HR>
 #<b>[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]</b><br>
-#Last updated: December 27, 2016
+#Last updated: November 29, 2017
 #<br><br><a href="/kegg-bin/get_htext?jp08601.keg">&raquo; Japanese version</a>

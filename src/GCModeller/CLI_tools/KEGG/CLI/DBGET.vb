@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::708329377a56401b31d8b16f6af70e33, ..\GCModeller\CLI_tools\KEGG\CLI\DBGET.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -39,6 +39,8 @@ Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.ReferenceMap
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Metagenomics
 Imports kegMap = SMRUCC.genomics.Assembly.KEGG.WebServices.MapDownloader
 
 Partial Module CLI
@@ -90,16 +92,58 @@ Partial Module CLI
         Return 0
     End Function
 
-    <ExportAPI("/Download.Pathway.Maps",
-               Usage:="/Download.Pathway.Maps /sp <kegg.sp_code> [/out <EXPORT_DIR>]")>
+    <ExportAPI("/Download.Pathway.Maps")>
+    <Usage("/Download.Pathway.Maps /sp <kegg.sp_code> [/KGML /out <EXPORT_DIR>]")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadPathwayMaps(args As CommandLine) As Integer
         Dim sp As String = args("/sp")
-        Dim EXPORT As String = args.GetValue("/out", App.CurrentDirectory & "/" & sp)
-        Return LinkDB.Pathways _
-            .Downloads(sp, EXPORT) _
-            .SaveTo(EXPORT & "/failures.txt") _
-            .CLICode
+        Dim EXPORT As String = args("/out") Or (App.CurrentDirectory & "/" & sp)
+        Dim isKGML As Boolean = args.IsTrue("/KGML")
+
+        If isKGML AndAlso args("/out").IsEmpty Then
+            EXPORT &= ".KGML/"
+
+            Return MapDownloader _
+                .DownloadsKGML(sp, EXPORT) _
+                .SaveTo(EXPORT & "/failures.txt") _
+                .CLICode
+        Else
+            Return LinkDB.Pathways _
+                .Downloads(sp, EXPORT) _
+                .SaveTo(EXPORT & "/failures.txt") _
+                .CLICode
+        End If
+    End Function
+
+    <ExportAPI("/Download.Pathway.Maps.Bacteria.All")>
+    <Usage("/Download.Pathway.Maps.Bacteria.All [/in <brite.keg> /KGML /out <out.directory>]")>
+    Public Function DownloadsBacteriasRefMaps(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$
+        Dim htext As htext
+
+        If [in].FileExists Then
+            out = args("/out") Or ([in].TrimSuffix & ".bacteria.All/")
+            htext = htext.StreamParser([in])
+        Else
+            out = args("/out") Or (App.CurrentDirectory & $"/bacteria.All/")
+            htext = Organism.GetResource
+        End If
+
+        Dim codes = htext.GetBacteriaList
+        Dim EXPORT$
+
+        For Each code As Taxonomy In codes
+            EXPORT = code.scientificName.NormalizePathString
+            EXPORT = $"{out}/{EXPORT}/"
+
+            Apps.KEGG_tools.DownloadPathwayMaps(
+                _sp:=code.species,
+                _out:=EXPORT
+            )
+        Next
+
+        Return 0
     End Function
 
     <ExportAPI("/Download.Module.Maps",
@@ -120,11 +164,9 @@ Partial Module CLI
                Usage:="/Pathways.Downloads.All [/out <outDIR>]")>
     <Group(CLIGroups.DBGET_tools)>
     Public Function DownloadsAllPathways(args As CommandLine) As Integer
-        Dim outDIR As String = args.GetValue("/out", App.HOME & "/br08901/")
+        Dim EXPORT = args("/out") Or (App.HOME & "/br08901/")
 
-        WebServiceUtils.Proxy = "http://127.0.0.1:8087/"
-
-        If PathwayMap.DownloadAll(outDIR) <> 0 Then
+        If PathwayMap.DownloadAll(EXPORT) <> 0 Then
             Call "Some maps file download failured, please check error logs for detail information...".Warning
             Return -10
         Else
