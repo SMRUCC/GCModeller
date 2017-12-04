@@ -75,10 +75,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AlignmentTableTopBest(in As String, Optional out As String = "") As Integer
+Public Function AlignmentTableTopBest([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/AlignmentTable.TopBest")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -151,10 +151,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function MergeBBH(in As String, Optional out As String = "") As Integer
+Public Function MergeBBH([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/BBH.Merge")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -170,10 +170,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BBHTopBest(in As String, Optional out As String = "") As Integer
+Public Function BBHTopBest([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/bbh.topbest")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -189,10 +189,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BlastnMapsTaxonomy(in As String, _2taxid As String, Optional tax As String = "", Optional out As String = "", Optional gi2taxid As Boolean = False, Optional trim As Boolean = False) As Integer
+Public Function BlastnMapsTaxonomy([in] As String, _2taxid As String, Optional tax As String = "", Optional out As String = "", Optional gi2taxid As Boolean = False, Optional trim As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Blastn.Maps.Taxid")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/2taxid " & """" & _2taxid & """ ")
 If Not tax.StringEmpty Then
 Call CLI.Append("/tax " & """" & tax & """ ")
@@ -287,10 +287,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function MatchTaxid(in As String, acc2taxid As String, Optional out As String = "") As Integer
+Public Function MatchTaxid([in] As String, acc2taxid As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/BlastnMaps.Match.Taxid")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/acc2taxid " & """" & acc2taxid & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -307,10 +307,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SelectMaps(in As String, data As String, Optional out As String = "") As Integer
+Public Function SelectMaps([in] As String, data As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/BlastnMaps.Select")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/data " & """" & data & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -327,10 +327,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function TopBlastnMapReads(in As String, Optional out As String = "") As Integer
+Public Function TopBlastnMapReads([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/BlastnMaps.Select.Top")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -346,10 +346,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function BlastnMapsSummery(in As String, Optional split As String = "-", Optional out As String = "") As Integer
+Public Function BlastnMapsSummery([in] As String, Optional split As String = "-", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/BlastnMaps.Summery")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not split.StringEmpty Then
 Call CLI.Append("/split " & """" & split & """ ")
 End If
@@ -370,7 +370,7 @@ End Function
 ''' * This command tools required of NCBI blast+ suite, you must config the blast bin path by using ``settings.exe`` before running this command.
 ''' </summary>
 '''
-Public Function BlastpBBHQuery(query As String, hit As String, Optional out As String = "", Optional num_threads As String = "", Optional overrides As Boolean = False) As Integer
+Public Function BlastpBBHQuery(query As String, hit As String, Optional out As String = "", Optional num_threads As String = "", Optional [overrides] As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Blastp.BBH.Query")
 Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & query & """ ")
@@ -381,7 +381,7 @@ End If
 If Not num_threads.StringEmpty Then
 Call CLI.Append("/num_threads " & """" & num_threads & """ ")
 End If
-If overrides Then
+If [overrides] Then
 Call CLI.Append("/overrides ")
 End If
 
@@ -441,10 +441,10 @@ End Function
 ''' Statics the COG profiling in your analysised genome.
 ''' </summary>
 '''
-Public Function COGStatics(in As String, Optional locus As String = "", Optional locumap As String = "", Optional out As String = "") As Integer
+Public Function COGStatics([in] As String, Optional locus As String = "", Optional locumap As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/COG.Statics")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not locus.StringEmpty Then
 Call CLI.Append("/locus " & """" & locus & """ ")
 End If
@@ -490,10 +490,10 @@ End Function
 ''' Copy target type files from different sub directory into a directory.
 ''' </summary>
 '''
-Public Function CopyFasta(imports As String, Optional type As String = "", Optional out As String = "") As Integer
+Public Function CopyFasta([imports] As String, Optional type As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Copy.Fasta")
 Call CLI.Append(" ")
-Call CLI.Append("/imports " & """" & imports & """ ")
+Call CLI.Append("/imports " & """" & [imports] & """ ")
 If Not type.StringEmpty Then
 Call CLI.Append("/type " & """" & type & """ ")
 End If
@@ -512,10 +512,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function CopyPTT(in As String, Optional out As String = "") As Integer
+Public Function CopyPTT([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Copy.PTT")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -531,10 +531,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function Copys(imports As String, Optional out As String = "") As Integer
+Public Function Copys([imports] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Copys")
 Call CLI.Append(" ")
-Call CLI.Append("/imports " & """" & imports & """ ")
+Call CLI.Append("/imports " & """" & [imports] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -550,10 +550,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ExportWebAlignmentTable(in As String, Optional out As String = "", Optional split As Boolean = False, Optional header_split As Boolean = False) As Integer
+Public Function ExportWebAlignmentTable([in] As String, Optional out As String = "", Optional split As Boolean = False, Optional header_split As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Export.AlignmentTable")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -575,10 +575,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ParseAlignmentTableGIlist(in As String, Optional out As String = "") As Integer
+Public Function ParseAlignmentTableGIlist([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Export.AlignmentTable.giList")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -594,10 +594,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ExportBlastn(in As String, Optional out As String = "") As Integer
+Public Function ExportBlastn([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Export.Blastn")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -613,10 +613,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ExportBlastnMaps(in As String, Optional out As String = "", Optional best As Boolean = False) As Integer
+Public Function ExportBlastnMaps([in] As String, Optional out As String = "", Optional best As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Export.blastnMaps")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -636,10 +636,10 @@ End Function
 ''' Multiple processor task.
 ''' </summary>
 '''
-Public Function ExportBlastnMapsBatch(in As String, Optional out As String = "", Optional num_threads As String = "", Optional best As Boolean = False) As Integer
+Public Function ExportBlastnMapsBatch([in] As String, Optional out As String = "", Optional num_threads As String = "", Optional best As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Export.blastnMaps.Batch")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -661,10 +661,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ExportBlastnMapsSmall(in As String, Optional out As String = "") As Integer
+Public Function ExportBlastnMapsSmall([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Export.blastnMaps.littles")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -681,10 +681,10 @@ End Function
 ''' Exports large amount of blastn output files and write all data into a specific csv file.
 ''' </summary>
 '''
-Public Function ExportBlastnMapsBatchWrite(in As String, Optional out As String = "", Optional best As Boolean = False) As Integer
+Public Function ExportBlastnMapsBatchWrite([in] As String, Optional out As String = "", Optional best As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Export.blastnMaps.Write")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -704,10 +704,10 @@ End Function
 ''' Export the blastx alignment result into a csv table.
 ''' </summary>
 '''
-Public Function ExportBlastX(in As String, Optional out As String = "", Optional top As Boolean = False, Optional uncharacterized_exclude As Boolean = False) As Integer
+Public Function ExportBlastX([in] As String, Optional out As String = "", Optional top As Boolean = False, Optional uncharacterized_exclude As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Export.BlastX")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -729,10 +729,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ExportDOORCogs(in As String, Optional out As String = "") As Integer
+Public Function ExportDOORCogs([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/EXPORT.COGs.from.DOOR")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -796,10 +796,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function EXPORTgpff(in As String, gff As String, Optional out As String = "") As Integer
+Public Function EXPORTgpff([in] As String, gff As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Export.gpff")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/gff " & """" & gff & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -816,11 +816,11 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function EXPORTgpffs(Optional in As String = "") As Integer
+Public Function EXPORTgpffs(Optional [in] As String = "") As Integer
 Dim CLI As New StringBuilder("/Export.gpffs")
 Call CLI.Append(" ")
-If Not in.StringEmpty Then
-Call CLI.Append("/in " & """" & in & """ ")
+If Not [in].StringEmpty Then
+Call CLI.Append("/in " & """" & [in] & """ ")
 End If
 
 
@@ -834,10 +834,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ExportLocus(in As String, Optional out As String = "", Optional hit As Boolean = False) As Integer
+Public Function ExportLocus([in] As String, Optional out As String = "", Optional hit As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Export.Locus")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -877,10 +877,10 @@ End Function
 ''' Filter the fasta sequence subset from a larger fasta database by using the regexp for match on the fasta title.
 ''' </summary>
 '''
-Public Function Filter(in As String, key As String, Optional out As String = "", Optional tokens As Boolean = False, Optional p As Boolean = False) As Integer
+Public Function Filter([in] As String, key As String, Optional out As String = "", Optional tokens As Boolean = False, Optional p As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Fasta.Filters")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/key " & """" & key & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -903,10 +903,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function HitsIDList(in As String, Optional out As String = "") As Integer
+Public Function HitsIDList([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/hits.ID.list")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -982,10 +982,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function EvalueMatrix(in As String, Optional out As String = "", Optional flip As Boolean = False) As Integer
+Public Function EvalueMatrix([in] As String, Optional out As String = "", Optional flip As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/MAT.evalue")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1004,10 +1004,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function MergeFaa(in As String, out As String) As Integer
+Public Function MergeFaa([in] As String, out As String) As Integer
 Dim CLI As New StringBuilder("/Merge.faa")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/out " & """" & out & """ ")
 
 
@@ -1046,10 +1046,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function Print(in As String, Optional ext As String = "", Optional out As String = "") As Integer
+Public Function Print([in] As String, Optional ext As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Print")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not ext.StringEmpty Then
 Call CLI.Append("/ext " & """" & ext & """ ")
 End If
@@ -1107,10 +1107,10 @@ End Function
 ''' If the blastnmapping data have the duplicated OTU tags, then this function will makes a copy of the duplicated OTU tag data. top-best data will not.
 ''' </summary>
 '''
-Public Function ReadsOTU_Taxonomy(in As String, OTU As String, tax As String, Optional out As String = "", Optional fill_empty As Boolean = False) As Integer
+Public Function ReadsOTU_Taxonomy([in] As String, OTU As String, tax As String, Optional out As String = "", Optional fill_empty As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/Reads.OTU.Taxonomy")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/OTU " & """" & OTU & """ ")
 Call CLI.Append("/tax " & """" & tax & """ ")
 If Not out.StringEmpty Then
@@ -1131,10 +1131,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function AccessionList(in As String, Optional out As String = "") As Integer
+Public Function AccessionList([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/ref.acc.list")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1150,10 +1150,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function GiList(in As String, Optional out As String = "") As Integer
+Public Function GiList([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/ref.gi.list")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1169,10 +1169,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SBH_BBH_Batch(in As String, Optional identities As String = "", Optional coverage As String = "", Optional out As String = "", Optional num_threads As String = "", Optional all As Boolean = False) As Integer
+Public Function SBH_BBH_Batch([in] As String, Optional identities As String = "", Optional coverage As String = "", Optional out As String = "", Optional num_threads As String = "", Optional all As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/SBH.BBH.Batch")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not identities.StringEmpty Then
 Call CLI.Append("/identities " & """" & identities & """ ")
 End If
@@ -1201,10 +1201,10 @@ End Function
 ''' Using this command for export the sbh result of your blastp raw data.
 ''' </summary>
 '''
-Public Function ExportBBHLarge(in As String, Optional out As String = "", Optional s_pattern As String = "-", Optional q_pattern As String = "-", Optional identities As String = "", Optional coverage As String = "", Optional trim_kegg As Boolean = False) As Integer
+Public Function ExportBBHLarge([in] As String, Optional out As String = "", Optional s_pattern As String = "-", Optional q_pattern As String = "-", Optional identities As String = "", Optional coverage As String = "", Optional trim_kegg As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/SBH.Export.Large")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1236,10 +1236,10 @@ End Function
 ''' Filtering the sbh result with top SBH Score
 ''' </summary>
 '''
-Public Function SBH_topHits(in As String, Optional out As String = "", Optional uniprotkb As Boolean = False) As Integer
+Public Function SBH_topHits([in] As String, Optional out As String = "", Optional uniprotkb As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/SBH.tophits")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1258,10 +1258,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SBHTrim(in As String, evalue As String, Optional identities As String = "", Optional coverage As String = "", Optional out As String = "") As Integer
+Public Function SBHTrim([in] As String, evalue As String, Optional identities As String = "", Optional coverage As String = "", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/SBH.Trim")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/evalue " & """" & evalue & """ ")
 If Not identities.StringEmpty Then
 Call CLI.Append("/identities " & """" & identities & """ ")
@@ -1317,10 +1317,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SelectsMeta(in As String, bbh As String, Optional out As String = "") As Integer
+Public Function SelectsMeta([in] As String, bbh As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Select.Meta")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/bbh " & """" & bbh & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
@@ -1338,10 +1338,10 @@ End Function
 ''' Fetch the taxonomy information of the fasta sequence from NCBI web server.
 ''' </summary>
 '''
-Public Function FetchTaxnData(in As String, Optional out As String = "") As Integer
+Public Function FetchTaxnData([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Taxonomy.efetch")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1357,10 +1357,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function MergeFetchTaxonData(in As String, Optional out As String = "") As Integer
+Public Function MergeFetchTaxonData([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Taxonomy.efetch.Merge")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1376,10 +1376,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function _2_KOBASOutput(in As String, Optional out As String = "") As Integer
+Public Function _2_KOBASOutput([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/to.kobas")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1396,10 +1396,10 @@ End Function
 ''' 2. Build venn table And bbh data from the blastp result out Or sbh data cache.
 ''' </summary>
 '''
-Public Function VennBBH(imports As String, Optional query As String = "", Optional coverage As String = "", Optional identities As String = "", Optional out As String = "", Optional skip_load As Boolean = False, Optional all As Boolean = False) As Integer
+Public Function VennBBH([imports] As String, Optional query As String = "", Optional coverage As String = "", Optional identities As String = "", Optional out As String = "", Optional skip_load As Boolean = False, Optional all As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/venn.BBH")
 Call CLI.Append(" ")
-Call CLI.Append("/imports " & """" & imports & """ ")
+Call CLI.Append("/imports " & """" & [imports] & """ ")
 If Not query.StringEmpty Then
 Call CLI.Append("/query " & """" & query & """ ")
 End If
@@ -1431,7 +1431,7 @@ End Function
 ''' Completely paired combos blastp bbh operations for the venn diagram Or network builder.
 ''' </summary>
 '''
-Public Function vennBlastAll(query As String, Optional out As String = "", Optional num_threads As String = "", Optional evalue As String = "", Optional coverage As String = "", Optional identities As String = "", Optional overrides As Boolean = False, Optional all As Boolean = False) As Integer
+Public Function vennBlastAll(query As String, Optional out As String = "", Optional num_threads As String = "", Optional evalue As String = "", Optional coverage As String = "", Optional identities As String = "", Optional [overrides] As Boolean = False, Optional all As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/venn.BlastAll")
 Call CLI.Append(" ")
 Call CLI.Append("/query " & """" & query & """ ")
@@ -1450,7 +1450,7 @@ End If
 If Not identities.StringEmpty Then
 Call CLI.Append("/identities " & """" & identities & """ ")
 End If
-If overrides Then
+If [overrides] Then
 Call CLI.Append("/overrides ")
 End If
 If all Then
@@ -1470,10 +1470,10 @@ End Function
 ''' And this batch function is suitable with any scale of the blastp sbh data output.
 ''' </summary>
 '''
-Public Function VennCache(imports As String, Optional out As String = "", Optional coverage As String = "", Optional identities As String = "", Optional num_threads As String = "", Optional overrides As Boolean = False) As Integer
+Public Function VennCache([imports] As String, Optional out As String = "", Optional coverage As String = "", Optional identities As String = "", Optional num_threads As String = "", Optional [overrides] As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/venn.cache")
 Call CLI.Append(" ")
-Call CLI.Append("/imports " & """" & imports & """ ")
+Call CLI.Append("/imports " & """" & [imports] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1486,7 +1486,7 @@ End If
 If Not num_threads.StringEmpty Then
 Call CLI.Append("/num_threads " & """" & num_threads & """ ")
 End If
-If overrides Then
+If [overrides] Then
 Call CLI.Append("/overrides ")
 End If
 
@@ -1501,10 +1501,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function SBHThread(in As String, Optional out As String = "", Optional coverage As String = "", Optional identities As String = "", Optional overrides As Boolean = False) As Integer
+Public Function SBHThread([in] As String, Optional out As String = "", Optional coverage As String = "", Optional identities As String = "", Optional [overrides] As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/venn.sbh.thread")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1514,7 +1514,7 @@ End If
 If Not identities.StringEmpty Then
 Call CLI.Append("/identities " & """" & identities & """ ")
 End If
-If overrides Then
+If [overrides] Then
 Call CLI.Append("/overrides ")
 End If
 
@@ -1530,10 +1530,10 @@ End Function
 ''' Converts the whog text file into a XML data file.
 ''' </summary>
 '''
-Public Function WhogXML(in As String, Optional out As String = "") As Integer
+Public Function WhogXML([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/Whog.XML")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1550,10 +1550,10 @@ End Function
 ''' Batch export bbh result data from a directory.
 ''' </summary>
 '''
-Public Function ExportBBH(in As String, Optional out As String = "", Optional single_query As String = "", Optional coverage As String = "", Optional identities As String = "", Optional all As Boolean = False) As Integer
+Public Function ExportBBH([in] As String, Optional out As String = "", Optional single_query As String = "", Optional coverage As String = "", Optional identities As String = "", Optional all As Boolean = False) As Integer
 Dim CLI As New StringBuilder("--bbh.export")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1641,10 +1641,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function ExportSBH(in As String, prefix As String, out As String, Optional txt As Boolean = False) As Integer
+Public Function ExportSBH([in] As String, prefix As String, out As String, Optional txt As Boolean = False) As Integer
 Dim CLI As New StringBuilder("--Export.SBH")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/prefix " & """" & prefix & """ ")
 Call CLI.Append("/out " & """" & out & """ ")
 If txt Then
@@ -1662,10 +1662,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function XmlToExcel(in As String, Optional out As String = "") As Integer
+Public Function XmlToExcel([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("--Xml2Excel")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
@@ -1681,10 +1681,10 @@ End Function
 ''' ```
 ''' </summary>
 '''
-Public Function XmlToExcelBatch(in As String, Optional out As String = "", Optional merge As Boolean = False) As Integer
+Public Function XmlToExcelBatch([in] As String, Optional out As String = "", Optional merge As Boolean = False) As Integer
 Dim CLI As New StringBuilder("--Xml2Excel.Batch")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If

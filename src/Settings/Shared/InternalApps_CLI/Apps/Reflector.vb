@@ -51,14 +51,14 @@ End Function
 ''' Scans for the table schema sql files in a directory and converts these sql file as visualbasic source code.
 ''' </summary>
 '''
-Public Function ExportDumpDir(Optional o As String = "", Optional namespace As String = "", Optional dir As String = "") As Integer
+Public Function ExportDumpDir(Optional o As String = "", Optional [namespace] As String = "", Optional dir As String = "") As Integer
 Dim CLI As New StringBuilder("--export.dump")
 Call CLI.Append(" ")
 If Not o.StringEmpty Then
 Call CLI.Append("-o " & """" & o & """ ")
 End If
-If Not namespace.StringEmpty Then
-Call CLI.Append("/namespace " & """" & namespace & """ ")
+If Not [namespace].StringEmpty Then
+Call CLI.Append("/namespace " & """" & [namespace] & """ ")
 End If
 If Not dir.StringEmpty Then
 Call CLI.Append("--dir " & """" & dir & """ ")
@@ -76,15 +76,15 @@ End Function
 ''' Automatically generates visualbasic source code from the MySQL database schema dump.
 ''' </summary>
 '''
-Public Function ReflectsConvert(sql As String, Optional o As String = "", Optional namespace As String = "", Optional language As String = "visualbasic", Optional split As Boolean = False, Optional auto_increment_disable As Boolean = False) As Integer
+Public Function ReflectsConvert(sql As String, Optional o As String = "", Optional [namespace] As String = "", Optional language As String = "visualbasic", Optional split As Boolean = False, Optional auto_increment_disable As Boolean = False) As Integer
 Dim CLI As New StringBuilder("--reflects")
 Call CLI.Append(" ")
 Call CLI.Append("/sql " & """" & sql & """ ")
 If Not o.StringEmpty Then
 Call CLI.Append("-o " & """" & o & """ ")
 End If
-If Not namespace.StringEmpty Then
-Call CLI.Append("/namespace " & """" & namespace & """ ")
+If Not [namespace].StringEmpty Then
+Call CLI.Append("/namespace " & """" & [namespace] & """ ")
 End If
 If Not language.StringEmpty Then
 Call CLI.Append("--language " & """" & language & """ ")

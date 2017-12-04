@@ -28,10 +28,10 @@ End Sub
 ''' Join of two table by a unique ID.
 ''' </summary>
 '''
-Public Function cbind(in As String, append As String, Optional token0_id As String = "<SPACE", Optional out As String = "") As Integer
+Public Function cbind([in] As String, append As String, Optional token0_id As String = "<SPACE", Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/cbind")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 Call CLI.Append("/append " & """" & append & """ ")
 If Not token0_id.StringEmpty Then
 Call CLI.Append("/token0.id " & """" & token0_id & """ ")
@@ -114,10 +114,10 @@ End Function
 ''' Row bind(merge tables directly) of the csv tables
 ''' </summary>
 '''
-Public Function rbind(in As String, Optional out As String = "") As Integer
+Public Function rbind([in] As String, Optional out As String = "") As Integer
 Dim CLI As New StringBuilder("/rbind")
 Call CLI.Append(" ")
-Call CLI.Append("/in " & """" & in & """ ")
+Call CLI.Append("/in " & """" & [in] & """ ")
 If Not out.StringEmpty Then
 Call CLI.Append("/out " & """" & out & """ ")
 End If
