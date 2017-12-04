@@ -137,6 +137,7 @@ Namespace Assembly.KEGG.WebServices
             Dim url$
             Dim msg$
             Dim path$, bCode$
+            Dim refer$
 
             Using progress As New ProgressBar("KEGG LinkDB Downloads KEGG Pathways KGML network data....", 1, CLS:=True)
                 Dim tick As New ProgressProvider(all.Length)
@@ -147,8 +148,9 @@ Namespace Assembly.KEGG.WebServices
                         msg = entry.Description & " " & tick.ETA(progress.ElapsedMilliseconds).FormatTime
                         bCode = r.Match(entry.EntryID, "\d+").Value
                         path = PathwayEntry.CombineDIR(briteTable(bCode), EXPORT) & $"/{entry.EntryID}.Xml"
+                        refer = $"http://www.kegg.jp/kegg-bin/highlight_pathway?scale=1.0&map={entry.EntryID}"
 
-                        Call url.GET.SaveTo(path, TextEncodings.UTF8WithoutBOM)
+                        Call url.GET(refer:=refer).SaveTo(path, TextEncodings.UTF8WithoutBOM)
                         Call progress.SetProgress(tick.StepProgress, msg)
                     Catch ex As Exception
                         Call App.LogException(New Exception(entry.GetJson, ex))
