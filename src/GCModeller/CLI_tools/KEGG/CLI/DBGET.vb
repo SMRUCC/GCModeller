@@ -103,6 +103,26 @@ Partial Module CLI
             .CLICode
     End Function
 
+    <ExportAPI("/Download.Pathway.Maps.Bacteria.All")>
+    <Usage("/Download.Pathway.Maps.Bacteria.All [/in <brite.keg> /out <out.directory>]")>
+    Public Function DownloadsBacteriasRefMaps(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$
+        Dim htext As htext
+
+        If [in].FileExists Then
+            out = args("/out") Or ([in].TrimSuffix & ".bacteria.All/")
+            htext = htext.StreamParser([in])
+        Else
+            out = args("/out") Or (App.CurrentDirectory & $"/bacteria.All/")
+            htext = Organism.GetResource
+        End If
+
+        Dim codes = htext.GetBacteriaList
+
+
+    End Function
+
     <ExportAPI("/Download.Module.Maps",
                Info:="Download the KEGG reference modules map data.",
                Usage:="/Download.Module.Maps [/out <EXPORT_DIR, default=""./"">]")>

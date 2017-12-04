@@ -149,7 +149,11 @@ Namespace Assembly.KEGG.WebServices
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <remarks>&lt;a href="/dbget-bin/www_bget?ko:K00001">K00001&lt;/a>               E1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]</remarks>
+    ''' <remarks>
+    ''' ```html
+    ''' &lt;a href="/dbget-bin/www_bget?ko:K00001">K00001&lt;/a>               E1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]
+    ''' ```
+    ''' </remarks>
     Public Structure ListEntry
 
         ''' <summary>
@@ -177,11 +181,11 @@ Namespace Assembly.KEGG.WebServices
             Dim urlEntry As String = Regex.Match(s, "<a href="".+?"">.+?</a>").Value
             Dim descr As String = s.Replace(urlEntry, "").Trim
             Dim url As String = "http://www.genome.jp" & urlEntry.href
-            Dim EntryID As String = urlEntry.GetValue
+            Dim ID As String = urlEntry.GetValue
 
             Return New ListEntry With {
                 .Description = descr,
-                .EntryID = EntryID,
+                .EntryID = ID,
                 .Url = url
             }
         End Function

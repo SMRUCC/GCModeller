@@ -77,10 +77,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         ''' <param name="sp"></param>
         ''' <param name="EXPORT"></param>
         ''' <returns></returns>
-        Public Function Downloads(sp$,
-                                  Optional EXPORT$ = "./LinkDB-Pathways/",
-                                  Optional forceUpdate As Boolean = False) As String()
-
+        Public Function Downloads(sp$, Optional EXPORT$ = "./LinkDB-pathways/", Optional forceUpdate As Boolean = False) As String()
             Dim entries As New List(Of ListEntry)
             Dim briefHash As Dictionary(Of String, BriteHEntry.Pathway) = BriteHEntry.Pathway.LoadDictionary
             Dim Downloader As New WebClient()
@@ -90,6 +87,7 @@ Namespace Assembly.KEGG.DBGET.LinkDB
             ' VBDebugger.Mute = True
 
             Dim all As ListEntry() = AllEntries(sp).ToArray
+            Dim url$
             Dim i As int = 1
 
             For Each entry As ListEntry In all
@@ -115,7 +113,8 @@ Namespace Assembly.KEGG.DBGET.LinkDB
                     failures += entry.EntryID
                 Else
                     entries += entry
-                    data.Genes = KEGGgenes.Download($"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}").ToArray
+                    url = $"http://www.genome.jp/dbget-bin/get_linkdb?-t+genes+path:{entry.EntryID}"
+                    data.Genes = KEGGgenes.Download(url).ToArray
 
                     Call data.SaveAsXml(xml)
                 End If
@@ -126,6 +125,7 @@ EXIT_LOOP:      Call Progress.SetProgress(++i / all.Length * 100, entry.GetJson)
 
             ' VBDebugger.Mute = False
 
+            Call Progress.Dispose()
             Call entries.GetJson.SaveTo(EXPORT & $"/{sp}.json")
 
             Return failures
