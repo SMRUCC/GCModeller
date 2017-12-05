@@ -1,61 +1,61 @@
 ID,NodeType,x,y
-"2,4,6-Tri-tert.-butylbenzenethiol",8,-57.18272,118.1464
-3-trans-Caffeoylquinic acid,7,82.94508,-88.35208
-4-amino Butyric acid,6,-15.0633,-111.1776
-9-(Z)-Octadecenoic acid,3,54.362,52.25482
-Adipic acid,3,41.51606,1.508202
-Alanine,2,-68.91147,-20.85975
-Arabinose,6,-28.431,-88.34719
-Asparagine,6,-32.34039,-96.64955
-Aspartic acid,3,23.25557,24.64404
-beta-Alanine,4,134.7256,5.194779
-Caffeic acid,7,82.56441,-103.0804
-Citric acid,2,-60.85064,-6.932445
-Dehydroascorbic acid dimer,1,29.56469,131.3374
-Docosanoic acid,3,36.72069,31.80047
-Docosanol,3,45.9328,22.40336
-Eicosanoic acid,3,39.40051,39.05029
-Ethanolamine,3,24.70808,36.31159
-Fructose,5,-69.53568,49.93568
-Fumaric acid,3,15.47901,24.34617
-Galactose,5,-88.51778,37.20257
-Glucaric acid,3,18.71136,17.95815
-Gluconic acid,6,-19.87,-96.30752
-Glucose,5,-78.44678,38.07749
-Glutamate,3,-0.7505417,17.45576
-Glutamine,6,-42.11796,-90.07029
-Glutaric acid,3,37.90243,16.54804
-Glyceric acid,3,5.685095,40.78803
-Glycerol,3,45.90914,-29.38971
-Glycine,2,-86.53883,-26.91637
-Glycolic acid,2,-117.1927,-33.55949
-Heptadecanoic acid,3,46.46756,34.09135
-Heptanoic acid,3,-9.564346,9.251128
-Hexadecanoic acid,3,47.73955,12.24611
-Hydroxylamine,3,79.88239,-24.05066
-IS,3,6.418737,70.22372
-Isoleucine,6,-52.13458,-85.70879
-Leucine,6,-39.13699,-100.7904
-Lysine,6,-35.76838,-82.98418
-Maleic acid,2,-103.1077,3.413265
-Malic acid,1,60.98084,97.52572
-Maltose,8,-42.2199,123.5792
-Monomethyl phosphate,3,19.91296,3.48871
-Nonadecanoic acid,3,62.23497,33.13091
-Nonanoic acid,4,133.327,-14.69586
-Octadecanoic acid,3,40.37142,25.90404
-Phosphoric acid,3,30.24589,14.72378
-Proline,5,-84.70094,60.02215
-Putrescine,4,134.5465,25.29666
-Pyroglutamate,6,-40.43231,-71.85696
-Quinic acid,1,47.64426,120.4676
-Ribonic acid ,3,-22.10894,22.91724
-Serine,2,-65.26659,-32.68125
-Shikimic acid,3,25.68357,53.69098
-Succinic acid,2,-76.32375,-13.59415
-Sucrose,5,-94.54396,53.35246
-Tetracosanoic acid,3,52.35522,25.542
-Threonine,2,-44.60559,-10.4228
-Tyrosine,6,-51.6,-95.37922
-Urea,7,68.73138,-98.1946
-Valine,6,-48.661,-71.829
+"2,4,6-Tri-tert.-butylbenzenethiol",8,-124.7329,-25.10173
+3-trans-Caffeoylquinic acid,7,-108.9058,67.08696
+4-amino Butyric acid,6,61.89656,-110.3735
+9-(Z)-Octadecenoic acid,3,-23.67473,71.1498
+Adipic acid,3,12.42476,83.01389
+Alanine,2,68.60365,-25.40778
+Arabinose,6,37.60279,-106.9699
+Asparagine,6,44.10534,-92.74476
+Aspartic acid,3,13.54565,48.86672
+beta-Alanine,4,-87.18067,-90.65849
+Caffeic acid,7,-123.0732,64.31046
+Citric acid,2,21.82393,-34.90016
+Dehydroascorbic acid dimer,1,-104.3745,10.09301
+Docosanoic acid,3,6.154767,72.95313
+Docosanol,3,2.017358,66.69724
+Eicosanoic acid,3,-5.055191,67.57568
+Ethanolamine,3,24.12614,66.0312
+Fructose,5,-35.73566,-26.36667
+Fumaric acid,3,10.7648,42.24054
+Galactose,5,-30.13959,-47.95398
+Glucaric acid,3,20.3573,51.56039
+Gluconic acid,6,56.07331,-95.72986
+Glucose,5,-27.43067,-38.14638
+Glutamate,3,32.14765,34.36752
+Glutamine,6,31.45267,-98.96199
+Glutaric acid,3,17.11211,68.26204
+Glyceric acid,3,41.99383,62.49365
+Glycerol,3,66.96052,53.19733
+Glycine,2,84.6377,-19.40493
+Glycolic acid,2,115.18,-16.106
+Heptadecanoic acid,3,-7.843326,56.9123
+Heptanoic acid,3,17.50085,19.17314
+Hexadecanoic acid,3,10.89039,61.34906
+Hydroxylamine,3,74.4264,89.77203
+IS,3,50.16277,91.24252
+Isoleucine,6,22.99858,-104.5668
+Leucine,6,43.63091,-101.4548
+Lysine,6,34.4064,-90.50953
+Maleic acid,2,3.282331,-46.67723
+Malic acid,1,-69.36391,49.40406
+Maltose,8,-117.1194,-38.15914
+Monomethyl phosphate,3,35.67235,52.69234
+Nonadecanoic acid,3,-13.87268,79.5753
+Nonanoic acid,4,-74.39794,-103.3729
+Octadecanoic acid,3,-1.879754,60.52941
+Phosphoric acid,3,6.256667,53.74212
+Proline,5,-50.53127,-37.70645
+Putrescine,4,-99.13806,-77.41586
+Pyroglutamate,6,25.52976,-82.35133
+Quinic acid,1,-90.22801,26.02247
+Ribonic acid ,3,6.540369,9.723228
+Serine,2,57.81718,-36.12701
+Shikimic acid,3,25.51687,84.0765
+Succinic acid,2,58.83803,-21.37052
+Sucrose,5,-47.27868,-49.15322
+Tetracosanoic acid,3,-1.939326,76.19188
+Threonine,2,59.65773,-0.8228248
+Tyrosine,6,20.68972,-94.6231
+Urea,7,-117.5924,50.94911
+Valine,6,38.68941,-78.11815
