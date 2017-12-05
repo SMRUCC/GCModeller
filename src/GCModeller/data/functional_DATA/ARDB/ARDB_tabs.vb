@@ -415,4 +415,108 @@ Namespace ARDB
         Public Property hit_end As String
 
     End Class
+
+    ''' <summary>
+    ''' ``cogfun.tab``
+    ''' </summary>
+    Public Class cogfun
+        ''' <summary>
+        ''' #1 is the one-letter functional classification used in the Cluster of Orthologous Groups
+        ''' (COG) database (http//www.ncbi.nlm.nih.gov/COG/).
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property COG As String
+        ''' <summary>
+        ''' #2 explains the one-letter functional classification.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property description As String
+    End Class
+
+    ''' <summary>
+    ''' ``cog.tab``
+    ''' </summary>
+    Public Class cog
+        ''' <summary>
+        ''' #1 is the COG ID.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property COG As String
+        ''' <summary>
+        ''' #2 is the one-letter functional code.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property code As String
+        ''' <summary>
+        ''' #3 is the funtion description.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property description As String
+    End Class
+
+    ''' <summary>
+    ''' ``cdd.tab``
+    ''' </summary>
+    Public Class cdd
+        Public Property PSSM_ID As String
+        Public Property CDD_PSSM_ID As String
+        Public Property name As String
+    End Class
+
+    ''' <summary>
+    ''' ``go.tab``
+    ''' </summary>
+    Public Class go
+        Public Property GO_term As String
+        Public Property description As String
+        Public Property [namespace] As String
+    End Class
+
+    ''' <summary>
+    ''' ``kegg2syno.tab``
+    ''' </summary>
+    Public Class kegg2syno
+        Public Property KEGG_DRUG_ID As String
+        Public Property synonym As String
+
+    End Class
+
+    ''' <summary>
+    ''' ``refs.tab``
+    ''' </summary>
+    Public Class refs
+        Public Property PubMed_ID As String
+        Public Property author_last_name As String
+        Public Property initials As String
+        Public Property pubDate As String
+        Public Property volume As String
+        Public Property issue As String
+        Public Property page As String
+        Public Property title As String
+        Public Property journal As String
+    End Class
+
+    ''' <summary>
+    ''' ``taxid2genusid.tab``
+    ''' </summary>
+    Public Class taxid2genusid
+        Public Property species As String
+        Public Property genus As String
+    End Class
+
+    ''' <summary>
+    ''' ``taxon_names.tab``
+    ''' </summary>
+    Public Class taxon_names
+        ''' <summary>
+        ''' #1 is the NCBI taxon id.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property taxon_id As String
+        ''' <summary>
+        ''' #2 is the name of the taxon.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property name As String
+    End Class
 End Namespace
