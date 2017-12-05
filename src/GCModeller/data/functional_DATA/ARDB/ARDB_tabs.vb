@@ -215,12 +215,12 @@ Namespace ARDB
         ''' #1 is the name of antibiotic resistance genes class.
         ''' </summary>
         ''' <returns></returns>
-        Public Property class_name As String
+        <Field(1)> Public Property class_name As String
         ''' <summary>
         ''' #2 is the description of this antibiotic resistance genes class.
         ''' </summary>
         ''' <returns></returns>
-        Public Property description As String
+        <Field(1)> Public Property description As String
 
     End Class
 
@@ -233,12 +233,12 @@ Namespace ARDB
         ''' Column 1 (#1) is the name of antibiotic
         ''' </summary>
         ''' <returns></returns>
-        Public Property name As String
+        <Field(1)> Public Property name As String
         ''' <summary>
         ''' #2 is the Chemical Entities of Biological Interest (ChEBI) ID. http://www.ebi.ac.uk/chebi/
         ''' </summary>
         ''' <returns></returns>
-        Public Property ChEBI_ID As String
+        <Field(1)> Public Property ChEBI_ID As String
 
     End Class
 
@@ -250,24 +250,24 @@ Namespace ARDB
         ''' #1 is the name of antibiotic.
         ''' </summary>
         ''' <returns></returns>
-        Public Property name As String
+        <Field(1)> Public Property name As String
         ''' <summary>
         ''' #2 is the KEGG DRUG database ID. http://www.genome.jp/kegg/drug/
         ''' </summary>
         ''' <returns></returns>
-        Public Property KEGG_DRUG_ID As String
+        <Field(1)> Public Property KEGG_DRUG_ID As String
         ''' <summary>
         ''' #3 is the PubChem database ID (http://pubchem.ncbi.nlm.nih.gov/) extracted from the
         ''' information in KEGG DRUG database.
         ''' </summary>
         ''' <returns></returns>
-        Public Property PubChem As String
+        <Field(1)> Public Property PubChem As String
         ''' <summary>
         ''' #4 is the description of action target for the antibiotic extracted from the information in
         ''' KEGG DRUG database.
         ''' </summary>
         ''' <returns></returns>
-        Public Property description As String
+        <Field(1)> Public Property description As String
     End Class
 
     ''' <summary>
@@ -278,13 +278,13 @@ Namespace ARDB
         ''' #1 is the name of antibiotic.
         ''' </summary>
         ''' <returns></returns>
-        Public Property name As String
+        <Field(1)> Public Property name As String
         ''' <summary>
         ''' #2 is the description of antibiotic extracted from Medical Subject Headings (Mesh)
         ''' database. http//www.nlm.nih.gov/mesh/MBrowser.html
         ''' </summary>
         ''' <returns></returns>
-        Public Property description As String
+        <Field(1)> Public Property description As String
     End Class
 
     ''' <summary>
@@ -296,42 +296,42 @@ Namespace ARDB
         ''' #1 is the accession number of a bacterial chromosome or plasmid in NCBI.
         ''' </summary>
         ''' <returns></returns>
-        Public Property NCBI_acc As String
+        <Field(1)> Public Property NCBI_acc As String
         ''' <summary>
         ''' #2 is the GenBank accession number of a bacterial chromosome or plasmid in NCBI.
         ''' </summary>
         ''' <returns></returns>
-        Public Property GenBank_acc As String
+        <Field(1)> Public Property GenBank_acc As String
         ''' <summary>
         ''' #3 is the length of the chromosome or plasmid.
         ''' </summary>
         ''' <returns></returns>
-        Public Property length As String
+        <Field(1)> Public Property length As String
         ''' <summary>
         ''' #4 is the Taxon ID of the bacteria.
         ''' </summary>
         ''' <returns></returns>
-        Public Property Taxon_ID As String
+        <Field(1)> Public Property Taxon_ID As String
         ''' <summary>
         ''' #5 is the genome project ID in NCBI.
         ''' </summary>
         ''' <returns></returns>
-        Public Property genome_project_ID As String
+        <Field(1)> Public Property genome_project_ID As String
         ''' <summary>
         ''' #6 is the Taxon name of the bacteria.
         ''' </summary>
         ''' <returns></returns>
-        Public Property Taxon_name As String
+        <Field(1)> Public Property Taxon_name As String
         ''' <summary>
         ''' #7 is the name of replicon (chromosome or plasmid).
         ''' </summary>
         ''' <returns></returns>
-        Public Property replicon_name As String
+        <Field(1)> Public Property replicon_name As String
         ''' <summary>
         ''' #8 is the creation date.
         ''' </summary>
         ''' <returns></returns>
-        Public Property [date] As String
+        <Field(1)> Public Property [date] As String
     End Class
 
     ''' <summary>
@@ -345,74 +345,74 @@ Namespace ARDB
         ''' acteria
         ''' </summary>
         ''' <returns></returns>
-        Public Property genome_acc As String
+        <Field(1)> Public Property genome_acc As String
         ''' <summary>
         ''' #2 is the protein sequence accession number of identified antibiotic resistance gene in
         ''' this genome(BLAST query sequence).
         ''' </summary>
         ''' <returns></returns>
-        Public Property protein_acc As String
+        <Field(1)> Public Property protein_acc As String
         ''' <summary>
         ''' #3 is the protein sequence accession number of best BLAST hit antibiotic resistance
         ''' gene (BLAST hit sequence).
         ''' </summary>
         ''' <returns></returns>
-        Public Property hit_acc As String
+        <Field(1)> Public Property hit_acc As String
         ''' <summary>
         ''' #4 is the percent identity of High Scoring Pair (HSP).
         ''' </summary>
         ''' <returns></returns>
-        Public Property identity As String
+        <Field(1)> Public Property identity As String
         ''' <summary>
         ''' #5 is the bits score.
         ''' </summary>
         ''' <returns></returns>
-        Public Property bits_score As String
+        <Field(1)> Public Property bits_score As String
         ''' <summary>
         ''' #6 is the E value.
         ''' </summary>
         ''' <returns></returns>
-        Public Property Evalue As String
+        <Field(1)> Public Property Evalue As String
         ''' <summary>
         ''' #7 is the query sequence length.
         ''' </summary>
         ''' <returns></returns>
-        Public Property query_length As String
+        <Field(1)> Public Property query_length As String
         ''' <summary>
         ''' #8 is the hit sequence length.
         ''' </summary>
         ''' <returns></returns>
-        Public Property hit_length As String
+        <Field(1)> Public Property hit_length As String
         ''' <summary>
         ''' #9 is the number of identical amino acids in the HSP.
         ''' </summary>
         ''' <returns></returns>
-        Public Property hits As String
+        <Field(1)> Public Property hits As String
         ''' <summary>
         ''' #10 is the length of HSP.
         ''' </summary>
         ''' <returns></returns>
-        Public Property HSP_length As String
+        <Field(1)> Public Property HSP_length As String
         ''' <summary>
         ''' #11 is the start coordinate of query sequence in the HSP.
         ''' </summary>
         ''' <returns></returns>
-        Public Property query_start As String
+        <Field(1)> Public Property query_start As String
         ''' <summary>
         ''' #12 is the end coordinate of query sequence in the HSP.
         ''' </summary>
         ''' <returns></returns>
-        Public Property query_end As String
+        <Field(1)> Public Property query_end As String
         ''' <summary>
         ''' #13 is the start coordinate of hit sequence in the HSP.
         ''' </summary>
         ''' <returns></returns>
-        Public Property hit_start As String
+        <Field(1)> Public Property hit_start As String
         ''' <summary>
         ''' #14 is the end coordinate of hit sequence in the HSP.
         ''' </summary>
         ''' <returns></returns>
-        Public Property hit_end As String
+        <Field(1)> Public Property hit_end As String
 
     End Class
 
@@ -425,12 +425,12 @@ Namespace ARDB
         ''' (COG) database (http//www.ncbi.nlm.nih.gov/COG/).
         ''' </summary>
         ''' <returns></returns>
-        Public Property COG As String
+        <Field(1)> Public Property COG As String
         ''' <summary>
         ''' #2 explains the one-letter functional classification.
         ''' </summary>
         ''' <returns></returns>
-        Public Property description As String
+        <Field(1)> Public Property description As String
     End Class
 
     ''' <summary>
@@ -441,67 +441,149 @@ Namespace ARDB
         ''' #1 is the COG ID.
         ''' </summary>
         ''' <returns></returns>
-        Public Property COG As String
+        <Field(1)> Public Property COG As String
         ''' <summary>
         ''' #2 is the one-letter functional code.
         ''' </summary>
         ''' <returns></returns>
-        Public Property code As String
+        <Field(1)> Public Property code As String
         ''' <summary>
         ''' #3 is the funtion description.
         ''' </summary>
         ''' <returns></returns>
-        Public Property description As String
+        <Field(1)> Public Property description As String
     End Class
 
     ''' <summary>
     ''' ``cdd.tab``
     ''' </summary>
     Public Class cdd
-        Public Property PSSM_ID As String
-        Public Property CDD_PSSM_ID As String
-        Public Property name As String
+        ''' <summary>
+        ''' #1 is the Position Specific Scoring Matrix ID (PSSM ID) in NCBI Conserved Domain
+        ''' Database (CDD). http//www.ncbi.nlm.nih.gov/Structure/cdd/cdd.shtml
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property PSSM_ID As String
+        ''' <summary>
+        ''' #2 is the accession number of the PSSM in CDD.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property CDD_PSSM_ID As String
+        ''' <summary>
+        ''' #3 is t he short name of the PSSM in CDD.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property name As String
     End Class
 
     ''' <summary>
     ''' ``go.tab``
     ''' </summary>
     Public Class go
-        Public Property GO_term As String
-        Public Property description As String
-        Public Property [namespace] As String
+        ''' <summary>
+        ''' #1 is the GO term ID.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property GO_term As String
+        ''' <summary>
+        ''' #2 is the brief description of the GO term.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property description As String
+        ''' <summary>
+        ''' #3 is the one-letter representations of the three organizing principles. ‘c’ for cellular
+        ''' component; 'p’ for biological process; ‘f’ for molecular function.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property [namespace] As String
     End Class
 
     ''' <summary>
     ''' ``kegg2syno.tab``
     ''' </summary>
     Public Class kegg2syno
-        Public Property KEGG_DRUG_ID As String
-        Public Property synonym As String
-
+        ''' <summary>
+        ''' #1 is the KEGG DRUG ID for an antibiotic.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property KEGG_DRUG_ID As String
+        ''' <summary>
+        ''' #2 is the synonym for this antibiotic.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property synonym As String
+        ''' <summary>
+        ''' #3 the brief description of this gene.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property description As String
     End Class
 
     ''' <summary>
     ''' ``refs.tab``
     ''' </summary>
     Public Class refs
-        Public Property PubMed_ID As String
-        Public Property author_last_name As String
-        Public Property initials As String
-        Public Property pubDate As String
-        Public Property volume As String
-        Public Property issue As String
-        Public Property page As String
-        Public Property title As String
-        Public Property journal As String
+        ''' <summary>
+        ''' #1 is the PubMed ID.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property PubMed_ID As String
+        ''' <summary>
+        ''' #2 is the last name of first author.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property author_last_name As String
+        ''' <summary>
+        ''' #3 is the initials.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property initials As String
+        ''' <summary>
+        ''' #4 is the publication date.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property pubDate As String
+        ''' <summary>
+        ''' #5 is the volume number.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property volume As String
+        ''' <summary>
+        ''' #6 is the issue number.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property issue As String
+        ''' <summary>
+        ''' #7 is the page number.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property page As String
+        ''' <summary>
+        ''' #8 is the title of the article.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property title As String
+        ''' <summary>
+        ''' #9 is the name of the journal.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property journal As String
     End Class
 
     ''' <summary>
     ''' ``taxid2genusid.tab``
     ''' </summary>
     Public Class taxid2genusid
-        Public Property species As String
-        Public Property genus As String
+        ''' <summary>
+        ''' #1 is the NCBI taxon id of a species.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property species As String
+        ''' <summary>
+        ''' #2 is the NCBI taxon id of a genus to which the species belongs.
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property genus As String
     End Class
 
     ''' <summary>
@@ -512,11 +594,11 @@ Namespace ARDB
         ''' #1 is the NCBI taxon id.
         ''' </summary>
         ''' <returns></returns>
-        Public Property taxon_id As String
+        <Field(1)> Public Property taxon_id As String
         ''' <summary>
         ''' #2 is the name of the taxon.
         ''' </summary>
         ''' <returns></returns>
-        Public Property name As String
+        <Field(1)> Public Property name As String
     End Class
 End Namespace
