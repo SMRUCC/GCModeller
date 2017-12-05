@@ -44,6 +44,8 @@ Namespace SequenceModel
         ''' <param name="seq"></param>
         ''' <param name="site"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function CutSequenceLinear(seq As IPolymerSequenceModel, site As Location) As SimpleSegment
             Return CutSequenceLinear(seq, site.Left, site.Right, site.ToString)
@@ -196,6 +198,7 @@ Namespace SequenceModel
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function CutSequenceCircular(seq As IPolymerSequenceModel, site%, join%) As SimpleSegment
             Return seq.CutSequenceCircular(

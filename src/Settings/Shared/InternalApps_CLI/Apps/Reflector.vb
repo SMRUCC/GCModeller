@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: D:/GCModeller/GCModeller/bin/Reflector.exe
+' assembly: G:/GCModeller/GCModeller/bin/Reflector.exe
 
 Namespace GCModellerApps
 
@@ -28,14 +28,14 @@ End Sub
 ''' Generates the SDK document of your mysql database.
 ''' </summary>
 '''
-Public Function MySQLMarkdown(_sql As String, Optional _out As String = "", Optional _toc As Boolean = False) As Integer
+Public Function MySQLMarkdown(sql As String, Optional out As String = "", Optional toc As Boolean = False) As Integer
 Dim CLI As New StringBuilder("/MySQL.Markdown")
 Call CLI.Append(" ")
-Call CLI.Append("/sql " & """" & _sql & """ ")
-If Not _out.StringEmpty Then
-Call CLI.Append("/out " & """" & _out & """ ")
+Call CLI.Append("/sql " & """" & sql & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
 End If
-If _toc Then
+If toc Then
 Call CLI.Append("/toc ")
 End If
 
@@ -51,17 +51,17 @@ End Function
 ''' Scans for the table schema sql files in a directory and converts these sql file as visualbasic source code.
 ''' </summary>
 '''
-Public Function ExportDumpDir(Optional _o As String = "", Optional _namespace As String = "", Optional __dir As String = "") As Integer
+Public Function ExportDumpDir(Optional o As String = "", Optional [namespace] As String = "", Optional dir As String = "") As Integer
 Dim CLI As New StringBuilder("--export.dump")
 Call CLI.Append(" ")
-If Not _o.StringEmpty Then
-Call CLI.Append("-o " & """" & _o & """ ")
+If Not o.StringEmpty Then
+Call CLI.Append("-o " & """" & o & """ ")
 End If
-If Not _namespace.StringEmpty Then
-Call CLI.Append("/namespace " & """" & _namespace & """ ")
+If Not [namespace].StringEmpty Then
+Call CLI.Append("/namespace " & """" & [namespace] & """ ")
 End If
-If Not __dir.StringEmpty Then
-Call CLI.Append("--dir " & """" & __dir & """ ")
+If Not dir.StringEmpty Then
+Call CLI.Append("--dir " & """" & dir & """ ")
 End If
 
 
@@ -76,23 +76,23 @@ End Function
 ''' Automatically generates visualbasic source code from the MySQL database schema dump.
 ''' </summary>
 '''
-Public Function ReflectsConvert(_sql As String, Optional _o As String = "", Optional _namespace As String = "", Optional __language As String = "visualbasic", Optional _split As Boolean = False, Optional _auto_increment_disable As Boolean = False) As Integer
+Public Function ReflectsConvert(sql As String, Optional o As String = "", Optional [namespace] As String = "", Optional language As String = "visualbasic", Optional split As Boolean = False, Optional auto_increment_disable As Boolean = False) As Integer
 Dim CLI As New StringBuilder("--reflects")
 Call CLI.Append(" ")
-Call CLI.Append("/sql " & """" & _sql & """ ")
-If Not _o.StringEmpty Then
-Call CLI.Append("-o " & """" & _o & """ ")
+Call CLI.Append("/sql " & """" & sql & """ ")
+If Not o.StringEmpty Then
+Call CLI.Append("-o " & """" & o & """ ")
 End If
-If Not _namespace.StringEmpty Then
-Call CLI.Append("/namespace " & """" & _namespace & """ ")
+If Not [namespace].StringEmpty Then
+Call CLI.Append("/namespace " & """" & [namespace] & """ ")
 End If
-If Not __language.StringEmpty Then
-Call CLI.Append("--language " & """" & __language & """ ")
+If Not language.StringEmpty Then
+Call CLI.Append("--language " & """" & language & """ ")
 End If
-If _split Then
+If split Then
 Call CLI.Append("/split ")
 End If
-If _auto_increment_disable Then
+If auto_increment_disable Then
 Call CLI.Append("/auto_increment.disable ")
 End If
 

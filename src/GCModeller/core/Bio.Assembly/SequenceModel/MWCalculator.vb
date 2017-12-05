@@ -63,13 +63,12 @@ Namespace SequenceModel
             {AminoAcid.Valine, 99.1311}
         }
 
-        Private ReadOnly NucleicAcidsMolecularWeights As SortedDictionary(Of Char, Double) =
-            New SortedDictionary(Of Char, Double) From {
-                {"A"c, 491.2},
-                {"C"c, 467.2},
-                {"G"c, 507.2},
-                {"T"c, 482.2},
-                {"U"c, 324.2}
+        Private ReadOnly NucleicAcidsMolecularWeights As New SortedDictionary(Of Char, Double) From {
+            {"A"c, 491.2},
+            {"C"c, 467.2},
+            {"G"c, 507.2},
+            {"T"c, 482.2},
+            {"U"c, 324.2}
         }
 
         ''' <summary>
@@ -77,6 +76,8 @@ Namespace SequenceModel
         ''' </summary>
         ''' <param name="SequenceData"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("MW.Polypeptide")>
         Public Function CalcMW_Polypeptide(SequenceData As ISequenceModel) As Double
             Return SequenceData.SequenceData.CalcMW_Polypeptide
@@ -96,6 +97,8 @@ Namespace SequenceModel
         ''' </summary>
         ''' <param name="SequenceData"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("MW.NT")>
         Public Function CalcMW_Nucleotides(SequenceData As ISequenceModel) As Double
             With SequenceData.SequenceData
