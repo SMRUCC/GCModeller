@@ -1,35 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::535095c8f1ddc17f8c4a3d763a2407c6, ..\interops\RNA-Seq\RNA-seq.Data\SAM\SamStream.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.IO
-Imports Microsoft.VisualBasic
+Imports System.Text
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.SequenceModel.SAM
+Imports Microsoft.VisualBasic.Text
 
 Namespace SAM
 
@@ -42,7 +42,7 @@ Namespace SAM
         ''' </summary>
         Public ReadOnly Property Head As SAMHeader()
 
-        ReadOnly _encoding As System.Text.Encoding
+        ReadOnly _encoding As Encoding
         ReadOnly fs As FileStream
 
         Dim Tokens As String() = Nothing
@@ -52,9 +52,9 @@ Namespace SAM
         ''' 
         ''' </summary>
         ''' <param name="handle">The file path of the *.sam file.</param>
-        Sub New(handle As String, Optional encoding As System.Text.Encoding = Nothing)
+        Sub New(handle As String, Optional encoding As Encoding = Nothing)
             _FileName = handle
-            _encoding = If(encoding Is Nothing, System.Text.Encoding.UTF8, encoding)
+            _encoding = encoding Or UTF8
             fs = New FileStream(handle, FileMode.Open, FileAccess.Read)
 
             Call $"Open file stream from handle {FileName.ToFileURL}...".__DEBUG_ECHO
@@ -145,7 +145,7 @@ Namespace SAM
             Return bufs
         End Function
 
-        Private Shared Function ReadHeaders(ByRef Fs As FileStream, encoding As System.Text.Encoding, ByRef LeftArray As String(), CHUNK_SIZE As Integer) As SAMHeader()
+        Private Shared Function ReadHeaders(ByRef Fs As FileStream, encoding As Encoding, ByRef LeftArray As String(), CHUNK_SIZE As Integer) As SAMHeader()
             Dim bytsBuf As Byte()
 
             If Fs.Length < 1024 * 1024 * 128 Then
