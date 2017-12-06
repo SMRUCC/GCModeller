@@ -172,7 +172,7 @@ Partial Module CLI
         Dim result As New List(Of SimpleSegment)
         Dim ref As String = args("/ref")
 
-        For Each readMaps As AlignmentReads In reader.ReadBlock
+        For Each readMaps As AlignmentReads In reader.IteratesAllReads
             Dim reads As New SimpleSegment With {
                 .ID = readMaps.RNAME,
                 .Start = readMaps.POS,
@@ -234,7 +234,7 @@ Partial Module CLI
     ''' <returns></returns>
     <Extension>
     Private Iterator Function __export(reader As SamStream, genome As GenomeContextProvider(Of GeneBrief), showDebug As Boolean) As IEnumerable(Of SimpleSegment)
-        For Each readMaps As AlignmentReads In reader.ReadBlock
+        For Each readMaps As AlignmentReads In reader.IteratesAllReads
             Dim reads As New SimpleSegment With {
                 .ID = readMaps.RNAME,
                 .Start = readMaps.POS,

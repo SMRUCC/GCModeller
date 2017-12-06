@@ -114,7 +114,7 @@ Partial Module CLI
 
             Dim list As New List(Of FastaToken)
 
-            For Each readMap As AlignmentReads In sam.ReadBlock.Where(Function(x) Not x.RNAME = "*")
+            For Each readMap As AlignmentReads In sam.IteratesAllReads.Where(Function(x) Not x.RNAME = "*")
                 list += seqHash(readMap.RNAME)
             Next
 

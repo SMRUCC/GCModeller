@@ -349,7 +349,7 @@ Anders, S., Pyl, P. T., & Huber, W. (2015). HTSeq--a Python framework to work wi
 
         Dim SAMFile As New SamStream(SAM)
         Dim GFFFile As GFFTable = GFFTable.LoadDocument(GFF)
-        Return HtseqCount(SAMFile.ReadBlock, GFFFile, Mode, RPKM)
+        Return HtseqCount(SAMFile.IteratesAllReads, GFFFile, Mode, RPKM)
     End Function
 
     ''' <summary>

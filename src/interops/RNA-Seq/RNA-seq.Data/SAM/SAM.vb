@@ -100,7 +100,7 @@ Namespace SAM
         ''' <returns></returns>
         Public Shared Function Load(Path As String, Optional encoding As System.Text.Encoding = Nothing) As SAM
             Dim IO As New SamStream(Path, encoding)
-            Dim readsBuffer As AlignmentReads() = IO.ReadBlock(CHUNK_SIZE).ToArray
+            Dim readsBuffer As AlignmentReads() = IO.IteratesAllReads(CHUNK_SIZE).ToArray
 
             Call $"There are {readsBuffer.Length} alignment reads in the sam mapping file  {Path.ToFileURL}".__DEBUG_ECHO
             Call FlushMemory()

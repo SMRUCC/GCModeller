@@ -163,8 +163,8 @@ Namespace SAM
         ''' segment unmapped
         ''' 
         ''' Bit 0x4 is the only reliable place to tell whether the segment is unmapped. If 0x4 is set, no
-        ‘’‘ assumptions can be made about RNAME, POS, CIGAR, MAPQ, bits 0x2, 0x10 And 0x100
-        ’‘’ And the bit 0x20 of the next segment in the template.
+        ''' assumptions can be made about RNAME, POS, CIGAR, MAPQ, bits 0x2, 0x10 And 0x100
+        ''' And the bit 0x20 of the next segment in the template.
         ''' </summary>
         <Description("UnMapped")> Bit0x4 = 4
         ''' <summary>
