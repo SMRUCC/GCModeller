@@ -1,34 +1,36 @@
 ﻿#Region "Microsoft.VisualBasic::e7da01c002ab4e45ec69acd77443a176, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\AlignmentReads.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.ComponentModel
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace SAM
@@ -152,6 +154,7 @@ Namespace SAM
         ''' 
         ''' </remarks>
         Public Property FLAG As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return _Flag
             End Get
@@ -162,23 +165,27 @@ Namespace SAM
         End Property
 
         Public ReadOnly Property IsUnmappedReads As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Me.POS <= 0 OrElse Me.HaveFLAG(BitFLAGS.Bit0x4)
+                Return HaveFLAG(BitFLAGS.Bit0x4)
             End Get
         End Property
 
         Public ReadOnly Property LowQuality As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Me.HaveFLAG(BitFLAGS.Bit0x200)
+                Return HaveFLAG(BitFLAGS.Bit0x200)
             End Get
         End Property
 
         Dim _Flags As BitFLAGS(), _Flag As Integer
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function HaveFLAG(FLAG As BitFLAGS) As Boolean
-            Return Array.IndexOf(Me._Flags, FLAG) > -1
+            Return Array.IndexOf(_Flags, FLAG) > -1
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetBitFLAGSDescriptions() As String
             Return GetBitFLAGDescriptions(Me._Flags)
         End Function
@@ -188,6 +195,7 @@ Namespace SAM
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Strand As Strands
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 If Array.IndexOf(Me._Flags, BitFLAGS.Bit0x10) > -1 Then
                     Return Strands.Reverse  'Reads序列已经被反向互补了
@@ -336,7 +344,7 @@ Namespace SAM
         '''
         ''' </summary>
         ''' <returns></returns>
-        Public Property OptionalHash As Dictionary(Of String, KeyValuePair)
+        Public Property OptionalTable As Dictionary(Of String, KeyValuePair)
 
         ''' <summary>
         ''' 
@@ -346,48 +354,56 @@ Namespace SAM
         ''' 不可用的片段信息会使用0或者*来表示
         ''' </remarks>
         Sub New(str As String)
-            Dim Tokens As String() = Strings.Split(str, vbTab)
-            Dim n As Integer = Tokens.Length
-            Dim p As New Pointer
-            Dim __getValue As Func(Of String) = Function() If(p < n, Tokens(++p), "")
+            Dim arr$() = str.Split(ASCII.TAB)
+            Dim n = arr.Length
+            Dim i As int = 0
 
-            QNAME = __getValue()
-            FLAG = CInt(Val(__getValue()))
-            RNAME = __getValue()
-            POS = CInt(Val(__getValue()))
-            MAPQ = CInt(Val(__getValue()))
-            CIGAR = __getValue()
-            RNEXT = __getValue()
-            PNEXT = CInt(Val(__getValue()))
-            TLEN = CInt(Val(__getValue()))
-            SequenceData = __getValue()
-            QUAL = __getValue()
+            QNAME = arr(++i)
+            FLAG = CInt(Val(arr(++i)))
+            RNAME = arr(++i)
+            POS = CInt(Val(arr(++i)))
+            MAPQ = CInt(Val(arr(++i)))
+            CIGAR = arr(++i)
+            RNEXT = arr(++i)
+            PNEXT = CInt(Val(arr(++i)))
+            TLEN = CInt(Val(arr(++i)))
+            SequenceData = arr(++i)
+            QUAL = arr(++i)
 
-            Try
-                Dim LQuery = From s As String
-                             In Tokens.Skip(p)
-                             Let TokenValue = s.Split(CChar(":"))
-                             Where TokenValue.Length >= 3
-                             Select TAG = TokenValue(0),
-                                 TYPE = TokenValue(1),
-                                 VALUE = TokenValue(2) '
-                Me.OptionalHash = LQuery.ToDictionary(Function(obj) obj.TAG,
-                                                      Function(obj) New KeyValuePair With {
-                                                            .Key = obj.TYPE,
-                                                            .Value = obj.VALUE
-                                                      })
-            Catch ex As Exception
-                Me.OptionalHash = New Dictionary(Of String, KeyValuePair)
-            End Try
+            If arr.Length > 11 Then
+                With From s As String
+                     In arr.Skip(11)
+                     Let t = s.Split(":"c)
+                     Where t.Length >= 3
+                     Select tag = t(0), type = t(1), value = t(2) '
+
+                    OptionalTable = .ToDictionary(
+                        Function(t) t.tag,
+                        Function(attr)
+                            Return New KeyValuePair With {
+                                .Key = attr.type,
+                                .Value = attr.value
+                            }
+                        End Function)
+                End With
+            Else
+                ' table is nothing
+            End If
         End Sub
 
         Sub New()
         End Sub
 
         Public Function GenerateDocumentLine() As String
-            Dim array As String() = New String() {QNAME, FLAG, RNAME, POS, MAPQ, CIGAR, RNEXT, PNEXT, TLEN, SequenceData, QUAL}
-            array = array.Join((From obj In Me.OptionalHash Select $"{obj.Key}:{obj.Value.Key}:{obj.Value.Value}").ToArray).ToArray
-            Return String.Join(vbTab, array)
+            Dim array$() = New String() {QNAME, FLAG, RNAME, POS, MAPQ, CIGAR, RNEXT, PNEXT, TLEN, SequenceData, QUAL}
+            Dim attrs = OptionalTable _
+                .SafeQuery _
+                .Select(Function(attr)
+                            Return $"{attr.Key}:{attr.Value.Key}:{attr.Value.Value}"
+                        End Function) _
+                .AsList
+
+            Return (array + attrs).JoinBy(ASCII.TAB)
         End Function
 
         Public Overrides Function ToString() As String
@@ -408,6 +424,7 @@ Namespace SAM
         Public Function RangeAt(Ranges As NucleotideLocation) As Boolean
             Dim MyLoc = NucleotideLocation.CreateObject(POS, Length, Strand)
             Dim r As SegmentRelationships = Ranges.GetRelationship(MyLoc)
+
             Return r = SegmentRelationships.Equals OrElse
                 r = SegmentRelationships.Inside OrElse
                 r = SegmentRelationships.DownStreamOverlap OrElse
@@ -415,9 +432,9 @@ Namespace SAM
         End Function
 
         Public Function GetLocation() As NucleotideLocation
-            Dim Tokens As Integer() = {Me.PNEXT, Me.POS}
-            Return New NucleotideLocation(Tokens.Min, Tokens.Max, Me.Strand)
+            With {PNEXT, POS}
+                Return New NucleotideLocation(.Min, .Max, Strand)
+            End With
         End Function
-
     End Class
 End Namespace

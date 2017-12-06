@@ -64,7 +64,7 @@ Public Class MeganImports
         Dim tree As New NcbiTaxonomyTree(tax_dmp)
         Dim reads As New Dictionary(Of String, List(Of String))
 
-        For Each read As AlignmentReads In New SamStream(sam).ReadBlock
+        For Each read As AlignmentReads In New SAMStream(sam).IteratesAllReads
 
         Next
     End Function
