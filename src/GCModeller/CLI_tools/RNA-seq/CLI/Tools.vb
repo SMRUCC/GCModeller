@@ -321,9 +321,9 @@ Partial Module CLI
                         For Each refer In readsGroup
                             Dim ref$ = refer.Key
                             Dim reads = refer.Select(Function(r) r.SequenceData).AsList
-                            Dim contig$ = reads.ShortestCommonSuperString
+                            Dim contig$ = reads.AsList.ShortestCommonSuperString
 
-                            Using view As StreamWriter = (path.TrimSuffix & $"-{ref.NormalizePathString}.txt").OpenWriter
+                            Using view As StreamWriter = $"{path.TrimSuffix}-{ref.NormalizePathString}.txt".OpenWriter
                                 Call reads.TableView(contig, view)
                             End Using
                         Next
