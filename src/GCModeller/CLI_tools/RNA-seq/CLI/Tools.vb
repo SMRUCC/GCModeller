@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::73b98c561ee677feebeea9931c3db60e, ..\GCModeller\CLI_tools\RNA-seq\CLI\Tools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -36,6 +36,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -267,13 +268,14 @@ Partial Module CLI
 
     <ExportAPI("/Export.SAM.contigs")>
     <Usage("/Export.SAM.contigs /in <bwa_align_out.sam> [/out <out.fasta>]")>
+    <Group(CLIGroups.SAMtools)>
     Public Function SAMcontigs(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.fasta"
         Dim workspace$ = $"{out.ParentPath}/${in$.BaseName}.sam/"
         Dim reader As New SAMStream([in])
 
-        Using headWriter = $"{workspace}/head.sam".OpenWriter
+        Using headWriter = $"{workspace}/head.part".OpenWriter
             For Each header As SAMHeader In reader.IteratesAllHeaders
                 If header.TAGValue = SAMHeader.TAGS.SQ Then
                     Call headWriter.WriteLine(header.GenerateDocumentLine)
@@ -311,7 +313,24 @@ Partial Module CLI
         Next
 
         ' 下面开始进行装配为contig
+        Call (ls - l - r - "*.sam" <= workspace) _
+            .AsParallel _
+            .Select(Function(path)
+                        Dim readsGroup = New SAMStream(path).IteratesAllReads.GroupBy(Function(r) r.RNAME)
 
+                        For Each refer In readsGroup
+                            Dim ref$ = refer.Key
+                            Dim reads = refer.Select(Function(r) r.SequenceData).AsList
+                            Dim contig$ = reads.ShortestCommonSuperString
+
+                            Using view As StreamWriter = (path.TrimSuffix & $"-{ref.NormalizePathString}.txt").OpenWriter
+                                Call reads.TableView(contig, view)
+                            End Using
+                        Next
+
+                        Return Nothing
+                    End Function) _
+            .ToArray
 
         Return 0
     End Function
