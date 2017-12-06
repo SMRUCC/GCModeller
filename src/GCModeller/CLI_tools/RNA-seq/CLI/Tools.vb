@@ -270,14 +270,16 @@ Partial Module CLI
     Public Function SAMcontigs(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.fasta"
-        Dim workspace$ = out & ".temp/"
+        Dim workspace$ = $"{out.ParentPath}/${in$.BaseName}.sam/"
         Dim reader As New SAMStream([in])
 
-        For Each header As SAMHeader In reader.IteratesAllHeaders
-            If header.TAGValue = SAMHeader.TAGS.SQ Then
-
-            End If
-        Next
+        Using headWriter = $"{workspace}/head.sam".OpenWriter
+            For Each header As SAMHeader In reader.IteratesAllHeaders
+                If header.TAGValue = SAMHeader.TAGS.SQ Then
+                    Call headWriter.WriteLine(header.GenerateDocumentLine)
+                End If
+            Next
+        End Using
 
         Dim refs As New Dictionary(Of String, StreamWriter)
 
@@ -291,7 +293,7 @@ Partial Module CLI
             ' 所以不能够将reads数据都读进入内存中
             ' 在这里将reads缓存到硬盘工作区上的临时文件中
             If Not refs.ContainsKey(key) Then
-                refs(key) = $"{workspace}/{key.NormalizePathString}.sam".OpenWriter
+                refs(key) = $"{workspace}/{key.First}/{key.NormalizePathString}.sam".OpenWriter
 
                 Call Console.WriteLine()
                 Call $"Open {key}".__INFO_ECHO
