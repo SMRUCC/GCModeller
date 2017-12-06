@@ -341,7 +341,7 @@ Namespace ARDB
 
         ''' <summary>
         ''' #1 is the accession number of a bacterial genome in NCBI.
-        ''' http://www.ncbi.nlm.nih.gov/genomes/genlist.cgi?taxid=2&type=0&name=Complete%20B
+        ''' http://www.ncbi.nlm.nih.gov/genomes/genlist.cgi?taxid=2&amp;type=0&amp;name=Complete%20B
         ''' acteria
         ''' </summary>
         ''' <returns></returns>
