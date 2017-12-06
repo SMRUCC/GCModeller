@@ -100,7 +100,7 @@ Namespace SAM
         ''' <param name="encoding">Default value is utf8 encoding.</param>
         ''' <returns></returns>
         Public Shared Function Load(Path As String, Optional encoding As Encodings = Encodings.UTF8) As SAM
-            Dim IO As New SamStream(Path, encoding)
+            Dim IO As New SAMStream(Path, encoding)
             Dim readsBuffer As AlignmentReads() = IO.IteratesAllReads.ToArray
 
             Call $"There are {readsBuffer.Length} alignment reads in the sam mapping file  {Path.ToFileURL}".__DEBUG_ECHO

@@ -168,7 +168,7 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim tagRegex As New Regex(args("/tag"), RegexICSng)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Maps.Csv")
-        Dim reader As New SamStream([in])
+        Dim reader As New SAMStream([in])
         Dim result As New List(Of SimpleSegment)
         Dim ref As String = args("/ref")
 
@@ -233,7 +233,7 @@ Partial Module CLI
     ''' <param name="showDebug"></param>
     ''' <returns></returns>
     <Extension>
-    Private Iterator Function __export(reader As SamStream, genome As GenomeContextProvider(Of GeneBrief), showDebug As Boolean) As IEnumerable(Of SimpleSegment)
+    Private Iterator Function __export(reader As SAMStream, genome As GenomeContextProvider(Of GeneBrief), showDebug As Boolean) As IEnumerable(Of SimpleSegment)
         For Each readMaps As AlignmentReads In reader.IteratesAllReads
             Dim reads As New SimpleSegment With {
                 .ID = readMaps.RNAME,
@@ -265,6 +265,55 @@ Partial Module CLI
         Next
     End Function
 
+    <ExportAPI("/Export.SAM.contigs")>
+    <Usage("/Export.SAM.contigs /in <bwa_align_out.sam> [/out <out.fasta>]")>
+    Public Function SAMcontigs(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.fasta"
+        Dim workspace$ = out & ".temp/"
+        Dim reader As New SAMStream([in])
+
+        For Each header As SAMHeader In reader.IteratesAllHeaders
+            If header.TAGValue = SAMHeader.TAGS.SQ Then
+
+            End If
+        Next
+
+        Dim refs As New Dictionary(Of String, StreamWriter)
+
+        For Each read As AlignmentReads In reader _
+            .IteratesAllReads _
+            .Where(Function(r) Not r.IsUnmappedReads)
+
+            Dim key$ = Mid(read.RNAME, 1, 3)
+
+            ' 可能会处理10GB以上的文件，数据量会非常大
+            ' 所以不能够将reads数据都读进入内存中
+            ' 在这里将reads缓存到硬盘工作区上的临时文件中
+            If Not refs.ContainsKey(key) Then
+                refs(key) = $"{workspace}/{key.NormalizePathString}.sam".OpenWriter
+
+                Call Console.WriteLine()
+                Call $"Open {key}".__INFO_ECHO
+            Else
+                Console.Write("."c)
+            End If
+
+            refs(key).WriteLine(read.GenerateDocumentLine)
+        Next
+
+        For Each ref As StreamWriter In refs.Values
+            Call ref.Flush()
+            Call ref.Close()
+            Call ref.Dispose()
+        Next
+
+        ' 下面开始进行装配为contig
+
+
+        Return 0
+    End Function
+
     ''' <summary>
     ''' 小文件适用
     ''' </summary>
@@ -278,7 +327,7 @@ Partial Module CLI
     Public Function ExportSAMMaps(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Maps.Csv")
-        Dim reader As New SamStream([in])
+        Dim reader As New SAMStream([in])
         Dim NNNNcontig As String = args("/contigs")
         Dim genome As GenomeContextProvider(Of GeneBrief) = Nothing
         Dim tagsHash As Dictionary(Of String, String) = Nothing

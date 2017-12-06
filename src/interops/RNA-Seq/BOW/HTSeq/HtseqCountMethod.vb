@@ -347,7 +347,7 @@ Anders, S., Pyl, P. T., & Huber, W. (2015). HTSeq--a Python framework to work wi
                                    Optional RPKM As Boolean = False,
                                    Optional feature As Features = Features.CDS) As String
 
-        Dim SAMFile As New SamStream(SAM)
+        Dim SAMFile As New SAMStream(SAM)
         Dim GFFFile As GFFTable = GFFTable.LoadDocument(GFF)
         Return HtseqCount(SAMFile.IteratesAllReads, GFFFile, Mode, RPKM)
     End Function

@@ -35,7 +35,7 @@ Namespace SAM
     ''' <summary>
     ''' 这个对象可以同时兼容小文件以及非常大的测序文件
     ''' </summary>
-    Public Class SamStream
+    Public Class SAMStream
 
         Public ReadOnly Property FileName As String
         Public ReadOnly Property Encoding As Encodings
