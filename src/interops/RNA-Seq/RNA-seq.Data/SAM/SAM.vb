@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::2e9ede845076a7bf12d9b14e959b2408, ..\interops\RNA-Seq\RNA-seq.Data\SAM\SAM.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -35,6 +35,7 @@ Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Terminal.Utility
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.SAM
 
@@ -98,9 +99,9 @@ Namespace SAM
         ''' <param name="Path"></param>
         ''' <param name="encoding">Default value is utf8 encoding.</param>
         ''' <returns></returns>
-        Public Shared Function Load(Path As String, Optional encoding As System.Text.Encoding = Nothing) As SAM
-            Dim IO As New SamStream(Path, encoding)
-            Dim readsBuffer As AlignmentReads() = IO.ReadBlock(CHUNK_SIZE).ToArray
+        Public Shared Function Load(Path As String, Optional encoding As Encodings = Encodings.UTF8) As SAM
+            Dim IO As New SAMStream(Path, encoding)
+            Dim readsBuffer As AlignmentReads() = IO.IteratesAllReads.ToArray
 
             Call $"There are {readsBuffer.Length} alignment reads in the sam mapping file  {Path.ToFileURL}".__DEBUG_ECHO
             Call FlushMemory()
@@ -108,7 +109,7 @@ Namespace SAM
             Return New SAM With {
                 .AlignmentsReads = readsBuffer,
                 .FilePath = Path,
-                .Head = IO.Head
+                .Head = IO.IteratesAllHeaders.ToArray
             }
         End Function
 #End Region

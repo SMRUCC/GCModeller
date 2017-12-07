@@ -218,10 +218,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contig.vb" />
-    <Compile Include="FastQ\FastQIdentifier.vb" />
+    <Compile Include="FastQ\IlluminaFastQID.vb" />
+    <Compile Include="FastQ\OptimizationDataQuality.vb" />
     <Compile Include="FastQ\Stream.vb" />
     <Compile Include="FastQ\FastQ.vb" />
     <Compile Include="FastQ\FastQFile.vb" />
+    <Compile Include="16sAssembler.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>

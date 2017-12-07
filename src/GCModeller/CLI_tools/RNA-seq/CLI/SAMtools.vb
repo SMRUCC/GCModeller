@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::73b98c561ee677feebeea9931c3db60e, ..\GCModeller\CLI_tools\RNA-seq\CLI\Tools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -168,11 +168,11 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim tagRegex As New Regex(args("/tag"), RegexICSng)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Maps.Csv")
-        Dim reader As New SamStream([in])
+        Dim reader As New SAMStream([in])
         Dim result As New List(Of SimpleSegment)
         Dim ref As String = args("/ref")
 
-        For Each readMaps As AlignmentReads In reader.ReadBlock
+        For Each readMaps As AlignmentReads In reader.IteratesAllReads
             Dim reads As New SimpleSegment With {
                 .ID = readMaps.RNAME,
                 .Start = readMaps.POS,
@@ -233,8 +233,8 @@ Partial Module CLI
     ''' <param name="showDebug"></param>
     ''' <returns></returns>
     <Extension>
-    Private Iterator Function __export(reader As SamStream, genome As GenomeContextProvider(Of GeneBrief), showDebug As Boolean) As IEnumerable(Of SimpleSegment)
-        For Each readMaps As AlignmentReads In reader.ReadBlock
+    Private Iterator Function __export(reader As SAMStream, genome As GenomeContextProvider(Of GeneBrief), showDebug As Boolean) As IEnumerable(Of SimpleSegment)
+        For Each readMaps As AlignmentReads In reader.IteratesAllReads
             Dim reads As New SimpleSegment With {
                 .ID = readMaps.RNAME,
                 .Start = readMaps.POS,
@@ -265,6 +265,41 @@ Partial Module CLI
         Next
     End Function
 
+    <ExportAPI("/Export.SAM.contigs")>
+    <Usage("/Export.SAM.contigs /in <bwa_align_out.sam> [/ref <reference.fasta> /out <out.fasta>]")>
+    <Group(CLIGroups.SAMtools)>
+    Public Function SAMcontigs(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.fasta"
+        Dim workspace$ = $"{out.ParentPath}/${in$.BaseName}.sam/"
+        Dim ref$ = args <= "/ref"
+        Dim provider As Func(Of String(), IEnumerable(Of FastaToken))
+
+        If ref.FileExists Then
+            provider = Function(locus)
+                           Dim tmp$ = App.GetAppSysTempFile(sessionID:=App.PID)
+                           Dim subset$ = workspace & "/ref.fasta"
+
+                           Call locus.JoinBy(ASCII.LF).SaveTo(tmp)
+                           Call Apps.seqtools.SubsetFastaDb(tmp, db:=ref, out:=subset)
+
+                           Return StreamIterator.SeqSource(handle:=subset)
+                       End Function
+        Else
+            provider = Nothing
+        End If
+
+        Dim coverage = Assembler.SequenceCoverage(
+            sam:=[in],
+            workspace:=workspace,
+            refProvider:=provider
+        )
+        Return coverage _
+            .GetJson() _
+            .SaveTo(out) _
+            .CLICode
+    End Function
+
     ''' <summary>
     ''' 小文件适用
     ''' </summary>
@@ -278,7 +313,7 @@ Partial Module CLI
     Public Function ExportSAMMaps(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Maps.Csv")
-        Dim reader As New SamStream([in])
+        Dim reader As New SAMStream([in])
         Dim NNNNcontig As String = args("/contigs")
         Dim genome As GenomeContextProvider(Of GeneBrief) = Nothing
         Dim tagsHash As Dictionary(Of String, String) = Nothing

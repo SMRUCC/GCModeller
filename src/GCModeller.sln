@@ -459,6 +459,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "HMP_client", "repository\HM
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "functional_DATA", "GCModeller\data\functional_DATA\functional_DATA.vbproj", "{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "blastn-assembler", "interops\localblast\blastn-assembler\blastn-assembler.vbproj", "{42760A67-6501-400A-AAE8-D2478D2CDB8A}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{01c60ec4-4677-483b-9f20-031bac02d921}*SharedItemsImports = 4
@@ -491,6 +493,7 @@ Global
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{5af62b58-443a-419e-90fe-0e8dafa71a51}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{5af62b58-443a-419e-90fe-0e8dafa71a51}*SharedItemsImports = 4
 		GCModeller\shared\docs\Shared.DocumentFormats.projitems*{5c8e0644-b4d7-464a-908c-a383f52cce1f}*SharedItemsImports = 13
+		Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{6131ba71-2982-4ca6-8d09-c3c967a13ce1}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{6131ba71-2982-4ca6-8d09-c3c967a13ce1}*SharedItemsImports = 4
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{6131ba71-2982-4ca6-8d09-c3c967a13ce1}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{6dcd35db-32b8-4fac-bfe7-9943ebbc0797}*SharedItemsImports = 4
@@ -9961,8 +9964,8 @@ Global
 		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.docs|x86.Build.0 = Debug|Any CPU
 		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
 		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
-		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.GCModeller(Release_X64)|x64.ActiveCfg = Release|Any CPU
-		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.GCModeller(Release_X64)|x64.Build.0 = Release|Any CPU
+		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
+		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
 		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
 		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
 		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.installer_x64|Any CPU.ActiveCfg = Release|Any CPU
@@ -9989,6 +9992,60 @@ Global
 		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.Release|x64.Build.0 = Release|Any CPU
 		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.Release|x86.ActiveCfg = Release|Any CPU
 		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259}.Release|x86.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep|Any CPU.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep|Any CPU.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep|x64.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep|x64.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep|x86.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Biodeep|x86.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Debug|x64.Build.0 = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Debug|x86.Build.0 = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.DEMO|Any CPU.ActiveCfg = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.DEMO|Any CPU.Build.0 = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.DEMO|x64.ActiveCfg = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.DEMO|x64.Build.0 = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.DEMO|x86.ActiveCfg = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.DEMO|x86.Build.0 = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.docs|x64.ActiveCfg = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.docs|x64.Build.0 = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.docs|x86.ActiveCfg = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.docs|x86.Build.0 = Debug|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.installer_x64|Any CPU.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.installer_x64|Any CPU.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.installer_x64|x64.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.installer_x64|x64.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.installer_x64|x86.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.installer_x64|x86.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.mysqli_X64_release|Any CPU.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.mysqli_X64_release|Any CPU.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.mysqli_X64_release|x64.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.mysqli_X64_release|x64.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.mysqli_X64_release|x86.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.mysqli_X64_release|x86.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Publish|x64.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Publish|x64.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Publish|x86.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Publish|x86.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release|x64.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release|x64.Build.0 = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release|x86.ActiveCfg = Release|Any CPU
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -10216,6 +10273,7 @@ Global
 		{D0D2AFE0-547C-440E-B978-23E40B9C53EE} = {73355B53-98D7-4E87-9063-7C72049169DC}
 		{FC8EB830-58B8-4AB1-B8F7-6001B21CB0D5} = {9BF14533-E7E4-4893-83C4-BD0DE59C076D}
 		{614CDE0C-5E3F-4EE4-9803-B024AFFFE259} = {9FE4DD45-812C-4F67-BCD0-8B254F4E6036}
+		{42760A67-6501-400A-AAE8-D2478D2CDB8A} = {6E24DAEC-E904-4DEB-A64D-E488317001D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47F07DE6-3450-41B9-AB20-E7181E445FFF}

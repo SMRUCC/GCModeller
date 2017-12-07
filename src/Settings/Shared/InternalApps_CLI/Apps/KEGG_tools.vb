@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/KEGG_tools.exe
+' assembly: D:/GCModeller/GCModeller/bin/KEGG_tools.exe
 
 Namespace GCModellerApps
 
