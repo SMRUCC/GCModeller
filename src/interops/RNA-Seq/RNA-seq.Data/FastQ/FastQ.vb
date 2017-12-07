@@ -72,7 +72,7 @@ Namespace Fastaq
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return SEQ_ID.Identifier
+                Return SEQ_ID.instrument_name
             End Get
         End Property
 
@@ -93,11 +93,22 @@ Namespace Fastaq
         End Function
 
         ''' <summary>
-        ''' The character '!' represents the lowest quality while '~' is the highest. Here are the quality value characters in left-to-right increasing order of quality (ASCII):
+        ''' The character '!' represents the lowest quality while '~' is the highest. 
+        ''' Here are the quality value characters in left-to-right increasing order 
+        ''' of quality (ASCII):
         ''' </summary>
         ''' <remarks></remarks>
         Public Const QUANTITY_ORDERS As String = "!""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
+        ''' <summary>
+        ''' 测序质量，每个字符对应第2行每个碱基，第四行每个字符对应的ASCII值减去33，
+        ''' 即为该碱基的测序质量值，比如@对应的ASCII值为64，那么其对应的碱基质量值是31。
+        ''' 从Illumina GA Pipeline v1.8开始（目前为v1.9），碱基质量值范围为0到41。
+        ''' </summary>
+        ''' <param name="q"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function GetQuantityOrder(q As Char) As Integer
             Return FastQ.QUANTITY_ORDERS.IndexOf(q)
         End Function

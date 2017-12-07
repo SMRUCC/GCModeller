@@ -50,10 +50,6 @@ Namespace Fastaq
         'Versions of the Illumina pipeline since 1.4 appear to use #NNNNNN instead of #0 for the multiplex ID, 
         'where NNNNNN is the sequence of the multiplex tag.
 
-
-
-
-
         'With Casava 1.8 the format of the '@' line has changed:
 
         '@EAS139:136:FC706VJ:2:2104:15343:197393 1:Y:18:ATCACG
@@ -76,7 +72,7 @@ Namespace Fastaq
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Identifier As String
+        Public Property instrument_name As String
         ''' <summary>
         ''' Flowcell lane
         ''' </summary>
@@ -131,24 +127,24 @@ Namespace Fastaq
                 Return New FastQIdentifier
             End If
 
-            Dim Tokens As String() = str.Split(":"c)
-            Dim Identifier As FastQIdentifier = New FastQIdentifier
-            Identifier.Identifier = Tokens(0)
-            Identifier.FlowCellLane = CInt(Val(Tokens(1)))
-            Identifier.Tiles = CInt(Val(Tokens(2)))
-            Identifier.X = CInt(Val(Tokens(3)))
-            Identifier.Y = CInt(Val(Tokens(4)))
+            Dim tokens$() = str.Split(":"c)
+            Dim ID As New FastQIdentifier
+            ID.instrument_name = tokens(0)
+            ID.FlowCellLane = CInt(Val(tokens(1)))
+            ID.Tiles = CInt(Val(tokens(2)))
+            ID.X = CInt(Val(tokens(3)))
+            ID.Y = CInt(Val(tokens(4)))
 
-            Tokens = Tokens(4).Split("#"c).Last.Split("/"c)
+            tokens = tokens(4).Split("#"c).Last.Split("/"c)
 
-            Identifier.MsIndex = Tokens(0)
-            Identifier.PairMember = Tokens.ElementAtOrDefault(1)
+            ID.MsIndex = tokens(0)
+            ID.PairMember = tokens.ElementAtOrDefault(1)
 
-            Return Identifier
+            Return ID
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{Identifier}:{FlowCellLane}:{Tiles}:{X}:{Y}#{MsIndex}/{PairMember}"
+            Return $"{instrument_name}:{FlowCellLane}:{Tiles}:{X}:{Y}#{MsIndex}/{PairMember}"
         End Function
     End Class
 End Namespace
