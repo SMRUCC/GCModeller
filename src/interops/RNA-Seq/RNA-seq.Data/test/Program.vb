@@ -4,6 +4,7 @@ Module Program
 
     Sub Main()
         Dim q = FastQ.GetQualityOrder("@"c)
+        q = FastQ.GetQualityOrder("5"c)
 
         Call Stream _
             .ReadAllLines("F:\2017-12-6-16s_test\test\T1-1_combined_R1.fastq") _

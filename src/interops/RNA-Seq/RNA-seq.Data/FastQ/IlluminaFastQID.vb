@@ -26,6 +26,8 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Field = Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.DataFrameColumnAttribute
 
 Namespace FQ
 
@@ -33,7 +35,7 @@ Namespace FQ
     ''' Illumina sequence identifiers
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class FastQIdentifier
+    Public Class IlluminaFastQID
 
         'Sequences from the Illumina software use a systematic identifier:
 
@@ -50,9 +52,11 @@ Namespace FQ
         'Versions of the Illumina pipeline since 1.4 appear to use #NNNNNN instead of #0 for the multiplex ID, 
         'where NNNNNN is the sequence of the multiplex tag.
 
-        'With Casava 1.8 the format of the '@' line has changed:
+        ' @M04670:66:000000000-B83GM:1:2106:20428:2266 1:N:0:CGGCTATG+GGCTCTGA
 
-        '@EAS139:136:FC706VJ:2:2104:15343:197393 1:Y:18:ATCACG
+        ' @EAS139:136:FC706VJ:2:2104:15343:197393 1:Y:18:ATCACG
+
+        ' With Casava 1.8 the format of the '@' line has changed:
 
         '       EAS139	the unique instrument name
         '        136	the run id
@@ -66,55 +70,84 @@ Namespace FQ
         '         18	0 when none of the control bits are on, otherwise it is an even number
         '     ATCACG	index sequence
 
+#Region "A"
         ''' <summary>
-        ''' The unique instrument name
+        ''' A1 The unique instrument name
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property instrument_name As String
+        <Field(0)> Public Property instrument_name As String
         ''' <summary>
-        ''' Flowcell lane
+        ''' A2
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(1)> Public Property RunID As String
+        ''' <summary>
+        ''' A3
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(2)> Public Property FlowCellID As String
+        ''' <summary>
+        ''' A4 Flowcell lane
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property FlowCellLane As Integer
+        <Field(3)> Public Property FlowCellLane As String
         ''' <summary>
-        ''' Tile number within the flowcell lane
+        ''' A5 Tile number within the flowcell lane
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Tiles As Integer
+        <Field(4)> Public Property Tiles As String
         ''' <summary>
-        ''' 'x'-coordinate of the cluster within the tile
+        ''' A6 'x'-coordinate of the cluster within the tile
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property X As Integer
+        <Field(5)> Public Property X As Integer
         ''' <summary>
-        ''' 'y'-coordinate of the cluster within the tile
+        ''' A7 'y'-coordinate of the cluster within the tile
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Y As Integer
+        <Field(6)> Public Property Y As Integer
+#End Region
+#Region "B"
         ''' <summary>
-        ''' Index number for a multiplexed sample (0 for no indexing)
+        ''' B8 The member of a pair, /1 or /2 (paired-end or mate-pair reads only)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property MsIndex As String
+        <Field(8)> Public Property PairMember As String
         ''' <summary>
-        ''' The member of a pair, /1 or /2 (paired-end or mate-pair reads only)
+        ''' B9 Y if the read is filtered, N otherwise
         ''' </summary>
-        ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property PairMember As String
+        <Field(9)> Public Property Filtered As String
+        ''' <summary>
+        ''' B10 0 when none of the control bits are on, otherwise it is an even number
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(10)> Public Property ControlBits As Integer
+        ''' <summary>
+        ''' B11 index sequence
+        ''' </summary>
+        ''' <returns></returns>
+        <Field(11)> Public Property IndexSequence As String
+#End Region
+
+        Public ReadOnly Property IsEmpty As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return instrument_name.StringEmpty
+            End Get
+        End Property
 
         ''' <summary>
         ''' @HWUSI-EAS100R:6:73:941:1973#0/1
@@ -122,14 +155,18 @@ Namespace FQ
         ''' <param name="str"></param>
         ''' <returns></returns>
         ''' <example>@FCC00ACABXX:8:1101:1333:1980#TTAGGCAT/1</example>
-        Public Shared Function IDParser(str As String) As FastQIdentifier
+        Public Shared Function IDParser(str As String) As IlluminaFastQID
             If Len(str) = 1 AndAlso str(0) = "+"c Then '可能是第三行数据
-                Return New FastQIdentifier
+                Return New IlluminaFastQID
             End If
 
-            Dim tokens$() = str.Split(":"c)
-            Dim ID As New FastQIdentifier With {
-                .instrument_name = tokens(Scan0)
+            Dim tokens As String() = str.Split(" "c)
+            Dim A = tokens(Scan0).Split(":"c)
+            Dim B = tokens _
+                .ElementAtOrDefault(1) _
+               ?.Split(":"c)
+            Dim ID As New IlluminaFastQID With {
+                .instrument_name = A(Scan0)
             }
 
             If tokens.Length = 1 Then
@@ -150,6 +187,10 @@ Namespace FQ
             Return ID
         End Function
 
+        ''' <summary>
+        ''' Create fastq document line
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
             Return $"{instrument_name}:{FlowCellLane}:{Tiles}:{X}:{Y}#{MsIndex}/{PairMember}"
         End Function

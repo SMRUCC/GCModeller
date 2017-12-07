@@ -82,8 +82,8 @@ Namespace FQ
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property SEQ_ID As FastQIdentifier
-        Public Property SEQ_ID2 As FastQIdentifier
+        Public Property SEQ_ID As IlluminaFastQID
+        Public Property SEQ_ID2 As IlluminaFastQID
         ''' <summary>
         ''' <see cref="GetQualityOrder"/> for each char in this string.
         ''' </summary>
@@ -131,8 +131,8 @@ Namespace FQ
         Public Shared Function FastaqParser(str As String()) As FastQ
             Dim Fastaq As New FastQ With {
                 .SequenceData = str(1),
-                .SEQ_ID = FastQIdentifier.IDParser(str(0)),
-                .SEQ_ID2 = FastQIdentifier.IDParser(str(2)),
+                .SEQ_ID = IlluminaFastQID.IDParser(str(0)),
+                .SEQ_ID2 = IlluminaFastQID.IDParser(str(2)),
                 .Quality = str(3)
             }
 
