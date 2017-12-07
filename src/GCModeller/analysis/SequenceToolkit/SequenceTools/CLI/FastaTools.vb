@@ -217,6 +217,44 @@ Partial Module Utilities
     End Function
 
     ''' <summary>
+    ''' 这个函数完成的功能和<see cref="SelectByLocus"/>几乎是一模一样的，但是这个工具是专门应用于处理超大的FASTA序列库
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
+    <ExportAPI("/Fasta.Subset.Large")>
+    <Usage("/Fasta.Subset.Large /in <locus.txt> /db <large_db.fasta> [/keyword.map.multiple /out <out.fasta>]")>
+    Public Function SubsetFastaDb(args As CommandLine) As Integer
+        Dim in$ = args <= "/in"
+        Dim db$ = args <= "/db"
+        Dim out$ = args("/out") Or $"{[in].TrimSuffix}.from.{db.BaseName}.fasta"
+        Dim keywords$() = [in] _
+            .IterateAllLines _
+            .Select(Function(s) s.NormalizePathString.ToLower) _
+            .AsList
+        Dim list As New List(Of String)(keywords)
+        Dim mapMultiples As Boolean = args.IsTrue("/keyword.map.multiple")
+
+        Using writer As StreamWriter = out.OpenWriter
+            For Each fasta As FastaToken In StreamIterator.SeqSource(handle:=db)
+                Dim header$ = fasta.Title.NormalizePathString.ToLower
+
+                For Each word As String In keywords
+                    If InStr(header, word) > 0 Then
+                        Call writer.WriteLine(fasta.GenerateDocument(120))
+                    End If
+                    If Not mapMultiples Then
+                        list.Remove(word)
+                        keywords = list.ToArray
+                        Continue For
+                    End If
+                Next
+            Next
+        End Using
+
+        Return 0
+    End Function
+
+    ''' <summary>
     ''' 将Excel表格之中的序列数据提取出来，序列和属性的列名称必须是唯一的，但是其他的额外的列的名称可以出现重复
     ''' </summary>
     ''' <param name="args"></param>

@@ -36,7 +36,6 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.IO.Linq
-Imports Microsoft.VisualBasic.DataMining
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -55,7 +54,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.Fastaq
+Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.SAM
 Imports R_api = RDotNET.Extensions.VisualBasic.API
@@ -267,72 +266,38 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.SAM.contigs")>
-    <Usage("/Export.SAM.contigs /in <bwa_align_out.sam> [/out <out.fasta>]")>
+    <Usage("/Export.SAM.contigs /in <bwa_align_out.sam> [/ref <reference.fasta> /out <out.fasta>]")>
     <Group(CLIGroups.SAMtools)>
     Public Function SAMcontigs(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.fasta"
         Dim workspace$ = $"{out.ParentPath}/${in$.BaseName}.sam/"
-        Dim reader As New SAMStream([in])
+        Dim ref$ = args <= "/ref"
+        Dim provider As Func(Of String(), IEnumerable(Of FastaToken))
 
-        Using headWriter = $"{workspace}/head.part".OpenWriter
-            For Each header As SAMHeader In reader.IteratesAllHeaders
-                If header.TagValue = SAMHeader.Tags.SQ Then
-                    Call headWriter.WriteLine(header.GenerateDocumentLine)
-                End If
-            Next
-        End Using
+        If ref.FileExists Then
+            provider = Function(locus)
+                           Dim tmp$ = App.GetAppSysTempFile(sessionID:=App.PID)
+                           Dim subset$ = workspace & "/ref.fasta"
 
-        Dim refs As New Dictionary(Of String, StreamWriter)
+                           Call locus.JoinBy(ASCII.LF).SaveTo(tmp)
+                           Call Apps.seqtools.SubsetFastaDb(tmp, db:=ref, out:=subset)
 
-        For Each read As AlignmentReads In reader _
-            .IteratesAllReads _
-            .Where(Function(r) Not r.IsUnmappedReads)
+                           Return StreamIterator.SeqSource(handle:=subset)
+                       End Function
+        Else
+            provider = Nothing
+        End If
 
-            Dim key$ = Mid(read.RNAME, 1, 3)
-
-            ' 可能会处理10GB以上的文件，数据量会非常大
-            ' 所以不能够将reads数据都读进入内存中
-            ' 在这里将reads缓存到硬盘工作区上的临时文件中
-            If Not refs.ContainsKey(key) Then
-                refs(key) = $"{workspace}/{key.First}/{key.NormalizePathString}.sam".OpenWriter
-
-                Call Console.WriteLine()
-                Call $"Open {key}".__INFO_ECHO
-            Else
-                Console.Write("."c)
-            End If
-
-            refs(key).WriteLine(read.GenerateDocumentLine)
-        Next
-
-        For Each ref As StreamWriter In refs.Values
-            Call ref.Flush()
-            Call ref.Close()
-            Call ref.Dispose()
-        Next
-
-        ' 下面开始进行装配为contig
-        Call (ls - l - r - "*.sam" <= workspace) _
-            .AsParallel _
-            .Select(Function(path)
-                        Dim readsGroup = New SAMStream(path).IteratesAllReads.GroupBy(Function(r) r.RNAME)
-
-                        For Each refer In readsGroup
-                            Dim ref$ = refer.Key
-                            Dim reads = refer.Select(Function(r) r.SequenceData).AsList
-                            Dim contig$ = reads.AsList.ShortestCommonSuperString
-
-                            Using view As StreamWriter = $"{path.TrimSuffix}-{ref.NormalizePathString}.txt".OpenWriter
-                                Call reads.TableView(contig, view)
-                            End Using
-                        Next
-
-                        Return Nothing
-                    End Function) _
-            .ToArray
-
-        Return 0
+        Dim coverage = Assembler.SequenceCoverage(
+            sam:=[in],
+            workspace:=workspace,
+            refProvider:=provider
+        )
+        Return coverage _
+            .GetJson() _
+            .SaveTo(out) _
+            .CLICode
     End Function
 
     ''' <summary>
@@ -659,8 +624,8 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimDIR & ".fq")
 
         Using write As StreamWriter = out.OpenWriter
-            For Each fq$ In ls - l - r - {"*.fastq", "*.fq", "*.fq1", "*.fq2"} <= [in]
-                For Each line As FastQ In Fastaq.ReadAllLines(fq$)
+            For Each path$ In ls - l - r - {"*.fastq", "*.fq", "*.fq1", "*.fq2"} <= [in]
+                For Each line As FastQ In FQ.ReadAllLines(path)
                     Call write.WriteLine(line.AsReadsNode)
                 Next
             Next

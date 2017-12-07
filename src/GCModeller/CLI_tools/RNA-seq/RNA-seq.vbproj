@@ -231,7 +231,7 @@
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLI\gast.vb" />
     <Compile Include="CLI\calcFst.vb" />
-    <Compile Include="CLI\Tools.vb" />
+    <Compile Include="CLI\SAMtools.vb" />
     <Compile Include="CLI\WGCNA.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -330,6 +330,7 @@
   </ItemGroup>
   <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
+  <Import Project="..\..\..\Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

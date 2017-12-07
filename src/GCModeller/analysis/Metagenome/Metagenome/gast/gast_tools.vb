@@ -43,6 +43,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace gast
 
+    ' http://www.cnblogs.com/leezx/p/6972226.html
+
     Public Module gast_tools
 
         <Extension>
