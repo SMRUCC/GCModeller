@@ -244,7 +244,7 @@ Module DEBUG_MAIN
         Dim model = CompilerAPI.Compile("F:\1.13.RegPrecise_network\Cellular Phenotypes\KEGG_Pathways", "F:\1.13.RegPrecise_network\Cellular Phenotypes\KEGG_Modules", "F:\GCModeller\KEGG\Reactions", "xcb")
         Call model.SaveAsXml("x:\dfsasdfsdf.kegg.xml")
 
-        Dim rxns = FileIO.FileSystem.GetFiles("F:\GCModeller\KEGG\Reactions", FileIO.SearchOption.SearchAllSubDirectories, "*.xml").ToArray(Function(x) x.LoadXml(Of KEGG.DBGET.bGetObject.Reaction))
+        Dim rxns = FileIO.FileSystem.GetFiles("F:\GCModeller\KEGG\Reactions", FileIO.SearchOption.SearchAllSubDirectories, "*.xml").Select(Function(x) x.LoadXml(Of KEGG.DBGET.bGetObject.Reaction)).ToArray
 
 
 

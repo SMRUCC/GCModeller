@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3E9F14CA-CB21-4487-A01A-02F23D84CC00}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Test.Project.DEBUG_MAIN</StartupObject>
+    <StartupObject>Test.Project.KEGGRefMaps</StartupObject>
     <RootNamespace>Test.Project</RootNamespace>
     <AssemblyName>Test.Project</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -115,6 +115,7 @@
     <Compile Include="DEBUG_MAIN.vb" />
     <Compile Include="Feature.vb" />
     <Compile Include="GFF.vb" />
+    <Compile Include="KEGGRefMaps.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

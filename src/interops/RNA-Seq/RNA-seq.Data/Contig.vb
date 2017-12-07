@@ -28,7 +28,6 @@
 
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.SAM
 
 Public Class Contig : Inherits NucleotideModels.Contig
     Implements IAbstractFastaToken
@@ -57,43 +56,6 @@ Public Class Contig : Inherits NucleotideModels.Contig
             .SequenceData = SequenceData,
             .Attributes = {Location.ToString, String.Join(" / ", FLAGS)}
         }
-    End Function
-
-    ''' <summary>
-    ''' 所装配出来的位置和方向有关
-    ''' </summary>
-    ''' <param name="Reads"></param>
-    ''' <param name="Reversed">实际的方向</param>
-    ''' <returns></returns>
-    Public Shared Function AssemblingForward(Reads As List(Of AlignmentReads), Reversed As Boolean) As Contig
-        ' 由于顺序是已经从小到大排好序了的，所以在这里直接进行装配
-        Dim AssembledRead As New Contig With {
-            .Location = New NucleotideLocation(Reads(0).POS, Reads.Last.PNEXT - 1, If(Not Reversed, Strands.Forward, Strands.Reverse)),
-            .SequenceData = String.Join("", (From Read As AlignmentReads
-                                             In Reads
-                                             Select Read.SequenceData).ToArray),
-            .FLAGS = (From read In Reads Select read.GetBitFLAGSDescriptions).ToArray
-        }
-        Return AssembledRead
-    End Function
-
-    ''' <summary>
-    ''' 不明白在bitwiseFLAG里面已经标注了Reverse方向了，为什么还是有些Reads会是正向的
-    ''' bwa标注出来的位置和ncbi上面的blast的位置好像不一致？？？
-    ''' </summary>
-    ''' <param name="Reads">位置从大到小的</param>
-    ''' <returns></returns>
-    Public Shared Function AssemblingReversed(Reads As List(Of AlignmentReads), Reversed As Boolean) As Contig
-        '由于顺序是已经从大到小排好序了的，所以在这里直接进行反向装配
-        Dim AssembledRead = New Contig With {
-            .Location = New NucleotideLocation(Reads(0).POS, Reads.Last.PNEXT + 1, If(Not Reversed, Strands.Forward, Strands.Reverse)),
-            .FLAGS = (From read In Reads Select read.GetBitFLAGSDescriptions).ToArray
-        }
-        Call Reads.Reverse()
-        AssembledRead.SequenceData = String.Join("", (From Read As AlignmentReads
-                                                      In Reads
-                                                      Select Read.SequenceData).ToArray)
-        Return AssembledRead
     End Function
 
     Protected Overrides Function __getMappingLoci() As NucleotideLocation

@@ -54,7 +54,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.Fastaq
+Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.SAM
 Imports R_api = RDotNET.Extensions.VisualBasic.API
@@ -624,8 +624,8 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimDIR & ".fq")
 
         Using write As StreamWriter = out.OpenWriter
-            For Each fq$ In ls - l - r - {"*.fastq", "*.fq", "*.fq1", "*.fq2"} <= [in]
-                For Each line As FastQ In Fastaq.ReadAllLines(fq$)
+            For Each path$ In ls - l - r - {"*.fastq", "*.fq", "*.fq1", "*.fq2"} <= [in]
+                For Each line As FastQ In FQ.ReadAllLines(path)
                     Call write.WriteLine(line.AsReadsNode)
                 Next
             Next

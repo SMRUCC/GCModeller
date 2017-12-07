@@ -167,21 +167,21 @@ Namespace SAM
         Public ReadOnly Property IsUnmappedReads As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return HaveFLAG(BitFLAGS.Bit0x4)
+                Return HaveFLAG(BitFlags.Bit0x4)
             End Get
         End Property
 
         Public ReadOnly Property LowQuality As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return HaveFLAG(BitFLAGS.Bit0x200)
+                Return HaveFLAG(BitFlags.Bit0x200)
             End Get
         End Property
 
-        Dim _Flags As BitFLAGS(), _Flag As Integer
+        Dim _Flags As BitFlags(), _Flag As Integer
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function HaveFLAG(FLAG As BitFLAGS) As Boolean
+        Public Function HaveFLAG(FLAG As BitFlags) As Boolean
             Return Array.IndexOf(_Flags, FLAG) > -1
         End Function
 
@@ -197,9 +197,9 @@ Namespace SAM
         Public ReadOnly Property Strand As Strands
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                If Array.IndexOf(Me._Flags, BitFLAGS.Bit0x10) > -1 Then
+                If Array.IndexOf(Me._Flags, BitFlags.Bit0x10) > -1 Then
                     Return Strands.Reverse  'Reads序列已经被反向互补了
-                ElseIf Array.IndexOf(Me._Flags, BitFLAGS.Bit0x4) > -1 Then   '没有被Mapping到，则无法判断
+                ElseIf Array.IndexOf(Me._Flags, BitFlags.Bit0x4) > -1 Then   '没有被Mapping到，则无法判断
                     Return Strands.Unknown
                 Else  '剩余的情况都是正向的了
                     Return Strands.Forward
@@ -268,7 +268,7 @@ Namespace SAM
         ''' <remarks></remarks>
         Public Property CIGAR As String
 
-        Public Sub CIGARParser(ByRef paraValue As Integer, ByRef opr As CIGAR_OPERATIONS)
+        Public Sub CIGARParser(ByRef paraValue As Integer, ByRef opr As CIGAROperations)
 
         End Sub
 
@@ -279,10 +279,10 @@ Namespace SAM
         ''' the next segment Is the first segment in the template. If @SQ header lines are present, RNEXT
         ''' (if Not `*' or `=') must be present in one of the SQ-SN tag. This field is set as `*' when the
         ''' information Is unavailable, And set as `=' if RNEXT is identical RNAME. If not `=' and the next
-        ''' segment in the template has one primary mapping (see also bit <see cref="BitFLAGS.Bit0x100">0x100</see> in FLAG), this field Is
+        ''' segment in the template has one primary mapping (see also bit <see cref="BitFlags.Bit0x100">0x100</see> in FLAG), this field Is
         ''' identical to RNAME of the next segment. If the next segment has multiple primary mappings,
         ''' no assumptions can be made about RNEXT And PNEXT. If RNEXT Is `*', no assumptions can
-        ''' be made On PNEXT And bit <see cref="BitFLAGS.Bit0x20">0x20</see>.
+        ''' be made On PNEXT And bit <see cref="BitFlags.Bit0x20">0x20</see>.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>

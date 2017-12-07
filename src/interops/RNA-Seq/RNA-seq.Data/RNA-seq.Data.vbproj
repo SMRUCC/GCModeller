@@ -241,7 +241,8 @@
     </Compile>
     <Compile Include="SAM\DocumentNodes\AlignmentReads.vb" />
     <Compile Include="SAM\DocumentNodes\BitFLAGS.vb" />
-    <Compile Include="SAM\DocumentNodes\CIGAR_OPERATIONS.vb" />
+    <Compile Include="SAM\DocumentNodes\CIGAROperations.vb" />
+    <Compile Include="SAM\DocumentNodes\Tags.vb" />
     <Compile Include="SAM\DocumentNodes\SAMHeader.vb" />
     <Compile Include="SAM\SAM.vb" />
     <Compile Include="SAM\SamStream.vb" />
