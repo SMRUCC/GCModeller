@@ -1,9 +1,11 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm
+Imports Microsoft.VisualBasic.Language.UnixBash
 Imports SMRUCC.genomics.SequenceModel.SAM
 
 Public Module Assembler
 
-    Public Function SequenceCoverage(sam$, workspace$)
+    Public Function SequenceCoverage(sam$, workspace$) As Dictionary(Of String, Integer)
         Dim reader As New SAMStream(sam)
 
         Using headWriter = $"{workspace}/head.part".OpenWriter
