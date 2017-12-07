@@ -172,17 +172,21 @@ Namespace FQ
             If tokens.Length = 1 Then
                 ' 只有一个序列的标记符，其他的什么也没有了，直接返回
                 Return ID
+            Else
+                With ID
+                    .RunID = A(1)
+                    .FlowCellID = A(2)
+                    .FlowCellLane = A(3)
+                    .Tiles = A(4)
+                    .X = CInt(Val(A(5)))
+                    .Y = CInt(Val(A(6)))
+
+                    .PairMember = B(0)
+                    .Filtered = B(1)
+                    .ControlBits = CInt(Val(B(2)))
+                    .IndexSequence = B(3)
+                End With
             End If
-
-            ID.FlowCellLane = CInt(Val(tokens(1)))
-            ID.Tiles = CInt(Val(tokens(2)))
-            ID.X = CInt(Val(tokens(3)))
-            ID.Y = CInt(Val(tokens(4)))
-
-            tokens = tokens(4).Split("#"c).Last.Split("/"c)
-
-            ID.MsIndex = tokens(0)
-            ID.PairMember = tokens.ElementAtOrDefault(1)
 
             Return ID
         End Function
@@ -192,7 +196,7 @@ Namespace FQ
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return $"{instrument_name}:{FlowCellLane}:{Tiles}:{X}:{Y}#{MsIndex}/{PairMember}"
+            Return $"{instrument_name}:{RunID}:{FlowCellID}:{FlowCellLane}:{Tiles}:{X}:{Y} {PairMember}:{Filtered}:{ControlBits}:{IndexSequence}"
         End Function
     End Class
 End Namespace
