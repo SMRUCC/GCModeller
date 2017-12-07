@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/seqtools.exe
+' assembly: D:/GCModeller/GCModeller/bin/seqtools.exe
 
 Namespace GCModellerApps
 
@@ -183,6 +183,29 @@ Call CLI.Append("/attrs " & """" & attrs & """ ")
 End If
 If Not seq.StringEmpty Then
 Call CLI.Append("/seq " & """" & seq & """ ")
+End If
+
+
+Dim proc As IIORedirectAbstract = RunDotNetApp(CLI.ToString())
+Return proc.Run()
+End Function
+
+''' <summary>
+''' ```
+''' /Fasta.Subset.Large /in &lt;locus.txt> /db &lt;large_db.fasta> [/keyword.map.multiple /out &lt;out.fasta>]
+''' ```
+''' </summary>
+'''
+Public Function SubsetFastaDb([in] As String, db As String, Optional out As String = "", Optional keyword_map_multiple As Boolean = False) As Integer
+Dim CLI As New StringBuilder("/Fasta.Subset.Large")
+Call CLI.Append(" ")
+Call CLI.Append("/in " & """" & [in] & """ ")
+Call CLI.Append("/db " & """" & db & """ ")
+If Not out.StringEmpty Then
+Call CLI.Append("/out " & """" & out & """ ")
+End If
+If keyword_map_multiple Then
+Call CLI.Append("/keyword.map.multiple ")
 End If
 
 

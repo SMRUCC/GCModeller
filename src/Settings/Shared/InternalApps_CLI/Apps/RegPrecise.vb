@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Imports Microsoft.VisualBasic.ApplicationServices
 
 ' Microsoft VisualBasic CommandLine Code AutoGenerator
-' assembly: G:/GCModeller/GCModeller/bin/RegPrecise.exe
+' assembly: D:/GCModeller/GCModeller/bin/RegPrecise.exe
 
 Namespace GCModellerApps
 
