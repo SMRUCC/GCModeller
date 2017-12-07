@@ -120,6 +120,7 @@
     <Compile Include="CLI\02_Alpha_Diversity.vb" />
     <Compile Include="CLI\Difference.vb" />
     <Compile Include="CLI\HMP\HMP.vb" />
+    <Compile Include="CLI\SILVA.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
