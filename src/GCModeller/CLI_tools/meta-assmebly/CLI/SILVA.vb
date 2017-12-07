@@ -5,6 +5,11 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
 
+    ''' <summary>
+    ''' 如果不需要序列，而只是需要根据编号来获取物种的分类信息的话，可以先使用这个命令建立SILVA物种数据库，直接从这个建立好的库之中获取物种分类信息即可
+    ''' </summary>
+    ''' <param name="args"></param>
+    ''' <returns></returns>
     <ExportAPI("/SILVA.headers")>
     <Usage("/SILVA.headers /in <silva.fasta> /out <headers.tsv>")>
     <Group(CLIGroups.SILVA_cli)>
