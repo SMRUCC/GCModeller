@@ -128,8 +128,15 @@ Namespace FQ
             End If
 
             Dim tokens$() = str.Split(":"c)
-            Dim ID As New FastQIdentifier
-            ID.instrument_name = tokens(0)
+            Dim ID As New FastQIdentifier With {
+                .instrument_name = tokens(Scan0)
+            }
+
+            If tokens.Length = 1 Then
+                ' 只有一个序列的标记符，其他的什么也没有了，直接返回
+                Return ID
+            End If
+
             ID.FlowCellLane = CInt(Val(tokens(1)))
             ID.Tiles = CInt(Val(tokens(2)))
             ID.X = CInt(Val(tokens(3)))

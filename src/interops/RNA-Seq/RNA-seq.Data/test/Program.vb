@@ -5,6 +5,13 @@ Module Program
     Sub Main()
         Dim q = FastQ.GetQualityOrder("@"c)
 
+        Call Stream _
+            .ReadAllLines("F:\2017-12-6-16s_test\SRS013638.1.fastq") _
+            .TrimLowQuality _
+            .TrimShortReads(100) _
+            .WriteFastQ("F:\2017-12-6-16s_test\SRS013638.1.trim.fastq")
+
+
         Pause()
     End Sub
 End Module

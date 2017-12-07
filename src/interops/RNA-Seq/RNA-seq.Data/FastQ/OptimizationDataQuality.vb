@@ -36,7 +36,7 @@ Namespace FQ
                         del_start = i
                     End If
                 Next
-                For i As Integer = qchrs.Length - 1 To qchrs.Length / 2
+                For i As Integer = qchrs.Length - 1 To qchrs.Length / 2 Step -1
                     If FastQ.GetQualityOrder(qchrs(i)) <= quality Then
                         ' 标记为删除
                         del_ends = i

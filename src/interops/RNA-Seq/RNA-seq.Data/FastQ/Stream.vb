@@ -27,7 +27,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
 
@@ -36,26 +35,11 @@ Namespace FQ
     Public Module Stream
 
         Public Iterator Function ReadAllLines(path$, Optional encoding As Encodings = Encodings.Default) As IEnumerable(Of FastQ)
-            Dim sw As Stopwatch = Stopwatch.StartNew
+            Dim strBuffer As IEnumerable(Of String()) = TaskPartitions.SplitIterator(path.IterateAllLines, 4)
 
-            Call $"Start to load file data from handle *{path.ToFileURL}".__DEBUG_ECHO
-
-            Dim stream As New BufferedStream(path)
-
-            Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
-            Call "Start to parsing the fastq format data...".__DEBUG_ECHO
-
-            sw = Stopwatch.StartNew
-
-            Dim sBufs As IEnumerable(Of String()) = TaskPartitions.SplitIterator(stream.ReadAllLines, 4)
-
-            For Each fq As FastQ In From buf As String()
-                                    In sBufs.AsParallel
-                                    Select FastQ.FastaqParser(buf)
+            For Each fq As FastQ In strBuffer.AsParallel.Select(AddressOf FastQ.FastaqParser)
                 Yield fq
             Next
-
-            Call $"[Job Done!] Fastq format data parsing in {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
         End Function
 
         ''' <summary>
