@@ -61,7 +61,7 @@ Public Module Reads
         Public Property PNEXT As Integer
         Public Property NumberOfReads As Integer
 
-        Public ReadOnly Property BitwiseFLAGS As BitFLAGS()
+        Public ReadOnly Property BitwiseFLAGS As BitFlags()
 
         Public ReadOnly Property BitwiseFLAGSDescription As String
             Get
@@ -84,9 +84,9 @@ Public Module Reads
 
         Public ReadOnly Property Strand As Strands Implements ILocationNucleotideSegment.Strand
             Get
-                If Array.IndexOf(Me.BitwiseFLAGS, BitFLAGS.Bit0x10) > -1 Then
+                If Array.IndexOf(Me.BitwiseFLAGS, BitFlags.Bit0x10) > -1 Then
                     Return Strands.Reverse
-                ElseIf Array.IndexOf(Me.BitwiseFLAGS, BitFLAGS.Bit0x4) > -1 Then
+                ElseIf Array.IndexOf(Me.BitwiseFLAGS, BitFlags.Bit0x4) > -1 Then
                     Return Strands.Unknown
                 Else
                     Return Strands.Forward

@@ -1,35 +1,35 @@
 ﻿#Region "Microsoft.VisualBasic::ed5b651774a076d3bcf90ccad7f3aa1f, ..\interops\RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\BitFLAGS.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace SAM
 
@@ -147,7 +147,7 @@ Namespace SAM
     '''     } 
     ''' 
     ''' </remarks>
-    Public Enum BitFLAGS As Integer
+    Public Enum BitFlags As Integer
 
         ''' <summary>
         ''' template having multiple segments in sequencing
@@ -211,77 +211,78 @@ Namespace SAM
         ''' <summary>
         ''' 标记静态缓存
         ''' </summary>
-        Public ReadOnly Property BitFLAG As BitFLAGS() = New BitFLAGS() {
+        Public ReadOnly Property BitFLAG As BitFlags() = {
  _
-            BitFLAGS.Bit0x1,     ' template having multiple segments in sequencing
-            BitFLAGS.Bit0x2,     ' each segment properly aligned according to the aligner
-            BitFLAGS.Bit0x4,     ' segment unmapped
-            BitFLAGS.Bit0x8,     ' next segment in the template unmapped
-            BitFLAGS.Bit0x10,    ' SEQ being reverse complemented
-            BitFLAGS.Bit0x20,    ' SEQ of the next segment in the template being reversed
-            BitFLAGS.Bit0x40,    ' the first segment in the template
-            BitFLAGS.Bit0x80,    ' the last segment in the template
-            BitFLAGS.Bit0x100,   ' secondary alignment
-            BitFLAGS.Bit0x200,   ' Not passing quality controls
-            BitFLAGS.Bit0x400    ' PCR Or optical duplicate
+            BitFlags.Bit0x1,     ' template having multiple segments in sequencing
+            BitFlags.Bit0x2,     ' each segment properly aligned according to the aligner
+            BitFlags.Bit0x4,     ' segment unmapped
+            BitFlags.Bit0x8,     ' next segment in the template unmapped
+            BitFlags.Bit0x10,    ' SEQ being reverse complemented
+            BitFlags.Bit0x20,    ' SEQ of the next segment in the template being reversed
+            BitFlags.Bit0x40,    ' the first segment in the template
+            BitFlags.Bit0x80,    ' the last segment in the template
+            BitFlags.Bit0x100,   ' secondary alignment
+            BitFlags.Bit0x200,   ' Not passing quality controls
+            BitFlags.Bit0x400    ' PCR Or optical duplicate
         }
 
         ''' <summary>
         ''' 标记描述的静态缓存
         ''' </summary>
-        Public ReadOnly Property Descriptions As IReadOnlyDictionary(Of BitFLAGS, String) =
-            getBitFLAGDescriptions()
+        Public ReadOnly Property Descriptions As IReadOnlyDictionary(Of BitFlags, String) = bitFLAGDescriptions()
 
-        Private Function getBitFLAGDescriptions() As Dictionary(Of BitFLAGS, String)
-            Dim LQuery = From FLAG As BitFLAGS In _BitFLAG.AsParallel Select FLAG, FLAG.Description '
-            Dim hash As Dictionary(Of BitFLAGS, String) =
+        Private Function bitFLAGDescriptions() As Dictionary(Of BitFlags, String)
+            Dim LQuery = From FLAG As BitFlags In _BitFLAG Select FLAG, FLAG.Description '
+            Dim table As Dictionary(Of BitFlags, String) =
                 LQuery.ToDictionary(Function(obj) obj.FLAG,
                                     Function(obj) obj.Description)
-            Return hash
+            Return table
         End Function
 
         ''' <summary>
-        '''  Bit    Description
-        '''  0x1    template having multiple segments in sequencing
-        '''  0x2    each segment properly aligned according to the aligner
-        '''  0x4    segment unmapped
-        '''  0x8    next segment in the template unmapped
-        '''  0x10   SEQ being reverse complemented
-        '''  0x20   SEQ of the next segment in the template being reversed
-        '''  0x40   the first segment in the template
-        '''  0x80   the last segment in the template
-        '''  0x100  secondary alignment
-        '''  0x200  Not passing quality controls
-        '''  0x400  PCR Or optical duplicate
+        ''' | Bit   |Description                                           |
+        ''' |-------|------------------------------------------------------|
+        ''' | 0x1   |template having multiple segments in sequencing       |
+        ''' | 0x2   |each segment properly aligned according to the aligner|
+        ''' | 0x4   |segment unmapped                                      |
+        ''' | 0x8   |next segment in the template unmapped                 |
+        ''' | 0x10  |SEQ being reverse complemented                        |
+        ''' | 0x20  |SEQ of the next segment in the template being reversed|
+        ''' | 0x40  |the first segment in the template                     |
+        ''' | 0x80  |the last segment in the template                      |
+        ''' | 0x100 |secondary alignment                                   |
+        ''' | 0x200 |Not passing quality controls                          |
+        ''' | 0x400 |PCR Or optical duplicate                              |
         ''' 
         ''' 先将数值从十进制转换为2进制，然后再从后面往前面取标记
         ''' </summary>
         ''' <param name="Flag"></param>
         ''' <returns></returns>
-        ''' 
         <ExportAPI("Compute.BitFLAGS")>
-        Public Function ComputeBitFLAGS(Flag As Integer) As BitFLAGS()
-            Dim Bits As Integer() = (From c As Char
-                                     In Convert.ToString(Flag, toBase:=2)
-                                     Select CInt(Val(c))).ToArray ' 将比对结果之中的标记转换为比特值，然后按位取出符号标记
+        Public Function ComputeBitFLAGS(Flag As Integer) As BitFlags()
+            ' 将比对结果之中的标记转换为比特值，然后按位取出符号标记
+            Dim Bits As Integer() = Convert _
+                .ToString(Flag, toBase:=2) _
+                .Select(Function(c) CInt(Val(c))) _
+                .ToArray
             Dim i As Integer = 0
-            Dim BitFLAGS As New List(Of BitFLAGS)
+            Dim BitFlags As New List(Of BitFlags)
 
-            For idx As Integer = Bits.Count - 1 To 0 Step -1
+            For idx As Integer = Bits.Length - 1 To 0 Step -1
                 If Bits(idx) = 1 Then
-                    Call BitFLAGS.Add(_BitFLAG(i))
+                    Call BitFlags.Add(_BitFLAG(i))
                 End If
 
                 i += 1
             Next
 
-            Return BitFLAGS.ToArray
+            Return BitFlags.ToArray
         End Function
 
         <ExportAPI("GET.Descriptions")>
-        Public Function GetBitFLAGDescriptions(FLAGS As BitFLAGS()) As String
-            Dim LQuery = (From FLAG As BitFLAGS In FLAGS Select _Descriptions(FLAG)).ToArray
-            Dim s As String = String.Join("; ", LQuery)
+        Public Function GetBitFLAGDescriptions(FLAGS As BitFlags()) As String
+            Dim LQuery = (From FLAG As BitFlags In FLAGS Select Descriptions(FLAG)).ToArray
+            Dim s As String = LQuery.GetJson
             Return s
         End Function
     End Module

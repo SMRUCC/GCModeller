@@ -277,7 +277,7 @@ Partial Module CLI
 
         Using headWriter = $"{workspace}/head.part".OpenWriter
             For Each header As SAMHeader In reader.IteratesAllHeaders
-                If header.TAGValue = SAMHeader.TAGS.SQ Then
+                If header.TagValue = SAMHeader.Tags.SQ Then
                     Call headWriter.WriteLine(header.GenerateDocumentLine)
                 End If
             Next
