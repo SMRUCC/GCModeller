@@ -22,7 +22,7 @@ Public Module Assembler
 
         Using headWriter = $"{workspace}/head.part".OpenWriter
             For Each header As SAMHeader In reader.IteratesAllHeaders
-                If header.TAGValue = SAMHeader.TAGS.SQ Then
+                If header.TAGValue = TAGS.SQ Then
                     Call headWriter.WriteLine(header.GenerateDocumentLine)
                 End If
             Next

@@ -255,13 +255,6 @@ Namespace SAM
                     End If
 #End If
 
-                    If d = 1 Then '正向的
-                        Call ChunkBuffer.Add(Contig.AssemblingForward(CurrentReadList, Reversed))
-                    Else
-                        '反向的
-                        Call ChunkBuffer.Add(Contig.AssemblingReversed(CurrentReadList, Reversed))
-                    End If
-
 
                 Loop '当前的这个Reads装配完了
 
