@@ -24,7 +24,7 @@ Namespace FQ
         <Extension>
         Public Iterator Function TrimLowQuality(reads As IEnumerable(Of FastQ), Optional quality% = 20) As IEnumerable(Of FastQ)
             For Each read As FastQ In reads
-                Dim qchrs = read.Quality.ToCharArray
+debug_loop:     Dim qchrs = read.Quality.ToCharArray
                 Dim seq = read.SequenceData
                 Dim del_start% = -1
                 Dim del_ends% = -1
@@ -46,24 +46,28 @@ Namespace FQ
                 ' 无需做任何处理
                 If del_start = -1 AndAlso del_ends = -1 Then
                     Yield read
-                End If
-                If del_start > -1 AndAlso del_ends > -1 Then
+                ElseIf del_start > -1 AndAlso del_ends > -1 Then
+
                     read.SequenceData = seq.Substring(del_start, del_ends - del_start)
                     read.Quality = qs.Substring(del_start, del_ends - del_start)
                     Yield read
-                End If
-                If del_start > -1 Then
-                    ' 只有左边的需要去掉低质量序列
-                    read.SequenceData = seq.Substring(del_start)
-                    read.Quality = qs.Substring(del_start)
 
-                    Yield read
                 Else
-                    ' 只有右边的需要去掉低质量序列
-                    read.SequenceData = seq.Substring(0, del_ends)
-                    read.Quality = seq.Substring(0, del_ends)
+                    If del_start > -1 Then
 
-                    Yield read
+                        ' 只有左边的需要去掉低质量序列
+                        read.SequenceData = seq.Substring(del_start)
+                        read.Quality = qs.Substring(del_start)
+
+                        Yield read
+                    Else
+
+                        ' 只有右边的需要去掉低质量序列
+                        read.SequenceData = seq.Substring(0, del_ends)
+                        read.Quality = qs.Substring(0, del_ends)
+
+                        Yield read
+                    End If
                 End If
             Next
         End Function

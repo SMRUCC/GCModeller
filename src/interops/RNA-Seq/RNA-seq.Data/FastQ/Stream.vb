@@ -76,7 +76,7 @@ Namespace FQ
         End Function
 
         <Extension> Public Function WriteFastQ(data As IEnumerable(Of FastQ), save$) As Boolean
-            Using file As IO.StreamWriter = save.OpenWriter(Encodings.ASCII)
+            Using file As IO.StreamWriter = save.OpenWriter(Encodings.UTF8)
                 For Each fq As FastQ In data
                     Call file.WriteLine(fq.AsReadsNode)
                 Next
