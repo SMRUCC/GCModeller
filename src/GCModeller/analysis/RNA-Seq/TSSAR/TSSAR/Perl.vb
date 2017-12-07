@@ -32,7 +32,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.SequenceModel.Fastaq
+Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.genomics.SequenceModel.SAM
 
 ''' <summary>
