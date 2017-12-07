@@ -1,9 +1,9 @@
-﻿Imports SMRUCC.genomics.SequenceModel.Fastaq
+﻿Imports SMRUCC.genomics.SequenceModel.FQ
 
 Module Program
 
     Sub Main()
-        Dim q = FastQ.GetQuantityOrder("@"c)
+        Dim q = FastQ.GetQualityOrder("@"c)
 
         Pause()
     End Sub

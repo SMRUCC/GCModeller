@@ -27,15 +27,11 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
 
-Namespace Fastaq
+Namespace FQ
 
     Public Module Stream
 
@@ -51,8 +47,7 @@ Namespace Fastaq
 
             sw = Stopwatch.StartNew
 
-            Dim sBufs As IEnumerable(Of String()) =
-                TaskPartitions.SplitIterator(stream.ReadAllLines, 4)
+            Dim sBufs As IEnumerable(Of String()) = TaskPartitions.SplitIterator(stream.ReadAllLines, 4)
 
             For Each fq As FastQ In From buf As String()
                                     In sBufs.AsParallel
@@ -75,7 +70,7 @@ Namespace Fastaq
             lines(Scan0) = fq.SEQ_ID.ToString
             lines(1) = fq.SequenceData
             lines(2) = fq.SEQ_ID2.ToString
-            lines(3) = fq.Quantities
+            lines(3) = fq.Quality
 
             Return lines.JoinBy(ASCII.LF)
         End Function

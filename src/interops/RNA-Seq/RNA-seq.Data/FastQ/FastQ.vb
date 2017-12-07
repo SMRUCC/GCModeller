@@ -29,7 +29,7 @@
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Namespace Fastaq
+Namespace FQ
 
     ''' <summary>
     ''' FASTQ format is a text-based format for storing both a biological sequence (usually nucleotide sequence) and 
@@ -84,7 +84,11 @@ Namespace Fastaq
         ''' <remarks></remarks>
         Public Property SEQ_ID As FastQIdentifier
         Public Property SEQ_ID2 As FastQIdentifier
-        Public Property Quantities As String
+        ''' <summary>
+        ''' <see cref="GetQualityOrder"/> for each char in this string.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Quality As String
 
         Public Property Attributes As String() Implements IAbstractFastaToken.Attributes
 
@@ -98,7 +102,7 @@ Namespace Fastaq
         ''' of quality (ASCII):
         ''' </summary>
         ''' <remarks></remarks>
-        Public Const QUANTITY_ORDERS As String = "!""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+        Public Const QualityOrders$ = "!""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
         ''' <summary>
         ''' 测序质量，每个字符对应第2行每个碱基，第四行每个字符对应的ASCII值减去33，
@@ -109,8 +113,8 @@ Namespace Fastaq
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function GetQuantityOrder(q As Char) As Integer
-            Return FastQ.QUANTITY_ORDERS.IndexOf(q)
+        Public Shared Function GetQualityOrder(q As Char) As Integer
+            Return Asc(q) - 33
         End Function
 
         ''' <summary>
@@ -129,7 +133,7 @@ Namespace Fastaq
                 .SequenceData = str(1),
                 .SEQ_ID = FastQIdentifier.IDParser(str(0)),
                 .SEQ_ID2 = FastQIdentifier.IDParser(str(2)),
-                .Quantities = str(3)
+                .Quality = str(3)
             }
 
             Return Fastaq

@@ -219,6 +219,7 @@
   <ItemGroup>
     <Compile Include="Contig.vb" />
     <Compile Include="FastQ\FastQIdentifier.vb" />
+    <Compile Include="FastQ\OptimizationDataQuality.vb" />
     <Compile Include="FastQ\Stream.vb" />
     <Compile Include="FastQ\FastQ.vb" />
     <Compile Include="FastQ\FastQFile.vb" />
