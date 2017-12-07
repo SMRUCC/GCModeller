@@ -266,16 +266,38 @@ Partial Module CLI
     End Function
 
     <ExportAPI("/Export.SAM.contigs")>
-    <Usage("/Export.SAM.contigs /in <bwa_align_out.sam> [/out <out.fasta>]")>
+    <Usage("/Export.SAM.contigs /in <bwa_align_out.sam> [/ref <reference.fasta> /out <out.fasta>]")>
     <Group(CLIGroups.SAMtools)>
     Public Function SAMcontigs(args As CommandLine) As Integer
         Dim in$ = args <= "/in"
         Dim out$ = args("/out") Or $"{[in].TrimSuffix}.fasta"
         Dim workspace$ = $"{out.ParentPath}/${in$.BaseName}.sam/"
+        Dim ref$ = args <= "/ref"
+        Dim provider As Func(Of String(), IEnumerable(Of FastaToken))
 
+        If ref.FileExists Then
+            provider = Function(locus)
+                           Dim tmp$ = App.GetAppSysTempFile(sessionID:=App.PID)
+                           Dim subset$ = workspace & "/ref.fasta"
 
+                           Call locus.JoinBy(ASCII.LF).SaveTo(tmp)
+                           Call Apps.seqtools.SubsetFastaDb(tmp, db:=ref, out:=subset)
 
-        Return 0
+                           Return StreamIterator.SeqSource(handle:=subset)
+                       End Function
+        Else
+            provider = Nothing
+        End If
+
+        Dim coverage = Assembler.SequenceCoverage(
+            sam:=[in],
+            workspace:=workspace,
+            refProvider:=provider
+        )
+        Return coverage _
+            .GetJson() _
+            .SaveTo(out) _
+            .CLICode
     End Function
 
     ''' <summary>

@@ -1,11 +1,21 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.SAM
 
 Public Module Assembler
 
-    Public Function SequenceCoverage(sam$, workspace$) As Dictionary(Of String, Integer)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="sam$"></param>
+    ''' <param name="workspace$"></param>
+    ''' <param name="refProvider">
+    ''' 函数需要根据参考序列来计算出覆盖度，如果这个接口是空值，则会尝试进行SCS算法序列装配，在再装配好的序列的基础上进行计算操作
+    ''' </param>
+    ''' <returns></returns>
+    Public Function SequenceCoverage(sam$, workspace$, Optional refProvider As Func(Of String, IEnumerable(Of FastaToken)) = Nothing) As Dictionary(Of String, Integer)
         Dim reader As New SAMStream(sam)
 
         Call "Write SAM headers...".__INFO_ECHO
