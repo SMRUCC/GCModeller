@@ -8,6 +8,8 @@ Public Module Assembler
     Public Function SequenceCoverage(sam$, workspace$) As Dictionary(Of String, Integer)
         Dim reader As New SAMStream(sam)
 
+        Call "Write SAM headers...".__INFO_ECHO
+
         Using headWriter = $"{workspace}/head.part".OpenWriter
             For Each header As SAMHeader In reader.IteratesAllHeaders
                 If header.TAGValue = SAMHeader.TAGS.SQ Then
@@ -17,6 +19,8 @@ Public Module Assembler
         End Using
 
         Dim refs As New Dictionary(Of String, StreamWriter)
+
+        Call "Split SAM target file...".__INFO_ECHO
 
         For Each read As AlignmentReads In reader _
             .IteratesAllReads _
@@ -39,24 +43,31 @@ Public Module Assembler
             refs(key).WriteLine(read.GenerateDocumentLine)
         Next
 
+        Call "Write SAM file parts...".__INFO_ECHO
+
         For Each ref As StreamWriter In refs.Values
             Call ref.Flush()
             Call ref.Close()
             Call ref.Dispose()
         Next
 
+        Call "Calculate Coverage....".__INFO_ECHO
+
         ' 下面开始进行装配为contig
         Call (ls - l - r - "*.sam" <= workspace) _
             .AsParallel _
             .Select(Function(path)
-                        Dim readsGroup = New SAMStream(path).IteratesAllReads.GroupBy(Function(r) r.RNAME)
+                        Dim readsGroup = New SAMStream(path) _
+                            .IteratesAllReads _
+                            .GroupBy(Function(r) r.RNAME)
 
                         For Each refer In readsGroup
                             Dim ref$ = refer.Key
                             Dim reads = refer.Select(Function(r) r.SequenceData).AsList
                             Dim contig$ = reads.AsList.ShortestCommonSuperString
+                            Dim covTxt$ = $"{path.TrimSuffix}/{ref.NormalizePathString}.txt"
 
-                            Using view As StreamWriter = $"{path.TrimSuffix}-{ref.NormalizePathString}.txt".OpenWriter
+                            Using view As StreamWriter = covTxt.OpenWriter
                                 Call reads.TableView(contig, view)
                             End Using
                         Next
@@ -64,5 +75,18 @@ Public Module Assembler
                         Return Nothing
                     End Function) _
             .ToArray
+
+        Dim coverages As Dictionary(Of String, Integer) =
+            (ls - l - r - "*.txt" <= workspace) _
+            .ToDictionary(Function(path) path.BaseName,
+                          Function(path)
+                              Return path _
+                                  .IterateAllLines _
+                                  .ElementAt(1) _
+                                  .GetTagValue("=") _
+                                  .Value _
+                                  .ParseInteger
+                          End Function)
+        Return coverages
     End Function
 End Module

@@ -231,7 +231,7 @@
     <Compile Include="CLI\CLI.vb" />
     <Compile Include="CLI\gast.vb" />
     <Compile Include="CLI\calcFst.vb" />
-    <Compile Include="CLI\Tools.vb" />
+    <Compile Include="CLI\SAMtools.vb" />
     <Compile Include="CLI\WGCNA.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
