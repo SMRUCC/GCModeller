@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::67096afad3b49cf3219b263f69c5caf1, ..\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\Extensions\IO\PathSearchTool.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -449,10 +449,12 @@ Public Module ProgramPathSearchTool
     <ExportAPI("File.IsOpened", Info:="Detect while the target file is opened by someone process.")>
     <Extension> Public Function FileOpened(FileName As String) As Boolean
         Try
-            Using FileOpenDetect As New FileStream(FileName,
-                                                   IO.FileMode.Open,
-                                                   IO.FileAccess.Read,
-                                                   IO.FileShare.None)
+            Using FileOpenDetect As New FileStream(
+                path:=FileName,
+                mode:=FileMode.Open,
+                access:=FileAccess.Read,
+                share:=FileShare.None
+            )
                 ' Just detects this file is occupied, no more things needs to do....
             End Using
             Return True
