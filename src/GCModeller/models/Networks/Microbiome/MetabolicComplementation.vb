@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.KEGG
 
 ''' <summary>
@@ -15,12 +16,12 @@ Public Module MetabolicComplementation
     ''' <param name="KO$">某一个细菌物种的基因组内的KO编号列表可以批量的从Uniprot数据库获取得到</param>
     ''' <param name="reactions">KEGG数据库之中的参考代谢反应列表</param>
     ''' <returns></returns>
-    <Extension> Public Function BuildInternalNetwork(KO$(), reactions As IEnumerable(Of ReactionTable)) As NetworkGraph
+    <Extension> Public Function BuildInternalNetwork(KO$(), reactions As ReactionRepository) As NetworkGraph
 
     End Function
 
     <Extension>
-    Public Function BuildInternalNetwork(genome As IEnumerable(Of entry), reactions As IEnumerable(Of ReactionTable)) As NetworkGraph
+    Public Function BuildInternalNetwork(genome As IEnumerable(Of entry), reactions As ReactionRepository) As NetworkGraph
         Return genome _
             .Where(Function(protein) protein.Xrefs.ContainsKey("KO")) _
             .Select(Function(protein) protein.Xrefs("KO")) _

@@ -43,6 +43,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     <XmlRoot("bGetObject.Reaction", [Namespace]:="http://GCModeller.org/core/assembly/KEGG/dbget/reaction?rn:r_ID")>
     Public Class Reaction : Implements INamedValue
 
+        ''' <summary>
+        ''' 代谢反应的KEGG编号，格式为``R\d+``，同时这个属性也是<see cref="INamedValue.Key"/>
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute>
         Public Property Entry As String Implements INamedValue.Key
         Public Property CommonNames As String()
