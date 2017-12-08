@@ -1,32 +1,34 @@
 ﻿#Region "Microsoft.VisualBasic::b1c24fb222ca0731dcef5b6072d04f9a, ..\Settings\Shared\Settings.Configuration\Session\Session.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Settings
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -47,9 +49,9 @@ Namespace Settings
     Module Session
 #End If
 
-        Dim _Worksapce As String = My.Computer.FileSystem.SpecialDirectories.Temp & "/GCModeller/" & My.Application.Info.AssemblyName.ToUpper & ".EXE"
-        Dim _Cache As String = My.Application.Info.DirectoryPath & "/.cache/" & My.Application.Info.AssemblyName.ToUpper & ".EXE"
-        Dim _initFlag As Boolean
+        Dim worksapce As String = App.SysTemp & "/GCModeller/" & App.AssemblyName & ".EXE"
+        Dim cache As String = App.SysTemp & "/GCModeller/.cache/" & App.AssemblyName & ".EXE"
+        Dim initFlag As Boolean
         Dim _ProfileData As Settings(Of Settings.File)
 
         Public ReadOnly Property ProfileData As Settings(Of Settings.File)
@@ -68,8 +70,9 @@ Namespace Settings
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property TEMP As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return _Worksapce
+                Return worksapce
             End Get
         End Property
 
@@ -83,6 +86,7 @@ Namespace Settings
         Public ReadOnly Property Templates As String = App.HOME & "/Templates/"
 
         Public ReadOnly Property SettingsFile As Settings.File
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return ProfileData.SettingsData
             End Get
@@ -103,8 +107,9 @@ Namespace Settings
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property DataCache As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return _Cache
+                Return cache
             End Get
         End Property
 
@@ -115,8 +120,9 @@ Namespace Settings
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property Initialized As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Session._initFlag
+                Return Session.initFlag
             End Get
         End Property
 
@@ -131,6 +137,7 @@ Namespace Settings
         ''' </summary>
         ''' <remarks></remarks>
         Public ReadOnly Property LogDIR As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return _LogDir
             End Get
@@ -143,6 +150,7 @@ Namespace Settings
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property SettingsDIR As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return File.DefaultXmlFile.ParentPath
             End Get
@@ -161,16 +169,7 @@ Namespace Settings
         ''' <remarks></remarks>
         ''' 
         <ExportAPI("Init()", Info:="Initialize this application session.")>
-        Public Function Initialize(<Parameter("Mappings.From.Assembly", "")> Optional Mapping As System.Type = Nothing) As Settings.File
-
-            If Not Mapping Is Nothing Then
-                Dim Assembly As System.Reflection.Assembly = Mapping.Assembly
-                Call __initializePath(Assembly)
-            Else
-                Session._Worksapce = My.Computer.FileSystem.SpecialDirectories.Temp & "/GCModeller/" & My.Application.Info.AssemblyName.ToUpper & ".EXE"
-                Session._Cache = My.Application.Info.DirectoryPath & "/.cache/" & My.Application.Info.AssemblyName.ToUpper & ".EXE"
-            End If
-
+        Public Function Initialize() As Settings.File
             Call FileIO.FileSystem.CreateDirectory(SettingsDIR)
             Call FileIO.FileSystem.CreateDirectory(_LogDir)
             Call FileIO.FileSystem.CreateDirectory(TEMP)
@@ -185,13 +184,29 @@ Namespace Settings
             Session._ProfileData = Microsoft.VisualBasic.ComponentModel.Settings _
                 .Settings(Of Settings.File) _
                 .LoadFile(settings, saveHwnd)
-            Session._initFlag = True
+            Session.initFlag = True
 
             Call App.JoinVariable("Settings", settings)
-            Call App.JoinVariable("Workspace", _Worksapce)
-            Call App.JoinVariable("Cache", _Cache)
+            Call App.JoinVariable("Workspace", worksapce)
+            Call App.JoinVariable("Cache", cache)
 
             Return SettingsFile
+        End Function
+
+        Public Function Mothur() As String
+            Dim directory$
+
+            If SettingsFile.Mothur.StringEmpty Then
+                directory = App.GetVariable
+            Else
+                directory = SettingsFile.Mothur
+            End If
+
+            If App.IsMicrosoftPlatform Then
+                Return (directory & "/mothur.exe").GetFullPath
+            Else
+                Return (directory & "/mothur").GetFullPath
+            End If
         End Function
 
         ''' <summary>
@@ -211,7 +226,7 @@ Namespace Settings
 
             '没有找到，由于这个函数本身可能就是从Shoal脚本之中调用的，则尝试使用自身作为解释器程序
             Dim App As String = My.Application.Info.DirectoryPath & "/" & My.Application.Info.AssemblyName & ".exe"
-            Dim AskVersion = New Microsoft.VisualBasic.CommandLine.IORedirectFile(App, "--version")
+            Dim AskVersion = New IORedirectFile(App, "--version")
             Call AskVersion.Run()
 
             If Not Regex.Match(AskVersion.StandardOutput, "Shoal Shell \d+(\.\d+)*").Success Then
@@ -265,13 +280,6 @@ The path value of the java program usually is in the location like: ""C:\Program
                 Return ""
             End If
         End Function
-
-        Private Sub __initializePath(Schema As System.Reflection.Assembly)
-            Dim [Module] As String = Global.System.IO.Path.GetFileName(Schema.EscapedCodeBase).ToUpper
-
-            Session._Worksapce = My.Computer.FileSystem.SpecialDirectories.Temp & "/GCModeller/" & [Module]
-            Session._Cache = My.Application.Info.DirectoryPath & "/.cache/" & [Module]
-        End Sub
 
         ''' <summary>
         ''' Close the application session and save the settings file.

@@ -98,7 +98,7 @@ and the shared number of the start site just lets you have a simple glimp on you
         Dim Scripts = (From file In Files.AsParallel
                        Select script = My.Resources.TSSs_Enrichment.Replace("{reads.csv}", file.Value.CLIPath).Replace("{saved.csv}", $"{outDir}/{file.Key}.csv"),
                                        path = file.Value).ToArray
-        Call Settings.Session.Initialize(GetType(TSSsIdentification))
+        Call Settings.Session.Initialize()
         Dim LQuery = (From script
                       In Scripts' 在这里可能会内存占用比较大，故而不适用并行了
                       Select Settings.Session.FolkShoalThread(script.script, script.path)).ToArray

@@ -1,31 +1,32 @@
 ﻿#Region "Microsoft.VisualBasic::93997a748a7d40383cd4a74868b5ff77, ..\GCModeller\analysis\CRISPR\sgRNAcas\API.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
+Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
@@ -37,7 +38,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 ''' Please send bug reports to: ssxieinfo@gmail.com
 ''' </summary>
 ''' <remarks></remarks>
-<[Namespace]("sgRNAcas", description:="sgRNAcas9 --- a tool for fast designing CRISPR sgRNA with high specificity")>
+<[Namespace]("sgRNAcas", Description:="sgRNAcas9 --- a tool for fast designing CRISPR sgRNA with high specificity")>
 Public Module API
 
     <ExportAPI("Read.Csv.sgRNA.Single_Strand")>
@@ -112,15 +113,15 @@ Public Module API
                                             FileIO.FileSystem.GetFileInfo(InputFile).FullName,
                                             FileIO.FileSystem.GetFileInfo(RefGenome).FullName,
                                             FileIO.FileSystem.GetDirectoryInfo(Output).FullName, Length, MinGC, MaxGC, [Option], SearchModel, OSVersion, Mismatches, MinOffSet, MaxOffSet)
-        Dim Process As Microsoft.VisualBasic.CommandLine.IORedirect = New CommandLine.IORedirect("perl", argvs)
+        Dim Process As New IORedirect("perl", argvs)
         Dim CurrentWork As String = My.Computer.FileSystem.CurrentDirectory
 
-        Call Output.InvokeSet(FileIO.FileSystem.GetDirectoryInfo(Output).FullName)
+        Call Output.SetValue(FileIO.FileSystem.GetDirectoryInfo(Output).FullName)
         Call FileIO.FileSystem.CreateDirectory(Output)
-        Call My.Computer.FileSystem.CurrentDirectory.InvokeSet(Output)
+        Call My.Computer.FileSystem.CurrentDirectory.SetValue(Output)
         Call Process.Start(WaitForExit:=True, _DISP_DEBUG_INFO:=True)
         Call Threading.Thread.Sleep(100)
-        Call My.Computer.FileSystem.CurrentDirectory.InvokeSet(CurrentWork)
+        Call My.Computer.FileSystem.CurrentDirectory.SetValue(CurrentWork)
 
         Return True
     End Function
@@ -129,7 +130,7 @@ Public Module API
     Public Function check_sgRNA_seq(<Parameter("-i", "CRISPR target sequences")> Input As String,
                                     <Parameter("-r", "restriction enzyme cutting sites")> RestrictedSites As String) As Boolean
         Dim argvs As String = String.Format("{0}/check_sgRNA_seq.pl -i ""{1}"" -r ""{2}""", API.PerlScriptBin, FileIO.FileSystem.GetFileInfo(Input).FullName, RestrictedSites)
-        Dim Process As Microsoft.VisualBasic.CommandLine.IORedirect = New CommandLine.IORedirect("perl", argvs)
+        Dim Process As New IORedirect("perl", argvs)
         Call Process.Start(WaitForExit:=True, _DISP_DEBUG_INFO:=True)
 
         Return True
@@ -140,7 +141,7 @@ Public Module API
                                       <Parameter("-g", "The reference genome sequence")> RefGenome As String,
                                       <Parameter("-l", "Lenght of flank sequences")> Optional Length As Integer = 1000) As Boolean
         Dim argvs As String = String.Format("{0}/extract_targetSeq.pl -i ""{1}"" -g ""{2}"" -l {3}", API.PerlScriptBin, FileIO.FileSystem.GetFileInfo(Input).FullName, RefGenome, Length)
-        Dim Process As Microsoft.VisualBasic.CommandLine.IORedirect = New CommandLine.IORedirect("perl", argvs)
+        Dim Process As New IORedirect("perl", argvs)
         Call Process.Start(WaitForExit:=True, _DISP_DEBUG_INFO:=True)
 
         Return True
@@ -153,7 +154,7 @@ Public Module API
                               <Parameter("-f", "Restriction enzyme cutting site for forward primer")> Optional ForwardRs As String = "acgg",
                               <Parameter("-r", "Restriction enzyme cutting site for reverse primer")> Optional ReversedRs As String = "aaac") As Boolean
         Dim argvs As String = String.Format("{0}/sgRPrimer.pl -i ""{1}"" -s ""{2}"" -l {3} -f ""{4}"" -r ""{5}""", API.PerlScriptBin, FileIO.FileSystem.GetFileInfo(Input).FullName, IDListFile, Length, ForwardRs, ReversedRs)
-        Dim Process As Microsoft.VisualBasic.CommandLine.IORedirect = New CommandLine.IORedirect("perl", argvs)
+        Dim Process As New IORedirect("perl", argvs)
         Call Process.Start(WaitForExit:=True, _DISP_DEBUG_INFO:=True)
 
         Return True
