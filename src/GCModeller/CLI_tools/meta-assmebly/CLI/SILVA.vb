@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module CLI
@@ -23,6 +24,18 @@ Partial Module CLI
                 Call writer.WriteLine(headers.Name & vbTab & headers.Value)
             Next
         End Using
+
+        Return 0
+    End Function
+
+    <ExportAPI("/OTU.cluster")>
+    <Usage("/OTU.cluster /left <left.fq> /right <right.fq> [/out <out.directory> /@set mothur=path]")>
+    Public Function ClusterOTU(args As CommandLine) As Integer
+        Dim left$ = args <= "/left"
+        Dim right$ = args <= "/right"
+        Dim out$ = args("/out") Or "./"
+
+        Call MothurContigsOTU.ClusterOTUByMothur(left, right, workspace:=out, processor:=App.CPUCoreNumbers)
 
         Return 0
     End Function
