@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.InteropService
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 
 ''' <summary>
 ''' mothur的输入文件名之中不可以存在双引号
@@ -7,7 +8,11 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService
 Public Class Mothur : Inherits InteropService
 
     Sub New(App As String)
-        _executableAssembly = App.GetFullPath
+        If Not App.FileExists Then
+            Throw New EntryPointNotFoundException(App & " is unavaliable!")
+        Else
+            _executableAssembly = App.GetFullPath
+        End If
     End Sub
 
     Public Function RunMothur(args As String) As String
@@ -26,6 +31,8 @@ Public Class Mothur : Inherits InteropService
     ''' </summary>
     ''' <param name="fasta">To run the command the name of a fasta-file needs to be provided</param>
     ''' <returns></returns>
+    ''' 
+    <ExportAPI("unique.seqs")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Unique_seqs(fasta As String) As String
         Return RunMothur($"unique.seqs(fasta={fasta})")
@@ -67,6 +74,7 @@ Public Class Mothur : Inherits InteropService
     ''' software limit on the number of processors that you can use.
     ''' </param>
     ''' <returns></returns>
+    <ExportAPI("align.seqs")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function align_seqs(candidate$, template$, Optional flip$ = "T", Optional processors% = 1) As String
         Return RunMothur($"align.seqs(candidate={candidate},template={template},flip={flip},processors={processors})")
@@ -83,6 +91,8 @@ Public Class Mothur : Inherits InteropService
     ''' </summary>
     ''' <param name="fasta"></param>
     ''' <returns></returns>
+    ''' 
+    <ExportAPI("filter.seqs")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function filter_seqs(fasta As String) As String
         Return RunMothur($"filter.seqs(fasta={fasta})")
@@ -180,6 +190,8 @@ Public Class Mothur : Inherits InteropService
     ''' ```
     ''' </param>
     ''' <returns></returns>
+    ''' 
+    <ExportAPI("dist.seqs")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Dist_seqs(fasta$, Optional calc$ = "onegap", Optional countends$ = "F", Optional cutoff# = 0.03, Optional output$ = "lt") As String
         Return RunMothur($"dist.seqs(fasta={fasta},calc={calc},countends={countends},cutoff={cutoff},output={output})")
@@ -196,6 +208,8 @@ Public Class Mothur : Inherits InteropService
     ''' <param name="processors">The processors parameter allows you to specify how many processors 
     ''' you would like to use. The default is 1.</param>
     ''' <returns></returns>
+    ''' 
+    <ExportAPI("make.contigs")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Make_contigs(ffastq$, rfastq$, Optional processors As Integer = 1) As String
         Return RunMothur($"make.contigs(ffastq={ffastq}, rfastq={rfastq}, processors={processors})")
@@ -244,6 +258,8 @@ Public Class Mothur : Inherits InteropService
     ''' We suggest cutoff=0.20. This will provide a boost in speed and less RAM will be required than 
     ''' if you didn't set the cutoff for reading in the matrix.</param>
     ''' <returns></returns>
+    ''' 
+    <ExportAPI("cluster")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Cluster(phylip$, Optional method$ = "furthest", Optional cutoff# = 0.03) As String
         Return RunMothur($"cluster(phylip={phylip},method={method},cutoff={cutoff})")
@@ -263,6 +279,8 @@ Public Class Mothur : Inherits InteropService
     ''' ```
     ''' </param>
     ''' <returns></returns>
+    ''' 
+    <ExportAPI("bin.seqs")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Bin_seqs(fasta$, name$) As String
         Return RunMothur($"bin.seqs(fasta={fasta},name={name})")
@@ -289,6 +307,8 @@ Public Class Mothur : Inherits InteropService
     ''' ```
     ''' </param>
     ''' <returns></returns>
+    ''' 
+    <ExportAPI("get.oturep")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetOTUrep(phylip$, fasta$, list$, Optional label# = 0.03) As String
         Return RunMothur($"get.oturep(phylip={phylip},fasta={fasta},list={list},label={label})")

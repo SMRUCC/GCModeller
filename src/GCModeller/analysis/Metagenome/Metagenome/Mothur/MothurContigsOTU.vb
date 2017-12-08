@@ -8,7 +8,7 @@ Public Module MothurContigsOTU
     ''' 通过配置文件读取mothur程序的路径
     ''' </summary>
     Sub New()
-
+        Call Settings.Initialize()
     End Sub
 
     ''' <summary>
@@ -18,9 +18,11 @@ Public Module MothurContigsOTU
     ''' <param name="right$"></param>
     ''' <param name="workspace$"></param>
     Public Sub ClusterOTUByMothur(left$, right$, Optional workspace$ = Nothing, Optional processor% = 2)
-        Dim mothur As New Mothur(App:=Settings.SettingsFile.Mothur & "/mothur.exe")
+        Dim mothur As New Mothur(App:=Settings.Mothur)
         Dim contig$ = left.BaseName & ".trim.contigs.fasta"
         Dim template$ = "template.fasta"
+
+        App.CurrentDirectory = workspace
 
         ' make contigs from fq reads
         Call mothur.Make_contigs(left, right, processors:=2)
@@ -46,6 +48,8 @@ Public Module MothurContigsOTU
             fasta:="contig.unique.fasta",
             list:="contig.unique.phylip.fn.list"
         )
+
+        App.CurrentDirectory = App.PreviousDirectory
     End Sub
 
     ''' <summary>
