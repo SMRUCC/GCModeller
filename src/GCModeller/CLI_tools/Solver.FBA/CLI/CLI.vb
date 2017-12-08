@@ -43,7 +43,7 @@ Imports SMRUCC.genomics.Model.SBML.ExportServices.KEGG
 <CLI> Public Module CLI
 
     Sub New()
-        Call Settings.Session.Initialize(GetType(CLI))
+        Call Settings.Session.Initialize()
 
         Try
             Dim template As String = App.HOME & "/Templates/rFBA.ModifierTemplates.Csv"

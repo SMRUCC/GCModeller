@@ -1,28 +1,28 @@
 ﻿#Region "Microsoft.VisualBasic::b582cdf7c9148163c7248c0877e7d417, ..\GCModeller\analysis\RNA-Seq\TSSAR\TSSAR\Perl.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
@@ -31,7 +31,9 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.genomics.SequenceModel.SAM
 
@@ -424,7 +426,7 @@ Public Module Perl
     'End Function
 
     <ExportAPI("Write.Csv.MappingReads")>
-    Public Function SaveAlignmentReadsMapping(data As Generic.IEnumerable(Of AlignmentReads), SaveTo As String) As Boolean
+    Public Function SaveAlignmentReadsMapping(data As IEnumerable(Of AlignmentReads), SaveTo As String) As Boolean
         Return data.SaveTo(SaveTo, False)
     End Function
 
@@ -432,14 +434,14 @@ Public Module Perl
     ''' 
     ''' </summary>
     ''' <param name="data"></param>
-    ''' <param name="Ptt">参考基因组之中的基因的摘要信息</param>
+    ''' <param name="PTT">参考基因组之中的基因的摘要信息</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     ''' 
     <ExportAPI("Assembly.Located")>
-    Public Function Located(data As Generic.IEnumerable(Of AlignmentReads), Ptt As SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.PTT) As LocatedAlignment()
+    Public Function Located(data As IEnumerable(Of AlignmentReads), PTT As PTT) As LocatedAlignment()
 
-        Call Settings.Initialize(GetType(Perl))
+        Call Settings.Initialize()
 
         ' 通过blastn方法进行搜索定位的旧方法
 
@@ -453,7 +455,7 @@ Public Module Perl
         Throw New NotImplementedException
     End Function
 
-    Public Class LocatedAlignment : Inherits SMRUCC.genomics.SequenceModel.ISequenceModel
+    Public Class LocatedAlignment : Inherits ISequenceModel
         Public Property QueryTemplateName As String
         Public Property BitwiseFLAG As String
         Public Property RefName As String

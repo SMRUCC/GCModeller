@@ -537,6 +537,7 @@ Global
 		Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{a6adfc15-d161-40bc-a606-693d4603d305}*SharedItemsImports = 4
 		GCModeller\shared\RNA-Seq.Doc\RNA-Seq.Doc.projitems*{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}*SharedItemsImports = 4
+		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{ab10b480-33b1-476c-8237-23e15ce635bd}*SharedItemsImports = 4
 		GCModeller\analysis\VirtualFootprint\VirtualFootprints.SharedCommon\VirtualFootprints.SharedCommon.projitems*{afa08d31-e7e7-412e-9fd0-84b357ac51a8}*SharedItemsImports = 13
 		Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{aff75ede-c4c6-48fa-ac99-501361b231eb}*SharedItemsImports = 4
 		Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{aff75ede-c4c6-48fa-ac99-501361b231eb}*SharedItemsImports = 4
