@@ -40,14 +40,14 @@ Namespace SPM.Nodes
                 If n.IsNullOrEmpty Then
                     Return ""   '没有匹配上任何数据
                 Else
-                    Head = String.Join(vbCrLf, (From item In n Select String.Format("{0}  {1}  {2}", item.Name, item.Item1, item.Item2).ToLower.Replace(keyword.ToLower, Head)))
+                    Head = String.Join(vbCrLf, (From item In n Select String.Format("{0}  {1}  {2}", item.Name, item.Value, item.Description).ToLower.Replace(keyword.ToLower, Head)))
                 End If
             End If
 
             Return ">>>>  " & Head & vbCrLf & vbCrLf & GenerateDescription()
         End Function
 
-        Public Function MatchParameters(keyword As String) As NamedTuple(Of String)()
+        Public Function MatchParameters(keyword As String) As NamedValue(Of String)()
             If Parameters.IsNullOrEmpty Then
                 Return Nothing
             End If
