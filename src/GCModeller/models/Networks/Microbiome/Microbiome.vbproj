@@ -131,10 +131,6 @@
       <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
       <Name>Bio.Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KEGG\KEGG.vbproj">
-      <Project>{83c6a265-8264-4f16-a70a-1f4e692290ec}</Project>
-      <Name>KEGG</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
