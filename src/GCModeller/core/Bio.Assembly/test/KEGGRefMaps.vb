@@ -14,7 +14,7 @@ Module KEGGRefMaps
 
     Sub ReactionXMLLayout()
 
-        ReactionWebAPI.Download("R00259").GetXml.SaveTo("./test___reaction.xml")
+        ReactionWebAPI.Download("R00002").GetXml.SaveTo("./test___reaction.xml")
 
 
         Pause()

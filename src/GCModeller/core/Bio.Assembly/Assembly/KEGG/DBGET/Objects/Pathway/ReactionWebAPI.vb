@@ -48,6 +48,8 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <param name="ID">编号格式为：``R\d+``，例如R00259</param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Download(ID As String) As Reaction
             Return DownloadFrom(String.Format(URL, ID))
         End Function
@@ -79,7 +81,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             On Error Resume Next
 
             rn.Entry = WebForm.GetValue("Entry").FirstOrDefault.Strip_NOBR.StripHTMLTags.StripBlank.Split.First
-            rn.Comments = __trimComments(WebForm.GetValue("Comment").FirstOrDefault).Strip_NOBR.StripBlank.TrimNewLine
+            rn.Comments = __trimComments(WebForm.GetValue("Comment").FirstOrDefault) _
+                .Strip_NOBR _
+                .StripBlank _
+                .TrimNewLine _
+                .Replace("Comment ", "") ' Comment标记没有被去除干净？
+
             rn.Definition = WebForm.GetValue("Definition") _
                 .FirstOrDefault _
                 .Strip_NOBR _
