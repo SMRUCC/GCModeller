@@ -1,38 +1,37 @@
 ﻿#Region "Microsoft.VisualBasic::c5508fd3fd0dca1e3858b232887f1e22, ..\GCModeller\data\ExternalDBSource\SABIORK KineticLaws\SBMLParser.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xieguigang (xie.guigang@live.com)
-    '       xie (genetics@smrucc.org)
-    ' 
-    ' Copyright (c) 2016 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xieguigang (xie.guigang@live.com)
+'       xie (genetics@smrucc.org)
+' 
+' Copyright (c) 2016 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
 Namespace SabiorkKineticLaws.SBMLParser
 
@@ -63,7 +62,7 @@ Namespace SabiorkKineticLaws.SBMLParser
         Public Property Identifiers As String()
         Public Property Modifiers As String()
         Public Property Fast As Boolean
-        Public Property LocalParameters As TripleKeyValuesPair()
+        Public Property LocalParameters As [property]()
 
         Friend Shared Function TryParse(strData As String) As kineticLawModel
             Dim KineticRecord As kineticLawModel = New kineticLawModel
@@ -81,20 +80,19 @@ Namespace SabiorkKineticLaws.SBMLParser
             Return KineticRecord
         End Function
 
-        Private Shared Function TryParseLocalParameters(strData As String) As TripleKeyValuesPair()
+        Private Shared Function TryParseLocalParameters(strData As String) As [Property]()
             Dim temps As String() = Regex.Matches(strData, "<localParameter.+?/>", RegexOptions.Multiline).ToArray
-            Dim LQuery As TripleKeyValuesPair() =
-                LinqAPI.Exec(Of TripleKeyValuesPair) <=
+            Dim LQuery As [Property]() = LinqAPI.Exec(Of [Property]) <=
  _
                 From s As String
                 In temps
                 Let strId As String = GetStringValue(Regex.Match(s, "id="".+?""").Value)
                 Let strName As String = GetStringValue(Regex.Match(s, "name="".+?""").Value)
                 Let strValue As String = GetStringValue(Regex.Match(s, "value="".+?""").Value)
-                Select New TripleKeyValuesPair With {
-                    .Key = strId,
-                    .Value1 = strName,
-                    .Value2 = strValue
+                Select New [Property] With {
+                    .name = strId,
+                    .value = strName,
+                    .Comment = strValue
                 }
 
             Return LQuery

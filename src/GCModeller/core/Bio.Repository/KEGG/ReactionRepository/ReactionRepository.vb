@@ -35,7 +35,8 @@ Public Class ReactionRepository : Implements IRepositoryRead(Of String, Reaction
                 .Values _
                 .Where(Function(r)
                            Return r.Orthology _
-                                   .Select(Function(t) t.Key) _
+                                   .Terms _
+                                   .Select(Function(t) t.name) _
                                    .Any(Function(id)
                                             Return .IndexOf(id) > -1
                                         End Function)

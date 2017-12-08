@@ -27,7 +27,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -41,7 +41,7 @@ Namespace Reports.DocumentElements
 
         <XmlAttribute> Public Property COG As String
         Public Property PossibleFunction As String
-        Public Property AnnotationSource As TripleKeyValuesPair
+        Public Property AnnotationSource As [Property]
         <XmlText> Public Property ProteinSequence As String Implements IPolymerSequenceModel.SequenceData
 
         Public ReadOnly Property Title As String Implements SequenceModel.FASTA.IAbstractFastaToken.Title

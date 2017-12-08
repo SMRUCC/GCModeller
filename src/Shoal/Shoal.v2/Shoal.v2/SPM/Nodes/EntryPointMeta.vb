@@ -1,6 +1,7 @@
 ﻿Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Scripting.ShoalShell.HTML
 
 Namespace SPM.Nodes
@@ -13,7 +14,7 @@ Namespace SPM.Nodes
 
         <XmlAttribute> Public Property Name As String
         Public Property Description As String
-        <XmlElement> Public Property Parameters As TripleKeyValuesPair()
+        <XmlElement> Public Property Parameters As NamedValue(Of String)()
         Public Property ReturnedType As String
 
         Public Overrides Function ToString() As String
@@ -39,22 +40,22 @@ Namespace SPM.Nodes
                 If n.IsNullOrEmpty Then
                     Return ""   '没有匹配上任何数据
                 Else
-                    Head = String.Join(vbCrLf, (From item In n Select String.Format("{0}  {1}  {2}", item.Key, item.Value1, item.Value2).ToLower.Replace(keyword.ToLower, Head)))
+                    Head = String.Join(vbCrLf, (From item In n Select String.Format("{0}  {1}  {2}", item.Name, item.Item1, item.Item2).ToLower.Replace(keyword.ToLower, Head)))
                 End If
             End If
 
             Return ">>>>  " & Head & vbCrLf & vbCrLf & GenerateDescription()
         End Function
 
-        Public Function MatchParameters(keyword As String) As TripleKeyValuesPair()
+        Public Function MatchParameters(keyword As String) As NamedTuple(Of String)()
             If Parameters.IsNullOrEmpty Then
                 Return Nothing
             End If
 
             Dim LQuery = (From item In Parameters
-                          Where InStr(item.Key, keyword, CompareMethod.Text) > 0 OrElse
-                              InStr(item.Value1, keyword, CompareMethod.Text) > 0 OrElse
-                              InStr(item.Value2, keyword, CompareMethod.Text) > 0
+                          Where InStr(item.Name, keyword, CompareMethod.Text) > 0 OrElse
+                              InStr(item.Value, keyword, CompareMethod.Text) > 0 OrElse
+                              InStr(item.Description, keyword, CompareMethod.Text) > 0
                           Select item).ToArray
             Return LQuery
         End Function
@@ -66,13 +67,13 @@ Namespace SPM.Nodes
             Call sBuilder.AppendLine("Return:      " & ReturnedType)
 
             If Not Parameters.IsNullOrEmpty Then
-                Dim Max As Integer = (From item In Parameters Select Len(item.Key)).ToArray.Max
+                Dim Max As Integer = (From item In Parameters Select Len(item.Name)).ToArray.Max
 
                 Call sBuilder.AppendLine(vbCrLf & String.Format("Function have {0} parameters:", Parameters.Length))
                 Call sBuilder.AppendLine(String.Format("-Name-{0}------Type--------------", New String("-"c, Max)))
 
                 For Each p In Parameters
-                    Call sBuilder.AppendLine(String.Format(" {0}  {1} {2}  {3}", p.Key, New String(" "c, 6 + Max - Len(p.Key)), p.Value1, If(Not String.IsNullOrEmpty(p.Value2), "// " & p.Value2, "")))
+                    Call sBuilder.AppendLine(String.Format(" {0}  {1} {2}  {3}", p.Name, New String(" "c, 6 + Max - Len(p.Name)), p.Value, If(Not String.IsNullOrEmpty(p.Description), "// " & p.Description, "")))
                 Next
             Else
                 Call sBuilder.AppendLine("This function doesn't required of the parameters.")
