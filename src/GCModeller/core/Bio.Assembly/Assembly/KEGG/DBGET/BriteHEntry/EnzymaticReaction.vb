@@ -178,7 +178,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 failures += rnID
             Else
                 Call reaction.GetXml.SaveTo(xmlFile)
-                Call Thread.Sleep(1000)
+                Call Thread.Sleep(2000)
             End If
 EXIT_LOOP:
             Call tick()
