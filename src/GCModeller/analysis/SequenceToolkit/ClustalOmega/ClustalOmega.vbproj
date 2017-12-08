@@ -246,6 +246,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLIBuilder.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="OutFmts.vb" />
     <Compile Include="Release.vb" />
     <Compile Include="Clustal.vb" />
@@ -253,11 +258,6 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="My Project\Settings.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -268,9 +268,9 @@
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -284,26 +284,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
-    <None Include="Resources\ChangeLog" />
-    <None Include="Resources\clustalo.res_exe" />
-    <None Include="Resources\libgcc_s_dw2-1.res_dll" />
-    <None Include="Resources\libgomp-1.res_dll" />
-    <None Include="Resources\libstdc++-6.res_dll" />
-    <None Include="Resources\mingwm10.res_dll" />
-    <None Include="Resources\pthreadGC2.res_dll" />
-    <None Include="Resources\README" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AUTHORS.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\COPYING.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\INSTALL.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icon.png" />
+    <None Include="Resources\clustal-omega-1.2.2-win64.zip" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
@@ -314,6 +295,9 @@
       <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
       <Name>Bio.Assembly</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AUTHORS.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -121,37 +121,7 @@
   <data name="AUTHORS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AUTHORS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="ChangeLog" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ChangeLog;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="clustalo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\clustalo.res_exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="COPYING" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\COPYING.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="INSTALL" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\INSTALL.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="libgcc_s_dw2_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\libgcc_s_dw2-1.res_dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="libgomp_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\libgomp-1.res_dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="libstdc___6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\libstdc++-6.res_dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="mingwm10" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mingwm10.res_dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="pthreadGC2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pthreadGC2.res_dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="README" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\README;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="clustal_omega_1_2_2_win64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clustal-omega-1.2.2-win64.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
