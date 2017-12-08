@@ -176,6 +176,7 @@
     <Compile Include="BEBaC\PosteriorProbability.vb" />
     <Compile Include="BIOM.vb" />
     <Compile Include="ACE.vb" />
+    <Compile Include="Mothur\MothurContigsOTU.vb" />
     <Compile Include="Mothur\Mothur.vb" />
     <Compile Include="UPGMATree.vb" />
     <Compile Include="OTUTable.vb" />
@@ -265,6 +266,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <Import Project="..\..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
