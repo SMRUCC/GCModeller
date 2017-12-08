@@ -158,6 +158,20 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return failures
         End Function
 
+        Shared ReadOnly sleepTime% = 2000
+
+        Shared Sub New()
+            With App.GetVariable("sleep")
+                If Not .StringEmpty Then
+                    sleepTime = Val(.ref)
+
+                    If sleepTime <= 0 Then
+                        sleepTime = 2000
+                    End If
+                End If
+            End With
+        End Sub
+
         Private Shared Sub __downloadInternal(r As EnzymaticReaction,
                                               EXPORT$,
                                               directoryOrganized As Boolean,
@@ -178,7 +192,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                 failures += rnID
             Else
                 Call reaction.GetXml.SaveTo(xmlFile)
-                Call Thread.Sleep(2000)
+                Call Thread.Sleep(sleepTime)
             End If
 EXIT_LOOP:
             Call tick()
