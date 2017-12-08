@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Interops.ClustalOrg
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module MothurContigsOTU
@@ -19,13 +21,13 @@ Public Module MothurContigsOTU
     ''' <param name="workspace$"></param>
     Public Sub ClusterOTUByMothur(left$, right$, Optional workspace$ = Nothing, Optional processor% = 2)
         Dim mothur As New Mothur(App:=Settings.Mothur)
-        Dim contig$ = left.BaseName & ".trim.contigs.fasta"
+        Dim contig$ = left.ParentPath & "/" & left.BaseName & ".trim.contigs.fasta"
         Dim template$ = "template.fasta"
 
         App.CurrentDirectory = workspace
 
         ' make contigs from fq reads
-        Call mothur.Make_contigs(left, right, processors:=2)
+        Call mothur.Make_contigs(left, right, processors:=2).SaveTo("[1]make.contigs.log")
         Call contig.FileCopy("contig.fasta")
         Call contig.SetValue("contig.fasta") _
                    .GetContigAlignmentTemplate() _
@@ -33,21 +35,26 @@ Public Module MothurContigsOTU
 
         ' align contigs or
         ' [ERROR]:your sequences are not the same length, aborting.
-        Call mothur.Unique_seqs(contig)
-        Call mothur.align_seqs(candidate:="contig.unique.fasta", template:=template, processors:=processor)
-        Call mothur.filter_seqs("contig.unique.align")
-        Call "contig.unique.filter.fasta".FileCopy(contig)
+        Call mothur.Unique_seqs(contig).SaveTo("[2]unique.seqs.log")
+        'Call mothur.align_seqs(candidate:="contig.unique.fasta", template:=template, processors:=processor).SaveTo("[3]align.seqs.log")
+        'Call mothur.filter_seqs("contig.unique.align").SaveTo("[4]filter.seqs.log")
+        'Call "contig.unique.filter.fasta".FileCopy(contig)
+
+        ' 使用ClustalOmega做多序列比对
+        Call Clustal.CreateSession _
+            .MultipleAlignment("contig.unique.fasta") _
+            .Save(contig, UTF8WithoutBOM)
 
         ' run OTU cluster
-        Call mothur.Unique_seqs(contig)
-        Call mothur.Dist_seqs(contig)
-        Call mothur.Cluster("contig.unique.phylip.dist")
-        Call mothur.Bin_seqs(fasta:=contig, name:="contig.names")
+        Call mothur.Unique_seqs(contig).SaveTo("[5]unique.seqs.log")
+        Call mothur.Dist_seqs(contig).SaveTo("[6]dist.seqs.log")
+        Call mothur.Cluster("contig.unique.phylip.dist").SaveTo("[7]cluster.log")
+        Call mothur.Bin_seqs(fasta:=contig, name:="contig.names").SaveTo("[8]bin.seqs.log")
         Call mothur.GetOTUrep(
             phylip:="contig.unique.phylip.dist",
             fasta:="contig.unique.fasta",
             list:="contig.unique.phylip.fn.list"
-        )
+        ).SaveTo("[9]get.oturep.log")
 
         App.CurrentDirectory = App.PreviousDirectory
     End Sub

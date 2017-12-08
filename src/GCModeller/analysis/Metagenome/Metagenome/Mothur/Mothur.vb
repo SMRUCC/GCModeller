@@ -16,7 +16,7 @@ Public Class Mothur : Inherits InteropService
     End Sub
 
     Public Function RunMothur(args As String) As String
-        With MyBase.RunProgram($"#{args};")
+        With MyBase.RunProgram($"""#{args};""")
             Call .Run()
             Return .StandardOutput
         End With
@@ -76,7 +76,7 @@ Public Class Mothur : Inherits InteropService
     ''' <returns></returns>
     <ExportAPI("align.seqs")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function align_seqs(candidate$, template$, Optional flip$ = "T", Optional processors% = 1) As String
+    Public Function align_seqs(candidate$, template$, Optional flip$ = "F", Optional processors% = 1) As String
         Return RunMothur($"align.seqs(candidate={candidate},template={template},flip={flip},processors={processors})")
     End Function
 

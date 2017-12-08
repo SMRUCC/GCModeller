@@ -108,17 +108,16 @@ Public Class Clustal : Inherits CLI
     ''' <remarks></remarks>
     Public Function MultipleAlignment(source As String) As FASTA.FastaFile
         If Not source.FileExists Then
-            Dim msg As String =
-                String.Format(SourceNotExists, source.ToFileURL)
-            Throw New Exception(
-                source.ToFileURL,
-                New DataException(msg))
+            Dim msg$ = String.Format(SourceNotExists, source.ToFileURL)
+            Dim ex As New DataException(msg)
+
+            Throw New Exception(source.ToFileURL, ex)
         End If
 
         Dim out As String = App.GetAppSysTempFile(".fasta")
         Dim args As String = String.Format(CLUSTAL_ARGUMENTS, source, out)
-        Call Console.WriteLine("EXEC --> {0} {1}", MyBase._executableAssembly, args)
-        Call New IORedirectFile(MyBase._executableAssembly, args).Start(waitForExit:=True)
+
+        Call MyBase.RunProgram(args).Run()
 
         Dim result As FASTA.FastaFile = FASTA.FastaFile.Read(out, False)
         Return result
@@ -153,17 +152,18 @@ Public Class Clustal : Inherits CLI
 
     <ExportAPI("Session.New")>
     Public Shared Function CreateSession() As Clustal
-        Dim DirList = ProgramPathSearchTool.SearchDirectory("clustal-omega", "")
-        If DirList.IsNullOrEmpty Then
+        Dim directories$() = ProgramPathSearchTool.SearchDirectory("clustal-omega", "")
+
+        If directories.IsNullOrEmpty Then
             GoTo RELEASE_PACKAGE
         End If
-        For Each dir As String In DirList
-            Dim Program = ProgramPathSearchTool.SearchProgram(dir, "clustalo")
-            If Program.IsNullOrEmpty Then
-                Continue For
-            End If
 
-            Return New ClustalOrg.Clustal(Program.First)
+        For Each dir As String In directories
+            Dim program = ProgramPathSearchTool.SearchProgram(dir, "clustalo")
+
+            If Not program.IsNullOrEmpty Then
+                Return New Clustal(program.First)
+            End If
         Next
 
 RELEASE_PACKAGE:
